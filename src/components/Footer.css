@@ -1,0 +1,36 @@
+@import "../styles/common";
+
+.webpage__footer .application-menu
+{
+	position : fixed;
+	left     : 0;
+	right    : 0;
+	bottom   : 0;
+
+	height : var(--footer-menu-height);
+	background-color : var(--white-color);
+	border-top : 1px solid rgba(0,0,0,.0975);
+}
+
+.webpage__content
+{
+	margin-bottom : var(--footer-menu-height);
+}
+
+@mixin ml {
+	.webpage__footer .application-menu {
+		display : none;
+	}
+	.webpage__content {
+		margin-bottom : 0;
+	}
+}
+
+@mixin xl {
+	.webpage__footer .application-menu {
+		display : none;
+	}
+	.webpage__content {
+		margin-bottom : 0;
+	}
+}

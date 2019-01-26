@@ -1,0 +1,24 @@
+.dashboard {
+	display: flex;
+	align-items: flex-start;
+}
+
+.dashboard__threads,
+.dashboard__posts,
+.dashboard__boards {
+	border-radius: 0;
+	margin: 0;
+}
+
+.dashboard__threads {
+	flex: 1;
+}
+
+.dashboard__posts {
+	flex: 2;
+}
+
+.board__header {
+	margin-left: var(--content-section-margin);
+	margin-right: var(--content-section-margin);
+}

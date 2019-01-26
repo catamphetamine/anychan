@@ -1,0 +1,57 @@
+@import "../styles/common";
+
+.menu
+{
+	display : flex;
+
+	margin  : 0;
+	padding : 0;
+	list-style-type : none;
+}
+
+.menu-list-item
+{
+	flex : 1;
+}
+
+.menu-item
+{
+	display : flex;
+	align-items : center;
+	justify-content : center;
+
+	height : 100%;
+
+	/*
+	padding-top    : calc(var(--unit) * 0.625);
+	padding-bottom : calc(var(--unit) * 0.625);
+	*/
+
+	color : var(--black-color);
+}
+
+.menu-item__icon
+{
+	width  : calc(var(--unit) * 1.75);
+	height : calc(var(--unit) * 1.75);
+}
+
+.menu-item__icon--outline
+{
+	display : block;
+}
+
+.menu-item__icon--fill
+{
+	display : none;
+}
+
+.menu-item--selected .menu-item__icon--outline
+{
+	display : none;
+}
+
+.menu-item--selected .menu-item__icon--fill
+{
+	display : block;
+}

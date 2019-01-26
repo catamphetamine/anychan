@@ -1,0 +1,11 @@
+{
+	"ignore": [
+		".git",
+		"node_modules/**/*"
+	],
+	"env": {
+		"NODE_ENV": "development"
+	},
+	"legacyWatch": false,
+	"verbose": true
+}

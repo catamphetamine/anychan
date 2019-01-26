@@ -1,0 +1,1 @@
+module.exports = require('../webapp-frontend/postcss.config')
