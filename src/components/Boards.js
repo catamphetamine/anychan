@@ -22,8 +22,7 @@ export default class Boards extends React.Component {
 	render() {
 		const {
 			boardsBySpeed,
-			boardsByCategory,
-			onBoardClick
+			boardsByCategory
 		} = this.props
 
 		const { view } = this.state
@@ -73,16 +72,14 @@ export default class Boards extends React.Component {
 								{category.boards.map((board) => (
 									<Board
 										key={board.id}
-										board={board}
-										onClick={onBoardClick}/>
+										board={board}/>
 								))}
 							</React.Fragment>
 						))}
 						{view === 'by-speed' && boardsBySpeed.map((board) => (
 							<Board
 								key={board.id}
-								board={board}
-								onClick={onBoardClick}/>
+								board={board}/>
 						))}
 					</tbody>
 				</table>
@@ -107,8 +104,7 @@ Boards.propTypes = {
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
-	})),
-	onBoardClick: PropTypes.func
+	}))
 }
 
 Boards.defaultProps = {
@@ -116,14 +112,6 @@ Boards.defaultProps = {
 }
 
 class Board extends React.Component {
-	onClick = (event) => {
-		const { board, onClick } = this.props
-		if (onClick) {
-			onClick(board.id)
-			event.preventDefault()
-		}
-	}
-
 	render() {
 		const { board } = this.props
 		return (
@@ -133,16 +121,14 @@ class Board extends React.Component {
 				title={board.info || board.name}>
 				<td className="boards-list__board-container">
 					<Link
-						to={`https://2ch.hk/${board.id}`}
-						onClick={this.onClick}
+						to={`/${board.id}`}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
 				</td>
 				<td>
 					<Link
-						to={`https://2ch.hk/${board.id}`}
-						onClick={this.onClick}
+						to={`/${board.id}`}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>
@@ -153,6 +139,5 @@ class Board extends React.Component {
 }
 
 Board.propTypes = {
-	boards: PropTypes.shape(boardShape),
-	onClick: PropTypes.func
+	boards: PropTypes.shape(boardShape)
 }

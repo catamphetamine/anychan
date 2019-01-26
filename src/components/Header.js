@@ -25,7 +25,7 @@ export default function Header() {
 						</MenuLink>
 					</Menu>*/}
 
-					<Link to="/alice" className="header__link">
+					<Link to="/" className="header__link">
 						<MenuIcon className="menu-button"/>
 					</Link>
 

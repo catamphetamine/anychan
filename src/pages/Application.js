@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { meta, Loading } from 'react-website'
+import { preload, meta, Loading } from 'react-website'
 
 // Not importing `Tooltip.css` because
 // it's already loaded as part of `react-responsive-ui`.
@@ -17,18 +17,24 @@ import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import Slideshow from 'webapp-frontend/src/components/Slideshow'
 
 // `react-time-ago` languages.
+import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
 import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
+import { getBoards } from '../redux/chan'
+
 import './Application.css'
 
+// `react-time-ago` language.
+setDefaultLocale('ru')
+
 @meta(() => ({
-	site_name   : 'WebApp',
-	title       : 'WebApp',
-	description : 'A generic web application boilerplate',
-	image       : 'https://www.google.ru/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+	site_name   : 'chanchan',
+	title       : 'chanchan',
+	description : 'An experimental GUI for an imageboard',
+	image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg',
 	locale      : 'ru_RU',
 	locales     : ['ru_RU', 'en_US']
 }))
@@ -39,10 +45,14 @@ import './Application.css'
 }), {
 	closeSlideshow
 })
+@preload(async ({ dispatch }) => {
+	await dispatch(getBoards())
+}, {
+	blocking: true
+})
 export default class App extends React.Component
 {
-	static propTypes =
-	{
+	static propTypes = {
 		children : PropTypes.node.isRequired
 	}
 

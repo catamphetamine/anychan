@@ -37,6 +37,9 @@ Menu.propTypes = {
 
 export function MenuLink({ to, selected, children })
 {
+	// Menu items are not implemented.
+	// Stub with main page links.
+	to = '/'
 	return (
 		<li className="menu-list-item">
 			<Link
