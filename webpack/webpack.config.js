@@ -20,7 +20,7 @@ module.exports =
 		path: path.resolve(PROJECT_ROOT, 'build/assets'),
 
 		// Network path for static files
-		publicPath: '/assets/',
+		publicPath: '/',
 
 		// Specifies the name of each output entry file
 		filename: '[name].[hash].js',
@@ -87,6 +87,8 @@ module.exports =
 
 	resolve: {
     modules: [
+    	// Tell Webpack to look for `node_modules` in `chanchan/node_modules`
+    	// instead of `webapp-frontend/node_modules`.
       'node_modules',
       // Using a relative path here instead of a global path
       // to work around Webpack bug.

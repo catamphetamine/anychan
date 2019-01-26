@@ -1,8 +1,8 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import applicationConfiguration from '../../configuration'
+import applicationConfiguration from '../configuration'
 
-const configuration = require('./webpack.config')
+import configuration from './webpack.config'
 
 // `webpack-dev-server` can't set the correct `mode` by itself
 // so setting `mode` to `"development"` explicitly.

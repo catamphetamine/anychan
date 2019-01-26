@@ -2,10 +2,10 @@ import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CleanPlugin from 'clean-webpack-plugin'
 import Visualizer from 'webpack-visualizer-plugin'
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
-const configuration = require('./webpack.config')
+import configuration from './webpack.config'
 
 // `gh-pages` will have `/chanchan` base path.
 configuration.output.publicPath = '/chanchan'
