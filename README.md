@@ -98,3 +98,5 @@ See the [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be
 ## Chan
 
 In `./configuration/configuration.default.json` there's `chan.origin` setting. This is the base URL for chan API.
+
+[2ch.hk API](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
