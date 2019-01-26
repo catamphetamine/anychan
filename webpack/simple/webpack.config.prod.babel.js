@@ -7,6 +7,9 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const configuration = require('./webpack.config')
 
+// `gh-pages` will have `/chanchan` base path.
+configuration.output.publicPath = '/chanchan'
+
 configuration.devtool = 'source-map'
 
 // Minimize CSS.
