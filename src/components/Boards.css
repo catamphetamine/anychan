@@ -1,3 +1,9 @@
+@import "../styles/common";
+
+.boards {
+	overflow: hidden;
+}
+
 .boards-list {
 	margin-top: calc(var(--unit) * 1);
 	user-select: none;
@@ -32,6 +38,12 @@
 	text-align: right;
 }
 
+.boards-list__board-name-container {
+	@mixin m {
+		display: none;
+	}
+}
+
 .boards-list__board-url {
 	padding-right: var(--unit);
 	font-family: monospace;
@@ -64,6 +76,10 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	@mixin m {
+		flex-direction: column;
+	}
 }
 
 .boards__view-switch {
@@ -81,4 +97,13 @@
 	background-color: var(--gray-color-light);
 	margin-left: 1em;
 	margin-right: 1em;
+
+	@mixin m {
+		display: none;
+	}
+
+	@mixin xl {
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+	}
 }

@@ -34,11 +34,13 @@ export default class BoardPage extends React.Component {
 	render() {
 		return (
 			<section className="container">
-				<div className="row">
-					<ContentSection className="col-3">
-						<Boards onBoardClick={this.onBoardClick}/>
-					</ContentSection>
-					<div className="col-9">
+				<div className="row row--align-top">
+					<div className="col-3 col-xs-12">
+						<ContentSection>
+							<Boards/>
+						</ContentSection>
+					</div>
+					<div className="col-9 col-xs-12">
 						<Threads/>
 					</div>
 				</div>

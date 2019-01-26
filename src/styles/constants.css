@@ -1,7 +1,14 @@
 @import "../../../webapp-frontend/src/styles/constants.css";
 @import "../../../webapp-frontend/src/styles/grid.mixins.css";
 
-:root
+/* `body` CSS selector overrides `:root` from `webapp-frontend`. */
+/* Such override is a hack and `:root` should have been used instead. */
+/* The reason is that `webapp-frontend` components like `Error.js`
+   import their stylesheets like `Error.css` which import `constants.css`
+   from `webapp-frontend` and so `webapp-frontend` constants override these ones
+   dynamically at runtime. Perhaps in production build that would be different. */
+/* :root */
+body
 {
 	--white-color        : #ffffff;
 	--black-color        : #49515C;
@@ -32,7 +39,7 @@
 	--content-section-shadow : 0 1px 0 0 #d7d8db, 0 0 0 1px var(--content-section-divider-color);
 
 	--unit : 14px;
-	--column-gap : var(--unit);
+	--column-padding : calc(var(--unit) / 2);
 
 	/* Some magic number seen on the Internet. */
 	--line-height : 1.52947;

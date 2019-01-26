@@ -126,7 +126,7 @@ class Board extends React.Component {
 						{board.id}
 					</Link>
 				</td>
-				<td>
+				<td className="boards-list__board-name-container">
 					<Link
 						to={`/${board.id}`}
 						className="boards-list__board-name">
