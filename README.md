@@ -32,6 +32,43 @@ cd chanchan
 npm install
 ```
 
+Inside `configuration` directory create configuration files:
+
+#### configuration.default.json
+
+```json
+{
+	"youtube": {
+		"apiKey": "AIzaSyAnevDb1iuwVgXk-j5UCcJn-Xqvsygjo8Y"
+	},
+	"proxy": {
+		"template": "https://cors-anywhere.herokuapp.com/{url}"
+	},
+	"chan": {
+		"origin": "https://2ch.hk"
+	}
+}
+```
+
+#### configuration.development.json
+
+```json
+{
+	"webpack": {
+		"devserver": {
+			"host": "localhost",
+			"port": 1234
+		}
+	}
+}
+```
+
+#### configuration.production.json
+
+```json
+{}
+```
+
 ## Develop
 
 ```
