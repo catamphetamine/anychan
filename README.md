@@ -1,8 +1,13 @@
 An alternative GUI for an imageboard (4chan, 8chan, 2ch).
 
-Status: basic browsing works.
-
 No longer in development.
+
+Status:
+
+  * Basic board browsing.
+  * No thread browsing.
+  * No posting.
+  * No new post notifications.
 
 ## Screenshots
 
