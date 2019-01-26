@@ -11,7 +11,6 @@ import { createConfig } from 'webapp-frontend/src/react-website.common'
 // `gh-pages` will have `/chanchan` base path.
 let basename
 if (window.location.origin === 'https://catamphetamine.github.io') {
-	console.log('@ basename', basename)
 	basename = window.location.pathname.slice(0, window.location.pathname.indexOf('/', '/'.length))
 }
 
