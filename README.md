@@ -1,5 +1,7 @@
 An alternative GUI for an imageboard (4chan, 8chan, 2ch).
 
+[Live Demo](https://catamphetamine.github.io/chanchan/)
+
 No longer in development.
 
 Status:
