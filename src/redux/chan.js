@@ -1,6 +1,7 @@
 import { ReduxModule } from 'react-website'
 
-import { isEqual, flatten } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import flatten from 'lodash/flatten'
 
 const redux = new ReduxModule()
 

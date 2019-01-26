@@ -3,9 +3,10 @@ import * as reducers from './redux'
 
 import { createConfig } from 'webapp-frontend/src/react-website.common'
 
-// "Favicon" must be imported on the client side too
-// since no assets are emitted on the server side
-export { default as icon } from '../assets/images/icon@192x192.png'
+// Uncomment for "server-side-rendering" build.
+// // "Favicon" must be imported on the client side too
+// // since no assets are emitted on the server side
+// export { default as icon } from '../assets/images/icon@192x192.png'
 
 export default createConfig({
 	routes,

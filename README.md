@@ -23,17 +23,30 @@ Status:
 
 <img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-1024x555.png" width="800" height="434"/>
 
-## Use
+## Install
 
 ```
 git clone git@github.com:catamphetamine/webapp-frontend.git
 git clone git@github.com:catamphetamine/chanchan.git
 cd chanchan
 npm install
+```
+
+## Develop
+
+```
 npm run dev
 ```
 
 Go to [`http://localhost:1234`](http://localhost:1234)
+
+## Deploy
+
+```
+npm run build
+```
+
+See the `build/assets` directory.
 
 ## Proxy
 
