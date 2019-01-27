@@ -11,6 +11,11 @@
 	}
 }
 
+.threads__thread {
+	/* Long links may overflow post container. */
+	overflow: hidden;
+}
+
 .threads__thread-container--click {
 	.threads__thread {
 		/*box-shadow: 0 0 0 0.1rem var(--base-color), 0 0.1rem 0.75rem 0 hsla(210,7%,61%,.15);*/
