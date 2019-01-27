@@ -21,6 +21,8 @@ export default(
 			path="profile"
 			Component={Settings}/>
 
+		{createErrorPagesRoutes()}
+
 		<Route
 			path=":board"
 			Component={Board}/>
@@ -28,7 +30,5 @@ export default(
 		<Route
 			path=":board/:thread"
 			Component={Thread}/>
-
-		{createErrorPagesRoutes()}
 	</Route>
 )
