@@ -6,6 +6,7 @@ import parseThread from '../utility/parseThread'
 import parsePost from '../utility/parsePost'
 import filterComment from '../utility/filterComment'
 import correctGrammar from '../utility/correctGrammar'
+import setInReplyToQuotes from '../utility/setInReplyToQuotes'
 
 const redux = new ReduxModule()
 
@@ -75,6 +76,7 @@ export const getPosts = redux.action(
 				post.hidden = true
 			}
 			post.subject = post.subject && correctGrammar(post.subject)
+			setInReplyToQuotes(post.content, posts, threadId)
 		}
 		return {
 			posts,
