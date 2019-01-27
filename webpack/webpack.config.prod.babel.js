@@ -4,6 +4,7 @@ import CleanPlugin from 'clean-webpack-plugin'
 import Visualizer from 'webpack-visualizer-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import configuration from './webpack.config'
 
@@ -46,6 +47,14 @@ configuration.plugins.push(
     root: configuration.context
   }),
 
+  // Extracts CSS into a separate file.
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: "[name].[hash].css",
+    chunkFilename: "[name].[hash].css"
+  }),
+
   // Shows the resulting bundle size stats.
   // https://blog.etleap.com/2017/02/02/inspecting-your-webpack-bundle/
   new Visualizer({
@@ -54,5 +63,11 @@ configuration.plugins.push(
   })
 )
 
+// Extracts CSS into a separate file.
+const cssLoaders = configuration.module.rules[1].use
+if (cssLoaders[0].loader !== 'style-loader') {
+  throw new Error(`'style-loader' configuration not found`)
+}
+cssLoaders[0].loader = MiniCssExtractPlugin.loader
 
 module.exports = configuration
