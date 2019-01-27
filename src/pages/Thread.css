@@ -1,37 +1,30 @@
-.threads__thread-container {
-	/*
-	margin-top: calc(var(--content-section-margin) * 2);
-	margin-bottom: calc(var(--content-section-margin) * 2);
-	margin-left: var(--content-section-margin);
-	margin-right: var(--content-section-margin);
-	*/
-
-	&:last-child .threads__thread {
+.thread__post-container {
+	&:last-child .thread__post {
 		margin-bottom: 0;
 	}
 }
 
-.threads__thread {
+.thread__post {
 	/* Long links may overflow post container. */
 	overflow: hidden;
 }
 
-.threads__thread-container--click {
-	.threads__thread {
+.thread__post-container--click {
+	.thread__post {
 		/*box-shadow: 0 0 0 0.1rem var(--base-color), 0 0.1rem 0.75rem 0 hsla(210,7%,61%,.15);*/
 		background-color: hsl(36, 70%, 96%);
 	}
 
-	.threads__thread .post__inline-spoiler {
+	.thread__post .post__inline-spoiler {
 		background-color: hsl(36, 30%, 92%);
 	}
 }
 
-.threads__thread, .threads__thread .post__inline-spoiler {
+.thread__post, .thread__post .post__inline-spoiler {
 	transition: box-shadow 120ms, background-color 60ms;
 }
 
-.threads__thread--with-subject {
+.thread__post--with-subject {
 	.content-section__header {
 		padding-bottom: calc(var(--content-section-vertical-padding) / 2);
 		margin-bottom: calc(var(--content-section-vertical-padding) / 2);

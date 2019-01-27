@@ -22,10 +22,27 @@
 	height : var(--header-height);
 }
 
-.webpage__header__row .board-title
+.header__title
 {
 	flex: 1;
-	padding-left: calc(var(--unit) * 2);
+	/*padding-left: calc(var(--unit) * 2);*/
+	font-weight: normal;
+	font-size: 1.4rem;
+  overflow: hidden;
+}
+
+.header__board-title
+{
+	text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.header__thread-title
+{
+	text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .menu-button

@@ -2,51 +2,37 @@ import { ReduxModule } from 'react-website'
 
 const redux = new ReduxModule()
 
-export const getAccount = redux.action
+export const getSettings = redux.action
 (
-	(id) => async http => http.get(`api://accounts/${id}`),
-	'account'
+	() => async () => JSON.parse(localStorage.settings || DEFAULT_SETTINGS),
+	'settings'
 )
 
-export const getAccountPosts = redux.action
+export const saveSettings = redux.action
 (
-	(id) => async http => http.get(`api://accounts/${id}/posts`),
-	'posts'
-)
-
-export const uploadPicture = redux.action
-(
-	(file) => (http) => http.post(`api://images/upload`, { file })
-)
-
-// export const setNewBackgroundPicture = redux.simpleAction
-// (
-// 	picture => picture,
-// 	(state, picture) => ({
-// 		...state,
-// 		// uploadingNewBackgroundPicture : false,
-// 		newBackgroundPicture : picture
-// 	})
-// )
-
-// export const setNewAccountPicture = redux.simpleAction
-// (
-// 	picture => picture,
-// 	(state, picture) => ({
-// 		...state,
-// 		// uploadingNewAccountPicture : false,
-// 		newAccountPicture : picture
-// 	})
-// )
-
-export const getLatestActivityTime = redux.action
-(
-	(id) => async http =>
-	{
-		return new Date()
-		// return await http.get('api://example/users')
-	},
-	'latestActivityTime'
+	(settings) => async () => localStorage.settings = JSON.stringify(settings)
 )
 
 export default redux.reducer()
+
+const DEFAULT_SETTINGS = {
+	ignoredWords: [
+	  "пидора[шх].*",
+	  "пыня",
+	  "пыни",
+	  "пыню",
+	  "коммуняк",
+	  "хуесос.*",
+	  "карлан.*",
+	  "блядски.*",
+	  "выблядк.*",
+	  "поебал.*",
+	  "чмо",
+	  "рашк.",
+	  "рашко.*",
+	  "ебар."
+	],
+	ignoredWordsCaseSensitive: [
+  	"РАБот.*"
+	]
+}

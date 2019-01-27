@@ -3,6 +3,7 @@ import { ReduxModule } from 'react-website'
 import parseBoard from '../utility/parseBoard'
 import groupBoardsByCategory from '../utility/groupBoardsByCategory'
 import parseThread from '../utility/parseThread'
+import parsePost from '../utility/parsePost'
 import filterComment from '../utility/filterComment'
 import correctGrammar from '../utility/correctGrammar'
 
@@ -45,16 +46,51 @@ export const getThreads = redux.action(
 	(board, page = 1) => async http => {
 		const response = await http.get(`2ch://${board}/${page}.json`)
 		const pages = response.pages.length - 1
-		const threads = response.threads
-			.filter(_ => filterComment(_.posts[0].comment))
-			.map(_ => parseThread(_, response, { correctGrammar }))
+		let threads = response.threads
+		const hiddenThreadIds = threads.filter(_ => !filterComment(_.posts[0].comment))
+		threads = threads.map(_ => parseThread(_, response, { correctGrammar }))
 		for (const thread of threads) {
+			if (hiddenThreadIds.includes(thread.id)) {
+				thread.hidden = true
+			}
 			thread.subject = thread.subject && correctGrammar(thread.subject)
 		}
 		return {
 			threads,
 			threadsPage: page,
 			threadsPages: pages
+		}
+	},
+	(state, result) => ({
+		...state,
+		...result
+	})
+)
+
+export const getPosts = redux.action(
+	(board, threadId) => async http => {
+		const response = await http.get(`2ch://${board}/res/${threadId}.json`)
+		let posts = response.threads[0].posts
+		const hiddenPostIds = posts.filter(_ => !filterComment(_.comment))
+		posts = posts.map(_ => parsePost(_, response, { correctGrammar }))
+		for (const post of posts) {
+			if (hiddenPostIds.includes(post.id)) {
+				post.hidden = true
+			}
+			post.subject = post.subject && correctGrammar(post.subject)
+		}
+		return {
+			posts,
+			board: {
+				id: board,
+				name: response.BoardName,
+				description: response.BoardInfo
+			},
+			thread: {
+				id: posts[0].id,
+				board,
+				posts
+			}
 		}
 	},
 	(state, result) => ({

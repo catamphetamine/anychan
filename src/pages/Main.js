@@ -1,10 +1,9 @@
 import React from 'react'
-import { preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 
 import Boards from '../components/Boards'
 
-import { selectBoard } from '../redux/chan'
+import { selectBoard, selectThread } from '../redux/chan'
 
 import {
 	ContentSection
@@ -12,9 +11,6 @@ import {
 
 import './Main.css'
 
-@preload(async ({ dispatch }) => {
-	dispatch(selectBoard())
-})
 export default class MainPage extends React.Component {
 	render() {
 		return (

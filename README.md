@@ -6,8 +6,7 @@ No longer in development.
 
 Status:
 
-  * Basic board browsing.
-  * No thread browsing.
+  * Basic browsing.
   * No posting.
   * No new post notifications.
 

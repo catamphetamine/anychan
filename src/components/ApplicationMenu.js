@@ -31,27 +31,34 @@ export default class ApplicationMenu extends React.Component
 	}
 }
 
+// const MENU_ITEMS = [{
+// 	// title: 'Feed',
+// 	link: '/feed',
+// 	outlineIcon: FeedIconOutline,
+// 	fillIcon: FeedIconFill
+// }, {
+// 	// title: 'Discover',
+// 	link: '/discover',
+// 	outlineIcon: SearchIconOutline,
+// 	fillIcon: SearchIconFill
+// }, {
+// 	// title: 'Post',
+// 	link: '/post',
+// 	outlineIcon: AddIconOutline,
+// 	fillIcon: AddIconFill
+// }, {
+// 	// title: 'Messages',
+// 	link: '/messages',
+// 	outlineIcon: MessageIconOutline,
+// 	fillIcon: MessageIconFill
+// }, {
+// 	// title: 'Account',
+// 	link: '/profile',
+// 	outlineIcon: PersonIconOutline,
+// 	fillIcon: PersonIconFill
+// }]
+
 const MENU_ITEMS = [{
-	// title: 'Feed',
-	link: '/feed',
-	outlineIcon: FeedIconOutline,
-	fillIcon: FeedIconFill
-}, {
-	// title: 'Discover',
-	link: '/discover',
-	outlineIcon: SearchIconOutline,
-	fillIcon: SearchIconFill
-}, {
-	// title: 'Post',
-	link: '/post',
-	outlineIcon: AddIconOutline,
-	fillIcon: AddIconFill
-}, {
-	// title: 'Messages',
-	link: '/messages',
-	outlineIcon: MessageIconOutline,
-	fillIcon: MessageIconFill
-}, {
 	// title: 'Account',
 	link: '/profile',
 	outlineIcon: PersonIconOutline,
