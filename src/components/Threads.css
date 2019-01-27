@@ -5,6 +5,10 @@
 	margin-left: var(--content-section-margin);
 	margin-right: var(--content-section-margin);
 	*/
+
+	&:last-child .threads__thread {
+		margin-bottom: 0;
+	}
 }
 
 .threads__thread-container--click {

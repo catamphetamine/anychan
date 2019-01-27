@@ -12,16 +12,17 @@
 	border-top : 1px solid rgba(0,0,0,.0975);
 }
 
-.webpage__content
+.webpage__footer
 {
 	margin-bottom : var(--footer-menu-height);
+  background-color: var(--background-color);
 }
 
 @mixin ml {
 	.webpage__footer .application-menu {
 		display : none;
 	}
-	.webpage__content {
+	.webpage__footer {
 		margin-bottom : 0;
 	}
 }
@@ -30,7 +31,23 @@
 	.webpage__footer .application-menu {
 		display : none;
 	}
-	.webpage__content {
+	.webpage__footer {
 		margin-bottom : 0;
+	}
+}
+
+.webpage__footer-link {
+	color: inherit;
+}
+
+.webpage__footer-copyright {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	color: var(--gray-color-dark);
+	text-align: center;
+
+	@mixin xs {
+		margin-top: 1em;
+		margin-bottom: 1em;
 	}
 }
