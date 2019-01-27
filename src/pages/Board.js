@@ -55,13 +55,22 @@ export default class BoardPage extends React.Component {
 	goto
 })
 class Thread extends React.Component {
+	state = {
+		hidden: this.props.thread.hidden
+	}
+
 	onClick = () => {
 		const { goto, thread } = this.props
+		const { hidden } = this.state
+		if (hidden) {
+			return this.setState({ hidden: false })
+		}
 		goto(`/${thread.board}/${thread.id}`, { instantBack: true })
 	}
 
 	render() {
 		const { thread } = this.props
+		const { hidden } = this.state
 
 		if (!thread) {
 			return null
@@ -77,18 +86,22 @@ class Thread extends React.Component {
 				<ContentSection
 					key={thread.id}
 					className={classNames('threads__thread', {
+						'threads__thread--hidden': hidden,
 						'threads__thread--with-subject': thread.posts[0].subject
 					})}>
-					{thread.posts[0].subject &&
+					{hidden && 'Сообщение скрыто'}
+					{!hidden && thread.posts[0].subject &&
 						<ContentSectionHeader>
 							{thread.posts[0].subject}
 						</ContentSectionHeader>
 					}
-					<Post
-						post={thread.posts[0]}
-						saveBandwidth
-						expandFirstPictureOrVideo={false}
-						attachmentThumbnailHeight={160} />
+					{!hidden &&
+						<Post
+							post={thread.posts[0]}
+							saveBandwidth
+							expandFirstPictureOrVideo={false}
+							attachmentThumbnailHeight={160} />
+					}
 				</ContentSection>
 			</OnClick>
 		)

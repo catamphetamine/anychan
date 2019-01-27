@@ -48,8 +48,17 @@ export default class ThreadPage extends React.Component {
 }
 
 class ThreadPost extends React.Component {
+	state = {
+		hidden: this.props.post.hidden
+	}
+
 	onClick = () => {
 		const { thread, post } = this.props
+		const { hidden } = this.state
+		if (hidden) {
+			return this.setState({ hidden: false })
+		}
+		// Open external link in a new tab.
 		const link = document.createElement('a')
 		link.setAttribute('href', `https://2ch.hk/${thread.board}/res/${thread.id}.html#${post.id}`)
 		link.setAttribute('target', '_blank')
@@ -58,6 +67,7 @@ class ThreadPost extends React.Component {
 
 	render() {
 		const { post } = this.props
+		const { hidden } = this.state
 
 		if (!post) {
 			return null
@@ -72,18 +82,22 @@ class ThreadPost extends React.Component {
 				className="thread__post-container">
 				<ContentSection
 					className={classNames('thread__post', {
-						'threads__thread--with-subject': post.subject
+						'thread__post--hidden': hidden,
+						'thread__post--with-subject': post.subject
 					})}>
-					{post.subject &&
+					{hidden && 'Сообщение скрыто'}
+					{!hidden && post.subject &&
 						<ContentSectionHeader>
 							{post.subject}
 						</ContentSectionHeader>
 					}
-					<Post
-						post={post}
-						saveBandwidth
-						expandFirstPictureOrVideo={false}
-						attachmentThumbnailHeight={160} />
+					{!hidden &&
+						<Post
+							post={post}
+							saveBandwidth
+							expandFirstPictureOrVideo={false}
+							attachmentThumbnailHeight={160} />
+					}
 				</ContentSection>
 			</OnClick>
 		)
