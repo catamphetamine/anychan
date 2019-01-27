@@ -9,7 +9,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import configuration from './webpack.config'
 
 // `gh-pages` will have `/chanchan` base path.
-configuration.output.publicPath = '/chanchan'
+configuration.output.publicPath = '/chanchan/'
 
 configuration.devtool = 'source-map'
 
