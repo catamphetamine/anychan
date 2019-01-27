@@ -25,7 +25,7 @@ export default class MainPage extends React.Component {
 							<Boards/>
 						</ContentSection>
 					</div>
-					<div className="col-9 col-xs-12">
+					<div className="col-9 col-xs-12 col--padding-left-xs">
 					</div>
 				</div>
 			</section>

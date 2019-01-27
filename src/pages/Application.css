@@ -35,11 +35,6 @@
 	margin-top : var(--header-height);
 
 	background-color : var(--background-color);
-
-	@mixin xs
-	{
-		margin-bottom : ;
-	}
 }
 
 .react-website__loading--initial

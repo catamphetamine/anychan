@@ -38,28 +38,7 @@ body
 	--content-section-divider-color : #e3e4e8;
 	--content-section-shadow : 0 1px 0 0 #d7d8db, 0 0 0 1px var(--content-section-divider-color);
 
-	--unit : 14px;
-	--column-padding : calc(var(--unit) / 2);
-
-	/* Some magic number seen on the Internet. */
-	--line-height : 1.52947;
-
 	--header-height : calc(var(--unit) * 3);
-
-	/*
-	Mobile font size must be at least 16px
-	to prevent automatic zoom on input focus.
-	*/
-	--font-size-xs : 16px;
-	--font-size-xs-plus : 18px;
-	--font-size-m  : 19px;
-	--font-size-xl : 20px;
-
-	--preloading-screen-z-index : 10;
-	--slideshow-z-index : 1;
-
-	--border-radius : 0.2rem;
-	--shadow : 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 
 	--button-on-background-background-color : rgba(0, 0, 0, 0.6);
 	--button-on-background-color : var(--white-color);

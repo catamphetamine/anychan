@@ -40,7 +40,7 @@ export default class BoardPage extends React.Component {
 							<Boards/>
 						</ContentSection>
 					</div>
-					<div className="col-9 col-xs-12">
+					<div className="col-9 col-xs-12 col--padding-left-xs">
 						<Threads/>
 					</div>
 				</div>
