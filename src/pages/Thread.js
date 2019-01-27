@@ -28,6 +28,9 @@ import './Thread.css'
 	await dispatch(getPosts(params.board, params.thread, getState().account.settings.filters))
 })
 export default class ThreadPage extends React.Component {
+	onPostClick = (post, thread) => {
+		openExternalLink(`https://2ch.hk/${thread.board}/res/${thread.id}.html#${post.id}`)
+	}
 	render() {
 		const { thread, posts } = this.props
 		return (
@@ -39,7 +42,13 @@ export default class ThreadPage extends React.Component {
 						</ContentSection>
 					</div>
 					<div className="col-9 col-xs-12 col--padding-left-xs">
-						{posts && posts.map((post, i) => <ThreadPost key={i} thread={thread} post={post}/>)}
+						{posts && posts.map((post) => (
+							<ThreadPost
+								key={post.id}
+								thread={thread}
+								post={post}
+								onClick={this.onPostClick}/>
+						))}
 					</div>
 				</div>
 			</section>
@@ -47,22 +56,18 @@ export default class ThreadPage extends React.Component {
 	}
 }
 
-class ThreadPost extends React.Component {
+export class ThreadPost extends React.Component {
 	state = {
 		hidden: this.props.post.hidden
 	}
 
 	onClick = () => {
-		const { thread, post } = this.props
+		const { thread, post, onClick } = this.props
 		const { hidden } = this.state
 		if (hidden) {
 			return this.setState({ hidden: false })
 		}
-		// Open external link in a new tab.
-		const link = document.createElement('a')
-		link.setAttribute('href', `https://2ch.hk/${thread.board}/res/${thread.id}.html#${post.id}`)
-		link.setAttribute('target', '_blank')
-		link.click()
+		onClick(post, thread)
 	}
 
 	render() {
@@ -75,7 +80,6 @@ class ThreadPost extends React.Component {
 
 		return (
 			<OnClick
-				key={post.id}
 				filter={postOnClickFilter}
 				onClick={this.onClick}
 				onClickClassName="thread__post-container--click"
@@ -105,6 +109,7 @@ class ThreadPost extends React.Component {
 }
 
 ThreadPost.propTypes = {
+	onClick: PropTypes.func.isRequired,
 	post: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}),
@@ -127,4 +132,12 @@ export function postOnClickFilter(element) {
 		return false
 	}
 	return true
+}
+
+// Opens external link in a new tab.
+function openExternalLink(url) {
+	const link = document.createElement('a')
+	link.setAttribute('href', url)
+	link.setAttribute('target', '_blank')
+	link.click()
 }

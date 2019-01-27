@@ -19,6 +19,7 @@ const DEFAULT_SETTINGS = {
 	filters: {
 		ignoredWords: [
 		  "пидора[шх].*",
+		  "пидара[шх].*",
 		  "пыня",
 		  "пыни",
 		  "пыню",

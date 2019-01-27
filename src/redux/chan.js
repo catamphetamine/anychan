@@ -47,11 +47,11 @@ export const getThreads = redux.action(
 		const response = await http.get(`2ch://${board}/${page}.json`)
 		const pages = response.pages.length - 1
 		let threads = response.threads
-		const hiddenThreadIds = threads.filter(_ => !filterComment(_.posts[0].comment, filters))
+		const hiddenThreadIds = threads.filter(_ => !filterComment(_.posts[0].comment, filters)).map(_ => _.thread_num)
 		threads = threads.map(_ => parseThread(_, response, { correctGrammar }))
 		for (const thread of threads) {
 			if (hiddenThreadIds.includes(thread.id)) {
-				thread.hidden = true
+				thread.posts[0].hidden = true
 			}
 			thread.subject = thread.subject && correctGrammar(thread.subject)
 		}
@@ -76,7 +76,7 @@ export const getPosts = redux.action(
 	(board, threadId, filters) => async http => {
 		const response = await http.get(`2ch://${board}/res/${threadId}.json`)
 		let posts = response.threads[0].posts
-		const hiddenPostIds = posts.filter(_ => !filterComment(_.comment, filters))
+		const hiddenPostIds = posts.filter(_ => !filterComment(_.comment, filters)).map(_ => String(_.num))
 		posts = posts.map(_ => parsePost(_, response, { correctGrammar }))
 		for (const post of posts) {
 			if (hiddenPostIds.includes(post.id)) {

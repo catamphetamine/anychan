@@ -7,14 +7,11 @@ import classNames from 'classnames'
 import { selectBoard, getThreads } from '../redux/chan'
 
 import Boards from '../components/Boards'
+import { ThreadPost } from './Thread'
 import { postOnClickFilter } from './Thread'
 
-import Post from 'webapp-frontend/src/components/Post'
-import OnClick from 'webapp-frontend/src/components/OnClick'
-
 import {
-	ContentSection,
-	ContentSectionHeader
+	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
 
 import './Board.css'
@@ -26,12 +23,18 @@ import './Board.css'
 @connect(({ chan }) => ({
 	board: chan.board,
 	threads: chan.threads,
-}))
+}), {
+	goto
+})
 @preload(async ({ getState, dispatch, params }) => {
 	await dispatch(getThreads(params.board, 1, getState().account.settings.filters))
 	dispatch(selectBoard(params.board))
 })
 export default class BoardPage extends React.Component {
+	onPostClick = (post, thread) => {
+		const { goto } = this.props
+		goto(`/${thread.board}/${thread.id}`, { instantBack: true })
+	}
 	render() {
 		const { threads } = this.props
 		return (
@@ -43,77 +46,16 @@ export default class BoardPage extends React.Component {
 						</ContentSection>
 					</div>
 					<div className="col-9 col-xs-12 col--padding-left-xs">
-						{threads && threads.map((thread, i) => <Thread key={i} thread={thread}/>)}
+						{threads && threads.map((thread) => (
+							<ThreadPost
+								key={thread.posts[0].id}
+								thread={thread}
+								post={thread.posts[0]}
+								onClick={this.onPostClick}/>
+						))}
 					</div>
 				</div>
 			</section>
 		)
 	}
-}
-
-@connect(() => ({}), {
-	goto
-})
-class Thread extends React.Component {
-	state = {
-		hidden: this.props.thread.hidden
-	}
-
-	onClick = () => {
-		const { goto, thread } = this.props
-		const { hidden } = this.state
-		if (hidden) {
-			return this.setState({ hidden: false })
-		}
-		goto(`/${thread.board}/${thread.id}`, { instantBack: true })
-	}
-
-	render() {
-		const { thread } = this.props
-		const { hidden } = this.state
-
-		if (!thread) {
-			return null
-		}
-
-		return (
-			<OnClick
-				key={thread.id}
-				filter={postOnClickFilter}
-				onClick={this.onClick}
-				onClickClassName="threads__thread-container--click"
-				className="threads__thread-container">
-				<ContentSection
-					key={thread.id}
-					className={classNames('threads__thread', {
-						'threads__thread--hidden': hidden,
-						'threads__thread--with-subject': thread.posts[0].subject
-					})}>
-					{hidden && 'Сообщение скрыто'}
-					{!hidden && thread.posts[0].subject &&
-						<ContentSectionHeader>
-							{thread.posts[0].subject}
-						</ContentSectionHeader>
-					}
-					{!hidden &&
-						<Post
-							post={thread.posts[0]}
-							saveBandwidth
-							expandFirstPictureOrVideo={false}
-							attachmentThumbnailHeight={160} />
-					}
-				</ContentSection>
-			</OnClick>
-		)
-	}
-}
-
-Thread.propTypes = {
-	thread: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		board: PropTypes.string.isRequired,
-		posts: PropTypes.arrayOf(PropTypes.shape({
-			subject: PropTypes.string
-		}))
-	})
 }
