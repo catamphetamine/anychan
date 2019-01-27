@@ -10,13 +10,13 @@ import { parsePost } from './parsePost'
  * // {
  * //   id: '12345',
  * //   board: 'b',
- * //   commentsCount: 18,
  * //   author: 'Школьник',
  * //   subject: 'В этом треде аниме',
  * //   isClosed: false,
  * //   isEndless: false, // "endless" threads don't disappear.
  * //   isSticky: false,
- * //   openingPost: {
+ * //   posts: [{
+ * //     commentsCount: 18,
  * //     id: '45678',
  * //     author: 'Школьник №2',
  * //     content: ...,
@@ -69,7 +69,7 @@ import { parsePost } from './parsePost'
  * //       }
  * //     }]
  * //   }
- * // }
+ * // }]
  * parseThread(...)
  */
 export default function parseThread_(thread, response, options = {}) {
@@ -82,10 +82,10 @@ function parseThread(thread, options) {
 	const { correctGrammar, defaultAuthor, boardId } = options
 	const _post = thread.posts[0]
 	const post = parsePost(_post, options)
+	post.commentsCount = thread.posts_count
 	return {
 		id: post.id,
 		board: boardId,
-		commentsCount: thread.posts_count,
 		isClosed: _post.closed === 1,
 		isEndless: _post.endless === 1,
 		isSticky: _post.sticky === 1,
