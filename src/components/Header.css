@@ -26,7 +26,7 @@
 {
 	height: calc(var(--unit) * 2);
 	width: calc(var(--unit) * 2);
-	margin-right: calc(var(--unit) * 2);
+	margin-right: calc(var(--unit) * 1);
 }
 
 .header__logo
@@ -40,7 +40,7 @@
 	flex: 1;
 	/*padding-left: calc(var(--unit) * 2);*/
 	font-weight: normal;
-	font-size: 1.3rem;
+	font-size: 1rem;
   overflow: hidden;
 }
 
