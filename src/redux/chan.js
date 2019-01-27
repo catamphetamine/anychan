@@ -34,14 +34,6 @@ export const getBoards = redux.action(
 	})
 )
 
-export const selectBoard = redux.simpleAction(
-	(id) => id,
-	(state, id) => ({
-		...state,
-		board: state.boardsBySpeed.find(_ => _.id === id)
-	})
-)
-
 export const getThreads = redux.action(
 	(board, page, filters) => async http => {
 		const response = await http.get(`2ch://${board}/${page}.json`)

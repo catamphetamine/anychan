@@ -4,7 +4,7 @@ import { goto, preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { selectBoard, getThreads } from '../redux/chan'
+import { getThreads } from '../redux/chan'
 
 import Boards from '../components/Boards'
 import { ThreadPost } from './Thread'
@@ -28,7 +28,6 @@ import './Board.css'
 })
 @preload(async ({ getState, dispatch, params }) => {
 	await dispatch(getThreads(params.board, 1, getState().account.settings.filters))
-	dispatch(selectBoard(params.board))
 })
 export default class BoardPage extends React.Component {
 	onPostClick = (post, thread) => {
