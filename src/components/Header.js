@@ -3,6 +3,7 @@ import { MenuIcon } from 'react-responsive-ui'
 import { Link } from 'react-website'
 
 import ApplicationMenu from './ApplicationMenu'
+import BoardTitle from './BoardTitle'
 
 // import HomeIcon  from '../../assets/images/home.svg'
 // import UsersIcon from '../../assets/images/users.svg'
@@ -28,6 +29,8 @@ export default function Header() {
 					<Link to="/" className="header__link">
 						<MenuIcon className="menu-button"/>
 					</Link>
+
+					<BoardTitle/>
 
 					<ApplicationMenu/>
 				</div>

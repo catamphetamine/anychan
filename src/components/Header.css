@@ -22,6 +22,12 @@
 	height : var(--header-height);
 }
 
+.webpage__header__row .board-title
+{
+	flex: 1;
+	padding-left: calc(var(--unit) * 2);
+}
+
 .menu-button
 {
 	width  : calc(var(--unit) * 2);

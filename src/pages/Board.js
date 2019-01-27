@@ -21,7 +21,7 @@ import './Board.css'
 @connect(({ chan }) => ({
 	board: chan.board
 }))
-@preload(async ({ getState, dispatch, params }) => {
+@preload(async ({ dispatch, params }) => {
 	dispatch(selectBoard(params.id))
 	dispatch(preloadStarted())
 	try {
