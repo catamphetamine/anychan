@@ -20,7 +20,7 @@ export default class MainPage extends React.Component {
 		return (
 			<section className="container">
 				<div className="row">
-					<div className="col-3 col-xs-12">2
+					<div className="col-3 col-xs-12">
 						<ContentSection>
 							<Boards/>
 						</ContentSection>
