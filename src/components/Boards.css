@@ -106,4 +106,9 @@
 		margin-left: 0.5em;
 		margin-right: 0.5em;
 	}
+
+	@mixin xxl {
+		margin-left: 1em;
+		margin-right: 1em;
+	}
 }
