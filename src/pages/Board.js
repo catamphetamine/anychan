@@ -27,8 +27,8 @@ import './Board.css'
 	board: chan.board,
 	threads: chan.threads,
 }))
-@preload(async ({ dispatch, params }) => {
-	await dispatch(getThreads(params.board))
+@preload(async ({ getState, dispatch, params }) => {
+	await dispatch(getThreads(params.board, 1, getState().account.settings.filters))
 	dispatch(selectBoard(params.board))
 })
 export default class BoardPage extends React.Component {

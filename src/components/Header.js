@@ -8,6 +8,8 @@ import ApplicationMenu from './ApplicationMenu'
 // import HomeIcon  from '../../assets/images/home.svg'
 // import UsersIcon from '../../assets/images/users.svg'
 
+import Logo from '../../assets/images/icon@192x192.png'
+
 import './Header.css'
 
 @connect(({ chan, found }) => ({
@@ -39,25 +41,27 @@ export default class Header extends React.Component {
 						</Link>
 						*/}
 
-						{(isBoardLocation(location) || isThreadLocation(location)) &&
-							<div className="header__title">
-								{(isBoardLocation(location) || isThreadLocation(location)) && board &&
-									<span className="header__board-title">
-										{thread &&
-											<Link to={`/${board.id}`} instantBack>
-												{board.name}
-											</Link>
-										}
-										{!thread && board.name}
-									</span>
-								}
-								{isThreadLocation(location) && thread &&
-									<span className="header__thread-title">
-										{' → '}{thread.posts[0].subject || 'Тред'}
-									</span>
-								}
-							</div>
-						}
+						<Link to="/" className="header__logo-link">
+							<img src={Logo} className="header__logo"/>
+						</Link>
+
+						<div className="header__title">
+							{(isBoardLocation(location) || isThreadLocation(location)) && board &&
+								<span className="header__board-title">
+									{thread &&
+										<Link to={`/${board.id}`} instantBack>
+											{board.name}
+										</Link>
+									}
+									{!thread && board.name}
+								</span>
+							}
+							{isThreadLocation(location) && thread &&
+								<span className="header__thread-title">
+									{' → '}{thread.posts[0].subject || 'Тред'}
+								</span>
+							}
+						</div>
 
 						<ApplicationMenu/>
 					</div>

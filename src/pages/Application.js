@@ -24,6 +24,7 @@ import 'webapp-frontend/src/components/TimeAgo.ru'
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import { getBoards } from '../redux/chan'
+import { getSettings } from '../redux/account'
 
 import './Application.css'
 
@@ -46,6 +47,7 @@ setDefaultLocale('ru')
 	closeSlideshow
 })
 @preload(async ({ dispatch }) => {
+	dispatch(getSettings())
 	await dispatch(getBoards())
 }, {
 	blocking: true

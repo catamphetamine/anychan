@@ -4,7 +4,7 @@ const redux = new ReduxModule()
 
 export const getSettings = redux.action
 (
-	() => async () => JSON.parse(localStorage.settings || DEFAULT_SETTINGS),
+	() => async () => localStorage.settings ? JSON.parse(localStorage.settings) : DEFAULT_SETTINGS,
 	'settings'
 )
 
@@ -16,23 +16,25 @@ export const saveSettings = redux.action
 export default redux.reducer()
 
 const DEFAULT_SETTINGS = {
-	ignoredWords: [
-	  "пидора[шх].*",
-	  "пыня",
-	  "пыни",
-	  "пыню",
-	  "коммуняк",
-	  "хуесос.*",
-	  "карлан.*",
-	  "блядски.*",
-	  "выблядк.*",
-	  "поебал.*",
-	  "чмо",
-	  "рашк.",
-	  "рашко.*",
-	  "ебар."
-	],
-	ignoredWordsCaseSensitive: [
-  	"РАБот.*"
-	]
+	filters: {
+		ignoredWords: [
+		  "пидора[шх].*",
+		  "пыня",
+		  "пыни",
+		  "пыню",
+		  "коммуняк",
+		  "хуесос.*",
+		  "карлан.*",
+		  "блядски.*",
+		  "выблядк.*",
+		  "поебал.*",
+		  "чмо",
+		  "рашк.",
+		  "рашко.*",
+		  "ебар."
+		],
+		ignoredWordsCaseSensitive: [
+	  	"РАБот.*"
+		]
+	}
 }

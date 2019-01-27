@@ -22,6 +22,19 @@
 	height : var(--header-height);
 }
 
+.header__logo-link
+{
+	height: calc(var(--unit) * 2);
+	width: calc(var(--unit) * 2);
+	margin-right: calc(var(--unit) * 2);
+}
+
+.header__logo
+{
+	height: 100%;
+	width: 100%;
+}
+
 .header__title
 {
 	flex: 1;

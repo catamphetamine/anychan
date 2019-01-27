@@ -24,8 +24,8 @@ import './Thread.css'
 	thread: chan.thread,
 	posts: chan.posts
 }))
-@preload(async ({ dispatch, params }) => {
-	await dispatch(getPosts(params.board, params.thread))
+@preload(async ({ getState, dispatch, params }) => {
+	await dispatch(getPosts(params.board, params.thread, getState().account.settings.filters))
 })
 export default class ThreadPage extends React.Component {
 	render() {

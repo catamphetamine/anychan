@@ -17,6 +17,7 @@ import './Settings.css'
 @preload(({ dispatch }) => dispatch(getSettings()))
 export default class SettingsPage extends React.Component {
 	constructor() {
+		super()
 		this.onSubmit = this.onSubmit.bind(this)
 	}
 
@@ -28,9 +29,20 @@ export default class SettingsPage extends React.Component {
 	render() {
 		const { settings } = this.props
 		return (
-			<form onSubmit={this.onSubmit}>
-				{JSON.stringify(settings)}
-			</form>
+			<section className="container">
+				<h1>Settings</h1>
+				<form onSubmit={this.onSubmit}>
+					<h3>Chan API URL (proxied)</h3>
+					<pre>
+						{configuration.chanApiBaseURL}
+					</pre>
+
+					<h3>Filters</h3>
+					<pre>
+						{JSON.stringify(settings.filters, null, 2)}
+					</pre>
+				</form>
+			</section>
 		)
 	}
 }

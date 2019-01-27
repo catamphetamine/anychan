@@ -1,36 +1,14 @@
-const IGNORED_WORDS = [
-  "пидора[шх].*",
-  "пыня",
-  "пыни",
-  "пыню",
-  "коммуняк",
-  "хуесос.*",
-  "карлан.*",
-  "блядски.*",
-  "выблядк.*",
-  "поебал.*",
-  "чмо",
-  "рашк.",
-  "рашко.*",
-  "ебар."
-]
-
-const IGNORED_WORDS_CASE_SENSITIVE = [
-  "РАБот.*"
-]
-
-const IGNORE_WORDS = new RegExp('^(' + IGNORED_WORDS.join('|') + ')$', 'i')
-const IGNORE_WORDS_CASE_SENSITIVE = new RegExp('^(' + IGNORED_WORDS_CASE_SENSITIVE.join('|') + ')$')
-
 /**
  * Returns `false` if the comment doesn't pass the filter.
  * @param  {string} comment
  * @return {boolean}
  */
-export default function filterComment(comment) {
+export default function filterComment(comment, { ignoredWords, ignoredWordsCaseSensitive }) {
+  const ignoreWordsRegExp = new RegExp('^(' + ignoredWords.join('|') + ')$', 'i')
+  const ignoreWordsCaseSensitiveRegExp = new RegExp('^(' + ignoredWordsCaseSensitive.join('|') + ')$')
 	const words = comment.split(/[^а-яА-Я]+/)
 	for (const word of words) {
-		if (IGNORE_WORDS.test(word) || IGNORE_WORDS_CASE_SENSITIVE.test(word)) {
+		if (ignoreWordsRegExp.test(word) || ignoreWordsCaseSensitiveRegExp.test(word)) {
 			return false
 		}
 	}
