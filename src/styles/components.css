@@ -1,1 +1,5 @@
 @import "../../../webapp-frontend/src/styles/components.css";
+
+.post__link--post {
+	color: var(--gray-color-dark);
+}
