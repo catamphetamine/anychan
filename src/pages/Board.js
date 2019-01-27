@@ -87,7 +87,8 @@ class Thread extends React.Component {
 					<Post
 						post={thread.posts[0]}
 						saveBandwidth
-						expandFirstPictureOrVideo={false} />
+						expandFirstPictureOrVideo={false}
+						attachmentThumbnailHeight={160} />
 				</ContentSection>
 			</OnClick>
 		)
