@@ -15,11 +15,16 @@ import './Header.css'
 @connect(({ chan, found }) => ({
 	board: chan.board,
 	thread: chan.thread,
-  location: found.resolvedMatch.location
+  route: found.resolvedMatch
 }))
 export default class Header extends React.Component {
 	render() {
-		const { board, thread } = this.props
+		const {
+			route,
+			board,
+			thread
+		} = this.props
+
 		return (
 			<nav className="webpage__header">
 				<div className="container">
@@ -46,7 +51,7 @@ export default class Header extends React.Component {
 						</Link>
 
 						<div className="header__title">
-							{(isBoardLocation(location) || isThreadLocation(location)) && board &&
+							{(isBoardLocation(route) || isThreadLocation(route)) && board &&
 								<span className="header__board-title">
 									{thread &&
 										<Link to={`/${board.id}`} instantBack>
@@ -56,7 +61,7 @@ export default class Header extends React.Component {
 									{!thread && board.name}
 								</span>
 							}
-							{isThreadLocation(location) && thread &&
+							{isThreadLocation(route) && thread &&
 								<span className="header__thread-title">
 									{' → '}{thread.posts[0].subject || 'Тред'}
 								</span>
@@ -71,14 +76,10 @@ export default class Header extends React.Component {
 	}
 }
 
-function isBoardLocation(location) {
-	// Trim trailing slash.
-	const path = location.pathname.replace(/\/$/, '')
-	return /^\/([^\/]+)$/.test(path) && path !== '/' && path !== '/profile'
+function isBoardLocation({ location, params }) {
+	return params.board
 }
 
-function isThreadLocation(location) {
-	// Trim trailing slash.
-	const path = location.pathname.replace(/\/$/, '')
-	return /^\/([^\/]+)\/([^\/]+)$/.test(path)
+function isThreadLocation({ location, params }) {
+	return params.thread
 }
