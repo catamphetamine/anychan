@@ -1,34 +1,19 @@
-import React from 'react'
-import { Route, Redirect } from 'react-website'
-
 import Application from './pages/Application'
-import Main from './pages/Main'
+import Home from './pages/Home'
 import Board from './pages/Board'
 import Thread from './pages/Thread'
 import Settings from './pages/Settings'
 
-import { createErrorPagesRoutes } from 'webapp-frontend/src/routes.common'
+import { ERROR_PAGES_ROUTES } from 'webapp-frontend/src/routes.common'
 
-export default(
-	<Route
-		path="/"
-		Component={Application}>
-
-		<Route
-			Component={Main}/>
-
-		<Route
-			path="profile"
-			Component={Settings}/>
-
-		{createErrorPagesRoutes()}
-
-		<Route
-			path=":board"
-			Component={Board}/>
-
-		<Route
-			path=":board/:thread"
-			Component={Thread}/>
-	</Route>
-)
+export default [{
+	path: '/',
+	Component: Application,
+	children: [
+		{ Component: Home },
+		{ path: 'profile', Component: Settings },
+		...ERROR_PAGES_ROUTES,
+		{ path: ':board', Component: Board },
+		{ path: ':board/:thread', Component: Thread }
+	]
+}]
