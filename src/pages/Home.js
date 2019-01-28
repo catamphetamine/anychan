@@ -9,9 +9,9 @@ import {
 	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
 
-import './Main.css'
+import './Home.css'
 
-export default class MainPage extends React.Component {
+export default class HomePage extends React.Component {
 	render() {
 		return (
 			<section className="container">

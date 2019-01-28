@@ -51,7 +51,7 @@ export const getThreads = redux.action(
 		return {
 			threads,
 			threadsPage: page,
-			threadsPages: pages,
+			threadsPagesCount: pages,
 			board: {
 				id: board,
 				name: response.BoardName,

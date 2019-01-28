@@ -23,6 +23,8 @@ import './Board.css'
 @connect(({ chan }) => ({
 	board: chan.board,
 	threads: chan.threads,
+	page: chan.threadsPage,
+	pagesCount: chan.threadsPagesCount
 }), {
 	goto
 })
