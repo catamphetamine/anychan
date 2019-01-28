@@ -44,7 +44,8 @@
   overflow: hidden;
 }
 
-.header__board-title
+.header__board-title,
+.header__thread-title
 {
 	text-overflow: ellipsis;
   overflow: hidden;
@@ -53,9 +54,7 @@
 
 .header__thread-title
 {
-	text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+	color: var(--gray-color-darkest);
 }
 
 .menu-button
