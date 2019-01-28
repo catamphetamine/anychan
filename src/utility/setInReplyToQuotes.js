@@ -1,3 +1,5 @@
+import limitLength from './limitLength'
+
 /**
  * Adds "in-reply-to" quotes.
  * Has some CPU usage.
@@ -35,16 +37,4 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 		}
 		content.content = 'Сообщение'
 	}
-}
-
-function limitLength(string, maxLength) {
-	if (string.length <= maxLength) {
-		return string
-	}
-	string = string.slice(0, maxLength)
-	const lastSentenceEndsAt = string.lastIndexOf('. ')
-	if (lastSentenceEndsAt >= 0) {
-		return string.slice(0, lastSentenceEndsAt)
-	}
-	return string + '…'
 }
