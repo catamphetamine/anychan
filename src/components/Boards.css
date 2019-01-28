@@ -48,6 +48,16 @@
 	padding-right: var(--unit);
 	font-family: monospace;
 	width: calc(var(--unit) * 10);
+	/* Don't wrap the side slashes. */
+	white-space: nowrap;
+
+	@mixin xl {
+		max-width: calc(var(--unit) * 6);
+	}
+
+	@mixin xxl {
+		max-width: none;
+	}
 
 	&:before,
 	&:after {
@@ -84,6 +94,14 @@
 
 .boards__view-switch {
 	color: var(--black-color);
+
+	@mixin xl {
+		font-size: 0.85em;
+	}
+
+	@mixin xxl {
+		font-size: inherit;
+	}
 }
 
 .boards__view-switch--selected {
@@ -100,15 +118,5 @@
 
 	@mixin m {
 		display: none;
-	}
-
-	@mixin xl {
-		margin-left: 0.5em;
-		margin-right: 0.5em;
-	}
-
-	@mixin xxl {
-		margin-left: 1em;
-		margin-right: 1em;
 	}
 }
