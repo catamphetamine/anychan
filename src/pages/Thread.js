@@ -6,13 +6,10 @@ import classNames from 'classnames'
 import { getPosts } from '../redux/chan'
 
 import Boards from '../components/Boards'
-
-import Post from 'webapp-frontend/src/components/Post'
-import OnClick from 'webapp-frontend/src/components/OnClick'
+import ThreadPost from '../components/ThreadPost'
 
 import {
-	ContentSection,
-	ContentSectionHeader
+	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
 
 import './Thread.css'
@@ -54,84 +51,6 @@ export default class ThreadPage extends React.Component {
 			</section>
 		)
 	}
-}
-
-export class ThreadPost extends React.Component {
-	state = {
-		hidden: this.props.post.hidden
-	}
-
-	onClick = () => {
-		const { thread, post, onClick } = this.props
-		const { hidden } = this.state
-		if (hidden) {
-			return this.setState({ hidden: false })
-		}
-		onClick(post, thread)
-	}
-
-	render() {
-		const { post } = this.props
-		const { hidden } = this.state
-
-		if (!post) {
-			return null
-		}
-
-		return (
-			<OnClick
-				filter={postOnClickFilter}
-				onClick={this.onClick}
-				onClickClassName="thread__post-container--click"
-				className="thread__post-container">
-				<ContentSection
-					className={classNames('thread__post', {
-						'thread__post--hidden': hidden,
-						'thread__post--with-subject': post.subject
-					})}>
-					{hidden && 'Сообщение скрыто'}
-					{!hidden && post.subject &&
-						<ContentSectionHeader>
-							{post.subject}
-						</ContentSectionHeader>
-					}
-					{!hidden &&
-						<Post
-							post={post}
-							saveBandwidth
-							expandFirstPictureOrVideo={false}
-							attachmentThumbnailHeight={160} />
-					}
-				</ContentSection>
-			</OnClick>
-		)
-	}
-}
-
-ThreadPost.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	post: PropTypes.shape({
-		id: PropTypes.string.isRequired
-	}),
-	thread: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		board: PropTypes.string.isRequired
-	})
-}
-
-export function postOnClickFilter(element) {
-	const tagName = element.tagName.toLowerCase()
-	switch (tagName) {
-		case 'img':
-		case 'time':
-		case 'a':
-		case 'button':
-			return false
-	}
-	if (element.classList.contains('post__inline-spoiler-contents')) {
-		return false
-	}
-	return true
 }
 
 // Opens external link in a new tab.

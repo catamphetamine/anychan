@@ -7,8 +7,7 @@ import classNames from 'classnames'
 import { getThreads } from '../redux/chan'
 
 import Boards from '../components/Boards'
-import { ThreadPost } from './Thread'
-import { postOnClickFilter } from './Thread'
+import ThreadPost from '../components/ThreadPost'
 
 import {
 	ContentSection
