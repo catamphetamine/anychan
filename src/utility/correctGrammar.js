@@ -1,3 +1,5 @@
+import correctQuotes from './correctQuotes'
+
 import test from './correctGrammar.test'
 
 /**
@@ -6,7 +8,7 @@ import test from './correctGrammar.test'
  * @return {string}
  */
 export default function correctGrammar(text) {
-	return text
+	text = text
 		// ` -- ` -> ` — ` (converts double dash to long dash)
 		.replace(/\s+--\s+/g, ' — ')
 		// ` - ` -> ` — ` (converts dash to long dash)
@@ -37,11 +39,12 @@ export default function correctGrammar(text) {
 		// `one?Two` -> `one? Two`
 		// (limited to ASCII because javascript doesn't support Unicode regexps yet)
 		.replace(/([а-я][\.!?])([А-Я][а-я ])/g, '$1 $2')
-		// `"one"` -> `«one»`
-		// (must not preceed other regexps having a quote)
-		.replace(/"\s*([^"]+?)\s*"/g, '«$1»')
 		// `...` -> `…`
 		.replace(/([а-яА-Я])\.\.\./g, '$1…')
+
+	// `"one"` -> `«one»`
+	// (must not preceed other regexps having a quote)
+	return correctQuotes(text)
 }
 
 test(correctGrammar)
