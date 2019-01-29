@@ -15,7 +15,7 @@ import {
 import './Thread.css'
 
 @meta((state) => ({
-	title: state.chan.thread && state.chan.thread.posts[0].subject
+	title: state.chan.thread && (state.chan.thread.posts[0].subject || state.chan.board.name)
 }))
 @connect(({ chan }) => ({
 	thread: chan.thread,
