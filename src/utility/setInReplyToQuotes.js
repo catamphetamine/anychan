@@ -27,8 +27,11 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 						if (possibleQuote && possibleQuote.type === 'quote') {
 							// Already quoted.
 						} else {
-							contentParent.splice(index + 1, 0, '\n')
-							contentParent.splice(index + 2, 0, { type: 'quote', content: postPeek })
+							// Only inject quotes when messages links are at the end of the line.
+							if (contentParent[index + 1] === '\n') {
+								contentParent.splice(index + 1, 0, '\n')
+								contentParent.splice(index + 2, 0, { type: 'quote', content: postPeek })
+							}
 						}
 						break
 					}
