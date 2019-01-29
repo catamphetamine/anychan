@@ -51,7 +51,20 @@ const TRANSPARENT_PIXEL = {
 }
 
 export default function parseAttachment(file) {
-	const contentType = getContentTypeByFileType(file.type)
+	let contentType = getContentTypeByFileType(file.type)
+	// Fallback for incorrect attachments.
+	// (there were some cases supposedly in old threads)
+	if (!contentType) {
+		if (/\.jpg$/.test(file.path)) {
+			contentType = 'image/jpeg'
+		} else if (/\.jpeg$/.test(file.path)) {
+			contentType = 'image/jpeg'
+		} else if (/\.png$/.test(file.path)) {
+			contentType = 'image/png'
+		} else if (/\.gif$/.test(file.path)) {
+			contentType = 'image/gif'
+		}
+	}
 	if (contentType && contentType.indexOf('image/') === 0) {
 		return {
 			type: 'picture',
