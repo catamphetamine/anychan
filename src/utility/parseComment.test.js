@@ -125,7 +125,7 @@ export default function(parseComment) {
 			},
 			'\n',
 			{
-				type: 'quote',
+				type: 'inline-quote',
 				content: 'test'
 			},
 			'\n',
@@ -195,7 +195,7 @@ export default function(parseComment) {
 		[
 		  [
 		    {
-		      "type": "quote",
+		      "type": "inline-quote",
 		      "content": [
 		        "Отмечается, что в ходе ",
 		        {
@@ -233,7 +233,7 @@ export default function(parseComment) {
 			],
 			[
 				{
-					type: 'quote',
+					type: 'inline-quote',
 					content: 'Дискасс.'
 				}
 			]

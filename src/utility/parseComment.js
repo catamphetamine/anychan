@@ -147,7 +147,7 @@ const parseInlineQuote = {
 			content[0] = content[0].replace(/^>\s*/, '')
 		}
 		return {
-			type: 'quote',
+			type: 'inline-quote',
 			content
 		}
 	}
@@ -157,7 +157,7 @@ const parseQuote = {
 	opener: 'div class="quote">',
 	createBlock(content) {
 		return {
-			type: 'quote',
+			type: 'inline-quote',
 			content
 		}
 	}
