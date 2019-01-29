@@ -129,6 +129,13 @@ class CommentParser {
 	}
 }
 
+const parseParagraph = {
+	opener: 'p',
+	createBlock(content) {
+		return content
+	}
+}
+
 const parseNewLine = {
 	opener: 'br/>',
 	canContainChildren: false,
@@ -272,6 +279,7 @@ const parseColoredText = {
 }
 
 const PARSE_COMMENT_TEXT_PLUGINS = [
+	parseParagraph,
 	parseNewLine,
 	parseInlineQuote,
 	parseQuote,
