@@ -27,7 +27,7 @@ export default class ThreadPost extends React.Component {
 	}
 
 	render() {
-		const { post } = this.props
+		const { thread, post } = this.props
 		const { hidden } = this.state
 
 		if (!post) {
@@ -54,6 +54,7 @@ export default class ThreadPost extends React.Component {
 					{!hidden &&
 						<Post
 							post={post}
+							url={`https://2ch.hk/${thread.board}/res/${thread.id}.html#${post.id}`}
 							saveBandwidth
 							expandFirstPictureOrVideo={false}
 							attachmentThumbnailHeight={160} />
