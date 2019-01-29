@@ -85,6 +85,7 @@ class CommentParser {
 				endsAt = text.indexOf('>', contentEndsAt) + '>'.length
 				content = text.slice(contentStartsAt, contentEndsAt)
 				// If there are nested tags then maybe parse them.
+				// Post links seem to contain unescaped `>>`s which is a bug.
 				if (content.indexOf('<') >= 0) {
 					content = this.parseParagraph(content)
 				} else {
@@ -96,9 +97,9 @@ class CommentParser {
 			// Parse attributes.
 			const _attributes = []
 			if (attributes) {
-				const markup = text.slice(startsAt, openerEndsAt)
+				const markup = text.slice(startsAt, openerEndsAt + 1)
 				for (const attribute of attributes) {
-					const attributeDefinitionStartsAt = markup.indexOf(`${attribute}="`, startsAt + 1)
+					const attributeDefinitionStartsAt = markup.indexOf(`${attribute}="`)
 					if (attributeDefinitionStartsAt < 0) {
 						_attributes.push()
 						continue

@@ -240,6 +240,39 @@ export default function(parseComment) {
 		]
 	)
 
+	parseCommentTest(
+		"<a href=\"/v/res/3749775.html#3756724\" class=\"post-reply-link\" data-thread=\"3749775\" data-num=\"3756724\">>>3756724</a><br>А зачем тогда нужна концовка Гаруспика? У концовки Бакалавра смысл есть (<a href=\"/v/res/3749775.html#3755913\" class=\"post-reply-link\" data-thread=\"3749775\" data-num=\"3755913\">>>3755913</a>). У концовки Самозванки тоже смысл вроде как есть (<a href=\"/v/res/3749775.html#3755928\" class=\"post-reply-link\" data-thread=\"3749775\" data-num=\"3755928\">>>3755928</a>).",
+		[
+			[
+				{
+					"type": "post-link",
+					"threadId": "3749775",
+					"postId": "3756724",
+					"content": "3756724",
+					"url": "https://2ch.hk/v/res/3749775.html#3756724"
+				},
+				"\n",
+				"А зачем тогда нужна концовка Гаруспика? У концовки Бакалавра смысл есть (",
+				{
+					"type": "post-link",
+					"threadId": "3749775",
+					"postId": "3755913",
+					"content": "3755913",
+					"url": "https://2ch.hk/v/res/3749775.html#3755913"
+				},
+				"). У концовки Самозванки тоже смысл вроде как есть (",
+				{
+					"type": "post-link",
+					"threadId": "3749775",
+					"content": "3755928",
+					"postId": "3755928",
+					"url": "https://2ch.hk/v/res/3749775.html#3755928"
+				},
+				")."
+			]
+		]
+	)
+
 	// parseCommentTest(
 	// 	'<p style=\"color:green;\">',
 	// 	// Won't be implemented.
