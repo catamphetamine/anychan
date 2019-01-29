@@ -70,6 +70,8 @@ export const getPosts = redux.action(
 	(board, threadId, filters) => async http => {
 		const response = await http.get(`2ch://${board}/res/${threadId}.json`)
 		let posts = response.threads[0].posts
+		// Parse posts.
+		// const startedAt = Date.now()
 		const hiddenPostIds = posts.filter(_ => !filterComment(_.comment, filters)).map(_ => String(_.num))
 		posts = posts.map(_ => parsePost(_, response, { correctGrammar }))
 		for (const post of posts) {
@@ -80,6 +82,8 @@ export const getPosts = redux.action(
 			setInReplyToQuotes(post.content, posts, threadId)
 		}
 		setReplies(posts)
+		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
+		// Return result.
 		return {
 			posts,
 			board: {
