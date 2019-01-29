@@ -55,7 +55,8 @@ const DEFAULT_SETTINGS = {
 		  "говн.*",
 		  "нуфан.",
 		  "нюфан.",
-		  "ньюфан."
+		  "ньюфан.",
+		  "сучар."
 		],
 		ignoredWordsCaseSensitive: [
 	  	"РАБот.*"
