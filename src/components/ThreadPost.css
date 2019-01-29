@@ -5,3 +5,7 @@
 .post__inline-quote {
 	color: #B15E00;
 }
+
+.post__inline-spoiler--hidden {
+	background-color: #F0EFEB;
+}
