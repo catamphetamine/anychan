@@ -1,5 +1,8 @@
 import { ReduxModule } from 'react-website'
 
+import { getPostText } from 'webapp-frontend/src/utility/post'
+import trimText from 'webapp-frontend/src/utility/trimText'
+
 import parseBoard from '../utility/parseBoard'
 import groupBoardsByCategory from '../utility/groupBoardsByCategory'
 import parseThread from '../utility/parseThread'
@@ -44,9 +47,13 @@ export const getThreads = redux.action(
 		const hiddenThreadIds = threads.filter(_ => !filterComment(_.posts[0].comment, filters)).map(_ => _.thread_num)
 		threads = threads.map(_ => parseThread(_, response, { correctGrammar }))
 		for (const thread of threads) {
+			// Generate post preview text.
+			thread.posts[0].text = getPostText(thread.posts[0])
+			// Hide some threads.
 			if (hiddenThreadIds.includes(thread.id)) {
 				thread.posts[0].hidden = true
 			}
+			// Correct grammar in thread subjects.
 			thread.subject = thread.subject && correctGrammar(thread.subject)
 		}
 		return {
