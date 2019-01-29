@@ -1,4 +1,5 @@
-import limitLength from './limitLength'
+import { getPostText } from 'webapp-frontend/src/utility/post'
+import trimText from 'webapp-frontend/src/utility/trimText'
 
 /**
  * Adds "in-reply-to" quotes.
@@ -18,22 +19,20 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 		let postPeek
 		if (content.threadId === threadId) {
 			content.post = posts.find(_ => _.id === content.postId)
-			if (content.post && content.post.content) {
-				for (const part of content.post.content[0]) {
-					if (typeof part === 'string' && part !== '\n') {
-						postPeek = limitLength(part, 150)
-						const index = contentParent.indexOf(content)
-						const possibleQuote = contentParent[index + 2]
-						if (possibleQuote && possibleQuote.type === 'quote') {
-							// Already quoted.
-						} else {
-							// Only inject quotes when messages links are at the end of the line.
-							if (contentParent[index + 1] === '\n') {
-								contentParent.splice(index + 1, 0, '\n')
-								contentParent.splice(index + 2, 0, { type: 'quote', content: postPeek })
-							}
+			if (content.post) {
+				const text = getPostText(content.post)
+				if (text) {
+					postPeek = trimText(text, 150)
+					const index = contentParent.indexOf(content)
+					const possibleQuote = contentParent[index + 2]
+					if (possibleQuote && possibleQuote.type === 'inline-quote') {
+						// Already quoted.
+					} else {
+						// Only inject quotes when messages links are at the end of the line.
+						if (contentParent[index + 1] === '\n') {
+							contentParent.splice(index + 1, 0, '\n')
+							contentParent.splice(index + 2, 0, { type: 'inline-quote', automaticInReplyToQuote: true, content: postPeek })
 						}
-						break
 					}
 				}
 			}
