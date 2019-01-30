@@ -6,16 +6,19 @@ import trimText from 'webapp-frontend/src/utility/trimText'
  * Has some CPU usage.
  */
 export default function setInReplyToQuotes(content, posts, threadId, contentParent) {
+	if (!content) {
+		return
+	}
+	if (typeof content === 'string') {
+		return
+	}
 	if (Array.isArray(content)) {
 		for (const part of content) {
 			setInReplyToQuotes(part, posts, threadId, content)
 		}
 		return
 	}
-	if (typeof content === 'string') {
-		return
-	}
-	if (typeof content === 'object' && content.type === 'post-link') {
+	if (content.type === 'post-link') {
 		let postPeek
 		if (content.threadId === threadId) {
 			content.post = posts.find(_ => _.id === content.postId)
@@ -37,6 +40,5 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 				}
 			}
 		}
-		content.content = 'Сообщение'
 	}
 }

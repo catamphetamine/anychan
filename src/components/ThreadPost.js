@@ -36,6 +36,7 @@ export default class ThreadPost extends React.Component {
 
 		return (
 			<OnClick
+				id={post.id}
 				filter={postOnClickFilter}
 				onClick={this.onClick}
 				onClickClassName="thread__post-container--click"

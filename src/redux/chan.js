@@ -10,6 +10,7 @@ import parsePost from '../utility/parsePost'
 import filterComment from '../utility/filterComment'
 import correctGrammar from '../utility/correctGrammar'
 import setInReplyToQuotes from '../utility/setInReplyToQuotes'
+import setPostLinkUrls from '../utility/setPostLinkUrls'
 import setReplies from '../utility/setReplies'
 
 const redux = new ReduxModule()
@@ -53,6 +54,8 @@ export const getThreads = redux.action(
 			if (hiddenThreadIds.includes(thread.id)) {
 				thread.posts[0].hidden = true
 			}
+			// Set post links.
+			setPostLinkUrls(thread.posts[0])
 			// Correct grammar in thread subjects.
 			thread.subject = thread.subject && correctGrammar(thread.subject)
 		}
@@ -87,6 +90,7 @@ export const getPosts = redux.action(
 			}
 			post.subject = post.subject && correctGrammar(post.subject)
 			setInReplyToQuotes(post.content, posts, threadId)
+			setPostLinkUrls(post, threadId)
 		}
 		setReplies(posts)
 		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
