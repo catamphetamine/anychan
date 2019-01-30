@@ -17,7 +17,7 @@ export default function Footer() {
 				{' '}
 				ver. 0.0.1
 			</div>
-			<ApplicationMenu/>
+			<ApplicationMenu footer/>
 		</footer>
 	)
 }

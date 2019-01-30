@@ -8,10 +8,6 @@ import { getPosts } from '../redux/chan'
 import Boards from '../components/Boards'
 import ThreadPost from '../components/ThreadPost'
 
-import {
-	ContentSection
-} from 'webapp-frontend/src/components/ContentSection'
-
 import './Thread.css'
 
 @meta((state) => ({
@@ -34,9 +30,7 @@ export default class ThreadPage extends React.Component {
 			<section className="container">
 				<div className="row row--align-top">
 					<div className="col-3 col-xs-12">
-						<ContentSection>
-							<Boards/>
-						</ContentSection>
+						<Boards/>
 					</div>
 					<div className="col-9 col-xs-12 col--padding-left-xs">
 						{posts && posts.map((post) => (

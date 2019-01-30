@@ -5,13 +5,17 @@ import { connect } from 'react-redux'
 import { Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
+import {
+	ContentSection
+} from 'webapp-frontend/src/components/ContentSection'
+
 import './Boards.css'
 
 @connect(({ chan }) => ({
 	boardsBySpeed: chan.boardsBySpeed,
 	boardsByCategory: chan.boardsByCategory
 }))
-export default class Boards extends React.Component {
+class Boards extends React.Component {
 	state = {
 		view: 'by-speed'
 	}
@@ -140,4 +144,57 @@ class Board extends React.Component {
 
 Board.propTypes = {
 	boards: PropTypes.shape(boardShape)
+}
+
+function isBoardLocation({ location, params }) {
+	return params.board
+}
+
+function isThreadLocation({ location, params }) {
+	return params.thread
+}
+
+@connect(({ found }) => ({
+  route: found.resolvedMatch
+}))
+export default class BoardsComponent extends React.Component {
+	state = {
+		isExpanded: undefined
+	}
+
+	toggleBoardsList = (event) => {
+		this.setState({
+			isExpanded: !this.state.isExpanded
+		})
+	}
+
+	render() {
+		const { route } = this.props
+		let { isExpanded } = this.state
+		if (isExpanded === undefined) {
+			if (isBoardLocation(route) || isThreadLocation(route)) {
+				isExpanded = false
+			} else {
+				isExpanded = true
+			}
+		}
+		return (
+			<div>
+				<div className={classNames('boards__toggle-wrapper', {
+					'boards__toggle-wrapper--collapse-boards-list-on-small-screens': !isExpanded
+				})}>
+					<button
+						onClick={this.toggleBoardsList}
+						className="boards__toggle rrui__button-reset">
+						Показать список досок
+					</button>
+				</div>
+				<ContentSection className={classNames({
+					'boards__container--collapse-boards-list-on-small-screens': !isExpanded
+				})}>
+					<Boards/>
+				</ContentSection>
+			</div>
+		)
+	}
 }

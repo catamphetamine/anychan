@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Menu from './Menu'
 
@@ -19,13 +20,16 @@ import PersonIconFill from 'webapp-frontend/assets/images/icons/menu/person-fill
 
 import './ApplicationMenu.css'
 
-export default class ApplicationMenu extends React.Component
-{
-	render()
-	{
+export default class ApplicationMenu extends React.Component {
+	static propTypes = {
+		footer: PropTypes.bool
+	}
+
+	render() {
+		const { footer } = this.props
 		return (
 			<Menu className="application-menu">
-				{MENU_ITEMS}
+				{footer ? MENU_ITEMS_FOOTER : MENU_ITEMS}
 			</Menu>
 		)
 	}
@@ -64,3 +68,10 @@ const MENU_ITEMS = [{
 	outlineIcon: PersonIconOutline,
 	fillIcon: PersonIconFill
 }]
+
+const MENU_ITEMS_FOOTER = [{
+	link: '/',
+	outlineIcon: FeedIconOutline,
+	fillIcon: FeedIconFill
+},
+...MENU_ITEMS]

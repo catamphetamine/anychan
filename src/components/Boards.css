@@ -120,3 +120,31 @@
 		display: none;
 	}
 }
+
+.boards__toggle-wrapper {
+	display: none;
+	text-align: center;
+}
+
+.boards__toggle {
+	margin-top: var(--unit);
+	color: var(--base-color);
+	cursor: pointer;
+
+	&:active {
+		color: var(--base-color-dark);
+	}
+}
+
+.boards__toggle-wrapper--collapse-boards-list-on-small-screens {
+	display: none;
+	@mixin xs {
+		display: block;
+	}
+}
+
+.boards__container--collapse-boards-list-on-small-screens {
+	@mixin xs {
+		display: none;
+	}
+}
