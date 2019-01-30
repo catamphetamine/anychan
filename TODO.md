@@ -4,6 +4,34 @@
 
 * Можно перематывать на пост при переходе по ссылке вида `/board/thread#post`. Такую же перемотку можно сделать при нажатии на ссылках вида "Сообщение", потому что обычный "anchor" перематывает так, что перекрывается <Header/>-ом, а также router при этом подгружает страницу, что можно обойти используя `replaceLocation()`.
 
+* Можно сделать какой-нибудь архиватор треда. Картинки и видео можно скачивать в виде `Blob`'ов через `fetch()`. Далее эти `Blob`'ы можно упаковывать вместе с `index.html`, в котором может быть записан JSON постов треда, и через javascript этот JSON может отображаться в разметку `<body/>`. Далее, `index.html`, копия JSON'а и `Blob`'ы, видимо, могут быть записаны в ZIP-архив (тоже `Blob`), который уже потом может быть скачан из браузера в виде файла.
+
+```js
+const response = await fetch("url")
+response.blob()
+```
+
+```js
+var zip = new JSZip();
+
+zip.file("Hello.txt", "Hello World\n");
+
+var img = zip.folder("images");
+img.file("smile.gif", imgData, {base64: true});
+
+zip.generateAsync({type:"blob"}).then(function(content) {
+    // see FileSaver.js
+    saveAs(content, "example.zip");
+});
+
+/*
+Results in a zip containing
+Hello.txt
+images/
+    smile.gif
+*/
+```
+
 * Ссылки на `youtu.be` и `youtube.com` можно заменять на видео внутри поста, как если бы это был бы прикреплённый файл (по клику такое видео открывается в слайдшоу).
 
 * Могла бы быть какая-то проверка прокси при открытии страницы с выводом сообщения в случае неработы прокси.
