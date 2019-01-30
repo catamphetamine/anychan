@@ -182,6 +182,7 @@ export default function(parseComment) {
 		[
 			[{
 				type: 'post-link',
+				boardId: 'v',
 				threadId: '3475861',
 				postId: '3476088',
 				url: 'https://2ch.hk/v/res/3475861.html#3476088',
@@ -246,6 +247,7 @@ export default function(parseComment) {
 			[
 				{
 					"type": "post-link",
+					"boardId": "v",
 					"threadId": "3749775",
 					"postId": "3756724",
 					"content": "3756724",
@@ -255,6 +257,7 @@ export default function(parseComment) {
 				"А зачем тогда нужна концовка Гаруспика? У концовки Бакалавра смысл есть (",
 				{
 					"type": "post-link",
+					"boardId": "v",
 					"threadId": "3749775",
 					"postId": "3755913",
 					"content": "3755913",
@@ -263,6 +266,7 @@ export default function(parseComment) {
 				"). У концовки Самозванки тоже смысл вроде как есть (",
 				{
 					"type": "post-link",
+					"boardId": "v",
 					"threadId": "3749775",
 					"content": "3755928",
 					"postId": "3755928",

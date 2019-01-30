@@ -255,8 +255,10 @@ const parseLink = {
 	correctContent: false,
 	createBlock(content, [href, threadId, postId]) {
 		if (threadId) {
+			const boardId = href.match(/^\/([^\/]+)/)[1]
 			return {
 				type: 'post-link',
+				boardId,
 				threadId,
 				postId,
 				content: content.slice('>>'.length),
