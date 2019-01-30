@@ -1,6 +1,5 @@
 import routes  from './routes'
 import * as reducers from './redux'
-import getBasePath from './getBasePath'
 
 import { createConfig } from 'webapp-frontend/src/react-website.common'
 
@@ -23,3 +22,10 @@ export default createConfig({
 		}
 	}
 })
+
+// `gh-pages` will have `/chanchan` base path.
+function getBasePath() {
+	if (window.location.origin === 'https://catamphetamine.github.io') {
+		return window.location.pathname.slice(0, window.location.pathname.indexOf('/', '/'.length))
+	}
+}
