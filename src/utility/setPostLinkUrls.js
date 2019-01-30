@@ -9,13 +9,11 @@ export default function setPostLinkUrls(post, threadId) {
 	}
 	for (const postLink of findPostLinks(post.content)) {
 		postLink.content = 'Сообщение'
-		// Anchor links don't seem to work in the router.
-		// https://github.com/4Catalyzer/found/issues/239
-		// if (threadId === postLink.threadId) {
-		// 	postLink.url = `#${postLink.postId}`
-		// } else {
-		// 	postLink.url = `/${postLink.boardId}/${postLink.threadId}#${postLink.postId}`
-		// }
+		if (threadId === postLink.threadId) {
+			postLink.url = `#${postLink.postId}`
+		} else {
+			postLink.url = `/${postLink.boardId}/${postLink.threadId}#${postLink.postId}`
+		}
 	}
 }
 
