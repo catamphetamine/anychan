@@ -16,7 +16,6 @@ const redux = new ReduxModule()
 
 export const getBoards = redux.action(
 	() => async http => {
-		throw new Error(123)
 		// Remove this before pushing.
 		let response
 		// Development process optimization.
