@@ -80,15 +80,15 @@
 
 .webpage__header
 {
-	@mixin xs
-	{
+	/*
+	@mixin xs {
 		display : none;
 	}
 
-	@mixin ms
-	{
+	@mixin ms {
 		display : none;
 	}
+	*/
 
 	.menu
 	{

@@ -46,6 +46,7 @@ body
 
 	--footer-menu-height : calc(var(--unit) * 3);
 
+	/*
 	@mixin xs
 	{
 		--header-height : 0;
@@ -55,4 +56,5 @@ body
 	{
 		--header-height : 0;
 	}
+	*/
 }

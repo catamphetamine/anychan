@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ApplicationMenu from './ApplicationMenu'
+// import ApplicationMenu from './ApplicationMenu'
 
 import './Footer.css'
 
@@ -17,7 +17,7 @@ export default function Footer() {
 				{' '}
 				ver. 0.0.1
 			</div>
-			<ApplicationMenu footer/>
+			{/* <ApplicationMenu footer/> */}
 		</footer>
 	)
 }
