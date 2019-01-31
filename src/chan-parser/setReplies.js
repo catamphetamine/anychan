@@ -10,11 +10,10 @@ export default function setReplies(posts) {
 				const { threadId, postId } = postInfo
 				if (threadId === posts[0].id) {
 					const inReplyToPost = posts.find(_ => _.id === postId)
+					// Comments can be deleted.
 					if (inReplyToPost) {
 						inReplyToPost.replies = inReplyToPost.replies || []
 						inReplyToPost.replies.push(post)
-					} else {
-						console.warn(`Post #${postId} not found while setting replies`)
 					}
 				}
 			}

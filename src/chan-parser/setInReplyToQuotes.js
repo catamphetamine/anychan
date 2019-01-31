@@ -6,6 +6,7 @@ import trimText from 'webapp-frontend/src/utility/trimText'
  * Has some CPU usage.
  */
 export default function setInReplyToQuotes(content, posts, threadId, contentParent) {
+	// Post content can be empty.
 	if (!content) {
 		return
 	}
@@ -22,7 +23,8 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 		let postPeek
 		if (content.threadId === threadId) {
 			content.post = posts.find(_ => _.id === content.postId)
-			if (content.post) {
+			// Comments can be deleted.
+			if (content.post && !content.post.hidden) {
 				const text = getPostText(content.post, { excludeQuotes: true })
 				if (text) {
 					postPeek = trimText(text, 150)

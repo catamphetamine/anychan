@@ -8,13 +8,23 @@ export default function setPostLinkUrls(post, threadId) {
 		return
 	}
 	for (const postLink of findPostLinks(post.content)) {
-		postLink.content = 'Сообщение'
+		postLink.content = getPostLinkContent(postLink, threadId)
 		if (threadId === postLink.threadId) {
 			postLink.url = `#${postLink.postId}`
 		} else {
 			postLink.url = `/${postLink.boardId}/${postLink.threadId}#${postLink.postId}`
 		}
 	}
+}
+
+function getPostLinkContent(postLink, threadId) {
+	if (postLink.threadId === threadId && !postLink.post) {
+		return 'Удалённое сообщение'
+	}
+	if (postLink.post && postLink.post.hidden) {
+		return 'Скрытое сообщение'
+	}
+	return 'Сообщение'
 }
 
 function findPostLinks(part) {
