@@ -1,15 +1,15 @@
-import test from './parseComment.test'
+import test from './parseCommentText.test'
 
 import unescapeContent from './unescapeContent'
 import findClosingTagPosition from './findClosingTagPosition'
 import getHumanReadableLinkAddress from './getHumanReadableLinkAddress'
 
 // Returns an array of paragraphs.
-export default function parseComment(comment, options = {}) {
-	return new CommentParser(options).parse(comment)
+export default function parseCommentText(comment, options = {}) {
+	return new CommentTextParser(options).parse(comment)
 }
 
-class CommentParser {
+class CommentTextParser {
 	constructor(options = {}) {
 		this.options = options
 	}
@@ -37,7 +37,7 @@ class CommentParser {
 
 	// Returns an array of inline elements.
 	// Some of such inline elements may be empty strings
-	// which are later filtered by `parseComment()`.
+	// which are later filtered by `parseCommentText()`.
 	parseParagraph = (text) => {
 		// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
 		text = text.replace(/<br>/g, '<br/>')
@@ -306,4 +306,4 @@ const PARSE_COMMENT_TEXT_PLUGINS = [
 // 	return text
 // }
 
-test(parseComment)
+test(parseCommentText)

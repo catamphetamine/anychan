@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { getThreads } from '../redux/chan'
 
 import Boards from '../components/Boards'
-import ThreadPost from '../components/ThreadPost'
+import ThreadComment from '../components/ThreadComment'
 
 import './Board.css'
 
@@ -27,12 +27,12 @@ import './Board.css'
 	await dispatch(getThreads(params.board, 1, getState().account.settings.filters))
 })
 export default class BoardPage extends React.Component {
-	onPostClick = (post, thread) => {
+	onPostClick = (comment, thread, board) => {
 		const { goto } = this.props
-		goto(`/${thread.board}/${thread.id}`, { instantBack: true })
+		goto(`/${board.id}/${thread.id}`, { instantBack: true })
 	}
 	render() {
-		const { threads } = this.props
+		const { board, threads } = this.props
 		return (
 			<section className="container">
 				<div className="row row--align-top">
@@ -41,10 +41,11 @@ export default class BoardPage extends React.Component {
 					</div>
 					<div className="col-9 col-xs-12 col--padding-left-xs">
 						{threads && threads.map((thread) => (
-							<ThreadPost
-								key={thread.posts[0].id}
+							<ThreadComment
+								key={thread.comments[0].id}
+								board={board}
 								thread={thread}
-								post={thread.posts[0]}
+								comment={thread.comments[0]}
 								onClick={this.onPostClick}/>
 						))}
 					</div>

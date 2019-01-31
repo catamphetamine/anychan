@@ -1,14 +1,14 @@
 import parseAuthor from './parseAuthor'
 import parseSubjectFromComment from './parseSubjectFromComment'
 import parseAttachment from './parseAttachment'
-import parseComment from './parseComment'
+import parseCommentText from './parseCommentText'
 import getInReplyToPosts from './getInReplyToPosts'
 import unescapeContent from './unescapeContent'
 
 /**
  * Parses 2ch.hk thread JSON object.
  * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} response — 2ch.hk threads API JSON response (contains `default_name` and `Board`).
+ * @param  {object} options — `{ correctGrammar, defaultAuthor }`
  * @return {object}
  * @example
  * // Outputs:
@@ -65,14 +65,9 @@ import unescapeContent from './unescapeContent'
  * //     }
  * //   }]
  * // }
- * parseThread(...)
+ * parseComment(...)
  */
-export default function parsePost_(post, response, options = {}) {
-	options.defaultAuthor = response.default_name
-	return parsePost(post, options)
-}
-
-export function parsePost(post, options) {
+export default function parseComment(post, options) {
 	const { correctGrammar, defaultAuthor } = options
 	const id = String(post.num)
 	const author = parseAuthor(post.name, defaultAuthor)
@@ -102,7 +97,7 @@ export function parsePost(post, options) {
 		author,
 		authorRole: post.trip === '!!%adm%!!' ? 'administrator' : post.trip === '!!%mod%!!' ? 'moderator' : undefined,
 		subject: post.subject ? unescapeContent(post.subject) : undefined,
-		content: post.comment ? parseComment(post.comment, { parseParagraphs: false, correctGrammar }) : undefined,
+		content: post.comment ? parseCommentText(post.comment, { parseParagraphs: false, correctGrammar }) : undefined,
 		inReplyTo: post.comment ? getInReplyToPosts(post.comment) : undefined,
 		attachments: post.files.map(parseAttachment).map((attachment, i) => ({ id: i, ...attachment })),
 		createdAt: new Date(post.timestamp * 1000)

@@ -1,9 +1,9 @@
 import expectToEqual from './expectToEqual'
 import correctGrammar from './correctGrammar'
 
-export default function(parseComment) {
+export default function(parseCommentText) {
 	function parseCommentTest(comment, result) {
-		return expectToEqual(parseComment(comment, { parseParagraphs: true, correctGrammar }), result)
+		return expectToEqual(parseCommentText(comment, { parseParagraphs: true, correctGrammar }), result)
 	}
 
 	parseCommentTest(

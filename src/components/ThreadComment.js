@@ -10,52 +10,48 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import './ThreadPost.css'
+import './ThreadComment.css'
 
-export default class ThreadPost extends React.Component {
+export default class ThreadComment extends React.Component {
 	state = {
-		hidden: this.props.post.hidden
+		hidden: this.props.comment.hidden
 	}
 
 	onClick = () => {
-		const { thread, post, onClick } = this.props
+		const { board, thread, comment, onClick } = this.props
 		const { hidden } = this.state
 		if (hidden) {
 			return this.setState({ hidden: false })
 		}
-		onClick(post, thread)
+		onClick(comment, thread, board)
 	}
 
 	render() {
-		const { thread, post } = this.props
+		const { board, thread, comment } = this.props
 		const { hidden } = this.state
-
-		if (!post) {
-			return null
-		}
 
 		return (
 			<OnClick
-				id={post.id}
-				filter={postOnClickFilter}
+				id={comment.id}
+				filter={commentOnClickFilter}
 				onClick={this.onClick}
-				onClickClassName="thread__post-container--click"
-				className="thread__post-container">
+				onClickClassName="thread__comment-container--click"
+				className="thread__comment-container">
 				<ContentSection
-					className={classNames('thread__post', {
-						'thread__post--hidden': hidden,
-						'thread__post--with-subject': post.subject
+					className={classNames('thread__comment', {
+						'thread__comment--hidden': hidden,
+						'thread__comment--with-subject': comment.subject
 					})}>
 					{hidden && 'Сообщение скрыто'}
-					{!hidden && post.subject &&
+					{!hidden && comment.subject &&
 						<ContentSectionHeader>
-							{post.subject}
+							{comment.subject}
 						</ContentSectionHeader>
 					}
 					{!hidden &&
 						<Post
-							post={post}
-							url={`https://2ch.hk/${thread.board}/res/${thread.id}.html#${post.id}`}
+							post={comment}
+							url={`https://2ch.hk/${board.id}/res/${thread.id}.html#${comment.id}`}
 							saveBandwidth
 							expandFirstPictureOrVideo={false}
 							attachmentThumbnailHeight={160} />
@@ -66,18 +62,20 @@ export default class ThreadPost extends React.Component {
 	}
 }
 
-ThreadPost.propTypes = {
+ThreadComment.propTypes = {
 	onClick: PropTypes.func.isRequired,
-	post: PropTypes.shape({
+	board: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}),
 	thread: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		board: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired
+	}),
+	comment: PropTypes.shape({
+		id: PropTypes.string.isRequired
 	})
 }
 
-export function postOnClickFilter(element) {
+export function commentOnClickFilter(element) {
 	const tagName = element.tagName.toLowerCase()
 	switch (tagName) {
 		case 'img':

@@ -15,7 +15,7 @@ import './Header.css'
 @connect(({ chan, found }) => ({
 	board: chan.board,
 	thread: chan.thread,
-  route: found.resolvedMatch
+	route: found.resolvedMatch
 }))
 export default class Header extends React.Component {
 	render() {
@@ -63,7 +63,7 @@ export default class Header extends React.Component {
 							}
 							{isThreadLocation(route) && thread &&
 								<span className="header__thread-title">
-									{' → '}{thread.posts[0].subject || 'Тред'}
+									{' → '}{thread.comments[0].subject || 'Тред'}
 								</span>
 							}
 						</div>

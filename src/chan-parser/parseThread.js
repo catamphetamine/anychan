@@ -1,21 +1,21 @@
-import { parsePost } from './parsePost'
+import parseComment from './parseComment'
 
 /**
  * Parses 2ch.hk thread JSON object.
  * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} response — 2ch.hk threads API JSON response (contains `default_name` and `Board`).
+ * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar }`.
  * @return {object}
  * @example
  * // Outputs:
  * // {
  * //   id: '12345',
- * //   board: 'b',
+ * //   boardId: 'b',
  * //   author: 'Школьник',
  * //   subject: 'В этом треде аниме',
  * //   isClosed: false,
  * //   isEndless: false, // "endless" threads don't disappear.
  * //   isSticky: false,
- * //   posts: [{
+ * //   comments: [{
  * //     commentsCount: 18,
  * //     id: '45678',
  * //     author: 'Школьник №2',
@@ -72,25 +72,19 @@ import { parsePost } from './parsePost'
  * // }]
  * parseThread(...)
  */
-export default function parseThread_(thread, response, options = {}) {
-	options.defaultAuthor = response.default_name
-	options.boardId = response.Board
-	return parseThread(thread, options)
-}
-
-function parseThread(thread, options) {
+export default function parseThread(thread, options) {
 	const { correctGrammar, defaultAuthor, boardId } = options
 	const _post = thread.posts[0]
-	const post = parsePost(_post, options)
-	post.commentsCount = thread.posts_count
+	const comment = parseComment(_post, options)
+	comment.commentsCount = thread.posts_count
 	return {
-		id: post.id,
-		board: boardId,
+		id: comment.id,
+		boardId,
 		isClosed: _post.closed === 1,
 		isEndless: _post.endless === 1,
 		isSticky: _post.sticky === 1,
-		posts: [
-			post
+		comments: [
+			comment
 		]
 	}
 }
