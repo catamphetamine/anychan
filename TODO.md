@@ -1,3 +1,7 @@
+* `thread.id`, `comment.id` -> можно сделать числами. (`.num`)
+
+* Можно сделать `PropTypes` для thread, comment, board.
+
 * Можно передавать в `setPostLinkUrls` в options объект `messages` с переводами.
 
 * Menu `/profile` -> `/settings` (и иконку можно сменить на шестерёнку).
