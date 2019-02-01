@@ -1,3 +1,5 @@
+import test from './parseComments.test'
+
 import parseComment from './parseComment'
 import filterComment from './filterComment'
 import correctGrammar from './correctGrammar'
@@ -21,7 +23,6 @@ import setReplies from './setReplies'
  * //   thread: {
  * //     id: '12345',
  * //     boardId: 'vg',
- * //     subject: 'Subject',
  * //     ... See `parseThread.js`,
  * //     comments: [{
  * //       ... See `parseComment.js`
@@ -52,7 +53,9 @@ export default function parseComments(response, options = {}) {
 		if (hiddenCommentIds.includes(comment.id)) {
 			comment.hidden = true
 		}
-		comment.subject = comment.subject && correctGrammar(comment.subject)
+		if (comment.subject) {
+			comment.subject = correctGrammar(comment.subject)
+		}
 		setInReplyToQuotes(comment.content, comments, threadId)
 		setPostLinkUrls(comment, threadId)
 	}
@@ -73,3 +76,5 @@ export default function parseComments(response, options = {}) {
 		comments
 	}
 }
+
+test(parseComments)

@@ -18,10 +18,10 @@ export default function setPostLinkUrls(post, threadId) {
 }
 
 function getPostLinkContent(postLink, threadId) {
-	if (postLink.threadId === threadId && !postLink.post) {
+	if (postLink.threadId === threadId && postLink.postWasDeleted) {
 		return 'Удалённое сообщение'
 	}
-	if (postLink.post && postLink.post.hidden) {
+	if (postLink.post && postLink.postIsHidden) {
 		return 'Скрытое сообщение'
 	}
 	return 'Сообщение'

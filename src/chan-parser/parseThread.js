@@ -11,7 +11,6 @@ import parseComment from './parseComment'
  * //   id: '12345',
  * //   boardId: 'b',
  * //   author: 'Школьник',
- * //   subject: 'В этом треде аниме',
  * //   isClosed: false,
  * //   isEndless: false, // "endless" threads don't disappear.
  * //   isSticky: false,
@@ -73,7 +72,7 @@ import parseComment from './parseComment'
  * parseThread(...)
  */
 export default function parseThread(thread, options) {
-	const { correctGrammar, defaultAuthor, boardId } = options
+	const { boardId } = options
 	const _post = thread.posts[0]
 	const comment = parseComment(_post, options)
 	comment.commentsCount = thread.posts_count

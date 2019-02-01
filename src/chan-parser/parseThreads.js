@@ -18,15 +18,14 @@ import setPostLinkUrls from './setPostLinkUrls'
  * //     name: 'Video Games',
  * //     description: 'Video Games discussions'
  * //   },
- * //   thread: {
+ * //   threads: [{
  * //     id: '12345',
  * //     boardId: 'vg',
- * //     subject: 'Subject',
  * //     ... See `parseThread.js`,
  * //     comments: [{
  * //       ... See `parseComment.js`
  * //     }]
- * //   },
+ * //   }, ...],
  * //   pagesCount: 7
  * // }
  * parseThreads(response)
