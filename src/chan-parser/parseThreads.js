@@ -1,4 +1,4 @@
-import { getPostText } from 'webapp-frontend/src/utility/post'
+import getPostText from 'webapp-frontend/src/utility/getPostText'
 
 import parseThread from './parseThread'
 import filterComment from './filterComment'
