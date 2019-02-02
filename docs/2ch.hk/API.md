@@ -1,128 +1,124 @@
 # 2ch.hk API
 
-## Все посты из треда с номера поста по доске
+## Все посты из треда
 
 Страница треда:
-https://2ch.hk/abu/res/39220.html
+https://2ch.hk/<доска>/res/<номер-треда>.html
 
-Мобильный API:
-https://2ch.hk/makaba/mobile.fcgi?task=get_thread&board=abu&thread=39220&num=41955
+JSON API:
+https://2ch.hk/<доска>/res/<номер-треда>.json
 
-Массив объектов типа `post`.
-
-Первый `post` — тот, с которого запрошено; содержит `unique_posters` — возможно, количество уникальных пользователей, написавших комментарий в треде.
-
-`lasthit` — timestamp комментария, который является (на текущее время) "последним", "бампающим" данный тред; например, 500-ый комментарий в треде (или последний текущий, если меньше "бамп лимита" в треде).
+Ответ:
 
 ```js
-const parsedPost = {
-  id: parseInt(post.num),
-  author: post.name === 'Аноним' ? ((post.email !== 'mailto:sage' && post.email) || null) : post.name,
-  createdAt: new Date(post.timestamp * 1000),
-  content: post.comment,
-  banned: post.banned === 1,
-  upvotes: post.likes,
-  downvotes: post.dislikes,
-  attachments: files.map(file => ({
-    type: file.name ~ '.jpg' ? 'image/jpeg' : ...,
-    sizes: [{
-      width: file.width,
-      height: file.height,
-      url: `https://2ch.hk${file.path}`
-    }, {
-      width: file.tn_width,
-      height: file.tn_height,
-      url: `https://2ch.hk${file.thumbnail}`
-    }]
-  })),
-  inReplyTo: post.parent && post.parent !== '0' ? parseInt(post.parent) : null,
-  title: post.subject || null,
+{
+  "Board": "vg",
+  "BoardInfo": "Доска для постоянных тредов по игре",
+  "BoardInfoOuter": "Видеоигры, general, официальные треды", // хз
+  "BoardName": "Video Games General",
+  "current_thread": "id запрошенного треда",
+  "default_name": "Аноним",
+  "posts_count": 123, // количество постов в треде
+  "threads": [{
+    "posts": [] // массив объектов типа `post`.
+  }],
+  "title": "...", // видимо, то же самое, что `posts[0].subject`
+  "unique_posters": 7, // возможно, количество уникальных пользователей, написавших комментарий в треде.
+  "files_count": 3, // сколько файлов прикреплено к постам треда суммарно
+  "bump_limit": 1000, // сколько постов можно написать в тред до тех пор, пока он не перестанет от них "бампаться" (подниматься).
+  "is_board": 0, // хз
+  "is_closed": 0, // is the thread open or closed for comments
+  "is_index": 0,
+  "max_comment": 15000, // max comment length
+  "max_files_size": 40960, // max attachment size
+  "max_num": 3489385, // id самого "последнего" (на текущий момент) поста в треде.
+  "board_banner_image": "/ololo/kpop_7.gif", // баннер случайной доски
+  "board_banner_link": "kpop", // ссылка баннера случайной доски
+}
+```
+
+Объект типа `post`:
+
+```js
+{
+  "banned": 0, // забанен ли автор поста
+  "closed": 0, // закрыт ли тред
+  "comment": "...", // HTML код комментария
+  "date": "01/02/19 Птн 18:35:24", // "человекочитаемая" дата написания поста
+  "email": "", // "email" автора поста (с префиксом "mailto:"). пример: "mailto:sage".
+  "endless": 0, // "не тонущие" треды помечены единицей
+  "files": [{
+    "displayname": "photo2018-10-27[...]..png", // имя файла (ограниченное по длине)
+    "fullname": "photo2018-10-2705-29-50.png", // имя файла
+    "height": 768, // высота картинки или видео
+    "md5": "bc441048422b76dd41d626e1420fa0f7", // MD5 хеш файла
+    "name": "15490353246680.png", // имя файла на сервере
+    "nsfw": 0, // помечена ли эта картинка как "NSFW" (18+)
+    "path": "/vg/src/29102706/15490353246680.png", // URL картинки или видео
+    "size": 1611, // размер (в килобайтах) картинки или видео
+    "thumbnail": "/vg/thumb/29102706/15490353246680s.jpg", // URL уменьшенной картинки
+    "tn_height": 140, // высота уменьшенной картинки
+    "tn_width": 250, // ширина уменьшенной картинки
+    "type": 2, // тип файла (1 — jpeg, 2 — png, 4 — gif, 6 - webm, 10 — mp4, 100 — png стикер)
+    "width": 1363, // ширина картинки или видео
+    // Только для видео:
+    "duration": "00:00:53", // "человекочитаемая" длительность ролика
+    "duration_secs": 53 // длительность ролика в секундах
+  }],
+  "enable_likes": 0, // ставятся ли в этом треде лайки.
+  "enable_posting": 1, // хз
+  // "enable_images", "enable_video", ...
+  "lasthit": 1549117714, // timestamp комментария, который является (на текущее время) "последним", "бампающим" данный тред; например, 500-ый комментарий в треде (или последний текущий, если меньше "бамп лимита" в треде).
+  "name": "Аноним", // имя автора
+  "num": 29102706, // id поста
+  "number": 1, // порядковый номер поста в треде
+  "op": 0, // пост написал человек, создавший тред, или нет. хз, как это работает, т.к. оно не всегда работает. например, первый пост треда может быть помечен как `"op": 0`.
+  "parent": "0", // id поста, ответом на который является этот пост
+  "sticky": 0, // закреплён ли этот тред наверху в списке тредов доски. если не ноль, то будет порядковый номер закреплённого поста ("1" будет выше "2").
+  "subject": "Четырнадцатый двачкап", // "тема" поста
+  "tags": "lolcup",
+  "timestamp": 1549035324, // когда был отправлен пост (unix time)
+  "trip": "", // "трип-код"; для администраторов и модераторов тут ставится соответствующая метка
+  // Иногда бывают ещё:
+  "likes": 1, // количество "лайков"
+  "dislikes": 1, // количество "дизлайков"
+}
+
   originalPoster: post.op === 1 // unreliable, can be `post.op` === 0 for the opening post.
 }
 ```
 
-`const authorWasBanned = post.banned === 1`
+## Все посты из треда, начиная с id поста
 
-`post.endless` — `1`, если "бесконечный" тред (видимо, тот, который не "опускается" и не удаляется).
+JSON API:
+https://2ch.hk/makaba/mobile.fcgi?task=get_thread&board=abu&thread=1&num=1
 
-`post.sticky` — если не `0`, то, видимо, порядковый номер "закреплённого" поста.
+`board` — доска
 
-file:
+`thread` - id треда
 
-```json
-{
-  "duration": "",
-  "height": 509,
-  "md5": "5142804ce50908942ca21e81dd677bab",
-  "name": "14532556071840.jpg",
-  "path": "/abu/src/39220/14532556071840.jpg",
-  "size": 186,
-  "thumbnail": "/abu/thumb/39220/14532556071840s.jpg",
-  "tn_height": 169,
-  "tn_width": 200,
-  "type": 1,
-  "width": 600
-}
-```
+`num` — id поста, начиная с корого будет список постов в ответе.
 
-`type` — `1` для jpeg, `2` для png, `4` для gif, `6` для webm.
+Ответ: массив объектов типа `post` (см. выше).
 
-```
-"displayname": "photo2018-10-27[...].jpg"
-"fullname": "photo2018-10-2705-29-50.jpg"
-```
+## Все посты из треда, начиная с порядкового номера поста в треде
 
-Для видео:
-
-```
-"duration": "00:00:53"
-"duration_secs": 53
-```
-
-## Все посты из треда с номера поста по треду
-
+JSON API:
 https://2ch.hk/makaba/mobile.fcgi?task=get_thread&board=abu&thread=39220&post=252
 
-JSON треда:
+`board` — доска
 
-https://2ch.hk/v/res/3475861.json
+`thread` - id треда
 
-Cписок постов, начиная с 252-ого по счёту в треде.
+`num` — порядковый номер поста в треде, начиная с корого будет список постов в ответе.
 
-```js
-{
-  "BoardInfo": "Раздел для тредов о видеоиграх, игровой культуре и новостей игрового мира. Официальные и постоянные треды о конкретных играх в <a href=\"/vg/\">/vg/</a> | Конференция доски в Телеграме - <a href=\"https://telegram.me/ru2chvg\">@ru2chvg</a>",
-  "BoardInfoOuter": "Видеоигры, random", // hz
-  "BoardName": "Video Games",
-  default_name: 'Аноним',
-  max_comment: 15000, // max comment length
-  max_files_size: 40960, // max attachment size
-  bump_limit: 500,
-  enable_likes: 0,
-  enable_posting: 1, // hz
-  // enable_images, enable_video, ...
-  is_closed: 0, // is the thread open or closed for comments
-  posts_count: 456,
-  max_num: 3489385, // id самого "последнего" (на текущий момент) поста в треде.
-  title: '...',
-  threads: [{
-    posts: [instanceof `post`]
-  }],
-  unique_posters: 123
-}
-```
+Ответ: массив объектов типа `post` (см. выше).
 
-Изменения:
+## Список тредов доски
 
-`post.num` — число, а не строка
+https://2ch.hk/<доска>/<номер-страницы>.json
 
-`post.number` — порядковый номер поста
-
-`parent`: `0` — у первого поста в треде
-
-## Список тредов
-
-https://2ch.hk/доска/номерстраницы.json (первая страница: index)
+(первая страница: `index`, а не `0`)
 
 ```js
 {
@@ -135,11 +131,11 @@ https://2ch.hk/доска/номерстраницы.json (первая стра
 }
 ```
 
-## Все треды с сортировкой по последнему посту:
+## Список тредов доски с сортировкой по дате последнего поста
 
 (выводит список тредов, упорядоченных по дате "последнего" (на текущий момент) поста в них (самые новые — сверху); "тред" — в данном случае первый пост треда)
 
-https://2ch.hk/v/catalog.json
+https://2ch.hk/<доска>/catalog.json
 
 ```js
 {
@@ -173,13 +169,13 @@ https://2ch.hk/v/catalog.json
 "board_banner_link": "ukr",
 ```
 
-## Все треды с сортировкой по времени создания треда
+## Список тредов доски с сортировкой по времени создания треда
 
-https://2ch.hk/доска/catalog_num.json
+https://2ch.hk/<доска>/catalog_num.json
 
-## Все треды с доски(облегченный вариант, с просмотрами и рейтингом для топа тредов)
+## Список тредов доски (облегченный вариант, с просмотрами и рейтингом для "топа тредов")
 
-https://2ch.hk/доска/threads.json
+https://2ch.hk/<доска>/threads.json
 
 ```js
 {
@@ -199,6 +195,69 @@ https://2ch.hk/доска/threads.json
 
 ## Список досок
 
+https://2ch.hk/boards.json
+
+```js
+{
+  "global_boards": 158,
+  "global_posts": "363,061,097\u0000",
+  "global_speed": "1,406\u0000",
+  "is_index": 1,
+  "boards": [
+    {
+      "bump_limit": 500,
+      "category": "Разное",
+      "default_name": "Аноним",
+      "enable_names": 0,
+      "enable_sage": 1,
+      "id": "b",
+      "info": "бред",
+      "last_num": 190778973,
+      "name": "Бред",
+      "speed": 2690,
+      "threads": 210,
+      "unique_posters": 4137
+    },
+    {
+      "bump_limit": 500,
+      "category": "Взрослым",
+      "default_name": "Аноним",
+      "enable_names": 1,
+      "enable_sage": 1,
+      "id": "fag",
+      "info": "фагготрия, богини",
+      "last_num": 6924268,
+      "name": "Фагготрия",
+      "speed": 734,
+      "threads": 105,
+      "unique_posters": 2194
+    },
+    ...
+  ]
+}
+```
+
+## Список "пользовательских" досок
+
+https://2ch.hk/userboards.json
+
+```js
+{
+  "boards": [{
+    "id": "2d",
+    "info": "Щитпостинг, обсуждение вайфу, аватарки и прочее. Анимешный /b/, постинг 3d не приветствуется.",
+    "last_num": "793813",
+    "name": "Аниме/Беседка",
+    "speed": 15, // количество постов в час
+    "threads": 401
+    },
+    ...
+  ]
+}
+```
+
+## Список досок (по категориям)
+
 https://2ch.hk/makaba/mobile.fcgi?task=get_boards
 
 ```js
@@ -217,30 +276,12 @@ https://2ch.hk/makaba/mobile.fcgi?task=get_boards
     }, ...]
   },
   ...],
+  "Пользовательские": [{
+    ...
+  },
+  ...],
   ...
 }
-```
-
-Test cases `parseComment()`:
-
-```
-"<a href=\"/abu/res/39220.html#42006\" class=\"post-reply-link\" data-thread=\"39220\" data-num=\"42006\">>>42006</a><br>Text."
-
-"где &#47;e? даже после поста на &#47;test &#47;e не появляется"
-
-&#47; === /
-
-"Аноны не работает топ тредов с такой ошибкой:<br>На шаге &quot;[D]Плашка&quot; произошла ошибка:<br><br>ReferenceError: p_text is not defined<br>@<a href=\"https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:5141:1\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:5141:1</a><br>bmark@<a href=\"https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:1956:13\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:1956:13</a><br>@<a href=\"https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:1913:45\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;2ch.hk&#47;makaba&#47;templates&#47;js&#47;swag.js:1913:45</a><br>g&#47;<br>Как это пофиксить?"
-
-"<a href=\"/abu/res/39220.html#55954\" class=\"post-reply-link\" data-thread=\"39220\" data-num=\"55954\">>>55954</a><br><a href=\"/abu/res/39220.html#55953\" class=\"post-reply-link\" data-thread=\"39220\" data-num=\"55953\">>>55953</a><br>сдаюсь"
-
-"<a href=\"/v/res/3475861.html#3476088\" class=\"post-reply-link\" data-thread=\"3475861\" data-num=\"3476088\">>>3476088</a><br>&quot;Первая майндбрейк игра ребенка&quot;.<br><br><span class=\"unkfunc\">&gt;Игра действительно хороша.</span><br>Текст.",
-
-"<p style=\"color:red;\">Test</p><p style=\"color:green;\">Test</p><p style=\"color:blue;\">Test</p>",
-
-"<span class=\"spoiler\">&gt;<span class=\"s\">тест</span></span>" // s === strikethrough
-
-"<a href=\"/v/res/3492256.html#3512780\" class=\"post-reply-link\" data-thread=\"3492256\" data-num=\"3512780\">>>3512780</a><br>Двачую за шприц. Он нужен как минимум для стиля <a href=\"https:&#47;&#47;www.youtube.com&#47;watch?v=dIFbIUUo0OU\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;www.youtube.com&#47;watch?v=dIFbIUUo0OU</a><br>Алсо, забавная деталь с удушениями: <a href=\"https:&#47;&#47;www.youtube.com&#47;watch?v=MeqskaJ9Ek4\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;www.youtube.com&#47;watch?v=MeqskaJ9Ek4</a>"
 ```
 
 ## Поиск по темам доски (и ОП-постам)
@@ -271,57 +312,23 @@ task: search
 find: текст
 ```
 
-Можно сделать галку "Автообновления" треда (раз в 10 секунд).
-Или автообновлять текущую активную вкладку (тогда какой-то API текущей вкладки наверняка есть).
-Новые посты — выделять как-то, мб цветом фона (как вконтакте).
-Статус прочитанности менять по scrollTop >= post.bottomY (при двигании мышкой, при скролле, при таче).
+## Прочее
 
-
-Флаги:
+### Флаги
 
 ```
 "enable_flags": 1
 post: { ... "icon": "<img hspace=\"3\" src=\"/flags/KR.png\" border=\"0\" />", ... }
 ```
 
-"Трипкоды".
+### "Трипкоды"
 
 ```
 "trip": "!!%adm%!!" — админ двача (мб обезьяну).
 "trip": "!!%mod%!!" — модератор двача (шериф в пакете, или полиция мб)
 ```
 
-## Доски
-
-https://2ch.hk/boards.json
-
-```js
-{
-  "global_boards": 158,
-  "global_posts": "363,061,097\u0000",
-  "global_speed": "1,406\u0000",
-  "is_index": 1
-}
-```
-
-## Юзердоски
-
-https://2ch.hk/userboards.json
-
-```js
-"boards": [{
-  "id": "2d",
-  "info": "Щитпостинг, обсуждение вайфу, аватарки и прочее. Анимешный /b/, постинг 3d не приветствуется.",
-  "last_num": "793813",
-  "name": "Аниме/Беседка",
-  "speed": 15, // количество постов в час
-  "threads": 401
-  },
-  ...
-]
-```
-
-## Стикеры.
+### Стикеры.
 
 Список стикеров - https://2ch.hk/makaba/stickers/
 
@@ -341,3 +348,4 @@ https://2ch.hk/userboards.json
 Создавать паки могут абсолютно все.
 
 Для загрузки изображение PNG/GIF должно вписываться в квадрат 512x512 (одна сторона — от 200 до 512 пикселей, другая — 512 или меньше, но не менее 50)
+
