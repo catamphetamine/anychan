@@ -2,15 +2,15 @@ An alternative GUI for an imageboard (4chan, 8chan, 2ch).
 
 [Live Demo](https://catamphetamine.github.io/chanchan/)
 
-No longer in development.
+This is a demo showcase project and it has only a minimal set of features:
 
-Status:
-
-  * Basic browsing.
+  * Browsing.
   * No posting.
-  * No new post notifications.
+  * No new replies notifications.
 
 ## Screenshots
+
+(may become outdated)
 
 #### Board browsing
 
@@ -45,9 +45,7 @@ Inside `configuration` directory create configuration files:
 	"proxy": {
 		"template": "https://cors-anywhere.herokuapp.com/{url}"
 	},
-	"chan": {
-		"origin": "https://2ch.hk"
-	}
+	"defaultChan": "2ch"
 }
 ```
 
@@ -73,6 +71,7 @@ Inside `configuration` directory create configuration files:
 ## Develop
 
 ```
+cd chanchan
 npm run dev
 ```
 
@@ -81,6 +80,7 @@ Go to [`http://localhost:1234`](http://localhost:1234)
 ## Deploy
 
 ```
+cd chanchan
 npm run build
 ```
 
@@ -88,14 +88,24 @@ See the `build/assets` directory.
 
 ## Proxy
 
-In `./configuration/configuration.default.json` there's `proxy.template` setting. This is for CORS-proxying chan API.
+Chans (`2ch.hk`, `4chan.org`) don't allow calling their API from another websites by prohibiting [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for another website to be able to query chan API directly.
 
-Chans don't allow querying their API by a 3rd party (2ch.hk, 4chan.org), so a CORS proxy is required in order for a web browser to be able to query chan API directly.
+A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) is used in this demo project. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay (a couple of seconds) while querying chan API. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347). For production deployment a dedicated CORS proxy should be used.
 
-See the [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347). Public CORS proxies introduce an artificial delay and may have other restrictions. For production a dedicated CORS proxy should be used.
+In `./configuration/configuration.default.json` there's `proxy.template` setting — this is the CORS-proxy that will be used for querying chan API.
 
 ## Chan
 
-In `./configuration/configuration.default.json` there's `chan.origin` setting. This is the base URL for chan API.
+This demo project currently supports `2ch.hk` chan.
 
-[2ch.hk API](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
+<!-- and `4chan.org` chans.-->
+
+### 2ch.hk
+
+[API (official docs)](https://2ch.hk/api/)
+[API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
+
+### 4chan.org
+
+[API (official docs)](https://github.com/4chan/4chan-API)
+
