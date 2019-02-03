@@ -10,9 +10,9 @@ export default function setPostLinkUrls(post, threadId) {
 	for (const postLink of findPostLinks(post.content)) {
 		postLink.content = getPostLinkContent(postLink, threadId)
 		if (threadId === postLink.threadId) {
-			postLink.url = `#${postLink.postId}`
+			postLink.url = `#comment-${postLink.postId}`
 		} else {
-			postLink.url = `/${postLink.boardId}/${postLink.threadId}#${postLink.postId}`
+			postLink.url = `/${postLink.boardId}/${postLink.threadId}#comment-${postLink.postId}`
 		}
 	}
 }

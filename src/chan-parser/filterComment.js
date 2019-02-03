@@ -1,16 +1,51 @@
 /**
- * Returns `false` if the comment doesn't pass the filter.
- * @param  {string} comment
- * @return {boolean}
+ * Returns an object with reason if the comment doesn't pass the filter.
+ * @param  {string} comment — Comment HTML
+ * @param  {object} filters — Compiled filters
+ * @return {object} [reason] `{ name }`
  */
-export default function filterComment(comment, { ignoredWords, ignoredWordsCaseSensitive }) {
-  const ignoreWordsRegExp = new RegExp('^(' + ignoredWords.join('|') + ')$', 'i')
-  const ignoreWordsCaseSensitiveRegExp = new RegExp('^(' + ignoredWordsCaseSensitive.join('|') + ')$')
-	const words = comment.split(/[^а-яА-Я]+/)
-	for (const word of words) {
-		if (ignoreWordsRegExp.test(word) || ignoreWordsCaseSensitiveRegExp.test(word)) {
-			return false
+export default function filterComment(comment, {
+	ignoredWords,
+	ignoredWordsCaseSensitive,
+	ignoredPatterns,
+	ignoredPatternsCaseSensitive
+}) {
+	// Case-insensitive words.
+	// (a naive approach)
+	for (const name of Object.keys(ignoredWords)) {
+		if (ignoredWords[name].test(comment)) {
+			return {
+				name
+			}
 		}
 	}
-	return true
+	// Case-sensitive words.
+	// (a naive approach)
+	for (const name of Object.keys(ignoredWordsCaseSensitive)) {
+		if (ignoredWordsCaseSensitive[name].test(comment)) {
+			return {
+				name
+			}
+		}
+	}
+	// Case-insensitive patterns.
+	for (const name of Object.keys(ignoredPatterns)) {
+		for (const pattern of ignoredPatterns[name]) {
+			if (pattern.test(comment)) {
+				return {
+					name
+				}
+			}
+		}
+	}
+	// Case-sensitive patterns.
+	for (const name of Object.keys(ignoredPatternsCaseSensitive)) {
+		for (const pattern of ignoredPatternsCaseSensitive[name]) {
+			if (pattern.test(comment)) {
+				return {
+					name
+				}
+			}
+		}
+	}
 }

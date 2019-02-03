@@ -1,14 +1,14 @@
 import getPostText from 'webapp-frontend/src/utility/getPostText'
 
 import parseThread from './parseThread'
-import filterComment from './filterComment'
 import correctGrammar from './correctGrammar'
 import setPostLinkUrls from './setPostLinkUrls'
+import compileFilters from './compileFilters'
 
 /**
  * Parses chan API response for threads list.
  * @param  {object} response — Chan API response for threads list
- * @param  {object} [options] — Can contain `filters` for ignored words filters
+ * @param  {object} [options] — `{ filters, getAttachmentUrl }`
  * @return {object}
  * @example
  * // Returns:
@@ -30,26 +30,17 @@ import setPostLinkUrls from './setPostLinkUrls'
  * // }
  * parseThreads(response)
  */
-export default function parseThreads(response, options = {}) {
-	const { filters } = options
-	let hiddenThreadIds = []
-	if (filters) {
-		hiddenThreadIds = response.threads
-			.filter(_ => !filterComment(_.posts[0].comment, filters))
-			.map(_ => _.thread_num)
-	}
+export default function parseThreads(response, { filters, getAttachmentUrl }) {
 	const threads = response.threads.map(_ => parseThread(_, {
 		defaultAuthor: response.default_name,
 		boardId: response.Board,
-		correctGrammar
+		correctGrammar,
+		filters: filters ? compileFilters(filters) : undefined,
+		getAttachmentUrl
 	}))
 	for (const thread of threads) {
 		// Generate comment preview text.
 		thread.comments[0].text = getPostText(thread.comments[0])
-		// Hide some threads.
-		if (hiddenThreadIds.includes(thread.id)) {
-			thread.comments[0].hidden = true
-		}
 		// Set comment links.
 		setPostLinkUrls(thread.comments[0])
 		// Correct grammar in thread subjects.
@@ -62,6 +53,6 @@ export default function parseThreads(response, options = {}) {
 			description: response.BoardInfo
 		},
 		threads,
-		pagesCount: response.pages.length - 1
+		// pagesCount: response.pages.length
 	}
 }

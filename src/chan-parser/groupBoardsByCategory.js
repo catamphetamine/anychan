@@ -1,6 +1,6 @@
 /**
- * Groups 2ch.hk boards into categories.
- * @param  {object[]} boards — 2ch.hk parsed boards.
+ * Groups boards into categories.
+ * @param  {object[]} boards — parsed boards.
  * @return {object}
  * @example
  * // Outputs: `{ 'Аниме': [..., ...], 'Политика': [..., ...] }`.

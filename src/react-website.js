@@ -1,6 +1,7 @@
 import routes  from './routes'
 import * as reducers from './redux'
 
+import { getChan } from './chan'
 import { createConfig } from 'webapp-frontend/src/react-website.common'
 
 // Uncomment for "server-side-rendering" build.
@@ -12,13 +13,21 @@ export default createConfig({
 	routes,
 	reducers,
 
+	meta: {
+		site_name   : 'chanchan',
+		title       : 'chanchan',
+		description : 'An experimental GUI for an imageboard',
+		image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg',
+		locales     : ['ru_RU', 'en_US']
+	},
+
 	// `gh-pages` will have `/chanchan` base path.
 	basename: getBasePath(),
 
 	transformURL(url) {
-		// Pass all `2ch://` requests to chan API server.
-		if (url.indexOf('2ch://') === 0) {
-			return configuration.chanApiBaseURL + '/' + url.slice('2ch://'.length)
+		// Pass all `chan://` requests to chan API server.
+		if (url.indexOf('chan://') === 0) {
+			return getChan().getApiUrl('/' + url.slice('chan://'.length))
 		}
 	}
 })

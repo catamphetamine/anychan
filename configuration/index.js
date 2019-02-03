@@ -1,24 +1,15 @@
-import merge from 'lodash/merge'
+const merge = require('lodash/merge')
+const path = require('path')
+const fs = require('fs')
 
-import defaultConfiguration from './configuration.default'
-import developmentConfiguration from './configuration.development'
-import productionConfiguration from './configuration.production'
+const defaultConfiguration = require('./default.json')
 
-const configuration = merge({}, defaultConfiguration)
-
-// https://github.com/webpack-contrib/webpack-serve/issues/81#issuecomment-378469110
-export default configuration
-
-if (process.env.NODE_ENV === 'production') {
-	merge(configuration, productionConfiguration)
-} else {
-	merge(configuration, developmentConfiguration)
+let customConfiguration
+if (fs.existsSync(path.join(__dirname, 'configuration.json'))) {
+	customConfiguration = require(path.join(__dirname, 'configuration.json'))
 }
 
-// For services like Amazon Elastic Compute Cloud and Heroku
-if (process.env.PORT) {
-	configuration.webserver.port = process.env.PORT
-}
+const configuration = merge({}, defaultConfiguration, customConfiguration)
 
 // For passing custom configuration via an environment variable.
 // For frameworks like Docker.
@@ -30,3 +21,5 @@ if (process.env.CONFIGURATION) {
 		console.error(error)
 	}
 }
+
+module.exports = configuration

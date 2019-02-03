@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { preload, meta } from 'react-website'
 
+import configuration from '../configuration'
 import { getSettings, saveSettings } from '../redux/account'
 
 import './Settings.css'

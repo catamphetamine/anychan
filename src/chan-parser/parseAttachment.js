@@ -50,7 +50,7 @@ const TRANSPARENT_PIXEL = {
 	}]
 }
 
-export default function parseAttachment(file) {
+export default function parseAttachment(file, { getAttachmentUrl, boardId }) {
 	let contentType = getContentTypeByFileType(file.type)
 	// Fallback for incorrect attachments.
 	// (there were some cases supposedly in old threads)
@@ -74,11 +74,11 @@ export default function parseAttachment(file) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `https://2ch.hk${file.thumbnail}`
+					url: getAttachmentUrl(file.thumbnail, { boardId })
 				}, {
 					width: file.width,
 					height: file.height,
-					url: `https://2ch.hk${file.path}`
+					url: getAttachmentUrl(file.path, { boardId })
 				}]
 			}
 		}
@@ -92,7 +92,7 @@ export default function parseAttachment(file) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `https://2ch.hk${file.thumbnail}`
+					url: getAttachmentUrl(file.thumbnail, { boardId })
 				}]
 			}
 		} else {
@@ -112,7 +112,7 @@ export default function parseAttachment(file) {
 					sizes: [{
 						width: file.width,
 						height: file.height,
-						url: `https://2ch.hk${file.path}`
+						url: getAttachmentUrl(file.path, { boardId })
 					}]
 				},
 				picture

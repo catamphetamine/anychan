@@ -33,41 +33,6 @@ cd chanchan
 npm install
 ```
 
-Inside `configuration` directory create configuration files:
-
-#### configuration.default.json
-
-```json
-{
-	"youtube": {
-		"apiKey": "AIzaSyAnevDb1iuwVgXk-j5UCcJn-Xqvsygjo8Y"
-	},
-	"proxy": {
-		"template": "https://cors-anywhere.herokuapp.com/{url}"
-	},
-	"defaultChan": "2ch"
-}
-```
-
-#### configuration.development.json
-
-```json
-{
-	"webpack": {
-		"devserver": {
-			"host": "localhost",
-			"port": 1234
-		}
-	}
-}
-```
-
-#### configuration.production.json
-
-```json
-{}
-```
-
 ## Develop
 
 ```
@@ -92,7 +57,7 @@ Chans (`2ch.hk`, `4chan.org`) don't allow calling their API from another website
 
 A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) is used in this demo project. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay (a couple of seconds) while querying chan API. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347). For production deployment a dedicated CORS proxy should be used.
 
-In `./configuration/configuration.default.json` there's `proxy.template` setting — this is the CORS-proxy that will be used for querying chan API.
+In `./configuration/configuration.default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API.
 
 ## Chan
 
@@ -109,3 +74,24 @@ This demo project currently supports `2ch.hk` chan.
 
 [API (official docs)](https://github.com/4chan/4chan-API)
 
+<!--
+## Configuration
+
+By default the application uses `./configuration/default.json` settings.
+
+To define custom settins create `configuration.json` file in the `./configuration` directory:
+
+#### configuration.json
+
+```js
+{
+	// (optional)
+	"youtube": {
+		"apiKey": "..."
+	},
+	...
+}
+```
+
+Any settings in `configuration.json` will override the corresponding settings in `default.json`.
+-->

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { preload, meta, Loading } from 'react-website'
+import { meta, preload, Loading } from 'react-website'
 
 // Not importing `Tooltip.css` because
 // it's already loaded as part of `react-responsive-ui`.
@@ -28,16 +28,8 @@ import { getSettings } from '../redux/account'
 
 import './Application.css'
 
-// `react-time-ago` language.
-setDefaultLocale('ru')
-
-@meta(() => ({
-	site_name   : 'chanchan',
-	title       : 'chanchan',
-	description : 'An experimental GUI for an imageboard',
-	image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg',
-	locale      : 'ru_RU',
-	locales     : ['ru_RU', 'en_US']
+@meta((state) => ({
+	locale: getHTMLLocaleFromLanguage(state.account.settings.locale)
 }))
 @connect(({ slideshow }) => ({
 	slideshowIndex: slideshow.index,
@@ -47,7 +39,9 @@ setDefaultLocale('ru')
 	closeSlideshow
 })
 @preload(async ({ dispatch }) => {
-	dispatch(getSettings())
+	const settings = await dispatch(getSettings())
+	// `react-time-ago` language.
+	setDefaultLocale(settings.locale)
 	await dispatch(getBoards())
 }, {
 	blocking: true
@@ -97,5 +91,16 @@ export default class App extends React.Component
 				</div>
 			</div>
 		)
+	}
+}
+
+function getHTMLLocaleFromLanguage(language) {
+	switch (language) {
+		case 'ru':
+			return 'ru_RU'
+		case 'en':
+			return 'en_US'
+		default:
+			throw new Error(`Unsupported language: ${language}`)
 	}
 }

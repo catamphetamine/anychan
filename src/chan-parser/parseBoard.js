@@ -1,6 +1,6 @@
 /**
- * Parses 2ch.hk board JSON object
- * @param  {object} board — 2ch.hk board JSON object
+ * Parses response board JSON object
+ * @param  {object} board — Response board JSON object
  * @return {object}
  * @example
  * // Outputs:

@@ -1,7 +1,5 @@
 import correctQuotes from './correctQuotes'
 
-import test from './correctGrammar.test'
-
 /**
  * Corrects text grammar (naive implementation).
  * @param  {string} text
@@ -46,5 +44,3 @@ export default function correctGrammar(text) {
 	// (must not preceed other regexps having a quote)
 	return correctQuotes(text)
 }
-
-test(correctGrammar)

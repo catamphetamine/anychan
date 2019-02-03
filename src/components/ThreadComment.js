@@ -10,6 +10,8 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
+import { getChan } from '../chan'
+
 import './ThreadComment.css'
 
 export default class ThreadComment extends React.Component {
@@ -17,62 +19,90 @@ export default class ThreadComment extends React.Component {
 		hidden: this.props.comment.hidden
 	}
 
+	toggleShowHide = () => {
+		this.setState(({ hidden }) => ({
+			hidden: !hidden
+		}))
+	}
+
 	onClick = () => {
 		const { board, thread, comment, onClick } = this.props
 		const { hidden } = this.state
 		if (hidden) {
-			return this.setState({ hidden: false })
+			return this.toggleShowHide()
 		}
 		onClick(comment, thread, board)
 	}
 
 	render() {
-		const { board, thread, comment } = this.props
+		const {
+			onClick,
+			getUrl,
+			board,
+			thread,
+			comment
+		} = this.props
+
 		const { hidden } = this.state
 
 		return (
 			<OnClick
-				id={comment.id}
+				id={`comment-${comment.id}`}
 				filter={commentOnClickFilter}
-				onClick={this.onClick}
+				onClick={hidden || onClick ? this.onClick : undefined}
+				link={hidden || onClick ? getUrl(board, thread, comment) : undefined}
 				onClickClassName="thread__comment-container--click"
 				className="thread__comment-container">
-				<ContentSection
-					className={classNames('thread__comment', {
-						'thread__comment--hidden': hidden,
-						'thread__comment--with-subject': comment.subject
-					})}>
-					{hidden && 'Сообщение скрыто'}
-					{!hidden && comment.subject &&
-						<ContentSectionHeader>
-							{comment.subject}
-						</ContentSectionHeader>
-					}
-					{!hidden &&
-						<Post
-							post={comment}
-							url={`https://2ch.hk/${board.id}/res/${thread.id}.html#${comment.id}`}
-							saveBandwidth
-							expandFirstPictureOrVideo={false}
-							attachmentThumbnailHeight={160} />
-					}
-				</ContentSection>
+				<Comment
+					comment={comment}
+					hidden={hidden}
+					url={getUrl(board, thread, comment)}/>
 			</OnClick>
 		)
 	}
 }
 
 ThreadComment.propTypes = {
-	onClick: PropTypes.func.isRequired,
+	getUrl: PropTypes.func.isRequired,
+	onClick: PropTypes.func,
 	board: PropTypes.shape({
 		id: PropTypes.string.isRequired
-	}),
+	}).isRequired,
 	thread: PropTypes.shape({
 		id: PropTypes.string.isRequired
-	}),
-	comment: PropTypes.shape({
-		id: PropTypes.string.isRequired
-	})
+	}).isRequired,
+	comment: PropTypes.object.isRequired
+}
+
+function Comment({ comment, hidden, url }) {
+	return (
+		<ContentSection
+			className={classNames('thread__comment', {
+				'thread__comment--hidden': hidden,
+				'thread__comment--with-subject': comment.subject
+			})}>
+			{hidden && 'Сообщение скрыто'}
+			{!hidden && comment.subject &&
+				<ContentSectionHeader>
+					{comment.subject}
+				</ContentSectionHeader>
+			}
+			{!hidden &&
+				<Post
+					post={comment}
+					url={url}
+					saveBandwidth
+					expandFirstPictureOrVideo={false}
+					attachmentThumbnailHeight={160} />
+			}
+		</ContentSection>
+	)
+}
+
+Comment.propTypes = {
+	comment: PropTypes.object.isRequired,
+	hidden: PropTypes.bool,
+	url: PropTypes.string.isRequired,
 }
 
 export function commentOnClickFilter(element) {

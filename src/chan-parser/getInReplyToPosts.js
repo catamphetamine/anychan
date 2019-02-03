@@ -1,5 +1,3 @@
-import test from './getInReplyToPosts.test'
-
 const IN_REPLY_TO_REGEXP = ' data-thread="(.+?)" data-num="(.+?)">'
 
 /**
@@ -27,5 +25,3 @@ export default function getInReplyToPosts(comment) {
 		}
 	})
 }
-
-test(getInReplyToPosts)

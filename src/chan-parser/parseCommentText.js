@@ -1,5 +1,3 @@
-import test from './parseCommentText.test'
-
 import unescapeContent from './unescapeContent'
 import findClosingTagPosition from './findClosingTagPosition'
 import getHumanReadableLinkAddress from './getHumanReadableLinkAddress'
@@ -305,5 +303,3 @@ const PARSE_COMMENT_TEXT_PLUGINS = [
 // 	}
 // 	return text
 // }
-
-test(parseCommentText)

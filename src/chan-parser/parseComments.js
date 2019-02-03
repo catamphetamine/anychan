@@ -1,16 +1,14 @@
-import test from './parseComments.test'
-
 import parseComment from './parseComment'
-import filterComment from './filterComment'
 import correctGrammar from './correctGrammar'
 import setInReplyToQuotes from './setInReplyToQuotes'
 import setPostLinkUrls from './setPostLinkUrls'
 import setReplies from './setReplies'
+import compileFilters from './compileFilters'
 
 /**
  * Parses chan API response for thread comments list.
  * @param  {object} response — Chan API response for thread comments list
- * @param  {object} [options] — Can contain `filters` for ignored words filters
+ * @param  {object} [options] — `{ filters, getAttachmentUrl }`
  * @return {object}
  * @example
  * // Returns:
@@ -34,25 +32,18 @@ import setReplies from './setReplies'
  * // }
  * parseComments(response)
  */
-export default function parseComments(response, options = {}) {
-	const { filters } = options
+export default function parseComments(response, { filters, getAttachmentUrl }) {
+	const boardId = response.Board
 	const thread = response.threads[0]
-	// const startedAt = Date.now()
-	let hiddenCommentIds = []
-	if (filters) {
-		hiddenCommentIds = thread.posts
-			.filter(_ => !filterComment(_.comment, filters))
-			.map(_ => String(_.num))
-	}
 	const comments = thread.posts.map(_ => parseComment(_, {
+		boardId,
 		defaultAuthor: response.default_name,
-		correctGrammar
+		correctGrammar,
+		filters: filters ? compileFilters(filters) : undefined,
+		getAttachmentUrl
 	}))
 	const threadId = comments[0].id
 	for (const comment of comments) {
-		if (hiddenCommentIds.includes(comment.id)) {
-			comment.hidden = true
-		}
 		if (comment.subject) {
 			comment.subject = correctGrammar(comment.subject)
 		}
@@ -64,7 +55,7 @@ export default function parseComments(response, options = {}) {
 	// Return result.
 	return {
 		board: {
-			id: response.Board,
+			id: boardId,
 			name: response.BoardName,
 			description: response.BoardInfo
 		},
@@ -76,5 +67,3 @@ export default function parseComments(response, options = {}) {
 		comments
 	}
 }
-
-test(parseComments)

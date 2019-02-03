@@ -1,11 +1,9 @@
 // Base Webpack configuration.
-//
-// Not using ES6 syntax here because this file
-// is not processed with Babel on server side.
-// See `./rendering-service/index.js` for more info.
 
-const path = require('path')
-const webpack = require('webpack')
+import path from 'path'
+import webpack from 'webpack'
+
+import configuration from '../configuration'
 
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 
@@ -102,8 +100,11 @@ module.exports =
 
 	// Plugins will be added to this array by extending configurations.
 	plugins: [
-    new webpack.ProvidePlugin({
-      configuration: [path.resolve(PROJECT_ROOT, 'src/configuration'), 'default']
+    // new webpack.ProvidePlugin({
+    //   configuration_: [path.resolve(PROJECT_ROOT, 'src/configuration_'), 'default']
+    // })
+    new webpack.DefinePlugin({
+      configuration_: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'src/configuration_')).default)
     })
 	]
 }

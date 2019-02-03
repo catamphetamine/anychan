@@ -1,5 +1,3 @@
-import test from './parseSubjectFromComment.test.js'
-
 export default function parseSubjectFromComment(comment) {
 	const match = comment.match(/^<strong>(?:<em>)?([^<]+)(?:<br>)?(?:<\/em>)?<\/strong>(?:(?:<br><br>)(.+))?$/)
 	if (match) {
@@ -9,5 +7,3 @@ export default function parseSubjectFromComment(comment) {
 		}
 	}
 }
-
-test(parseSubjectFromComment)

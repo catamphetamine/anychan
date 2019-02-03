@@ -29,7 +29,10 @@ import './Board.css'
 export default class BoardPage extends React.Component {
 	onPostClick = (comment, thread, board) => {
 		const { goto } = this.props
-		goto(`/${board.id}/${thread.id}`, { instantBack: true })
+		goto(this.getUrl(board, thread, comment), { instantBack: true })
+	}
+	getUrl = (board, thread, comment) => {
+		return `/${board.id}/${thread.id}`
 	}
 	render() {
 		const { board, threads } = this.props
@@ -46,7 +49,8 @@ export default class BoardPage extends React.Component {
 								board={board}
 								thread={thread}
 								comment={thread.comments[0]}
-								onClick={this.onPostClick}/>
+								onClick={this.onPostClick}
+								getUrl={this.getUrl}/>
 						))}
 					</div>
 				</div>

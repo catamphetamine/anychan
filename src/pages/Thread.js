@@ -8,6 +8,8 @@ import { getComments } from '../redux/chan'
 import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
 
+import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+
 import './Thread.css'
 
 @meta((state) => ({
@@ -22,8 +24,8 @@ import './Thread.css'
 	await dispatch(getComments(params.board, params.thread, getState().account.settings.filters))
 })
 export default class ThreadPage extends React.Component {
-	onCommentClick = (comment, thread, board) => {
-		openExternalLink(`https://2ch.hk/${board.id}/res/${thread.id}.html#${comment.id}`)
+	getUrl = (board, thread, comment) => {
+		return `/${board.id}/${thread.id}#${comment.id}`
 	}
 	render() {
 		const {
@@ -44,19 +46,11 @@ export default class ThreadPage extends React.Component {
 								board={board}
 								thread={thread}
 								comment={comment}
-								onClick={this.onCommentClick}/>
+								getUrl={this.getUrl}/>
 						))}
 					</div>
 				</div>
 			</section>
 		)
 	}
-}
-
-// Opens external link in a new tab.
-function openExternalLink(url) {
-	const link = document.createElement('a')
-	link.setAttribute('href', url)
-	link.setAttribute('target', '_blank')
-	link.click()
 }

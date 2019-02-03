@@ -1,5 +1,3 @@
-import test from './correctQuotes.test'
-
 /**
  * Intelligently replaces single quotes (`""`) with paired ones (`«»`).
  * @param  {string} text
@@ -39,5 +37,3 @@ function countCharacterOccurrences(string, character) {
 	}
 	return occurrences
 }
-
-test(correctQuotes)

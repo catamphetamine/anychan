@@ -5,4 +5,5 @@ require('@babel/polyfill')
 require('./styles/style.css')
 
 // Run the application.
+require('./initialize').default()
 require('./render').default().catch(error => console.error(error))

@@ -4,11 +4,12 @@ import parseAttachment from './parseAttachment'
 import parseCommentText from './parseCommentText'
 import getInReplyToPosts from './getInReplyToPosts'
 import unescapeContent from './unescapeContent'
+import filterComment from './filterComment'
 
 /**
- * Parses 2ch.hk thread JSON object.
- * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} options — `{ correctGrammar, defaultAuthor }`
+ * Parses response thread JSON object.
+ * @param  {object} thread — Response thread JSON object.
+ * @param  {object} options — `{ correctGrammar, filters, defaultAuthor, getAttachmentUrl, boardId }`
  * @return {object}
  * @example
  * // Outputs:
@@ -65,8 +66,13 @@ import unescapeContent from './unescapeContent'
  * // }
  * parseComment(...)
  */
-export default function parseComment(post, options) {
-	const { correctGrammar, defaultAuthor } = options
+export default function parseComment(post, {
+	boardId,
+	filters,
+	correctGrammar,
+	defaultAuthor,
+	getAttachmentUrl
+}) {
 	const id = String(post.num)
 	const author = parseAuthor(post.name, defaultAuthor)
 	if (post.subject) {
@@ -85,15 +91,14 @@ export default function parseComment(post, options) {
 			post.comment = match.comment
 			// If the post subject is all caps then convert it to normal case.
 			if (!/[а-я]/.test(post.subject) && /[А-Я]/.test(post.subject)) {
-				post.subject = post.subject.toLowerCase()
-				post.subject = post.subject.replace(/([а-я])/, _ => _.toUpperCase())
+				post.subject = post.subject.toLowerCase().replace(/([а-я])/, _ => _.toUpperCase())
 			}
 		}
 	}
 	const comment = {
 		id,
 		inReplyTo: post.comment ? getInReplyToPosts(post.comment) : [],
-		attachments: post.files.map(parseAttachment), // .map((attachment, i) => ({ id: i + 1, ...attachment })),
+		attachments: post.files.map(_ => parseAttachment(_, { getAttachmentUrl, boardId })),
 		createdAt: new Date(post.timestamp * 1000)
 	}
 	if (post.subject) {
@@ -101,6 +106,13 @@ export default function parseComment(post, options) {
 	}
 	if (post.comment) {
 		comment.content = parseCommentText(post.comment, { parseParagraphs: false, correctGrammar })
+	}
+	if (filters) {
+		const reason = filterComment(post.comment, filters)
+		if (reason) {
+			comment.hidden = true
+			comment.hiddenReason = reason
+		}
 	}
 	if (author) {
 		comment.author = author
