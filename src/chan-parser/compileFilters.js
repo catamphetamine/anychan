@@ -37,4 +37,5 @@ export default function compileFilters({
 			filters.ignoredPatternsCaseSensitive[name].push(new RegExp(pattern))
 		}
 	}
+	return filters
 }
