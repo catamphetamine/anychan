@@ -24,7 +24,7 @@ import './Board.css'
 	goto
 })
 @preload(async ({ getState, dispatch, params }) => {
-	await dispatch(getThreads(params.board, 1, getState().account.settings.filters))
+	await dispatch(getThreads(params.board, getState().account.settings.filters))
 })
 export default class BoardPage extends React.Component {
 	onPostClick = (comment, thread, board) => {

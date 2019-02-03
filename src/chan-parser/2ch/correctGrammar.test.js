@@ -1,5 +1,6 @@
-import { describe, it } from './mocha'
-import expectToEqual from './expectToEqual'
+import { describe, it } from '../mocha'
+import expectToEqual from '../expectToEqual'
+
 import correctGrammar from './correctGrammar'
 
 describe('correctGrammar', () => {

@@ -1,12 +1,18 @@
-import { describe, it } from './mocha'
-import expectToEqual from './expectToEqual'
-import parseCommentText from './parseCommentText'
 import correctGrammar from './correctGrammar'
+import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
+
+import { describe, it } from '../mocha'
+import expectToEqual from '../expectToEqual'
+import parseCommentText from '../parseCommentText'
 
 describe('parseCommentText', () => {
 	it('should parse comment text', () => {
 		function parseCommentTest(comment, result) {
-			return expectToEqual(parseCommentText(comment, { parseParagraphs: true, correctGrammar }), result)
+			return expectToEqual(parseCommentText(comment, {
+				parseParagraphs: true,
+				correctGrammar,
+				parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
+			}), result)
 		}
 
 		parseCommentTest(
@@ -186,8 +192,8 @@ describe('parseCommentText', () => {
 				[{
 					type: 'post-link',
 					boardId: 'v',
-					threadId: '3475861',
-					postId: '3476088',
+					threadId: 3475861,
+					postId: 3476088,
 					url: 'https://2ch.hk/v/res/3475861.html#3476088',
 					content: '3476088'
 				}]
@@ -251,8 +257,8 @@ describe('parseCommentText', () => {
 					{
 						"type": "post-link",
 						"boardId": "v",
-						"threadId": "3749775",
-						"postId": "3756724",
+						"threadId": 3749775,
+						"postId": 3756724,
 						"content": "3756724",
 						"url": "https://2ch.hk/v/res/3749775.html#3756724"
 					},
@@ -261,8 +267,8 @@ describe('parseCommentText', () => {
 					{
 						"type": "post-link",
 						"boardId": "v",
-						"threadId": "3749775",
-						"postId": "3755913",
+						"threadId": 3749775,
+						"postId": 3755913,
 						"content": "3755913",
 						"url": "https://2ch.hk/v/res/3749775.html#3755913"
 					},
@@ -270,9 +276,9 @@ describe('parseCommentText', () => {
 					{
 						"type": "post-link",
 						"boardId": "v",
-						"threadId": "3749775",
+						"threadId": 3749775,
 						"content": "3755928",
-						"postId": "3755928",
+						"postId": 3755928,
 						"url": "https://2ch.hk/v/res/3749775.html#3755928"
 					},
 					")."

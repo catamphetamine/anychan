@@ -34,20 +34,17 @@ export const getBoards = redux.action(
 )
 
 export const getThreads = redux.action(
-	(boardId, page, filters) => async http => {
+	(boardId, filters) => async http => {
 		const response = await http.get(`chan://${boardId}/catalog.json`)
 		// const startedAt = Date.now()
 		const {
 			board,
-			threads,
-			pagesCount
+			threads
 		} = createParser({ filters }).parseThreads(response)
 		// console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		return {
 			board,
-			threads,
-			threadsPage: page,
-			threadsPagesCount: pagesCount
+			threads
 		}
 	},
 	(state, result) => ({
@@ -93,5 +90,12 @@ function getParser() {
 
 function createParser(options) {
 	const Parser = getParser()
-	return new Parser(options)
+	return new Parser({
+		...options,
+		messages: {
+			deletedPost: 'Удалённое сообщение',
+			hiddenPost: 'Скрытое сообщение',
+			quotedPost: 'Сообщение'
+		}
+	})
 }

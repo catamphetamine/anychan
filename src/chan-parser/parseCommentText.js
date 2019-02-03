@@ -1,14 +1,19 @@
 import unescapeContent from './unescapeContent'
 import findClosingTagPosition from './findClosingTagPosition'
-import getHumanReadableLinkAddress from './getHumanReadableLinkAddress'
 
-// Returns an array of paragraphs.
+/**
+ * Parses comment HTML.
+ * Returns an array of paragraphs.
+ * @param  {object} comment
+ * @param  {object} options — `{ plugins }`
+ * @return {any[][]}
+ */
 export default function parseCommentText(comment, options = {}) {
 	return new CommentTextParser(options).parse(comment)
 }
 
 class CommentTextParser {
-	constructor(options = {}) {
+	constructor(options) {
 		this.options = options
 	}
 
@@ -40,7 +45,7 @@ class CommentTextParser {
 		// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
 		text = text.replace(/<br>/g, '<br/>')
 		// text = removeInvalidClosingTags(text)
-		for (const plugin of PARSE_COMMENT_TEXT_PLUGINS) {
+		for (const plugin of this.options.parseCommentTextPlugins) {
 			const parsed = this.parseHtmlTag(text, plugin)
 			if (parsed) {
 				return parsed.filter(_ => _)
@@ -126,176 +131,6 @@ class CommentTextParser {
 		return text
 	}
 }
-
-const parseParagraph = {
-	opener: 'p',
-	createBlock(content) {
-		return content
-	}
-}
-
-const parseNewLine = {
-	opener: 'br/>',
-	canContainChildren: false,
-	createBlock() {
-		return '\n'
-	}
-}
-
-const parseInlineQuote = {
-	opener: 'span class="unkfunc">',
-	createBlock(content) {
-		// `> abc` -> `abc`
-		if (typeof content === 'string') {
-			content = content.replace(/^>\s*/, '')
-		} else {
-			content[0] = content[0].replace(/^>\s*/, '')
-		}
-		return {
-			type: 'inline-quote',
-			content
-		}
-	}
-}
-
-const parseQuote = {
-	opener: 'div class="quote">',
-	createBlock(content) {
-		return {
-			type: 'inline-quote',
-			content
-		}
-	}
-}
-
-const parseBold = {
-	opener: 'strong',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'bold',
-			content
-		}
-	}
-}
-
-const parseItalic = {
-	opener: 'em',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'italic',
-			content
-		}
-	}
-}
-
-const parseSubscript = {
-	opener: 'sub',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'subscript',
-			content
-		}
-	}
-}
-
-const parseSuperscript = {
-	opener: 'sup',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'superscript',
-			content
-		}
-	}
-}
-
-const parseStrikethrough = {
-	opener: 'span class="s"',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'strikethrough',
-			content
-		}
-	}
-}
-
-const parseSpoiler = {
-	opener: 'span class="spoiler"',
-	createBlock(content) {
-		return {
-			type: 'spoiler',
-			content
-		}
-	}
-}
-
-const parseUnderline = {
-	opener: 'span class="u"',
-	createBlock(content) {
-		return content
-	}
-}
-
-const parseOverline = {
-	opener: 'span class="o"',
-	createBlock(content) {
-		return content
-	}
-}
-
-const parseLink = {
-	opener: 'a ',
-	attributes: ['href', 'data-thread', 'data-num'],
-	correctContent: false,
-	createBlock(content, [href, threadId, postId]) {
-		if (threadId) {
-			const boardId = href.match(/^\/([^\/]+)/)[1]
-			return {
-				type: 'post-link',
-				boardId,
-				threadId,
-				postId,
-				content: content.slice('>>'.length),
-				url: `https://2ch.hk${href}`
-			}
-		}
-		return {
-			type: 'link',
-			content: getHumanReadableLinkAddress(content),
-			url: href
-		}
-	}
-}
-
-const parseSpan = {
-	opener: 'span',
-	attributes: ['style'],
-	createBlock(content, [style]) {
-		// style="color: red;"
-		return content
-	}
-}
-
-const PARSE_COMMENT_TEXT_PLUGINS = [
-	parseParagraph,
-	parseNewLine,
-	parseInlineQuote,
-	parseQuote,
-	parseLink,
-	parseBold,
-	parseItalic,
-	parseStrikethrough,
-	parseUnderline,
-	parseOverline,
-	parseSpoiler,
-	parseSubscript,
-	parseSuperscript,
-	parseSpan
-]
 
 // function removeInvalidClosingTags(text) {
 // 	const firstTagStartsAt = text.indexOf('<')

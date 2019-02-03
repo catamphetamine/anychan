@@ -157,7 +157,7 @@ describe('2ch.hk', () => {
 		}
 
 		const OPENING_COMMENT = {
-			"id": "28727050",
+			"id": 28727050,
 			"subject": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
 			"content": [
 				[
@@ -319,14 +319,14 @@ describe('2ch.hk', () => {
 
 		const REST_COMMENTS = [
 			{
-				"id": "28942787",
+				"id": 28942787,
 				"content": [
 					[
 						{
 							"type": "post-link",
 							"boardId": "vg",
-							"threadId": "28727050",
-							"postId": "28942338",
+							"threadId": 28727050,
+							"postId": 28942338,
 							"content": "Удалённое сообщение",
 							"url": "#comment-28942338",
 							"postWasDeleted": true
@@ -339,26 +339,23 @@ describe('2ch.hk', () => {
 					]
 				],
 				"inReplyTo": [
-					{
-						"threadId": "28727050",
-						"postId": "28942338"
-					}
+					28942338
 				],
 				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:20:06.000Z"),
 				"replies": [
-					"28943045"
+					28943045
 				]
 			},
 			{
-				"id": "28942793",
+				"id": 28942793,
 				"content": [
 					[
 						{
 							"type": "post-link",
 							"boardId": "vg",
-							"threadId": "28727050",
-							"postId": "28942773",
+							"threadId": 28727050,
+							"postId": 28942773,
 							"content": "Удалённое сообщение",
 							"url": "#comment-28942773",
 							"postWasDeleted": true
@@ -368,26 +365,23 @@ describe('2ch.hk', () => {
 					]
 				],
 				"inReplyTo": [
-					{
-						"threadId": "28727050",
-						"postId": "28942773"
-					}
+					28942773
 				],
 				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:20:51.000Z"),
 				"replies": [
-					"28943045"
+					28943045
 				]
 			},
 			{
-				"id": "28943045",
+				"id": 28943045,
 				"content": [
 					[
 						{
 							"type": "post-link",
 							"boardId": "vg",
-							"threadId": "28727050",
-							"postId": "28942787",
+							"threadId": 28727050,
+							"postId": 28942787,
 							"content": "Сообщение",
 							"url": "#comment-28942787"
 						},
@@ -403,8 +397,8 @@ describe('2ch.hk', () => {
 						{
 							"type": "post-link",
 							"boardId": "vg",
-							"threadId": "28727050",
-							"postId": "28942908",
+							"threadId": 28727050,
+							"postId": 28942908,
 							"content": "Удалённое сообщение",
 							"url": "#comment-28942908",
 							"postWasDeleted": true
@@ -415,8 +409,8 @@ describe('2ch.hk', () => {
 						{
 							"type": "post-link",
 							"boardId": "vg",
-							"threadId": "28727050",
-							"postId": "28942793",
+							"threadId": 28727050,
+							"postId": 28942793,
 							"content": "Сообщение",
 							"url": "#comment-28942793"
 						},
@@ -431,18 +425,9 @@ describe('2ch.hk', () => {
 					]
 				],
 				"inReplyTo": [
-					{
-						"threadId": "28727050",
-						"postId": "28942787"
-					},
-					{
-						"threadId": "28727050",
-						"postId": "28942908"
-					},
-					{
-						"threadId": "28727050",
-						"postId": "28942793"
-					}
+					28942787,
+					28942908,
+					28942793
 				],
 				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:47:03.000Z")
@@ -450,7 +435,13 @@ describe('2ch.hk', () => {
 		]
 
 		expectToEqual(
-			new Parser().parseComments(API_RESPONSE_1),
+			new Parser({
+				messages: {
+					deletedPost: 'Удалённое сообщение',
+					hiddenPost: 'Скрытое сообщение',
+					quotedPost: 'Сообщение'
+				}
+			}).parseComments(API_RESPONSE_1),
 			{
 				board: {
 					id: 'vg',

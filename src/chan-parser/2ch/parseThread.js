@@ -8,7 +8,7 @@ import parseComment from './parseComment'
  * @example
  * // Outputs:
  * // {
- * //   id: '12345',
+ * //   id: 12345,
  * //   boardId: 'b',
  * //   author: 'Школьник',
  * //   isClosed: false,
@@ -19,10 +19,9 @@ import parseComment from './parseComment'
  * //     id: '45678',
  * //     author: 'Школьник №2',
  * //     content: ...,
- * //     inReplyTo: [{
- * //       threadId: '12345',
- * //       postId: '45677'
- * //     }],
+ * //     inReplyTo: [
+ * //       45677
+ * //     ],
  * //     createdAt: ...,
  * //     attachments: [{
  * //       id: 1,
@@ -73,15 +72,17 @@ import parseComment from './parseComment'
  */
 export default function parseThread(thread, options) {
 	const { boardId, page } = options
-	const _post = page === undefined ? thread : thread.posts[0]
-	const comment = parseComment(_post, options)
+	const comment = parseComment(thread, {
+		...options,
+		threadId: parseInt(thread.num)
+	})
 	comment.commentsCount = thread.posts_count
 	return {
 		id: comment.id,
 		boardId,
-		isClosed: _post.closed === 1,
-		isEndless: _post.endless === 1,
-		isSticky: _post.sticky === 1,
+		isClosed: thread.closed === 1,
+		isEndless: thread.endless === 1,
+		isSticky: thread.sticky === 1,
 		comments: [
 			comment
 		]

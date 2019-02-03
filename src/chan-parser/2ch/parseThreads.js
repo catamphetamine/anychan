@@ -2,8 +2,9 @@ import getPostText from 'webapp-frontend/src/utility/getPostText'
 
 import parseThread from './parseThread'
 import correctGrammar from './correctGrammar'
-import setPostLinkUrls from './setPostLinkUrls'
-import compileFilters from './compileFilters'
+
+import setPostLinkUrls from '../setPostLinkUrls'
+import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for threads list.
@@ -25,24 +26,29 @@ import compileFilters from './compileFilters'
  * //     comments: [{
  * //       ... See `parseComment.js`
  * //     }]
- * //   }, ...],
- * //   pagesCount: 7
+ * //   }, ...]
  * // }
  * parseThreads(response)
  */
-export default function parseThreads(response, { filters, getAttachmentUrl }) {
+export default function parseThreads(response, {
+	filters,
+	getAttachmentUrl,
+	messages,
+	parseCommentTextPlugins
+}) {
 	const threads = response.threads.map(_ => parseThread(_, {
 		defaultAuthor: response.default_name,
 		boardId: response.Board,
-		correctGrammar,
 		filters: filters ? compileFilters(filters) : undefined,
-		getAttachmentUrl
+		correctGrammar,
+		getAttachmentUrl,
+		parseCommentTextPlugins
 	}))
 	for (const thread of threads) {
 		// Generate comment preview text.
 		thread.comments[0].text = getPostText(thread.comments[0])
 		// Set comment links.
-		setPostLinkUrls(thread.comments[0])
+		setPostLinkUrls(thread.comments[0], thread.comments[0].num, { messages })
 		// Correct grammar in thread subjects.
 		thread.subject = thread.subject && correctGrammar(thread.subject)
 	}
@@ -52,7 +58,6 @@ export default function parseThreads(response, { filters, getAttachmentUrl }) {
 			name: response.BoardName,
 			description: response.BoardInfo
 		},
-		threads,
-		// pagesCount: response.pages.length
+		threads
 	}
 }

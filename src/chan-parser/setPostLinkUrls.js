@@ -3,12 +3,12 @@
  * @param {object[]} posts
  * @param {string} [threadId] — If passed then same page link URLs will be set (when appropriate).
  */
-export default function setPostLinkUrls(post, threadId) {
+export default function setPostLinkUrls(post, threadId, { messages }) {
 	if (!post.content) {
 		return
 	}
 	for (const postLink of findPostLinks(post.content)) {
-		postLink.content = getPostLinkContent(postLink, threadId)
+		postLink.content = getPostLinkContent(postLink, threadId, { messages })
 		if (threadId === postLink.threadId) {
 			postLink.url = `#comment-${postLink.postId}`
 		} else {
@@ -17,14 +17,14 @@ export default function setPostLinkUrls(post, threadId) {
 	}
 }
 
-function getPostLinkContent(postLink, threadId) {
+function getPostLinkContent(postLink, threadId, { messages }) {
 	if (postLink.threadId === threadId && postLink.postWasDeleted) {
-		return 'Удалённое сообщение'
+		return messages.deletedPost
 	}
 	if (postLink.post && postLink.postIsHidden) {
-		return 'Скрытое сообщение'
+		return messages.hiddenPost
 	}
-	return 'Сообщение'
+	return messages.quotedPost
 }
 
 function findPostLinks(part) {

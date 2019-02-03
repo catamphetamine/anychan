@@ -1,9 +1,10 @@
 import parseComment from './parseComment'
 import correctGrammar from './correctGrammar'
-import setInReplyToQuotes from './setInReplyToQuotes'
-import setPostLinkUrls from './setPostLinkUrls'
-import setReplies from './setReplies'
-import compileFilters from './compileFilters'
+
+import setInReplyToQuotes from '../setInReplyToQuotes'
+import setPostLinkUrls from '../setPostLinkUrls'
+import setReplies from '../setReplies'
+import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for thread comments list.
@@ -32,15 +33,22 @@ import compileFilters from './compileFilters'
  * // }
  * parseComments(response)
  */
-export default function parseComments(response, { filters, getAttachmentUrl }) {
+export default function parseComments(response, {
+	filters,
+	getAttachmentUrl,
+	messages,
+	parseCommentTextPlugins
+}) {
 	const boardId = response.Board
 	const thread = response.threads[0]
 	const comments = thread.posts.map(_ => parseComment(_, {
 		boardId,
+		threadId: thread.posts[0].num,
 		defaultAuthor: response.default_name,
-		correctGrammar,
 		filters: filters ? compileFilters(filters) : undefined,
-		getAttachmentUrl
+		correctGrammar,
+		getAttachmentUrl,
+		parseCommentTextPlugins
 	}))
 	const threadId = comments[0].id
 	for (const comment of comments) {
@@ -48,7 +56,7 @@ export default function parseComments(response, { filters, getAttachmentUrl }) {
 			comment.subject = correctGrammar(comment.subject)
 		}
 		setInReplyToQuotes(comment.content, comments, threadId)
-		setPostLinkUrls(comment, threadId)
+		setPostLinkUrls(comment, threadId, { messages })
 	}
 	setReplies(comments)
 	// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)

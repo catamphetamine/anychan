@@ -1,6 +1,7 @@
-import { describe, it } from './mocha'
-import expectToEqual from './expectToEqual'
 import parseSubjectFromComment from './parseSubjectFromComment'
+
+import { describe, it } from '../mocha'
+import expectToEqual from '../expectToEqual'
 
 describe('parseSubjectFromComment', () => {
 	it('should parse subject from comment', () => {

@@ -1,0 +1,5 @@
+import parseSubjectFromComment from './parseSubjectFromComment.test.js'
+import correctGrammar from './correctGrammar.test.js'
+import parseComments from './parseComments.test.js'
+import getInReplyToPosts from './getInReplyToPosts.test.js'
+import parseCommentText from './parseCommentText.test.js'

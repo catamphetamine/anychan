@@ -1,12 +1,29 @@
-import Parser from '../Parser'
+import parseBoards from './parseBoards'
+import parseThreads from './parseThreads'
+import parseComments from './parseComments'
 
-export default class DvachParser extends Parser {
+import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
+
+export default class DvachParser {
 	constructor(options) {
-		super({
+		this.options = {
 			...options,
+			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS,
 			getAttachmentUrl(path, { boardId }) {
 				return `https://2ch.hk${path}`
 			}
-		})
+		}
+	}
+
+	parseBoards(response) {
+		return parseBoards(response, this.options)
+	}
+
+	parseThreads(response) {
+		return parseThreads(response, this.options)
+	}
+
+	parseComments(response) {
+		return parseComments(response, this.options)
 	}
 }

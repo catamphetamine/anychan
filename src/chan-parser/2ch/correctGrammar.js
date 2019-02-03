@@ -1,4 +1,4 @@
-import correctQuotes from './correctQuotes'
+import correctQuotes from '../correctQuotes'
 
 /**
  * Corrects text grammar (naive implementation).
