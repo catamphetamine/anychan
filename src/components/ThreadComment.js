@@ -45,19 +45,33 @@ export default class ThreadComment extends React.Component {
 
 		const { hidden } = this.state
 
+		const commentElement = (
+			<Comment
+				comment={comment}
+				hidden={hidden}
+				url={getUrl(board, thread, comment)}/>
+		)
+
+		if (hidden || onClick) {
+			return (
+				<OnClick
+					id={`comment-${comment.id}`}
+					filter={commentOnClickFilter}
+					onClick={hidden || onClick ? this.onClick : undefined}
+					link={hidden || onClick ? getUrl(board, thread, comment) : undefined}
+					onClickClassName="thread__comment-container--click"
+					className="thread__comment-container">
+					{commentElement}
+				</OnClick>
+			)
+		}
+
 		return (
-			<OnClick
+			<div
 				id={`comment-${comment.id}`}
-				filter={commentOnClickFilter}
-				onClick={hidden || onClick ? this.onClick : undefined}
-				link={hidden || onClick ? getUrl(board, thread, comment) : undefined}
-				onClickClassName="thread__comment-container--click"
 				className="thread__comment-container">
-				<Comment
-					comment={comment}
-					hidden={hidden}
-					url={getUrl(board, thread, comment)}/>
-			</OnClick>
+				{commentElement}
+			</div>
 		)
 	}
 }
