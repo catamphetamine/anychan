@@ -1,7 +1,8 @@
 An alternative GUI for an imageboard (4chan, 8chan, 2ch).
 
-[`2ch.hk` Demo](https://catamphetamine.github.io/chanchan/)
-[`4chan.org` Demo](https://catamphetamine.github.io/chanchan/?chan=4chan)
+[`2ch.hk` demo](https://catamphetamine.github.io/chanchan/)
+
+[`4chan.org` demo](https://catamphetamine.github.io/chanchan/?chan=4chan)
 
 This is a demo showcase project and it has only a minimal set of features:
 
