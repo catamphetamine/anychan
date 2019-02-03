@@ -33,9 +33,9 @@ export default class SettingsPage extends React.Component {
 			<section className="container">
 				<h1>Settings</h1>
 				<form onSubmit={this.onSubmit}>
-					<h3>Chan API URL (proxied)</h3>
+					<h3>CORS Proxy URL</h3>
 					<pre>
-						{configuration.chanApiBaseURL}
+						{configuration.corsProxyUrl}
 					</pre>
 
 					<h3>Filters</h3>
