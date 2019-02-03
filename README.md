@@ -74,6 +74,7 @@ This demo project currently supports `2ch.hk` and `4chan.org` chans.
 ### 4chan.org
 
 * [API (official docs)](https://github.com/4chan/4chan-API)
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md)
 
 <!--
 ## Configuration
