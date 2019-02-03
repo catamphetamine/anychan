@@ -18,6 +18,9 @@ import MessageIconFill from 'webapp-frontend/assets/images/icons/menu/message-fi
 import PersonIconOutline from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
 import PersonIconFill from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
 
+import SettingsIconOutline from 'webapp-frontend/assets/images/icons/menu/settings-outline.svg'
+import SettingsIconFill from 'webapp-frontend/assets/images/icons/menu/settings-fill.svg'
+
 import './ApplicationMenu.css'
 
 export default class ApplicationMenu extends React.Component {
@@ -64,9 +67,9 @@ export default class ApplicationMenu extends React.Component {
 
 const MENU_ITEMS = [{
 	// title: 'Account',
-	link: '/profile',
-	outlineIcon: PersonIconOutline,
-	fillIcon: PersonIconFill
+	link: '/settings',
+	outlineIcon: SettingsIconOutline,
+	fillIcon: SettingsIconFill
 }]
 
 const MENU_ITEMS_FOOTER = [{

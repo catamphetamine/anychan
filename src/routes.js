@@ -11,7 +11,7 @@ export default [{
 	Component: Application,
 	children: [
 		{ Component: Home },
-		{ path: 'profile', Component: Settings },
+		{ path: 'settings', Component: Settings },
 		...ERROR_PAGES_ROUTES,
 		{ path: ':board', Component: Board },
 		{ path: ':board/:thread', Component: Thread }
