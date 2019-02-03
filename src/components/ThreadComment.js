@@ -11,6 +11,7 @@ import {
 } from 'webapp-frontend/src/components/ContentSection'
 
 import { getChan } from '../chan'
+import getBasePath from '../utility/getBasePath'
 
 import './ThreadComment.css'
 
@@ -58,7 +59,7 @@ export default class ThreadComment extends React.Component {
 					id={`comment-${comment.id}`}
 					filter={commentOnClickFilter}
 					onClick={hidden || onClick ? this.onClick : undefined}
-					link={hidden || onClick ? getUrl(board, thread, comment) : undefined}
+					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread, comment) : undefined}
 					onClickClassName="thread__comment-container--click"
 					className="thread__comment-container">
 					{commentElement}
