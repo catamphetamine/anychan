@@ -1,6 +1,6 @@
-// import parseBoards from './parseBoards'
-// import parseThreads from './parseThreads'
-// import parseComments from './parseComments'
+import parseBoards from './parseBoards'
+import parseThreads from './parseThreads'
+import parseComments from './parseComments'
 
 import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
 
@@ -16,14 +16,14 @@ export default class FourChanParser {
 	}
 
 	parseBoards(response) {
-		// return parseBoards(response, this.options)
+		return parseBoards(response, this.options)
 	}
 
 	parseThreads(response) {
-		// return parseThreads(response, this.options)
+		return parseThreads(response, this.options)
 	}
 
 	parseComments(response) {
-		// return parseComments(response, this.options)
+		return parseComments(response, this.options)
 	}
 }

@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 
 import Boards from '../components/Boards'
 
-import { selectBoard, selectThread } from '../redux/chan'
-
 import './Home.css'
 
 export default class HomePage extends React.Component {

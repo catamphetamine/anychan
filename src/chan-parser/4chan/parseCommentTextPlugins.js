@@ -9,11 +9,28 @@ const parseNewLine = {
 }
 
 const parseSpoiler = {
-	opener: 's',
+	opener: 's>',
 	createBlock(content) {
 		return {
 			type: 'spoiler',
 			content
+		}
+	}
+}
+
+const parseDeletedLink = {
+	opener: 'span class="deadlink"',
+	// Won't "unescape" content (for some reason).
+	correctContent: false,
+	createBlock(content, [href, threadId, postId]) {
+		content = content.slice('>>'.length)
+		return {
+			type: 'post-link',
+			boardId: null, // Will be set later in comment post-processing.
+			threadId: null, // Will be set later in comment post-processing.
+			postId: parseInt(content),
+			content,
+			url: null // Will be set later in comment post-processing.
 		}
 	}
 }
@@ -39,18 +56,21 @@ const parseQuote = {
 const parseLink = {
 	opener: 'a ',
 	attributes: ['href'],
+	// Won't "unescape" content (for some reason).
 	correctContent: false,
 	createBlock(content, [href]) {
 		if (href[0] === '#') {
 			// "#p184154302"
 			const postId = parseInt(href.slice('#p'.length))
+			// For some weird reason sometimes some
+			// links don't get post-processed it seems.
 			return {
 				type: 'post-link',
-				boardId: '???', // Can be set later in comment post-processing.
-				threadId: '???', // Can be set later in comment post-processing.
+				boardId: null, // Will be set later in comment post-processing.
+				threadId: null, // Will be set later in comment post-processing.
 				postId,
 				content: content.slice('>>'.length),
-				url: `https://2ch.hk${href}`
+				url: `#${postId}` // Will be set later in comment post-processing.
 			}
 		} else if (href[0] === '/' && href[1] === '/') {
 			// "//boards.4chan.org/wsr/"
@@ -68,7 +88,7 @@ const parseLink = {
 				threadId: match[2],
 				postId: match[3],
 				content: content.slice('>>'.length),
-				url: `https://2ch.hk${href}`
+				url: null // Will be set later in comment post-processing.
 			}
 		} else {
 			// "https://boards.4chan.org/wsr/"
@@ -84,6 +104,7 @@ const parseLink = {
 export default [
 	parseNewLine,
 	parseSpoiler,
+	parseDeletedLink,
 	parseQuote,
 	parseLink
 ]

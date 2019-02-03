@@ -3,7 +3,7 @@ import parseComment from './parseComment'
 /**
  * Parses 2ch.hk thread JSON object.
  * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar, filters }`.
+ * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar, filters, getAttachmentUrl }`.
  * @return {object}
  * @example
  * // Outputs:
@@ -73,9 +73,9 @@ import parseComment from './parseComment'
 export default function parseThread(thread, options) {
 	const comment = parseComment(thread, {
 		...options,
-		threadId: parseInt(thread.num)
+		threadId: thread.no
 	})
-	comment.commentsCount = thread.posts_count
+	comment.commentsCount = thread.replies
 	return {
 		id: comment.id,
 		isClosed: thread.closed === 1,

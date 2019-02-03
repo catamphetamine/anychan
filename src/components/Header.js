@@ -10,9 +10,13 @@ import ApplicationMenu from './ApplicationMenu'
 
 import Logo from '../../assets/images/icon@192x192.png'
 
+import { addChanParameter } from '../chan'
+import getMessages from '../messages'
+
 import './Header.css'
 
-@connect(({ chan, found }) => ({
+@connect(({ account, chan, found }) => ({
+	locale: account.settings.locale,
 	board: chan.board,
 	thread: chan.thread,
 	route: found.resolvedMatch
@@ -20,6 +24,7 @@ import './Header.css'
 export default class Header extends React.Component {
 	render() {
 		const {
+			locale,
 			route,
 			board,
 			thread
@@ -46,7 +51,7 @@ export default class Header extends React.Component {
 						</Link>
 						*/}
 
-						<Link to="/" className="header__logo-link">
+						<Link to={addChanParameter('/')} className="header__logo-link">
 							<img src={Logo} className="header__logo"/>
 						</Link>
 
@@ -54,7 +59,7 @@ export default class Header extends React.Component {
 							{(isBoardLocation(route) || isThreadLocation(route)) && board &&
 								<span className="header__board-title">
 									{thread &&
-										<Link to={`/${board.id}`} instantBack>
+										<Link to={addChanParameter(`/${board.id}`)} instantBack>
 											{board.name}
 										</Link>
 									}
@@ -63,7 +68,7 @@ export default class Header extends React.Component {
 							}
 							{isThreadLocation(route) && thread &&
 								<span className="header__thread-title">
-									{' → '}{thread.comments[0].subject || 'Тред'}
+									{' → '}{thread.comments[0].subject || getMessages(locale).thread}
 								</span>
 							}
 						</div>

@@ -21,7 +21,12 @@ import './Thread.css'
 	comments: chan.comments
 }))
 @preload(async ({ getState, dispatch, params }) => {
-	await dispatch(getComments(params.board, params.thread, getState().account.settings.filters))
+	await dispatch(getComments(
+		params.board,
+		params.thread,
+		getState().account.settings.filters,
+		getState().account.settings.locale
+	))
 })
 export default class ThreadPage extends React.Component {
 	getUrl = (board, thread, comment) => {

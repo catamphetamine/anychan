@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import { getThreads } from '../redux/chan'
+import { addChanParameter } from '../chan'
 
 import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
@@ -17,19 +18,21 @@ import './Board.css'
 }))
 @connect(({ chan }) => ({
 	board: chan.board,
-	threads: chan.threads,
-	page: chan.threadsPage,
-	pagesCount: chan.threadsPagesCount
+	threads: chan.threads
 }), {
 	goto
 })
 @preload(async ({ getState, dispatch, params }) => {
-	await dispatch(getThreads(params.board, getState().account.settings.filters))
+	await dispatch(getThreads(
+		params.board,
+		getState().account.settings.filters,
+		getState().account.settings.locale
+	))
 })
 export default class BoardPage extends React.Component {
 	onPostClick = (comment, thread, board) => {
 		const { goto } = this.props
-		goto(this.getUrl(board, thread, comment), { instantBack: true })
+		goto(addChanParameter(this.getUrl(board, thread, comment), { instantBack: true }))
 	}
 	getUrl = (board, thread, comment) => {
 		return `/${board.id}/${thread.id}`

@@ -1,9 +1,8 @@
 import { ReduxModule } from 'react-website'
 
-import { Parser as DvachParser } from '../chan-parser/2ch'
-import { Parser as FourChanParser } from '../chan-parser/4chan'
-
+import configuration from '../configuration'
 import { getChan } from '../chan'
+import getMessages from '../messages'
 
 const redux = new ReduxModule()
 
@@ -16,14 +15,14 @@ export const getBoards = redux.action(
 		if (process.env.NODE_ENV !== 'production' && getChan().GET_BOARDS_RESPONSE_EXAMPLE) {
 			response = getChan().GET_BOARDS_RESPONSE_EXAMPLE
 		} else {
-			response = await http.get('chan://boards.json')
+			response = await http.get(proxyUrl(getChan().getBoardsUrl()))
 		}
 		const {
-			boardsBySpeed,
+			boards,
 			boardsByCategory
 		} = createParser().parseBoards(response)
 		return {
-			boardsBySpeed,
+			boards,
 			boardsByCategory
 		}
 	},
@@ -34,68 +33,53 @@ export const getBoards = redux.action(
 )
 
 export const getThreads = redux.action(
-	(boardId, filters) => async http => {
-		const response = await http.get(`chan://${boardId}/catalog.json`)
-		// const startedAt = Date.now()
-		const {
-			board,
-			threads
-		} = createParser({ filters }).parseThreads(response)
-		// console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
+	(boardId, filters, locale) => async http => {
+		const response = await http.get(proxyUrl(getChan().getThreadsUrl(boardId)))
 		return {
-			board,
-			threads
+			boardId,
+			threads: createParser({ filters, locale, boardId }).parseThreads(response)
 		}
 	},
-	(state, result) => ({
+	(state, { threads, boardId }) => ({
 		...state,
-		...result
+		board: state.boards.find(_ => _.id === boardId),
+		threads
 	})
 )
 
 export const getComments = redux.action(
-	(boardId, threadId, filters) => async http => {
-		const response = await http.get(`chan://${boardId}/res/${threadId}.json`)
+	(boardId, threadId, filters, locale) => async http => {
+		const response = await http.get(proxyUrl(getChan().getCommentsUrl(boardId, threadId)))
 		// const startedAt = Date.now()
-		const {
-			board,
-			thread,
-			comments
-		} = createParser({ filters }).parseComments(response)
+		const comments = createParser({ filters, locale, boardId }).parseComments(response)
 		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		return {
-			board,
-			thread,
+			boardId,
+			thread: {
+				id: comments[0].id,
+				comments: [comments[0]]
+			},
 			comments
 		}
 	},
-	(state, result) => ({
+	(state, { boardId, thread, comments }) => ({
 		...state,
-		...result
+		board: state.boards.find(_ => _.id === boardId),
+		thread,
+		comments
 	})
 )
 
 export default redux.reducer()
 
-function getParser() {
-	switch (getChan().id) {
-		case '2ch':
-			return DvachParser
-		case '4chan':
-			return FourChanParser
-		default:
-			throw new Error(`Unknown chan: ${getChan().id}`)
-	}
-}
-
 function createParser(options) {
-	const Parser = getParser()
+	const Parser = getChan().Parser
 	return new Parser({
 		...options,
-		messages: {
-			deletedPost: 'Удалённое сообщение',
-			hiddenPost: 'Скрытое сообщение',
-			quotedPost: 'Сообщение'
-		}
+		messages: options ? getMessages(options.locale) : undefined
 	})
+}
+
+function proxyUrl(url) {
+	return configuration.corsProxyUrl.replace('{url}', url)
 }

@@ -1,5 +1,4 @@
 import parseThread from './parseThread'
-import correctGrammar from './correctGrammar'
 
 import setPostLinkUrls from '../setPostLinkUrls'
 import compileFilters from '../compileFilters'
@@ -7,12 +6,12 @@ import compileFilters from '../compileFilters'
 /**
  * Parses chan API response for threads list.
  * @param  {object} response — Chan API response for threads list
- * @param  {object} [options] — `{ filters }`
+ * @param  {object} [options] — `{ filters, getAttachmentUrl }`
  * @return {object}
  * @example
  * // Returns:
  * // [{
- * //   id: 12345,
+ * //   id: '12345',
  * //   ... See `parseThread.js`,
  * //   comments: [{
  * //     ... See `parseComment.js`
@@ -21,24 +20,26 @@ import compileFilters from '../compileFilters'
  * parseThreads(response)
  */
 export default function parseThreads(response, {
+	boardId,
 	filters,
+	getAttachmentUrl,
 	messages,
 	parseCommentTextPlugins
 }) {
-	const threads = response.threads.map(_ => parseThread(_, {
-		defaultAuthor: response.default_name,
+	let threads = response.reduce((all, page) => all.concat(page.threads), [])
+	threads = threads.map(_ => parseThread(_, {
+		boardId,
 		filters: filters ? compileFilters(filters) : undefined,
-		correctGrammar,
+		getAttachmentUrl,
 		parseCommentTextPlugins
 	}))
 	for (const thread of threads) {
 		// Set comment links.
 		setPostLinkUrls(thread.comments[0], {
+			boardId,
 			threadId: thread.comments[0].id,
 			messages
 		})
-		// Correct grammar in thread subjects.
-		thread.subject = thread.subject && correctGrammar(thread.subject)
 	}
 	return threads
 }

@@ -21,7 +21,7 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 	}
 	if (content.type === 'post-link') {
 		let postPeek
-		if (content.threadId === threadId) {
+		if (!content.threadId || content.threadId === threadId) {
 			const post = posts.find(_ => _.id === content.postId)
 			// Comments can be deleted.
 			if (!post) {

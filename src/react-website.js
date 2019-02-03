@@ -23,12 +23,5 @@ export default createConfig({
 	},
 
 	// `gh-pages` will have `/chanchan` base path.
-	basename: getBasePath(),
-
-	transformURL(url) {
-		// Pass all `chan://` requests to chan API server.
-		if (url.indexOf('chan://') === 0) {
-			return getChan().getApiUrl('/' + url.slice('chan://'.length))
-		}
-	}
+	basename: getBasePath()
 })

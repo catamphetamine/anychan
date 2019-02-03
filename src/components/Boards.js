@@ -9,59 +9,67 @@ import {
 	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
 
+import { addChanParameter } from '../chan'
+import getMessages from '../messages'
+
 import './Boards.css'
 
-@connect(({ chan }) => ({
-	boardsBySpeed: chan.boardsBySpeed,
+@connect(({ account, chan }) => ({
+	locale: account.settings.locale,
+	boards: chan.boards,
 	boardsByCategory: chan.boardsByCategory
 }))
 class Boards extends React.Component {
 	state = {
-		view: 'by-speed'
+		view: 'default'
 	}
 
-	onChangeViewBySpeed = () => this.setState({ view: 'by-speed' })
+	onChangeViewBySpeed = () => this.setState({ view: 'default' })
 	onChangeViewByCategory = () => this.setState({ view: 'by-category' })
 
 	render() {
 		const {
-			boardsBySpeed,
+			locale,
+			boards,
 			boardsByCategory
 		} = this.props
 
 		const { view } = this.state
 
-		if (!boardsBySpeed) {
+		if (!boards) {
 			return null
 		}
 
 		return (
 			<section className="boards">
-				<div className="boards__view-switcher">
-					<Button
-						onClick={this.onChangeViewBySpeed}
-						className={classNames('boards__view-switch', {
-							'boards__view-switch--selected': view === 'by-speed'
-						})}>
-						Популярные
-					</Button>
+				{boardsByCategory &&
+					<div className="boards__view-switcher">
+						<Button
+							onClick={this.onChangeViewBySpeed}
+							className={classNames('boards__view-switch', {
+								'boards__view-switch--selected': view === 'default'
+							})}>
+							{getMessages(locale).boardsList}
+						</Button>
 
-					<div className="boards__view-switch-divider"/>
+						<div className="boards__view-switch-divider"/>
 
-					<Button
-						onClick={this.onChangeViewByCategory}
-						className={classNames('boards__view-switch', {
-							'boards__view-switch--selected': view === 'by-category'
-						})}>
-						По разделам
-					</Button>
-				</div>
+						<Button
+							onClick={this.onChangeViewByCategory}
+							className={classNames('boards__view-switch', {
+								'boards__view-switch--selected': view === 'by-category'
+							})}>
+							{getMessages(locale).boardsByCategory}
+						</Button>
+					</div>
+				}
 
 				<table className={classNames('boards-list', {
-					'boards-list--by-speed': view === 'by-speed'
+					'boards-list--default': view === 'default',
+					'boards-list--default-has-categories': boardsByCategory
 				})}>
 					<tbody>
-						{view === 'by-category' && boardsByCategory.map((category, i) => (
+						{view === 'by-category' && boardsByCategory && boardsByCategory.map((category, i) => (
 							<React.Fragment key={category.category}>
 								<tr>
 									<td/>
@@ -80,7 +88,7 @@ class Boards extends React.Component {
 								))}
 							</React.Fragment>
 						))}
-						{view === 'by-speed' && boardsBySpeed.map((board) => (
+						{view === 'default' && boards.map((board) => (
 							<Board
 								key={board.id}
 								board={board}/>
@@ -101,9 +109,8 @@ const boardShape = {
 
 Boards.propTypes = {
 	expanded: PropTypes.bool.isRequired,
-	boardsBySpeed: PropTypes.arrayOf(PropTypes.shape({
-		...boardShape,
-		category: PropTypes.string.isRequired
+	boards: PropTypes.arrayOf(PropTypes.shape({
+		...boardShape
 	})),
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
@@ -125,14 +132,14 @@ class Board extends React.Component {
 				title={board.info || board.name}>
 				<td className="boards-list__board-container">
 					<Link
-						to={`/${board.id}`}
+						to={addChanParameter(`/${board.id}`)}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
 				</td>
 				<td className="boards-list__board-name-container">
 					<Link
-						to={`/${board.id}`}
+						to={addChanParameter(`/${board.id}`)}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>

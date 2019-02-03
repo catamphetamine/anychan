@@ -3,12 +3,18 @@
  * @param {object[]} posts
  * @param {string} [threadId] — If passed then same page link URLs will be set (when appropriate).
  */
-export default function setPostLinkUrls(post, threadId, { messages }) {
+export default function setPostLinkUrls(post, { boardId, threadId, messages }) {
 	if (!post.content) {
 		return
 	}
 	for (const postLink of findPostLinks(post.content)) {
 		postLink.content = getPostLinkContent(postLink, threadId, { messages })
+		if (!postLink.boardId) {
+			postLink.boardId = boardId
+		}
+		if (!postLink.threadId) {
+			postLink.threadId = threadId
+		}
 		if (threadId === postLink.threadId) {
 			postLink.url = `#comment-${postLink.postId}`
 		} else {

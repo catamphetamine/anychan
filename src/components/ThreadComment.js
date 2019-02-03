@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -10,11 +11,14 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import { getChan } from '../chan'
+import { getChan, addChanParameter } from '../chan'
 import getBasePath from '../utility/getBasePath'
 
 import './ThreadComment.css'
 
+@connect(({ account }) => ({
+	locale: account.settings.locale
+}))
 export default class ThreadComment extends React.Component {
 	state = {
 		hidden: this.props.comment.hidden
@@ -41,7 +45,8 @@ export default class ThreadComment extends React.Component {
 			getUrl,
 			board,
 			thread,
-			comment
+			comment,
+			locale
 		} = this.props
 
 		const { hidden } = this.state
@@ -50,7 +55,8 @@ export default class ThreadComment extends React.Component {
 			<Comment
 				comment={comment}
 				hidden={hidden}
-				url={getUrl(board, thread, comment)}/>
+				url={addChanParameter(getUrl(board, thread, comment))}
+				locale={locale}/>
 		)
 
 		if (hidden || onClick) {
@@ -59,7 +65,7 @@ export default class ThreadComment extends React.Component {
 					id={`comment-${comment.id}`}
 					filter={commentOnClickFilter}
 					onClick={hidden || onClick ? this.onClick : undefined}
-					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread, comment) : undefined}
+					link={hidden || onClick ? (getBasePath() || '') + addChanParameter(getUrl(board, thread, comment)) : undefined}
 					onClickClassName="thread__comment-container--click"
 					className="thread__comment-container">
 					{commentElement}
@@ -89,7 +95,7 @@ ThreadComment.propTypes = {
 	comment: PropTypes.object.isRequired
 }
 
-function Comment({ comment, hidden, url }) {
+function Comment({ comment, hidden, url, locale }) {
 	return (
 		<ContentSection
 			className={classNames('thread__comment', {
@@ -106,6 +112,7 @@ function Comment({ comment, hidden, url }) {
 				<Post
 					post={comment}
 					url={url}
+					locale={locale}
 					saveBandwidth
 					expandFirstPictureOrVideo={false}
 					attachmentThumbnailHeight={160} />
@@ -118,6 +125,7 @@ Comment.propTypes = {
 	comment: PropTypes.object.isRequired,
 	hidden: PropTypes.bool,
 	url: PropTypes.string.isRequired,
+	locale: PropTypes.string
 }
 
 export function commentOnClickFilter(element) {

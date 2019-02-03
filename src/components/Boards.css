@@ -9,7 +9,7 @@
 	user-select: none;
 }
 
-.boards-list--by-speed {
+.boards-list--default-has-categories {
 	margin-top: calc(var(--unit) * 2);
 }
 

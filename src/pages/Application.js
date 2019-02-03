@@ -40,8 +40,8 @@ import './Application.css'
 })
 @preload(async ({ dispatch }) => {
 	const settings = await dispatch(getSettings())
-	// `react-time-ago` language.
-	setDefaultLocale(settings.locale)
+	// // `react-time-ago` language.
+	// setDefaultLocale(settings.locale)
 	await dispatch(getBoards())
 }, {
 	blocking: true
@@ -52,8 +52,7 @@ export default class App extends React.Component
 		children : PropTypes.node.isRequired
 	}
 
-	render()
-	{
+	render() {
 		const {
 			slideshowIndex,
 			slideshowIsOpen,

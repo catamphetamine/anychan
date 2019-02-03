@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-website'
 import classNames from 'classnames'
 
+import { addChanParameter } from '../chan'
+
 import './Menu.css'
 
 export default class Menu extends React.Component
@@ -17,7 +19,7 @@ export default class Menu extends React.Component
 		return (
 			<ul className={classNames('menu', className)}>
 				{children.map(({ link, selected, outlineIcon, fillIcon }) => (
-					<MenuLink to={link} key={link}>
+					<MenuLink to={addChanParameter(link)} key={link}>
 						{React.createElement(selected ? fillIcon : outlineIcon, { className: 'menu-item__icon' })}
 					</MenuLink>
 				))}

@@ -8,10 +8,7 @@ export default class DvachParser {
 	constructor(options) {
 		this.options = {
 			...options,
-			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS,
-			getAttachmentUrl(path, { boardId }) {
-				return `https://2ch.hk${path}`
-			}
+			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
 		}
 	}
 

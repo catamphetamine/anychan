@@ -1,6 +1,7 @@
 An alternative GUI for an imageboard (4chan, 8chan, 2ch).
 
-[Live Demo](https://catamphetamine.github.io/chanchan/)
+[`2ch.hk` Demo](https://catamphetamine.github.io/chanchan/)
+[`4chan.org` Demo](https://catamphetamine.github.io/chanchan/?chan=4chan)
 
 This is a demo showcase project and it has only a minimal set of features:
 
@@ -61,7 +62,7 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 
 ## Chan
 
-This demo project currently supports `2ch.hk` chan.
+This demo project currently supports `2ch.hk` and `4chan.org` chans.
 
 <!-- and `4chan.org` chans.-->
 

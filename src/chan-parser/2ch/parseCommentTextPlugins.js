@@ -125,6 +125,7 @@ const parseOverline = {
 const parseLink = {
 	opener: 'a ',
 	attributes: ['href', 'data-thread', 'data-num'],
+	// Won't "unescape" content (for some reason).
 	correctContent: false,
 	createBlock(content, [href, threadId, postId]) {
 		if (threadId) {

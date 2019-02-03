@@ -1,85 +1,49 @@
 import { getContentTypeByFileName } from '../parseAttachment'
 
-function getContentTypeByFileType(type) {
-	switch (type) {
-		case 1:
-			return 'image/jpeg'
-		case 2:
-			return 'image/png'
-		case 4:
-			return 'image/gif'
-		case 6:
-			return 'video/webm'
-		case 10:
-			return 'video/mp4'
-		// Stickers.
-		case 100:
-			return 'image/png'
-	}
-}
-
-function getAttachmentUrl(path) {
-	return `//2ch.hk${path}`
-}
-
 export default function parseAttachment(file, { boardId }) {
-	let contentType = getContentTypeByFileType(file.type)
-	// Fallback for incorrect attachments.
-	// (there were some cases supposedly in old threads)
-	if (!contentType) {
-		contentType = getContentTypeByFileName(file.path)
-	}
+	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
 		return {
 			type: 'picture',
-			size: file.size * 1024, // in bytes
+			size: file.size, // in bytes
 			picture: {
 				type: contentType,
 				sizes: [{
-					width: file.tn_width,
-					height: file.tn_height,
-					url: getAttachmentUrl(file.thumbnail, { boardId })
+					width: file.tn_w,
+					height: file.tn_h,
+					url: `//i.4cdn.org/${boardId}/${file.tim}s.jpg`
 				}, {
-					width: file.width,
-					height: file.height,
-					url: getAttachmentUrl(file.path, { boardId })
+					width: file.w,
+					height: file.h,
+					url: `//i.4cdn.org/${boardId}/${file.tim}${file.ext}`
 				}]
 			}
 		}
 	}
 	if (contentType && contentType.indexOf('video/') === 0) {
-		const pictureContentType = getContentTypeByFileName(file.thumbnail)
-		let picture
-		if (pictureContentType) {
-			picture = {
-				type: pictureContentType,
-				sizes: [{
-					width: file.tn_width,
-					height: file.tn_height,
-					url: getAttachmentUrl(file.thumbnail, { boardId })
-				}]
-			}
-		} else {
-			console.error(`Unknown video picture file type: ${JSON.stringify(file)}`)
-			picture = TRANSPARENT_PIXEL
-		}
 		return {
 			type: 'video',
-			size: file.size * 1024, // in bytes
+			size: file.size, // in bytes
 			video: {
 				type: contentType,
-				duration: file.duration_secs,
-				width: file.width,
-				height: file.height,
+				width: file.w,
+				height: file.h,
 				source: {
 					provider: 'file',
 					sizes: [{
-						width: file.width,
-						height: file.height,
-						url: getAttachmentUrl(file.path, { boardId })
+						width: file.w,
+						height: file.h,
+						url: `//i.4cdn.org/${boardId}/${file.tim}${file.ext}`
 					}]
 				},
-				picture
+				picture: {
+					type: 'image/jpeg',
+					sizes: [{
+						width: file.tn_w,
+						height: file.tn_h,
+						url: `//i.4cdn.org/${boardId}/${file.tim}s.jpg`
+					}]
+				}
 			}
 		}
 	}

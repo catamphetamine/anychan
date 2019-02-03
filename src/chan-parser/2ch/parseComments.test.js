@@ -156,168 +156,167 @@ describe('2ch.hk', () => {
 			]
 		}
 
-		const OPENING_COMMENT = {
-			"id": 28727050,
-			"subject": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
-			"content": [
-				[
+		const COMMENTS = [
+			{
+				"id": 28727050,
+				"subject": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
+				"content": [
+					[
+						{
+							"type": "text",
+							"style": "bold",
+							"content": "PLAYERUNKNOWN'S BATTLEGROUNDS"
+						},
+						" — это шутер в котором выигрывает последний оставшийся в живых участник. Начиная игру ни с чем, вы должны раздобыть оружие и припасы чтобы бороться за первое место и стать последним героем. Игра вышла из раннего доступа в конце 2017 года. Движок игры — UE4. Перед приобретением рекомендуется на просторах ютуба или твича познакомиться с игрой. ",
+						"\n",
+						"Недавно разработчики выпустили эвент пасс, который можно приобрести за 600 рублей и приступить к работе. Квесты жесткие. ",
+						"\n",
+						"\n",
+						{
+							"type": "spoiler",
+							"content": [
+								"Ссылка на шапку треда — ",
+								{
+									"type": "link",
+									"content": "pastebin.com/A9RjkRnv",
+									"url": "https://pastebin.com/A9RjkRnv"
+								}
+							]
+						},
+						"\n",
+						"\n",
+						"Своровать у Габена — ",
+						{
+							"type": "link",
+							"content": "store.steampowered.com/app/578080",
+							"url": "http://store.steampowered.com/app/578080/"
+						},
+						" ",
+						"\n",
+						"Своровать у мейлру — ",
+						{
+							"type": "link",
+							"content": "pubg.mail.ru",
+							"url": "https://pubg.mail.ru"
+						},
+						"\n",
+						"\n",
+						"Статистика игроков — ",
+						{
+							"type": "link",
+							"content": "pubg.op.gg",
+							"url": "https://pubg.op.gg"
+						},
+						"\n",
+						"\n",
+						"Сайт для просмотра реплеев, не заходя в игру — ",
+						{
+							"type": "link",
+							"content": "minmax.gg/chickendinner",
+							"url": "https://minmax.gg/chickendinner"
+						},
+						"\n",
+						"\n",
+						"Роадмап от разработчиков на 2018 год:",
+						"\n",
+						"На ангельском — ",
+						{
+							"type": "link",
+							"content": "fix.pubg.com",
+							"url": "https://fix.pubg.com/"
+						},
+						"\n",
+						"\n",
+						"Новости об игре из твиттера:",
+						"\n",
+						{
+							"type": "link",
+							"content": "twitter.com/PUBG_help",
+							"url": "https://twitter.com/PUBG_help"
+						}
+					]
+				],
+				"inReplyTo": [],
+				"attachments": [
 					{
-						"type": "text",
-						"style": "bold",
-						"content": "PLAYERUNKNOWN'S BATTLEGROUNDS"
+						"type": "picture",
+						"size": 2853888,
+						"picture": {
+							"type": "image/png",
+							"sizes": [
+								{
+									"width": 250,
+									"height": 136,
+									"url": "//2ch.hk/vg/thumb/28727050/15458082101590s.jpg"
+								},
+								{
+									"width": 1920,
+									"height": 1050,
+									"url": "//2ch.hk/vg/src/28727050/15458082101590.png"
+								}
+							]
+						}
 					},
-					" — это шутер в котором выигрывает последний оставшийся в живых участник. Начиная игру ни с чем, вы должны раздобыть оружие и припасы чтобы бороться за первое место и стать последним героем. Игра вышла из раннего доступа в конце 2017 года. Движок игры — UE4. Перед приобретением рекомендуется на просторах ютуба или твича познакомиться с игрой. ",
-					"\n",
-					"Недавно разработчики выпустили эвент пасс, который можно приобрести за 600 рублей и приступить к работе. Квесты жесткие. ",
-					"\n",
-					"\n",
 					{
-						"type": "spoiler",
-						"content": [
-							"Ссылка на шапку треда — ",
-							{
-								"type": "link",
-								"content": "pastebin.com/A9RjkRnv",
-								"url": "https://pastebin.com/A9RjkRnv"
-							}
-						]
+						"type": "picture",
+						"size": 449536,
+						"picture": {
+							"type": "image/png",
+							"sizes": [
+								{
+									"width": 250,
+									"height": 140,
+									"url": "//2ch.hk/vg/thumb/28727050/15458082101841s.jpg"
+								},
+								{
+									"width": 1280,
+									"height": 720,
+									"url": "//2ch.hk/vg/src/28727050/15458082101841.png"
+								}
+							]
+						}
 					},
-					"\n",
-					"\n",
-					"Своровать у Габена — ",
 					{
-						"type": "link",
-						"content": "store.steampowered.com/app/578080",
-						"url": "http://store.steampowered.com/app/578080/"
+						"type": "picture",
+						"size": 74752,
+						"picture": {
+							"type": "image/jpeg",
+							"sizes": [
+								{
+									"width": 250,
+									"height": 140,
+									"url": "//2ch.hk/vg/thumb/28727050/15458082101882s.jpg"
+								},
+								{
+									"width": 1280,
+									"height": 720,
+									"url": "//2ch.hk/vg/src/28727050/15458082101882.jpg"
+								}
+							]
+						}
 					},
-					" ",
-					"\n",
-					"Своровать у мейлру — ",
 					{
-						"type": "link",
-						"content": "pubg.mail.ru",
-						"url": "https://pubg.mail.ru"
-					},
-					"\n",
-					"\n",
-					"Статистика игроков — ",
-					{
-						"type": "link",
-						"content": "pubg.op.gg",
-						"url": "https://pubg.op.gg"
-					},
-					"\n",
-					"\n",
-					"Сайт для просмотра реплеев, не заходя в игру — ",
-					{
-						"type": "link",
-						"content": "minmax.gg/chickendinner",
-						"url": "https://minmax.gg/chickendinner"
-					},
-					"\n",
-					"\n",
-					"Роадмап от разработчиков на 2018 год:",
-					"\n",
-					"На ангельском — ",
-					{
-						"type": "link",
-						"content": "fix.pubg.com",
-						"url": "https://fix.pubg.com/"
-					},
-					"\n",
-					"\n",
-					"Новости об игре из твиттера:",
-					"\n",
-					{
-						"type": "link",
-						"content": "twitter.com/PUBG_help",
-						"url": "https://twitter.com/PUBG_help"
+						"type": "picture",
+						"size": 458752,
+						"picture": {
+							"type": "image/jpeg",
+							"sizes": [
+								{
+									"width": 250,
+									"height": 140,
+									"url": "//2ch.hk/vg/thumb/28727050/15458082101893s.jpg"
+								},
+								{
+									"width": 1920,
+									"height": 1080,
+									"url": "//2ch.hk/vg/src/28727050/15458082101893.jpg"
+								}
+							]
+						}
 					}
-				]
-			],
-			"inReplyTo": [],
-			"attachments": [
-				{
-					"type": "picture",
-					"size": 2787,
-					"picture": {
-						"type": "image/png",
-						"sizes": [
-							{
-								"width": 250,
-								"height": 136,
-								"url": "https://2ch.hk/vg/thumb/28727050/15458082101590s.jpg"
-							},
-							{
-								"width": 1920,
-								"height": 1050,
-								"url": "https://2ch.hk/vg/src/28727050/15458082101590.png"
-							}
-						]
-					}
-				},
-				{
-					"type": "picture",
-					"size": 439,
-					"picture": {
-						"type": "image/png",
-						"sizes": [
-							{
-								"width": 250,
-								"height": 140,
-								"url": "https://2ch.hk/vg/thumb/28727050/15458082101841s.jpg"
-							},
-							{
-								"width": 1280,
-								"height": 720,
-								"url": "https://2ch.hk/vg/src/28727050/15458082101841.png"
-							}
-						]
-					}
-				},
-				{
-					"type": "picture",
-					"size": 73,
-					"picture": {
-						"type": "image/jpeg",
-						"sizes": [
-							{
-								"width": 250,
-								"height": 140,
-								"url": "https://2ch.hk/vg/thumb/28727050/15458082101882s.jpg"
-							},
-							{
-								"width": 1280,
-								"height": 720,
-								"url": "https://2ch.hk/vg/src/28727050/15458082101882.jpg"
-							}
-						]
-					}
-				},
-				{
-					"type": "picture",
-					"size": 448,
-					"picture": {
-						"type": "image/jpeg",
-						"sizes": [
-							{
-								"width": 250,
-								"height": 140,
-								"url": "https://2ch.hk/vg/thumb/28727050/15458082101893s.jpg"
-							},
-							{
-								"width": 1920,
-								"height": 1080,
-								"url": "https://2ch.hk/vg/src/28727050/15458082101893.jpg"
-							}
-						]
-					}
-				}
-			],
-			"createdAt": new Date("2018-12-26T07:10:09.000Z")
-		}
-
-		const REST_COMMENTS = [
+				],
+				"createdAt": new Date("2018-12-26T07:10:09.000Z")
+			},
 			{
 				"id": 28942787,
 				"content": [
@@ -442,25 +441,7 @@ describe('2ch.hk', () => {
 					quotedPost: 'Сообщение'
 				}
 			}).parseComments(API_RESPONSE_1),
-			{
-				board: {
-					id: 'vg',
-					name: 'Video Games General',
-					description: 'Доска для постоянных тредов по игре, которые предполагают длительное обсуждение (номерные треды). Для рандом-тредов в <a href=\"/v/\">/v/</a>. Конференция доски в Телеграме - <a href=\"https://telegram.me/ru2chvg\">@ru2chvg</a>',
-				},
-				thread: {
-					id: OPENING_COMMENT.id,
-					boardId: 'vg',
-					// subject: 'PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION',
-					comments: [
-						OPENING_COMMENT
-					]
-				},
-				comments: [
-					OPENING_COMMENT,
-					...REST_COMMENTS
-				]
-			}
+			COMMENTS
 		)
 	})
 })
