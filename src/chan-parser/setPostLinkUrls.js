@@ -18,10 +18,10 @@ export default function setPostLinkUrls(post, threadId, { messages }) {
 }
 
 function getPostLinkContent(postLink, threadId, { messages }) {
-	if (postLink.threadId === threadId && postLink.postWasDeleted) {
+	if (postLink.postWasDeleted) {
 		return messages.deletedPost
 	}
-	if (postLink.post && postLink.postIsHidden) {
+	if (postLink.postIsHidden) {
 		return messages.hiddenPost
 	}
 	return messages.quotedPost
