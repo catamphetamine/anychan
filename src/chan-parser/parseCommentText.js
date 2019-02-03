@@ -271,9 +271,11 @@ const parseLink = {
 	}
 }
 
-const parseColoredText = {
-	opener: 'span style="color:',
-	createBlock(content) {
+const parseSpan = {
+	opener: 'span',
+	attributes: ['style'],
+	createBlock(content, [style]) {
+		// style="color: red;"
 		return content
 	}
 }
@@ -289,10 +291,10 @@ const PARSE_COMMENT_TEXT_PLUGINS = [
 	parseStrikethrough,
 	parseUnderline,
 	parseOverline,
-	parseColoredText,
 	parseSpoiler,
 	parseSubscript,
-	parseSuperscript
+	parseSuperscript,
+	parseSpan
 ]
 
 // function removeInvalidClosingTags(text) {
