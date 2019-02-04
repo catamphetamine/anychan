@@ -1,9 +1,13 @@
 import React from 'react'
-import { preload, meta } from 'react-website'
+import { preload, meta, goto } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
+import { notify } from 'webapp-frontend/src/redux/notifications'
 import { getComments } from '../redux/chan'
+
+import { addChanParameter } from '../chan'
+import getMessages from '../messages'
 
 import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
@@ -21,12 +25,17 @@ import './Thread.css'
 	comments: chan.comments
 }))
 @preload(async ({ getState, dispatch, params }) => {
-	await dispatch(getComments(
-		params.board,
-		params.thread,
-		getState().account.settings.filters,
-		getState().account.settings.locale
-	))
+	try {
+		await dispatch(getComments(
+			params.board,
+			params.thread,
+			getState().account.settings.filters,
+			getState().account.settings.locale
+		))
+	} catch (error) {
+		dispatch(notify(getMessages(getState().account.settings.locale).loadingCommentsError, { type: 'error '}))
+		dispatch(goto(addChanParameter(`/${params.board}`)))
+	}
 })
 export default class ThreadPage extends React.Component {
 	getUrl = (board, thread, comment) => {

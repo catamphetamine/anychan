@@ -4,8 +4,10 @@ import { goto, preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
+import { notify } from 'webapp-frontend/src/redux/notifications'
 import { getThreads } from '../redux/chan'
 import { addChanParameter } from '../chan'
+import getMessages from '../messages'
 
 import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
@@ -23,11 +25,16 @@ import './Board.css'
 	goto
 })
 @preload(async ({ getState, dispatch, params }) => {
-	await dispatch(getThreads(
-		params.board,
-		getState().account.settings.filters,
-		getState().account.settings.locale
-	))
+	try {
+		await dispatch(getThreads(
+			params.board,
+			getState().account.settings.filters,
+			getState().account.settings.locale
+		))
+	} catch (error) {
+		dispatch(notify(getMessages(getState().account.settings.locale).loadingThreadsError, { type: 'error '}))
+		dispatch(goto(addChanParameter('/')))
+	}
 })
 export default class BoardPage extends React.Component {
 	onPostClick = (comment, thread, board) => {
