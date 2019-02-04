@@ -3,8 +3,7 @@ export { default as Parser } from './Parser'
 // Self-test.
 import test from '../test'
 
-// export const id = '4chan'
-const apiOrigin = '//a.4cdn.org'
+const apiOrigin = 'http://a.4cdn.org'
 
 export function getCommentsUrl(boardId, threadId) {
 	return `${apiOrigin}/${boardId}/thread/${threadId}.json`

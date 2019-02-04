@@ -91,13 +91,21 @@ const parseLink = {
 		} else if (href[0] === '/') {
 			// "/a/thread/184064641#p184154285"
 			const match = href.match(/^\/([^\/]+)\/thread\/(\d+)#p(\d+)/)
+			if (match) {
+				return {
+					type: 'post-link',
+					boardId: match[1],
+					threadId: parseInt(match[2]),
+					postId: parseInt(match[3]),
+					content: content.slice('>>'.length),
+					url: null // Will be set later in comment post-processing.
+				}
+			}
+			// "/r/"
 			return {
-				type: 'post-link',
-				boardId: match[1],
-				threadId: parseInt(match[2]),
-				postId: parseInt(match[3]),
-				content: content.slice('>>'.length),
-				url: null // Will be set later in comment post-processing.
+				type: 'link',
+				content: getHumanReadableLinkAddress(content),
+				url: href
 			}
 		} else {
 			// "https://boards.4chan.org/wsr/"

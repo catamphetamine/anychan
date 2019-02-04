@@ -5,7 +5,6 @@ import test from '../test'
 
 export { GET_BOARDS_RESPONSE_EXAMPLE } from './test.data'
 
-// export const id = '2ch'
 const apiOrigin = 'http://2ch.hk'
 
 export function getCommentsUrl(boardId, threadId) {
