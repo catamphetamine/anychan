@@ -19,20 +19,22 @@ import compileFilters from '../compileFilters'
  * // }, ...]
  * parseThreads(response)
  */
-export default function parseThreads(response, {
+export default async function parseThreads(response, {
 	boardId,
 	filters,
 	getAttachmentUrl,
 	messages,
-	parseCommentTextPlugins
+	parseCommentTextPlugins,
+	youTubeApiKey
 }) {
 	let threads = response.reduce((all, page) => all.concat(page.threads), [])
-	threads = threads.map(_ => parseThread(_, {
+	threads = await Promise.all(threads.map(_ => parseThread(_, {
 		boardId,
 		filters: filters ? compileFilters(filters) : undefined,
 		getAttachmentUrl,
-		parseCommentTextPlugins
-	}))
+		parseCommentTextPlugins,
+		youTubeApiKey
+	})))
 	for (const thread of threads) {
 		// Set comment links.
 		setPostLinkUrls(thread.comments[0], {

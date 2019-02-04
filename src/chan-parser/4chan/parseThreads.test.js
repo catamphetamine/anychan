@@ -3,7 +3,7 @@ import expectToEqual from '../expectToEqual'
 import Parser from './Parser'
 
 describe('4chan.org', () => {
-	it('should parse threads', () => {
+	it('should parse threads', async () => {
 		const API_RESPONSE = [{
 			"page": 1,
 			"threads": [{
@@ -179,7 +179,7 @@ describe('4chan.org', () => {
 		]
 
 		expectToEqual(
-			new Parser({
+			await new Parser({
 				messages: {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',

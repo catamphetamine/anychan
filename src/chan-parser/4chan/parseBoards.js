@@ -15,7 +15,7 @@ import parseBoard from './parseBoard'
  * // }
  * parseBoards(response)
  */
-export default function parseBoards(response) {
+export default async function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
 	return {
 		boards

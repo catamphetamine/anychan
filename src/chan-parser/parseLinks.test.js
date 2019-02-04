@@ -3,7 +3,7 @@ import expectToEqual from './expectToEqual'
 import parseLinks from './parseLinks'
 
 describe('parseLinks', () => {
-	it('should parse links in text', () => {
+	it('shouldn\'t parse links in text when there are no links in text', () => {
 		let post = {}
 		parseLinks(post)
 		expectToEqual(
@@ -29,8 +29,10 @@ describe('parseLinks', () => {
 				]
 			}
 		)
+	})
 
-		post = {
+	it('should parse links in text', () => {
+		const post = {
 			content: [
 				[
 					'Abc http://twitter.com/abc def'
@@ -54,8 +56,10 @@ describe('parseLinks', () => {
 				]
 			}
 		)
+	})
 
-		post = {
+	it('shouldn\'t parse links inside blocks', () => {
+		const post = {
 			content: [
 				[
 					{

@@ -3,7 +3,7 @@ import expectToEqual from '../expectToEqual'
 import Parser from './Parser'
 
 describe('2ch.hk', () => {
-	it('should parse comments', () => {
+	it('should parse comments', async () => {
 		const API_RESPONSE_1 = {
 			"Board": "vg",
 			"BoardInfo": "Доска для постоянных тредов по игре, которые предполагают длительное обсуждение (номерные треды). Для рандом-тредов в <a href=\"/v/\">/v/</a>. Конференция доски в Телеграме - <a href=\"https://telegram.me/ru2chvg\">@ru2chvg</a>",
@@ -434,7 +434,7 @@ describe('2ch.hk', () => {
 		]
 
 		expectToEqual(
-			new Parser({
+			await new Parser({
 				messages: {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',

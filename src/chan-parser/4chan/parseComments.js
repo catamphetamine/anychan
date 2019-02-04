@@ -17,20 +17,22 @@ import compileFilters from '../compileFilters'
  * // }]
  * parseComments(response)
  */
-export default function parseComments(response, {
+export default async function parseComments(response, {
 	filters,
 	boardId,
 	getAttachmentUrl,
 	messages,
-	parseCommentTextPlugins
+	parseCommentTextPlugins,
+	youTubeApiKey
 }) {
-	const comments = response.posts.map(_ => parseComment(_, {
+	const comments = await Promise.all(response.posts.map(_ => parseComment(_, {
 		boardId,
 		threadId: response.posts[0].no,
 		filters: filters ? compileFilters(filters) : undefined,
 		getAttachmentUrl,
-		parseCommentTextPlugins
-	}))
+		parseCommentTextPlugins,
+		youTubeApiKey
+	})))
 	const threadId = comments[0].id
 	for (const comment of comments) {
 		setInReplyToQuotes(comment.content, comments, threadId)

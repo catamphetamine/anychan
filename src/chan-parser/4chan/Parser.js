@@ -15,14 +15,17 @@ export default class FourChanParser {
 		}
 	}
 
+	// Returns a `Promise`.
 	parseBoards(response) {
 		return parseBoards(response, this.options)
 	}
 
+	// Returns a `Promise`.
 	parseThreads(response) {
 		return parseThreads(response, this.options)
 	}
 
+	// Returns a `Promise`.
 	parseComments(response) {
 		return parseComments(response, this.options)
 	}

@@ -3,6 +3,7 @@ import parseSubjectFromComment from './parseSubjectFromComment'
 import parseAttachment from './parseAttachment'
 import getInReplyToPosts from './getInReplyToPosts'
 
+import parseYouTubeLinks from '../parseYouTubeLinks'
 import parseCommentText from '../parseCommentText'
 import unescapeContent from '../unescapeContent'
 import filterComment from '../filterComment'
@@ -66,12 +67,13 @@ import filterComment from '../filterComment'
  * // }
  * parseComment(...)
  */
-export default function parseComment(post, {
+export default async function parseComment(post, {
 	threadId,
 	filters,
 	correctGrammar,
 	defaultAuthor,
-	parseCommentTextPlugins
+	parseCommentTextPlugins,
+	youTubeApiKey
 }) {
 	const id = post.num
 	const author = parseAuthor(post.name, defaultAuthor)
@@ -125,6 +127,7 @@ export default function parseComment(post, {
 			comment.authorRole = authorRole
 		}
 	}
+	await parseYouTubeLinks(comment, { youTubeApiKey })
 	return comment
 }
 

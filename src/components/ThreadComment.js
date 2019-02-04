@@ -30,9 +30,10 @@ export default class ThreadComment extends React.Component {
 		}))
 	}
 
-	onClick = () => {
+	onClick = (event) => {
 		const { board, thread, comment, onClick } = this.props
 		const { hidden } = this.state
+		event.preventDefault()
 		if (hidden) {
 			return this.toggleShowHide()
 		}

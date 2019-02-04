@@ -18,31 +18,33 @@ import './Board.css'
 	title       : state.chan.board && state.chan.board.name,
 	description : state.chan.board && state.chan.board.description
 }))
-@connect(({ chan }) => ({
+@connect(({ account, chan }) => ({
 	board: chan.board,
-	threads: chan.threads
+	threads: chan.threads,
+	locale: account.settings.locale
 }), {
-	goto
+	goto,
+	notify
 })
 @preload(async ({ getState, dispatch, params }) => {
-	try {
-		await dispatch(getThreads(
-			params.board,
-			getState().account.settings.filters,
-			getState().account.settings.locale
-		))
-	} catch (error) {
-		dispatch(notify(getMessages(getState().account.settings.locale).loadingThreadsError, { type: 'error '}))
-		dispatch(goto(addChanParameter('/')))
-	}
+	await dispatch(getThreads(
+		params.board,
+		getState().account.settings.filters,
+		getState().account.settings.locale
+	))
 })
 export default class BoardPage extends React.Component {
-	onPostClick = (comment, thread, board) => {
-		const { goto } = this.props
-		goto(addChanParameter(this.getUrl(board, thread, comment), { instantBack: true }))
+	onThreadClick = (comment, thread, board) => {
+		const { goto, notify, locale } = this.props
+		try {
+			// Won't ever throw because `goto()` doesn't return a `Promise`.
+			goto(addChanParameter(this.getUrl(board, thread, comment), { instantBack: true }))
+		} catch (error) {
+			notify(getMessages(locale).loadingCommentsError, { type: 'error '})
+		}
 	}
 	getUrl = (board, thread, comment) => {
-		return `/${board.id}/${thread.id}`
+		return `/${board.id}/${thread.id}#${comment.id}`
 	}
 	render() {
 		const { board, threads } = this.props
@@ -59,7 +61,7 @@ export default class BoardPage extends React.Component {
 								board={board}
 								thread={thread}
 								comment={thread.comments[0]}
-								onClick={this.onPostClick}
+								onClick={this.onThreadClick}
 								getUrl={this.getUrl}/>
 						))}
 					</div>

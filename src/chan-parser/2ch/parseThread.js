@@ -70,8 +70,8 @@ import parseComment from './parseComment'
  * // }]
  * parseThread(...)
  */
-export default function parseThread(thread, options) {
-	const comment = parseComment(thread, {
+export default async function parseThread(thread, options) {
+	const comment = await parseComment(thread, {
 		...options,
 		threadId: parseInt(thread.num)
 	})

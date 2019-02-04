@@ -1,8 +1,5 @@
 export { default as Parser } from './Parser'
 
-// Self-test.
-import test from '../test'
-
 const apiOrigin = 'http://a.4cdn.org'
 
 export function getCommentsUrl(boardId, threadId) {

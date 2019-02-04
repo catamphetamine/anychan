@@ -24,12 +24,22 @@ function setChanId(chanId) {
 
 export const setChan = setChanId
 
+// Adds `chan` URL parameter for multi-chan `gh-pages` demo.
 export function addChanParameter(url) {
 	if (getChanId() === configuration.defaultChan) {
 		return url
 	}
-	if (url.indexOf('?') < 0) {
-		return url + `?chan=${getChanId()}`
+	const isAbsoluteUrl = /^[a-z]+:\/\//.test(url)
+	if (!isAbsoluteUrl) {
+		// Otherwise `new URL(url)` will throw "Invalid URL".
+		url = 'http://example.com' + url
 	}
-	return url + `&chan=${getChanId()}`
+	// `URL` is not available in IE11.
+	url = new URL(url)
+	url.searchParams.set('chan', getChanId())
+	url = url.href
+	if (!isAbsoluteUrl) {
+		url = url.slice('http://example.com'.length)
+	}
+	return url
 }

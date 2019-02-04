@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-website'
+import { goto, Link } from 'react-website'
 import { connect } from 'react-redux'
 import { Button } from 'react-responsive-ui'
 import classNames from 'classnames'
@@ -8,6 +8,8 @@ import classNames from 'classnames'
 import {
 	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
+
+import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
@@ -122,7 +124,40 @@ Boards.defaultProps = {
 	expanded: false
 }
 
+@connect(({ account }) => ({
+	locale: account.settings.locale
+}), {
+	goto,
+	notify
+})
 class Board extends React.Component {
+	constructor() {
+		super()
+		this.onBoardClick = this.onBoardClick.bind(this)
+	}
+
+	async onBoardClick(event) {
+		event.preventDefault()
+		const {
+			board,
+			locale,
+			goto,
+			notify
+		} = this.props
+		try {
+			// Won't ever throw because `goto()` doesn't return a `Promise`.
+			goto(this.getUrl())
+		} catch (error) {
+			notify(getMessages(locale).loadingThreadsError, { type: 'error '})
+			goto(addChanParameter('/'))
+		}
+	}
+
+	getUrl() {
+		const { board } = this.props
+		return addChanParameter(`/${board.id}`)
+	}
+
 	render() {
 		const { board } = this.props
 		return (
@@ -132,14 +167,16 @@ class Board extends React.Component {
 				title={board.info || board.name}>
 				<td className="boards-list__board-container">
 					<Link
-						to={addChanParameter(`/${board.id}`)}
+						to={this.getUrl()}
+						onClick={this.onBoardClick}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
 				</td>
 				<td className="boards-list__board-name-container">
 					<Link
-						to={addChanParameter(`/${board.id}`)}
+						to={this.getUrl()}
+						onClick={this.onBoardClick}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>

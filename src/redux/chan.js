@@ -20,7 +20,7 @@ export const getBoards = redux.action(
 		const {
 			boards,
 			boardsByCategory
-		} = createParser().parseBoards(response)
+		} = await createParser().parseBoards(response)
 		return {
 			boards,
 			boardsByCategory
@@ -37,7 +37,7 @@ export const getThreads = redux.action(
 		const response = await http.get(proxyUrl(getChan().getThreadsUrl(boardId)))
 		return {
 			boardId,
-			threads: createParser({ filters, locale, boardId }).parseThreads(response)
+			threads: await createParser({ filters, locale, boardId }).parseThreads(response)
 		}
 	},
 	(state, { threads, boardId }) => ({
@@ -51,7 +51,7 @@ export const getComments = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
 		const response = await http.get(proxyUrl(getChan().getCommentsUrl(boardId, threadId)))
 		// const startedAt = Date.now()
-		const comments = createParser({ filters, locale, boardId }).parseComments(response)
+		const comments = await createParser({ filters, locale, boardId }).parseComments(response)
 		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		return {
 			boardId,
@@ -76,6 +76,7 @@ function createParser(options) {
 	const Parser = getChan().Parser
 	return new Parser({
 		...options,
+		youTubeApiKey: configuration.youTubeApiKey,
 		messages: options ? getMessages(options.locale) : undefined
 	})
 }

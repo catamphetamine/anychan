@@ -1,8 +1,5 @@
 export { default as Parser } from './Parser'
 
-// Self-test.
-import test from '../test'
-
 export { GET_BOARDS_RESPONSE_EXAMPLE } from './test.data'
 
 const apiOrigin = 'http://2ch.hk'

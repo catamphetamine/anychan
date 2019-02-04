@@ -23,7 +23,7 @@ import groupBoardsByCategory from './groupBoardsByCategory'
  * // }
  * parseBoards(response)
  */
-export default function parseBoards(response) {
+export default async function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
 	// `boards` are already sorted by posting "speed".
 	// const boardsBySpeed = boards //.slice().sort((a, b) => b.speed - a.speed)

@@ -35,15 +35,15 @@ function getPostLinkContent(postLink, threadId, { messages }) {
 
 function findPostLinks(part) {
 	if (Array.isArray(part)) {
-		return part.map(findPostLinks).filter(_ => _).reduce((links, _) => links.concat(_), [])
+		return part.map(findPostLinks).reduce((links, _) => links.concat(_), [])
 	}
 	// Post content can be empty.
 	// Or maybe even post part's content.
 	if (!part) {
-		return
+		return []
 	}
 	if (typeof part === 'string') {
-		return
+		return []
 	}
 	if (part.type === 'post-link') {
 		return [part]

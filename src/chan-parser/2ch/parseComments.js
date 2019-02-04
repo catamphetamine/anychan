@@ -18,19 +18,21 @@ import compileFilters from '../compileFilters'
  * // }]
  * parseComments(response)
  */
-export default function parseComments(response, {
+export default async function parseComments(response, {
 	filters,
 	messages,
-	parseCommentTextPlugins
+	parseCommentTextPlugins,
+	youTubeApiKey
 }) {
 	const thread = response.threads[0]
-	const comments = thread.posts.map(_ => parseComment(_, {
+	const comments = await Promise.all(thread.posts.map(_ => parseComment(_, {
 		threadId: thread.posts[0].num,
 		defaultAuthor: response.default_name,
 		filters: filters ? compileFilters(filters) : undefined,
 		correctGrammar,
-		parseCommentTextPlugins
-	}))
+		parseCommentTextPlugins,
+		youTubeApiKey
+	})))
 	const threadId = comments[0].id
 	for (const comment of comments) {
 		if (comment.subject) {
