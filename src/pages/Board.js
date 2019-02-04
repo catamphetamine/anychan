@@ -38,7 +38,7 @@ export default class BoardPage extends React.Component {
 		const { goto, notify, locale } = this.props
 		try {
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			goto(addChanParameter(this.getUrl(board, thread, comment), { instantBack: true }))
+			goto(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
 		} catch (error) {
 			notify(getMessages(locale).loadingCommentsError, { type: 'error '})
 		}
