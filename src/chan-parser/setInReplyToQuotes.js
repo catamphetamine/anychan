@@ -6,17 +6,18 @@ import trimText from 'webapp-frontend/src/utility/trimText'
  * Has some CPU usage.
  */
 export default function setInReplyToQuotes(content, posts, threadId, contentParent) {
-	// Post content can be empty.
-	if (!content) {
-		return
-	}
-	if (typeof content === 'string') {
-		return
-	}
 	if (Array.isArray(content)) {
 		for (const part of content) {
 			setInReplyToQuotes(part, posts, threadId, content)
 		}
+		return
+	}
+	// Post content can be empty.
+	// Or maybe even post part's content.
+	if (!content) {
+		return
+	}
+	if (typeof content === 'string') {
 		return
 	}
 	if (content.type === 'post-link') {
@@ -49,5 +50,8 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 				}
 			}
 		}
+		return
 	}
+	// Recurse into post parts.
+	setInReplyToQuotes(content.content, posts, threadId, content)
 }

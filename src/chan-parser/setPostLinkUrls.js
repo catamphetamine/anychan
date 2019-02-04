@@ -34,13 +34,20 @@ function getPostLinkContent(postLink, threadId, { messages }) {
 }
 
 function findPostLinks(part) {
-	if (typeof part === 'string') {
+	if (Array.isArray(part)) {
+		return part.map(findPostLinks).filter(_ => _).reduce((links, _) => links.concat(_), [])
+	}
+	// Post content can be empty.
+	// Or maybe even post part's content.
+	if (!part) {
 		return
 	}
-	if (Array.isArray(part)) {
-		return part.map(_ => findPostLinks(_)).filter(_ => _).reduce((links, _) => links.concat(_), [])
+	if (typeof part === 'string') {
+		return
 	}
 	if (part.type === 'post-link') {
 		return [part]
 	}
+	// Recurse into post parts.
+	return findPostLinks(part.content)
 }

@@ -1,4 +1,6 @@
-import correctQuotes from './correctQuotes.test.js'
-import getHumanReadableLinkAddress from './getHumanReadableLinkAddress.test.js'
+import './correctQuotes.test.js'
+import './getHumanReadableLinkAddress.test.js'
+import './parseLinks.test.js'
 // Providers.
-import test from './2ch/test.js'
+import './2ch/test.js'
+import './4chan/test.js'

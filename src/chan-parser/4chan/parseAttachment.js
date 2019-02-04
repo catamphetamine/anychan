@@ -5,7 +5,7 @@ export default function parseAttachment(file, { boardId }) {
 	if (contentType && contentType.indexOf('image/') === 0) {
 		return {
 			type: 'picture',
-			size: file.size, // in bytes
+			size: file.fsize, // in bytes
 			picture: {
 				type: contentType,
 				sizes: [{
@@ -23,7 +23,7 @@ export default function parseAttachment(file, { boardId }) {
 	if (contentType && contentType.indexOf('video/') === 0) {
 		return {
 			type: 'video',
-			size: file.size, // in bytes
+			size: file.fsize, // in bytes
 			video: {
 				type: contentType,
 				width: file.w,

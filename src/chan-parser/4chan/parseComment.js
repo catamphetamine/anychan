@@ -2,6 +2,7 @@ import parseAuthor from './parseAuthor'
 import parseAttachment from './parseAttachment'
 import getInReplyToPosts from './getInReplyToPosts'
 
+import parseLinks from '../parseLinks'
 import parseCommentText from '../parseCommentText'
 import unescapeContent from '../unescapeContent'
 import filterComment from '../filterComment'
@@ -102,5 +103,6 @@ export default function parseComment(post, {
 	if (author) {
 		comment.author = author
 	}
+	parseLinks(comment)
 	return comment
 }

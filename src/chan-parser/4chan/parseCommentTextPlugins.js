@@ -18,6 +18,17 @@ const parseSpoiler = {
 	}
 }
 
+const parseUnderline = {
+	opener: 'u>',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'underline',
+			content
+		}
+	}
+}
+
 const parseDeletedLink = {
 	opener: 'span class="deadlink"',
 	// Won't "unescape" content (for some reason).
@@ -62,15 +73,13 @@ const parseLink = {
 		if (href[0] === '#') {
 			// "#p184154302"
 			const postId = parseInt(href.slice('#p'.length))
-			// For some weird reason sometimes some
-			// links don't get post-processed it seems.
 			return {
 				type: 'post-link',
 				boardId: null, // Will be set later in comment post-processing.
 				threadId: null, // Will be set later in comment post-processing.
 				postId,
 				content: content.slice('>>'.length),
-				url: `#${postId}` // Will be set later in comment post-processing.
+				url: null // Will be set later in comment post-processing.
 			}
 		} else if (href[0] === '/' && href[1] === '/') {
 			// "//boards.4chan.org/wsr/"
@@ -85,8 +94,8 @@ const parseLink = {
 			return {
 				type: 'post-link',
 				boardId: match[1],
-				threadId: match[2],
-				postId: match[3],
+				threadId: parseInt(match[2]),
+				postId: parseInt(match[3]),
 				content: content.slice('>>'.length),
 				url: null // Will be set later in comment post-processing.
 			}
@@ -103,6 +112,7 @@ const parseLink = {
 
 export default [
 	parseNewLine,
+	parseUnderline,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,
