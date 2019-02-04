@@ -3,6 +3,7 @@ import parseSubjectFromComment from './parseSubjectFromComment'
 import parseAttachment from './parseAttachment'
 import getInReplyToPosts from './getInReplyToPosts'
 
+import removeNewLineCharacters from '../removeNewLineCharacters'
 import parseYouTubeLinks from '../parseYouTubeLinks'
 import parseCommentText from '../parseCommentText'
 import unescapeContent from '../unescapeContent'
@@ -127,6 +128,7 @@ export default async function parseComment(post, {
 			comment.authorRole = authorRole
 		}
 	}
+	removeNewLineCharacters(comment)
 	await parseYouTubeLinks(comment, { youTubeApiKey })
 	return comment
 }
