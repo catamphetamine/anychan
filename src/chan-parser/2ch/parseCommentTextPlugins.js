@@ -7,6 +7,14 @@ const parseParagraph = {
 	}
 }
 
+// Some very old posts can contain manual HTML markup.
+const parseDiv = {
+	opener: 'div',
+	createBlock(content) {
+		return content
+	}
+}
+
 const parseNewLine = {
 	opener: 'br/>',
 	canContainChildren: false,
@@ -158,6 +166,7 @@ const parseSpan = {
 
 export default [
 	parseParagraph,
+	parseDiv,
 	parseNewLine,
 	parseInlineQuote,
 	parseQuote,

@@ -76,12 +76,11 @@ class CommentTextParser {
 			let endsAt
 			let content
 			if (canContainChildren !== false) {
-				const contentStartsAt = text.indexOf('>', startsAt + 1) + '>'.length
+				const contentStartsAt = text.indexOf('>', startsAt + '<'.length) + '>'.length
 				const contentEndsAt = findClosingTagPosition(text, contentStartsAt)
 				// Invalid HTML markup.
-				// Remove the invalid HTML tag.
+				// Ignore.
 				if (!contentEndsAt) {
-					// return text.slice(contentStartsAt)
 					console.error('Invalid HTML markup', text)
 					return
 				}
@@ -116,6 +115,8 @@ class CommentTextParser {
 					)
 				}
 			}
+			// Using `.concat` to skip `undefined`s.
+			// Alternatively could use `.filter()`.
 			return [].concat(
 				this.parseParagraph(text.slice(0, startsAt)),
 				createBlock(content, _attributes),
