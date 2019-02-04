@@ -161,8 +161,9 @@ function isThreadLocation({ location, params }) {
 	return params.thread
 }
 
-@connect(({ found }) => ({
-  route: found.resolvedMatch
+@connect(({ found, account }) => ({
+  route: found.resolvedMatch,
+  locale: account.settings.locale
 }))
 export default class BoardsComponent extends React.Component {
 	state = {
@@ -176,7 +177,7 @@ export default class BoardsComponent extends React.Component {
 	}
 
 	render() {
-		const { route } = this.props
+		const { route, locale } = this.props
 		let { isExpanded } = this.state
 		if (isExpanded === undefined) {
 			if (isBoardLocation(route) || isThreadLocation(route)) {
@@ -193,7 +194,7 @@ export default class BoardsComponent extends React.Component {
 					<button
 						onClick={this.toggleBoardsList}
 						className="boards__toggle rrui__button-reset">
-						Показать список досок
+						{getMessages(locale).showBoardsList}
 					</button>
 				</div>
 				<ContentSection className={classNames({

@@ -1,4 +1,5 @@
 const RU_MESSAGES = {
+	showBoardsList: 'Показать список досок',
 	boardsList: 'Популярные',
 	boardsByCategory: 'По разделам',
 	thread: 'Тред',
@@ -8,6 +9,7 @@ const RU_MESSAGES = {
 }
 
 const EN_MESSAGES = {
+	showBoardsList: 'Show boards list',
 	boardsList: 'Popular',
 	boardsByCategory: 'By category',
 	thread: 'Thread',

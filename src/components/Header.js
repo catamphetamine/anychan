@@ -58,12 +58,12 @@ export default class Header extends React.Component {
 						<div className="header__title">
 							{(isBoardLocation(route) || isThreadLocation(route)) && board &&
 								<span className="header__board-title">
-									{thread &&
+									{isThreadLocation(route) &&
 										<Link to={addChanParameter(`/${board.id}`)} instantBack>
 											{board.name}
 										</Link>
 									}
-									{!thread && board.name}
+									{!isThreadLocation(route) && board.name}
 								</span>
 							}
 							{isThreadLocation(route) && thread &&
