@@ -2,8 +2,7 @@ import YouTube from 'webapp-frontend/src/utility/video-youtube'
 
 /**
  * Transforms YouTube `link`s by inserting video title as link content,
- * and also attaches a video `attachment` to the `link`,
- * and adds a "video" icon.
+ * and also attaches a video `attachment` to the `link`.
  * @param  {object} post
  * @param  {object} options — `{ youTubeApiKey }`
  * @return {void}
@@ -20,7 +19,6 @@ export default async function parseYouTubeLinks(post, options = {}) {
 			if (video.title) {
 				link.content = video.title
 			}
-			link.icon = 'video'
 		}
 	}
 }

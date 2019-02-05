@@ -77,8 +77,7 @@ describe('parseYouTubeLinks', () => {
 										"id": "6CPXGQ0zoJE"
 									}
 								}
-							},
-							"icon": "video"
+							}
 						},
 						' def'
 					]
@@ -144,8 +143,7 @@ describe('parseYouTubeLinks', () => {
 										"id": "6CPXGQ0zoJE"
 									}
 								}
-							},
-							"icon": "video"
+							}
 						},
 						" def"
 					]
