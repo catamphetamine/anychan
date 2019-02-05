@@ -5,9 +5,7 @@ require('@babel/polyfill')
 require('./styles/style.css')
 
 // `chan-parser` self-test.
-setTimeout(() => {
-	require('./chan-parser/test')
-})
+setTimeout(() => require('./chan-parser/test'))
 
 // Run the application.
 require('./initialize').default()
