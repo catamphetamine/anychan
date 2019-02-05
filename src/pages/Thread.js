@@ -31,7 +31,7 @@ import './Thread.css'
 })
 export default class ThreadPage extends React.Component {
 	getUrl = (board, thread, comment) => {
-		return `/${board.id}/${thread.id}#${comment.id}`
+		return `/${board.id}/${thread.id}#comment-${comment.id}`
 	}
 	render() {
 		const {
