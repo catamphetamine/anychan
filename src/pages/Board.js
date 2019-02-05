@@ -4,8 +4,9 @@ import { goto, preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
 import { getThreads } from '../redux/chan'
+import { notify } from 'webapp-frontend/src/redux/notifications'
+
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 
@@ -44,7 +45,7 @@ export default class BoardPage extends React.Component {
 		}
 	}
 	getUrl = (board, thread, comment) => {
-		return `/${board.id}/${thread.id}#${comment.id}`
+		return `/${board.id}/${thread.id}`
 	}
 	render() {
 		const { board, threads } = this.props
@@ -61,8 +62,8 @@ export default class BoardPage extends React.Component {
 								board={board}
 								thread={thread}
 								comment={thread.comments[0]}
-								onClick={this.onThreadClick}
-								getUrl={this.getUrl}/>
+								getUrl={this.getUrl}
+								onClick={this.onThreadClick}/>
 						))}
 					</div>
 				</div>

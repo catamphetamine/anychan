@@ -51,8 +51,7 @@ export default class ThreadPage extends React.Component {
 								board={board}
 								thread={thread}
 								comment={comment}
-								getUrl={this.getUrl}
-								onClick={this.onClick}/>
+								getUrl={this.getUrl}/>
 						))}
 					</div>
 				</div>

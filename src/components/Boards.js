@@ -124,34 +124,33 @@ Boards.defaultProps = {
 	expanded: false
 }
 
-@connect(({ account }) => ({
-	locale: account.settings.locale
-}), {
-	goto,
-	notify
-})
+// @connect(({ account }) => ({
+// 	locale: account.settings.locale
+// }), {
+// 	goto,
+// 	notify
+// })
 class Board extends React.Component {
 	constructor() {
 		super()
-		this.onBoardClick = this.onBoardClick.bind(this)
+		// this.onBoardClick = this.onBoardClick.bind(this)
 	}
 
-	async onBoardClick(event) {
-		event.preventDefault()
-		const {
-			board,
-			locale,
-			goto,
-			notify
-		} = this.props
-		try {
-			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			goto(this.getUrl())
-		} catch (error) {
-			notify(getMessages(locale).loadingThreadsError, { type: 'error '})
-			goto(addChanParameter('/'))
-		}
-	}
+	// async onBoardClick(event) {
+	// 	event.preventDefault()
+	// 	const {
+	// 		board,
+	// 		locale,
+	// 		goto,
+	// 		notify
+	// 	} = this.props
+	// 	try {
+	// 		// Won't ever throw because `goto()` doesn't return a `Promise`.
+	// 		goto(this.getUrl())
+	// 	} catch (error) {
+	// 		notify(getMessages(locale).loadingThreadsError, { type: 'error '})
+	// 	}
+	// }
 
 	getUrl() {
 		const { board } = this.props
@@ -168,7 +167,6 @@ class Board extends React.Component {
 				<td className="boards-list__board-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
@@ -176,7 +174,6 @@ class Board extends React.Component {
 				<td className="boards-list__board-name-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>
