@@ -3,6 +3,7 @@ import parseSubjectFromComment from './parseSubjectFromComment'
 import parseAttachment from './parseAttachment'
 import getInReplyToPosts from './getInReplyToPosts'
 
+import expandStandaloneAttachmentLinks from '../expandStandaloneAttachmentLinks'
 import removeNewLineCharacters from '../removeNewLineCharacters'
 import parseYouTubeLinks from '../parseYouTubeLinks'
 import parseCommentText from '../parseCommentText'
@@ -130,6 +131,9 @@ export default async function parseComment(post, {
 	}
 	removeNewLineCharacters(comment)
 	await parseYouTubeLinks(comment, { youTubeApiKey })
+	// This should be the last one in the chain of comment transformations
+	// because it splits text into paragraphs.
+	expandStandaloneAttachmentLinks(comment)
 	return comment
 }
 

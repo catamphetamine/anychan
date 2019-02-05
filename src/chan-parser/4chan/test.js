@@ -1,1 +1,1 @@
-import './parseThreads.test.js'
+import './parseThreads.test'
