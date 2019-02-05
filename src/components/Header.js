@@ -34,23 +34,6 @@ export default class Header extends React.Component {
 			<nav className="webpage__header">
 				<div className="container">
 					<div className="webpage__header__row">
-						{/*<Menu>
-							<MenuLink to="/" exact>
-								<HomeIcon className="menu-item__icon menu-item__icon--home"/>
-								Home
-							</MenuLink>
-							<MenuLink to="/users">
-								<UsersIcon className="menu-item__icon menu-item__icon--users"/>
-								Users
-							</MenuLink>
-						</Menu>*/}
-
-						{/*
-						<Link to="/" className="header__link">
-							<MenuIcon className="menu-button"/>
-						</Link>
-						*/}
-
 						<Link to={addChanParameter('/')} className="header__logo-link">
 							<img src={Logo} className="header__logo"/>
 						</Link>
