@@ -119,20 +119,17 @@ describe('4chan.org', () => {
 								"\n",
 								"WIP Projects (Korra Trainer, Four Elements Trainer, WT Silver, Tifa Trainer, Incredibles Trainer, Ben ten trainer, Momcest trainer, Fantasy Trainer, etc):",
 								"\n",
-								"",
 								{
 									"type": "link",
 									"url": "https://pastebin.com/G7Z6gtVH",
 									"content": "pastebin.com/G7Z6gtVH"
 								},
-								"",
 								"\n",
 								"If I forgot you please mention it",
 								"\n",
 								"\n",
 								"Maverick wrote a guide for scripting. Shows how to write/structure scenes for coders. Good for idea-guys & script-writers:",
 								"\n",
-								"",
 								{
 									"type": "link",
 									"url": "http://pastebin.com/gRyrGgDt",
@@ -142,13 +139,11 @@ describe('4chan.org', () => {
 								"\n",
 								"Contact info for major contributors:",
 								"\n",
-								"",
 								{
 									"type": "link",
 									"url": "https://quip.com/I2f8AaPEEr0a",
 									"content": "quip.com/I2f8AaPEEr0a"
 								},
-								"",
 								"\n",
 								"Some of these people are looking for writers and artists. If you're interested mention it.",
 								"\n",

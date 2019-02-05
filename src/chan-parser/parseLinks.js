@@ -42,7 +42,7 @@ function injectLinkIntoString(string) {
 				content: getHumanReadableLinkAddress(url)
 			},
 			string.slice(match.index + url.length)
-		]
+		].filter(_ => _)
 	}
 	return string
 }

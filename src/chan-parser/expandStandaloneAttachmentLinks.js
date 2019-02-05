@@ -9,6 +9,10 @@ export default async function expandStandaloneAttachmentLinks(post) {
 	let j = 0
 	while (j < post.content.length) {
 		const paragraph = post.content[j]
+		// Can't happen in current config, but just in case.
+		if (!Array.isArray(paragraph)) {
+			break
+		}
 		let i = 0
 		while (i < paragraph.length) {
 			const block = paragraph[i]
@@ -30,15 +34,33 @@ export default async function expandStandaloneAttachmentLinks(post) {
 					})
 
 					const paragraphs = []
+					// Add previous paragraph.
+					let prevParagraph
 					if (i - 1 > 0) {
-						paragraphs.push(paragraph.slice(0, i - 1))
+						// There may be more than one '\n' separating stuff.
+						prevParagraph = trimNewLines(paragraph.slice(0, i - 1))
+						if (prevParagraph.length > 0) {
+							paragraphs.push(prevParagraph)
+						}
 					}
+					// Add current paragraph.
 					paragraphs.push(attachment)
+					// Add next paragraph.
 					if (paragraph.length > i + 1) {
-						paragraphs.push(paragraph.slice(i + 1 + 1))
+						// There may be more than one '\n' separating stuff.
+						const nextParagraph = trimNewLines(paragraph.slice(i + 1 + 1))
+						if (nextParagraph.length > 0) {
+							paragraphs.push(nextParagraph)
+						}
 					}
 
 					post.content.splice(j, 1, ...paragraphs)
+
+					if (prevParagraph) {
+						j++
+					}
+
+					break
 				}
 			}
 			i++
@@ -55,4 +77,14 @@ function getNextAttachmentId(attachments) {
 		}
 	}
 	return maxId + 1
+}
+
+function trimNewLines(array) {
+	while (array[0] === '\n') {
+		array = array.slice(1)
+	}
+	while (array[array.length - 1] === '\n') {
+		array = array.slice(0, array.length - 1)
+	}
+	return array
 }

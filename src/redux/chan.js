@@ -35,10 +35,13 @@ export const getBoards = redux.action(
 export const getThreads = redux.action(
 	(boardId, filters, locale) => async http => {
 		const response = await http.get(proxyUrl(getChan().getThreadsUrl(boardId)))
-		return {
+		// const startedAt = Date.now()
+		const result = {
 			boardId,
 			threads: await createParser({ filters, locale, boardId }).parseThreads(response)
 		}
+		// console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
+		return result
 	},
 	(state, { threads, boardId }) => ({
 		...state,

@@ -43,7 +43,7 @@ class CommentTextParser {
 	// which are later filtered by `parseCommentText()`.
 	parseParagraph = (text) => {
 		// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
-		text = text.replace(/<br>/g, '<br/>')
+		text = text.replace(/\s*<br>/g, '<br/>')
 		// text = removeInvalidClosingTags(text)
 		for (const plugin of this.options.parseCommentTextPlugins) {
 			const parsed = this.parseHtmlTag(text, plugin)
