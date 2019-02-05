@@ -8,11 +8,12 @@ const parseNewLine = {
 	}
 }
 
-const parseSpoiler = {
-	opener: 's>',
+const parseBold = {
+	opener: 'strong',
 	createBlock(content) {
 		return {
-			type: 'spoiler',
+			type: 'text',
+			style: 'bold',
 			content
 		}
 	}
@@ -24,6 +25,16 @@ const parseUnderline = {
 		return {
 			type: 'text',
 			style: 'underline',
+			content
+		}
+	}
+}
+
+const parseSpoiler = {
+	opener: 's>',
+	createBlock(content) {
+		return {
+			type: 'spoiler',
 			content
 		}
 	}
@@ -120,6 +131,7 @@ const parseLink = {
 
 export default [
 	parseNewLine,
+	parseBold,
 	parseUnderline,
 	parseSpoiler,
 	parseDeletedLink,
