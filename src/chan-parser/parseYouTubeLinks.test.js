@@ -88,6 +88,10 @@ describe('parseYouTubeLinks', () => {
 	})
 
 	it('should parse YouTube links with API key', async () => {
+		// If no YouTube API key has been set up then skip this test.
+		if (!configuration.youTubeApiKey) {
+			return
+		}
 		// Parse YouTube link with YouTube API key.
 		const post = {
 			content: [
