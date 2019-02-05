@@ -33,6 +33,7 @@ import './Board.css'
 	notify
 })
 @preload(async ({ getState, dispatch, params }) => {
+	// Must be the same as the code inside `onBoardClick` in `components/Boards.js`.
 	await dispatch(getThreads(
 		params.board,
 		getState().account.settings.filters,
@@ -56,6 +57,7 @@ export default class BoardPage extends React.Component {
 		} = this.props
 		try {
 			preloadStarted()
+			// Must be the same as the code inside `@preload()` in `pages/Thread.js`.
 			await getComments(
 				board.id,
 				thread.id,

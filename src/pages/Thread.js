@@ -21,6 +21,7 @@ import './Thread.css'
 	comments: chan.comments
 }))
 @preload(async ({ getState, dispatch, params }) => {
+	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
 	await dispatch(getComments(
 		params.board,
 		params.thread,

@@ -154,6 +154,7 @@ class Board extends React.Component {
 		} = this.props
 		try {
 			preloadStarted()
+			// Must be the same as the code inside `@preload()` in `pages/Board.js`.
 			await getThreads(
 				board.id,
 				settings.filters,
