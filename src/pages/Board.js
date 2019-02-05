@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { goto, preload, meta } from 'react-website'
+import { goto, pushLocation, preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { getThreads } from '../redux/chan'
+import { getThreads, getComments } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
+import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
@@ -22,8 +23,12 @@ import './Board.css'
 @connect(({ account, chan }) => ({
 	board: chan.board,
 	threads: chan.threads,
-	locale: account.settings.locale
+	settings: account.settings
 }), {
+	preloadStarted,
+	preloadFinished,
+	getComments,
+	pushLocation,
 	goto,
 	notify
 })
@@ -35,13 +40,34 @@ import './Board.css'
 	))
 })
 export default class BoardPage extends React.Component {
-	onThreadClick = (comment, thread, board) => {
-		const { goto, notify, locale } = this.props
+	constructor() {
+		super()
+		this.onThreadClick = this.onThreadClick.bind(this)
+	}
+
+	async onThreadClick(comment, thread, board) {
+		const {
+			preloadStarted,
+			preloadFinished,
+			getComments,
+			pushLocation,
+			notify,
+			settings
+		} = this.props
 		try {
+			preloadStarted()
+			await getComments(
+				board.id,
+				thread.id,
+				settings.filters,
+				settings.locale
+			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			goto(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
+			pushLocation(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
 		} catch (error) {
-			notify(getMessages(locale).loadingCommentsError, { type: 'error '})
+			notify(getMessages(settings.locale).loadingCommentsError, { type: 'error '})
+		} finally {
+			preloadFinished()
 		}
 	}
 	getUrl = (board, thread, comment) => {

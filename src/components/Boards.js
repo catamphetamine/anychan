@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { goto, Link } from 'react-website'
+import { pushLocation, Link } from 'react-website'
 import { connect } from 'react-redux'
 import { Button } from 'react-responsive-ui'
 import classNames from 'classnames'
@@ -9,7 +9,9 @@ import {
 	ContentSection
 } from 'webapp-frontend/src/components/ContentSection'
 
+import { getThreads } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
+import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
@@ -124,33 +126,46 @@ Boards.defaultProps = {
 	expanded: false
 }
 
-// @connect(({ account }) => ({
-// 	locale: account.settings.locale
-// }), {
-// 	goto,
-// 	notify
-// })
+@connect(({ account }) => ({
+	settings: account.settings
+}), {
+	preloadStarted,
+	preloadFinished,
+	getThreads,
+	pushLocation,
+	notify
+})
 class Board extends React.Component {
 	constructor() {
 		super()
-		// this.onBoardClick = this.onBoardClick.bind(this)
+		this.onBoardClick = this.onBoardClick.bind(this)
 	}
 
-	// async onBoardClick(event) {
-	// 	event.preventDefault()
-	// 	const {
-	// 		board,
-	// 		locale,
-	// 		goto,
-	// 		notify
-	// 	} = this.props
-	// 	try {
-	// 		// Won't ever throw because `goto()` doesn't return a `Promise`.
-	// 		goto(this.getUrl())
-	// 	} catch (error) {
-	// 		notify(getMessages(locale).loadingThreadsError, { type: 'error '})
-	// 	}
-	// }
+	async onBoardClick(event) {
+		event.preventDefault()
+		const {
+			preloadStarted,
+			preloadFinished,
+			board,
+			settings,
+			pushLocation,
+			getThreads,
+			notify
+		} = this.props
+		try {
+			preloadStarted()
+			await getThreads(
+				board.id,
+				settings.filters,
+				settings.locale
+			)
+			pushLocation(this.getUrl())
+		} catch (error) {
+			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
+		} finally {
+			preloadFinished()
+		}
+	}
 
 	getUrl() {
 		const { board } = this.props
@@ -167,6 +182,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-container">
 					<Link
 						to={this.getUrl()}
+						onClick={this.onBoardClick}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
@@ -174,6 +190,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-name-container">
 					<Link
 						to={this.getUrl()}
+						onClick={this.onBoardClick}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>

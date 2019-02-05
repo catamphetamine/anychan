@@ -21,7 +21,7 @@
     "react-redux": "^5.1.1",
     "react-responsive-ui": "^0.14.127",
     "react-time-ago": "^5.0.0",
-    "react-website": "^3.1.8",
+    "react-website": "^3.1.10",
     "redux": "^4.0.0"
   },
   "devDependencies": {
