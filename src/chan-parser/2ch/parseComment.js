@@ -109,6 +109,9 @@ export default async function parseComment(post, {
 		comment.subject = unescapeContent(post.subject)
 	}
 	if (post.comment) {
+		// Sometimes there're some weird `\t` tabulation characters.
+		// I guess they're of the same nature as `\r\n`s.
+		post.comment = post.comment.replace(/\\t/g, '')
 		comment.content = parseCommentText(post.comment, {
 			parseParagraphs: false,
 			correctGrammar,
