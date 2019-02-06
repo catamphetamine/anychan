@@ -8,7 +8,9 @@ const RU_MESSAGES = {
 	loadingCommentsError: 'Не удалось загрузить сообщения треда',
 	deletedPost: 'Удалённое сообщение',
 	hiddenPost: 'Скрытое сообщение',
-	quotedPost: 'Сообщение'
+	quotedPost: 'Сообщение',
+	attachmentPicture: 'Картинка',
+	attachmentVideo: 'Видео'
 }
 
 const EN_MESSAGES = {
@@ -21,7 +23,9 @@ const EN_MESSAGES = {
 	loadingCommentsError: 'Couldn\'t load thread comments',
 	deletedPost: 'Deleted message',
 	hiddenPost: 'Hidden message',
-	quotedPost: 'Message'
+	quotedPost: 'Message',
+	attachmentPicture: 'Picture',
+	attachmentVideo: 'Video'
 }
 
 export default function getMessages(language) {

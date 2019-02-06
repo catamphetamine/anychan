@@ -38,7 +38,7 @@ export default async function parseComments(response, {
 		if (comment.subject) {
 			comment.subject = correctGrammar(comment.subject)
 		}
-		setInReplyToQuotes(comment.content, comments, threadId)
+		setInReplyToQuotes(comment.content, comments, threadId, { messages })
 		setPostLinkUrls(comment, { threadId, messages })
 	}
 	setReplies(comments)

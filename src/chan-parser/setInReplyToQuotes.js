@@ -5,10 +5,10 @@ import trimText from 'webapp-frontend/src/utility/trimText'
  * Adds "in-reply-to" quotes.
  * Has some CPU usage.
  */
-export default function setInReplyToQuotes(content, posts, threadId, contentParent) {
+export default function setInReplyToQuotes(content, posts, threadId, contentParent, options = {}) {
 	if (Array.isArray(content)) {
 		for (const part of content) {
-			setInReplyToQuotes(part, posts, threadId, content)
+			setInReplyToQuotes(part, posts, threadId, content, options)
 		}
 		return
 	}
@@ -34,7 +34,10 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 				return
 			}
 			// Doesn't set `content.post` object to prevent JSON circular structure.
-			const text = getPostText(post, { excludeQuotes: true })
+			const text = getPostText(post, {
+				excludeQuotes: true,
+				messages: options.messages
+			})
 			if (text) {
 				postPeek = trimText(text, 150)
 				const index = contentParent.indexOf(content)
@@ -53,5 +56,5 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 		return
 	}
 	// Recurse into post parts.
-	setInReplyToQuotes(content.content, posts, threadId, content)
+	setInReplyToQuotes(content.content, posts, threadId, content, options)
 }
