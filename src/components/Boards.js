@@ -35,7 +35,8 @@ class Boards extends React.Component {
 		const {
 			locale,
 			boards,
-			boardsByCategory
+			boardsByCategory,
+			className
 		} = this.props
 
 		const { view } = this.state
@@ -45,7 +46,7 @@ class Boards extends React.Component {
 		}
 
 		return (
-			<section className="boards">
+			<section className={classNames('boards', className)}>
 				{boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
@@ -119,7 +120,8 @@ Boards.propTypes = {
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
-	}))
+	})),
+	className: PropTypes.string
 }
 
 Boards.defaultProps = {
@@ -229,7 +231,15 @@ export default class BoardsComponent extends React.Component {
 	}
 
 	render() {
-		const { route, locale } = this.props
+		const {
+			route,
+			locale,
+			// Rest.
+			// For some weird reason `dispatch` property is passed.
+			dispatch,
+			...rest
+		} = this.props
+
 		let { isExpanded } = this.state
 		if (isExpanded === undefined) {
 			if (isBoardLocation(route) || isThreadLocation(route)) {
@@ -238,8 +248,9 @@ export default class BoardsComponent extends React.Component {
 				isExpanded = true
 			}
 		}
+
 		return (
-			<div>
+			<div {...rest}>
 				<div className={classNames('boards__toggle-wrapper', {
 					'boards__toggle-wrapper--collapse-boards-list-on-small-screens': !isExpanded
 				})}>

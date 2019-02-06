@@ -14,7 +14,7 @@
 
 .webpage__footer
 {
-	margin-bottom : var(--footer-menu-height);
+	/* margin-bottom : var(--footer-menu-height); */
   background-color: var(--background-color);
 }
 

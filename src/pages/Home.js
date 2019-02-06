@@ -11,7 +11,7 @@ export default class HomePage extends React.Component {
 			<section className="container">
 				<div className="row">
 					<div className="col-3 col-xs-12">
-						<Boards/>
+						<Boards className="boards-section--home-page"/>
 					</div>
 					<div className="col-9 col-xs-12 col--padding-left-xs">
 					</div>
