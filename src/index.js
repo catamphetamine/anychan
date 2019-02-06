@@ -7,6 +7,9 @@ require('./styles/style.css')
 // `chan-parser` self-test.
 setTimeout(() => require('./chan-parser/test'))
 
+// `webapp-frontend/src/utility` self-test.
+setTimeout(() => require('webapp-frontend/src/utility/test'))
+
 // Run the application.
 require('./initialize').default()
 require('./render').default().catch(error => console.error(error))
