@@ -221,9 +221,9 @@ There's also a website called [`4stats.io`](4stats.io). I contacted `4stats.io` 
 
 * [Get the list of threads of a board](#get-threads-list).
 
-* Find the max post ID: `getMaxPostID(response)`.
+* Find the max post ID and max thread ID.
 
-* Store `maxPostID` and all thread IDs (with their `replies` count) somewhere in state (this is a "stateful" approach).
+* Store `maxPostID` and `maxThreadID` somewhere in state (calculating board stats is "stateful" while calculating thread stats can be "stateless").
 
 * Wait for `N` minutes.
 
@@ -231,8 +231,10 @@ There's also a website called [`4stats.io`](4stats.io). I contacted `4stats.io` 
 
 * Post IDs are local to a board so the amount of posts added since the previous time is the difference of max post IDs: `getMaxPostID(response) - state.maxPostID`. Divide it by `N` and it will be the "posts per minute" stats for the board.
 
-* (stateless) Calculate an approximate "posts per minute" for each thread: `(thread.replies / (thread.last_modified - thread.time)) / 60`. This is an average "posts per minute" stats for a thread across its entire lifespan.
+* Count threads having IDs greater than `state.maxThreadId`. Divide it by `N` and it will be the "threads per minute" stats for the board.
 
-* (possible alternative) Calculate the posts count difference for each thread: `thread.replies - findThreadById(state.threads, thread.no).replies`. Divide it by `N` and it will be the "posts per minute" stats for a thread. For new threads assume the previous posts count to be `0`.
+* (stateless) Calculate an approximate "posts per minute" for each thread: `(thread.replies / (current_unix_time - thread.time)) / 60`. This is an average "posts per minute" stats for a thread across its entire lifespan.
 
 The above steps are performed for each board with a delay `>= 1 sec` between moving from one board to another due to the 4chan API request rate limit of "max one request per second".
+
+The reason why "posts per minute" stats for threads is calculated in a "stateless" approximate manner is because it can be a good-enough approximation of what kind of threads people generally participate in. Alternatively, precise "posts per minute" stats for threads could be calculated by storing `thread.replies` in state for each thread and then, say, after `M` hours the precise "posts per minute" stats for a thread would be calculated as `(thread.replies - getStateForMinutesAgo(M * 60).findThreadById(thread.id).replies) / (M * 60)`. Such "precise" approach would require storing more data in the database and is therefore more complex. It's likely that the "stateless" approximation already gives good-enough results so no extra precision is required.
