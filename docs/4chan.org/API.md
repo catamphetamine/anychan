@@ -225,11 +225,14 @@ There's also a website called [`4stats.io`](4stats.io). I contacted `4stats.io` 
 
 * Store `maxPostID` and all thread IDs (with their `replies` count) somewhere in state (this is a "stateful" approach).
 
-* Wait for 15 minutes.
+* Wait for `N` minutes.
 
 * Get the list of threads of a board again.
 
-* Post IDs are local to a board so the amount of posts added since the previous time is the difference of max post IDs: `getMaxPostID(response) - state.maxPostID`. Divide it by `15` and it will be the "posts per minute" stats for the board.
+* Post IDs are local to a board so the amount of posts added since the previous time is the difference of max post IDs: `getMaxPostID(response) - state.maxPostID`. Divide it by `N` and it will be the "posts per minute" stats for the board.
 
-* Calculate the posts count difference for each thread: `thread.replies - findThreadById(state.threads, thread.no).replies`. Divide it by `15` and it will be the "posts per minute" stats for a thread. For new threads assume the previous posts count to be `0`.
+* (stateless) Calculate an approximate "posts per minute" for each thread: `(thread.replies / (thread.last_modified - thread.time)) / 60`. This is an average "posts per minute" stats for a thread across its entire lifespan.
 
+* (possible alternative) Calculate the posts count difference for each thread: `thread.replies - findThreadById(state.threads, thread.no).replies`. Divide it by `N` and it will be the "posts per minute" stats for a thread. For new threads assume the previous posts count to be `0`.
+
+The above steps are performed for each board with a delay `>= 1 sec` between moving from one board to another due to the 4chan API request rate limit of "max one request per second".
