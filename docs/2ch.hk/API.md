@@ -329,22 +329,6 @@ https://2ch.hk/makaba/mobile.fcgi?task=get_boards
 }
 ```
 
-### Поиск по темам доски (и ОП-постам)
-
-https://2ch.hk/b/catalog_num.json
-
-```js
-{
-  "threads": [{
-    "subject": "...",
-    "comment": "...",
-    "author": "...",
-    "files": [],
-    "posts_count": 5 // количество "ответов"
-  }, ...]
-}
-```
-
 ### Поиск по всем постам доски
 
 https://2ch.hk/makaba/makaba.fcgi
