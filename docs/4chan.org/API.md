@@ -1,6 +1,6 @@
 ### Get boards list
 
-https://a.4cdn.org/boards.json
+[https://a.4cdn.org/boards.json](https://a.4cdn.org/boards.json)
 
 ```js
 {
@@ -32,7 +32,7 @@ https://a.4cdn.org/boards.json
 
 ### Get threads list
 
-https://a.4cdn.org/a/catalog.json
+[https://a.4cdn.org/a/catalog.json](https://a.4cdn.org/a/catalog.json)
 
 ```js
 [
@@ -145,6 +145,33 @@ https://a.4cdn.org/a/catalog.json
 ]
 ```
 
+
+<!--
+### Get thread IDs list (and their latest message dates)
+
+[`https://a.4cdn.org/g/threads.json`](https://a.4cdn.org/g/threads.json). The response is:
+
+```js
+[
+	{
+		"page": 1,
+		"threads": [
+			{
+				"no": 51971506,
+				"last_modified": 1536364716
+			},
+			{
+				"no": 69694831,
+				"last_modified": 1549505043
+			},
+			// ...
+		]
+	},
+	...
+]
+```
+-->
+
 ### Get comments list
 
 https://a.4cdn.org/a/thread/<thread-id>.json
@@ -183,3 +210,26 @@ https://a.4cdn.org/a/thread/<thread-id>.json
 	]
 }
 ```
+
+### Get "Popular threads" list
+
+Seems to be [no such API endpoint](https://github.com/4chan/4chan-API/issues/64).
+
+"Chanu" mobile apps seem to just [parse the HTML](https://github.com/grzegorznittner/chanu/blob/8a65b87847ff1aea0366cf3c1e03d70edb94e36c/app/src/main/java/com/chanapps/four/service/FetchPopularThreadsService.java#L277-L286) of the "Popular threads" section of `4chan.org` main page to get the list of "Popular threads".
+
+There's also a website called [`4stats.io`](4stats.io). I contacted `4stats.io` admins and they replied with a detailed explanation. Their approach is as follows:
+
+* [Get the list of threads of a board](#get-threads-list).
+
+* Find the max post ID: `getMaxPostID(response)`.
+
+* Store `maxPostID` and all thread IDs (with their `replies` count) somewhere in state (this is a "stateful" approach).
+
+* Wait for 15 minutes.
+
+* Get the list of threads of a board again.
+
+* Post IDs are local to a board so the amount of posts added since the previous time is the difference of max post IDs: `getMaxPostID(response) - state.maxPostID`. Divide it by `15` and it will be the "posts per minute" stats for the board.
+
+* Calculate the posts count difference for each thread: `thread.replies - findThreadById(state.threads, thread.no).replies`. Divide it by `15` and it will be the "posts per minute" stats for a thread. For new threads assume the previous posts count to be `0`.
+
