@@ -8,5 +8,5 @@ export default function parseAuthor(name, defaultName) {
 		name === 'mailto:sage') {
 		return
 	}
-	return name.replace(/mailto:/, '')
+	return name.replace(/^mailto:/, '')
 }

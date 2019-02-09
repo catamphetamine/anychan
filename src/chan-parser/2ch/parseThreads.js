@@ -2,12 +2,11 @@ import parseThread from './parseThread'
 import correctGrammar from './correctGrammar'
 
 import setPostLinkUrls from '../setPostLinkUrls'
-import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for threads list.
  * @param  {object} response — Chan API response for threads list
- * @param  {object} [options] — `{ filters }`
+ * @param  {object} options
  * @return {object}
  * @example
  * // Returns:
@@ -28,10 +27,11 @@ export default async function parseThreads(response, {
 }) {
 	const threads = await Promise.all(response.threads.map(_ => parseThread(_, {
 		defaultAuthor: response.default_name,
-		filters: filters ? compileFilters(filters) : undefined,
+		filters,
 		correctGrammar,
 		parseCommentTextPlugins,
-		youTubeApiKey
+		youTubeApiKey,
+		messages
 	})))
 	for (const thread of threads) {
 		// Set comment links.

@@ -1,4 +1,4 @@
-export default function parseAuthor(name, defaultName) {
+export default function parseAuthor(name) {
 	if (name === 'Anonymous') {
 		return
 	}

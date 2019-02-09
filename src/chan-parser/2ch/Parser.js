@@ -2,12 +2,16 @@ import parseBoards from './parseBoards'
 import parseThreads from './parseThreads'
 import parseComments from './parseComments'
 
+import compileFilters from '../compileFilters'
+
 import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
 
 export default class DvachParser {
-	constructor(options) {
+	constructor({ messages, filters, youTubeApiKey }) {
 		this.options = {
-			...options,
+			messages,
+			youTubeApiKey,
+			filters: filters ? compileFilters(filters) : undefined,
 			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
 		}
 	}

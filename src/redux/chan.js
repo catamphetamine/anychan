@@ -20,7 +20,7 @@ export const getBoards = redux.action(
 		const {
 			boards,
 			boardsByCategory
-		} = await createParser().parseBoards(response)
+		} = await createParser({}).parseBoards(response)
 		return {
 			boards,
 			boardsByCategory
@@ -75,12 +75,13 @@ export const getComments = redux.action(
 
 export default redux.reducer()
 
-function createParser(options) {
+function createParser({ filters, locale, boardId }) {
 	const Parser = getChan().Parser
 	return new Parser({
-		...options,
+		boardId,
+		filters,
 		youTubeApiKey: configuration.youTubeApiKey,
-		messages: options ? getMessages(options.locale) : undefined
+		messages: locale ? getMessages(locale) : undefined
 	})
 }
 

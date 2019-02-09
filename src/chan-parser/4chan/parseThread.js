@@ -3,7 +3,7 @@ import parseComment from './parseComment'
 /**
  * Parses 2ch.hk thread JSON object.
  * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar, filters }`.
+ * @param  {object} options
  * @return {object}
  * @example
  * // Outputs:
@@ -70,10 +70,20 @@ import parseComment from './parseComment'
  * // }]
  * parseThread(...)
  */
-export default async function parseThread(thread, options) {
+export default async function parseThread(thread, {
+	boardId,
+	filters,
+	parseCommentTextPlugins,
+	youTubeApiKey,
+	messages
+}) {
 	const comment = await parseComment(thread, {
-		...options,
-		threadId: thread.no
+		boardId,
+		threadId: thread.no,
+		filters,
+		parseCommentTextPlugins,
+		youTubeApiKey,
+		messages
 	})
 	comment.commentsCount = thread.replies
 	return {

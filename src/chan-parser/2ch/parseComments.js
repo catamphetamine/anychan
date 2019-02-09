@@ -4,12 +4,11 @@ import correctGrammar from './correctGrammar'
 import setInReplyToQuotes from '../setInReplyToQuotes'
 import setPostLinkUrls from '../setPostLinkUrls'
 import setReplies from '../setReplies'
-import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for thread comments list.
  * @param  {object} response — Chan API response for thread comments list
- * @param  {object} [options] — `{ filters }`
+ * @param  {object} options
  * @return {object}
  * @example
  * // Returns:
@@ -28,7 +27,7 @@ export default async function parseComments(response, {
 	const comments = await Promise.all(thread.posts.map(_ => parseComment(_, {
 		threadId: thread.posts[0].num,
 		defaultAuthor: response.default_name,
-		filters: filters ? compileFilters(filters) : undefined,
+		filters,
 		correctGrammar,
 		parseCommentTextPlugins,
 		youTubeApiKey,

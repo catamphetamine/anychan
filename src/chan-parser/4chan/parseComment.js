@@ -13,7 +13,7 @@ import filterComment from '../filterComment'
 /**
  * Parses response thread JSON object.
  * @param  {object} thread — Response thread JSON object.
- * @param  {object} options — `{ correctGrammar, filters, defaultAuthor, boardId }`
+ * @param  {object} options
  * @return {object}
  * @example
  * // Outputs:
@@ -73,7 +73,6 @@ export default async function parseComment(post, {
 	boardId,
 	threadId,
 	filters,
-	defaultAuthor,
 	parseCommentTextPlugins,
 	youTubeApiKey,
 	messages

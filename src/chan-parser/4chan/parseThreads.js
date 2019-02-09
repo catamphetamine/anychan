@@ -1,12 +1,11 @@
 import parseThread from './parseThread'
 
 import setPostLinkUrls from '../setPostLinkUrls'
-import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for threads list.
  * @param  {object} response — Chan API response for threads list
- * @param  {object} [options] — `{ filters }`
+ * @param  {object} options
  * @return {object}
  * @example
  * // Returns:
@@ -29,9 +28,10 @@ export default async function parseThreads(response, {
 	let threads = response.reduce((all, page) => all.concat(page.threads), [])
 	threads = await Promise.all(threads.map(_ => parseThread(_, {
 		boardId,
-		filters: filters ? compileFilters(filters) : undefined,
+		filters,
 		parseCommentTextPlugins,
-		youTubeApiKey
+		youTubeApiKey,
+		messages
 	})))
 	for (const thread of threads) {
 		// Set comment links.

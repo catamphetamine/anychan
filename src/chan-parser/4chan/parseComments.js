@@ -3,7 +3,6 @@ import parseComment from './parseComment'
 import setInReplyToQuotes from '../setInReplyToQuotes'
 import setPostLinkUrls from '../setPostLinkUrls'
 import setReplies from '../setReplies'
-import compileFilters from '../compileFilters'
 
 /**
  * Parses chan API response for thread comments list.
@@ -27,7 +26,7 @@ export default async function parseComments(response, {
 	const comments = await Promise.all(response.posts.map(_ => parseComment(_, {
 		boardId,
 		threadId: response.posts[0].no,
-		filters: filters ? compileFilters(filters) : undefined,=
+		filters,
 		parseCommentTextPlugins,
 		youTubeApiKey,
 		messages
