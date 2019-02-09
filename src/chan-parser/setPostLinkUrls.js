@@ -1,20 +1,24 @@
 /**
- * Sets post links.
+ * Sets up post links.
  * @param {object[]} posts
- * @param {string} [threadId] — If passed then same page link URLs will be set (when appropriate).
+ * @param {object} options
  */
 export default function setPostLinkUrls(post, { boardId, threadId, messages }) {
 	if (!post.content) {
 		return
 	}
 	for (const postLink of findPostLinks(post.content)) {
-		postLink.content = getPostLinkContent(postLink, threadId, { messages })
+		// Set content.
+		postLink.content = messages.quotedPost
+		// Set board ID.
 		if (!postLink.boardId) {
 			postLink.boardId = boardId
 		}
+		// Set thread ID.
 		if (!postLink.threadId) {
 			postLink.threadId = threadId
 		}
+		// Set URL.
 		if (threadId === postLink.threadId) {
 			postLink.url = `#comment-${postLink.postId}`
 		} else {
@@ -23,17 +27,7 @@ export default function setPostLinkUrls(post, { boardId, threadId, messages }) {
 	}
 }
 
-function getPostLinkContent(postLink, threadId, { messages }) {
-	if (postLink.postWasDeleted) {
-		return messages.deletedPost
-	}
-	if (postLink.postIsHidden) {
-		return messages.hiddenPost
-	}
-	return messages.quotedPost
-}
-
-function findPostLinks(part) {
+export function findPostLinks(part) {
 	if (Array.isArray(part)) {
 		return part.map(findPostLinks).reduce((links, _) => links.concat(_), [])
 	}

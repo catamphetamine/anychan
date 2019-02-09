@@ -4,7 +4,7 @@
  * @param  {object} filters — Compiled filters
  * @return {object} [reason] `{ name }`
  */
-export default function filterComment(comment, {
+export default function filter(comment, {
 	ignoredWords,
 	ignoredWordsCaseSensitive,
 	ignoredPatterns,

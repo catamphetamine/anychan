@@ -11,6 +11,7 @@ export default class FourChanParser {
 		this.options = {
 			boardId,
 			messages,
+			youTubeApiKey,
 			filters: filters ? compileFilters(filters) : undefined,
 			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
 		}

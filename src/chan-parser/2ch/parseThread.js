@@ -73,7 +73,6 @@ import parseComment from './parseComment'
 export default async function parseThread(thread, {
 	defaultAuthor,
 	filters,
-	correctGrammar,
 	parseCommentTextPlugins,
 	youTubeApiKey,
 	messages
@@ -82,7 +81,6 @@ export default async function parseThread(thread, {
 		threadId: parseInt(thread.num),
 		defaultAuthor,
 		filters,
-		correctGrammar,
 		parseCommentTextPlugins,
 		youTubeApiKey,
 		messages

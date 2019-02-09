@@ -2,13 +2,7 @@ import parseAuthor from './parseAuthor'
 import parseAttachment from './parseAttachment'
 import getInReplyToPosts from './getInReplyToPosts'
 
-import expandStandaloneAttachmentLinks from '../expandStandaloneAttachmentLinks'
-import removeNewLineCharacters from '../removeNewLineCharacters'
-import parseLinks from '../parseLinks'
-import parseYouTubeLinks from '../parseYouTubeLinks'
-import parseCommentText from '../parseCommentText'
-import unescapeContent from '../unescapeContent'
-import filterComment from '../filterComment'
+import constructComment from '../constructComment'
 
 /**
  * Parses response thread JSON object.
@@ -77,40 +71,29 @@ export default async function parseComment(post, {
 	youTubeApiKey,
 	messages
 }) {
-	const id = post.no
-	const author = parseAuthor(post.name)
-	const comment = {
-		id,
-		inReplyTo: post.com ? getInReplyToPosts(post.com, { threadId }) : [],
-		attachments: post.ext ? [parseAttachment(post, { boardId })] : [],
-		createdAt: new Date(post.time * 1000)
-	}
-	if (post.sub) {
-		comment.subject = unescapeContent(post.sub)
-	}
-	if (post.com) {
+	let rawComment = post.com
+	// `post.com` is absent when there's no text.
+	if (rawComment) {
 		// For some weird reason there occasionally are random `<wbr>` tags.
-		const html = post.com.replace(/<wbr>/g, '')
-		comment.content = parseCommentText(html, {
-			parseParagraphs: false,
-			parseCommentTextPlugins
-		})
+		rawComment = rawComment.replace(/<wbr>/g, '')
 	}
-	if (filters) {
-		const reason = filterComment(post.comment, filters)
-		if (reason) {
-			comment.hidden = true
-			comment.hiddenReason = reason
+	const comment = await constructComment(
+		boardId,
+		threadId,
+		post.no,
+		rawComment,
+		parseAuthor(post.name),
+		// `post.sub` is absent when there's no comment subject.
+		post.sub,
+		post.ext ? [parseAttachment(post, { boardId })] : [],
+		post.time,
+		{
+			filters,
+			parseCommentTextPlugins,
+			getInReplyToPosts,
+			youTubeApiKey,
+			messages
 		}
-	}
-	if (author) {
-		comment.author = author
-	}
-	parseLinks(comment)
-	removeNewLineCharacters(comment)
-	await parseYouTubeLinks(comment, { youTubeApiKey, messages })
-	// This should be the last one in the chain of comment transformations
-	// because it splits text into paragraphs.
-	expandStandaloneAttachmentLinks(comment)
+	)
 	return comment
 }

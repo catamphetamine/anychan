@@ -46,7 +46,7 @@
 				"now": "02/03/19(Sun)03:30:11", // Thread creation date (text).
 				"name": "Anonymous", // Thread poster name.
 				"sub": "Gegege no Kitaro", // Thread subject.
-				"com": "Kitaro is framed as a yokai killer, Ratman is a cunt and McNanashi stops by.", // Thread message HTML.
+				"com": "Kitaro is framed as a yokai killer, Ratman is a cunt and McNanashi stops by.", // Thread message HTML. Will be missing if there's no text.
 
 				"filename": "[HorribleSubs] Gegege no Kitarou (2018) - 42 [720p].mkv_snapshot_03.42_[2019.02.03_10.26.49]", // Attachment file name.
 				"ext": ".jpg", // Attachment file extension.
@@ -186,7 +186,7 @@ https://a.4cdn.org/a/thread/<thread-id>.json
 			"now": "02/03/19(Sun)03:30:11", // Comment creation date (text).
 			"name": "Anonymous", // Comment poster name.
 			"sub": "Gegege no Kitaro", // Comment subject.
-			"com": "Kitaro is framed as a yokai killer, Ratman is a cunt and McNanashi stops by.", // Comment message HTML.
+			"com": "Kitaro is framed as a yokai killer, Ratman is a cunt and McNanashi stops by.", // Comment message HTML. Will be missing if there's no text.
 
 			"filename": "[HorribleSubs] Gegege no Kitarou (2018) - 42 [720p].mkv_snapshot_03.42_[2019.02.03_10.26.49]", // Attachment file name.
 			"ext": ".jpg", // Attachment file extension.

@@ -1,8 +1,6 @@
 import parseComment from './parseComment'
 
-import setInReplyToQuotes from '../setInReplyToQuotes'
-import setPostLinkUrls from '../setPostLinkUrls'
-import setReplies from '../setReplies'
+import postProcessComments from '../postProcessComments'
 
 /**
  * Parses chan API response for thread comments list.
@@ -23,21 +21,15 @@ export default async function parseComments(response, {
 	parseCommentTextPlugins,
 	youTubeApiKey
 }) {
+	const threadId = response.posts[0].no
 	const comments = await Promise.all(response.posts.map(_ => parseComment(_, {
 		boardId,
-		threadId: response.posts[0].no,
+		threadId,
 		filters,
 		parseCommentTextPlugins,
 		youTubeApiKey,
 		messages
 	})))
-	const threadId = comments[0].id
-	for (const comment of comments) {
-		setInReplyToQuotes(comment.content, comments, { threadId, messages })
-		setPostLinkUrls(comment, { boardId, threadId, messages })
-	}
-	setReplies(comments)
-	// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
-	// Return result.
+	postProcessComments(comments, { threadId, messages })
 	return comments
 }
