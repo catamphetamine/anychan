@@ -47,7 +47,12 @@ const parseDiv = {
 	opener: 'div',
 	createBlock(content) {
 		// <div align="center">
-		return content
+		//
+		// `\n` doesn't actually add a new line.
+		// `<p/>` isn't an inline element.
+		// If it was parsed it could be parsed in `parseCommentText`
+		// when `content` can be split into paragraphs.
+		return content + '\n'
 	}
 }
 
