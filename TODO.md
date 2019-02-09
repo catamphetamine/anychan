@@ -1,6 +1,124 @@
 * Ограничить выдачу страниц тредов и комментов ипользуя <OnScrollTo/>, потому что ютубовый токен используется, да и проц может нагружать. Посмотреть, что при <OnScrollTo/> не перерендериваются верхние посты (мб сделать их <PureComponent/>s).
 
-* Посмотреть, работает ли `<Video onClick={closeSlideshow}/>`.
+* 4chan post:
+
+```
+https://www.google.com/recaptcha/api2/reload?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc
+https://www.google.com/recaptcha/api2/userverify?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc
+
+https://sys.4chan.org/b/post
+
+FormData
+
+Check `image_limit` from Board's info from `boards.json`.
+Check `max_comment_chars` from Board's info from `boards.json`.
+Check `cooldowns.replies` from Board's info from `boards.json`.
+Check `thread.isClosed`.
+
+withCredentials = true.
+
+if (Main.board == 'q') {
+  this.baseDelay = 60
+  this.fileDelay = 300
+  this.sageDelay = 600
+}
+else {
+  this.baseDelay = 30
+  this.fileDelay = 30
+  this.sageDelay = 60
+}
+
+this.captchaDelay = 240
+
+
+sel = UA.getSelection()
+if (sel) {
+  q += '>' + sel.trim().replace(/[\r\n]+/g, '\n>') + '\n'
+}
+
+form = postForm.parentNode.cloneNode(false);
+form.setAttribute('name', 'qrPost');
+form.innerHTML =
+  '<input type="hidden" value="'
+  + $.byName('MAX_FILE_SIZE')[0].value + '" name="MAX_FILE_SIZE">'
+  + '<input type="hidden" value="regist" name="mode">'
+  + '<input id="qrResto" type="hidden" value="' + tid + '" name="resto">';
+
+https://github.com/4chan/4chan-JS/blob/8714d5fe9c138bdb0587c860a90a1289ffda65e3/extension.js
+
+id="captchaFormPart"
+
+row.innerHTML = '<img id="qrCaptcha" title="Reload" width="300" height="57" src="'
+  + $.id('recaptcha_image').firstChild.src + '" alt="reCAPTCHA challenge image">'
+  + '<input id="qrCapField" name="recaptcha_response_field" '
+  + 'placeholder="reCAPTCHA Challenge (Required)" '
+  + 'type="text" autocomplete="off" autocorrect="off" autocapitalize="off">'
+  + '<input id="qrChallenge" name="recaptcha_challenge_field" type="hidden" value="'
+  + $.id('recaptcha_challenge_field').value + '">';
+
+Maybe check banned status on error:
+
+QR.banXhr.open('GET', '//api.4chan.org/banned?' + Date.now())
+if (status == 403)
+
+// byteLength = encodeURIComponent(comment).split(/%..|./).length - 1;
+
+MAX_FILE_SIZE: 2097152 // Board's `max_filesize` from `https://a.4cdn.org/boards.json`.
+mode: regist // Whatever.
+resto: 792190180 // Thread ID.
+email: // (optional) Author email.
+com: Like 2ch.hk/b/ ? // Comment text.
+upfile: (binary) // (optional) An attachment (a picture or a webm video).
+g-recaptcha-response: 03AF6jDqXUEXD6OJXDFm9i8hA-eQxsVWxSXiPDSTvUklz1oaVKZdl7-TR-SIXyElx1zypXqsJWkVI9WH3YU8VytGzV1IoV0Psxwwxo8Q9xw7j17-vpJ8s5WZ-oPzoS2CLOaQTbEe01ay0g8CdGsk9KqA8WsH40x3ZawoEZYWeuJlF53EHny_sWBCcVgps8QI-a1OUCI-2yuf_l-5NWXiY_AvdNdpjaZzWvEDTDmGeeiooOhbotYA-IJA6b7WeLalsNWa-UsYxOuOOdrizWHFjXR0Mk2ChpHca7VeyiuaBYZAwVXGc8YZVz5bUvGZ-8ruMRuE9Le208HjFG // Google ReCaptcha "response".
+
+Access-Control-Request-Method: POST
+Origin: http://boards.4chan.org
+Referer: http://boards.4chan.org/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
+
+Response:
+
+<!DOCTYPE html><head><meta http-equiv="refresh" content="1;URL=http://boards.4chan.org/bant/thread/7466194#p7466464"><link rel="shortcut icon" href="//s.4cdn.org/image/favicon.ico"><title>Post successful!</title><link rel="stylesheet" title="switch" href="//s.4cdn.org/css/yotsubanew.685.css"></head><body style="margin-top: 20%; text-align: center;"><h1 style="font-size:36pt;">Post successful!</h1><!-- thread:7466194,no:7466464 --></body></html>
+
+Check `<span id="errmsg" style="color: red;">Error: ...</span>`.
+
+    if (this.status == 200) {
+      if (resp = this.responseText.match(/"errmsg"[^>]*>(.*?)<\/span/)) {
+        QR.reloadCaptcha();
+        QR.showPostError(resp[1]);
+        return;
+      }
+    }
+
+Not exists:
+
+<hr class="abovePostForm"><table style="text-align: center; width: 100%; height: 300px;"><tr valign="middle"><td align="center" style="font-size: x-large; font-weight: bold;"><span id="errmsg" style="color: red;">Error: Specified thread does not exist.</span><br><br>[<a href=http://boards.4chan.org/b/>Return</a>]</td></tr></table><br><br><hr size=1><div id="absbot" class="absBotText">
+
+Spam:
+
+<hr class="abovePostForm"><table style="text-align: center; width: 100%; height: 300px;"><tr valign="middle"><td align="center" style="font-size: x-large; font-weight: bold;"><span id="errmsg" style="color: red;">Error: Our system thinks your post is spam. Please reformat and try again.</span><br><br>[<a href=http://boards.4chan.org/r9k/>Return</a>]</td></tr></table><br><br><hr size=1><div id="absbot" class="absBotText">
+
+access-control-allow-credentials: true
+access-control-allow-headers: If-Modified-Since
+access-control-allow-methods: GET, OPTIONS
+access-control-allow-origin: http://boards.4chan.org
+
+if (ids = this.responseText.match(/<!-- thread:([0-9]+),no:([0-9]+) -->/)) {
+  tid = ids[1];
+  pid = ids[2];
+
+  if (Main.tid) {
+    QR.lastReplyId = +pid;
+    Parser.trackedReplies['>>' + pid] = 1;
+    Parser.saveTrackedReplies(tid, Parser.trackedReplies);
+  }
+  else {
+    tracked = Parser.getTrackedReplies(tid) || {};
+    tracked['>>' + pid] = 1;
+    Parser.saveTrackedReplies(tid, tracked);
+  }
+}
+```
 
 * Можно перенести header влево на десктопах, а на мобильных — вниз. На десктопе: раздел "ИЗБРАННОЕ", раздел "ВСЕ ДОСКИ", внизу или вверху — кнопки ночного режима и настроек (может с подписями, может без). Раздел "ИЗБРАННОЕ": рядом справа — плюс и троеточие. При нажатии на плюс: автокомплит со списком досок вида `/<b color="blue">доска</b> — Название доски...`. Троеточие — подменю с пунктом "Редактировать". При активации редактирования справа у досок в избранном появляется карандаш и крестик (переименование и убирание из избранного), а также можно гипотетически в перспективе будет доски перетаскивать, меняя их положение в списке (список избранных досок также можно редактировать в виде JSON'а в настройках). На мобильных: стандартное мобильное меню снизу. Пункты: десктопный раздел с досками (иконка — "список"), ночной режим, настройки.
 

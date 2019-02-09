@@ -8,22 +8,23 @@
 		{
 			"board": "3", // Board URL ID.
 			"title": "3DCG", // Board name.
-			"ws_board": 1,
-			"per_page": 15,
-			"pages": 10,
-			"max_filesize": 4194304,
-			"max_webm_filesize": 3145728,
-			"max_comment_chars": 2000,
-			"max_webm_duration": 120,
-			"bump_limit": 310,
-			"image_limit": 150,
+			"ws_board": 1, // Is the board "Work Safe".
+			"per_page": 15, // Threads per page.
+			"pages": 10, // Max thread pages.
+			"max_filesize": 4194304, // Max comment attachment size.
+			"max_webm_filesize": 3145728, // Max comment `.webm` attachment size.
+			"max_webm_duration": 120, // Max comment `.webm` attachment duration.
+			"max_comment_chars": 2000, // Max comment length.
+			"bump_limit": 310, // The "bump limit" for a thread. (How much comments max will "bump" the thread, i.e. how much comments max will move to the top of the threads list)
+			"image_limit": 150, // The maximum number of attachments allowed in the comments of the thread.
 			"cooldowns": {
-				"threads": 600,
-				"replies": 60,
-				"images": 60
+				"threads": 600, // Cooldown for creating a thread. A user won't be able to create a new thread until the cooldown passes.
+				"replies": 60, // Cooldown for leaving a reply in a thread.
+				"images": 60 // Perhaps a cooldown for attaching an image to a comment in a thread. I guess it can be ignored if it's the same as the `replies` cooldown.
 			},
 			"meta_description": "&quot;/3/ - 3DCG&quot; is 4chan's board for 3D modeling and imagery.", // Board description.
-			"is_archived": 1
+			"is_archived": 1, // Is the board archived.
+			"forced_anon": 1 // Is the "Author" field for every comment being overwritten with "Anonymous".
 		},
 		...
 	]
