@@ -7,10 +7,12 @@ export default function removeNewLineCharacters(post) {
 		return
 	}
 	for (const paragraph of post.content) {
-		let i = 0
-		while (i < paragraph.length) {
-			_removeNewLineCharacters(paragraph, i)
-			i++
+		if (Array.isArray(paragraph)) {
+			let i = 0
+			while (i < paragraph.length) {
+				_removeNewLineCharacters(paragraph, i)
+				i++
+			}
 		}
 	}
 }

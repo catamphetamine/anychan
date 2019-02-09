@@ -119,6 +119,61 @@ describe('expandStandaloneAttachmentLinks', () => {
 		)
 	})
 
+	it('should skip non-text paragraphs', () => {
+		const post = {
+			content: [
+				{
+					type: 'attachment',
+					attachmentId: 1
+				},
+				[
+					{
+						type: 'link',
+						attachment: {}
+					},
+					'abc',
+					'\n',
+					{
+						type: 'link',
+						attachment: {}
+					}
+				]
+			],
+			attachments: [{
+				id: 1
+			}]
+		}
+		expandStandaloneAttachmentLinks(post)
+		expectToEqual(
+			post,
+			{
+				content: [
+					{
+						type: 'attachment',
+						attachmentId: 1
+					},
+					[
+						{
+							type: 'link',
+							attachment: {}
+						},
+						'abc'
+					],
+					{
+						type: 'attachment',
+						attachmentId: 2,
+						fit: 'height'
+					}
+				],
+				attachments: [{
+					id: 1
+				}, {
+					id: 2
+				}]
+			}
+		)
+	})
+
 	it('should not expand non-standalone attachment links when there\'s text before them', () => {
 		const post = {
 			content: [

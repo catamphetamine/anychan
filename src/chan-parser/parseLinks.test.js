@@ -29,6 +29,27 @@ describe('parseLinks', () => {
 				]
 			}
 		)
+
+		post = {
+			content: [
+				{
+					type: 'attachment',
+					attachmentId: 1
+				}
+			]
+		}
+		parseLinks(post)
+		expectToEqual(
+			post,
+			{
+				content: [
+					{
+						type: 'attachment',
+						attachmentId: 1
+					}
+				]
+			}
+		)
 	})
 
 	it('should parse links in text', () => {

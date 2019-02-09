@@ -26,6 +26,37 @@ describe('removeNewLineCharacters', () => {
 		)
 	})
 
+	it('should skip non-array paragraphs', () => {
+		const post = {
+			content: [
+				{
+					type: 'attachment',
+					attachmentId: 1
+				},
+				[
+					'a\\nb\\r\\nc'
+				]
+			]
+		}
+
+		removeNewLineCharacters(post)
+
+		expectToEqual(
+			post,
+			{
+				content: [
+					{
+						type: 'attachment',
+						attachmentId: 1
+					},
+					[
+						'abc'
+					]
+				]
+			}
+		)
+	})
+
 	it('should remove new line characters in nested blocks', () => {
 		const post = {
 			content: [

@@ -9,9 +9,10 @@ export default async function expandStandaloneAttachmentLinks(post) {
 	let j = 0
 	while (j < post.content.length) {
 		const paragraph = post.content[j]
-		// Can't happen in current config, but just in case.
+		// Only processes text paragraphs.
 		if (!Array.isArray(paragraph)) {
-			break
+			j++
+			continue
 		}
 		let i = 0
 		while (i < paragraph.length) {

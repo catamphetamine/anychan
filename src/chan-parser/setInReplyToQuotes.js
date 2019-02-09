@@ -14,6 +14,7 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 	}
 	// Post content can be empty.
 	// Or maybe even post part's content.
+	// Like `{ type: 'attachment', attachmentId: 1 }`.
 	if (!content) {
 		return
 	}

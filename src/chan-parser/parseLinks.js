@@ -8,7 +8,9 @@ export default function parseLinks(post) {
 		return
 	}
 	for (const paragraph of post.content) {
-		injectLinks(paragraph)
+		if (Array.isArray(paragraph)) {
+			injectLinks(paragraph)
+		}
 	}
 }
 
