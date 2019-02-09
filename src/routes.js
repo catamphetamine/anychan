@@ -4,7 +4,7 @@ import Board from './pages/Board'
 import Thread from './pages/Thread'
 import Settings from './pages/Settings'
 
-import { ERROR_PAGES_ROUTES } from 'webapp-frontend/src/routes.common'
+import { ERROR_PAGES, NOT_FOUND } from 'webapp-frontend/src/routes.common'
 
 export default [{
 	path: '/',
@@ -12,8 +12,9 @@ export default [{
 	children: [
 		{ Component: Home },
 		{ path: 'settings', Component: Settings },
-		...ERROR_PAGES_ROUTES,
+		...ERROR_PAGES,
 		{ path: ':board', Component: Board },
-		{ path: ':board/:thread', Component: Thread }
+		{ path: ':board/:thread', Component: Thread },
+		NOT_FOUND
 	]
 }]
