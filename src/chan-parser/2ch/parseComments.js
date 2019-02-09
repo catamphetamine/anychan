@@ -31,7 +31,8 @@ export default async function parseComments(response, {
 		filters: filters ? compileFilters(filters) : undefined,
 		correctGrammar,
 		parseCommentTextPlugins,
-		youTubeApiKey
+		youTubeApiKey,
+		messages
 	})))
 	const threadId = comments[0].id
 	for (const comment of comments) {

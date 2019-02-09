@@ -75,7 +75,8 @@ export default async function parseComment(post, {
 	correctGrammar,
 	defaultAuthor,
 	parseCommentTextPlugins,
-	youTubeApiKey
+	youTubeApiKey,
+	messages
 }) {
 	const id = post.num
 	const author = parseAuthor(post.name, defaultAuthor)
@@ -133,7 +134,7 @@ export default async function parseComment(post, {
 		}
 	}
 	removeNewLineCharacters(comment)
-	await parseYouTubeLinks(comment, { youTubeApiKey })
+	await parseYouTubeLinks(comment, { youTubeApiKey, messages })
 	// This should be the last one in the chain of comment transformations
 	// because it splits text into paragraphs.
 	expandStandaloneAttachmentLinks(comment)

@@ -16,5 +16,6 @@
 	"hiddenPost": "Hidden message",
 	"quotedPost": "Message",
 	"attachmentPicture": "Picture",
-	"attachmentVideo": "Video"
+	"attachmentVideo": "Video",
+	"videoNotFound": "Video not found"
 }

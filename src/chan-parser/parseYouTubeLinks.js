@@ -19,6 +19,8 @@ export default async function parseYouTubeLinks(post, options = {}) {
 			if (video.title) {
 				link.content = video.title
 			}
+		} else if (video === null && options.messages && options.messages.videoNotFound) {
+			link.content = options.messages.videoNotFound
 		}
 	}
 }

@@ -16,5 +16,6 @@
 	"hiddenPost": "Скрытое сообщение",
 	"quotedPost": "Сообщение",
 	"attachmentPicture": "Картинка",
-	"attachmentVideo": "Видео"
+	"attachmentVideo": "Видео",
+	"videoNotFound": "Видео не найдено"
 }
