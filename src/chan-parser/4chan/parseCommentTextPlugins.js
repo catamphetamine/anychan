@@ -19,6 +19,47 @@ const parseBold = {
 	}
 }
 
+const parseParagraph = {
+	opener: 'p>',
+	createBlock(content) {
+		// `\n` doesn't actually add a new line.
+		// `<p/>` isn't an inline element.
+		// If it was parsed it could be parsed in `parseCommentText`
+		// when `content` can be split into paragraphs.
+		return content + '\n'
+	}
+}
+
+const parseStyledParagraph = {
+	opener: 'p ',
+	createBlock(content, [style]) {
+		// style="font-weight: bold; font-size: 12pt; color: red;"
+		//
+		// `\n` doesn't actually add a new line.
+		// `<p/>` isn't an inline element.
+		// If it was parsed it could be parsed in `parseCommentText`
+		// when `content` can be split into paragraphs.
+		return content + '\n'
+	}
+}
+
+const parseColoredText = {
+	opener: 'b ',
+	createBlock(content, [style]) {
+		return content
+		// let color
+		// const match = style.match(/^color:[^;]+/)
+		// if (match) {
+		// 	color = match[1]
+		// }
+		// return {
+		// 	type: 'text',
+		// 	color,
+		// 	content
+		// }
+	}
+}
+
 const parseUnderline = {
 	opener: 'u>',
 	createBlock(content) {
@@ -133,6 +174,9 @@ export default [
 	parseNewLine,
 	parseBold,
 	parseUnderline,
+	parseColoredText,
+	parseParagraph,
+	parseStyledParagraph,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,
