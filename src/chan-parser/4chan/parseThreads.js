@@ -6,7 +6,7 @@ import compileFilters from '../compileFilters'
 /**
  * Parses chan API response for threads list.
  * @param  {object} response — Chan API response for threads list
- * @param  {object} [options] — `{ filters, getAttachmentUrl }`
+ * @param  {object} [options] — `{ filters }`
  * @return {object}
  * @example
  * // Returns:
@@ -22,7 +22,6 @@ import compileFilters from '../compileFilters'
 export default async function parseThreads(response, {
 	boardId,
 	filters,
-	getAttachmentUrl,
 	messages,
 	parseCommentTextPlugins,
 	youTubeApiKey
@@ -31,7 +30,6 @@ export default async function parseThreads(response, {
 	threads = await Promise.all(threads.map(_ => parseThread(_, {
 		boardId,
 		filters: filters ? compileFilters(filters) : undefined,
-		getAttachmentUrl,
 		parseCommentTextPlugins,
 		youTubeApiKey
 	})))

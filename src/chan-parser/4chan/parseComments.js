@@ -8,7 +8,7 @@ import compileFilters from '../compileFilters'
 /**
  * Parses chan API response for thread comments list.
  * @param  {object} response — Chan API response for thread comments list
- * @param  {object} [options] — `{ filters, getAttachmentUrl }`
+ * @param  {object} options
  * @return {object}
  * @example
  * // Returns:
@@ -20,7 +20,6 @@ import compileFilters from '../compileFilters'
 export default async function parseComments(response, {
 	filters,
 	boardId,
-	getAttachmentUrl,
 	messages,
 	parseCommentTextPlugins,
 	youTubeApiKey
@@ -28,8 +27,7 @@ export default async function parseComments(response, {
 	const comments = await Promise.all(response.posts.map(_ => parseComment(_, {
 		boardId,
 		threadId: response.posts[0].no,
-		filters: filters ? compileFilters(filters) : undefined,
-		getAttachmentUrl,
+		filters: filters ? compileFilters(filters) : undefined,=
 		parseCommentTextPlugins,
 		youTubeApiKey,
 		messages

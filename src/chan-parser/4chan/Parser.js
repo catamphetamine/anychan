@@ -8,10 +8,7 @@ export default class FourChanParser {
 	constructor(options) {
 		this.options = {
 			...options,
-			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS,
-			getAttachmentUrl(path, { boardId }) {
-				return `https://i.4cdn.org/${boardId}${path}`
-			}
+			parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
 		}
 	}
 

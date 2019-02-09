@@ -18,10 +18,6 @@ function getContentTypeByFileType(type) {
 	}
 }
 
-function getAttachmentUrl(path) {
-	return `//2ch.hk${path}`
-}
-
 export default function parseAttachment(file, { boardId }) {
 	let contentType = getContentTypeByFileType(file.type)
 	// Fallback for incorrect attachments.
@@ -38,11 +34,11 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: getAttachmentUrl(file.thumbnail, { boardId })
+					url: `//2ch.hk${file.thumbnail}`
 				}, {
 					width: file.width,
 					height: file.height,
-					url: getAttachmentUrl(file.path, { boardId })
+					url: `//2ch.hk${file.path}`
 				}]
 			}
 		}
@@ -56,7 +52,7 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: getAttachmentUrl(file.thumbnail, { boardId })
+					url: `//2ch.hk${file.thumbnail}`
 				}]
 			}
 		} else {
@@ -76,7 +72,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.width,
 						height: file.height,
-						url: getAttachmentUrl(file.path, { boardId })
+						url: `//2ch.hk${file.path}`
 					}]
 				},
 				picture

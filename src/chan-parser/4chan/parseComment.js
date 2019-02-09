@@ -13,7 +13,7 @@ import filterComment from '../filterComment'
 /**
  * Parses response thread JSON object.
  * @param  {object} thread — Response thread JSON object.
- * @param  {object} options — `{ correctGrammar, filters, defaultAuthor, getAttachmentUrl, boardId }`
+ * @param  {object} options — `{ correctGrammar, filters, defaultAuthor, boardId }`
  * @return {object}
  * @example
  * // Outputs:
@@ -74,7 +74,6 @@ export default async function parseComment(post, {
 	threadId,
 	filters,
 	defaultAuthor,
-	getAttachmentUrl,
 	parseCommentTextPlugins,
 	youTubeApiKey,
 	messages
@@ -84,7 +83,7 @@ export default async function parseComment(post, {
 	const comment = {
 		id,
 		inReplyTo: post.com ? getInReplyToPosts(post.com, { threadId }) : [],
-		attachments: post.ext ? [parseAttachment(post, { getAttachmentUrl, boardId })] : [],
+		attachments: post.ext ? [parseAttachment(post, { boardId })] : [],
 		createdAt: new Date(post.time * 1000)
 	}
 	if (post.sub) {

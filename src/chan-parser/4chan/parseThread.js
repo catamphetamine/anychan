@@ -3,7 +3,7 @@ import parseComment from './parseComment'
 /**
  * Parses 2ch.hk thread JSON object.
  * @param  {object} thread — 2ch.hk thread JSON object.
- * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar, filters, getAttachmentUrl }`.
+ * @param  {object} options — `{ defaultAuthor, boardId, correctGrammar, filters }`.
  * @return {object}
  * @example
  * // Outputs:
