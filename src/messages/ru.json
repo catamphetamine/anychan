@@ -1,6 +1,7 @@
 {
 	"languageName": "Русский",
 	"settings": {
+		"title": "Настройки",
 		"language": "Язык",
 		"filters": "Фильтры"
 	},
