@@ -1,0 +1,19 @@
+{
+	"languageName": "Русский",
+	"settings": {
+		"language": "Язык",
+		"filters": "Фильтры"
+	},
+	"showBoardsList": "Показать список досок",
+	"boardsList": "Популярные",
+	"boardsByCategory": "По разделам",
+	"thread": "Тред",
+	"loadingBoardsError": "Не удалось загрузить список досок",
+	"loadingThreadsError": "Не удалось загрузить список тредов",
+	"loadingCommentsError": "Не удалось загрузить сообщения треда",
+	"deletedPost": "Удалённое сообщение",
+	"hiddenPost": "Скрытое сообщение",
+	"quotedPost": "Сообщение",
+	"attachmentPicture": "Картинка",
+	"attachmentVideo": "Видео"
+}

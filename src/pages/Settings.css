@@ -1,0 +1,6 @@
+.page__header {
+	margin: 0;
+	padding-top: calc(var(--unit) * 2);
+	padding-bottom: calc(var(--unit) * 2);
+	text-align: left;
+}

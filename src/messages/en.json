@@ -1,0 +1,19 @@
+{
+	"languageName": "English",
+	"settings": {
+		"language": "Language",
+		"filters": "Filters"
+	},
+	"showBoardsList": "Show boards list",
+	"boardsList": "Popular",
+	"boardsByCategory": "By category",
+	"thread": "Thread",
+	"loadingBoardsError": "Couldn\"t load boards list",
+	"loadingThreadsError": "Couldn\"t load threads list",
+	"loadingCommentsError": "Couldn\"t load thread comments",
+	"deletedPost": "Deleted message",
+	"hiddenPost": "Hidden message",
+	"quotedPost": "Message",
+	"attachmentPicture": "Picture",
+	"attachmentVideo": "Video"
+}

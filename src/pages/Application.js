@@ -26,7 +26,7 @@ import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/account'
 
-import getMessages from '../messages'
+// import getMessages from '../messages'
 
 import './Application.css'
 
@@ -41,14 +41,8 @@ import './Application.css'
 	closeSlideshow
 })
 @preload(async ({ dispatch, getState }) => {
-	const settings = await dispatch(getSettings())
-	// // `react-time-ago` language.
-	// setDefaultLocale(settings.locale)
-	try {
-		await dispatch(getBoards())
-	} catch (error) {
-		alert(getMessages(getState().account.settings.locale).loadingBoardsError)
-	}
+	await dispatch(getSettings())
+	await dispatch(getBoards())
 }, {
 	blocking: true
 })
