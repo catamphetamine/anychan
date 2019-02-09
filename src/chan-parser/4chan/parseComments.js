@@ -35,7 +35,7 @@ export default async function parseComments(response, {
 	})))
 	const threadId = comments[0].id
 	for (const comment of comments) {
-		setInReplyToQuotes(comment.content, comments, threadId, { messages })
+		setInReplyToQuotes(comment.content, comments, { threadId, messages })
 		setPostLinkUrls(comment, { boardId, threadId, messages })
 	}
 	setReplies(comments)

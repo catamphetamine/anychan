@@ -5,10 +5,10 @@ import trimText from 'webapp-frontend/src/utility/trimText'
  * Adds "in-reply-to" quotes.
  * Has some CPU usage.
  */
-export default function setInReplyToQuotes(content, posts, threadId, contentParent, options = {}) {
+export default function setInReplyToQuotes(content, posts, options, contentParent) {
 	if (Array.isArray(content)) {
 		for (const part of content) {
-			setInReplyToQuotes(part, posts, threadId, content, options)
+			setInReplyToQuotes(part, posts, options, content)
 		}
 		return
 	}
@@ -23,7 +23,7 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 	}
 	if (content.type === 'post-link') {
 		let postPeek
-		if (!content.threadId || content.threadId === threadId) {
+		if (!content.threadId || content.threadId === options.threadId) {
 			const post = posts.find(_ => _.id === content.postId)
 			// Comments can be deleted.
 			if (!post) {
@@ -57,5 +57,5 @@ export default function setInReplyToQuotes(content, posts, threadId, contentPare
 		return
 	}
 	// Recurse into post parts.
-	setInReplyToQuotes(content.content, posts, threadId, content, options)
+	setInReplyToQuotes(content.content, posts, options, content)
 }
