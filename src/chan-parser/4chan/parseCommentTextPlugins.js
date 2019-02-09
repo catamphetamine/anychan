@@ -43,6 +43,14 @@ const parseStyledParagraph = {
 	}
 }
 
+const parseDiv = {
+	opener: 'div',
+	createBlock(content) {
+		// <div align="center">
+		return content
+	}
+}
+
 const parseColoredText = {
 	opener: 'b ',
 	createBlock(content, [style]) {
@@ -177,6 +185,7 @@ export default [
 	parseColoredText,
 	parseParagraph,
 	parseStyledParagraph,
+	parseDiv,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,
