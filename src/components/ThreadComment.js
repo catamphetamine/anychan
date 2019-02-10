@@ -114,6 +114,7 @@ function Comment({ comment, hidden, url, locale }) {
 					post={comment}
 					url={url}
 					locale={locale}
+					compact
 					saveBandwidth
 					expandFirstPictureOrVideo={false}
 					attachmentThumbnailHeight={160} />
