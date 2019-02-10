@@ -40,7 +40,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 				messages: options.messages
 			})
 			if (text) {
-				postPeek = trimText(text, 150)
+				postPeek = trimText(text, 150).replace(/\n\n+/g, '\n')
 				const index = contentParent.indexOf(content)
 				const possibleQuote = contentParent[index + 2]
 				if (possibleQuote && possibleQuote.type === 'inline-quote') {
