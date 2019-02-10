@@ -105,7 +105,7 @@ function Comment({ comment, hidden, url, locale }) {
 			})}>
 			{hidden && 'Сообщение скрыто'}
 			{!hidden && comment.subject &&
-				<ContentSectionHeader>
+				<ContentSectionHeader lite>
 					{comment.subject}
 				</ContentSectionHeader>
 			}
