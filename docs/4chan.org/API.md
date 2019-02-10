@@ -29,7 +29,8 @@
 			"spoilers": 1, // Whether the board uses "spoilers" for attachments.
 			"custom_spoilers": 2, // The amount of "custom spoilers" for attachments on a board. If present, then is always greater than `0`. Every time a new thread is started it gets assigned a random spoiler ID and then all comments in such thread having attachments will have the spoiler with the assigned spoiler ID. So, in a given thread all attachments have the same spoiler image but on a given boards different threads have different spoiler images.
 			"forced_anon": 1, // Is the "Author" field for every comment being overwritten with "Anonymous".
-			"user_ids": 1,
+			"user_ids": 1, // If `1` then will show comment poster IDs like "(ID: /6oj2yjC)".
+			"country_flags": 1, // If `1` then will show comment poster country flags. For example, on "international" boards.
 			"min_image_width": 480,
 			"min_image_height": 600,
 			"webm_audio": 1,
