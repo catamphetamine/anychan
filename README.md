@@ -1,4 +1,4 @@
-An alternative GUI for an imageboard (4chan, 8chan, 2ch).
+An alternative GUI for an imageboard (4chan, 2ch, etc).
 
 [`4chan.org` demo](https://catamphetamine.github.io/chanchan/?chan=4chan)
 

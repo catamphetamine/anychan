@@ -241,7 +241,7 @@ https://2ch.hk/<доска>/threads.json
 
 ### Список досок
 
-https://2ch.hk/boards.json
+[https://2ch.hk/boards.json](https://2ch.hk/boards.json)
 
 ```js
 {
