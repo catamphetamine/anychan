@@ -1,5 +1,5 @@
 import parseBoard from './parseBoard'
-import groupBoardsByCategory from './groupBoardsByCategory'
+import groupBoardsByCategory from '../groupBoardsByCategory'
 
 /**
  * Parses chan API response for boards list.
@@ -25,11 +25,19 @@ import groupBoardsByCategory from './groupBoardsByCategory'
  */
 export default async function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
-	// `boards` are already sorted by posting "speed".
-	// const boardsBySpeed = boards //.slice().sort((a, b) => b.speed - a.speed)
-	const boardsByCategory = groupBoardsByCategory(boards)
 	return {
 		boards,
-		boardsByCategory
+		// `boards` are already sorted by `commentsPerHour`.
+		boardsByPopularity: boards,
+		boardsByCategory: groupBoardsByCategory(boards, [
+			'Тематика',
+			'Творчество',
+			'Политика и новости',
+			'Техника и софт',
+			'Игры',
+			'Японская культура',
+			'Разное',
+			'Взрослым'
+		])
 	}
 }

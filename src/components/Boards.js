@@ -21,6 +21,7 @@ import './Boards.css'
 @connect(({ account, chan }) => ({
 	locale: account.settings.locale,
 	boards: chan.boards,
+	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory
 }))
 class Boards extends React.Component {
@@ -28,13 +29,14 @@ class Boards extends React.Component {
 		view: 'default'
 	}
 
-	onChangeViewBySpeed = () => this.setState({ view: 'default' })
+	onChangeViewAllBoards = () => this.setState({ view: 'default' })
 	onChangeViewByCategory = () => this.setState({ view: 'by-category' })
 
 	render() {
 		const {
 			locale,
 			boards,
+			boardsByPopularity,
 			boardsByCategory,
 			className
 		} = this.props
@@ -50,11 +52,11 @@ class Boards extends React.Component {
 				{boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
-							onClick={this.onChangeViewBySpeed}
+							onClick={this.onChangeViewAllBoards}
 							className={classNames('boards__view-switch', {
 								'boards__view-switch--selected': view === 'default'
 							})}>
-							{getMessages(locale).boardsList}
+							{boardsByPopularity ? getMessages(locale).boardsByPopularity : getMessages(locale).boardsList}
 						</Button>
 
 						<div className="boards__view-switch-divider"/>
@@ -93,7 +95,7 @@ class Boards extends React.Component {
 								))}
 							</React.Fragment>
 						))}
-						{view === 'default' && boards.map((board) => (
+						{view === 'default' && (boardsByPopularity || boards).map((board) => (
 							<Board
 								key={board.id}
 								board={board}/>
@@ -108,8 +110,8 @@ class Boards extends React.Component {
 const boardShape = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	info: PropTypes.string,
-	speed: PropTypes.number.isRequired
+	description: PropTypes.string.isRequired,
+	commentsPerHour: PropTypes.number
 }
 
 Boards.propTypes = {

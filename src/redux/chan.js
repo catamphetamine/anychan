@@ -19,10 +19,12 @@ export const getBoards = redux.action(
 		}
 		const {
 			boards,
+			boardsByPopularity,
 			boardsByCategory
 		} = await createParser({}).parseBoards(response)
 		return {
 			boards,
+			boardsByPopularity,
 			boardsByCategory
 		}
 	},

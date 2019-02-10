@@ -11,7 +11,8 @@
 		}
 	},
 	"showBoardsList": "Show boards list",
-	"boardsList": "Popular",
+	"boardsList": "All boards",
+	"boardsByPopularity": "Popular",
 	"boardsByCategory": "By category",
 	"thread": "Thread",
 	"loadingBoardsError": "Couldn\"t load boards list",

@@ -11,7 +11,8 @@
 		}
 	},
 	"showBoardsList": "Показать список досок",
-	"boardsList": "Популярные",
+	"boardsList": "Все доски",
+	"boardsByPopularity": "Популярные",
 	"boardsByCategory": "По разделам",
 	"thread": "Тред",
 	"loadingBoardsError": "Не удалось загрузить список досок",
