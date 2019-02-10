@@ -76,7 +76,7 @@ export default class SettingsPage extends React.Component {
 
 				{/* Language */}
 				<ContentSection>
-					<ContentSectionHeader>
+					<ContentSectionHeader lite>
 						{messages.settings.language}
 					</ContentSectionHeader>
 
@@ -88,7 +88,7 @@ export default class SettingsPage extends React.Component {
 
 				{/* Font Size */}
 				<ContentSection>
-					<ContentSectionHeader>
+					<ContentSectionHeader lite>
 						{messages.settings.fontSize.title}
 					</ContentSectionHeader>
 
@@ -100,7 +100,7 @@ export default class SettingsPage extends React.Component {
 
 				{/* CORS Proxy URL */}
 				<ContentSection>
-					<ContentSectionHeader>
+					<ContentSectionHeader lite>
 						CORS Proxy URL
 					</ContentSectionHeader>
 
@@ -114,7 +114,7 @@ export default class SettingsPage extends React.Component {
 
 				{/* Filters */}
 				<ContentSection>
-					<ContentSectionHeader>
+					<ContentSectionHeader lite>
 						{messages.settings.filters}
 					</ContentSectionHeader>
 					<pre>

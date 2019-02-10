@@ -1,1 +1,5 @@
 @import "../../../webapp-frontend/src/styles/base.css";
+
+h1, h2, h3 {
+  font-weight: 500;
+}

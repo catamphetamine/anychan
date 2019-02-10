@@ -52,11 +52,6 @@
   white-space: nowrap;
 }
 
-.header__thread-title
-{
-	color: var(--gray-color-darkest);
-}
-
 .menu-button
 {
 	width  : calc(var(--unit) * 2);

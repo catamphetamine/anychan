@@ -46,6 +46,9 @@ body
 
 	--footer-menu-height : calc(var(--unit) * 3);
 
+	--font-family : Roboto, sans-serif;
+	--font-family-text : sans-serif;
+
 	/*
 	@mixin xs
 	{
