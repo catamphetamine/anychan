@@ -16,9 +16,9 @@ This is a demo showcase project and it has only a minimal set of features:
 
 #### Board browsing
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-3605x2880.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-3639x1959.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-1024x818.png" width="800" height="639"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-1024x551.png" width="512" height="276"/>
 
 #### Post attachments
 
