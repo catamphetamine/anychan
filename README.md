@@ -63,19 +63,19 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 
 ## Chan
 
-This demo project currently supports `2ch.hk` and `4chan.org` chans.
+This demo project currently supports [`4chan.org`](https://4chan.org) and [`2ch.hk`](https://2ch.hk) chans.
 
 <!-- and `4chan.org` chans.-->
-
-### 2ch.hk
-
-* [API (official docs)](https://2ch.hk/api/)
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
 
 ### 4chan.org
 
 * [API (official docs)](https://github.com/4chan/4chan-API)
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md)
+
+### 2ch.hk
+
+* [API (official docs)](https://2ch.hk/api/)
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
 
 <!--
 ## Configuration
