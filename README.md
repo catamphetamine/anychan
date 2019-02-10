@@ -12,15 +12,13 @@ This is a demo showcase project and it has only a minimal set of features:
 
 ## Screenshots
 
-(may become outdated)
-
-#### Board browsing
+#### Browsing
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-3639x1959.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-1024x551.png" width="512" height="276"/>
 
-#### Post attachments
+#### Media
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-3602x1952.png)
 
