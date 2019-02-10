@@ -3,7 +3,12 @@
 	"settings": {
 		"title": "Настройки",
 		"language": "Язык",
-		"filters": "Фильтры"
+		"filters": "Фильтры",
+		"fontSize": {
+			"title": "Размер шрифта",
+			"medium": "Средний",
+			"large": "Крупный"
+		}
 	},
 	"showBoardsList": "Показать список досок",
 	"boardsList": "Популярные",

@@ -17,7 +17,7 @@ export default createConfig({
 	meta: {
 		site_name   : 'chanchan',
 		title       : 'chanchan',
-		description : 'An experimental GUI for an imageboard',
+		description : 'An alternative GUI for an imageboard (4chan, 2ch, etc).',
 		image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg',
 		locales     : ['ru_RU', 'en_US']
 	},

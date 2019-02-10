@@ -5,13 +5,22 @@ import { Select, TextInput } from 'react-responsive-ui'
 import { Form, Field } from 'easy-react-form'
 
 import configuration from '../configuration'
-import { getSettings, saveLocale } from '../redux/account'
+
+import {
+	getSettings,
+	saveLocale,
+	saveFontSize
+} from '../redux/account'
+
 import getMessages, { getLanguageNames } from '../messages'
+import { applyFontSize } from '../utility/theme'
 
 import {
 	ContentSection,
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
+
+import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import './Settings.css'
 
@@ -27,7 +36,9 @@ const LANGUAGE_OPTIONS = Object.keys(LANGUAGE_NAMES).map((language) => ({
 @connect(({ account }) => ({
 	settings: account.settings
 }), {
-	saveLocale
+	saveLocale,
+	saveFontSize,
+	notify
 })
 @preload(({ dispatch }) => dispatch(getSettings()))
 export default class SettingsPage extends React.Component {
@@ -43,9 +54,19 @@ export default class SettingsPage extends React.Component {
 		// await saveCorsProxyUrl(corsProxyUrl)
 	}
 
+	saveFontSize = (fontSize) => {
+		const { saveFontSize } = this.props
+		if (applyFontSize(fontSize)) {
+			saveFontSize(fontSize)
+		} else {
+			notify('Your browser doesn\'t support CSS variables', { type: 'error' })
+		}
+	}
+
 	render() {
 		const { settings, saveLocale } = this.props
 		const messages = getMessages(settings.locale)
+
 		return (
 			<section className="container">
 				{/* Settings */}
@@ -63,6 +84,18 @@ export default class SettingsPage extends React.Component {
 						value={settings.locale}
 						options={LANGUAGE_OPTIONS}
 						onChange={saveLocale}/>
+				</ContentSection>
+
+				{/* Font Size */}
+				<ContentSection>
+					<ContentSectionHeader>
+						{messages.settings.fontSize.title}
+					</ContentSectionHeader>
+
+					<Select
+						value={settings.fontSize}
+						options={getFontSizeOptions(settings.locale)}
+						onChange={this.saveFontSize}/>
 				</ContentSection>
 
 				{/* CORS Proxy URL */}
@@ -91,4 +124,14 @@ export default class SettingsPage extends React.Component {
 			</section>
 		)
 	}
+}
+
+function getFontSizeOptions(locale) {
+	const fontSizes = getMessages(locale).settings.fontSize
+	return Object.keys(fontSizes)
+		.filter(_ => _ !== 'title')
+		.map((fontSize) => ({
+			value: fontSize,
+			label: fontSizes[fontSize]
+		}))
 }

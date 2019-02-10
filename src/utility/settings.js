@@ -7,11 +7,16 @@ import {
 	IGNORED_PATTERNS_CASE_SENSITIVE
 } from './settings.filters'
 
-const SUPPORTED_LANGUAGES = ['ru', 'en']
+import { applyFontSize } from './theme'
+
+import {
+	isSupportedLanguage
+} from '../messages'
 
 export function getDefaultSettings() {
 	return {
-		locale: (typeof window === 'undefined' ? null : (SUPPORTED_LANGUAGES.includes(navigator.language) ? navigator.language : null)) || 'en',
+		fontSize: 'medium',
+		locale: getDefaultLocale(),
 		filters: {
 			ignoredWords: IGNORED_WORDS,
 			ignoredWordsCaseSensitive: IGNORED_WORDS_CASE_SENSITIVE,
@@ -19,4 +24,19 @@ export function getDefaultSettings() {
 			ignoredPatternsCaseSensitive: IGNORED_PATTERNS_CASE_SENSITIVE
 		}
 	}
+}
+
+export function applySettings(settings) {
+	if (settings.fontSize) {
+		applyFontSize(settings.fontSize)
+	}
+}
+
+function getDefaultLocale() {
+	if (typeof window !== 'undefined') {
+		if (isSupportedLanguage(navigator.language)) {
+			return navigator.language
+		}
+	}
+	return 'en'
 }

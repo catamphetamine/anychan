@@ -26,7 +26,7 @@ import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/account'
 
-// import getMessages from '../messages'
+import { applySettings } from '../utility/settings'
 
 import './Application.css'
 
@@ -42,6 +42,7 @@ import './Application.css'
 })
 @preload(async ({ dispatch, getState }) => {
 	await dispatch(getSettings())
+	applySettings(getState().account.settings)
 	await dispatch(getBoards())
 }, {
 	blocking: true

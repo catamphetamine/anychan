@@ -18,3 +18,7 @@ export default function getMessages(language) {
 			throw new Error(`Unsupported language: ${language}`)
 	}
 }
+
+export function isSupportedLanguage(language) {
+	return getLanguageNames()[language] !== undefined
+}

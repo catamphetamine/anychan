@@ -12,8 +12,10 @@ import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
 import './Thread.css'
 
-@meta((state) => ({
-	title: state.chan.thread && (state.chan.thread.comments[0].subject || state.chan.board.name)
+@meta(({ chan: { board, thread }}) => ({
+	title: thread && (thread.comments[0].subject || board.name),
+	description: thread && thread.comments[0].textPreview,
+	image: thread && getThreadImage(thread)
 }))
 @connect(({ chan }) => ({
 	board: chan.board,
@@ -58,5 +60,18 @@ export default class ThreadPage extends React.Component {
 				</div>
 			</section>
 		)
+	}
+}
+
+function getThreadImage(thread) {
+	const comment = thread.comments[0]
+	if (comment.attachments.length > 0) {
+		const attachment = comment.attachments[0]
+		switch (attachment.type) {
+			case 'picture':
+				return attachment.picture.sizes[0].url
+			case 'video':
+				return attachment.video.picture.sizes[0].url
+		}
 	}
 }

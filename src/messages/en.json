@@ -3,7 +3,12 @@
 	"settings": {
 		"title": "Settings",
 		"language": "Language",
-		"filters": "Filters"
+		"filters": "Filters",
+		"fontSize": {
+			"title": "Font Size",
+			"medium": "Medium",
+			"large": "Large"
+		}
 	},
 	"showBoardsList": "Show boards list",
 	"boardsList": "Popular",

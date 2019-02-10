@@ -1,3 +1,5 @@
+import unescapeContent from '../unescapeContent'
+
 /**
  * Parses response board JSON object
  * @param  {object} board — Response board JSON object
@@ -15,6 +17,6 @@ export default function parseBoard(board) {
 	return {
 		id: board.board,
 		name: board.title,
-		description: board.meta_description
+		description: unescapeContent(board.meta_description)
 	}
 }

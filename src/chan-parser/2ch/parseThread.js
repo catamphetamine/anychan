@@ -1,4 +1,5 @@
 import parseComment from './parseComment'
+import constructThread from '../constructThread'
 
 /**
  * Parses 2ch.hk thread JSON object.
@@ -85,14 +86,11 @@ export default async function parseThread(thread, {
 		youTubeApiKey,
 		messages
 	})
-	comment.commentsCount = thread.posts_count
-	return {
-		id: comment.id,
-		isClosed: thread.closed === 1,
-		isEndless: thread.endless === 1,
-		isSticky: thread.sticky === 1,
-		comments: [
-			comment
-		]
-	}
+	return constructThread(
+		thread.posts_count,
+		comment,
+		thread.closed === 1,
+		thread.endless === 1,
+		thread.sticky === 1
+	)
 }

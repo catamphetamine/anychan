@@ -16,9 +16,9 @@ import ThreadComment from '../components/ThreadComment'
 
 import './Board.css'
 
-@meta((state) => ({
-	title       : state.chan.board && state.chan.board.name,
-	description : state.chan.board && state.chan.board.description
+@meta(({ chan: { board }}) => ({
+	title: board && board.name,
+	description: board && board.description
 }))
 @connect(({ account, chan }) => ({
 	board: chan.board,

@@ -14,25 +14,22 @@ export const getSettings = redux.action(
 	'settings'
 )
 
-// export const saveSettings = redux.action(
-// 	(settings) => async () => localStorage.settings = JSON.stringify(settings)
-// )
-
 export const saveLocale = redux.action(
-	(locale) => async () => {
-		const settings = getCustomSettings()
-		settings.locale = locale
-		localStorage.settings = JSON.stringify(settings)
-		return {
-			...getDefaultSettings(),
-			...settings
-		}
-	},
+	(locale) => async () => saveSetting('locale', locale),
+	'settings'
+)
+
+export const saveFontSize = redux.action(
+	(fontSize) => async () => saveSetting('fontSize', fontSize),
 	'settings'
 )
 
 export default redux.reducer()
 
+/**
+ * Gets user's settings from `localStorage`.
+ * @return {object}
+ */
 function getCustomSettings() {
 	let settings = {}
 	if (localStorage.settings) {
@@ -47,4 +44,20 @@ function getCustomSettings() {
 		}
 	}
 	return settings
+}
+
+/**
+ * Applies a setting and saves it to `localStorage`.
+ * @param  {string} name
+ * @param  {(string|number|boolean)} value
+ * @return {object} The updated settings
+ */
+function saveSetting(name, value) {
+	const settings = getCustomSettings()
+	settings[name] = value
+	localStorage.settings = JSON.stringify(settings)
+	return {
+		...getDefaultSettings(),
+		...settings
+	}
 }
