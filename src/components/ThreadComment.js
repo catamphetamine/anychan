@@ -117,7 +117,7 @@ function Comment({ comment, hidden, url, locale }) {
 					compact
 					saveBandwidth
 					expandFirstPictureOrVideo={false}
-					attachmentThumbnailHeight={160} />
+					attachmentThumbnailHeight={14 * 12} />
 			}
 		</ContentSection>
 	)
