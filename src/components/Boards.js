@@ -26,7 +26,7 @@ import './Boards.css'
 }))
 class Boards extends React.Component {
 	state = {
-		view: 'default'
+		view: this.props.boardsByPopularity ? 'default' : 'by-category'
 	}
 
 	onChangeViewAllBoards = () => this.setState({ view: 'default' })
