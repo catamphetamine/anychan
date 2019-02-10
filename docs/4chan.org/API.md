@@ -23,8 +23,18 @@
 				"images": 60 // Perhaps a cooldown for attaching an image to a comment in a thread. I guess it can be ignored if it's the same as the `replies` cooldown.
 			},
 			"meta_description": "&quot;/3/ - 3DCG&quot; is 4chan's board for 3D modeling and imagery.", // Board description.
-			"is_archived": 1, // Is the board archived.
-			"forced_anon": 1 // Is the "Author" field for every comment being overwritten with "Anonymous".
+			"is_archived": 1, // Seems to always be `1`.
+
+			// Optional:
+			"spoilers": 1, // Whether the board uses "spoilers" for attachments.
+			"custom_spoilers": 2, // The amount of "custom spoilers" for attachments on a board. If present, then is always greater than `0`. Every time a new thread is started it gets assigned a random spoiler ID and then all comments in such thread having attachments will have the spoiler with the assigned spoiler ID. So, in a given thread all attachments have the same spoiler image but on a given boards different threads have different spoiler images.
+			"forced_anon": 1, // Is the "Author" field for every comment being overwritten with "Anonymous".
+			"user_ids": 1,
+			"min_image_width": 480,
+			"min_image_height": 600,
+			"webm_audio": 1,
+			"sjis_tags": 1,
+			"oekaki": 1
 		},
 		...
 	]
@@ -65,7 +75,7 @@
 				"bumplimit": 0,
 				"imagelimit": 0,
 				"semantic_url": "gegege-no-kitaro",
-				"custom_spoiler": 1,
+				"custom_spoiler": 1, // "Custom spoiler" ID for attachments. If present, then is always greater than `0`, and in a given thread all attachments have the same "spoiler" image with that ID.
 				"omitted_posts": 19,
 				"omitted_images": 15,
 
