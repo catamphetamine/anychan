@@ -26,9 +26,9 @@ class CommentTextParser {
 		// 	'<div class="quote">$1</div>'
 		// )
 		// Parse into paragraphs.
-		if (this.options.parseParagraphs) {
-			const paragraphs = comment.split(/<br>(?:<br>)+/)
-			return paragraphs.filter(_ => _).map(this.parseParagraph)
+		if (this.options.parseParagraphs !== false) {
+			const paragraphs = comment.split(/<br>\s*(?:\s*<br>)+/)
+			return paragraphs.filter(_ => _).map(_ => _.trim()).map(this.parseParagraph)
 		}
 		// Remove excessive `<br>`s.
 		comment = comment

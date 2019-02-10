@@ -35,7 +35,6 @@ export default async function constructComment(
 	}
 	if (rawComment) {
 		comment.content = parseCommentText(rawComment, {
-			parseParagraphs: false,
 			correctGrammar,
 			parseCommentTextPlugins
 		})

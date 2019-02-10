@@ -9,7 +9,6 @@ describe('parseCommentText', () => {
 	it('should parse comment text', () => {
 		function parseCommentTest(comment, result) {
 			return expectToEqual(parseCommentText(comment, {
-				parseParagraphs: true,
 				correctGrammar,
 				parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
 			}), result)
@@ -246,6 +245,21 @@ describe('parseCommentText', () => {
 						type: 'inline-quote',
 						content: 'Дискасс.'
 					}
+				]
+			]
+		)
+
+		parseCommentTest(
+			' Abc <br><br><br> Def <br> <br> <br> Ghi ',
+			[
+				[
+					'Abc'
+				],
+				[
+					'Def'
+				],
+				[
+					'Ghi'
 				]
 			]
 		)

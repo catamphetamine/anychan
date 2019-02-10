@@ -106,18 +106,18 @@ describe('4chan.org', () => {
 						"textPreview": "Embrace the 2d edition",
 						"content": [
 							[
-								"Embrace the 2d edition",
-								"\n",
-								"\n",
-								"HIS GENERAL ISN'T JUST ABOUT SLAVE TRAINERS OTHER GENRES OF GAMES FIT HERE ALSO (Please read the next part for further clarification).",
-								"\n",
-								"\n",
-								"This is a general about slave trainer games and the creation of games where you play as a male and dominate women. Discussion about games not being created here is also acceptable as long as it's related to the topic at hand(i.e. playing a male and dominating women). Futa belongs in weg not here. If it has a dick it's not a woman.",
-								"\n",
-								"\n",
-								"If you're working on a game and want to list a pastebin here speak up please.",
-								"\n",
-								"\n",
+								"Embrace the 2d edition"
+							],
+							[
+								"HIS GENERAL ISN'T JUST ABOUT SLAVE TRAINERS OTHER GENRES OF GAMES FIT HERE ALSO (Please read the next part for further clarification)."
+							],
+							[
+								"This is a general about slave trainer games and the creation of games where you play as a male and dominate women. Discussion about games not being created here is also acceptable as long as it's related to the topic at hand(i.e. playing a male and dominating women). Futa belongs in weg not here. If it has a dick it's not a woman."
+							],
+							[
+								"If you're working on a game and want to list a pastebin here speak up please."
+							],
+							[
 								"WIP Projects (Korra Trainer, Four Elements Trainer, WT Silver, Tifa Trainer, Incredibles Trainer, Ben ten trainer, Momcest trainer, Fantasy Trainer, etc):",
 								"\n",
 								{
@@ -126,9 +126,9 @@ describe('4chan.org', () => {
 									"content": "pastebin.com/G7Z6gtVH"
 								},
 								"\n",
-								"If I forgot you please mention it",
-								"\n",
-								"\n",
+								"If I forgot you please mention it"
+							],
+							[
 								"Maverick wrote a guide for scripting. Shows how to write/structure scenes for coders. Good for idea-guys & script-writers:",
 								"\n",
 								{
@@ -146,12 +146,12 @@ describe('4chan.org', () => {
 									"content": "quip.com/I2f8AaPEEr0a"
 								},
 								"\n",
-								"Some of these people are looking for writers and artists. If you're interested mention it.",
-								"\n",
-								"\n",
-								"Report & ignore shitposters, people that scream proxyfag/samefag/waifu/waifufag, people that post beast, and futa spammers",
-								"\n",
-								"\n",
+								"Some of these people are looking for writers and artists. If you're interested mention it."
+							],
+							[
+								"Report & ignore shitposters, people that scream proxyfag/samefag/waifu/waifufag, people that post beast, and futa spammers"
+							],
+							[
 								{
 									"type": "inline-quote",
 									"content": [
