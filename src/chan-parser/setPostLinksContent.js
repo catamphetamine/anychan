@@ -1,4 +1,4 @@
-import { findPostLinks } from './setPostLinkUrls'
+import { visitPostParts } from './setPostLinkUrls'
 
 /**
  * Sets up post links.
@@ -6,16 +6,14 @@ import { findPostLinks } from './setPostLinkUrls'
  * @param {object} options
  */
 export default function setPostLinksContent(post, { messages }) {
-	if (!post.content) {
-		return
-	}
-	for (const postLink of findPostLinks(post.content)) {
-		// Set content.
-		postLink.content = getPostLinkContent(postLink, messages)
-	}
+	visitPostParts(
+		'post-link',
+		postLink => postLink.content = getPostLinkContent(postLink, messages),
+		post.content
+	)
 }
 
-export function getPostLinkContent(postLink, messages) {
+function getPostLinkContent(postLink, messages) {
 	if (postLink.postWasDeleted) {
 		return messages.deletedPost
 	}
