@@ -24,7 +24,7 @@ This is a demo showcase project and it has only a minimal set of features:
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-3602x1952.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-1024x555.png" width="800" height="434"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="228"/>
 
 ## Install
 
