@@ -4,11 +4,13 @@ require('@babel/polyfill')
 // Maintain CSS styles order.
 require('./styles/style.css')
 
-// `chan-parser` self-test.
-setTimeout(() => require('./chan-parser/test'))
+if (process.env.NODE_ENV !== 'production') {
+	// `chan-parser` self-test.
+	setTimeout(() => require('./chan-parser/test'))
 
-// `webapp-frontend/src/utility` self-test.
-setTimeout(() => require('webapp-frontend/src/utility/test'))
+	// `webapp-frontend/src/utility` self-test.
+	setTimeout(() => require('webapp-frontend/src/utility/test'))
+}
 
 // Run the application.
 require('./initialize').default()
