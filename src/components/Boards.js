@@ -49,7 +49,7 @@ class Boards extends React.Component {
 
 		return (
 			<section className={classNames('boards', className)}>
-				{boardsByCategory &&
+				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
 							onClick={this.onChangeViewAllBoards}
@@ -73,10 +73,10 @@ class Boards extends React.Component {
 
 				<table className={classNames('boards-list', {
 					'boards-list--default': view === 'default',
-					'boards-list--default-has-categories': boardsByCategory
+					'boards-list--by-category': view === 'by-category'
 				})}>
 					<tbody>
-						{view === 'by-category' && boardsByCategory && boardsByCategory.map((category, i) => (
+						{view === 'by-category' && boardsByCategory.map((category, i) => (
 							<React.Fragment key={category.category}>
 								<tr>
 									<td/>
@@ -95,7 +95,7 @@ class Boards extends React.Component {
 								))}
 							</React.Fragment>
 						))}
-						{view === 'default' && (boardsByPopularity || boards).map((board) => (
+						{view === 'default' && boardsByPopularity.map((board) => (
 							<Board
 								key={board.id}
 								board={board}/>

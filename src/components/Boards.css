@@ -5,8 +5,11 @@
 }
 
 .boards-list {
-	margin-top: calc(var(--unit) * 1);
 	user-select: none;
+}
+
+.boards__view-switcher {
+	margin-bottom: var(--unit);
 }
 
 .boards-list-section__title {
@@ -41,17 +44,8 @@
 .boards-list__board-url {
 	padding-right: var(--unit);
 	font-family: monospace;
-	width: calc(var(--unit) * 10);
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
-
-	@mixin xl {
-		max-width: calc(var(--unit) * 6);
-	}
-
-	@mixin xxl {
-		max-width: none;
-	}
 
 	&:before,
 	&:after {
