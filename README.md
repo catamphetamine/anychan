@@ -69,13 +69,13 @@ This demo project currently supports [`4chan.org`](https://4chan.org) and [`2ch.
 
 ### 4chan.org
 
-* [API (official docs)](https://github.com/4chan/4chan-API)
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md)
+* [API (official docs)](https://github.com/4chan/4chan-API)
 
 ### 2ch.hk
 
-* [API (official docs)](https://2ch.hk/api/)
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
+* [API (official docs)](https://2ch.hk/api/)
 
 <!--
 ## Configuration
