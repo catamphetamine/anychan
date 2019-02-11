@@ -63,7 +63,8 @@ class CommentTextParser {
 		text = text.replace(/\s*<br>/g, '<br/>')
 		// text = removeInvalidClosingTags(text)
 		const nextTag = this.findNextTag(text)
-		if (nextTag) {
+		// `nextTag` can be an empty string if HTML is corrected.
+		if (nextTag !== undefined) {
 			if (typeof nextTag === 'string') {
 				// HTML corrected.
 				text = nextTag

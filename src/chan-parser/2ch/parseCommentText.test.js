@@ -304,5 +304,26 @@ describe('parseCommentText', () => {
 		// 	'<p style=\"color:green;\">',
 		// 	// Won't be implemented.
 		// )
+
+		parseCommentTest(
+			`
+			<p>Abc
+			<br>\r\n
+			<br>\r\n Def: <a href="https://google.com" target="_blank" rel="nofollow noopener noreferrer">URL</a></p>
+			`,
+			[
+				[
+					"Abc"
+				],
+				[
+					"Def: ",
+					{
+						"type": "link",
+						"content": "URL",
+						"url": "https://google.com"
+					}
+				]
+			]
+		)
 	})
 })
