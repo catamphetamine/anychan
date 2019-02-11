@@ -65,5 +65,15 @@ describe('getHumanReadableLinkAddress', () => {
 			getHumanReadableLinkAddress('https://www.youtube.com/user/ChristopherOdd/videos'),
 			'YouTube/ChristopherOdd'
 		)
+
+		expectToEqual(
+			getHumanReadableLinkAddress('https://t.me/joinchat/B9VagUi23u76uoO2SBFGWw'),
+			'Telegram/B9VagUi23u76uoO2SBFGWw'
+		)
+
+		expectToEqual(
+			getHumanReadableLinkAddress('https://t.me/name'),
+			'Telegram/name'
+		)
 	})
 })

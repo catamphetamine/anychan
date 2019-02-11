@@ -37,7 +37,9 @@ export function formatUrlForServices(url) {
 			}
 			if (/^\/user\/[^\/]+/.test(url.pathname)) {
 				const match = url.pathname.match(/^\/user\/([^\/]+)/)
-				return `YouTube/${match[1]}`
+				if (match) {
+					return `YouTube/${match[1]}`
+				}
 			}
 			break
 		case 'facebook.com':
@@ -61,6 +63,17 @@ export function formatUrlForServices(url) {
 		case 'discord.gg':
 			if (/^\/[^\/]+/.test(url.pathname)) {
 				return `Discord${url.pathname}`
+			}
+			break
+		case 't.me':
+			if (url.pathname.indexOf('/joinchat/') === 0) {
+				const match = url.pathname.match(/^\/joinchat\/([^\/]+)/)
+				if (match) {
+					return `Telegram/${match[1]}`
+				}
+			}
+			if (/^\/[^\/]+/.test(url.pathname)) {
+				return `Telegram${url.pathname}`
 			}
 			break
 	}
