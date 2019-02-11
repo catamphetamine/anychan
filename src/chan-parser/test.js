@@ -2,6 +2,7 @@ import './correctQuotes.test'
 import './getHumanReadableLinkAddress.test'
 import './parseLinks.test'
 import './parseYouTubeLinks.test'
+import './parseServiceLink.test'
 import './removeNewLineCharacters.test'
 import './expandStandaloneAttachmentLinks.test'
 // Providers.

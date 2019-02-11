@@ -1,4 +1,4 @@
-import getHumanReadableLinkAddress from '../getHumanReadableLinkAddress'
+import createLink from '../createLink'
 
 const parseNewLine = {
 	tag: 'br',
@@ -138,11 +138,7 @@ const parseLink = {
 				url: `https://2ch.hk${href}`
 			}
 		}
-		return {
-			type: 'link',
-			content: content === href ? getHumanReadableLinkAddress(content) : content,
-			url: href
-		}
+		return createLink(href, content)
 	}
 }
 

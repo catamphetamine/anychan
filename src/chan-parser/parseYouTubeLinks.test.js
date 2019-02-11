@@ -42,6 +42,7 @@ describe('parseYouTubeLinks', () => {
 					{
 						type: 'link',
 						url: 'https://www.youtube.com/watch?v=6CPXGQ0zoJE',
+						service: 'youtube',
 						content: 'youtube.com/watch?v=6CPXGQ0zoJE'
 					},
 					' def'
@@ -58,6 +59,7 @@ describe('parseYouTubeLinks', () => {
 						{
 							type: 'link',
 							url: 'https://www.youtube.com/watch?v=6CPXGQ0zoJE',
+							service: 'youtube',
 							content: 'youtube.com/watch?v=6CPXGQ0zoJE',
 							"attachment": {
 								"type": "video",
@@ -114,6 +116,7 @@ describe('parseYouTubeLinks', () => {
 						"Abc ",
 						{
 							"type": "link",
+							"service": "youtube",
 							"url": "https://www.youtube.com/watch?v=6CPXGQ0zoJE",
 							"content": "Samsung leaked their own phone...",
 							"attachment": {

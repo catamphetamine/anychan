@@ -1,4 +1,4 @@
-import getHumanReadableLinkAddress from './getHumanReadableLinkAddress'
+import createLink from './createLink'
 
 const URL_REGEXP = /(?:https?|ftp):\/\/[^\s\/$.?#].[^\s]*/i
 
@@ -38,11 +38,7 @@ function injectLinkIntoString(string) {
 		const url = match[0]
 		return [
 			string.slice(0, match.index),
-			{
-				type: 'link',
-				url,
-				content: getHumanReadableLinkAddress(url)
-			},
+			createLink(url),
 			string.slice(match.index + url.length)
 		].filter(_ => _)
 	}

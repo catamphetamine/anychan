@@ -56,7 +56,7 @@ describe('parseLinks', () => {
 		const post = {
 			content: [
 				[
-					'Abc http://twitter.com/abc def'
+					'Abc http://twitter.net/abc def'
 				]
 			]
 		}
@@ -69,8 +69,8 @@ describe('parseLinks', () => {
 						'Abc ',
 						{
 							type: 'link',
-							url: 'http://twitter.com/abc',
-							content: 'twitter.com/abc'
+							url: 'http://twitter.net/abc',
+							content: 'twitter.net/abc'
 						},
 						' def'
 					]
@@ -85,13 +85,13 @@ describe('parseLinks', () => {
 				[
 					{
 						type: 'inline-quote',
-						content: 'Abc http://twitter.com/abc def'
+						content: 'Abc http://twitter.net/abc def'
 					},
-					'Abc http://twitter.com/abc def',
+					'Abc http://twitter.net/abc def',
 					{
 						type: 'link',
-						url: 'http://twitter.com/abc',
-						content: 'Abc http://twitter.com/abc def'
+						url: 'http://twitter.net/abc',
+						content: 'Abc http://twitter.net/abc def'
 					}
 				]
 			]
@@ -104,19 +104,19 @@ describe('parseLinks', () => {
 					[
 						{
 							type: 'inline-quote',
-							content: 'Abc http://twitter.com/abc def'
+							content: 'Abc http://twitter.net/abc def'
 						},
 						'Abc ',
 						{
 							type: 'link',
-							url: 'http://twitter.com/abc',
-							content: 'twitter.com/abc'
+							url: 'http://twitter.net/abc',
+							content: 'twitter.net/abc'
 						},
 						' def',
 						{
 							type: 'link',
-							url: 'http://twitter.com/abc',
-							content: 'Abc http://twitter.com/abc def'
+							url: 'http://twitter.net/abc',
+							content: 'Abc http://twitter.net/abc def'
 						}
 					]
 				]

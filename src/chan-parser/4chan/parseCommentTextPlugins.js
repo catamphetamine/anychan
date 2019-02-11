@@ -1,4 +1,4 @@
-import getHumanReadableLinkAddress from '../getHumanReadableLinkAddress'
+import createLink from '../createLink'
 
 const parseNewLine = {
 	tag: 'br',
@@ -96,11 +96,7 @@ const parseLink = {
 			}
 		} else if (href[0] === '/' && href[1] === '/') {
 			// "//boards.4chan.org/wsr/"
-			return {
-				type: 'link',
-				content: content.slice('//'.length),
-				url: href
-			}
+			return createLink(href, content.slice('//'.length))
 		} else if (href[0] === '/') {
 			// "/a/thread/184064641#p184154285"
 			const match = href.match(/^\/([^\/]+)\/thread\/(\d+)#p(\d+)/)
@@ -115,18 +111,10 @@ const parseLink = {
 				}
 			}
 			// "/r/"
-			return {
-				type: 'link',
-				content: content === href ? getHumanReadableLinkAddress(content) : content,
-				url: href
-			}
+			return createLink(href, content)
 		} else {
 			// "https://boards.4chan.org/wsr/"
-			return {
-				type: 'link',
-				content: content === href ? getHumanReadableLinkAddress(content) : content,
-				url: href
-			}
+			return createLink(href, content)
 		}
 	}
 }

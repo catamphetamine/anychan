@@ -12,6 +12,7 @@ export default async function parseYouTubeLinks(post, options = {}) {
 	for (const link of links) {
 		const video = await YouTube.parse(link.url, options)
 		if (video) {
+			link.service = 'youtube'
 			link.attachment = {
 				type: 'video',
 				video
@@ -19,8 +20,11 @@ export default async function parseYouTubeLinks(post, options = {}) {
 			if (video.title) {
 				link.content = video.title
 			}
-		} else if (video === null && options.messages && options.messages.videoNotFound) {
-			link.content = options.messages.videoNotFound
+		} else if (video === null) {
+			link.service = 'youtube'
+			if (options.messages && options.messages.videoNotFound) {
+				link.content = options.messages.videoNotFound
+			}
 		}
 	}
 }
