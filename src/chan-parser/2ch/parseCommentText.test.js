@@ -5,15 +5,15 @@ import { describe, it } from '../mocha'
 import expectToEqual from '../expectToEqual'
 import parseCommentText from '../parseCommentText'
 
+function parseCommentTest(comment, result) {
+	return expectToEqual(parseCommentText(comment, {
+		correctGrammar,
+		plugins: PARSE_COMMENT_TEXT_PLUGINS
+	}), result)
+}
+
 describe('parseCommentText', () => {
 	it('should parse comment text', () => {
-		function parseCommentTest(comment, result) {
-			return expectToEqual(parseCommentText(comment, {
-				correctGrammar,
-				parseCommentTextPlugins: PARSE_COMMENT_TEXT_PLUGINS
-			}), result)
-		}
-
 		parseCommentTest(
 			"Sosach ,возник вопрос ,как легче всего воровать пароли ,допустим в кабинете информатики ?",
 			[
@@ -299,17 +299,22 @@ describe('parseCommentText', () => {
 				]
 			]
 		)
+	})
 
-		// parseCommentTest(
-		// 	'<p style=\"color:green;\">',
-		// 	// Won't be implemented.
-		// )
+	it('should stip unmatched tags', () => {
+		const consoleWarn = console.warn
+		const warnings = []
+		console.warn = (text) => warnings.push(text)
+
+		const consoleError = console.error
+		const errors = []
+		console.error = (text) => errors.push(text)
 
 		parseCommentTest(
 			`
-			<p>Abc
+			<main>Abc
 			<br>\r\n
-			<br>\r\n Def: <a href="https://google.com" target="_blank" rel="nofollow noopener noreferrer">URL</a></p>
+			<br>\r\n Def: <a href="https://google.com" target="_blank" rel="nofollow noopener noreferrer">URL</a></main>
 			`,
 			[
 				[
@@ -322,6 +327,41 @@ describe('parseCommentText', () => {
 						"content": "URL",
 						"url": "https://google.com"
 					}
+				]
+			]
+		)
+
+		expectToEqual(warnings.length, 1)
+		expectToEqual(warnings[0], 'Unsupported tag found: "<main>"')
+
+		expectToEqual(errors.length, 2)
+		expectToEqual(errors[0], 'Invalid HTML markup: no closing tag found for "main"\n\n<main>Abc')
+		expectToEqual(errors[1], 'Invalid HTML markup: non-matched closing tag found\n\n</main>')
+
+		console.warn = consoleWarn
+		console.warn = consoleError
+	})
+
+	it('should stip unmatched tags', () => {
+		parseCommentTest(
+			'<div>Abc</div>Def<p>Ghi</p>Klm<h1>Title</h1>...',
+			[
+				[
+					'Abc',
+					'\n',
+					'Def'
+				],
+				[
+					'Ghi'
+				],
+				[
+					'Klm'
+				],
+				[
+					'Title'
+				],
+				[
+					'...'
 				]
 			]
 		)

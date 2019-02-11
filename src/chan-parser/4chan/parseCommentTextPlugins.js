@@ -1,7 +1,7 @@
 import getHumanReadableLinkAddress from '../getHumanReadableLinkAddress'
 
 const parseNewLine = {
-	opener: 'br/>',
+	tag: 'br',
 	canContainChildren: false,
 	createBlock() {
 		return '\n'
@@ -9,7 +9,7 @@ const parseNewLine = {
 }
 
 const parseBold = {
-	opener: 'strong',
+	tag: 'strong',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -19,62 +19,8 @@ const parseBold = {
 	}
 }
 
-const parseParagraph = {
-	opener: 'p>',
-	createBlock(content) {
-		// `\n` doesn't actually add a new line.
-		// `<p/>` isn't an inline element.
-		// If it was parsed it could be parsed in `parseCommentText`
-		// when `content` can be split into paragraphs.
-		return content + '\n'
-	}
-}
-
-const parseStyledParagraph = {
-	opener: 'p ',
-	createBlock(content, [style]) {
-		// style="font-weight: bold; font-size: 12pt; color: red;"
-		//
-		// `\n` doesn't actually add a new line.
-		// `<p/>` isn't an inline element.
-		// If it was parsed it could be parsed in `parseCommentText`
-		// when `content` can be split into paragraphs.
-		return content + '\n'
-	}
-}
-
-const parseDiv = {
-	opener: 'div',
-	createBlock(content) {
-		// <div align="center">
-		//
-		// `\n` doesn't actually add a new line.
-		// `<p/>` isn't an inline element.
-		// If it was parsed it could be parsed in `parseCommentText`
-		// when `content` can be split into paragraphs.
-		return content + '\n'
-	}
-}
-
-const parseColoredText = {
-	opener: 'b ',
-	createBlock(content, [style]) {
-		return content
-		// let color
-		// const match = style.match(/^color:[^;]+/)
-		// if (match) {
-		// 	color = match[1]
-		// }
-		// return {
-		// 	type: 'text',
-		// 	color,
-		// 	content
-		// }
-	}
-}
-
 const parseUnderline = {
-	opener: 'u>',
+	tag: 'u',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -85,7 +31,7 @@ const parseUnderline = {
 }
 
 const parseSpoiler = {
-	opener: 's>',
+	tag: 's',
 	createBlock(content) {
 		return {
 			type: 'spoiler',
@@ -95,7 +41,8 @@ const parseSpoiler = {
 }
 
 const parseDeletedLink = {
-	opener: 'span class="deadlink"',
+	tag: 'span',
+	matchAttributes: 'class="deadlink"',
 	// Won't "unescape" content (for some reason).
 	correctContent: false,
 	createBlock(content, [href, threadId, postId]) {
@@ -112,7 +59,8 @@ const parseDeletedLink = {
 }
 
 const parseQuote = {
-	opener: 'span class="quote"',
+	tag: 'span',
+	matchAttributes: 'class="quote"',
 	createBlock(content) {
 		// `> abc` -> `abc`
 		if (typeof content === 'string') {
@@ -130,7 +78,7 @@ const parseQuote = {
 }
 
 const parseLink = {
-	opener: 'a ',
+	tag: 'a',
 	attributes: ['href'],
 	// Won't "unescape" content (for some reason).
 	correctContent: false,
@@ -187,10 +135,6 @@ export default [
 	parseNewLine,
 	parseBold,
 	parseUnderline,
-	parseColoredText,
-	parseParagraph,
-	parseStyledParagraph,
-	parseDiv,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,

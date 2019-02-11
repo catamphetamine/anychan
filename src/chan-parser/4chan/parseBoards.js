@@ -9,9 +9,10 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  * // Returns:
  * // {
  * //   boards: [{
- * //     id: 'vg',
- * //     name: 'Video Games',
- * //     description: 'Video Games discussions'
+ * //     id: 'v',
+ * //     name: 'Video Games General',
+ * //     description: 'Video Games general discussions',
+ * //     category: 'Video Games'
  * //   }, ...]
  * // }
  * parseBoards(response)

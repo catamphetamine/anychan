@@ -18,21 +18,17 @@ class CommentTextParser {
 	}
 
 	parse(comment) {
-		// // Replace inline quotes with block quotes.
-		// // Converts `abc<br><span class="unkfunc">> ccc</span><br>def`
-		// // to `abc<div class="quote">ccc</div>def`.
-		// comment = comment.replace(
-		// 	/(?:<br>)?<span class="unkfunc">&gt;\s*(.*?)<\/span>(?:<br>)?/g,
-		// 	'<div class="quote">$1</div>'
-		// )
+		comment = this.preProcess(comment)
+		// Remove excessive `<br>`s.
+		comment = this.normalizeNewLines(comment)
 		// Parse into paragraphs.
 		if (this.options.parseParagraphs !== false) {
-			const paragraphs = comment.split(/<br>(?:\s*<br>)+/)
+			const paragraphs = comment.split(/<br\/><br\/>/)
 			return paragraphs
 				.filter(_ => _)
 				.map(_ => _.trim())
 				// There are cases when people write:
-				// "<strong>Abc<br><br>Def</strong>" on 2ch.hk.
+				// "<strong>Abc<br/><br/>Def</strong>" on 2ch.hk.
 				// In such cases it will split the HTML into two paragraphs:
 				// "<strong>Abc" and "Def</strong>".
 				// I consider such cases penalized because it's an abuse:
@@ -42,25 +38,38 @@ class CommentTextParser {
 				.map(_ => _.trim())
 				.map(this.parseParagraph)
 		}
+		return [this.parseParagraph(comment)]
+	}
+
+	preProcess(html) {
+		return html
+			// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
+			.replace(/\s*<br>\s*/g, '<br/>')
+			// `<p>html</p>` -> `html<br/><br/>`
+			.replace(/<p.*?>(.*)<\/p>/g, '<br/><br/>$1<br/><br/>')
+			// `<div>html</div>` -> `html<br/>`
+			.replace(/<div.*?>(.*)<\/div>/g, '<br/>$1<br/>')
+			// `<h1>html</h1>` -> `html<br/><br/>`
+			.replace(/<h1.*?>(.*)<\/h1>/g, '<br/><br/>$1<br/><br/>')
+	}
+
+	normalizeNewLines(html) {
 		// Remove excessive `<br>`s.
-		comment = comment
+		return html
 			// Convert more than two `<br>`s into two `<br>`s.
-			.replace(/<br>(\s*<br>)+/g, '<br><br>')
+			.replace(/<br\/>(\s*<br\/>)+/g, '<br/><br/>')
 			// Trim one or two `<br>`s in the beginning.
-			.replace(/^<br>(<br>)?/, '')
+			.replace(/^<br\/>(<br\/>)?/, '')
 			// Trim one or two `<br>`s in the end.
-			.replace(/<br>(<br>)?$/, '')
+			.replace(/<br\/>(<br\/>)?$/, '')
 			// Trim whitespace.
 			.trim()
-		return [this.parseParagraph(comment)]
 	}
 
 	// Returns an array of inline elements.
 	// Some of such inline elements may be empty strings
 	// which are later filtered by `parseCommentText()`.
 	parseParagraph = (text) => {
-		// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
-		text = text.replace(/\s*<br>/g, '<br/>')
 		// text = removeInvalidClosingTags(text)
 		const nextTag = this.findNextTag(text)
 		// `nextTag` can be an empty string if HTML is corrected.
@@ -69,11 +78,16 @@ class CommentTextParser {
 				// HTML corrected.
 				text = nextTag
 			} else {
-				for (const plugin of this.options.parseCommentTextPlugins) {
+				for (const plugin of this.options.plugins) {
 					const parsed = this.parseHtmlTag(text, nextTag, plugin)
 					if (parsed) {
 						return parsed.filter(_ => _)
 					}
+				}
+				console.warn(`Unsupported tag found: "<${nextTag.openerContent}>"`)
+				const parsed = this.parseHtmlTag(text, nextTag, PARSE_ANY_TAG_PLUGIN)
+				if (parsed) {
+					return parsed.filter(_ => _)
 				}
 			}
 		}
@@ -99,7 +113,11 @@ class CommentTextParser {
 			return text.slice(0, firstTagStartsAt) + text.slice(firstTagEndsAt + '>'.length)
 		}
 		// Get tag content.
-		const openerContent = text.slice(firstTagStartsAt + '<'.length, firstTagEndsAt)
+		let openerContent = text.slice(firstTagStartsAt + '<'.length, firstTagEndsAt)
+		// Handle self-closing tags.
+		if (openerContent[openerContent.length - 1] === '/') {
+			openerContent = openerContent.slice(0, openerContent.length - 1)
+		}
 		// Get tag name.
 		const tagName = openerContent.indexOf(' ') > 0 ? openerContent.slice(0, openerContent.indexOf(' ')) : openerContent
 		return {
@@ -110,13 +128,24 @@ class CommentTextParser {
 		}
 	}
 
-	parseHtmlTag(text, { tagName, openerContent, openerStartsAt, openerEndsAt }, { tag, opener, attributes, canContainChildren, correctContent, createBlock }) {
-		if (!opener) {
-			opener = tagName
-		}
-		// First parse outer tags, then inner tags.
-		if (text.indexOf('<' + opener) !== openerStartsAt) {
-			return
+	parseHtmlTag(text, { tagName, openerContent, openerStartsAt, openerEndsAt }, { tag, matchAttributes, attributes, canContainChildren, correctContent, createBlock }) {
+		// Check that the `tag` matches.
+		if (tag !== '*') {
+			let opener = '<' + tag
+			if (matchAttributes) {
+				opener += ' ' + matchAttributes
+			}
+			// First parse outer tags, then inner tags.
+			if (
+				!isStringAt(opener, text, openerStartsAt) ||
+				(
+					text[openerStartsAt + opener.length] !== '/' &&
+					text[openerStartsAt + opener.length] !== ' ' &&
+					text[openerStartsAt + opener.length] !== '>'
+				)
+			) {
+				return
+			}
 		}
 		// Parse content.
 		const startsAt = openerStartsAt
@@ -205,4 +234,11 @@ function isStringAt(substring, string, index) {
 		i++
 	}
 	return true
+}
+
+const PARSE_ANY_TAG_PLUGIN = {
+	tag: '*',
+	createBlock(content) {
+		return content
+	}
 }

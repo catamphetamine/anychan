@@ -36,7 +36,7 @@ export default async function constructComment(
 	if (rawComment) {
 		comment.content = parseCommentText(rawComment, {
 			correctGrammar,
-			parseCommentTextPlugins
+			plugins: parseCommentTextPlugins
 		})
 		if (filters) {
 			const reason = filterComment(rawComment, filters)

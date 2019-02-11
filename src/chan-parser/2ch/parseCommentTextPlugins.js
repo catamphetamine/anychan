@@ -1,22 +1,7 @@
 import getHumanReadableLinkAddress from '../getHumanReadableLinkAddress'
 
-const parseParagraph = {
-	opener: 'p',
-	createBlock(content) {
-		return content
-	}
-}
-
-// Some very old posts can contain manual HTML markup.
-const parseDiv = {
-	opener: 'div',
-	createBlock(content) {
-		return content
-	}
-}
-
 const parseNewLine = {
-	opener: 'br/>',
+	tag: 'br',
 	canContainChildren: false,
 	createBlock() {
 		return '\n'
@@ -24,7 +9,8 @@ const parseNewLine = {
 }
 
 const parseInlineQuote = {
-	opener: 'span class="unkfunc">',
+	tag: 'span',
+	matchAttributes: 'class="unkfunc"',
 	createBlock(content) {
 		// `> abc` -> `abc`
 		if (typeof content === 'string') {
@@ -42,7 +28,8 @@ const parseInlineQuote = {
 }
 
 const parseQuote = {
-	opener: 'div class="quote">',
+	tag: 'div',
+	matchAttributes: 'class="quote"',
 	createBlock(content) {
 		return {
 			type: 'inline-quote',
@@ -52,7 +39,7 @@ const parseQuote = {
 }
 
 const parseBold = {
-	opener: 'strong',
+	tag: 'strong',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -63,7 +50,7 @@ const parseBold = {
 }
 
 const parseItalic = {
-	opener: 'em',
+	tag: 'em',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -74,7 +61,7 @@ const parseItalic = {
 }
 
 const parseSubscript = {
-	opener: 'sub',
+	tag: 'sub',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -85,7 +72,7 @@ const parseSubscript = {
 }
 
 const parseSuperscript = {
-	opener: 'sup',
+	tag: 'sup',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -96,7 +83,8 @@ const parseSuperscript = {
 }
 
 const parseStrikethrough = {
-	opener: 'span class="s"',
+	tag: 'span',
+	matchAttributes: 'class="s"',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -107,7 +95,8 @@ const parseStrikethrough = {
 }
 
 const parseSpoiler = {
-	opener: 'span class="spoiler"',
+	tag: 'span',
+	matchAttributes: 'class="spoiler"',
 	createBlock(content) {
 		return {
 			type: 'spoiler',
@@ -117,21 +106,23 @@ const parseSpoiler = {
 }
 
 const parseUnderline = {
-	opener: 'span class="u"',
+	tag: 'span',
+	matchAttributes: 'class="u"',
 	createBlock(content) {
 		return content
 	}
 }
 
 const parseOverline = {
-	opener: 'span class="o"',
+	tag: 'span',
+	matchAttributes: 'class="o"',
 	createBlock(content) {
 		return content
 	}
 }
 
 const parseLink = {
-	opener: 'a ',
+	tag: 'a',
 	attributes: ['href', 'data-thread', 'data-num'],
 	// Won't "unescape" content (for some reason).
 	correctContent: false,
@@ -155,18 +146,7 @@ const parseLink = {
 	}
 }
 
-const parseSpan = {
-	opener: 'span',
-	attributes: ['style'],
-	createBlock(content, [style]) {
-		// style="color: red;"
-		return content
-	}
-}
-
 export default [
-	parseParagraph,
-	parseDiv,
 	parseNewLine,
 	parseInlineQuote,
 	parseQuote,
@@ -178,6 +158,5 @@ export default [
 	parseOverline,
 	parseSpoiler,
 	parseSubscript,
-	parseSuperscript,
-	parseSpan
+	parseSuperscript
 ]

@@ -9,15 +9,16 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  * // Returns:
  * // {
  * //   boards: [{
- * //     id: 'vg',
- * //     name: 'Video Games',
- * //     description: 'Video Games discussions'
+ * //     id: 'v',
+ * //     name: 'Video Games General',
+ * //     description: 'Video Games general discussions',
+ * //     category: 'Video Games'
  * //   }, ...],
  * //   boardsByCategory: {
- * //     'Игры': [{
- * //       id: 'vg',
- * //       name: 'Video Games',
- * //       description: 'Video Games discussions'
+ * //     'Video Games': [{
+ * //       id: 'v',
+ * //       name: 'Video Games General',
+ * //       description: 'Video Games general discussions'
  * //     }, ...]
  * //   }
  * // }
@@ -25,6 +26,8 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  */
 export default async function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
+		// Hide "user" boards.
+		.filter(_ => _.category !== 'Пользовательские')
 	return {
 		boards,
 		// `boards` are already sorted by `commentsPerHour`.
