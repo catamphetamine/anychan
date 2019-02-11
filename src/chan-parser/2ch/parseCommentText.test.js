@@ -339,7 +339,7 @@ describe('parseCommentText', () => {
 		expectToEqual(errors[1], 'Invalid HTML markup: non-matched closing tag found\n\n</main>')
 
 		console.warn = consoleWarn
-		console.warn = consoleError
+		console.error = consoleError
 	})
 
 	it('should stip unmatched tags', () => {
