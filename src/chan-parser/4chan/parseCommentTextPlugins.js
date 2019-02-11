@@ -117,14 +117,14 @@ const parseLink = {
 			// "/r/"
 			return {
 				type: 'link',
-				content: getHumanReadableLinkAddress(content),
+				content: content === href ? getHumanReadableLinkAddress(content) : content,
 				url: href
 			}
 		} else {
 			// "https://boards.4chan.org/wsr/"
 			return {
 				type: 'link',
-				content: getHumanReadableLinkAddress(content),
+				content: content === href ? getHumanReadableLinkAddress(content) : content,
 				url: href
 			}
 		}

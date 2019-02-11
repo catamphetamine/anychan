@@ -140,7 +140,7 @@ const parseLink = {
 		}
 		return {
 			type: 'link',
-			content: getHumanReadableLinkAddress(content),
+			content: content === href ? getHumanReadableLinkAddress(content) : content,
 			url: href
 		}
 	}

@@ -23,12 +23,12 @@ describe('parseCommentText', () => {
 		)
 
 		parseCommentTest(
-			'<a href=\"https:&#47;&#47;www.youtube.com&#47;watch?v=dIFbIUUo0OU\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;www.youtube.com&#47;watch?v=dIFbIUUo0OU</a>',
+			'<a href=\"https:&#47;&#47;www.youtube.org&#47;watch?v=dIFbIUUo0OU\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;www.youtube.org&#47;watch?v=dIFbIUUo0OU</a>',
 			[
 				[{
 					"type": "link",
-					content: "youtube.com/watch?v=dIFbIUUo0OU",
-					"url": "https://www.youtube.com/watch?v=dIFbIUUo0OU"
+					content: "youtube.org/watch?v=dIFbIUUo0OU",
+					"url": "https://www.youtube.org/watch?v=dIFbIUUo0OU"
 				}]
 			]
 		)
