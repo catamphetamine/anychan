@@ -1,7 +1,9 @@
 import YouTube from 'webapp-frontend/src/utility/video-youtube'
 
-// This should be the last one in the chain of comment transformations
-// because it splits text into paragraphs.
+/**
+ * Expands attachment links into standalone attachments.
+ * @param  {object} post
+ */
 export default async function expandStandaloneAttachmentLinks(post) {
 	if (!post.content) {
 		return

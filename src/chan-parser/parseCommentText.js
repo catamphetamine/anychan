@@ -46,11 +46,11 @@ class CommentTextParser {
 			// Normalize `<br>`s so that they don't break parsing (`findClosingTagPosition()`).
 			.replace(/\s*<br>\s*/g, '<br/>')
 			// `<p>html</p>` -> `html<br/><br/>`
-			.replace(/<p.*?>(.*)<\/p>/g, '<br/><br/>$1<br/><br/>')
+			.replace(/<p.*?>(.*?)<\/p>/g, '<br/><br/>$1<br/><br/>')
 			// `<div>html</div>` -> `html<br/>`
-			.replace(/<div.*?>(.*)<\/div>/g, '<br/>$1<br/>')
+			.replace(/<div.*?>(.*?)<\/div>/g, '<br/>$1<br/>')
 			// `<h1>html</h1>` -> `html<br/><br/>`
-			.replace(/<h1.*?>(.*)<\/h1>/g, '<br/><br/>$1<br/><br/>')
+			.replace(/<h1.*?>(.*?)<\/h1>/g, '<br/><br/>$1<br/><br/>')
 	}
 
 	normalizeNewLines(html) {
