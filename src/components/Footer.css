@@ -52,6 +52,7 @@ body {
 	margin-bottom: 1em;
 	color: var(--gray-color-dark);
 	text-align: center;
+	font-weight: 300;
 
 	@mixin xl {
 		margin-top: 2em;
