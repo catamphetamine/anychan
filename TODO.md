@@ -1,5 +1,7 @@
 * Выделять текущую доску в Sidebar цветом :active.
 
+* По загрузке страницы — фокусировать на этой странице. Как accessibility guidelines, так и починит Page Down.
+
 * Переименовать mixins: xs-small -> xxs, xs-plus -> xs, ms -> s, ml -> m, xl -> l, xxl -> xl. Сделать range mixins: upto-xs, upto-s, upto-m, upto-l; xs-plus, s-plus, m-plus, l-plus.
 
 * Close slideshow on pan vertical.
