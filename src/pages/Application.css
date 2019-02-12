@@ -7,10 +7,10 @@ body {
 		--sidebar-width : calc(var(--unit) * 20);
 	}
 	@mixin xl {
-		--sidebar-width : calc(var(--unit) * 28);
+		--sidebar-width : calc(var(--unit) * 26);
 	}
 	@mixin xxl {
-		--sidebar-width : calc(var(--unit) * 28);
+		--sidebar-width : calc(var(--unit) * 26);
 	}
 }
 
@@ -46,7 +46,7 @@ body {
 	flex-grow   : 1;
 	flex-basis  : auto;
 
-	margin-top : var(--header-height);
+	/*margin-top : var(--header-height);*/
 
 	background-color : var(--background-color);
 }
@@ -63,7 +63,7 @@ body {
 
 .sidebar {
 	display: none;
-	top: var(--header-height);
+	/*top: var(--header-height);*/
 	bottom: var(--footer-menu-height);
 	width: var(--sidebar-width);
 

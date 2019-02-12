@@ -8,7 +8,7 @@ import ApplicationMenu from './ApplicationMenu'
 // import HomeIcon  from '../../assets/images/home.svg'
 // import UsersIcon from '../../assets/images/users.svg'
 
-import Logo from '../../assets/images/icon@192x192.png'
+// import Logo from '../../assets/images/icon@192x192.png'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
@@ -32,33 +32,31 @@ export default class Header extends React.Component {
 
 		return (
 			<nav className="webpage__header">
-				<div className="container">
-					<div className="webpage__header__row">
-						<Link to={addChanParameter('/')} className="header__logo-link">
-							<img src={Logo} className="header__logo"/>
-						</Link>
+				{/*
+				<Link to={addChanParameter('/')} className="header__logo-link">
+					<img src={Logo} className="header__logo"/>
+				</Link>
+				*/}
 
-						<div className="header__title">
-							{(isBoardLocation(route) || isThreadLocation(route)) && board &&
-								<span className="header__board-title">
-									{isThreadLocation(route) &&
-										<Link to={addChanParameter(`/${board.id}`)} instantBack>
-											{board.name}
-										</Link>
-									}
-									{!isThreadLocation(route) && board.name}
-								</span>
+				<div className="header__title">
+					{(isBoardLocation(route) || isThreadLocation(route)) && board &&
+						<span className="header__board-title">
+							{isThreadLocation(route) &&
+								<Link to={addChanParameter(`/${board.id}`)} instantBack>
+									{board.name}
+								</Link>
 							}
-							{isThreadLocation(route) && thread &&
-								<span className="header__thread-title">
-									{' → '}{thread.comments[0].heading || getMessages(locale).thread}
-								</span>
-							}
-						</div>
-
-						<ApplicationMenu/>
-					</div>
+							{!isThreadLocation(route) && board.name}
+						</span>
+					}
+					{isThreadLocation(route) && thread &&
+						<span className="header__thread-title">
+							{' → '}{thread.comments[0].heading || getMessages(locale).thread}
+						</span>
+					}
 				</div>
+
+				<ApplicationMenu/>
 			</nav>
 		)
 	}

@@ -1,3 +1,5 @@
+* Темизацию можно переделать с проставления переменных тега `body` на добавление в конец `body` элемента `<style id="theme-vars">body { ... }</style>`.
+
 Сейчас есть три места, где ставится play video icon size:
 
 * `Video.css`: `--rrui-video-play-icon-size: 30%;`;
