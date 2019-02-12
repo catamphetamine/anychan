@@ -10,7 +10,7 @@ body {
 		--sidebar-width : calc(var(--unit) * 28);
 	}
 	@mixin xxl {
-		--sidebar-width : calc(var(--unit) * 30);
+		--sidebar-width : calc(var(--unit) * 28);
 	}
 }
 
