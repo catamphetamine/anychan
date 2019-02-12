@@ -139,5 +139,21 @@ describe('parseServiceLink', () => {
 				text: '68360'
 			}
 		)
+
+		expectToEqual(
+			parseServiceLink('http://github.com/name/'),
+			{
+				service: 'github',
+				text: 'name'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('http://github.com/name/repo'),
+			{
+				service: 'github',
+				text: 'name/repo'
+			}
+		)
 	})
 })

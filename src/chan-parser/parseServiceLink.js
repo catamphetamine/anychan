@@ -17,123 +17,97 @@ export default function parseServiceLink(url) {
 	}
 	// Remove `www.` in the beginning.
 	const hostname = url.hostname.replace(/^www\./, '')
-	switch (hostname) {
-		case 'youtube.com':
-			if (url.pathname === '/watch' && url.searchParams.get('v')) {
-				return {
-					service: 'youtube',
-					text: url.searchParams.get('v')
+	const service = SERVICES[hostname]
+	if (service) {
+		return {
+			service: service.name,
+			text: (service.getText && service.getText(url)) || url.pathname.slice('/'.length)
+		}
+	}
+}
+
+const SERVICES = {
+	'vimeo.com': {
+		name: 'vimeo'
+	},
+	'player.vimeo.com': {
+		name: 'vimeo',
+		getText(url) {
+			if (url.pathname.indexOf('/video/') === 0) {
+				const match = url.pathname.match(/^\/video\/([^\/]+)/)
+				if (match) {
+					return match[1]
 				}
+			}
+		}
+	},
+	'youtube.com': {
+		name: 'youtube',
+		getText(url) {
+			if (url.pathname === '/watch' && url.searchParams.get('v')) {
+				return url.searchParams.get('v')
 			}
 			if (url.pathname.indexOf('/user/') === 0) {
 				const match = url.pathname.match(/^\/user\/([^\/]+)/)
 				if (match) {
-					return {
-						service: 'youtube',
-						text: match[1]
-					}
+					return match[1]
 				}
 			}
-			break
-		case 'youtu.be':
+		}
+	},
+	'youtu.be': {
+		name: 'youtube'
+	},
+	'github.com': {
+		name: 'github'
+	},
+	'twitter.com': {
+		name: 'twitter'
+	},
+	'instagram.com': {
+		name: 'instagram'
+	},
+	'discord.gg': {
+		name: 'discord'
+	},
+	'vk.com': {
+		name: 'vk',
+		getText(url) {
 			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'youtube',
-					text: url.pathname.slice('/'.length)
-				}
+				return url.pathname.slice('/'.length).replace(/^id/, '')
 			}
-			break
-		case 'vimeo.com':
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'vimeo',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-		case 'player.vimeo.com':
-			if (url.pathname.indexOf('/video/') === 0) {
-				const match = url.pathname.match(/^\/video\/([^\/]+)/)
-				if (match) {
-					return {
-						service: 'vimeo',
-						text: match[1]
-					}
-				}
-			}
-			break
-		case 'facebook.com':
+		}
+	},
+	'facebook.com': {
+		name: 'facebook',
+		getText(url) {
 			if (url.pathname === '/profile.php' && url.searchParams.get('id')) {
-				return {
-					service: 'facebook',
-					text: url.searchParams.get('id')
-				}
+				return url.searchParams.get('id')
 			}
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'facebook',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-			break
-		case 'vk.com':
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'vk',
-					text: url.pathname.slice('/'.length).replace(/^id/, '')
-				}
-			}
-			break
-		case 'instagram.com':
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'instagram',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-			break
-		case 'discord.gg':
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'discord',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-			break
-		case 'twitter.com':
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'twitter',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-			break
-		case 't.me':
+		}
+	},
+	't.me': {
+		name: 'telegram',
+		getText(url) {
 			if (url.pathname.indexOf('/joinchat/') === 0) {
 				const match = url.pathname.match(/^\/joinchat\/([^\/]+)/)
 				if (match) {
-					return {
-						service: 'telegram',
-						text: match[1]
-					}
+					return match[1]
 				}
 			}
-			if (/^\/[^\/]+/.test(url.pathname)) {
-				return {
-					service: 'telegram',
-					text: url.pathname.slice('/'.length)
-				}
-			}
-			break
-		case 'archivach.org':
-		case 'arhivach.cf':
+		}
+	},
+	'archivach.org': {
+		name: 'arhivach',
+		getText(url) {
 			if (url.pathname.indexOf('/thread/') === 0) {
 				const match = url.pathname.match(/^\/thread\/([^\/]+)/)
 				if (match) {
-					return {
-						service: 'arhivach',
-						text: match[1]
-					}
+					return match[1]
 				}
 			}
+		}
 	}
 }
+
+SERVICES['arhivach.cf'] = SERVICES['archivach.org']
