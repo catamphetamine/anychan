@@ -4,10 +4,10 @@ body {
 	--footer-menu-height: calc(var(--unit) * 3);
 
 	@mixin ml {
-		--footer-menu-height: 0;
+		--footer-menu-height: 0px;
 	}
 	@mixin xl {
-		--footer-menu-height: 0;
+		--footer-menu-height: 0px;
 	}
 }
 
@@ -27,7 +27,7 @@ body {
 
 .footer
 {
-	margin-bottom : var(--footer-menu-height);
+	margin-bottom : calc(var(--footer-menu-height) + var(--header-height));
 	background-color: var(--background-color);
 }
 

@@ -54,13 +54,10 @@ body
 	--font-family : Roboto, sans-serif;
 	--font-family-text : sans-serif;
 
-	@mixin xs
-	{
-		--header-height : 0;
+	@mixin xs {
+		--header-height : 0px;
 	}
-
-	@mixin ms
-	{
-		--header-height : 0;
+	@mixin ms {
+		--header-height : 0px;
 	}
 }
