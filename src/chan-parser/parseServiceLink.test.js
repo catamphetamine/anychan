@@ -69,6 +69,14 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('https://www.youtube.com/channel/UCTyA1ortyWPc1uLF5cbzluA/videos'),
+			{
+				service: 'youtube',
+				text: 'UCTyA1ortyWPc1uLF5cbzluA'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('https://www.youtube.com/user/ChristopherOdd/videos'),
 			{
 				service: 'youtube',

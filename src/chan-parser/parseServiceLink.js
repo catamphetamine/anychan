@@ -48,9 +48,15 @@ const SERVICES = {
 				return url.searchParams.get('v')
 			}
 			if (url.pathname.indexOf('/user/') === 0) {
-				const match = url.pathname.match(/^\/user\/([^\/]+)/)
+				const match = url.pathname.match(/^\/user\/(.+)/)
 				if (match) {
-					return match[1]
+					return match[1].replace(/\/videos$/, '')
+				}
+			}
+			if (url.pathname.indexOf('/channel/') === 0) {
+				const match = url.pathname.match(/^\/channel\/(.+)/)
+				if (match) {
+					return match[1].replace(/\/videos$/, '')
 				}
 			}
 		}
