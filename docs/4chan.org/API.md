@@ -80,6 +80,7 @@
 				"omitted_posts": 19,
 				"omitted_images": 15,
 
+				// Five last replies in the thread.
 				"last_replies": [
 					{
 						"no": 184187731,
@@ -150,6 +151,12 @@
 				],
 				"last_modified": 1549184316 // Last reply date (Unix time).
 			},
+			...
+		]
+	},
+	{
+		page: 2,
+		threads: [
 			...
 		]
 	},

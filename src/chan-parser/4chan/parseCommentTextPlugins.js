@@ -84,7 +84,7 @@ const parseLink = {
 	correctContent: false,
 	createBlock(content, [href]) {
 		if (href[0] === '#') {
-			// "#p184154302"
+			// <a href=\"#p184569592\" class=\"quotelink\">&gt;&gt;184569592</a>
 			const postId = parseInt(href.slice('#p'.length))
 			return {
 				type: 'post-link',
