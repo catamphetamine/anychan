@@ -1,5 +1,5 @@
 export const IGNORED_WORDS = {
-	"оскорбления": [
+	"*": [
 		"русн.",
 		"русн..",
 		"русня.*",
@@ -65,7 +65,7 @@ export const IGNORED_WORDS = {
 }
 
 export const IGNORED_WORDS_CASE_SENSITIVE = {
-	"прочее": [
+	"*": [
 		"РАБот.*"
 	]
 }

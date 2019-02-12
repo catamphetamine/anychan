@@ -12,6 +12,7 @@ import {
 } from 'webapp-frontend/src/components/ContentSection'
 
 import { getChan, addChanParameter } from '../chan'
+import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
 
 import './ThreadComment.css'
@@ -103,7 +104,8 @@ function Comment({ comment, hidden, url, locale }) {
 				'thread__comment--hidden': hidden,
 				// 'thread__comment--with-subject': comment.subject
 			})}>
-			{hidden && 'Сообщение скрыто'}
+			{hidden && getMessages(locale).hiddenPost}
+			{comment.hiddenRule && ` (${comment.hiddenRule})`}
 			{/*
 			{!hidden && comment.subject &&
 				<ContentSectionHeader lite>

@@ -32,6 +32,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 			}
 			if (post.hidden) {
 				content.postIsHidden = true
+				content.postIsHiddenRule = post.hiddenRule
 				return
 			}
 			// Doesn't set `content.post` object to prevent JSON circular structure.

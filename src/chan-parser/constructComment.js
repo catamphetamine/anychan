@@ -39,10 +39,12 @@ export default async function constructComment(
 			plugins: parseCommentTextPlugins
 		})
 		if (filters) {
-			const reason = filterComment(rawComment, filters)
-			if (reason) {
+			const result = filterComment(rawComment, filters)
+			if (result) {
 				comment.hidden = true
-				comment.hiddenReason = reason
+				if (result.name !== '*') {
+					comment.hiddenRule = result.name
+				}
 			}
 		}
 	}

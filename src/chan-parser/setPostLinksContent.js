@@ -18,6 +18,9 @@ function getPostLinkContent(postLink, messages) {
 		return messages.deletedPost
 	}
 	if (postLink.postIsHidden) {
+		if (postLink.postIsHiddenRule) {
+			return `${messages.hiddenPost} (${postLink.postIsHiddenRule})`
+		}
 		return messages.hiddenPost
 	}
 	// No change.
