@@ -1,19 +1,9 @@
 @import "../styles/common";
 
 .settings-page {
-	.page__heading {
-		margin: 0;
-		margin-top: calc(var(--unit) * 2);
-		margin-bottom: calc(var(--unit) * 2);
-		font-weight: 300;
-		text-align: left;
-
-		@mixin xs {
-			margin-top: var(--unit);
-			margin-bottom: var(--unit);
-		}
+	.page__heading + .content-section {
+		margin-top: 0;
 	}
-
 	.content-section__header {
 		font-weight: 300;
 	}

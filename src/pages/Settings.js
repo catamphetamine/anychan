@@ -68,7 +68,7 @@ export default class SettingsPage extends React.Component {
 		const messages = getMessages(settings.locale)
 
 		return (
-			<section className="settings-page container">
+			<section className="settings-page content content--posts">
 				{/* Settings */}
 				<h1 className="page__heading">
 					{messages.settings.title}

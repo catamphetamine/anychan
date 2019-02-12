@@ -64,10 +64,10 @@ export default class Header extends React.Component {
 	}
 }
 
-function isBoardLocation({ location, params }) {
+export function isBoardLocation({ location, params }) {
 	return params.board
 }
 
-function isThreadLocation({ location, params }) {
+export function isThreadLocation({ location, params }) {
 	return params.thread
 }

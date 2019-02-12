@@ -11,7 +11,7 @@ body {
 	}
 }
 
-.webpage__footer .application-menu
+.footer .application-menu
 {
 	position : fixed;
 	left     : 0;
@@ -25,29 +25,29 @@ body {
 	z-index : var(--header-z-index);
 }
 
-.webpage__footer
+.footer
 {
 	margin-bottom : var(--footer-menu-height);
 	background-color: var(--background-color);
 }
 
 @mixin ml {
-	.webpage__footer .application-menu {
+	.footer .application-menu {
 		display : none;
 	}
 }
 
 @mixin xl {
-	.webpage__footer .application-menu {
+	.footer .application-menu {
 		display : none;
 	}
 }
 
-.webpage__footer-link {
+.footer__link {
 	color: inherit;
 }
 
-.webpage__footer-copyright {
+.footer__copyright {
 	margin-top: 1em;
 	margin-bottom: 1em;
 	color: var(--gray-color-dark);

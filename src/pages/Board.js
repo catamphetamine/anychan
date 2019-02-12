@@ -81,20 +81,18 @@ export default class BoardPage extends React.Component {
 		} = this.props
 		return (
 			<section className="board-page content content--posts">
-				<h1 className="board-page__title">
+				<h1 className="page__heading">
 					{board.name}
 				</h1>
-				<div className="board-page__threads">
-					{threads && threads.map((thread) => (
-						<ThreadComment
-							key={thread.comments[0].id}
-							board={board}
-							thread={thread}
-							comment={thread.comments[0]}
-							getUrl={this.getUrl}
-							onClick={this.onThreadClick}/>
-					))}
-				</div>
+				{threads && threads.map((thread) => (
+					<ThreadComment
+						key={thread.comments[0].id}
+						board={board}
+						thread={thread}
+						comment={thread.comments[0]}
+						getUrl={this.getUrl}
+						onClick={this.onThreadClick}/>
+				))}
 			</section>
 		)
 	}

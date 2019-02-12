@@ -1,21 +1,12 @@
 @import "../styles/common";
 
-.board-page__title {
-	margin-top: 0;
-	margin-bottom: 0;
-	line-height: calc(var(--unit) * 5);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-weight: 300;
-	text-align: center;
-
-	@mixin xs {
-		line-height: calc(var(--unit) * 4);
-	}
-}
-
 .board-page {
-	.thread__comment-container:first-child {
+	.thread__comment {
+    margin-top: calc(var(--unit) * 1.5);
+    margin-bottom: calc(var(--unit) * 1.5);
+	}
+
+	.page__heading + .thread__comment-container {
 		.thread__comment {
 			margin-top: 0;
 		}

@@ -104,7 +104,8 @@ body {
 	}
 }
 
-.thread__comment {
+.thread__comment,
+.settings-page .content-section {
 	@mixin xs {
 		border-radius: 0;
 	}
@@ -130,4 +131,18 @@ body {
 
 .rrui__slideshow--fullscreen {
 	z-index: var(--slideshow-z-index);
+}
+
+.page__heading {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: calc(var(--unit) * 5);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: 300;
+	text-align: center;
+
+	@mixin xs {
+		line-height: calc(var(--unit) * 4);
+	}
 }
