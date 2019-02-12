@@ -5,7 +5,6 @@ import classNames from 'classnames'
 
 import { getComments } from '../redux/chan'
 
-import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
 
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
@@ -13,7 +12,7 @@ import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 import './Thread.css'
 
 @meta(({ chan: { board, thread }}) => ({
-	title: thread && (thread.comments[0].subject || board.name),
+	title: thread && (thread.comments[0].heading || board.name),
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
@@ -42,22 +41,15 @@ export default class ThreadPage extends React.Component {
 			comments
 		} = this.props
 		return (
-			<section className="container">
-				<div className="row row--align-top">
-					<div className="col-3 col-xs-12">
-						<Boards/>
-					</div>
-					<div className="col-9 col-xs-12 col--padding-left-xs">
-						{comments && comments.map((comment) => (
-							<ThreadComment
-								key={comment.id}
-								board={board}
-								thread={thread}
-								comment={comment}
-								getUrl={this.getUrl}/>
-						))}
-					</div>
-				</div>
+			<section className="content">
+				{comments && comments.map((comment) => (
+					<ThreadComment
+						key={comment.id}
+						board={board}
+						thread={thread}
+						comment={comment}
+						getUrl={this.getUrl}/>
+				))}
 			</section>
 		)
 	}

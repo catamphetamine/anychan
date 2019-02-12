@@ -11,7 +11,6 @@ import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/prelo
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 
-import Boards from '../components/Boards'
 import ThreadComment from '../components/ThreadComment'
 
 import './Board.css'
@@ -76,24 +75,25 @@ export default class BoardPage extends React.Component {
 		return `/${board.id}/${thread.id}`
 	}
 	render() {
-		const { board, threads } = this.props
+		const {
+			board,
+			threads
+		} = this.props
 		return (
-			<section className="container">
-				<div className="row row--align-top">
-					<div className="col-3 col-xs-12">
-						<Boards/>
-					</div>
-					<div className="col-9 col-xs-12 col--padding-left-xs">
-						{threads && threads.map((thread) => (
-							<ThreadComment
-								key={thread.comments[0].id}
-								board={board}
-								thread={thread}
-								comment={thread.comments[0]}
-								getUrl={this.getUrl}
-								onClick={this.onThreadClick}/>
-						))}
-					</div>
+			<section className="board-page content">
+				<h1 className="board-page__title">
+					{board.name}
+				</h1>
+				<div className="board-page__threads">
+					{threads && threads.map((thread) => (
+						<ThreadComment
+							key={thread.comments[0].id}
+							board={board}
+							thread={thread}
+							comment={thread.comments[0]}
+							getUrl={this.getUrl}
+							onClick={this.onThreadClick}/>
+					))}
 				</div>
 			</section>
 		)

@@ -13,6 +13,7 @@ import 'react-website/components/Loading.css'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import Sidebar from '../components/Sidebar'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import Slideshow from 'webapp-frontend/src/components/Slideshow'
 
@@ -33,10 +34,11 @@ import './Application.css'
 @meta((state) => ({
 	locale: getHTMLLocaleFromLanguage(state.account.settings.locale)
 }))
-@connect(({ slideshow }) => ({
+@connect(({ slideshow, found }) => ({
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
-	slideshowPictures: slideshow.pictures
+	slideshowPictures: slideshow.pictures,
+  location: found.resolvedMatch.location
 }), {
 	closeSlideshow
 })
@@ -59,6 +61,7 @@ export default class App extends React.Component
 			slideshowIsOpen,
 			slideshowPictures,
 			closeSlideshow,
+			location,
 			children
 		} = this.props
 
@@ -80,13 +83,14 @@ export default class App extends React.Component
 					</Slideshow>
 				}
 
-				<div className="webpage">
-					<Header/>
+				<Sidebar show={location.pathname === '/'}/>
 
+				<Header/>
+
+				<div className="webpage">
 					<div className="webpage__content">
 						{ children }
 					</div>
-
 					<Footer/>
 				</div>
 			</div>

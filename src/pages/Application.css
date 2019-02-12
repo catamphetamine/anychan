@@ -1,5 +1,19 @@
 @import "../styles/common";
 
+body {
+	--sidebar-width : 100%;
+
+	@mixin ml {
+		--sidebar-width : calc(var(--unit) * 20);
+	}
+	@mixin xl {
+		--sidebar-width : calc(var(--unit) * 30);
+	}
+	@mixin xxl {
+		--sidebar-width : calc(var(--unit) * 30);
+	}
+}
+
 /* Stretches the page to 100% height */
 .webpage
 {
@@ -44,5 +58,52 @@
 
 .rrui__slideshow
 {
+	z-index: var(--slideshow-z-index);
+}
+
+.sidebar {
+	display: none;
+	top: var(--header-height);
+	bottom: var(--footer-menu-height);
+	width: var(--sidebar-width);
+
+	@mixin ml {
+		display: block;
+	}
+	@mixin xl {
+		display: block;
+	}
+}
+
+.sidebar--show {
+	display: block;
+}
+
+.webpage {
+	margin-left: var(--sidebar-width);
+
+	@mixin xs {
+		margin-left: 0;
+	}
+	@mixin ms {
+		margin-left: 0;
+	}
+}
+
+.content {
+	margin-left: var(--content-section-margin);
+	margin-right: var(--content-section-margin);
+
+	@mixin xs {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	@mixin ms {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.rrui__slideshow--fullscreen {
 	z-index: var(--slideshow-z-index);
 }

@@ -5,10 +5,6 @@ import { connect } from 'react-redux'
 import { Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import {
-	ContentSection
-} from 'webapp-frontend/src/components/ContentSection'
-
 import { getThreads } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
@@ -254,7 +250,7 @@ export default class BoardsComponent extends React.Component {
 		return (
 			<div {...rest}>
 				<div className={classNames('boards__toggle-wrapper', {
-					'boards__toggle-wrapper--collapse-boards-list-on-small-screens': !isExpanded
+					// 'boards__toggle-wrapper--collapse-boards-list-on-small-screens': !isExpanded
 				})}>
 					<button
 						onClick={this.toggleBoardsList}
@@ -262,11 +258,7 @@ export default class BoardsComponent extends React.Component {
 						{getMessages(locale).showBoardsList}
 					</button>
 				</div>
-				<ContentSection className={classNames({
-					'boards__container--collapse-boards-list-on-small-screens': !isExpanded
-				})}>
-					<Boards/>
-				</ContentSection>
+				<Boards/>
 			</div>
 		)
 	}

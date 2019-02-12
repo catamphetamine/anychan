@@ -5,10 +5,10 @@ import {
 } from 'webapp-frontend/src/utility/theme'
 
 const LARGE_FONT_SIZES = {
-	'--font-size-xs' : '20px',
-	'--font-size-xs-plus' : '22px',
-	'--font-size-m'  : '23px',
-	'--font-size-xl' : '24px'
+	'--font-size-xs' : '19px',
+	'--font-size-xs-plus' : '21px',
+	'--font-size-m'  : '22px',
+	'--font-size-xl' : '23px'
 }
 
 const DEFAULT_FONT_SIZE = 'medium'

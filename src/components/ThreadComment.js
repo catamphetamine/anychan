@@ -101,14 +101,16 @@ function Comment({ comment, hidden, url, locale }) {
 		<ContentSection
 			className={classNames('thread__comment', {
 				'thread__comment--hidden': hidden,
-				'thread__comment--with-subject': comment.subject
+				// 'thread__comment--with-subject': comment.subject
 			})}>
 			{hidden && 'Сообщение скрыто'}
+			{/*
 			{!hidden && comment.subject &&
 				<ContentSectionHeader lite>
 					{comment.subject}
 				</ContentSectionHeader>
 			}
+			*/}
 			{!hidden &&
 				<Post
 					post={comment}

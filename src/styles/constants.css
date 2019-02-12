@@ -21,9 +21,12 @@ body
 	--gray-color-dark     : #888C91;
 	--gray-color-darkest  : #797D82;
 
-	--base-color-light : #00B3FF;
-	--base-color       : #00A6ED;
-	--base-color-dark  : #0084BD;
+	--base-color-light   : #FFA061;
+	--base-color-lighter : #FF8732;
+	--base-color         : #FF6A00;
+	--base-color-darker  : #DD5C00;
+	--base-color-dark    : #DE7129;
+	--base-color-darkest : #BA5700;
 
 	/* Base color transparency: rgba(0, 179, 255, 0.7); */
 
@@ -40,16 +43,17 @@ body
 
 	--header-height : calc(var(--unit) * 3);
 
+	--sidebar-z-index : 1;
+	--header-z-index : 2;
+	--slideshow-z-index : 3;
+
 	--button-on-background-background-color : rgba(0, 0, 0, 0.6);
 	--button-on-background-color : var(--white-color);
 	--primary-button-on-background-background-color : rgba(0, 166, 237, 0.8);
 
-	--footer-menu-height : calc(var(--unit) * 3);
-
 	--font-family : Roboto, sans-serif;
 	--font-family-text : sans-serif;
 
-	/*
 	@mixin xs
 	{
 		--header-height : 0;
@@ -59,5 +63,4 @@ body
 	{
 		--header-height : 0;
 	}
-	*/
 }

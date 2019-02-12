@@ -5,7 +5,7 @@
 }
 
 .post__inline-quote {
-	color: #B15E00;
+	color: var(--base-color-darkest);
 }
 
 .post__inline-spoiler--hidden {
@@ -40,14 +40,18 @@
 	transition: box-shadow 120ms, background-color 60ms;
 }
 
+/*
 .thread__comment--with-subject {
 	.content-section__header {
 		padding-bottom: calc(var(--content-section-vertical-padding) / 2);
 	}
 }
+*/
 
 .thread__comment--hidden {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	color: var(--gray-color);
+	font-family: var(--font-family);
+	font-weight: 300;
 }

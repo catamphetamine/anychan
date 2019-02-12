@@ -1,6 +1,20 @@
-.page__header {
-	margin: 0;
-	padding-top: calc(var(--unit) * 2);
-	padding-bottom: calc(var(--unit) * 2);
-	text-align: left;
+@import "../styles/common";
+
+.settings-page {
+	.page__heading {
+		margin: 0;
+		margin-top: calc(var(--unit) * 2);
+		margin-bottom: calc(var(--unit) * 2);
+		font-weight: 300;
+		text-align: left;
+
+		@mixin xs {
+			margin-top: var(--unit);
+			margin-bottom: var(--unit);
+		}
+	}
+
+	.content-section__header {
+		font-weight: 300;
+	}
 }

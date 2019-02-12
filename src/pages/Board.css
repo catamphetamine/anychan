@@ -1,0 +1,25 @@
+@import "../styles/common";
+
+.board-page__title {
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: calc(var(--unit) * 5);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: 300;
+	text-align: center;
+
+	@mixin xs {
+		line-height: calc(var(--unit) * 4);
+	}
+}
+
+.board-page {
+	.thread__comment-container:first-child {
+		.thread__comment {
+			margin-top: 0;
+		}
+	}
+}

@@ -1,5 +1,16 @@
 @import "../styles/common";
 
+body {
+	--footer-menu-height: calc(var(--unit) * 3);
+
+	@mixin ml {
+		--footer-menu-height: 0;
+	}
+	@mixin xl {
+		--footer-menu-height: 0;
+	}
+}
+
 .webpage__footer .application-menu
 {
 	position : fixed;
@@ -10,29 +21,25 @@
 	height : var(--footer-menu-height);
 	background-color : var(--white-color);
 	border-top : 1px solid rgba(0,0,0,.0975);
+
+	z-index : var(--header-z-index);
 }
 
 .webpage__footer
 {
-	/* margin-bottom : var(--footer-menu-height); */
-  background-color: var(--background-color);
+	margin-bottom : var(--footer-menu-height);
+	background-color: var(--background-color);
 }
 
 @mixin ml {
 	.webpage__footer .application-menu {
 		display : none;
 	}
-	.webpage__footer {
-		margin-bottom : 0;
-	}
 }
 
 @mixin xl {
 	.webpage__footer .application-menu {
 		display : none;
-	}
-	.webpage__footer {
-		margin-bottom : 0;
 	}
 }
 
@@ -41,13 +48,13 @@
 }
 
 .webpage__footer-copyright {
-	margin-top: 2em;
-	margin-bottom: 2em;
+	margin-top: 1em;
+	margin-bottom: 1em;
 	color: var(--gray-color-dark);
 	text-align: center;
 
-	@mixin xs {
-		margin-top: 1em;
-		margin-bottom: 1em;
+	@mixin xl {
+		margin-top: 2em;
+		margin-bottom: 2em;
 	}
 }

@@ -51,7 +51,7 @@ export default class Header extends React.Component {
 							}
 							{isThreadLocation(route) && thread &&
 								<span className="header__thread-title">
-									{' → '}{thread.comments[0].subject || getMessages(locale).thread}
+									{' → '}{thread.comments[0].heading || getMessages(locale).thread}
 								</span>
 							}
 						</div>
