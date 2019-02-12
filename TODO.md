@@ -1,3 +1,13 @@
+Сейчас есть три места, где ставится play video icon size:
+
+* `Video.css`: `--rrui-video-play-icon-size: 30%;`;
+
+* `react-responsive-ui.css`: `.rrui__video__play-icon { --icon-size : 20%; }`.
+
+* `PostAttachments.css`: `--icon-size : 20%`.
+
+Сделать в одном месте вместо трёх.
+
 * Язык можно устанавливать по умолчанию не `window.navigator.language`, а специфичный для чана (если задан): 'en' для 4chan, 'ru' для 2ch.
 
 * Выделять текущую доску в Sidebar цветом :active.
