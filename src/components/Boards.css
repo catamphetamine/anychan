@@ -22,8 +22,9 @@
 .boards-list-section__title {
 	margin-top: 1.5em;
 	margin-bottom: 0.5em;
-	font-weight: normal;
 	font-size: 1.3rem;
+	font-weight: 300;
+	color: var(--gray-color);
 }
 
 .boards-list-section__title--first {

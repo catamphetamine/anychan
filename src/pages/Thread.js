@@ -41,7 +41,7 @@ export default class ThreadPage extends React.Component {
 			comments
 		} = this.props
 		return (
-			<section className="content">
+			<section className="content content--posts">
 				{comments && comments.map((comment) => (
 					<ThreadComment
 						key={comment.id}

@@ -80,7 +80,7 @@ export default class BoardPage extends React.Component {
 			threads
 		} = this.props
 		return (
-			<section className="board-page content">
+			<section className="board-page content content--posts">
 				<h1 className="board-page__title">
 					{board.name}
 				</h1>

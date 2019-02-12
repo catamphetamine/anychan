@@ -1,8 +1,6 @@
 @import "../styles/common";
 
 .board-page__title {
-	margin-left: var(--unit);
-	margin-right: var(--unit);
 	margin-top: 0;
 	margin-bottom: 0;
 	line-height: calc(var(--unit) * 5);
