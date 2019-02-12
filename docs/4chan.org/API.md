@@ -81,6 +81,8 @@
 				"omitted_images": 15,
 
 				// Five last replies in the thread.
+				// If there's no five replies in the thread
+				// then will only include those replies (obviously).
 				"last_replies": [
 					{
 						"no": 184187731,
@@ -257,3 +259,7 @@ There's also a website called [`4stats.io`](4stats.io). I contacted `4stats.io` 
 The above steps are performed for each board with a delay `>= 1 sec` between moving from one board to another due to the 4chan API request rate limit of "max one request per second".
 
 The reason why "posts per minute" stats for threads is calculated in a "stateless" approximate manner is because it can be a good-enough approximation of what kind of threads people generally participate in. Alternatively, precise "posts per minute" stats for threads could be calculated by storing `thread.replies` in state for each thread and then, say, after `M` hours the precise "posts per minute" stats for a thread would be calculated as `(thread.replies - getStateForMinutesAgo(M * 60).findThreadById(thread.id).replies) / (M * 60)`. Such "precise" approach would require storing more data in the database and is therefore more complex. It's likely that the "stateless" approximation already gives good-enough results so no extra precision is required.
+
+### `/f/`
+
+On the `/f/` board there's no thumbnails for attachments: `tn_w === 0`, `tn_h === 0`.
