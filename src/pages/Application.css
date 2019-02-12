@@ -127,6 +127,13 @@ body {
 
 .content--posts {
 	max-width: 50em;
+
+	@mixin xs {
+		max-width: none;
+	}
+	@mixin ms {
+		max-width: none;
+	}
 }
 
 .rrui__slideshow--fullscreen {
