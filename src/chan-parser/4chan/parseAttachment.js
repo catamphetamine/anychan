@@ -47,6 +47,15 @@ export default function parseAttachment(file, { boardId }) {
 			}
 		}
 	}
+	return {
+		// contentType: 'application/x-shockwave-flash',
+		name: file.filename,
+		ext: file.ext,
+		size: file.fsize, // in bytes
+		width: file.w,
+		height: file.h,
+		url: `//i.4cdn.org/${boardId}/${file.filename}${file.ext}`
+	}
 	console.error(`Unknown file type: ${JSON.stringify(file)}`)
 	return TRANSPARENT_PIXEL
 }
