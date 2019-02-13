@@ -66,6 +66,7 @@ export default class BoardPage extends React.Component {
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
 			pushLocation(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
 		} catch (error) {
+			console.error(error)
 			notify(getMessages(settings.locale).loadingCommentsError, { type: 'error '})
 		} finally {
 			preloadFinished()

@@ -87,21 +87,6 @@ export default async function parseComment(post, {
 			subject = undefined
 		}
 	}
-	// Sometimes users skip the subject field and
-	// write the subject in bold as part of the post.
-	// Or thread subject field may be not available.
-	// (example: thread subjects aren't availabled in `2ch.hk/b`)
-	if (rawComment && !subject) {
-		const match = parseSubjectFromComment(rawComment)
-		if (match) {
-			subject = match.subject
-			rawComment = match.comment
-			// If the post subject is all caps then convert it to normal case.
-			if (!/[а-я]/.test(subject) && /[А-Я]/.test(subject)) {
-				subject = subject.toLowerCase().replace(/([а-я])/, _ => _.toUpperCase())
-			}
-		}
-	}
 	const comment = await constructComment(
 		undefined,
 		threadId,

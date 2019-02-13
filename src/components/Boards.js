@@ -162,6 +162,7 @@ class Board extends React.Component {
 			)
 			pushLocation(this.getUrl())
 		} catch (error) {
+			console.error(error)
 			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
 		} finally {
 			preloadFinished()
