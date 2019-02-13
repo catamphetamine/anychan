@@ -116,4 +116,5 @@ const SERVICES = {
 	}
 }
 
+SERVICES['m.youtube.com'] = SERVICES['youtube.com']
 SERVICES['arhivach.cf'] = SERVICES['archivach.org']

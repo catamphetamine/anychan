@@ -93,6 +93,14 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('https://m.youtube.com/watch?v=yModCU1OVHY'),
+			{
+				service: 'youtube',
+				text: 'yModCU1OVHY'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('http://vimeo.com/name'),
 			{
 				service: 'vimeo',
