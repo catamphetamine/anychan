@@ -32,5 +32,5 @@ export default function groupBoardsByCategory(boards, categoriesOrder = []) {
 		}
 		category.boards.push(board)
 		return categories
-	}, categories)
+	}, categories).filter(_ => _.boards.length > 0)
 }
