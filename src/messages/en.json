@@ -1,5 +1,8 @@
 {
 	"languageName": "English",
+	"boards": {
+		"title": "Boards list"
+	},
 	"settings": {
 		"title": "Settings",
 		"language": "Language",
@@ -14,7 +17,6 @@
 	"boardsList": "All boards",
 	"boardsByPopularity": "Popular",
 	"boardsByCategory": "By category",
-	"thread": "Thread",
 	"loadingBoardsError": "Couldn\"t load boards list",
 	"loadingThreadsError": "Couldn\"t load threads list",
 	"loadingCommentsError": "Couldn\"t load thread comments",

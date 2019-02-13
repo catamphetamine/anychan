@@ -5,15 +5,18 @@ import { Link } from 'react-website'
 import classNames from 'classnames'
 
 import { addChanParameter } from '../chan'
+import getMessages from '../messages'
 
 import './Menu.css'
 
-@connect(({ found }) => ({
-  location: found.resolvedMatch.location
+@connect(({ account, found }) => ({
+	locale: account.settings.locale,
+	location: found.resolvedMatch.location
 }))
 export default class Menu extends React.Component {
 	render() {
 		const {
+			locale,
 			location,
 			className,
 			children
@@ -21,10 +24,13 @@ export default class Menu extends React.Component {
 
 		return (
 			<ul className={classNames('menu', className)}>
-				{children.map(({ link, outlineIcon, fillIcon }) => {
+				{children.map(({ link, title, outlineIcon, fillIcon }) => {
 					const isSelected = location.pathname === link
 					return (
-						<MenuLink to={link} key={link}>
+						<MenuLink
+							to={link}
+							key={link}
+							title={getMessages(locale)[title].title}>
 							{React.createElement(
 								isSelected ? fillIcon : outlineIcon,
 								{ className: 'menu-item__icon' }
@@ -38,6 +44,7 @@ export default class Menu extends React.Component {
 }
 
 Menu.propTypes = {
+	locale: PropTypes.string.isRequired,
 	location: PropTypes.object.isRequired,
 	children: PropTypes.arrayOf(PropTypes.shape({
 		link: PropTypes.string.isRequired,

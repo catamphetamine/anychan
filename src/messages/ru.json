@@ -1,5 +1,8 @@
 {
 	"languageName": "Русский",
+	"boards": {
+		"title": "Список досок"
+	},
 	"settings": {
 		"title": "Настройки",
 		"language": "Язык",
@@ -14,7 +17,6 @@
 	"boardsList": "Все доски",
 	"boardsByPopularity": "Популярные",
 	"boardsByCategory": "По разделам",
-	"thread": "Тред",
 	"loadingBoardsError": "Не удалось загрузить список досок",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",

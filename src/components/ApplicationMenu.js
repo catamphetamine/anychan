@@ -66,13 +66,14 @@ export default class ApplicationMenu extends React.Component {
 // }]
 
 const MENU_ITEMS = [{
-	// title: 'Account',
+	title: 'settings',
 	link: '/settings',
 	outlineIcon: SettingsIconOutline,
 	fillIcon: SettingsIconFill
 }]
 
 const MENU_ITEMS_FOOTER = [{
+	title: 'boards',
 	link: '/',
 	outlineIcon: FeedIconOutline,
 	fillIcon: FeedIconFill
