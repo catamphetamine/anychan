@@ -1,11 +1,24 @@
+.thread-page__header {
+	display: flex;
+	flex-direction: column;
+}
+
 .thread-page {
-	.page__heading {
-		display: flex;
-		flex-direction: column;
+	h1.page__heading {
+		margin-top: 0;
 	}
-	.page__heading + .thread__comment-container {
-		.thread__comment {
-			margin-top: 0;
-		}
+	.thread__comment {
+		border-bottom: 1px solid rgba(0,0,0,.0975);
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.post__date {
+		color: var(--gray-color);
+	}
+}
+
+.thread-page__header + .thread__comment-container {
+	.thread__comment {
+		margin-top: 0;
 	}
 }

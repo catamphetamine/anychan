@@ -140,20 +140,27 @@ body {
 	z-index: var(--slideshow-z-index);
 }
 
+.page__heading,
+.page__heading-text {
+	line-height: 1.35em;
+	font-size: 1.3rem;
+	font-weight: 300;
+
+	@mixin xl {
+		line-height: 1.4em;
+		font-size: 1.4rem;
+	}
+}
+
+.page__heading-text {
+	margin: 0;
+}
+
 .page__heading {
-	display: flex;
-	align-content: center;
-	justify-content: center;
 	margin-top: var(--unit);
 	margin-bottom: var(--unit);
-	min-height: calc(var(--unit) * 3);
-	line-height: 1.5em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-weight: 300;
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	/*min-height: calc(var(--unit) * 3);*/
 	text-align: center;
-
-	@mixin xs {
-		line-height: calc(var(--unit) * 4);
-	}
 }

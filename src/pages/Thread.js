@@ -42,12 +42,14 @@ export default class ThreadPage extends React.Component {
 		} = this.props
 		return (
 			<section className={classNames('thread-page', 'content', 'content--posts')}>
-				<h1 className="page__heading">
-					<Link to={`/${board.id}`}>
+				<header className="thread-page__header page__heading">
+					<Link className="page__heading-text" to={`/${board.id}`}>
 						{board.name}
 					</Link>
-					{thread.subject}
-				</h1>
+					<h1 className="page__heading-text">
+						{thread.subject}
+					</h1>
+				</header>
 				{comments && comments.map((comment) => (
 					<ThreadComment
 						key={comment.id}

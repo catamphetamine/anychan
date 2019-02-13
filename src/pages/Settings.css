@@ -1,6 +1,13 @@
 @import "../styles/common";
 
 .settings-page {
+	.content-section {
+		margin-top: var(--unit);
+		margin-bottom: var(--unit);
+	}
+	.content-section:last-child {
+		margin-bottom: 0;
+	}
 	.page__heading + .content-section {
 		margin-top: 0;
 	}

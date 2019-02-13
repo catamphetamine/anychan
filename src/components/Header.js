@@ -51,8 +51,8 @@ export default class Header extends React.Component {
 					}
 					{isThreadLocation(route) && thread &&
 						<span className="header__thread-title">
-							{' → '}
-							{thread.subject || getMessages(locale).thread}
+							{thread.subject && ' → '}
+							{thread.subject}
 						</span>
 					}
 				</div>
