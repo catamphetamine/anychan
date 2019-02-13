@@ -2,12 +2,12 @@ import generateTextPreview from './generateTextPreview'
 
 export default function constructThread(
 	commentsCount,
+	attachmentsCount,
 	comment,
 	isClosed,
 	isEndless,
 	isSticky
 ) {
-	comment.commentsCount = commentsCount
 	// Text preview is used for `<meta description/>`.
 	generateTextPreview(comment)
 	return {
@@ -15,6 +15,8 @@ export default function constructThread(
 		isClosed,
 		isEndless,
 		isSticky,
+		commentsCount,
+		attachmentsCount,
 		comments: [
 			comment
 		]

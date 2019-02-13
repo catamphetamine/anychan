@@ -76,6 +76,8 @@ describe('4chan.org', () => {
 				"isClosed": false,
 				"isEndless": false,
 				"isSticky": false,
+				"commentsCount": 193,
+				"attachmentsCount": 36,
 				"comments" : [
 					{
 						"id": 2952650,
@@ -90,12 +92,12 @@ describe('4chan.org', () => {
 										{
 											"width": 250,
 											"height": 140,
-											"url": "//i.4cdn.org/undefined/1549003021750s.jpg"
+											"url": "//i.4cdn.org/a/1549003021750s.jpg"
 										},
 										{
 											"width": 1280,
 											"height": 720,
-											"url": "//i.4cdn.org/undefined/1549003021750.png"
+											"url": "//i.4cdn.org/a/1549003021750.png"
 										}
 									]
 								}
@@ -170,8 +172,7 @@ describe('4chan.org', () => {
 									]
 								}
 							]
-						],
-						"commentsCount": 193
+						]
 					}
 				]
 			}
@@ -184,7 +185,9 @@ describe('4chan.org', () => {
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				}
-			}).parseThreads(API_RESPONSE),
+			}).parseThreads(API_RESPONSE, {
+				boardId: 'a'
+			}),
 			THREADS
 		)
 	})

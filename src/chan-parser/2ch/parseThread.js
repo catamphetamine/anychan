@@ -88,6 +88,7 @@ export default async function parseThread(thread, {
 	})
 	return constructThread(
 		thread.posts_count,
+		thread.files_count,
 		comment,
 		thread.closed === 1,
 		thread.endless === 1,

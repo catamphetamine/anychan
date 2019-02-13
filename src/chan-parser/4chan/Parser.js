@@ -7,9 +7,8 @@ import compileFilters from '../compileFilters'
 import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
 
 export default class FourChanParser {
-	constructor({ boardId, messages, filters, youTubeApiKey }) {
+	constructor({ messages, filters, youTubeApiKey }) {
 		this.options = {
-			boardId,
 			messages,
 			youTubeApiKey,
 			filters: filters ? compileFilters(filters) : undefined,
@@ -23,12 +22,18 @@ export default class FourChanParser {
 	}
 
 	// Returns a `Promise`.
-	parseThreads(response) {
-		return parseThreads(response, this.options)
+	parseThreads(response, { boardId }) {
+		return parseThreads(response, {
+			...this.options,
+			boardId
+		})
 	}
 
 	// Returns a `Promise`.
 	parseComments(response) {
-		return parseComments(response, this.options)
+		return parseComments(response, {
+			...this.options,
+			boardId
+		})
 	}
 }

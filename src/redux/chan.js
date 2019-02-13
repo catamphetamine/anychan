@@ -38,12 +38,16 @@ export const getThreads = redux.action(
 	(boardId, filters, locale) => async http => {
 		const response = await http.get(proxyUrl(getChan().getThreadsUrl(boardId)))
 		// const startedAt = Date.now()
-		const result = {
+		const threads = await createParser({ filters, locale }).parseThreads(response, { boardId })
+		for (const thread of threads) {
+			thread.comments[0].commentsCount = thread.commentsCount
+			thread.comments[0].attachmentsCount = thread.attachmentsCount
+		}
+		return {
 			boardId,
-			threads: await createParser({ filters, locale, boardId }).parseThreads(response)
+			threads
 		}
 		// console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
-		return result
 	},
 	(state, { threads, boardId }) => ({
 		...state,
@@ -56,7 +60,7 @@ export const getComments = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
 		const response = await http.get(proxyUrl(getChan().getCommentsUrl(boardId, threadId)))
 		// const startedAt = Date.now()
-		const comments = await createParser({ filters, locale, boardId }).parseComments(response)
+		const comments = await createParser({ filters, locale }).parseComments(response, { boardId })
 		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		return {
 			boardId,
@@ -77,10 +81,9 @@ export const getComments = redux.action(
 
 export default redux.reducer()
 
-function createParser({ filters, locale, boardId }) {
+function createParser({ filters, locale }) {
 	const Parser = getChan().Parser
 	return new Parser({
-		boardId,
 		filters,
 		youTubeApiKey: configuration.youTubeApiKey,
 		messages: locale ? getMessages(locale) : undefined
