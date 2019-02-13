@@ -30,7 +30,7 @@ export default class FourChanParser {
 	}
 
 	// Returns a `Promise`.
-	parseComments(response) {
+	parseComments(response, { boardId }) {
 		return parseComments(response, {
 			...this.options,
 			boardId
