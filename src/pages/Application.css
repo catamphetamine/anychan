@@ -141,9 +141,13 @@ body {
 }
 
 .page__heading {
-	margin-top: 0;
-	margin-bottom: 0;
-	line-height: calc(var(--unit) * 5);
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	margin-top: var(--unit);
+	margin-bottom: var(--unit);
+	min-height: calc(var(--unit) * 3);
+	line-height: 1.5em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-weight: 300;

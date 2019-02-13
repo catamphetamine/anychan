@@ -28,9 +28,9 @@ export default async function constructComment(
 		createdAt: new Date(timestamp * 1000)
 	}
 	if (subject) {
-		comment.heading = unescapeContent(subject)
+		comment.title = unescapeContent(subject)
 		if (correctGrammar) {
-			comment.heading = correctGrammar(comment.heading)
+			comment.title = correctGrammar(comment.title)
 		}
 	}
 	if (rawComment) {

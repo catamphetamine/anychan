@@ -2,8 +2,8 @@
 
 .board-page {
 	.thread__comment {
-    margin-top: calc(var(--unit) * 1.5);
-    margin-bottom: calc(var(--unit) * 1.5);
+		margin-top: calc(var(--unit) * 1.5);
+		margin-bottom: calc(var(--unit) * 1.5);
 	}
 
 	.page__heading + .thread__comment-container {

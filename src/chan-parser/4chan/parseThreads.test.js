@@ -104,7 +104,7 @@ describe('4chan.org', () => {
 							}
 						],
 						"createdAt": new Date("2019-02-01T06:37:01.000Z"),
-						"heading": "/stg/- Slave Trainer General/Maledom general",
+						"title": "/stg/- Slave Trainer General/Maledom general",
 						"textPreview": "Embrace the 2d edition",
 						"content": [
 							[

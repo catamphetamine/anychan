@@ -62,10 +62,15 @@ export const getComments = redux.action(
 		// const startedAt = Date.now()
 		const comments = await createParser({ filters, locale }).parseComments(response, { boardId })
 		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
+		const subject = comments[0].title
+		if (subject) {
+			comments[0].title = undefined
+		}
 		return {
 			boardId,
 			thread: {
 				id: comments[0].id,
+				subject,
 				comments: [comments[0]]
 			},
 			comments

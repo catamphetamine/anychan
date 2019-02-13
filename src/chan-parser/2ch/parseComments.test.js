@@ -159,7 +159,7 @@ describe('2ch.hk', () => {
 		const COMMENTS = [
 			{
 				"id": 28727050,
-				"heading": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
+				"title": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
 				"textPreview": "PLAYERUNKNOWN'S BATTLEGROUNDS — это шутер в котором выигрывает последний оставшийся в живых участник.",
 				"content": [
 					[

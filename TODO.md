@@ -2,8 +2,6 @@
 
 * Сделать `title` (через `getMessages()`) на значках ApplicationMenu. Убрать сообщение "Тред" из локализации.
 
-* На странице треда выносить `subject` наверх в `h1`, а у первого комментария — убирать `title` в `constructThread()`. Если нет темы у треда, то можно выводить "Без темы" (а можно и не выводить).  Заголовок сделать многострочным с `min-height` вместо `height`, и настроить `line-height`. Префиксом к заголовку темы мб выводить название доски (а мб и не выводить).
-
 * В `parseBoard()` добавить `bumpLimit`, `imageLimit` (только `4chan`), `showFlags` (`enable_flags` у `2ch`, `country_flags` у `4chan`), `showUserIds` (`user_ids` у `4chan`).
 
 * Выделять сообщения администраторов и модераторов (`getMessages()`: `role.admin`, `role.moderator`).

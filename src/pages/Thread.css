@@ -1,0 +1,11 @@
+.thread-page {
+	.page__heading {
+		display: flex;
+		flex-direction: column;
+	}
+	.page__heading + .thread__comment-container {
+		.thread__comment {
+			margin-top: 0;
+		}
+	}
+}

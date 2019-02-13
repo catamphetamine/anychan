@@ -1,5 +1,5 @@
 import React from 'react'
-import { preload, meta } from 'react-website'
+import { preload, meta, Link } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
@@ -12,7 +12,7 @@ import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 import './Thread.css'
 
 @meta(({ chan: { board, thread }}) => ({
-	title: thread && (thread.comments[0].heading || board.name),
+	title: thread && thread.subject || board && board.name,
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
@@ -41,7 +41,13 @@ export default class ThreadPage extends React.Component {
 			comments
 		} = this.props
 		return (
-			<section className="content content--posts">
+			<section className={classNames('thread-page', 'content', 'content--posts')}>
+				<h1 className="page__heading">
+					<Link to={`/${board.id}`}>
+						{board.name}
+					</Link>
+					{thread.subject}
+				</h1>
 				{comments && comments.map((comment) => (
 					<ThreadComment
 						key={comment.id}
