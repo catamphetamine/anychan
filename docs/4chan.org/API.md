@@ -265,10 +265,13 @@ The reason why "posts per minute" stats for threads is calculated in a "stateles
 ### URLs
 
 Images: `//i.4cdn.org/${board}${tim}${ext}`
+
 Thumbnails: `//i.4cdn.org/${board}/${tim}s.jpg`
 
 Spoiler image: `//s.4cdn.org/image/spoiler.png`
+
 Custom spoilers: `//s.4cdn.org/image/spoiler-${board}${custom_spoiler}.png`
 
 Country flags: `//s.4cdn.org/image/country/${country}.gif`
+
 `/pol/` country flags: `//s.4cdn.org/image/country/troll/${country}.gif`
