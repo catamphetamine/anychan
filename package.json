@@ -13,6 +13,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "easy-react-form": "^1.0.6",
+    "filesize": "^4.0.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",
     "react": "^16.6.0",
