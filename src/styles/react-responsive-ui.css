@@ -4,3 +4,7 @@
 body {
 	--rrui-button-text-color-active: var(--base-color-light);
 }
+
+.rrui__snackbar__container {
+	z-index: var(--notifications-z-index);
+}

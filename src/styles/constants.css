@@ -46,6 +46,7 @@ body
 	--sidebar-z-index : 1;
 	--header-z-index : 2;
 	--slideshow-z-index : 3;
+	--notifications-z-index : 4;
 
 	--button-on-background-background-color : rgba(0, 0, 0, 0.6);
 	--button-on-background-color : var(--white-color);
