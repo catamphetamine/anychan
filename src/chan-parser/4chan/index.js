@@ -1,5 +1,6 @@
 export { default as Parser } from './Parser'
 
+export const id = '4chan'
 const apiOrigin = 'http://a.4cdn.org'
 
 export function getCommentsUrl(boardId, threadId) {

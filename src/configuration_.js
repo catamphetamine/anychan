@@ -7,6 +7,8 @@ export default {
 	// A list of public CORS proxies:
 	// https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
 	corsProxyUrl: configuration.corsProxyUrl,
+	// Testing AWS EC2 CORS proxy.
+	corsProxyUrlAws: configuration.corsProxyUrlAws,
 	// https://console.developers.google.com/apis/credentials
 	youTubeApiKey: configuration.youtube && configuration.youtube.apiKey,
 	defaultChan: configuration.defaultChan

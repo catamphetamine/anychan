@@ -96,5 +96,14 @@ function createParser({ filters, locale }) {
 }
 
 function proxyUrl(url) {
-	return configuration.corsProxyUrl.replace('{url}', url)
+	switch (getChan().id) {
+		case '2ch':
+			if (configuration.corsProxyUrlAws) {
+				return configuration.corsProxyUrlAws.replace('{url}', url)
+			}
+	}
+	if (configuration.corsProxyUrl) {
+		return configuration.corsProxyUrl.replace('{url}', url)
+	}
+	return url
 }

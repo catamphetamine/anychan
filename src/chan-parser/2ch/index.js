@@ -2,7 +2,8 @@ export { default as Parser } from './Parser'
 
 export { GET_BOARDS_RESPONSE_EXAMPLE } from './test.data'
 
-const apiOrigin = 'http://2ch.hk'
+export const id = '2ch'
+const apiOrigin = 'https://2ch.hk'
 
 export function getCommentsUrl(boardId, threadId) {
 	return `${apiOrigin}/${boardId}/res/${threadId}.json`

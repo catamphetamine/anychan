@@ -55,7 +55,93 @@ See the `build/assets` directory.
 
 Chans (`2ch.hk`, `4chan.org`) don't allow calling their API from other websites by prohibiting [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for another website to be able to query chan API directly.
 
-A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) is used in this demo project. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay (a couple of seconds) while querying chan API. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347). For production deployment a dedicated CORS proxy should be used.
+A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay (a couple of seconds) for all API requests. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347).
+
+For production deployment a dedicated CORS proxy should be used. A free AWS EC2 "micro" server could be set up but CloudFlare blocks traffic from AWS EC2 (I guess because it can be easily set up for a DDoS attack) so `4chan.org`, for example, won't work and will return `403 Forbidden` for an AWS EC2 proxy.
+
+<details>
+<summary>An example of setting up a free AWS EC2 CORS proxy</summary>
+
+####
+
+AWS offers a year-long "free tier" usage plan for EC2 "micro" server instances.
+
+* Create a free EC2 "micro" instance.
+* Connect to it via SSH as `ec2-user`.
+* `sudo amazon-linux-extras install nginx1.12`
+* `sudo nano /etc/nginx/nginx.conf`
+
+```nginx
+http {
+	# This is required to resolve DNS names when proxying.
+	resolver 172.31.0.2;
+
+	# ... some standard configuration ...
+
+	server {
+		listen 80;
+		server_name cors-proxy;
+
+		# This setting is required to keep double slashes in the requested URL.
+		merge_slashes off;
+
+		# Only proxy URLs starting with "http://" or "https://".
+		location ~* ^/https?://.+$ {
+			# Serve `OPTIONS` "preflight" requests.
+			if ($request_method = 'OPTIONS') {
+				# Allow all websites access to this CORS proxy.
+				# Could be restricted via an nginx variable.
+				add_header Access-Control-Allow-Origin $http_origin;
+				# Allow sending cookies as part of an HTTP request (optional).
+				add_header Access-Control-Allow-Credentials true;
+				# Allow all HTTP request headers.
+				add_header Access-Control-Allow-Headers $http_access_control_request_headers;
+				# Allow all HTTP request methods.
+				add_header Access-Control-Allow-Methods $http_access_control_request_method;
+
+				add_header Content-Type 'text/plain charset=UTF-8';
+				add_header Content-Length 0;
+				return 204;
+			}
+
+			# Allow all websites access to this CORS proxy.
+			# Could be restricted via an nginx variable.
+			add_header Access-Control-Allow-Origin $http_origin;
+			# Allow sending cookies as part of an HTTP request (optional).
+			add_header Access-Control-Allow-Credentials true;
+			# Allow all HTTP request headers.
+			add_header Access-Control-Allow-Headers $http_access_control_request_headers;
+			# Allow all HTTP request methods.
+			add_header Access-Control-Allow-Methods $http_access_control_request_method;
+
+			# Trim the leading slash from `$request_uri` (URL path).
+			rewrite ^/(.+)$ $1 break;
+
+			# Generic proxying headers which are added to the proxied HTTP request.
+			# This is just some info for the destination server that it may potentially use.
+			# They are not required.
+			#
+			# Set the proxied HTTP request "HOST" header to this server's "HOST" (host and port).
+			proxy_set_header HOST $host;
+			# Which protocol did the client request.
+			proxy_set_header X-Forwarded-Proto $scheme;
+			# Pass client's IP address.
+			proxy_set_header X-Real-IP $remote_addr;
+			# The list of proxies used to proxy this HTTP request.
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+			# Proxy the HTTP request to the destination server.
+			proxy_pass $1;
+		}
+	}
+}
+```
+
+* `sudo service nginx restart`
+* Should be working.
+</details>
+
+####
 
 In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API.
 
