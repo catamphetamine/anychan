@@ -11,18 +11,19 @@
     "copy-index-html": "cpy build/assets/index.html build/assets --rename=404.html"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "classnames": "^2.2.5",
     "easy-react-form": "^1.0.6",
+    "fetch-jsonp": "^1.1.3",
     "filesize": "^4.0.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",
     "react": "^16.6.0",
-    "react-color": "^2.14.1",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.1",
     "react-responsive-ui": "^0.14.128",
     "react-time-ago": "^5.0.0",
-    "react-website": "^3.1.14",
+    "react-website": "^3.1.20",
     "redux": "^4.0.0"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
     "@babel/plugin-proposal-decorators": "^7.1.6",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-destructuring": "^7.1.3",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
