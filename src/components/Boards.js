@@ -44,7 +44,7 @@ class Boards extends React.Component {
 		}
 
 		return (
-			<section className={classNames('boards', className)}>
+			<nav className={classNames('boards', className)}>
 				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
@@ -98,7 +98,7 @@ class Boards extends React.Component {
 						))}
 					</tbody>
 				</table>
-			</section>
+			</nav>
 		)
 	}
 }
@@ -184,7 +184,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick}
+						onClick={this.onBoardClick2}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
@@ -192,7 +192,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-name-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick}
+						onClick={this.onBoardClick2}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>

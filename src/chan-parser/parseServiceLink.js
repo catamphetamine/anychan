@@ -21,7 +21,10 @@ export default function parseServiceLink(url) {
 	if (service) {
 		return {
 			service: service.name,
-			text: (service.getText && service.getText(url)) || url.pathname.slice('/'.length)
+			text: (service.getText && service.getText(url)) ||
+				url.pathname.slice('/'.length) ||
+				(url.search + url.hash) ||
+				hostname
 		}
 	}
 }
@@ -68,7 +71,13 @@ const SERVICES = {
 		name: 'github'
 	},
 	'twitter.com': {
-		name: 'twitter'
+		name: 'twitter',
+		getText(url) {
+			const postMatch = url.pathname.match(/^\/(.+?)\/status\/(.+)$/)
+			if (postMatch) {
+				return `${postMatch[1]}/${postMatch[2]}`
+			}
+		}
 	},
 	'instagram.com': {
 		name: 'instagram'
@@ -90,6 +99,10 @@ const SERVICES = {
 			if (url.pathname === '/profile.php' && url.searchParams.get('id')) {
 				return url.searchParams.get('id')
 			}
+			const peopleMatch = url.pathname.match(/^\/people\/(.+?)\//)
+			if (peopleMatch) {
+				return peopleMatch[1]
+			}
 		}
 	},
 	't.me': {
@@ -103,6 +116,9 @@ const SERVICES = {
 			}
 		}
 	},
+	'teleg.run': {
+		name: 'telegram'
+	},
 	'archivach.org': {
 		name: 'arhivach',
 		getText(url) {
@@ -112,9 +128,41 @@ const SERVICES = {
 					return match[1]
 				}
 			}
+			if (url.searchParams.get('tags')) {
+				return url.searchParams.get('tags')
+			}
+		}
+	},
+	'2ch.hk': {
+		name: '2ch',
+		getText(url) {
+			const matchBoard = url.pathname.match(/^\/([^\/]+)$/)
+			if (matchBoard) {
+				return `/${matchBoard[1]}/`
+			}
+			const matchThread = url.pathname.match(/^\/(.+?)\/res\/(.+)\.html$/)
+			if (matchThread) {
+				return `/${matchThread[1]}/${matchThread[2]}`
+			}
+		}
+	},
+	'4chan.org': {
+		name: '4chan',
+		getText(url) {
+			const matchBoard = url.pathname.match(/^\/([^\/]+)$/)
+			if (matchBoard) {
+				return `/${matchBoard[1]}/`
+			}
+			const matchThread = url.pathname.match(/^\/(.+?)\/thread\/(.+)$/)
+			if (matchThread) {
+				return `/${matchThread[1]}/${matchThread[2]}`
+			}
 		}
 	}
 }
 
+SERVICES['boards.4channel.org'] = SERVICES['4chan.org']
+SERVICES['boards.4chan.org'] = SERVICES['4chan.org']
 SERVICES['m.youtube.com'] = SERVICES['youtube.com']
 SERVICES['arhivach.cf'] = SERVICES['archivach.org']
+SERVICES['arhivach.ng'] = SERVICES['archivach.org']

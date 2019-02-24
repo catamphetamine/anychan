@@ -71,19 +71,17 @@ import constructThread from '../constructThread'
  * // }]
  * parseThread(...)
  */
-export default async function parseThread(thread, {
+export default function parseThread(thread, {
 	defaultAuthor,
 	filters,
 	parseCommentTextPlugins,
-	youTubeApiKey,
 	messages
 }) {
-	const comment = await parseComment(thread, {
+	const comment = parseComment(thread, {
 		threadId: parseInt(thread.num),
 		defaultAuthor,
 		filters,
 		parseCommentTextPlugins,
-		youTubeApiKey,
 		messages
 	})
 	return constructThread(

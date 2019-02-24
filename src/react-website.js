@@ -1,7 +1,7 @@
 import routes  from './routes'
 import * as reducers from './redux'
 
-import { getChan } from './chan'
+import { getChan, getChanIconUrl } from './chan'
 import getBasePath from './utility/getBasePath'
 import { createConfig } from 'webapp-frontend/src/react-website.common'
 
@@ -10,18 +10,36 @@ import { createConfig } from 'webapp-frontend/src/react-website.common'
 // // since no assets are emitted on the server side
 // export { default as icon } from '../assets/images/icon@192x192.png'
 
+// const DEFAULT_META = {
+// 	site_name   : 'chanchan',
+// 	title       : 'chanchan',
+// 	description : 'An alternative GUI for an imageboard (4chan.org, 2ch.hk, etc).',
+// 	image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg'
+// }
+
 export default createConfig({
 	routes,
 	reducers,
 
 	meta: {
-		site_name   : 'chanchan',
-		title       : 'chanchan',
-		description : 'An alternative GUI for an imageboard (4chan, 2ch, etc).',
-		image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg',
-		locales     : ['ru_RU', 'en_US']
+		site_name   : getChan().title,
+		title       : getChan().title,
+		description : getChan().description,
+		image       : getChan().icon,
+		locale      : getChan().language && getHTMLLocaleFromLanguage(getChan().language)
 	},
 
 	// `gh-pages` will have `/chanchan` base path.
 	basename: getBasePath()
 })
+
+function getHTMLLocaleFromLanguage(language) {
+	switch (language) {
+		case 'ru':
+			return 'ru_RU'
+		case 'en':
+			return 'en_US'
+		default:
+			throw new Error(`Unsupported language: ${language}`)
+	}
+}

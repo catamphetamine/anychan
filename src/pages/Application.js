@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { meta, preload, Loading } from 'react-website'
+import { preload, Loading } from 'react-website'
 
-// Not importing `Tooltip.css` because
-// it's already loaded as part of `react-responsive-ui`.
+// Not importing `react-time-ago/Tooltip.css` because
+// it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-time-ago/Tooltip.css'
+
 import 'react-website/components/Loading.css'
 // Not importing `LoadingIndicator.css` because
-// it's already loaded as part of `react-responsive-ui`.
+// it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-website/components/LoadingIndicator.css'
 
 import Header from '../components/Header'
@@ -31,9 +32,6 @@ import { applySettings } from '../utility/settings'
 
 import './Application.css'
 
-@meta((state) => ({
-	locale: getHTMLLocaleFromLanguage(state.account.settings.locale)
-}))
 @connect(({ slideshow, found }) => ({
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
@@ -88,23 +86,12 @@ export default class App extends React.Component
 				<Header/>
 
 				<div className="webpage">
-					<div className="webpage__content">
+					<main className="webpage__content">
 						{ children }
-					</div>
+					</main>
 					<Footer/>
 				</div>
 			</div>
 		)
-	}
-}
-
-function getHTMLLocaleFromLanguage(language) {
-	switch (language) {
-		case 'ru':
-			return 'ru_RU'
-		case 'en':
-			return 'en_US'
-		default:
-			throw new Error(`Unsupported language: ${language}`)
 	}
 }

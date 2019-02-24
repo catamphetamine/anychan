@@ -37,6 +37,14 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('https://www.facebook.com/people/Lada-Murasheva/100008147402555'),
+			{
+				service: 'facebook',
+				text: 'Lada-Murasheva'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('https://vk.com/name'),
 			{
 				service: 'vk',
@@ -125,10 +133,26 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('https://twitter.com/name/status/1234567890000000000'),
+			{
+				service: 'twitter',
+				text: 'name/1234567890000000000'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('https://t.me/joinchat/B9VagUi23u76uoO2SBFGWw'),
 			{
 				service: 'telegram',
 				text: 'B9VagUi23u76uoO2SBFGWw'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('https://teleg.run/dvachannel'),
+			{
+				service: 'telegram',
+				text: 'dvachannel'
 			}
 		)
 
@@ -157,6 +181,22 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('http://arhivach.ng/thread/68360/'),
+			{
+				service: 'arhivach',
+				text: '68360'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('http://arhivach.ng/?tags=3420'),
+			{
+				service: 'arhivach',
+				text: '3420'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('http://github.com/name/'),
 			{
 				service: 'github',
@@ -169,6 +209,46 @@ describe('parseServiceLink', () => {
 			{
 				service: 'github',
 				text: 'name/repo'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('https://2ch.hk/b/'),
+			{
+				service: '2ch',
+				text: '/b/'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('https://2ch.hk/v/res/3541116.html'),
+			{
+				service: '2ch',
+				text: '/v/3541116'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('http://boards.4chan.org/f/'),
+			{
+				service: '4chan',
+				text: '/f/'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('http://boards.4channel.org/a/thread/184737891#q184737891'),
+			{
+				service: '4chan',
+				text: '/a/184737891'
+			}
+		)
+
+		expectToEqual(
+			parseServiceLink('http://boards.4chan.org/a/thread/184737891#q184737891'),
+			{
+				service: '4chan',
+				text: '/a/184737891'
 			}
 		)
 	})

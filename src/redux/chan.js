@@ -4,6 +4,9 @@ import configuration from '../configuration'
 import { getChan } from '../chan'
 import getMessages from '../messages'
 
+import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
+import { Parser as FourChanParser } from '../chan-parser/4chan'
+
 const redux = new ReduxModule()
 
 export const getBoards = redux.action(
@@ -12,16 +15,16 @@ export const getBoards = redux.action(
 		let response
 		// Development process optimization.
 		// (public CORS proxies introduce delays)
-		if (process.env.NODE_ENV !== 'production' && getChan().GET_BOARDS_RESPONSE_EXAMPLE) {
-			response = getChan().GET_BOARDS_RESPONSE_EXAMPLE
+		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
+			response = getBoardsResponseExample(getChan().id)
 		} else {
-			response = await http.get(proxyUrl(getChan().getBoardsUrl()))
+			response = await http.get(proxyUrl(getChan().boardsUrl))
 		}
 		const {
 			boards,
 			boardsByPopularity,
 			boardsByCategory
-		} = await createParser({}).parseBoards(response)
+		} = createParser({}).parseBoards(response)
 		return {
 			boards,
 			boardsByPopularity,
@@ -36,9 +39,12 @@ export const getBoards = redux.action(
 
 export const getThreads = redux.action(
 	(boardId, filters, locale) => async http => {
-		const response = await http.get(proxyUrl(getChan().getThreadsUrl(boardId)))
-		// const startedAt = Date.now()
-		const threads = await createParser({ filters, locale }).parseThreads(response, { boardId })
+		const response = await http.get(proxyUrl(
+			getChan().threadsUrl.replace('{boardId}', boardId)
+		))
+		const startedAt = Date.now()
+		const threads = createParser({ filters, locale }).parseThreads(response, { boardId })
+		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			thread.comments[0].commentsCount = thread.commentsCount
 			thread.comments[0].attachmentsCount = thread.attachmentsCount
@@ -47,7 +53,6 @@ export const getThreads = redux.action(
 			boardId,
 			threads
 		}
-		// console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 	},
 	(state, { threads, boardId }) => ({
 		...state,
@@ -58,10 +63,12 @@ export const getThreads = redux.action(
 
 export const getComments = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
-		const response = await http.get(proxyUrl(getChan().getCommentsUrl(boardId, threadId)))
-		// const startedAt = Date.now()
-		const comments = await createParser({ filters, locale }).parseComments(response, { boardId })
-		// console.log(`Posts parsed in ${(Date.now() - startedAt) / 1000} secs`)
+		const response = await http.get(proxyUrl(
+			getChan().commentsUrl.replace('{boardId}', boardId).replace('{threadId}', threadId)
+		))
+		const startedAt = Date.now()
+		const comments = createParser({ filters, locale }).parseComments(response, { boardId })
+		console.log(`Comments parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		const subject = comments[0].title
 		if (subject) {
 			comments[0].title = undefined
@@ -87,10 +94,9 @@ export const getComments = redux.action(
 export default redux.reducer()
 
 function createParser({ filters, locale }) {
-	const Parser = getChan().Parser
+	const Parser = getParser(getChan().id)
 	return new Parser({
 		filters,
-		youTubeApiKey: configuration.youTubeApiKey,
 		messages: locale ? getMessages(locale) : undefined
 	})
 }
@@ -106,4 +112,22 @@ function proxyUrl(url) {
 		return configuration.corsProxyUrl.replace('{url}', url)
 	}
 	return url
+}
+
+function getParser(chan) {
+	switch (chan) {
+		case '2ch':
+			return TwoChannelParser
+		case '4chan':
+			return FourChanParser
+		default:
+			throw new Error(`Unknown chan: "${chan}"`)
+	}
+}
+
+function getBoardsResponseExample(chan) {
+	switch (chan) {
+		case '2ch':
+			return TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE
+	}
 }

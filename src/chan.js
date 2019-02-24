@@ -1,25 +1,42 @@
 import configuration from './configuration'
 
-import * as dvach from './chan-parser/2ch'
-import * as fourChan from './chan-parser/4chan'
+import DvaChannelIcon from '../chan/2ch/icon.png'
+import FourChanIcon from '../chan/4chan/icon.png'
 
-export function getChan() {
-	switch (getChanId()) {
-		case '2ch':
-			return dvach
-		case '4chan':
-			return fourChan
-		default:
-			throw new Error(`Unknown chan: ${getChanId()}`)
+import DvaChannelLogo from '../chan/2ch/logo.svg'
+import FourChanLogo from '../chan/4chan/logo.svg'
+
+import dvaChannel from '../chan/2ch'
+import fourChan from '../chan/4chan'
+
+const CHANS = [
+	dvaChannel,
+	fourChan
+]
+
+// These URLs could be strings inside `index.json` hosted somewhere on a CDN.
+dvaChannel.icon = DvaChannelIcon
+fourChan.icon = FourChanIcon
+
+dvaChannel.logo = DvaChannelLogo
+fourChan.logo = FourChanLogo
+
+export function getChan(id = getChanId()) {
+	const chan = CHANS.find(_ => _.id === id)
+	if (chan) {
+		return chan
 	}
+	throw new Error(`Unknown chan: ${id}`)
 }
 
 function getChanId() {
-	return window._chan || configuration.defaultChan
+	return (typeof window !== 'undefined' && window._chan) || configuration.defaultChan
 }
 
 function setChanId(chanId) {
-	window._chan = chanId
+	if (typeof window !== 'undefined') {
+		window._chan = chanId
+	}
 }
 
 export const setChan = setChanId

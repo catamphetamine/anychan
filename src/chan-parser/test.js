@@ -1,10 +1,8 @@
 import './correctQuotes.test'
 import './getHumanReadableLinkAddress.test'
 import './parseLinks.test'
-import './parseYouTubeLinks.test'
 import './parseServiceLink.test'
 import './removeNewLineCharacters.test'
-import './expandStandaloneAttachmentLinks.test'
 // Providers.
 import './2ch/test'
 import './4chan/test'

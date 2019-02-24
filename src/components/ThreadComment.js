@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
+
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
@@ -14,6 +16,7 @@ import {
 import { getChan, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
+import configuration from '../configuration'
 
 import './ThreadComment.css'
 
@@ -98,33 +101,31 @@ ThreadComment.propTypes = {
 }
 
 function Comment({ comment, hidden, url, locale }) {
+	if (hidden) {
+		return (
+			<ContentSection
+				className={classNames('thread__comment', {
+					'thread__comment--hidden': hidden,
+					// 'thread__comment--with-subject': comment.subject
+				})}>
+				{getMessages(locale).hiddenPost}
+				{comment.hiddenRule && ` (${comment.hiddenRule})`}
+			</ContentSection>
+		)
+	}
 	return (
-		<ContentSection
-			className={classNames('thread__comment', {
-				'thread__comment--hidden': hidden,
-				// 'thread__comment--with-subject': comment.subject
-			})}>
-			{hidden && getMessages(locale).hiddenPost}
-			{comment.hiddenRule && ` (${comment.hiddenRule})`}
-			{/*
-			{!hidden && comment.subject &&
-				<ContentSectionHeader lite>
-					{comment.subject}
-				</ContentSectionHeader>
-			}
-			*/}
-			{!hidden &&
-				<Post
-					post={comment}
-					url={url}
-					locale={locale}
-					compact
-					saveBandwidth
-					expandFirstPictureOrVideo={false}
-					attachmentThumbnailHeight={14 * 12} />
-			}
-		</ContentSection>
-	)
+		<Post
+			post={comment}
+			url={url}
+			locale={locale}
+			compact
+			saveBandwidth
+			serviceIcons={SERVICE_ICONS}
+			youTubeApiKey={configuration.youTubeApiKey}
+			expandFirstPictureOrVideo={false}
+			attachmentThumbnailHeight={14 * 12}
+			className="thread__comment content-section" />
+	);
 }
 
 Comment.propTypes = {
@@ -147,4 +148,10 @@ export function commentOnClickFilter(element) {
 		return false
 	}
 	return true
+}
+
+const SERVICE_ICONS = {
+	'arhivach': ArhivachIcon,
+	'2ch': getChan('2ch').logo,
+	'4chan': getChan('4chan').logo
 }

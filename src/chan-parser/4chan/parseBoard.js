@@ -1,4 +1,4 @@
-import unescapeContent from '../unescapeContent'
+import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
 
 /**
  * Parses response board JSON object

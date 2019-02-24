@@ -1,9 +1,9 @@
-import unescapeContent from './unescapeContent'
+import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
 import filterComment from './filterComment'
 import parseCommentText from './parseCommentText'
 import postProcessComment from './postProcessComment'
 
-export default async function constructComment(
+export default function constructComment(
 	boardId,
 	threadId,
 	id,
@@ -17,7 +17,6 @@ export default async function constructComment(
 		parseCommentTextPlugins,
 		getInReplyToPosts,
 		correctGrammar,
-		youTubeApiKey,
 		messages
 	}
 ) {
@@ -51,11 +50,10 @@ export default async function constructComment(
 	if (author) {
 		comment.author = author
 	}
-	await postProcessComment(comment, {
+	postProcessComment(comment, {
 		threadId,
 		filters,
-		messages,
-		youTubeApiKey
+		messages
 	})
 	return comment
 }

@@ -24,7 +24,7 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  * // }
  * parseBoards(response)
  */
-export default async function parseBoards(response) {
+export default function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
 		// Hide "user" boards.
 		.filter(_ => _.category !== 'Пользовательские')

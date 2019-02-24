@@ -65,12 +65,11 @@ import constructComment from '../constructComment'
  * // }
  * parseComment(...)
  */
-export default async function parseComment(post, {
+export default function parseComment(post, {
 	threadId,
 	defaultAuthor,
 	filters,
 	parseCommentTextPlugins,
-	youTubeApiKey,
 	messages
 }) {
 	let subject = post.subject
@@ -87,8 +86,8 @@ export default async function parseComment(post, {
 			subject = undefined
 		}
 	}
-	const comment = await constructComment(
-		undefined,
+	const comment = constructComment(
+		undefined, // boardId
 		threadId,
 		post.num,
 		rawComment,
@@ -101,7 +100,6 @@ export default async function parseComment(post, {
 			parseCommentTextPlugins,
 			getInReplyToPosts,
 			correctGrammar,
-			youTubeApiKey,
 			messages
 		}
 	)

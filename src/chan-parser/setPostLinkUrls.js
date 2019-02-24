@@ -1,3 +1,5 @@
+import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
+
 /**
  * Sets up post links.
  * @param {object[]} posts
@@ -28,27 +30,4 @@ function setPostLinkUrl(postLink, { boardId, threadId, messages }) {
 	} else {
 		postLink.url = `/${postLink.boardId}/${postLink.threadId}#comment-${postLink.postId}`
 	}
-}
-
-export function visitPostParts(type, visit, part) {
-	if (Array.isArray(part)) {
-		for (const subpart of part) {
-			visitPostParts(type, visit, subpart)
-		}
-		return
-	}
-	// Post content can be empty.
-	// Or maybe even post part's content.
-	// Like `{ type: 'attachment', attachmentId: 1 }`.
-	if (!part) {
-		return
-	}
-	if (typeof part === 'string') {
-		return
-	}
-	if (part.type === type) {
-		return visit(part)
-	}
-	// Recurse into post parts.
-	return visitPostParts(type, visit, part.content)
 }

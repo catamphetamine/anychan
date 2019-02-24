@@ -16,17 +16,15 @@ import parseThread from './parseThread'
  * // }, ...]
  * parseThreads(response)
  */
-export default async function parseThreads(response, {
+export default function parseThreads(response, {
 	filters,
 	messages,
-	parseCommentTextPlugins,
-	youTubeApiKey
+	parseCommentTextPlugins
 }) {
-	return await Promise.all(response.threads.map((thread) => parseThread(thread, {
+	return response.threads.map((thread) => parseThread(thread, {
 		defaultAuthor: response.default_name,
 		filters,
 		parseCommentTextPlugins,
-		youTubeApiKey,
 		messages
-	})))
+	}))
 }

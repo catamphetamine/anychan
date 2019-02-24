@@ -5,6 +5,10 @@ import classNames from 'classnames'
 import ApplicationMenu from './ApplicationMenu'
 import { isBoardLocation, isThreadLocation } from './Header'
 
+import { getChan } from '../chan'
+
+import { PostBlock } from 'webapp-frontend/src/components/Post'
+
 import './Footer.css'
 
 @connect(({ found }) => ({
@@ -21,16 +25,35 @@ export default class Footer extends React.Component {
 						route.location.pathname === '/settings'
 				})}>
 					<div className="footer__copyright">
-						<a
-							target="_blank"
-							href="https://github.com/catamphetamine/chanchan"
-							className="footer__link">
-							chanchan imageboard browser
-						</a>
+						<p>
+							{getChan().copyright.replace('{0}', (new Date()).getFullYear())}
+						</p>
+						{getChan().copyrightReport &&
+							<PostBlock>
+								{getChan().copyrightReport}
+							</PostBlock>
+						}
+						<p className="footer__copyright-chanchan">
+							<a
+								target="_blank"
+								href="https://github.com/catamphetamine/chanchan">
+								chanchan imageboard client
+							</a>
+							{' by '}
+							<a
+								target="_blank"
+								href="https://github.com/catamphetamine">
+								@catamphetamine
+							</a>
+						</p>
 					</div>
 					<ApplicationMenu footer/>
 				</div>
 			</footer>
 		)
 	}
+}
+
+const COPYRIGHT_REPORT = {
+	_html: getChan().copyrightReport
 }

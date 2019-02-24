@@ -59,3 +59,9 @@ body {
 		margin-bottom: 2em;
 	}
 }
+
+.footer__copyright-chanchan {
+	a {
+		color: inherit;
+	}
+}

@@ -43,7 +43,7 @@
 /*
 .thread__comment--with-subject {
 	.content-section__header {
-		padding-bottom: calc(var(--content-section-vertical-padding) / 2);
+		padding-bottom: calc(var(--unit) / 2);
 	}
 }
 */

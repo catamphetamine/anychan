@@ -14,22 +14,20 @@ import postProcessComments from '../postProcessComments'
  * // }]
  * parseComments(response)
  */
-export default async function parseComments(response, {
+export default function parseComments(response, {
 	filters,
 	messages,
-	parseCommentTextPlugins,
-	youTubeApiKey
+	parseCommentTextPlugins
 }) {
 	const thread = response.threads[0]
 	const threadId = thread.posts[0].num
-	const comments = await Promise.all(thread.posts.map(_ => parseComment(_, {
+	const comments = thread.posts.map(_ => parseComment(_, {
 		threadId,
 		defaultAuthor: response.default_name,
 		filters,
 		parseCommentTextPlugins,
-		youTubeApiKey,
 		messages
-	})))
+	}))
 	postProcessComments(comments, { threadId, messages })
 	return comments
 }

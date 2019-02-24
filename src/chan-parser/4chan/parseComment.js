@@ -63,12 +63,11 @@ import constructComment from '../constructComment'
  * // }
  * parseComment(...)
  */
-export default async function parseComment(post, {
+export default function parseComment(post, {
 	boardId,
 	threadId,
 	filters,
 	parseCommentTextPlugins,
-	youTubeApiKey,
 	messages
 }) {
 	let rawComment = post.com
@@ -77,7 +76,7 @@ export default async function parseComment(post, {
 		// For some weird reason there occasionally are random `<wbr>` tags.
 		rawComment = rawComment.replace(/<wbr>/g, '')
 	}
-	const comment = await constructComment(
+	const comment = constructComment(
 		boardId,
 		threadId,
 		post.no,
@@ -91,7 +90,6 @@ export default async function parseComment(post, {
 			filters,
 			parseCommentTextPlugins,
 			getInReplyToPosts,
-			youTubeApiKey,
 			messages
 		}
 	)

@@ -16,19 +16,17 @@ import parseThread from './parseThread'
  * // }, ...]
  * parseThreads(response)
  */
-export default async function parseThreads(response, {
+export default function parseThreads(response, {
 	boardId,
 	filters,
 	messages,
-	parseCommentTextPlugins,
-	youTubeApiKey
+	parseCommentTextPlugins
 }) {
 	const threads = response.reduce((all, page) => all.concat(page.threads), [])
-	return await Promise.all(threads.map((thread) => parseThread(thread, {
+	return threads.map((thread) => parseThread(thread, {
 		boardId,
 		filters,
 		parseCommentTextPlugins,
-		youTubeApiKey,
 		messages
-	})))
+	}))
 }

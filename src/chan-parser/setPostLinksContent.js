@@ -1,4 +1,4 @@
-import { visitPostParts } from './setPostLinkUrls'
+import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
 
 /**
  * Sets up post links.
