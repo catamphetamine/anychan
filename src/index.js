@@ -5,6 +5,9 @@ require('@babel/polyfill')
 require('./styles/style.css')
 
 if (process.env.NODE_ENV !== 'production') {
+	// Self-test.
+	setTimeout(() => require('./test'))
+
 	// `chan-parser` self-test.
 	setTimeout(() => require('./chan-parser/test'))
 
