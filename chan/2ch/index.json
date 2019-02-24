@@ -1,0 +1,68 @@
+{
+	"id": "2ch",
+	"color": "#f7914d",
+	"website": "https://2ch.hk",
+	"language": "ru",
+	"title": "Два.ч",
+	"subtitle": "Добро пожаловать. Снова.",
+	"description": "Два.ч — это система форумов, где можно общаться быстро и свободно, где любая точка зрения имеет право на жизнь. Здесь нет регистрации и подписываться не нужно, хотя это не избавляет вас от необходимости соблюдать правила. Все форумы (кроме /Б/реда), а их список находится снизу, имеют собственную чётко ограниченную тематику. Словом, всё, что не запрещено правилами отдельно взятого форума и относится к его тематике, на этом форуме разрешено.",
+	"announcement": [
+		"Подписывайся на официальный канал Двача в Телеграме и узнавай обо всех новостях и мемах первым! ",
+		{
+			"type": "link",
+			"url": "https://teleg.run/dvachannel",
+			"content": "@dvachannel"
+		}
+	],
+	"copyright": "Все права и копирайты на этой странице принадлежат правообладателям. За любую размещенную информацию несет личную ответственность постер (лицо, загрузившее эту информацию). Все комментарии принадлежат лицам, отправившим их.",
+	"copyrightReport": [
+		"Если вы обнаружили информацию, размещённую против правил, пожалуйста, ",
+		{
+			"type": "link",
+			"url": "mailto:admin@2ch.hk",
+			"content": "сообщите нам"
+		},
+		" об этом."
+	],
+	"links": [{
+		"type": "rules",
+		"text": "Правила",
+		"url": "https://2ch.hk/rules.html"
+	}, {
+		"type": "premium",
+		"text": "Купить пасскод",
+		"url": "https://2ch.hk/market.html"
+	}, {
+		"type": "donate",
+		"text": "Пожертвования",
+		"url": "https://2ch.hk/donate.html"
+	}, {
+		"type": "advertise",
+		"text": "Реклама",
+		"url": "https://2ch.hk/price.html"
+	}, {
+		"type": "contact",
+		"text": "Контакты",
+		"url": "https://2ch.hk/contacts.html"
+	}, {
+		"type": "feedback",
+		"text": "Идеи и предложения",
+		"url": "https://2ch.hk/d/"
+	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/abunyasha/"
+	}, {
+		"type": "api",
+		"text": "API",
+		"url": "https://github.com/catamphetamine/chanchan#2chhk"
+	}, {
+		"type": "mobile",
+		"text": "Скачать мобильные приложения",
+		"url": "https://2ch.hk/m.html"
+	}],
+	"commentsUrl": "https://2ch.hk/{boardId}/res/{threadId}.json",
+	"threadsUrl": "https://2ch.hk/{boardId}/catalog.json",
+	"boardsUrl": "https://2ch.hk/boards.json",
+	"commentUrl": "https://2ch.hk/{boardId}/res/{threadId}.html#{commentId}"
+}

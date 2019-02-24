@@ -1,0 +1,58 @@
+{
+	"id": "4chan",
+	"color": "#8dc63f",
+	"website": "https://4chan.org",
+	"language": "en",
+	"title": "4chan",
+	"description": "4chan is a simple image-based bulletin board where anyone can post comments and share images. There are boards dedicated to a variety of topics, from Japanese animation and culture to videogames, music, and photography. Users do not need to register an account before participating in the community. Feel free to click on a board below that interests you and jump right in!",
+	"copyright": "Copyright © 2003-{0} 4chan community support LLC. All rights reserved.",
+	"links": [{
+		"type": "rules",
+		"text": "Rules",
+		"url": "http://www.4chan.org/rules"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "http://www.4chan.org/faq"
+	}, {
+		"type": "premium",
+		"text": "Support 4chan",
+		"url": "https://www.4chan.org/pass"
+	}, {
+		"type": "blog",
+		"text": "Blog",
+		"url": "http://blog.4chan.org/"
+	}, {
+		"type": "news",
+		"text": "News",
+		"url": "https://www.4chan.org/4channews.php"
+	}, {
+		"type": "advertise",
+		"text": "Advertise",
+		"url": "https://www.4chan.org/advertise"
+	}, {
+		"type": "contact",
+		"text": "Contact",
+		"url": "https://www.4chan.org/contact"
+	}, {
+		"type": "legal",
+		"text": "Legal",
+		"url": "https://www.4chan.org/legal"
+	}, {
+		"type": "feedback",
+		"text": "Feedback",
+		"url": "https://www.4chan.org/feedback"
+	}, {
+		"type": "api",
+		"text": "API",
+		"url": "https://github.com/catamphetamine/chanchan#4chanorg"
+	}, {
+		"type": "mobile",
+		"text": "Mobile apps",
+		"url": "https://techwiser.com/best-4chan-apps/"
+	}],
+	"commentsUrl": "http://a.4cdn.org/{boardId}/thread/{threadId}.json",
+	"threadsUrl": "http://a.4cdn.org/{boardId}/catalog.json",
+	"boardsUrl": "http://a.4cdn.org/boards.json",
+	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}"
+}
