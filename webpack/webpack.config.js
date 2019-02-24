@@ -7,13 +7,11 @@ import configuration from '../configuration'
 
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 
-module.exports =
-{
+export default {
 	// Resolve all relative paths from the project root folder
 	context: PROJECT_ROOT,
 
-	output:
-	{
+	output: {
 		// Filesystem path for static files
 		path: path.resolve(PROJECT_ROOT, 'build/assets'),
 
@@ -27,46 +25,36 @@ module.exports =
 		chunkFilename: '[name].[hash].js'
 	},
 
-	module:
-	{
-		rules:
-		[{
+	module: {
+		rules: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
 			use: [{
 				loader: 'babel-loader'
 			}]
-		},
-		{
+		}, {
 			test: /\.css$/,
 			use: [{
 				loader: 'style-loader'
 			}, {
-				loader : 'css-loader',
-				options:
-				{
+				loader: 'css-loader',
+				options: {
 					// The query parameter `importLoaders` allows to configure how many
 					// loaders before css-loader should be applied to @imported resources.
 					// `1` - `postcss-loader`.
-					importLoaders : 1,
-					sourceMap     : true
+					importLoaders: 1,
+					sourceMap: true
 				}
 			}, {
-				loader : 'postcss-loader'
+				loader: 'postcss-loader'
 			}]
-		},
-		{
+		}, {
 			test: /\.(jpg|png)$/,
 			use: [{
-				loader : 'url-loader',
-				options: {
-					// Any png-image or woff-font below or equal to 5K
-					// will be converted to inline base64 instead.
-					limit: 5120
-				}
+				loader: 'file-loader',
+				options: {}
 			}]
-		},
-		{
+		}, {
 			test: /\.svg$/,
 			exclude: [
 				path.resolve(PROJECT_ROOT, 'assets/images/account-picture.svg')

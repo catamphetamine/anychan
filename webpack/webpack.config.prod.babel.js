@@ -20,24 +20,11 @@ configuration.optimization = {
     new UglifyJsPlugin({
       cache: true,
       parallel: true,
-      sourceMap: true // set to true if you want JS source maps
+      sourceMap: true
     }),
     new OptimizeCSSAssetsPlugin({})
   ]
 };
-
-configuration.plugins.push(
-	new HtmlWebpackPlugin({
-		template: 'src/index.html',
-		// favicon: 'assets/images/icon@192x192.png',
-		// // Seems to use "lodash" templates.
-		// templateParameters: {
-		// 	disableSentryIO: 'true',
-		// 	sentryIOHash: null,
-		// 	sentryIOProjectId: null
-		// }
-	})
-)
 
 configuration.plugins.push(
   // Clears the output folder before building.
@@ -60,6 +47,18 @@ configuration.plugins.push(
   new Visualizer({
     // The path is relative to the output folder
     filename : '../bundle-stats.html'
+  }),
+
+  // Injects `js` and `css` bundles into `index.html`.
+  new HtmlWebpackPlugin({
+    template: 'src/index.html',
+    // favicon: 'assets/images/icon@192x192.png',
+    // // Seems to use "lodash" templates.
+    // templateParameters: {
+    //  disableSentryIO: 'true',
+    //  sentryIOHash: null,
+    //  sentryIOProjectId: null
+    // }
   })
 )
 
@@ -70,4 +69,4 @@ if (cssLoaders[0].loader !== 'style-loader') {
 }
 cssLoaders[0].loader = MiniCssExtractPlugin.loader
 
-module.exports = configuration
+export default configuration

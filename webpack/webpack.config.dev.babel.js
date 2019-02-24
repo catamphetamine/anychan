@@ -13,10 +13,9 @@ configuration.mode = 'development'
 
 configuration.plugins.push(
 	// Prints more readable module names in the browser console on HMR updates.
-	new webpack.NamedModulesPlugin()
-)
+	new webpack.NamedModulesPlugin(),
 
-configuration.plugins.push(
+  // Injects `js` bundle into `index.html`.
 	new HtmlWebpackPlugin({
 		template: 'src/index.html',
 		// favicon: 'assets/images/icon@192x192.png',
@@ -38,7 +37,7 @@ configuration.devServer = {
 	port,
   contentBase: configuration.output.path,
 	// https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback
-	historyApiFallback : true
+	historyApiFallback: true
 }
 
-module.exports = configuration
+export default configuration
