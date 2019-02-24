@@ -1,1 +1,6 @@
 @import "../../../webapp-frontend/src/styles/components.css";
+
+.content-section__header {
+	/* Roboto font is used. */
+	font-weight: 300;
+}
