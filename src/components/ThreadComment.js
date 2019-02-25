@@ -59,7 +59,7 @@ export default class ThreadComment extends React.Component {
 
 		const commentElement = (
 			<Comment
-				ultracompact={mode === 'thread'}
+				compact={mode === 'thread'}
 				comment={comment}
 				hidden={hidden}
 				url={addChanParameter(getUrl(board, thread, comment))}
@@ -103,7 +103,7 @@ ThreadComment.propTypes = {
 	comment: PropTypes.object.isRequired
 }
 
-function Comment({ comment, ultracompact, hidden, url, locale }) {
+function Comment({ comment, compact, hidden, url, locale }) {
 	if (hidden) {
 		return (
 			<ContentSection
@@ -121,8 +121,7 @@ function Comment({ comment, ultracompact, hidden, url, locale }) {
 			post={comment}
 			url={url}
 			locale={locale}
-			compact
-			ultracompact={ultracompact}
+			compact={compact}
 			saveBandwidth
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
