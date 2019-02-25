@@ -439,7 +439,7 @@ describe('2ch.hk', () => {
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				}
-			}).parseComments(API_RESPONSE_1),
+			}).parseComments(API_RESPONSE_1, { boardId: 'vg' }),
 			COMMENTS
 		)
 	})
