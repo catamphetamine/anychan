@@ -47,8 +47,6 @@ body {
 	flex-basis  : auto;
 
 	/*margin-top : var(--header-height);*/
-
-	background-color : var(--background-color);
 }
 
 .react-website__loading--initial
@@ -88,6 +86,10 @@ body {
 	@mixin ms {
 		margin-left: 0;
 	}
+}
+
+.webpage--content-sections {
+	background-color : var(--background-color);
 }
 
 .content {

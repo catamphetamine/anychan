@@ -12,6 +12,7 @@ import ApplicationMenu from './ApplicationMenu'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
+import { isBoardLocation, isThreadLocation } from '../utility/routes'
 
 import './Header.css'
 
@@ -61,12 +62,4 @@ export default class Header extends React.Component {
 			</nav>
 		)
 	}
-}
-
-export function isBoardLocation({ location, params }) {
-	return params.board
-}
-
-export function isThreadLocation({ location, params }) {
-	return params.thread
 }

@@ -11,6 +11,7 @@ import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/prelo
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
+import { isBoardLocation, isThreadLocation } from '../utility/routes'
 
 import './Boards.css'
 
@@ -204,14 +205,6 @@ class Board extends React.Component {
 
 Board.propTypes = {
 	boards: PropTypes.shape(boardShape)
-}
-
-function isBoardLocation({ location, params }) {
-	return params.board
-}
-
-function isThreadLocation({ location, params }) {
-	return params.thread
 }
 
 @connect(({ found, account }) => ({

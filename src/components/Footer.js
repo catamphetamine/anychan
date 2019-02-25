@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import ApplicationMenu from './ApplicationMenu'
-import { isBoardLocation, isThreadLocation } from './Header'
 
 import { getChan } from '../chan'
+import { isContentSectionsContent } from '../utility/routes'
 
 import { PostBlock } from 'webapp-frontend/src/components/Post'
 
@@ -20,9 +20,7 @@ export default class Footer extends React.Component {
 		return (
 			<footer className="footer">
 				<div className={classNames('content', {
-					'content--posts': isBoardLocation(route) ||
-						isThreadLocation(route) ||
-						route.location.pathname === '/settings'
+					'content--posts': isContentSectionsContent(route)
 				})}>
 					<div className="footer__copyright">
 						<p>

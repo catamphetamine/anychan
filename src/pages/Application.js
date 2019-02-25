@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { preload, Loading } from 'react-website'
+import classNames from 'classnames'
 
 // Not importing `react-time-ago/Tooltip.css` because
 // it's already loaded as part of `react-responsive-ui/style.css`.
@@ -29,10 +30,12 @@ import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/account'
 
 import { applySettings } from '../utility/settings'
+import { isContentSectionsContent } from '../utility/routes'
 
 import './Application.css'
 
 @connect(({ slideshow, found }) => ({
+	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
 	slideshowPictures: slideshow.pictures,
@@ -50,11 +53,13 @@ import './Application.css'
 export default class App extends React.Component
 {
 	static propTypes = {
+		route: PropTypes.object.isRequired,
 		children : PropTypes.node.isRequired
 	}
 
 	render() {
 		const {
+			route,
 			slideshowIndex,
 			slideshowIsOpen,
 			slideshowPictures,
@@ -85,7 +90,9 @@ export default class App extends React.Component
 
 				<Header/>
 
-				<div className="webpage">
+				<div className={classNames('webpage', {
+					'webpage--content-sections': isContentSectionsContent(route)
+				})}>
 					<main className="webpage__content">
 						{ children }
 					</main>

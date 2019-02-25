@@ -28,7 +28,6 @@ body {
 .footer
 {
 	margin-bottom : calc(var(--footer-menu-height) + var(--header-height));
-	background-color: var(--background-color);
 }
 
 @mixin ml {
