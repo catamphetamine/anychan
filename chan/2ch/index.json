@@ -61,6 +61,7 @@
 		"text": "Скачать мобильные приложения",
 		"url": "https://2ch.hk/m.html"
 	}],
+	"thumbnailSize": 220,
 	"commentsUrl": "https://2ch.hk/{boardId}/res/{threadId}.json",
 	"threadsUrl": "https://2ch.hk/{boardId}/catalog.json",
 	"boardsUrl": "https://2ch.hk/boards.json",

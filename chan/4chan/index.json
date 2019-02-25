@@ -51,6 +51,7 @@
 		"text": "Mobile apps",
 		"url": "https://techwiser.com/best-4chan-apps/"
 	}],
+	"thumbnailSize": 250,
 	"commentsUrl": "http://a.4cdn.org/{boardId}/thread/{threadId}.json",
 	"threadsUrl": "http://a.4cdn.org/{boardId}/catalog.json",
 	"boardsUrl": "http://a.4cdn.org/boards.json",

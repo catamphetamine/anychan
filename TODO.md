@@ -174,8 +174,6 @@ re-deploy demo
 
 * Отмечать закрытые и sticky треды.
 
-* Не выравнивать attachments по высоте, а выводить размер "как есть", выравнивая по середине, и мб увеличив расстояние между ними. Max dimension: `220` for `2ch`, `250` for `4chan`, but quality is low for `4chan`, so maybe `220` (or maybe not).
-
 * Сделать `title` (через `getMessages()`) на значках ApplicationMenu. Убрать сообщение "Тред" из локализации.
 
 * В `parseBoard()` добавить `bumpLimit`, `imageLimit` (только `4chan`), `showFlags` (`enable_flags` у `2ch`, `country_flags` у `4chan`), `showUserIds` (`user_ids` у `4chan`).

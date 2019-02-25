@@ -126,7 +126,7 @@ function Comment({ comment, compact, hidden, url, locale }) {
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
-			attachmentThumbnailHeight={14 * 12}
+			attachmentThumbnailSize={getChan().thumbnailSize}
 			className="thread__comment content-section" />
 	);
 }
