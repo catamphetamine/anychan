@@ -12,7 +12,7 @@
 		border-radius: 0;
 		box-shadow: none;
 	}
-	.post__date {
+	.post__date, .post__footer {
 		color: var(--gray-color);
 	}
 }
