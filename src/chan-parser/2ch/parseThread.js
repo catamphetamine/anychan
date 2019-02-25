@@ -72,12 +72,14 @@ import constructThread from '../constructThread'
  * parseThread(...)
  */
 export default function parseThread(thread, {
+	boardId,
 	defaultAuthor,
 	filters,
 	parseCommentTextPlugins,
 	messages
 }) {
 	const comment = parseComment(thread, {
+		boardId,
 		threadId: parseInt(thread.num),
 		defaultAuthor,
 		filters,

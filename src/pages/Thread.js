@@ -53,6 +53,7 @@ export default class ThreadPage extends React.Component {
 				{comments && comments.map((comment) => (
 					<ThreadComment
 						key={comment.id}
+						mode="thread"
 						board={board}
 						thread={thread}
 						comment={comment}

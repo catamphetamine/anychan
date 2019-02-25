@@ -17,11 +17,13 @@ import parseThread from './parseThread'
  * parseThreads(response)
  */
 export default function parseThreads(response, {
+	boardId,
 	filters,
 	messages,
 	parseCommentTextPlugins
 }) {
 	return response.threads.map((thread) => parseThread(thread, {
+		boardId,
 		defaultAuthor: response.default_name,
 		filters,
 		parseCommentTextPlugins,

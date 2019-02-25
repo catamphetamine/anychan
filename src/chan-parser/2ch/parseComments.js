@@ -15,6 +15,7 @@ import postProcessComments from '../postProcessComments'
  * parseComments(response)
  */
 export default function parseComments(response, {
+	boardId,
 	filters,
 	messages,
 	parseCommentTextPlugins
@@ -22,6 +23,7 @@ export default function parseComments(response, {
 	const thread = response.threads[0]
 	const threadId = thread.posts[0].num
 	const comments = thread.posts.map(_ => parseComment(_, {
+		boardId,
 		threadId,
 		defaultAuthor: response.default_name,
 		filters,

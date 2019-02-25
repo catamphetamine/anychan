@@ -19,11 +19,17 @@ export default class DvachParser {
 		return parseBoards(response, this.options)
 	}
 
-	parseThreads(response) {
-		return parseThreads(response, this.options)
+	parseThreads(response, { boardId }) {
+		return parseThreads(response, {
+			...this.options,
+			boardId
+		})
 	}
 
-	parseComments(response) {
-		return parseComments(response, this.options)
+	parseComments(response, { boardId }) {
+		return parseComments(response, {
+			...this.options,
+			boardId
+		})
 	}
 }

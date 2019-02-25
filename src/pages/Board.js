@@ -88,6 +88,7 @@ export default class BoardPage extends React.Component {
 				{threads && threads.map((thread) => (
 					<ThreadComment
 						key={thread.comments[0].id}
+						mode="board"
 						board={board}
 						thread={thread}
 						comment={thread.comments[0]}
