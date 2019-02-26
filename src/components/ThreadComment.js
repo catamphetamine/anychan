@@ -57,13 +57,16 @@ export default class ThreadComment extends React.Component {
 
 		const { hidden } = this.state
 
+		// `4chan.org` displays attachment thumbnails as `125px`
+		// (half the size) when they're not "OP posts".
 		const commentElement = (
 			<Comment
 				compact={mode === 'thread'}
 				comment={comment}
 				hidden={hidden}
 				url={addChanParameter(getUrl(board, thread, comment))}
-				locale={locale}/>
+				locale={locale}
+				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
 		)
 
 		if (hidden || onClick) {
@@ -103,7 +106,7 @@ ThreadComment.propTypes = {
 	comment: PropTypes.object.isRequired
 }
 
-function Comment({ comment, compact, hidden, url, locale }) {
+function Comment({ halfSizedAttachmentThumbnails, comment, compact, hidden, url, locale }) {
 	if (hidden) {
 		return (
 			<ContentSection
@@ -126,7 +129,7 @@ function Comment({ comment, compact, hidden, url, locale }) {
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
-			attachmentThumbnailSize={getChan().thumbnailSize}
+			attachmentThumbnailSize={halfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
 			className="thread__comment content-section" />
 	);
 }
@@ -135,7 +138,8 @@ Comment.propTypes = {
 	comment: PropTypes.object.isRequired,
 	hidden: PropTypes.bool,
 	url: PropTypes.string.isRequired,
-	locale: PropTypes.string
+	locale: PropTypes.string,
+	halfSizedAttachmentThumbnails: PropTypes.bool
 }
 
 export function commentOnClickFilter(element) {
