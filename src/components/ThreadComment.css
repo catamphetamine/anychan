@@ -55,3 +55,9 @@
 	font-family: var(--font-family);
 	font-weight: 300;
 }
+
+.post__thumbnail-attachment .rrui__video__play-icon {
+	--rrui-video-play-icon-size: calc(var(--unit) * 3);
+	max-width: 80%;
+	max-height: 80%;
+}
