@@ -35,10 +35,12 @@
 
 .home-page__description {
 	margin-top: calc(var(--unit) * 6);
+	margin-bottom: 0;
 }
 
 .home-page__announcement {
 	margin-top: calc(var(--unit) * 2);
+	margin-bottom: 0;
 }
 
 .home-page__description,

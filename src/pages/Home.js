@@ -45,9 +45,9 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="home-page__description">
+				<p className="home-page__description">
 					{description}
-				</div>
+				</p>
 
 				{announcement &&
 					<div className="home-page__announcement">
