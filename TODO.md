@@ -1,8 +1,30 @@
-react-website: disable links while navigating.
+react-website: disable links while navigating; dispatch(goto) and dispatch(redirect) should return promises which wait until there's no active navigation (poll 100ms).
+
+react-website: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
 
 React time ago обновлять в request animation frame и по одному
 
 Show preload initially почему чёрным у basic page в webpack-example
+
+
+
+
+
+
+
+добавить шрифт "мелкий"
+
+переделать font-size через themes
+
+перенести иконки меню в sidebar
+
+styles/themes
+
+expand replies into posts in redux/chan
+
+Replies count - a clickable button. On click — expand replies tree (shifted). If expanded single reply, and that reply has a single reply, then proceed expanding, until there're either more than a single reply or no replies.
+
+replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
 
 
 
@@ -200,18 +222,6 @@ re-deploy demo
 * Slideshow: stop changing X scroll position if Y scroll threshold is reached.
 
 * Темизацию можно переделать с проставления переменных тега `body` на добавление в конец `body` элемента `<style id="theme-vars">body { ... }</style>`.
-
-Сейчас есть три места, где ставится play video icon size:
-
-* `Video.css`: `--rrui-video-play-icon-size: 30%;`;
-
-* `react-responsive-ui.css`: `.rrui__video__play-icon { --icon-size : 20%; }`.
-
-* `PostAttachments.css`: `--icon-size : 20%`.
-
-Сделать в одном месте вместо трёх.
-
-Мб делать не процентами, а юнитами (у чанов разные ширины аттачментов, поэтому при процентах будет иконка разных размеров на каждом аттачменте).
 
 * Можно добавить ID и флаги (флаги можно брать по URL как в `react-phone-number-input`).
 
