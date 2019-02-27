@@ -4,7 +4,12 @@ import settings from './react-website'
 
 export default async function() {
 	// Renders the webpage on the client side
-	const result = await render(settings)
+	const result = await render(settings, {
+		onNavigate() {
+			document.querySelector('.webpage__main').scrollTo(0, 0)
+			document.querySelector('main').focus()
+		}
+	})
 	// If there was an error during the initial rendering
 	// then `result` will be `undefined`.
 	if (result) {
