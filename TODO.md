@@ -10,6 +10,8 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+* По загрузке страницы — фокусировать на этой странице. Как accessibility guidelines, так и починит Page Down.
+
 
 
 добавить шрифт "мелкий"
@@ -224,12 +226,6 @@ re-deploy demo
 * Темизацию можно переделать с проставления переменных тега `body` на добавление в конец `body` элемента `<style id="theme-vars">body { ... }</style>`.
 
 * Можно добавить ID и флаги (флаги можно брать по URL как в `react-phone-number-input`).
-
-* Язык можно устанавливать по умолчанию не `window.navigator.language`, а специфичный для чана (если задан): 'en' для 4chan, 'ru' для 2ch.
-
-* По загрузке страницы — фокусировать на этой странице. Как accessibility guidelines, так и починит Page Down.
-
-* Переименовать mixins: xs-small -> xxs, xs-plus -> xs, ms -> s, ml -> m, xl -> l, xxl -> xl. Сделать range mixins: upto-xs, upto-s, upto-m, upto-l; xs-plus, s-plus, m-plus, l-plus.
 
 * Close slideshow on pan vertical.
 

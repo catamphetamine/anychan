@@ -1,7 +1,0 @@
-.col--padding-left-xs {
-	padding-left: 0;
-
-	@mixin xs {
-		padding-left: var(--column-padding);
-	}
-}

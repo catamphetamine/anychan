@@ -1,16 +1,12 @@
 @import "../styles/common";
 
 body {
-	--sidebar-width : 100%;
-
-	@mixin ml {
-		--sidebar-width : calc(var(--unit) * 20);
+	--sidebar-width: 100%;
+	@mixin m {
+		--sidebar-width: calc(var(--unit) * 20);
 	}
-	@mixin xl {
-		--sidebar-width : calc(var(--unit) * 26);
-	}
-	@mixin xxl {
-		--sidebar-width : calc(var(--unit) * 26);
+	@mixin l-plus {
+		--sidebar-width: calc(var(--unit) * 26);
 	}
 }
 
@@ -65,10 +61,7 @@ body {
 	bottom: var(--footer-menu-height);
 	width: var(--sidebar-width);
 
-	@mixin ml {
-		display: block;
-	}
-	@mixin xl {
+	@mixin m-plus {
 		display: block;
 	}
 }
@@ -78,13 +71,9 @@ body {
 }
 
 .webpage {
-	margin-left: var(--sidebar-width);
-
-	@mixin xs {
-		margin-left: 0;
-	}
-	@mixin ms {
-		margin-left: 0;
+	margin-left: 0;
+	@mixin m-plus {
+		margin-left: var(--sidebar-width);
 	}
 }
 
@@ -93,48 +82,31 @@ body {
 }
 
 .content {
-	margin-left: calc(var(--unit) * 2);
-	margin-right: calc(var(--unit) * 2);
-
-	@mixin xs {
-		margin-left: 0;
-		margin-right: 0;
-	}
-	@mixin ms {
-		margin-left: 0;
-		margin-right: 0;
+	@mixin m-plus {
+		margin-left: calc(var(--unit) * 2);
+		margin-right: calc(var(--unit) * 2);
 	}
 }
 
 .thread__comment,
 .settings-page .content-section {
-	@mixin xs {
-		border-radius: 0;
-	}
-	@mixin ms {
+	@mixin upto-s {
 		border-radius: 0;
 	}
 }
 
 .board-page__title {
-	@mixin xs {
-		margin-left: var(--unit);
-		margin-right: var(--unit);
-	}
-	@mixin ms {
-		margin-left: var(--unit);
-		margin-right: var(--unit);
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	@mixin m-plus {
+		margin-left: 0;
+		margin-right: 0;
 	}
 }
 
 .content--posts {
-	max-width: 50em;
-
-	@mixin xs {
-		max-width: none;
-	}
-	@mixin ms {
-		max-width: none;
+	@mixin m-plus {
+		max-width: 50em;
 	}
 }
 
@@ -148,7 +120,7 @@ body {
 	font-size: 1.3rem;
 	font-weight: 300;
 
-	@mixin xl {
+	@mixin l-plus {
 		line-height: 1.4em;
 		font-size: 1.4rem;
 	}

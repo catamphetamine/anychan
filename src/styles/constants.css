@@ -41,7 +41,7 @@ body
 	--content-section-divider-color : #e3e4e8;
 	--content-section-shadow : 0 1px 0 0 #d7d8db, 0 0 0 1px var(--content-section-divider-color);
 
-	--header-height : calc(var(--unit) * 3);
+	--header-height: 0;
 
 	--sidebar-z-index : 1;
 	--header-z-index : 2;
@@ -55,10 +55,7 @@ body
 	--font-family : Roboto, sans-serif;
 	--font-family-text : sans-serif;
 
-	@mixin xs {
-		--header-height : 0px;
-	}
-	@mixin ms {
-		--header-height : 0px;
+	@mixin m-plus {
+		--header-height: calc(var(--unit) * 3);
 	}
 }

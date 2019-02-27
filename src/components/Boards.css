@@ -6,7 +6,7 @@
 	align-content: center;
 	overflow-x: hidden;
 
-	@mixin ml {
+	@mixin m {
 		font-size: 0.85em;
 	}
 }
@@ -99,7 +99,7 @@
 	margin-left: 1em;
 	margin-right: 1em;
 
-	@mixin ml {
+	@mixin m {
 		margin-left: 0.5em;
 		margin-right: 0.5em;
 	}
@@ -123,13 +123,13 @@
 /*
 .boards__toggle-wrapper--collapse-boards-list-on-small-screens {
 	display: none;
-	@mixin xs {
+	@mixin upto-xs {
 		display: block;
 	}
 }
 
 .boards__container--collapse-boards-list-on-small-screens {
-	@mixin xs {
+	@mixin upto-xs {
 		display: none;
 	}
 }

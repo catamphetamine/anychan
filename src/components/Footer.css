@@ -2,11 +2,10 @@
 
 body {
 	--footer-menu-height: calc(var(--unit) * 3);
-
-	@mixin ml {
+	@mixin m {
 		--footer-menu-height: 0px;
 	}
-	@mixin xl {
+	@mixin l-plus {
 		--footer-menu-height: 0px;
 	}
 }
@@ -30,13 +29,7 @@ body {
 	margin-bottom : calc(var(--footer-menu-height) + var(--header-height));
 }
 
-@mixin ml {
-	.footer .application-menu {
-		display : none;
-	}
-}
-
-@mixin xl {
+@mixin m-plus {
 	.footer .application-menu {
 		display : none;
 	}
@@ -53,7 +46,7 @@ body {
 	text-align: center;
 	font-weight: 300;
 
-	@mixin xl {
+	@mixin l-plus {
 		margin-top: 2em;
 		margin-bottom: 2em;
 	}
