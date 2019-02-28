@@ -12,48 +12,6 @@
 .sidebar--dark {
 	background-color: var(--black-color);
 	color: var(--gray-color-lightest);
-
-	.boards-list__board-url {
-		color: var(--base-color-light);
-
-		&:before, &:after {
-			/*color: var(--gray-color-darkest);*/
-			color: #6d7682;
-			font-family: var(--font-family);
-			font-weight: 300;
-		}
-
-		&:before {
-			margin-right: 0.1em;
-		}
-
-		&:after {
-			margin-left: 0.1em;
-		}
-	}
-
-	.boards-list__board-url--hover,
-	.boards-list__board-name--hover {
-		background-color: var(--black-color-lighter);
-	}
-
-	.boards-list__board-url--selected,
-	.boards-list__board-name--selected {
-		background-color: var(--black-color-darker);
-	}
-
-	.boards-list__board-url--active,
-	.boards-list__board-name--active {
-		background-color: var(--gray-color-darkest);
-	}
-
-	.boards__view-switch-divider {
-		color: var(--gray-color-darkest);
-	}
-
-	.boards__view-switcher {
-		color: var(--gray-color-lighter);
-	}
 }
 
 .sidebar {

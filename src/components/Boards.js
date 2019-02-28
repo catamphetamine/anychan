@@ -47,7 +47,7 @@ export default class Boards extends React.Component {
 		}
 
 		return (
-			<nav className={classNames('boards', className)}>
+			<nav className={classNames('boards', 'boards--dark', className)}>
 				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
