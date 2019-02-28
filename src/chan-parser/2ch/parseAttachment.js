@@ -28,12 +28,11 @@ export default function parseAttachment(file, { boardId }) {
 		contentType = getContentTypeByFileName(file.path)
 	}
 	if (contentType && contentType.indexOf('image/') === 0) {
-		return {
+		const picture = {
 			type: 'picture',
 			size: file.size * 1024, // in bytes
 			picture: {
 				type: contentType,
-				kind: file.type === STICKER_FILE_TYPE ? 'sticker' : undefined,
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
@@ -45,6 +44,10 @@ export default function parseAttachment(file, { boardId }) {
 				}]
 			}
 		}
+		if (file.type === STICKER_FILE_TYPE) {
+			picture.kind = 'sticker'
+		}
+		return picture
 	}
 	if (contentType && contentType.indexOf('video/') === 0) {
 		const pictureContentType = getContentTypeByFileName(file.thumbnail)
