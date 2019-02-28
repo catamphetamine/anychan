@@ -22,6 +22,10 @@
 		color: var(--base-color-light);
 	}
 
+	.boards-list__board-url:active {
+		color: var(--base-color);
+	}
+
 	.boards-list__board-url {
 		&:before, &:after {
 			color: var(--gray-color-darkest);
