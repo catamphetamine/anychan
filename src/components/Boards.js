@@ -17,11 +17,12 @@ import './Boards.css'
 
 @connect(({ app, chan }) => ({
 	locale: app.settings.locale,
+	selectedBoard: chan.board,
 	boards: chan.boards,
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory
 }))
-class Boards extends React.Component {
+export default class Boards extends React.Component {
 	state = {
 		view: this.props.boardsByPopularity ? 'default' : 'by-category'
 	}
@@ -32,6 +33,7 @@ class Boards extends React.Component {
 	render() {
 		const {
 			locale,
+			selectedBoard,
 			boards,
 			boardsByPopularity,
 			boardsByCategory,
@@ -83,13 +85,15 @@ class Boards extends React.Component {
 							{category.boards.map((board) => (
 								<Board
 									key={board.id}
-									board={board}/>
+									board={board}
+									isSelected={selectedBoard && board.id === selectedBoard.id}/>
 							))}
 						</React.Fragment>
 					))}
 					{view === 'default' && boardsByPopularity.map((board) => (
 						<Board
 							key={board.id}
+							isSelected={selectedBoard && board.id === selectedBoard.id}
 							board={board}/>
 					))}
 				</div>
@@ -107,9 +111,8 @@ const boardShape = {
 
 Boards.propTypes = {
 	expanded: PropTypes.bool.isRequired,
-	boards: PropTypes.arrayOf(PropTypes.shape({
-		...boardShape
-	})),
+	selectedBoard: PropTypes.shape(boardShape),
+	boards: PropTypes.arrayOf(PropTypes.shape(boardShape)),
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
@@ -131,6 +134,8 @@ Boards.defaultProps = {
 	notify
 })
 class Board extends React.Component {
+	state = {}
+
 	constructor() {
 		super()
 		this.onBoardClick = this.onBoardClick.bind(this)
@@ -169,84 +174,79 @@ class Board extends React.Component {
 		return addChanParameter(`/${board.id}`)
 	}
 
+	onPointerEnter = () => {
+		this.setState({
+			isHovered: true
+		})
+	}
+
+	onPointerLeave = () => {
+		this.setState({
+			isHovered: false
+		})
+	}
+
+	onPointerDown = () => {
+		this.setState({
+			isActive: true
+		})
+	}
+
+	onPointerUp = () => {
+		this.setState({
+			isActive: false
+		})
+	}
+
 	render() {
-		const { board } = this.props
+		const {
+			board,
+			isSelected
+		} = this.props
+
+		const {
+			isHovered,
+			isActive
+		} = this.state
+
 		return (
 			<React.Fragment>
-				<div className="boards-list__board-container">
-					<Link
-						to={this.getUrl()}
-						onClick={this.onBoardClick}
-						title={board.name}
-						className="boards-list__board-url">
-						{board.id}
-					</Link>
-				</div>
-				<div className="boards-list__board-name-container">
-					<Link
-						to={this.getUrl()}
-						onClick={this.onBoardClick}
-						title={board.name}
-						className="boards-list__board-name">
-						{board.name}
-					</Link>
-				</div>
+				<Link
+					to={this.getUrl()}
+					onClick={this.onBoardClick}
+					onPointerDown={this.onPointerDown}
+					onPointerUp={this.onPointerUp}
+					onPointerEnter={this.onPointerEnter}
+					onPointerLeave={this.onPointerLeave}
+					onPointerCancel={this.onPointerUp}
+					className={classNames('boards-list__board-url', {
+						'boards-list__board-url--selected': isSelected,
+						'boards-list__board-url--hover': isHovered,
+						'boards-list__board-url--active': isActive
+					})}>
+					{board.id}
+				</Link>
+				<Link
+					to={this.getUrl()}
+					onClick={this.onBoardClick}
+					onPointerDown={this.onPointerDown}
+					onPointerUp={this.onPointerUp}
+					onPointerEnter={this.onPointerEnter}
+					onPointerLeave={this.onPointerLeave}
+					onPointerCancel={this.onPointerUp}
+					className={classNames('boards-list__board-name', {
+						'boards-list__board-name--selected': isSelected,
+						'boards-list__board-name--hover': isHovered,
+						'boards-list__board-name--active': isActive
+					})}>
+					{board.name}
+				</Link>
 			</React.Fragment>
 		)
 	}
 }
 
 Board.propTypes = {
-	boards: PropTypes.shape(boardShape)
-}
-
-@connect(({ found, app }) => ({
-  route: found.resolvedMatch,
-  locale: app.settings.locale
-}))
-export default class BoardsComponent extends React.Component {
-	state = {
-		isExpanded: undefined
-	}
-
-	toggleBoardsList = (event) => {
-		this.setState({
-			isExpanded: !this.state.isExpanded
-		})
-	}
-
-	render() {
-		const {
-			route,
-			locale,
-			// Rest.
-			// For some weird reason `dispatch` property is passed.
-			dispatch,
-			...rest
-		} = this.props
-
-		let { isExpanded } = this.state
-		if (isExpanded === undefined) {
-			if (isBoardLocation(route) || isThreadLocation(route)) {
-				isExpanded = false
-			} else {
-				isExpanded = true
-			}
-		}
-
-		return (
-			<div {...rest}>
-				<div className={classNames('boards__toggle-wrapper', {
-					// 'boards__toggle-wrapper--collapse-boards-list-on-small-screens': !isExpanded
-				})}>
-					<button
-						onClick={this.toggleBoardsList}
-						className="boards__toggle rrui__button-reset">
-						{getMessages(locale).showBoardsList}
-					</button>
-				</div>
-				<Boards/>
-			</div>
-		)
-	}
+	board: PropTypes.shape(boardShape).isRequired,
+	isSelected: PropTypes.bool
 }

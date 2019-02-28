@@ -26,7 +26,7 @@
 }
 
 .boards__view-switcher {
-	margin-bottom: var(--unit);
+	margin: var(--unit);
 }
 
 .boards-list-section__pre-title {
@@ -48,19 +48,10 @@
 	margin-top: 0.5em;
 }
 
-.boards-list__board-container {
+.boards-list__board-url {
+	display: block;
 	grid-column: span 1;
 	text-align: right;
-}
-
-.boards-list__board-name-container {
-	grid-column: span 1;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.boards-list__board-url {
-	padding-right: var(--unit);
 	font-family: monospace;
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
@@ -69,22 +60,24 @@
 	&:after {
 		content: '/';
 		display: inline-block;
-		color: var(--gray-color-light);
 	}
 }
 
 .boards-list__board-name {
+	display: block;
+	padding-left: var(--unit);
+	grid-column: span 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	color: currentColor;
 }
 
-.boards-list__board-url,
+.boards__view-switcher,
 .boards-list__board-name {
-	display: inline-block;
-	line-height: calc(var(--unit) * 2);
-	vertical-align: bottom;
+	font-weight: 300;
 }
 
 .boards__view-switcher {

@@ -12,6 +12,8 @@ body
 {
 	--white-color        : #ffffff;
 	--black-color        : #49515C;
+	--black-color-lighter : #4f5760;
+	--black-color-darker  : #404852;
 
 	--gray-color-lightest : #F0F2F5;
 	--gray-color-light    : #DCDEE3;
@@ -19,7 +21,7 @@ body
 	--gray-color          : #A6AAAD;
 	--gray-color-darker   : #999CA1;
 	--gray-color-dark     : #888C91;
-	--gray-color-darkest  : #797D82;
+	--gray-color-darkest  : #5b636d;
 
 	--base-color-light   : #FFA061;
 	--base-color-lighter : #FF8732;
