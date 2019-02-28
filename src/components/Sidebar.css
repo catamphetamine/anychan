@@ -45,9 +45,6 @@
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
 		background-color: var(--gray-color-darkest);
-		&:before, &:after {
-			/*color: var(--gray-color-darker);*/
-		}
 	}
 
 	.boards__view-switch-divider {

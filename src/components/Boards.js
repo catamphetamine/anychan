@@ -209,6 +209,9 @@ class Board extends React.Component {
 			isActive
 		} = this.state
 
+		// `onPointerOut` includes `onPointerCancel`.
+		// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/pointerout_event
+
 		return (
 			<React.Fragment>
 				<Link
@@ -218,7 +221,7 @@ class Board extends React.Component {
 					onPointerUp={this.onPointerUp}
 					onPointerEnter={this.onPointerEnter}
 					onPointerLeave={this.onPointerLeave}
-					onPointerCancel={this.onPointerUp}
+					onPointerOut={this.onPointerUp}
 					className={classNames('boards-list__board-url', {
 						'boards-list__board-url--selected': isSelected,
 						'boards-list__board-url--hover': isHovered,
@@ -233,7 +236,7 @@ class Board extends React.Component {
 					onPointerUp={this.onPointerUp}
 					onPointerEnter={this.onPointerEnter}
 					onPointerLeave={this.onPointerLeave}
-					onPointerCancel={this.onPointerUp}
+					onPointerOut={this.onPointerUp}
 					className={classNames('boards-list__board-name', {
 						'boards-list__board-name--selected': isSelected,
 						'boards-list__board-name--hover': isHovered,
