@@ -68,37 +68,31 @@ class Boards extends React.Component {
 					</div>
 				}
 
-				<table className={classNames('boards-list', {
+				<div className={classNames('boards-list', {
 					'boards-list--default': view === 'default',
 					'boards-list--by-category': view === 'by-category'
 				})}>
-					<tbody>
-						{view === 'by-category' && boardsByCategory.map((category, i) => (
-							<React.Fragment key={category.category}>
-								<tr>
-									<td/>
-									<td>
-										<h2 className={classNames('boards-list-section__title', {
-											'boards-list-section__title--first': i === 0
-										})}>
-											{category.category}
-										</h2>
-									</td>
-								</tr>
-								{category.boards.map((board) => (
-									<Board
-										key={board.id}
-										board={board}/>
-								))}
-							</React.Fragment>
-						))}
-						{view === 'default' && boardsByPopularity.map((board) => (
-							<Board
-								key={board.id}
-								board={board}/>
-						))}
-					</tbody>
-				</table>
+					{view === 'by-category' && boardsByCategory.map((category, i) => (
+						<React.Fragment key={category.category}>
+							<div className="boards-list-section__pre-title"/>
+							<h2 className={classNames('boards-list-section__title', {
+								'boards-list-section__title--first': i === 0
+							})}>
+								{category.category}
+							</h2>
+							{category.boards.map((board) => (
+								<Board
+									key={board.id}
+									board={board}/>
+							))}
+						</React.Fragment>
+					))}
+					{view === 'default' && boardsByPopularity.map((board) => (
+						<Board
+							key={board.id}
+							board={board}/>
+					))}
+				</div>
 			</nav>
 		)
 	}
@@ -178,27 +172,26 @@ class Board extends React.Component {
 	render() {
 		const { board } = this.props
 		return (
-			<tr
-				key={board.id}
-				className="boards-list__board-row"
-				title={board.info || board.name}>
-				<td className="boards-list__board-container">
+			<React.Fragment>
+				<div className="boards-list__board-container">
 					<Link
 						to={this.getUrl()}
 						onClick={this.onBoardClick}
+						title={board.name}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
-				</td>
-				<td className="boards-list__board-name-container">
+				</div>
+				<div className="boards-list__board-name-container">
 					<Link
 						to={this.getUrl()}
 						onClick={this.onBoardClick}
+						title={board.name}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>
-				</td>
-			</tr>
+				</div>
+			</React.Fragment>
 		)
 	}
 }

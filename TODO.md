@@ -9,9 +9,19 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
-refactor boards from table to ul li and columns
+Локализовать копирайт chanchan, там добавить ссылку report issue. В футер перенести ссылки чана.
 
-activate night mode button
+activate night mode button, refactor font themes from json to body class
+
+добавить шрифт "мелкий"
+
+переделать font-size через themes
+
+styles/themes
+
+перенести иконки меню в sidebar (но не показывать их в мобильных)
+
+
 
 
 
@@ -21,14 +31,6 @@ When opening comments page: show "... more" button on the bottom right side. As 
 
 
 
-
-добавить шрифт "мелкий"
-
-переделать font-size через themes
-
-перенести иконки меню в sidebar
-
-styles/themes
 
 expand replies into posts in redux/chan
 
@@ -41,8 +43,6 @@ replace the global spinner with smaller spinners (on thread card, on boards pane
 
 
 сделать подгрузку сообщений, и внизу плашку справа "ещё ..." ("... more") (+ посмотреть дизайн на мобильном).
-
-мб посмотреть AWS proxy, как он работает по сравнению с Heroku (включать только на localhost-е).
 
 цитируемое сообщение может быть пустым, если состоит только из цитат: в таком случае можно перезапускать `getPostText()`, но уже без skip inline quotes.
 
