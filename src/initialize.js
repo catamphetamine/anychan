@@ -1,19 +1,24 @@
 import { setChan, getChan } from './chan'
+import { applySettings, getDefaultSettings } from './utility/settings'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
 import FourChanSiteIcon from '../chan/4chan/icon.png'
 
 export default function() {
+	// Initialize the chan being used.
 	// `URL` is not available in IE11.
 	// Supports `chan` URL parameter for multi-chan `gh-pages` demo.
 	const chan = new URL(window.location.href).searchParams.get('chan')
 	if (chan) {
 		setChan(chan)
 	}
+	// Apply chan site icon.
 	if (getSiteIcon(getChan().id)) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
 		siteIcon.href = getSiteIcon(getChan().id)
 	}
+	// Apply default settings.
+	applySettings(getDefaultSettings())
 }
 
 export function getSiteIcon(chanId) {
