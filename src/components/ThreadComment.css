@@ -55,3 +55,9 @@
 	font-family: var(--font-family);
 	font-weight: 300;
 }
+
+.post__attachment-thumbnail--sticker {
+	--picture-border-width: 0;
+	--picture-background-color: transparent;
+	--post-attachment-hover-shadow: none;
+}

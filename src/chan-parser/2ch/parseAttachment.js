@@ -1,5 +1,7 @@
 import { getContentTypeByFileName } from '../parseAttachment'
 
+const STICKER_FILE_TYPE = 100
+
 function getContentTypeByFileType(type) {
 	switch (type) {
 		case 1:
@@ -13,7 +15,7 @@ function getContentTypeByFileType(type) {
 		case 10:
 			return 'video/mp4'
 		// Stickers.
-		case 100:
+		case STICKER_FILE_TYPE:
 			return 'image/png'
 	}
 }
@@ -31,6 +33,7 @@ export default function parseAttachment(file, { boardId }) {
 			size: file.size * 1024, // in bytes
 			picture: {
 				type: contentType,
+				kind: file.type === STICKER_FILE_TYPE ? 'sticker' : undefined,
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
