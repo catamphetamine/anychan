@@ -19,10 +19,10 @@ import './Board.css'
 	title: board && board.name,
 	description: board && board.description
 }))
-@connect(({ account, chan }) => ({
+@connect(({ app, chan }) => ({
 	board: chan.board,
 	threads: chan.threads,
-	settings: account.settings
+	settings: app.settings
 }), {
 	preloadStarted,
 	preloadFinished,
@@ -35,8 +35,8 @@ import './Board.css'
 	// Must be the same as the code inside `onBoardClick` in `components/Boards.js`.
 	await dispatch(getThreads(
 		params.board,
-		getState().account.settings.filters,
-		getState().account.settings.locale
+		getState().app.settings.filters,
+		getState().app.settings.locale
 	))
 })
 export default class BoardPage extends React.Component {
@@ -81,7 +81,7 @@ export default class BoardPage extends React.Component {
 			threads
 		} = this.props
 		return (
-			<section className="board-page content content--posts">
+			<section className="board-page content text-content">
 				<h1 className="page__heading">
 					{board.name}
 				</h1>

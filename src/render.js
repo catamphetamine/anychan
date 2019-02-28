@@ -2,12 +2,15 @@ import { render } from 'react-website'
 
 import settings from './react-website'
 
+import { hideSidebar } from './redux/app'
+
 export default async function() {
 	// Renders the webpage on the client side
 	const result = await render(settings, {
-		onNavigate() {
+		onNavigate(url, location, { dispatch, getState }) {
 			document.querySelector('.webpage__main').scrollTo(0, 0)
 			document.querySelector('main').focus()
+			dispatch(hideSidebar())
 		}
 	})
 	// If there was an error during the initial rendering

@@ -15,8 +15,8 @@ import { isBoardLocation, isThreadLocation } from '../utility/routes'
 
 import './Boards.css'
 
-@connect(({ account, chan }) => ({
-	locale: account.settings.locale,
+@connect(({ app, chan }) => ({
+	locale: app.settings.locale,
 	boards: chan.boards,
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory
@@ -127,8 +127,8 @@ Boards.defaultProps = {
 	expanded: false
 }
 
-@connect(({ account }) => ({
-	settings: account.settings
+@connect(({ app }) => ({
+	settings: app.settings
 }), {
 	preloadStarted,
 	preloadFinished,
@@ -185,7 +185,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick2}
+						onClick={this.onBoardClick}
 						className="boards-list__board-url">
 						{board.id}
 					</Link>
@@ -193,7 +193,7 @@ class Board extends React.Component {
 				<td className="boards-list__board-name-container">
 					<Link
 						to={this.getUrl()}
-						onClick={this.onBoardClick2}
+						onClick={this.onBoardClick}
 						className="boards-list__board-name">
 						{board.name}
 					</Link>
@@ -207,9 +207,9 @@ Board.propTypes = {
 	boards: PropTypes.shape(boardShape)
 }
 
-@connect(({ found, account }) => ({
+@connect(({ found, app }) => ({
   route: found.resolvedMatch,
-  locale: account.settings.locale
+  locale: app.settings.locale
 }))
 export default class BoardsComponent extends React.Component {
 	state = {

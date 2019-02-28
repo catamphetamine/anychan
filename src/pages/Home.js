@@ -20,7 +20,7 @@ export default function Home() {
 	} = getChan()
 	return (
 		<section className="home-page">
-			<div className="content content--posts">
+			<div className="content text-content">
 				<div className="home-page__brand">
 					{Logo &&
 						<a

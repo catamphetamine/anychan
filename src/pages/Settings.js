@@ -10,7 +10,7 @@ import {
 	getSettings,
 	saveLocale,
 	saveFontSize
-} from '../redux/account'
+} from '../redux/app'
 
 import getMessages, { getLanguageNames } from '../messages'
 import { applyFontSize } from '../utility/theme'
@@ -34,8 +34,8 @@ const LANGUAGE_OPTIONS = Object.keys(LANGUAGE_NAMES).map((language) => ({
 @meta(() => ({
 	title: 'Settings'
 }))
-@connect(({ account }) => ({
-	settings: account.settings
+@connect(({ app }) => ({
+	settings: app.settings
 }), {
 	saveLocale,
 	saveFontSize,
@@ -69,7 +69,7 @@ export default class SettingsPage extends React.Component {
 		const messages = getMessages(settings.locale)
 
 		return (
-			<section className="settings-page content content--posts">
+			<section className="settings-page content text-content">
 				{/* Settings */}
 				<h1 className="page__heading">
 					{messages.settings.title}

@@ -3,12 +3,6 @@
 .webpage__header
 {
 	display: none;
-	position: fixed;
-	/*top   : 0;*/
-	/*left  : 0;*/
-	right : 0;
-	bottom : 0;
-	z-index : var(--header-z-index);
 
 	background-color : var(--white-color);
 	color : var(--black-color);
@@ -17,14 +11,6 @@
 
 	padding-left: var(--unit);
 	padding-right: var(--unit);
-
-	@mixin m-plus {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height : var(--header-height);
-		left: var(--sidebar-width);
-	}
 }
 
 /*

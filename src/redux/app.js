@@ -24,6 +24,27 @@ export const saveFontSize = redux.action(
 	'settings'
 )
 
+export const hideSidebar = redux.simpleAction(
+	(state, params) => ({
+		...state,
+		isSidebarShown: false
+	})
+)
+
+export const toggleSidebar = redux.simpleAction(
+	(state, params) => ({
+		...state,
+		isSidebarShown: !state.isSidebarShown
+	})
+)
+
+export const toggleNightMode = redux.simpleAction(
+	(state, params) => ({
+		...state,
+		isNightMode: !state.isNightMode
+	})
+)
+
 export default redux.reducer()
 
 /**

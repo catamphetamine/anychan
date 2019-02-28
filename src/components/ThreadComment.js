@@ -20,8 +20,8 @@ import configuration from '../configuration'
 
 import './ThreadComment.css'
 
-@connect(({ account }) => ({
-	locale: account.settings.locale
+@connect(({ app }) => ({
+	locale: app.settings.locale
 }))
 export default class ThreadComment extends React.Component {
 	state = {
@@ -129,6 +129,7 @@ function Comment({ halfSizedAttachmentThumbnails, comment, compact, hidden, url,
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
+			maxAttachmentThumbnails={false}
 			attachmentThumbnailSize={halfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
 			className="thread__comment content-section" />
 	);

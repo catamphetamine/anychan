@@ -18,9 +18,11 @@ export default class Footer extends React.Component {
 	render() {
 		const { route } = this.props
 		return (
-			<footer className="footer">
+			<footer className={classNames('footer', {
+				'footer--center': route.location.pathname === '/'
+			})}>
 				<div className={classNames('content', {
-					'content--posts': isContentSectionsContent(route)
+					'text-content': isContentSectionsContent(route) || route.location.pathname === '/'
 				})}>
 					<div className="footer__copyright">
 						<p>

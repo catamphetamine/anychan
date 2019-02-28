@@ -27,7 +27,7 @@ import 'webapp-frontend/src/components/TimeAgo.ru'
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import { getBoards } from '../redux/chan'
-import { getSettings } from '../redux/account'
+import { getSettings } from '../redux/app'
 
 import { applySettings } from '../utility/settings'
 import { isContentSectionsContent } from '../utility/routes'
@@ -45,7 +45,7 @@ import './Application.css'
 })
 @preload(async ({ dispatch, getState }) => {
 	await dispatch(getSettings())
-	applySettings(getState().account.settings)
+	applySettings(getState().app.settings)
 	await dispatch(getBoards())
 }, {
 	blocking: true
@@ -86,17 +86,18 @@ export default class App extends React.Component
 					</Slideshow>
 				}
 
-				<Sidebar show={location.pathname === '/'}/>
-
-				<Header/>
-
-				<div className={classNames('webpage', {
-					'webpage--content-sections': isContentSectionsContent(route)
-				})}>
-					<main className="webpage__content">
-						{ children }
-					</main>
-					<Footer/>
+				<div className="webpage">
+					<Sidebar/>
+					<div className={classNames('webpage__main', {
+						'webpage__main--content-sections': isContentSectionsContent(route)
+					})}>
+						{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
+						<main className="webpage__content" tabIndex={-1}>
+							{ children }
+						</main>
+						<Footer/>
+						<Header/>
+					</div>
 				</div>
 			</div>
 		)

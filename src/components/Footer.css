@@ -2,12 +2,6 @@
 
 body {
 	--footer-menu-height: calc(var(--unit) * 3);
-	@mixin m {
-		--footer-menu-height: 0px;
-	}
-	@mixin l-plus {
-		--footer-menu-height: 0px;
-	}
 }
 
 .footer .application-menu
@@ -24,14 +18,24 @@ body {
 	z-index : var(--header-z-index);
 }
 
-.footer
-{
-	margin-bottom : calc(var(--footer-menu-height) + var(--header-height));
+.footer {
+	margin-bottom: var(--footer-menu-height);
+	/*margin-bottom: calc(var(--footer-menu-height) + var(--header-height));*/
+	padding-left: var(--content-section-horizontal-padding);
+	padding-right: var(--content-section-horizontal-padding);
 }
 
-@mixin m-plus {
-	.footer .application-menu {
-		display : none;
+.footer--center {
+	/* `display: flex` has a weird bug: the footer is removed from the "flow". */;
+	/*
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	*/
+	/* This is a hack to center footer content. */
+	text-align: center;
+	.content {
+		display: inline-block;
 	}
 }
 
@@ -45,6 +49,7 @@ body {
 	color: var(--gray-color-dark);
 	text-align: center;
 	font-weight: 300;
+	font-size: 80%;
 
 	@mixin l-plus {
 		margin-top: 2em;

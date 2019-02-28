@@ -74,7 +74,7 @@ const MENU_ITEMS = [{
 
 const MENU_ITEMS_FOOTER = [{
 	title: 'boards',
-	link: '/',
+	type: 'sidebar',
 	outlineIcon: FeedIconOutline,
 	fillIcon: FeedIconFill
 },

@@ -1,35 +1,23 @@
 @import "../styles/common";
 
-body {
-	--sidebar-width: 100%;
-	@mixin m {
-		--sidebar-width: calc(var(--unit) * 20);
-	}
-	@mixin l-plus {
-		--sidebar-width: calc(var(--unit) * 26);
-	}
+.webpage__main
+{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	/* Stretches the page to 100% height */
+	height: 100vh;
+	max-height: 100vh;
+	overflow-y: scroll;
 }
 
-/* Stretches the page to 100% height */
 .webpage
 {
-	/* For z-index ordering (relative to preloading screen) */
-	position : relative;
-	z-index  : 0;
-
-	display        : flex;
-	flex-direction : column;
-	min-height     : 100vh;
-}
-
-.webpage--loading
-{
-	/*
-	`react-waypoint` wouldn't work correctly with `display: none` -> `display: block`.
-	https://github.com/brigade/react-waypoint/issues/164#issuecomment-299640438
-	display: none;
-	*/
-	visibility: hidden;
+	display: flex;
+	/* For z-index ordering (relative to preloading screen). */
+	/* Otherwise preloading screen will always be above content (even when it's not shown). */
+	position: relative;
+	z-index: 0;
 }
 
 /* Content takes all free space */
@@ -42,7 +30,14 @@ body {
 	flex-grow   : 1;
 	flex-basis  : auto;
 
-	/*margin-top : var(--header-height);*/
+	/* Is focusable (for keyboard navigation: page up, page down). */
+	outline: none;
+
+	@mixin m {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
 }
 
 .react-website__loading--initial
@@ -55,37 +50,8 @@ body {
 	z-index: var(--slideshow-z-index);
 }
 
-.sidebar {
-	display: none;
-	/*top: var(--header-height);*/
-	bottom: var(--footer-menu-height);
-	width: var(--sidebar-width);
-
-	@mixin m-plus {
-		display: block;
-	}
-}
-
-.sidebar--show {
-	display: block;
-}
-
-.webpage {
-	margin-left: 0;
-	@mixin m-plus {
-		margin-left: var(--sidebar-width);
-	}
-}
-
-.webpage--content-sections {
-	background-color : var(--background-color);
-}
-
-.content {
-	@mixin m-plus {
-		margin-left: calc(var(--unit) * 2);
-		margin-right: calc(var(--unit) * 2);
-	}
+.webpage__main--content-sections {
+	background-color: var(--background-color);
 }
 
 .thread__comment,
@@ -98,16 +64,6 @@ body {
 .board-page__title {
 	margin-left: var(--unit);
 	margin-right: var(--unit);
-	@mixin m-plus {
-		margin-left: 0;
-		margin-right: 0;
-	}
-}
-
-.content--posts {
-	@mixin m-plus {
-		max-width: 50em;
-	}
 }
 
 .rrui__slideshow--fullscreen {
@@ -137,4 +93,87 @@ body {
 	margin-right: var(--unit);
 	/*min-height: calc(var(--unit) * 3);*/
 	text-align: center;
+}
+
+@mixin m-plus {
+	.text-content {
+	  width: 100%;
+		max-width: 50em;
+	}
+	.webpage__main--content-sections .text-content {
+		max-width: 53em;
+	}
+}
+
+.content {
+	margin-left: calc(var(--unit) * 2);
+	margin-right: calc(var(--unit) * 2);
+
+	@mixin xxs {
+		margin-left: var(--unit);
+		margin-right: var(--unit);
+	}
+}
+
+.webpage__main--content-sections {
+	.content {
+		margin-left: 0;
+		margin-right: 0;
+		@mixin l-plus {
+			padding-left: calc(var(--unit) * 2);
+			padding-right: calc(var(--unit) * 2);
+		}
+	}
+}
+
+@mixin upto-m {
+	.sidebar {
+		display: none;
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: var(--footer-menu-height);
+		z-index: var(--sidebar-z-index);
+	}
+	.sidebar--show {
+		display: block;
+	}
+}
+
+@mixin l-plus {
+	body {
+		--header-height: calc(var(--unit) * 3);
+		--footer-menu-height: 0px;
+	}
+
+	.webpage__main {
+		max-height: 100vh;
+	}
+
+	.webpage__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: var(--header-height);
+		min-height: var(--header-height);
+		position: sticky;
+		bottom: 0;
+	}
+
+	.sidebar {
+		display: block;
+		flex: 0.3;
+		max-width: calc(var(--unit) * 26);
+		max-height: 100vh;
+	}
+
+	.board-page__title {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.footer .application-menu {
+		display: none;
+	}
 }

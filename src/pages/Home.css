@@ -1,3 +1,5 @@
+@import "../styles/common";
+
 .home-page {
 	display: flex;
 	justify-content: center;

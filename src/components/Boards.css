@@ -6,7 +6,7 @@
 	align-content: center;
 	overflow-x: hidden;
 
-	@mixin m {
+	@mixin l {
 		font-size: 0.85em;
 	}
 }
@@ -119,18 +119,3 @@
 		color: var(--base-color-dark);
 	}
 }
-
-/*
-.boards__toggle-wrapper--collapse-boards-list-on-small-screens {
-	display: none;
-	@mixin upto-xs {
-		display: block;
-	}
-}
-
-.boards__container--collapse-boards-list-on-small-screens {
-	@mixin upto-xs {
-		display: none;
-	}
-}
-*/

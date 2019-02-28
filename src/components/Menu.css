@@ -16,18 +16,14 @@
 
 .menu-item
 {
-	display : flex;
-	align-items : center;
-	justify-content : center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-	height : 100%;
+	width: 100%;
+	height: 100%;
 
-	/*
-	padding-top    : calc(var(--unit) * 0.625);
-	padding-bottom : calc(var(--unit) * 0.625);
-	*/
-
-	color : var(--black-color);
+	color: var(--black-color);
 }
 
 .menu-item__icon

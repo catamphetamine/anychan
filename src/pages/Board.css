@@ -5,14 +5,9 @@
 		margin-top: calc(var(--unit) * 1);
 		margin-bottom: calc(var(--unit) * 1);
 	}
-
 	.page__heading + .thread__comment-container {
 		.thread__comment {
 			margin-top: 0;
 		}
-	}
-
-	.thread__comment-container:last-child {
-		margin-bottom: var(--unit);
 	}
 }

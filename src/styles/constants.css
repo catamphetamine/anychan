@@ -54,8 +54,4 @@ body
 
 	--font-family : Roboto, sans-serif;
 	--font-family-text : sans-serif;
-
-	@mixin m-plus {
-		--header-height: calc(var(--unit) * 3);
-	}
 }

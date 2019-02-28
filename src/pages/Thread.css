@@ -15,9 +15,6 @@
 	.post__date, .post__footer {
 		color: var(--gray-color);
 	}
-	.thread__comment-container:last-child {
-		margin-bottom: var(--unit);
-	}
 }
 
 .thread-page__header + .thread__comment-container {

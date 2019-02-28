@@ -1,5 +1,9 @@
 @import "../../../webapp-frontend/src/styles/base.css";
 
+body {
+	overflow-y: auto;
+}
+
 a {
 	color: var(--base-color-darkest);
 }

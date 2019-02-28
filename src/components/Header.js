@@ -16,8 +16,8 @@ import { isBoardLocation, isThreadLocation } from '../utility/routes'
 
 import './Header.css'
 
-@connect(({ account, chan, found }) => ({
-	locale: account.settings.locale,
+@connect(({ app, chan, found }) => ({
+	locale: app.settings.locale,
 	board: chan.board,
 	thread: chan.thread,
 	route: found.resolvedMatch

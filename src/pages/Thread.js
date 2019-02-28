@@ -26,8 +26,8 @@ import './Thread.css'
 	await dispatch(getComments(
 		params.board,
 		params.thread,
-		getState().account.settings.filters,
-		getState().account.settings.locale
+		getState().app.settings.filters,
+		getState().app.settings.locale
 	))
 })
 export default class ThreadPage extends React.Component {
@@ -41,7 +41,7 @@ export default class ThreadPage extends React.Component {
 			comments
 		} = this.props
 		return (
-			<section className={classNames('thread-page', 'content', 'content--posts')}>
+			<section className={classNames('thread-page', 'content', 'text-content')}>
 				<header className="thread-page__header page__heading">
 					<Link className="page__heading-text" to={`/${board.id}`}>
 						{board.name}
