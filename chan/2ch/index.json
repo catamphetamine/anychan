@@ -53,6 +53,10 @@
 		"text": "Twitter",
 		"url": "https://twitter.com/abunyasha/"
 	}, {
+		"type": "vk",
+		"text": "ВКонтакте",
+		"url": "https://vk.com/ru2ch"
+	}, {
 		"type": "api",
 		"text": "API",
 		"url": "https://github.com/catamphetamine/chanchan#2chhk"
@@ -65,5 +69,8 @@
 	"commentsUrl": "https://2ch.hk/{boardId}/res/{threadId}.json",
 	"threadsUrl": "https://2ch.hk/{boardId}/catalog.json",
 	"boardsUrl": "https://2ch.hk/boards.json",
-	"commentUrl": "https://2ch.hk/{boardId}/res/{threadId}.html#{commentId}"
+	"commentUrl": "https://2ch.hk/{boardId}/res/{threadId}.html#{commentId}",
+	"proxy": {
+		"aws": true
+	}
 }

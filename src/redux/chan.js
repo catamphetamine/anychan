@@ -102,11 +102,13 @@ function createParser({ filters, locale }) {
 }
 
 function proxyUrl(url) {
-	switch (getChan().id) {
-		case '2ch':
-			if (configuration.corsProxyUrlAws) {
-				return configuration.corsProxyUrlAws.replace('{url}', url)
-			}
+	if (!getChan().proxy) {
+		return url
+	}
+	if (getChan().proxy.aws) {
+		if (configuration.corsProxyUrlAws) {
+			return configuration.corsProxyUrlAws.replace('{url}', url)
+		}
 	}
 	if (configuration.corsProxyUrl) {
 		return configuration.corsProxyUrl.replace('{url}', url)

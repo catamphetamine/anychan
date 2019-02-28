@@ -43,6 +43,10 @@
 		"text": "Feedback",
 		"url": "https://www.4chan.org/feedback"
 	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/4chan"
+	}, {
 		"type": "api",
 		"text": "API",
 		"url": "https://github.com/catamphetamine/chanchan#4chanorg"
@@ -55,5 +59,8 @@
 	"commentsUrl": "http://a.4cdn.org/{boardId}/thread/{threadId}.json",
 	"threadsUrl": "http://a.4cdn.org/{boardId}/catalog.json",
 	"boardsUrl": "http://a.4cdn.org/boards.json",
-	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}"
+	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}",
+	"proxy": {
+		"aws": false
+	}
 }
