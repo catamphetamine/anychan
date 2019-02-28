@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-website'
+// import { Link } from 'react-website'
 import classNames from 'classnames'
 
 import ApplicationMenu from './ApplicationMenu'
@@ -35,12 +35,12 @@ export default class Footer extends React.Component {
 							<ul className="footer__chan-links">
 								{getChan().links.map((link, i) => (
 									<li key={i} className="footer__chan-link-item">
-										<Link
+										<a
 											target="_blank"
-											to={link.url}
+											href={link.url}
 											className="footer__chan-link">
 											{link.text}
-										</Link>
+										</a>
 									</li>
 								))}
 							</ul>
