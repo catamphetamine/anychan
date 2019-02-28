@@ -25,5 +25,10 @@
 	"quotedPost": "Сообщение",
 	"attachmentPicture": "Картинка",
 	"attachmentVideo": "Видео",
-	"videoNotFound": "Видео не найдено"
+	"videoNotFound": "Видео не найдено",
+	"copyright": {
+		"preChanchan": "Клиент для имиджборд «",
+		"postChanchan": "»",
+		"preAuthor": ", автор "
+	}
 }

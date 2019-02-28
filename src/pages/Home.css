@@ -49,25 +49,3 @@
 .home-page__announcement {
 	line-height: 1.35em;
 }
-
-.home-page__links {
-	margin-top: calc(var(--unit) * 4);
-	margin-bottom: calc(var(--unit) * 4);
-	padding-left: 0;
-	list-style: none;
-	text-align: center;
-}
-
-.home-page__link-item {
-	display: inline;
-	line-height: 1.75em;
-	&:after {
-		display: inline-block;
-		content: '·';
-		margin-left: 0.5em;
-		margin-right: 0.5em;
-	}
-	&:last-child:after {
-		display: none;
-	}
-}

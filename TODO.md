@@ -9,8 +9,6 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
-Локализовать копирайт chanchan, там добавить ссылку report issue. В футер перенести ссылки чана.
-
 activate night mode button, refactor font themes from json to body class
 
 добавить шрифт "мелкий"

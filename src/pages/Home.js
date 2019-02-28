@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-website'
 
 import { PostBlock } from 'webapp-frontend/src/components/Post'
 
@@ -55,23 +54,6 @@ export default function Home() {
 							{announcement}
 						</PostBlock>
 					</div>
-				}
-
-				{links &&
-					<nav>
-						<ul className="home-page__links">
-							{links.map((link, i) => (
-								<li key={i} className="home-page__link-item">
-									<Link
-										target="_blank"
-										to={link.url}
-										className="home-page__link">
-										{link.text}
-									</Link>
-								</li>
-							))}
-						</ul>
-					</nav>
 				}
 			</div>
 		</section>

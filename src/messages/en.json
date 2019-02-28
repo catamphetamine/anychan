@@ -25,5 +25,10 @@
 	"quotedPost": "Message",
 	"attachmentPicture": "Picture",
 	"attachmentVideo": "Video",
-	"videoNotFound": "Video not found"
+	"videoNotFound": "Video not found",
+	"copyright": {
+		"chanchan": "chanchan",
+		"postChanchan": " imageboard client",
+		"preAuthor": " by "
+	}
 }

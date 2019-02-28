@@ -19,6 +19,7 @@ body {
 }
 
 .footer {
+	margin-top: calc(var(--unit) * 4);
 	margin-bottom: var(--footer-menu-height);
 	/*margin-bottom: calc(var(--footer-menu-height) + var(--header-height));*/
 	padding-left: var(--content-section-horizontal-padding);
@@ -60,5 +61,27 @@ body {
 .footer__copyright-chanchan {
 	a {
 		color: inherit;
+	}
+}
+
+.footer__chan-links {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 0;
+	list-style: none;
+	text-align: center;
+}
+
+.footer__chan-link-item {
+	display: inline;
+	line-height: 1.75em;
+	&:after {
+		display: inline-block;
+		content: '·';
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+	}
+	&:last-child:after {
+		display: none;
 	}
 }
