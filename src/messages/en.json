@@ -9,6 +9,7 @@
 		"filters": "Filters",
 		"fontSize": {
 			"title": "Font Size",
+			"small": "Small",
 			"medium": "Medium",
 			"large": "Large"
 		}

@@ -9,13 +9,9 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+не добавлять рамку стикерам
+
 activate night mode button, refactor font themes from json to body class
-
-добавить шрифт "мелкий"
-
-переделать font-size через themes
-
-styles/themes
 
 перенести иконки меню в sidebar (но не показывать их в мобильных)
 

@@ -1,0 +1,28 @@
+.font-size--small {
+	/*
+	Mobile font size must be at least 16px
+	to prevent automatic zoom on input focus.
+	*/
+	--font-size-xxs: 16px;
+	--font-size-xs: 16px;
+	--font-size-s: 17px;
+	--font-size-m: 18px;
+}
+
+.font-size--medium {
+	/*
+	Mobile font size must be at least 16px
+	to prevent automatic zoom on input focus.
+	*/
+	--font-size-xxs: 16px;
+	--font-size-xs: 18px;
+	--font-size-s: 19px;
+	--font-size-m: 20px;
+}
+
+.font-size--large {
+	--font-size-xxs: 19px;
+	--font-size-xs: 21px;
+	--font-size-s: 22px;
+	--font-size-m: 23px;
+}

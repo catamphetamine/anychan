@@ -34,7 +34,8 @@ import { isContentSectionsContent } from '../utility/routes'
 
 import './Application.css'
 
-@connect(({ slideshow, found }) => ({
+@connect(({ app, slideshow, found }) => ({
+	theme: app.settings.theme,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
@@ -50,15 +51,16 @@ import './Application.css'
 }, {
 	blocking: true
 })
-export default class App extends React.Component
-{
+export default class App extends React.Component {
 	static propTypes = {
+		theme: PropTypes.string.isRequired,
 		route: PropTypes.object.isRequired,
 		children : PropTypes.node.isRequired
 	}
 
 	render() {
 		const {
+			theme,
 			route,
 			slideshowIndex,
 			slideshowIsOpen,
@@ -69,7 +71,7 @@ export default class App extends React.Component
 		} = this.props
 
 		return (
-			<div>
+			<div className={classNames(`theme--${theme}`)}>
 				{/* Page loading indicator */}
 				<Loading/>
 

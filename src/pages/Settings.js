@@ -13,7 +13,7 @@ import {
 } from '../redux/app'
 
 import getMessages, { getLanguageNames } from '../messages'
-import { applyFontSize } from '../utility/theme'
+import { FONT_SIZES, applyFontSize } from '../utility/settings'
 
 import {
 	ContentSections,
@@ -57,11 +57,8 @@ export default class SettingsPage extends React.Component {
 
 	saveFontSize = (fontSize) => {
 		const { saveFontSize } = this.props
-		if (applyFontSize(fontSize)) {
-			saveFontSize(fontSize)
-		} else {
-			notify('Your browser doesn\'t support CSS variables', { type: 'error' })
-		}
+		applyFontSize(fontSize)
+		saveFontSize(fontSize)
 	}
 
 	render() {
@@ -130,11 +127,8 @@ export default class SettingsPage extends React.Component {
 }
 
 function getFontSizeOptions(locale) {
-	const fontSizes = getMessages(locale).settings.fontSize
-	return Object.keys(fontSizes)
-		.filter(_ => _ !== 'title')
-		.map((fontSize) => ({
-			value: fontSize,
-			label: fontSizes[fontSize]
-		}))
+	return FONT_SIZES.map((fontSize) => ({
+		value: fontSize,
+		label: getMessages(locale).settings.fontSize[fontSize]
+	}))
 }
