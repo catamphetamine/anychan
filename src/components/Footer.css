@@ -22,8 +22,6 @@ body {
 	margin-top: calc(var(--unit) * 4);
 	margin-bottom: var(--footer-menu-height);
 	/*margin-bottom: calc(var(--footer-menu-height) + var(--header-height));*/
-	padding-left: var(--content-section-horizontal-padding);
-	padding-right: var(--content-section-horizontal-padding);
 }
 
 .footer--center {
