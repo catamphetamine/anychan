@@ -1,6 +1,8 @@
 import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
 import filterComment from './filterComment'
-import parseCommentText from './parseCommentText'
+import parseComment from './parseComment'
+import splitParagraphs from './splitParagraphs'
+import trimWhitespace from './trimWhitespace'
 import postProcessComment from './postProcessComment'
 
 export default function constructComment(
@@ -14,7 +16,7 @@ export default function constructComment(
 	timestamp,
 	{
 		filters,
-		parseCommentTextPlugins,
+		parseCommentPlugins,
 		getInReplyToPosts,
 		correctGrammar,
 		messages
@@ -33,10 +35,14 @@ export default function constructComment(
 		}
 	}
 	if (rawComment) {
-		comment.content = parseCommentText(rawComment, {
-			correctGrammar,
-			plugins: parseCommentTextPlugins
-		})
+		comment.content = splitParagraphs(
+			parseComment(rawComment, {
+				correctGrammar,
+				plugins: parseCommentPlugins
+			})
+		)
+		// `content` internals will be mutated.
+		comment.content = trimWhitespace(comment.content)
 		if (filters) {
 			const result = filterComment(rawComment, filters)
 			if (result) {

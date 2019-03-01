@@ -18,14 +18,14 @@ export default function parseComments(response, {
 	filters,
 	boardId,
 	messages,
-	parseCommentTextPlugins
+	parseCommentPlugins
 }) {
 	const threadId = response.posts[0].no
 	const comments = response.posts.map(_ => parseComment(_, {
 		boardId,
 		threadId,
 		filters,
-		parseCommentTextPlugins,
+		parseCommentPlugins,
 		messages
 	}))
 	postProcessComments(comments, { threadId, messages })

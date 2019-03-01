@@ -75,7 +75,7 @@ export default function parseThread(thread, {
 	boardId,
 	defaultAuthor,
 	filters,
-	parseCommentTextPlugins,
+	parseCommentPlugins,
 	messages
 }) {
 	const comment = parseComment(thread, {
@@ -83,7 +83,7 @@ export default function parseThread(thread, {
 		threadId: parseInt(thread.num),
 		defaultAuthor,
 		filters,
-		parseCommentTextPlugins,
+		parseCommentPlugins,
 		messages
 	})
 	return constructThread(

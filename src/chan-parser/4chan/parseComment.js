@@ -67,7 +67,7 @@ export default function parseComment(post, {
 	boardId,
 	threadId,
 	filters,
-	parseCommentTextPlugins,
+	parseCommentPlugins,
 	messages
 }) {
 	let rawComment = post.com
@@ -88,7 +88,7 @@ export default function parseComment(post, {
 		post.time,
 		{
 			filters,
-			parseCommentTextPlugins,
+			parseCommentPlugins,
 			getInReplyToPosts,
 			messages
 		}

@@ -1,2 +1,2 @@
+import './parseComment.test'
 import './parseThreads.test'
-import './parseCommentText.test'

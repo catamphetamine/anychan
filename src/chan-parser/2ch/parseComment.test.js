@@ -1,19 +1,34 @@
 import correctGrammar from './correctGrammar'
-import PARSE_COMMENT_TEXT_PLUGINS from './parseCommentTextPlugins'
+import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
 
 import { describe, it } from '../mocha'
 import expectToEqual from '../expectToEqual'
-import parseCommentText from '../parseCommentText'
+import parseComment from '../parseComment'
+import splitParagraphs from '../splitParagraphs'
+import trimWhitespace from '../trimWhitespace'
 
-function parseCommentTest(comment, result) {
-	return expectToEqual(parseCommentText(comment, {
+function parseCommentTest(comment, expected, expectedWarnings = []) {
+	const consoleWarn = console.warn
+	const warnings = []
+	console.warn = (text) => warnings.push(text)
+
+	comment = parseComment(comment, {
 		correctGrammar,
-		plugins: PARSE_COMMENT_TEXT_PLUGINS
-	}), result)
+		plugins: PARSE_COMMENT_PLUGINS
+	})
+
+	console.warn = consoleWarn
+
+	comment = splitParagraphs(comment)
+	// `content` internals will be mutated.
+	comment = trimWhitespace(comment)
+
+	expectToEqual(warnings, expectedWarnings)
+	expectToEqual(comment, expected)
 }
 
-describe('parseCommentText', () => {
-	it('should parse comment text', () => {
+describe('parseComment', () => {
+	it('should parse comments', () => {
 		parseCommentTest(
 			"Sosach ,возник вопрос ,как легче всего воровать пароли ,допустим в кабинете информатики ?",
 			[
@@ -138,9 +153,17 @@ describe('parseCommentText', () => {
 					content: 'test'
 				},
 				'\n',
-				'test',
-				'\n',
-				'test',
+				{
+					"type": "text",
+					"style": "underline",
+					"content": "test"
+				},
+				"\n",
+				{
+					"type": "text",
+					"style": "overline",
+					"content": "test"
+				},
 				'\n',
 				{
 					type: 'spoiler',
@@ -203,20 +226,20 @@ describe('parseCommentText', () => {
 		parseCommentTest(
 			'<span class="unkfunc">&gt;Отмечается, что в ходе <strong>контрснайперской борьбы</strong>, украинский снайпер ликвидировал Порошенко. </span>',
 			[
-			  [
-			    {
-			      "type": "inline-quote",
-			      "content": [
-			        "Отмечается, что в ходе ",
-			        {
-			          "type": "text",
-			          "style": "bold",
-			          "content": "контрснайперской борьбы"
-			        },
-			        ", украинский снайпер ликвидировал Порошенко. "
-			      ]
-			    }
-			  ]
+				[
+					{
+						"type": "inline-quote",
+						"content": [
+							"Отмечается, что в ходе ",
+							{
+								"type": "text",
+								"style": "bold",
+								"content": "контрснайперской борьбы"
+							},
+							", украинский снайпер ликвидировал Порошенко."
+						]
+					}
+				]
 			]
 		)
 
@@ -251,7 +274,7 @@ describe('parseCommentText', () => {
 		)
 
 		parseCommentTest(
-			' Abc <br><br><br> Def <br> <br> <br> Ghi ',
+			' Abc <br><br><br> Def <br><br> <br> Ghi ',
 			[
 				[
 					'Abc'
@@ -300,69 +323,61 @@ describe('parseCommentText', () => {
 				]
 			]
 		)
-	})
 
-	it('should stip unmatched tags', () => {
-		const consoleWarn = console.warn
-		const warnings = []
-		console.warn = (text) => warnings.push(text)
-
-		const consoleError = console.error
-		const errors = []
-		console.error = (text) => errors.push(text)
 
 		parseCommentTest(
-			`
-			<main>Abc
-			<br>\r\n
-			<br>\r\n Def: <a href="https://google.com" target="_blank" rel="nofollow noopener noreferrer">URL</a></main>
-			`,
+			"<span class='u'><span class='o'><em><strong><sup><sub>ХРАМ ПЕПЕ-ИИСУСА</sub></sup></strong></em></span></span><br><br><strong><em>Здравствуй, мой дорогой анон</em></strong>.",
 			[
 				[
-					"Abc"
-				],
-				[
-					"Def: ",
 					{
-						"type": "link",
-						"content": "URL",
-						"url": "https://google.com"
+						"type": "text",
+						"style": "underline",
+						"content": [
+							{
+								"type": "text",
+								"style": "overline",
+								"content": [
+									{
+										"type": "text",
+										"style": "italic",
+										"content": [
+											{
+												"type": "text",
+												"style": "bold",
+												"content": [
+													{
+														"type": "text",
+														"style": "superscript",
+														"content": [
+															{
+																"type": "text",
+																"style": "subscript",
+																"content": "ХРАМ ПЕПЕ-ИИСУСА"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
 					}
-				]
-			]
-		)
-
-		expectToEqual(warnings.length, 1)
-		expectToEqual(warnings[0], 'Unsupported tag found: "<main>"')
-
-		expectToEqual(errors.length, 2)
-		expectToEqual(errors[0], 'Invalid HTML markup: no closing tag found for "main"\n\n<main>Abc')
-		expectToEqual(errors[1], 'Invalid HTML markup: non-matched closing tag found\n\n</main>')
-
-		console.warn = consoleWarn
-		console.error = consoleError
-	})
-
-	it('should stip unmatched tags', () => {
-		parseCommentTest(
-			'<div>Abc</div>Def<p>Ghi</p>Klm<h1>Title</h1>...',
-			[
-				[
-					'Abc',
-					'\n',
-					'Def'
 				],
 				[
-					'Ghi'
-				],
-				[
-					'Klm'
-				],
-				[
-					'Title'
-				],
-				[
-					'...'
+					{
+						"type": "text",
+						"style": "bold",
+						"content": [
+							{
+								"type": "text",
+								"style": "italic",
+								"content": "Здравствуй, мой дорогой анон"
+							}
+						]
+					},
+					"."
 				]
 			]
 		)

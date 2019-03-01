@@ -17,8 +17,6 @@ activate night mode button, refactor font themes from json to body class
 
 
 
-use DOMParser for parsing comments text
-
 When opening comments page: show "... more" button on the bottom right side. As the user scrolls down the counter updates (when a comment's top border becomes visible on screen). When the user scrolls down to the last comment the "... more" button hides moving below the bottom of the screen (animated). The button should be clickable (loads all comments on click and hides moving below the bottom of the screen).
 
 

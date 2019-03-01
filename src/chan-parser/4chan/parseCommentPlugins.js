@@ -1,12 +1,5 @@
 import createLink from '../createLink'
-
-const parseNewLine = {
-	tag: 'br',
-	canContainChildren: false,
-	createBlock() {
-		return '\n'
-	}
-}
+import dropQuoteMarker from '../dropQuoteMarker'
 
 const parseBold = {
 	tag: 'strong',
@@ -42,10 +35,15 @@ const parseSpoiler = {
 
 const parseDeletedLink = {
 	tag: 'span',
-	matchAttributes: 'class="deadlink"',
+	attributes: [
+		{
+			name: 'class',
+			value: 'deadlink'
+		}
+	],
 	// Won't "unescape" content (for some reason).
 	correctContent: false,
-	createBlock(content, [href, threadId, postId]) {
+	createBlock(content) {
 		content = content.slice('>>'.length)
 		return {
 			type: 'post-link',
@@ -60,29 +58,24 @@ const parseDeletedLink = {
 
 const parseQuote = {
 	tag: 'span',
-	matchAttributes: 'class="quote"',
-	createBlock(content) {
-		// `> abc` -> `abc`
-		if (typeof content === 'string') {
-			// If the quote contains plain text.
-			content = content.replace(/^>\s*/, '')
-		} else {
-			// If the quote contains other blocks like bold text, etc.
-			content[0] = content[0].replace(/^>\s*/, '')
+	attributes: [
+		{
+			name: 'class',
+			value: 'quote'
 		}
+	],
+	createBlock(content) {
 		return {
 			type: 'inline-quote',
-			content
+			content: dropQuoteMarker(content)
 		}
 	}
 }
 
 const parseLink = {
 	tag: 'a',
-	attributes: ['href'],
-	// Won't "unescape" content (for some reason).
-	correctContent: false,
-	createBlock(content, [href]) {
+	createBlock(content, util) {
+		const href = util.getAttribute('href')
 		if (href[0] === '#') {
 			// <a href=\"#p184569592\" class=\"quotelink\">&gt;&gt;184569592</a>
 			const postId = parseInt(href.slice('#p'.length))
@@ -120,7 +113,6 @@ const parseLink = {
 }
 
 export default [
-	parseNewLine,
 	parseBold,
 	parseUnderline,
 	parseSpoiler,

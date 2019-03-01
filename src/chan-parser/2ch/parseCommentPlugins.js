@@ -1,35 +1,30 @@
 import createLink from '../createLink'
-
-const parseNewLine = {
-	tag: 'br',
-	canContainChildren: false,
-	createBlock() {
-		return '\n'
-	}
-}
+import dropQuoteMarker from '../dropQuoteMarker'
 
 const parseInlineQuote = {
 	tag: 'span',
-	matchAttributes: 'class="unkfunc"',
-	createBlock(content) {
-		// `> abc` -> `abc`
-		if (typeof content === 'string') {
-			// If the quote contains plain text.
-			content = content.replace(/^>\s*/, '')
-		} else {
-			// If the quote contains other blocks like bold text, etc.
-			content[0] = content[0].replace(/^>\s*/, '')
+	attributes: [
+		{
+			name: 'class',
+			value: 'unkfunc'
 		}
+	],
+	createBlock(content) {
 		return {
 			type: 'inline-quote',
-			content
+			content: dropQuoteMarker(content)
 		}
 	}
 }
 
 const parseQuote = {
 	tag: 'div',
-	matchAttributes: 'class="quote"',
+	attributes: [
+		{
+			name: 'class',
+			value: 'quote'
+		}
+	],
 	createBlock(content) {
 		return {
 			type: 'inline-quote',
@@ -84,7 +79,12 @@ const parseSuperscript = {
 
 const parseStrikethrough = {
 	tag: 'span',
-	matchAttributes: 'class="s"',
+	attributes: [
+		{
+			name: 'class',
+			value: 's'
+		}
+	],
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -96,7 +96,12 @@ const parseStrikethrough = {
 
 const parseSpoiler = {
 	tag: 'span',
-	matchAttributes: 'class="spoiler"',
+	attributes: [
+		{
+			name: 'class',
+			value: 'spoiler'
+		}
+	],
 	createBlock(content) {
 		return {
 			type: 'spoiler',
@@ -107,27 +112,47 @@ const parseSpoiler = {
 
 const parseUnderline = {
 	tag: 'span',
-	matchAttributes: 'class="u"',
+	attributes: [
+		{
+			name: 'class',
+			value: 'u'
+		}
+	],
 	createBlock(content) {
-		return content
+		return {
+			type: 'text',
+			style: 'underline',
+			content
+		}
 	}
 }
 
 const parseOverline = {
 	tag: 'span',
-	matchAttributes: 'class="o"',
+	attributes: [
+		{
+			name: 'class',
+			value: 'o'
+		}
+	],
 	createBlock(content) {
-		return content
+		return {
+			type: 'text',
+			style: 'overline',
+			content
+		}
 	}
 }
 
 const parseLink = {
 	tag: 'a',
-	attributes: ['href', 'data-thread', 'data-num'],
-	// Won't "unescape" content (for some reason).
-	correctContent: false,
-	createBlock(content, [href, threadId, postId]) {
-		if (threadId) {
+	// // Won't "unescape" content (for some reason).
+	// correctContent: false,
+	createBlock(content, util) {
+		const href = util.getAttribute('href')
+		if (util.hasAttribute('data-thread')) {
+			const threadId = util.getAttribute('data-thread')
+			const postId = util.getAttribute('data-num')
 			const boardId = href.match(/^\/([^\/]+)/)[1]
 			return {
 				type: 'post-link',
@@ -143,7 +168,6 @@ const parseLink = {
 }
 
 export default [
-	parseNewLine,
 	parseInlineQuote,
 	parseQuote,
 	parseLink,

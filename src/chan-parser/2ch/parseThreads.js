@@ -20,13 +20,13 @@ export default function parseThreads(response, {
 	boardId,
 	filters,
 	messages,
-	parseCommentTextPlugins
+	parseCommentPlugins
 }) {
 	return response.threads.map((thread) => parseThread(thread, {
 		boardId,
 		defaultAuthor: response.default_name,
 		filters,
-		parseCommentTextPlugins,
+		parseCommentPlugins,
 		messages
 	}))
 }

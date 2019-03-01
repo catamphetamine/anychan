@@ -61,16 +61,16 @@
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-rows: auto;
+	margin-top: calc(var(--unit) * 2);
 	user-select: none;
 	line-height: 1.7em;
 }
 
-.boards-list--default {
-	margin-top: var(--unit);
-}
-
 .boards__view-switcher {
-	margin: var(--unit);
+	margin-top: var(--unit);
+	margin-bottom: calc(-1 * var(--unit));
+	margin-left: var(--unit);
+	margin-right: var(--unit);
 }
 
 .boards-list-section__pre-title {
@@ -95,6 +95,7 @@
 .boards-list__board-url {
 	display: block;
 	grid-column: span 1;
+	padding-left: var(--unit);
 	text-align: right;
 	font-family: monospace;
 	/* Don't wrap the side slashes. */
@@ -110,9 +111,8 @@
 .boards-list__board-name {
 	display: block;
 	padding-left: var(--unit);
+	padding-right: calc(var(--unit) * 2);
 	grid-column: span 1;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

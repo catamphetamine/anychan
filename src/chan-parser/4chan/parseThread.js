@@ -74,14 +74,14 @@ import constructThread from '../constructThread'
 export default function parseThread(thread, {
 	boardId,
 	filters,
-	parseCommentTextPlugins,
+	parseCommentPlugins,
 	messages
 }) {
 	const comment = parseComment(thread, {
 		boardId,
 		threadId: thread.no,
 		filters,
-		parseCommentTextPlugins,
+		parseCommentPlugins,
 		messages
 	})
 	return constructThread(
