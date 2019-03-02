@@ -35,7 +35,7 @@ export default function constructComment(
 		}
 		if (filters) {
 			for (const filter of filters) {
-				if (filter.regexp.test(subject)) {
+				if (filter.test(subject)) {
 					subject = undefined
 					break
 				}

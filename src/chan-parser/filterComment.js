@@ -6,7 +6,7 @@
  */
 export default function filter(comment, filters) {
 	for (const filter of filters) {
-		if (filter.regexp.test(comment)) {
+		if (filter.test(comment)) {
 			return {
 				name: filter.name
 			}
