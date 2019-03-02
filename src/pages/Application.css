@@ -1,18 +1,6 @@
 @import "../styles/common";
 
-.webpage__main
-{
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	/* Stretches the page to 100% height */
-	height: 100vh;
-	max-height: 100vh;
-	overflow-y: scroll;
-}
-
-.webpage
-{
+.webpage {
 	display: flex;
 	/* For z-index ordering (relative to preloading screen). */
 	/* Otherwise preloading screen will always be above content (even when it's not shown). */
@@ -45,13 +33,18 @@
 	flex-direction: column;
 }
 
-.react-website__loading--initial
-{
-	background-color : white;
+.webpage__main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	/* Stretches the page to 100% height */
+	height: 100vh;
+	max-height: 100vh;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
-.rrui__slideshow
-{
+.rrui__slideshow {
 	z-index: var(--slideshow-z-index);
 }
 
@@ -158,11 +151,6 @@
 		--footer-menu-height: 0px;
 	}
 
-	.webpage__main {
-		max-height: 100vh;
-		-webkit-overflow-scrolling: touch;
-	}
-
 	.webpage__header {
 		display: flex;
 		justify-content: space-between;
@@ -178,7 +166,6 @@
 		flex: 0.3;
 		max-width: calc(var(--unit) * 26);
 		max-height: 100vh;
-		-webkit-overflow-scrolling: touch;
 	}
 
 	.board-page__title {
