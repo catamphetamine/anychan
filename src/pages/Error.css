@@ -1,0 +1,26 @@
+.error-page {
+	text-align: center;
+}
+
+.error-page__title {
+	margin-top: calc(var(--unit) * 8);
+	margin-bottom: calc(var(--unit) * 4);
+	font-weight: 300;
+	font-size: 1.8rem;
+}
+
+.error-page--image .error-page__title {
+	margin-top: calc(var(--unit) * 4);
+}
+
+.error-page__image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.error-page__requested-url {
+	display: inline-block;
+	margin-top: calc(var(--unit) * 2);
+}

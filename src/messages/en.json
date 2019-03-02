@@ -31,5 +31,14 @@
 		"chanchan": "chanchan",
 		"postChanchan": " imageboard client",
 		"preAuthor": " by "
+	},
+	"errorPages": {
+		"404": {
+			"title": "Page not found"
+		},
+		"500": {
+			"title": "Error"
+		},
+		"requestedURL": "Page URL"
 	}
 }

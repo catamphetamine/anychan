@@ -72,5 +72,15 @@
 	"commentUrl": "https://2ch.hk/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": true
+	},
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://2ch.hk/images/1.png",
+				"https://2ch.hk/images/404_1.jpg",
+				"https://2ch.hk/images/404_3.jpg",
+				"https://2ch.hk/images/404_4.jpg"
+			]
+		}
 	}
 }

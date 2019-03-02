@@ -62,5 +62,15 @@
 	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}",
 	"proxy": {
 		"aws": false
+	},
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://s.4cdn.org/image/error/404/404-DanKim.gif",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-3.png",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-5.png",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-6.png"
+			]
+		}
 	}
 }

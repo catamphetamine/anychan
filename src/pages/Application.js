@@ -30,7 +30,7 @@ import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/app'
 
 import { applySettings } from '../utility/settings'
-import { isContentSectionsContent } from '../utility/routes'
+import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 
 import './Application.css'
 
@@ -94,7 +94,11 @@ export default class App extends React.Component {
 						'webpage__main--content-sections': isContentSectionsContent(route)
 					})}>
 						{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
-						<main className="webpage__content" tabIndex={-1}>
+						<main
+							tabIndex={-1}
+							className={classNames('webpage__content', {
+								'webpage__content--regular': isRegularContent(route)
+							})}>
 							{ children }
 						</main>
 						<Footer/>

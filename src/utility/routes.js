@@ -11,3 +11,8 @@ export function isContentSectionsContent(route) {
 		isThreadLocation(route) ||
 		route.location.pathname === '/settings'
 }
+
+export function isRegularContent(route) {
+	return !isContentSectionsContent(route)
+	// return route.location.pathname === '/'
+}

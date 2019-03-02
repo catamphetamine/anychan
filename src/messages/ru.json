@@ -31,5 +31,14 @@
 		"preChanchan": "Клиент для имиджборд «",
 		"postChanchan": "»",
 		"preAuthor": ", автор "
+	},
+	"errorPages": {
+		"404": {
+			"title": "Страница не найдена"
+		},
+		"500": {
+			"title": "Ошибка"
+		},
+		"requestedURL": "Адрес страницы"
 	}
 }
