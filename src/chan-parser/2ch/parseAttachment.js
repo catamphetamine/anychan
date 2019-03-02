@@ -45,7 +45,7 @@ export default function parseAttachment(file, { boardId }) {
 			}
 		}
 		if (file.type === STICKER_FILE_TYPE) {
-			picture.kind = 'sticker'
+			picture.picture.kind = 'sticker'
 		}
 		return picture
 	}
