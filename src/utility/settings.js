@@ -1,27 +1,17 @@
 import { getPreferredLocale } from 'react-website'
 
-import {
-	IGNORED_WORDS,
-	IGNORED_WORDS_CASE_SENSITIVE,
-	IGNORED_PATTERNS,
-	IGNORED_PATTERNS_CASE_SENSITIVE
-} from './settings.filters'
+import IGNORED_WORDS_RU from '../messages/offensive.ru.json'
 
 import {
 	isSupportedLanguage
 } from '../messages'
 
-export function getDefaultSettings() {
+function getDefaultSettings(locale = getDefaultLocale()) {
 	return {
 		theme: 'default',
 		fontSize: 'medium',
-		locale: getDefaultLocale(),
-		filters: {
-			ignoredWords: IGNORED_WORDS,
-			ignoredWordsCaseSensitive: IGNORED_WORDS_CASE_SENSITIVE,
-			ignoredPatterns: IGNORED_PATTERNS,
-			ignoredPatternsCaseSensitive: IGNORED_PATTERNS_CASE_SENSITIVE
-		}
+		locale,
+		filters: getIgnoredWordsByLanguage(locale)
 	}
 }
 
@@ -61,3 +51,22 @@ export const FONT_SIZES = [
 	'medium',
 	'large'
 ]
+
+function getIgnoredWordsByLanguage(language) {
+	switch (language) {
+		case 'ru':
+			return IGNORED_WORDS_RU
+		default:
+			return []
+	}
+}
+
+export function getSettings(customSettings) {
+	const settings = {
+		...getDefaultSettings(customSettings && customSettings.locale),
+		...customSettings
+	}
+	// Compile filters.
+	settings.filters = settings.filters.map(pattern => new RegExp(pattern, 'i'))
+	return settings
+}

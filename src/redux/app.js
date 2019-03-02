@@ -1,16 +1,11 @@
 import { ReduxModule } from 'react-website'
 
-import { getDefaultSettings } from '../utility/settings'
+import { getSettings as getNormalizedSettings } from '../utility/settings'
 
 const redux = new ReduxModule()
 
 export const getSettings = redux.action(
-	() => async () => {
-		return {
-			...getDefaultSettings(),
-			...getCustomSettings()
-		}
-	},
+	() => async () => getNormalizedSettings(getCustomSettings()),
 	'settings'
 )
 
@@ -77,15 +72,16 @@ function getCustomSettings() {
 /**
  * Applies a setting and saves it to `localStorage`.
  * @param  {string} name
- * @param  {(string|number|boolean)} value
+ * @param  {(string|number|boolean)} [value] — Will reset the setting if `value` is `undefined`.
  * @return {object} The updated settings
  */
 function saveSetting(name, value) {
 	const settings = getCustomSettings()
-	settings[name] = value
-	localStorage.settings = JSON.stringify(settings)
-	return {
-		...getDefaultSettings(),
-		...settings
+	if (value === undefined) {
+		delete settings[name]
+	} else {
+		settings[name] = value
 	}
+	localStorage.settings = JSON.stringify(settings)
+	return getNormalizedSettings(settings)
 }

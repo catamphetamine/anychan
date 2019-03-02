@@ -1,5 +1,5 @@
 import { setChan, getChan } from './chan'
-import { applySettings, getDefaultSettings } from './utility/settings'
+import { applySettings, getSettings } from './utility/settings'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
 import FourChanSiteIcon from '../chan/4chan/icon.png'
@@ -18,7 +18,7 @@ export default function() {
 		siteIcon.href = getSiteIcon(getChan().id)
 	}
 	// Apply default settings.
-	applySettings(getDefaultSettings())
+	applySettings(getSettings())
 }
 
 export function getSiteIcon(chanId) {

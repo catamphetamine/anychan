@@ -12,6 +12,10 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 Заменять ignore (и обычный) spoiler на троеточие в getPostText()
 
+Сделать контекстное меню у постов/тем
+
+Пункт "Скрыть": добавляет id поста в `localStorage.settings.hiddenPosts`, и ставит посту в state .hidden = true, и перерендеривает сам пост. `settings.hiddenPosts` — "first in, first out" список, например, на 1000 постов. Проверить скрытие на постах и темах (+ обновление страницы).
+
 сделать настройку переключатель темы, и "Custom CSS" с expandable pre "Show example".
 
 .theme--custom {

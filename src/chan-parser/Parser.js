@@ -1,5 +1,3 @@
-import compileFilters from './compileFilters'
-
 export default class Parser {
 	constructor({
 		messages,
@@ -11,7 +9,7 @@ export default class Parser {
 	}) {
 		this.options = {
 			messages,
-			filters: filters ? compileFilters(filters) : undefined,
+			filters,
 			parseCommentPlugins: plugins
 		}
 		this._parseBoards = parseBoards

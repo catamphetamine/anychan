@@ -1,4 +1,4 @@
-export const IGNORED_WORDS = [
+[
 	"русн[ёа-я]{1,2}",
 	"русня[ёа-я]*",
 	"русачк[ёа-я]*",
@@ -17,9 +17,9 @@ export const IGNORED_WORDS = [
 	"нахуй",
 	"п[иё]зд[ёа-я]*",
 	"карлан[ёа-я]*",
-	"\\s+еблан[ёа-я]*",
+	"[^ёа-я]еблан[ёа-я]*",
 	"^еблан[ёа-я]*",
-	"\\s+ебл[ёа-я]*",
+	"[^ёа-я]ебл[ёа-я]*",
 	"^ебл[ёа-я]*",
 	"бляд[ёа-я]*",
 	"выбляд[ёа-я]*",
@@ -46,11 +46,3 @@ export const IGNORED_WORDS = [
 	"сучар[ёа-я]*",
 	"всрат[ёа-я]*"
 ]
-
-export const IGNORED_WORDS_CASE_SENSITIVE = [
-	"РАБот[ёа-я]*"
-]
-
-export const IGNORED_PATTERNS = []
-
-export const IGNORED_PATTERNS_CASE_SENSITIVE = []

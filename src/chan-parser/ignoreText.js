@@ -7,7 +7,7 @@ function ignore(text, filters, filterIndex = 0) {
 		return
 	}
 	const filter = filters[filterIndex]
-	const match = filter.regexp.exec(text)
+	const match = filter.exec(text)
 	if (!match) {
 		return ignore(text, filters, filterIndex + 1)
 	}
@@ -21,7 +21,7 @@ function ignore(text, filters, filterIndex = 0) {
 	}
 	result.push({
 		type: 'spoiler',
-		rule: filter.name,
+		censored: true,
 		content: match[0]
 	})
 	const postText = text.slice(match.index + match[0].length)

@@ -1,20 +1,17 @@
 import { describe, it } from './mocha'
 import expectToEqual from './expectToEqual'
 import ignoreText from './ignoreText'
-import compileFilters from './compileFilters'
 
 function ignoreTextTest(text, expected) {
 	expectToEqual(
-		ignoreText(text, compileFilters({
-			ignoredWords: [
+		ignoreText(
+			text,
+			[
 				'яйц[ёа-я]{1,3}',
 				'блин[ёа-я]*',
 				'сковород[ёа-я]*'
-			],
-			ignoredWordsCaseSensitive: [
-				'ЛДПР'
-			]
-		})),
+			].map(_ => new RegExp(_))
+		),
 		expected
 	)
 }
@@ -34,37 +31,22 @@ describe('ignoreText', () => {
 				'Добавляются ',
 				{
 					type: 'spoiler',
-					rule: '*',
+					censored: true,
 					content: 'яйца'
 				},
 				' и запекается ',
 				{
 					type: 'spoiler',
-					rule: '*',
+					censored: true,
 					content: 'блин'
 				},
 				' на ',
 				{
 					type: 'spoiler',
-					rule: '*',
+					censored: true,
 					content: 'сковороде'
 				},
 				'.'
-			]
-		)
-	})
-
-	it('should replace ignored words (case-sensitive)', () => {
-		ignoreTextTest(
-			'Партия ЛДПР в нижнем регистре пишется: лдпр.',
-			[
-				'Партия ',
-				{
-					type: 'spoiler',
-					rule: '*',
-					content: 'ЛДПР'
-				},
-				' в нижнем регистре пишется: лдпр.'
 			]
 		)
 	})
