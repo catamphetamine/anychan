@@ -155,6 +155,7 @@
 
 	.webpage__main {
 		max-height: 100vh;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	.webpage__header {
@@ -172,6 +173,7 @@
 		flex: 0.3;
 		max-width: calc(var(--unit) * 26);
 		max-height: 100vh;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	.board-page__title {
