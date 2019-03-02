@@ -80,6 +80,9 @@ class CommentParser {
 			for (const plugin of this.options.plugins) {
 				if (this.shouldParseUsingPlugin(node, plugin)) {
 					const content = node.childNodes.length > 0 ? this.parseContent(node.childNodes) : undefined
+					if (!content) {
+						return
+					}
 					return plugin.createBlock(content, node)
 				}
 			}
