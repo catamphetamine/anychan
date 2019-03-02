@@ -53,6 +53,37 @@ describe('splitParagraphs', () => {
 		)
 	})
 
+	it('should skip empty paragraphs when splitting paragraphs (simple text, empty paragraphs removed)', () => {
+		splitParagraphsTest(
+			[
+				[
+					"Abc.\n",
+					"\n",
+					"\n",
+					"\n",
+					"\nDef.\n",
+					"\n",
+					"\n",
+					"\n",
+					"\n"
+				]
+			],
+			[
+				[
+					'Abc.\n'
+				],
+				[
+					"\n",
+					"\nDef.\n"
+				],
+				[
+					"\n",
+					"\n"
+				]
+			]
+		)
+	})
+
 	it('should trim empty paragraphs', () => {
 		splitParagraphsTest(
 			[
@@ -164,4 +195,3 @@ describe('splitParagraphs', () => {
 		)
 	})
 })
-

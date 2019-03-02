@@ -12,12 +12,54 @@ const parseBold = {
 	}
 }
 
+// They have these in `/g/` for some reason.
+const parseBoldLegacy = {
+	tag: 'b',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'bold',
+			content
+		}
+	}
+}
+
+// They have these in `/g/` for some reason.
+const parseItalicLegacy = {
+	tag: 'i',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'italic',
+			content
+		}
+	}
+}
+
 const parseUnderline = {
 	tag: 'u',
 	createBlock(content) {
 		return {
 			type: 'text',
 			style: 'underline',
+			content
+		}
+	}
+}
+
+// They have these in `/g/`.
+const parseCode = {
+	tag: 'pre',
+	attributes: [
+		{
+			name: 'class',
+			value: 'prettyprint'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'monospace',
+			// inline: true,
 			content
 		}
 	}
@@ -112,11 +154,28 @@ const parseLink = {
 	}
 }
 
+// They also have things like:
+// * `<span style="color:#789922;">...</span>`
+// * `<span class="fortune" style="color:#789922;">...</span>`
+// * `<span style="color: red; font-size: xx-large;">...</span>`
+// * `<font size="4">...</font>`
+// * `<font color="red">...</font>`
+// * `<img src="//static.4chan.org/image/temp/dinosaur.gif"/>`
+// * `<span class="sjis">...</span>`
+// * `<span style="font-size:20px;font-weight:600;line-height:120%">...</span>`
+// * `<ul/>`/`<li/>`
+// * `<h1/>`
+// * `<blink/>`
+// * `<div align="center"/>`
+// * There're even `<table/>`s in "Photography"
 export default [
 	parseBold,
+	parseBoldLegacy,
+	parseItalicLegacy,
 	parseUnderline,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,
-	parseLink
+	parseLink,
+	parseCode
 ]

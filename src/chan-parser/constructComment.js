@@ -35,20 +35,21 @@ export default function constructComment(
 		}
 	}
 	if (rawComment) {
-		comment.content = splitParagraphs(
-			parseComment(rawComment, {
-				correctGrammar,
-				plugins: parseCommentPlugins
-			})
-		)
-		// `content` internals will be mutated.
-		comment.content = trimWhitespace(comment.content)
-		if (filters) {
-			const result = filterComment(rawComment, filters)
-			if (result) {
-				comment.hidden = true
-				if (result.name !== '*') {
-					comment.hiddenRule = result.name
+		comment.content = parseComment(rawComment, {
+			correctGrammar,
+			plugins: parseCommentPlugins
+		})
+		if (comment.content) {
+			comment.content = splitParagraphs(comment.content)
+			// `content` internals will be mutated.
+			comment.content = trimWhitespace(comment.content)
+			if (filters) {
+				const result = filterComment(rawComment, filters)
+				if (result) {
+					comment.hidden = true
+					if (result.name !== '*') {
+						comment.hiddenRule = result.name
+					}
 				}
 			}
 		}

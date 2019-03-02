@@ -3,6 +3,7 @@ export default function getHumanReadableLinkAddress(url) {
 		url = decodeURI(url)
 	} catch (error) {
 		// Sometimes throws "URIError: URI malformed".
+		console.error('Couldn\'t parse URL:', url)
 		console.error(error)
 	}
 	return url

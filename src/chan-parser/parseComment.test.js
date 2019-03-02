@@ -29,6 +29,13 @@ function parseCommentTest(comment, expected, expectedWarnings = []) {
 }
 
 describe('parseComment', () => {
+	it('should parse empty comments', () => {
+		parseCommentTest(
+			' ',
+			undefined
+		)
+	})
+
 	it('should skip unknown tags', () => {
 		parseCommentTest(
 			'<div>' +
@@ -42,7 +49,7 @@ describe('parseComment', () => {
 					'\n',
 					'\n',
 					'\n',
-    			'Heading',
+					'Heading',
 					'\n',
 					'\n',
 					'\n',

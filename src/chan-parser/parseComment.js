@@ -34,10 +34,17 @@ class CommentParser {
 		// https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
 		const document = new DOMParser().parseFromString(comment, 'text/html')
 		let paragraph = this.parseContent(document.body.childNodes)
-		if (typeof paragraph === 'string') {
-			paragraph = [paragraph]
+		if (paragraph) {
+			if (typeof paragraph === 'string') {
+				paragraph = [paragraph]
+			}
+			// Promote top-level "monospace" blocks to non-inline blocks.
+			const hasBlockLevelRootLevelBlocks = paragraph.find(isBlockLevelRootLevelBlock)
+			if (!hasBlockLevelRootLevelBlocks) {
+				return [paragraph]
+			}
+			return moveBlockLevelRootLevelBlocksToTop(paragraph)
 		}
-		return [paragraph]
 	}
 
 	shouldParseUsingPlugin(element, plugin) {
@@ -126,4 +133,55 @@ class CommentParser {
 		}
 		return text
 	}
+}
+
+function isBlockLevelRootLevelBlock(block) {
+	return block.type === 'monospace' && !block.inline
+}
+
+function moveBlockLevelRootLevelBlocksToTop(_paragraph) {
+	const paragraphs = []
+	let paragraph = []
+	let blockLevelBlockFound = false
+	for (const part of _paragraph) {
+		if (isBlockLevelRootLevelBlock(part)) {
+			if (paragraph.length > 0) {
+				paragraph = trimNewLinesRightSide(paragraph)
+				if (blockLevelBlockFound) {
+					paragraph = trimNewLinesLeftSide(paragraph)
+				}
+				if (paragraph.length > 0) {
+					paragraphs.push(paragraph)
+					paragraph = []
+				}
+			}
+			paragraphs.push(part)
+			blockLevelBlockFound = true
+		} else {
+			paragraph.push(part)
+		}
+	}
+	if (paragraph.length > 0) {
+		if (blockLevelBlockFound) {
+			paragraph = trimNewLinesLeftSide(paragraph)
+		}
+		if (paragraph.length > 0) {
+			paragraphs.push(paragraph)
+		}
+	}
+	return paragraphs
+}
+
+function trimNewLinesLeftSide(paragraph) {
+	while (paragraph.length > 0 && paragraph[0] === '\n') {
+		paragraph = paragraph.slice(1)
+	}
+	return paragraph
+}
+
+function trimNewLinesRightSide(paragraph) {
+	while (paragraph.length > 0 && paragraph[paragraph.length - 1] === '\n') {
+		paragraph = paragraph.slice(0, paragraph.length - 1)
+	}
+	return paragraph
 }

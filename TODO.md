@@ -9,12 +9,20 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+
 activate night mode button, refactor font themes from json to body class
 
 перенести иконки меню в sidebar (но не показывать их в мобильных)
 
+replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
+
+fix cited messages bug (info below)
 
 
+
+
+
+сделать постраничность и парсить только те комментарии, которые показаны на текущий момент (парсинг может занимать много времени).
 
 
 When opening comments page: show "... more" button on the bottom right side. As the user scrolls down the counter updates (when a comment's top border becomes visible on screen). When the user scrolls down to the last comment the "... more" button hides moving below the bottom of the screen (animated). The button should be clickable (loads all comments on click and hides moving below the bottom of the screen).
@@ -25,8 +33,6 @@ When opening comments page: show "... more" button on the bottom right side. As 
 expand replies into posts in redux/chan
 
 Replies count - a clickable button. On click — expand replies tree (shifted). If expanded single reply, and that reply has a single reply, then proceed expanding, until there're either more than a single reply or no replies.
-
-replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
 
 
 

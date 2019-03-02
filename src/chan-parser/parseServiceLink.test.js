@@ -93,6 +93,14 @@ describe('parseServiceLink', () => {
 		)
 
 		expectToEqual(
+			parseServiceLink('https://www.youtube.com/playlist?list=PLDzNGonyeoUtBqYuqku0QqNwk2mcSlV_n'),
+			{
+				service: 'youtube',
+				text: 'playlist/PLDzNGonyeoUtBqYuqku0QqNwk2mcSlV_n'
+			}
+		)
+
+		expectToEqual(
 			parseServiceLink('http://youtu.be/My2FRPA3Gf8'),
 			{
 				service: 'youtube',

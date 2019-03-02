@@ -1,10 +1,25 @@
 export default function splitParagraphs(content) {
-	// Up to this point the comment is supposed to be a single-paragraph one.
-	const split = splitParagraph(content[0])
-	if (Array.isArray(split)) {
-		return split
+	let paragraphs = content
+	let i = 0
+	while (i < content.length) {
+		const split = splitParagraph(content[i])
+		if (Array.isArray(split)) {
+			// Initializing `paragraphs` on demains is a minor optimization
+			// for cases when paragraphs likely won't be split.
+			if (paragraphs === content) {
+				paragraphs = paragraphs.slice(0, i)
+			}
+			paragraphs = paragraphs.concat(split)
+		} else {
+			// Initializing `paragraphs` on demains is a minor optimization
+			// for cases when paragraphs likely won't be split.
+			if (paragraphs !== content) {
+				paragraphs.push(content[i])
+			}
+		}
+		i++
 	}
-	return content
+	return paragraphs
 }
 
 function splitParagraph(content) {
@@ -13,6 +28,11 @@ function splitParagraph(content) {
 		return
 	}
 	const [one, two] = split(content, indexes, true)
+	// If `content` is `["\n", "\n"]` then both
+	// `one` and `two` will be `undefined`.
+	if (!one && !two) {
+		return
+	}
 	if (!one) {
 		return splitParagraph(two) || [two]
 	}
