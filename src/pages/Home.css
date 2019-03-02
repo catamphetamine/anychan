@@ -40,7 +40,8 @@
 	margin-bottom: 0;
 }
 
-.home-page__announcement {
+.home-page__announcement,
+.home-page__show-boards-list {
 	margin-top: calc(var(--unit) * 2);
 	margin-bottom: 0;
 }
@@ -48,4 +49,11 @@
 .home-page__description,
 .home-page__announcement {
 	line-height: 1.35em;
+}
+
+.home-page__show-boards-list {
+	display: none;
+	button {
+		color: var(--base-color-darkest);
+	}
 }

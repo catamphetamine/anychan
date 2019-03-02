@@ -139,6 +139,12 @@
 	.sidebar--show {
 		display: block;
 	}
+	/* The extra specificity is to override .home-page__show-boards-list { display: none }. */
+	.home-page {
+		.home-page__show-boards-list {
+			display: block !important;
+		}
+	}
 }
 
 @mixin l-plus {
