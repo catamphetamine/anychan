@@ -108,14 +108,16 @@ http {
 			}
 
 			# Allow all websites access to this CORS proxy.
+			# " always" in the end is required for also setting
+			# the CORS headers on "404 Not Found" responses.
 			# Could be restricted via an nginx variable.
-			add_header Access-Control-Allow-Origin $http_origin;
+			add_header Access-Control-Allow-Origin $http_origin always;
 			# Allow sending cookies as part of an HTTP request (optional).
-			add_header Access-Control-Allow-Credentials true;
+			add_header Access-Control-Allow-Credentials true always;
 			# Allow all HTTP request headers.
-			add_header Access-Control-Allow-Headers $http_access_control_request_headers;
+			add_header Access-Control-Allow-Headers $http_access_control_request_headers always;
 			# Allow all HTTP request methods.
-			add_header Access-Control-Allow-Methods $http_access_control_request_method;
+			add_header Access-Control-Allow-Methods $http_access_control_request_method always;
 
 			# Trim the leading slash from `$request_uri` (URL path).
 			rewrite ^/(.+)$ $1 break;
@@ -132,6 +134,12 @@ http {
 			proxy_set_header X-Real-IP $remote_addr;
 			# The list of proxies used to proxy this HTTP request.
 			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			# Pass "If-Modified-Since" header to the server.
+			proxy_set_header If-Modified-Since $http_if_modified_since;
+
+			# (optional) Use HTTP/1.1 instead of the default HTTP/1.0.
+			# For example, HTTP/1.1 has support for "entity tags" caching.
+			proxy_http_version 1.1;
 
 			# Proxy the HTTP request to the destination server.
 			proxy_pass $1;
