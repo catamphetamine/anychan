@@ -6,20 +6,14 @@ import compileFilters from './compileFilters'
 function ignoreTextTest(text, expected) {
 	expectToEqual(
 		ignoreText(text, compileFilters({
-			ignoredWords: {
-				'*': [
-					'яйц[а-я]{1,3}',
-					'блин[а-я]*'
-				],
-				'утварь': [
-					'сковород[а-я]*'
-				]
-			},
-			ignoredWordsCaseSensitive: {
-				'*': [
-					'ЛДПР'
-				]
-			}
+			ignoredWords: [
+				'яйц[ёа-я]{1,3}',
+				'блин[ёа-я]*',
+				'сковород[ёа-я]*'
+			],
+			ignoredWordsCaseSensitive: [
+				'ЛДПР'
+			]
 		})),
 		expected
 	)
@@ -52,7 +46,7 @@ describe('ignoreText', () => {
 				' на ',
 				{
 					type: 'spoiler',
-					rule: 'утварь',
+					rule: '*',
 					content: 'сковороде'
 				},
 				'.'
