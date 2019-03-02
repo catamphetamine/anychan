@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { getThreads, getComments } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
+import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
@@ -22,8 +23,10 @@ import './Board.css'
 @connect(({ app, chan }) => ({
 	board: chan.board,
 	threads: chan.threads,
-	settings: app.settings
+	settings: app.settings,
+	locale: app.settings.locale
 }), {
+	openSlideshow,
 	preloadStarted,
 	preloadFinished,
 	getComments,
@@ -40,6 +43,11 @@ import './Board.css'
 	))
 })
 export default class BoardPage extends React.Component {
+	static propTypes = {
+		openSlideshow: PropTypes.func.isRequired,
+		locale: PropTypes.string.isRequired
+	}
+
 	constructor() {
 		super()
 		this.onThreadClick = this.onThreadClick.bind(this)
@@ -52,7 +60,8 @@ export default class BoardPage extends React.Component {
 			getComments,
 			pushLocation,
 			notify,
-			settings
+			settings,
+			locale
 		} = this.props
 		try {
 			preloadStarted()
@@ -61,24 +70,28 @@ export default class BoardPage extends React.Component {
 				board.id,
 				thread.id,
 				settings.filters,
-				settings.locale
+				locale
 			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
 			pushLocation(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
 		} catch (error) {
 			console.error(error)
-			notify(getMessages(settings.locale).loadingCommentsError, { type: 'error '})
+			notify(getMessages(locale).loadingCommentsError, { type: 'error '})
 		} finally {
 			preloadFinished()
 		}
 	}
+
 	getUrl = (board, thread, comment) => {
 		return `/${board.id}/${thread.id}`
 	}
+
 	render() {
 		const {
 			board,
-			threads
+			threads,
+			openSlideshow,
+			locale
 		} = this.props
 		return (
 			<section className="board-page content text-content">
@@ -93,7 +106,9 @@ export default class BoardPage extends React.Component {
 						thread={thread}
 						comment={thread.comments[0]}
 						getUrl={this.getUrl}
-						onClick={this.onThreadClick}/>
+						onClick={this.onThreadClick}
+						openSlideshow={openSlideshow}
+						locale={locale}/>
 				))}
 			</section>
 		)

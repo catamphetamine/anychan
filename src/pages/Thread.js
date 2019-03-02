@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { preload, meta, Link } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import { getComments } from '../redux/chan'
+import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import ThreadComment from '../components/ThreadComment'
 
@@ -20,7 +22,9 @@ import './Thread.css'
 	board: chan.board,
 	thread: chan.thread,
 	comments: chan.comments
-}))
+}), {
+	openSlideshow
+})
 @preload(async ({ getState, dispatch, params }) => {
 	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
 	await dispatch(getComments(
@@ -31,14 +35,22 @@ import './Thread.css'
 	))
 })
 export default class ThreadPage extends React.Component {
+	static propTypes = {
+		openSlideshow: PropTypes.func.isRequired,
+		locale: PropTypes.string.isRequired
+	}
+
 	getUrl = (board, thread, comment) => {
 		return `/${board.id}/${thread.id}#comment-${comment.id}`
 	}
+
 	render() {
 		const {
 			board,
 			thread,
-			comments
+			comments,
+			locale,
+			openSlideshow
 		} = this.props
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
@@ -57,7 +69,9 @@ export default class ThreadPage extends React.Component {
 						board={board}
 						thread={thread}
 						comment={comment}
-						getUrl={this.getUrl}/>
+						getUrl={this.getUrl}
+						locale={locale}
+						openSlideshow={openSlideshow}/>
 				))}
 			</section>
 		)

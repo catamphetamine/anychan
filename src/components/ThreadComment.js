@@ -20,9 +20,11 @@ import configuration from '../configuration'
 
 import './ThreadComment.css'
 
-@connect(({ app }) => ({
-	locale: app.settings.locale
-}))
+// Passing `locale` as an explicit property instead to avoid having
+// a lot of `@connect()`s executing on pages with a lot of posts.
+// @connect(({ app }) => ({
+// 	locale: app.settings.locale
+// }))
 export default class ThreadComment extends React.Component {
 	state = {
 		hidden: this.props.comment.hidden
@@ -52,7 +54,8 @@ export default class ThreadComment extends React.Component {
 			thread,
 			comment,
 			mode,
-			locale
+			locale,
+			openSlideshow
 		} = this.props
 
 		const { hidden } = this.state
@@ -66,6 +69,7 @@ export default class ThreadComment extends React.Component {
 				hidden={hidden}
 				url={addChanParameter(getUrl(board, thread, comment))}
 				locale={locale}
+				openSlideshow={openSlideshow}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
 		)
 
@@ -103,10 +107,20 @@ ThreadComment.propTypes = {
 	thread: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}).isRequired,
-	comment: PropTypes.object.isRequired
+	comment: PropTypes.object.isRequired,
+	locale: PropTypes.string.isRequired,
+	openSlideshow: PropTypes.func.isRequired
 }
 
-function Comment({ halfSizedAttachmentThumbnails, comment, compact, hidden, url, locale }) {
+function Comment({
+	halfSizedAttachmentThumbnails,
+	comment,
+	compact,
+	hidden,
+	url,
+	locale,
+	openSlideshow
+}) {
 	if (hidden) {
 		return (
 			<ContentSection
@@ -126,6 +140,7 @@ function Comment({ halfSizedAttachmentThumbnails, comment, compact, hidden, url,
 			locale={locale}
 			compact={compact}
 			saveBandwidth
+			openSlideshow={openSlideshow}
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
@@ -139,7 +154,8 @@ Comment.propTypes = {
 	comment: PropTypes.object.isRequired,
 	hidden: PropTypes.bool,
 	url: PropTypes.string.isRequired,
-	locale: PropTypes.string,
+	locale: PropTypes.string.isRequired,
+	openSlideshow: PropTypes.func.isRequired,
 	halfSizedAttachmentThumbnails: PropTypes.bool
 }
 

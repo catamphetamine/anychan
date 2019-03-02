@@ -72,7 +72,10 @@ export default class Home extends React.Component {
 					}
 
 					<p className="home-page__show-boards-list">
-						<button onClick={showSidebar} className="rrui__button-reset">
+						<button
+							type="button"
+							onClick={showSidebar}
+							className="rrui__button-reset">
 							{getMessages(locale).showBoardsList}
 						</button>
 					</p>

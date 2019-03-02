@@ -65,6 +65,7 @@ export default class Menu extends React.Component {
 							className="menu-list-item">
 							{type === 'sidebar' &&
 								<button
+									type="button"
 									title={title}
 									onClick={toggleSidebar}
 									className={classNames('rrui__button-reset', 'menu-item', isActive && 'menu-item--selected')}>
@@ -73,6 +74,7 @@ export default class Menu extends React.Component {
 							}
 							{type === 'night-mode' &&
 								<button
+									type="button"
 									title={title}
 									onClick={toggleNightMode}
 									className={classNames('rrui__button-reset', 'menu-item', isActive && 'menu-item--selected')}>
