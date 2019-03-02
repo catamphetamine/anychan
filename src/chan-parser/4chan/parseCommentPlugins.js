@@ -24,6 +24,19 @@ const parseBoldLegacy = {
 	}
 }
 
+// There seems to be no `<em>`s on 4chan.org.
+// Added this plugin just in case (in case they add `<em>`s in some future).
+const parseItalic = {
+	tag: 'em',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'italic',
+			content
+		}
+	}
+}
+
 // They have these in `/g/` for some reason.
 const parseItalicLegacy = {
 	tag: 'i',
@@ -171,6 +184,7 @@ const parseLink = {
 export default [
 	parseBold,
 	parseBoldLegacy,
+	parseItalic,
 	parseItalicLegacy,
 	parseUnderline,
 	parseSpoiler,

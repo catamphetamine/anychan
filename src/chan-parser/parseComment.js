@@ -1,5 +1,7 @@
 const NEW_LINE_AROUND = [
-	'div'
+	'div',
+	'section',
+	'blockquote'
 ]
 
 const DOUBLE_NEW_LINE_AROUND = [

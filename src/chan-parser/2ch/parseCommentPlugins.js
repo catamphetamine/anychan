@@ -44,8 +44,34 @@ const parseBold = {
 	}
 }
 
+// There's `<b>` in a pinned index post in `/sn/`, for example.
+const parseBoldLegacy = {
+	tag: 'b',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'bold',
+			content
+		}
+	}
+}
+
 const parseItalic = {
 	tag: 'em',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'italic',
+			content
+		}
+	}
+}
+
+// There seems to be no `<i>`s on 2ch.hk.
+// Still some "advanced" users (like moderators) may potentially
+// use it in their "advanced" custom markup (like pinned index posts).
+const parseItalicLegacy = {
+	tag: 'i',
 	createBlock(content) {
 		return {
 			type: 'text',
@@ -167,16 +193,36 @@ const parseLink = {
 	}
 }
 
+// There's some `style` in a pinned index post in `/sn/`, for example.
+const parseStyle = {
+	tag: 'style',
+	createBlock() {
+		return
+	}
+}
+
+// There's some `script` in a pinned index post in `/sn/`, for example.
+const parseScript = {
+	tag: 'script',
+	createBlock() {
+		return
+	}
+}
+
 export default [
 	parseInlineQuote,
 	parseQuote,
 	parseLink,
 	parseBold,
+	parseBoldLegacy,
 	parseItalic,
+	parseItalicLegacy,
 	parseStrikethrough,
 	parseUnderline,
 	parseOverline,
 	parseSpoiler,
 	parseSubscript,
-	parseSuperscript
+	parseSuperscript,
+	parseStyle,
+	parseScript
 ]
