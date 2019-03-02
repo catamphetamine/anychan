@@ -1,3 +1,5 @@
+import ignoreText from './ignoreText'
+
 const NEW_LINE_AROUND = [
 	'div',
 	'section',
@@ -26,7 +28,7 @@ export default function parseComment(comment, options = {}) {
 }
 
 class CommentParser {
-	constructor(options) {
+	constructor(options = {}) {
 		this.options = options
 	}
 
@@ -69,10 +71,28 @@ class CommentParser {
 		return true
 	}
 
+	parseText(text) {
+		const { correctGrammar, filters } = this.options
+		if (correctGrammar) {
+			text = correctGrammar(text)
+		}
+		if (filters) {
+			return ignoreText(text, filters)
+			// const result = filterComment(rawComment, filters)
+			// if (result) {
+			// 	comment.hidden = true
+			// 	if (result.name !== '*') {
+			// 		comment.hiddenRule = result.name
+			// 	}
+			// }
+		}
+		return text
+	}
+
 	parseNode = (node) => {
 		// `3` means "text node".
 		if (node.nodeType === 3) {
-			return this.correctGrammar(node.textContent)
+			return this.parseText(node.textContent)
 		}
 		// `1` means "DOM element".
 		if (node.nodeType === 1) {
@@ -94,7 +114,7 @@ class CommentParser {
 
 	parseContent(childNodes) {
 		childNodes = Array.from(childNodes.values())
-		const content = []
+		let content = []
 		let i = 0
 		while (i < childNodes.length) {
 			const node = childNodes[i]
@@ -102,7 +122,13 @@ class CommentParser {
 			// and `DOUBLE_NEW_LINE_AROUND` below.
 			const result = node === '\n' ? '\n' : this.parseNode(node)
 			if (result) {
-				content.push(result)
+				// An array can be returned when some words get ignored
+				// and a string is transformed into an array of strings and `spoiler`s.
+				if (Array.isArray(result)) {
+					content = content.concat(result)
+				} else {
+					content.push(result)
+				}
 			} else if (result === null) {
 				console.warn('Unknown comment node type', node)
 				const expandedNodes = Array.from(node.childNodes.values())
@@ -130,13 +156,6 @@ class CommentParser {
 			return content[0]
 		}
 		return content
-	}
-
-	correctGrammar(text) {
-		if (this.options.correctGrammar) {
-			return this.options.correctGrammar(text)
-		}
-		return text
 	}
 }
 

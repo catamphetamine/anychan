@@ -10,19 +10,47 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+Заменять ignore (и обычный) spoiler на троеточие в getPostText()
+
+сделать настройку переключатель темы, и "Custom CSS" с expandable pre "Show example".
+
+.theme--custom {
+	--: ...;
+}
+
+посмотреть, что самое долгое в парсинге (/vg/)
+посмотреть, что самое долгое в рендеринге (/vg/)
+
+добавить вывод в консоль времени загрузки API response
+
+иногда, если нажать мышью на видео, подвигать, и оно не перелистнётся, то зависает статус нажатости.
+
+При листании в слайдшоу учитывать скорость. Если листается без скорости, то перелистывать, только если перелистнута как минимум половина.
+
 activate night mode button, refactor font themes from json to body class
 
 перенести иконки меню в sidebar (но не показывать их в мобильных)
 
 replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
 
-fix cited messages bug (info below)
+fix 4chan cited messages bug (info below)
+
+добавить вывод в консоль времени проверки комментария на игнор.
+
+Возможно, вынести игнор в пост-процессинг (а мб и не выносить).
+
+Dark theme:
+
+    background: #1C1C1C;
+    color: #AAA;
 
 
 
 
 
-сделать постраничность и парсить только те комментарии, которые показаны на текущий момент (парсинг может занимать много времени).
+
+
+сделать постраничность и парсить только те комментарии, которые показаны на текущий момент (парсинг может занимать много времени). "показать ответы" на пост будет показывать по нажатию крутилку, пока все "ответы" не подгрузятся (видимо, строить очередь как "сообщения на первой странице" + "ответы на них" + "сообщения на второй странице"; те сообщения, которые уже загружены, пропускать).
 
 
 When opening comments page: show "... more" button on the bottom right side. As the user scrolls down the counter updates (when a comment's top border becomes visible on screen). When the user scrolls down to the last comment the "... more" button hides moving below the bottom of the screen (animated). The button should be clickable (loads all comments on click and hides moving below the bottom of the screen).
@@ -122,29 +150,11 @@ http://boards.4chan.org/s/thread/18700031
 
 Вынести correctGrammar, ignore и прочие в пост процессинг
 
-Добавить <Content/> для chan .json data вместо HTML
-
 Настройки фильтров (интерфейс и redux) переделать так, что кастомные фильтры расширяют список игнора по умолчанию, и сделать switch для отключения списка игнора по умолчанию.
 
 Локали собирать в один json — брать локаль и поверх неё делать 'default_locale_messages' (таким образом, отсутствующие сообщения будут присутствовать на английском).
 
-вместо маржина слелать флекс: центральная колонка с max eidth  и по бокам одинаковые. И маржины убрать.
-
-можно написать пост о том, как парсятся ютуб и твиттер.
-
 // мб поднять прокси для 2ch.hk на каком-нибудь vscale/selectel.
-
-Fastest html parser javascript.
-
-Ввести спойлеры в теме сообщения (например, игнор слов)
-
-не скрывать сообщения, если размер скрытого текста меньше, и количество включений меньше.
-
-Dark theme:
-
-    background: #1C1C1C;
-    color: #AAA;
-
 
 
 

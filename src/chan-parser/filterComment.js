@@ -4,47 +4,11 @@
  * @param  {object} filters — Compiled filters
  * @return {object} [reason] `{ name }`
  */
-export default function filter(comment, {
-	ignoredWords,
-	ignoredWordsCaseSensitive,
-	ignoredPatterns,
-	ignoredPatternsCaseSensitive
-}) {
-	// Case-insensitive words.
-	// (a naive approach)
-	for (const name of Object.keys(ignoredWords)) {
-		if (ignoredWords[name].test(comment)) {
+export default function filter(comment, filters) {
+	for (const filter of filters) {
+		if (filter.regexp.test(comment)) {
 			return {
-				name
-			}
-		}
-	}
-	// Case-sensitive words.
-	// (a naive approach)
-	for (const name of Object.keys(ignoredWordsCaseSensitive)) {
-		if (ignoredWordsCaseSensitive[name].test(comment)) {
-			return {
-				name
-			}
-		}
-	}
-	// Case-insensitive patterns.
-	for (const name of Object.keys(ignoredPatterns)) {
-		for (const pattern of ignoredPatterns[name]) {
-			if (pattern.test(comment)) {
-				return {
-					name
-				}
-			}
-		}
-	}
-	// Case-sensitive patterns.
-	for (const name of Object.keys(ignoredPatternsCaseSensitive)) {
-		for (const pattern of ignoredPatternsCaseSensitive[name]) {
-			if (pattern.test(comment)) {
-				return {
-					name
-				}
+				name: filter.name
 			}
 		}
 	}

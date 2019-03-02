@@ -50,6 +50,11 @@ function splitParagraph(content) {
 }
 
 function findParagraphSplit(content) {
+	// I can imagine some inline-level post parts not having `content`
+	// being hypothetically added in some potential future (though unlikely).
+	// if (!content) {
+	// 	return
+	// }
 	let i = 0
 	while (i < content.length) {
 		if (typeof content[i] === 'string') {

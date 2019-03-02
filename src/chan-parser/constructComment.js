@@ -29,13 +29,25 @@ export default function constructComment(
 		createdAt: new Date(timestamp * 1000)
 	}
 	if (subject) {
-		comment.title = unescapeContent(subject)
+		subject = unescapeContent(subject)
 		if (correctGrammar) {
-			comment.title = correctGrammar(comment.title)
+			subject = correctGrammar(subject)
+		}
+		if (filters) {
+			for (const filter of filters) {
+				if (filter.regexp.test(subject)) {
+					subject = undefined
+					break
+				}
+			}
+		}
+		if (subject) {
+			comment.title = subject
 		}
 	}
 	if (rawComment) {
 		comment.content = parseComment(rawComment, {
+			filters,
 			correctGrammar,
 			plugins: parseCommentPlugins
 		})
@@ -43,15 +55,6 @@ export default function constructComment(
 			comment.content = splitParagraphs(comment.content)
 			// `content` internals will be mutated.
 			comment.content = trimWhitespace(comment.content)
-			if (filters) {
-				const result = filterComment(rawComment, filters)
-				if (result) {
-					comment.hidden = true
-					if (result.name !== '*') {
-						comment.hiddenRule = result.name
-					}
-				}
-			}
 		}
 	}
 	if (author) {
