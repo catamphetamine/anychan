@@ -7,6 +7,7 @@ import './dropQuoteMarker.test'
 import './splitParagraphs.test'
 import './trimWhitespace.test'
 import './parseComment.test'
+import './compileFilters.test'
 import './ignoreText.test'
 // Providers.
 import './2ch/test'

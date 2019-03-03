@@ -324,7 +324,6 @@ describe('parseComment', () => {
 			]
 		)
 
-
 		parseCommentTest(
 			"<span class='u'><span class='o'><em><strong><sup><sub>ХРАМ ПЕПЕ-ИИСУСА</sub></sup></strong></em></span></span><br><br><strong><em>Здравствуй, мой дорогой анон</em></strong>.",
 			[

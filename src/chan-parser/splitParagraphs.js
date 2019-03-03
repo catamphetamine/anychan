@@ -49,6 +49,8 @@ function splitParagraph(content) {
 	return [one, two]
 }
 
+const WHITESPACE = /^\s+$/
+
 function findParagraphSplit(content) {
 	// I can imagine some inline-level post parts not having `content`
 	// being hypothetically added in some potential future (though unlikely).
@@ -58,8 +60,18 @@ function findParagraphSplit(content) {
 	let i = 0
 	while (i < content.length) {
 		if (typeof content[i] === 'string') {
-			if (i > 0 && content[i] === '\n' && content[i - 1] === '\n' ) {
-				return [i]
+			if (content[i] === '\n') {
+				let j = i + 1
+				while (j < content.length) {
+					if (content[j] === '\n') {
+						return [j]
+					}
+					if (!WHITESPACE.test(content[j])) {
+						break
+					}
+					i++
+					j++
+				}
 			}
 		}
 		else {

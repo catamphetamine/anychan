@@ -6,6 +6,8 @@ import {
 	isSupportedLanguage
 } from '../messages'
 
+import compileFilters from '../chan-parser/compileFilters'
+
 function getDefaultSettings(locale = getDefaultLocale()) {
 	return {
 		theme: 'default',
@@ -67,6 +69,6 @@ export function getSettings(customSettings) {
 		...customSettings
 	}
 	// Compile filters.
-	settings.filters = settings.filters.map(pattern => new RegExp(pattern, 'i'))
+	settings.filters = compileFilters(settings.filters, settings.locale)
 	return settings
 }

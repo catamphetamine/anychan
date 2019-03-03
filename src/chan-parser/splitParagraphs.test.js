@@ -118,6 +118,31 @@ describe('splitParagraphs', () => {
 		)
 	})
 
+	it('should split paragraphs when <br>s are separated with spaces', () => {
+		splitParagraphsTest(
+			[
+				[
+					'abc',
+					'\n',
+					' ',
+					' ',
+					'\n',
+					'def'
+				]
+			],
+			[
+				[
+					'abc',
+					'\n',
+					' '
+				],
+				[
+					'def'
+				]
+			]
+		)
+	})
+
 	it('should split paragraphs (nested blocks)', () => {
 		splitParagraphsTest(
 			[

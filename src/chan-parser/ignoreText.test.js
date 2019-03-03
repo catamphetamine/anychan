@@ -1,16 +1,22 @@
 import { describe, it } from './mocha'
 import expectToEqual from './expectToEqual'
 import ignoreText from './ignoreText'
+import compileFilters from './compileFilters'
 
 function ignoreTextTest(text, expected) {
 	expectToEqual(
 		ignoreText(
 			text,
-			[
-				'яйц[ёа-я]{1,3}',
-				'блин[ёа-я]*',
-				'сковород[ёа-я]*'
-			].map(_ => new RegExp(_))
+			compileFilters(
+				[
+					'яйц.{1,3}',
+					'блин.*',
+					'^конструкци.*',
+					'.*черепица$',
+					'сковород.*'
+				],
+				'ru'
+			)
 		),
 		expected
 	)
@@ -21,6 +27,36 @@ describe('ignoreText', () => {
 		ignoreTextTest(
 			'Добавляются ингридиенты и запекается продукт на печи.',
 			'Добавляются ингридиенты и запекается продукт на печи.'
+		)
+	})
+
+	it('should handle ^-rules at the start of a word', () => {
+		ignoreTextTest(
+			'Металлоконструкция',
+			'Металлоконструкция'
+		)
+		ignoreTextTest(
+			'Конструкция',
+			[{
+				type: 'spoiler',
+				censored: true,
+				content: 'Конструкция'
+			}]
+		)
+	})
+
+	it('should handle $-rules at the end of a word', () => {
+		ignoreTextTest(
+			'Металлочерепицами',
+			'Металлочерепицами'
+		)
+		ignoreTextTest(
+			'Металлочерепица',
+			[{
+				type: 'spoiler',
+				censored: true,
+				content: 'Металлочерепица'
+			}]
 		)
 	})
 
