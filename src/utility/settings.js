@@ -6,14 +6,15 @@ import {
 	isSupportedLanguage
 } from '../messages'
 
+import { getChan } from '../chan'
 import compileFilters from '../chan-parser/compileFilters'
 
-function getDefaultSettings(locale = getDefaultLocale()) {
+function getDefaultSettings() {
 	return {
 		theme: 'default',
 		fontSize: 'medium',
-		locale,
-		filters: getIgnoredWordsByLanguage(locale)
+		locale: getDefaultLanguage(),
+		filters: getIgnoredWordsByLanguage(getChan().language)
 	}
 }
 
@@ -23,11 +24,14 @@ export function applySettings(settings) {
 	}
 }
 
-function getDefaultLocale() {
+function getDefaultLanguage() {
 	if (typeof window !== 'undefined') {
 		if (isSupportedLanguage(navigator.language)) {
 			return navigator.language
 		}
+	}
+	if (isSupportedLanguage(getChan().langauge)) {
+		return getChan().langauge
 	}
 	return 'en'
 }
@@ -54,7 +58,7 @@ export const FONT_SIZES = [
 	'large'
 ]
 
-function getIgnoredWordsByLanguage(language) {
+export function getIgnoredWordsByLanguage(language) {
 	switch (language) {
 		case 'ru':
 			return IGNORED_WORDS_RU
@@ -65,10 +69,10 @@ function getIgnoredWordsByLanguage(language) {
 
 export function getSettings(customSettings) {
 	const settings = {
-		...getDefaultSettings(customSettings && customSettings.locale),
+		...getDefaultSettings(),
 		...customSettings
 	}
 	// Compile filters.
-	settings.filters = compileFilters(settings.filters, settings.locale)
+	settings.filters = compileFilters(settings.filters, getChan().language)
 	return settings
 }
