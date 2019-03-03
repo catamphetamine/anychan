@@ -13,7 +13,12 @@ import {
 } from '../redux/app'
 
 import getMessages, { getLanguageNames } from '../messages'
-import { FONT_SIZES, applyFontSize } from '../utility/settings'
+
+import {
+	FONT_SIZES,
+	applyFontSize,
+	getIgnoredWordsByLanguage
+} from '../utility/settings'
 
 import {
 	ContentSections,
@@ -117,7 +122,7 @@ export default class SettingsPage extends React.Component {
 							{messages.settings.filters}
 						</ContentSectionHeader>
 						<pre>
-							{JSON.stringify(settings.filters, null, 2)}
+							{JSON.stringify(getIgnoredWordsByLanguage(settings.locale), null, 2)}
 						</pre>
 					</ContentSection>
 				</ContentSections>
