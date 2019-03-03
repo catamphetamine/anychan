@@ -24,7 +24,7 @@ function ignore(text, filters, filterIndex = 0) {
 	}
 	let result
 	const preText = text.slice(0, startIndex)
-	const preTextAfterIgnore = ignore(preText, filters, filterIndex + 1)
+	const preTextAfterIgnore = ignore(preText, filters, filterIndex)
 	if (preTextAfterIgnore) {
 		result = preTextAfterIgnore
 	} else if (preText) {
@@ -38,7 +38,7 @@ function ignore(text, filters, filterIndex = 0) {
 		content: matchedText
 	})
 	const postText = text.slice(startIndex + matchedText.length)
-	const postTextAfterIgnore = ignore(postText, filters, filterIndex + 1)
+	const postTextAfterIgnore = ignore(postText, filters, filterIndex)
 	if (postTextAfterIgnore) {
 		result = result.concat(postTextAfterIgnore)
 	} else if (postText) {
