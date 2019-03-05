@@ -52,11 +52,6 @@ function splitParagraph(content) {
 const WHITESPACE = /^\s+$/
 
 function findParagraphSplit(content) {
-	// I can imagine some inline-level post parts not having `content`
-	// being hypothetically added in some potential future (though unlikely).
-	// if (!content) {
-	// 	return
-	// }
 	let i = 0
 	while (i < content.length) {
 		if (typeof content[i] === 'string') {
@@ -75,9 +70,16 @@ function findParagraphSplit(content) {
 			}
 		}
 		else {
-			const indexes = findParagraphSplit(content[i].content)
-			if (indexes) {
-				return [i].concat(indexes)
+			// I can imagine some inline-level post parts not having `content`
+			// being hypothetically added in some potential future (though unlikely).
+			if (!content[i].content) {
+				console.error('No `content` is present for an inline-level paragraph part:')
+				console.error(content[i])
+			} else {
+				const indexes = findParagraphSplit(content[i].content)
+				if (indexes) {
+					return [i].concat(indexes)
+				}
 			}
 		}
 		i++
