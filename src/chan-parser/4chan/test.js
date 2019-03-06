@@ -1,2 +1,2 @@
-import './parseComment.test'
+import './parseCommentPlugins.test'
 import './parseThreads.test'
