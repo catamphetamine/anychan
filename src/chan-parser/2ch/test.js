@@ -1,5 +1,6 @@
 import './parseSubjectFromComment.test'
 import './correctGrammar.test'
 import './parseCommentPlugins.test'
+import './parseComment.test'
 import './parseComments.test'
 import './getInReplyToPosts.test'
