@@ -210,7 +210,7 @@ const parseScript = {
 }
 
 // // Don't know what's this for.
-// // <span class="thanks-abu" style="color: red;">Абу благословил этот пост</span>
+// // <span class="thanks-abu" style="color: red;">Абу благословил этот пост.</span>
 // const parseThanksAbu = {
 // 	tag: 'span',
 // 	attributes: [
