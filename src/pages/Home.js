@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { PostBlock } from 'webapp-frontend/src/components/Post'
+import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
 import { getChan } from '../chan'
 import getMessages from '../messages'

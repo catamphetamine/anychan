@@ -9,7 +9,7 @@ import getMessages from '../messages'
 import { getChan } from '../chan'
 import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 
-import { PostBlock } from 'webapp-frontend/src/components/Post'
+import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
 import './Footer.css'
 
