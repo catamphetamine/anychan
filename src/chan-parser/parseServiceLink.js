@@ -164,6 +164,11 @@ const SERVICES = {
 	}
 }
 
+SERVICES['2ch.so'] = SERVICES['2ch.hk']
+SERVICES['2ch.pm'] = SERVICES['2ch.hk']
+SERVICES['2ch.yt'] = SERVICES['2ch.hk']
+SERVICES['2ch.wf'] = SERVICES['2ch.hk']
+SERVICES['2ch.re'] = SERVICES['2ch.hk']
 SERVICES['boards.4channel.org'] = SERVICES['4chan.org']
 SERVICES['boards.4chan.org'] = SERVICES['4chan.org']
 SERVICES['m.youtube.com'] = SERVICES['youtube.com']
