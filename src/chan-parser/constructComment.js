@@ -4,6 +4,7 @@ import parseComment from './parseComment'
 import splitParagraphs from './splitParagraphs'
 import trimWhitespace from './trimWhitespace'
 import postProcessComment from './postProcessComment'
+import ignoreText from './ignoreText'
 
 export default function constructComment(
 	boardId,
@@ -33,16 +34,14 @@ export default function constructComment(
 		if (correctGrammar) {
 			subject = correctGrammar(subject)
 		}
-		if (filters) {
-			for (const filter of filters) {
-				if (filter.regexp.test(subject)) {
-					subject = undefined
-					break
-				}
-			}
-		}
 		if (subject) {
 			comment.title = subject
+			if (filters) {
+				const subjectCensored = ignoreText(subject, filters)
+				if (subjectCensored !== subject) {
+					comment.titleCensored = subjectCensored
+				}
+			}
 		}
 	}
 	if (rawComment) {
@@ -61,8 +60,8 @@ export default function constructComment(
 		comment.author = author
 	}
 	postProcessComment(comment, {
+		boardId,
 		threadId,
-		filters,
 		messages
 	})
 	return comment

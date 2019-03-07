@@ -6,7 +6,6 @@ import parseLinks from './parseLinks'
 export default function postProcessComment(comment, {
 	boardId,
 	threadId,
-	filters,
 	messages
 }) {
 	parseLinks(comment)
