@@ -51,5 +51,64 @@ describe('dropQuoteMarker', () => {
 			]
 		)
 	})
+
+	it('should remove empty parts', () => {
+		dropQuoteMarkerTest(
+			[
+				{
+					type: 'text',
+					style: 'bold',
+					content: [
+						{
+							type: 'text',
+							style: 'italic',
+							content: '>   '
+						}
+					]
+				},
+				'def'
+			],
+			[
+				'def'
+			]
+		)
+		dropQuoteMarkerTest(
+			[
+				{
+					type: 'text',
+					style: 'bold',
+					content: [
+						{
+							type: 'text',
+							style: 'italic',
+							content: [
+								{
+									type: 'text',
+									style: 'bold',
+									content: '>'
+								},
+								'abc'
+							]
+						}
+					]
+				},
+				'def'
+			],
+			[
+				{
+					type: 'text',
+					style: 'bold',
+					content: [
+						{
+							type: 'text',
+							style: 'italic',
+							content: 'abc'
+						}
+					]
+				},
+				'def'
+			]
+		)
+	})
 })
 
