@@ -4,7 +4,7 @@ import { describe, it } from '../mocha'
 import expectToEqual from '../expectToEqual'
 import parseComment from '../parseComment'
 import splitParagraphs from '../splitParagraphs'
-import trimWhitespace from '../trimWhitespace'
+import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
 
 function parseCommentTest(comment, expected, expectedWarnings = []) {
 	const consoleWarn = console.warn

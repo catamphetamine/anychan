@@ -1,4 +1,4 @@
-import createLink from '../createLink'
+import createLink from 'webapp-frontend/src/utility/post/createLink'
 import dropQuoteMarker from '../dropQuoteMarker'
 
 const parseBold = {
