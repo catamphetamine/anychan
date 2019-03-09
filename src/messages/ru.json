@@ -27,6 +27,7 @@
 	"attachmentPicture": "Картинка",
 	"attachmentVideo": "Видео",
 	"videoNotFound": "Видео не найдено",
+	"readMore": "Показать полностью",
 	"copyright": {
 		"preChanchan": "Клиент для имиджборд «",
 		"postChanchan": "»",
@@ -40,5 +41,17 @@
 			"title": "Ошибка"
 		},
 		"requestedURL": "Адрес страницы"
+	},
+	"slideshow": {
+		"actions": {
+			"previous": "Предыдущий",
+			"next": "Следующий",
+			"download": "Скачать",
+			"close": "Закрыть",
+			"scaleUp": "Увеличить",
+			"scaleDown": "Уменьшить",
+			"scaleReset": "Исходный размер",
+			"searchInGoogle": "Поискать в Гугле"
+		}
 	}
 }

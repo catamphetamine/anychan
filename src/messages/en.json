@@ -27,6 +27,7 @@
 	"attachmentPicture": "Picture",
 	"attachmentVideo": "Video",
 	"videoNotFound": "Video not found",
+	"readMore": "Read more",
 	"copyright": {
 		"chanchan": "chanchan",
 		"postChanchan": " imageboard client",
@@ -40,5 +41,17 @@
 			"title": "Error"
 		},
 		"requestedURL": "Page URL"
+	},
+	"slideshow": {
+		"actions": {
+			"previous": "Previous",
+			"next": "Next",
+			"download": "Download",
+			"close": "Close",
+			"scaleUp": "Scale Up",
+			"scaleDown": "Scale Down",
+			"scaleReset": "Initial size",
+			"searchInGoogle": "Search in Google"
+		}
 	}
 }
