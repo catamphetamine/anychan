@@ -36,11 +36,11 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `//2ch.hk${file.thumbnail}`
+					url: `https://2ch.hk${file.thumbnail}`
 				}, {
 					width: file.width,
 					height: file.height,
-					url: `//2ch.hk${file.path}`
+					url: `https://2ch.hk${file.path}`
 				}]
 			}
 		}
@@ -58,7 +58,7 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `//2ch.hk${file.thumbnail}`
+					url: `https://2ch.hk${file.thumbnail}`
 				}]
 			}
 		} else {
@@ -78,7 +78,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.width,
 						height: file.height,
-						url: `//2ch.hk${file.path}`
+						url: `https://2ch.hk${file.path}`
 					}]
 				},
 				picture

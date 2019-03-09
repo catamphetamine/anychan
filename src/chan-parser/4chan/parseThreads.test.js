@@ -92,12 +92,12 @@ describe('4chan.org', () => {
 										{
 											"width": 250,
 											"height": 140,
-											"url": "//i.4cdn.org/a/1549003021750s.jpg"
+											"url": "https://i.4cdn.org/a/1549003021750s.jpg"
 										},
 										{
 											"width": 1280,
 											"height": 720,
-											"url": "//i.4cdn.org/a/1549003021750.png"
+											"url": "https://i.4cdn.org/a/1549003021750.png"
 										}
 									]
 								}

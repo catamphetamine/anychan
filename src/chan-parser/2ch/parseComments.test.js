@@ -255,12 +255,12 @@ describe('2ch.hk', () => {
 								{
 									"width": 250,
 									"height": 136,
-									"url": "//2ch.hk/vg/thumb/28727050/15458082101590s.jpg"
+									"url": "https://2ch.hk/vg/thumb/28727050/15458082101590s.jpg"
 								},
 								{
 									"width": 1920,
 									"height": 1050,
-									"url": "//2ch.hk/vg/src/28727050/15458082101590.png"
+									"url": "https://2ch.hk/vg/src/28727050/15458082101590.png"
 								}
 							]
 						}
@@ -274,12 +274,12 @@ describe('2ch.hk', () => {
 								{
 									"width": 250,
 									"height": 140,
-									"url": "//2ch.hk/vg/thumb/28727050/15458082101841s.jpg"
+									"url": "https://2ch.hk/vg/thumb/28727050/15458082101841s.jpg"
 								},
 								{
 									"width": 1280,
 									"height": 720,
-									"url": "//2ch.hk/vg/src/28727050/15458082101841.png"
+									"url": "https://2ch.hk/vg/src/28727050/15458082101841.png"
 								}
 							]
 						}
@@ -293,12 +293,12 @@ describe('2ch.hk', () => {
 								{
 									"width": 250,
 									"height": 140,
-									"url": "//2ch.hk/vg/thumb/28727050/15458082101882s.jpg"
+									"url": "https://2ch.hk/vg/thumb/28727050/15458082101882s.jpg"
 								},
 								{
 									"width": 1280,
 									"height": 720,
-									"url": "//2ch.hk/vg/src/28727050/15458082101882.jpg"
+									"url": "https://2ch.hk/vg/src/28727050/15458082101882.jpg"
 								}
 							]
 						}
@@ -312,12 +312,12 @@ describe('2ch.hk', () => {
 								{
 									"width": 250,
 									"height": 140,
-									"url": "//2ch.hk/vg/thumb/28727050/15458082101893s.jpg"
+									"url": "https://2ch.hk/vg/thumb/28727050/15458082101893s.jpg"
 								},
 								{
 									"width": 1920,
 									"height": 1080,
-									"url": "//2ch.hk/vg/src/28727050/15458082101893.jpg"
+									"url": "https://2ch.hk/vg/src/28727050/15458082101893.jpg"
 								}
 							]
 						}

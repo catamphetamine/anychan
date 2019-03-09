@@ -11,11 +11,11 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_w,
 					height: file.tn_h,
-					url: `//i.4cdn.org/${boardId}/${file.tim}s.jpg`
+					url: `https://i.4cdn.org/${boardId}/${file.tim}s.jpg`
 				}, {
 					width: file.w,
 					height: file.h,
-					url: `//i.4cdn.org/${boardId}/${file.tim}${file.ext}`
+					url: `https://i.4cdn.org/${boardId}/${file.tim}${file.ext}`
 				}]
 			}
 		}
@@ -33,7 +33,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.w,
 						height: file.h,
-						url: `//i.4cdn.org/${boardId}/${file.tim}${file.ext}`
+						url: `https://i.4cdn.org/${boardId}/${file.tim}${file.ext}`
 					}]
 				},
 				picture: {
@@ -41,7 +41,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.tn_w,
 						height: file.tn_h,
-						url: `//i.4cdn.org/${boardId}/${file.tim}s.jpg`
+						url: `https://i.4cdn.org/${boardId}/${file.tim}s.jpg`
 					}]
 				}
 			}
@@ -54,7 +54,7 @@ export default function parseAttachment(file, { boardId }) {
 		size: file.fsize, // in bytes
 		width: file.w,
 		height: file.h,
-		url: `//i.4cdn.org/${boardId}/${file.filename}${file.ext}`
+		url: `https://i.4cdn.org/${boardId}/${file.filename}${file.ext}`
 	}
 	console.error(`Unknown file type: ${JSON.stringify(file)}`)
 	return TRANSPARENT_PIXEL
