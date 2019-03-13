@@ -6,8 +6,8 @@
 }
 
 .home-page__logo {
-	height: 1.3em;
-	margin-right: 0.2em;
+	height: 1.2em;
+	margin-right: 0.25em;
 }
 
 .home-page__brand {
@@ -17,16 +17,6 @@
 	margin-top: calc(var(--unit) * 6);
 	font-size: 3.5rem;
 	color: inherit;
-}
-
-.home-page__title-text {
-	/* Add a stroke around the text. */
-	/* https://css-tricks.com/adding-stroke-to-web-text/ */
-	text-shadow:
-		-1px -1px 0 var(--black-color),
-		1px -1px 0 var(--black-color),
-		-1px 1px 0 var(--black-color),
-		1px 1px 0 var(--black-color);
 }
 
 .home-page__subtitle {

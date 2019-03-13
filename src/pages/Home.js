@@ -47,15 +47,12 @@ export default class Home extends React.Component {
 							<a
 								target="_blank"
 								href={website}
-								style={{ color }}
-								className="home-page__title-text">
+								style={{ color }}>
 								{title}
 							</a>
-							{subtitle &&
-								<div className="home-page__subtitle">
-									{subtitle}
-								</div>
-							}
+							<div className="home-page__subtitle">
+								{subtitle}
+							</div>
 						</div>
 					</div>
 
