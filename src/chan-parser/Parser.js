@@ -5,11 +5,13 @@ export default class Parser {
 		plugins,
 		parseBoards,
 		parseThreads,
-		parseComments
+		parseComments,
+		commentLengthLimit
 	}) {
 		this.options = {
 			messages,
 			filters,
+			commentLengthLimit,
 			parseCommentPlugins: plugins
 		}
 		this._parseBoards = parseBoards

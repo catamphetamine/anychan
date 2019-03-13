@@ -74,6 +74,7 @@ export default function parseComment(post, {
 	defaultAuthor,
 	filters,
 	parseCommentPlugins,
+	commentLengthLimit,
 	messages
 }) {
 	let subject = post.subject
@@ -93,9 +94,6 @@ export default function parseComment(post, {
 			subject = undefined
 		}
 	}
-	// Sometimes there're some weird `\t` tabulation characters.
-	// I guess they're of the same nature as `\r\n`s.
-	rawComment = rawComment.replace(/\\t/g, '')
 	const comment = constructComment(
 		undefined, // boardId
 		threadId,
@@ -108,6 +106,7 @@ export default function parseComment(post, {
 		{
 			filters,
 			parseCommentPlugins,
+			commentLengthLimit,
 			getInReplyToPosts,
 			correctGrammar,
 			messages

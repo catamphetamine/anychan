@@ -20,13 +20,15 @@ export default function parseThreads(response, {
 	boardId,
 	filters,
 	messages,
-	parseCommentPlugins
+	parseCommentPlugins,
+	commentLengthLimit
 }) {
 	const threads = response.reduce((all, page) => all.concat(page.threads), [])
 	return threads.map((thread) => parseThread(thread, {
 		boardId,
 		filters,
 		parseCommentPlugins,
+		commentLengthLimit,
 		messages
 	}))
 }

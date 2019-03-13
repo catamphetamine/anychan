@@ -18,7 +18,8 @@ export default function parseComments(response, {
 	boardId,
 	filters,
 	messages,
-	parseCommentPlugins
+	parseCommentPlugins,
+	commentLengthLimit
 }) {
 	const thread = response.threads[0]
 	const threadId = thread.posts[0].num
@@ -28,6 +29,7 @@ export default function parseComments(response, {
 		defaultAuthor: response.default_name,
 		filters,
 		parseCommentPlugins,
+		commentLengthLimit,
 		messages
 	}))
 	postProcessComments(comments, { threadId, messages })

@@ -29,12 +29,14 @@ import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/app'
 
+import getMessages from '../messages'
 import { applySettings } from '../utility/settings'
 import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 
 import './Application.css'
 
 @connect(({ app, slideshow, found }) => ({
+	locale: app.settings.locale,
 	theme: app.settings.theme,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
@@ -53,6 +55,7 @@ import './Application.css'
 })
 export default class App extends React.Component {
 	static propTypes = {
+		locale: PropTypes.string.isRequired,
 		theme: PropTypes.string.isRequired,
 		route: PropTypes.object.isRequired,
 		children : PropTypes.node.isRequired
@@ -60,6 +63,7 @@ export default class App extends React.Component {
 
 	render() {
 		const {
+			locale,
 			theme,
 			route,
 			slideshowIndex,
@@ -83,7 +87,8 @@ export default class App extends React.Component {
 					<Slideshow
 						i={slideshowIndex}
 						isOpen={slideshowIsOpen}
-						onClose={closeSlideshow}>
+						onClose={closeSlideshow}
+						messages={getMessages(locale).slideshow}>
 						{slideshowPictures}
 					</Slideshow>
 				}

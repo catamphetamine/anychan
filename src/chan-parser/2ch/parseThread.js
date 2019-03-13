@@ -76,6 +76,7 @@ export default function parseThread(thread, {
 	defaultAuthor,
 	filters,
 	parseCommentPlugins,
+	commentLengthLimit,
 	messages
 }) {
 	const comment = parseComment(thread, {
@@ -84,6 +85,7 @@ export default function parseThread(thread, {
 		defaultAuthor,
 		filters,
 		parseCommentPlugins,
+		commentLengthLimit,
 		messages
 	})
 	return constructThread(

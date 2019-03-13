@@ -2,6 +2,8 @@ import { getContentTypeByFileName } from '../parseAttachment'
 
 const STICKER_FILE_TYPE = 100
 
+const ORIGIN = 'https://2ch.hk'
+
 function getContentTypeByFileType(type) {
 	switch (type) {
 		case 1:
@@ -36,16 +38,19 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `https://2ch.hk${file.thumbnail}`
+					url: `${ORIGIN}${file.thumbnail}`
 				}, {
 					width: file.width,
 					height: file.height,
-					url: `https://2ch.hk${file.path}`
+					url: `${ORIGIN}${file.path}`
 				}]
 			}
 		}
 		if (file.type === STICKER_FILE_TYPE) {
 			picture.picture.kind = 'sticker'
+			// // A link to a page with "Add this sticker to your library" button.
+			// // Example: "/makaba/stickers/show/DJfQnwJM".
+			// picture.picture.installStickerLink = `${ORIGIN}${file.install}`
 		}
 		return picture
 	}
@@ -58,7 +63,7 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `https://2ch.hk${file.thumbnail}`
+					url: `${ORIGIN}${file.thumbnail}`
 				}]
 			}
 		} else {
@@ -78,7 +83,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.width,
 						height: file.height,
-						url: `https://2ch.hk${file.path}`
+						url: `${ORIGIN}${file.path}`
 					}]
 				},
 				picture

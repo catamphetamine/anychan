@@ -11,7 +11,7 @@ const redux = new ReduxModule()
 
 export const getBoards = redux.action(
 	() => async http => {
-		// Remove this before pushing.
+		const apiRequestStartedAt = Date.now()
 		let response
 		// Development process optimization.
 		// (public CORS proxies introduce delays)
@@ -20,6 +20,7 @@ export const getBoards = redux.action(
 		} else {
 			response = await http.get(proxyUrl(getChan().boardsUrl))
 		}
+		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const {
 			boards,
 			boardsByPopularity,
@@ -39,9 +40,11 @@ export const getBoards = redux.action(
 
 export const getThreads = redux.action(
 	(boardId, filters, locale) => async http => {
+		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
 			getChan().threadsUrl.replace('{boardId}', boardId)
 		))
+		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
 		const threads = createParser({ filters, locale }).parseThreads(response, { boardId })
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
@@ -63,9 +66,11 @@ export const getThreads = redux.action(
 
 export const getComments = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
+		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
 			getChan().commentsUrl.replace('{boardId}', boardId).replace('{threadId}', threadId)
 		))
+		console.log(`Get comments API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
 		const comments = createParser({ filters, locale }).parseComments(response, { boardId })
 		console.log(`Comments parsed in ${(Date.now() - startedAt) / 1000} secs`)
@@ -97,6 +102,7 @@ function createParser({ filters, locale }) {
 	const Parser = getParser(getChan().id)
 	return new Parser({
 		filters,
+		commentLengthLimit: 700,
 		messages: locale ? getMessages(locale) : undefined
 	})
 }

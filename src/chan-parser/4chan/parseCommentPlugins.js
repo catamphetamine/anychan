@@ -120,9 +120,12 @@ const parseQuote = {
 		}
 	],
 	createBlock(content) {
-		return {
-			type: 'inline-quote',
-			content: dropQuoteMarker(content)
+		content = dropQuoteMarker(content)
+		if (content) {
+			return {
+				type: 'inline-quote',
+				content
+			}
 		}
 	}
 }

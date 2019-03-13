@@ -105,7 +105,7 @@ describe('4chan.org', () => {
 						],
 						"createdAt": new Date("2019-02-01T06:37:01.000Z"),
 						"title": "/stg/- Slave Trainer General/Maledom general",
-						"textPreview": "Embrace the 2d edition",
+						"textPreview": "Embrace the 2d edition\n\nHIS GENERAL ISN'T JUST ABOUT SLAVE TRAINERS OTHER GENRES OF GAMES FIT HERE ALSO (Please read the next part for further …",
 						"content": [
 							[
 								"Embrace the 2d edition"

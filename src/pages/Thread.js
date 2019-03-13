@@ -18,10 +18,11 @@ import './Thread.css'
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
-@connect(({ chan }) => ({
+@connect(({ chan, app }) => ({
 	board: chan.board,
 	thread: chan.thread,
-	comments: chan.comments
+	comments: chan.comments,
+	locale: app.settings.locale
 }), {
 	openSlideshow
 })
@@ -55,9 +56,11 @@ export default class ThreadPage extends React.Component {
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
 				<header className="thread-page__header page__heading">
-					<Link className="page__heading-text" to={`/${board.id}`}>
-						{board.name}
-					</Link>
+					<div className="page__heading-text">
+						<Link to={`/${board.id}`}>
+							{board.name}
+						</Link>
+					</div>
 					<h1 className="page__heading-text">
 						{thread.subject}
 					</h1>

@@ -1,4 +1,4 @@
-import createLink from '../createLink'
+import createLink from 'webapp-frontend/src/utility/post/createLink'
 import dropQuoteMarker from '../dropQuoteMarker'
 
 const parseInlineQuote = {
@@ -10,9 +10,12 @@ const parseInlineQuote = {
 		}
 	],
 	createBlock(content) {
-		return {
-			type: 'inline-quote',
-			content: dropQuoteMarker(content)
+		content = dropQuoteMarker(content)
+		if (content) {
+			return {
+				type: 'inline-quote',
+				content
+			}
 		}
 	}
 }

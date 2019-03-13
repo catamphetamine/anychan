@@ -1,10 +1,11 @@
-import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
 import filterComment from './filterComment'
 import parseComment from './parseComment'
 import splitParagraphs from './splitParagraphs'
-import trimWhitespace from './trimWhitespace'
 import postProcessComment from './postProcessComment'
 import ignoreText from './ignoreText'
+
+import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
+import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
 
 export default function constructComment(
 	boardId,
@@ -20,7 +21,8 @@ export default function constructComment(
 		parseCommentPlugins,
 		getInReplyToPosts,
 		correctGrammar,
-		messages
+		messages,
+		commentLengthLimit
 	}
 ) {
 	const comment = {
@@ -30,7 +32,6 @@ export default function constructComment(
 		createdAt: new Date(timestamp * 1000)
 	}
 	if (subject) {
-		subject = unescapeContent(subject)
 		if (correctGrammar) {
 			subject = correctGrammar(subject)
 		}
@@ -50,10 +51,20 @@ export default function constructComment(
 			correctGrammar,
 			plugins: parseCommentPlugins
 		})
+		// Split content into paragraphs on multiple line breaks,
+		// trim whitespace around paragraphs, generate content preview.
 		if (comment.content) {
+			// Split content into multiple paragraphs on multiple line breaks.
 			comment.content = splitParagraphs(comment.content)
-			// `content` internals will be mutated.
+			// Trim whitespace around paragraphs.
 			comment.content = trimWhitespace(comment.content)
+			// Generate preview for long comments.
+			if (commentLengthLimit) {
+				const preview = generatePostPreview(comment, { limit: commentLengthLimit })
+				if (preview) {
+					comment.contentPreview = preview
+				}
+			}
 		}
 	}
 	if (author) {

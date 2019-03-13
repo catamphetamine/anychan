@@ -18,7 +18,8 @@ export default function parseComments(response, {
 	filters,
 	boardId,
 	messages,
-	parseCommentPlugins
+	parseCommentPlugins,
+	commentLengthLimit
 }) {
 	const threadId = response.posts[0].no
 	const comments = response.posts.map(_ => parseComment(_, {
@@ -26,6 +27,7 @@ export default function parseComments(response, {
 		threadId,
 		filters,
 		parseCommentPlugins,
+		commentLengthLimit,
 		messages
 	}))
 	postProcessComments(comments, { threadId, messages })

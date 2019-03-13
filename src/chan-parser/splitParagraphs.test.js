@@ -132,9 +132,7 @@ describe('splitParagraphs', () => {
 			],
 			[
 				[
-					'abc',
-					'\n',
-					' '
+					'abc'
 				],
 				[
 					'def'

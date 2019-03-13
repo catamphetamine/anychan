@@ -138,6 +138,7 @@ function Comment({
 			post={comment}
 			url={url}
 			locale={locale}
+			readMoreLabel={getMessages(locale).readMore}
 			compact={compact}
 			saveBandwidth
 			openSlideshow={openSlideshow}
