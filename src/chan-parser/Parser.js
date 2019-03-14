@@ -1,3 +1,5 @@
+import generateTextPreview from './generateTextPreview'
+
 export default class Parser {
 	constructor({
 		messages,
@@ -5,18 +7,20 @@ export default class Parser {
 		plugins,
 		parseBoards,
 		parseThreads,
-		parseComments,
-		commentLengthLimit
+		parseThread,
+		commentLengthLimit,
+		getUrl
 	}) {
 		this.options = {
 			messages,
 			filters,
 			commentLengthLimit,
-			parseCommentPlugins: plugins
+			parseCommentPlugins: plugins,
+			getUrl
 		}
 		this._parseBoards = parseBoards
 		this._parseThreads = parseThreads
-		this._parseComments = parseComments
+		this._parseThread = parseThread
 	}
 
 	parseBoards(response) {
@@ -30,10 +34,13 @@ export default class Parser {
 		})
 	}
 
-	parseComments(response, { boardId }) {
-		return this._parseComments(response, {
+	parseThread(response, { boardId }) {
+		const thread = this._parseThread(response, {
 			...this.options,
 			boardId
 		})
+		// Text preview is used for `<meta description/>`.
+		generateTextPreview(thread.comments[0])
+		return thread
 	}
 }

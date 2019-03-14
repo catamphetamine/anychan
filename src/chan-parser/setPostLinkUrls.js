@@ -5,15 +5,15 @@ import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
  * @param {object[]} posts
  * @param {object} options
  */
-export default function setPostLinkUrls(post, { boardId, threadId, messages }) {
+export default function setPostLinkUrls(post, { boardId, threadId, messages, getUrl }) {
 	visitPostParts(
 		'post-link',
-		postLink => setPostLinkUrl(postLink, { boardId, threadId, messages }),
+		postLink => setPostLinkUrl(postLink, { boardId, threadId, messages, getUrl }),
 		post.content
 	)
 }
 
-function setPostLinkUrl(postLink, { boardId, threadId, messages }) {
+function setPostLinkUrl(postLink, { boardId, threadId, messages, getUrl }) {
 	// Set content.
 	postLink.content = messages.quotedPost
 	// Set board ID.
@@ -25,9 +25,5 @@ function setPostLinkUrl(postLink, { boardId, threadId, messages }) {
 		postLink.threadId = threadId
 	}
 	// Set URL.
-	if (threadId === postLink.threadId) {
-		postLink.url = `#comment-${postLink.postId}`
-	} else {
-		postLink.url = `/${postLink.boardId}/${postLink.threadId}#comment-${postLink.postId}`
-	}
+	postLink.url = getUrl({ id: postLink.boardId }, { id: postLink.threadId }, { id: postLink.postId })
 }

@@ -1,4 +1,3 @@
-import generateTextPreview from './generateTextPreview'
 import setInReplyToQuotes from './setInReplyToQuotes'
 import setPostLinksContent from './setPostLinksContent'
 import setReplies from './setReplies'
@@ -10,8 +9,6 @@ export default function postProcessComments(comments, {
 	commentLengthLimit,
 	messages
 }) {
-	// Text preview is used for `<meta description/>`.
-	generateTextPreview(comments[0])
 	// Autogenerate "in reply to" quotes.
 	// Set `post-link`s' text.
 	for (const comment of comments) {

@@ -3,19 +3,8 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
 
 /**
  * Parses chan API response for boards list.
- * @param  {object} response — Chan API response for boards list
- * @return {object}
- * @example
- * // Returns:
- * // {
- * //   boards: [{
- * //     id: 'v',
- * //     name: 'Video Games General',
- * //     description: 'Video Games general discussions',
- * //     category: 'Video Games'
- * //   }, ...]
- * // }
- * parseBoards(response)
+ * @param  {object} response — Chan API response for boards list.
+ * @return {object[]} See README.md for "Board" object description.
  */
 export default function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)

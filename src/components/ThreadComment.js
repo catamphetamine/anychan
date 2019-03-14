@@ -13,12 +13,51 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import { getChan, addChanParameter } from '../chan'
+import { getChan } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
 import configuration from '../configuration'
 
+import StopIcon from 'webapp-frontend/assets/images/icons/stop.svg'
+import PinIcon from 'webapp-frontend/assets/images/icons/pin.svg'
+import InfinityIcon from 'webapp-frontend/assets/images/icons/infinity.svg'
+import LockIcon from 'webapp-frontend/assets/images/icons/lock.svg'
+import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
+
 import './ThreadComment.css'
+
+const BADGES = [
+	{
+		name: 'banned',
+		icon: StopIcon,
+		title: locale => getMessages(locale).post.banned,
+		condition: post => post.authorWasBanned
+	},
+	{
+		name: 'bump-limit',
+		icon: SinkingBoatIcon,
+		title: locale => getMessages(locale).post.bumpLimitReached,
+		condition: (post, thread) => post.id === thread.id && thread.isBumpLimitReached && !thread.isSticky
+	},
+	{
+		name: 'sticky',
+		icon: PinIcon,
+		title: locale => getMessages(locale).post.sticky,
+		condition: (post, thread) => post.id === thread.id && thread.isSticky
+	},
+	{
+		name: 'rolling',
+		icon: InfinityIcon,
+		title: locale => getMessages(locale).post.rolling,
+		condition: (post, thread) => post.id === thread.id && thread.isRolling
+	},
+	{
+		name: 'closed',
+		icon: LockIcon,
+		title: locale => getMessages(locale).post.closed,
+		condition: (post, thread) => post.id === thread.id && thread.isClosed
+	}
+]
 
 // Passing `locale` as an explicit property instead to avoid having
 // a lot of `@connect()`s executing on pages with a lot of posts.
@@ -66,8 +105,9 @@ export default class ThreadComment extends React.Component {
 			<Comment
 				compact={mode === 'thread'}
 				comment={comment}
+				thread={thread}
 				hidden={hidden}
-				url={addChanParameter(getUrl(board, thread, comment))}
+				url={getUrl(board, thread, comment)}
 				locale={locale}
 				openSlideshow={openSlideshow}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
@@ -79,7 +119,7 @@ export default class ThreadComment extends React.Component {
 					id={`comment-${comment.id}`}
 					filter={commentOnClickFilter}
 					onClick={hidden || onClick ? this.onClick : undefined}
-					link={hidden || onClick ? (getBasePath() || '') + addChanParameter(getUrl(board, thread, comment)) : undefined}
+					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread, comment) : undefined}
 					onClickClassName="thread__comment-container--click"
 					className="thread__comment-container">
 					{commentElement}
@@ -115,6 +155,7 @@ ThreadComment.propTypes = {
 function Comment({
 	halfSizedAttachmentThumbnails,
 	comment,
+	thread,
 	compact,
 	hidden,
 	url,
@@ -136,9 +177,12 @@ function Comment({
 	return (
 		<Post
 			post={comment}
+			thread={thread}
 			url={url}
 			locale={locale}
-			readMoreLabel={getMessages(locale).readMore}
+			readMoreLabel={getMessages(locale).post.readMore}
+			badges={BADGES}
+			replies={comment.replies}
 			compact={compact}
 			saveBandwidth
 			openSlideshow={openSlideshow}
@@ -153,6 +197,7 @@ function Comment({
 
 Comment.propTypes = {
 	comment: PropTypes.object.isRequired,
+	thread: PropTypes.object.isRequired,
 	hidden: PropTypes.bool,
 	url: PropTypes.string.isRequired,
 	locale: PropTypes.string.isRequired,

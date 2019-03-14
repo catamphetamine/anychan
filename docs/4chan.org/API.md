@@ -120,10 +120,10 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 		// A list of `Post` objects
 	]
 
-	// (only for `/thread/THREAD-ID.json` API)
-	"unique-ips": 44, // Unique poster IPs count.
+	// (only for `/thread/THREAD-ID.json` API response)
+	"unique_ips": 44, // Unique poster IPs count.
 
-	// (only for `/thread/THREAD-ID.json` API)
+	// (only for `/thread/THREAD-ID.json` API response)
 	"tail_size": 50, // Ignore this property. See the "Auto-refresh" section for more info on "tail" API.
 }
 ```
@@ -306,9 +306,8 @@ The response of the "tail" API is the same as the one of the regular "get thread
 	"replies": 195, // Total comments count.
 	"images": 82, // Total attachments count.
 	"unique_ips": 44, // Unique poster IPs count.
-	"custom_spoiler": 1, // Whether the board has "custom spoilers" defined.
 	"tail_size": 50, // The length of the `posts` array (minus one for the opening post) in this API response.
-	"tail_id": 185788827 // The `id` of the comment which comes before the first comment of the "tail". In other words, the `id` of the last comment not included in the "tail" API response.
+	"tail_id": 185788827, // The `id` of the comment which comes before the first comment of the "tail". In other words, the `id` of the last comment not included in the "tail" API response.
 }
 ```
 

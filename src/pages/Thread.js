@@ -4,7 +4,8 @@ import { preload, meta, Link } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { getComments } from '../redux/chan'
+import getUrl from '../utility/getUrl'
+import { getThread } from '../redux/chan'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import ThreadComment from '../components/ThreadComment'
@@ -21,14 +22,13 @@ import './Thread.css'
 @connect(({ chan, app }) => ({
 	board: chan.board,
 	thread: chan.thread,
-	comments: chan.comments,
 	locale: app.settings.locale
 }), {
 	openSlideshow
 })
 @preload(async ({ getState, dispatch, params }) => {
 	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
-	await dispatch(getComments(
+	await dispatch(getThread(
 		params.board,
 		params.thread,
 		getState().app.settings.filters,
@@ -41,23 +41,19 @@ export default class ThreadPage extends React.Component {
 		locale: PropTypes.string.isRequired
 	}
 
-	getUrl = (board, thread, comment) => {
-		return `/${board.id}/${thread.id}#comment-${comment.id}`
-	}
-
 	render() {
 		const {
 			board,
 			thread,
-			comments,
 			locale,
 			openSlideshow
 		} = this.props
+
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
 				<header className="thread-page__header page__heading">
 					<div className="page__heading-text">
-						<Link to={`/${board.id}`}>
+						<Link to={getUrl(board)}>
 							{board.name}
 						</Link>
 					</div>
@@ -65,14 +61,14 @@ export default class ThreadPage extends React.Component {
 						{thread.subject}
 					</h1>
 				</header>
-				{comments && comments.map((comment) => (
+				{thread.comments.map((comment) => (
 					<ThreadComment
 						key={comment.id}
 						mode="thread"
 						board={board}
 						thread={thread}
 						comment={comment}
-						getUrl={this.getUrl}
+						getUrl={getUrl}
 						locale={locale}
 						openSlideshow={openSlideshow}/>
 				))}

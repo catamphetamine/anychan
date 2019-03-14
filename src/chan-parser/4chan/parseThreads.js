@@ -2,33 +2,11 @@ import parseThread from './parseThread'
 
 /**
  * Parses chan API response for threads list.
- * @param  {object} response — Chan API response for threads list
+ * @param  {object} response — Chan API response for threads list.
  * @param  {object} options
- * @return {object}
- * @example
- * // Returns:
- * // [{
- * //   id: '12345',
- * //   ... See `parseThread.js`,
- * //   comments: [{
- * //     ... See `parseComment.js`
- * //   }]
- * // }, ...]
- * parseThreads(response)
+ * @return {object[]} See README.md for "Thread" object description.
  */
-export default function parseThreads(response, {
-	boardId,
-	filters,
-	messages,
-	parseCommentPlugins,
-	commentLengthLimit
-}) {
+export default function parseThreads(response, options) {
 	const threads = response.reduce((all, page) => all.concat(page.threads), [])
-	return threads.map((thread) => parseThread(thread, {
-		boardId,
-		filters,
-		parseCommentPlugins,
-		commentLengthLimit,
-		messages
-	}))
+	return threads.map((thread) => parseThread(thread, [thread], options))
 }

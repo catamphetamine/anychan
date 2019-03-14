@@ -2,7 +2,6 @@ import { describe, it } from '../mocha'
 import expectToEqual from '../expectToEqual'
 
 import parseComment from './parseComment'
-import correctGrammar from './correctGrammar'
 import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
 
 function parseCommentTest(comment, options, expected, expectedWarnings = []) {
@@ -12,7 +11,6 @@ function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 
 	comment = parseComment(comment, {
 		...options,
-		correctGrammar,
 		parseCommentPlugins: PARSE_COMMENT_PLUGINS
 	})
 
@@ -23,29 +21,27 @@ function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 }
 
 describe('parseComment', () => {
-	it('should parse "thanks-abu" marker', () => {
+	it('should detect banned posts', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
-				files: [],
-				timestamp: date.getTime() / 1000,
-				comment: "Текст.\u003cbr\u003e\u003cbr\u003e\u003cspan class=\"thanks-abu\" style=\"color: red;\"\u003eАбу благословил этот пост.\u003c/span\u003e",
-				banned: 0
+				no: 456,
+				time: date.getTime() / 1000,
+				com: "Text.\u003cbr\u003e\u003cbr\u003e\u003cb style=\"color:red;\"\u003e(USER WAS BANNED FOR THIS POST)\u003c/b\u003e",
 			},
 			{
 				boardId: 'b',
-				threadId: 123,
+				threadId: 123
 			},
 			{
 				id: 456,
 				inReplyTo: [],
 				attachments: [],
 				createdAt: date,
-				abuLike: true,
+				authorWasBanned: true,
 				content: [
 					[
-						'Текст.'
+						'Text.'
 					]
 				]
 			}
@@ -56,25 +52,24 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
-				files: [],
-				timestamp: date.getTime() / 1000,
-				comment: 'Текст',
-				trip: '!!%adm%!!'
+				no: 456,
+				time: date.getTime() / 1000,
+				capcode: 'admin',
+				com: 'Text',
 			},
 			{
 				boardId: 'b',
-				threadId: 123,
+				threadId: 123
 			},
 			{
 				id: 456,
-				authorRole: 'administrator',
 				inReplyTo: [],
 				attachments: [],
 				createdAt: date,
+				authorRole: 'administrator',
 				content: [
 					[
-						'Текст'
+						'Text'
 					]
 				]
 			}
@@ -85,55 +80,50 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
-				files: [],
-				timestamp: date.getTime() / 1000,
-				comment: 'Текст',
-				trip: '!!%mod%!!'
+				no: 456,
+				time: date.getTime() / 1000,
+				capcode: 'mod',
+				com: 'Text',
 			},
 			{
 				boardId: 'b',
-				threadId: 123,
+				threadId: 123
 			},
 			{
 				id: 456,
-				authorRole: 'moderator',
 				inReplyTo: [],
 				attachments: [],
 				createdAt: date,
+				authorRole: 'moderator',
 				content: [
 					[
-						'Текст'
+						'Text'
 					]
 				]
 			}
 		)
 	})
 
-	it('should detect banned posts', () => {
+	it('should handle "<wbr>" tags', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
-				files: [],
-				timestamp: date.getTime() / 1000,
-				comment: 'Текст',
-				trip: '!!5pvF7WEJc.',
-				banned: 1
+				no: 456,
+				time: date.getTime() / 1000,
+				com: 'Te<wbr>xt',
 			},
 			{
 				boardId: 'b',
-				threadId: 123,
+				threadId: 123
 			},
 			{
 				id: 456,
-				authorWasBanned: true,
 				inReplyTo: [],
 				attachments: [],
 				createdAt: date,
 				content: [
 					[
-						'Текст'
+						'Te​xt' // Contains a "breaking space" in the middle.
 					]
 				]
 			}

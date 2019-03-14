@@ -72,10 +72,9 @@ describe('4chan.org', () => {
 
 		const THREADS = [
 			{
+				"boardId": "a",
 				"id": 2952650,
-				"isClosed": false,
-				"isEndless": false,
-				"isSticky": false,
+				"lastModifiedAt": new Date(1549225356 * 1000),
 				"commentsCount": 193,
 				"attachmentsCount": 36,
 				"comments" : [
@@ -184,6 +183,9 @@ describe('4chan.org', () => {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
+				},
+				getUrl(board, thread, comment) {
+					return `/${board.id}/${thread.id}#comment-${comment.id}`
 				}
 			}).parseThreads(API_RESPONSE, {
 				boardId: 'a'

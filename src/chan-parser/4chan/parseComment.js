@@ -4,84 +4,43 @@ import getInReplyToPosts from './getInReplyToPosts'
 
 import constructComment from '../constructComment'
 
+const USER_BANNED_MARK = /<br><br><b style="color:red;">\(USER WAS BANNED FOR THIS POST\)<\/b>$/
+
 /**
- * Parses response thread JSON object.
- * @param  {object} thread — Response thread JSON object.
+ * Parses response comment JSON object.
+ * @param  {object} comment — Response comment JSON object.
  * @param  {object} options
- * @return {object}
- * @example
- * // Outputs:
- * // {
- * //   id: 45678,
- * //   author: 'Школьник №2',
- * //   content: ...,
- * //   inReplyTo: [
- * //     45677
- * //   ],
- * //   createdAt: ...,
- * //   attachments: [{
- * //     type: 'picture',
- * //     size: 35.5, // in kilobytes
- * //     picture: {
- * //       type: 'image/jpeg',
- * //       sizes: [{
- * //         width: 120,
- * //         height: 40,
- * //         url: 'https://...'
- * //       }, {
- * //         width: 1200,
- * //         height: 400,
- * //         url: 'https://...'
- * //       }]
- * //     }
- * //   }, {
- * //     type: 'video',
- * //     size: 5260.12, // in kilobytes
- * //     video: {
- * //       type: 'video/webm',
- * //       duration: 50, // in seconds
- * //       width: 800,
- * //       height: 600,
- * //       source: {
- * //         provider: 'file',
- * //         sizes: [{
- * //           width: 800,
- * //           height: 600,
- * //           url: 'https://...'
- * //         }]
- * //       },
- * //       picture: {
- * //         type: 'image/jpeg',
- * //         sizes: [{
- * //           width: 800,
- * //           height: 600,
- * //           url: 'https://...'
- * //         }]
- * //       }
- * //     }
- * //   }]
- * // }
- * parseComment(...)
+ * @return {object} See README.md for "Comment" object description.
  */
 export default function parseComment(post, {
 	boardId,
-	threadId,
 	filters,
 	parseCommentPlugins,
-	messages
+	commentLengthLimit,
+	messages,
+	getUrl
 }) {
 	let rawComment = post.com
+	let authorWasBanned = false
 	// `post.com` is absent when there's no text.
 	if (rawComment) {
-		// For some weird reason there occasionally are random `<wbr>` tags.
-		rawComment = rawComment.replace(/<wbr>/g, '')
+		// `<wbr>` is a legacy HTML tag for explicitly defined "line breaks".
+		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr
+		rawComment = rawComment.replace(/<wbr>/g, '\u200b')
+		// Test if the author was banned for this post.
+		if (USER_BANNED_MARK.test(rawComment)) {
+			authorWasBanned = true
+			rawComment = rawComment.replace(USER_BANNED_MARK, '')
+		}
 	}
 	const comment = constructComment(
 		boardId,
-		threadId,
+		post.resto, // `threadId`.
 		post.no,
 		rawComment,
 		parseAuthor(post.name),
+		parseRole(post.capcode),
+		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
 		post.ext ? [parseAttachment(post, { boardId })] : [],
@@ -90,8 +49,43 @@ export default function parseComment(post, {
 			filters,
 			parseCommentPlugins,
 			getInReplyToPosts,
-			messages
+			commentLengthLimit,
+			messages,
+			getUrl
 		}
 	)
 	return comment
+}
+
+// https://www.4chan.org/faq#capcode
+// A capcode is a way of verifying someone as a 4chan team member.
+// Normal users do not have the ability to post using a capcode.
+// Janitors do not receive a capcode.
+function parseRole(capCode) {
+	switch (capCode) {
+		// Too complex of a scheme.
+		// case 'admin':
+		// 	return 'administrator'
+		// case 'mod':
+		// 	return 'moderator'
+		// case 'manager':
+		// 	return 'manager'
+		// case 'developer':
+		// 	return 'developer'
+		// case 'founder':
+		// 	return 'founder'
+		case 'admin':
+		case 'founder':
+		case 'developer':
+			return 'administrator'
+		case 'mod':
+		// Not documented who's a "manager".
+		// https://github.com/4chan/4chan-API/issues/38
+		case 'manager':
+			return 'moderator'
+		default:
+			if (capCode) {
+				console.error(`Unsupported "capcode": ${capCode}`)
+			}
+	}
 }

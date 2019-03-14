@@ -5,13 +5,16 @@ import postProcessComment from './postProcessComment'
 import ignoreText from './ignoreText'
 
 import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
+import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
 
 export default function constructComment(
 	boardId,
 	threadId,
 	id,
 	rawComment,
-	author,
+	authorName,
+	authorRole,
+	authorWasBanned,
 	subject,
 	attachments,
 	timestamp,
@@ -20,7 +23,8 @@ export default function constructComment(
 		parseCommentPlugins,
 		getInReplyToPosts,
 		correctGrammar,
-		messages
+		messages,
+		getUrl
 	}
 ) {
 	const comment = {
@@ -58,13 +62,20 @@ export default function constructComment(
 			comment.content = trimWhitespace(comment.content)
 		}
 	}
-	if (author) {
-		comment.author = author
+	if (authorName) {
+		comment.authorName = authorName
+	}
+	if (authorRole) {
+		comment.authorRole = authorRole
+	}
+	if (authorWasBanned) {
+		comment.authorWasBanned = true
 	}
 	postProcessComment(comment, {
 		boardId,
 		threadId,
-		messages
+		messages,
+		getUrl
 	})
 	return comment
 }

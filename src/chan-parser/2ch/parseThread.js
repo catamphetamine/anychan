@@ -1,101 +1,70 @@
 import parseComment from './parseComment'
+
 import constructThread from '../constructThread'
 
 /**
- * Parses 2ch.hk thread JSON object.
- * @param  {object} thread — 2ch.hk thread JSON object.
+ * Parses chan API response for thread comments list.
+ * @param  {object} thread — Chan API response thread object
  * @param  {object} options
- * @return {object}
- * @example
- * // Outputs:
- * // {
- * //   id: 12345,
- * //   boardId: 'b',
- * //   author: 'Школьник',
- * //   isClosed: false,
- * //   isEndless: false, // "endless" threads don't disappear.
- * //   isSticky: false,
- * //   comments: [{
- * //     commentsCount: 18,
- * //     id: '45678',
- * //     author: 'Школьник №2',
- * //     content: ...,
- * //     inReplyTo: [
- * //       45677
- * //     ],
- * //     createdAt: ...,
- * //     attachments: [{
- * //       id: 1,
- * //       type: 'picture',
- * //       size: 35.5, // in kilobytes
- * //       picture: {
- * //         type: 'image/jpeg',
- * //         sizes: [{
- * //           width: 120,
- * //           height: 40,
- * //           url: 'https://...'
- * //         }, {
- * //           width: 1200,
- * //           height: 400,
- * //           url: 'https://...'
- * //         }]
- * //       }
- * //     }, {
- * //       id: 2,
- * //       type: 'video',
- * //       size: 5260.12, // in kilobytes
- * //       video: {
- * //         type: 'video/webm',
- * //         duration: 50, // in seconds
- * //         width: 800,
- * //         height: 600,
- * //         source: {
- * //           provider: 'file',
- * //           sizes: [{
- * //             width: 800,
- * //             height: 600,
- * //             url: 'https://...'
- * //           }]
- * //         },
- * //         picture: {
- * //           type: 'image/jpeg',
- * //           sizes: [{
- * //             width: 800,
- * //             height: 600,
- * //             url: 'https://...'
- * //           }]
- * //         }
- * //       }
- * //     }]
- * //   }
- * // }]
- * parseThread(...)
+ * @return {object} See README.md for "Thread" object description.
  */
-export default function parseThread(thread, {
+export default function parseThread(thread, posts, {
 	boardId,
-	defaultAuthor,
 	filters,
+	messages,
+	defaultAuthorName,
 	parseCommentPlugins,
-	commentLengthLimit,
-	messages
+	commentLengthLimit, // Max comment length until it generates a shortened preview.
+	maxCommentLength, // Board-wide max comment length allowed by chan.
+	maxAttachmentsSize,
+	bumpLimit,
+	commentsCount,
+	attachmentsCount,
+	getUrl
 }) {
-	const comment = parseComment(thread, {
+	let comments = posts.map(comment => parseComment(comment, {
 		boardId,
-		threadId: parseInt(thread.num),
-		defaultAuthor,
 		filters,
+		messages,
+		defaultAuthorName,
 		parseCommentPlugins,
-		messages
+		getUrl
+	}))
+	const threadInfo = {
+		boardId,
+		commentsCount,
+		attachmentsCount
+	}
+	if (thread.closed === 1) {
+		threadInfo.isClosed = true
+	}
+	if (thread.sticky !== 0) {
+		threadInfo.isSticky = true
+	}
+	// "Rolling" threads never go into "bump limit":
+	// instead messages are being shifted from the start of
+	// such thread as new messages are posted to it.
+	// The "opening post" is always preserved.
+	if (thread.endless === 1) {
+		threadInfo.isRolling = true
+	}
+	if (commentsCount >= bumpLimit) {
+		threadInfo.isBumpLimitReached = true
+	}
+	// Only for `/res/THREAD-ID.json` API response.
+	if (thread.unique_posters) {
+		threadInfo.uniquePostersCount = parseInt(thread.unique_posters)
+	}
+	// Is only used for `/res/THREAD-ID.json` API response.
+	if (maxCommentLength) {
+		threadInfo.maxCommentLength = maxCommentLength
+	}
+	// Is only used for `/res/THREAD-ID.json` API response.
+	if (maxAttachmentsSize) {
+		threadInfo.maxAttachmentsSize = maxAttachmentsSize
+	}
+	return constructThread(threadInfo, comments, {
+		messages,
+		commentLengthLimit
 	})
-	return constructThread(
-		thread.posts_count,
-		thread.files_count,
-		comment,
-		thread.closed === 1,
-		thread.endless === 1,
-		thread.sticky === 1,
-		{
-			commentLengthLimit
-		}
-	)
 }

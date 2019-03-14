@@ -27,7 +27,14 @@
 	"attachmentPicture": "Picture",
 	"attachmentVideo": "Video",
 	"videoNotFound": "Video not found",
-	"readMore": "Show\u00a0more",
+	"post": {
+		"banned": "The author of this comment was banned",
+		"sticky": "Sticky thread",
+		"rolling": "Rolling thread",
+		"closed": "Closed thread",
+		"bumpLimitReached": "The thread has reached its bump limit and is going down",
+		"readMore": "Show\u00a0more"
+	},
 	"copyright": {
 		"chanchan": "chanchan",
 		"postChanchan": " imageboard client",

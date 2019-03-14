@@ -53,6 +53,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		const possibleQuote = contentParent[index + 2]
 		if (possibleQuote && possibleQuote.type === 'inline-quote') {
 			// Move the already existing post quote to the post link.
+			stripLinks(possibleQuote.content)
 			content.quote = possibleQuote.content
 			// Remove the `\n` character and the `inline-quote`.
 			contentParent.splice(index + 1, 2)
@@ -75,6 +76,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		}
 		const text = getPostText(post, {
 			excludeQuotes: true,
+			softLimit: 150,
 			messages: options.messages
 		})
 		if (text) {
@@ -87,4 +89,25 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 	}
 	// Recurse into post parts.
 	setInReplyToQuotes(content.content, posts, options, content)
+}
+
+// Inline quotes can contain hyperlinks too. For example,
+// `2ch.hk` autoparses links in comment text when it's submitted
+// and if there's a quoted link then it will autoparse that link.
+// Such nested links would result in a React warning:
+// "validateDOMNesting(...): <a> cannot appear as a descendant of <a>.".
+function stripLinks(content) {
+	if (Array.isArray(content)) {
+		let i = 0
+		while (i < content.length) {
+			if (typeof content[i] === 'object') {
+				// Handling just a simple case here
+				// and not recursing into nested arrays.
+				if (content[i].type === 'link' && typeof content[i].content === 'string') {
+					content[i] = content[i].content
+				}
+			}
+			i++
+		}
+	}
 }

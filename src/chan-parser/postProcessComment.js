@@ -6,10 +6,11 @@ import parseLinks from './parseLinks'
 export default function postProcessComment(comment, {
 	boardId,
 	threadId,
-	messages
+	messages,
+	getUrl
 }) {
 	parseLinks(comment)
 	removeNewLineCharacters(comment)
-	setPostLinkUrls(comment, { boardId, threadId, messages })
+	setPostLinkUrls(comment, { boardId, threadId, messages, getUrl })
 	expandStandaloneAttachmentLinks(comment)
 }

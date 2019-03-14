@@ -10,9 +10,9 @@ import ApplicationMenu from './ApplicationMenu'
 
 // import Logo from '../../assets/images/icon@192x192.png'
 
-import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
+import getUrl from '../utility/getUrl'
 
 import './Header.css'
 
@@ -43,7 +43,7 @@ export default class Header extends React.Component {
 					{(isBoardLocation(route) || isThreadLocation(route)) && board &&
 						<span className="header__board-title">
 							{isThreadLocation(route) &&
-								<Link to={addChanParameter(`/${board.id}`)} instantBack>
+								<Link to={getUrl(board)} instantBack>
 									{board.name}
 								</Link>
 							}

@@ -27,7 +27,14 @@
 	"attachmentPicture": "Картинка",
 	"attachmentVideo": "Видео",
 	"videoNotFound": "Видео не найдено",
-	"readMore": "Показать\u00a0полностью",
+	"post": {
+		"banned": "Автор этого сообщения был забанен",
+		"sticky": "Прикреплённый тред",
+		"rolling": "Бесконечный тред",
+		"closed": "Тред закрыт",
+		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
+		"readMore": "Показать\u00a0полностью"
+	},
 	"copyright": {
 		"preChanchan": "Клиент для имиджборд «",
 		"postChanchan": "»",

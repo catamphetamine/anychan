@@ -4,13 +4,14 @@ import { goto, pushLocation, preload, meta } from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { getThreads, getComments } from '../redux/chan'
+import { getThreads, getThread } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
-import { getChan, addChanParameter } from '../chan'
+import { getChan } from '../chan'
 import getMessages from '../messages'
+import getUrl from '../utility/getUrl'
 
 import ThreadComment from '../components/ThreadComment'
 
@@ -29,7 +30,7 @@ import './Board.css'
 	openSlideshow,
 	preloadStarted,
 	preloadFinished,
-	getComments,
+	getThread,
 	pushLocation,
 	goto,
 	notify
@@ -57,7 +58,7 @@ export default class BoardPage extends React.Component {
 		const {
 			preloadStarted,
 			preloadFinished,
-			getComments,
+			getThread,
 			pushLocation,
 			notify,
 			settings,
@@ -66,24 +67,20 @@ export default class BoardPage extends React.Component {
 		try {
 			preloadStarted()
 			// Must be the same as the code inside `@preload()` in `pages/Thread.js`.
-			await getComments(
+			await getThread(
 				board.id,
 				thread.id,
 				settings.filters,
 				locale
 			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			pushLocation(addChanParameter(this.getUrl(board, thread, comment)), { instantBack: true })
+			pushLocation(getUrl(board, thread, comment), { instantBack: true })
 		} catch (error) {
 			console.error(error)
 			notify(getMessages(locale).loadingCommentsError, { type: 'error '})
 		} finally {
 			preloadFinished()
 		}
-	}
-
-	getUrl = (board, thread, comment) => {
-		return `/${board.id}/${thread.id}`
 	}
 
 	render() {
@@ -101,6 +98,8 @@ export default class BoardPage extends React.Component {
 				{getChan().id === '2ch' && board.id === 'd' &&
 					<p className="board-page__api-bug-note">
 						Данный раздел пуст из-за бага в <a href="https://2ch.hk/d/catalog.json" target="_blank">API Двача</a>.
+						<br/>
+						<a href="https://2ch.hk/d" target="_blank">Перейти на Двач</a>.
 					</p>
 				}
 				{threads && threads.map((thread) => (
@@ -110,7 +109,7 @@ export default class BoardPage extends React.Component {
 						board={board}
 						thread={thread}
 						comment={thread.comments[0]}
-						getUrl={this.getUrl}
+						getUrl={getUrl}
 						onClick={this.onThreadClick}
 						openSlideshow={openSlideshow}
 						locale={locale}/>

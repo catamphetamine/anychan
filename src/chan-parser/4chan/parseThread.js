@@ -1,99 +1,58 @@
 import parseComment from './parseComment'
+
 import constructThread from '../constructThread'
 
 /**
- * Parses 2ch.hk thread JSON object.
- * @param  {object} thread — 2ch.hk thread JSON object.
+ * Parses chan API response for a thread.
+ * @param  {object} response — Chan API response for a thread
  * @param  {object} options
- * @return {object}
- * @example
- * // Outputs:
- * // {
- * //   id: 12345,
- * //   boardId: 'b',
- * //   author: 'Школьник',
- * //   isClosed: false,
- * //   isEndless: false, // "endless" threads don't disappear.
- * //   isSticky: false,
- * //   comments: [{
- * //     commentsCount: 18,
- * //     id: '45678',
- * //     author: 'Школьник №2',
- * //     content: ...,
- * //     inReplyTo: [
- * //       45677
- * //     ],
- * //     createdAt: ...,
- * //     attachments: [{
- * //       id: 1,
- * //       type: 'picture',
- * //       size: 35.5, // in kilobytes
- * //       picture: {
- * //         type: 'image/jpeg',
- * //         sizes: [{
- * //           width: 120,
- * //           height: 40,
- * //           url: 'https://...'
- * //         }, {
- * //           width: 1200,
- * //           height: 400,
- * //           url: 'https://...'
- * //         }]
- * //       }
- * //     }, {
- * //       id: 2,
- * //       type: 'video',
- * //       size: 5260.12, // in kilobytes
- * //       video: {
- * //         type: 'video/webm',
- * //         duration: 50, // in seconds
- * //         width: 800,
- * //         height: 600,
- * //         source: {
- * //           provider: 'file',
- * //           sizes: [{
- * //             width: 800,
- * //             height: 600,
- * //             url: 'https://...'
- * //           }]
- * //         },
- * //         picture: {
- * //           type: 'image/jpeg',
- * //           sizes: [{
- * //             width: 800,
- * //             height: 600,
- * //             url: 'https://...'
- * //           }]
- * //         }
- * //       }
- * //     }]
- * //   }
- * // }]
- * parseThread(...)
+ * @return {object} See README.md for "Thread" object description.
  */
-export default function parseThread(thread, {
+export default function parseThread(thread, posts, {
 	boardId,
 	filters,
+	messages,
 	parseCommentPlugins,
 	commentLengthLimit,
-	messages
+	getUrl
 }) {
-	const comment = parseComment(thread, {
+	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
-		threadId: thread.no,
 		filters,
+		messages,
 		parseCommentPlugins,
-		messages
+		getUrl
+	}))
+	const threadInfo = {
+		boardId,
+		commentsCount: thread.replies,
+		attachmentsCount: thread.images
+	}
+	if (thread.closed === 1) {
+		threadInfo.isClosed = true
+	}
+	if (thread.sticky === 1) {
+		threadInfo.isSticky = true
+	}
+	// Only for `/thread/THREAD-ID.json` API response.
+	if (thread.unique_ips) {
+		threadInfo.uniquePostersCount = thread.unique_ips
+	}
+	// Only for `/catalog.json` API response.
+	if (thread.last_modified) {
+		threadInfo.lastModifiedAt = new Date(thread.last_modified * 1000)
+	}
+	if (thread.bumplimit === 1) {
+		threadInfo.isBumpLimitReached = true
+	}
+	if (thread.imagelimit === 1) {
+		threadInfo.isAttachmentLimitReached = true
+	}
+	if (thread.custom_spoiler === 1) {
+		threadInfo.customSpoilerId = thread.custom_spoiler
+	}
+	return constructThread(threadInfo, comments, {
+		messages,
+		commentLengthLimit
 	})
-	return constructThread(
-		thread.replies,
-		thread.images,
-		comment,
-		thread.closed === 1,
-		thread.endless === 1,
-		thread.sticky === 1,
-		{
-			commentLengthLimit
-		}
-	)
 }

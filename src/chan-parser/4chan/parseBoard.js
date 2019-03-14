@@ -1,26 +1,29 @@
 import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
 
 /**
- * Parses response board JSON object
- * @param  {object} board — Response board JSON object
- * @return {object}
- * @example
- * // Outputs:
- * // {
- * //   id: '/a',
- * //   name: 'Anime thread',
- * //   description: 'Anime discussions',
- * //   category: 'Japanese Culture'
- * // }
- * parseBoard(...)
+ * Parses response board JSON object.
+ * @param  {object} board — Response board JSON object.
+ * @return {object} See README.md for "Board" object description.
  */
 export default function parseBoard(board) {
-	return {
+	const parsedBoard = {
 		id: board.board,
 		name: board.title,
 		description: unescapeContent(board.meta_description),
-		category: getBoardCategory(board.board)
+		category: getBoardCategory(board.board),
+		bumpLimit: board.bump_limit,
+		attachmentLimit: board.image_limit
 	}
+	if (board.ws_board === 0) {
+		parsedBoard.isNotSafeForWork = true
+	}
+	parsedBoard.maxCommentLength = board.max_comment_chars
+	parsedBoard.maxAttachmentsSize = board.max_filesize // Example: 4194304
+	parsedBoard.maxVideoAttachmentsSize = board.max_webm_filesize // Example: 3145728
+	parsedBoard.createThreadCooldown = board.cooldowns.threads
+	parsedBoard.replyCooldown = board.cooldowns.replies
+	parsedBoard.attachFileCooldown = board.cooldowns.images
+	return parsedBoard
 }
 
 function getBoardCategory(boardId) {

@@ -61,3 +61,8 @@
 	--picture-background-color: transparent;
 	--post-attachment-hover-shadow: none;
 }
+
+.post__badge-icon--banned {
+	color: #cf0000;
+	opacity: 1;
+}

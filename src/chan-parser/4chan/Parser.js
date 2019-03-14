@@ -2,7 +2,7 @@ import Parser from '../Parser'
 
 import parseBoards from './parseBoards'
 import parseThreads from './parseThreads'
-import parseComments from './parseComments'
+import parseThread from './parseThreadResponse'
 
 import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
 
@@ -13,7 +13,7 @@ export default class FourChanParser extends Parser {
 			plugins: PARSE_COMMENT_PLUGINS,
 			parseBoards,
 			parseThreads,
-			parseComments
+			parseThread
 		})
 	}
 }

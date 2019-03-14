@@ -9,9 +9,9 @@ import { getThreads } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 
-import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
+import getUrl from '../utility/getUrl'
 
 import './Boards.css'
 
@@ -160,18 +160,13 @@ class Board extends React.Component {
 				settings.filters,
 				settings.locale
 			)
-			pushLocation(this.getUrl())
+			pushLocation(getUrl(board))
 		} catch (error) {
 			console.error(error)
 			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
 		} finally {
 			preloadFinished()
 		}
-	}
-
-	getUrl() {
-		const { board } = this.props
-		return addChanParameter(`/${board.id}`)
 	}
 
 	onPointerEnter = () => {
@@ -215,7 +210,7 @@ class Board extends React.Component {
 		return (
 			<React.Fragment>
 				<Link
-					to={this.getUrl()}
+					to={getUrl(board)}
 					onClick={this.onBoardClick}
 					onPointerDown={this.onPointerDown}
 					onPointerUp={this.onPointerUp}
@@ -230,7 +225,7 @@ class Board extends React.Component {
 					{board.id}
 				</Link>
 				<Link
-					to={this.getUrl()}
+					to={getUrl(board)}
 					onClick={this.onBoardClick}
 					onPointerDown={this.onPointerDown}
 					onPointerUp={this.onPointerUp}

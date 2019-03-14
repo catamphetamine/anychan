@@ -3,6 +3,7 @@ import { ReduxModule } from 'react-website'
 import configuration from '../configuration'
 import { getChan } from '../chan'
 import getMessages from '../messages'
+import getUrl from '../utility/getUrl'
 
 import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import { Parser as FourChanParser } from '../chan-parser/4chan'
@@ -64,36 +65,47 @@ export const getThreads = redux.action(
 	})
 )
 
-export const getComments = redux.action(
+export const getThread = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
 			getChan().commentsUrl.replace('{boardId}', boardId).replace('{threadId}', threadId)
 		))
-		console.log(`Get comments API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
+		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const comments = createParser({ filters, locale }).parseComments(response, { boardId })
-		console.log(`Comments parsed in ${(Date.now() - startedAt) / 1000} secs`)
-		const subject = comments[0].title
+		const thread = createParser({ filters, locale }).parseThread(response, { boardId })
+		console.log(`Thread parsed in ${(Date.now() - startedAt) / 1000} secs`)
+		// Move thread subject from the first comment to the thread object.
+		const subject = thread.comments[0].title
 		if (subject) {
-			comments[0].title = undefined
+			thread.comments[0].title = undefined
 		}
 		return {
 			boardId,
 			thread: {
-				id: comments[0].id,
-				subject,
-				comments: [comments[0]]
-			},
-			comments
+				...thread,
+				subject
+			}
 		}
 	},
-	(state, { boardId, thread, comments }) => ({
-		...state,
-		board: state.boards.find(_ => _.id === boardId),
-		thread,
-		comments
-	})
+	(state, { boardId, thread }) => {
+		const board = state.boards.find(_ => _.id === boardId)
+		// 2ch.hk doesn't specify the limits in board settings themselves.
+		// Instead, it returns the limits as part of "get thread" API response.
+		if (thread.maxCommentLength) {
+			// Maximum allowed comment length.
+			board.maxCommentLength = thread.maxCommentLength
+			delete thread.maxCommentLength
+			// Maximum allowed attachments size.
+			board.maxAttachmentsSize = thread.maxAttachmentsSize
+			delete thread.maxAttachmentsSize
+		}
+		return {
+			...state,
+			board,
+			thread
+		}
+	}
 )
 
 export default redux.reducer()
@@ -103,7 +115,8 @@ function createParser({ filters, locale }) {
 	return new Parser({
 		filters,
 		commentLengthLimit: 700,
-		messages: locale ? getMessages(locale) : undefined
+		messages: locale ? getMessages(locale) : undefined,
+		getUrl
 	})
 }
 

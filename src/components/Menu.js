@@ -6,7 +6,6 @@ import classNames from 'classnames'
 
 import { toggleSidebar, toggleNightMode } from '../redux/app'
 
-import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 
 import './Menu.css'
