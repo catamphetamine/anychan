@@ -5,7 +5,6 @@ import postProcessComment from './postProcessComment'
 import ignoreText from './ignoreText'
 
 import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
-import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
 
 export default function constructComment(
 	boardId,
@@ -21,8 +20,7 @@ export default function constructComment(
 		parseCommentPlugins,
 		getInReplyToPosts,
 		correctGrammar,
-		messages,
-		commentLengthLimit
+		messages
 	}
 ) {
 	const comment = {
@@ -52,19 +50,12 @@ export default function constructComment(
 			plugins: parseCommentPlugins
 		})
 		// Split content into paragraphs on multiple line breaks,
-		// trim whitespace around paragraphs, generate content preview.
+		// trim whitespace around paragraphs.
 		if (comment.content) {
 			// Split content into multiple paragraphs on multiple line breaks.
 			comment.content = splitParagraphs(comment.content)
 			// Trim whitespace around paragraphs.
 			comment.content = trimWhitespace(comment.content)
-			// Generate preview for long comments.
-			if (commentLengthLimit) {
-				const preview = generatePostPreview(comment, { limit: commentLengthLimit })
-				if (preview) {
-					comment.contentPreview = preview
-				}
-			}
 		}
 	}
 	if (author) {

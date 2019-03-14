@@ -30,6 +30,10 @@ export default function parseComments(response, {
 		commentLengthLimit,
 		messages
 	}))
-	postProcessComments(comments, { threadId, messages })
+	postProcessComments(comments, {
+		threadId,
+		commentLengthLimit,
+		messages
+	})
 	return comments
 }

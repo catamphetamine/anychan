@@ -74,7 +74,6 @@ export default function parseComment(post, {
 	defaultAuthor,
 	filters,
 	parseCommentPlugins,
-	commentLengthLimit,
 	messages
 }) {
 	let subject = post.subject
@@ -106,7 +105,6 @@ export default function parseComment(post, {
 		{
 			filters,
 			parseCommentPlugins,
-			commentLengthLimit,
 			getInReplyToPosts,
 			correctGrammar,
 			messages

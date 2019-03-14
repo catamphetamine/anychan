@@ -1,4 +1,4 @@
-import generateTextPreview from './generateTextPreview'
+import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
 
 export default function constructThread(
 	commentsCount,
@@ -6,10 +6,20 @@ export default function constructThread(
 	comment,
 	isClosed,
 	isEndless,
-	isSticky
+	isSticky,
+	{
+		commentLengthLimit
+	}
 ) {
-	// Text preview is used for `<meta description/>`.
-	generateTextPreview(comment)
+	// Generate preview for long comments.
+	if (comment.content) {
+		if (commentLengthLimit) {
+			const preview = generatePostPreview(comment, { limit: commentLengthLimit })
+			if (preview) {
+				comment.contentPreview = preview
+			}
+		}
+	}
 	return {
 		id: comment.id,
 		isClosed,

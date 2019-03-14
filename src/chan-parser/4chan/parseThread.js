@@ -83,7 +83,6 @@ export default function parseThread(thread, {
 		threadId: thread.no,
 		filters,
 		parseCommentPlugins,
-		commentLengthLimit,
 		messages
 	})
 	return constructThread(
@@ -92,6 +91,9 @@ export default function parseThread(thread, {
 		comment,
 		thread.closed === 1,
 		thread.endless === 1,
-		thread.sticky === 1
+		thread.sticky === 1,
+		{
+			commentLengthLimit
+		}
 	)
 }

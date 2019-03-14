@@ -29,9 +29,12 @@ export default function parseComments(response, {
 		defaultAuthor: response.default_name,
 		filters,
 		parseCommentPlugins,
-		commentLengthLimit,
 		messages
 	}))
-	postProcessComments(comments, { threadId, messages })
+	postProcessComments(comments, {
+		threadId,
+		commentLengthLimit,
+		messages
+	})
 	return comments
 }

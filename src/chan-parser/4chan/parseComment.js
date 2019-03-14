@@ -68,7 +68,6 @@ export default function parseComment(post, {
 	threadId,
 	filters,
 	parseCommentPlugins,
-	commentLengthLimit,
 	messages
 }) {
 	let rawComment = post.com
@@ -90,7 +89,6 @@ export default function parseComment(post, {
 		{
 			filters,
 			parseCommentPlugins,
-			commentLengthLimit,
 			getInReplyToPosts,
 			messages
 		}
