@@ -221,7 +221,7 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 
 ### Get comments list
 
-https://a.4cdn.org/a/thread/<thread-id>.json
+https://a.4cdn.org/a/thread/THREAD-ID.json
 
 ```js
 {
@@ -312,4 +312,4 @@ The response of the "tail" API is the same as the one of the regular "get thread
 }
 ```
 
-So, in this example, the "tail" API returns an array of 51 `post`s with `tail_size` equal to `50`. The application should search for a message having `id` equal to `tail_id` of the "tail" API response. If such comment is found then the application should append the new (not already displayed) comments from the "tail" on the page. If the comment having `id` equal to `tail_id` is not found though then it means that since the last "auto-refresh" there has been too much new comments and the regular "get thread" API should be used instead on this auto-refresh iteration.
+So, in this example, the "tail" API returns an array of 51 `post`s with `tail_size` equal to `50`. The application should search for a message having `id` equal to `tail_id` of the "tail" API response. If such comment is found then the application should append the new (not already displayed) comments from the "tail" on the page. If the comment having `id` equal to `tail_id` is not found then it means that since the last "auto-refresh" there have been too much new comments and the regular "get thread" API should be used instead on this auto-refresh iteration.
