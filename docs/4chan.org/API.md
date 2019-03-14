@@ -119,6 +119,12 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	"last_replies": [
 		// A list of `Post` objects
 	]
+
+	// (only for `/thread/THREAD-ID.json` API)
+	"unique-ips": 44, // Unique poster IPs count.
+
+	// (only for `/thread/THREAD-ID.json` API)
+	"tail_size": 50, // Ignore this property. See the "Auto-refresh" section for more info on "tail" API.
 }
 ```
 
