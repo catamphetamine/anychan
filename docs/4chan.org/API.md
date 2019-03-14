@@ -18,7 +18,7 @@ Contains both the comment and the attachment file info.
 	"trip": "!Ep8pui8Vw2", // A "tripcode" (some weird cryptographic username having format "!tripcode!!securetripcode").
 
 	// (optional)
-	"capcode": "admin", // I guess it's set for "priviliged" posters ("admin" for admins, "mod" for moderators, "manager" for managers, "developer" for developers, "founder" for founders, etc).
+	"capcode": "admin", // "Capcodes" are set for "priviliged" posters (admins, moderators, etc). See the "Roles" section.
 
 	// (optional)
 	"country": "RU", // ISO 3166-1 alpha-2 country code. Can be used on "international" boards.
@@ -275,3 +275,41 @@ Custom spoilers: `//s.4cdn.org/image/spoiler-${board}${custom_spoiler}.png`
 Country flags: `//s.4cdn.org/image/country/${country}.gif`
 
 `/pol/` country flags: `//s.4cdn.org/image/country/troll/${country}.gif`
+
+### Roles
+
+If a comment has a `capcode` then it implies that the poster is a priviliged one. Possible `capcode`s:
+
+* `"admin"` for admins
+* `"mod"` for moderators
+* `"manager"` for managers
+* `"developer"` for developers
+* `"founder"` for founders
+
+"Janitors" don't get a `capcode`. See [4chan FAQ on "capcodes"](https://www.4chan.org/faq#capcode).
+
+### Auto-refresh
+
+"Tail" API was introduced for reducing bandwidth when auto-refreshing comments in a thread.
+
+To get a list of all comments in a thread one would send a request to the "get thread" API. For example, `http://a.4cdn.org/a/thread/185776347.json`.
+
+Then, when a user navigates to the thread page and scrolls down to the bottom of the page, the program should start "auto-refreshing" the thread in order to get new messages. This is done using the "tail" API which has `-tail` appended to the "get thread" API URL. In this case, that would be `http://a.4cdn.org/a/thread/185776347-tail.json`.
+
+The response of the "tail" API is the same as the one of the regular "get thread" API with the exception that the first `post` doesn't contain various thread info and instead looks like this:
+
+```js
+{
+	"no": 185776347, // Thread id.
+	"bumplimit": 0, // Is "bump limit" reached?
+	"imagelimit": 0, // Is "image limit" reached?
+	"replies": 195, // Total comments count.
+	"images": 82, // Total attachments count.
+	"unique_ips": 44, // Unique poster IPs count.
+	"custom_spoiler": 1, // Whether the board has "custom spoilers" defined.
+	"tail_size": 50, // The length of the `posts` array (minus one for the opening post) in this API response.
+	"tail_id": 185788827 // The `id` of the comment which comes before the first comment of the "tail". In other words, the `id` of the last comment not included in the "tail" API response.
+}
+```
+
+So, in this example, the "tail" API returns an array of 51 `post`s with `tail_size` equal to `50`. The application should search for a message having `id` equal to `tail_id` of the "tail" API response. If such comment is found then the application should append the new (not already displayed) comments from the "tail" on the page. If the comment having `id` equal to `tail_id` is not found though then it means that since the last "auto-refresh" there has been too much new comments and the regular "get thread" API should be used instead on this auto-refresh iteration.
