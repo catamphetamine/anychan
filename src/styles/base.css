@@ -4,10 +4,6 @@ body {
 	overflow-y: auto;
 }
 
-a {
-	color: var(--base-color-darkest);
-}
-
 h1, h2, h3 {
   font-weight: 500;
 }
