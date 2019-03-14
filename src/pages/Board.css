@@ -11,3 +11,9 @@
 		}
 	}
 }
+
+.board-page__api-bug-note {
+	margin-top: calc(var(--unit) * 2);
+	margin-bottom: calc(var(--unit) * 2);
+	text-align: center;
+}

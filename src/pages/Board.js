@@ -9,7 +9,7 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
-import { addChanParameter } from '../chan'
+import { getChan, addChanParameter } from '../chan'
 import getMessages from '../messages'
 
 import ThreadComment from '../components/ThreadComment'
@@ -98,6 +98,11 @@ export default class BoardPage extends React.Component {
 				<h1 className="page__heading">
 					{board.name}
 				</h1>
+				{getChan().id === '2ch' && board.id === 'd' &&
+					<p className="board-page__api-bug-note">
+						Данный раздел пуст из-за бага в <a href="https://2ch.hk/d/catalog.json" target="_blank">API Двача</a>.
+					</p>
+				}
 				{threads && threads.map((thread) => (
 					<ThreadComment
 						key={thread.comments[0].id}
