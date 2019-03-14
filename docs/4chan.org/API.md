@@ -81,15 +81,10 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	"replies": 24, // Thread comments count.
 	"images": 20, // Thread attachments count.
 
-	"bumplimit": 0, // `1` if the "bumplimit" is reached. "Bump limit" is a board-wide setting.
-	"imagelimit": 0, // `1` if the attached images limit is reached . Image limit is a board-wide setting.
-
-	"omitted_posts": 19, // I guess this is how many posts are there in the thread minus `last_replies.length` minus `1` for the "opening post".
-	"omitted_images": 15, // I guess this is how many images are there attached to posts in the thread minus the respective image count for `last_replies` and the "opening post".
+	"bumplimit": 0, // `1` if the "bumplimit" is reached. "Bump limit" (max comments count) is a board-wide setting.
+	"imagelimit": 0, // `1` if the attached images limit is reached . Image limit (max attachments count) is a board-wide setting.
 
 	"semantic_url": "gegege-no-kitaro", // Whatever that is.
-
-	"last_modified": 1549184316 // "Last modified" date (Unix time). Includes replies, deletions, and sticky/closed changes.
 
 	// (optional)
 	"custom_spoiler": 1, // "Custom spoiler" ID for attachments. If present, then is always greater than `0`, and in a given thread all attachments have the same "spoiler" image with that ID.
@@ -107,7 +102,15 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	// (optional)
 	"capcode_replies": {"admin":[1234,1267]}, // If a priviliged user (admin, moderator, etc) replies in the thread then this object will contain the respective post IDs.
 
+	// (only for `catalog.json` API)
+	"omitted_posts": 19, // I guess this is how many posts are there in the thread minus `last_replies.length` minus `1` for the "opening post".
+	"omitted_images": 15, // I guess this is how many images are there attached to posts in the thread minus the respective image count for `last_replies` and the "opening post".
+
+	// (only for `catalog.json` API)
+	"last_modified": 1549184316 // "Last modified" date (Unix time). Includes replies, deletions, and sticky/closed status changes.
+
 	// (optional)
+	// (only for `catalog.json` API)
 	// A random number of last replies in the thread.
 	// For `/b/` seems to be `3`.
 	// For `/a/` seems to be `5`.
@@ -164,9 +167,7 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 
 ```js
 {
-	"boards": [
-		// A list of `Board` objects.
-	]
+	"boards": Board[]
 }
 ```
 
@@ -178,15 +179,11 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 [
 	{
 		"page": 1,
-		"threads": [
-			// A list of `Thread` objects.
-		]
+		"threads": Thread[]
 	},
 	{
 		page: 2,
-		threads: [
-			...
-		]
+		threads: Thread[]
 	},
 	...
 ]
@@ -219,20 +216,17 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 ```
 -->
 
-### Get comments list
+### Get thread
 
 https://a.4cdn.org/a/thread/THREAD-ID.json
 
 ```js
 {
-	"posts": [
-		{
-			// A list of `Post` objects.
-		},
-		...
-	]
+	"posts": Post[]
 }
 ```
+
+The first `Post` has various thread info being a [Thread](#thread) object. The other posts are regular [Post](#post) objects.
 
 ### Get "Popular threads" list
 
