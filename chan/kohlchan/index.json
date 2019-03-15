@@ -51,6 +51,10 @@
 		"text": "IRC",
 		"url": "https://kohlchan.net/irc.html"
 	}, {
+		"type": "other",
+		"text": "Availability Status",
+		"url": "https://loadaverage.org/kohlchan"
+	}, {
 		"type": "radio",
 		"text": "Radio",
 		"url": "https://berndstroemt.tk/"
