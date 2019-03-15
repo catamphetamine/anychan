@@ -4,6 +4,15 @@ body {
 	--footer-menu-height: calc(var(--unit) * 3);
 }
 
+.footer {
+	/* Override ".post__paragraph" margins.
+	  (those variables aren't defined). */
+	p {
+		margin-top: 1em;
+		margin-bottom: 0;
+	}
+}
+
 .footer .application-menu
 {
 	position : fixed;
