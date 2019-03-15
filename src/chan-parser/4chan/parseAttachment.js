@@ -64,6 +64,7 @@ export default function parseAttachment(file, {
 	}
 	return {
 		// contentType: 'application/x-shockwave-flash',
+		contentType,
 		name: file.filename,
 		ext: file.ext,
 		size: file.fsize, // in bytes
