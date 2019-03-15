@@ -43,6 +43,7 @@
 
 .home-page__show-boards-list {
 	display: none;
+	text-align: center;
 	button {
 		color: var(--base-color-darkest);
 	}
