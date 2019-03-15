@@ -22,6 +22,7 @@ export default function parseComment(post, {
 	commentUrlRegExp,
 	attachmentUrl,
 	attachmentThumbnailUrl,
+	fileAttachmentUrl,
 	defaultAuthorName
 }) {
 	let rawComment = post.com
@@ -47,7 +48,12 @@ export default function parseComment(post, {
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
-		parseAttachments(post, { boardId, attachmentUrl, attachmentThumbnailUrl }),
+		parseAttachments(post, {
+			boardId,
+			attachmentUrl,
+			attachmentThumbnailUrl,
+			fileAttachmentUrl
+		}),
 		post.time,
 		{
 			filters,

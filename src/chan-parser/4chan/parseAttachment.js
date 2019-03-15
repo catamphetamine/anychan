@@ -1,13 +1,19 @@
 import { getContentTypeByFileName } from '../parseAttachment'
 
-function formatUrl(url, boardId, name, ext) {
+function formatUrl(url, boardId, name, ext, originalName) {
 	return url
-		.replace('{boardId}', boardId)
-		.replace('{name}', name)
-		.replace('{ext}', ext)
+		.replace(/{boardId}/g, boardId)
+		.replace(/{name}/g, name)
+		.replace(/{ext}/g, ext)
+		.replace(/{originalName}/g, originalName)
 }
 
-export default function parseAttachment(file, { boardId, attachmentUrl, attachmentThumbnailUrl }) {
+export default function parseAttachment(file, {
+	boardId,
+	attachmentUrl,
+	attachmentThumbnailUrl,
+	fileAttachmentUrl
+}) {
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
 		return {
@@ -18,11 +24,11 @@ export default function parseAttachment(file, { boardId, attachmentUrl, attachme
 				sizes: [{
 					width: file.tn_w,
 					height: file.tn_h,
-					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, file.ext)
+					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, file.ext, file.filename)
 				}, {
 					width: file.w,
 					height: file.h,
-					url: formatUrl(attachmentUrl, boardId, file.tim, file.ext)
+					url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
 				}]
 			}
 		}
@@ -40,7 +46,7 @@ export default function parseAttachment(file, { boardId, attachmentUrl, attachme
 					sizes: [{
 						width: file.w,
 						height: file.h,
-						url: formatUrl(attachmentUrl, boardId, file.tim, file.ext)
+						url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
 					}]
 				},
 				picture: {
@@ -48,7 +54,7 @@ export default function parseAttachment(file, { boardId, attachmentUrl, attachme
 					sizes: [{
 						width: file.tn_w,
 						height: file.tn_h,
-						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, '.jpg')
+						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, '.jpg', file.filename)
 					}]
 				}
 			}
@@ -61,7 +67,7 @@ export default function parseAttachment(file, { boardId, attachmentUrl, attachme
 		size: file.fsize, // in bytes
 		width: file.w,
 		height: file.h,
-		url: formatUrl(attachmentUrl, boardId, file.filename, file.ext)
+		url: formatUrl(fileAttachmentUrl, boardId, file.tim, file.ext, file.filename)
 	}
 	console.error(`Unknown file type: ${JSON.stringify(file)}`)
 	return TRANSPARENT_PIXEL

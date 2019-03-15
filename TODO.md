@@ -9,7 +9,7 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
-Handle relative `attachmentUrl` and `attachmentThumbnailUrl`
+Make relative `attachmentUrl` and `attachmentThumbnailUrl` and `fileAttachmentUrl` for `kohlchan.net`
 
 
 Maybe show country flags in /int/ on kohlchan.net:

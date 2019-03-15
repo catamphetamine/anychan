@@ -18,6 +18,7 @@ export default function parseThread(posts, {
 	commentUrlRegExp,
 	attachmentUrl,
 	attachmentThumbnailUrl,
+	fileAttachmentUrl,
 	defaultAuthorName
 }) {
 	const thread = posts[0]
@@ -30,6 +31,7 @@ export default function parseThread(posts, {
 		commentUrlRegExp,
 		attachmentUrl,
 		attachmentThumbnailUrl,
+		fileAttachmentUrl,
 		defaultAuthorName
 	}))
 	const threadInfo = {

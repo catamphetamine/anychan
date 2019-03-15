@@ -6,6 +6,7 @@
 		"defaultAuthorName": "Bernd",
 		"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
 		"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
+		"fileAttachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}/{originalName}{ext}",
 		"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
 	},
 	"color": "#000000",
