@@ -2,7 +2,7 @@
 	"id": "kohlchan",
 	"parser": "4chan",
 	"parserOptions": {
-		"kind": "vichan",
+		"engine": "vichan",
 		"defaultAuthorName": "Bernd",
 		"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
 		"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
