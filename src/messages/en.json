@@ -6,7 +6,23 @@
 	"settings": {
 		"title": "Settings",
 		"language": "Language",
-		"filters": "Filters",
+		"filters": {
+			"title": "Filters",
+			"docs": {
+				"titleRegExps": "Regular expressions",
+				"titleEnd": " tips",
+				"tips": {
+					"start": "Word start",
+					"end": "Word end",
+					"any": "Any letter",
+					"anyOf": "Any single one of letters",
+					"optional": "Optional letter",
+					"anyCountOf": "Any count of any letter",
+					"oneOrMoreOf": "One or more of any letter",
+					"rangeCountOf": "Zero to two of any letter"
+				}
+			}
+		},
 		"fontSize": {
 			"title": "Font Size",
 			"small": "Small",

@@ -119,10 +119,46 @@ export default class SettingsPage extends React.Component {
 					{/* Filters */}
 					<ContentSection>
 						<ContentSectionHeader lite>
-							{messages.settings.filters}
+							{messages.settings.filters.title}
 						</ContentSectionHeader>
-						<pre>
-							{JSON.stringify(getIgnoredWordsByLanguage(settings.locale), null, 2)}
+						<div className="settings-page__filters-docs">
+							{messages.settings.filters.docs.titleStart}
+							<a
+								target="_blank"
+								href="https://www.regexpal.com/"
+								className="settings-page__filters-practice-link">
+								{messages.settings.filters.docs.titleRegExps}
+							</a>
+							{messages.settings.filters.docs.titleEnd}:
+							<ul className="settings-page__filters-tips">
+								<li>
+									<code>^</code> — {messages.settings.filters.docs.tips.start}.
+								</li>
+								<li>
+									<code>$</code> — {messages.settings.filters.docs.tips.end}.
+								</li>
+								<li>
+									<code>.</code> — {messages.settings.filters.docs.tips.any}.
+								</li>
+								<li>
+									<code>[abc]</code> — {messages.settings.filters.docs.tips.anyOf}: <code>a</code>, <code>b</code>, <code>c</code>.
+								</li>
+								<li>
+									<code>a?</code> — {messages.settings.filters.docs.tips.optional} <code>a</code>.
+								</li>
+								<li>
+									<code>.*</code> — {messages.settings.filters.docs.tips.anyCountOf}.
+								</li>
+								<li>
+									<code>.+</code> — {messages.settings.filters.docs.tips.oneOrMoreOf}.
+								</li>
+								<li>
+									<code>{'.{0,2}'}</code> — {messages.settings.filters.docs.tips.rangeCountOf}.
+								</li>
+							</ul>
+						</div>
+						<pre className="settings-page__filters">
+							{getIgnoredWordsByLanguage(settings.locale).join('\n')}
 						</pre>
 					</ContentSection>
 				</ContentSections>

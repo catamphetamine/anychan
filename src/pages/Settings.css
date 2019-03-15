@@ -1,1 +1,38 @@
 @import "../styles/common";
+
+.settings-page__filters {
+	margin: 0;
+}
+
+.settings-page__filters-docs {
+	margin-top: 0;
+	margin-bottom: var(--unit);
+	padding: var(--unit);
+	background-color: #fcfcfc;
+	border: 1px solid var(--gray-color-lightest);
+}
+
+.settings-page__filters-tips {
+	margin-top: var(--unit);
+	margin-bottom: 0;
+	padding-left: var(--unit);
+	list-style: none;
+
+	/*
+	li:before {
+		position: relative;
+		top: 0;
+		padding-right: 0.45em;
+		content: "\2022";
+		font-size: 1em;
+	}
+	*/
+
+	code {
+		color: var(--base-color-darkest);
+	}
+}
+
+.settings-page__filters-practice-link {
+	color: inherit;
+}

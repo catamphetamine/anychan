@@ -1,6 +1,7 @@
 import { getPreferredLocale } from 'react-website'
 
 import IGNORED_WORDS_RU from '../messages/offensive.ru.json'
+import IGNORED_WORDS_EN from '../messages/offensive.en.json'
 
 import {
 	isSupportedLanguage
@@ -60,6 +61,8 @@ export const FONT_SIZES = [
 
 export function getIgnoredWordsByLanguage(language) {
 	switch (language) {
+		case 'en':
+			return IGNORED_WORDS_EN
 		case 'ru':
 			return IGNORED_WORDS_RU
 		default:
