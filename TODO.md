@@ -9,8 +9,23 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+Сделать sidebar scroll через библиотеку (для фаерфокс):
+https://grsmto.github.io/simplebar/
+https://github.com/Grsmto/simplebar/blob/master/examples/react/src/App.js
+
 Make relative `attachmentUrl` and `attachmentThumbnailUrl` and `fileAttachmentUrl` for `kohlchan.net`
 
+Slideshow attachments sort чтобы нормировал thumbnail height на max height (на всякий случай, на возможное будущее что-то).
+
+В слайдшоу меньшение меньше исходного сделать.
+
+Добавить спойлеры на картинках (драпировка, выходящая за рамки, мб скотч малярный).
+
+Not insert read more inside links.
+
+Меню: пожаловаться, скрыть, скопировать ссылку, слайдшоу по всем картинкам мб, раскрыть все картинки мб.
+
+Maybe run a custom proxy for 4chan (google for free hosting).
 
 Maybe show country flags in /int/ on kohlchan.net:
 
