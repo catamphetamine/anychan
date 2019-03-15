@@ -9,6 +9,32 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+Handle relative `attachmentUrl` and `attachmentThumbnailUrl`
+
+
+Maybe show country flags in /int/ on kohlchan.net:
+
+"country": "PROXYFAG",
+"country_name": "Proxy",
+
+"country": "RU-MOW",
+"country_name": "Moscow"
+
+"country": "UA",
+"country_name": "Ukraine"
+
+"country": "TEXAS",
+"country_name": "Texas"
+
+https://kohlchan.net/static/flags/proxyfag.png
+
+
+
+
+
+
+
+Можно как-то показывать {thread.uniquePostersCount}
 
 При догрузке сообщений обновлять "ответы" у предыдущих постов.
 
@@ -53,8 +79,7 @@ Dark theme:
     color: #AAA;
 
 
-
-
+При переходе по ссылке сообщения: загружать область этого сообщения и перематывать на него сразу. При клике на ссылке вида "цитата сообщения" — сначала проверять, показано ли оно, и если не показано, то показывать его, и потом перематывать на него (предыдущие сообщения пока не скрывать).
 
 При переходе по ссылке сообщения: показывать -5 и +5 до/от него. При скроллинге: "ещё ..." либо внизу, либо вверху. При нажатии на "ещё ..." не скрывать сообщения при скроллинге. На всякий случай делать кнопки (или ссылки) "Показать предыдущие" и "Показать следующие", если скроллинг не успеет подгрузить.
 
@@ -370,6 +395,8 @@ if (ids = this.responseText.match(/<!-- thread:([0-9]+),no:([0-9]+) -->/)) {
 
 * Можно интегрировать с LynxChan (http://lynxhub.com/lynxchan/): http://lynxhub.com/lynxchan/res/722.html.
 
+* Написал в hispachan.org
+
 * Можно напиать в arisuchan.
 
 https://github.com/arisu-dev/arisuchan
@@ -488,7 +515,7 @@ https://github.com/Floens/Clover/tree/dev/Clover/app/src/main/java/org/floens/ch
 
 * На десктопах может быть выводить картинку слева от текста (классический вид), если один `attachment`. А может и не выводить.
 
-* Можно перематывать на пост при переходе по ссылке вида `/board/thread#comment-post`. Такую же перемотку можно сделать при нажатии на ссылках вида "Сообщение", потому что обычный "anchor" перематывает так, что перекрывается <Header/>-ом, а также router при этом подгружает страницу, что можно обойти используя `replaceLocation()`.
+* Можно перематывать на пост при переходе по ссылке вида `/board/thread#post`. Такую же перемотку можно сделать при нажатии на ссылках вида "Сообщение", потому что обычный "anchor" перематывает так, что перекрывается <Header/>-ом, а также router при этом подгружает страницу, что можно обойти используя `replaceLocation()`.
 
 * Можно сделать `PropTypes` для thread, comment, board.
 

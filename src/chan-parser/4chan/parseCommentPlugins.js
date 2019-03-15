@@ -78,8 +78,26 @@ const parseCode = {
 	}
 }
 
+// 4chan.org spoiler.
 const parseSpoiler = {
 	tag: 's',
+	createBlock(content) {
+		return {
+			type: 'spoiler',
+			content
+		}
+	}
+}
+
+// kohlchan.net spoiler.
+const parseKohlChanSpoiler = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'spoiler'
+		}
+	],
 	createBlock(content) {
 		return {
 			type: 'spoiler',
@@ -111,6 +129,7 @@ const parseDeletedLink = {
 	}
 }
 
+// 4chan.org quote.
 const parseQuote = {
 	tag: 'span',
 	attributes: [
@@ -130,9 +149,28 @@ const parseQuote = {
 	}
 }
 
+// `kohlchan.net` has regular quotes and "inverse" quotes.
+const parseKohlChanInverseQuote = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'quote2'
+		}
+	],
+	createBlock(content) {
+		content = dropQuoteMarker(content, '<')
+		return {
+			type: 'inline-quote',
+			kind: 'inverse',
+			content
+		}
+	}
+}
+
 const parseLink = {
 	tag: 'a',
-	createBlock(content, util) {
+	createBlock(content, util, { commentUrlRegExp }) {
 		const href = util.getAttribute('href')
 		if (href[0] === '#') {
 			// <a href=\"#p184569592\" class=\"quotelink\">&gt;&gt;184569592</a>
@@ -150,7 +188,7 @@ const parseLink = {
 			return createLink(href, content.slice('//'.length))
 		} else if (href[0] === '/') {
 			// "/a/thread/184064641#p184154285"
-			const match = href.match(/^\/([^\/]+)\/thread\/(\d+)#p(\d+)/)
+			const match = href.match(commentUrlRegExp)
 			if (match) {
 				return {
 					type: 'post-link',
@@ -191,8 +229,10 @@ export default [
 	parseItalicLegacy,
 	parseUnderline,
 	parseSpoiler,
+	parseKohlChanSpoiler,
 	parseDeletedLink,
 	parseQuote,
+	parseKohlChanInverseQuote,
 	parseLink,
 	parseCode
 ]

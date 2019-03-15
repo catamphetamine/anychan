@@ -39,6 +39,8 @@ function getHTMLLocaleFromLanguage(language) {
 			return 'ru_RU'
 		case 'en':
 			return 'en_US'
+		case 'de':
+			return 'de_DE'
 		default:
 			throw new Error(`Unsupported language: ${language}`)
 	}

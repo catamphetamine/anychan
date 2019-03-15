@@ -1,8 +1,8 @@
 // `> abc` -> `abc`.
 // A quote can contain other blocks like bold text, etc.
-export default function dropQuoteMarker(content, isRoot = true) {
+export default function dropQuoteMarker(content, character = '>', isRoot = true) {
 	if (Array.isArray(content)) {
-		const result = dropQuoteMarker(content[0], false)
+		const result = dropQuoteMarker(content[0], character, false)
 		if (result) {
 			content[0] = result
 			return content
@@ -13,7 +13,7 @@ export default function dropQuoteMarker(content, isRoot = true) {
 		}
 	}
 	if (typeof content === 'string') {
-		const text = dropQuoteMarkerText(content)
+		const text = dropQuoteMarkerText(content, character)
 		if (!text) {
 			return
 		}
@@ -24,15 +24,15 @@ export default function dropQuoteMarker(content, isRoot = true) {
 		console.error(content)
 		return
 	}
-	const result = dropQuoteMarker(content.content, false)
+	const result = dropQuoteMarker(content.content, character, false)
 	if (result) {
 		content.content = result
 		return content
 	}
 }
 
-function dropQuoteMarkerText(text) {
-	return text.replace(/^>\s*/, '')
+function dropQuoteMarkerText(text, character) {
+	return text.replace(new RegExp(`^${character}\\s*`), '')
 }
 
 function normalizeContent(content, isRoot) {

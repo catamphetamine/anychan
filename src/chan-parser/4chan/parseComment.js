@@ -18,7 +18,11 @@ export default function parseComment(post, {
 	parseCommentPlugins,
 	commentLengthLimit,
 	messages,
-	getUrl
+	getUrl,
+	commentUrlRegExp,
+	attachmentUrl,
+	attachmentThumbnailUrl,
+	defaultAuthorName
 }) {
 	let rawComment = post.com
 	let authorWasBanned = false
@@ -38,12 +42,12 @@ export default function parseComment(post, {
 		post.resto, // `threadId`.
 		post.no,
 		rawComment,
-		parseAuthor(post.name),
+		parseAuthor(post.name, { defaultAuthorName }),
 		parseRole(post.capcode),
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
-		post.ext ? [parseAttachment(post, { boardId })] : [],
+		parseAttachments(post, { boardId, attachmentUrl, attachmentThumbnailUrl }),
 		post.time,
 		{
 			filters,
@@ -51,7 +55,8 @@ export default function parseComment(post, {
 			getInReplyToPosts,
 			commentLengthLimit,
 			messages,
-			getUrl
+			getUrl,
+			commentUrlRegExp
 		}
 	)
 	return comment
@@ -88,4 +93,16 @@ function parseRole(capCode) {
 				console.error(`Unsupported "capcode": ${capCode}`)
 			}
 	}
+}
+
+function parseAttachments(post, options) {
+	let files = []
+	if (post.ext) {
+		files.push(post)
+	}
+	// kohlchan.net has "extra_files".
+	if (post.extra_files) {
+		files = files.concat(post.extra_files)
+	}
+	return files.map(file => parseAttachment(file, options))
 }

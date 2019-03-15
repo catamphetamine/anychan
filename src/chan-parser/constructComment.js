@@ -24,7 +24,8 @@ export default function constructComment(
 		getInReplyToPosts,
 		correctGrammar,
 		messages,
-		getUrl
+		getUrl,
+		commentUrlRegExp
 	}
 ) {
 	const comment = {
@@ -51,6 +52,7 @@ export default function constructComment(
 		comment.content = parseComment(rawComment, {
 			filters,
 			correctGrammar,
+			commentUrlRegExp,
 			plugins: parseCommentPlugins
 		})
 		// Split content into paragraphs on multiple line breaks,

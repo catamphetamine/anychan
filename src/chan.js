@@ -1,25 +1,31 @@
 import configuration from './configuration'
 
-import DvaChannelIcon from '../chan/2ch/icon.png'
+import TwoChannelIcon from '../chan/2ch/icon.png'
 import FourChanIcon from '../chan/4chan/icon.png'
+import KohlChanIcon from '../chan/kohlchan/icon.gif'
 
-import DvaChannelLogo from '../chan/2ch/logo.svg'
+import TwoChannelLogo from '../chan/2ch/logo.svg'
 import FourChanLogo from '../chan/4chan/logo.svg'
+import KohlChanLogo from '../chan/kohlchan/logo.png'
 
-import dvaChannel from '../chan/2ch'
+import twoChannel from '../chan/2ch'
 import fourChan from '../chan/4chan'
+import kohlChan from '../chan/kohlchan'
 
 const CHANS = [
-	dvaChannel,
-	fourChan
+	twoChannel,
+	fourChan,
+	kohlChan
 ]
 
 // These URLs could be strings inside `index.json` hosted somewhere on a CDN.
-dvaChannel.icon = DvaChannelIcon
+twoChannel.icon = TwoChannelLogo
 fourChan.icon = FourChanIcon
+kohlChan.icon = KohlChanIcon
 
-dvaChannel.logo = DvaChannelLogo
+twoChannel.logo = TwoChannelLogo
 fourChan.logo = FourChanLogo
+kohlChan.logo = KohlChanLogo
 
 export function getChan(id = getChanId()) {
 	const chan = CHANS.find(_ => _.id === id)

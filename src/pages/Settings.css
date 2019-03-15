@@ -18,6 +18,10 @@
 	padding-left: var(--unit);
 	list-style: none;
 
+	li {
+		line-height: var(--line-height);
+	}
+
 	/*
 	li:before {
 		position: relative;

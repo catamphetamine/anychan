@@ -105,7 +105,7 @@ class CommentParser {
 					if (!content) {
 						return
 					}
-					return plugin.createBlock(content, node)
+					return plugin.createBlock(content, node, this.options)
 				}
 			}
 		}

@@ -3,6 +3,7 @@ import { applySettings, getSettings } from './utility/settings'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
 import FourChanSiteIcon from '../chan/4chan/icon.png'
+import KohlChanSiteIcon from '../chan/kohlchan/icon.gif'
 
 export default function() {
 	// Initialize the chan being used.
@@ -27,5 +28,7 @@ export function getSiteIcon(chanId) {
 			return DvaChannelSiteIcon
 		case '4chan':
 			return FourChanSiteIcon
+		case 'kohlchan':
+			return KohlChanSiteIcon
 	}
 }

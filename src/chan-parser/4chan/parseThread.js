@@ -14,7 +14,11 @@ export default function parseThread(posts, {
 	messages,
 	parseCommentPlugins,
 	commentLengthLimit,
-	getUrl
+	getUrl,
+	commentUrlRegExp,
+	attachmentUrl,
+	attachmentThumbnailUrl,
+	defaultAuthorName
 }) {
 	const thread = posts[0]
 	const comments = posts.map(comment => parseComment(comment, {
@@ -22,18 +26,30 @@ export default function parseThread(posts, {
 		filters,
 		messages,
 		parseCommentPlugins,
-		getUrl
+		getUrl,
+		commentUrlRegExp,
+		attachmentUrl,
+		attachmentThumbnailUrl,
+		defaultAuthorName
 	}))
 	const threadInfo = {
 		boardId,
 		commentsCount: thread.replies,
 		attachmentsCount: thread.images
 	}
-	if (thread.closed === 1) {
+	// `4chan.org` has `closed` property.
+	// `kohlchan.net` has `locked` property.
+	if (thread.closed === 1 || thread.locked) {
 		threadInfo.isClosed = true
 	}
 	if (thread.sticky === 1) {
 		threadInfo.isSticky = true
+	}
+	// `kohlchan.net` has `cyclical="0"` property.
+	// I guess it's for "rolling" threads.
+	// Seems that it's always "0" though.
+	if (thread.cyclical === '1') {
+		threadInfo.isRolling = true
 	}
 	// Only for `/thread/THREAD-ID.json` API response.
 	if (thread.unique_ips) {

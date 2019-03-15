@@ -10,7 +10,7 @@ export default class TwoChannelParser extends Parser {
 	constructor(options) {
 		super({
 			...options,
-			plugins: PARSE_COMMENT_PLUGINS,
+			parseCommentPlugins: PARSE_COMMENT_PLUGINS,
 			parseBoards,
 			parseThreads,
 			parseThread

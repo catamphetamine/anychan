@@ -40,7 +40,12 @@ export default class Home extends React.Component {
 							<a
 								target="_blank"
 								href={website}>
-								<Logo className="home-page__logo"/>
+								{typeof Logo === 'string' &&
+									<img src={Logo} className="home-page__logo"/>
+								}
+								{typeof Logo === 'function' &&
+									<Logo className="home-page__logo"/>
+								}
 							</a>
 						}
 						<div className="home-page__title">
@@ -56,9 +61,11 @@ export default class Home extends React.Component {
 						</div>
 					</div>
 
-					<p className="home-page__description">
-						{description}
-					</p>
+					{description &&
+						<p className="home-page__description">
+							{description}
+						</p>
+					}
 
 					{announcement &&
 						<div className="home-page__announcement">

@@ -49,7 +49,7 @@ export default {
 				loader: 'postcss-loader'
 			}]
 		}, {
-			test: /\.(jpg|png)$/,
+			test: /\.(jpg|png|gif)$/,
 			use: [{
 				loader: 'file-loader',
 				options: {}

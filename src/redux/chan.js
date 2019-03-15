@@ -7,11 +7,20 @@ import getUrl from '../utility/getUrl'
 
 import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import { Parser as FourChanParser } from '../chan-parser/4chan'
+import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 
 const redux = new ReduxModule()
 
 export const getBoards = redux.action(
 	() => async http => {
+		// Most chans don't provide `/boards.json` API
+		// so their boards list is defined as a static one in JSON configuration.
+		if (getChan().boards) {
+			return {
+				boards: getChan().boards,
+				boardsByCategory: groupBoardsByCategory(getChan().boards)
+			}
+		}
 		const apiRequestStartedAt = Date.now()
 		let response
 		// Development process optimization.
@@ -19,7 +28,7 @@ export const getBoards = redux.action(
 		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 			response = getBoardsResponseExample(getChan().id)
 		} else {
-			response = await http.get(proxyUrl(getChan().boardsUrl))
+			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const {
@@ -43,7 +52,7 @@ export const getThreads = redux.action(
 	(boardId, filters, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
-			getChan().threadsUrl.replace('{boardId}', boardId)
+			addOrigin(getChan().threadsUrl).replace('{boardId}', boardId)
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
@@ -69,7 +78,7 @@ export const getThread = redux.action(
 	(boardId, threadId, filters, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
-			getChan().commentsUrl.replace('{boardId}', boardId).replace('{threadId}', threadId)
+			addOrigin(getChan().commentsUrl).replace('{boardId}', boardId).replace('{threadId}', threadId)
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
@@ -111,8 +120,9 @@ export const getThread = redux.action(
 export default redux.reducer()
 
 function createParser({ filters, locale }) {
-	const Parser = getParser(getChan().id)
+	const Parser = getParser()
 	return new Parser({
+		...getChan().parserOptions,
 		filters,
 		commentLengthLimit: 700,
 		messages: locale ? getMessages(locale) : undefined,
@@ -148,14 +158,14 @@ function proxyUrl(url) {
 	return url
 }
 
-function getParser(chan) {
-	switch (chan) {
+function getParser() {
+	switch (getChan().parser) {
 		case '2ch':
 			return TwoChannelParser
 		case '4chan':
 			return FourChanParser
 		default:
-			throw new Error(`Unknown chan: "${chan}"`)
+			throw new Error(`Unknown chan parser: "${getChan().parser}"`)
 	}
 }
 
@@ -164,4 +174,21 @@ function getBoardsResponseExample(chan) {
 		case '2ch':
 			return TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE
 	}
+}
+
+/**
+ * Adds HTTP origin to a possibly relative URL.
+ * For example, if this application is deployed on 2ch.hk domain
+ * then there's no need to query `https://2ch.hk/...` URLs
+ * and instead relative URLs `/...` should be queried.
+ * This function checks whether the application should use
+ * relative URLs and transforms the URL accordingly.
+ */
+function addOrigin(url) {
+	if (url[0] === '/') {
+		if (!shouldUseRelativeUrls(url)) {
+			url = getChan().website + url
+		}
+	}
+	return url
 }

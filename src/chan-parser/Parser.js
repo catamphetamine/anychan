@@ -2,24 +2,12 @@ import generateTextPreview from './generateTextPreview'
 
 export default class Parser {
 	constructor({
-		messages,
-		filters,
-		plugins,
 		parseBoards,
 		parseThreads,
 		parseThread,
-		commentLengthLimit,
-		useRelativeUrls,
-		getUrl
+		...rest
 	}) {
-		this.options = {
-			messages,
-			filters,
-			commentLengthLimit,
-			parseCommentPlugins: plugins,
-			useRelativeUrls,
-			getUrl
-		}
+		this.options = rest
 		this._parseBoards = parseBoards
 		this._parseThreads = parseThreads
 		this._parseThread = parseThread

@@ -66,3 +66,8 @@
 	color: #cf0000;
 	opacity: 1;
 }
+
+/* `kohlchan.net` has regular quotes and "inverse" quotes. */
+.post__inline-quote--inverse {
+	color: #cc0000;
+}

@@ -1,0 +1,257 @@
+{
+	"id": "kohlchan",
+	"parser": "4chan",
+	"parserOptions": {
+		"kind": "vichan",
+		"defaultAuthorName": "Bernd",
+		"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
+		"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
+		"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	},
+	"color": "#000000",
+	"website": "https://kohlchan.net",
+	"domains": [
+		"kohlchan.net",
+		"nocsp.kohlchan.net",
+		"kohlchan.mett.ru",
+		"kohl.chan",
+		"kohlchankxguym67.onion",
+		"kohlchan7cwtdwfuicqhxgqx4k47bsvlt2wn5eduzovntrzvonv4cqyd.onion"
+	],
+	"language": "de",
+	"title": "KOHLCHAN",
+	"copyright": "Copyright © 2018-{0} KOHLCHAN. All rights reserved.",
+	"links": [{
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://kohlchan.net/faq.html"
+	}, {
+		"type": "news",
+		"text": "News",
+		"url": "https://kohlchan.net/news.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://kohlchan.net/rules.html"
+	}, {
+		"type": "donate",
+		"text": "Donate",
+		"url": "https://kohlchan.net/funding.html"
+	}, {
+		"type": "legal",
+		"text": "Notice",
+		"url": "https://kohlchan.net/disclaimer.html"
+	}, {
+		"type": "legal",
+		"text": "Privacy Policy",
+		"url": "https://kohlchan.net/privacy.html"
+	}, {
+		"type": "irc",
+		"text": "IRC",
+		"url": "https://kohlchan.net/irc.html"
+	}, {
+		"type": "radio",
+		"text": "Radio",
+		"url": "https://berndstroemt.tk/"
+	}, {
+		"type": "mobile",
+		"text": "Mobile apps",
+		"url": "https://kohlchan.net/info.html"
+	}],
+	"thumbnailSize": 200,
+	"commentsUrl": "/{boardId}/res/{threadId}.json",
+	"threadsUrl": "/{boardId}/catalog.json",
+	"boards": [
+		{
+			"id": "b",
+			"name": "Unser gemeinsamer, freier Kanal KC",
+			"category": "VIP"
+		},
+		{
+			"id": "pol",
+			"name": "Politik",
+			"category": "VIP"
+		},
+		{
+			"id": "int",
+			"name": "International",
+			"category": "VIP"
+		},
+		{
+			"id": "a",
+			"name": "Animu",
+			"category": "Allgemein"
+		},
+		{
+			"id": "alt",
+			"name": "Krautchan",
+			"category": "Allgemein"
+		},
+		{
+			"id": "bus",
+			"name": "Bus fahren",
+			"category": "Allgemein"
+		},
+		{
+			"id": "c",
+			"name": "Computer & Technik",
+			"category": "Allgemein"
+		},
+		{
+			"id": "co",
+			"name": "Comics und Cartoon",
+			"category": "Allgemein"
+		},
+		{
+			"id": "d",
+			"name": "Drogen",
+			"category": "Allgemein"
+		},
+		{
+			"id": "e",
+			"name": "Essen & Trinken",
+			"category": "Allgemein"
+		},
+		{
+			"id": "f",
+			"name": "Fahrzeuge",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fb",
+			"name": "Frag Bernd",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fefe",
+			"name": "Fefe (dietchan)",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fit",
+			"name": "Fitness",
+			"category": "Allgemein"
+		},
+		{
+			"id": "foto",
+			"name": "Foto & Kunst",
+			"category": "Allgemein"
+		},
+		{
+			"id": "l",
+			"name": "Literatur",
+			"category": "Allgemein"
+		},
+		{
+			"id": "mali",
+			"name": "Kreatives und Malen",
+			"category": "Allgemein"
+		},
+		{
+			"id": "med",
+			"name": "Medizin",
+			"category": "Allgemein"
+		},
+		{
+			"id": "mu",
+			"name": "Musik",
+			"category": "Allgemein"
+		},
+		{
+			"id": "n",
+			"name": "Natur",
+			"category": "Allgemein"
+		},
+		{
+			"id": "ng",
+			"name": "NG",
+			"category": "Allgemein"
+		},
+		{
+			"id": "ph",
+			"name": "Philosophie",
+			"category": "Allgemein"
+		},
+		{
+			"id": "prog",
+			"name": "Programmieren",
+			"category": "Allgemein"
+		},
+		{
+			"id": "s",
+			"name": "Schönes",
+			"category": "Allgemein"
+		},
+		{
+			"id": "soz",
+			"name": "Soziales",
+			"category": "Allgemein"
+		},
+		{
+			"id": "trv",
+			"name": "Travel (de/en)",
+			"category": "Allgemein"
+		},
+		{
+			"id": "tu",
+			"name": "Turingvollständigkeit",
+			"category": "Allgemein"
+		},
+		{
+			"id": "tv",
+			"name": "TV&VHS",
+			"category": "Allgemein"
+		},
+		{
+			"id": "v",
+			"name": "Videospiele",
+			"category": "Allgemein"
+		},
+		{
+			"id": "w",
+			"name": "Wissenschaft",
+			"category": "Allgemein"
+		},
+		{
+			"id": "we",
+			"name": "Weltschmerz",
+			"category": "Allgemein"
+		},
+		{
+			"id": "x",
+			"name": "X-Factor",
+			"category": "Allgemein"
+		},
+		{
+			"id": "kohl",
+			"name": "Verwaltung (de/en)",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "km",
+			"name": "Krautmeister",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "m",
+			"name": "Müll (de/en)",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "ru",
+			"name": "Бред",
+			"category": "Sonstiges"
+		}
+	],
+	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
+	"proxy": {
+		"aws": true
+	},
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://kohlchan.net/static/404.png"
+			]
+		}
+	}
+}

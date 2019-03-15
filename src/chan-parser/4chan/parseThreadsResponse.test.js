@@ -166,7 +166,7 @@ describe('4chan.org', () => {
 											"threadId": 2943071,
 											"postId": 2943071,
 											"content": "Сообщение",
-											"url": "/aco/2943071#comment-2943071"
+											"url": "/aco/2943071#2943071"
 										}
 									]
 								}
@@ -185,8 +185,12 @@ describe('4chan.org', () => {
 					quotedPost: 'Сообщение'
 				},
 				getUrl(board, thread, comment) {
-					return `/${board.id}/${thread.id}#comment-${comment.id}`
-				}
+					return `/${board.id}/${thread.id}#${comment.id}`
+				},
+				attachmentUrl: 'https://i.4cdn.org/{boardId}/{name}{ext}',
+				attachmentThumbnailUrl: 'https://i.4cdn.org/{boardId}/{name}s.jpg',
+				commentUrlRegExp: '^\\/(.+?)\\/thread\\/(\\d+)#p(\\d+)$',
+				defaultAuthorName: 'Anonymous'
 			}).parseThreads(API_RESPONSE, {
 				boardId: 'a'
 			}),

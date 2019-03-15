@@ -1,5 +1,6 @@
 {
 	"id": "2ch",
+	"parser": "2ch",
 	"color": "#fa8130",
 	"website": "https://2ch.hk",
 	"domains": [
@@ -74,10 +75,10 @@
 		"url": "https://2ch.hk/m.html"
 	}],
 	"thumbnailSize": 220,
-	"commentsUrl": "https://2ch.hk/{boardId}/res/{threadId}.json",
-	"threadsUrl": "https://2ch.hk/{boardId}/catalog.json",
-	"boardsUrl": "https://2ch.hk/boards.json",
-	"commentUrl": "https://2ch.hk/{boardId}/res/{threadId}.html#{commentId}",
+	"commentsUrl": "/{boardId}/res/{threadId}.json",
+	"threadsUrl": "/{boardId}/catalog.json",
+	"boardsUrl": "/boards.json",
+	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": true
 	},
