@@ -8,7 +8,7 @@ import constructThread from '../constructThread'
  * @param  {object} options
  * @return {object} See README.md for "Thread" object description.
  */
-export default function parseThread(thread, posts, {
+export default function parseThread(posts, {
 	boardId,
 	filters,
 	messages,
@@ -16,6 +16,7 @@ export default function parseThread(thread, posts, {
 	commentLengthLimit,
 	getUrl
 }) {
+	const thread = posts[0]
 	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
 		filters,

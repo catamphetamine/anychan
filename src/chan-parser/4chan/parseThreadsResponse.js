@@ -8,5 +8,5 @@ import parseThread from './parseThread'
  */
 export default function parseThreads(response, options) {
 	const threads = response.reduce((all, page) => all.concat(page.threads), [])
-	return threads.map((thread) => parseThread(thread, [thread], options))
+	return threads.map((thread) => parseThread([thread], options))
 }

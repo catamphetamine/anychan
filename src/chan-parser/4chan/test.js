@@ -1,3 +1,3 @@
 import './parseCommentPlugins.test'
 import './parseComment.test'
-import './parseThreads.test'
+import './parseThreadsResponse.test'

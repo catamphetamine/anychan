@@ -7,5 +7,5 @@ import parseThread from './parseThread'
  * @return {object} See README.md for "Thread" object description.
  */
 export default function parseThreadResponse(response, options) {
-	return parseThread(response, response.posts, options)
+	return parseThread(response.posts, options)
 }
