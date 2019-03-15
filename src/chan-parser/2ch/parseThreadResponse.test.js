@@ -449,7 +449,6 @@ describe('2ch.hk', () => {
 			{
 				boardId: 'vg',
 				id: COMMENTS[0].id,
-				isSticky: true,
 				commentsCount: 123,
 				attachmentsCount: 456,
 				comments: COMMENTS

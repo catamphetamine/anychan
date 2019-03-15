@@ -37,17 +37,19 @@ export default function parseThread(thread, posts, {
 		commentsCount,
 		attachmentsCount
 	}
-	if (thread.closed === 1) {
+	const openingPost = posts[0]
+	if (openingPost.closed === 1) {
 		threadInfo.isClosed = true
 	}
-	if (thread.sticky !== 0) {
+	// If the thread is pinned `sticky` will be a number greater than `0`.
+	if (openingPost.sticky) {
 		threadInfo.isSticky = true
 	}
 	// "Rolling" threads never go into "bump limit":
 	// instead messages are being shifted from the start of
 	// such thread as new messages are posted to it.
 	// The "opening post" is always preserved.
-	if (thread.endless === 1) {
+	if (openingPost.endless === 1) {
 		threadInfo.isRolling = true
 	}
 	if (commentsCount >= bumpLimit) {
