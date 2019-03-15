@@ -16,6 +16,8 @@ export default function parseAttachment(file, {
 }) {
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
+		// Assume ".gif" thumbnails have ".jpg" extension.
+		const thumbnailExtension = contentType === 'image/gif' ? '.jpg' : file.ext
 		return {
 			type: 'picture',
 			size: file.fsize, // in bytes
@@ -24,7 +26,7 @@ export default function parseAttachment(file, {
 				sizes: [{
 					width: file.tn_w,
 					height: file.tn_h,
-					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, file.ext, file.filename)
+					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExtension, file.filename)
 				}, {
 					width: file.w,
 					height: file.h,
