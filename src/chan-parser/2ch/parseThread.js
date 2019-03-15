@@ -20,6 +20,7 @@ export default function parseThread(thread, posts, {
 	bumpLimit,
 	commentsCount,
 	attachmentsCount,
+	useRelativeUrls,
 	getUrl
 }) {
 	let comments = posts.map(comment => parseComment(comment, {
@@ -28,6 +29,7 @@ export default function parseThread(thread, posts, {
 		messages,
 		defaultAuthorName,
 		parseCommentPlugins,
+		useRelativeUrls,
 		getUrl
 	}))
 	const threadInfo = {

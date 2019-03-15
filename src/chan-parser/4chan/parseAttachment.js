@@ -1,5 +1,7 @@
 import { getContentTypeByFileName } from '../parseAttachment'
 
+const ORIGIN = 'https://i.4cdn.org'
+
 export default function parseAttachment(file, { boardId }) {
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
@@ -11,11 +13,11 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_w,
 					height: file.tn_h,
-					url: `https://i.4cdn.org/${boardId}/${file.tim}s.jpg`
+					url: `${ORIGIN}/${boardId}/${file.tim}s.jpg`
 				}, {
 					width: file.w,
 					height: file.h,
-					url: `https://i.4cdn.org/${boardId}/${file.tim}${file.ext}`
+					url: `${ORIGIN}/${boardId}/${file.tim}${file.ext}`
 				}]
 			}
 		}
@@ -33,7 +35,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.w,
 						height: file.h,
-						url: `https://i.4cdn.org/${boardId}/${file.tim}${file.ext}`
+						url: `${ORIGIN}/${boardId}/${file.tim}${file.ext}`
 					}]
 				},
 				picture: {
@@ -41,7 +43,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.tn_w,
 						height: file.tn_h,
-						url: `https://i.4cdn.org/${boardId}/${file.tim}s.jpg`
+						url: `${ORIGIN}/${boardId}/${file.tim}s.jpg`
 					}]
 				}
 			}
@@ -54,7 +56,7 @@ export default function parseAttachment(file, { boardId }) {
 		size: file.fsize, // in bytes
 		width: file.w,
 		height: file.h,
-		url: `https://i.4cdn.org/${boardId}/${file.filename}${file.ext}`
+		url: `${ORIGIN}/${boardId}/${file.filename}${file.ext}`
 	}
 	console.error(`Unknown file type: ${JSON.stringify(file)}`)
 	return TRANSPARENT_PIXEL

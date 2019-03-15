@@ -116,8 +116,21 @@ function createParser({ filters, locale }) {
 		filters,
 		commentLengthLimit: 700,
 		messages: locale ? getMessages(locale) : undefined,
+		useRelativeUrls: shouldUseRelativeUrls(),
 		getUrl
 	})
+}
+
+function shouldUseRelativeUrls() {
+	if (typeof window !== 'undefined') {
+		const domain = window.location.hostname
+		if (getChan().domains) {
+			if (getChan().domains.includes(domain)) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 function proxyUrl(url) {

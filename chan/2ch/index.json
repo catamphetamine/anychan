@@ -2,6 +2,14 @@
 	"id": "2ch",
 	"color": "#fa8130",
 	"website": "https://2ch.hk",
+	"domains": [
+		"2ch.hk",
+		"2ch.so",
+		"2ch.pm",
+		"2ch.yt",
+		"2ch.wf",
+		"2ch.re"
+	],
 	"language": "ru",
 	"title": "Два.ч",
 	"subtitle": "Добро пожаловать. Снова.",

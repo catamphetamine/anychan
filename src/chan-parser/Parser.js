@@ -9,6 +9,7 @@ export default class Parser {
 		parseThreads,
 		parseThread,
 		commentLengthLimit,
+		useRelativeUrls,
 		getUrl
 	}) {
 		this.options = {
@@ -16,6 +17,7 @@ export default class Parser {
 			filters,
 			commentLengthLimit,
 			parseCommentPlugins: plugins,
+			useRelativeUrls,
 			getUrl
 		}
 		this._parseBoards = parseBoards

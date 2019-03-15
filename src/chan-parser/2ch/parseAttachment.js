@@ -22,7 +22,12 @@ function getContentTypeByFileType(type) {
 	}
 }
 
-export default function parseAttachment(file, { boardId }) {
+export default function parseAttachment(file, { useRelativeUrls }) {
+	// `2ch` runs on multiple domains in case one of them is blocked.
+	// (2ch.hk, 2ch.so, 2ch.pm, 2ch.yt, 2ch.wf, 2ch.re).
+	// By using relative URLs in case of running on an "official" domain
+	// attachment URLs will keep working if `2ch.hk` domain is blocked.
+	const origin = useRelativeUrls ? '' : ORIGIN
 	let contentType = getContentTypeByFileType(file.type)
 	// Fallback for incorrect attachments.
 	// (there were some cases supposedly in old threads)
@@ -38,11 +43,11 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `${ORIGIN}${file.thumbnail}`
+					url: `${origin}${file.thumbnail}`
 				}, {
 					width: file.width,
 					height: file.height,
-					url: `${ORIGIN}${file.path}`
+					url: `${origin}${file.path}`
 				}]
 			}
 		}
@@ -50,7 +55,7 @@ export default function parseAttachment(file, { boardId }) {
 			picture.picture.kind = 'sticker'
 			// // A link to a page with "Add this sticker to your library" button.
 			// // Example: "/makaba/stickers/show/DJfQnwJM".
-			// picture.picture.installStickerLink = `${ORIGIN}${file.install}`
+			// picture.picture.installStickerLink = `${origin}${file.install}`
 		}
 		return picture
 	}
@@ -63,7 +68,7 @@ export default function parseAttachment(file, { boardId }) {
 				sizes: [{
 					width: file.tn_width,
 					height: file.tn_height,
-					url: `${ORIGIN}${file.thumbnail}`
+					url: `${origin}${file.thumbnail}`
 				}]
 			}
 		} else {
@@ -83,7 +88,7 @@ export default function parseAttachment(file, { boardId }) {
 					sizes: [{
 						width: file.width,
 						height: file.height,
-						url: `${ORIGIN}${file.path}`
+						url: `${origin}${file.path}`
 					}]
 				},
 				picture

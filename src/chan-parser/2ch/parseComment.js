@@ -24,6 +24,7 @@ export default function parseComment(post, {
 	filters,
 	parseCommentPlugins,
 	messages,
+	useRelativeUrls,
 	getUrl
 }) {
 	let subject = post.subject
@@ -55,7 +56,7 @@ export default function parseComment(post, {
 		parseRole(post.trip),
 		post.banned === 1,
 		subject,
-		post.files.map(parseAttachment),
+		post.files.map(file => parseAttachment(file, { useRelativeUrls })),
 		post.timestamp,
 		{
 			filters,
