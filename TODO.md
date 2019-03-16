@@ -19,8 +19,6 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
-Show `authorName`, `authorRole`, `tripCode`.
-
 Сделать sidebar scroll через библиотеку (для фаерфокс):
 https://grsmto.github.io/simplebar/
 https://github.com/Grsmto/simplebar/blob/master/examples/react/src/App.js
