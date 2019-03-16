@@ -31,7 +31,7 @@
 		background-color: hsl(36, 70%, 96%);
 	}
 
-	.thread__comment .post__inline-spoiler {
+	.thread__comment .post__inline-spoiler--hidden {
 		background-color: hsl(36, 30%, 92%);
 	}
 }

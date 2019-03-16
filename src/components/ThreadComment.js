@@ -206,16 +206,10 @@ Comment.propTypes = {
 }
 
 export function commentOnClickFilter(element) {
-	const tagName = element.tagName.toLowerCase()
-	switch (tagName) {
-		case 'img':
-		case 'time':
-		case 'a':
-		case 'button':
-			return false
-	}
 	if (element.classList.contains('post__inline-spoiler-contents')) {
-		return false
+		if (element.parentNode.dataset.hide) {
+			return false
+		}
 	}
 	return true
 }
