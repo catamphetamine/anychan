@@ -9,6 +9,15 @@ Show preload initially почему чёрным у basic page в webpack-exampl
 
 
 
+
+auto-embed audio links and video links (like youtube links).
+
+If a thread is in bump limit show a waterline after the last bumping message (including the last one maybe) with a sailing ship icon and some text ("This thread has reached bump limit and will eventually disappear").
+
+
+
+
+
 Сделать sidebar scroll через библиотеку (для фаерфокс):
 https://grsmto.github.io/simplebar/
 https://github.com/Grsmto/simplebar/blob/master/examples/react/src/App.js
