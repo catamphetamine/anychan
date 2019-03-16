@@ -1,6 +1,6 @@
 import dropQuoteMarker from '../dropQuoteMarker'
 
-// kohlchan.net spoiler.
+// `kohlchan.net` spoiler.
 const parseKohlChanSpoiler = {
 	tag: 'span',
 	attributes: [

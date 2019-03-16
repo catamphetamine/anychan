@@ -64,6 +64,23 @@ const parseEightChanHeading = {
 	}
 }
 
+// `8ch.net` spoiler.
+const parseEightChanSpoiler = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'spoiler'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'spoiler',
+			content
+		}
+	}
+}
+
 // `8ch.net` quote.
 const parseEightChanQuote = {
 	tag: 'p',
@@ -110,6 +127,7 @@ export default [
 	parseEightChanNewLine,
 	parseEightChanDetected,
 	parseEightChanHeading,
+	parseEightChanSpoiler,
 	parseEightChanQuote,
 	parseEightChanInverseQuote
 ]
