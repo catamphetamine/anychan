@@ -8,6 +8,8 @@ An alternative GUI for an imageboard (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, 
 
 [`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan)
 
+Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a public "CORS Proxy" that intentionally throttles connections to reduce load.
+
 This is a demo showcase project and it has only a minimal set of features:
 
   * Browsing.
