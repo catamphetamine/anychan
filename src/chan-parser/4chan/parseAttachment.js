@@ -26,8 +26,6 @@ export default function parseAttachment(file, {
 	}
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
-		// Assume ".gif" thumbnails have ".jpg" extension.
-		const thumbnailExtension = (contentType === 'image/gif' && chan !== '8ch') ? '.jpg' : file.ext
 		const picture = {
 			type: 'picture',
 			size: file.fsize, // in bytes
@@ -36,7 +34,7 @@ export default function parseAttachment(file, {
 				sizes: [{
 					width: file.tn_w,
 					height: file.tn_h,
-					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExtension, file.filename)
+					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'picture', chan), file.filename)
 				}, {
 					width: file.w,
 					height: file.h,
@@ -71,7 +69,7 @@ export default function parseAttachment(file, {
 					sizes: [{
 						width: file.tn_w,
 						height: file.tn_h,
-						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, '.jpg', file.filename)
+						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'video', chan), file.filename)
 					}]
 				}
 			}
@@ -112,4 +110,26 @@ const TRANSPARENT_PIXEL = {
 		height: 1,
 		url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 	}]
+}
+
+function getThumbnailExt(file, type, chan) {
+	// Assume that all videos have ".jpg" thumbnails (makes sense).
+	if (type === 'video') {
+		return '.jpg'
+	}
+	// `4chan.org` always has ".jpg" extension for thumbnails.
+	if (chan === '4chan') {
+		return '.jpg'
+	}
+	// `8ch.net` has same file extension for thumbnails (even for GIFs).
+	if (chan === '8ch') {
+		return file.ext
+	}
+	// `kohlchan.net` has a bug when thumbnail file extension is random.
+	// It's figured out later in `/redux/chan.js`
+	if (file.ext === '.gif') {
+		// Assume ".jpg" thumbnails for GIFs.
+		return '.jpg'
+	}
+	return file.ext
 }
