@@ -70,6 +70,9 @@ export default function parseComment(post, {
 	if (abuLike) {
 		comment.abuLike = true
 	}
+	if (post.trip && !comment.authorRole) {
+		comment.tripCode = post.trip
+	}
 	if (post.op) {
 		comment.isOriginalPoster = true
 	}

@@ -75,10 +75,13 @@ export default function parseComment(post, {
 			commentUrlRegExp
 		}
 	)
-	// `8ch.net` identifies posters by 3 of 4 bytes of their IP address.
-	// Example: `"id": "2e20aa"`.
+	// `8ch.net` identifies posters by 3 of 4 bytes of their
+	// IP addresses on some boards. Example: `"id": "2e20aa"`.
 	if (post.id) {
 		comment.authorId
+	}
+	if (post.trip) {
+		comment.tripCode = post.trip
 	}
 	return comment
 }
@@ -112,5 +115,16 @@ function parseAttachments(post, options) {
 	if (post.extra_files) {
 		files = files.concat(post.extra_files)
 	}
-	return files.map(file => parseAttachment(file, options))
+	return files.filter(file => {
+		// `8ch.net` seems to use `"ext": "deleted"` instead of `"filedeleted": 1`.
+		if (file.ext === 'deleted') {
+			return false
+		}
+		// `4chan.org` and `kohlchan.net` use `"filedeleted": 0/1`.
+		if (file.filedeleted === 1) {
+			return false
+		}
+		return true
+	})
+	.map(file => parseAttachment(file, options))
 }
