@@ -61,6 +61,12 @@ export const getThreads = redux.action(
 		for (const thread of threads) {
 			thread.comments[0].commentsCount = thread.commentsCount
 			thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
+			// Display "trip code" as second "author name".
+			for (const comment of thread.comments) {
+				if (comment.tripCode) {
+					comment.authorName2 = comment.tripCode
+				}
+			}
 		}
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -98,6 +104,13 @@ export const getThread = redux.action(
 		if (subject) {
 			thread.comments[0].title = undefined
 		}
+		// Display "trip code" as second "author name".
+		for (const comment of thread.comments) {
+			if (comment.tripCode) {
+				comment.authorName2 = comment.tripCode
+			}
+		}
+		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
 			await Promise.all(

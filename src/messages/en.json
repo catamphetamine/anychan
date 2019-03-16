@@ -52,6 +52,10 @@
 		"originalPoster": "Original poster",
 		"readMore": "Show\u00a0more"
 	},
+	"role": {
+		"administrator": "Administrator",
+		"moderator": "Moderator"
+	},
 	"copyright": {
 		"chanchan": "chanchan",
 		"postChanchan": " imageboard client",

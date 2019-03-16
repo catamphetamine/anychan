@@ -52,6 +52,10 @@
 		"originalPoster": "Автор треда",
 		"readMore": "Показать\u00a0полностью"
 	},
+	"role": {
+		"administrator": "Администратор",
+		"moderator": "Модератор"
+	},
 	"copyright": {
 		"preChanchan": "Клиент для имиджборд «",
 		"postChanchan": "»",

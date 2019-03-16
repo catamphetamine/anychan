@@ -32,9 +32,9 @@ body
 
 	/* Base color transparency: rgba(0, 179, 255, 0.7); */
 
-	--accent-color-dark  : #C70049;
-	--accent-color       : #FC005D;
-	--accent-color-light : #FF4086;
+	--accent-color-light : #00B3FF;
+	--accent-color       : #00A6ED;
+	--accent-color-dark  : #0084BD;
 
 	--error-color-dark : #BD0016;
 	--error-color      : #E6001B;

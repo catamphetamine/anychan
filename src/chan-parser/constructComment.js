@@ -69,6 +69,9 @@ export default function constructComment(
 	}
 	if (authorRole) {
 		comment.authorRole = authorRole
+		if (!authorName && messages && messages.role) {
+			comment.authorName = messages.role[authorRole]
+		}
 	}
 	if (authorWasBanned) {
 		comment.authorWasBanned = true

@@ -71,3 +71,8 @@
 .post__inline-quote--inverse {
 	color: #cc0000;
 }
+
+.post__author--administrator,
+.post__author--moderator {
+	color: var(--accent-color-dark);
+}
