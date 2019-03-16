@@ -108,7 +108,7 @@ function parseAttachments(post, options) {
 	if (post.ext) {
 		files.push(post)
 	}
-	// kohlchan.net has "extra_files".
+	// `kohlchan.net` and `8ch.net` have "extra_files".
 	if (post.extra_files) {
 		files = files.concat(post.extra_files)
 	}
