@@ -60,7 +60,7 @@ export const getThreads = redux.action(
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			thread.comments[0].commentsCount = thread.commentsCount
-			thread.comments[0].attachmentsCount = thread.attachmentsCount
+			thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 		}
 		return {
 			boardId,

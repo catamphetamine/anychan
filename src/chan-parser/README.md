@@ -82,7 +82,7 @@ An attachment can be:
 	id: number, // Same as the "id" of the first comment.
 	boardId: string,
 	commentsCount: number,
-	attachmentsCount: number,
+	commentAttachmentsCount: number,
 	comments: Comment[],
 	isSticky: boolean?,
 	isClosed: boolean?,

@@ -12,6 +12,6 @@ export default function parseThreads(response, options) {
 		bumpLimit: response.bump_limit,
 		defaultAuthorName: response.default_name,
 		commentsCount: thread.posts_count,
-		attachmentsCount: thread.files_count
+		commentAttachmentsCount: thread.files_count
 	}))
 }

@@ -76,7 +76,7 @@ describe('4chan.org', () => {
 				"id": 2952650,
 				"lastModifiedAt": new Date(1549225356 * 1000),
 				"commentsCount": 193,
-				"attachmentsCount": 36,
+				"commentAttachmentsCount": 36,
 				"comments" : [
 					{
 						"id": 2952650,

@@ -19,7 +19,7 @@ export default function parseThread(thread, posts, {
 	maxAttachmentsSize,
 	bumpLimit,
 	commentsCount,
-	attachmentsCount,
+	commentAttachmentsCount,
 	useRelativeUrls,
 	getUrl
 }) {
@@ -35,7 +35,7 @@ export default function parseThread(thread, posts, {
 	const threadInfo = {
 		boardId,
 		commentsCount,
-		attachmentsCount
+		commentAttachmentsCount
 	}
 	const openingPost = posts[0]
 	if (openingPost.closed === 1) {

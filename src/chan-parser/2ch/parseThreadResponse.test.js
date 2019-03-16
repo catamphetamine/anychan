@@ -450,7 +450,7 @@ describe('2ch.hk', () => {
 				boardId: 'vg',
 				id: COMMENTS[0].id,
 				commentsCount: 123,
-				attachmentsCount: 456,
+				commentAttachmentsCount: 456,
 				comments: COMMENTS
 			}
 		)

@@ -14,6 +14,6 @@ export default function parseThreadResponse(response, options) {
 		maxAttachmentsSize: response.max_files_size,
 		defaultAuthorName: response.default_name,
 		commentsCount: response.posts_count,
-		attachmentsCount: response.files_count
+		commentAttachmentsCount: response.files_count
 	})
 }
