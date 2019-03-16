@@ -10,6 +10,12 @@ export default function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
 		// Hide "user" boards.
 		.filter(_ => _.category !== 'Пользовательские')
+	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
+	for (const board of boards) {
+		if (board.id === 'abu') {
+			board.id = 'api'
+		}
+	}
 	return {
 		boards,
 		// `boards` are already sorted by `commentsPerHour`.

@@ -97,9 +97,9 @@ export default class BoardPage extends React.Component {
 				</h1>
 				{getChan().id === '2ch' && board.id === 'd' &&
 					<p className="board-page__api-bug-note">
-						Данный раздел пуст из-за бага в <a href="https://2ch.hk/d/catalog.json" target="_blank">API Двача</a>.
+						Данный раздел пуст из-за бага в <a href={`https://2ch.hk/${board.id}/catalog.json`} target="_blank">API Двача</a>.
 						<br/>
-						<a href="https://2ch.hk/d" target="_blank">Перейти на Двач</a>.
+						<a href={`https://2ch.hk/${board.id}`} target="_blank">Перейти на Двач</a>.
 					</p>
 				}
 				{threads && threads.map((thread) => (
