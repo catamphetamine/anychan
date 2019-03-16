@@ -63,17 +63,17 @@ export default function parseAttachment(file, {
 		}
 	}
 	return {
-		// contentType: 'application/x-shockwave-flash',
-		contentType,
-		name: file.filename,
-		ext: file.ext,
-		size: file.fsize, // in bytes
-		width: file.w,
-		height: file.h,
-		url: formatUrl(fileAttachmentUrl, boardId, file.tim, file.ext, file.filename)
+		type: 'file',
+		file: {
+			contentType,
+			name: file.filename,
+			ext: file.ext,
+			size: file.fsize, // in bytes
+			width: file.w, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
+			height: file.h, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
+			url: formatUrl(fileAttachmentUrl, boardId, file.tim, file.ext, file.filename)
+		}
 	}
-	console.error(`Unknown file type: ${JSON.stringify(file)}`)
-	return TRANSPARENT_PIXEL
 }
 
 // const ERROR_PICTURE = {

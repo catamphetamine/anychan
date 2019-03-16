@@ -95,8 +95,19 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 			}
 		}
 	}
-	console.error(`Unknown file type: ${JSON.stringify(file)}`)
-	return TRANSPARENT_PIXEL
+	const [name, ext] = splitFilename(file.fullname)
+	return {
+		type: 'file',
+		file: {
+			contentType,
+			name,
+			ext,
+			size: file.size * 1024, // in bytes
+			width: file.width,
+			height: file.height,
+			url: `${origin}${file.path}`
+		}
+	}
 }
 
 // const ERROR_PICTURE = {
@@ -115,4 +126,15 @@ const TRANSPARENT_PIXEL = {
 		height: 1,
 		url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 	}]
+}
+
+function splitFilename(filename) {
+	const dotIndex = filename.lastIndexOf('.')
+	if (dotIndex > 0) {
+		return [
+			filename.slice(0, dotIndex),
+			filename.slice(dotIndex)
+		]
+	}
+	return [filename, undefined]
 }
