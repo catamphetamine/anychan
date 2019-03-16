@@ -262,9 +262,7 @@ text = True
 
 In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API.
 
-## Chan
-
-This demo project currently supports [`4chan.org`](https://4chan.org) and [`2ch.hk`](https://2ch.hk) chans.
+## Chan API
 
 <!-- and `4chan.org` chans.-->
 
