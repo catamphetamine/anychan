@@ -124,6 +124,7 @@ class CommentParser {
 			if (result) {
 				// An array can be returned when some words get ignored
 				// and a string is transformed into an array of strings and `spoiler`s.
+				// Also, for `8ch.net` line an array of `[text, '\n']` is returned.
 				if (Array.isArray(result)) {
 					content = content.concat(result)
 				} else {

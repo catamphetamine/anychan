@@ -75,7 +75,7 @@ export default class Boards extends React.Component {
 					'boards-list--by-category': view === 'by-category'
 				})}>
 					{view === 'by-category' && boardsByCategory.map((category, i) => (
-						<React.Fragment key={category.category}>
+						<React.Fragment key={category.category || '—'}>
 							<div className="boards-list-section__pre-title"/>
 							<h2 className={classNames('boards-list-section__title', {
 								'boards-list-section__title--first': i === 0

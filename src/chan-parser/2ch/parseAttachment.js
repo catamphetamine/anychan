@@ -130,7 +130,7 @@ const TRANSPARENT_PIXEL = {
 
 function splitFilename(filename) {
 	const dotIndex = filename.lastIndexOf('.')
-	if (dotIndex > 0) {
+	if (dotIndex > 0 || dotIndex < filename.length - 1) {
 		return [
 			filename.slice(0, dotIndex),
 			filename.slice(dotIndex)

@@ -1,0 +1,106 @@
+{
+	"id": "8ch",
+	"parser": "4chan",
+	"parserOptions": {
+		"engine": "vichan",
+		"defaultAuthorName": "Anonymous",
+		"attachmentUrlFpath": "https://media.8ch.net/file_store/{name}{ext}",
+		"attachmentThumbnailUrlFpath": "https://media.8ch.net/file_store/thumb/{name}{ext}",
+		"attachmentUrl": "https://media.8ch.net/{boardId}/src/{name}{ext}",
+		"attachmentThumbnailUrl": "https://media.8ch.net/{boardId}/thumb/{name}{ext}",
+		"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	},
+	"color": "#239623",
+	"website": "https://8ch.net",
+	"domains": [
+		"8ch.net"
+	],
+	"language": "en",
+	"title": "8chan",
+	"subtitle": "Embrace infamy",
+	"description": "Welcome to 8chan, the Darkest Reaches of the Internet. On 8chan, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8chan might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8chan, boards and posts are user-created and do not represent the opinions of the 8chan administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
+	"copyright": [
+		"All posts on 8chan are the responsibility of the individual poster and not the administration of 8chan, pursuant to 47\u00a0U.S.C. §\u00a0230.",
+		"\n",
+		"We have not been served any secret court orders and are not under any gag orders.",
+		"\n",
+		"To file a DMCA takedown notice, please email ",
+		{
+			"type": "link",
+			"url": "mailto:dmca@8ch.net",
+			"content": "dmca@8ch.net"
+		},
+		". In the interest of transparency, notices of claimed infringement will be posted on ",
+		{
+			"type": "link",
+			"url": "https://8ch.net/delete/",
+			"content": ">>>/delete/"
+		},
+		"."
+	],
+	"links": [{
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/infinitechan"
+	}, {
+		"type": "reddit",
+		"text": "Reddit",
+		"url": "https://www.reddit.com/r/infinitechan"
+	}],
+	"thumbnailSize": 250,
+	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
+	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
+	"boardsUrl": "http://8ch.net/boards.json",
+	"boards": [
+		{
+			"id": "pol",
+			"name": "Politically Incorrect",
+			"description": "Politics, news, happenings, current events",
+			"isNotSafeForWork": true
+		},
+		{
+			"id": "v",
+			"name": "Video Games",
+			"description": "Vidya Gaems",
+			"isNotSafeForWork": true
+		},
+		{
+			"id": "b",
+			"name": "Anime/Random",
+			"description": "Not vaccinated!",
+			"isNotSafeForWork": true
+		},
+		{
+			"id": "leftypol",
+			"name": "Leftist Politically Incorrect",
+			"description": "A collective of people engaged in pretty much what the name suggests"
+		},
+		{
+			"id": "tv",
+			"name": "Television and Movies",
+			"isNotSafeForWork": true
+		},
+		{
+			"id": "cow",
+			"name": "Lolcows",
+			"description": "Autism speaks. It's time to listen.",
+			"isNotSafeForWork": true
+		}
+	],
+	"commentUrl": "https://8ch.net/{boardId}/res/{threadId}.html#{commentId}",
+	"proxy": {
+		"aws": false
+	},
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://media.8ch.net/static/404-404/5.png",
+				"https://media.8ch.net/static/404-404/11.png",
+				"https://media.8ch.net/static/404-404/12.png",
+				"https://media.8ch.net/static/404-404/19.png",
+				"https://media.8ch.net/static/404-404/22.png",
+				"https://media.8ch.net/static/404-404/23.png"
+			]
+		}
+	}
+}

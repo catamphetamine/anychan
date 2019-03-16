@@ -21,6 +21,7 @@
 	],
 	"language": "de",
 	"title": "KOHLCHAN",
+	"description": "Kohlchan is a young German imageboard. It is generally considered to be the successor to Krautchan, which was killed by cancer and its lazy administration which decided to delete fucking everything because they couldn't even be bothered to contact their hoster. The name \"Kohlchan\" was used because Kohl and Kraut can both mean \"cabbage\", and it also pays homage to former German chancellor Helmut Kohl. At the beginning of the imageboard the default name was set to \"Helmut\", but since some users could not live with that, the name was changed back to Bernd.",
 	"copyright": "Copyright © 2018-{0} KOHLCHAN. All rights reserved.",
 	"links": [{
 		"type": "faq",
@@ -58,10 +59,6 @@
 		"type": "radio",
 		"text": "Radio",
 		"url": "https://berndstroemt.tk/"
-	}, {
-		"type": "mobile",
-		"text": "Mobile apps",
-		"url": "https://kohlchan.net/info.html"
 	}],
 	"thumbnailSize": 200,
 	"commentsUrl": "/{boardId}/res/{threadId}.json",

@@ -12,13 +12,18 @@ export default function parseAttachment(file, {
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
+	// `8ch.net` has `fpath: 0/1` parameter.
+	attachmentUrlFpath,
+	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl
 }) {
+	attachmentUrl = file.fpath ? attachmentUrlFpath : attachmentUrl
+	attachmentThumbnailUrl = file.fpath ? attachmentThumbnailUrlFpath : attachmentThumbnailUrl
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
 		// Assume ".gif" thumbnails have ".jpg" extension.
 		const thumbnailExtension = contentType === 'image/gif' ? '.jpg' : file.ext
-		return {
+		const picture = {
 			type: 'picture',
 			size: file.fsize, // in bytes
 			picture: {
@@ -34,9 +39,14 @@ export default function parseAttachment(file, {
 				}]
 			}
 		}
+		// `8ch.net` has `spoiler: 0` on attachments.
+		if (file.spoiler) {
+			picture.spoiler = true
+		}
+		return picture
 	}
 	if (contentType && contentType.indexOf('video/') === 0) {
-		return {
+		const video = {
 			type: 'video',
 			size: file.fsize, // in bytes
 			video: {
@@ -61,6 +71,11 @@ export default function parseAttachment(file, {
 				}
 			}
 		}
+		// `8ch.net` has `spoiler: 0` on attachments.
+		if (file.spoiler) {
+			video.spoiler = true
+		}
+		return video
 	}
 	return {
 		type: 'file',
@@ -71,7 +86,7 @@ export default function parseAttachment(file, {
 			size: file.fsize, // in bytes
 			width: file.w, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
 			height: file.h, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
-			url: formatUrl(fileAttachmentUrl, boardId, file.tim, file.ext, file.filename)
+			url: formatUrl(fileAttachmentUrl || '#', boardId, file.tim, file.ext, file.filename)
 		}
 	}
 }

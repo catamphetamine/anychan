@@ -11,8 +11,7 @@
 	"color": "#8dc63f",
 	"website": "https://4chan.org",
 	"domains": [
-		"4chan.org",
-		"www.4chan.org"
+		"4chan.org"
 	],
 	"language": "en",
 	"title": "4chan",
@@ -58,6 +57,10 @@
 		"type": "twitter",
 		"text": "Twitter",
 		"url": "https://twitter.com/4chan"
+	}, {
+		"type": "reddit",
+		"text": "Reddit",
+		"url": "https://www.reddit.com/r/4chan"
 	}, {
 		"type": "api",
 		"text": "API",

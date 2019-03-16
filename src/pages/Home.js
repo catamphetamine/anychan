@@ -39,7 +39,8 @@ export default class Home extends React.Component {
 						{Logo &&
 							<a
 								target="_blank"
-								href={website}>
+								href={website}
+								className="home-page__logo-link">
 								{typeof Logo === 'string' &&
 									<img src={Logo} className="home-page__logo"/>
 								}

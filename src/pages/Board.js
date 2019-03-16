@@ -74,7 +74,7 @@ export default class BoardPage extends React.Component {
 				locale
 			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			pushLocation(getUrl(board, thread, comment), { instantBack: true })
+			pushLocation(getUrl(board, thread), { instantBack: true })
 		} catch (error) {
 			console.error(error)
 			notify(getMessages(locale).loadingCommentsError, { type: 'error '})

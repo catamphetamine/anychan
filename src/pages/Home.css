@@ -10,6 +10,10 @@
 	margin-right: 0.25em;
 }
 
+.home-page__logo-link {
+	color: inherit;
+}
+
 .home-page__brand {
 	display: flex;
 	align-content: center;

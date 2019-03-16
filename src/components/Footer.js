@@ -47,12 +47,14 @@ export default class Footer extends React.Component {
 						</nav>
 					}
 					<div className="footer__copyright">
-						<p>
-							{getChan().copyright.replace('{0}', (new Date()).getFullYear())}
-						</p>
-						{getChan().copyrightReport &&
+						{typeof getChan().copyright === 'string' &&
+							<p>
+								{getChan().copyright.replace('{0}', (new Date()).getFullYear())}
+							</p>
+						}
+						{Array.isArray(getChan().copyright) &&
 							<PostBlock>
-								{getChan().copyrightReport}
+								{getChan().copyright}
 							</PostBlock>
 						}
 						<p className="footer__copyright-chanchan">

@@ -119,7 +119,7 @@ export default class ThreadComment extends React.Component {
 					id={comment.id}
 					filter={commentOnClickFilter}
 					onClick={hidden || onClick ? this.onClick : undefined}
-					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread, comment) : undefined}
+					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread) : undefined}
 					onClickClassName="thread__comment-container--click"
 					className="thread__comment-container">
 					{commentElement}

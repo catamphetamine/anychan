@@ -55,7 +55,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 			// Move the already existing post quote to the post link.
 			stripLinks(possibleQuote.content)
 			content.quote = possibleQuote.content
-			// `kohlchan.net` has regular quotes and "inverse" quotes.
+			// `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes.
 			content.quoteKind = possibleQuote.kind
 			// Remove the `\n` character and the `inline-quote`.
 			contentParent.splice(index + 1, 2)

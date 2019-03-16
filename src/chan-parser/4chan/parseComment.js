@@ -22,6 +22,9 @@ export default function parseComment(post, {
 	commentUrlRegExp,
 	attachmentUrl,
 	attachmentThumbnailUrl,
+	// `8ch.net` has `fpath: 0/1` parameter.
+	attachmentUrlFpath,
+	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
 	defaultAuthorName
 }) {
@@ -32,6 +35,8 @@ export default function parseComment(post, {
 		// `<wbr>` is a legacy HTML tag for explicitly defined "line breaks".
 		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr
 		rawComment = rawComment.replace(/<wbr>/g, '\u200b')
+		// `8ch.net` adds `<em>:</em>` to links for some weird reason.
+		rawComment = rawComment.replace(/(https?|ftp)<em>:<\/em>/g, '$1:')
 		// Test if the author was banned for this post.
 		if (USER_BANNED_MARK.test(rawComment)) {
 			authorWasBanned = true
@@ -52,6 +57,9 @@ export default function parseComment(post, {
 			boardId,
 			attachmentUrl,
 			attachmentThumbnailUrl,
+			// `8ch.net` has `fpath: 0/1` parameter.
+			attachmentUrlFpath,
+			attachmentThumbnailUrlFpath,
 			fileAttachmentUrl
 		}),
 		post.time,
@@ -65,6 +73,11 @@ export default function parseComment(post, {
 			commentUrlRegExp
 		}
 	)
+	// `8ch.net` identifies posters by 3 of 4 bytes of their IP address.
+	// Example: `"id": "2e20aa"`.
+	if (post.id) {
+		comment.authorId
+	}
 	return comment
 }
 
@@ -74,24 +87,11 @@ export default function parseComment(post, {
 // Janitors do not receive a capcode.
 function parseRole(capCode) {
 	switch (capCode) {
-		// Too complex of a scheme.
-		// case 'admin':
-		// 	return 'administrator'
-		// case 'mod':
-		// 	return 'moderator'
-		// case 'manager':
-		// 	return 'manager'
-		// case 'developer':
-		// 	return 'developer'
-		// case 'founder':
-		// 	return 'founder'
 		case 'admin':
 		case 'founder':
 		case 'developer':
 			return 'administrator'
 		case 'mod':
-		// Not documented who's a "manager".
-		// https://github.com/4chan/4chan-API/issues/38
 		case 'manager':
 			return 'moderator'
 		default:
