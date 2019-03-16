@@ -19,6 +19,7 @@ import getBasePath from '../utility/getBasePath'
 import configuration from '../configuration'
 
 import StopIcon from 'webapp-frontend/assets/images/icons/stop.svg'
+import AnonymousIcon from '../../assets/images/icons/anonymous.svg'
 import PinIcon from 'webapp-frontend/assets/images/icons/pin.svg'
 import InfinityIcon from 'webapp-frontend/assets/images/icons/infinity.svg'
 import LockIcon from 'webapp-frontend/assets/images/icons/lock.svg'
@@ -32,6 +33,12 @@ const BADGES = [
 		icon: StopIcon,
 		title: locale => getMessages(locale).post.banned,
 		condition: post => post.authorWasBanned
+	},
+	{
+		name: 'original-poster',
+		icon: AnonymousIcon,
+		title: locale => getMessages(locale).post.originalPoster,
+		condition: post => post.isOriginalPoster
 	},
 	{
 		name: 'bump-limit',

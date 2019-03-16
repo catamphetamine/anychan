@@ -49,6 +49,7 @@
 		"rolling": "Бесконечный тред",
 		"closed": "Тред закрыт",
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
+		"originalPoster": "Автор треда",
 		"readMore": "Показать\u00a0полностью"
 	},
 	"copyright": {

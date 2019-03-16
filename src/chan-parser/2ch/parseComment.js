@@ -70,6 +70,9 @@ export default function parseComment(post, {
 	if (abuLike) {
 		comment.abuLike = true
 	}
+	if (post.op) {
+		comment.isOriginalPoster = true
+	}
 	return comment
 }
 

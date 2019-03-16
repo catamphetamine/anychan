@@ -49,6 +49,7 @@
 		"rolling": "Rolling thread",
 		"closed": "Closed thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
+		"originalPoster": "Original poster",
 		"readMore": "Show\u00a0more"
 	},
 	"copyright": {
