@@ -120,10 +120,12 @@ function parseAttachments(post, options) {
 		if (file.ext === 'deleted') {
 			return false
 		}
-		// `4chan.org` and `kohlchan.net` use `"filedeleted": 0/1`.
-		if (file.filedeleted === 1) {
-			return false
-		}
+		// // `4chan.org` and `kohlchan.net` use `"filedeleted": 0/1`.
+		// // In case of `"filedeleted": 1` it seems that all file-related
+		// // properties are also removed from the comment, so no need to filter.
+		// if (file.filedeleted === 1) {
+		// 	return false
+		// }
 		return true
 	})
 	.map(file => parseAttachment(file, options))
