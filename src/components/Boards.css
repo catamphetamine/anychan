@@ -16,20 +16,9 @@
 .boards--dark {
 	.boards-list__board-url {
 		color: var(--base-color-light);
-
 		&:before, &:after {
 			/*color: var(--gray-color-darkest);*/
 			color: #6d7682;
-			font-family: var(--font-family);
-			font-weight: 300;
-		}
-
-		&:before {
-			margin-right: 0.1em;
-		}
-
-		&:after {
-			margin-left: 0.1em;
 		}
 	}
 
@@ -105,6 +94,14 @@
 	&:after {
 		content: '/';
 		display: inline-block;
+		font-family: var(--font-family);
+		font-weight: 300;
+	}
+	&:before {
+		margin-right: 0.1em;
+	}
+	&:after {
+		margin-left: 0.1em;
 	}
 }
 
@@ -131,7 +128,13 @@
 }
 
 .boards__view-switch {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 	color: currentColor;
+
+	&:focus {
+		box-shadow: 0 0 0 1px var(--gray-color-darkest);
+	}
 }
 
 .boards__view-switch--selected {
@@ -143,14 +146,14 @@
 	width: 1px;
 	min-width: 1px;
 	height: 1em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 	color: var(--gray-color-light);
 	background-color: currentColor;
-	margin-left: 1em;
-	margin-right: 1em;
 
 	@mixin m {
-		margin-left: 0.5em;
-		margin-right: 0.5em;
+		margin-left: 0;
+		margin-right: 0;
 	}
 }
 
