@@ -62,6 +62,15 @@ export const getThreads = redux.action(
 			thread.comments[0].commentsCount = thread.commentsCount
 			thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 		}
+		// `kohlchan.net` has a bug when thumbnail file extension is random.
+		if (getChan().id === 'kohlchan') {
+			await Promise.all(
+				threads
+					.map(thread => thread.comments[0])
+					.reduce((all, comment) => all.concat(comment.attachments), [])
+					.map(fixKohlChanThumbnailExtension)
+			)
+		}
 		return {
 			boardId,
 			threads
@@ -88,6 +97,14 @@ export const getThread = redux.action(
 		const subject = thread.comments[0].title
 		if (subject) {
 			thread.comments[0].title = undefined
+		}
+		// `kohlchan.net` has a bug when thumbnail file extension is random.
+		if (getChan().id === 'kohlchan') {
+			await Promise.all(
+				thread.comments
+					.reduce((all, comment) => all.concat(comment.attachments), [])
+					.map(fixKohlChanThumbnailExtension)
+			)
 		}
 		return {
 			boardId,
@@ -192,4 +209,55 @@ function addOrigin(url) {
 		}
 	}
 	return url
+}
+
+// `kohlchan.net` has a bug when thumbnail file extension is random.
+async function fixKohlChanThumbnailExtension(attachment) {
+	let size
+	if (attachment.type === 'picture') {
+		size = attachment.picture.sizes[0]
+	} else if (attachment.type === 'video') {
+		size = attachment.video.picture.sizes[0]
+	} else {
+		return
+	}
+	try {
+		await prefetchImage(size.url)
+	} catch (error) {
+		const url = getAnotherImageUrl(size.url)
+		try {
+			await prefetchImage(url)
+			size.url = url
+		} catch (error) {
+			// No thumbnail found.
+			// Maybe too much load on the server.
+		}
+	}
+}
+
+const JPG_EXTENSION = /\.jpg$/
+const PNG_EXTENSION = /\.png$/
+
+function getAnotherImageUrl(url) {
+	if (JPG_EXTENSION.test(url)) {
+		return url.replace(JPG_EXTENSION, '.png')
+	} else if (PNG_EXTENSION.test(url)) {
+		return url.replace(PNG_EXTENSION, '.jpg')
+	}
+}
+
+// Preloads an image before displaying it.
+function prefetchImage(url) {
+	return new Promise((resolve, reject) => {
+		const image = new Image()
+		// image.onload = () => setTimeout(resolve, 1000)
+		image.onload = resolve
+		image.onerror = (event) => {
+			if (event.path && event.path[0]) {
+				console.error(`Image not found: ${event.path[0].src}`)
+			}
+			reject(event)
+		}
+		image.src = url
+	})
 }
