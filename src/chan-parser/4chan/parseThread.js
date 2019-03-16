@@ -9,6 +9,7 @@ import constructThread from '../constructThread'
  * @return {object} See README.md for "Thread" object description.
  */
 export default function parseThread(posts, {
+	chan,
 	boardId,
 	filters,
 	messages,
@@ -26,6 +27,7 @@ export default function parseThread(posts, {
 }) {
 	const thread = posts[0]
 	const comments = posts.map(comment => parseComment(comment, {
+		chan,
 		boardId,
 		filters,
 		messages,
@@ -46,14 +48,14 @@ export default function parseThread(posts, {
 		commentAttachmentsCount: getCommentAttachmentsCount(thread)
 	}
 	// `4chan.org` has `closed` property.
-	// `kohlchan.net` has `locked` property.
-	if (thread.closed === 1 || thread.locked) {
+	// `kohlchan.net` and `8ch.net` have `locked` property.
+	if (thread.closed || thread.locked) {
 		threadInfo.isClosed = true
 	}
-	if (thread.sticky === 1) {
+	if (thread.sticky) {
 		threadInfo.isSticky = true
 	}
-	// `kohlchan.net` has `cyclical="0"` property.
+	// `kohlchan.net` and `8ch.net` have `cyclical="0"` property.
 	// I guess it's for "rolling" threads.
 	// Seems that it's always "0" though.
 	if (thread.cyclical === '1') {

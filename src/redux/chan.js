@@ -123,6 +123,7 @@ function createParser({ filters, locale }) {
 	const Parser = getParser()
 	return new Parser({
 		...getChan().parserOptions,
+		chan: getChan().id,
 		filters,
 		commentLengthLimit: 700,
 		messages: locale ? getMessages(locale) : undefined,

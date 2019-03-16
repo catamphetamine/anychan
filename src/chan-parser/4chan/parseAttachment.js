@@ -9,6 +9,7 @@ function formatUrl(url, boardId, name, ext, originalName) {
 }
 
 export default function parseAttachment(file, {
+	chan,
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
@@ -17,12 +18,16 @@ export default function parseAttachment(file, {
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl
 }) {
-	attachmentUrl = file.fpath ? attachmentUrlFpath : attachmentUrl
-	attachmentThumbnailUrl = file.fpath ? attachmentThumbnailUrlFpath : attachmentThumbnailUrl
+	if (chan === '8ch') {
+		if (file.fpath) {
+			attachmentUrl = attachmentUrlFpath
+			attachmentThumbnailUrl = attachmentThumbnailUrlFpath
+		}
+	}
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
 		// Assume ".gif" thumbnails have ".jpg" extension.
-		const thumbnailExtension = contentType === 'image/gif' ? '.jpg' : file.ext
+		const thumbnailExtension = (contentType === 'image/gif' && chan !== '8ch') ? '.jpg' : file.ext
 		const picture = {
 			type: 'picture',
 			size: file.fsize, // in bytes

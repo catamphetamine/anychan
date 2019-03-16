@@ -13,6 +13,7 @@ const USER_BANNED_MARK = /<br><br><b style="color:red;">\(USER WAS BANNED FOR TH
  * @return {object} See README.md for "Comment" object description.
  */
 export default function parseComment(post, {
+	chan,
 	boardId,
 	filters,
 	parseCommentPlugins,
@@ -54,6 +55,7 @@ export default function parseComment(post, {
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
 		parseAttachments(post, {
+			chan,
 			boardId,
 			attachmentUrl,
 			attachmentThumbnailUrl,
