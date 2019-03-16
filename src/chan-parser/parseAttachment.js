@@ -1,23 +1,28 @@
-const JPG_FILE_NAME = /\.jpg$/
-const JPEG_FILE_NAME = /\.jpg$/
-const PNG_FILE_NAME = /\.png$/
-const GIF_FILE_NAME = /\.gif$/
-const WEBM_FILE_NAME = /\.webm$/
-const MP4_FILE_NAME = /\.mp4$/
-const PDF_FILE_NAME = /\.pdf$/
+// https://www.iana.org/assignments/media-types/media-types.xhtml
+const MIME_TYPES = {
+	'jpg': 'image/jpeg',
+	'jpeg': 'image/jpeg',
+	'gif': 'image/gif',
+	'png': 'image/png',
+	'bmp': 'image/bmp',
+	'webm': 'video/webm',
+	'mp4': 'video/mp4',
+	'mp3': 'audio/mpeg',
+	'ogg': 'audio/ogg',
+	'flac': 'audio/flac',
+	'opus': 'audio/opus',
+	'7z': 'application/x-7z-compressed',
+	'zip': 'application/zip',
+	'pdf': 'application/pdf',
+	'epub': 'application/epub+zip',
+	'txt': 'text/plain'
+}
 
 export function getContentTypeByFileName(fileName) {
-	if (JPG_FILE_NAME.test(fileName) || JPEG_FILE_NAME.test(fileName)) {
-		return 'image/jpeg'
-	} else if (PNG_FILE_NAME.test(fileName)) {
-		return 'image/png'
-	} else if (GIF_FILE_NAME.test(fileName)) {
-		return 'image/gif'
-	} else if (WEBM_FILE_NAME.test(fileName)) {
-		return 'video/webm'
-	} else if (MP4_FILE_NAME.test(fileName)) {
-		return 'video/mp4'
-	} else if (PDF_FILE_NAME.test(fileName)) {
-		return 'application/pdf'
+	const dotIndex = fileName.lastIndexOf('.')
+	if (dotIndex < 0 || dotIndex === fileName.length - 1) {
+		return
 	}
+	const extension = fileName.slice(dotIndex + 1)
+	return MIME_TYPES[extension]
 }
