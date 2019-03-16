@@ -78,7 +78,7 @@ export default function parseComment(post, {
 	// `8ch.net` identifies posters by 3 of 4 bytes of their
 	// IP addresses on some boards. Example: `"id": "2e20aa"`.
 	if (post.id) {
-		comment.authorId
+		comment.authorId = post.id
 	}
 	if (post.trip) {
 		comment.tripCode = post.trip
