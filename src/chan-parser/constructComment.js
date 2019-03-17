@@ -21,7 +21,6 @@ export default function constructComment(
 	{
 		filters,
 		parseCommentPlugins,
-		getInReplyToPosts,
 		correctGrammar,
 		messages,
 		getUrl,
@@ -30,9 +29,9 @@ export default function constructComment(
 ) {
 	const comment = {
 		id,
-		inReplyTo: rawComment ? getInReplyToPosts(rawComment, { threadId }) : [],
 		attachments,
-		createdAt: new Date(timestamp * 1000)
+		createdAt: new Date(timestamp * 1000),
+		inReplyTo: []
 	}
 	if (subject) {
 		if (correctGrammar) {

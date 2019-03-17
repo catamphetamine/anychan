@@ -1,6 +1,5 @@
 import parseAuthor from './parseAuthor'
 import parseAttachment from './parseAttachment'
-import getInReplyToPosts from './getInReplyToPosts'
 
 import constructComment from '../constructComment'
 
@@ -68,7 +67,6 @@ export default function parseComment(post, {
 		{
 			filters,
 			parseCommentPlugins,
-			getInReplyToPosts,
 			commentLengthLimit,
 			messages,
 			getUrl,

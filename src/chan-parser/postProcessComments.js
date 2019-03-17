@@ -1,3 +1,4 @@
+import setInReplyToPosts from './setInReplyToPosts'
 import setInReplyToQuotes from './setInReplyToQuotes'
 import setPostLinksContent from './setPostLinksContent'
 import setReplies from './setReplies'
@@ -12,6 +13,7 @@ export default function postProcessComments(comments, {
 	// Autogenerate "in reply to" quotes.
 	// Set `post-link`s' text.
 	for (const comment of comments) {
+		setInReplyToPosts(comment)
 		setInReplyToQuotes(comment.content, comments, { threadId, messages })
 		setPostLinksContent(comment, { messages })
 		// Generate preview for long comments.

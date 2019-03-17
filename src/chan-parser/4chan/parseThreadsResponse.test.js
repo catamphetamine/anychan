@@ -80,7 +80,9 @@ describe('4chan.org', () => {
 				"comments" : [
 					{
 						"id": 2952650,
-						"inReplyTo": [],
+						"inReplyTo": [
+							2943071
+						],
 						"attachments": [
 							{
 								"type": "picture",
