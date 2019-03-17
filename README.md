@@ -19,6 +19,7 @@ This is a demo showcase project and currently has only a small subset of feature
   * Add "favorite" boards list.
   * Add dark mode.
   * Add a non-default theme.
+  * Add support for "passes" (`4chan.org`, `2ch.hk`).
 
 <!--
 	Miscellaneous:
