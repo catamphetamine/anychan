@@ -10,11 +10,24 @@ An alternative GUI for an imageboard (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, 
 
 Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a public "CORS Proxy" that intentionally throttles connections to reduce load.
 
-This is a demo showcase project and it has only a minimal set of features:
+This is a demo showcase project and currently has only a small subset of features. "To do":
 
-  * Browsing.
-  * No posting.
-  * No new replies notifications.
+  * Add "infinite scroll" for loading threads and posts.
+  * Add message posting.
+  * Add thread watching.
+  * Add thread auto-update.
+  * Add "favorite" boards list.
+  * Add dark mode.
+  * Add a non-default theme.
+
+<!--
+	Miscellaneous:
+
+  * Add comment menu: Hide, Report, Copy Link, View Source, Hide all posts from this author (if `post.id` is available), Expand all images/videos, Run slideshow for all attachments.
+	* Maybe add delete post/attachment button. (can delete posts and files without password on 4chan)
+	* When text is selected, show "Reply" tooltip for quoting the selected text in a reply.
+	* Add post selection from post menu to report several posts in a single report.
+-->
 
 ## Screenshots
 

@@ -20,7 +20,41 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+В слайдшоу меньшение меньше исходного сделать.
+
+При листании в слайдшоу учитывать скорость. Если листается без скорости, то перелистывать, только если перелистнута как минимум половина.
+
+Slideshow attachments sort чтобы нормировал thumbnail height на max height (на всякий случай, на возможное будущее что-то).
+
+Во время загрузки картинки в слайдшоу можно выводить миниатюру заблюренную, и поверх неё уже "крутилку" на подложке.
+
+перенести иконки меню в sidebar (но не показывать их в мобильных)
+
+replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
+
+Not insert read more inside links.
+
+цитируемое сообщение может быть пустым, если состоит только из цитат: в таком случае можно перезапускать `getPostText()`, но уже без skip inline quotes.
+
+Если `link.postWasDeleted`, то цитату выводить без ссылки, и `title="Deleted message"`.
+
+
+Локали собирать в один json — брать локаль и поверх неё делать 'default_locale_messages' (таким образом, отсутствующие сообщения будут присутствовать на английском).
+
+
+раскрывать твиты (service="twitter")
+
+при цитировании в getPostText ссылки можно заменять на `"[link to www.google.com]"`, если есть `messages`.
+
+можно переделать `import configuration from` через `externals.configuration`
+
 Add 2ch.hk/po likes (upvotes, downvotes)
+
+When parsing youtube videos first try YouTube API, then "oembed" (if errored or if no YouTube API key supplied; detect YouTube 403 status for API key quota reached). Add `fetchInfo: false` flag for offline tests.
+
+Parse Vimeo links analogous to YouTube links and embed them in comments.
+
+Maybe add SoundCloud to `parseServiceLink` and embed soundcloud player in comments.
 
 Сделать sidebar scroll через библиотеку (для фаерфокс):
 https://grsmto.github.io/simplebar/
@@ -28,17 +62,7 @@ https://github.com/Grsmto/simplebar/blob/master/examples/react/src/App.js
 
 Make relative `attachmentUrl` and `attachmentThumbnailUrl` and `fileAttachmentUrl` for `kohlchan.net`
 
-Slideshow attachments sort чтобы нормировал thumbnail height на max height (на всякий случай, на возможное будущее что-то).
-
-В слайдшоу меньшение меньше исходного сделать.
-
-Добавить спойлеры на картинках (драпировка, выходящая за рамки, мб скотч малярный).
-
-Not insert read more inside links.
-
-Меню: пожаловаться, скрыть, скопировать ссылку, слайдшоу по всем картинкам мб, раскрыть все картинки мб.
-
-Maybe run a custom proxy for 4chan (google for free hosting).
+expand replies into posts in redux/chan
 
 
 
@@ -46,14 +70,10 @@ Maybe run a custom proxy for 4chan (google for free hosting).
 
 
 
-
-Можно как-то показывать {thread.uniquePostersCount}
 
 При догрузке сообщений обновлять "ответы" у предыдущих постов.
 
 Перегенерировать preview (и цитаты поста, и preview сообщений с ними) при загрузке видео и твитов.
-
-Сделать контекстное меню у постов/тем
 
 Пункт "Скрыть": добавляет id поста в `localStorage.settings.hiddenPosts`, и ставит посту в state .hidden = true, и перерендеривает сам пост. `settings.hiddenPosts` — "first in, first out" список, например, на 1000 постов. Проверить скрытие на постах и темах (+ обновление страницы).
 
@@ -65,24 +85,7 @@ Maybe run a custom proxy for 4chan (google for free hosting).
 	--: ...;
 }
 
-посмотреть, что самое долгое в парсинге (/vg/)
-посмотреть, что самое долгое в рендеринге (/vg/)
-
-добавить вывод в консоль времени загрузки API response
-
-иногда, если нажать мышью на видео, подвигать, и оно не перелистнётся, то зависает статус нажатости.
-
-При листании в слайдшоу учитывать скорость. Если листается без скорости, то перелистывать, только если перелистнута как минимум половина.
-
 activate night mode button, refactor font themes from json to body class
-
-перенести иконки меню в sidebar (но не показывать их в мобильных)
-
-replace the global spinner with smaller spinners (on thread card, on boards panel). The spinner will still show on history navigation and initially.
-
-fix 4chan cited messages bug (info below)
-
-добавить вывод в консоль времени проверки комментария на игнор.
 
 Возможно, вынести игнор в пост-процессинг (а мб и не выносить).
 
@@ -96,7 +99,7 @@ Dark theme:
 
 При переходе по ссылке сообщения: показывать -5 и +5 до/от него. При скроллинге: "ещё ..." либо внизу, либо вверху. При нажатии на "ещё ..." не скрывать сообщения при скроллинге. На всякий случай делать кнопки (или ссылки) "Показать предыдущие" и "Показать следующие", если скроллинг не успеет подгрузить.
 
-Мб добавить в слайдшоу кнопку поиска (по гуглу, по iqdb: https://iqdb.org/?url=http://i.4cdn.org/a/1552023338925s.jpg)
+Мб добавить в слайдшоу кнопку поиска по iqdb: https://iqdb.org/?url=http://i.4cdn.org/a/1552023338925s.jpg
 
 
 
@@ -113,24 +116,12 @@ When opening comments page: show "... more" button on the bottom right side. As 
 
 
 
-expand replies into posts in redux/chan
-
 Replies count - a clickable button. On click — expand replies tree (shifted). If expanded single reply, and that reply has a single reply, then proceed expanding, until there're either more than a single reply or no replies.
 
 
 
 
-
 сделать подгрузку сообщений, и внизу плашку справа "ещё ..." ("... more") (+ посмотреть дизайн на мобильном).
-
-цитируемое сообщение может быть пустым, если состоит только из цитат: в таком случае можно перезапускать `getPostText()`, но уже без skip inline quotes.
-
-
-
-
-
-Если при создании autogenerated post quote пусто получается (Message), то бывает, что там цитата на какой-то ещё пост, и цитаты в таком случае можно не пропускать.
-
 
 
 
@@ -147,24 +138,12 @@ Replies count - a clickable button. On click — expand replies tree (shifted). 
 
 
 
-Если `link.postWasDeleted`, то цитату выводить без ссылки, и `title="Deleted message"`.
-
-"Message" не уберётся, так как используется для post-link не в конце строки
-В остальных случаях "Message" уберётся, так как всегда у сообщения есть какой-то текст (если картинки — то будет "Картинка").
-Сама цитата будет ссылкой на сообщение.
-
-Не делать ссылки на post-link на первых сообщениях тем в списке тем.
 
 
-
-
-Во время загрузки картинки в слайдшоу можно выводить миниатюру заблюренную, и поверх неё уже "крутилку" на подложке.
 
 Вынести correctGrammar, ignore и прочие в пост процессинг
 
 Настройки фильтров (интерфейс и redux) переделать так, что кастомные фильтры расширяют список игнора по умолчанию, и сделать switch для отключения списка игнора по умолчанию.
-
-Локали собирать в один json — брать локаль и поверх неё делать 'default_locale_messages' (таким образом, отсутствующие сообщения будут присутствовать на английском).
 
 // мб поднять прокси для 2ch.hk на каком-нибудь vscale/selectel.
 
@@ -173,47 +152,7 @@ Replies count - a clickable button. On click — expand replies tree (shifted). 
 2ch: limit 40mb post attachments, limix max attachments count.
 
 
-
-выводить прочие ссылки в футере, включая копирайт.
-
-
-
-
-раскрывать твиты (service="twitter")
-
-при цитировании в getPostText ссылки можно заменять на `"[link to www.google.com]"`, если есть `messages`.
-
-сделать опцию в слайдшоу: autoplay видео при листании.
-
-Post `overflow-wrap: break-word;`
-
-check chan-specific favicons
-
 автопарсить сайты и емейлы в тексте.
-
-можно переделать `import configuration from` через `externals.configuration`
-
-добавить возможность уменьшения картинок и видео меньше 100% (так удобнее закрывать).
-
-перерендериваются ли посты при открытии/листании слайдшоу.
-
-
-
-без редьюсеров и return <div/> — 40 мс
-return <div/> - 70 мс
-редьюсер и return <div/> - 140 мс
-
-
-@preload() finished in 0.793 - заменить на реальный @preload promise duration, а также выводить page re-render time (total - preload_time). startedAt в UPDATE_MATCH — не несёт значения (убрать оттуда).
-
-
-мб оптимизировать парсер. мб попробовать парсер HTML из интернета.
-
-
-раскомментировать потом youtube video parsing в <Post/>
-
-
-re-deploy demo
 
 
 * Показывать сообщения по мере скроллинга. Парсить сообщения по мере показа (parseCommentText), или как-то после показа, по одному, через requestAnimationFrame, а если доскроллил — то там принудительно очередную порцию, и потом снова по одному.

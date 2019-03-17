@@ -23,9 +23,14 @@ export default function parseBoard(board) {
 	if (board.is_archived) {
 		parsedBoard.isArchived = true
 	}
-	// Presumably `4chan.org` uses "MathJAX"
-	// or something like that for Math formulae.
+	// `4chan.org` sometimes allows "TeX" (like "LaTeX") syntax for writing Math formulae.
+	// https://b060e7a4-a-62cb3a1a-s-sites.googlegroups.com/site/scienceandmathguide/other/-sci-infographics/joseflatex.png?attachauth=ANoY7crDHFoNwHMiP0AS_eGBJo71fzfPs5KsVxxgPSfBrmswoaTPsnWHqwjKIzP4HDIrfv_-Io17zld0RAtcZOTIPTynm2om4nAd83WOpg6IT3WqCdrAEjqqrWwooCDgYrHWcTRxEM6myhEsGT46K30hInFQDZS17fz44X87VjfvKZQrwWLYIa7h1NU_7VZD3gBbuSZXLa8q4vMdBZfd_r2S1UlPwjVjpSoKRvV0PzuzHrshkjhVE9ko2Ap9T7rviyuSRJO3NGaQ&attredirects=0
 	// Example: `/sci/` board.
+	// The output on `4chan.org` is done using `jsMath` library which is deprecated since 2010.
+	// The successor for `jsMath` is `MathJax`.
+	// "TeX" formulae can be converted to "MathML" which is part of HTML5 standard:
+	// https://en.wikipedia.org/wiki/MathML
+	// That means that "MathML" formulae can be shown in web browsers without any third party libraries.
 	if (board.math_tags) {
 		parsedBoard.usesMath = true
 	}

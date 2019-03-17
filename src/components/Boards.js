@@ -51,20 +51,18 @@ export default class Boards extends React.Component {
 				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
+							disabled={view === 'default'}
 							onClick={this.onChangeViewAllBoards}
-							className={classNames('boards__view-switch', {
-								'boards__view-switch--selected': view === 'default'
-							})}>
+							className="boards__view-switch">
 							{boardsByPopularity ? getMessages(locale).boardsByPopularity : getMessages(locale).boardsList}
 						</Button>
 
 						<div className="boards__view-switch-divider"/>
 
 						<Button
+							disabled={view === 'by-category'}
 							onClick={this.onChangeViewByCategory}
-							className={classNames('boards__view-switch', {
-								'boards__view-switch--selected': view === 'by-category'
-							})}>
+							className="boards__view-switch">
 							{getMessages(locale).boardsByCategory}
 						</Button>
 					</div>
@@ -211,6 +209,7 @@ class Board extends React.Component {
 			<React.Fragment>
 				<Link
 					to={getUrl(board)}
+					tabIndex={-1}
 					onClick={this.onBoardClick}
 					onPointerDown={this.onPointerDown}
 					onPointerUp={this.onPointerUp}

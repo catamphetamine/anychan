@@ -137,11 +137,6 @@
 	}
 }
 
-.boards__view-switch--selected {
-	pointer-events: none;
-	/* border-bottom: 1px solid var(--base-color); */
-}
-
 .boards__view-switch-divider {
 	margin-left: 0.5em;
 	margin-right: 0.5em;

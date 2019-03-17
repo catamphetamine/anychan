@@ -38,15 +38,43 @@
 		},
 		"."
 	],
-	"links": [{
-		"type": "twitter",
-		"text": "Twitter",
-		"url": "https://twitter.com/infinitechan"
-	}, {
-		"type": "reddit",
-		"text": "Reddit",
-		"url": "https://www.reddit.com/r/infinitechan"
-	}],
+	"links": [
+		{
+			"type": "faq",
+			"text": "FAQ",
+			"url": "https://8ch.net/faq.html"
+		},
+		{
+			"type": "link",
+			"text": "Ban List",
+			"url": "https://8ch.net/bans.html"
+		},
+		{
+			"type": "search",
+			"text": "Search",
+			"url": "https://8ch.net/search.php"
+		},
+		{
+			"type": "advertise",
+			"text": "Advertise on 8chan",
+			"url": "https://8ch.net/ads.html"
+		},
+		{
+			"type": "link",
+			"text": "Claim a Board",
+			"url": "https://8ch.net/claim.html"
+		},
+		{
+			"type": "twitter",
+			"text": "Twitter",
+			"url": "https://twitter.com/infinitechan"
+		},
+		{
+			"type": "reddit",
+			"text": "Reddit",
+			"url": "https://www.reddit.com/r/infinitechan"
+		}
+	],
 	"thumbnailSize": 250,
 	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
 	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
