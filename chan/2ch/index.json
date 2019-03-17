@@ -80,6 +80,7 @@
 	"threadsUrl": "/{boardId}/catalog.json",
 	"boardsUrl": "/boards.json",
 	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
+	"countryFlagUrl": "/icons/logos/{country}.png",
 	"proxy": {
 		"aws": true
 	},

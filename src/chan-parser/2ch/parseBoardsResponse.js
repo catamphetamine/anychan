@@ -8,8 +8,12 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  */
 export default function parseBoards(response) {
 	const boards = response.boards.map(parseBoard)
-		// Hide "user" boards.
-		.filter(_ => _.category !== 'Пользовательские')
+	// Hide "user" boards.
+	for (const board of boards) {
+		if (board.category === 'Пользовательские') {
+			board.isHidden = true
+		}
+	}
 	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
 	for (const board of boards) {
 		if (board.id === 'abu') {
@@ -29,6 +33,6 @@ export default function parseBoards(response) {
 			'Японская культура',
 			'Разное',
 			'Взрослым'
-		])
+		]).filter(category => category.category !== 'Пользовательские')
 	}
 }

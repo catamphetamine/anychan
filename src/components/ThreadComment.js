@@ -5,6 +5,8 @@ import classNames from 'classnames'
 
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
+import CountryFlag from './CountryFlag'
+
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
@@ -13,8 +15,8 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import { getChan } from '../chan'
-import getMessages from '../messages'
+import { getChan, shouldUseRelativeUrls } from '../chan'
+import getMessages, { getCountryNames } from '../messages'
 import getBasePath from '../utility/getBasePath'
 import configuration from '../configuration'
 
@@ -31,37 +33,60 @@ const BADGES = [
 	{
 		name: 'banned',
 		icon: StopIcon,
-		title: locale => getMessages(locale).post.banned,
+		title: (post, locale) => getMessages(locale).post.banned,
 		condition: post => post.authorWasBanned
 	},
 	{
 		name: 'original-poster',
 		icon: AnonymousIcon,
-		title: locale => getMessages(locale).post.originalPoster,
+		title: (post, locale) => getMessages(locale).post.originalPoster,
 		condition: post => post.isOriginalPoster
+	},
+	{
+		name: 'country',
+		getIcon: (post, locale) => {
+			if (post.authorCountry) {
+				return CountryFlag
+			}
+			return ChanFlag
+		},
+		getIconProps: (post, locale) => {
+			if (post.authorCountry) {
+				return {
+					country: post.authorCountry,
+					name: getCountryNames(locale)[post.authorCountry]
+				}
+			}
+			return {
+				country: post.authorCountryId,
+				name: post.authorCountryName
+			}
+		},
+		title: (post, locale) => post.authorCountryName || getCountryNames(locale)[post.authorCountry],
+		condition: post => post.authorCountry || post.authorCountryName
 	},
 	{
 		name: 'bump-limit',
 		icon: SinkingBoatIcon,
-		title: locale => getMessages(locale).post.bumpLimitReached,
+		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
 		condition: (post, thread) => post.id === thread.id && thread.isBumpLimitReached && !thread.isSticky
 	},
 	{
 		name: 'sticky',
 		icon: PinIcon,
-		title: locale => getMessages(locale).post.sticky,
+		title: (post, locale) => getMessages(locale).post.sticky,
 		condition: (post, thread) => post.id === thread.id && thread.isSticky
 	},
 	{
 		name: 'rolling',
 		icon: InfinityIcon,
-		title: locale => getMessages(locale).post.rolling,
+		title: (post, locale) => getMessages(locale).post.rolling,
 		condition: (post, thread) => post.id === thread.id && thread.isRolling
 	},
 	{
 		name: 'closed',
 		icon: LockIcon,
-		title: locale => getMessages(locale).post.closed,
+		title: (post, locale) => getMessages(locale).post.closed,
 		condition: (post, thread) => post.id === thread.id && thread.isClosed
 	}
 ]
@@ -225,4 +250,21 @@ const SERVICE_ICONS = {
 	'arhivach': ArhivachIcon,
 	'2ch': getChan('2ch').logo,
 	'4chan': getChan('4chan').logo
+}
+
+function ChanFlag({ country, name, ...rest }) {
+	let countryFlagUrl = getChan().countryFlagUrl
+	// Transform relative URL to an absolute one.
+	if (countryFlagUrl[0] === '/' && countryFlagUrl[1] !== '/') {
+		if (!shouldUseRelativeUrls() ) {
+			countryFlagUrl = getChan().website + countryFlagUrl
+		}
+	}
+	return (
+		<img
+			{...rest}
+			alt={name}
+			src={countryFlagUrl.replace('{country}', country)}
+			className="post__custom-country-flag"/>
+	)
 }

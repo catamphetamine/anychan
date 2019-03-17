@@ -1,7 +1,7 @@
 import { ReduxModule } from 'react-website'
 
 import configuration from '../configuration'
-import { getChan } from '../chan'
+import { getChan, shouldUseRelativeUrls } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
@@ -61,12 +61,7 @@ export const getThreads = redux.action(
 		for (const thread of threads) {
 			thread.comments[0].commentsCount = thread.commentsCount
 			thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
-			// Display "trip code" as second "author name".
-			for (const comment of thread.comments) {
-				if (comment.tripCode) {
-					comment.authorName2 = comment.tripCode
-				}
-			}
+			setAuthorIds(thread)
 		}
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -104,12 +99,7 @@ export const getThread = redux.action(
 		if (subject) {
 			thread.comments[0].title = undefined
 		}
-		// Display "trip code" as second "author name".
-		for (const comment of thread.comments) {
-			if (comment.tripCode) {
-				comment.authorName2 = comment.tripCode
-			}
-		}
+		setAuthorIds(thread)
 		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -160,18 +150,6 @@ function createParser({ filters, locale }) {
 		useRelativeUrls: shouldUseRelativeUrls(),
 		getUrl
 	})
-}
-
-function shouldUseRelativeUrls() {
-	if (typeof window !== 'undefined') {
-		const domain = window.location.hostname
-		if (getChan().domains) {
-			if (getChan().domains.includes(domain)) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 function proxyUrl(url) {
@@ -273,4 +251,21 @@ function prefetchImage(url) {
 		}
 		image.src = url
 	})
+}
+
+function setAuthorIds(thread) {
+	for (const comment of thread.comments) {
+		// Prepend "authorId" to "author name".
+		if (comment.authorId) {
+			if (comment.authorName) {
+				comment.authorName = comment.authorId + ' ' + comment.authorName
+			} else {
+				comment.authorName = comment.authorId
+			}
+		}
+		// Display "trip code" as second "author name".
+		if (comment.tripCode) {
+			comment.authorName2 = comment.tripCode
+		}
+	}
 }

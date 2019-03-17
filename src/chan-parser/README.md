@@ -65,8 +65,14 @@ An attachment can be:
 	title: string,
 	titleCensored: InlineContent, // If `title` contained censored words an censored title containing "spoilers" will be generated.
 	createdAt: Date,
+	authorId: String, // Some chans identify their users by 3 or 4 of 4 bytes of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
+	tripCode: String,
+	isOriginalPoster: boolean, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
 	authorName: String,
-	authorRole: String,
+	authorCountry: String, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
+	authroCountryId: String, // Only for `kohlchan.net`. Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
+	authroCountryName: String, // Only for `kohlchan.net`. Examples: "Ukraine", "Moscow", "Texas", "Proxy".
+	authorRole: String, // Examples: "administrator", "moderator".
 	authorWasBanned: boolean,
 	content: Content, // Example: `[['Text']]`.
 	contentPreview: Content?, // If the `content` is too long a preview is generated.

@@ -90,7 +90,7 @@ export default class Boards extends React.Component {
 							))}
 						</React.Fragment>
 					))}
-					{view === 'default' && boardsByPopularity.map((board) => (
+					{view === 'default' && boardsByPopularity.filter(board => !board.isHidden).map((board) => (
 						<Board
 							key={board.id}
 							isSelected={selectedBoard && board.id === selectedBoard.id}

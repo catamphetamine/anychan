@@ -37,21 +37,6 @@ Not insert read more inside links.
 
 Maybe run a custom proxy for 4chan (google for free hosting).
 
-Maybe show country flags in /int/ on kohlchan.net:
-
-"country": "PROXYFAG",
-"country_name": "Proxy",
-
-"country": "RU-MOW",
-"country_name": "Moscow"
-
-"country": "UA",
-"country_name": "Ukraine"
-
-"country": "TEXAS",
-"country_name": "Texas"
-
-https://kohlchan.net/static/flags/proxyfag.png
 
 
 
@@ -113,6 +98,9 @@ Dark theme:
 
 
 
+
+
+Можно сделать пункт меню "Игнорировать этого автора" (по authorId), и тогда будет особый фильтр на скрытие сообщений по authorId (и будет писать "Скрытое сообщение (автор {authorId})").
 
 сделать постраничность и парсить только те комментарии, которые показаны на текущий момент (парсинг может занимать много времени). "показать ответы" на пост будет показывать по нажатию крутилку, пока все "ответы" не подгрузятся (видимо, строить очередь как "сообщения на первой странице" + "ответы на них" + "сообщения на второй странице"; те сообщения, которые уже загружены, пропускать).
 

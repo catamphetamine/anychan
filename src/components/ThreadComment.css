@@ -76,3 +76,9 @@
 .post__author--moderator {
 	color: var(--accent-color-dark);
 }
+
+.post__custom-country-flag {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}

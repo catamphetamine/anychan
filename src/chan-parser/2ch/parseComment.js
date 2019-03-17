@@ -73,8 +73,34 @@ export default function parseComment(post, {
 	if (post.trip && !comment.authorRole) {
 		comment.tripCode = post.trip
 	}
-	if (post.op) {
+	if (!isOpeningPost && post.op) {
 		comment.isOriginalPoster = true
+	}
+	// `2ch.hk` returns poster countries on `/int/` board
+	// in the form of an `<img/>` tag:
+	// "icon": "<img hspace=\"3\" src=\"/flags/FI.png\" border=\"0\" />".
+	// On `/po/` board flags are replaced with their aliases:
+	// "icon": "<img hspace=\"3\" src=\"/icons/logos/ukr.png\" title=\"Украина\" border=\"0\" />".
+	if (post.icon) {
+		const match = post.icon.match(/\/flags\/([A-Z]{2}).png/)
+		if (match) {
+			comment.authorCountry = match[1]
+		} else {
+			// Parse flags like `A1.png` which seems to mean
+			// "Anonymizer" or "Proxy" or maybe "TOR Network".
+			const match = post.icon.match(/\/flags\/(A\d).png/)
+			if (match) {
+				comment.authorCountry = 'ZZ'
+			} else {
+				const match = post.icon.match(/\/icons\/logos\/([^\/]+).png" title=\"([^"]+)\"/)
+				if (match) {
+					comment.authorCountryId = match[1]
+					comment.authorCountryName = match[2]
+				} else {
+					console.error(`Couldn't parse poster country: ${post.icon}`)
+				}
+			}
+		}
 	}
 	return comment
 }

@@ -75,14 +75,41 @@ export default function parseComment(post, {
 			commentUrlRegExp
 		}
 	)
-	// `8ch.net` identifies posters by 3 of 4 bytes of their
-	// IP addresses on some boards. Example: `"id": "2e20aa"`.
+	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
+	// identify their posters by 3 or 4 of 4 bytes of their IP addresses on some boards.
+	// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.
+	// `8ch.net` and `kohlchan.net` example: `"id": "2e20aa"`.
+	// `4chan.org` example: `"id": "Bg9BS7Xl"`.
 	if (post.id) {
 		comment.authorId = post.id
+	}
+	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
+	// displays poster country flags.
+	if (post.country) {
+		// `8ch.net` has correct country codes.
+		// Examples: "GB", "US", "RU".
+		if (chan === '8ch') {
+			comment.authorCountry = post.country
+			// `chanchan` has its own localized country names.
+			// comment.authorCountryName = post.country_name
+		}
+		// `kohlchan.net` has incorrect country codes.
+		// Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
+		else if (chan === 'kohlchan') {
+			comment.authorCountryId = post.country.toLowerCase()
+			comment.authorCountryName = post.country_name
+		}
 	}
 	if (post.trip) {
 		comment.tripCode = post.trip
 	}
+	// `4chan.org` smaller copies of images (limited to 1024x1024) for mobile users.
+	// These images are in the same location as usual but the filename ends with "m".
+	// `m_img` parameter indicates that this smaller image is available.
+	// https://github.com/4chan/4chan-API/issues/63
+	// if (post.m_img) {
+	// 	comment.mobileImageIsAvailable = true
+	// }
 	return comment
 }
 

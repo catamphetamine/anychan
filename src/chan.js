@@ -72,3 +72,15 @@ export function addChanParameter(url) {
 	}
 	return url
 }
+
+export function shouldUseRelativeUrls() {
+	if (typeof window !== 'undefined') {
+		const domain = window.location.hostname
+		if (getChan().domains) {
+			if (getChan().domains.includes(domain)) {
+				return true
+			}
+		}
+	}
+	return false
+}

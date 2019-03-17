@@ -63,6 +63,7 @@
 	"thumbnailSize": 200,
 	"commentsUrl": "/{boardId}/res/{threadId}.json",
 	"threadsUrl": "/{boardId}/catalog.json",
+	"countryFlagUrl": "/static/flags/{country}.png",
 	"boards": [
 		{
 			"id": "b",

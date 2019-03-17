@@ -21,6 +21,9 @@ Contains both the comment and the attachment file info.
 	"capcode": "admin", // "Capcodes" are set for "priviliged" posters (admins, moderators, etc). See the "Roles" section.
 
 	// (optional)
+	"id": "Bg9BS7Xl", // Poster IP hash. Is used to identify posters on some boards like `/pol/`.
+
+	// (optional)
 	"country": "RU", // ISO 3166-1 alpha-2 country code. Can be used on "international" boards.
 	"country_name": "Russia", // Country name. Can be used on "international" boards.
 
@@ -63,10 +66,16 @@ They say it can also be `.pdf` (most likely with no thumbnail then: `tn_w === 0`
 	"md5": "knN3NBdljasl085ylrpzfQ==", // Attachment file MD5 (24 character, packed base64 MD5 hash).
 
 	// (optional)
-	"filedeleted": ?, // I guess it's `1` if the attachment file was deleted, and is missing otherwise.
+	"filedeleted": 1, // Will be `1` if the attachment file was deleted. Seems that if `filedeleted` is `1` then all other attachment-related properties will be absent.
 
 	// (optional)
-	"spoiler": ?, // Didn't see such a property in API response.
+	"spoiler": 1, // If `1` then it means that the attachment should be covered with a spoiler image.
+
+	// (optional)
+	// `4chan.org` smaller copies of images (limited to 1024x1024) for mobile users.
+	// These images are in the same location as usual but the filename ends with "m".
+	// `m_img` parameter indicates that this smaller image is available.
+	"m_img": 1
 }
 ```
 
