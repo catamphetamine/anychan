@@ -5,6 +5,11 @@ import classNames from 'classnames'
 
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
+import CommentIcon from 'webapp-frontend/assets/images/icons/menu/message-outline.svg'
+import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
+import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
+import ReplyIcon from 'webapp-frontend/assets/images/icons/reply.svg'
+
 import CountryFlag from './CountryFlag'
 
 import Post from 'webapp-frontend/src/components/Post'
@@ -29,7 +34,7 @@ import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
 
 import './ThreadComment.css'
 
-const BADGES = [
+const HEADER_BADGES = [
 	{
 		name: 'banned',
 		icon: StopIcon,
@@ -88,6 +93,37 @@ const BADGES = [
 		icon: LockIcon,
 		title: (post, locale) => getMessages(locale).post.closed,
 		condition: (post, thread) => post.id === thread.id && thread.isClosed
+	}
+]
+
+const FOOTER_BADGES = [
+	{
+		name: 'comments-count',
+		icon: CommentIcon,
+		title: (post, locale) => getMessages(locale).post.commentsCount,
+		condition: (post) => post.commentsCount,
+		content: post => post.commentsCount
+	},
+	{
+		name: 'comment-attachments-count',
+		icon: PictureIcon,
+		title: (post, locale) => getMessages(locale).post.commentAttachmentsCount,
+		condition: (post) => post.commentAttachmentsCount,
+		content: post => post.commentAttachmentsCount
+	},
+	{
+		name: 'unique-posters-count',
+		icon: PersonIcon,
+		title: (post, locale) => getMessages(locale).post.uniquePostersCount,
+		condition: (post) => post.uniquePostersCount,
+		content: post => post.uniquePostersCount
+	},
+	{
+		name: 'replies-count',
+		icon: ReplyIcon,
+		title: (post, locale) => getMessages(locale).post.repliesCount,
+		condition: (post) => post.replies && post.replies.length > 0,
+		content: post => post.replies.length
 	}
 ]
 
@@ -213,7 +249,8 @@ function Comment({
 			url={url}
 			locale={locale}
 			readMoreLabel={getMessages(locale).post.readMore}
-			badges={BADGES}
+			headerBadges={HEADER_BADGES}
+			footerBadges={FOOTER_BADGES}
 			replies={comment.replies}
 			compact={compact}
 			saveBandwidth

@@ -7,7 +7,7 @@ import parseThread from './parseThread'
  * @return {object} See README.md for "Thread" object description.
  */
 export default function parseThreadResponse(response, options) {
-	return parseThread(response.threads[0], response.threads[0].posts, {
+	const parsedThread = parseThread(response.threads[0], response.threads[0].posts, {
 		...options,
 		bumpLimit: response.bump_limit,
 		maxCommentLength: response.max_comment,
@@ -16,4 +16,9 @@ export default function parseThreadResponse(response, options) {
 		commentsCount: response.posts_count,
 		commentAttachmentsCount: response.files_count
 	})
+	// Only for `/res/THREAD-ID.json` API response.
+	if (response.unique_posters) {
+		parsedThread.uniquePostersCount = parseInt(response.unique_posters)
+	}
+	return parsedThread
 }

@@ -50,6 +50,10 @@
 		"closed": "Closed thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
 		"originalPoster": "Original poster",
+		"commentsCount": "Comments",
+		"commentAttachmentsCount": "Attachments in comments",
+		"uniquePostersCount": "Unique poster IP addresses",
+		"repliesCount": "Replies",
 		"readMore": "Show\u00a0more"
 	},
 	"role": {

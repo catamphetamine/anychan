@@ -50,6 +50,10 @@
 		"closed": "Тред закрыт",
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
 		"originalPoster": "Автор треда",
+		"commentsCount": "Комментариев",
+		"commentAttachmentsCount": "Вложений в комментариях",
+		"uniquePostersCount": "Уникальных IP-адресов комментаторов",
+		"repliesCount": "Ответов",
 		"readMore": "Показать\u00a0полностью"
 	},
 	"role": {

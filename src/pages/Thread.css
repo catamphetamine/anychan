@@ -21,4 +21,9 @@
 	.thread__comment {
 		margin-top: 0;
 	}
+	/* Add extra spacing for the first post's header
+	   because it displays thread stats (comments count, attachments count). */
+	.post__footer {
+		padding-top: 0.2em;
+	}
 }

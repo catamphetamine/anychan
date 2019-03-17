@@ -86,3 +86,22 @@
 	height: 100%;
 	object-fit: contain;
 }
+
+.post__footer-badge-icon--comments-count {
+	margin-top: -0.1em;
+	margin-right: 0.35em;
+}
+
+.post__footer-badge-icon--attachments-count {
+	width: 0.95em;
+	height: 0.95em;
+	margin-top: -0.05em;
+	margin-right: 0.35em;
+}
+
+.post__footer-badge-icon--replies-count {
+	/* The arrow icon's left side by default doesn't align
+	   perfectly with the text's left border. */
+	margin-left: 0.05em;
+	margin-right: 0.35em;
+}

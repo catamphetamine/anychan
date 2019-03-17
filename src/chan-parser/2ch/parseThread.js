@@ -55,10 +55,6 @@ export default function parseThread(thread, posts, {
 	if (commentsCount >= bumpLimit) {
 		threadInfo.isBumpLimitReached = true
 	}
-	// Only for `/res/THREAD-ID.json` API response.
-	if (thread.unique_posters) {
-		threadInfo.uniquePostersCount = parseInt(thread.unique_posters)
-	}
 	// Is only used for `/res/THREAD-ID.json` API response.
 	if (maxCommentLength) {
 		threadInfo.maxCommentLength = maxCommentLength

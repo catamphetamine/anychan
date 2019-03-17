@@ -5,7 +5,7 @@ import parseBoard from './parseBoard'
  * @param  {object} response — Chan API response for boards list.
  * @return {object[]} See README.md for "Board" object description.
  */
-export default function parseBoards(response) {
+export default function parseBoards(response, { boardCategoriesExclude }) {
 	// Parse tags.
 	const boardTags = {}
 	for (const tag of response.tags) {
@@ -16,7 +16,7 @@ export default function parseBoards(response) {
 	const boards = response.boards.map(board => parseBoard(board, boardTags))
 	// Hide "user" boards.
 	for (const board of boards) {
-		if (board.category === 'Пользовательские') {
+		if (board.category === boardCategoriesExclude) {
 			board.isHidden = true
 		}
 	}

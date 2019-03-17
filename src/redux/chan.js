@@ -34,7 +34,9 @@ export const getBoards = redux.action(
 			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
-		return getBoardsResult(createParser({}).parseBoards(response))
+		return getBoardsResult(createParser({}).parseBoards(response, {
+			boardCategoriesExclude: getChan().boardCategoriesExclude
+		}))
 	},
 	(state, result) => ({
 		...state,
@@ -53,8 +55,7 @@ export const getThreads = redux.action(
 		const threads = createParser({ filters, locale }).parseThreads(response, { boardId })
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
-			thread.comments[0].commentsCount = thread.commentsCount
-			thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
+			setThreadStats(thread)
 			setAuthorIds(thread)
 		}
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
@@ -95,6 +96,7 @@ export const getThread = redux.action(
 		if (subject) {
 			thread.comments[0].title = undefined
 		}
+		setThreadStats(thread)
 		setAuthorIds(thread)
 		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
@@ -251,6 +253,12 @@ function prefetchImage(url) {
 	})
 }
 
+function setThreadStats(thread) {
+	thread.comments[0].commentsCount = thread.commentsCount
+	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
+	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
+}
+
 function setAuthorIds(thread) {
 	for (const comment of thread.comments) {
 		// Prepend "authorId" to "author name".
@@ -276,13 +284,11 @@ function getBoardsResult(boards) {
 		result.boardsByPopularity = boards.slice().sort((a, b) => b.commentsPerHour - a.commentsPerHour)
 	}
 	if (boards[0].category) {
-		let boardsByCategory = groupBoardsByCategory(boards, getChan().boardCategories)
-		if (getChan().boardCategoriesExclude) {
-			boardsByCategory = boardsByCategory.filter((category) => {
-				return getChan().boardCategoriesExclude.indexOf(category) < 0
-			})
-		}
-		result.boardsByCategory = boardsByCategory
+		result.boardsByCategory = groupBoardsByCategory(
+			// Special case for `2ch.hk`'s `/int/` board which is in the ignored category.
+			boards.filter(board => !board.isHidden && board.id !== 'int'),
+			getChan().boardCategories
+		)
 	}
 	return result
 }
