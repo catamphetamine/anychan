@@ -46,9 +46,9 @@ const BADGES = [
 		name: 'country',
 		getIcon: (post, locale) => {
 			if (post.authorCountry) {
-				return CountryFlag
+				return CountryFlagBadge
 			}
-			return ChanFlag
+			return ChanFlagBadge
 		},
 		getIconProps: (post, locale) => {
 			if (post.authorCountry) {
@@ -266,5 +266,21 @@ function ChanFlag({ country, name, ...rest }) {
 			alt={name}
 			src={countryFlagUrl.replace('{country}', country)}
 			className="post__custom-country-flag"/>
+	)
+}
+
+function ChanFlagBadge({ className, ...rest }) {
+	return (
+		<div className={className}>
+			<ChanFlag {...rest}/>
+		</div>
+	)
+}
+
+function CountryFlagBadge({ className, ...rest }) {
+	return (
+		<div className={className}>
+			<CountryFlag {...rest}/>
+		</div>
 	)
 }

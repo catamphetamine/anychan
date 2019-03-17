@@ -51,42 +51,6 @@
 	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
 	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
 	"boardsUrl": "http://8ch.net/boards.json",
-	"boards": [
-		{
-			"id": "pol",
-			"name": "Politically Incorrect",
-			"description": "Politics, news, happenings, current events",
-			"isNotSafeForWork": true
-		},
-		{
-			"id": "v",
-			"name": "Video Games",
-			"description": "Vidya Gaems",
-			"isNotSafeForWork": true
-		},
-		{
-			"id": "b",
-			"name": "Anime/Random",
-			"description": "Not vaccinated!",
-			"isNotSafeForWork": true
-		},
-		{
-			"id": "leftypol",
-			"name": "Leftist Politically Incorrect",
-			"description": "A collective of people engaged in pretty much what the name suggests"
-		},
-		{
-			"id": "tv",
-			"name": "Television and Movies",
-			"isNotSafeForWork": true
-		},
-		{
-			"id": "cow",
-			"name": "Lolcows",
-			"description": "Autism speaks. It's time to listen.",
-			"isNotSafeForWork": true
-		}
-	],
 	"commentUrl": "https://8ch.net/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": false

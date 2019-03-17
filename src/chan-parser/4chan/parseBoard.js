@@ -17,6 +17,31 @@ export default function parseBoard(board) {
 	if (board.ws_board === 0) {
 		parsedBoard.isNotSafeForWork = true
 	}
+	// Presumably "is archived" means that 4chan archives threads on these boards
+	// which means that when threads on those boards go down they're saved in the archive
+	// and can be accessed.
+	if (board.is_archived) {
+		parsedBoard.isArchived = true
+	}
+	// Presumably `4chan.org` uses "MathJAX"
+	// or something like that for Math formulae.
+	// Example: `/sci/` board.
+	if (board.math_tags) {
+		parsedBoard.usesMath = true
+	}
+	// "SJIS" (aka "Shift_JIS") are ascii images created using Japanese fonts.
+	// Example: `/jp/` board.
+	if (board.sjis_tags) {
+		parsedBoard.usesShiftJISArt = true
+	}
+	// `<pre/>` tags are used on `/g/` board to post code samples (or configs).
+	if (board.code_tags) {
+		parsedBoard.usesCodeTags = true
+	}
+	// "oekaki" is a widget for drawing simple pictures for posting on an imageboard.
+	if (board.oekaki) {
+		parsedBoard.usesOekaki = true
+	}
 	parsedBoard.maxCommentLength = board.max_comment_chars
 	parsedBoard.maxAttachmentsSize = board.max_filesize // Example: 4194304
 	parsedBoard.maxVideoAttachmentsSize = board.max_webm_filesize // Example: 3145728

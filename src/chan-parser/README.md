@@ -18,22 +18,12 @@ Parses a list of [Boards](#board).
 
 ```js
 {
-	boards: [
-		Board,
-		Board,
-		...
-	],
-	boardsByPopularity: [
-		Board,
-		Board,
-		...
-	],
+	boards: Board[],
+	// (optional)
+	boardsByPopularity: Board[],
+	// (optional)
 	boardsByCategory: {
-		'Category': [
-			Board,
-			Board,
-			...
-		],
+		'Category': Board[],
 		...
 	}
 }

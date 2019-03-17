@@ -84,3 +84,13 @@ export function shouldUseRelativeUrls() {
 	}
 	return false
 }
+
+export function getChanIdByDomain(domain) {
+	for (const chan of CHANS) {
+		for (const domain of chan.domains) {
+			if (window.location.domain === domain) {
+				return chan
+			}
+		}
+	}
+}

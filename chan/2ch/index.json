@@ -80,6 +80,19 @@
 	"threadsUrl": "/{boardId}/catalog.json",
 	"boardsUrl": "/boards.json",
 	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
+	"boardCategories": [
+		"Тематика",
+		"Творчество",
+		"Политика и новости",
+		"Техника и софт",
+		"Игры",
+		"Японская культура",
+		"Разное",
+		"Взрослым"
+	],
+	"boardCategoriesExclude": [
+		"Пользовательские"
+	],
 	"countryFlagUrl": "/icons/logos/{country}.png",
 	"proxy": {
 		"aws": true

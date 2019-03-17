@@ -75,6 +75,10 @@
 .post__author--administrator,
 .post__author--moderator {
 	color: var(--accent-color-dark);
+	.post__author-name,
+	.post__author-name-2 {
+		color: inherit;
+	}
 }
 
 .post__custom-country-flag {

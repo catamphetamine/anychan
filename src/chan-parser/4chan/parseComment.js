@@ -86,18 +86,17 @@ export default function parseComment(post, {
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// displays poster country flags.
 	if (post.country) {
-		// `8ch.net` has correct country codes.
-		// Examples: "GB", "US", "RU".
-		if (chan === '8ch') {
+		// `kohlchan.net` has incorrect country codes.
+		// Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
+		if (chan === 'kohlchan') {
+			comment.authorCountryId = post.country.toLowerCase()
+			comment.authorCountryName = post.country_name
+		} else {
+			// `8ch.net` and `4chan.org` have correct country codes.
+			// Examples: "GB", "US", "RU".
 			comment.authorCountry = post.country
 			// `chanchan` has its own localized country names.
 			// comment.authorCountryName = post.country_name
-		}
-		// `kohlchan.net` has incorrect country codes.
-		// Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
-		else if (chan === 'kohlchan') {
-			comment.authorCountryId = post.country.toLowerCase()
-			comment.authorCountryName = post.country_name
 		}
 	}
 	if (post.trip) {

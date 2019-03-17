@@ -1,23 +1,14 @@
 import parseBoard from './parseBoard'
-import groupBoardsByCategory from '../groupBoardsByCategory'
+import parseBoardEightChan from './parseBoard.8ch'
 
 /**
  * Parses chan API response for boards list.
  * @param  {object} response — Chan API response for boards list.
  * @return {object[]} See README.md for "Board" object description.
  */
-export default function parseBoards(response) {
-	const boards = response.boards.map(parseBoard)
-	return {
-		boards,
-		boardsByCategory: groupBoardsByCategory(boards, [
-			'Japanese Culture',
-			'Video Games',
-			'Interests',
-			'Creative',
-			'Other',
-			'Miscellaneous',
-			'Adult'
-		])
+export default function parseBoards(response, { chan }) {
+	if (chan === '8ch') {
+		return response.map(parseBoardEightChan)
 	}
+	return response.boards.map(parseBoard)
 }

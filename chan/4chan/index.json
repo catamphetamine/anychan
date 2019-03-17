@@ -11,7 +11,7 @@
 	"color": "#8dc63f",
 	"website": "https://4chan.org",
 	"domains": [
-		"4chan.org"
+		"www.4chan.org"
 	],
 	"language": "en",
 	"title": "4chan",
@@ -75,6 +75,15 @@
 	"threadsUrl": "http://a.4cdn.org/{boardId}/catalog.json",
 	"boardsUrl": "http://a.4cdn.org/boards.json",
 	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}",
+	"boardCategories": [
+		"Japanese Culture",
+		"Video Games",
+		"Interests",
+		"Creative",
+		"Other",
+		"Miscellaneous",
+		"Adult"
+	],
 	"proxy": {
 		"aws": false
 	},

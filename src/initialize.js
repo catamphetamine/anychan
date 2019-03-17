@@ -1,4 +1,4 @@
-import { setChan, getChan } from './chan'
+import { getChanIdByDomain, setChan, getChan } from './chan'
 import { applySettings, getSettings } from './utility/settings'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
@@ -10,7 +10,7 @@ export default function() {
 	// Initialize the chan being used.
 	// `URL` is not available in IE11.
 	// Supports `chan` URL parameter for multi-chan `gh-pages` demo.
-	const chan = new URL(window.location.href).searchParams.get('chan')
+	const chan = new URL(window.location.href).searchParams.get('chan') || getChanIdByDomain(window.location.domain)
 	if (chan) {
 		setChan(chan)
 	}

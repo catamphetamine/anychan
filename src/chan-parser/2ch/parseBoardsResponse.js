@@ -1,5 +1,4 @@
 import parseBoard from './parseBoard'
-import groupBoardsByCategory from '../groupBoardsByCategory'
 
 /**
  * Parses chan API response for boards list.
@@ -7,7 +6,14 @@ import groupBoardsByCategory from '../groupBoardsByCategory'
  * @return {object[]} See README.md for "Board" object description.
  */
 export default function parseBoards(response) {
-	const boards = response.boards.map(parseBoard)
+	// Parse tags.
+	const boardTags = {}
+	for (const tag of response.tags) {
+		boardTags[tag.board] = boardTags[tag.board] || []
+		boardTags[tag.board].push(tag.tag)
+	}
+	// Parse boards.
+	const boards = response.boards.map(board => parseBoard(board, boardTags))
 	// Hide "user" boards.
 	for (const board of boards) {
 		if (board.category === 'Пользовательские') {
@@ -20,19 +26,5 @@ export default function parseBoards(response) {
 			board.id = 'api'
 		}
 	}
-	return {
-		boards,
-		// `boards` are already sorted by `commentsPerHour`.
-		boardsByPopularity: boards,
-		boardsByCategory: groupBoardsByCategory(boards, [
-			'Тематика',
-			'Творчество',
-			'Политика и новости',
-			'Техника и софт',
-			'Игры',
-			'Японская культура',
-			'Разное',
-			'Взрослым'
-		]).filter(category => category.category !== 'Пользовательские')
-	}
+	return boards
 }

@@ -3,7 +3,7 @@
  * @param  {object} board — Response board JSON object.
  * @return {object} See README.md for "Board" object description.
  */
-export default function parseBoard(board) {
+export default function parseBoard(board, boardTags) {
 	const parsedBoard = {
 		id: board.id,
 		name: board.name,
@@ -20,6 +20,9 @@ export default function parseBoard(board) {
 	}
 	if (board.category === 'Разное' || board.category === 'Взрослым') {
 		board.isNotSafeForWork = true
+	}
+	if (boardTags[board.id]) {
+		board.tags = boardTags[board.id]
 	}
 	return parsedBoard
 }

@@ -5,6 +5,7 @@ import { getChan, shouldUseRelativeUrls } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
+import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import { Parser as FourChanParser } from '../chan-parser/4chan'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
@@ -16,31 +17,24 @@ export const getBoards = redux.action(
 		// Most chans don't provide `/boards.json` API
 		// so their boards list is defined as a static one in JSON configuration.
 		if (getChan().boards) {
-			return {
-				boards: getChan().boards,
-				boardsByCategory: groupBoardsByCategory(getChan().boards)
-			}
+			return getBoardsResult(getChan().boards)
 		}
 		const apiRequestStartedAt = Date.now()
 		let response
+		// `8ch.net` has too many boards (about 20 000).
+		// Displaying just the top of the list
+		if (getChan().id === '8ch') {
+			response = EIGHT_CHAN_BOARDS_RESPONSE
+		}
 		// Development process optimization.
 		// (public CORS proxies introduce delays)
-		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
+		else if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 			response = getBoardsResponseExample(getChan().id)
 		} else {
 			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
-		const {
-			boards,
-			boardsByPopularity,
-			boardsByCategory
-		} = createParser({}).parseBoards(response)
-		return {
-			boards,
-			boardsByPopularity,
-			boardsByCategory
-		}
+		return getBoardsResult(createParser({}).parseBoards(response))
 	},
 	(state, result) => ({
 		...state,
@@ -79,7 +73,9 @@ export const getThreads = redux.action(
 	},
 	(state, { threads, boardId }) => ({
 		...state,
-		board: state.boards.find(_ => _.id === boardId),
+		// `8ch.net` has too many boards (20 000) so they're not parsed.
+		// For `8ch.net` `boards` contains only a small amount of most active boards.
+		board: state.boards.find(_ => _.id === boardId) || { id: boardId, name: boardId },
 		threads
 	})
 )
@@ -118,7 +114,9 @@ export const getThread = redux.action(
 		}
 	},
 	(state, { boardId, thread }) => {
-		const board = state.boards.find(_ => _.id === boardId)
+		// `8ch.net` has too many boards (20 000) so they're not parsed.
+		// For `8ch.net` `boards` contains only a small amount of most active boards.
+		const board = state.boards.find(_ => _.id === boardId) || { id: boardId, name: boardId }
 		// 2ch.hk doesn't specify the limits in board settings themselves.
 		// Instead, it returns the limits as part of "get thread" API response.
 		if (thread.maxCommentLength) {
@@ -268,4 +266,23 @@ function setAuthorIds(thread) {
 			comment.authorName2 = comment.tripCode
 		}
 	}
+}
+
+function getBoardsResult(boards) {
+	const result = {
+		boards
+	}
+	if (boards[0].commentsPerHour) {
+		result.boardsByPopularity = boards.slice().sort((a, b) => b.commentsPerHour - a.commentsPerHour)
+	}
+	if (boards[0].category) {
+		let boardsByCategory = groupBoardsByCategory(boards, getChan().boardCategories)
+		if (getChan().boardCategoriesExclude) {
+			boardsByCategory = boardsByCategory.filter((category) => {
+				return getChan().boardCategoriesExclude.indexOf(category) < 0
+			})
+		}
+		result.boardsByCategory = boardsByCategory
+	}
+	return result
 }
