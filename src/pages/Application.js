@@ -61,6 +61,30 @@ export default class App extends React.Component {
 		children : PropTypes.node.isRequired
 	}
 
+	componentDidMount() {
+		const { route } = this.props
+		this.setBodyBackground(route)
+	}
+
+	componentDidUpdate(prevProps) {
+		const { route } = this.props
+		if (route !== prevProps.route) {
+			this.setBodyBackground(route)
+		}
+	}
+
+	setBodyBackground(route) {
+		// Set or reset "body--content-sections" class
+		// which changes `<body/>` background color
+		// in order to show correct color when scrolling
+		// past top/bottom of the page on touch devices.
+		if (isContentSectionsContent(route)) {
+			document.body.classList.add('body--content-sections')
+		} else {
+			document.body.classList.remove('body--content-sections')
+		}
+	}
+
 	render() {
 		const {
 			locale,

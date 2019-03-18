@@ -4,6 +4,13 @@ body {
 	overflow-y: auto;
 }
 
+/* Set `<body/>` background color
+   in order to show correct color when scrolling
+   past top/bottom of the page on touch devices. */
+.body--content-sections {
+	background-color: var(--background-color);
+}
+
 h1, h2, h3 {
   font-weight: 500;
 }
