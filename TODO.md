@@ -1,10 +1,4 @@
-react-website: disable links while navigating; dispatch(goto) and dispatch(redirect) should return promises which wait until there's no active navigation (poll 100ms).
-
 react-website: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
-
-React time ago обновлять в request animation frame и по одному
-
-Show preload initially почему чёрным у basic page в webpack-example
 
 
 
@@ -19,6 +13,15 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+
+
+react-website: disable links while navigating; dispatch(goto) and dispatch(redirect) should return promises which wait until there's no active navigation (poll 100ms).
+
+React time ago обновлять в request animation frame и по одному.
+
+Show preload initially почему чёрным у basic page в webpack-example.
+
+Заменить глобальную крутилку на маленькие крутилки в onBoardClick и onThreadClick.
 
 Post attachments sort чтобы нормировал thumbnail height на max height (на всякий случай, на возможное будущее что-то).
 
