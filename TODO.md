@@ -14,6 +14,7 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Не листает slideshow на iPhone — видимо, speed = 0.
 
 react-website: disable links while navigating; dispatch(goto) and dispatch(redirect) should return promises which wait until there's no active navigation (poll 100ms).
 
