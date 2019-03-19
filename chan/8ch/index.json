@@ -78,7 +78,7 @@
 			"url": "https://www.reddit.com/r/infinitechan"
 		}
 	],
-	"thumbnailSize": 250,
+	"thumbnailSize": 255,
 	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
 	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
 	"boardsUrl": "https://8ch.net/boards-top20.json",

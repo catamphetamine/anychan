@@ -11,6 +11,8 @@ import constructComment from '../constructComment'
 // себя как "пасскодобоярина" (то есть, чтобы козырнуть своим статусом).
 const ABU_LIKE = /<br><br><span class="thanks-abu" style="color: red;">Абу благословил этот пост\.<\/span>$/
 
+const MAILTO = /^mailto:/
+
 /**
  * Parses response thread JSON object.
  * @param  {object} thread — Response thread JSON object.
@@ -51,7 +53,7 @@ export default function parseComment(post, {
 		isOpeningPost ? id : threadId, // `threadId`.
 		id,
 		rawComment,
-		parseAuthor(post.name, defaultAuthorName),
+		parseAuthor(post.name, { defaultAuthorName, boardId }),
 		parseRole(post.trip),
 		post.banned === 1,
 		subject,
@@ -65,6 +67,15 @@ export default function parseComment(post, {
 			getUrl
 		}
 	)
+	if (post.email) {
+		// "mailto:admin@example.com" -> "admin@example.com".
+		const email = post.email.replace(MAILTO, '')
+		if (email === 'sage') {
+			comment.isSage = true
+		} else if (email) {
+			comment.authorEmail = email
+		}
+	}
 	if (abuLike) {
 		comment.abuLike = true
 	}

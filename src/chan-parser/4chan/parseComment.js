@@ -91,6 +91,13 @@ export default function parseComment(post, {
 			commentUrlRegExp
 		}
 	)
+	if (chan === '8ch' && chan.email) {
+		if (chan.email === 'sage') {
+			comment.isSage = true
+		} else {
+			comment.authorEmail = chan.email
+		}
+	}
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// identify their posters by a hash of their IP addresses on some boards.
 	// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.

@@ -58,7 +58,7 @@ export const getThreads = redux.action(
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			setThreadStats(thread)
-			setAuthorIds(thread, getMessages(locale))
+			// setAuthorIds(thread, getMessages(locale))
 		}
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -99,7 +99,7 @@ export const getThread = redux.action(
 			thread.comments[0].title = undefined
 		}
 		setThreadStats(thread)
-		setAuthorIds(thread, getMessages(locale))
+		// setAuthorIds(thread, getMessages(locale))
 		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -261,32 +261,40 @@ function setThreadStats(thread) {
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
 }
 
-function setAuthorIds(thread, messages) {
-	for (const comment of thread.comments) {
-		// Prepend "authorId" to "author name".
-		// `authorId` (if present) is an IP address hash.
-		if (comment.authorId) {
-			if (comment.authorName) {
-				comment.authorName = comment.authorId + ' ' + comment.authorName
-			} else {
-				comment.authorName = comment.authorId
-			}
-		}
-		// Append "authorRole" to "author name".
-		if (comment.authorRole) {
-			const authorRole = messages.role[comment.authorRole] || comment.authorRole
-			if (comment.authorName) {
-				comment.authorName = comment.authorName + ' (' + authorRole.toLowerCase() + ')'
-			} else {
-				comment.authorName = authorRole
-			}
-		}
-		// Display "trip code" as second "author name".
-		if (comment.tripCode) {
-			comment.authorName2 = comment.tripCode
-		}
-	}
-}
+// function setAuthorIds(thread, messages) {
+// 	for (const comment of thread.comments) {
+// 		// Prepend "authorEmail" to "author name".
+// 		if (comment.authorEmail) {
+// 			if (comment.authorName) {
+// 				comment.authorName = comment.authorEmail + ' ' + comment.authorName
+// 			} else {
+// 				comment.authorName = comment.authorEmail
+// 			}
+// 		}
+// 		// Prepend "authorId" to "author name".
+// 		// `authorId` (if present) is an IP address hash.
+// 		if (comment.authorId) {
+// 			if (comment.authorName) {
+// 				comment.authorName = comment.authorId + ' ' + comment.authorName
+// 			} else {
+// 				comment.authorName = comment.authorId
+// 			}
+// 		}
+// 		// Append "authorRole" to "author name".
+// 		if (comment.authorRole) {
+// 			const authorRole = messages.role[comment.authorRole] || comment.authorRole
+// 			if (comment.authorName) {
+// 				comment.authorName = comment.authorName + ' (' + authorRole.toLowerCase() + ')'
+// 			} else {
+// 				comment.authorName = authorRole
+// 			}
+// 		}
+// 		// Display "trip code" as second "author name".
+// 		if (comment.tripCode) {
+// 			comment.authorName2 = comment.tripCode
+// 		}
+// 	}
+// }
 
 function getBoardsResult(boards) {
 	const result = {

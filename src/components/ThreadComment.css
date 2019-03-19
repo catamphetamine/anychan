@@ -83,7 +83,7 @@
 }
 
 .post__author-name,
-.post__author-name-2 {
+.post__author-trip-code {
 	/*font-family: var(--font-family);*/
 	font-weight: 300;
 }
@@ -92,7 +92,7 @@
 	color: var(--base-color-darkest);
 }
 
-.post__author-name + .post__author-name-2 {
+.post__author-name + .post__author-trip-code {
 	margin-left: 0.35em;
 }
 
@@ -102,7 +102,7 @@
 .post__author--administrator,
 .post__author--moderator {
 	.post__author-name,
-	.post__author-name-2 {
+	.post__author-trip-code {
 		color: inherit;
 	}
 }

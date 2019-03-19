@@ -237,21 +237,35 @@ function CountryFlagBadge({ className, ...rest }) {
 	)
 }
 
-function Header({ post }) {
-	if (!post.authorName && !post.authorName2) {
+function Header({ post, locale }) {
+	if (!(post.authorId || post.authorName || post.authorEmail || post.authorRole || post.tripCode)) {
 		return null
 	}
+	const authorRoleName = post.authorRole && (getMessages(locale).role[post.authorRole] || post.authorRole)
 	return (
 		<div className={classNames('post__author', post.authorRole && `post__author--${post.authorRole}`)}>
 			<PersonIcon className="post__author-icon"/>
-			{post.authorName &&
+			{(post.authorId || post.authorName || post.authorEmail || post.authorRole) &&
 				<div className="post__author-name">
-					{post.authorName}
+					{post.authorId && `${post.authorId} `}
+					{post.authorName && `${post.authorName} `}
+					{post.authorRole && !post.authorName && `${authorRoleName} `}
+					{post.authorRole && post.authorName && `(${authorRoleName.toLowerCase()}) `}
+					{post.authorEmail &&
+						<span>
+							{(post.authorId || post.authorName || post.authorRole) && '('}
+							<a href={`mailto:${post.authorEmail}`}>
+								{post.authorEmail}
+							</a>
+							{(post.authorId || post.authorName || post.authorRole) && ')'}
+							{' '}
+						</span>
+					}
 				</div>
 			}
-			{post.authorName2 &&
-				<div className="post__author-name-2">
-					{post.authorName2}
+			{post.tripCode &&
+				<div className="post__author-trip-code">
+					{post.tripCode}
 				</div>
 			}
 		</div>
