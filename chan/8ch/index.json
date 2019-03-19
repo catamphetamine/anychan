@@ -78,7 +78,8 @@
 	"thumbnailSize": 250,
 	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
 	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
-	"boardsUrl": "http://8ch.net/boards.json",
+	"boardsUrl": "https://8ch.net/boards-top20.json",
+	"allBoardsUrl": "http://8ch.net/boards.json",
 	"commentUrl": "https://8ch.net/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": false

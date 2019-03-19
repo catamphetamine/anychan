@@ -5,7 +5,7 @@ import { getChan, shouldUseRelativeUrls } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
-import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
+// import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import { Parser as FourChanParser } from '../chan-parser/4chan'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
@@ -21,14 +21,16 @@ export const getBoards = redux.action(
 		}
 		const apiRequestStartedAt = Date.now()
 		let response
-		// `8ch.net` has too many boards (about 20 000).
-		// Displaying just the top of the list
-		if (getChan().id === '8ch') {
-			response = EIGHT_CHAN_BOARDS_RESPONSE
-		}
-		// Development process optimization.
-		// (public CORS proxies introduce delays)
-		else if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
+		// Using the "Top 20 boards" endpoint instead.
+		// https://8ch.net/boards-top20.json
+		// // `8ch.net` has too many boards (about 20 000).
+		// // Displaying just the top of the list
+		// if (getChan().id === '8ch') {
+		// 	response = EIGHT_CHAN_BOARDS_RESPONSE
+		// }
+		// Development process optimization: use a cached list of `2ch.hk` boards.
+		// (to aviod the delay caused by a CORS proxy)
+		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 			response = getBoardsResponseExample(getChan().id)
 		} else {
 			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
@@ -56,7 +58,7 @@ export const getThreads = redux.action(
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			setThreadStats(thread)
-			setAuthorIds(thread)
+			setAuthorIds(thread, getMessages(locale))
 		}
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -97,7 +99,7 @@ export const getThread = redux.action(
 			thread.comments[0].title = undefined
 		}
 		setThreadStats(thread)
-		setAuthorIds(thread)
+		setAuthorIds(thread, getMessages(locale))
 		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -259,9 +261,10 @@ function setThreadStats(thread) {
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
 }
 
-function setAuthorIds(thread) {
+function setAuthorIds(thread, messages) {
 	for (const comment of thread.comments) {
 		// Prepend "authorId" to "author name".
+		// `authorId` (if present) is an IP address hash.
 		if (comment.authorId) {
 			if (comment.authorName) {
 				comment.authorName = comment.authorId + ' ' + comment.authorName
