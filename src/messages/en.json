@@ -54,7 +54,9 @@
 		"commentAttachmentsCount": "Attachments in comments",
 		"uniquePostersCount": "Unique poster IP addresses",
 		"repliesCount": "Replies",
-		"readMore": "Show\u00a0more"
+		"readMore": "Show\u00a0more",
+		"moreActions": "More actions",
+		"reply": "Reply"
 	},
 	"role": {
 		"administrator": "Administrator",

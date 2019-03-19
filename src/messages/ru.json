@@ -54,7 +54,9 @@
 		"commentAttachmentsCount": "Вложений в комментариях",
 		"uniquePostersCount": "Уникальных IP-адресов комментаторов",
 		"repliesCount": "Ответов",
-		"readMore": "Показать\u00a0полностью"
+		"readMore": "Показать\u00a0полностью",
+		"moreActions": "Действия",
+		"reply": "Ответить"
 	},
 	"role": {
 		"administrator": "Администратор",

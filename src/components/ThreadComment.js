@@ -166,6 +166,7 @@ export default class ThreadComment extends React.PureComponent {
 		// (half the size) when they're not "OP posts".
 		const commentElement = (
 			<Comment
+				mode={mode}
 				compact={mode === 'thread'}
 				comment={comment}
 				thread={thread}
@@ -216,6 +217,7 @@ ThreadComment.propTypes = {
 }
 
 function Comment({
+	mode,
 	halfSizedAttachmentThumbnails,
 	comment,
 	thread,
@@ -243,7 +245,10 @@ function Comment({
 			thread={thread}
 			url={url}
 			locale={locale}
+			moreActionsLabel={getMessages(locale).post.moreActions}
 			readMoreLabel={getMessages(locale).post.readMore}
+			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
+			onReply={mode === 'thread' ? () => alert('Not implemented yet') : undefined}
 			headerBadges={HEADER_BADGES}
 			footerBadges={FOOTER_BADGES}
 			replies={comment.replies}
@@ -260,6 +265,7 @@ function Comment({
 }
 
 Comment.propTypes = {
+	mode: PropTypes.oneOf(['board', 'thread']),
 	comment: PropTypes.object.isRequired,
 	thread: PropTypes.object.isRequired,
 	hidden: PropTypes.bool,

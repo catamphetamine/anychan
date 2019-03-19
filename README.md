@@ -24,7 +24,7 @@ This is a demo showcase project and currently has only a small subset of feature
 <!--
 	Miscellaneous:
 
-  * Add comment menu: Hide, Report, Copy Link, View Source, Hide all posts from this author (if `post.id` is available), Expand all images/videos, Run slideshow for all attachments.
+  * Add comment menu: Hide, Report, Copy Link, View Source, Hide all posts from this author (if `post.id` is available), Expand all images/videos, Run slideshow for all attachments, Open on original website.
 	* Maybe add delete post/attachment button. (can delete posts and files without password on 4chan)
 	* When text is selected, show "Reply" tooltip for quoting the selected text in a reply.
 	* Add post selection from post menu to report several posts in a single report.
