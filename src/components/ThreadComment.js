@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -123,16 +122,12 @@ const FOOTER_BADGES = [
 		icon: ReplyIcon,
 		title: (post, locale) => getMessages(locale).post.repliesCount,
 		condition: (post) => post.replies && post.replies.length > 0,
-		content: post => post.replies.length
+		content: post => post.replies.length,
+		onClick: (post) => alert('Not implemented yet')
 	}
 ]
 
-// Passing `locale` as an explicit property instead to avoid having
-// a lot of `@connect()`s executing on pages with a lot of posts.
-// @connect(({ app }) => ({
-// 	locale: app.settings.locale
-// }))
-export default class ThreadComment extends React.Component {
+export default class ThreadComment extends React.PureComponent {
 	state = {
 		hidden: this.props.comment.hidden
 	}
