@@ -14,7 +14,11 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Возможно не разворачивает YouTube video на iPhone.
+
 Не листает slideshow на iPhone — видимо, speed = 0.
+
+Dismiss content preview if the rest content is small (< 20%, for example).
 
 react-website: disable links while navigating; dispatch(goto) and dispatch(redirect) should return promises which wait until there's no active navigation (poll 100ms).
 
