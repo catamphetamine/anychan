@@ -34,7 +34,16 @@ export default function parseComment(post, {
 	if (rawComment) {
 		// `<wbr>` is a legacy HTML tag for explicitly defined "line breaks".
 		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr
-		rawComment = rawComment.replace(/<wbr>/g, '\u200b')
+		// `4chan.org` inserts `<wbr>` in long URLs every 35 characters
+		// presumably to prevent post text overflow.
+		// I don't see any point in that because CSS can handle such things
+		// using a combination of `overflow-wrap: break-word` and `word-break: break-word`
+		// so all `<wbr>`s are simply discarded (otherwise they'd mess with hyperlink autodetection).
+		// I could replace all `<wbr>`s with "\u200b"
+		// (a "zero-width" space for indicating possible line break points)
+		// but then hyperlink autodetection code would have to filter them out,
+		// and as I already said above line-breaking long text is handled by CSS.
+		rawComment = rawComment.replace(/<wbr>/g, '')
 		// `8ch.net` adds `<em>:</em>` to links for some weird reason.
 		rawComment = rawComment.replace(/(https?|ftp)<em>:<\/em>/g, '$1:')
 		// Test if the author was banned for this post.
