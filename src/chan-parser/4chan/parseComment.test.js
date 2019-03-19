@@ -123,7 +123,7 @@ describe('parseComment', () => {
 				createdAt: date,
 				content: [
 					[
-						'Te​xt' // Contains a "breaking space" in the middle.
+						'Text' // Contains no "breaking space" in the middle.
 					]
 				]
 			}
