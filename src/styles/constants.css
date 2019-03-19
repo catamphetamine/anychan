@@ -37,6 +37,10 @@ body
 	--accent-color       : #00A6ED;
 	--accent-color-dark  : #0084BD;
 
+	--alt-accent-color-dark  : #C70049;
+	--alt-accent-color       : #FC005D;
+	--alt-accent-color-light : #FF4086;
+
 	--error-color-dark : #BD0016;
 	--error-color      : #E6001B;
 

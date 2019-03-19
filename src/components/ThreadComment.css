@@ -57,7 +57,7 @@
 	--post-attachment-hover-shadow: none;
 }
 
-.post__badge-icon--banned {
+.post__header-badge--banned {
 	color: #cf0000;
 	opacity: 1;
 }
@@ -67,13 +67,52 @@
 	color: #cc0000;
 }
 
+.post__author {
+	display: flex;
+	align-items: center;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	color: var(--gray-color-dark);
+}
+
+.post__author-icon {
+	width: 1em;
+	height: 1em;
+	margin-right: 0.35em;
+	margin-bottom: 0.1em;
+}
+
+.post__author-name,
+.post__author-name-2 {
+	/*font-family: var(--font-family);*/
+	font-weight: 300;
+}
+
+.post__author-name {
+	color: var(--base-color-darkest);
+}
+
+.post__author-name + .post__author-name-2 {
+	margin-left: 0.35em;
+}
+
+/* In case of adding new author roles here
+   also add them as a `:not()` condition
+   in ./pages/Thread.css`. */
 .post__author--administrator,
 .post__author--moderator {
-	color: var(--accent-color-dark);
 	.post__author-name,
 	.post__author-name-2 {
 		color: inherit;
 	}
+}
+
+.post__author--administrator {
+	color: var(--alt-accent-color-dark);
+}
+
+.post__author--moderator {
+	color: var(--accent-color-dark);
 }
 
 .post__custom-country-flag {

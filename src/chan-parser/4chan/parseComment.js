@@ -66,7 +66,7 @@ export default function parseComment(post, {
 		post.resto, // `threadId`.
 		post.no,
 		rawComment,
-		parseAuthor(post.name, { defaultAuthorName }),
+		parseAuthor(post.name, { defaultAuthorName, boardId }),
 		parseAuthorRole(post, chan),
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.

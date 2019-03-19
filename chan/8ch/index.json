@@ -3,7 +3,10 @@
 	"parser": "4chan",
 	"parserOptions": {
 		"engine": "vichan",
-		"defaultAuthorName": "Anonymous",
+		"defaultAuthorName": {
+			"*": "Anonymous",
+			"cafechan": "Аноним"
+		},
 		"attachmentUrlFpath": "https://media.8ch.net/file_store/{name}{ext}",
 		"attachmentThumbnailUrlFpath": "https://media.8ch.net/file_store/thumb/{name}{ext}",
 		"attachmentUrl": "https://media.8ch.net/{boardId}/src/{name}{ext}",

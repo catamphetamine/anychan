@@ -55,7 +55,7 @@ An attachment can be:
 	title: string,
 	titleCensored: InlineContent, // If `title` contained censored words an censored title containing "spoilers" will be generated.
 	createdAt: Date,
-	authorId: String, // Some chans identify their users by 3 or 4 of 4 bytes of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
+	authorId: String, // Some chans identify their users by a hash of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
 	tripCode: String,
 	isOriginalPoster: boolean, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
 	authorName: String,

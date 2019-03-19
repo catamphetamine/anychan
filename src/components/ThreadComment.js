@@ -33,100 +33,6 @@ import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
 
 import './ThreadComment.css'
 
-const HEADER_BADGES = [
-	{
-		name: 'banned',
-		icon: StopIcon,
-		title: (post, locale) => getMessages(locale).post.banned,
-		condition: post => post.authorWasBanned
-	},
-	{
-		name: 'original-poster',
-		icon: AnonymousIcon,
-		title: (post, locale) => getMessages(locale).post.originalPoster,
-		condition: post => post.isOriginalPoster
-	},
-	{
-		name: 'country',
-		getIcon: (post, locale) => {
-			if (post.authorCountry) {
-				return CountryFlagBadge
-			}
-			return ChanFlagBadge
-		},
-		getIconProps: (post, locale) => {
-			if (post.authorCountry) {
-				return {
-					country: post.authorCountry,
-					name: getCountryNames(locale)[post.authorCountry]
-				}
-			}
-			return {
-				country: post.authorCountryId,
-				name: post.authorCountryName
-			}
-		},
-		title: (post, locale) => post.authorCountryName || getCountryNames(locale)[post.authorCountry],
-		condition: post => post.authorCountry || post.authorCountryName
-	},
-	{
-		name: 'bump-limit',
-		icon: SinkingBoatIcon,
-		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
-		condition: (post, thread) => post.id === thread.id && thread.isBumpLimitReached && !thread.isSticky
-	},
-	{
-		name: 'sticky',
-		icon: PinIcon,
-		title: (post, locale) => getMessages(locale).post.sticky,
-		condition: (post, thread) => post.id === thread.id && thread.isSticky
-	},
-	{
-		name: 'rolling',
-		icon: InfinityIcon,
-		title: (post, locale) => getMessages(locale).post.rolling,
-		condition: (post, thread) => post.id === thread.id && thread.isRolling
-	},
-	{
-		name: 'closed',
-		icon: LockIcon,
-		title: (post, locale) => getMessages(locale).post.closed,
-		condition: (post, thread) => post.id === thread.id && thread.isClosed
-	}
-]
-
-const FOOTER_BADGES = [
-	{
-		name: 'comments-count',
-		icon: CommentIcon,
-		title: (post, locale) => getMessages(locale).post.commentsCount,
-		condition: (post) => post.commentsCount,
-		content: post => post.commentsCount
-	},
-	{
-		name: 'comment-attachments-count',
-		icon: PictureIcon,
-		title: (post, locale) => getMessages(locale).post.commentAttachmentsCount,
-		condition: (post) => post.commentAttachmentsCount,
-		content: post => post.commentAttachmentsCount
-	},
-	{
-		name: 'unique-posters-count',
-		icon: PersonIcon,
-		title: (post, locale) => getMessages(locale).post.uniquePostersCount,
-		condition: (post) => post.uniquePostersCount,
-		content: post => post.uniquePostersCount
-	},
-	{
-		name: 'replies-count',
-		icon: ReplyIcon,
-		title: (post, locale) => getMessages(locale).post.repliesCount,
-		condition: (post) => post.replies && post.replies.length > 0,
-		content: post => post.replies.length,
-		onClick: (post) => alert('Not implemented yet')
-	}
-]
-
 export default class ThreadComment extends React.PureComponent {
 	state = {
 		hidden: this.props.comment.hidden
@@ -251,6 +157,7 @@ function Comment({
 			thread={thread}
 			url={url}
 			locale={locale}
+			header={Header}
 			moreActionsLabel={getMessages(locale).post.moreActions}
 			readMoreLabel={getMessages(locale).post.readMore}
 			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
@@ -329,3 +236,118 @@ function CountryFlagBadge({ className, ...rest }) {
 		</div>
 	)
 }
+
+function Header({ post }) {
+	if (!post.authorName && !post.authorName2) {
+		return null
+	}
+	return (
+		<div className={classNames('post__author', post.authorRole && `post__author--${post.authorRole}`)}>
+			<PersonIcon className="post__author-icon"/>
+			{post.authorName &&
+				<div className="post__author-name">
+					{post.authorName}
+				</div>
+			}
+			{post.authorName2 &&
+				<div className="post__author-name-2">
+					{post.authorName2}
+				</div>
+			}
+		</div>
+	)
+}
+
+const HEADER_BADGES = [
+	{
+		name: 'banned',
+		icon: StopIcon,
+		title: (post, locale) => getMessages(locale).post.banned,
+		condition: post => post.authorWasBanned
+	},
+	{
+		name: 'original-poster',
+		icon: AnonymousIcon,
+		title: (post, locale) => getMessages(locale).post.originalPoster,
+		condition: post => post.isOriginalPoster
+	},
+	{
+		name: 'country',
+		getIcon: (post, locale) => {
+			if (post.authorCountry) {
+				return CountryFlagBadge
+			}
+			return ChanFlagBadge
+		},
+		getIconProps: (post, locale) => {
+			if (post.authorCountry) {
+				return {
+					country: post.authorCountry,
+					name: getCountryNames(locale)[post.authorCountry]
+				}
+			}
+			return {
+				country: post.authorCountryId,
+				name: post.authorCountryName
+			}
+		},
+		title: (post, locale) => post.authorCountryName || getCountryNames(locale)[post.authorCountry],
+		condition: post => post.authorCountry || post.authorCountryName
+	},
+	{
+		name: 'bump-limit',
+		icon: SinkingBoatIcon,
+		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
+		condition: (post, thread) => post.id === thread.id && thread.isBumpLimitReached && !thread.isSticky
+	},
+	{
+		name: 'sticky',
+		icon: PinIcon,
+		title: (post, locale) => getMessages(locale).post.sticky,
+		condition: (post, thread) => post.id === thread.id && thread.isSticky
+	},
+	{
+		name: 'rolling',
+		icon: InfinityIcon,
+		title: (post, locale) => getMessages(locale).post.rolling,
+		condition: (post, thread) => post.id === thread.id && thread.isRolling
+	},
+	{
+		name: 'closed',
+		icon: LockIcon,
+		title: (post, locale) => getMessages(locale).post.closed,
+		condition: (post, thread) => post.id === thread.id && thread.isClosed
+	}
+]
+
+const FOOTER_BADGES = [
+	{
+		name: 'comments-count',
+		icon: CommentIcon,
+		title: (post, locale) => getMessages(locale).post.commentsCount,
+		condition: (post) => post.commentsCount,
+		content: post => post.commentsCount
+	},
+	{
+		name: 'comment-attachments-count',
+		icon: PictureIcon,
+		title: (post, locale) => getMessages(locale).post.commentAttachmentsCount,
+		condition: (post) => post.commentAttachmentsCount,
+		content: post => post.commentAttachmentsCount
+	},
+	{
+		name: 'unique-posters-count',
+		icon: PersonIcon,
+		title: (post, locale) => getMessages(locale).post.uniquePostersCount,
+		condition: (post) => post.uniquePostersCount,
+		content: post => post.uniquePostersCount
+	},
+	{
+		name: 'replies-count',
+		icon: ReplyIcon,
+		title: (post, locale) => getMessages(locale).post.repliesCount,
+		condition: (post) => post.replies && post.replies.length > 0,
+		content: post => post.replies.length,
+		onClick: (post) => alert('Not implemented yet')
+	}
+]

@@ -272,6 +272,15 @@ function setAuthorIds(thread, messages) {
 				comment.authorName = comment.authorId
 			}
 		}
+		// Append "authorRole" to "author name".
+		if (comment.authorRole) {
+			const authorRole = messages.role[comment.authorRole] || comment.authorRole
+			if (comment.authorName) {
+				comment.authorName = comment.authorName + ' (' + authorRole.toLowerCase() + ')'
+			} else {
+				comment.authorName = authorRole
+			}
+		}
 		// Display "trip code" as second "author name".
 		if (comment.tripCode) {
 			comment.authorName2 = comment.tripCode

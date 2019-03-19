@@ -3,7 +3,10 @@
 	"parser": "4chan",
 	"parserOptions": {
 		"engine": "vichan",
-		"defaultAuthorName": "Bernd",
+		"defaultAuthorName": {
+			"*": "Bernd",
+			"ru": "Бернд"
+		},
 		"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
 		"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
 		"fileAttachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}/{originalName}{ext}",
