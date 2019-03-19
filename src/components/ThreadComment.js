@@ -148,6 +148,10 @@ export default class ThreadComment extends React.PureComponent {
 		onClick(comment, thread, board)
 	}
 
+	// onReply = () => {
+	// 	alert('Not implemented yet')
+	// }
+
 	render() {
 		const {
 			onClick,
@@ -174,6 +178,7 @@ export default class ThreadComment extends React.PureComponent {
 				url={getUrl(board, thread, comment)}
 				locale={locale}
 				openSlideshow={openSlideshow}
+				onReply={this.onReply}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
 		)
 
@@ -225,7 +230,8 @@ function Comment({
 	hidden,
 	url,
 	locale,
-	openSlideshow
+	openSlideshow,
+	onReply
 }) {
 	if (hidden) {
 		return (
@@ -248,7 +254,7 @@ function Comment({
 			moreActionsLabel={getMessages(locale).post.moreActions}
 			readMoreLabel={getMessages(locale).post.readMore}
 			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
-			onReply={mode === 'thread' ? () => alert('Not implemented yet') : undefined}
+			onReply={mode === 'thread' ? onReply : undefined}
 			headerBadges={HEADER_BADGES}
 			footerBadges={FOOTER_BADGES}
 			replies={comment.replies}
@@ -272,6 +278,7 @@ Comment.propTypes = {
 	url: PropTypes.string.isRequired,
 	locale: PropTypes.string.isRequired,
 	openSlideshow: PropTypes.func.isRequired,
+	onReply: PropTypes.func,
 	halfSizedAttachmentThumbnails: PropTypes.bool
 }
 
