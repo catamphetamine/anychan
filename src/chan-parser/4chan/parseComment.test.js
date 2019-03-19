@@ -11,6 +11,7 @@ function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 
 	comment = parseComment(comment, {
 		...options,
+		chan: '4chan',
 		parseCommentPlugins: PARSE_COMMENT_PLUGINS
 	})
 

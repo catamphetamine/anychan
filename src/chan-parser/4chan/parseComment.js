@@ -1,4 +1,7 @@
 import parseAuthor from './parseAuthor'
+import parseAuthorRoleFourChannel from './parseAuthorRole.4chan'
+import parseAuthorRoleEightChannel from './parseAuthorRole.8ch'
+import parseAuthorRoleKohlChan from './parseAuthorRole.kohlchan'
 import parseAttachment from './parseAttachment'
 
 import constructComment from '../constructComment'
@@ -43,13 +46,19 @@ export default function parseComment(post, {
 		// (a "zero-width" space for indicating possible line break points)
 		// but then hyperlink autodetection code would have to filter them out,
 		// and as I already said above line-breaking long text is handled by CSS.
-		rawComment = rawComment.replace(/<wbr>/g, '')
+		if (chan === '4chan') {
+			rawComment = rawComment.replace(/<wbr>/g, '')
+		}
 		// `8ch.net` adds `<em>:</em>` to links for some weird reason.
-		rawComment = rawComment.replace(/(https?|ftp)<em>:<\/em>/g, '$1:')
+		if (chan === '8ch') {
+			rawComment = rawComment.replace(/(https?|ftp)<em>:<\/em>/g, '$1:')
+		}
 		// Test if the author was banned for this post.
-		if (USER_BANNED_MARK.test(rawComment)) {
-			authorWasBanned = true
-			rawComment = rawComment.replace(USER_BANNED_MARK, '')
+		if (chan === '4chan') {
+			if (USER_BANNED_MARK.test(rawComment)) {
+				authorWasBanned = true
+				rawComment = rawComment.replace(USER_BANNED_MARK, '')
+			}
 		}
 	}
 	const comment = constructComment(
@@ -58,7 +67,7 @@ export default function parseComment(post, {
 		post.no,
 		rawComment,
 		parseAuthor(post.name, { defaultAuthorName }),
-		parseRole(post.capcode),
+		parseAuthorRole(post, chan),
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
@@ -83,7 +92,7 @@ export default function parseComment(post, {
 		}
 	)
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
-	// identify their posters by 3 or 4 of 4 bytes of their IP addresses on some boards.
+	// identify their posters by a hash of their IP addresses on some boards.
 	// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.
 	// `8ch.net` and `kohlchan.net` example: `"id": "2e20aa"`.
 	// `4chan.org` example: `"id": "Bg9BS7Xl"`.
@@ -119,26 +128,6 @@ export default function parseComment(post, {
 	return comment
 }
 
-// https://www.4chan.org/faq#capcode
-// A capcode is a way of verifying someone as a 4chan team member.
-// Normal users do not have the ability to post using a capcode.
-// Janitors do not receive a capcode.
-function parseRole(capCode) {
-	switch (capCode) {
-		case 'admin':
-		case 'founder':
-		case 'developer':
-			return 'administrator'
-		case 'mod':
-		case 'manager':
-			return 'moderator'
-		default:
-			if (capCode) {
-				console.error(`Unsupported "capcode": ${capCode}`)
-			}
-	}
-}
-
 function parseAttachments(post, options) {
 	let files = []
 	if (post.ext) {
@@ -162,4 +151,15 @@ function parseAttachments(post, options) {
 		return true
 	})
 	.map(file => parseAttachment(file, options))
+}
+
+function parseAuthorRole(post, chan) {
+	switch (chan) {
+		case '4chan':
+			return parseAuthorRoleFourChannel(post.capcode)
+		case '8ch':
+			return parseAuthorRoleEightChannel(post.capcode)
+		case 'kohlchan':
+			return parseAuthorRoleKohlChan(post.name)
+	}
 }
