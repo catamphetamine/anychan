@@ -1,5 +1,5 @@
 {
-	"corsProxyUrl": "https://thingproxy.freeboard.io/fetch/{url}",
+	"corsProxyUrl": "https://chan-chan.herokuapp.com/{url}",
 	"corsProxyUrl2": "https://cors-anywhere.herokuapp.com/{url}",
 	"defaultChan": "2ch",
 	"webpack": {
