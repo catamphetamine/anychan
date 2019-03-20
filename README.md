@@ -8,11 +8,11 @@ Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
 [`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan)
 
-Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a public "CORS Proxy" that intentionally throttles connections to reduce load.
+Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay. Also, until "infinite scroll" (streaming) for loading threads and posts is implemented rendering the whole page takes a lot of time because there's a lot of comments to render. It will be fast once "infinite scroll" (streaming) feature is implemented.
 
 This is a demo showcase project and currently has only a small subset of features. "To do":
 
-  * Add "infinite scroll" for loading threads and posts.
+  * Add "infinite scroll" (streaming) for loading threads and posts.
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.
