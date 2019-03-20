@@ -8,6 +8,7 @@ import CommentIcon from 'webapp-frontend/assets/images/icons/menu/message-outlin
 import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
 import ReplyIcon from 'webapp-frontend/assets/images/icons/reply.svg'
+import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
 
 import CountryFlag from './CountryFlag'
 
@@ -278,6 +279,12 @@ const HEADER_BADGES = [
 		icon: StopIcon,
 		title: (post, locale) => getMessages(locale).post.banned,
 		condition: post => post.authorWasBanned
+	},
+	{
+		name: 'sage',
+		icon: DislikeIcon,
+		title: (post, locale) => 'Sage',
+		condition: post => post.isSage
 	},
 	{
 		name: 'original-poster',
