@@ -39,7 +39,20 @@
 			"url": "https://8ch.net/delete/",
 			"content": ">>>/delete/"
 		},
-		"."
+		".",
+		"\n",
+		"\n",
+		{
+			"type": "link",
+			"url": "https://github.com/OpenIB/OpenIB",
+			"content": "OpenIB"
+		},
+		" imageboard engine by ",
+		{
+			"type": "link",
+			"url": "https://twitter.com/codemonkeyz",
+			"content": "Code Monkey"
+		}
 	],
 	"links": [
 		{
