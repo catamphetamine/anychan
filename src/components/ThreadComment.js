@@ -56,11 +56,13 @@ export default class ThreadComment extends React.PureComponent {
 	}
 
 	onVote = (vote) => {
-		alert('Not implemented yet')
+		const { notify } = this.props
+		notify('Not implemented yet')
 	}
 
 	onReply = () => {
-		alert('Not implemented yet')
+		const { notify } = this.props
+		notify('Not implemented yet')
 	}
 
 	render() {
@@ -72,7 +74,8 @@ export default class ThreadComment extends React.PureComponent {
 			comment,
 			mode,
 			locale,
-			openSlideshow
+			openSlideshow,
+			notify
 		} = this.props
 
 		const { hidden } = this.state
@@ -89,6 +92,7 @@ export default class ThreadComment extends React.PureComponent {
 				url={getUrl(board, thread, comment)}
 				locale={locale}
 				openSlideshow={openSlideshow}
+				notify={notify}
 				onReply={thread.isLocked ? undefined : this.onReply}
 				onVote={thread.hasVoting ? this.onVote : undefined}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
@@ -130,7 +134,8 @@ ThreadComment.propTypes = {
 	}).isRequired,
 	comment: PropTypes.object.isRequired,
 	locale: PropTypes.string.isRequired,
-	openSlideshow: PropTypes.func.isRequired
+	openSlideshow: PropTypes.func.isRequired,
+	notify: PropTypes.func.isRequired
 }
 
 function Comment({
@@ -143,6 +148,7 @@ function Comment({
 	url,
 	locale,
 	openSlideshow,
+	notify,
 	onReply,
 	onVote
 }) {
@@ -158,6 +164,11 @@ function Comment({
 			</ContentSection>
 		)
 	}
+	const footerBadges = FOOTER_BADGES.slice()
+	const replyBadge = footerBadges.filter(badge => badge.name === 'replies-count')[0]
+	replyBadge.onClick = (post) => {
+		notify('Not implemented yet')
+	}
 	return (
 		<Post
 			post={comment}
@@ -168,6 +179,7 @@ function Comment({
 			moreActionsLabel={getMessages(locale).post.moreActions}
 			readMoreLabel={getMessages(locale).post.readMore}
 			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
+			onMoreActions={() => notify('Not implemented yet')}
 			onReply={mode === 'thread' ? onReply : undefined}
 			onVote={onVote}
 			headerBadges={HEADER_BADGES}
@@ -231,9 +243,7 @@ function ChanFlag({ country, name, ...rest }) {
 			{...rest}
 			alt={name}
 			src={countryFlagUrl.replace('{country}', country)}
-			className={classNames('post__custom-country-flag', {
-				'post__custom-country-flag--no-border': getChan().countryFlagBorder === false
-			})}/>
+			className="post__custom-country-flag"/>
 	)
 }
 
@@ -383,7 +393,6 @@ const FOOTER_BADGES = [
 		icon: ReplyIcon,
 		title: (post, locale) => getMessages(locale).post.repliesCount,
 		condition: (post) => post.replies && post.replies.length > 0,
-		content: post => post.replies.length,
-		onClick: (post) => alert('Not implemented yet')
+		content: post => post.replies.length
 	}
 ]

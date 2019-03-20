@@ -118,12 +118,9 @@
 .post__custom-country-flag {
 	width: 100%;
 	height: 100%;
+	/* Center the image horizontally and vertically. */
 	object-fit: contain;
-	box-shadow: 0 0 0 1px currentColor;
-}
-
-.post__custom-country-flag--no-border {
-	box-shadow: none;
+	/*box-shadow: 0 0 0 1px currentColor;*/
 }
 
 .post__footer-badge-icon--comments-count {
@@ -148,4 +145,8 @@
 .post__text--8ch-heading {
 	color: rgb(175, 10, 15);
 	font-weight: bolder;
+}
+
+.post__header-badge--country {
+	opacity: 1;
 }

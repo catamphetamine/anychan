@@ -6,6 +6,7 @@ import classNames from 'classnames'
 
 import getUrl from '../utility/getUrl'
 import { getThread } from '../redux/chan'
+import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import ThreadComment from '../components/ThreadComment'
@@ -24,7 +25,8 @@ import './Thread.css'
 	thread: chan.thread,
 	locale: app.settings.locale
 }), {
-	openSlideshow
+	openSlideshow,
+	notify
 })
 @preload(async ({ getState, dispatch, params }) => {
 	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
@@ -38,6 +40,7 @@ import './Thread.css'
 export default class ThreadPage extends React.Component {
 	static propTypes = {
 		openSlideshow: PropTypes.func.isRequired,
+		notify: PropTypes.func.isRequired,
 		locale: PropTypes.string.isRequired
 	}
 
@@ -46,7 +49,8 @@ export default class ThreadPage extends React.Component {
 			board,
 			thread,
 			locale,
-			openSlideshow
+			openSlideshow,
+			notify
 		} = this.props
 
 		return (
@@ -70,7 +74,8 @@ export default class ThreadPage extends React.Component {
 						comment={comment}
 						getUrl={getUrl}
 						locale={locale}
-						openSlideshow={openSlideshow}/>
+						openSlideshow={openSlideshow}
+						notify={notify}/>
 				))}
 			</section>
 		)

@@ -88,6 +88,7 @@ export default class BoardPage extends React.Component {
 			board,
 			threads,
 			openSlideshow,
+			notify,
 			locale
 		} = this.props
 		return (
@@ -112,6 +113,7 @@ export default class BoardPage extends React.Component {
 						getUrl={getUrl}
 						onClick={this.onThreadClick}
 						openSlideshow={openSlideshow}
+						notify={notify}
 						locale={locale}/>
 				))}
 			</section>
