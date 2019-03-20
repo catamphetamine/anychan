@@ -79,6 +79,7 @@
 	"commentsUrl": "/{boardId}/res/{threadId}.json",
 	"threadsUrl": "/{boardId}/catalog.json",
 	"countryFlagUrl": "/static/flags/{country}.png",
+	"countryFlagBorder": false,
 	"boards": [
 		{
 			"id": "b",

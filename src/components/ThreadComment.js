@@ -231,7 +231,9 @@ function ChanFlag({ country, name, ...rest }) {
 			{...rest}
 			alt={name}
 			src={countryFlagUrl.replace('{country}', country)}
-			className="post__custom-country-flag"/>
+			className={classNames('post__custom-country-flag', {
+				'post__custom-country-flag--no-border': getChan().countryFlagBorder === false
+			})}/>
 	)
 }
 
