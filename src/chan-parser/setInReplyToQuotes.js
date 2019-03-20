@@ -105,7 +105,8 @@ function stripLinks(content) {
 			if (typeof content[i] === 'object') {
 				// Handling just a simple case here
 				// and not recursing into nested arrays.
-				if (content[i].type === 'link' && typeof content[i].content === 'string') {
+				if ((content[i].type === 'link' || content[i].type === 'post-link') &&
+					typeof content[i].content === 'string') {
 					content[i] = content[i].content
 				}
 			}
