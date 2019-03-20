@@ -15,7 +15,7 @@ export default function parseAuthor(name, { defaultAuthorName, boardId }) {
 	// `Аноним&nbsp;ID:&nbsp;<span id=\"id_tag_7ab0a33a\" style=\"color:rgb(116,48,218);\">Насмешливый&nbsp;Обеликс</span>`
 	const randomNameMatch = name.match(RANDOM_NAME_REGEXP)
 	if (randomNameMatch) {
-		return randomNameMatch[1].replace('&nbsp;', '')
+		return randomNameMatch[1].replace('&nbsp;', ' ')
 	}
 	return name
 }
