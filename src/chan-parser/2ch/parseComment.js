@@ -49,12 +49,13 @@ export default function parseComment(post, {
 			subject = undefined
 		}
 	}
+	const author = parseAuthor(post.name, { defaultAuthorName, boardId })
 	const comment = constructComment(
 		boardId,
 		isOpeningPost ? id : threadId, // `threadId`.
 		id,
 		rawComment,
-		parseAuthor(post.name, { defaultAuthorName, boardId }),
+		author && (typeof author === 'string' ? author : author.name),
 		parseRole(post.trip),
 		post.banned === 1,
 		subject,
@@ -68,6 +69,9 @@ export default function parseComment(post, {
 			getUrl
 		}
 	)
+	if (author && typeof author === 'object') {
+		comment.authorIdColor = author.color
+	}
 	if (post.email) {
 		// "mailto:admin@example.com" -> "admin@example.com".
 		const email = post.email.replace(MAILTO, '')

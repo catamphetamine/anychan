@@ -7,6 +7,7 @@ import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 import CommentIcon from 'webapp-frontend/assets/images/icons/menu/message-outline.svg'
 import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
+import PersonFillIcon from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
 import ReplyIcon from 'webapp-frontend/assets/images/icons/reply.svg'
 import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
 
@@ -270,7 +271,16 @@ function Header({ post, locale }) {
 	const authorRoleName = post.authorRole && (getMessages(locale).role[post.authorRole] || post.authorRole)
 	return (
 		<div className={classNames('post__author', post.authorRole && `post__author--${post.authorRole}`)}>
-			<PersonIcon className="post__author-icon"/>
+			{!post.authorIdColor &&
+				<PersonIcon className="post__author-icon"/>
+			}
+			{post.authorIdColor &&
+				<PersonFillIcon
+					className="post__author-icon"
+					style={{
+						color: `rgb(${post.authorIdColor.join(',')})`
+					}}/>
+			}
 			{(post.authorId || post.authorName || post.authorEmail || post.authorRole) &&
 				<div className="post__author-name">
 					{post.authorId && `${post.authorId} `}
