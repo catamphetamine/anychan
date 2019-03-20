@@ -50,7 +50,7 @@ export default function parseThread(posts, {
 	// `4chan.org` has `closed` property.
 	// `kohlchan.net` and `8ch.net` have `locked` property.
 	if (thread.closed || thread.locked) {
-		threadInfo.isClosed = true
+		threadInfo.isLocked = true
 	}
 	if (thread.sticky) {
 		threadInfo.isSticky = true
@@ -122,7 +122,7 @@ function getCommentAttachmentsCount(thread) {
 		}
 	}
 	commentAttachmentsCount += thread.omitted_images
-	if (thread.images < commentAttachmentsCount) {
+	if (thread.images === undefined || thread.images < commentAttachmentsCount) {
 		return commentAttachmentsCount
 	}
 	return thread.images

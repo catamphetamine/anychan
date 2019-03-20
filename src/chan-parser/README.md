@@ -81,7 +81,7 @@ An attachment can be:
 	commentAttachmentsCount: number,
 	comments: Comment[],
 	isSticky: boolean?,
-	isClosed: boolean?,
+	isLocked: boolean?,
 	isRolling: boolean?, // Only for 2ch.hk. A "rolling" thread is the one where old messages are purged as new ones come in.
 	isBumpLimitReached: boolean?,
 	isAttachmentLimitReached: boolean?, // Only for 4chan.org.

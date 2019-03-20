@@ -84,7 +84,7 @@ export default class ThreadComment extends React.PureComponent {
 				url={getUrl(board, thread, comment)}
 				locale={locale}
 				openSlideshow={openSlideshow}
-				onReply={this.onReply}
+				onReply={thread.isLocked ? undefined : this.onReply}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
 		)
 
@@ -330,7 +330,7 @@ const HEADER_BADGES = [
 		name: 'closed',
 		icon: LockIcon,
 		title: (post, locale) => getMessages(locale).post.closed,
-		condition: (post, thread) => post.id === thread.id && thread.isClosed
+		condition: (post, thread) => post.id === thread.id && thread.isLocked
 	}
 ]
 

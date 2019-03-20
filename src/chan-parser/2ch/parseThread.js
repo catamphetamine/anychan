@@ -39,7 +39,7 @@ export default function parseThread(thread, posts, {
 	}
 	const openingPost = posts[0]
 	if (openingPost.closed === 1) {
-		threadInfo.isClosed = true
+		threadInfo.isLocked = true
 	}
 	// If the thread is pinned `sticky` will be a number greater than `0`.
 	if (openingPost.sticky) {
