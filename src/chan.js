@@ -3,7 +3,7 @@ import configuration from './configuration'
 import TwoChannelIcon from '../chan/2ch/icon.png'
 import FourChanIcon from '../chan/4chan/icon.png'
 import EightChanIcon from '../chan/8ch/icon.png'
-import KohlChanIcon from '../chan/kohlchan/icon.gif'
+import KohlChanIcon from '../chan/kohlchan/icon.png'
 
 import TwoChannelLogo from '../chan/2ch/logo.svg'
 import FourChanLogo from '../chan/4chan/logo.svg'

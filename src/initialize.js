@@ -4,7 +4,7 @@ import { applySettings, getSettings } from './utility/settings'
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
 import FourChanSiteIcon from '../chan/4chan/icon.png'
 import EightChanSiteIcon from '../chan/8ch/icon.png'
-import KohlChanSiteIcon from '../chan/kohlchan/icon.gif'
+import KohlChanSiteIcon from '../chan/kohlchan/icon.png'
 
 export default function() {
 	// Initialize the chan being used.
