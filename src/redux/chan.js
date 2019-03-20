@@ -306,7 +306,7 @@ function getBoardsResult(boards) {
 	if (boards[0].category) {
 		result.boardsByCategory = groupBoardsByCategory(
 			// Special case for `2ch.hk`'s `/int/` board which is in the ignored category.
-			boards.filter(board => !board.isHidden && board.id !== 'int'),
+			boards.filter(board => !board.isHidden || (getChan().id === '2ch' && board.id === 'int')),
 			getChan().boardCategories
 		)
 	}
