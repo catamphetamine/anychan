@@ -16,6 +16,8 @@ import CountryFlag from './CountryFlag'
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
+import stringToColor from 'webapp-frontend/src/utility/stringToColor'
+
 import {
 	ContentSection,
 	ContentSectionHeader
@@ -269,20 +271,21 @@ function Header({ post, locale }) {
 		return null
 	}
 	const authorRoleName = post.authorRole && (getMessages(locale).role[post.authorRole] || post.authorRole)
+	const authorColor = post.authorIdColor ? `rgb(${post.authorIdColor.join(',')})` : (post.authorId ? stringToColor(post.authorId) : undefined)
 	return (
 		<div className={classNames('post__author', post.authorRole && `post__author--${post.authorRole}`)}>
-			{!post.authorIdColor &&
+			{!authorColor &&
 				<PersonIcon className="post__author-icon"/>
 			}
-			{post.authorIdColor &&
+			{authorColor &&
 				<PersonFillIcon
 					className="post__author-icon"
 					style={{
-						color: `rgb(${post.authorIdColor.join(',')})`
+						color: authorColor
 					}}/>
 			}
 			{(post.authorId || post.authorName || post.authorEmail || post.authorRole) &&
-				<div className="post__author-name">
+				<div className={classNames('post__author-name', authorColor && 'post__author-name--color')}>
 					{post.authorId && `${post.authorId} `}
 					{post.authorName && `${post.authorName} `}
 					{post.authorRole && !post.authorName && `${authorRoleName} `}

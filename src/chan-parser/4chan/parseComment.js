@@ -101,8 +101,9 @@ export default function parseComment(post, {
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// identify their posters by a hash of their IP addresses on some boards.
 	// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.
-	// `8ch.net` and `kohlchan.net` example: `"id": "2e20aa"`.
-	// `4chan.org` example: `"id": "Bg9BS7Xl"`.
+	// `8ch.net` example: 2e20aa, d1e8f1, 000000.
+	// `kohlchan.net` examples: a8d15, 90048, a26d4.
+	// `4chan.org` examples: Bg9BS7Xl, rhGbaBg/, L/+PhYNf.
 	if (post.id) {
 		comment.authorId = post.id
 	}

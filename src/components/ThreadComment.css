@@ -92,6 +92,10 @@
 	color: var(--base-color-darkest);
 }
 
+.post__author-name--color {
+	color: var(--black-color);
+}
+
 .post__author-name + .post__author-trip-code {
 	margin-left: 0.35em;
 }
