@@ -144,3 +144,8 @@
 	margin-left: 0.05em;
 	margin-right: 0.35em;
 }
+
+.post__text--8ch-heading {
+	color: rgb(175, 10, 15);
+	font-weight: bolder;
+}

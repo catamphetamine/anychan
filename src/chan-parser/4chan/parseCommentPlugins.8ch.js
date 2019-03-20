@@ -58,7 +58,7 @@ const parseEightChanHeading = {
 	createBlock(content) {
 		return {
 			type: 'text',
-			style: 'bold',
+			style: '8ch-heading',
 			content
 		}
 	}
