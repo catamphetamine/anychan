@@ -18,6 +18,7 @@ export default function parseThread(thread, posts, {
 	maxCommentLength, // Board-wide max comment length allowed by chan.
 	maxAttachmentsSize,
 	bumpLimit,
+	hasVoting,
 	commentsCount,
 	commentAttachmentsCount,
 	useRelativeUrls,
@@ -29,6 +30,7 @@ export default function parseThread(thread, posts, {
 		messages,
 		defaultAuthorName,
 		parseCommentPlugins,
+		hasVoting,
 		useRelativeUrls,
 		getUrl
 	}))
@@ -51,6 +53,9 @@ export default function parseThread(thread, posts, {
 	// The "opening post" is always preserved.
 	if (openingPost.endless === 1) {
 		threadInfo.isRolling = true
+	}
+	if (hasVoting) {
+		threadInfo.hasVoting = true
 	}
 	if (commentsCount >= bumpLimit) {
 		threadInfo.isBumpLimitReached = true

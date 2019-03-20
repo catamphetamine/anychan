@@ -55,9 +55,13 @@ export default class ThreadComment extends React.PureComponent {
 		onClick(comment, thread, board)
 	}
 
-	// onReply = () => {
-	// 	alert('Not implemented yet')
-	// }
+	onVote = (vote) => {
+		alert('Not implemented yet')
+	}
+
+	onReply = () => {
+		alert('Not implemented yet')
+	}
 
 	render() {
 		const {
@@ -86,6 +90,7 @@ export default class ThreadComment extends React.PureComponent {
 				locale={locale}
 				openSlideshow={openSlideshow}
 				onReply={thread.isLocked ? undefined : this.onReply}
+				onVote={thread.hasVoting ? this.onVote : undefined}
 				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
 		)
 
@@ -138,7 +143,8 @@ function Comment({
 	url,
 	locale,
 	openSlideshow,
-	onReply
+	onReply,
+	onVote
 }) {
 	if (hidden) {
 		return (
@@ -163,6 +169,7 @@ function Comment({
 			readMoreLabel={getMessages(locale).post.readMore}
 			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
 			onReply={mode === 'thread' ? onReply : undefined}
+			onVote={onVote}
 			headerBadges={HEADER_BADGES}
 			footerBadges={FOOTER_BADGES}
 			replies={comment.replies}
@@ -187,6 +194,7 @@ Comment.propTypes = {
 	locale: PropTypes.string.isRequired,
 	openSlideshow: PropTypes.func.isRequired,
 	onReply: PropTypes.func,
+	onVote: PropTypes.func,
 	halfSizedAttachmentThumbnails: PropTypes.bool
 }
 
@@ -207,6 +215,11 @@ const SERVICE_ICONS = {
 
 function ChanFlag({ country, name, ...rest }) {
 	let countryFlagUrl = getChan().countryFlagUrl
+	// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
+	// https://2ch.hk/icons/logos/krym.gif
+	if (getChan().id === '2ch' && country === 'krym') {
+		countryFlagUrl = countryFlagUrl.replace(/\.png$/, '.gif')
+	}
 	// Transform relative URL to an absolute one.
 	if (countryFlagUrl[0] === '/' && countryFlagUrl[1] !== '/') {
 		if (!shouldUseRelativeUrls() ) {

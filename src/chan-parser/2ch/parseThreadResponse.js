@@ -14,7 +14,8 @@ export default function parseThreadResponse(response, options) {
 		maxAttachmentsSize: response.max_files_size,
 		defaultAuthorName: response.default_name,
 		commentsCount: response.posts_count,
-		commentAttachmentsCount: response.files_count
+		commentAttachmentsCount: response.files_count,
+		hasVoting: response.enable_likes === 1
 	})
 	// Only for `/res/THREAD-ID.json` API response.
 	if (response.unique_posters) {

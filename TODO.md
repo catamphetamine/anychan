@@ -13,6 +13,7 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Add voting (maybe stored in `localStorage`, colored and disabled both if already voted)
 
 Возможно не разворачивает YouTube video на iPhone.
 
@@ -223,7 +224,6 @@ FormData
 Check `image_limit` from Board's info from `boards.json`.
 Check `max_comment_chars` from Board's info from `boards.json`.
 Check `cooldowns.replies` from Board's info from `boards.json`.
-Check `thread.isClosed`.
 
 withCredentials = true.
 

@@ -25,6 +25,7 @@ export default function parseComment(post, {
 	filters,
 	parseCommentPlugins,
 	messages,
+	hasVoting,
 	useRelativeUrls,
 	getUrl
 }) {
@@ -79,6 +80,10 @@ export default function parseComment(post, {
 	if (abuLike) {
 		comment.abuLike = true
 	}
+	if (hasVoting) {
+		comment.upvotes = post.likes
+		comment.downvotes = post.dislikes
+	}
 	if (post.trip && !comment.authorRole) {
 		comment.tripCode = post.trip
 	}
@@ -106,7 +111,15 @@ export default function parseComment(post, {
 					comment.authorCountryId = match[1]
 					comment.authorCountryName = match[2]
 				} else {
-					console.error(`Couldn't parse poster country: ${post.icon}`)
+					// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
+					// https://2ch.hk/icons/logos/krym.gif
+					const match = post.icon.match(/\/icons\/logos\/([^\/]+).gif" title=\"([^"]+)\"/)
+					if (match) {
+						comment.authorCountryId = match[1]
+						comment.authorCountryName = match[2]
+					} else {
+						console.error(`Couldn't parse poster country: ${post.icon}`)
+					}
 				}
 			}
 		}

@@ -64,6 +64,8 @@ An attachment can be:
 	authroCountryName: String, // Only for `kohlchan.net`. Examples: "Ukraine", "Moscow", "Texas", "Proxy".
 	authorRole: String, // Examples: "administrator", "moderator".
 	authorWasBanned: boolean,
+	upvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
+	downvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
 	content: Content, // Example: `[['Text']]`.
 	contentPreview: Content?, // If the `content` is too long a preview is generated.
 	attachments: Attachment[],
