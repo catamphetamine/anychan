@@ -76,6 +76,11 @@
 			"type": "reddit",
 			"text": "Reddit",
 			"url": "https://www.reddit.com/r/infinitechan"
+		},
+		{
+			"type": "mobile",
+			"text": "Mobile App",
+			"url": "https://8ch.net/faq.html#where-is-the-mobile-app"
 		}
 	],
 	"thumbnailSize": 255,
