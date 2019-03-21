@@ -5,6 +5,7 @@
 		"engine": "vichan",
 		"defaultAuthorName": {
 			"*": "Anonymous",
+			"sudo": "/bin/sh",
 			"cafechan": "Аноним"
 		},
 		"attachmentUrlFpath": "https://media.8ch.net/file_store/{name}{ext}",
