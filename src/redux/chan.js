@@ -58,16 +58,6 @@ export const getThreads = redux.action(
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			setThreadStats(thread)
-			// setAuthorIds(thread, getMessages(locale))
-		}
-		// `kohlchan.net` has a bug when thumbnail file extension is random.
-		if (getChan().id === 'kohlchan') {
-			await Promise.all(
-				threads
-					.map(thread => thread.comments[0])
-					.reduce((all, comment) => all.concat(comment.attachments), [])
-					.map(fixKohlChanThumbnailExtension)
-			)
 		}
 		return {
 			boardId,
@@ -99,7 +89,6 @@ export const getThread = redux.action(
 			thread.comments[0].title = undefined
 		}
 		setThreadStats(thread)
-		// setAuthorIds(thread, getMessages(locale))
 		thread.comments
 		// `kohlchan.net` has a bug when thumbnail file extension is random.
 		if (getChan().id === 'kohlchan') {
@@ -204,97 +193,11 @@ function addOrigin(url) {
 	return url
 }
 
-// `kohlchan.net` has a bug when thumbnail file extension is random.
-async function fixKohlChanThumbnailExtension(attachment) {
-	let size
-	if (attachment.type === 'picture') {
-		size = attachment.picture.sizes[0]
-	} else if (attachment.type === 'video') {
-		size = attachment.video.picture.sizes[0]
-	} else {
-		return
-	}
-	try {
-		await prefetchImage(size.url)
-	} catch (error) {
-		const url = getAnotherImageUrl(size.url)
-		try {
-			await prefetchImage(url)
-			size.url = url
-		} catch (error) {
-			// No thumbnail found.
-			// Maybe too much load on the server.
-		}
-	}
-}
-
-const JPG_EXTENSION = /\.jpg$/
-const PNG_EXTENSION = /\.png$/
-
-function getAnotherImageUrl(url) {
-	if (JPG_EXTENSION.test(url)) {
-		return url.replace(JPG_EXTENSION, '.png')
-	} else if (PNG_EXTENSION.test(url)) {
-		return url.replace(PNG_EXTENSION, '.jpg')
-	}
-}
-
-// Preloads an image before displaying it.
-function prefetchImage(url) {
-	return new Promise((resolve, reject) => {
-		const image = new Image()
-		// image.onload = () => setTimeout(resolve, 1000)
-		image.onload = resolve
-		image.onerror = (event) => {
-			if (event.path && event.path[0]) {
-				console.error(`Image not found: ${event.path[0].src}`)
-			}
-			reject(event)
-		}
-		image.src = url
-	})
-}
-
 function setThreadStats(thread) {
 	thread.comments[0].commentsCount = thread.commentsCount
 	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
 }
-
-// function setAuthorIds(thread, messages) {
-// 	for (const comment of thread.comments) {
-// 		// Prepend "authorEmail" to "author name".
-// 		if (comment.authorEmail) {
-// 			if (comment.authorName) {
-// 				comment.authorName = comment.authorEmail + ' ' + comment.authorName
-// 			} else {
-// 				comment.authorName = comment.authorEmail
-// 			}
-// 		}
-// 		// Prepend "authorId" to "author name".
-// 		// `authorId` (if present) is an IP address hash.
-// 		if (comment.authorId) {
-// 			if (comment.authorName) {
-// 				comment.authorName = comment.authorId + ' ' + comment.authorName
-// 			} else {
-// 				comment.authorName = comment.authorId
-// 			}
-// 		}
-// 		// Append "authorRole" to "author name".
-// 		if (comment.authorRole) {
-// 			const authorRole = messages.role[comment.authorRole] || comment.authorRole
-// 			if (comment.authorName) {
-// 				comment.authorName = comment.authorName + ' (' + authorRole.toLowerCase() + ')'
-// 			} else {
-// 				comment.authorName = authorRole
-// 			}
-// 		}
-// 		// Display "trip code" as second "author name".
-// 		if (comment.tripCode) {
-// 			comment.authorName2 = comment.tripCode
-// 		}
-// 	}
-// }
 
 function getBoardsResult(boards) {
 	const result = {
