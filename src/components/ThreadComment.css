@@ -99,7 +99,7 @@
 	font-weight: 300;
 }
 
-.post__author-name {
+.post__author--generic .post__author-name {
 	color: var(--base-color-darkest);
 }
 
@@ -172,4 +172,11 @@
 	   countries' flag colors are too low-contrasty so it requires
 	   `opacity: 1` in order to be eligible in all cases. */
 	opacity: 1;
+}
+
+.post__text--ascii-shift-jis-art {
+	display: block;
+	line-height: 1.1;
+	font-family: Mona, "MS PGothic", "ＭＳ Ｐゴシック", sans-serif;
+	white-space: pre-wrap;
 }

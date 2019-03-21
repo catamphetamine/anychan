@@ -28,6 +28,7 @@ This is a demo showcase project and currently has only a small subset of feature
 	* Maybe add delete post/attachment button. (can delete posts and files without password on 4chan)
 	* When text is selected, show "Reply" tooltip for quoting the selected text in a reply.
 	* Add post selection from post menu to report several posts in a single report.
+	* Format MathML equations on `4chan.org/sci`. Block-level equations: [eqn]f(x_4) = a+2*b[/eqn]. Inline equations: [math]f(x)=\\frac{x^3-x}{(x^2+1)^2}[/math].
 -->
 
 ## Screenshots

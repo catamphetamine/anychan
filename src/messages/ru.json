@@ -42,6 +42,7 @@
 	"quotedPost": "Сообщение",
 	"attachmentPicture": "Картинка",
 	"attachmentVideo": "Видео",
+	"code": "Код",
 	"videoNotFound": "Видео не найдено",
 	"post": {
 		"banned": "Автор этого сообщения был забанен",
@@ -60,7 +61,11 @@
 	},
 	"role": {
 		"administrator": "Администратор",
-		"moderator": "Модератор"
+		"moderator": "Модератор",
+		"board": {
+			"administrator": "Администратор доски",
+			"moderator": "Модератор доски"
+		}
 	},
 	"copyright": {
 		"preChanchan": "Клиент для имиджборд «",

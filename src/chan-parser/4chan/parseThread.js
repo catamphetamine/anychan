@@ -107,15 +107,21 @@ export default function parseThread(posts, {
 // still doesn't count video attachments as part of `images` and `omitted_images`.
 function getCommentAttachmentsCount(thread) {
 	let commentAttachmentsCount = 0
-	// The opening post's attachments are not counted.
+	// The main post's attachments are not counted.
 	// if (thread.tim) {
 	// 	commentAttachmentsCount++
 	// }
-	// // `kohlchan.net` has `extra_files`.
+	// // `8ch.net` and `kohlchan.net` have `extra_files`.
+	// // (allows more that one attachment per post).
 	// if (thread.extra_files) {
-	// 	commentAttachmentsCount += thread.extra_files.length
+	// 	for (const file of thread.extra_files) {
+	// 		// if (!wasAttachmentDeleted(file)) {
+	// 			commentAttachmentsCount++
+	// 		// }
+	// 	}
 	// }
-	// `4chan.org`'s catalog has `last_replies`.
+	// `4chan.org`'s "catalog.json" API has `last_replies`.
+	// `4chan.org` supports only one attachment max per comment.
 	if (thread.last_replies) {
 		for (const reply of thread.last_replies) {
 			if (reply.tim) {
@@ -123,8 +129,11 @@ function getCommentAttachmentsCount(thread) {
 			}
 		}
 	}
+	// Count "omitted" attachments count.
+	// "omitted" means: "not in the main post and not in `last_replies` for 4chan".
 	commentAttachmentsCount += thread.omitted_images
-	if (thread.images === undefined || thread.images < commentAttachmentsCount) {
+	// `images` can't be `undefined` for all  currently supported 4chan-alike chans.
+	if (thread.images < commentAttachmentsCount) {
 		return commentAttachmentsCount
 	}
 	return thread.images

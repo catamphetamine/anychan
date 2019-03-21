@@ -42,6 +42,7 @@
 	"quotedPost": "Message",
 	"attachmentPicture": "Picture",
 	"attachmentVideo": "Video",
+	"code": "Code",
 	"videoNotFound": "Video not found",
 	"post": {
 		"banned": "The author of this comment was banned",
@@ -60,7 +61,11 @@
 	},
 	"role": {
 		"administrator": "Administrator",
-		"moderator": "Moderator"
+		"moderator": "Moderator",
+		"board": {
+			"administrator": "Board administrator",
+			"moderator": "Board moderator"
+		}
 	},
 	"copyright": {
 		"chanchan": "chanchan",

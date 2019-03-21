@@ -35,6 +35,8 @@ export default function parseComment(post, {
 	let authorWasBanned = false
 	// `post.com` is absent when there's no text.
 	if (rawComment) {
+		// I figured that 4chan places <wbr> ("line break") tags
+		// when something not having spaces is longer than 35 characters.
 		// `<wbr>` is a legacy HTML tag for explicitly defined "line breaks".
 		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr
 		// `4chan.org` inserts `<wbr>` in long URLs every 35 characters
@@ -46,6 +48,12 @@ export default function parseComment(post, {
 		// (a "zero-width" space for indicating possible line break points)
 		// but then hyperlink autodetection code would have to filter them out,
 		// and as I already said above line-breaking long text is handled by CSS.
+		// Also `4chan.org` sometimes has `<wbr>` in weird places.
+		// For example, given the equation "[math]f(x)=\\frac{x^3-x}{(x^2+1)^2}[<wbr>/math]"
+		// `4chan.org` has inserted `<wbr>` after 35 characters of the whole equation markup
+		// while in reality it either should not have inserted a `<wbr>` or should have inserted it
+		// somewhere other place than the "[/math]" closing tag.
+		// https://github.com/4chan/4chan-API/issues/66
 		if (chan === '4chan') {
 			rawComment = rawComment.replace(/<wbr>/g, '')
 		}
@@ -61,13 +69,14 @@ export default function parseComment(post, {
 			}
 		}
 	}
+	const parsedAuthorRole = parseAuthorRole(post, chan)
 	const comment = constructComment(
 		boardId,
 		post.resto, // `threadId`.
 		post.no,
 		rawComment,
 		parseAuthor(post.name, { defaultAuthorName, boardId }),
-		parseAuthorRole(post, chan),
+		parsedAuthorRole && (chan === '8ch' ? parsedAuthorRole.role : parsedAuthorRole),
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
 		post.sub,
@@ -91,11 +100,15 @@ export default function parseComment(post, {
 			commentUrlRegExp
 		}
 	)
-	if (chan === '8ch' && chan.email) {
-		if (chan.email === 'sage') {
+	if (chan === '8ch' && parsedAuthorRole) {
+		comment.authorRoleJurisdiction = parsedAuthorRole.jurisdiction
+	}
+	// `8ch.net` and `kohlchan.net` (`vichan` engine) have `email` property.
+	if (post.email) {
+		if (post.email === 'sage') {
 			comment.isSage = true
 		} else {
-			comment.authorEmail = chan.email
+			comment.authorEmail = post.email
 		}
 	}
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
@@ -136,31 +149,6 @@ export default function parseComment(post, {
 	return comment
 }
 
-function parseAttachments(post, options) {
-	let files = []
-	if (post.ext) {
-		files.push(post)
-	}
-	// `kohlchan.net` and `8ch.net` have "extra_files".
-	if (post.extra_files) {
-		files = files.concat(post.extra_files)
-	}
-	return files.filter(file => {
-		// `8ch.net` seems to use `"ext": "deleted"` instead of `"filedeleted": 1`.
-		if (file.ext === 'deleted') {
-			return false
-		}
-		// // `4chan.org` and `kohlchan.net` use `"filedeleted": 0/1`.
-		// // In case of `"filedeleted": 1` it seems that all file-related
-		// // properties are also removed from the comment, so no need to filter.
-		// if (file.filedeleted === 1) {
-		// 	return false
-		// }
-		return true
-	})
-	.map(file => parseAttachment(file, options))
-}
-
 function parseAuthorRole(post, chan) {
 	switch (chan) {
 		case '4chan':
@@ -170,4 +158,32 @@ function parseAuthorRole(post, chan) {
 		case 'kohlchan':
 			return parseAuthorRoleKohlChan(post.name)
 	}
+}
+
+function parseAttachments(post, options) {
+	let files = []
+	if (post.ext) {
+		files.push(post)
+	}
+	// `kohlchan.net` and `8ch.net` have "extra_files".
+	if (post.extra_files) {
+		files = files.concat(post.extra_files)
+	}
+	return files.filter(file => !wasAttachmentDeleted(file, options))
+		.map(file => parseAttachment(file, options))
+}
+
+function wasAttachmentDeleted(file, { chan }) {
+	// `4chan.org` and `kohlchan.net` use `"filedeleted": 0/1`.
+	// In case of `"filedeleted": 1` it seems that all file-related
+	// properties are also removed from the comment, so
+	// strictly speaking there's no need to filter in this case.
+	if (file.filedeleted === 1) {
+		return true
+	}
+	// `8ch.net` seems to use `"ext": "deleted"` instead of `"filedeleted": 1`.
+	if (chan === '8ch' && file.ext === 'deleted') {
+		return true
+	}
+	return false
 }

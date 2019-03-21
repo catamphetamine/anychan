@@ -1,5 +1,14 @@
 import dropQuoteMarker from '../dropQuoteMarker'
 
+import {
+	parseBold,
+	parseItalic,
+	parseUnderline,
+	parseStrikethrough,
+	parseLink,
+	parseCode
+} from './parseCommentPlugins.4chan'
+
 // `8ch.net` regular text.
 const parseEightChanText = {
 	tag: 'p',
@@ -11,6 +20,24 @@ const parseEightChanText = {
 	],
 	createBlock(content) {
 		return appendNewLine(content)
+	}
+}
+
+// `8ch.net` "ASCII art" or "ShiftJIS art".
+const parseEightChanAsciiOrShiftJISArt = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'aa'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'ascii-shift-jis-art',
+			content
+		}
 	}
 }
 
@@ -39,8 +66,8 @@ const parseEightChanDetected = {
 	],
 	createBlock(content) {
 		return {
-			type: 'text',
-			style: 'italic',
+			type: 'monospace',
+			inline: true,
 			content
 		}
 	}
@@ -123,7 +150,14 @@ const parseEightChanInverseQuote = {
 }
 
 export default [
+	parseBold,
+	parseItalic,
+	parseUnderline,
+	parseStrikethrough,
+	parseLink,
+	parseCode,
 	parseEightChanText,
+	parseEightChanAsciiOrShiftJISArt,
 	parseEightChanNewLine,
 	parseEightChanDetected,
 	parseEightChanHeading,

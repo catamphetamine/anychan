@@ -2,7 +2,7 @@ import { describe, it } from '../mocha'
 import expectToEqual from '../expectToEqual'
 
 import parseComment from './parseComment'
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
+import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.4chan'
 
 function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 	const consoleWarn = console.warn

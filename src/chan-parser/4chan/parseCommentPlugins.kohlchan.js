@@ -1,5 +1,12 @@
 import dropQuoteMarker from '../dropQuoteMarker'
 
+import {
+	parseBold,
+	parseItalic,
+	parseQuote,
+	parseLink
+} from './parseCommentPlugins.4chan'
+
 // `kohlchan.net` spoiler.
 const parseKohlChanSpoiler = {
 	tag: 'span',
@@ -38,7 +45,62 @@ const parseKohlChanInverseQuote = {
 	}
 }
 
+// `kohlchan.net` underlined text.
+const parseKohlChanUnderline = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'style',
+			value: 'text-decoration: underline'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'underline',
+			content
+		}
+	}
+}
+
+// `kohlchan.net` strikethrough text.
+const parseKohlChanStrikethrough = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'style',
+			value: 'text-decoration: line-through'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'strikethrough',
+			content
+		}
+	}
+}
+
+// `kohlchan.net` code.
+const parseKohlChanCode = {
+	tag: 'code',
+	createBlock(content) {
+		return {
+			type: 'monospace',
+			inline: true,
+			content
+		}
+	}
+}
+
 export default [
+	parseBold,
+	parseItalic,
+	parseQuote,
+	parseLink,
 	parseKohlChanSpoiler,
-	parseKohlChanInverseQuote
+	parseKohlChanInverseQuote,
+	parseKohlChanUnderline,
+	parseKohlChanStrikethrough,
+	parseKohlChanCode
 ]

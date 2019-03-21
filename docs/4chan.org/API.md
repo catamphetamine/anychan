@@ -88,7 +88,7 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	// Includes all properties of `Post`.
 
 	"replies": 24, // Thread comments count.
-	"images": 20, // Thread attachments count.
+	"images": 20, // Thread comments attachments count. This is the count of all attachments in the thread except for the main post attachments. https://github.com/vichan-devel/vichan/issues/327#issuecomment-475165783
 
 	"bumplimit": 0, // `1` if the "bumplimit" is reached. "Bump limit" (max comments count) is a board-wide setting.
 	"imagelimit": 0, // `1` if the attached images limit is reached . Image limit (max attachments count) is a board-wide setting.
@@ -112,8 +112,8 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	"capcode_replies": {"admin":[1234,1267]}, // If a priviliged user (admin, moderator, etc) replies in the thread then this object will contain the respective post IDs.
 
 	// (only for `catalog.json` API)
-	"omitted_posts": 19, // I guess this is how many posts are there in the thread minus `last_replies.length` minus `1` for the "opening post".
-	"omitted_images": 15, // I guess this is how many images are there attached to posts in the thread minus the respective image count for `last_replies` and the "opening post".
+	"omitted_posts": 19, // This is how many posts are there in the thread minus `last_replies.length` minus `1` for the main post.
+	"omitted_images": 15, // This is how many attachments are there in the thread minus the attachments count in both `last_replies` and the main post.
 
 	// (only for `catalog.json` API)
 	"last_modified": 1549184316 // "Last modified" date (Unix time). Includes replies, deletions, and sticky/closed status changes.
@@ -121,10 +121,11 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	// (optional)
 	// (only for `catalog.json` API)
 	// A random number of last replies in the thread.
-	// For `/b/` seems to be `3`.
-	// For `/a/` seems to be `5`.
-	// Can have fewer `last_replies` if the thread doesn't have enough comments.
-	// Will be absent if there're no replies in the thread.
+	// Can be anything from zero to five on `4chan.org`.
+	// For example, if there're 3 posts total in a thread
+	// (the first being the main post and the two other being "comments")
+	// then `last_replies` can contain just the last post (no logic).
+	// May be absent.
 	"last_replies": [
 		// A list of `Post` objects
 	]

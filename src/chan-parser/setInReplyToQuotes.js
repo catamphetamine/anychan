@@ -78,6 +78,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		}
 		const text = getPostText(post, {
 			excludeQuotes: true,
+			excludeCodeBlocks: true,
 			softLimit: 150,
 			messages: options.messages
 		})

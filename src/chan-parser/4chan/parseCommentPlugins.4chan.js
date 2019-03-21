@@ -1,7 +1,7 @@
 import createLink from 'webapp-frontend/src/utility/post/createLink'
 import dropQuoteMarker from '../dropQuoteMarker'
 
-const parseBold = {
+export const parseBold = {
 	tag: 'strong',
 	createBlock(content) {
 		return {
@@ -26,7 +26,7 @@ const parseBoldLegacy = {
 
 // There seems to be no `<em>`s on 4chan.org.
 // Added this plugin just in case (in case they add `<em>`s in some future).
-const parseItalic = {
+export const parseItalic = {
 	tag: 'em',
 	createBlock(content) {
 		return {
@@ -49,7 +49,7 @@ const parseItalicLegacy = {
 	}
 }
 
-const parseUnderline = {
+export const parseUnderline = {
 	tag: 'u',
 	createBlock(content) {
 		return {
@@ -60,8 +60,19 @@ const parseUnderline = {
 	}
 }
 
-// They have these in `/g/`.
-const parseCode = {
+export const parseStrikethrough = {
+	tag: 's',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'strikethrough',
+			content
+		}
+	}
+}
+
+// They have code tags in `/g/`.
+export const parseCode = {
 	tag: 'pre',
 	attributes: [
 		{
@@ -113,7 +124,7 @@ const parseDeletedLink = {
 }
 
 // 4chan.org quote.
-const parseQuote = {
+export const parseQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -132,7 +143,7 @@ const parseQuote = {
 	}
 }
 
-const parseLink = {
+export const parseLink = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlRegExp }) {
 		const href = util.getAttribute('href')
@@ -192,6 +203,7 @@ export default [
 	parseItalic,
 	parseItalicLegacy,
 	parseUnderline,
+	parseStrikethrough,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,

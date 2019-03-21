@@ -277,14 +277,17 @@ function Header({ post, locale }) {
 	if (!(post.authorId || authorName || post.authorEmail || post.authorRole || post.tripCode)) {
 		return null
 	}
-	const authorRoleName = post.authorRole && (getMessages(locale).role[post.authorRole] || post.authorRole)
+	const authorRoleName = post.authorRole && (getRoleName(post.authorRole, post, locale) || post.authorRole)
 	const authorColor = post.authorIdColor ? `rgb(${post.authorIdColor.join(',')})` : (post.authorId ? stringToColor(post.authorId) : undefined)
 	return (
 		<div
 			className={classNames(
 				'post__author',
 				post.authorRole && `post__author--${post.authorRole}`,
-				post.threadHasAuthorIdColors && 'post__author--eligible'
+				{
+					'post__author--generic': !post.authorRole,
+					'post__author--eligible': post.threadHasAuthorIdColors
+				}
 			)}>
 			<div className="post__author-icon-container">
 				{displayOriginalPosterAsName &&
@@ -305,7 +308,10 @@ function Header({ post, locale }) {
 				}
 			</div>
 			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
-				<div className={classNames('post__author-name', (authorColor || displayOriginalPosterAsName) && 'post__author-name--color')}>
+				<div
+					className={classNames('post__author-name', {
+						'post__author-name--color': authorColor || displayOriginalPosterAsName,
+					})}>
 					{post.authorId && `${post.authorId} `}
 					{authorName && `${authorName} `}
 					{post.authorRole && !authorName && `${authorRoleName} `}
@@ -429,3 +435,13 @@ const FOOTER_BADGES = [
 		content: post => post.replies.length
 	}
 ]
+
+function getRoleName(authorRole, post, locale) {
+	if (post.authorRoleJurisdiction) {
+		const roleNames = getMessages(locale).role[post.authorRoleJurisdiction]
+		if (roleNames && roleNames[authorRole]) {
+			return roleNames[authorRole]
+		}
+	}
+	return getMessages(locale).role[authorRole]
+}
