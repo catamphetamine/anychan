@@ -90,14 +90,6 @@ export const getThread = redux.action(
 		}
 		setThreadStats(thread)
 		thread.comments
-		// `kohlchan.net` has a bug when thumbnail file extension is random.
-		if (getChan().id === 'kohlchan') {
-			await Promise.all(
-				thread.comments
-					.reduce((all, comment) => all.concat(comment.attachments), [])
-					.map(fixKohlChanThumbnailExtension)
-			)
-		}
 		return {
 			boardId,
 			thread: {
