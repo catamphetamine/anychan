@@ -49,6 +49,7 @@ export default function parseAttachment(file, {
 		return picture
 	}
 	if (contentType && contentType.indexOf('video/') === 0) {
+		const thumbnailExt = getThumbnailExt(file, 'video', chan)
 		const video = {
 			type: 'video',
 			size: file.fsize, // in bytes
@@ -65,11 +66,11 @@ export default function parseAttachment(file, {
 					}]
 				},
 				picture: {
-					type: 'image/jpeg',
+					type: getContentTypeByFileName(thumbnailExt),
 					sizes: [{
 						width: file.tn_w,
 						height: file.tn_h,
-						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'video', chan), file.filename)
+						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExt, file.filename)
 					}]
 				}
 			}

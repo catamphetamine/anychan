@@ -60,21 +60,6 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 		return picture
 	}
 	if (contentType && contentType.indexOf('video/') === 0) {
-		const pictureContentType = getContentTypeByFileName(file.thumbnail)
-		let picture
-		if (pictureContentType) {
-			picture = {
-				type: pictureContentType,
-				sizes: [{
-					width: file.tn_width,
-					height: file.tn_height,
-					url: `${origin}${file.thumbnail}`
-				}]
-			}
-		} else {
-			console.error(`Unknown video picture file type: ${JSON.stringify(file)}`)
-			picture = TRANSPARENT_PIXEL
-		}
 		return {
 			type: 'video',
 			size: file.size * 1024, // in bytes
@@ -91,7 +76,14 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 						url: `${origin}${file.path}`
 					}]
 				},
-				picture
+				picture: {
+					type: getContentTypeByFileName(file.thumbnail),
+					sizes: [{
+						width: file.tn_width,
+						height: file.tn_height,
+						url: `${origin}${file.thumbnail}`
+					}]
+				}
 			}
 		}
 	}
