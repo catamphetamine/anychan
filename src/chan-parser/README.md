@@ -57,7 +57,7 @@ An attachment can be:
 	createdAt: Date,
 	authorId: String, // Some chans identify their users by a hash of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
 	tripCode: String,
-	isOriginalPoster: boolean, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
+	isThreadAuthor: boolean, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
 	authorName: String,
 	authorCountry: String, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
 	authroCountryId: String, // Only for `kohlchan.net`. Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".

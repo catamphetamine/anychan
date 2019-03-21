@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
+import AnonymousPersonIcon from '../../assets/images/icons/person-outline-anonymous.svg'
 
 import CommentIcon from 'webapp-frontend/assets/images/icons/menu/message-outline.svg'
 import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
@@ -196,7 +197,7 @@ function Comment({
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			attachmentThumbnailSize={halfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
-			className="thread__comment content-section" />
+			className={classNames('thread__comment', `thread__comment--${comment.mode}`, 'content-section')} />
 	);
 }
 
@@ -267,36 +268,55 @@ function CountryFlagBadge({ className, ...rest }) {
 }
 
 function Header({ post, locale }) {
-	if (!(post.authorId || post.authorName || post.authorEmail || post.authorRole || post.tripCode)) {
+	let authorName = post.authorName
+	let displayOriginalPosterAsName = false
+	if (post.threadHasAuthorIdColors && post.isThreadAuthor) {
+		authorName = getMessages(locale).post.threadAuthor
+		displayOriginalPosterAsName = true
+	}
+	if (!(post.authorId || authorName || post.authorEmail || post.authorRole || post.tripCode)) {
 		return null
 	}
 	const authorRoleName = post.authorRole && (getMessages(locale).role[post.authorRole] || post.authorRole)
 	const authorColor = post.authorIdColor ? `rgb(${post.authorIdColor.join(',')})` : (post.authorId ? stringToColor(post.authorId) : undefined)
 	return (
-		<div className={classNames('post__author', post.authorRole && `post__author--${post.authorRole}`)}>
-			{!authorColor &&
-				<PersonIcon className="post__author-icon"/>
-			}
-			{authorColor &&
-				<PersonFillIcon
-					className="post__author-icon"
-					style={{
-						color: authorColor
-					}}/>
-			}
-			{(post.authorId || post.authorName || post.authorEmail || post.authorRole) &&
-				<div className={classNames('post__author-name', authorColor && 'post__author-name--color')}>
+		<div
+			className={classNames(
+				'post__author',
+				post.authorRole && `post__author--${post.authorRole}`,
+				post.threadHasAuthorIdColors && 'post__author--eligible'
+			)}>
+			<div className="post__author-icon-container">
+				{displayOriginalPosterAsName &&
+					<AnonymousPersonIcon className="post__author-icon"/>
+				}
+				{!displayOriginalPosterAsName &&
+					<PersonIcon
+						className={classNames('post__author-icon', {
+							'post__author-icon--outline': authorColor
+						})}/>
+				}
+				{authorColor &&
+					<PersonFillIcon
+						className="post__author-icon"
+						style={{
+							color: authorColor
+						}}/>
+				}
+			</div>
+			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
+				<div className={classNames('post__author-name', (authorColor || displayOriginalPosterAsName) && 'post__author-name--color')}>
 					{post.authorId && `${post.authorId} `}
-					{post.authorName && `${post.authorName} `}
-					{post.authorRole && !post.authorName && `${authorRoleName} `}
-					{post.authorRole && post.authorName && `(${authorRoleName.toLowerCase()}) `}
+					{authorName && `${authorName} `}
+					{post.authorRole && !authorName && `${authorRoleName} `}
+					{post.authorRole && authorName && `(${authorRoleName.toLowerCase()}) `}
 					{post.authorEmail &&
 						<span>
-							{(post.authorId || post.authorName || post.authorRole) && '('}
+							{(post.authorId || authorName || post.authorRole) && '('}
 							<a href={`mailto:${post.authorEmail}`}>
 								{post.authorEmail}
 							</a>
-							{(post.authorId || post.authorName || post.authorRole) && ')'}
+							{(post.authorId || authorName || post.authorRole) && ')'}
 							{' '}
 						</span>
 					}
@@ -327,8 +347,8 @@ const HEADER_BADGES = [
 	{
 		name: 'original-poster',
 		icon: AnonymousIcon,
-		title: (post, locale) => getMessages(locale).post.originalPoster,
-		condition: post => post.isOriginalPoster
+		title: (post, locale) => getMessages(locale).post.threadAuthor,
+		condition: post => post.isThreadAuthor && !post.threadHasAuthorIdColors
 	},
 	{
 		name: 'country',

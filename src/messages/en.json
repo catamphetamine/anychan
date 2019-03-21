@@ -49,7 +49,7 @@
 		"rolling": "Rolling thread",
 		"closed": "Closed thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
-		"originalPoster": "Original poster",
+		"threadAuthor": "Thread author",
 		"commentsCount": "Comments",
 		"commentAttachmentsCount": "Attachments in comments",
 		"uniquePostersCount": "Unique poster IP addresses",

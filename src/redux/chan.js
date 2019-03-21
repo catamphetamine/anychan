@@ -57,7 +57,7 @@ export const getThreads = redux.action(
 		const threads = createParser({ filters, locale }).parseThreads(response, { boardId })
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
-			setThreadStats(thread)
+			setThreadInfo(thread, 'thread')
 		}
 		return {
 			boardId,
@@ -88,7 +88,7 @@ export const getThread = redux.action(
 		if (subject) {
 			thread.comments[0].title = undefined
 		}
-		setThreadStats(thread)
+		setThreadInfo(thread, 'comment')
 		thread.comments
 		return {
 			boardId,
@@ -185,10 +185,21 @@ function addOrigin(url) {
 	return url
 }
 
-function setThreadStats(thread) {
+function setThreadInfo(thread, mode) {
 	thread.comments[0].commentsCount = thread.commentsCount
 	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
+	for (const comment of thread.comments) {
+		comment.mode = mode
+	}
+	if (mode === 'comment') {
+		const hasAuthorIdColors = thread.comments.some(comment => comment.authorIdColor)
+		if (hasAuthorIdColors) {
+			for (const comment of thread.comments) {
+				comment.threadHasAuthorIdColors = true
+			}
+		}
+	}
 }
 
 function getBoardsResult(boards) {

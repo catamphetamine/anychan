@@ -92,7 +92,7 @@ export default function parseComment(post, {
 		comment.tripCode = post.trip
 	}
 	if (!isOpeningPost && post.op) {
-		comment.isOriginalPoster = true
+		comment.isThreadAuthor = true
 	}
 	// `2ch.hk` returns poster countries on `/int/` board
 	// in the form of an `<img/>` tag:

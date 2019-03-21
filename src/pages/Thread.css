@@ -12,11 +12,6 @@
 		border-radius: 0;
 		box-shadow: none;
 	}
-	.post__header-misc,
-	.post__footer,
-	.post__author:not(.post__author--administrator):not(.post__author--moderator) {
-		color: var(--gray-color);
-	}
 }
 
 .thread-page__header + .thread__comment-container {

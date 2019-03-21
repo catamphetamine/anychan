@@ -24,7 +24,7 @@ export default function parseThread(thread, posts, {
 	useRelativeUrls,
 	getUrl
 }) {
-	let comments = posts.map(comment => parseComment(comment, {
+	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
 		filters,
 		messages,
