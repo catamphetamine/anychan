@@ -152,5 +152,8 @@
 }
 
 .post__header-badge--country {
+	/* Some country flag colors are too contrasty but other
+	   countries' flag colors are too low-contrasty so it requires
+	   `opacity: 1` in order to be eligible in all cases. */
 	opacity: 1;
 }
