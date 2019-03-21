@@ -42,7 +42,7 @@ export default function parseAttachment(file, {
 				}]
 			}
 		}
-		// `8ch.net` has `spoiler: 0` on attachments.
+		// `8ch.net` and `4chan.org` have `spoiler: 0/1` on attachments.
 		if (file.spoiler) {
 			picture.spoiler = true
 		}
@@ -74,7 +74,7 @@ export default function parseAttachment(file, {
 				}
 			}
 		}
-		// `8ch.net` has `spoiler: 0` on attachments.
+		// `8ch.net` and `4chan.org` have `spoiler: 0/1` on attachments.
 		if (file.spoiler) {
 			video.spoiler = true
 		}
@@ -92,15 +92,6 @@ export default function parseAttachment(file, {
 			url: formatUrl(fileAttachmentUrl || '#', boardId, file.tim, file.ext, file.filename)
 		}
 	}
-}
-
-const TRANSPARENT_PIXEL = {
-	type: 'image/png',
-	sizes: [{
-		width: 1,
-		height: 1,
-		url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
-	}]
 }
 
 function getThumbnailExt(file, type, chan) {
