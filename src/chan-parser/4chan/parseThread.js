@@ -98,12 +98,14 @@ export default function parseThread(posts, {
 	})
 }
 
+// https://github.com/vichan-devel/vichan/issues/327
+// https://github.com/OpenIB/OpenIB/issues/295
+// `kohlchan.net` and `8ch.net` both return incorrect `images` count:
+// it can be `1` for a thread having `8` images, for example,
+// with `omitted_images` being `7`, for example.
+// This workaround kinda fixes that, but, for example, `kohlchan.net`
+// still doesn't count video attachments as part of `images` and `omitted_images`.
 function getCommentAttachmentsCount(thread) {
-	// `kohlchan.net` and `8ch.net` both return incorrect `images` count:
-	// it can be `1` for a thread having `8` images, for example,
-	// with `omitted_images` being `7`, for example.
-	// This workaround kinda fixes that, but, for example, `kohlchan.net`
-	// still doesn't count video attachments as part of `images` and `omitted_images`.
 	let commentAttachmentsCount = 0
 	// The opening post's attachments are not counted.
 	// if (thread.tim) {
