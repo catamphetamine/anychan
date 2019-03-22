@@ -13,6 +13,21 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Добавить в списке досок подсказку сверху (cookie, кнопка "OK"), что "Add boards to the top of this list by clicking the ☆ icon on them".
+
+Ссылка на доску на странице треда — чтобы не загружала каталог заново, а использовала текущий.
+
+На странице доски: "☆ Add to favorites", "Refresh (icon)", "All threads", "New threads". На широких экранах — иконки дополняются текстом. На мобильных — первые два только иконками. Может быть расположение кнопок — справа.
+
+На странице треда: "☆ Track this thread".
+
+Добавить кнопку "Go to Top" (видимо, слева, так как справа будет статус загруженности сообщений).
+
+
+
+
+
+
 Add voting (maybe stored in `localStorage`, colored and disabled both if already voted)
 
 Возможно не разворачивает YouTube video на iPhone.
