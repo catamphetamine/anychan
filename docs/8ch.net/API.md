@@ -37,30 +37,70 @@ Example output:
 
 ```js
 [
-  {
-    "uri": "pol",
-    "title": "Politically Incorrect",
-    "subtitle": "Politics, news, happenings, current events",
-    "indexed": "1",
-    "sfw": "0",
-    "posts_total": "13007534",
-    "time": null,
-    "weight": 0,
-    "locale": "English",
-    "tags": [
-      "/pol/",
-      "politics",
-      "news",
-      "free-speech",
-      "current-events"
-    ],
-    "max": "13007534",
-    "active": 3808,
-    "pph": 287,
-    "ppd": 7664,
-    "pph_average": 329
-  },
- 	...
+	{
+		// Board ID.
+		"uri": "pol",
+		// Board name.
+		"title": "Politically Incorrect",
+		// Board description.
+		"subtitle": "Politics, news, happenings, current events",
+
+		// Is this board "indexed".
+		// (whatever than means)
+		// (maybe something like "searchable")
+		"indexed": "1",
+
+		// `1` for "Not-Safe-For-Work" boards.
+		"sfw": "0",
+
+		// The total count of posts made on this board.
+		"posts_total": "13007534",
+
+		"time": null,
+
+		// I guess they weigh boards somehow in their list of boards.
+		"weight": 0,
+
+		// Board language.
+		"locale": "English",
+
+		// Board tags.
+		"tags": [
+			"/pol/",
+			"politics",
+			"news",
+			"free-speech",
+			"current-events"
+		],
+
+		// The latest post ID on this board.
+		"max": "13007534",
+
+		// The number of `/16` subnet ranges to post
+		// on this board in the last 3 days (72 hours).
+		// It is not a perfect metric and does not account for
+		// number of lurkers (users who only read the board and do not post)
+		// or the number of users sharing an IP range
+		// (for example, all Tor users are considered one active user).
+		// In the entire Internet, there are only 16,384 /16 ranges
+		// (also known as Class B networks), with 65,536 addresses per range.
+		// So, if /v/ or /pol/ has 3,000 ranges (active users), that means their
+		// posters represent 18% of the possible number of ranges on the Internet.
+		// Many ISPs only have one or two ranges.
+		// https://8ch.net/activeusers.html
+		"active": 3808,
+
+		// Posts made in the last hour on this board.
+		"pph": 287,
+
+		// Posts made in the last day on this board.
+		"ppd": 7664,
+
+		// Average posts per hour on this board.
+		// I guess it averages over 3 days (72 hours) or something.
+		"pph_average": 329
+	},
+	...
 ]
 ```
 
