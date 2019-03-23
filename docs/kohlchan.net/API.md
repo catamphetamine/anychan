@@ -18,7 +18,7 @@ Thumbnail size is `200px`.
 
 ### Roles
 
-`kohlchan.net` doesn't have a "Name" field when posting a message. So `name` property plays the role of `capcode`.
+`kohlchan.net` doesn't have a "Name" field when posting messages. So `name` property plays the role of a `capcode`.
 
 Possible `name`s:
 

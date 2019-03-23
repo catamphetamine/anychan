@@ -276,4 +276,4 @@ Example output:
 
 ### Links
 
-For some reason, links on `8ch.net` have their protocol colon wrapped in `<em></em>` tag. Perhaps this is to prevent some kind of crawling. Google doesn't index `8ch.net` anyway.
+For some reason, hyperlinks in posts on `8ch.net` have their protocol colon wrapped in `<em></em>` tag (example: `"http<em>:</em>//google.com"`). Perhaps this was done to prevent some kind of crawling or something. Google doesn't index `8ch.net` anyway.
