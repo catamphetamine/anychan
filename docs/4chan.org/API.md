@@ -259,7 +259,7 @@ Message HTML syntax is:
 * `<i>...</i>` — italic text (legacy).
 * `<u>...</u>` — underlined text.
 * `<s>...</s>` — spoiler text.
-* `<span class="sjis">...</span>` — ["ShiftJIS art"](https://en.wikipedia.org/wiki/Shift_JIS) (for example, is enabled on `/jp/` board).
+* `<span class="sjis">...</span>` — ["ShiftJIS art"](https://en.wikipedia.org/wiki/Shift_JIS) (for example, is enabled on `/jp/` board). Should use a "ShiftJIS"-compatible font like ["Mona"](https://en.wikipedia.org/wiki/Mona_Font) or "MS PGothic". Should preserve sequences of white space. Lines should be broken at newline characters (or to prevent overflow).
 * `<pre class="prettyprint">...</pre>` — code (for example, is enabled on `/g/` board).
 * `[math]...[/math]` — inline math (for example, is enabled on `/sci/` board).
 * `[eq]...[/eq]` — block-level math (for example, is enabled on `/sci/` board).

@@ -33,6 +33,7 @@ Message HTML syntax is:
 * `<span class="spoiler">...</span>` — spoiler text.
 * `<p class="body-line ltr quote">...</p>` — quoted text (starts with a `>`) (comes with a "line break" at the end, like `<br>`).
 * `<p class="body-line ltr rquote">...</p>` — red quoted text, they call it "faggotposting" for some reason (starts with a `<`) (comes with a "line break" at the end, like `<br>`).
+* `<span class="aa">...</span>` — ["ShiftJIS art"](https://en.wikipedia.org/wiki/Shift_JIS) or ["ASCII art"](https://en.wikipedia.org/wiki/ASCII_art). Should use a "ShiftJIS"-compatible font like ["Mona"](https://en.wikipedia.org/wiki/Mona_Font) or "MS PGothic". Should preserve sequences of white space. Lines should be broken at newline characters (or to prevent overflow).
 * `<a href="#p184569592" class="quotelink">...</a>` — post link (starts with a `>>`).
 * `<a href="...">...</a>` — other links (the URL may be in any form: relative like `/a/thread/184064641#p184154285` or `/r/`, absolute like `https://boards.4chan.org/wsr/`, absolute-same-protocol like `//boards.4chan.org/wsr/`).
 * "Advanced" users may potentially use some unconventional markup, so all unknown/invalid tags should be ignored by just displaying their content (which can itself contain unknown/invalid tags).
