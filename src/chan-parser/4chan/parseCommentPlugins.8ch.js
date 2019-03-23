@@ -4,10 +4,20 @@ import {
 	parseBold,
 	parseItalic,
 	parseUnderline,
-	parseStrikethrough,
 	parseLink,
 	parseCode
 } from './parseCommentPlugins.4chan'
+
+const parseStrikethrough = {
+	tag: 's',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'strikethrough',
+			content
+		}
+	}
+}
 
 // `8ch.net` regular text.
 const parseEightChanText = {

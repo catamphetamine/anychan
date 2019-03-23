@@ -60,17 +60,6 @@ export const parseUnderline = {
 	}
 }
 
-export const parseStrikethrough = {
-	tag: 's',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'strikethrough',
-			content
-		}
-	}
-}
-
 // They have code tags in `/g/`.
 export const parseCode = {
 	tag: 'pre',
@@ -183,6 +172,24 @@ export const parseLink = {
 	}
 }
 
+// "ASCII art" or "ShiftJIS art".
+const parseAsciiOrShiftJISArt = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'sjis'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'ascii-shift-jis-art',
+			content
+		}
+	}
+}
+
 // They also have things like:
 // * `<span style="color:#789922;">...</span>`
 // * `<span class="fortune" style="color:#789922;">...</span>`
@@ -190,7 +197,6 @@ export const parseLink = {
 // * `<font size="4">...</font>`
 // * `<font color="red">...</font>`
 // * `<img src="//static.4chan.org/image/temp/dinosaur.gif"/>`
-// * `<span class="sjis">...</span>`
 // * `<span style="font-size:20px;font-weight:600;line-height:120%">...</span>`
 // * `<ul/>`/`<li/>`
 // * `<h1/>`
@@ -203,10 +209,10 @@ export default [
 	parseItalic,
 	parseItalicLegacy,
 	parseUnderline,
-	parseStrikethrough,
 	parseSpoiler,
 	parseDeletedLink,
 	parseQuote,
 	parseLink,
-	parseCode
+	parseCode,
+	parseAsciiOrShiftJISArt
 ]
