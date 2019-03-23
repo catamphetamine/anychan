@@ -139,13 +139,6 @@ export default function parseComment(post, {
 	if (post.trip) {
 		comment.tripCode = post.trip
 	}
-	// `4chan.org` smaller copies of images (limited to 1024x1024) for mobile users.
-	// These images are in the same location as usual but the filename ends with "m".
-	// `m_img` parameter indicates that this smaller image is available.
-	// https://github.com/4chan/4chan-API/issues/63
-	// if (post.m_img) {
-	// 	comment.mobileImageIsAvailable = true
-	// }
 	return comment
 }
 

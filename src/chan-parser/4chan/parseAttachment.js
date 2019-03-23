@@ -26,20 +26,43 @@ export default function parseAttachment(file, {
 	}
 	const contentType = getContentTypeByFileName(file.ext)
 	if (contentType && contentType.indexOf('image/') === 0) {
+		const sizes = [{
+			width: file.tn_w,
+			height: file.tn_h,
+			url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'picture', chan), file.filename)
+		}, {
+			width: file.w,
+			height: file.h,
+			url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
+		}]
+		// `4chan.org` generates smaller copies of images (limited to 1024x1024)
+		// for images having both width and height greater than 1024px.
+		// These images are in the same location as usual but the filename ends with "m".
+		// `m_img` parameter indicates that this smaller image is available.
+		// https://github.com/4chan/4chan-API/issues/63
+		if (chan === '4chan' && file.m_img) {
+			let size
+			const aspectRatio = file.w / file.h
+			if (aspectRatio >= 1) {
+				size = {
+					width: 1024,
+					height: 1024 / aspectRatio
+				}
+			} else {
+				size = {
+					width: 1024 * aspectRatio,
+					height: 1024
+				}
+			}
+			size.url = formatUrl(attachmentUrl, boardId, file.tim + 'm', getThumbnailExt(file, 'picture', chan), file.filename)
+			sizes.splice(1, 0, size)
+		}
 		const picture = {
 			type: 'picture',
 			size: file.fsize, // in bytes
 			picture: {
 				type: contentType,
-				sizes: [{
-					width: file.tn_w,
-					height: file.tn_h,
-					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'picture', chan), file.filename)
-				}, {
-					width: file.w,
-					height: file.h,
-					url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
-				}]
+				sizes
 			}
 		}
 		// `8ch.net` and `4chan.org` have `spoiler: 0/1` on attachments.

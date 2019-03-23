@@ -72,7 +72,8 @@ They say it can also be `.pdf` (most likely with no thumbnail then: `tn_w === 0`
 	"spoiler": 1, // If `1` then it means that the attachment should be covered with a spoiler image.
 
 	// (optional)
-	// `4chan.org` smaller copies of images (limited to 1024x1024) for mobile users.
+	// `4chan.org` generates smaller copies of images (limited to 1024x1024)
+	// for images having both width and height greater than 1024px.
 	// These images are in the same location as usual but the filename ends with "m".
 	// `m_img` parameter indicates that this smaller image is available.
 	"m_img": 1
