@@ -23,6 +23,8 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 Добавить кнопку "Go to Top" (видимо, слева, так как справа будет статус загруженности сообщений).
 
+При скрытии сообщения — перегенерировать setInReplyToQuotes для последующих сообщений.
+
 
 
 
