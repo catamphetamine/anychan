@@ -106,12 +106,23 @@ function stripLinks(content) {
 }
 
 function setPostLinkQuote(postLink, post, options) {
-	const text = getPostText(post, {
+	let text = getPostText(post, {
 		excludeQuotes: true,
 		excludeCodeBlocks: true,
 		softLimit: 150,
 		messages: options.messages
 	})
+	// If the generated post preview is empty
+	// then loosen the filters and include quotes.
+	// Code blocks are replaced with "(code)".
+	if (!text) {
+		text = getPostText(post, {
+			excludeQuotedPosts: false,
+			excludeCodeBlocks: true,
+			softLimit: 150,
+			messages: options.messages
+		})
+	}
 	if (text) {
 		// Set `content.quote` to the quoted post text abstract.
 		// Doesn't set `content.post` object to prevent JSON circular structure.

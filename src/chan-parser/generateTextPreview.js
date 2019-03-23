@@ -9,7 +9,8 @@ import trimText from 'webapp-frontend/src/utility/post/trimText'
  */
 export default function generateTextPreview(comment) {
 	const textPreview = getPostText(comment, {
-		ignoreAttachments: true
+		ignoreAttachments: true,
+		softLimit: 150
 	})
 	if (textPreview) {
 		comment.textPreview = trimText(textPreview, 150)
