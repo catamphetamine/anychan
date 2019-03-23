@@ -18,6 +18,25 @@ If an attachment has `fpath: 1` property then its URL is `https://media.8ch.net/
 
 Thumbnail size is `255px`.
 
+## Syntax
+
+Message HTML syntax is:
+
+* `<strong>...</strong>` — bold text.
+* `<em>...</em>` — italic text.
+* `<u>...</u>` — underlined text.
+* `<s>...</s>` — strikethrough text.
+* `<p class="body-line ltr ">...</p>` — a line of text (comes with a "line break" at the end, like `<br>`).
+* `<p class="body-line empty ">...</p>` — "line break" (like `<br>`).
+* `<span class="detected">...</span>` — some `(((...)))` "blue" text (whatever that means).
+* `<span class="heading">...</span>` — "red" text (seems to be used for headings).
+* `<span class="spoiler">...</span>` — spoiler text.
+* `<p class="body-line ltr quote">...</p>` — quoted text (starts with a `>`) (comes with a "line break" at the end, like `<br>`).
+* `<p class="body-line ltr rquote">...</p>` — red quoted text, they call it "faggotposting" for some reason (starts with a `<`) (comes with a "line break" at the end, like `<br>`).
+* `<a href="#p184569592" class="quotelink">...</a>` — post link (starts with a `>>`).
+* `<a href="...">...</a>` — other links (the URL may be in any form: relative like `/a/thread/184064641#p184154285` or `/r/`, absolute like `https://boards.4chan.org/wsr/`, absolute-same-protocol like `//boards.4chan.org/wsr/`).
+* "Advanced" users may potentially use some unconventional markup, so all unknown/invalid tags should be ignored by just displaying their content (which can itself contain unknown/invalid tags).
+
 ### Roles
 
 If a comment has a `capcode` then it implies that the poster is a priviliged one. Possible `capcode`s:

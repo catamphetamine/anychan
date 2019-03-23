@@ -16,6 +16,22 @@ For images, thumbnail extension is always `.png`. For videos, thumbnail extensio
 
 Thumbnail size is `200px`.
 
+## Syntax
+
+Message HTML syntax is:
+
+* `<strong>...</strong>` — bold text.
+* `<em>...</em>` — italic text.
+* `<span style="text-decoration: underline">...</span>` — underlined text.
+* `<span style="text-decoration: line-through">...</span>` — strikethrough text.
+* `<span class="quote">...</span>` — quoted text (starts with a `>`).
+* `<span class="quote2">...</span>` — red quoted text (starts with a `<`).
+* `<span class="spoiler">...</span>` — spoiler text.
+* `<code>...</code>` — inline code.
+* `<a href="#p184569592" class="quotelink">...</a>` — post link (starts with a `>>`).
+* `<a href="...">...</a>` — other links (the URL may be in any form: relative like `/a/thread/184064641#p184154285` or `/r/`, absolute like `https://boards.4chan.org/wsr/`, absolute-same-protocol like `//boards.4chan.org/wsr/`).
+* "Advanced" users may potentially use some unconventional markup, so all unknown/invalid tags should be ignored by just displaying their content (which can itself contain unknown/invalid tags).
+
 ### Roles
 
 `kohlchan.net` doesn't have a "Name" field when posting messages. So `name` property plays the role of a `capcode`.

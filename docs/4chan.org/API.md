@@ -249,6 +249,26 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 }
 ```
 
+## Syntax
+
+Message HTML syntax is:
+
+* `<strong>...</strong>` — bold text.
+* `<b>...</b>` — bold text (legacy).
+* `<em>...</em>` — italic text.
+* `<i>...</i>` — italic text (legacy).
+* `<u>...</u>` — underlined text.
+* `<s>...</s>` — spoiler text.
+* `<span class="sjis">...</span>` — ["ShiftJIS art"](https://en.wikipedia.org/wiki/Shift_JIS) (for example, is enabled on `/jp/` board).
+* `<pre class="prettyprint">...</pre>` — code (for example, is enabled on `/g/` board).
+* `[math]...[/math]` — inline math (for example, is enabled on `/sci/` board).
+* `[eq]...[/eq]` — block-level math (for example, is enabled on `/sci/` board).
+* `<span class="quote">...</span>` — quoted text (starts with a `>`).
+* `<span class="deadlink">...</span>` — deleted post link.
+* `<a href="#p184569592" class="quotelink">...</a>` — post link (starts with a `>>`).
+* `<a href="...">...</a>` — other links (the URL may be in any form: relative like `/a/thread/184064641#p184154285` or `/r/`, absolute like `https://boards.4chan.org/wsr/`, absolute-same-protocol like `//boards.4chan.org/wsr/`).
+* "Advanced" users may occasionally use unconventional markup like `<p>`, `<div align="center"/>`, `<h1>`, `<span class="fortune" style="color:#789922;">...</span>`, `<span style="color: red; font-size: xx-large;">...</span>`, `<span style="font-size:20px;font-weight:600;line-height:120%">...</span>`, `<font size="4">...</font>`, `<font color="red">...</font>`, `<ul/>`, `<li/>`, `<blink/>`, `<table>`, `<tr>`, `<td>`, `<img src="//static.4chan.org/image/temp/dinosaur.gif"/>`, so all unknown/invalid tags should be ignored by just displaying their content (which can itself contain unknown/invalid tags).
+
 ## API
 
 ### Get boards list
