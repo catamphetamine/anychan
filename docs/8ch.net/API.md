@@ -2,7 +2,7 @@
 
 `8ch.net` is built on [`OpenIB`](https://github.com/OpenIB/OpenIB) engine which is a security-focused fork of [`infinity`](https://github.com/ctrlcctrlv/infinity) enging which is a fork of [`vichan`](https://github.com/vichan-devel/vichan) engine which is a fork of [`Tinyboard`](https://github.com/savetheinternet/Tinyboard) engine.
 
-`vichan` API is mostly compatible to [`4chan` API](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md). See the official [`vichan` API readme](https://github.com/vichan-devel/vichan-API) and compare it to the official [`4chan` API readme](https://github.com/4chan/4chan-API): they're mostly the same.
+`vichan` API is mostly compatible to [`4chan` API](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md). For example, compare the official [`vichan` API readme](https://github.com/vichan-devel/vichan-API) to the official [`4chan` API readme](https://github.com/4chan/4chan-API): they're mostly the same.
 
 ### Post
 
