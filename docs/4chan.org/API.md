@@ -1,3 +1,5 @@
+# `4chan.org` API
+
 ## Definitions
 
 ### Post
@@ -6,39 +8,56 @@ Contains both the comment and the attachment file info.
 
 ```js
 {
-	// Comment data.
-	"no": 184187118, // ID.
-	"time": 1549182611, // Creation date (Unix timestamp).
-	"now": "02/03/19(Sun)03:30:11", // Creation date (text).
+	// Post ID.
+	"no": 184187118,
+
+	// Post creation date (Unix timestamp).
+	"time": 1549182611,
+
+	// Post creation date (text).
+	"now": "02/03/19(Sun)03:30:11",
 
 	// (optional)
 	"name": "Anonymous", // Poster name. They say it can theoretically be blank.
 
 	// (optional)
-	"trip": "!Ep8pui8Vw2", // A "tripcode" (some weird cryptographic username having format "!tripcode!!securetripcode").
+	// A "tripcode".
+	// (some weird cryptographic username having format "!tripcode!!securetripcode").
+	"trip": "!Ep8pui8Vw2",
 
 	// (optional)
-	"capcode": "admin", // "Capcodes" are set for "priviliged" posters (admins, moderators, etc). See the "Roles" section.
+	// "Capcodes" are set for "priviliged" posters (admins, moderators, etc).
+	// See the "Roles" section.
+	"capcode": "admin",
 
 	// (optional)
-	"id": "Bg9BS7Xl", // Poster IP hash. Is used to identify posters on some boards like `/pol/`.
+	// Poster IP hash.
+	// Is used to identify posters on some boards like `/pol/`.
+	"id": "Bg9BS7Xl",
 
 	// (optional)
-	"country": "RU", // ISO 3166-1 alpha-2 country code. Can be used on "international" boards.
-	"country_name": "Russia", // Country name. Can be used on "international" boards.
-
-	"resto": 0, // Thread ID. Is always `0` for the "opening post" of the thread.
+	// ISO 3166-1 alpha-2 country code. Can be used on "international" boards.
+	"country": "RU",
 
 	// (optional)
-	"sub": "Gegege no Kitaro", // Subject.
+	// Country name. Can be used on "international" boards.
+	"country_name": "Russia",
+
+	// Thread ID. Is always `0` for the "opening post" of the thread.
+	"resto": 0,
 
 	// (optional)
-	// Message HTML code.
-	// Will be missing if there's no text.
+	// Comment HTML code.
+	// Will be missing if the comment is empty.
+	// (for example, in case of an attachment-only comment)
 	"com": "Kitaro is framed, McNanashi stops by.<br><br>Discuss.",
 
 	// (optional)
-	"since4pass": 2016, // The year when 4chan "pass" was bought. I guess this is some kind of an "achievement" to differentiate "newfags" from "oldfags", and the earlier the year the more "oldfag".
+	// The year when 4chan "pass" was bought.
+	// I guess this is some kind of an "achievement"
+	// to differentiate "newfags" from "oldfags",
+	// and the earlier the year the more "oldfag".
+	"since4pass": 2016,
 
 	// (optional)
 	// Includes all properties of `Attachment` (if any).
@@ -47,11 +66,15 @@ Contains both the comment and the attachment file info.
 
 ### Attachment
 
-Can be a picture (`.jpeg`, `.png`), an animated `.gif`, a `.webm` video (seems that always muted).
+Can be a picture (`.jpeg`, `.png`), an animated `.gif`, a `.webm` video (seems that the sound is always muted).
 
 On the `/f/` board the OP files are always `.swf` ones, and there're no thumbnails for attachments: `tn_w === 0`, `tn_h === 0`.
 
 They say it can also be `.pdf` (most likely with no thumbnail then: `tn_w === 0`, `tn_h === 0`).
+
+Thumbnail extension is always `.jpg`. Thumbnail max size is `250px` for the main post of a thread and `125px` for all other posts.
+
+If `m_img` is `1` then there's also a middle-sized image with max-width/max-height of `1024px`.
 
 ```js
 {
@@ -66,10 +89,15 @@ They say it can also be `.pdf` (most likely with no thumbnail then: `tn_w === 0`
 	"md5": "knN3NBdljasl085ylrpzfQ==", // Attachment file MD5 (24 character, packed base64 MD5 hash).
 
 	// (optional)
-	"filedeleted": 1, // Will be `1` if the attachment file was deleted. Seems that if `filedeleted` is `1` then all other attachment-related properties will be absent.
+	// Will be `1` if the attachment file was deleted.
+	// Seems that if `filedeleted` is `1` then all other
+	// attachment-related properties will be absent.
+	"filedeleted": 1,
 
 	// (optional)
-	"spoiler": 1, // If `1` then it means that the attachment should be covered with a spoiler image.
+	// If `1` then it means that the attachment should be
+	// covered with a spoiler image.
+	"spoiler": 1,
 
 	// (optional)
 	// `4chan.org` generates smaller copies of images (limited to 1024x1024)
@@ -88,36 +116,79 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 {
 	// Includes all properties of `Post`.
 
-	"replies": 24, // Thread comments count.
-	"images": 20, // Thread comments attachments count. This is the count of all attachments in the thread except for the main post attachments. https://github.com/vichan-devel/vichan/issues/327#issuecomment-475165783
+	// (optional)
+	// Comment subject.
+	// Some boards (like `/b/`) have no subjects on threads at all.
+	"sub": "Gegege no Kitaro",
 
-	"bumplimit": 0, // `1` if the "bumplimit" is reached. "Bump limit" (max comments count) is a board-wide setting.
-	"imagelimit": 0, // `1` if the attached images limit is reached . Image limit (max attachments count) is a board-wide setting.
+	// Thread comments count.
+	"replies": 24,
+
+	// Thread comments attachments count.
+	// This is the count of all attachments in the thread
+	// except for the main post attachments.
+	// https://github.com/vichan-devel/vichan/issues/327#issuecomment-475165783
+	"images": 20,
+
+	// `1` if the "bumplimit" is reached.
+	// "Bump limit" (max comments count) is a board-wide setting.
+	"bumplimit": 0,
+
+	// `1` if the attached images limit is reached.
+	Image limit (max attachments count) is a board-wide setting.
+	"imagelimit": 0,
 
 	"semantic_url": "gegege-no-kitaro", // Whatever that is.
 
 	// (optional)
-	"custom_spoiler": 1, // "Custom spoiler" ID for attachments. If present, then is always greater than `0`, and in a given thread all attachments have the same "spoiler" image with that ID.
+	// At `4chan.org` each board can have a list of "custom spoilers" for attachments.
+	// `custom_spoiler` is a number, and if it's `5`, for example, then it means that
+	// the board has five custom spoilers defined: from `1` to `5`.
+	// One can then choose any one of the available custom spoiler ids.
+	// Custom spoiler URLs are: https://s.4cdn.org/image/spoiler-{boardId}{customSpoilerId}.png
+	// Every time a new post is added to a thread the chosen custom spoiler id is rotated.
+	"custom_spoiler": 1,
 
 	// (optional)
-	// Only present in the opening post when getting a list of comments for a thread.
-	"sticky": 0, // `1` if the thread "sticky" (pinned, I guess).
-	"closed": 0, // `1` if the thread closed.
-	"archived": 0, // `1` if the thread was "archived" (whatever that could mean).
-	"archived_on": 1344571233, // The date when the thread was "archived" (Unix time).
+	// `1` if the thread "sticky" (pinned).
+	"sticky": 1,
 
 	// (optional)
-	"tag": "Other", // Can only be present on the `/f/` board. I guess it describes the attached `.swf` file there.
+	// `1` if the thread is locked.
+	"closed": 1,
 
 	// (optional)
-	"capcode_replies": {"admin":[1234,1267]}, // If a priviliged user (admin, moderator, etc) replies in the thread then this object will contain the respective post IDs.
+	// `1` if the thread is "archived" (whatever that could mean).
+	"archived": 1,
+
+	// (optional)
+	// The date when the thread was "archived" (Unix time).
+	"archived_on": 1344571233,
+
+	// (optional)
+	// Can only be present on the `/f/` board.
+	// I guess it describes the attached `.swf` file there.
+	"tag": "Other",
+
+	// (optional)
+	// If a priviliged user (admin, moderator, etc) replies
+	// in the thread then this object will contain the respective post IDs.
+	"capcode_replies": {"admin":[1234,1267]},
 
 	// (only for `catalog.json` API)
-	"omitted_posts": 19, // This is how many posts are there in the thread minus `last_replies.length` minus `1` for the main post.
-	"omitted_images": 15, // This is how many attachments are there in the thread minus the attachments count in both `last_replies` and the main post.
+	// This is how many posts are there in the thread
+	// minus `last_replies.length` minus `1` for the main post.
+	"omitted_posts": 19,
 
 	// (only for `catalog.json` API)
-	"last_modified": 1549184316 // "Last modified" date (Unix time). Includes replies, deletions, and sticky/closed status changes.
+	// This is how many attachments are there in the thread
+	// minus the attachments count in both `last_replies` and the main post.
+	"omitted_images": 15,
+
+	// (only for `catalog.json` API)
+	// "Last modified" date (Unix time).
+	// Includes replies, deletions, and sticky/closed status changes.
+	"last_modified": 1549184316,
 
 	// (optional)
 	// (only for `catalog.json` API)
@@ -132,10 +203,12 @@ Consists of the "opening post" (thread ID is the "opening post" ID) and some thr
 	]
 
 	// (only for `/thread/THREAD-ID.json` API response)
-	"unique_ips": 44, // Unique poster IPs count.
+	// Unique poster IPs count.
+	"unique_ips": 44,
 
 	// (only for `/thread/THREAD-ID.json` API response)
-	"tail_size": 50, // Ignore this property. See the "Auto-refresh" section for more info on "tail" API.
+	// Ignore this property. See the "Auto-refresh" section for more info on "tail" API.
+	"tail_size": 50,
 }
 ```
 
@@ -298,6 +371,23 @@ If a comment has a `capcode` then it implies that the poster is a priviliged one
 * `"founder"` for founders
 
 "Janitors" don't get a `capcode`. See [4chan FAQ on "capcodes"](https://www.4chan.org/faq#capcode).
+
+### `<wbr>`
+
+I figured that 4chan places `<wbr>` ("word break") tags when something not having spaces is longer than 35 characters. [`<wbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr) is a legacy HTML tag for explicitly defined "word breaks". `4chan.org` inserts `<wbr>` in long URLs every 35 characters presumably to prevent post text overflow. I don't see any point in that because CSS can handle such things using a combination of `overflow-wrap: break-word` and `word-break: break-word` so I simply discard all `<wbr>`s in my code (otherwise they'd mess with hyperlink autodetection). I could replace all `<wbr>`s with `"\u200b"` (a "zero-width" space for indicating possible line break points) but then hyperlink autodetection code would have to filter them out,
+and as I already said above line-breaking long text is handled by CSS. Also `4chan.org` sometimes has `<wbr>` in weird places. [For example](https://github.com/4chan/4chan-API/issues/66), given the equation `[math]f(x)=\\frac{x^3-x}{(x^2+1)^2}[<wbr>/math]` `4chan.org` has inserted `<wbr>` after 35 characters of the whole equation markup while in reality it either should not have inserted a `<wbr>` or should have inserted it somewhere other place than the `[/math]` closing tag.
+
+### Math
+
+`4chan.org`'s `/sci/` board allows posting formulae using TeX (or LaTeX) syntax. Inline formulae are delimited with `[math]...[/math]` tags, block level ones — with `[eqn]...[/eqn]` tags. Example:
+
+```js
+{
+	com: "See the equation for [math]f(x)[/math]:<br><br>[eqn]f(x)=\\frac{x^3-x}{(x^2+1)^2}[/eqn]"
+}
+```
+
+`4chan.org` uses [MathJAX](https://en.wikipedia.org/wiki/MathJax) library for displaying the equations. MathJAX uses its own "mathematical" font for displaying math.
 
 ### Auto-refresh
 

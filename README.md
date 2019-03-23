@@ -281,17 +281,23 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 
 ## Chan API
 
-<!-- and `4chan.org` chans.-->
-
 ### 4chan.org
 
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md)
 * [API (official docs)](https://github.com/4chan/4chan-API)
 
+### 8ch.net
+
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/8ch.net/API.md)
+
 ### 2ch.hk
 
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
 * [API (official docs)](https://2ch.hk/api/)
+
+### kohlchan.net
+
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net/API.md)
 
 <!--
 ## Configuration
