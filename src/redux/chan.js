@@ -128,7 +128,7 @@ function createParser({ filters, locale }) {
 		...getChan().parserOptions,
 		chan: getChan().id,
 		filters,
-		commentLengthLimit: 700,
+		commentLengthLimit: 500,
 		messages: locale ? getMessages(locale) : undefined,
 		useRelativeUrls: shouldUseRelativeUrls(),
 		getUrl
