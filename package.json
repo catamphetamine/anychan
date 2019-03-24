@@ -20,6 +20,7 @@
     "prop-types": "^15.5.6",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-focus-lock": "^1.18.3",
     "react-redux": "^5.1.1",
     "react-responsive-ui": "^0.14.128",
     "react-time-ago": "^5.0.1",
