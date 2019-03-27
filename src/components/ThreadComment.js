@@ -306,9 +306,10 @@ function Header({ post, locale }) {
 			</div>
 			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
 				<div className="post__author-name">
+					{post.authorId && !post.authorNameId && `${post.authorId} `}
 					{authorName && `${authorName} `}
-					{post.authorRole && !authorName && `${authorRoleName} `}
-					{post.authorRole && authorName && `(${authorRoleName.toLowerCase()}) `}
+					{post.authorRole && !(post.authorId || authorName) && `${authorRoleName} `}
+					{post.authorRole &&  (post.authorId || authorName) && `(${authorRoleName.toLowerCase()}) `}
 					{post.authorEmail &&
 						<span>
 							<a href={`mailto:${post.authorEmail}`}>
@@ -317,7 +318,6 @@ function Header({ post, locale }) {
 							{' '}
 						</span>
 					}
-					{post.authorId && !post.authorNameId && `${post.authorId} `}
 				</div>
 			}
 			{post.tripCode &&
