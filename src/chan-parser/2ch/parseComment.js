@@ -70,6 +70,9 @@ export default function parseComment(post, {
 		}
 	)
 	if (author && typeof author === 'object') {
+		// Author name is an equivalent of author id.
+		comment.authorNameId = true
+		comment.authorId = author.id
 		comment.authorIdColor = author.color
 	}
 	if (post.email) {

@@ -17,8 +17,6 @@ import CountryFlag from './CountryFlag'
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
-import stringToColor from 'webapp-frontend/src/utility/stringToColor'
-
 import {
 	ContentSection,
 	ContentSectionHeader
@@ -269,16 +267,15 @@ function CountryFlagBadge({ className, ...rest }) {
 
 function Header({ post, locale }) {
 	let authorName = post.authorName
-	let displayOriginalPosterAsName = false
-	if (post.threadHasAuthorIdColors && post.isThreadAuthor) {
+	let authorNameIsOriginalPoster = false
+	if (post.threadHasAuthorIds && post.isThreadAuthor) {
 		authorName = getMessages(locale).post.threadAuthor
-		displayOriginalPosterAsName = true
+		authorNameIsOriginalPoster = true
 	}
 	if (!(post.authorId || authorName || post.authorEmail || post.authorRole || post.tripCode)) {
 		return null
 	}
 	const authorRoleName = post.authorRole && (getRoleName(post.authorRole, post, locale) || post.authorRole)
-	const authorColor = post.authorIdColor ? `rgb(${post.authorIdColor.join(',')})` : (post.authorId ? stringToColor(post.authorId) : undefined)
 	return (
 		<div
 			className={classNames(
@@ -286,46 +283,41 @@ function Header({ post, locale }) {
 				post.authorRole && `post__author--${post.authorRole}`,
 				{
 					'post__author--generic': !post.authorRole,
-					'post__author--eligible': post.threadHasAuthorIdColors
+					'post__author--eligible': post.threadHasAuthorIds
 				}
 			)}>
 			<div className="post__author-icon-container">
-				{displayOriginalPosterAsName &&
+				{authorNameIsOriginalPoster &&
 					<AnonymousPersonIcon className="post__author-icon"/>
 				}
-				{!displayOriginalPosterAsName &&
+				{!authorNameIsOriginalPoster &&
 					<PersonIcon
 						className={classNames('post__author-icon', {
-							'post__author-icon--outline': authorColor
+							'post__author-icon--outline': post.authorIdColor
 						})}/>
 				}
-				{authorColor &&
+				{post.authorIdColor &&
 					<PersonFillIcon
 						className="post__author-icon"
 						style={{
-							color: authorColor
+							color: post.authorIdColor
 						}}/>
 				}
 			</div>
 			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
-				<div
-					className={classNames('post__author-name', {
-						'post__author-name--color': authorColor || displayOriginalPosterAsName,
-					})}>
-					{post.authorId && `${post.authorId} `}
+				<div className="post__author-name">
 					{authorName && `${authorName} `}
 					{post.authorRole && !authorName && `${authorRoleName} `}
 					{post.authorRole && authorName && `(${authorRoleName.toLowerCase()}) `}
 					{post.authorEmail &&
 						<span>
-							{(post.authorId || authorName || post.authorRole) && '('}
 							<a href={`mailto:${post.authorEmail}`}>
 								{post.authorEmail}
 							</a>
-							{(post.authorId || authorName || post.authorRole) && ')'}
 							{' '}
 						</span>
 					}
+					{post.authorId && !post.authorNameId && `${post.authorId} `}
 				</div>
 			}
 			{post.tripCode &&
@@ -354,7 +346,9 @@ const HEADER_BADGES = [
 		name: 'original-poster',
 		icon: AnonymousIcon,
 		title: (post, locale) => getMessages(locale).post.threadAuthor,
-		condition: post => post.isThreadAuthor && !post.threadHasAuthorIdColors
+		// If there are author IDs in the thread then "Original poster" is
+		// gonna be the post author name instead of being a badge.
+		condition: post => post.isThreadAuthor && !post.threadHasAuthorIds
 	},
 	{
 		name: 'country',

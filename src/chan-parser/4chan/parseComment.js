@@ -1,3 +1,6 @@
+import unescapeContent from 'webapp-frontend/src/utility/unescapeContent'
+import stringToColor from 'webapp-frontend/src/utility/stringToColor'
+
 import parseAuthor from './parseAuthor'
 import parseAuthorRoleFourChannel from './parseAuthorRole.4chan'
 import parseAuthorRoleEightChannel from './parseAuthorRole.8ch'
@@ -79,7 +82,9 @@ export default function parseComment(post, {
 		parsedAuthorRole && (chan === '8ch' ? parsedAuthorRole.role : parsedAuthorRole),
 		authorWasBanned,
 		// `post.sub` is absent when there's no comment subject.
-		post.sub,
+		// On `4chan.org` and `8ch.net` thread subject sometimes contains
+		// escaped characters like "&quot;", "&lt;", "&gt;".
+		post.sub && unescapeContent(post.sub),
 		parseAttachments(post, {
 			chan,
 			boardId,
@@ -119,6 +124,7 @@ export default function parseComment(post, {
 	// `4chan.org` examples: Bg9BS7Xl, rhGbaBg/, L/+PhYNf.
 	if (post.id) {
 		comment.authorId = post.id
+		comment.authorIdColor = stringToColor(post.id)
 	}
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// displays poster country flags.

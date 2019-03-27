@@ -192,12 +192,10 @@ function setThreadInfo(thread, mode) {
 	for (const comment of thread.comments) {
 		comment.mode = mode
 	}
-	if (mode === 'comment') {
-		const hasAuthorIdColors = thread.comments.some(comment => comment.authorIdColor)
-		if (hasAuthorIdColors) {
-			for (const comment of thread.comments) {
-				comment.threadHasAuthorIdColors = true
-			}
+	const hasAuthorIdColors = thread.comments.some(comment => comment.authorIdColor)
+	if (hasAuthorIdColors) {
+		for (const comment of thread.comments) {
+			comment.threadHasAuthorIds = true
 		}
 	}
 }

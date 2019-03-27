@@ -99,12 +99,8 @@
 	font-weight: 300;
 }
 
-.post__author--generic .post__author-name:not(.post__author-name--color) {
+.post__author--generic .post__author-name {
 	color: var(--base-color-darkest);
-}
-
-.post__author--generic .post__author-name--color {
-	color: var(--gray-color-darkest);
 }
 
 .post__author-name + .post__author-trip-code {
