@@ -57,7 +57,8 @@
 		"repliesCount": "Replies",
 		"readMore": "Show\u00a0more",
 		"moreActions": "More actions",
-		"reply": "Reply"
+		"reply": "Reply",
+		"spoiler": "Spoiler"
 	},
 	"role": {
 		"administrator": "Administrator",

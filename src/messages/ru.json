@@ -57,7 +57,8 @@
 		"repliesCount": "Ответов",
 		"readMore": "Показать\u00a0полностью",
 		"moreActions": "Действия",
-		"reply": "Ответить"
+		"reply": "Ответить",
+		"spoiler": "Спойлер"
 	},
 	"role": {
 		"administrator": "Администратор",

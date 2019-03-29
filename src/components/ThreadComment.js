@@ -180,9 +180,10 @@ function Comment({
 			header={Header}
 			moreActionsLabel={getMessages(locale).post.moreActions}
 			readMoreLabel={getMessages(locale).post.readMore}
+			spoilerLabel={getMessages(locale).post.spoiler}
 			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
-			onMoreActions={() => notify('Not implemented yet')}
 			onReply={mode === 'thread' ? onReply : undefined}
+			onMoreActions={() => notify('Not implemented yet')}
 			onVote={onVote}
 			headerBadges={HEADER_BADGES}
 			footerBadges={FOOTER_BADGES}
