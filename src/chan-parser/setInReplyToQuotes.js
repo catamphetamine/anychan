@@ -67,20 +67,57 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 			return
 		}
 		// See if there's already an existing post quote for this post link.
-		const possibleQuote = contentParent[index + 2]
-		if (possibleQuote && possibleQuote.type === 'inline-quote') {
-			// Move the already existing post quote to the post link.
-			stripLinks(possibleQuote.content)
-			content.quote = possibleQuote.content
-			// `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes.
-			content.quoteKind = possibleQuote.kind
-			// Remove the `\n` character and the `inline-quote`.
-			contentParent.splice(index + 1, 2)
+		const followingQuotesCount = forEachFollowingQuote(contentParent, index + 2, (quote, i) => {
+			// A post link quote is rendered as a hyperlink
+			// and having nested hyperlinks will result in invalid HTML markup.
+			// To prevent that, strip links from the quote.
+			stripLinks(quote.content)
+			// Transform the quote to a post-link quote.
+			contentParent[i] = {
+				...content,
+				quote: quote.content
+			}
+			// `kohlchan.net` and `8ch.net` have regular (green) quotes
+			// and "inverse" (red) quotes.
+			if (quote.kind) {
+				contentParent[i].quoteKind = quote.kind
+			}
+		})
+		if (followingQuotesCount > 0) {
+			// Remove the original `post-link` and the `\n` character after it.
+			contentParent.splice(index, 2)
+		} else {
+			// Autogenerate `post-link` quote text.
+			setPostLinkQuote(content, quotedPost, options)
 		}
-		return setPostLinkQuote(content, quotedPost, options)
+		return
 	}
 	// Recurse into post parts.
 	setInReplyToQuotes(content.content, posts, options, content, isLastInParagraph)
+}
+
+function forEachFollowingQuote(content, startIndex, action) {
+	let count = 0
+	let i = startIndex
+	while (i < content.length) {
+		if (typeof content[i] !== 'object') {
+			break
+		}
+		if (content[i].type !== 'inline-quote') {
+			break
+		}
+		action(content[i], i)
+		count++
+		i++
+		if (i === content.length) {
+			break
+		}
+		if (content[i] !== '\n') {
+			break
+		}
+		i++
+	}
+	return count
 }
 
 // Inline quotes can contain hyperlinks too. For example,
