@@ -53,21 +53,22 @@ An attachment can be:
 	boardId: string,
 	threadId: number,
 	title: string,
-	titleCensored: InlineContent, // If `title` contained censored words an censored title containing "spoilers" will be generated.
+	titleCensored: InlineContent?, // If `title` contained censored words an censored title containing "spoilers" will be generated.
 	createdAt: Date,
-	tripCode: String,
-	isThreadAuthor: boolean, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
-	authorId: String, // Some chans identify their users by a hash of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
-	authorName: String,
-	authorNameId: boolean, // `2ch.hk` autogenerates names based on IP address hash on `/po` board. If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-	authorCountry: String, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
-	authroCountryId: String, // Only for `kohlchan.net`. Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
-	authroCountryName: String, // Only for `kohlchan.net`. Examples: "Ukraine", "Moscow", "Texas", "Proxy".
-	authorRole: String, // Examples: "administrator", "moderator".
-	authorWasBanned: boolean,
+	tripCode: String?,
+	isThreadAuthor: boolean?, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
+	authorId: String?, // Some chans identify their users by a hash of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
+	authorIdColor: String?, // If `authorId` is present then it's converted into a HEX color. Example: "#c05a7f".
+	authorName: String?,
+	authorNameId: boolean?, // `2ch.hk` autogenerates names based on IP address hash on `/po` board. If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+	authorCountry: String?, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
+	authorCountryId: String?, // Only for `kohlchan.net`. Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
+	authorCountryName: String?, // Only for `kohlchan.net`. Examples: "Ukraine", "Moscow", "Texas", "Proxy".
+	authorRole: String?, // Examples: "administrator", "moderator".
+	authorWasBanned: boolean?,
 	upvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
 	downvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
-	content: Content, // Example: `[['Text']]`.
+	content: Content?, // Example: `[['Text']]`.
 	contentPreview: Content?, // If the `content` is too long a preview is generated.
 	attachments: Attachment[],
 	replies: []
