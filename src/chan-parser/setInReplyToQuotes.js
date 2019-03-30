@@ -1,5 +1,6 @@
 import getPostText from 'webapp-frontend/src/utility/post/getPostText'
 import trimText from 'webapp-frontend/src/utility/post/trimText'
+import { forEachFollowingQuote } from 'webapp-frontend/src/utility/post/combineQuotes'
 
 /**
  * Adds "in-reply-to" quotes.
@@ -94,30 +95,6 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 	}
 	// Recurse into post parts.
 	setInReplyToQuotes(content.content, posts, options, content, isLastInParagraph)
-}
-
-function forEachFollowingQuote(content, startIndex, action) {
-	let count = 0
-	let i = startIndex
-	while (i < content.length) {
-		if (typeof content[i] !== 'object') {
-			break
-		}
-		if (content[i].type !== 'inline-quote') {
-			break
-		}
-		action(content[i], i)
-		count++
-		i++
-		if (i === content.length) {
-			break
-		}
-		if (content[i] !== '\n') {
-			break
-		}
-		i++
-	}
-	return count
 }
 
 // Inline quotes can contain hyperlinks too. For example,
