@@ -12,6 +12,7 @@ export default function postProcessComment(comment, {
 }) {
 	parseLinks(comment)
 	removeNewLineCharacters(comment)
+	// It looks better without combining consequtive quote lines.
 	// combineQuotes(comment.content)
 	setPostLinkUrls(comment, { boardId, threadId, messages, getUrl })
 	expandStandaloneAttachmentLinks(comment)
