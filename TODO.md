@@ -13,6 +13,12 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Вынести генерацию contentText для <meta/> из chan parser в redux.
+
+Добавлять в post свойство quoteText, которое могут потом переиспользовать другие посты, отвечающие на этот пост.
+
+В getPostText использовать такой же trimFactor, как в generatePostPreview() (тоже x2, и т.п.). Добавить туда list, quote, code, heading, и прочие.
+
 Добавить в списке досок подсказку сверху (cookie, кнопка "OK"), что "Add boards to the top of this list by clicking the ☆ icon on them".
 
 Ссылка на доску на странице треда — чтобы не загружала каталог заново, а использовала текущий.
