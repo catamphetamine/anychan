@@ -88,9 +88,9 @@ function getThreadImage(thread) {
 		const attachment = comment.attachments[0]
 		switch (attachment.type) {
 			case 'picture':
-				return attachment.picture.sizes[0].url
+				return attachment.picture.url
 			case 'video':
-				return attachment.video.picture.sizes[0].url
+				return attachment.video.picture.url
 		}
 	}
 }
