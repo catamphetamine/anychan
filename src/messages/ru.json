@@ -40,9 +40,11 @@
 	"deletedPost": "Удалённое сообщение",
 	"hiddenPost": "Скрытое сообщение",
 	"quotedPost": "Сообщение",
-	"attachmentPicture": "Картинка",
-	"attachmentVideo": "Видео",
+	"picture": "Картинка",
+	"video": "Видео",
 	"code": "Код",
+	"link": "Ссылка",
+	"attachment": "Вложение",
 	"videoNotFound": "Видео не найдено",
 	"post": {
 		"banned": "Автор этого сообщения был забанен",
