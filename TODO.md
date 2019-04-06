@@ -13,6 +13,21 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+```js
+// Re-generate preview with propert limit.
+// Also pass some flag `shouldGeneratePostPreview` instead of `if (post.contentPreview)`.
+// Also re-generate `post.textContent` (the one used for <meta/>).
+// Also re-generate also quotes of this post in other posts.
+// (maybe cascade quote re-generation to futher quoting posts)
+if (found && this._isMounted) {
+  expandStandaloneAttachmentLinks(post)
+  if (post.contentPreview) {
+    post.contentPreview = generatePostPreview(post, { limit: 500 })
+  }
+  this.forceUpdate()
+}
+```
+
 Вынести генерацию contentText для <meta/> из chan parser в redux.
 
 Добавлять в post свойство quoteText, которое могут потом переиспользовать другие посты, отвечающие на этот пост.
