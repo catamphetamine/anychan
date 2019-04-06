@@ -250,76 +250,72 @@ describe('2ch.hk', () => {
 				"attachments": [
 					{
 						"type": "picture",
-						"size": 2853888,
 						"picture": {
 							"type": "image/png",
+							"size": 2853888,
+							"width": 1920,
+							"height": 1050,
+							"url": "https://2ch.hk/vg/src/28727050/15458082101590.png",
 							"sizes": [
 								{
+									"type": "image/jpeg",
 									"width": 250,
 									"height": 136,
 									"url": "https://2ch.hk/vg/thumb/28727050/15458082101590s.jpg"
-								},
-								{
-									"width": 1920,
-									"height": 1050,
-									"url": "https://2ch.hk/vg/src/28727050/15458082101590.png"
 								}
 							]
 						}
 					},
 					{
 						"type": "picture",
-						"size": 449536,
 						"picture": {
 							"type": "image/png",
+							"width": 1280,
+							"height": 720,
+							"size": 449536,
+							"url": "https://2ch.hk/vg/src/28727050/15458082101841.png",
 							"sizes": [
 								{
+									"type": "image/jpeg",
 									"width": 250,
 									"height": 140,
 									"url": "https://2ch.hk/vg/thumb/28727050/15458082101841s.jpg"
-								},
-								{
-									"width": 1280,
-									"height": 720,
-									"url": "https://2ch.hk/vg/src/28727050/15458082101841.png"
 								}
 							]
 						}
 					},
 					{
 						"type": "picture",
-						"size": 74752,
 						"picture": {
 							"type": "image/jpeg",
+							"width": 1280,
+							"height": 720,
+							"size": 74752,
+							"url": "https://2ch.hk/vg/src/28727050/15458082101882.jpg",
 							"sizes": [
 								{
+									"type": "image/jpeg",
 									"width": 250,
 									"height": 140,
 									"url": "https://2ch.hk/vg/thumb/28727050/15458082101882s.jpg"
-								},
-								{
-									"width": 1280,
-									"height": 720,
-									"url": "https://2ch.hk/vg/src/28727050/15458082101882.jpg"
 								}
 							]
 						}
 					},
 					{
 						"type": "picture",
-						"size": 458752,
 						"picture": {
 							"type": "image/jpeg",
+							"width": 1920,
+							"height": 1080,
+							"size": 458752,
+							"url": "https://2ch.hk/vg/src/28727050/15458082101893.jpg",
 							"sizes": [
 								{
+									"type": "image/jpeg",
 									"width": 250,
 									"height": 140,
 									"url": "https://2ch.hk/vg/thumb/28727050/15458082101893s.jpg"
-								},
-								{
-									"width": 1920,
-									"height": 1080,
-									"url": "https://2ch.hk/vg/src/28727050/15458082101893.jpg"
 								}
 							]
 						}

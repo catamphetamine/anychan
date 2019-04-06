@@ -18,7 +18,7 @@ const MIME_TYPES = {
 	'txt': 'text/plain'
 }
 
-export function getContentTypeByFileName(fileName) {
+export function getMimeTypeByFileName(fileName) {
 	const dotIndex = fileName.lastIndexOf('.')
 	if (dotIndex < 0 || dotIndex === fileName.length - 1) {
 		return

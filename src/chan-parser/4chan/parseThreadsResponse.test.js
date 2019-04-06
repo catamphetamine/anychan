@@ -86,19 +86,18 @@ describe('4chan.org', () => {
 						"attachments": [
 							{
 								"type": "picture",
-								"size": 1142977,
 								"picture": {
 									"type": "image/png",
+									"width": 1280,
+									"height": 720,
+									"size": 1142977,
+									"url": "https://i.4cdn.org/a/1549003021750.png",
 									"sizes": [
 										{
+											"type": "image/jpeg",
 											"width": 250,
 											"height": 140,
 											"url": "https://i.4cdn.org/a/1549003021750s.jpg"
-										},
-										{
-											"width": 1280,
-											"height": 720,
-											"url": "https://i.4cdn.org/a/1549003021750.png"
 										}
 									]
 								}
@@ -186,6 +185,7 @@ describe('4chan.org', () => {
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				},
+				chan: '4chan',
 				getUrl(board, thread, comment) {
 					return `/${board.id}/${thread.id}#${comment.id}`
 				},

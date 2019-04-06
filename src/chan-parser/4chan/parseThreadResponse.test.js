@@ -15,6 +15,7 @@ describe('4chan.org', () => {
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				},
+				chan: '4chan',
 				getUrl(board, thread, comment) {
 					return `/${board.id}/${thread.id}#${comment.id}`
 				},

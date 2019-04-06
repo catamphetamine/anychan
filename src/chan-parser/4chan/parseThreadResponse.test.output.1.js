@@ -11,19 +11,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 345417,
           "picture": {
             "type": "image/png",
+            "width": 913,
+            "height": 716,
+            "size": 345417,
+            "url": "https://i.4cdn.org/v/1553850900879.png",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 250,
                 "height": 196,
                 "url": "https://i.4cdn.org/v/1553850900879s.jpg"
-              },
-              {
-                "width": 913,
-                "height": 716,
-                "url": "https://i.4cdn.org/v/1553850900879.png"
               }
             ]
           }
@@ -111,19 +110,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 54518,
           "picture": {
             "type": "image/png",
+            "width": 219,
+            "height": 301,
+            "size": 54518,
+            "url": "https://i.4cdn.org/v/1553850973138.png",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 90,
                 "height": 125,
                 "url": "https://i.4cdn.org/v/1553850973138s.jpg"
-              },
-              {
-                "width": 219,
-                "height": 301,
-                "url": "https://i.4cdn.org/v/1553850973138.png"
               }
             ]
           }
@@ -146,19 +144,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 33680,
           "picture": {
             "type": "image/jpeg",
+            "width": 421,
+            "height": 440,
+            "size": 33680,
+            "url": "https://i.4cdn.org/v/1553851874421.jpg",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 119,
                 "height": 125,
                 "url": "https://i.4cdn.org/v/1553851874421s.jpg"
-              },
-              {
-                "width": 421,
-                "height": 440,
-                "url": "https://i.4cdn.org/v/1553851874421.jpg"
               }
             ]
           }
@@ -244,19 +241,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 6854,
           "picture": {
             "type": "image/jpeg",
+            "width": 249,
+            "height": 207,
+            "size": 6854,
+            "url": "https://i.4cdn.org/v/1553852430591.jpg",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 125,
                 "height": 103,
                 "url": "https://i.4cdn.org/v/1553852430591s.jpg"
-              },
-              {
-                "width": 249,
-                "height": 207,
-                "url": "https://i.4cdn.org/v/1553852430591.jpg"
               }
             ]
           }
@@ -287,19 +283,24 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 2749450,
           "picture": {
             "type": "image/png",
+            "width": 1334,
+            "height": 750,
+            "size": 2749450,
+            "url": "https://i.4cdn.org/v/1553852845568.png",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 124,
                 "height": 70,
                 "url": "https://i.4cdn.org/v/1553852845568s.jpg"
               },
               {
-                "width": 1334,
-                "height": 750,
-                "url": "https://i.4cdn.org/v/1553852845568.png"
+                "type": "image/jpeg",
+                "width": 1024,
+                "height": 576,
+                "url": "https://i.4cdn.org/v/1553852845568m.jpg"
               }
             ]
           }
@@ -391,19 +392,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 27639,
           "picture": {
             "type": "image/jpeg",
+            "width": 680,
+            "height": 534,
+            "size": 27639,
+            "url": "https://i.4cdn.org/v/1553855038405.jpg",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 125,
                 "height": 98,
                 "url": "https://i.4cdn.org/v/1553855038405s.jpg"
-              },
-              {
-                "width": 680,
-                "height": 534,
-                "url": "https://i.4cdn.org/v/1553855038405.jpg"
               }
             ]
           }
@@ -464,19 +464,24 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 146709,
           "picture": {
             "type": "image/jpeg",
+            "width": 1280,
+            "height": 1063,
+            "size": 146709,
+            "url": "https://i.4cdn.org/v/1553855294572.jpg",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 125,
                 "height": 103,
                 "url": "https://i.4cdn.org/v/1553855294572s.jpg"
               },
               {
-                "width": 1280,
-                "height": 1063,
-                "url": "https://i.4cdn.org/v/1553855294572.jpg"
+                "type": "image/jpeg",
+                "width": 1024,
+                "height": 850,
+                "url": "https://i.4cdn.org/v/1553855294572m.jpg"
               }
             ]
           }
@@ -584,19 +589,18 @@ export default {
       "attachments": [
         {
           "type": "picture",
-          "size": 75745,
           "picture": {
             "type": "image/jpeg",
+            "width": 694,
+            "height": 842,
+            "size": 75745,
+            "url": "https://i.4cdn.org/v/1553857623792.jpg",
             "sizes": [
               {
+                "type": "image/jpeg",
                 "width": 103,
                 "height": 125,
                 "url": "https://i.4cdn.org/v/1553857623792s.jpg"
-              },
-              {
-                "width": 694,
-                "height": 842,
-                "url": "https://i.4cdn.org/v/1553857623792.jpg"
               }
             ]
           }

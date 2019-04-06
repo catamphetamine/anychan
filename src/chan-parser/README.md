@@ -40,10 +40,133 @@ Parses a thread (having a list of [comments](#comment)). Returns a [Thread](#thr
 
 ## Attachment
 
-An attachment can be:
+An attachment can be a:
 
-  * A picture
-  * A video
+* [Picture](#picture) attachment
+
+```js
+{
+	type: 'picture',
+	picture: Picture,
+	// Will be `true` if the picture is marked as a "spoiler".
+	// (for example, on `4chan.org`)
+	spoiler: boolean?
+}
+```
+
+* [Video](#video) attachment
+
+```js
+{
+	type: 'video',
+	video: Video,
+	// Will be `true` if the video is marked as a "spoiler".
+	// (for example, on `4chan.org`)
+	spoiler: boolean?
+}
+```
+
+* [File](#file) attachment
+
+```js
+{
+	type: 'file',
+	file: File
+}
+```
+
+### Picture
+
+```js
+{
+	// Picture MIME type. Example: "image/jpeg".
+	type: string,
+	// Picture width.
+	width: number,
+	// Picture height.
+	height: number,
+	// `true` if the image has transparent background.
+	// (for example, in case of `2ch.hk` "stickers")
+	transparent: boolean?,
+	// Picture file size (in bytes).
+	size: number,
+	// Picture file URL.
+	url: string,
+	// (only for `2ch.hk`)
+	// "sticker" in case of a `2ch.hk` sticker.
+	kind: string?,
+	// Extra picture sizes (thumbnails).
+	sizes: [
+		{
+			// Thumbnail MIME type.
+			type: string,
+			// Thumbnail width.
+			width: number,
+			// Thumbnail height.
+			height: number,
+			// Thumbnail file URL.
+			url: string
+		}
+	]
+}
+```
+
+### Video
+
+```js
+{
+	// Video MIME type. Example: "video/webm".
+	type: string,
+	// Video width.
+	width: number,
+	// Video height.
+	height: number,
+	// Video file size (in bytes).
+	size: number,
+	// Video duration (in seconds).
+	duration: number,
+	// Video thumbnail (poster).
+	picture: Picture,
+	// Video file URL (in case of a video file).
+	url: string
+}
+```
+
+<!--
+### YouTube video (parsed from comment)
+
+```js
+{
+	width: number?,
+	height: number?,
+	// Video duration (in seconds).
+	duration: number?,
+	// Video thumbnail (poster).
+	picture: Picture,
+	// "YouTube" in case of a YouTube video.
+	provider: string,
+	// YouTube video ID (in case of a YouTube video).
+	id: string
+}
+```
+-->
+
+### File
+
+```js
+{
+	// File MIME type. Example: "application/pdf".
+	type: string,
+	// File name. Example: "Report".
+	name: string,
+	// File extension with a dot. Example: ".pdf".
+	ext: string,
+	// File size (in bytes).
+	size: number,
+	// File URL.
+	url: string
+}
+```
 
 ## Comment
 

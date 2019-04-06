@@ -1,4 +1,4 @@
-import { getContentTypeByFileName } from '../parseAttachment'
+import { getMimeTypeByFileName } from '../parseAttachment'
 
 function formatUrl(url, boardId, name, ext, originalName) {
 	return url
@@ -24,16 +24,15 @@ export default function parseAttachment(file, {
 			attachmentThumbnailUrl = attachmentThumbnailUrlFpath
 		}
 	}
-	const contentType = getContentTypeByFileName(file.ext)
-	if (contentType && contentType.indexOf('image/') === 0) {
+	const mimeType = getMimeTypeByFileName(file.ext)
+	if (mimeType && mimeType.indexOf('image/') === 0) {
+		const thumbnailExt = getThumbnailExt(file, 'picture', chan)
+		const thumbnailType = getMimeTypeByFileName(thumbnailExt)
 		const sizes = [{
+			type: thumbnailType,
 			width: file.tn_w,
 			height: file.tn_h,
-			url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, getThumbnailExt(file, 'picture', chan), file.filename)
-		}, {
-			width: file.w,
-			height: file.h,
-			url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
+			url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExt, file.filename)
 		}]
 		// `4chan.org` generates smaller copies of images (limited to 1024x1024)
 		// for images having both width and height greater than 1024px.
@@ -41,73 +40,59 @@ export default function parseAttachment(file, {
 		// `m_img` parameter indicates that this smaller image is available.
 		// https://github.com/4chan/4chan-API/issues/63
 		if (chan === '4chan' && file.m_img) {
-			let size
 			const aspectRatio = file.w / file.h
-			if (aspectRatio >= 1) {
-				size = {
-					width: 1024,
-					height: 1024 / aspectRatio
-				}
-			} else {
-				size = {
-					width: 1024 * aspectRatio,
-					height: 1024
-				}
-			}
-			size.url = formatUrl(attachmentUrl, boardId, file.tim + 'm', getThumbnailExt(file, 'picture', chan), file.filename)
-			sizes.splice(1, 0, size)
+			sizes.push({
+				type: thumbnailType,
+				width: aspectRatio >= 1 ? 1024 : Math.round(1024 * aspectRatio),
+				height: aspectRatio >= 1 ? Math.round(1024 / aspectRatio) : 1024,
+				url: formatUrl(attachmentUrl, boardId, file.tim + 'm', thumbnailExt, file.filename)
+			})
 		}
-		const picture = {
+		const attachment = {
 			type: 'picture',
-			size: file.fsize, // in bytes
 			picture: {
-				type: contentType,
+				type: mimeType,
+				width: file.w,
+				height: file.h,
+				size: file.fsize, // in bytes
+				url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename),
 				sizes
 			}
 		}
 		// `8ch.net` and `4chan.org` have `spoiler: 0/1` on attachments.
 		if (file.spoiler) {
-			picture.spoiler = true
+			attachment.spoiler = true
 		}
-		return picture
+		return attachment
 	}
-	if (contentType && contentType.indexOf('video/') === 0) {
+	if (mimeType && mimeType.indexOf('video/') === 0) {
 		const thumbnailExt = getThumbnailExt(file, 'video', chan)
-		const video = {
+		const attachment = {
 			type: 'video',
-			size: file.fsize, // in bytes
 			video: {
-				type: contentType,
+				type: mimeType,
 				width: file.w,
 				height: file.h,
-				source: {
-					provider: 'file',
-					sizes: [{
-						width: file.w,
-						height: file.h,
-						url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename)
-					}]
-				},
+				size: file.fsize, // in bytes
+				url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename),
 				picture: {
-					type: getContentTypeByFileName(thumbnailExt),
-					sizes: [{
-						width: file.tn_w,
-						height: file.tn_h,
-						url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExt, file.filename)
-					}]
+					type: getMimeTypeByFileName(thumbnailExt),
+					width: file.tn_w,
+					height: file.tn_h,
+					url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExt, file.filename)
 				}
 			}
 		}
 		// `8ch.net` and `4chan.org` have `spoiler: 0/1` on attachments.
 		if (file.spoiler) {
-			video.spoiler = true
+			attachment.spoiler = true
 		}
-		return video
+		return attachment
 	}
 	return {
 		type: 'file',
 		file: {
-			contentType,
+			type: mimeType,
 			name: file.filename,
 			ext: file.ext,
 			size: file.fsize, // in bytes
