@@ -64,7 +64,15 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 			type: 'video',
 			video: {
 				type: mimeType,
-				duration: file.duration_secs,
+				// Sometimes (very rarely) on `2ch.hk` `.webm`s have negative duration.
+				// Example:
+				// {
+				//   displayname: "6.4.webm",
+				//   duration: "0-2562047788:00:0-54",
+				//   duration_secs: -2077252342,
+				//   ...
+				// }
+				duration: file.duration_secs >= 0 ? file.duration_secs : 0,
 				width: file.width,
 				height: file.height,
 				size: file.size * 1024, // in bytes
