@@ -4,6 +4,8 @@ import ru from './ru.json'
 import enCountries from './countries.en.json'
 import ruCountries from './countries.ru.json'
 
+addMissingMessages(ru, en)
+
 export function getLanguageNames() {
 	return {
 		'en': en.languageName,
@@ -35,4 +37,16 @@ export function getCountryNames(language) {
 
 export function isSupportedLanguage(language) {
 	return getLanguageNames()[language] !== undefined
+}
+
+function addMissingMessages(to, from) {
+	for (const key of Object.keys(from)) {
+		if (!to[key]) {
+			to[key] = from[key]
+		} else if (typeof from[key] !== typeof to[key]) {
+			to[key] = from[key]
+		} else if (typeof from[key] !== 'string') {
+			addMissingMessages(from[key], to[key])
+		}
+	}
 }
