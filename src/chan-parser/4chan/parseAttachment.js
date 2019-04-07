@@ -89,6 +89,17 @@ export default function parseAttachment(file, {
 		}
 		return attachment
 	}
+	// `kohlchan.net` supports attaching audio files.
+	if (mimeType && mimeType.indexOf('audio/') === 0) {
+		return {
+			type: 'audio',
+			audio: {
+				type: mimeType,
+				title: file.filename,
+				url: formatUrl(fileAttachmentUrl || attachmentUrl, boardId, file.tim, file.ext, file.filename)
+			}
+		}
+	}
 	return {
 		type: 'file',
 		file: {
@@ -98,7 +109,7 @@ export default function parseAttachment(file, {
 			size: file.fsize, // in bytes
 			width: file.w, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
 			height: file.h, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
-			url: formatUrl(fileAttachmentUrl || '#', boardId, file.tim, file.ext, file.filename)
+			url: formatUrl(fileAttachmentUrl || attachmentUrl, boardId, file.tim, file.ext, file.filename)
 		}
 	}
 }
