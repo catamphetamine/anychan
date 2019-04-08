@@ -15,8 +15,14 @@
 
 .boards--dark {
 	.boards__view-switch {
+		color: currentColor;
 		&:focus {
+			background-color: transparent;
 			box-shadow: 0 0 0 1px var(--gray-color-darkest);
+		}
+		&:active {
+			color: currentColor;
+			background-color: var(--gray-color-darkest);
 		}
 	}
 
@@ -152,10 +158,18 @@
 .boards__view-switch {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
-	color: currentColor;
+  color: var(--base-color-darkest);
 	&:focus {
-		box-shadow: 0 0 0 1px var(--gray-color-light);
+		background-color: #fafafa;
+		box-shadow: 0 0 0 1px var(--gray-color-lightest);
 	}
+	&:active {
+		color: var(--base-color-dark);
+	}
+}
+
+.boards__view-switch--disabled {
+	color: currentColor;
 }
 
 .boards__view-switch-divider {

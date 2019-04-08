@@ -63,7 +63,9 @@ export class Boards extends React.PureComponent {
 						<Button
 							disabled={view === 'default'}
 							onClick={this.onChangeViewAllBoards}
-							className="boards__view-switch">
+							className={classNames('boards__view-switch', {
+								'boards__view-switch--disabled': view === 'default'
+							})}>
 							{boardsByPopularity ? getMessages(locale).boardsByPopularity : getMessages(locale).boardsList}
 						</Button>
 
@@ -72,7 +74,9 @@ export class Boards extends React.PureComponent {
 						<Button
 							disabled={view === 'by-category'}
 							onClick={this.onChangeViewByCategory}
-							className="boards__view-switch">
+							className={classNames('boards__view-switch', {
+								'boards__view-switch--disabled': view === 'by-category'
+							})}>
 							{getMessages(locale).boardsByCategory}
 						</Button>
 					</div>
