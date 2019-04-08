@@ -12,6 +12,20 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+deselect current board when navigating to settings/boards
+
+add infinite scrolling to boards list similar to that of posts list for 8ch.net
+
+Кнопки: "Новые ответы" ("New comments") / "Новые треды" ("New threads")
+
+У досок - шестерёнка, которая покажет раздел "Избранное" ("Favorites"), где будет "+", показывающий <Modal/>, который подгружает getAllBoards для 8ch (if allBoardsUrl).
+
+Запоминать переключатель сортировки досок
+
+
+
+
+Переместить header вверх. Слева показывать иконку чана. В качестве thread subject генерировать trimText(firstTextParagraph, 10-20): сначала со skipUntitledAttachments, потому что youtube video embedded могут быть, потом без skipUntitledAttachments. При заходе на страницу с "якорем" (и при навигации по клику на времени поста) — показывать этот пост, прокручивая выше на высоту header-а.
 
 Вверху у досок и тредов сделать меню "три точки". Пункты меню: "добавить в избранное / убрать из избранного / подписаться / отписаться", "смотреть все картинки".
 
@@ -524,6 +538,10 @@ if (ids = this.responseText.match(/<!-- thread:([0-9]+),no:([0-9]+) -->/)) {
 * Можно интегрировать с LynxChan (http://lynxhub.com/lynxchan/): http://lynxhub.com/lynxchan/res/722.html.
 
 * Написал в hispachan.org
+
+* Можно добавить haibane.ru
+
+https://github.com/ahushh/Monaba/issues/47
 
 * Можно напиать в arisuchan.
 
