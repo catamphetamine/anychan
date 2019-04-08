@@ -6,8 +6,8 @@ export default function parseAttachment(file, options) {
 		if (file.fpath) {
 			options = {
 				...options,
-				attachmentUrl: attachmentUrlFpath,
-				attachmentThumbnailUrl: attachmentThumbnailUrlFpath
+				attachmentUrl: options.attachmentUrlFpath,
+				attachmentThumbnailUrl: options.attachmentThumbnailUrlFpath
 			}
 		}
 	}
