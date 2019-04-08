@@ -162,7 +162,6 @@ describe('2ch.hk', () => {
 			{
 				"id": 28727050,
 				"title": "PLAYЕRUNKNОWNS BATTLЕGRОUNDS №82 VIKENDI EDITION",
-				"textPreview": "PLAYERUNKNOWN'S BATTLEGROUNDS — это шутер в котором выигрывает последний оставшийся в живых участник.",
 				"content": [
 					[
 						{

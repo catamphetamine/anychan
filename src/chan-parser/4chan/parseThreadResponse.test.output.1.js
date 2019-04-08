@@ -79,8 +79,7 @@ export default {
         456357639,
         456359481,
         456359839
-      ],
-      "textPreview": "«Stalker 2»\n12 years of waiting\n«Borderlands 3»\n8 years of waiting\n«Shenmue 3»\n19 years of waiting\n«Vampire the masquarade bloodlines 2»"
+      ]
     },
     {
       "id": 456354139,
