@@ -8,7 +8,6 @@ export default async function() {
 	// Renders the webpage on the client side
 	const result = await render(settings, {
 		onNavigate(url, location, { dispatch, getState }) {
-			document.querySelector('.webpage__main').scrollTo(0, 0)
 			document.querySelector('main').focus()
 			dispatch(hideSidebar())
 		}
