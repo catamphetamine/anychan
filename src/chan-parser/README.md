@@ -184,7 +184,7 @@ An attachment can be a:
 	authorIdColor: String?, // If `authorId` is present then it's converted into a HEX color. Example: "#c05a7f".
 	authorName: String?,
 	authorNameId: boolean?, // `2ch.hk` autogenerates names based on IP address hash on `/po` board. If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-	authorCountry: String?, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
+	authorCountry: String?, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Chans usually show poster flags on `/int/` boards.
 	// Some chans allow icons for posts on some boards.
 	// For example, `kohlchan.net` shows user icons on `/int/` board.
 	// `authorIconId` examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
