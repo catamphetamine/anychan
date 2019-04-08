@@ -19,7 +19,7 @@ export default class Sidebar extends React.Component {
 				'sidebar--dark': true,
 				'sidebar--light': false
 			})}>
-				<Boards/>
+				<Boards darkMode/>
 			</section>
 		)
 	}

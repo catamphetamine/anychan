@@ -1,7 +1,8 @@
 {
 	"languageName": "English",
 	"boards": {
-		"title": "Boards list"
+		"title": "Boards list",
+		"showAll": "Show all boards"
 	},
 	"settings": {
 		"title": "Settings",

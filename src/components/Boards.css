@@ -14,6 +14,28 @@
 }
 
 .boards--dark {
+	.boards__view-switch {
+		&:focus {
+			box-shadow: 0 0 0 1px var(--gray-color-darkest);
+		}
+	}
+
+	.boards__view-switcher,
+	.boards-list__board-name {
+		font-weight: 300;
+	}
+
+	.boards-list-section__title {
+		text-overflow: ellipsis;
+	}
+
+	.boards__show-all {
+		color: var(--base-color-light);
+		&:active {
+			color: var(--base-color);
+		}
+	}
+
 	.boards-list__board-url {
 		color: var(--base-color-light);
 		&:before, &:after {
@@ -72,7 +94,6 @@
 	margin-bottom: 0.5em;
 	font-size: 1.3rem;
 	font-weight: 300;
-	color: var(--gray-color);
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -89,6 +110,7 @@
 	font-family: monospace;
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
+	outline: none;
 
 	&:before,
 	&:after {
@@ -116,9 +138,9 @@
 	color: currentColor;
 }
 
-.boards__view-switcher,
-.boards-list__board-name {
-	font-weight: 300;
+.boards-list__board-url--hover,
+.boards-list__board-name--hover {
+	background-color: #fafafa;
 }
 
 .boards__view-switcher {
@@ -131,9 +153,8 @@
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 	color: currentColor;
-
 	&:focus {
-		box-shadow: 0 0 0 1px var(--gray-color-darkest);
+		box-shadow: 0 0 0 1px var(--gray-color-light);
 	}
 }
 
@@ -162,4 +183,9 @@
 	&:active {
 		color: var(--base-color-dark);
 	}
+}
+
+.boards__show-all-wrapper {
+	margin-top: calc(var(--unit) * 2);
+	text-align: center;
 }

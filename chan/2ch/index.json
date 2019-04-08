@@ -90,7 +90,7 @@
 		"Разное",
 		"Взрослым"
 	],
-	"boardCategoriesExclude": [
+	"hideBoardCategories": [
 		"Пользовательские"
 	],
 	"countryFlagUrl": "/icons/logos/{country}.png",

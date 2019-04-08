@@ -1,7 +1,8 @@
 {
 	"languageName": "Русский",
 	"boards": {
-		"title": "Список досок"
+		"title": "Список досок",
+		"showAll": "Показать все доски"
 	},
 	"settings": {
 		"title": "Настройки",

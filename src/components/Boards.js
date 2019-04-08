@@ -9,8 +9,8 @@ import { getThreads } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 
+import { getChan, addChanParameter } from '../chan'
 import getMessages from '../messages'
-import { isBoardLocation, isThreadLocation } from '../utility/routes'
 import getUrl from '../utility/getUrl'
 
 import './Boards.css'
@@ -22,9 +22,17 @@ import './Boards.css'
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory
 }))
-export default class Boards extends React.Component {
+export default class BoardsPanel extends React.Component {
+	render() {
+		return (
+			<Boards {...this.props}/>
+		)
+	}
+}
+
+export class Boards extends React.PureComponent {
 	state = {
-		view: this.props.boardsByPopularity ? 'default' : 'by-category'
+		view: this.props.boardsByPopularity ? 'default' : (this.props.boardsByCategory ? 'by-category' : 'default')
 	}
 
 	onChangeViewAllBoards = () => this.setState({ view: 'default' })
@@ -37,6 +45,8 @@ export default class Boards extends React.Component {
 			boards,
 			boardsByPopularity,
 			boardsByCategory,
+			showAllBoards,
+			darkMode,
 			className
 		} = this.props
 
@@ -47,7 +57,7 @@ export default class Boards extends React.Component {
 		}
 
 		return (
-			<nav className={classNames('boards', 'boards--dark', className)}>
+			<nav className={classNames('boards', darkMode && 'boards--dark', className)}>
 				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
@@ -88,13 +98,21 @@ export default class Boards extends React.Component {
 							))}
 						</React.Fragment>
 					))}
-					{view === 'default' && boardsByPopularity.filter(board => !board.isHidden).map((board) => (
+					{view === 'default' && (boardsByPopularity || boards).filter(board => showAllBoards || !board.isHidden).map((board) => (
 						<Board
 							key={board.id}
 							isSelected={selectedBoard && board.id === selectedBoard.id}
 							board={board}/>
 					))}
 				</div>
+
+				{!showAllBoards && (getChan().allBoardsUrl || getChan().hideBoardCategories) &&
+					<div className="boards__show-all-wrapper">
+						<Link to={addChanParameter('/boards')} className="boards__show-all">
+							{getMessages(locale).boards.showAll}
+						</Link>
+					</div>
+				}
 			</nav>
 		)
 	}
@@ -108,18 +126,15 @@ const boardShape = {
 }
 
 Boards.propTypes = {
-	expanded: PropTypes.bool.isRequired,
 	selectedBoard: PropTypes.shape(boardShape),
 	boards: PropTypes.arrayOf(PropTypes.shape(boardShape)),
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
 	})),
+	showAllBoards: PropTypes.bool,
+	darkMode: PropTypes.bool,
 	className: PropTypes.string
-}
-
-Boards.defaultProps = {
-	expanded: false
 }
 
 @connect(({ app }) => ({

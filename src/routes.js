@@ -1,5 +1,6 @@
 import Application from './pages/Application'
 import Home from './pages/Home'
+import Boards from './pages/Boards'
 import Board from './pages/Board'
 import Thread from './pages/Thread'
 import Settings from './pages/Settings'
@@ -15,6 +16,7 @@ export default [{
 	Component: Application,
 	children: [
 		{ Component: Home },
+		{ path: 'boards', Component: Boards },
 		{ path: 'settings', Component: Settings },
 		...DEFAULT_ERROR_PAGES,
 		{ path: 'error', status: 500, Component: GenericError },

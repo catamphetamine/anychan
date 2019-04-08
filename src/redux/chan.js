@@ -10,6 +10,9 @@ import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOAR
 import { Parser as FourChanParser } from '../chan-parser/4chan'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 
+import getPostText from 'webapp-frontend/src/utility/post/getPostText'
+import trimText from 'webapp-frontend/src/utility/post/trimText'
+
 const redux = new ReduxModule()
 
 export const getBoards = redux.action(
@@ -37,12 +40,37 @@ export const getBoards = redux.action(
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		return getBoardsResult(createParser({}).parseBoards(response, {
-			boardCategoriesExclude: getChan().boardCategoriesExclude
+			hideBoardCategories: getChan().hideBoardCategories
 		}))
 	},
 	(state, result) => ({
 		...state,
 		...result
+	})
+)
+
+export const getAllBoards = redux.action(
+	() => async http => {
+		// Most chans don't provide `/boards.json` API
+		// so their boards list is defined as a static one in JSON configuration.
+		if (getChan().boards) {
+			return getBoardsResult(getChan().boards)
+		}
+		const apiRequestStartedAt = Date.now()
+		let response
+		// Development process optimization: use a cached list of `2ch.hk` boards.
+		// (to aviod the delay caused by a CORS proxy)
+		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
+			response = getBoardsResponseExample(getChan().id)
+		} else {
+			response = await http.get(proxyUrl(addOrigin(getChan().allBoardsUrl || getChan().boardsUrl)))
+		}
+		console.log(`Get all boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
+		return getBoardsResult(createParser({}).parseBoards(response))
+	},
+	(state, result) => ({
+		...state,
+		allBoards: result
 	})
 )
 
@@ -82,6 +110,8 @@ export const getThread = redux.action(
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
 		const thread = createParser({ filters, locale }).parseThread(response, { boardId })
+		// Generate text preview which is used for `<meta description/>` on the thread page.
+		generateTextPreview(thread.comments[0])
 		console.log(`Thread parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		// Move thread subject from the first comment to the thread object.
 		const subject = thread.comments[0].title
@@ -209,10 +239,25 @@ function getBoardsResult(boards) {
 	}
 	if (boards[0].category) {
 		result.boardsByCategory = groupBoardsByCategory(
-			// Special case for `2ch.hk`'s `/int/` board which is in the ignored category.
-			boards.filter(board => !board.isHidden || (getChan().id === '2ch' && board.id === 'int')),
+			boards.filter(board => !board.isHidden),
 			getChan().boardCategories
 		)
 	}
 	return result
+}
+
+/**
+ * Generates a text preview of a comment.
+ * Text preview is used for `<meta description/>`.
+ * @param {object} comment
+ * @return {string} [preview]
+ */
+function generateTextPreview(comment) {
+	const textPreview = getPostText(comment, {
+		ignoreAttachments: true,
+		softLimit: 150
+	})
+	if (textPreview) {
+		comment.textPreview = trimText(textPreview, 150)
+	}
 }
