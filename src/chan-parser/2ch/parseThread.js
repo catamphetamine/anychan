@@ -19,6 +19,8 @@ export default function parseThread(thread, posts, {
 	maxAttachmentsSize,
 	bumpLimit,
 	hasVoting,
+	hasFlags,
+	icons,
 	commentsCount,
 	commentAttachmentsCount,
 	useRelativeUrls,
@@ -31,6 +33,8 @@ export default function parseThread(thread, posts, {
 		defaultAuthorName,
 		parseCommentPlugins,
 		hasVoting,
+		hasFlags,
+		icons,
 		useRelativeUrls,
 		getUrl
 	}))

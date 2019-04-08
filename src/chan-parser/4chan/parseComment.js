@@ -132,8 +132,8 @@ export default function parseComment(post, {
 		// `kohlchan.net` has incorrect country codes.
 		// Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
 		if (chan === 'kohlchan') {
-			comment.authorCountryId = post.country.toLowerCase()
-			comment.authorCountryName = post.country_name
+			comment.authorIconId = post.country.toLowerCase()
+			comment.authorIconName = post.country_name
 		} else {
 			// `8ch.net` and `4chan.org` have correct country codes.
 			// Examples: "GB", "US", "RU".

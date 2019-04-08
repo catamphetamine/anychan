@@ -367,12 +367,12 @@ const HEADER_BADGES = [
 				}
 			}
 			return {
-				country: post.authorCountryId,
-				name: post.authorCountryName
+				country: post.authorIconId,
+				name: post.authorIconName
 			}
 		},
-		title: (post, locale) => post.authorCountryName || getCountryNames(locale)[post.authorCountry],
-		condition: post => post.authorCountry || post.authorCountryName
+		title: (post, locale) => post.authorCountry ? getCountryNames(locale)[post.authorCountry] : post.authorIconName,
+		condition: post => post.authorCountry || post.authorIconName
 	},
 	{
 		name: 'bump-limit',

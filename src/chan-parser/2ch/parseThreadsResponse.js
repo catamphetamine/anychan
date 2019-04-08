@@ -13,6 +13,11 @@ export default function parseThreads(response, options) {
 		defaultAuthorName: response.default_name,
 		commentsCount: thread.posts_count,
 		commentAttachmentsCount: thread.files_count,
-		hasVoting: response.enable_likes === 1
+		hasVoting: response.enable_likes === 1,
+		hasFlags: response.enable_flags === 1,
+		icons: response.enable_icons === 1 && response.icons && response.icons.reduce((icons, { name, num }) => {
+			icons[name] = num
+			return icons
+		}, {})
 	}))
 }

@@ -185,8 +185,15 @@ An attachment can be a:
 	authorName: String?,
 	authorNameId: boolean?, // `2ch.hk` autogenerates names based on IP address hash on `/po` board. If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
 	authorCountry: String?, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Some chans identify their users by their country (for example, on `/int/` of `8ch.net`).
-	authorCountryId: String?, // Only for `kohlchan.net`. Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
-	authorCountryName: String?, // Only for `kohlchan.net`. Examples: "Ukraine", "Moscow", "Texas", "Proxy".
+	// Some chans allow icons for posts on some boards.
+	// For example, `kohlchan.net` shows user icons on `/int/` board.
+	// `authorIconId` examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
+	// `authorIconName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
+	// Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
+	// `authorIconId` examples in this case: "nya", "liber", "comm", "libertar", etc.
+	// `authorIconName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
+	authorIconId: String?,
+	authorIconName: String?,
 	authorRole: String?, // Examples: "administrator", "moderator".
 	authorWasBanned: boolean?,
 	upvotes: number?, // Only for boards like `/po/` on `2ch.hk`.

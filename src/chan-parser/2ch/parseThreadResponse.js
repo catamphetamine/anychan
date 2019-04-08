@@ -15,7 +15,12 @@ export default function parseThreadResponse(response, options) {
 		defaultAuthorName: response.default_name,
 		commentsCount: response.posts_count,
 		commentAttachmentsCount: response.files_count,
-		hasVoting: response.enable_likes === 1
+		hasVoting: response.enable_likes === 1,
+		hasFlags: response.enable_flags === 1,
+		icons: response.enable_icons === 1 && response.icons && response.icons.reduce((icons, { name, num }) => {
+			icons[name] = num
+			return icons
+		}, {})
 	})
 	// Only for `/res/THREAD-ID.json` API response.
 	if (response.unique_posters) {

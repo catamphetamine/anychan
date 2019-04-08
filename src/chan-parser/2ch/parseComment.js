@@ -26,6 +26,8 @@ export default function parseComment(post, {
 	parseCommentPlugins,
 	messages,
 	hasVoting,
+	hasFlags,
+	icons,
 	useRelativeUrls,
 	getUrl
 }) {
@@ -103,30 +105,32 @@ export default function parseComment(post, {
 	// On `/po/` board flags are replaced with their aliases:
 	// "icon": "<img hspace=\"3\" src=\"/icons/logos/ukr.png\" title=\"Украина\" border=\"0\" />".
 	if (post.icon) {
-		const match = post.icon.match(/\/flags\/([A-Z]{2}).png/)
-		if (match) {
-			comment.authorCountry = match[1]
-		} else {
-			// Parse flags like `A1.png` which seems to mean
-			// "Anonymizer" or "Proxy" or maybe "TOR Network".
-			const match = post.icon.match(/\/flags\/(A\d).png/)
+		if (hasFlags) {
+			const match = post.icon.match(/\/flags\/([A-Z]{2}).png/)
 			if (match) {
-				comment.authorCountry = 'ZZ'
+				comment.authorCountry = match[1]
 			} else {
-				const match = post.icon.match(/\/icons\/logos\/([^\/]+).png" title=\"([^"]+)\"/)
+				// Parse flags like `A1.png` which seems to mean
+				// "Anonymizer" or "Proxy" or maybe "TOR Network".
+				const match = post.icon.match(/\/flags\/(A\d).png/)
 				if (match) {
-					comment.authorCountryId = match[1]
-					comment.authorCountryName = match[2]
+					comment.authorCountry = 'ZZ'
+				}
+			}
+		} else if (icons) {
+			const match = post.icon.match(/\/icons\/logos\/([^\/]+).png" title=\"([^"]+)\"/)
+			if (match) {
+				comment.authorIconId = match[1]
+				comment.authorIconName = match[2]
+			} else {
+				// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
+				// https://2ch.hk/icons/logos/krym.gif
+				const match = post.icon.match(/\/icons\/logos\/([^\/]+).gif" title=\"([^"]+)\"/)
+				if (match) {
+					comment.authorIconId = match[1]
+					comment.authorIconName = match[2]
 				} else {
-					// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
-					// https://2ch.hk/icons/logos/krym.gif
-					const match = post.icon.match(/\/icons\/logos\/([^\/]+).gif" title=\"([^"]+)\"/)
-					if (match) {
-						comment.authorCountryId = match[1]
-						comment.authorCountryName = match[2]
-					} else {
-						console.error(`Couldn't parse poster country: ${post.icon}`)
-					}
+					console.error(`Couldn't parse poster flag/icon: ${post.icon}`)
 				}
 			}
 		}
