@@ -14,6 +14,7 @@
 	--black-color : #000000;
 
 	/* https://refactoringui.com/previews/building-your-color-palette */
+	/*
 	--gray-color-100 : #F0F2F5;
 	--gray-color-200 : #DCDEE3;
 	--gray-color-300 : #BDC6CE;
@@ -24,27 +25,39 @@
 	--gray-color-750 : #4f5760;
 	--gray-color-800 : #49515C;
 	--gray-color-900 : #404852;
+	*/
 
-	--base-color-lightest: #fff4ec;
-	--base-color-light   : #FFA061;
-	--base-color-lighter : #FF8732;
-	--base-color         : #FF6A00;
-	--base-color-darker  : #DD5C00;
-	--base-color-dark    : #DE7129;
-	--base-color-darkest : #be4800;
+	--base-color-100 : #FFDEC6;
+	--base-color-200 : #FFC398;
+	--base-color-300 : #FFA061;
+	--base-color-400 : #FF8732;
+	--base-color-500 : #FF6A00;
+	--base-color-600 : #DD5C00;
+	--base-color-700 : #BE4800;
+	--base-color-800 : #9E4200;
+	--base-color-900 : #6D2D00;
 
 	/* Base color transparency: rgba(0, 179, 255, 0.7); */
 
-	--accent-color-light : #00B3FF;
-	--accent-color       : #00A6ED;
-	--accent-color-dark  : #0084BD;
+	--accent-color-100 : #97E0FF;
+	--accent-color-200 : #63D0FF;
+	--accent-color-300 : #3FC6FF;
+	--accent-color-400 : #25BEFF;
+	--accent-color-500 : #00B3FF;
+	--accent-color-600 : #009CDF;
+	--accent-color-700 : #0084BD;
+	--accent-color-800 : #006996;
+	--accent-color-900 : #003F5A;
 
-	--alt-accent-color-dark  : #C70049;
-	--alt-accent-color       : #FC005D;
-	--alt-accent-color-light : #FF4086;
-
-	--error-color-dark : #BD0016;
-	--error-color      : #E6001B;
+	--alt-accent-color-100 : #FFA6C7;
+	--alt-accent-color-200 : #FF78AA;
+	--alt-accent-color-300 : #FF5191;
+	--alt-accent-color-400 : #FF2A79;
+	--alt-accent-color-500 : #FF005E;
+	--alt-accent-color-600 : #D90050;
+	--alt-accent-color-700 : #BC0045;
+	--alt-accent-color-800 : #980038;
+	--alt-accent-color-900 : #6E0029;
 
 	--background-color : #eaeaea;
 	--content-section-divider-color : #e3e4e8;

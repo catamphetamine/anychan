@@ -2,7 +2,7 @@
 
 .boards {
 	.boards__view-switch {
-		color: var(--base-color-darkest);
+		color: var(--base-color-700);
 		&:hover {
 			background-color: #fafafa;
 		}
@@ -11,7 +11,7 @@
 			box-shadow: 0 0 0 1px var(--gray-color-100);
 		}
 		&:active {
-			color: var(--base-color-dark);
+			color: var(--base-color-600);
 		}
 	}
 
@@ -24,6 +24,11 @@
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
 		background-color: #fafafa;
+	}
+
+	.boards-list__board-url--active,
+	.boards-list__board-name--active {
+		color: var(--base-color-600);
 	}
 
 	.boards__view-switch--disabled {
@@ -58,14 +63,14 @@
 	}
 
 	.boards__show-all {
-		color: var(--base-color-light);
+		color: var(--base-color-300);
 		&:active {
-			color: var(--base-color);
+			color: var(--base-color-400);
 		}
 	}
 
 	.boards-list__board-url {
-		color: var(--base-color-light);
+		color: var(--base-color-300);
 		&:before, &:after {
 			color: #6d7682;
 		}
@@ -84,6 +89,10 @@
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
 		background-color: var(--gray-color-700);
+	}
+
+	.boards-list__board-name--active {
+		color: var(--base-color-300);
 	}
 
 	.boards__view-switcher {
@@ -187,6 +196,7 @@
 .boards__view-switch {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
+	transition: none;
 }
 
 .boards__show-all-wrapper {

@@ -2,10 +2,10 @@
 
 /* A weird fix. Perhaps the same issue as described in `constants.css`. */
 :root, body {
-	--rrui-button-text-color-active: var(--base-color-light);
+	--rrui-button-text-color-active: var(--base-color-300);
 
-	--rrui-accent-color       : var(--base-color-darker);
-	--rrui-accent-color-light : var(--base-color);
+	--rrui-accent-color       : var(--base-color-600);
+	--rrui-accent-color-light : var(--base-color-500);
 	--rrui-gray-color         : var(--gray-color-400);
 }
 

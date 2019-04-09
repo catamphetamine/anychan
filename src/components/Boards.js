@@ -270,6 +270,7 @@ class Board extends React.Component {
 					onClick={this.onBoardClick}
 					onPointerDown={this.onPointerDown}
 					onPointerUp={this.onPointerUp}
+					onPointerCancel={this.onPointerUp}
 					onPointerEnter={this.onPointerEnter}
 					onPointerLeave={this.onPointerLeave}
 					onPointerOut={this.onPointerUp}
@@ -285,6 +286,7 @@ class Board extends React.Component {
 					onClick={this.onBoardClick}
 					onPointerDown={this.onPointerDown}
 					onPointerUp={this.onPointerUp}
+					onPointerCancel={this.onPointerUp}
 					onPointerEnter={this.onPointerEnter}
 					onPointerLeave={this.onPointerLeave}
 					onPointerOut={this.onPointerUp}

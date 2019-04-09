@@ -49,6 +49,6 @@
 	display: none;
 	text-align: center;
 	button {
-		color: var(--base-color-darkest);
+		color: var(--base-color-700);
 	}
 }

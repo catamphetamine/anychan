@@ -5,7 +5,7 @@
 }
 
 .post__inline-quote {
-	color: var(--base-color-darkest);
+	color: var(--base-color-700);
 }
 
 .post__inline-spoiler--hidden {
@@ -22,7 +22,7 @@
 
 .thread__comment-container--click {
 	.thread__comment {
-		/*box-shadow: 0 0 0 0.1rem var(--base-color), 0 0.1rem 0.75rem 0 hsla(210,7%,61%,.15);*/
+		/*box-shadow: 0 0 0 0.1rem var(--base-color-500), 0 0.1rem 0.75rem 0 hsla(210,7%,61%,.15);*/
 		background-color: hsl(36, 70%, 96%);
 	}
 
@@ -94,7 +94,7 @@
 }
 
 .post__author--generic .post__author-name {
-	color: var(--base-color-darkest);
+	color: var(--base-color-700);
 }
 
 .post__author-name + .post__author-trip-code {
@@ -112,10 +112,10 @@
 /* Added `.thread__comment` here for CSS selector specificity. */
 .thread__comment {
 	.post__author--administrator {
-		color: var(--alt-accent-color-dark);
+		color: var(--alt-accent-color-700);
 	}
 	.post__author--moderator {
-		color: var(--accent-color-dark);
+		color: var(--accent-color-700);
 	}
 }
 
