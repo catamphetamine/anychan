@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { pushLocation, Link } from 'react-website'
 import { connect } from 'react-redux'
-import { Button } from 'react-responsive-ui'
+import { TextInput, Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
 import { getThreads } from '../redux/chan'
@@ -12,6 +12,8 @@ import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/prelo
 import { getChan, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
+
+import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 
 import './Boards.css'
 
@@ -38,6 +40,21 @@ export class Boards extends React.PureComponent {
 	onChangeViewAllBoards = () => this.setState({ view: 'default' })
 	onChangeViewByCategory = () => this.setState({ view: 'by-category' })
 
+	onSearchQueryChange = (query) => {
+		const {
+			boards,
+			boardsByPopularity
+		} = this.props
+		query = query.toLowerCase()
+		this.setState({
+			searchQuery: query,
+			filteredBoards: (boards || boardsByPopularity).filter((board) => {
+				return (board.name && board.name.toLowerCase().includes(query)) ||
+					board.id.toLowerCase().includes(query)
+			})
+		})
+	}
+
 	render() {
 		const {
 			locale,
@@ -50,14 +67,21 @@ export class Boards extends React.PureComponent {
 			className
 		} = this.props
 
-		const { view } = this.state
+		const {
+			view,
+			searchQuery,
+			filteredBoards
+		} = this.state
 
 		if (!boards) {
 			return null
 		}
 
 		return (
-			<nav className={classNames('boards', darkMode && 'boards--dark', className)}>
+			<nav className={classNames(className, 'boards', {
+				'boards--dark': darkMode,
+				'boards--all': showAllBoards
+			})}>
 				{boardsByPopularity && boardsByCategory &&
 					<div className="boards__view-switcher">
 						<Button
@@ -66,10 +90,8 @@ export class Boards extends React.PureComponent {
 							className={classNames('boards__view-switch', {
 								'boards__view-switch--disabled': view === 'default'
 							})}>
-							{boardsByPopularity ? getMessages(locale).boardsByPopularity : getMessages(locale).boardsList}
+							{getMessages(locale).boardsByPopularity}
 						</Button>
-
-						<div className="boards__view-switch-divider"/>
 
 						<Button
 							disabled={view === 'by-category'}
@@ -79,6 +101,22 @@ export class Boards extends React.PureComponent {
 							})}>
 							{getMessages(locale).boardsByCategory}
 						</Button>
+					</div>
+				}
+
+				{showAllBoards && view === 'default' &&
+					<TextInput
+						type="search"
+						icon={SearchIcon}
+						placeholder={getMessages(locale).search}
+						value={searchQuery}
+						onChange={this.onSearchQueryChange}
+						className="boards__search"/>
+				}
+
+				{showAllBoards && view === 'default' && searchQuery && filteredBoards.length === 0 &&
+					<div className="boards__nothing-found">
+						{getMessages(locale).noSearchResults}
 					</div>
 				}
 
@@ -102,7 +140,7 @@ export class Boards extends React.PureComponent {
 							))}
 						</React.Fragment>
 					))}
-					{view === 'default' && (boardsByPopularity || boards).filter(board => showAllBoards || !board.isHidden).map((board) => (
+					{view === 'default' && (filteredBoards || boardsByPopularity || boards).filter(board => showAllBoards || !board.isHidden).map((board) => (
 						<Board
 							key={board.id}
 							isSelected={selectedBoard && board.id === selectedBoard.id}

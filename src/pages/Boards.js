@@ -5,6 +5,13 @@ import { connect } from 'react-redux'
 import { Boards } from '../components/Boards'
 import { getAllBoards } from '../redux/chan'
 
+import getMessages from '../messages'
+
+import './Boards.css'
+
+@meta(({ app }) => ({
+	title: getMessages(app.settings.locale).boardsList
+}))
 @preload(({ dispatch }) => dispatch(getAllBoards()))
 @connect(({ app, chan }) => ({
 	locale: app.settings.locale,
@@ -21,7 +28,7 @@ export default class BoardsPage extends React.Component {
 			boardsByPopularity
 		} = this.props
 		return (
-			<section>
+			<section className="boards-page">
 				<Boards
 					locale={locale}
 					boards={boards}

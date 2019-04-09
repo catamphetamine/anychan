@@ -22,7 +22,7 @@
     "react-dom": "^16.6.0",
     "react-focus-lock": "^1.18.3",
     "react-redux": "^5.1.1",
-    "react-responsive-ui": "^0.14.128",
+    "react-responsive-ui": "^0.14.130",
     "react-time-ago": "^5.0.1",
     "react-website": "^3.1.24",
     "redux": "^4.0.0"
