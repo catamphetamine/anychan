@@ -11,8 +11,8 @@
 }
 
 .sidebar--dark {
-	background-color: var(--black-color);
-	color: var(--gray-color-lightest);
+	background-color: var(--gray-color-800);
+	color: var(--gray-color-100);
 }
 
 .sidebar {
@@ -28,28 +28,28 @@
 	}
 	/* Track */
 	&::-webkit-scrollbar-track {
-		background-color: transparent; /* var(--gray-color-lightest); */
+		background-color: transparent; /* var(--gray-color-100); */
 	}
 }
 
 .sidebar--light {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--gray-color-lighter);
+		background-color: var(--gray-color-300);
 	}
 	/* Handle on hover */
 	&::-webkit-scrollbar-thumb:hover {
-		background-color: var(--gray-color-darker);
+		background-color: var(--gray-color-500);
 	}
 }
 
 .sidebar--dark {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--gray-color-dark);
+		background-color: var(--gray-color-600);
 	}
 	/* Handle on hover */
 	&::-webkit-scrollbar-thumb:hover {
-		background-color: var(--gray-color-darker);
+		background-color: var(--gray-color-500);
 	}
 }

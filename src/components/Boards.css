@@ -8,7 +8,7 @@
 		}
 		&:focus {
 			background-color: #fafafa;
-			box-shadow: 0 0 0 1px var(--gray-color-lightest);
+			box-shadow: 0 0 0 1px var(--gray-color-100);
 		}
 		&:active {
 			color: var(--base-color-dark);
@@ -17,7 +17,7 @@
 
 	.boards-list__board-url {
 		&:before, &:after {
-    	color: var(--gray-color-light);
+    	color: var(--gray-color-200);
 		}
 	}
 
@@ -36,15 +36,15 @@
 		color: currentColor;
 		&:hover {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--gray-color-darkest);
+			box-shadow: 0 0 0 1px var(--gray-color-700);
 		}
 		&:focus {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--gray-color-darkest);
+			box-shadow: 0 0 0 1px var(--gray-color-700);
 		}
 		&:active {
 			color: currentColor;
-			background-color: var(--gray-color-darkest);
+			background-color: var(--gray-color-700);
 		}
 	}
 
@@ -67,28 +67,27 @@
 	.boards-list__board-url {
 		color: var(--base-color-light);
 		&:before, &:after {
-			/*color: var(--gray-color-darkest);*/
 			color: #6d7682;
 		}
 	}
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: var(--black-color-lighter);
+		background-color: var(--gray-color-750);
 	}
 
 	.boards-list__board-url--selected,
 	.boards-list__board-name--selected {
-		background-color: var(--black-color-darker);
+		background-color: var(--gray-color-900);
 	}
 
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
-		background-color: var(--gray-color-darkest);
+		background-color: var(--gray-color-700);
 	}
 
 	.boards__view-switcher {
-		color: var(--gray-color-lighter);
+		color: var(--gray-color-300);
 	}
 }
 
@@ -204,6 +203,6 @@
 
 .boards__nothing-found {
 	margin-top: calc(var(--unit) * 2);
-	color: var(--gray-color-darkest);
+	color: var(--gray-color-700);
 	text-align: center;
 }

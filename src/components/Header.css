@@ -5,7 +5,7 @@
 	display: none;
 
 	background-color : var(--white-color);
-	color : var(--black-color);
+	color : var(--gray-color-800);
 	/*border-bottom : 1px solid rgba(0,0,0,.0975);*/
 	border-top : 1px solid rgba(0,0,0,.0975);
 
@@ -54,7 +54,7 @@ padding-right: var(--content-section-horizontal-padding);
 	width  : calc(var(--unit) * 2);
 	height : calc(var(--unit) * 2);
 	cursor : pointer;
-	color  : var(--black-color);
+	color  : var(--gray-color-800);
 }
 
 .header__link

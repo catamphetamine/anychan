@@ -10,18 +10,19 @@
 /* :root */
 :root, body
 {
-	--white-color        : #ffffff;
-	--black-color        : #49515C;
-	--black-color-lighter : #4f5760;
-	--black-color-darker  : #404852;
+	--white-color : #ffffff;
+	--black-color : #000000;
 
-	--gray-color-lightest : #F0F2F5;
-	--gray-color-light    : #DCDEE3;
-	--gray-color-lighter  : #B3B7BA;
-	--gray-color          : #A6AAAD;
-	--gray-color-darker   : #999CA1;
-	--gray-color-dark     : #888C91;
-	--gray-color-darkest  : #5b636d;
+	--gray-color-100 : #F0F2F5;
+	--gray-color-200 : #DCDEE3;
+	--gray-color-300 : #BDC6CE;
+	--gray-color-400 : #A6AAAD;
+	--gray-color-500 : #999CA1;
+	--gray-color-600 : #888C91;
+	--gray-color-700 : #5b636d;
+	--gray-color-750 : #4f5760;
+	--gray-color-800 : #49515C;
+	--gray-color-900 : #404852;
 
 	--base-color-lightest: #fff4ec;
 	--base-color-light   : #FFA061;

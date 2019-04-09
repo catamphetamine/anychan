@@ -6,7 +6,7 @@
 
 	--rrui-accent-color       : var(--base-color-darker);
 	--rrui-accent-color-light : var(--base-color);
-	--rrui-gray-color         : var(--gray-color);
+	--rrui-gray-color         : var(--gray-color-400);
 }
 
 .rrui__snackbar__container {

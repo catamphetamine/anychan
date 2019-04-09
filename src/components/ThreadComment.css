@@ -1,7 +1,7 @@
 /* <Post/> overrides */
 
 .post__link--post {
-	color: var(--gray-color-dark);
+	color: var(--gray-color-600);
 }
 
 .post__inline-quote {
@@ -46,7 +46,7 @@
 .thread__comment--hidden {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
-	color: var(--gray-color);
+	color: var(--gray-color-400);
 	font-family: var(--font-family);
 	font-weight: 300;
 }
@@ -66,7 +66,7 @@
 	align-items: center;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	color: var(--gray-color-dark);
+	color: var(--gray-color-600);
 }
 
 .post__author-icon-container {
@@ -105,7 +105,7 @@
 	.post__header-misc,
 	.post__footer,
 	.post__author {
-		color: var(--gray-color);
+		color: var(--gray-color-400);
 	}
 }
 
@@ -124,7 +124,7 @@
 	.post__author--eligible {
 		.post__author-icon,
 		.post__author-name {
-			color: var(--black-color);
+			color: var(--gray-color-800);
 		}
 	}
 }

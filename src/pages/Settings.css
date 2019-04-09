@@ -9,7 +9,7 @@
 	margin-bottom: var(--unit);
 	padding: var(--unit);
 	background-color: #fcfcfc;
-	border: 1px solid var(--gray-color-lightest);
+	border: 1px solid var(--gray-color-100);
 }
 
 .settings-page__filters-tips {
