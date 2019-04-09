@@ -33,7 +33,35 @@ add infinite scrolling to boards list similar to that of posts list for 8ch.net
 
 Сделать импорт/экспорт настроек: { settings, state }
 
+Add `localStorage.hiddenComments` and `localStorage.hiddenThreads` and refresh them (and all watched threads) when re-querying `catalog.json`.
+
 localStorage.state =
+
+hiddenAuthorIds: [
+  'a0dbf7',
+  ...
+]
+
+hiddenComments: {
+  a: {
+    '123': [
+      124,
+      125,
+      ...
+    ],
+    ...
+  },
+  ...
+}
+
+hiddenThreads: {
+  a: [
+    123,
+    456,
+    789,
+    ...
+  ]
+}
 
 favoriteBoards: [
   'a',
