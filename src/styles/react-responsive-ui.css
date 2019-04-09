@@ -1,8 +1,12 @@
 @import "../../../webapp-frontend/src/styles/react-responsive-ui.css";
 
 /* A weird fix. Perhaps the same issue as described in `constants.css`. */
-body {
+:root, body {
 	--rrui-button-text-color-active: var(--base-color-light);
+
+	--rrui-accent-color       : var(--base-color-darker);
+	--rrui-accent-color-light : var(--base-color);
+	--rrui-gray-color         : var(--gray-color);
 }
 
 .rrui__snackbar__container {

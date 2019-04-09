@@ -8,7 +8,7 @@
    from `webapp-frontend` and so `webapp-frontend` constants override these ones
    dynamically at runtime. Perhaps in production build that would be different. */
 /* :root */
-body
+:root, body
 {
 	--white-color        : #ffffff;
 	--black-color        : #49515C;
