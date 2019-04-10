@@ -224,6 +224,12 @@ class Board extends React.Component {
 		}
 	}
 
+	onDragStart = (event) => {
+		// // Prevent dragging.
+		// event.preventDefault()
+		this.onPointerOut()
+	}
+
 	onPointerEnter = () => {
 		this.setState({
 			isHovered: true
@@ -279,7 +285,7 @@ class Board extends React.Component {
 				<Link
 					to={getUrl(board)}
 					tabIndex={-1}
-					onDragStart={this.onPointerOut}
+					onDragStart={this.onDragStart}
 					onClick={this.onBoardClick}
 					onMouseDown={this.onPointerDown}
 					onMouseUp={this.onPointerUp}
@@ -294,7 +300,7 @@ class Board extends React.Component {
 				</Link>
 				<Link
 					to={getUrl(board)}
-					onDragStart={this.onPointerOut}
+					onDragStart={this.onDragStart}
 					onClick={this.onBoardClick}
 					onMouseDown={this.onPointerDown}
 					onMouseUp={this.onPointerUp}
