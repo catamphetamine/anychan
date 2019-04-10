@@ -230,9 +230,16 @@ class Board extends React.Component {
 		})
 	}
 
-	onPointerLeave = () => {
+	// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/pointerout_event
+	// The pointerout event is fired for several reasons including:
+	// * pointing device is moved out of the hit test boundaries of an element (`pointerleave`);
+	// * firing the pointerup event for a device that does not support hover (see `pointerup`);
+	// * after firing the pointercancel event (see `pointercancel`);
+	// * when a pen stylus leaves the hover range detectable by the digitizer.
+	onPointerOut = () => {
 		this.setState({
-			isHovered: false
+			isHovered: false,
+			isActive: false
 		})
 	}
 
@@ -259,21 +266,25 @@ class Board extends React.Component {
 			isActive
 		} = this.state
 
-		// `onPointerOut` includes `onPointerCancel`.
-		// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/pointerout_event
+		// Safari doesn't support pointer events.
+		// https://caniuse.com/#feat=pointer
+		// https://webkit.org/status/#?search=pointer%20events
+		// onPointerDown={this.onPointerDown}
+		// onPointerUp={this.onPointerUp}
+		// onPointerEnter={this.onPointerEnter}
+		// onPointerOut={this.onPointerOut}
 
 		return (
 			<React.Fragment>
 				<Link
 					to={getUrl(board)}
 					tabIndex={-1}
+					onDragStart={this.onPointerOut}
 					onClick={this.onBoardClick}
-					onPointerDown={this.onPointerDown}
-					onPointerUp={this.onPointerUp}
-					onPointerCancel={this.onPointerUp}
-					onPointerEnter={this.onPointerEnter}
-					onPointerLeave={this.onPointerLeave}
-					onPointerOut={this.onPointerUp}
+					onMouseDown={this.onPointerDown}
+					onMouseUp={this.onPointerUp}
+					onMouseEnter={this.onPointerEnter}
+					onMouseLeave={this.onPointerOut}
 					className={classNames('boards-list__board-url', {
 						'boards-list__board-url--selected': isSelected,
 						'boards-list__board-url--hover': isHovered,
@@ -283,13 +294,12 @@ class Board extends React.Component {
 				</Link>
 				<Link
 					to={getUrl(board)}
+					onDragStart={this.onPointerOut}
 					onClick={this.onBoardClick}
-					onPointerDown={this.onPointerDown}
-					onPointerUp={this.onPointerUp}
-					onPointerCancel={this.onPointerUp}
-					onPointerEnter={this.onPointerEnter}
-					onPointerLeave={this.onPointerLeave}
-					onPointerOut={this.onPointerUp}
+					onMouseDown={this.onPointerDown}
+					onMouseUp={this.onPointerUp}
+					onMouseEnter={this.onPointerEnter}
+					onMouseLeave={this.onPointerOut}
 					className={classNames('boards-list__board-name', {
 						'boards-list__board-name--selected': isSelected,
 						'boards-list__board-name--hover': isHovered,
