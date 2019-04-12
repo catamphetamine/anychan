@@ -172,19 +172,40 @@ An attachment can be a:
 
 ```js
 {
+	// Comment ID.
 	id: number,
+	// Board ID.
+	// Example: "b".
 	boardId: string,
+	// Thread ID.
 	threadId: number,
+	// Comment title.
 	title: string,
-	titleCensored: InlineContent?, // If `title` contained censored words an censored title containing "spoilers" will be generated.
+	// If `title` contained censored words a censored title
+	// containing "spoilers" will be generated.
+	titleCensored: InlineContent?,
+	// The date on which the comment was posted.
 	createdAt: Date,
+	// A "tripcode".
+	// https://encyclopediadramatica.rs/Tripcode
 	tripCode: String?,
-	isThreadAuthor: boolean?, // `2ch.hk` provides means for OPs to identify themselves when replying in their threads.
-	authorId: String?, // Some chans identify their users by a hash of their IP address on some of their boards (for example, on `/pol/` of `4chan.org`, `8ch.net`, `kohlchan.net`).
-	authorIdColor: String?, // If `authorId` is present then it's converted into a HEX color. Example: "#c05a7f".
+	// `2ch.hk` provides means for "original posters" to identify themselves
+	// when replying in their own threads from the same IP address subnet.
+	isThreadAuthor: boolean?,
+	// Some chans identify their users by a hash of their IP address subnet
+	// on some of their boards (for example, all chans do that on `/pol/` boards).
+	authorId: String?,
+	// If `authorId` is present then it's converted into a HEX color.
+	// Example: "#c05a7f".
+	authorIdColor: String?,
+	// Comment author name.
 	authorName: String?,
-	authorNameId: boolean?, // `2ch.hk` autogenerates names based on IP address hash on `/po` board. If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-	authorCountry: String?, // A two-letter ISO country code (or "ZZ" for "Anonymized"). Chans usually show poster flags on `/int/` boards.
+	// `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
+	// If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+	authorNameId: boolean?,
+	// A two-letter ISO country code (or "ZZ" for "Anonymized").
+	// Chans usually show poster flags on `/int/` boards.
+	authorCountry: String?,
 	// Some chans allow icons for posts on some boards.
 	// For example, `kohlchan.net` shows user icons on `/int/` board.
 	// `authorIconId` examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
@@ -194,14 +215,28 @@ An attachment can be a:
 	// `authorIconName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
 	authorIconId: String?,
 	authorIconName: String?,
-	authorRole: String?, // Examples: "administrator", "moderator".
+	// If the comment was posted by a "priviliged" user
+	// then it's gonna be the role of the comment author.
+	// Examples: "administrator", "moderator".
+	authorRole: String?,
 	authorWasBanned: boolean?,
-	upvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
-	downvotes: number?, // Only for boards like `/po/` on `2ch.hk`.
-	content: Content?, // Example: `[['Text']]`.
-	contentPreview: Content?, // If the `content` is too long a preview is generated.
-	attachments: Attachment[],
-	replies: []
+	// Downvotes count for this comment.
+	// Only for boards like `/po/` on `2ch.hk`.
+	upvotes: number?,
+	// Downvotes count for this comment.
+	// Only for boards like `/po/` on `2ch.hk`.
+	downvotes: number?,
+	// Comment content.
+	// Example: `[['Text']]`.
+	content: Content?,
+	// If the `content` is too long a preview is generated.
+	contentPreview: Content?,
+	// Comment attachments.
+	attachments: Attachment[]?,
+	// The IDs of the comments to which this comment replies.
+	inReplyTo: number[]?,
+	// The IDs of the comments which are replies to this comment.
+	replies: number[]?
 }
 ```
 
@@ -209,21 +244,48 @@ An attachment can be a:
 
 ```js
 {
-	id: number, // Same as the "id" of the first comment.
+	// Thread ID.
+	// Same as the "id" of the first comment.
+	id: number,
+	// Board ID.
+	// Example: "b".
 	boardId: string,
+	// Comments count in this thread.
+	// (not including the main comment of the thread).
 	commentsCount: number,
+	// Attachments count in the comments of this thread.
+	// (doesn't include the main comment of the thread).
 	commentAttachmentsCount: number,
+	// Comments in this thread.
+	// (including the main comment of the thread).
 	comments: Comment[],
+	// Is this thread "sticky" (pinned).
 	isSticky: boolean?,
+	// Is this thread locked.
 	isLocked: boolean?,
-	isRolling: boolean?, // Only for 2ch.hk. A "rolling" thread is the one where old messages are purged as new ones come in.
+	// A "rolling" thread is the one where old messages are purged as new ones come in.
+	isRolling: boolean?,
+	// Was the "bump limit" reached for this thread already.
 	isBumpLimitReached: boolean?,
-	isAttachmentLimitReached: boolean?, // Only for 4chan.org.
-	maxCommentLength: number, // Only for 2ch.hk.
-	maxAttachmentsSize: number, // Only for 2ch.hk.
-	lastModifiedAt: Date, // Only for 4chan.org. "Last Modified Date", including: replies, deletions, sticky/closed status changes.
-	customSpoilerId: number?, // Only for 4chan.org. Custom spoiler ID (if custom spoilers are used on the board).
-	uniquePostersCount: number?, // Only for "get thread" API response. Unique poster IPs count.
+	// `4chan.org` sets a limit on maximum attachments count in a thread.
+	isAttachmentLimitReached: boolean?,
+	// Maximum comment length in a thread on the board (a board-wide setting).
+	// Is only present on threads on `2ch.hk`.
+	// `4chan.org` has it on boards.
+	maxCommentLength: number?,
+	// Maximum total attachments size in a thread on the board (a board-wide setting).
+	// Is only present on threads on `2ch.hk`.
+	// `4chan.org` has it on boards.
+	maxAttachmentsSize: number?,
+	// "Last Modified Date", including: replies, deletions, sticky/closed status changes.
+	// Only present for `4chan.org`.
+	lastModifiedAt: Date?,
+	// Custom spoiler ID (if custom spoilers are used on the board).
+	// Only present for `4chan.org`.
+	customSpoilerId: number?,
+	// Unique poster IP address subnets count.
+	// Only present in "get thread" API response.
+	uniquePostersCount: number?
 }
 ```
 
@@ -231,20 +293,45 @@ An attachment can be a:
 
 ```js
 {
+	// Board ID.
+	// Example: "b".
 	id: string,
+	// Board name.
+	// Example: "Anime & Manga".
 	name: string,
+	// Board description.
 	description: string,
-	isNotSafeForWork: boolean,
-	bumpLimit: number,
-	attachmentLimit: number, // Only for 4chan.org
-	maxCommentLength: number, // Only for 4chan.org
-	maxAttachmentsSize: number, // Only for 4chan.org
-	maxVideoAttachmentsSize: number, // Only for 4chan.org
-	createThreadCooldown: number, // Only for 4chan.org
-	replyCooldown: number, // Only for 4chan.org
-	attachFileCooldown: number, // Only for 4chan.org
-	isSageAllowed: boolean, // Only for 2ch.hk
-	showNames: boolean, // Only for 2ch.hk
+	// Is this board "Not Safe For Work".
+	isNotSafeForWork: boolean?,
+	// "Bump limit" for threads on this board.
+	bumpLimit: number?,
+	// The maximum attachments count in a thread.
+	// Only present for 4chan.org
+	attachmentLimit: number?,
+	// Maximum comment length in a thread on the board (a board-wide setting).
+	// Only present for `4chan.org`.
+	maxCommentLength: number?,
+	// Maximum total attachments size in a thread on the board (a board-wide setting).
+	// Only present for `4chan.org`.
+	maxAttachmentsSize: number?,
+	// Maximum total video attachments size in a thread on the board (a board-wide setting).
+	// Only present for `4chan.org`.
+	maxVideoAttachmentsSize: number?,
+	// Create new thread cooldown.
+	// Only present for `4chan.org`.
+	createThreadCooldown: number?,
+	// Post new comment cooldown.
+	// Only present for `4chan.org`.
+	replyCooldown: number?,
+	// Post new comment with an attachment cooldown.
+	// Only present for `4chan.org`.
+	attachFileCooldown: number?,
+	// Whether "sage" is allowed when posting comments on this board.
+	// Only present for `4chan.org`.
+	isSageAllowed: boolean?,
+	// Whether to show a "Name" field in a "post new comment" form on this board.
+	// Only present for `2ch.hk`.
+	showNames: boolean?
 }
 ```
 

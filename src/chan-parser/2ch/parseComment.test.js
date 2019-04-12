@@ -39,8 +39,6 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				abuLike: true,
 				content: [
@@ -69,8 +67,6 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				authorRole: 'administrator',
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				content: [
 					[
@@ -98,8 +94,6 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				authorRole: 'moderator',
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				content: [
 					[
@@ -129,8 +123,6 @@ describe('parseComment', () => {
 				id: 456,
 				authorWasBanned: true,
 				tripCode: '!!5pvF7WEJc.',
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				content: [
 					[

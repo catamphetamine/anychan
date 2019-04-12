@@ -29,7 +29,6 @@ export default {
         }
       ],
       "createdAt": new Date("2019-03-29T09:15:00.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           {
@@ -83,7 +82,6 @@ export default {
     },
     {
       "id": 456354139,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T09:15:39.000Z"),
       "inReplyTo": [
         456354102
@@ -127,7 +125,6 @@ export default {
         }
       ],
       "createdAt": new Date("2019-03-29T09:16:13.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "all epic store exclusives"
@@ -184,9 +181,7 @@ export default {
     },
     {
       "id": 456355259,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T09:36:53.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "Can we stop going back already? Everything was shit back then."
@@ -195,9 +190,7 @@ export default {
     },
     {
       "id": 456355312,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T09:37:52.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "Still not Metropolismania 3"
@@ -209,7 +202,6 @@ export default {
     },
     {
       "id": 456355379,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T09:39:04.000Z"),
       "inReplyTo": [
         456354102
@@ -328,9 +320,7 @@ export default {
     },
     {
       "id": 456356146,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T09:54:54.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "Stalker fulfill this time period with mods"
@@ -339,7 +329,6 @@ export default {
     },
     {
       "id": 456357440,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T10:20:03.000Z"),
       "inReplyTo": [
         456354175,
@@ -375,9 +364,7 @@ export default {
     },
     {
       "id": 456357514,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T10:21:16.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "haha wow",
@@ -487,7 +474,6 @@ export default {
         }
       ],
       "createdAt": new Date("2019-03-29T10:28:14.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "You forgot WoW Classic and Halo PC"
@@ -520,7 +506,6 @@ export default {
     },
     {
       "id": 456359481,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T10:57:02.000Z"),
       "inReplyTo": [
         456354102
@@ -553,9 +538,7 @@ export default {
     },
     {
       "id": 456359763,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T11:01:46.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           "I'm probably going to upgrade my pc when Stalker 2 releases for the optimal experience."
@@ -564,7 +547,6 @@ export default {
     },
     {
       "id": 456359839,
-      "attachments": [],
       "createdAt": new Date("2019-03-29T11:03:23.000Z"),
       "inReplyTo": [
         456354102
@@ -606,7 +588,6 @@ export default {
         }
       ],
       "createdAt": new Date("2019-03-29T11:07:03.000Z"),
-      "inReplyTo": [],
       "content": [
         [
           {

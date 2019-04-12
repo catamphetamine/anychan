@@ -36,8 +36,6 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				authorWasBanned: true,
 				content: [
@@ -64,8 +62,6 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				authorRole: 'administrator',
 				content: [
@@ -92,8 +88,6 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				authorRole: 'moderator',
 				content: [
@@ -119,8 +113,6 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				inReplyTo: [],
-				attachments: [],
 				createdAt: date,
 				content: [
 					[

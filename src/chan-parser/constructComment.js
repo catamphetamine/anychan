@@ -29,9 +29,10 @@ export default function constructComment(
 ) {
 	const comment = {
 		id,
-		attachments,
-		createdAt: new Date(timestamp * 1000),
-		inReplyTo: []
+		createdAt: new Date(timestamp * 1000)
+	}
+	if (attachments) {
+		comment.attachments = attachments
 	}
 	if (subject) {
 		if (correctGrammar) {

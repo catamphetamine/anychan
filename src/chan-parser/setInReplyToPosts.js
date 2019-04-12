@@ -5,6 +5,7 @@ export default function setInReplyToPosts(post) {
 		'post-link',
 		link => {
 			if (link.postId) {
+				post.inReplyTo = post.inReplyTo || []
 				post.inReplyTo.push(link.postId)
 			}
 		},

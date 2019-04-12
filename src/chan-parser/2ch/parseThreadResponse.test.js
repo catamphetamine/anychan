@@ -245,7 +245,6 @@ describe('2ch.hk', () => {
 						}
 					]
 				],
-				"inReplyTo": [],
 				"attachments": [
 					{
 						"type": "picture",
@@ -345,7 +344,6 @@ describe('2ch.hk', () => {
 				"inReplyTo": [
 					28942338
 				],
-				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:20:06.000Z"),
 				"replies": [
 					28943045
@@ -371,7 +369,6 @@ describe('2ch.hk', () => {
 				"inReplyTo": [
 					28942773
 				],
-				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:20:51.000Z"),
 				"replies": [
 					28943045
@@ -425,7 +422,6 @@ describe('2ch.hk', () => {
 					28942908,
 					28942793
 				],
-				"attachments": [],
 				"createdAt": new Date("2019-01-16T09:47:03.000Z")
 			}
 		]

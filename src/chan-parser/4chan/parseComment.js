@@ -160,6 +160,9 @@ function parseAuthorRole(post, chan) {
 }
 
 function parseAttachments(post, options) {
+	if (!post.ext && !post.extra_files) {
+		return
+	}
 	let files = []
 	if (post.ext) {
 		files.push(post)

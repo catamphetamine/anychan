@@ -61,7 +61,7 @@ export default function parseComment(post, {
 		parseRole(post.trip),
 		post.banned === 1,
 		subject,
-		post.files.map(file => parseAttachment(file, { useRelativeUrls })),
+		post.files.length === 0 ? undefined : post.files.map(file => parseAttachment(file, { useRelativeUrls })),
 		post.timestamp,
 		{
 			filters,
