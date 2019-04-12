@@ -32,9 +32,23 @@ export default class BoardsPanel extends React.Component {
 	}
 }
 
+@connect(({ app }) => ({
+	settings: app.settings
+}), {
+	preloadStarted,
+	preloadFinished,
+	getThreads,
+	pushLocation,
+	notify
+})
 export class Boards extends React.PureComponent {
 	state = {
 		view: this.props.boardsByPopularity ? 'default' : (this.props.boardsByCategory ? 'by-category' : 'default')
+	}
+
+	constructor(props) {
+		super(props)
+		this.onBoardClick = this.onBoardClick.bind(this)
 	}
 
 	onChangeViewAllBoards = () => this.setState({ view: 'default' })
@@ -53,6 +67,34 @@ export class Boards extends React.PureComponent {
 					board.id.toLowerCase().includes(query)
 			})
 		})
+	}
+
+	async onBoardClick(event) {
+		event.preventDefault()
+		const {
+			preloadStarted,
+			preloadFinished,
+			board,
+			settings,
+			pushLocation,
+			getThreads,
+			notify
+		} = this.props
+		try {
+			preloadStarted()
+			// Must be the same as the code inside `@preload()` in `pages/Board.js`.
+			await getThreads(
+				board.id,
+				settings.filters,
+				settings.locale
+			)
+			pushLocation(getUrl(board))
+		} catch (error) {
+			console.error(error)
+			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
+		} finally {
+			preloadFinished()
+		}
 	}
 
 	render() {
@@ -179,50 +221,8 @@ Boards.propTypes = {
 	className: PropTypes.string
 }
 
-@connect(({ app }) => ({
-	settings: app.settings
-}), {
-	preloadStarted,
-	preloadFinished,
-	getThreads,
-	pushLocation,
-	notify
-})
 class Board extends React.Component {
 	state = {}
-
-	constructor() {
-		super()
-		this.onBoardClick = this.onBoardClick.bind(this)
-	}
-
-	async onBoardClick(event) {
-		event.preventDefault()
-		const {
-			preloadStarted,
-			preloadFinished,
-			board,
-			settings,
-			pushLocation,
-			getThreads,
-			notify
-		} = this.props
-		try {
-			preloadStarted()
-			// Must be the same as the code inside `@preload()` in `pages/Board.js`.
-			await getThreads(
-				board.id,
-				settings.filters,
-				settings.locale
-			)
-			pushLocation(getUrl(board))
-		} catch (error) {
-			console.error(error)
-			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
-		} finally {
-			preloadFinished()
-		}
-	}
 
 	onDragStart = (event) => {
 		// // Prevent dragging.
@@ -264,7 +264,8 @@ class Board extends React.Component {
 	render() {
 		const {
 			board,
-			isSelected
+			isSelected,
+			onBoardClick
 		} = this.props
 
 		const {
@@ -286,7 +287,7 @@ class Board extends React.Component {
 					to={getUrl(board)}
 					tabIndex={-1}
 					onDragStart={this.onDragStart}
-					onClick={this.onBoardClick}
+					onClick={onBoardClick}
 					onMouseDown={this.onPointerDown}
 					onMouseUp={this.onPointerUp}
 					onMouseEnter={this.onPointerEnter}
