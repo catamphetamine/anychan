@@ -1,10 +1,6 @@
 .comment-tree {
 	--comment-tree-line-color: var(--gray-base-color-200);
-}
-
-.comment-tree__branch {
-	&:hover {
-		background-color: var(--gray-base-color-150);
-		border-left-color: var(--base-color-600);
-	}
+	--comment-tree-branch-color: var(--gray-base-color-300);
+	--comment-tree-branch-toggler-hover-background-color: var(--gray-base-color-150);
+	--comment-tree-branch-toggler-hover-line-color: var(--base-color-600);
 }

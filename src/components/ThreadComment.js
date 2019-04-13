@@ -14,7 +14,7 @@ import CountryFlag from './CountryFlag'
 
 import Post from 'webapp-frontend/src/components/Post'
 import { CommentsCountBadge, RepliesCountBadge } from 'webapp-frontend/src/components/Post.badges'
-import { isDialogueChain } from 'webapp-frontend/src/components/CommentTree'
+import { isMiddleDialogueChainLink } from 'webapp-frontend/src/components/CommentTree'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
 import {
@@ -180,7 +180,7 @@ function Comment({
 	}
 	// Add "show/hide replies" toggle button.
 	let footerBadges = FOOTER_BADGES
-	if (comment.replies && !(parentComment && isDialogueChain(comment, parentComment))) {
+	if (comment.replies && !(parentComment && isMiddleDialogueChainLink(comment, parentComment))) {
 		footerBadges = footerBadges.concat({
 			...RepliesCountBadge,
 			isPushed: showingReplies,
