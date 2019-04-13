@@ -9,7 +9,7 @@ import { getThread } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
-import ThreadComment from '../components/ThreadComment'
+import ThreadCommentTree from '../components/ThreadCommentTree'
 
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
@@ -66,13 +66,12 @@ export default class ThreadPage extends React.Component {
 					</h1>
 				</header>
 				{thread.comments.map((comment) => (
-					<ThreadComment
+					<ThreadCommentTree
 						key={comment.id}
 						mode="thread"
 						board={board}
 						thread={thread}
 						comment={comment}
-						getUrl={getUrl}
 						locale={locale}
 						openSlideshow={openSlideshow}
 						notify={notify}/>

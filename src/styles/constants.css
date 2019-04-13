@@ -27,8 +27,19 @@
 	--gray-color-900 : #404852;
 	*/
 
-	--base-color-100 : #FFDEC6;
-	--base-color-200 : #FFC398;
+	--gray-base-color-100 : #E9E9E7;
+	--gray-base-color-150 : #E1E0DE;
+	--gray-base-color-200 : #D7D5D1;
+	--gray-base-color-300 : #BCB9B3;
+	--gray-base-color-400 : #B3B0A9;
+	--gray-base-color-500 : #A19E99;
+	--gray-base-color-600 : #948E86;
+	--gray-base-color-700 : #857E73;
+	--gray-base-color-800 : #787166;
+	--gray-base-color-900 : #635C4F;
+
+	--base-color-100 : #FFF4EC;
+	--base-color-200 : #FFD0AF;
 	--base-color-300 : #FFA061;
 	--base-color-400 : #FF8732;
 	--base-color-500 : #FF6A00;

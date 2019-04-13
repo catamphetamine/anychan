@@ -5,16 +5,16 @@ import classNames from 'classnames'
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 import AnonymousPersonIcon from '../../assets/images/icons/person-outline-anonymous.svg'
 
-import CommentIcon from 'webapp-frontend/assets/images/icons/menu/message-outline.svg'
 import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
 import PersonFillIcon from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
-import ReplyIcon from 'webapp-frontend/assets/images/icons/reply.svg'
 import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
 
 import CountryFlag from './CountryFlag'
 
 import Post from 'webapp-frontend/src/components/Post'
+import { CommentsCountBadge, RepliesCountBadge } from 'webapp-frontend/src/components/Post.badges'
+import { isDialogueChain } from 'webapp-frontend/src/components/CommentTree'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 
 import {
@@ -25,7 +25,10 @@ import {
 import { getChan, shouldUseRelativeUrls } from '../chan'
 import getMessages, { getCountryNames } from '../messages'
 import getBasePath from '../utility/getBasePath'
+import getUrl from '../utility/getUrl'
 import configuration from '../configuration'
+
+import { post } from '../PropTypes'
 
 import StopIcon from 'webapp-frontend/assets/images/icons/stop.svg'
 import AnonymousIcon from '../../assets/images/icons/anonymous.svg'
@@ -49,11 +52,7 @@ export default class ThreadComment extends React.PureComponent {
 
 	onClick = (event) => {
 		const { board, thread, comment, onClick } = this.props
-		const { hidden } = this.state
 		event.preventDefault()
-		if (hidden) {
-			return this.toggleShowHide()
-		}
 		onClick(comment, thread, board)
 	}
 
@@ -70,14 +69,19 @@ export default class ThreadComment extends React.PureComponent {
 	render() {
 		const {
 			onClick,
-			getUrl,
+			onClickUrl,
 			board,
 			thread,
 			comment,
 			mode,
 			locale,
 			openSlideshow,
-			notify
+			notify,
+			parentComment,
+			showingReplies,
+			onToggleShowReplies,
+			toggleShowRepliesButtonRef,
+			postRef
 		} = this.props
 
 		const { hidden } = this.state
@@ -86,7 +90,7 @@ export default class ThreadComment extends React.PureComponent {
 		// (half the size) when they're not "OP posts".
 		const commentElement = (
 			<Comment
-				mode={mode}
+				postRef={postRef}
 				compact={mode === 'thread'}
 				comment={comment}
 				thread={thread}
@@ -95,18 +99,24 @@ export default class ThreadComment extends React.PureComponent {
 				locale={locale}
 				openSlideshow={openSlideshow}
 				notify={notify}
-				onReply={thread.isLocked ? undefined : this.onReply}
+				onReply={mode === 'thread' && !thread.isLocked ? this.onReply : undefined}
 				onVote={thread.hasVoting ? this.onVote : undefined}
-				halfSizedAttachmentThumbnails={getChan().id === '4chan' && comment.id !== thread.id}/>
+				parentComment={parentComment}
+				showingReplies={showingReplies}
+				onToggleShowReplies={onToggleShowReplies}
+				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
+				className={`thread__comment--${mode}`}/>
 		)
+
+		const id = parentComment ? undefined : comment.id
 
 		if (hidden || onClick) {
 			return (
 				<OnClick
-					id={comment.id}
+					id={id}
 					filter={commentOnClickFilter}
-					onClick={hidden || onClick ? this.onClick : undefined}
-					link={hidden || onClick ? (getBasePath() || '') + getUrl(board, thread) : undefined}
+					onClick={hidden ? this.toggleShowHide : (onClick ? this.onClick : undefined)}
+					url={(getBasePath() || '') + onClickUrl}
 					onClickClassName="thread__comment-container--click"
 					className="thread__comment-container">
 					{commentElement}
@@ -116,7 +126,7 @@ export default class ThreadComment extends React.PureComponent {
 
 		return (
 			<div
-				id={comment.id}
+				id={id}
 				className="thread__comment-container">
 				{commentElement}
 			</div>
@@ -128,23 +138,26 @@ ThreadComment.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']),
 	getUrl: PropTypes.func.isRequired,
 	onClick: PropTypes.func,
+	onClickUrl: PropTypes.string,
 	board: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}).isRequired,
 	thread: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}).isRequired,
-	comment: PropTypes.object.isRequired,
+	comment: post.isRequired,
 	locale: PropTypes.string.isRequired,
 	openSlideshow: PropTypes.func.isRequired,
-	notify: PropTypes.func.isRequired
+	notify: PropTypes.func.isRequired,
+	parentComment: post,
+	showingReplies: PropTypes.bool,
+	onToggleShowReplies: PropTypes.func,
+	toggleShowRepliesButtonRef: PropTypes.any,
+	postRef: PropTypes.any
 }
 
 function Comment({
-	mode,
-	halfSizedAttachmentThumbnails,
 	comment,
-	thread,
 	compact,
 	hidden,
 	url,
@@ -152,42 +165,45 @@ function Comment({
 	openSlideshow,
 	notify,
 	onReply,
-	onVote
+	onVote,
+	parentComment,
+	showingReplies,
+	toggleShowRepliesButtonRef,
+	onToggleShowReplies,
+	postRef,
+	className
 }) {
 	if (hidden) {
 		return (
-			<ContentSection
-				className={classNames('thread__comment', {
-					'thread__comment--hidden': hidden,
-					// 'thread__comment--with-subject': comment.subject
-				})}>
-				{getMessages(locale).hiddenPost}
-				{comment.hiddenRule && ` (${comment.hiddenRule})`}
-			</ContentSection>
+			<HiddenPostComponent post={comment} locale={locale}/>
 		)
 	}
-	const footerBadges = FOOTER_BADGES.slice()
-	const replyBadge = footerBadges.filter(badge => badge.name === 'replies-count')[0]
-	replyBadge.onClick = (post) => {
-		notify('Not implemented yet')
+	// Add "show/hide replies" toggle button.
+	let footerBadges = FOOTER_BADGES
+	if (comment.replies && !(parentComment && isDialogueChain(comment, parentComment))) {
+		footerBadges = footerBadges.concat({
+			...RepliesCountBadge,
+			isPushed: showingReplies,
+			onClick: onToggleShowReplies,
+			ref: toggleShowRepliesButtonRef
+		})
 	}
+	// `4chan.org` displays attachment thumbnails as `125px`
+	// (half the size) when they're not "OP posts".
+	const showHalfSizedAttachmentThumbnails = getChan().id === '4chan' && comment.isRootComment
 	return (
 		<Post
+			ref={postRef}
 			post={comment}
-			thread={thread}
 			url={url}
 			locale={locale}
 			header={Header}
-			moreActionsLabel={getMessages(locale).post.moreActions}
-			readMoreLabel={getMessages(locale).post.readMore}
-			spoilerLabel={getMessages(locale).post.spoiler}
-			replyLabel={mode === 'thread' ? getMessages(locale).post.reply : undefined}
-			onReply={mode === 'thread' ? onReply : undefined}
+			messages={getMessages(locale).post}
+			onReply={onReply}
 			onMoreActions={() => notify('Not implemented yet')}
 			onVote={onVote}
 			headerBadges={HEADER_BADGES}
-			footerBadges={FOOTER_BADGES}
-			replies={comment.replies}
+			footerBadges={footerBadges}
 			compact={compact}
 			saveBandwidth
 			openSlideshow={openSlideshow}
@@ -195,25 +211,28 @@ function Comment({
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			attachmentThumbnailSize={halfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
-			className={classNames('thread__comment', `thread__comment--${comment.mode}`, 'content-section')} />
-	);
+			attachmentThumbnailSize={showHalfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
+			className={classNames(className, 'thread__comment', 'content-section')} />
+	)
 }
 
 Comment.propTypes = {
-	mode: PropTypes.oneOf(['board', 'thread']),
-	comment: PropTypes.object.isRequired,
-	thread: PropTypes.object.isRequired,
+	comment: post.isRequired,
 	hidden: PropTypes.bool,
 	url: PropTypes.string.isRequired,
 	locale: PropTypes.string.isRequired,
 	openSlideshow: PropTypes.func.isRequired,
 	onReply: PropTypes.func,
 	onVote: PropTypes.func,
-	halfSizedAttachmentThumbnails: PropTypes.bool
+	parentComment: post,
+	showingReplies: PropTypes.bool,
+	onToggleShowReplies: PropTypes.func,
+	toggleShowRepliesButtonRef: PropTypes.any,
+	postRef: PropTypes.any,
+	className: PropTypes.string
 }
 
-export function commentOnClickFilter(element) {
+function commentOnClickFilter(element) {
 	if (element.classList.contains('post__inline-spoiler-contents')) {
 		if (element.parentNode.dataset.hide) {
 			return false
@@ -378,36 +397,30 @@ const HEADER_BADGES = [
 		name: 'bump-limit',
 		icon: SinkingBoatIcon,
 		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
-		condition: (post, thread) => post.id === thread.id && thread.isBumpLimitReached && !thread.isSticky
+		condition: (post, thread) => post.isBumpLimitReached && !post.isSticky
 	},
 	{
 		name: 'sticky',
 		icon: PinIcon,
 		title: (post, locale) => getMessages(locale).post.sticky,
-		condition: (post, thread) => post.id === thread.id && thread.isSticky
+		condition: (post, thread) => post.isSticky
 	},
 	{
 		name: 'rolling',
 		icon: InfinityIcon,
 		title: (post, locale) => getMessages(locale).post.rolling,
-		condition: (post, thread) => post.id === thread.id && thread.isRolling
+		condition: (post, thread) => post.isRolling
 	},
 	{
 		name: 'closed',
 		icon: LockIcon,
 		title: (post, locale) => getMessages(locale).post.closed,
-		condition: (post, thread) => post.id === thread.id && thread.isLocked
+		condition: (post, thread) => post.isLocked
 	}
 ]
 
 const FOOTER_BADGES = [
-	{
-		name: 'comments-count',
-		icon: CommentIcon,
-		title: (post, locale) => getMessages(locale).post.commentsCount,
-		condition: (post) => post.commentsCount,
-		content: post => post.commentsCount
-	},
+	CommentsCountBadge,
 	{
 		name: 'comment-attachments-count',
 		icon: PictureIcon,
@@ -421,13 +434,6 @@ const FOOTER_BADGES = [
 		title: (post, locale) => getMessages(locale).post.uniquePostersCount,
 		condition: (post) => post.uniquePostersCount,
 		content: post => post.uniquePostersCount
-	},
-	{
-		name: 'replies-count',
-		icon: ReplyIcon,
-		title: (post, locale) => getMessages(locale).post.repliesCount,
-		condition: (post) => post.replies && post.replies.length > 0,
-		content: post => post.replies.length
 	}
 ]
 
@@ -439,4 +445,21 @@ function getRoleName(authorRole, post, locale) {
 		}
 	}
 	return getMessages(locale).role[authorRole]
+}
+
+function HiddenPostComponent({ post, locale }) {
+	let content = getMessages(locale).hiddenPost
+	if (post.hiddenRule) {
+		content += ` (${post.hiddenRule})`
+	}
+	return (
+		<ContentSection className="thread__comment thread__comment--hidden">
+			{content}
+		</ContentSection>
+	)
+}
+
+HiddenPostComponent.propTypes = {
+	post: post.isRequired,
+	locale: PropTypes.string
 }

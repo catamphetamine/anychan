@@ -119,7 +119,7 @@ export const getThread = redux.action(
 			thread.comments[0].title = undefined
 		}
 		setThreadInfo(thread, 'comment')
-		thread.comments
+		setReplies(thread)
 		return {
 			boardId,
 			thread: {
@@ -215,15 +215,33 @@ function addOrigin(url) {
 	return url
 }
 
+function setReplies(thread) {
+	for (const comment of thread.comments) {
+		if (comment.replies) {
+			comment.replies = comment.replies.map(id => thread.comments.find(_ => _.id === id))
+		}
+	}
+}
+
 function setThreadInfo(thread, mode) {
 	thread.comments[0].commentsCount = thread.commentsCount
 	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
+	// `isRootComment` is used for showing full-size attachment thumbnail
+	// on main thread posts on `4chan.org`.
+	thread.comments[0].isRootComment = true
+	// `isBumpLimitReached`, `isSticky` and others are used for post header badges.
+	thread.comments[0].isBumpLimitReached = thread.isBumpLimitReached
+	thread.comments[0].isSticky = thread.isSticky
+	thread.comments[0].isRolling = thread.isRolling
+	thread.comments[0].isLocked = thread.isLocked
+	// Set viewing mode (board, thread).
 	for (const comment of thread.comments) {
 		comment.mode = mode
 	}
-	const hasAuthorIdColors = thread.comments.some(comment => comment.authorIdColor)
-	if (hasAuthorIdColors) {
+	// Set "thread shows author IDs" flag.
+	const hasAuthorIds = thread.comments.some(comment => comment.authorId)
+	if (hasAuthorIds) {
 		for (const comment of thread.comments) {
 			comment.threadHasAuthorIds = true
 		}

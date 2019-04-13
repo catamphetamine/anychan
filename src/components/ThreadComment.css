@@ -4,7 +4,8 @@
 	color: var(--gray-color-600);
 }
 
-.post__inline-quote {
+.post__inline-quote,
+.post__inline-quote--link:hover {
 	color: var(--base-color-700);
 }
 
@@ -57,7 +58,7 @@
 }
 
 /* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
-.post__inline-quote--inverse {
+.post__inline-quote__block--inverse {
 	color: #cc0000;
 }
 
@@ -101,7 +102,7 @@
 	margin-left: 0.35em;
 }
 
-.thread__comment--comment {
+.thread__comment--thread {
 	.post__header-misc,
 	.post__footer,
 	.post__author {

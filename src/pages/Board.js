@@ -110,8 +110,8 @@ export default class BoardPage extends React.Component {
 						board={board}
 						thread={thread}
 						comment={thread.comments[0]}
-						getUrl={getUrl}
 						onClick={this.onThreadClick}
+						onClickUrl={getUrl(board, thread)}
 						openSlideshow={openSlideshow}
 						notify={notify}
 						locale={locale}/>
