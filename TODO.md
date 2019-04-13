@@ -11,6 +11,16 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+Скроллить ли на родительский комментарий при скрытии ветки ответов, если уже виден низ этого комментария.
+
+Анимировать скрытие / раскрытие ответов.
+
+Добавить переменные theme.css
+
+Мб сделать цвет нажатой hover-button чуть светлее, чем :active
+
+
+
 
 deselect current board when navigating to settings/boards
 
