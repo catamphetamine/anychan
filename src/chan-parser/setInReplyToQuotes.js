@@ -36,7 +36,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		// If the post quote for this post link has already been set then skip it.
 		// This can't happen, because `.quote` property for a post link is currently
 		// only set here, but added this `if` just in case of some possible future code changes.
-		if (content.quote) {
+		if (content.quote || content.quotes) {
 			return
 		}
 		// If it's a post link for a post from another thread then skip it.
@@ -67,26 +67,61 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		if (contentParent[index + 1] !== '\n') {
 			return
 		}
+		// `kohlchan.net` and `8ch.net` have regular (green) quotes
+		// and "inverse" (red) quotes.
+		let canCombineQuotes = true
+		const combinedQuotes = []
 		// See if there's already an existing post quote for this post link.
-		const followingQuotesCount = forEachFollowingQuote(contentParent, index + 2, (quote, i) => {
+		// (composed manually by post author)
+		const startFromIndex = index + 2
+		const followingQuotesCount = forEachFollowingQuote(contentParent, startFromIndex, (quote, i) => {
 			// A post link quote is rendered as a hyperlink
 			// and having nested hyperlinks will result in invalid HTML markup.
 			// To prevent that, strip links from the quote.
 			stripLinks(quote.content)
-			// Transform the quote to a post-link quote.
-			contentParent[i] = {
-				...content,
-				quote: quote.content
+			if (canCombineQuotes) {
+				// `kohlchan.net` and `8ch.net` have regular (green) quotes
+				// and "inverse" (red) quotes.
+				// Can only combine quotes of same "kind".
+				if (quote.kind === contentParent[startFromIndex].kind) {
+					combinedQuotes.push(quote)
+				} else {
+					canCombineQuotes = false
+				}
 			}
-			// `kohlchan.net` and `8ch.net` have regular (green) quotes
-			// and "inverse" (red) quotes.
-			if (quote.kind) {
-				contentParent[i].quoteKind = quote.kind
+			if (!canCombineQuotes) {
+				// Transform the quote to a post-link quote.
+				contentParent[i] = {
+					...content
+				}
+				delete contentParent[i].quote
+				delete contentParent[i].quotes
+				delete contentParent[i].quoteKind
+				delete contentParent[i].quoteKinds,
+				// Set `post-link` quote.
+				contentParent[i].quote = quote.content
+				// `kohlchan.net` and `8ch.net` have regular (green) quotes
+				// and "inverse" (red) quotes.
+				if (quote.kind) {
+					contentParent[i].quoteKind = quote.kind
+				}
 			}
 		})
 		if (followingQuotesCount > 0) {
-			// Remove the original `post-link` and the `\n` character after it.
-			contentParent.splice(index, 2)
+			if (combinedQuotes.length === 1) {
+				const quote = combinedQuotes[0]
+				content.quote = quote.content
+				if (quote.kind) {
+					content.quoteKind = quote.kind
+				}
+			} else {
+				content.quotes = combinedQuotes.map(_ => _.content)
+				if (combinedQuotes.find(_ => _.kind)) {
+					content.quoteKinds = combinedQuotes.map(_ => _.kind)
+				}
+			}
+			// Remove the combined quotes and "\n"s before them from post content.
+			contentParent.splice(index + 1, combinedQuotes.length * 2)
 		} else {
 			// Autogenerate `post-link` quote text.
 			setPostLinkQuote(content, quotedPost, options)
@@ -121,17 +156,17 @@ function stripLinks(content) {
 
 function setPostLinkQuote(postLink, post, options) {
 	let text = getPostText(post, {
-		excludeQuotes: true,
+		excludePostQuotes: true,
 		excludeCodeBlocks: true,
 		softLimit: 150,
 		messages: options.messages
 	})
 	// If the generated post preview is empty
 	// then loosen the filters and include quotes.
-	// Code blocks are replaced with "(code)".
+	// Code blocks are always replaced with "(code)".
 	if (!text) {
 		text = getPostText(post, {
-			excludeQuotedPosts: false,
+			excludePostQuotes: false,
 			excludeCodeBlocks: true,
 			softLimit: 150,
 			messages: options.messages
