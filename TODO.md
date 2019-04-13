@@ -33,6 +33,10 @@ add infinite scrolling to boards list similar to that of posts list for 8ch.net
 
 Сделать импорт/экспорт настроек: { settings, state }
 
+На десктопе в хедере можно тулбар сделать справа: подписка, слайдшоу, ...
+
+В настройках можно сделать переключатель "Применять ночную тему с хх:хх до хх:хх".
+
 Add `localStorage.hiddenComments` and `localStorage.hiddenThreads` and refresh them (and all watched threads) when re-querying `catalog.json`.
 
 localStorage.state =
