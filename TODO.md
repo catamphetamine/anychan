@@ -19,6 +19,11 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 Мб сделать цвет нажатой hover-button чуть светлее, чем :active
 
+Убрать canCombineQuotes, потому что всегда can.
+
+Не скроллить, если ветка ответов закрыта по кнопке числа ответов.
+
+
 
 
 
