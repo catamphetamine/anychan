@@ -70,7 +70,7 @@
 	--alt-accent-color-800 : #980038;
 	--alt-accent-color-900 : #6E0029;
 
-	--background-color : #eaeaea;
+	--background-color-empty : #eaeaea;
 	--content-section-divider-color : #e3e4e8;
 	--content-section-shadow : 0 1px 0 0 #d7d8db, 0 0 0 1px var(--content-section-divider-color);
 

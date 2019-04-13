@@ -45,10 +45,6 @@
 	z-index: var(--slideshow-z-index);
 }
 
-.webpage__main--content-sections {
-	background-color: var(--background-color);
-}
-
 .thread__comment,
 .settings-page .content-section {
 	@mixin upto-s {

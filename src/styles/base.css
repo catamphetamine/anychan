@@ -8,7 +8,7 @@ body {
    in order to show correct color when scrolling
    past top/bottom of the page on touch devices. */
 .body--content-sections {
-	background-color: var(--background-color);
+	background-color: var(--background-color-empty);
 }
 
 h1, h2, h3 {
