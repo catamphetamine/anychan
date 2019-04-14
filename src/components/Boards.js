@@ -63,6 +63,7 @@ export class Boards extends React.PureComponent {
 		this.setState({
 			searchQuery: query,
 			filteredBoards: (boards || boardsByPopularity).filter((board) => {
+				// Some boards on `8ch.net` don't have a name.
 				return (board.name && board.name.toLowerCase().includes(query)) ||
 					board.id.toLowerCase().includes(query)
 			})

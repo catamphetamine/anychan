@@ -13,7 +13,7 @@ export default function parseBoards(response, { hideBoardCategories }) {
 		boardTags[tag.board].push(tag.tag)
 	}
 	// Parse boards.
-	const boards = response.boards.map(board => parseBoard(board, boardTags))
+	let boards = response.boards.map(board => parseBoard(board, boardTags))
 	// Mark hidden boards.
 	for (const board of boards) {
 		if (hideBoardCategories && hideBoardCategories.indexOf(board.category) >= 0) {
@@ -24,10 +24,6 @@ export default function parseBoards(response, { hideBoardCategories }) {
 		}
 	}
 	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
-	for (const board of boards) {
-		if (board.id === 'abu') {
-			board.id = 'api'
-		}
-	}
+	boards = boards.filter(_ => _.id !== 'abu')
 	return boards
 }
