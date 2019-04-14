@@ -10,6 +10,7 @@
 		"filters": {
 			"title": "Filters",
 			"docs": {
+				"titleStart": null,
 				"titleRegExps": "Regular expressions",
 				"titleEnd": " tips",
 				"tips": {

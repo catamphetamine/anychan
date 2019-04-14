@@ -12,6 +12,7 @@
 			"docs": {
 				"titleStart": "Шпаргалка по ",
 				"titleRegExps": "регулярным выражениям",
+				"titleEnd": null,
 				"tips": {
 					"start": "Начало слова",
 					"end": "Конец слова",

@@ -41,12 +41,26 @@ export function isSupportedLanguage(language) {
 
 function addMissingMessages(to, from) {
 	for (const key of Object.keys(from)) {
-		if (!to[key]) {
+		// Skip `null`s.
+		// For example, some phrases in English have no prefix
+		// while in other languages they do.
+		// For example, if a title contains a hyperlinked substring
+		// the message has to be split into three substrings:
+		// "before", "linked text" and "after".
+		// English may not have the "before" part, for example.
+		// In such cases it's explicitly marked as `null`.
+		if (from[key] === null || to[key] === null) {
+			continue
+		}
+		if (to[key] === undefined) {
+			// Fill in missing keys.
 			to[key] = from[key]
 		} else if (typeof from[key] !== typeof to[key]) {
+			// Replace strings with nested objects.
 			to[key] = from[key]
 		} else if (typeof from[key] !== 'string') {
-			addMissingMessages(from[key], to[key])
+			// Recurse into nested objects.
+			addMissingMessages(to[key], from[key])
 		}
 	}
 }
