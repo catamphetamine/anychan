@@ -16,6 +16,7 @@ import 'react-website/components/Loading.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
+import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import Slideshow from 'webapp-frontend/src/components/Slideshow'
 
@@ -106,6 +107,9 @@ export default class App extends React.Component {
 				{/* Pop-up messages */}
 				<Snackbar/>
 
+				{/* Detects touch device. */}
+				<DeviceInfo/>
+
 				{/* Picture Slideshow */}
 				{slideshowPictures &&
 					<Slideshow
@@ -130,7 +134,7 @@ export default class App extends React.Component {
 							})}>
 							{ children }
 						</main>
-						<Footer/>
+						<Footer className="background-content"/>
 						<Header/>
 					</div>
 				</div>

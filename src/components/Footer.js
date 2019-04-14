@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 // import { Link } from 'react-website'
 import classNames from 'classnames'
@@ -18,13 +19,20 @@ import './Footer.css'
   route: found.resolvedMatch
 }))
 export default class Footer extends React.Component {
+	static propTypes = {
+		route: PropTypes.object.isRequired,
+		locale: PropTypes.string.isRequired,
+		className: PropTypes.string
+	}
+
 	render() {
 		const {
 			route,
-			locale
+			locale,
+			className
 		} = this.props
 		return (
-			<footer className={classNames('footer', {
+			<footer className={classNames(className, 'footer', {
 				'footer--center': isRegularContent(route)
 			})}>
 				<div className={classNames('content', {

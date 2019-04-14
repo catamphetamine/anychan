@@ -115,6 +115,14 @@
 			padding-right: calc(var(--unit) * 2);
 		}
 	}
+	.background-content {
+		padding-left: var(--unit);
+		padding-right: var(--unit);
+		@mixin l-plus {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 }
 
 @mixin upto-m {
