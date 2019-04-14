@@ -108,19 +108,33 @@
 
 .webpage__main--content-sections {
 	.content {
-		padding-left: 0;
-		padding-right: 0;
-		@mixin l-plus {
-			padding-left: calc(var(--unit) * 2);
-			padding-right: calc(var(--unit) * 2);
-		}
+		padding-left: calc(var(--unit) * 2);
+		padding-right: calc(var(--unit) * 2);
 	}
 	.background-content {
-		padding-left: var(--unit);
-		padding-right: var(--unit);
-		@mixin l-plus {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+@mixin upto-m {
+	.webpage__main--content-sections {
+		.content {
 			padding-left: 0;
 			padding-right: 0;
+		}
+		.background-content {
+			padding-left: var(--unit);
+			padding-right: var(--unit);
+		}
+		/*
+		If comments don't have any side padding
+		then the root replies branch line would be ineligible
+		because it would be drawn at the very screen edge.
+		This CSS class can be used for styling such special case.
+		*/
+		.comment-tree {
+			--comment-tree-root-level-replies-branch-width-factor: 0.75;
 		}
 	}
 }
