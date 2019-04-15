@@ -99,7 +99,8 @@
 			"scaleReset": "Исходный размер",
 			"searchInGoogle": "Поискать в Гугле",
 			"showControls": "Показать действия",
-			"hideControls": "Скрыть действия"
+			"hideControls": "Скрыть действия",
+			"openExternalLink": "Открыть оригинал"
 		}
 	}
 }

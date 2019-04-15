@@ -100,7 +100,8 @@
 			"scaleReset": "Initial size",
 			"searchInGoogle": "Search in Google",
 			"showControls": "Show controls",
-			"hideControls": "Hide controls"
+			"hideControls": "Hide controls",
+			"openExternalLink": "Open external link"
 		}
 	}
 }
