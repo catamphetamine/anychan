@@ -98,7 +98,9 @@
 			"scaleUp": "Scale Up",
 			"scaleDown": "Scale Down",
 			"scaleReset": "Initial size",
-			"searchInGoogle": "Search in Google"
+			"searchInGoogle": "Search in Google",
+			"showControls": "Show controls",
+			"hideControls": "Hide controls"
 		}
 	}
 }

@@ -97,7 +97,9 @@
 			"scaleUp": "Увеличить",
 			"scaleDown": "Уменьшить",
 			"scaleReset": "Исходный размер",
-			"searchInGoogle": "Поискать в Гугле"
+			"searchInGoogle": "Поискать в Гугле",
+			"showControls": "Показать действия",
+			"hideControls": "Скрыть действия"
 		}
 	}
 }
