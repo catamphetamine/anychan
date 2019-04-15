@@ -28,7 +28,7 @@ export default class BoardsPage extends React.Component {
 			boardsByPopularity
 		} = this.props
 		return (
-			<section className="boards-page">
+			<section className="content text-content">
 				<Boards
 					locale={locale}
 					boards={boards}

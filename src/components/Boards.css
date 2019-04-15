@@ -200,7 +200,8 @@
 }
 
 .boards__search {
-	width: 26em;
+	width: 100%;
+	max-width: 26em;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc(var(--unit) * 2);
