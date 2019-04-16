@@ -4,6 +4,7 @@
 	color: var(--gray-color-600);
 }
 
+.post__quote-block__marker,
 .post__inline-quote,
 .post__inline-quote--link:hover {
 	color: var(--base-color-700);
