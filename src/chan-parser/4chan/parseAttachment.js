@@ -1,4 +1,4 @@
-import { getMimeTypeByFileName } from '../parseAttachment'
+import getMimeType from 'webapp-frontend/src/utility/getMimeType'
 
 export default function parseAttachment(file, options) {
 	const { chan } = options
@@ -11,7 +11,7 @@ export default function parseAttachment(file, options) {
 			}
 		}
 	}
-	const mimeType = getMimeTypeByFileName(file.ext)
+	const mimeType = getMimeType(file.ext)
 	if (mimeType && mimeType.indexOf('image/') === 0) {
 		return parsePicture(file, mimeType, options)
 	}
@@ -32,7 +32,7 @@ function parsePicture(file, mimeType, {
 	attachmentThumbnailUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'picture', chan)
-	const thumbnailType = getMimeTypeByFileName(thumbnailExt)
+	const thumbnailType = getMimeType(thumbnailExt)
 	const sizes = [{
 		type: thumbnailType,
 		width: file.tn_w,
@@ -87,7 +87,7 @@ function parseVideo(file, mimeType, {
 			size: file.fsize, // in bytes
 			url: formatUrl(attachmentUrl, boardId, file.tim, file.ext, file.filename),
 			picture: {
-				type: getMimeTypeByFileName(thumbnailExt),
+				type: getMimeType(thumbnailExt),
 				width: file.tn_w,
 				height: file.tn_h,
 				url: formatUrl(attachmentThumbnailUrl, boardId, file.tim, thumbnailExt, file.filename)

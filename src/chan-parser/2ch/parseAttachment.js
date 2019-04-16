@@ -1,4 +1,4 @@
-import { getMimeTypeByFileName } from '../parseAttachment'
+import getMimeType from 'webapp-frontend/src/utility/getMimeType'
 
 const STICKER_FILE_TYPE = 100
 const ORIGIN = 'https://2ch.hk'
@@ -12,7 +12,7 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 	const mimeType = getContentTypeByFileType(file.type) ||
 		// Fallback for incorrect attachments.
 		// (there were some cases supposedly in old threads)
-		getMimeTypeByFileName(file.path)
+		getMimeType(file.path)
 	if (mimeType && mimeType.indexOf('image/') === 0) {
 		return parsePicture(file, mimeType, origin)
 	}
@@ -37,7 +37,7 @@ function parsePicture(file, mimeType, origin) {
 			size: file.size * 1024, // in bytes
 			url: `${origin}${file.path}`,
 			sizes: [{
-				type: getMimeTypeByFileName(file.thumbnail),
+				type: getMimeType(file.thumbnail),
 				width: file.tn_width,
 				height: file.tn_height,
 				url: `${origin}${file.thumbnail}`
@@ -72,7 +72,7 @@ function parseVideo(file, mimeType, origin) {
 			size: file.size * 1024, // in bytes
 			url: `${origin}${file.path}`,
 			picture: {
-				type: getMimeTypeByFileName(file.thumbnail),
+				type: getMimeType(file.thumbnail),
 				width: file.tn_width,
 				height: file.tn_height,
 				url: `${origin}${file.thumbnail}`
