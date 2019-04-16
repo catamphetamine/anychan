@@ -11,6 +11,10 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+
+
+Swipe speed посмотреть мб, почему может не работать на мобильном.
+
 Скроллить ли на родительский комментарий при скрытии ветки ответов, если уже виден низ этого комментария.
 
 Анимировать скрытие / раскрытие ответов.
@@ -26,6 +30,8 @@ If a thread is in bump limit show a waterline after the last bumping message (in
 
 
 
+
+When navigating an anchor link add a border around the message being navigated to.
 
 deselect current board when navigating to settings/boards
 
