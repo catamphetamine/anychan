@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CleanPlugin from 'clean-webpack-plugin'
 import Visualizer from 'webpack-visualizer-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import configuration from './webpack.config'
@@ -17,7 +17,7 @@ configuration.devtool = 'source-map'
 // https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
 configuration.optimization = {
   minimizer: [
-    new UglifyJsPlugin({
+    new TerserPlugin({
       cache: true,
       parallel: true,
       sourceMap: true
