@@ -113,18 +113,18 @@ export const getThread = redux.action(
 		// Generate text preview which is used for `<meta description/>` on the thread page.
 		generateTextPreview(thread.comments[0])
 		console.log(`Thread parsed in ${(Date.now() - startedAt) / 1000} secs`)
-		// Move thread subject from the first comment to the thread object.
-		const subject = thread.comments[0].title
-		if (subject) {
-			thread.comments[0].title = undefined
-		}
+		// // Move thread subject from the first comment to the thread object.
+		// const subject = thread.comments[0].title
+		// if (subject) {
+		// 	thread.comments[0].title = undefined
+		// }
 		setThreadInfo(thread, 'comment')
 		setReplies(thread)
 		return {
 			boardId,
 			thread: {
 				...thread,
-				subject
+				// subject
 			}
 		}
 	},
