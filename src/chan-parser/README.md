@@ -190,7 +190,7 @@ An attachment can be a:
 	// https://encyclopediadramatica.rs/Tripcode
 	tripCode: String?,
 	// `2ch.hk` provides means for "original posters" to identify themselves
-	// when replying in their own threads from the same IP address subnet.
+	// when replying in their own threads with a previously set "OP" cookie.
 	isThreadAuthor: boolean?,
 	// Some chans identify their users by a hash of their IP address subnet
 	// on some of their boards (for example, all chans do that on `/pol/` boards).
