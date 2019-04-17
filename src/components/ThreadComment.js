@@ -190,7 +190,7 @@ function Comment({
 	}
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
-	const showHalfSizedAttachmentThumbnails = getChan().id === '4chan' && comment.isRootComment
+	const showHalfSizedAttachmentThumbnails = getChan().id === '4chan' && !comment.isRootComment
 	return (
 		<Post
 			ref={postRef}
