@@ -7,6 +7,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import configuration from './webpack.config'
+import applicationConfiguration from '../configuration'
 
 // `gh-pages` will have `/chanchan` base path.
 configuration.output.publicPath = '/chanchan/'
@@ -53,12 +54,10 @@ configuration.plugins.push(
   new HtmlWebpackPlugin({
     template: 'src/index.html',
     // favicon: 'assets/images/icon@192x192.png',
-    // // Seems to use "lodash" templates.
-    // templateParameters: {
-    //  disableSentryIO: 'true',
-    //  sentryIOHash: null,
-    //  sentryIOProjectId: null
-    // }
+    // Seems to use "lodash" templates.
+    templateParameters: {
+      googleAnalytics: applicationConfiguration.googleAnalytics
+    }
   })
 )
 

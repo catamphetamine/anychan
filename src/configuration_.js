@@ -11,5 +11,8 @@ export default {
 	corsProxyUrlAws: configuration.corsProxyUrlAws,
 	// https://console.developers.google.com/apis/credentials
 	youTubeApiKey: configuration.youtube && configuration.youtube.apiKey,
+	googleAnalytics: configuration.googleAnalytics && {
+		id: configuration.googleAnalytics.id
+	},
 	defaultChan: configuration.defaultChan
 }

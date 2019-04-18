@@ -19,12 +19,10 @@ configuration.plugins.push(
 	new HtmlWebpackPlugin({
 		template: 'src/index.html',
 		// favicon: 'assets/images/icon@192x192.png',
-		// // Seems to use "lodash" templates.
-		// templateParameters: {
-		// 	disableSentryIO: 'true',
-		// 	sentryIOHash: null,
-		// 	sentryIOProjectId: null
-		// }
+    // Seems to use "lodash" templates.
+    templateParameters: {
+      googleAnalytics: applicationConfiguration.googleAnalytics
+    }
 	})
 )
 

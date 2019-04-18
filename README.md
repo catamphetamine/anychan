@@ -279,6 +279,28 @@ text = True
 
 In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API.
 
+## Configuration
+
+By default the application uses `./configuration/default.json` settings.
+
+To define custom/additional settings one can create `configuration.json` file in the `./configuration` directory. Example:
+
+#### configuration.json
+
+```js
+{
+	"defaultChan": "...",
+	"googleAnalytics": {
+		"id": "..."
+	},
+	"youtube": {
+		"apiKey": "..."
+	},
+	"corsProxyUrl": "https://example.herokuapp.com/{url}",
+	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}"
+}
+```
+
 ## Chan API
 
 ### 4chan.org
@@ -298,25 +320,3 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 ### kohlchan.net
 
 * [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net/API.md)
-
-<!--
-## Configuration
-
-By default the application uses `./configuration/default.json` settings.
-
-To define custom settins create `configuration.json` file in the `./configuration` directory:
-
-#### configuration.json
-
-```js
-{
-	// (optional)
-	"youtube": {
-		"apiKey": "..."
-	},
-	...
-}
-```
-
-Any settings in `configuration.json` will override the corresponding settings in `default.json`.
--->
