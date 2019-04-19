@@ -91,7 +91,7 @@
 		"Взрослым"
 	],
 	"hideBoardCategories": [
-		"Пользовательские"
+		"Прочие"
 	],
 	"countryFlagUrl": "/icons/logos/{country}.png",
 	"proxy": {

@@ -18,7 +18,10 @@ export default function parseBoard(board, boardTags) {
 	if (board.enable_sage === 1) {
 		parsedBoard.isSageAllowed = true
 	}
-	if (board.category === 'Разное' || board.category === 'Взрослым') {
+	if (board.category === 'Пользовательские') {
+		parsedBoard.category = 'Прочие'
+	}
+	if (board.category === 'Взрослым') {
 		board.isNotSafeForWork = true
 	}
 	if (boardTags[board.id]) {
