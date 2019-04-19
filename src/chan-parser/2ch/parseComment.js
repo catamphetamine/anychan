@@ -80,7 +80,9 @@ export default function parseComment(post, {
 	if (post.email) {
 		// "mailto:admin@example.com" -> "admin@example.com".
 		const email = post.email.replace(MAILTO, '')
-		if (email === 'sage') {
+		// Some users write "Sage" instead of "sage".
+		// I guess those are mobile users with `<input type="text"/>` autocapitalization.
+		if (email === 'sage' || email === 'Sage') {
 			comment.isSage = true
 		} else if (email) {
 			comment.authorEmail = email

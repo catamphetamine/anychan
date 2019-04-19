@@ -110,7 +110,8 @@ export default function parseComment(post, {
 	}
 	// `8ch.net` and `kohlchan.net` (`vichan` engine) have `email` property.
 	if (post.email) {
-		if (post.email === 'sage') {
+		// I guess those are mobile users with `<input type="text"/>` autocapitalization.
+		if (post.email === 'sage' || post.email === 'Sage') {
 			comment.isSage = true
 		} else {
 			comment.authorEmail = post.email
