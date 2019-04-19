@@ -6,11 +6,19 @@ import configuration from './configuration'
 import { hideSidebar } from './redux/app'
 
 export default async function() {
+	let isFirstRender = true
 	// Renders the webpage on the client side
 	const result = await render(settings, {
 		onNavigate(url, location, { dispatch, getState }) {
-			// Focus the page.
-			document.querySelector('main').focus()
+			// Focus the page on subsequent renders.
+			// (for screen readers and accessibility).
+			if (isFirstRender) {
+				isFirstRender = false
+			} else {
+				// NVDA won't announce the changed content of the page.
+				// https://github.com/nvaccess/nvda/issues/6606
+				document.querySelector('main').focus()
+			}
 			// Hide sidebar navigation pop up (only on small screens).
 			dispatch(hideSidebar())
 			// Set up Google Analytics.
