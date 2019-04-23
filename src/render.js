@@ -5,6 +5,8 @@ import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
 
+import { onPageRender } 'webapp-frontend/src/utility/extension'
+
 export default async function() {
 	let isFirstRender = true
 	// Renders the webpage on the client side
@@ -15,9 +17,16 @@ export default async function() {
 			if (isFirstRender) {
 				isFirstRender = false
 			} else {
-				// NVDA won't announce the changed content of the page.
+				// Focus the `<main/>` content if no page element has been focused yet.
+				// P.S.: NVDA won't announce the focused region.
 				// https://github.com/nvaccess/nvda/issues/6606
-				document.querySelector('main').focus()
+				// `document.activeElement` is supported in all browsers, even very old ones.
+				// https://developer.mozilla.org/docs/Web/API/Document/activeElement
+				if (!document.activeElement ||
+					document.activeElement === document.body ||
+					!document.querySelector('main').contains(document.activeElement)) {
+					document.querySelector('main').focus()
+				}
 			}
 			// Hide sidebar navigation pop up (only on small screens).
 			dispatch(hideSidebar())
@@ -39,6 +48,8 @@ export default async function() {
 					'page_path': location.pathname
 				})
 			}
+			// Call extension hooks.
+			onPageRender(location)
 		}
 	})
 	// If there was an error during the initial rendering
