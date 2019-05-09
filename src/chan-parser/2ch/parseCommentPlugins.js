@@ -156,6 +156,18 @@ const parseUnderline = {
 	}
 }
 
+// Sometimes moderators use direct HTML markup in opening posts.
+const parseUnderlineTag = {
+	tag: 'u',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'underline',
+			content
+		}
+	}
+}
+
 const parseOverline = {
 	tag: 'span',
 	attributes: [
@@ -237,6 +249,7 @@ export default [
 	parseItalicLegacy,
 	parseStrikethrough,
 	parseUnderline,
+	parseUnderlineTag,
 	parseOverline,
 	parseSpoiler,
 	parseSubscript,
