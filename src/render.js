@@ -5,7 +5,7 @@ import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
 
-import { onPageRender } 'webapp-frontend/src/utility/extension'
+import { onPageRender } from 'webapp-frontend/src/utility/extension'
 
 export default async function() {
 	let isFirstRender = true
