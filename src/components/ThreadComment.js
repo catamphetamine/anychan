@@ -397,7 +397,8 @@ const HEADER_BADGES = [
 		name: 'bump-limit',
 		icon: SinkingBoatIcon,
 		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
-		condition: (post, thread) => post.isBumpLimitReached && !post.isSticky
+		// On `2ch.hk` there can be "rolling" threads which aren't "sticky".
+		condition: (post, thread) => post.isBumpLimitReached && !post.isSticky && !post.isRolling
 	},
 	{
 		name: 'sticky',
