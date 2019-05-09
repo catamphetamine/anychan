@@ -52,6 +52,8 @@
 	"videoNotFound": "Video not found",
 	"search": "Search",
 	"noSearchResults": "Nothing found",
+	"showPrevious": "Show previous",
+	"showNext": "Show next",
 	"post": {
 		"banned": "The author of this comment was banned",
 		"sticky": "Sticky thread",
