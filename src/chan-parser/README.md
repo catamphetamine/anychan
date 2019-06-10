@@ -1,6 +1,6 @@
 Chan API response parser.
 
-Supported chans: `2ch.hk`, `4chan.org`.
+Supported chans: `2ch.hk`, `4chan.org`, `8ch.net`, `kohlchan.net`.
 
 Features:
 
@@ -8,11 +8,10 @@ Features:
 * Automatically inserts quoted posts' text when none provided.
 
 ```js
-import { Parser } from './chan-parser/2ch'
-import { Parser } from './chan-parser/4chan'
+import createParser from './chan-parser'
 ```
 
-### new Parser(chanIdOrChanSettings, options)
+### createParser(chanIdOrChanSettings, options)
 
 Creates a new parser instance.
 
@@ -41,7 +40,7 @@ Available `options`:
 
 * `messages` — (optional) Are used mostly for setting post link content. Examples: `messages.deletedPost === "Comment deleted"`, `messages.hiddenPost === "Hidden comment"`, `messages.quotedPost === "Comment"`.
 
-* `filters` — (optional) An array of filters used to censor certain words in comment content or subject. Filters should be pre-compiled via `compileFilters(filters, language)`. `language` argument can be either `"en"` or `"ru"` (more languages can be added) and is only used for finding word boundaries. `filters` argument must be an array of `string` patterns. Example patterns: `^mother.*$`, `fc?uck`. `^` means "word start", `$` means "word end", `.` means "any letter, `*` means "any count of", `?` means "optional".
+* `filters` — (optional) An array of filters used to censor certain words in comment content or subject. Filters should be pre-compiled via `compileFilters(filters, language)`. `language` argument can be either `"en"` or `"ru"` (more languages can be added) and is only used for finding word boundaries. `filters` argument must be an array of `string` patterns. The standard regular expression syntax applies (`^` meaning "word start", `$` meaning "word end", `.` meaning "any letter", etc). Example: `^mother.*$`, `fc?uck`.
 
 * `commentLengthLimit` — (optional) A `number` telling the max comment length (in "points" which can be thought of as "characters and character equivalents for non-text content") before `comment.contentPreview` is generated.
 
