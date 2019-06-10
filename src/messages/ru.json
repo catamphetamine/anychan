@@ -69,6 +69,16 @@
 		"reply": "Ответить",
 		"spoiler": "Спойлер"
 	},
+	"form": {
+		"error": {
+			"required": "Обязательно"
+		}
+	},
+	"actions": {
+		"post": "Отправить",
+		"save": "Сохранить",
+		"cancel": "Отмена"
+	},
 	"role": {
 		"administrator": "Администратор",
 		"moderator": "Модератор",

@@ -6,9 +6,10 @@ import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
-import { Parser as TwoChannelParser, BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
-import { Parser as FourChanParser } from '../chan-parser/4chan'
+import createParser from '../chan-parser'
+import { BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
+import createByIdIndex from '../utility/createByIdIndex'
 
 import getPostText from 'webapp-frontend/src/utility/post/getPostText'
 import trimText from 'webapp-frontend/src/utility/post/trimText'
@@ -39,7 +40,7 @@ export const getBoards = redux.action(
 			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
-		return getBoardsResult(createParser({}).parseBoards(response, {
+		return getBoardsResult(createChanParser({}).parseBoards(response, {
 			hideBoardCategories: getChan().hideBoardCategories
 		}))
 	},
@@ -66,7 +67,7 @@ export const getAllBoards = redux.action(
 			response = await http.get(proxyUrl(addOrigin(getChan().allBoardsUrl || getChan().boardsUrl)))
 		}
 		console.log(`Get all boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
-		return getBoardsResult(createParser({}).parseBoards(response))
+		return getBoardsResult(createChanParser({}).parseBoards(response))
 	},
 	(state, result) => ({
 		...state,
@@ -82,7 +83,12 @@ export const getThreads = redux.action(
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const threads = createParser({ filters, locale }).parseThreads(response, { boardId })
+		const threads = createChanParser({ filters, locale }).parseThreads(response, {
+			boardId,
+			// Can parse the list of threads up to 4x faster without parsing content.
+			// Example: when parsing content — 130 ms, when not parsing content — 20 ms.
+			parseContent: false
+		})
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
 			setThreadInfo(thread, 'thread')
@@ -109,7 +115,12 @@ export const getThread = redux.action(
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const thread = createParser({ filters, locale }).parseThread(response, { boardId })
+		const thread = createChanParser({ filters, locale }).parseThread(response, {
+			boardId,
+			// Can parse thread comments up to 4x faster without parsing content.
+			// Example: when parsing content — 650 ms, when not parsing content — 200 ms.
+			parseContent: false
+		})
 		// Generate text preview which is used for `<meta description/>` on the thread page.
 		generateTextPreview(thread.comments[0])
 		console.log(`Thread parsed in ${(Date.now() - startedAt) / 1000} secs`)
@@ -119,7 +130,9 @@ export const getThread = redux.action(
 		// 	thread.comments[0].title = undefined
 		// }
 		setThreadInfo(thread, 'comment')
-		setReplies(thread)
+		// Transforms `comment.replies` from an array of
+		// reply IDs to an array of the actual replies.
+		expandReplyObjects(thread)
 		return {
 			boardId,
 			thread: {
@@ -152,11 +165,8 @@ export const getThread = redux.action(
 
 export default redux.reducer()
 
-function createParser({ filters, locale }) {
-	const Parser = getParser()
-	return new Parser({
-		...getChan().parserOptions,
-		chan: getChan().id,
+function createChanParser({ filters, locale }) {
+	return createParser(getChan().id, {
 		filters,
 		commentLengthLimit: 500,
 		messages: locale ? getMessages(locale) : undefined,
@@ -178,17 +188,6 @@ function proxyUrl(url) {
 		return configuration.corsProxyUrl.replace('{url}', url)
 	}
 	return url
-}
-
-function getParser() {
-	switch (getChan().parser) {
-		case '2ch':
-			return TwoChannelParser
-		case '4chan':
-			return FourChanParser
-		default:
-			throw new Error(`Unknown chan parser: "${getChan().parser}"`)
-	}
 }
 
 function getBoardsResponseExample(chan) {
@@ -215,10 +214,17 @@ function addOrigin(url) {
 	return url
 }
 
-function setReplies(thread) {
+/**
+ * Transforms `comment.replies` from an array of
+ * reply IDs to an array of the actual replies.
+ * @param {object} thread
+ */
+function expandReplyObjects(thread) {
+	// Create "comments by id" index for optimized performance.
+	const getCommentById = createByIdIndex(thread.comments)
 	for (const comment of thread.comments) {
 		if (comment.replies) {
-			comment.replies = comment.replies.map(id => thread.comments.find(_ => _.id === id))
+			comment.replies = comment.replies.map(getCommentById)
 		}
 	}
 }

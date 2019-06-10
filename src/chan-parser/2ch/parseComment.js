@@ -29,7 +29,8 @@ export default function parseComment(post, {
 	hasFlags,
 	icons,
 	useRelativeUrls,
-	getUrl
+	getUrl,
+	parseContent
 }) {
 	let subject = post.subject
 	// `post.comment` is always present, even when there's no text.
@@ -68,7 +69,8 @@ export default function parseComment(post, {
 			parseCommentPlugins,
 			correctGrammar,
 			messages,
-			getUrl
+			getUrl,
+			parseContent
 		}
 	)
 	if (author && typeof author === 'object') {

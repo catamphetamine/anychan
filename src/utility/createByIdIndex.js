@@ -1,0 +1,1 @@
+export { default as default } from '../chan-parser/createByIdIndex'

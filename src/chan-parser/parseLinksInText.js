@@ -2,12 +2,13 @@ import createLink from 'webapp-frontend/src/utility/post/createLink'
 
 const URL_REGEXP = /(?:https?|ftp):\/\/[^\s\/$.?#].[^\s]*/i
 
-export default function parseLinks(post) {
-	// Post content can be empty.
-	if (!post.content) {
-		return
-	}
-	for (const paragraph of post.content) {
+/**
+ * Finds all plain-text URLs in post `content`
+ * and converts them to `{ type: 'link' }` objects.
+ * @param  {object} content
+ */
+export default function parseLinksInText(content) {
+	for (const paragraph of content) {
 		if (Array.isArray(paragraph)) {
 			injectLinks(paragraph)
 		}

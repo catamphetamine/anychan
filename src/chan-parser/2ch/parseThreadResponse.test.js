@@ -427,7 +427,7 @@ describe('2ch.hk', () => {
 		]
 
 		expectToEqual(
-			new Parser({
+			new Parser('2ch', {
 				messages: {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',

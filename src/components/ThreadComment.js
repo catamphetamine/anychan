@@ -11,6 +11,7 @@ import PersonFillIcon from 'webapp-frontend/assets/images/icons/menu/person-fill
 import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
 
 import CountryFlag from './CountryFlag'
+import PostForm from './PostForm'
 
 import Post from 'webapp-frontend/src/components/Post'
 import { CommentsCountBadge, RepliesCountBadge } from 'webapp-frontend/src/components/Post.badges'
@@ -41,14 +42,41 @@ import './ThreadComment.css'
 
 export default class ThreadComment extends React.PureComponent {
 	state = {
-		hidden: this.props.comment.hidden
+		hidden: this.props.comment.hidden,
+		showReplyForm: this.props.initialShowReplyForm
 	}
+
+	replyForm = React.createRef()
 
 	toggleShowHide = () => {
 		this.setState(({ hidden }) => ({
 			hidden: !hidden
 		}))
 	}
+
+	toggleShowReplyForm = (value, callback) => {
+		const {
+			onToggleShowReplyForm,
+			onContentDidChange
+		} = this.props
+		if (onToggleShowReplyForm) {
+			onToggleShowReplyForm(value)
+		}
+		this.setState({
+			showReplyForm: value
+		}, () => {
+			// `virtual-scroller` item height is reduced when reply form is hidden.
+			if (onContentDidChange) {
+				onContentDidChange()
+			}
+			if (callback) {
+				callback()
+			}
+		})
+	}
+
+	showReplyForm = (callback) => this.toggleShowReplyForm(true, callback)
+	hideReplyForm = (callback) => this.toggleShowReplyForm(false, callback)
 
 	onClick = (event) => {
 		const { board, thread, comment, onClick } = this.props
@@ -63,7 +91,32 @@ export default class ThreadComment extends React.PureComponent {
 
 	onReply = () => {
 		const { notify } = this.props
+		const { showReplyForm } = this.state
 		notify('Not implemented yet')
+		// if (showReplyForm) {
+		// 	this.replyForm.current.focus()
+		// } else {
+		// 	this.showReplyForm(() => {
+		// 		// The form auto-focuses on mount.
+		// 		// this.replyForm.current.focus()
+		// 	})
+		// }
+	}
+
+	onCancelReply = () => {
+		this.hideReplyForm(() => {
+			// .focus() the "Reply" button of `this.postRef.current` here.
+		})
+	}
+
+	onSubmitReply = ({ content }) => {
+		const { notify } = this.props
+		notify('Not implemented yet')
+		// Disable reply form.
+		// Show a spinner.
+		// Wait for the new comment to be fetched as part of thread auto-update.
+		// Hide the reply form.
+		// Focus the "Reply" button of `this.postRef.current` here.
 	}
 
 	render() {
@@ -81,17 +134,23 @@ export default class ThreadComment extends React.PureComponent {
 			showingReplies,
 			onToggleShowReplies,
 			toggleShowRepliesButtonRef,
+			initialExpandContent,
+			onExpandContent,
+			onContentDidChange,
 			postRef
 		} = this.props
 
-		const { hidden } = this.state
+		const {
+			hidden,
+			showReplyForm
+		} = this.state
 
 		// `4chan.org` displays attachment thumbnails as `125px`
 		// (half the size) when they're not "OP posts".
 		const commentElement = (
 			<Comment
 				postRef={postRef}
-				compact={mode === 'thread'}
+				compact={mode === 'thread' && comment.id !== thread.id}
 				comment={comment}
 				thread={thread}
 				hidden={hidden}
@@ -105,7 +164,12 @@ export default class ThreadComment extends React.PureComponent {
 				showingReplies={showingReplies}
 				onToggleShowReplies={onToggleShowReplies}
 				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
-				className={`thread__comment--${mode}`}/>
+				initialExpandContent={initialExpandContent}
+				onExpandContent={onExpandContent}
+				onContentDidChange={onContentDidChange}
+				className={classNames(`thread__comment--${mode}`, {
+					'thread__comment--opening': mode === 'thread' && comment.id === thread.id
+				})}/>
 		)
 
 		const id = parentComment ? undefined : comment.id
@@ -124,11 +188,20 @@ export default class ThreadComment extends React.PureComponent {
 			)
 		}
 
+		const replyForm = showReplyForm ? (
+			<PostForm
+				ref={this.replyForm}
+				locale={locale}
+				onCancel={this.onCancelReply}
+				onSubmit={this.onSubmitReply}/>
+		) : null
+
 		return (
 			<div
 				id={id}
 				className="thread__comment-container">
 				{commentElement}
+				{replyForm}
 			</div>
 		)
 	}
@@ -153,6 +226,11 @@ ThreadComment.propTypes = {
 	showingReplies: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
+	initialExpandContent: PropTypes.bool,
+	onExpandContent: PropTypes.func,
+	initialShowReplyForm: PropTypes.bool,
+	onToggleShowReplyForm: PropTypes.func,
+	onContentDidChange: PropTypes.func,
 	postRef: PropTypes.any
 }
 
@@ -170,6 +248,9 @@ function Comment({
 	showingReplies,
 	toggleShowRepliesButtonRef,
 	onToggleShowReplies,
+	initialExpandContent,
+	onExpandContent,
+	onContentDidChange,
 	postRef,
 	className
 }) {
@@ -201,6 +282,9 @@ function Comment({
 			messages={getMessages(locale).post}
 			onReply={onReply}
 			onMoreActions={() => notify('Not implemented yet')}
+			initialExpandContent={initialExpandContent}
+			onExpandContent={onExpandContent}
+			onContentDidChange={onContentDidChange}
 			onVote={onVote}
 			headerBadges={HEADER_BADGES}
 			footerBadges={footerBadges}
@@ -229,6 +313,9 @@ Comment.propTypes = {
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
 	postRef: PropTypes.any,
+	initialShowReplyForm: PropTypes.bool,
+	onToggleShowReplyForm: PropTypes.func,
+	onContentDidChange: PropTypes.func,
 	className: PropTypes.string
 }
 

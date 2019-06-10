@@ -187,9 +187,9 @@ const parseOverline = {
 
 const parseLink = {
 	tag: 'a',
-	// // Won't "unescape" content (for some reason).
-	// correctContent: false,
 	createBlock(content, util) {
+		// Both board page and thread page:
+		// `<a href="/b/res/197765456.html#197791215" class="post-reply-link" data-thread="197765456" data-num="197791215">&gt;&gt;197791215</a>`
 		const href = util.getAttribute('href')
 		if (util.hasAttribute('data-thread')) {
 			const threadId = util.getAttribute('data-thread')

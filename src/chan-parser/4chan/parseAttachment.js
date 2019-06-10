@@ -6,6 +6,10 @@ export default function parseAttachment(file, options) {
 		if (file.fpath) {
 			options = {
 				...options,
+				// `8ch.net` has `fpath: 0/1` parameter for attachments:
+				// "fpath" attachments are hosted at the global board-agnostic
+				// "fpath" URLs (not having `boardId` as part of their URL)
+				// and all other attachments are hosted at board-specific URLs.
 				attachmentUrl: options.attachmentUrlFpath,
 				attachmentThumbnailUrl: options.attachmentThumbnailUrlFpath
 			}

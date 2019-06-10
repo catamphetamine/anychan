@@ -1,13 +1,6 @@
 {
 	"id": "4chan",
 	"parser": "4chan",
-	"parserOptions": {
-		"defaultAuthorName": "Anonymous",
-		"attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",
-		"attachmentThumbnailUrl": "https://i.4cdn.org/{boardId}/{name}s.jpg",
-		"fileAttachmentUrl": "https://i.4cdn.org/{boardId}/{originalName}{ext}",
-		"commentUrlRegExp": "^\\/(.+?)\\/thread\\/(\\d+)#p(\\d+)$"
-	},
 	"color": "#8dc63f",
 	"website": "https://4chan.org",
 	"domains": [

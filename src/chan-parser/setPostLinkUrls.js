@@ -1,15 +1,16 @@
 import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
 
 /**
- * Sets up post links.
- * @param {object[]} posts
+ * Sets `content`, `url`, `threadId` and `boardId`
+ * of `{ type: 'post-link' }` objects.
+ * @param {any} content — Post `content`
  * @param {object} options
  */
-export default function setPostLinkUrls(post, { boardId, threadId, messages, getUrl }) {
+export default function setPostLinkUrls(content, { boardId, threadId, messages, getUrl }) {
 	visitPostParts(
 		'post-link',
 		postLink => setPostLinkUrl(postLink, { boardId, threadId, messages, getUrl }),
-		post.content
+		content
 	)
 }
 
@@ -25,5 +26,9 @@ function setPostLinkUrl(postLink, { boardId, threadId, messages, getUrl }) {
 		postLink.threadId = threadId
 	}
 	// Set URL.
-	postLink.url = getUrl({ id: postLink.boardId }, { id: postLink.threadId }, { id: postLink.postId })
+	postLink.url = getUrl(
+		{ id: postLink.boardId },
+		{ id: postLink.threadId },
+		{ id: postLink.postId }
+	)
 }

@@ -23,6 +23,30 @@ Fix expand post virtual scroller.
 
 
 
+Add "Favorites" (Избранное) board to sidebar at the top which is gonna be the list of all tracked threads.
+
+When navigating to "Favorites" refresh the threads but only do so with a 1 sec interval between API calls. Refresh via board catalog query, sort by new messages count. While refreshing, display some kind of a spinner maybe. Order: threads with most recent messages first.
+
+Add "Tracked" (Отслеживаемые) tab before "Latest replies" and "New" tabs on board page. If there're any new replies in tracked threads then show the counter badge (maybe just "+N" text without badge background). If a user clicks a board in Sidebar then open the "Tracked" tab if there're any new messages, and then "New" tab if there're no new messages in tracked threads. Maybe move "Latest replies" after the "New" tab. Update "+N" in real time as the user reads the tracked threads.
+
+Track visited threads latest messages in `localStorage`: `state.threads.latestMessageId: ...`. Add `State` class for accessing `localStorage` verbose names and reduce localStorage key names. Example: `localStorage.state.t.l: ...` and `state.getThread(id).getLatestMessageId()`.
+
+
+
+On desktop: sidebar becomes "< BoardName", right side becomes "^ Back to Top"
+
+
+
+Если пользователь нажал на кнопку показа ответов, то по клику парсить все ответы.
+
+
+
+Страница доски: Вкладка «Новое» - после новых тредов рисовать черту, писать «Просмотрено» и показывать список просмотренных тем.
+
+Страница доски: Можно сделать кнопку обновления (содержимое и значок вкладки "Новое", и т.д.).
+
+В `itemState` можно хранить не просто `showReplyForm`, но и её `content`, вместе с attachments и прочими полями формы. Или это будет как-то сохраняться в `localStorage` как черновик. Мб и то, и другое.
+
 
 
 Страница доски: По середине — название доски, Справа — кнопка "обновить".

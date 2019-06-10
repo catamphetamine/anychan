@@ -1,11 +1,6 @@
 import filterComment from './filterComment'
-import parseComment from './parseComment'
-import splitParagraphs from './splitParagraphs'
-import postProcessComment from './postProcessComment'
+import parseAndFormatComment from './parseAndFormatComment'
 import ignoreText from './ignoreText'
-
-import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
-import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
 
 export default function constructComment(
 	boardId,
@@ -24,7 +19,8 @@ export default function constructComment(
 		correctGrammar,
 		messages,
 		getUrl,
-		commentUrlRegExp
+		commentUrlRegExp,
+		parseContent
 	}
 ) {
 	const comment = {
@@ -49,20 +45,38 @@ export default function constructComment(
 		}
 	}
 	if (rawComment) {
-		comment.content = parseComment(rawComment, {
-			filters,
-			correctGrammar,
-			commentUrlRegExp,
-			plugins: parseCommentPlugins
-		})
-		// Split content into paragraphs on multiple line breaks,
-		// trim whitespace around paragraphs.
-		if (comment.content) {
-			// Split content into multiple paragraphs on multiple line breaks.
-			comment.content = splitParagraphs(comment.content)
-			// Trim whitespace around paragraphs.
-			comment.content = trimWhitespace(comment.content)
+		function parseCommentContent() {
+			return parseAndFormatComment(rawComment, {
+				filters,
+				correctGrammar,
+				commentUrlRegExp,
+				plugins: parseCommentPlugins,
+				// These're used by `postProcessCommentContent`
+				comment,
+				boardId,
+				threadId,
+				messages,
+				getUrl
+			})
 		}
+		if (parseContent === false) {
+			comment.rawContent = rawComment
+			comment.parseContent = () => {
+				comment.rawContent = undefined
+				// `.parseContent()` method is set to a "no op" function
+				// instead of `undefined` for convenience.
+				// (because it can be called multiple times in case of a
+				//  `virtual-scroller` with `initialState` being passed)
+				comment.parseContent = () => {}
+				comment.content = parseCommentContent()
+			}
+		} else {
+			comment.content = parseCommentContent()
+		}
+	} else if (parseContent === false) {
+		// `.parseContent()` should always be present in case of `parseContent: false`,
+		// even when a comment has no content. This is just for convenience.
+		comment.parseContent = () => {}
 	}
 	if (authorName) {
 		comment.authorName = authorName
@@ -73,11 +87,5 @@ export default function constructComment(
 	if (authorWasBanned) {
 		comment.authorWasBanned = true
 	}
-	postProcessComment(comment, {
-		boardId,
-		threadId,
-		messages,
-		getUrl
-	})
 	return comment
 }

@@ -1,0 +1,16 @@
+@import "../styles/common";
+
+.post-form {
+
+}
+
+.post-form__action {
+	margin-right: var(--unit);
+	&:last-child {
+		margin-right: 0;
+	}
+	@mixin upto-m {
+		width: 100%;
+		margin-right: 0;
+	}
+}

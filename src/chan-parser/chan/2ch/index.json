@@ -1,0 +1,3 @@
+{
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+}

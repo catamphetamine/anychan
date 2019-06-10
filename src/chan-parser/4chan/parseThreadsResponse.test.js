@@ -80,9 +80,11 @@ describe('4chan.org', () => {
 				"comments" : [
 					{
 						"id": 2952650,
-						"inReplyTo": [
-							2943071
-						],
+						// This is a post from "previous thread" so
+						// technically it's not an "in reply to" one.
+						// "inReplyTo": [
+						// 	2943071
+						// ],
 						"attachments": [
 							{
 								"type": "picture",
@@ -179,13 +181,12 @@ describe('4chan.org', () => {
 		]
 
 		expectToEqual(
-			new Parser({
+			new Parser('4chan', {
 				messages: {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				},
-				chan: '4chan',
 				getUrl(board, thread, comment) {
 					return `/${board.id}/${thread.id}#${comment.id}`
 				},

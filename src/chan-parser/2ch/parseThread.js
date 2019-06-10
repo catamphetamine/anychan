@@ -24,7 +24,9 @@ export default function parseThread(thread, posts, {
 	commentsCount,
 	commentAttachmentsCount,
 	useRelativeUrls,
-	getUrl
+	getUrl,
+	commentUrlRegExp,
+	parseContent
 }) {
 	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
@@ -36,7 +38,8 @@ export default function parseThread(thread, posts, {
 		hasFlags,
 		icons,
 		useRelativeUrls,
-		getUrl
+		getUrl,
+		parseContent
 	}))
 	const threadInfo = {
 		boardId,
@@ -73,7 +76,9 @@ export default function parseThread(thread, posts, {
 		threadInfo.maxAttachmentsSize = maxAttachmentsSize
 	}
 	return constructThread(threadInfo, comments, {
+		boardId,
 		messages,
-		commentLengthLimit
+		commentLengthLimit,
+		commentUrlRegExp
 	})
 }

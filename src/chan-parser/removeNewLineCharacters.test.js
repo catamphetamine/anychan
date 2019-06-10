@@ -4,62 +4,80 @@ import removeNewLineCharacters from './removeNewLineCharacters'
 
 describe('removeNewLineCharacters', () => {
 	it('should remove new line characters in paragraph text', () => {
-		const post = {
-			content: [
-				[
-					'a\\nb\\r\\nc'
-				]
+		const content = [
+			[
+				'a\\nb\\r\\nc'
 			]
-		}
+		]
 
-		removeNewLineCharacters(post)
+		removeNewLineCharacters(content)
 
 		expectToEqual(
-			post,
-			{
-				content: [
-					[
-						'abc'
-					]
+			content,
+			[
+				[
+					'abc'
 				]
-			}
+			]
 		)
 	})
 
 	it('should skip non-array paragraphs', () => {
-		const post = {
-			content: [
+		const content = [
+			{
+				type: 'attachment',
+				attachmentId: 1
+			},
+			[
+				'a\\nb\\r\\nc'
+			]
+		]
+
+		removeNewLineCharacters(content)
+
+		expectToEqual(
+			content,
+			[
 				{
 					type: 'attachment',
 					attachmentId: 1
 				},
 				[
-					'a\\nb\\r\\nc'
+					'abc'
 				]
 			]
-		}
-
-		removeNewLineCharacters(post)
-
-		expectToEqual(
-			post,
-			{
-				content: [
-					{
-						type: 'attachment',
-						attachmentId: 1
-					},
-					[
-						'abc'
-					]
-				]
-			}
 		)
 	})
 
 	it('should remove new line characters in nested blocks', () => {
-		const post = {
-			content: [
+		const content = [
+			[
+				{
+					type: 'quote',
+					content: [
+						{
+							type: 'text',
+							style: 'bold',
+							content: [
+								{
+									type: 'link',
+									url: 'https://google.com',
+									content: 'a\\nb\\r\\nc'
+								}
+							]
+						},
+						'a\\nb\\r\\nc'
+					]
+				},
+				'a\\nb\\r\\nc'
+			]
+		]
+
+		removeNewLineCharacters(content)
+
+		expectToEqual(
+			content,
+			[
 				[
 					{
 						type: 'quote',
@@ -71,46 +89,16 @@ describe('removeNewLineCharacters', () => {
 									{
 										type: 'link',
 										url: 'https://google.com',
-										content: 'a\\nb\\r\\nc'
+										content: 'abc'
 									}
 								]
 							},
-							'a\\nb\\r\\nc'
+							'abc'
 						]
 					},
-					'a\\nb\\r\\nc'
+					'abc'
 				]
 			]
-		}
-
-		removeNewLineCharacters(post)
-
-		expectToEqual(
-			post,
-			{
-				content: [
-					[
-						{
-							type: 'quote',
-							content: [
-								{
-									type: 'text',
-									style: 'bold',
-									content: [
-										{
-											type: 'link',
-											url: 'https://google.com',
-											content: 'abc'
-										}
-									]
-								},
-								'abc'
-							]
-						},
-						'abc'
-					]
-				]
-			}
 		)
 	})
 })

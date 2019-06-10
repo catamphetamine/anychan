@@ -1,15 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { preload, meta, Link } from 'react-website'
+import {
+	preload,
+	meta,
+	Link,
+	wasInstantNavigation,
+	isInstantBackAbleNavigation
+} from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import getUrl from '../utility/getUrl'
 import { getThread } from '../redux/chan'
+import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import ThreadCommentTree from '../components/ThreadCommentTree'
+import VirtualScroller from 'virtual-scroller/react'
 
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
@@ -20,11 +28,15 @@ import './Thread.css'
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
-@connect(({ chan, app }) => ({
+@connect(({ chan, app, thread }) => ({
 	board: chan.board,
 	thread: chan.thread,
-	locale: app.settings.locale
+	locale: app.settings.locale,
+	virtualScrollerState: thread.virtualScrollerState,
+	scrollPosition: thread.scrollPosition
 }), {
+	setVirtualScrollerState,
+	setScrollPosition,
 	openSlideshow,
 	notify
 })
@@ -44,14 +56,56 @@ export default class ThreadPage extends React.Component {
 		locale: PropTypes.string.isRequired
 	}
 
+	onVirtualScrollerStateChange = (state) => {
+		this.virtualScrollerState = state
+	}
+
+	onVirtualScrollerMount = () => {
+		if (wasInstantNavigation()) {
+			const { scrollPosition } = this.props
+			window.scrollTo(0, scrollPosition)
+		}
+	}
+
+	onVirtualScrollerLastSeenItemIndexChange = (newLastSeenItemIndex, previousLastSeenItemIndex) => {
+		const { thread } = this.props
+		let i = previousLastSeenItemIndex + 1
+		while (i <= newLastSeenItemIndex) {
+			thread.comments[i].parseContent()
+			i++
+		}
+	}
+
+	componentWillUnmount() {
+		if (isInstantBackAbleNavigation()) {
+			const {
+				setVirtualScrollerState,
+				setScrollPosition
+			} = this.props
+			setVirtualScrollerState(this.virtualScrollerState)
+			// `window.scrollY` is not supported by Internet Explorer.
+			setScrollPosition(window.pageYOffset)
+		}
+	}
+
 	render() {
 		const {
 			board,
 			thread,
 			locale,
 			openSlideshow,
+			virtualScrollerState,
 			notify
 		} = this.props
+
+		const itemComponentProps = {
+			mode: 'thread',
+			board,
+			thread,
+			openSlideshow,
+			notify,
+			locale
+		}
 
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
@@ -65,17 +119,15 @@ export default class ThreadPage extends React.Component {
 						{thread.subject}
 					</h1>
 				</header>
-				{thread.comments.map((comment) => (
-					<ThreadCommentTree
-						key={comment.id}
-						mode="thread"
-						board={board}
-						thread={thread}
-						comment={comment}
-						locale={locale}
-						openSlideshow={openSlideshow}
-						notify={notify}/>
-				))}
+				<VirtualScroller
+					onMount={this.onVirtualScrollerMount}
+					onLastSeenItemIndexChange={this.onVirtualScrollerLastSeenItemIndexChange}
+					initialState={wasInstantNavigation() ? virtualScrollerState : undefined}
+					onStateChange={this.onVirtualScrollerStateChange}
+					items={thread.comments}
+					itemComponent={CommentComponent}
+					itemComponentProps={itemComponentProps}
+					className="thread-page__comments"/>
 			</section>
 		)
 	}
@@ -92,4 +144,34 @@ function getThreadImage(thread) {
 				return attachment.video.picture.url
 		}
 	}
+}
+
+// Rewrote the component as `PureComponent` to optimize
+// `<VirtualScroller/>` re-rendering.
+class CommentComponent extends React.PureComponent {
+	render() {
+		const {
+			children: comment,
+			...rest
+		} = this.props
+		return (
+			<ThreadCommentTree
+				key={comment.id}
+				comment={comment}
+				{...rest}/>
+		)
+	}
+}
+
+// function CommentComponent({ children: comment, ...rest }) {
+// 	return (
+// 		<ThreadCommentTree
+// 			key={comment.id}
+// 			comment={comment}
+// 			{...rest}/>
+// 	)
+// }
+
+CommentComponent.propTypes = {
+	children: PropTypes.object.isRequired
 }

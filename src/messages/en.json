@@ -70,6 +70,16 @@
 		"reply": "Reply",
 		"spoiler": "Spoiler"
 	},
+	"form": {
+		"error": {
+			"required": "Required"
+		}
+	},
+	"actions": {
+		"post": "Post",
+		"save": "Save",
+		"cancel": "Cancel"
+	},
 	"role": {
 		"administrator": "Administrator",
 		"moderator": "Moderator",

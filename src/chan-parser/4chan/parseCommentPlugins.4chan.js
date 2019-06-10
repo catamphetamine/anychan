@@ -1,5 +1,6 @@
 import createLink from 'webapp-frontend/src/utility/post/createLink'
 import dropQuoteMarker from '../dropQuoteMarker'
+import parsePostLink from '../parsePostLink'
 
 export const parseBold = {
 	tag: 'strong',
@@ -136,35 +137,25 @@ export const parseLink = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlRegExp }) {
 		const href = util.getAttribute('href')
-		if (href[0] === '#') {
-			// <a href=\"#p184569592\" class=\"quotelink\">&gt;&gt;184569592</a>
-			const postId = parseInt(href.slice('#p'.length))
+		const postLink = parsePostLink(href, { commentUrlRegExp })
+		if (postLink) {
 			return {
 				type: 'post-link',
-				boardId: null, // Will be set later in comment post-processing.
-				threadId: null, // Will be set later in comment post-processing.
-				postId,
+				boardId: postLink.boardId || null, // Will be set later in comment post-processing.
+				threadId: postLink.threadId || null, // Will be set later in comment post-processing.
+				postId: postLink.postId,
 				content: content.slice('>>'.length),
 				url: null // Will be set later in comment post-processing.
 			}
-		} else if (href[0] === '/' && href[1] === '/') {
-			// "//boards.4chan.org/wsr/"
-			return createLink(href, content.slice('//'.length))
-		} else if (href[0] === '/') {
-			// "/a/thread/184064641#p184154285"
-			const match = href.match(commentUrlRegExp)
-			if (match) {
-				return {
-					type: 'post-link',
-					boardId: match[1],
-					threadId: parseInt(match[2]),
-					postId: parseInt(match[3]),
-					content: content.slice('>>'.length),
-					url: null // Will be set later in comment post-processing.
-				}
+		}
+		if (href[0] === '/') {
+			if (href[1] === '/') {
+				// "//boards.4chan.org/wsr/"
+				return createLink(href, content.slice('//'.length))
+			} else {
+				// "/r/"
+				return createLink(href, content)
 			}
-			// "/r/"
-			return createLink(href, content)
 		} else {
 			// "https://boards.4chan.org/wsr/"
 			return createLink(href, content)

@@ -1,11 +1,25 @@
+import getChanSettings from './chan/getChanSettings'
+
 export default class Parser {
-	constructor({
+	constructor(chanIdOrChanSettings, {
 		parseBoards,
 		parseThreads,
 		parseThread,
 		...rest
 	}) {
-		this.options = rest
+		if (typeof chanIdOrChanSettings === 'string') {
+			const chanId = chanIdOrChanSettings
+			rest.chan = chanId
+			chanIdOrChanSettings = getChanSettings(chanId)
+		}
+		this.options = {
+			...chanIdOrChanSettings,
+			...rest
+		}
+		// Compile `commentUrlRegExp`.
+		if (this.options.commentUrlRegExp) {
+			this.options.commentUrlRegExp = new RegExp(this.options.commentUrlRegExp)
+		}
 		this._parseBoards = parseBoards
 		this._parseThreads = parseThreads
 		this._parseThread = parseThread

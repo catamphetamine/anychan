@@ -9,8 +9,8 @@ import EIGHT_CHAN_PARSE_COMMENT_PLUGINS from './parseCommentPlugins.8ch'
 import KOHLCHAN_PARSE_COMMENT_PLUGINS from './parseCommentPlugins.kohlchan'
 
 export default class FourChanParser extends Parser {
-	constructor(options) {
-		super({
+	constructor(chanId, options) {
+		super(chanId, {
 			...options,
 			parseCommentPlugins: getParseCommentPlugins(options.chan),
 			parseBoards,

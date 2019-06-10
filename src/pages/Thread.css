@@ -14,13 +14,13 @@
 	}
 }
 
-.thread-page__header + .thread__comment-container {
-	.thread__comment {
-		margin-top: 0;
-	}
-	/* Add extra spacing for the first post's header
-	   because it displays thread stats (comments count, attachments count). */
-	.post--compact .post__footer {
+/*
+// No longer relevant because <Post compact/> flag is not set for the opening post of a thread.
+.thread-page__comments {
+	// Add extra spacing for the first post's header
+	// because it displays thread stats (comments count, attachments count).
+	.thread__comment--opening.post--compact .post__footer {
 		padding-top: 0.2em;
 	}
 }
+*/

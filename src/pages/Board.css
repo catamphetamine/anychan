@@ -1,13 +1,18 @@
 @import "../styles/common";
 
-.board-page {
+.board-page__threads {
 	.thread__comment {
 		margin-top: calc(var(--unit) * 1);
 		margin-bottom: calc(var(--unit) * 1);
 	}
-	.page__heading + .thread__comment-container {
+	.thread__comment-container:first-child {
 		.thread__comment {
 			margin-top: 0;
+		}
+	}
+	.thread__comment-container:last-child {
+		.thread__comment {
+			margin-bottom: 0;
 		}
 	}
 }

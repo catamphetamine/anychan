@@ -1,17 +1,6 @@
 {
 	"id": "kohlchan",
 	"parser": "4chan",
-	"parserOptions": {
-		"engine": "vichan",
-		"defaultAuthorName": {
-			"*": "Bernd",
-			"ru": "Бернд"
-		},
-		"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
-		"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
-		"fileAttachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}/{originalName}{ext}",
-		"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
-	},
 	"color": "#000000",
 	"website": "https://kohlchan.net",
 	"domains": [

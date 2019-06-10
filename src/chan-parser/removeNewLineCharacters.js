@@ -1,12 +1,9 @@
 /**
  * Sometimes chan messages HTML contains things like "\\n" or "\\r\\n".
+ * @param {any} content — Post `content`
  */
-export default function removeNewLineCharacters(post) {
-	// Post content can be empty.
-	if (!post.content) {
-		return
-	}
-	for (const paragraph of post.content) {
+export default function removeNewLineCharacters(content) {
+	for (const paragraph of content) {
 		if (Array.isArray(paragraph)) {
 			let i = 0
 			while (i < paragraph.length) {

@@ -1,10 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { goto, pushLocation, preload, meta } from 'react-website'
+import {
+	goto,
+	pushLocation,
+	preload,
+	meta,
+	wasInstantNavigation,
+	isInstantBackAbleNavigation
+} from 'react-website'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import { getThreads, getThread } from '../redux/chan'
+import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
@@ -14,6 +22,7 @@ import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
 import ThreadComment from '../components/ThreadComment'
+import VirtualScroller from 'virtual-scroller/react'
 
 import './Board.css'
 
@@ -21,12 +30,16 @@ import './Board.css'
 	title: board && board.name,
 	description: board && board.description
 }))
-@connect(({ app, chan }) => ({
+@connect(({ app, chan, board }) => ({
 	board: chan.board,
 	threads: chan.threads,
 	settings: app.settings,
-	locale: app.settings.locale
+	locale: app.settings.locale,
+	virtualScrollerState: board.virtualScrollerState,
+	scrollPosition: board.scrollPosition
 }), {
+	setVirtualScrollerState,
+	setScrollPosition,
 	openSlideshow,
 	preloadStarted,
 	preloadFinished,
@@ -83,14 +96,58 @@ export default class BoardPage extends React.Component {
 		}
 	}
 
+	onVirtualScrollerStateChange = (state) => {
+		this.virtualScrollerState = state
+	}
+
+	onVirtualScrollerMount = () => {
+		if (wasInstantNavigation()) {
+			const { scrollPosition } = this.props
+			window.scrollTo(0, scrollPosition)
+		}
+	}
+
+	onVirtualScrollerLastSeenItemIndexChange = (newLastSeenItemIndex, previousLastSeenItemIndex) => {
+		const { threads } = this.props
+		let i = previousLastSeenItemIndex + 1
+		while (i <= newLastSeenItemIndex) {
+			threads[i].comments[0].parseContent()
+			i++
+		}
+	}
+
+	componentWillUnmount() {
+		if (isInstantBackAbleNavigation()) {
+			const {
+				setVirtualScrollerState,
+				setScrollPosition
+			} = this.props
+			setVirtualScrollerState(this.virtualScrollerState)
+			// `window.scrollY` is not supported by Internet Explorer.
+			setScrollPosition(window.pageYOffset)
+		}
+	}
+
 	render() {
 		const {
 			board,
 			threads,
 			openSlideshow,
 			notify,
-			locale
+			locale,
+			virtualScrollerState
 		} = this.props
+
+		const itemComponentProps = {
+			mode: 'board',
+			board,
+			threads,
+			onClick: this.onThreadClick,
+			openSlideshow,
+			notify,
+			locale
+		}
+
 		return (
 			<section className="board-page content text-content">
 				<h1 className="page__heading">
@@ -103,20 +160,70 @@ export default class BoardPage extends React.Component {
 						<a href={`https://2ch.hk/${board.id}`} target="_blank">Перейти на Двач</a>.
 					</p>
 				}
-				{threads && threads.map((thread) => (
-					<ThreadComment
-						key={thread.comments[0].id}
-						mode="board"
-						board={board}
-						thread={thread}
-						comment={thread.comments[0]}
-						onClick={this.onThreadClick}
-						onClickUrl={getUrl(board, thread)}
-						openSlideshow={openSlideshow}
-						notify={notify}
-						locale={locale}/>
-				))}
+				<VirtualScroller
+					onMount={this.onVirtualScrollerMount}
+					onLastSeenItemIndexChange={this.onVirtualScrollerLastSeenItemIndexChange}
+					initialState={wasInstantNavigation() ? virtualScrollerState : undefined}
+					onStateChange={this.onVirtualScrollerStateChange}
+					items={threads}
+					itemComponent={CommentComponent}
+					itemComponentProps={itemComponentProps}
+					className="board-page__threads"/>
 			</section>
 		)
 	}
+}
+
+// Rewrote the component as `PureComponent` to optimize
+// `<VirtualScroller/>` re-rendering.
+class CommentComponent extends React.PureComponent {
+	onExpandContent = () => {
+		const { onStateChange } = this.props
+		onStateChange({
+			expandContent: true
+		})
+	}
+	render() {
+		const {
+			state,
+			children: thread,
+			board,
+			threads,
+			...rest
+		} = this.props
+		const comment = thread.comments[0]
+		return (
+			<ThreadComment
+				key={comment.id}
+				comment={comment}
+				board={board}
+				thread={thread}
+				onClickUrl={getUrl(board, thread)}
+				initialExpandContent={state && state.expandContent}
+				onExpandContent={this.onExpandContent}
+				{...rest}/>
+		)
+	}
+}
+
+// function CommentComponent({ children: comment, board, threads, ...rest }) {
+// 	// .find() can be slow.
+// 	// const thread = threads.find(_ => _.comments[0].id === comment.id)
+// 	// `comment.thread` is set for this case specifically in `./src/redux/chan.js`.
+// 	const thread = comment.thread
+// 	return (
+// 		<ThreadComment
+// 			key={comment.id}
+// 			comment={comment}
+// 			board={board}
+// 			thread={thread}
+// 			onClickUrl={getUrl(board, thread)}
+// 			{...rest}/>
+// 	)
+// }
+
+CommentComponent.propTypes = {
+	board: PropTypes.object.isRequired,
+	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
+	children: PropTypes.object.isRequired
 }

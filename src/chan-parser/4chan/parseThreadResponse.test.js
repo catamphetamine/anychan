@@ -9,13 +9,12 @@ import RESULT_1 from './parseThreadResponse.test.output.1'
 describe('4chan.org', () => {
 	it('should parse thread', () => {
 		expectToEqual(
-			new Parser({
+			new Parser('4chan', {
 				messages: {
 					deletedPost: 'Удалённое сообщение',
 					hiddenPost: 'Скрытое сообщение',
 					quotedPost: 'Сообщение'
 				},
-				chan: '4chan',
 				getUrl(board, thread, comment) {
 					return `/${board.id}/${thread.id}#${comment.id}`
 				},

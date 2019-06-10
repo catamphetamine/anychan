@@ -7,8 +7,8 @@ import parseThread from './parseThreadResponse'
 import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
 
 export default class TwoChannelParser extends Parser {
-	constructor(options) {
-		super({
+	constructor(chanId, options) {
+		super(chanId, {
 			...options,
 			parseCommentPlugins: PARSE_COMMENT_PLUGINS,
 			parseBoards,

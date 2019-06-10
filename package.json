@@ -22,12 +22,13 @@
     "react-dom": "^16.8.6",
     "react-focus-lock": "^1.18.3",
     "react-redux": "^5.1.1",
-    "react-responsive-ui": "^0.14.134",
+    "react-responsive-ui": "^0.14.140",
     "react-time-ago": "^5.0.3",
-    "react-website": "^3.1.24",
+    "react-website": "^3.1.28",
     "redux": "^4.0.0",
     "scroll-into-view-if-needed": "^2.2.20",
-    "smooth-scroll-into-view-if-needed": "^1.1.23"
+    "smooth-scroll-into-view-if-needed": "^1.1.23",
+    "virtual-scroller": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
@@ -61,7 +62,7 @@
     "postcss-mixins": "^6.2.0",
     "postcss-nested": "^4.1.0",
     "postcss-simple-vars": "^5.0.1",
-    "react-hot-loader": "^4.3.12",
+    "react-hot-loader": "^4.9.0",
     "source-map-support": "^0.5.4",
     "style-loader": "^0.23.1",
     "svg-react-loader": "^0.4.6",

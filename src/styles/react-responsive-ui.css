@@ -12,3 +12,12 @@
 .rrui__snackbar__container {
 	z-index: var(--notifications-z-index);
 }
+
+.rrui__text-input {
+	margin-bottom: var(--unit);
+}
+
+.rrui__input-error {
+	position: absolute;
+	margin-top: 0;
+}

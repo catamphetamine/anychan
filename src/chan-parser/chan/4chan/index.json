@@ -1,0 +1,7 @@
+{
+	"defaultAuthorName": "Anonymous",
+	"attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",
+	"attachmentThumbnailUrl": "https://i.4cdn.org/{boardId}/{name}s.jpg",
+	"fileAttachmentUrl": "https://i.4cdn.org/{boardId}/{originalName}{ext}",
+	"commentUrlRegExp": "^\\/(.+?)\\/thread\\/(\\d+)#p(\\d+)$"
+}

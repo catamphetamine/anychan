@@ -23,7 +23,8 @@ export default function parseThread(posts, {
 	attachmentUrlFpath,
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
-	defaultAuthorName
+	defaultAuthorName,
+	parseContent
 }) {
 	const thread = posts[0]
 	const comments = posts.map(comment => parseComment(comment, {
@@ -40,7 +41,8 @@ export default function parseThread(posts, {
 		attachmentUrlFpath,
 		attachmentThumbnailUrlFpath,
 		fileAttachmentUrl,
-		defaultAuthorName
+		defaultAuthorName,
+		parseContent
 	}))
 	const threadInfo = {
 		boardId,
@@ -93,8 +95,10 @@ export default function parseThread(posts, {
 		threadInfo.customSpoilersCount = thread.custom_spoiler
 	}
 	return constructThread(threadInfo, comments, {
+		boardId,
 		messages,
-		commentLengthLimit
+		commentLengthLimit,
+		commentUrlRegExp
 	})
 }
 

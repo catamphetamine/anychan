@@ -5,8 +5,6 @@ import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
 
-import { onPageRender } from 'webapp-frontend/src/utility/extension'
-
 export default async function() {
 	let isFirstRender = true
 	// Renders the webpage on the client side
@@ -48,8 +46,6 @@ export default async function() {
 					'page_path': location.pathname
 				})
 			}
-			// Call extension hooks.
-			onPageRender(location)
 		}
 	})
 	// If there was an error during the initial rendering

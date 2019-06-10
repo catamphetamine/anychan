@@ -8,11 +8,10 @@ Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
 [`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan)
 
-Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay. Also, until "infinite scroll" (streaming) for loading threads and posts is implemented rendering the whole page takes a lot of time because there's a lot of comments to render. It will be fast once "infinite scroll" (streaming) feature is implemented.
+Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 
 This is a demo showcase project and currently has only a small subset of features. "To do":
 
-  * Add "infinite scroll" (streaming) for loading threads and posts.
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.
@@ -272,6 +271,8 @@ text = True
 * Reload `nginx` config: `sudo service nginx reload`
 
 * HTTPS should be working.
+
+I've had an issue with `certbot` generating an empty `*.conf` file for the website for some reason which prevented it from renewing the certificate but the fix was [easy](https://github.com/certbot/certbot/issues/7093).
 
 </details>
 

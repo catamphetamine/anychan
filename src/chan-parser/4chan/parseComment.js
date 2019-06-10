@@ -32,7 +32,8 @@ export default function parseComment(post, {
 	attachmentUrlFpath,
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
-	defaultAuthorName
+	defaultAuthorName,
+	parseContent
 }) {
 	let rawComment = post.com
 	let authorWasBanned = false
@@ -102,7 +103,8 @@ export default function parseComment(post, {
 			commentLengthLimit,
 			messages,
 			getUrl,
-			commentUrlRegExp
+			commentUrlRegExp,
+			parseContent
 		}
 	)
 	if (chan === '8ch' && parsedAuthorRole) {

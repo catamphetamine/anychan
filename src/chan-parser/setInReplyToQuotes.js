@@ -44,7 +44,11 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 			return
 		}
 		// Get the post being quoted.
-		const quotedPost = posts.find(_ => _.id === content.postId)
+		// `Array.find()` is slow for doing it every time.
+		// A "postsById" index is much faster.
+		const quotedPost = options.getPostById ?
+			options.getPostById(content.postId) :
+			posts.find(_ => _.id === content.postId)
 		// If the quoted post has been deleted then skip it.
 		if (!quotedPost) {
 			content.postWasDeleted = true
@@ -159,6 +163,7 @@ function setPostLinkQuote(postLink, post, options) {
 		excludePostQuotes: true,
 		excludeCodeBlocks: true,
 		softLimit: 150,
+		// `messages` are optional.
 		messages: options.messages
 	})
 	// If the generated post preview is empty
@@ -169,6 +174,7 @@ function setPostLinkQuote(postLink, post, options) {
 			excludePostQuotes: false,
 			excludeCodeBlocks: true,
 			softLimit: 150,
+			// `messages` are optional.
 			messages: options.messages
 		})
 	}
