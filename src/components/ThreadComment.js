@@ -137,6 +137,7 @@ export default class ThreadComment extends React.PureComponent {
 			initialExpandContent,
 			onExpandContent,
 			onContentDidChange,
+			onCommentContentChange,
 			postRef
 		} = this.props
 
@@ -167,6 +168,7 @@ export default class ThreadComment extends React.PureComponent {
 				initialExpandContent={initialExpandContent}
 				onExpandContent={onExpandContent}
 				onContentDidChange={onContentDidChange}
+				onCommentContentChange={onCommentContentChange}
 				className={classNames(`thread__comment--${mode}`, {
 					'thread__comment--opening': mode === 'thread' && comment.id === thread.id
 				})}/>
@@ -231,28 +233,23 @@ ThreadComment.propTypes = {
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
 	onContentDidChange: PropTypes.func,
+	onCommentContentChange: PropTypes.func,
 	postRef: PropTypes.any
 }
 
 function Comment({
 	comment,
-	compact,
 	hidden,
-	url,
-	locale,
-	openSlideshow,
-	notify,
-	onReply,
-	onVote,
-	parentComment,
 	showingReplies,
-	toggleShowRepliesButtonRef,
 	onToggleShowReplies,
-	initialExpandContent,
-	onExpandContent,
-	onContentDidChange,
+	toggleShowRepliesButtonRef,
+	onCommentContentChange,
+	parentComment,
 	postRef,
-	className
+	notify,
+	locale,
+	className,
+	...rest
 }) {
 	if (hidden) {
 		return (
@@ -272,25 +269,19 @@ function Comment({
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
 	const showHalfSizedAttachmentThumbnails = getChan().id === '4chan' && !comment.isRootComment
+
 	return (
 		<Post
+			{...rest}
 			ref={postRef}
 			post={comment}
-			url={url}
-			locale={locale}
 			header={Header}
+			locale={locale}
 			messages={getMessages(locale).post}
-			onReply={onReply}
 			onMoreActions={() => notify('Not implemented yet')}
-			initialExpandContent={initialExpandContent}
-			onExpandContent={onExpandContent}
-			onContentDidChange={onContentDidChange}
-			onVote={onVote}
+			onPostContentChange={onCommentContentChange}
 			headerBadges={HEADER_BADGES}
-			footerBadges={footerBadges}
-			compact={compact}
 			saveBandwidth
-			openSlideshow={openSlideshow}
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
 			expandFirstPictureOrVideo={false}
@@ -303,19 +294,13 @@ function Comment({
 Comment.propTypes = {
 	comment: post.isRequired,
 	hidden: PropTypes.bool,
-	url: PropTypes.string.isRequired,
 	locale: PropTypes.string.isRequired,
-	openSlideshow: PropTypes.func.isRequired,
-	onReply: PropTypes.func,
-	onVote: PropTypes.func,
 	parentComment: post,
 	showingReplies: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
 	postRef: PropTypes.any,
-	initialShowReplyForm: PropTypes.bool,
-	onToggleShowReplyForm: PropTypes.func,
-	onContentDidChange: PropTypes.func,
+	onCommentContentChange: PropTypes.func,
 	className: PropTypes.string
 }
 

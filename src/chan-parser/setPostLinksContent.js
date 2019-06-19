@@ -7,13 +7,15 @@ import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
  * then `content` is set to "Hidden message".
  * @param {any} content — Post `content`
  * @param {object} options
+ * @return {boolean} [contentDidChange] — Returns `true` if any "Deleted message"/"Hidden message" link text was set.
  */
 export default function setPostLinksContent(content, { messages }) {
-	visitPostParts(
+	const results = visitPostParts(
 		'post-link',
 		postLink => postLink.content = getPostLinkContent(postLink, messages),
 		content
 	)
+	return results.length > 0
 }
 
 function getPostLinkContent(postLink, messages) {

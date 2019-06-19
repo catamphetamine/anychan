@@ -56,6 +56,8 @@ export default class ThreadPage extends React.Component {
 		locale: PropTypes.string.isRequired
 	}
 
+	virtualScroller = React.createRef()
+
 	onVirtualScrollerStateChange = (state) => {
 		this.virtualScrollerState = state
 	}
@@ -99,6 +101,10 @@ export default class ThreadPage extends React.Component {
 		} = this.props
 
 		const itemComponentProps = {
+			onCommentContentChange: (id) => {
+				const index = thread.comments.findIndex(_ => _.id === id)
+				this.virtualScroller.current.updateItem(index)
+			},
 			mode: 'thread',
 			board,
 			thread,
@@ -120,6 +126,7 @@ export default class ThreadPage extends React.Component {
 					</h1>
 				</header>
 				<VirtualScroller
+					ref={this.virtualScroller}
 					onMount={this.onVirtualScrollerMount}
 					onLastSeenItemIndexChange={this.onVirtualScrollerLastSeenItemIndexChange}
 					initialState={wasInstantNavigation() ? virtualScrollerState : undefined}

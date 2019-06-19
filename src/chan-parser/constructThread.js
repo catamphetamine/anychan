@@ -35,20 +35,21 @@ export default function constructThread(threadInfo, comments, {
 	for (const comment of comments) {
 		let isInitialCommentContentUpdate = true
 		function updateContent(options) {
+			const initial = isInitialCommentContentUpdate
+			isInitialCommentContentUpdate = false
 			// Set "Deleted message" for links to deleted comments.
 			// Set "Hidden message" for links to hidden comments.
 			// Autogenerate "in reply to" quotes for links to all other comments.
-			postProcessThreadCommentContent(comment.content, {
+			return postProcessThreadCommentContent(comment.content, {
 				// `comment` is only used for generating post preview.
 				comment,
 				commentLengthLimit,
 				getCommentById,
 				threadId,
 				messages,
-				initial: isInitialCommentContentUpdate,
+				initial,
 				parentUpdate: options && options.parentUpdate
 			})
-			isInitialCommentContentUpdate = false
 		}
 		if (comment.content) {
 			updateContent()
@@ -56,24 +57,35 @@ export default function constructThread(threadInfo, comments, {
 		if (addOnContentChange) {
 			comment.onContentChange = (options) => {
 				if (comment.content) {
-					updateContent(options)
+					if (updateContent(options)) {
+						if (options && options.onContentChange) {
+							options.onContentChange()
+						}
+					}
 				}
-				if (comment.replies && expandReplies) {
-					// Don't recurse into updating replies for potentially less CPU usage.
-					// Sometimes replies depend on parent's parent reply content.
-					// For example, if comment #1 is "Text" and comment #2 is ">>1"
-					// and comment #3 is ">>2" then when comment #1 `content` is paresed
-					// then only comment #2 `content` is updated to "> Text" and
-					// comment #3 `content` is not updated in this case and will
-					// just be a "Message" link. The solution is: don't post comments
-					// without the actual content.
-					if (!(options && options.parentUpdate)) {
+				// Don't recurse into updating replies for potentially less CPU usage.
+				// Sometimes replies depend on parent's parent reply content.
+				// For example, if comment #1 is "Text" and comment #2 is ">>1"
+				// and comment #3 is ">>2" then when comment #1 `content` is paresed
+				// then only comment #2 `content` is updated to "> Text" and
+				// comment #3 `content` is not updated in this case and will
+				// just be a "Message" link. The solution is: don't post comments
+				// without the actual content.
+				if (!(options && options.parentUpdate)) {
+					const changedReplyIds = []
+					if (comment.replies && expandReplies) {
 						for (const reply of comment.replies) {
 							if (reply.content) {
-								reply.onContentChange({ parentUpdate: true })
+								reply.onContentChange({
+									parentUpdate: true,
+									onContentChange() {
+										changedReplyIds.push(reply.id)
+									}
+								})
 							}
 						}
 					}
+					return changedReplyIds
 				}
 			}
 		}

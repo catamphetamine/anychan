@@ -28,7 +28,7 @@
     "redux": "^4.0.0",
     "scroll-into-view-if-needed": "^2.2.20",
     "smooth-scroll-into-view-if-needed": "^1.1.23",
-    "virtual-scroller": "^1.0.2"
+    "virtual-scroller": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
