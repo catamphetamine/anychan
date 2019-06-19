@@ -6,13 +6,13 @@ import { forEachFollowingQuote } from 'webapp-frontend/src/utility/post/combineQ
  * Adds "in-reply-to" quotes.
  * Has some CPU usage.
  */
-export default function setInReplyToQuotes(content, posts, options, contentParent, isLastInParagraph = true) {
+export default function setInReplyToQuotes(content, getPostById, options, contentParent, isLastInParagraph = true) {
 	if (Array.isArray(content)) {
 		let i = 0
 		while (i < content.length) {
 			const part = content[i]
 			const partsCount = content.length
-			setInReplyToQuotes(part, posts, options, content, contentParent ? (isLastInParagraph && i === content.length - 1) : true)
+			setInReplyToQuotes(part, getPostById, options, content, contentParent ? (isLastInParagraph && i === content.length - 1) : true)
 			// Check if some elements have been removed
 			// (or maybe hypothetically added)
 			// in which case adjust the cycle index.
@@ -46,9 +46,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		// Get the post being quoted.
 		// `Array.find()` is slow for doing it every time.
 		// A "postsById" index is much faster.
-		const quotedPost = options.getPostById ?
-			options.getPostById(content.postId) :
-			posts.find(_ => _.id === content.postId)
+		const quotedPost = getPostById(content.postId)
 		// If the quoted post has been deleted then skip it.
 		if (!quotedPost) {
 			content.postWasDeleted = true
@@ -133,7 +131,7 @@ export default function setInReplyToQuotes(content, posts, options, contentParen
 		return
 	}
 	// Recurse into post parts.
-	setInReplyToQuotes(content.content, posts, options, content, isLastInParagraph)
+	setInReplyToQuotes(content.content, getPostById, options, content, isLastInParagraph)
 }
 
 // Inline quotes can contain hyperlinks too. For example,

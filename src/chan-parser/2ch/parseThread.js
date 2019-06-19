@@ -26,7 +26,9 @@ export default function parseThread(thread, posts, {
 	useRelativeUrls,
 	getUrl,
 	commentUrlRegExp,
-	parseContent
+	parseContent,
+	expandReplies,
+	addOnContentChange
 }) {
 	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
@@ -79,6 +81,8 @@ export default function parseThread(thread, posts, {
 		boardId,
 		messages,
 		commentLengthLimit,
-		commentUrlRegExp
+		commentUrlRegExp,
+		expandReplies,
+		addOnContentChange
 	})
 }

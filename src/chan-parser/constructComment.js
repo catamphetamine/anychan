@@ -20,7 +20,8 @@ export default function constructComment(
 		messages,
 		getUrl,
 		commentUrlRegExp,
-		parseContent
+		parseContent,
+		threadComments
 	}
 ) {
 	const comment = {
@@ -69,6 +70,9 @@ export default function constructComment(
 				//  `virtual-scroller` with `initialState` being passed)
 				comment.parseContent = () => {}
 				comment.content = parseCommentContent()
+				if (comment.onContentChange) {
+					comment.onContentChange()
+				}
 			}
 		} else {
 			comment.content = parseCommentContent()

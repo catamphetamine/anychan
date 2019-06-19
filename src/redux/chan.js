@@ -119,7 +119,8 @@ export const getThread = redux.action(
 			boardId,
 			// Can parse thread comments up to 4x faster without parsing content.
 			// Example: when parsing content — 650 ms, when not parsing content — 200 ms.
-			parseContent: false
+			parseContent: false,
+			expandContent: true
 		})
 		// Generate text preview which is used for `<meta description/>` on the thread page.
 		generateTextPreview(thread.comments[0])
@@ -130,9 +131,6 @@ export const getThread = redux.action(
 		// 	thread.comments[0].title = undefined
 		// }
 		setThreadInfo(thread, 'comment')
-		// Transforms `comment.replies` from an array of
-		// reply IDs to an array of the actual replies.
-		expandReplyObjects(thread)
 		return {
 			boardId,
 			thread: {
@@ -169,6 +167,8 @@ function createChanParser({ filters, locale }) {
 	return createParser(getChan().id, {
 		filters,
 		commentLengthLimit: 500,
+		addOnContentChange: true,
+		expandReplies: true,
 		messages: locale ? getMessages(locale) : undefined,
 		useRelativeUrls: shouldUseRelativeUrls(),
 		getUrl
@@ -212,21 +212,6 @@ function addOrigin(url) {
 		}
 	}
 	return url
-}
-
-/**
- * Transforms `comment.replies` from an array of
- * reply IDs to an array of the actual replies.
- * @param {object} thread
- */
-function expandReplyObjects(thread) {
-	// Create "comments by id" index for optimized performance.
-	const getCommentById = createByIdIndex(thread.comments)
-	for (const comment of thread.comments) {
-		if (comment.replies) {
-			comment.replies = comment.replies.map(getCommentById)
-		}
-	}
 }
 
 function setThreadInfo(thread, mode) {

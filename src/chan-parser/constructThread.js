@@ -1,14 +1,15 @@
+import createByIdIndex from './createByIdIndex'
 import getInReplyToPostIds from './getInReplyToPostIds'
 import setReplies from './setReplies'
-import postProcessThreadCommentsContent from './postProcessThreadCommentsContent'
-
-import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
+import postProcessThreadCommentContent from './postProcessThreadCommentContent'
 
 export default function constructThread(threadInfo, comments, {
 	boardId,
 	messages,
 	commentLengthLimit,
-	commentUrlRegExp
+	commentUrlRegExp,
+	expandReplies,
+	addOnContentChange
 }) {
 	const threadId = comments[0].id
 	// Set `.inReplyTo` array for each comment.
@@ -28,23 +29,60 @@ export default function constructThread(threadInfo, comments, {
 	// `.replies` array contains comment IDs.
 	// Can only come after `.inReplyTo` arrays are set on comments.
 	setReplies(comments)
-	// Set "Deleted message" for links to deleted comments.
-	// Set "Hidden message" for links to hidden comments.
-	// Autogenerate "in reply to" quotes for links to all other comments.
-	postProcessThreadCommentsContent(comments, {
-		threadId,
-		messages
-	})
-	// Generate preview for long comments.
-	// (must come after `setInReplyToQuotes()`
-	//  which is called inside `postProcessComments()`)
-	if (commentLengthLimit) {
-		for (const comment of comments) {
-			if (comment.content) {
-				const preview = generatePostPreview(comment, { limit: commentLengthLimit })
-				if (preview) {
-					comment.contentPreview = preview
+	// `Array.find()` is slow for doing it every time.
+	// A "get post by id" index is much faster.
+	const getCommentById = createByIdIndex(comments)
+	for (const comment of comments) {
+		let isInitialCommentContentUpdate = true
+		function updateContent(options) {
+			// Set "Deleted message" for links to deleted comments.
+			// Set "Hidden message" for links to hidden comments.
+			// Autogenerate "in reply to" quotes for links to all other comments.
+			postProcessThreadCommentContent(comment.content, {
+				// `comment` is only used for generating post preview.
+				comment,
+				commentLengthLimit,
+				getCommentById,
+				threadId,
+				messages,
+				initial: isInitialCommentContentUpdate,
+				parentUpdate: options && options.parentUpdate
+			})
+			isInitialCommentContentUpdate = false
+		}
+		if (comment.content) {
+			updateContent()
+		}
+		if (addOnContentChange) {
+			comment.onContentChange = (options) => {
+				if (comment.content) {
+					updateContent(options)
 				}
+				if (comment.replies && expandReplies) {
+					// Don't recurse into updating replies for potentially less CPU usage.
+					// Sometimes replies depend on parent's parent reply content.
+					// For example, if comment #1 is "Text" and comment #2 is ">>1"
+					// and comment #3 is ">>2" then when comment #1 `content` is paresed
+					// then only comment #2 `content` is updated to "> Text" and
+					// comment #3 `content` is not updated in this case and will
+					// just be a "Message" link. The solution is: don't post comments
+					// without the actual content.
+					if (!(options && options.parentUpdate)) {
+						for (const reply of comment.replies) {
+							if (reply.content) {
+								reply.onContentChange({ parentUpdate: true })
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if (expandReplies) {
+		// Expand `replies` array from a list of reply `id`s to a list of the reply objects.
+		for (const comment of comments) {
+			if (comment.replies) {
+				comment.replies = comment.replies.map(getCommentById)
 			}
 		}
 	}

@@ -24,7 +24,9 @@ export default function parseThread(posts, {
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
 	defaultAuthorName,
-	parseContent
+	parseContent,
+	expandReplies,
+	addOnContentChange
 }) {
 	const thread = posts[0]
 	const comments = posts.map(comment => parseComment(comment, {
@@ -98,7 +100,9 @@ export default function parseThread(posts, {
 		boardId,
 		messages,
 		commentLengthLimit,
-		commentUrlRegExp
+		commentUrlRegExp,
+		expandReplies,
+		addOnContentChange
 	})
 }
 
