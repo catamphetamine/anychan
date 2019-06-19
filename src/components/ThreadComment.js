@@ -281,6 +281,7 @@ function Comment({
 			onMoreActions={() => notify('Not implemented yet')}
 			onPostContentChange={onCommentContentChange}
 			headerBadges={HEADER_BADGES}
+			footerBadges={footerBadges}
 			saveBandwidth
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youTubeApiKey}
