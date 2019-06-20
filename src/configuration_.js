@@ -14,5 +14,6 @@ export default {
 	googleAnalytics: configuration.googleAnalytics && {
 		id: configuration.googleAnalytics.id
 	},
-	defaultChan: configuration.defaultChan
+	defaultChan: configuration.defaultChan,
+	commentLengthLimit: configuration.commentLengthLimit || 500
 }

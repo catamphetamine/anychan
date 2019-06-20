@@ -166,7 +166,7 @@ export default redux.reducer()
 function createChanParser({ filters, locale }) {
 	return createParser(getChan().id, {
 		filters,
-		commentLengthLimit: 500,
+		commentLengthLimit: configuration.commentLengthLimit,
 		addOnContentChange: true,
 		expandReplies: true,
 		messages: locale ? getMessages(locale) : undefined,

@@ -277,6 +277,7 @@ function Comment({
 			post={comment}
 			header={Header}
 			locale={locale}
+			genericMessages={getMessages(locale)}
 			messages={getMessages(locale).post}
 			onMoreActions={() => notify('Not implemented yet')}
 			onPostContentChange={onCommentContentChange}
@@ -288,6 +289,7 @@ function Comment({
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			attachmentThumbnailSize={showHalfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
+			commentLengthLimit={configuration.commentLengthLimit}
 			className={classNames(className, 'thread__comment', 'content-section')} />
 	)
 }
