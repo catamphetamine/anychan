@@ -18,7 +18,10 @@ export default function getInReplyToPostIds(post, { boardId, threadId, commentUr
 
 function getInReplyToPostIdsForRawContent(rawContent, { boardId, threadId, commentUrlRegExp }) {
 	const links = parsePostLinks(rawContent, { commentUrlRegExp })
-		.filter(link => link.boardId === boardId && link.threadId === threadId)
+		.filter((link) => {
+			return (!link.boardId || (link.boardId === boardId)) &&
+				(!link.threadId || (link.threadId === threadId))
+		})
 	if (links.length > 0) {
 		return links.map(link => link.postId)
 	}
