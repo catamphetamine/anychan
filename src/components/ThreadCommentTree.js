@@ -36,8 +36,13 @@ export default class ThreadCommentTree extends React.Component {
 				initialState={state}
 				onStateChange={this.onSubtreeStateChange}
 				onDidToggleShowReplies={onHeightChange}
+				onShowReply={onShowReply}
 				component={ThreadComment}
 				getComponentProps={this.getCommentComponentProps}/>
 		)
 	}
+}
+
+function onShowReply(comment) {
+	comment.parseContent()
 }
