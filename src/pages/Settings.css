@@ -40,3 +40,10 @@
 .settings-page__filters-practice-link {
 	color: inherit;
 }
+
+.settings-page__button-row {
+	margin-bottom: calc(var(--unit) / 2);
+	&:last-child {
+		margin-bottom: 0;
+	}
+}

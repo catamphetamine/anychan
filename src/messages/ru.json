@@ -9,6 +9,7 @@
 		"language": "Язык",
 		"filters": {
 			"title": "Фильтры",
+			"showCensoredWordsList": "Показать список скрываемых слов",
 			"docs": {
 				"titleStart": "Шпаргалка по ",
 				"titleRegExps": "регулярным выражениям",
@@ -30,6 +31,12 @@
 			"small": "Мелкий",
 			"medium": "Средний",
 			"large": "Крупный"
+		},
+		"data": {
+			"title": "Данные",
+			"resetSettings": "Сбросить настройки",
+			"clearUserData": "Сбросить пользовательские данные",
+			"clearYouTubeCache": "Сбросить кеш YouTube"
 		}
 	},
 	"showBoardsList": "Показать список досок",

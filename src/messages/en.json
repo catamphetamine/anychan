@@ -9,6 +9,7 @@
 		"language": "Language",
 		"filters": {
 			"title": "Filters",
+			"showCensoredWordsList": "Show Censored Words List",
 			"docs": {
 				"titleStart": null,
 				"titleRegExps": "Regular expressions",
@@ -30,6 +31,12 @@
 			"small": "Small",
 			"medium": "Medium",
 			"large": "Large"
+		},
+		"data": {
+			"title": "Data",
+			"resetSettings": "Reset Settings",
+			"clearUserData": "Clear User Data",
+			"clearYouTubeCache": "Clear YouTube Cache"
 		}
 	},
 	"showBoardsList": "Show boards list",

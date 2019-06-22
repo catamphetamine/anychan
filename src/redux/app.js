@@ -1,11 +1,23 @@
 import { ReduxModule } from 'react-website'
 
-import { getSettings as getNormalizedSettings } from '../utility/settings'
+import { getObject, setObject, deleteObject } from 'webapp-frontend/src/utility/localStorage'
+
+import { getSettings as getNormalizedSettings, applySettings } from '../utility/settings'
 
 const redux = new ReduxModule()
 
 export const getSettings = redux.action(
 	() => async () => getNormalizedSettings(getCustomSettings()),
+	'settings'
+)
+
+export const resetSettings = redux.action(
+	() => async () => {
+		resetCustomSettings()
+		const settings = getNormalizedSettings()
+		applySettings(settings)
+		return settings
+	},
 	'settings'
 )
 
@@ -50,23 +62,18 @@ export const toggleNightMode = redux.simpleAction(
 export default redux.reducer()
 
 /**
+ * Resets user's settings in `localStorage`.
+ */
+function resetCustomSettings() {
+	deleteObject('settings')
+}
+
+/**
  * Gets user's settings from `localStorage`.
- * @return {object}
+ * @return {object} [settings]
  */
 function getCustomSettings() {
-	let settings = {}
-	if (localStorage.settings) {
-		try {
-			settings = JSON.parse(localStorage.settings)
-		} catch (error) {
-			if (error instanceof SyntaxError) {
-				console.error(`Invalid settings JSON:\n\n${localStorage.settings}`)
-			} else {
-				throw error
-			}
-		}
-	}
-	return settings
+	return getObject('settings')
 }
 
 /**
@@ -76,12 +83,12 @@ function getCustomSettings() {
  * @return {object} The updated settings
  */
 function saveSetting(name, value) {
-	const settings = getCustomSettings()
+	const settings = getCustomSettings() || {}
 	if (value === undefined) {
 		delete settings[name]
 	} else {
 		settings[name] = value
 	}
-	localStorage.settings = JSON.stringify(settings)
+	setObject('settings', settings)
 	return getNormalizedSettings(settings)
 }
