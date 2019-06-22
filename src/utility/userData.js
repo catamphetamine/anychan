@@ -69,7 +69,7 @@ export class UserData {
 
 	clear = () => {
 		this.storage.forEach((key) => {
-			if (key.indexOf(PREFIX) === 0) {
+			if (key.indexOf(this.prefix) === 0) {
 				this.storage.delete(key)
 			}
 		})
