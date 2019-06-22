@@ -1,12 +1,9 @@
-import {
-	getObject,
-	setObject,
-	deleteObject,
-	forEach as forEachLocalStorage
-} from 'webapp-frontend/src/utility/localStorage'
+import LocalStorage from './LocalStorage'
+import createByIdIndex from './createByIdIndex'
 
 export class UserData {
-	prefix = 'userData.'
+	prefix = 'user.'
+
 	data = {
 		favoriteBoards: {
 			type: 'list',
@@ -54,14 +51,46 @@ export class UserData {
 		}
 	}
 
-	onThreadExpire(boardId, threadId) {
+	updateThreads(boardId, threads) {
+		const getThreadById = createByIdIndex(threads)
 		for (const key of Object.keys(this.data)) {
 			const data = this.data[key]
+			// Babel doesn't know how to handle variables inside `case`.
+			let boardsData
+			let threads
 			switch (data.type) {
 				case 'boards-threads-comments':
 				case 'boards-threads-comment':
+					boardsData = this.storage.get(this.prefix + key)
+					if (boardsData) {
+						threads = boardsData[boardId]
+						if (threads) {
+							let expired = false
+							for (const threadId of Object.keys(threads)) {
+								if (!getThreadById(threadId)) {
+									delete threads[threadId]
+									expired = true
+								}
+							}
+							if (expired) {
+								this.storage.set(this.prefix + key, boardsData)
+							}
+						}
+					}
+					break
 				case 'boards-threads':
-					this[`remove${capitalize(key)}`](boardId, threadId)
+					boardsData = this.storage.get(this.prefix + key)
+					if (boardsData) {
+						threads = boardsData[boardId]
+						if (threads) {
+							const formerThreadsCount = threads.length
+							const remainingThreads = threads.filter(getThreadById)
+							if (remainingThreads.length < formerThreadsCount) {
+								boardsData[boardId] = remainingThreads
+								this.storage.set(this.prefix + key, boardsData)
+							}
+						}
+					}
 					break
 			}
 		}
@@ -360,43 +389,6 @@ function getFromList(storage, key, item) {
 		return index >= 0
 	}
 	return list
-}
-
-export class LocalStorage {
-	get(key, defaultValue) {
-		return getObject(key, defaultValue)
-	}
-	set(key, value) {
-		return setObject(key, value)
-	}
-	delete(key) {
-		return deleteObject(key)
-	}
-	forEach(func) {
-		forEachLocalStorage(func)
-	}
-}
-
-export class MemoryStorage {
-	data = {}
-	get(key, defaultValue) {
-		return this.data[key] || defaultValue
-	}
-	set(key, value) {
-		this.data[key] = value
-	}
-	delete(key) {
-		delete this.data[key]
-	}
-	// `clear()` is only used for tests.
-	clear() {
-		this.data = {}
-	}
-	forEach(func) {
-		for (const key of Object.keys(this.data)) {
-			func(key)
-		}
-	}
 }
 
 export default new UserData(new LocalStorage())

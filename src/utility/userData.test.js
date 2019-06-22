@@ -1,7 +1,8 @@
 import { describe, it } from 'webapp-frontend/src/utility/mocha'
 import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
-import { UserData, MemoryStorage } from './userData'
+import { UserData } from './userData'
+import MemoryStorage from './MemoryStorage'
 
 const storage = new MemoryStorage()
 const userData = new UserData(storage)
@@ -485,7 +486,7 @@ describe('userData', () => {
 		)
 	})
 
-	it('should reset data on thread expiration', () => {
+	it('should clear data on thread expiration', () => {
 		storage.clear()
 		userData.addWatchedThreads('a', 123)
 		userData.addWatchedThreads('a', 456)
@@ -539,7 +540,7 @@ describe('userData', () => {
 				}
 			}
 		)
-		userData.onThreadExpire('a', 123)
+		userData.updateThreads('a', [{ id: 456 }])
 		expectToEqual(
 			storage.data,
 			{
