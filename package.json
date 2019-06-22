@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@sentry/browser": "^5.4.3",
     "classnames": "^2.2.5",
     "easy-react-form": "^1.0.6",
     "fetch-jsonp": "^1.1.3",

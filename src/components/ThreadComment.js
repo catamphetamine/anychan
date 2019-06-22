@@ -285,7 +285,7 @@ function Comment({
 			footerBadges={footerBadges}
 			saveBandwidth
 			serviceIcons={SERVICE_ICONS}
-			youTubeApiKey={configuration.youTubeApiKey}
+			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			attachmentThumbnailSize={showHalfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}

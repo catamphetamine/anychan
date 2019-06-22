@@ -89,10 +89,16 @@ export default {
 	// Plugins will be added to this array by extending configurations.
 	plugins: [
     // new webpack.ProvidePlugin({
-    //   configuration_: [path.resolve(PROJECT_ROOT, 'src/configuration_'), 'default']
+    //   STAGE_CONFIGURATION: [path.resolve(PROJECT_ROOT, 'configuration'), 'default']
     // })
     new webpack.DefinePlugin({
-      configuration_: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'src/configuration_')).default)
+      STAGE_CONFIGURATION: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'configuration')))
     })
 	]
+
+	// I like `import configuration from './configuration'`
+	// more than `import configuration from 'configuration'`.
+	// externals: {
+	// 	configuration: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'src/configuration')).default)
+	// }
 }

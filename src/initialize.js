@@ -1,10 +1,22 @@
+import * as Sentry from '@sentry/browser'
+
 import { getChanIdByDomain, setChan, getChan } from './chan'
 import { applySettings, getSettings } from './utility/settings'
+import configuration from './configuration'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
 import FourChanSiteIcon from '../chan/4chan/icon.png'
 import EightChanSiteIcon from '../chan/8ch/icon.png'
 import KohlChanSiteIcon from '../chan/kohlchan/icon.png'
+
+// Initialize `sentry.io`.
+if (process.env.NODE_ENV === 'production') {
+	if (configuration['sentry.io']) {
+		Sentry.init({
+			dsn: configuration['sentry.io'].url
+		})
+	}
+}
 
 export default function() {
 	// Initialize the chan being used.
