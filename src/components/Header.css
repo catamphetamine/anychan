@@ -52,6 +52,10 @@ padding-right: var(--content-section-horizontal-padding);
   white-space: nowrap;
 }
 
+.header__uncolored-link:not(:hover):not(:active) {
+	color: inherit;
+}
+
 .menu-button
 {
 	width  : calc(var(--unit) * 2);
@@ -72,15 +76,6 @@ padding-right: var(--content-section-horizontal-padding);
 	height : 100%;
 	display : flex;
 }*/
-
-.webpage__header {
-	.menu-list-item {
-		margin-left: var(--unit);
-		&:first-child {
-			margin-left: 0;
-		}
-	}
-}
 
 .header__separator {
 	position: relative;

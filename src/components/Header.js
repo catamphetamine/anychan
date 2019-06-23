@@ -44,14 +44,19 @@ export default class Header extends React.Component {
 
 				<div className="header__title">
 					{!isBoardPage && !isThreadPage &&
-						<span className="header__board-title">
+						<Link
+							to={addChanParameter('/')}
+							className="header__uncolored-link">
 							{getChan().title}
-						</span>
+						</Link>
 					}
 					{isBoardPage &&
 						<span className="header__board-title">
 							{isThreadLocation(route) &&
-								<Link to={getUrl(board)} instantBack>
+								<Link
+									instantBack
+									to={getUrl(board)}
+									className="header__uncolored-link">
 									{board.name}
 								</Link>
 							}
