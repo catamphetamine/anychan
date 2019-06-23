@@ -8,7 +8,6 @@ import UserData from '../utility/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import createParser from '../chan-parser'
-import { BOARDS_RESPONSE_EXAMPLE as TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE } from '../chan-parser/2ch'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 import createByIdIndex from '../utility/createByIdIndex'
 
@@ -196,7 +195,7 @@ function proxyUrl(url) {
 function getBoardsResponseExample(chan) {
 	switch (chan) {
 		case '2ch':
-			return TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE
+			return window.TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE
 	}
 }
 
