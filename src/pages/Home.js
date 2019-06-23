@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
-import ChanLogo from '../components/ChanLogo'
+import ChanLogo, { hasLogo } from '../components/ChanLogo'
 
 import { getChan } from '../chan'
 import getMessages from '../messages'
@@ -37,7 +37,7 @@ export default class Home extends React.Component {
 			<section className="home-page">
 				<div className="content text-content">
 					<div className="home-page__brand">
-						{getChan().logo &&
+						{hasLogo() &&
 							<a
 								target="_blank"
 								href={website}

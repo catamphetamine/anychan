@@ -1,16 +1,17 @@
 import React from 'react'
 
-import DefaultLogo from '../../assets/images/icon@192x192.png'
+// CSS `color: black`.
+// import DefaultLogo from '../../assets/images/icon.svg'
 
 import { getChan } from '../chan'
 
 export default function ChanLogo(props) {
 	const Logo = getChan().logo
-	if (!Logo) {
-		return (
-			<img {...props} src={DefaultLogo}/>
-		)
-	}
+	// if (!Logo) {
+	// 	return (
+	// 		<DefaultLogo {...props}/>
+	// 	)
+	// }
 	if (typeof Logo === 'string') {
 		return (
 			<img {...props} src={Logo}/>
@@ -19,4 +20,8 @@ export default function ChanLogo(props) {
 	return (
 		<Logo {...props}/>
 	)
+}
+
+export function hasLogo() {
+	return getChan().logo !== undefined
 }

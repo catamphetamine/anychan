@@ -29,6 +29,7 @@ padding-right: var(--content-section-horizontal-padding);
 {
 	height: 100%;
 	width: 100%;
+	color: var(--text-color);
 }
 
 .header__title

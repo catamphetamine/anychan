@@ -4,7 +4,7 @@ import { Link } from 'react-website'
 import { connect } from 'react-redux'
 
 import ApplicationMenu from './ApplicationMenu'
-import ChanLogo from './ChanLogo'
+import ChanLogo, { hasLogo } from './ChanLogo'
 
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
@@ -33,11 +33,13 @@ export default class Header extends React.Component {
 
 		return (
 			<nav className="webpage__header">
-				<Link
-					to={addChanParameter('/')}
-					className="header__logo-link">
-					<ChanLogo className="header__logo"/>
-				</Link>
+				{hasLogo() &&
+					<Link
+						to={addChanParameter('/')}
+						className="header__logo-link">
+						<ChanLogo className="header__logo"/>
+					</Link>
+				}
 
 				<div className="header__title">
 					{!isBoardPage && !isThreadPage &&
