@@ -36,6 +36,7 @@ export default class Header extends React.Component {
 				{hasLogo() &&
 					<Link
 						to={addChanParameter('/')}
+						title={getChan().title}
 						className="header__logo-link">
 						<ChanLogo className="header__logo"/>
 					</Link>

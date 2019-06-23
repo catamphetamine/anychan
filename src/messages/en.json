@@ -4,6 +4,15 @@
 		"title": "Boards list",
 		"showAll": "Show all boards"
 	},
+	"notifications": {
+		"title": "Notifications"
+	},
+	"trackedThreads": {
+		"title": "Tracked threads"
+	},
+	"nightMode": {
+		"title": "Night mode"
+	},
 	"settings": {
 		"title": "Settings",
 		"language": "Language",

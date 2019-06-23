@@ -59,6 +59,20 @@ export const toggleNightMode = redux.simpleAction(
 	})
 )
 
+export const toggleTrackedThreads = redux.simpleAction(
+	(state, params) => ({
+		...state,
+		areTrackedThreadsShown: !state.areTrackedThreadsShown
+	})
+)
+
+export const toggleNotifications = redux.simpleAction(
+	(state, params) => ({
+		...state,
+		areNotificationsShown: !state.areNotificationsShown
+	})
+)
+
 export default redux.reducer()
 
 /**

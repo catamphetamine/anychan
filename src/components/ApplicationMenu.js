@@ -1,81 +1,123 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import Menu from './Menu'
+
+import {
+	toggleSidebar,
+	toggleNightMode,
+	toggleTrackedThreads,
+	toggleNotifications
+} from '../redux/app'
+
+import getMessages from '../messages'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
 
-import SearchIconOutline from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
-import SearchIconFill from 'webapp-frontend/assets/images/icons/menu/search-fill.svg'
-
-import AddIconOutline from 'webapp-frontend/assets/images/icons/menu/add-outline.svg'
-import AddIconFill from 'webapp-frontend/assets/images/icons/menu/add-fill.svg'
-
-import MessageIconOutline from 'webapp-frontend/assets/images/icons/menu/message-outline.svg'
-import MessageIconFill from 'webapp-frontend/assets/images/icons/menu/message-fill.svg'
-
-import PersonIconOutline from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
-import PersonIconFill from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
-
 import SettingsIconOutline from 'webapp-frontend/assets/images/icons/menu/settings-outline.svg'
 import SettingsIconFill from 'webapp-frontend/assets/images/icons/menu/settings-fill.svg'
 
+import MoonIconOutline from 'webapp-frontend/assets/images/icons/menu/moon-outline.svg'
+import MoonIconFill from 'webapp-frontend/assets/images/icons/menu/moon-fill.svg'
+
+import BellIconOutline from 'webapp-frontend/assets/images/icons/menu/bell-outline.svg'
+import BellIconFill from 'webapp-frontend/assets/images/icons/menu/bell-fill.svg'
+
+import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
+import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
+
 import './ApplicationMenu.css'
 
+@connect(({ app, found }) => ({
+	locale: app.settings.locale,
+	isSidebarShown: app.isSidebarShown,
+	isNightMode: app.isNightMode,
+	areTrackedThreadsShown: app.areTrackedThreadsShown,
+	areNotificationsShown: app.areNotificationsShown,
+	location: found.resolvedMatch.location
+}), {
+	toggleSidebar,
+	toggleNightMode,
+	toggleTrackedThreads,
+	toggleNotifications
+})
 export default class ApplicationMenu extends React.Component {
 	static propTypes = {
-		footer: PropTypes.bool
+		footer: PropTypes.bool,
+		locale: PropTypes.string.isRequired,
+		location: PropTypes.object.isRequired,
+		isSidebarShown: PropTypes.bool,
+		isNightMode: PropTypes.bool,
+		areTrackedThreadsShown: PropTypes.bool,
+		areNotificationsShown: PropTypes.bool,
+		toggleSidebar: PropTypes.func.isRequired,
+		toggleNightMode: PropTypes.func.isRequired,
+		toggleTrackedThreads: PropTypes.func.isRequired,
+		toggleNotifications: PropTypes.func.isRequired
+	}
+
+	getMenuItems() {
+		const {
+			footer,
+			locale,
+			isSidebarShown,
+			isNightMode,
+			areTrackedThreadsShown,
+			areNotificationsShown,
+			toggleSidebar,
+			toggleNightMode,
+			toggleTrackedThreads,
+			toggleNotifications
+		} = this.props
+		const messages = getMessages(locale)
+		let menuItems = [
+			{
+				title: messages.nightMode.title,
+				action: toggleNightMode,
+				isActive: isNightMode,
+				outlineIcon: MoonIconOutline,
+				fillIcon: MoonIconFill
+			},
+			{
+				title: messages.trackedThreads.title,
+				action: toggleTrackedThreads,
+				isActive: areTrackedThreadsShown,
+				outlineIcon: StarIconOutline,
+				fillIcon: StarIconFill
+			},
+			{
+				title: messages.notifications.title,
+				action: toggleNotifications,
+				isActive: areNotificationsShown,
+				outlineIcon: BellIconOutline,
+				fillIcon: BellIconFill
+			},
+			{
+				link: '/settings',
+				isActive: !isSidebarShown && location.pathname === '/settings',
+				outlineIcon: SettingsIconOutline,
+				fillIcon: SettingsIconFill
+			}
+		]
+		if (footer) {
+			menuItems = [{
+				title: messages.boards.title,
+				action: toggleSidebar,
+				isActive: isSidebarShown,
+				outlineIcon: FeedIconOutline,
+				fillIcon: FeedIconFill
+			}].concat(menuItems)
+		}
+		return menuItems
 	}
 
 	render() {
-		const { footer } = this.props
 		return (
 			<Menu className="application-menu">
-				{footer ? MENU_ITEMS_FOOTER : MENU_ITEMS}
+				{this.getMenuItems()}
 			</Menu>
 		)
 	}
 }
-
-// const MENU_ITEMS = [{
-// 	// title: 'Feed',
-// 	link: '/feed',
-// 	outlineIcon: FeedIconOutline,
-// 	fillIcon: FeedIconFill
-// }, {
-// 	// title: 'Discover',
-// 	link: '/discover',
-// 	outlineIcon: SearchIconOutline,
-// 	fillIcon: SearchIconFill
-// }, {
-// 	// title: 'Post',
-// 	link: '/post',
-// 	outlineIcon: AddIconOutline,
-// 	fillIcon: AddIconFill
-// }, {
-// 	// title: 'Messages',
-// 	link: '/messages',
-// 	outlineIcon: MessageIconOutline,
-// 	fillIcon: MessageIconFill
-// }, {
-// 	// title: 'Account',
-// 	link: '/profile',
-// 	outlineIcon: PersonIconOutline,
-// 	fillIcon: PersonIconFill
-// }]
-
-const MENU_ITEMS = [{
-	title: 'settings',
-	link: '/settings',
-	outlineIcon: SettingsIconOutline,
-	fillIcon: SettingsIconFill
-}]
-
-const MENU_ITEMS_FOOTER = [{
-	title: 'boards',
-	type: 'sidebar',
-	outlineIcon: FeedIconOutline,
-	fillIcon: FeedIconFill
-},
-...MENU_ITEMS]

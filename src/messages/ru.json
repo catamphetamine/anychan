@@ -4,6 +4,15 @@
 		"title": "Список досок",
 		"showAll": "Показать все доски"
 	},
+	"notifications": {
+		"title": "Уведомления"
+	},
+	"trackedThreads": {
+		"title": "Отслеживаемые треды"
+	},
+	"nightMode": {
+		"title": "Ночной режим"
+	},
 	"settings": {
 		"title": "Настройки",
 		"language": "Язык",
