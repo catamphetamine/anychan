@@ -3,13 +3,60 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
+activeStateProperties
+
+Header icons :active color.
+
+Add themes/default.css and --night to all widgets via a night property.
+
+Add FadeInOut on trackedThreads and notifications click.
+
+Add `chanData.threads: { a: { '123': { ... } }}` + tests + updateThreads.
 
 
-auto-embed audio links and video links (like youtube links).
+
+Не исключать цитаты при генерации thread.subject
+
+Ссылку на доску в шапке сделать как "Back".
+
+Ссылкам можно добавлять иконку "открывается в новом окне", иначе они не заметны на фоне цитат.
+
+Не скроллить, если ветка ответов закрыта по кнопке числа ответов (а не по клику на древо).
+
+openSlideshow -> onAttachmentClick(attrachment, i, attachments)
+
+может быть проставлять постам что-то типа quotedPostText, чтобы не вычислять его каждый раз.
+
+On click quote — scroll (animated) to the comment plus top offset (header).
+
+On navigate to comment URL — VirtualScroller add option `initialShownItemsCount` + set it on Thread page and onComponentDidMount() —  scroll (animated) to the comment plus top offset (header).
+
+Comment "more" menu — copy URL (only on Thread page), report, hide, etc.
+
+
+
+Помечать наиболее поздние прочитанные сообщения и треды:
+* в virtual scroller по скроллу ручному (не программному).
+* по любому user input-у (keydown, mousemove threshold, scroll, click, etc), если есть какие-то "не прочитанные" комментарии или треды в списке.
+
+
 
 If a thread is in bump limit show a waterline after the last bumping message (including the last one maybe) with a sailing ship icon and some text ("This thread has reached bump limit and will eventually disappear").
 
 
+
+Add notification when a watched (or own) thread expires without new messages. If a watched (or own) thread has expired and there're new messages then display a "bump limit reached" icon in the notifications panel.
+
+
+Помечать цветом own comments, own threads, replies to own comments.
+
+
+
+В цитатах можно показывать link.content и service link icon вместо link.url, и для youtube video добавлять иконку youtube. Также можно к "Картинка" добавлять иконку картинки (или даже вставлять ту картинку, которая цитируется, в уменьшенном видео), а к "Видео" — иконку видео (или картинку preview в уменьшенном виде).
+
+Также можно в цитатах зацензуренные слова делать не квадратами, а красным спойлером, как обычно. Но квадраты останутся, например, для автогенерации thread.subject.
+
+Иконки service link в цитатах делать монохромными.
 
 
 
@@ -19,7 +66,6 @@ Add "Search" button in header (mobile, desktop).
 
 Remove header for now.
 
-Fix expand post virtual scroller.
 
 
 
@@ -35,9 +81,6 @@ Track visited threads latest messages in `localStorage`: `state.threads.latestMe
 
 On desktop: sidebar becomes "< BoardName", right side becomes "^ Back to Top"
 
-
-
-Если пользователь нажал на кнопку показа ответов, то по клику парсить все ответы.
 
 
 
@@ -68,7 +111,6 @@ On desktop: sidebar becomes "< BoardName", right side becomes "^ Back to Top"
 
 
 
-openSlideshow -> onAttachmentClick(attrachment, i, attachments)
 
 
 
@@ -105,18 +147,8 @@ Backup YouTube video api with oEmbed through CORS proxy (if configured).
 
 
 
-Можно кешировать результаты резолвинга Ютуба.
-
-
-
-
-
-
-Swipe speed посмотреть мб, почему может не работать на мобильном.
 
 Скроллить ли на родительский комментарий при скрытии ветки ответов, если уже виден низ этого комментария.
-
-Анимировать скрытие / раскрытие ответов.
 
 Добавить переменные theme.css
 
@@ -124,7 +156,6 @@ Swipe speed посмотреть мб, почему может не работа
 
 Убрать canCombineQuotes, потому что всегда can.
 
-Не скроллить, если ветка ответов закрыта по кнопке числа ответов.
 
 
 
@@ -159,77 +190,11 @@ add infinite scrolling to boards list similar to that of posts list for 8ch.net
 
 Add `localStorage.hiddenComments` and `localStorage.hiddenThreads` and refresh them (and all watched threads) when re-querying `catalog.json`.
 
-localStorage.state =
 
-hiddenAuthorIds: [
-  'a0dbf7',
-  ...
-]
+Добавить скрытие (добавление, раздобавление, применение) авторов, комментариев (кроме первого), тредов, "favourite" досок.
 
-hiddenComments: {
-  a: {
-    '123': [
-      124,
-      125,
-      ...
-    ],
-    ...
-  },
-  ...
-}
 
-hiddenThreads: {
-  a: [
-    123,
-    456,
-    789,
-    ...
-  ]
-}
 
-favoriteBoards: [
-  'a',
-  'b'
-]
-
-visitedThreads: {
-  a: [124, 356, ...],
-  b: [123, 456, ...]
-}
-
-watchedThreads: {
-  a: [124, 356, ...],
-  b: [123, 456, ...]
-}
-
-ownThreads: {
-  a: [124, 356, ...],
-  b: [123, 456, ...]
-}
-
-ownMessages: {
-  a: {
-    '123': [
-      456,
-      ...
-    ],
-    '124': [
-      356,
-      ...
-    ],
-    ...
-  }
-}
-
-upvotes: {
-  a: [124, 356, ...],
-  b: [123, 456, ...]
-}
-
-downvotes: {
-  a: [124, 356, ...],
-  b: [123, 456, ...]
-}
 
 
 Категория "Избранные" (Favourite) вверху.
@@ -380,11 +345,8 @@ Not insert read more inside links.
 Локали собирать в один json — брать локаль и поверх неё делать 'default_locale_messages' (таким образом, отсутствующие сообщения будут присутствовать на английском).
 
 
-раскрывать твиты (service="twitter")
 
 при цитировании в getPostText ссылки можно заменять на `"[link to www.google.com]"`, если есть `messages`.
-
-можно переделать `import configuration from` через `externals.configuration`
 
 Add 2ch.hk/po likes (upvotes, downvotes)
 
@@ -393,10 +355,6 @@ When parsing youtube videos first try YouTube API, then "oembed" (if errored or 
 Parse Vimeo links analogous to YouTube links and embed them in comments.
 
 Maybe add SoundCloud to `parseServiceLink` and embed soundcloud player in comments.
-
-Сделать sidebar scroll через библиотеку (для фаерфокс):
-https://grsmto.github.io/simplebar/
-https://github.com/Grsmto/simplebar/blob/master/examples/react/src/App.js
 
 Make relative `attachmentUrl` and `attachmentThumbnailUrl` and `fileAttachmentUrl` for `kohlchan.net`
 
@@ -420,7 +378,7 @@ expand replies into posts in redux/chan
 сделать настройку переключатель темы, и "Custom CSS" с expandable pre "Show example".
 
 .theme--custom {
-	--: ...;
+  --: ...;
 }
 
 activate night mode button, refactor font themes from json to body class
@@ -883,11 +841,11 @@ images/
 
 ```
 try {
-	// Local storage limit is about 5-10 megabytes.
+  // Local storage limit is about 5-10 megabytes.
   localStorage.setItem("name", "Hello World!")
 } catch (error) {
-	// No consistent error code for "quota exceeded" error.
-	// http://chrisberkhout.com/blog/localstorage-errors/
+  // No consistent error code for "quota exceeded" error.
+  // http://chrisberkhout.com/blog/localstorage-errors/
   // if (error === DOMException.QUOTA_EXCEEDED_ERR) {
   //   alert('Quota exceeded')
   // }
