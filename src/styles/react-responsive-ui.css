@@ -2,7 +2,8 @@
 
 /* A weird fix. Perhaps the same issue as described in `constants.css`. */
 :root, body {
-	--rrui-button-text-color-active: var(--base-color-300);
+	--rrui-button-text-color: var(--base-color-700);
+	--rrui-button-text-color-active: var(--base-color-600);
 
 	--rrui-accent-color       : var(--base-color-600);
 	--rrui-accent-color-light : var(--base-color-500);
