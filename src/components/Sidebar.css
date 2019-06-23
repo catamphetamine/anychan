@@ -27,6 +27,7 @@
 	}
 }
 
+/* Styling scrollbar is not supported in Firefox, etc. */
 .sidebar {
 	/* Width */
 	&::-webkit-scrollbar {
@@ -38,6 +39,7 @@
 	}
 }
 
+/* Styling scrollbar is not supported in Firefox, etc. */
 .sidebar--light {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
@@ -49,6 +51,7 @@
 	}
 }
 
+/* Styling scrollbar is not supported in Firefox, etc. */
 .sidebar--dark {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
@@ -58,4 +61,19 @@
 	&::-webkit-scrollbar-thumb:hover {
 		background-color: var(--gray-color-500);
 	}
+}
+
+/* `simplebar` style (works in all browsers). */
+.sidebar--dark {
+	.simplebar-scrollbar:before {
+		background-color: var(--gray-color-300)
+	}
+}
+
+.sidebar .simplebar-scrollbar {
+	width: 4px;
+}
+
+.sidebar__scrollable-list {
+	height: 100%;
 }

@@ -9,7 +9,7 @@ import ChanLogo from './ChanLogo'
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
 import getUrl from '../utility/getUrl'
-import { addChanParameter } from '../chan'
+import { getChan, addChanParameter } from '../chan'
 
 import './Header.css'
 
@@ -28,6 +28,9 @@ export default class Header extends React.Component {
 			thread
 		} = this.props
 
+		const isBoardPage = (isBoardLocation(route) || isThreadLocation(route)) && board
+		const isThreadPage = isThreadLocation(route) && thread
+
 		return (
 			<nav className="webpage__header">
 				<Link
@@ -37,7 +40,12 @@ export default class Header extends React.Component {
 				</Link>
 
 				<div className="header__title">
-					{(isBoardLocation(route) || isThreadLocation(route)) && board &&
+					{!isBoardPage && !isThreadPage &&
+						<span className="header__board-title">
+							{getChan().title}
+						</span>
+					}
+					{isBoardPage &&
 						<span className="header__board-title">
 							{isThreadLocation(route) &&
 								<Link to={getUrl(board)} instantBack>
@@ -47,7 +55,7 @@ export default class Header extends React.Component {
 							{!isThreadLocation(route) && board.name}
 						</span>
 					}
-					{isThreadLocation(route) && thread &&
+					{isThreadPage &&
 						<span className="header__thread-title">
 							{thread.subject && ' → '}
 							{thread.subject}
