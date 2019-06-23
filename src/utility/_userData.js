@@ -51,6 +51,11 @@ export class UserData {
 		}
 	}
 
+	/**
+	 * Clears expired threads from user data.
+	 * @param  {string} boardId
+	 * @param  {object[]} threads
+	 */
 	updateThreads(boardId, threads) {
 		const getThreadById = createByIdIndex(threads)
 		for (const key of Object.keys(this.data)) {
