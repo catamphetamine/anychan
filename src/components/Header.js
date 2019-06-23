@@ -56,8 +56,13 @@ export default class Header extends React.Component {
 						</span>
 					}
 					{isThreadPage &&
+						<div className="header__separator">
+							<div className="header__separator-line">
+							</div>
+						</div>
+					}
+					{isThreadPage &&
 						<span className="header__thread-title">
-							{thread.subject && ' → '}
 							{thread.subject}
 						</span>
 					}
