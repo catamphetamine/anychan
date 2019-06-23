@@ -1,14 +1,14 @@
 import { describe, it } from 'webapp-frontend/src/utility/mocha'
 import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
-import { UserData } from './userData'
+import { UserData } from './UserData'
 import MemoryStorage from './MemoryStorage'
 
 const storage = new MemoryStorage()
 const userData = new UserData(storage)
 userData.prefix = ''
 
-describe('userData', () => {
+describe('UserData', () => {
 	it('should add/remove/get favorite boards', () => {
 		storage.clear()
 		userData.addFavoriteBoards('a')

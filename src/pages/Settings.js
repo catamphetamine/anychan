@@ -21,7 +21,7 @@ import {
 	getIgnoredWordsByLanguage
 } from '../utility/settings'
 
-import UserData from '../utility/userData'
+import UserData from '../utility/UserData'
 
 import {
 	ContentSections,
