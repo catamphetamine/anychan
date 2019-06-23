@@ -177,7 +177,7 @@ export default class SettingsPage extends React.Component {
 						{!showIgnoredWords &&
 							<Button
 								onClick={this.showIgnoredWords}
-								className="rrui__button--inline">
+								className="rrui__button--auto-height">
 								{messages.settings.filters.showCensoredWordsList}
 							</Button>
 						}
