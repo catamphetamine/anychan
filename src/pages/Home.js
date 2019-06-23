@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
+import ChanLogo from '../components/ChanLogo'
+
 import { getChan } from '../chan'
 import getMessages from '../messages'
 import { showSidebar } from '../redux/app'
@@ -24,7 +26,6 @@ export default class Home extends React.Component {
 		const {
 			color,
 			website,
-			logo: Logo,
 			title,
 			subtitle,
 			description,
@@ -36,17 +37,12 @@ export default class Home extends React.Component {
 			<section className="home-page">
 				<div className="content text-content">
 					<div className="home-page__brand">
-						{Logo &&
+						{getChan().logo &&
 							<a
 								target="_blank"
 								href={website}
 								className="home-page__logo-link">
-								{typeof Logo === 'string' &&
-									<img src={Logo} className="home-page__logo"/>
-								}
-								{typeof Logo === 'function' &&
-									<Logo className="home-page__logo"/>
-								}
+								<ChanLogo className="home-page__logo"/>
 							</a>
 						}
 						<div className="home-page__title">

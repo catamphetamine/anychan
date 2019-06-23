@@ -30,7 +30,6 @@ body {
 .footer {
 	margin-top: calc(var(--unit) * 4);
 	margin-bottom: var(--footer-menu-height);
-	/*margin-bottom: calc(var(--footer-menu-height) + var(--header-height));*/
 }
 
 .footer--center {

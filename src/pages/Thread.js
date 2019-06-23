@@ -24,7 +24,7 @@ import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 import './Thread.css'
 
 @meta(({ chan: { board, thread }}) => ({
-	title: thread && thread.comments[0].title || board && board.name,
+	title: thread && thread.subject || board && board.name,
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
@@ -123,7 +123,7 @@ export default class ThreadPage extends React.Component {
 					</div>
 					{/*
 					<h1 className="page__heading-text">
-						{thread.comments[0].title}
+						{thread.subject}
 					</h1>
 					*/}
 				</header>

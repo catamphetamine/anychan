@@ -4,15 +4,12 @@ import { Link } from 'react-website'
 import { connect } from 'react-redux'
 
 import ApplicationMenu from './ApplicationMenu'
-
-// import HomeIcon  from '../../assets/images/home.svg'
-// import UsersIcon from '../../assets/images/users.svg'
-
-// import Logo from '../../assets/images/icon@192x192.png'
+import ChanLogo from './ChanLogo'
 
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
 import getUrl from '../utility/getUrl'
+import { addChanParameter } from '../chan'
 
 import './Header.css'
 
@@ -33,11 +30,11 @@ export default class Header extends React.Component {
 
 		return (
 			<nav className="webpage__header">
-				{/*
-				<Link to={addChanParameter('/')} className="header__logo-link">
-					<img src={Logo} className="header__logo"/>
+				<Link
+					to={addChanParameter('/')}
+					className="header__logo-link">
+					<ChanLogo className="header__logo"/>
 				</Link>
-				*/}
 
 				<div className="header__title">
 					{(isBoardLocation(route) || isThreadLocation(route)) && board &&

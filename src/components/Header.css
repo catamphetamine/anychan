@@ -6,8 +6,8 @@
 
 	background-color : var(--white-color);
 	color : var(--gray-color-800);
-	/*border-bottom : 1px solid rgba(0,0,0,.0975);*/
-	border-top : 1px solid rgba(0,0,0,.0975);
+	border-bottom : 1px solid rgba(0,0,0,.0975);
+	/*border-top : 1px solid rgba(0,0,0,.0975);*/
 
 	padding-left: var(--unit);
 	padding-right: var(--unit);

@@ -122,6 +122,7 @@ export default class App extends React.Component {
 				}
 
 				<div className="webpage">
+					<Header/>
 					<Sidebar/>
 					<div className={classNames('webpage__main', {
 						'webpage__main--content-sections': isContentSectionsContent(route)
@@ -135,7 +136,6 @@ export default class App extends React.Component {
 							{ children }
 						</main>
 						<Footer className="background-content"/>
-						<Header/>
 					</div>
 				</div>
 			</div>

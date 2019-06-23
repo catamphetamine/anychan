@@ -1,3 +1,5 @@
+import getPostSummary from 'webapp-frontend/src/utility/post/getPostSummary'
+
 import createByIdIndex from './createByIdIndex'
 import getInReplyToPostIds from './getInReplyToPostIds'
 import setReplies from './setReplies'
@@ -98,9 +100,21 @@ export default function constructThread(threadInfo, comments, {
 			}
 		}
 	}
+	threadInfo.subject = getPostSubject(comments[0], { messages })
 	return {
 		...threadInfo,
 		id: threadId,
 		comments
 	}
+}
+
+function getPostSubject(post, { messages }) {
+	if (post.title) {
+		return post.title
+	}
+	return getPostSummary(post, {
+		messages,
+		maxLength: 60,
+		stopOnNewLine: true
+	})
 }

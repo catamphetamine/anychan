@@ -2,6 +2,8 @@ import filterComment from './filterComment'
 import parseAndFormatComment from './parseAndFormatComment'
 import ignoreText from './ignoreText'
 
+const NO_OP = () => {}
+
 export default function constructComment(
 	boardId,
 	threadId,
@@ -45,6 +47,11 @@ export default function constructComment(
 			}
 		}
 	}
+	if (parseContent === false) {
+		// `.parseContent()` should always be present in case of `parseContent: false`,
+		// even when a comment has no content. This is just for convenience.
+		comment.parseContent = NO_OP
+	}
 	if (rawComment) {
 		function parseCommentContent() {
 			return parseAndFormatComment(rawComment, {
@@ -60,7 +67,9 @@ export default function constructComment(
 				getUrl
 			})
 		}
-		if (parseContent === false) {
+		// The "opening" post of a thread is always parsed.
+		// (because it makes sense)
+		if (parseContent === false && id !== threadId) {
 			comment.rawContent = rawComment
 			comment.parseContent = () => {
 				comment.rawContent = undefined
@@ -77,10 +86,6 @@ export default function constructComment(
 		} else {
 			comment.content = parseCommentContent()
 		}
-	} else if (parseContent === false) {
-		// `.parseContent()` should always be present in case of `parseContent: false`,
-		// even when a comment has no content. This is just for convenience.
-		comment.parseContent = () => {}
 	}
 	if (authorName) {
 		comment.authorName = authorName
