@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Menu from './Menu'
+import Menu from 'webapp-frontend/src/components/Menu'
+
+import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import {
 	toggleSidebar,
@@ -30,24 +32,23 @@ import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg
 
 import './ApplicationMenu.css'
 
-@connect(({ app, found }) => ({
+@connect(({ app }) => ({
 	locale: app.settings.locale,
 	isSidebarShown: app.isSidebarShown,
 	isNightMode: app.isNightMode,
 	areTrackedThreadsShown: app.areTrackedThreadsShown,
-	areNotificationsShown: app.areNotificationsShown,
-	location: found.resolvedMatch.location
+	areNotificationsShown: app.areNotificationsShown
 }), {
 	toggleSidebar,
 	toggleNightMode,
 	toggleTrackedThreads,
-	toggleNotifications
+	toggleNotifications,
+	notify
 })
 export default class ApplicationMenu extends React.Component {
 	static propTypes = {
 		footer: PropTypes.bool,
 		locale: PropTypes.string.isRequired,
-		location: PropTypes.object.isRequired,
 		isSidebarShown: PropTypes.bool,
 		isNightMode: PropTypes.bool,
 		areTrackedThreadsShown: PropTypes.bool,
@@ -69,34 +70,35 @@ export default class ApplicationMenu extends React.Component {
 			toggleSidebar,
 			toggleNightMode,
 			toggleTrackedThreads,
-			toggleNotifications
+			toggleNotifications,
+			notify
 		} = this.props
 		const messages = getMessages(locale)
 		let menuItems = [
 			{
 				title: messages.nightMode.title,
-				action: toggleNightMode,
+				action: () => notify('Not implemented yet'), // toggleNightMode,
 				isActive: isNightMode,
 				outlineIcon: MoonIconOutline,
 				fillIcon: MoonIconFill
 			},
 			{
 				title: messages.trackedThreads.title,
-				action: toggleTrackedThreads,
+				action: () => notify('Not implemented yet'), // toggleTrackedThreads,
 				isActive: areTrackedThreadsShown,
 				outlineIcon: StarIconOutline,
 				fillIcon: StarIconFill
 			},
 			{
 				title: messages.notifications.title,
-				action: toggleNotifications,
+				action: () => notify('Not implemented yet'), // toggleNotifications,
 				isActive: areNotificationsShown,
 				outlineIcon: BellIconOutline,
 				fillIcon: BellIconFill
 			},
 			{
-				link: '/settings',
-				isActive: !isSidebarShown && location.pathname === '/settings',
+				url: '/settings',
+				isActive: !isSidebarShown,
 				outlineIcon: SettingsIconOutline,
 				fillIcon: SettingsIconFill
 			}
