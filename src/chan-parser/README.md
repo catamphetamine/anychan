@@ -312,6 +312,8 @@ An attachment can be a:
 	// A "rolling" thread is the one where old messages are purged as new ones come in.
 	isRolling: boolean?,
 	// Was the "bump limit" reached for this thread already.
+	// Is `false` when the thread is "sticky" or "rolling"
+	// because such threads don't expire.
 	isBumpLimitReached: boolean?,
 	// `4chan.org` sets a limit on maximum attachments count in a thread.
 	isAttachmentLimitReached: boolean?,

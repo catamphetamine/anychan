@@ -66,7 +66,7 @@ export default function parseThread(thread, posts, {
 	if (hasVoting) {
 		threadInfo.hasVoting = true
 	}
-	if (commentsCount >= bumpLimit) {
+	if (commentsCount >= bumpLimit && !threadInfo.isSticky && !threadInfo.isRolling) {
 		threadInfo.isBumpLimitReached = true
 	}
 	// Is only used for `/res/THREAD-ID.json` API response.
