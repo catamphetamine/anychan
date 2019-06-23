@@ -1,19 +1,30 @@
 @import "../styles/common";
 
+.board-page {
+	.page__heading {
+		display: block;
+		@mixin l-plus {
+			display: none;
+		}
+	}
+}
+
 .board-page__threads {
-	.thread__comment {
+	@mixin l-plus {
+		margin-top: calc(var(--unit) * 2);
+	}
+}
+
+.board-page__threads {
+	.thread__comment-container {
 		margin-top: calc(var(--unit) * 1);
 		margin-bottom: calc(var(--unit) * 1);
 	}
 	.thread__comment-container:first-child {
-		.thread__comment {
-			margin-top: 0;
-		}
+		margin-top: 0;
 	}
 	.thread__comment-container:last-child {
-		.thread__comment {
-			margin-bottom: 0;
-		}
+		margin-bottom: 0;
 	}
 }
 

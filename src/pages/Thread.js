@@ -115,18 +115,18 @@ export default class ThreadPage extends React.Component {
 
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
+				{/*
 				<header className="thread-page__header page__heading">
 					<div className="page__heading-text">
 						<Link to={getUrl(board)}>
 							{board.name}
 						</Link>
 					</div>
-					{/*
 					<h1 className="page__heading-text">
 						{thread.subject}
 					</h1>
-					*/}
 				</header>
+				*/}
 				<VirtualScroller
 					ref={this.virtualScroller}
 					onMount={this.onVirtualScrollerMount}

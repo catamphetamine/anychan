@@ -1,3 +1,5 @@
+@import "../styles/common";
+
 .thread-page__header {
 	display: flex;
 	flex-direction: column;
@@ -11,6 +13,12 @@
 		border-bottom: 1px solid rgba(0,0,0,0.15);
 		border-radius: 0;
 		box-shadow: none;
+	}
+}
+
+.thread-page__comments {
+	@mixin l-plus {
+		margin-top: calc(var(--unit) * 2);
 	}
 }
 
