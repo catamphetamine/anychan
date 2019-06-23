@@ -2,14 +2,17 @@ import TwoChannelParser from '../2ch/Parser'
 import FourChannelParser from '../4chan/Parser'
 
 export default function createChanParser(chanIdOrChanSettings, options) {
+	let chanId
 	let parserId
 	if (typeof chanIdOrChanSettings === 'string') {
+		chanId = chanIdOrChanSettings
 		parserId = getChanParserId(chanIdOrChanSettings)
 	} else {
-		parserId = options.parser
+		chanId = chanIdOrChanSettings.id
+		parserId = chanIdOrChanSettings.parser
 	}
-	const Parser = getChanParser(chanIdOrChanSettings)
-	return new Parser(chanIdOrChanSettings, options)
+	const Parser = getChanParser(parserId)
+	return new Parser(chanId, options)
 }
 
 function getChanParserId(chan) {
