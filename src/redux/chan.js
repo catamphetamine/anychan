@@ -4,6 +4,7 @@ import configuration from '../configuration'
 import { getChan, shouldUseRelativeUrls } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
+import UserData from '../utility/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import createParser from '../chan-parser'
@@ -93,6 +94,8 @@ export const getThreads = redux.action(
 		for (const thread of threads) {
 			setThreadInfo(thread, 'thread')
 		}
+		// Clear expired threads from user data.
+		UserData.updateThreads(boardId, threads)
 		return {
 			boardId,
 			threads
