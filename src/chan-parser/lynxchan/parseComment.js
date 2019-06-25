@@ -85,6 +85,11 @@ export default function parseComment(post, {
 	if (post.forceAnonymity) {
 		// What does it mean.
 	}
+	if (post.email) {
+		if (post.email === 'sage') {
+			comment.isSage = true
+		}
+	}
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// displays poster country flags.
 	if (post.flag) {
