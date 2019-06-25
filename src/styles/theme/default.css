@@ -1,3 +1,45 @@
-.theme--default {
+:root {
+	--Header-color: var(--gray-color-800);
+	--Header-backgroundColor: var(--white-color);
+	--Header-borderColor: rgba(0,0,0,.0975);
+	--Boards-backgroundColor--hover: var(--gray-color-750);
+	--Boards-backgroundColor--active: var(--gray-color-700);
+	--Boards-backgroundColor--selected: var(--gray-color-900);
+	--BoardsViewSwitcher-color: var(--gray-color-300);
+	--BoardsViewSwitcher-backgroundColor--active: var(--gray-color-700);
+	--BoardsPage-backgroundColor--hover: #fafafa;
+	--Content-color: var(--black-color);
+	--Content-backgroundColor: var(--white-color);
+	--Empty-backgroundColor: #eaeaea;
+	--PostQuote-color: var(--base-color-700);
+	/* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
+	--PostInverseQuote-color: #cc0000;
+	--Post-color--hidden: var(--gray-color-400);
+	--PostAuthor-color: var(--gray-color-600);
+	--PostAuthor-color--administrator: var(--alt-accent-color-700);
+	--PostAuthor-color--moderator: var(--accent-color-700);
+	--PostAuthorName-color: var(--base-color-700);
+	/* `--eligible` is used when author IDs (IP address subnet hashes) are shown. */
+	--PostAuthorName-color--eligible: var(--gray-color-800);
+	--Clickable-color: var(--base-color-700);
+	--Clickable-color--active: var(--base-color-600);
+	--Sidebar-color: var(--gray-color-100);
+	--Sidebar-backgroundColor: var(--gray-color-800);
+	--Post-color--secondaryThread: var(--gray-color-400);
+	--PostInlineSpoiler-backgroundColor: #F0EFEB;
+	--Content-backgroundColor--postActive: hsl(36, 70%, 96%);
+	--PostInlineSpoiler-backgroundColor--postActive: hsl(36, 30%, 92%);
+	--PostBannedBadge-color: #dd0000;
+	/*
+	--PostInlineQuoteLink-backgroundColor--hover: ...;
+	--PostInlineQuoteLink-borderColor--hover: ...;
+	--PostInlineSpoiler-backgroundColor--censored: ...;
+	--PostFooter-color: ...;
+	--Notification-color: ...;
+	--Notification-backgroundColor: ...;
+	--Notification-backgroundColor--error: ...;
+	 */
+}
 
+.theme--default.night {
 }

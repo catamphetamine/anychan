@@ -1,7 +1,6 @@
 @import "../../../webapp-frontend/src/styles/react-responsive-ui.css";
 
-/* A weird fix. Perhaps the same issue as described in `constants.css`. */
-:root, body {
+:root {
 	--rrui-button-text-color: var(--base-color-700);
 	--rrui-button-text-color-active: var(--base-color-600);
 

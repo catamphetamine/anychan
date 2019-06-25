@@ -11,8 +11,8 @@
 }
 
 .sidebar--dark {
-	background-color: var(--gray-color-800);
-	color: var(--gray-color-100);
+	background-color: var(--Sidebar-backgroundColor);
+	color: var(--Sidebar-color);
 }
 
 .sidebar {

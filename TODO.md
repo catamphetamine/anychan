@@ -2,10 +2,7 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
-
-activeStateProperties
-
-Header icons :active color.
+Сделать padding в header: иконки меню.
 
 Add themes/default.css and --night to all widgets via a night property.
 

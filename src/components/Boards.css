@@ -4,10 +4,10 @@
 	.boards__view-switch {
 		color: var(--base-color-700);
 		&:hover {
-			background-color: #fafafa;
+			background-color: var(--BoardsPage-backgroundColor--hover);
 		}
 		&:focus {
-			background-color: #fafafa;
+			background-color: var(--BoardsPage-backgroundColor--hover);
 			box-shadow: 0 0 0 1px var(--gray-color-100);
 		}
 		&:active {
@@ -23,7 +23,7 @@
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: #fafafa;
+		background-color: var(--BoardsPage-backgroundColor--hover);
 	}
 
 	.boards-list__board-url--active,
@@ -41,15 +41,15 @@
 		color: currentColor;
 		&:hover {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--gray-color-700);
+			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-backgroundColor--active);
 		}
 		&:focus {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--gray-color-700);
+			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-backgroundColor--active);
 		}
 		&:active {
 			color: currentColor;
-			background-color: var(--gray-color-700);
+			background-color: var(--BoardsViewSwitcher-backgroundColor--active);
 		}
 	}
 
@@ -78,17 +78,17 @@
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: var(--gray-color-750);
+		background-color: var(--Boards-backgroundColor--hover);
 	}
 
 	.boards-list__board-url--selected,
 	.boards-list__board-name--selected {
-		background-color: var(--gray-color-900);
+		background-color: var(--Boards-backgroundColor--selected);
 	}
 
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
-		background-color: var(--gray-color-700);
+		background-color: var(--Boards-backgroundColor--active);
 	}
 
 	.boards-list__board-name--active,
@@ -98,7 +98,7 @@
 	}
 
 	.boards__view-switcher {
-		color: var(--gray-color-300);
+		color: var(--BoardsViewSwitcher-color);
 	}
 }
 

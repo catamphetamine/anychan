@@ -1,0 +1,17 @@
+:root {
+	--base-color-800: #5f2a62;
+	--base-color-700: #6E2CC4;
+	--base-color-600: #9C58F4;
+	--base-color-500: #A25FF8;
+	--base-color-400: #B47BFE;
+	--base-color-300: #CAA2FF;
+	--base-color-200: #D1AEFF;
+	--base-color-100: #F7F0FF;
+	--accent-color-700: #adf182;
+	--accent-color-600: #a0de59;
+	--accent-color-500: #c7fba5;
+}
+
+.theme--eva {
+
+}
