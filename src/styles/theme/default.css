@@ -1,7 +1,9 @@
 :root {
 	--Header-color: var(--gray-color-800);
 	--Header-backgroundColor: var(--white-color);
+	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-borderColor: rgba(0,0,0,.0975);
+	--HeaderSeparator-color: rgba(0,0,0,0.17);
 	--Boards-backgroundColor--hover: var(--gray-color-750);
 	--Boards-backgroundColor--active: var(--gray-color-700);
 	--Boards-backgroundColor--selected: var(--gray-color-900);
@@ -16,7 +18,7 @@
 	--PostInverseQuote-color: #cc0000;
 	--Post-color--hidden: var(--gray-color-400);
 	--PostAuthor-color: var(--gray-color-600);
-	--PostAuthor-color--administrator: var(--alt-accent-color-700);
+	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
 	--PostAuthor-color--moderator: var(--accent-color-700);
 	--PostAuthorName-color: var(--base-color-700);
 	/* `--eligible` is used when author IDs (IP address subnet hashes) are shown. */
@@ -26,11 +28,12 @@
 	--Sidebar-color: var(--gray-color-100);
 	--Sidebar-backgroundColor: var(--gray-color-800);
 	--Post-color--secondaryThread: var(--gray-color-400);
-	--PostInlineSpoiler-backgroundColor: #F0EFEB;
-	--Content-backgroundColor--postActive: hsl(36, 70%, 96%);
-	--PostInlineSpoiler-backgroundColor--postActive: hsl(36, 30%, 92%);
+	--Content-backgroundColor--postActive: var(--Content-backgroundColor);
+	--PostInlineSpoiler-backgroundColor--postActive: var(--PostInlineSpoiler-backgroundColor);
 	--PostBannedBadge-color: #dd0000;
 	/*
+	--Menu-color: ...;
+	--Menu-color--active: ...;
 	--PostInlineQuoteLink-backgroundColor--hover: ...;
 	--PostInlineQuoteLink-borderColor--hover: ...;
 	--PostInlineSpoiler-backgroundColor--censored: ...;

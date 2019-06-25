@@ -1,5 +1,6 @@
 import TwoChannelParser from '../2ch/Parser'
 import FourChannelParser from '../4chan/Parser'
+import LynxChanParser from '../lynxchan/Parser'
 
 export default function createChanParser(chanIdOrChanSettings, options) {
 	let chanId
@@ -21,8 +22,9 @@ function getChanParserId(chan) {
 			return '2ch'
 		case '4chan':
 		case '8ch':
-		case 'kohlchan':
 			return '4chan'
+		case 'kohlchan':
+			return 'lynxchan'
 		default:
 			throw new TypeError(`Unknown chan: ${chan}`)
 	}
@@ -34,6 +36,8 @@ function getChanParser(parserId) {
 			return TwoChannelParser
 		case '4chan':
 			return FourChannelParser
+		case 'lynxchan':
+			return LynxChanParser
 		default:
 			throw new TypeError(`Unknown chan parser: ${parserId}`)
 	}

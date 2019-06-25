@@ -3,45 +3,77 @@
 .webpage__header
 {
 	display: none;
+	/* Hide the separator line overflow. */
+	overflow: hidden;
 
 	background-color: var(--Header-backgroundColor);
 	color: var(--Header-color);
 	border-bottom: 1px solid var(--Header-borderColor);
 	/*border-top: 1px solid rgba(0,0,0,.0975);*/
 
+	.application-menu {
+		margin-right: var(--unit);
+	}
+}
+
+.webpage__header-title {
+	display: flex;
+	align-items: center;
+	height: 100%;
 	padding-left: var(--unit);
 	padding-right: var(--unit);
 }
 
-/*
-padding-left: var(--content-section-horizontal-padding);
-padding-right: var(--content-section-horizontal-padding);
-*/
+.webpage__header-title--primary {
+	padding-left: calc(var(--unit) / 2);
+	background-color: var(--Header-backgroundColor--title);
+}
+
+.webpage__header-title--secondary {
+	flex: 1;
+}
+
+.header__link {
+	height: 100%;
+}
 
 .header__logo-link
 {
-	height: calc(var(--unit) * 2);
-	width: calc(var(--unit) * 2);
-	margin-right: calc(var(--unit) * 1);
+	display: flex;
+	align-items: center;
+	height: 100%;
+	padding-left: calc(var(--unit) * 1);
+	padding-right: calc(var(--unit) / 2);
+	background-color: var(--Header-backgroundColor--title);
 }
 
 .header__logo
 {
-	height: 100%;
-	width: 100%;
-	color: var(--text-color);
+	height: calc(var(--unit) * 2);
+	width: calc(var(--unit) * 2);
 }
 
 .header__title
 {
-	flex: 1;
-	display: flex;
-	align-items: center;
 	/*padding-left: calc(var(--unit) * 2);*/
 	font-weight: normal;
 	font-size: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.header__separator
+{
+	width: var(--header-height);
+	height: 100%;
+	margin-left: calc(-0.75 * var(--header-height));
+	margin-right: calc(0.15 * var(--header-height));
+	z-index: -1;
+
+	background-color: var(--Header-backgroundColor--title);
+	border-right: 1px solid var(--HeaderSeparator-color);
+
+	transform: skew(-20deg, 0);
 }
 
 .header__board-title,
@@ -69,30 +101,4 @@ padding-right: var(--content-section-horizontal-padding);
 	height : 100%;
 	display : flex;
 	align-items : center;
-}
-
-/*.header__links
-{
-	height : 100%;
-	display : flex;
-}*/
-
-.header__separator {
-	position: relative;
-	width: calc(var(--unit) * 3);
-	height: var(--header-height);
-}
-
-.header__separator:before {
-	display: block;
-	content: "";
-	position: absolute;
-	left: 50%;
-	top: -50%;
-	width: 1px;
-	height: 200%;
-	background-color: currentColor;
-	opacity: 0.2;
-	transform: rotate(20deg);
-	transform-origin: center;
 }

@@ -7,8 +7,7 @@ import parseThread from './parseThread'
  * @return {object[]} See README.md for "Thread" object description.
  */
 export default function parseThreads(response, options) {
-	const threads = response.reduce((all, page) => all.concat(page.threads), [])
-	return threads.map((thread) => parseThread([thread], {
+	return response.map((thread) => parseThread(thread, {
 		...options,
 		isPreview: true
 	}))

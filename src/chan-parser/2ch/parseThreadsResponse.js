@@ -9,6 +9,7 @@ import parseThread from './parseThread'
 export default function parseThreads(response, options) {
 	return response.threads.map((thread) => parseThread(thread, [thread], {
 		...options,
+		isPreview: true,
 		bumpLimit: response.bump_limit,
 		defaultAuthorName: response.default_name,
 		commentsCount: thread.posts_count,

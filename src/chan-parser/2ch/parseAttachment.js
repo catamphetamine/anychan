@@ -1,9 +1,15 @@
-import getMimeType from 'webapp-frontend/src/utility/getMimeType'
+import getMimeType from '../utility/getMimeType'
+import splitFilename from '../utility/splitFilename'
 
 const STICKER_FILE_TYPE = 100
 const ORIGIN = 'https://2ch.hk'
 
 export default function parseAttachment(file, { useRelativeUrls }) {
+	// Stickers don't have a `fullname`.
+	let name
+	if (file.fullname) {
+		name = splitFilename(file.fullname)[0]
+	}
 	// `2ch` runs on multiple domains in case one of them is blocked.
 	// (2ch.hk, 2ch.so, 2ch.pm, 2ch.yt, 2ch.wf, 2ch.re).
 	// By using relative URLs in case of running on an "official" domain
@@ -14,24 +20,26 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 		// (there were some cases supposedly in old threads)
 		getMimeType(file.path)
 	if (mimeType && mimeType.indexOf('image/') === 0) {
-		return parsePicture(file, mimeType, origin)
+		return parsePicture(file, mimeType, name, origin)
 	}
 	if (mimeType && mimeType.indexOf('video/') === 0) {
-		return parseVideo(file, mimeType, origin)
+		return parseVideo(file, mimeType, name, origin)
 	}
 	// `2ch.hk` doesn't allow attaching audio files
 	// but just in case such feature is added in some future.
 	if (mimeType && mimeType.indexOf('audio/') === 0) {
-		return parseAudio(file, mimeType, origin)
+		return parseAudio(file, mimeType, name, origin)
 	}
-	return parseFile(file, mimeType, origin)
+	return parseFile(file, mimeType, name, origin)
 }
 
-function parsePicture(file, mimeType, origin) {
+function parsePicture(file, mimeType, name, origin) {
 	const attachment = {
 		type: 'picture',
 		picture: {
 			type: mimeType,
+			// Most of the times users would prefer not disclosing the actual file name.
+			// title: name,
 			width: file.width,
 			height: file.height,
 			size: file.size * 1024, // in bytes
@@ -53,11 +61,13 @@ function parsePicture(file, mimeType, origin) {
 	return attachment
 }
 
-function parseVideo(file, mimeType, origin) {
+function parseVideo(file, mimeType, name, origin) {
 	return {
 		type: 'video',
 		video: {
 			type: mimeType,
+			// Most of the times users would prefer not disclosing the actual file name.
+			// title: name,
 			// Sometimes (very rarely) on `2ch.hk` `.webm`s have negative duration.
 			// Example:
 			// {
@@ -81,8 +91,7 @@ function parseVideo(file, mimeType, origin) {
 	}
 }
 
-function parseAudio(file, mimeType, origin) {
-	const [name, ext] = splitFilename(file.fullname)
+function parseAudio(file, mimeType, name, origin) {
 	return {
 		type: 'audio',
 		audio: {
@@ -93,8 +102,8 @@ function parseAudio(file, mimeType, origin) {
 	}
 }
 
-function parseFile(file, mimeType, origin) {
-	const [name, ext] = splitFilename(file.fullname)
+function parseFile(file, mimeType, origin, name) {
+	const [_unused, ext] = splitFilename(file.path)
 	return {
 		type: 'file',
 		file: {
@@ -125,15 +134,4 @@ function getContentTypeByFileType(type) {
 		case STICKER_FILE_TYPE:
 			return 'image/png'
 	}
-}
-
-function splitFilename(filename) {
-	const dotIndex = filename.lastIndexOf('.')
-	if (dotIndex > 0 || dotIndex < filename.length - 1) {
-		return [
-			filename.slice(0, dotIndex),
-			filename.slice(dotIndex)
-		]
-	}
-	return [filename, undefined]
 }

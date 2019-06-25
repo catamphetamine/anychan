@@ -13,6 +13,7 @@ export default function parseThread(posts, {
 	boardId,
 	filters,
 	messages,
+	isPreview,
 	parseCommentPlugins,
 	commentLengthLimit,
 	getUrl,
@@ -44,7 +45,8 @@ export default function parseThread(posts, {
 		attachmentThumbnailUrlFpath,
 		fileAttachmentUrl,
 		defaultAuthorName,
-		parseContent
+		parseContent,
+		parseContentForOpeningPost: !isPreview
 	}))
 	const threadInfo = {
 		boardId,
@@ -73,22 +75,20 @@ export default function parseThread(posts, {
 	if (thread.last_modified) {
 		threadInfo.lastModifiedAt = new Date(thread.last_modified * 1000)
 	}
-	// On `8ch.net` "rolling" "sticky" threads are
-	// also marked as `bumplimit: 1` when their
-	// technical "bump limit" is technically "reached".
-	// By definition, "rolling" and "sticky" threads don't expire.
-	if (thread.bumplimit === 1 && !threadInfo.isSticky && !threadInfo.isRolling) {
-		threadInfo.isBumpLimitReached = true
-	}
-	if (thread.imagelimit === 1) {
-		threadInfo.isAttachmentLimitReached = true
-	}
 	// `8ch.net` has a concept of "bumplocked" threads that are in "autosage" mode.
 	// https://twitter.com/infinitechan/status/555013038839848961
 	// In other words, "bumplocked" threads are never bumped.
 	// I guess it can be set both when a thread is created and later too.
 	if (thread.bumplocked === '1') {
 		threadInfo.isBumpLimitReached = true
+	}
+	// On `8ch.net` threads are marked as `bumplimit: 1` when
+	// their technical "bump limit" is technically "reached".
+	if (thread.bumplimit === 1) {
+		threadInfo.isBumpLimitReached = true
+	}
+	if (thread.imagelimit === 1) {
+		threadInfo.isAttachmentLimitReached = true
 	}
 	// At `4chan.org` each board can have a list of "custom spoilers" for attachments.
 	// `custom_spoiler` is a number, and if it's `5`, for example, then it means that

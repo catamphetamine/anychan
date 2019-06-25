@@ -14,6 +14,13 @@ export default function constructThread(threadInfo, comments, {
 	addOnContentChange
 }) {
 	const threadId = comments[0].id
+	// On `8ch.net` "rolling" "sticky" threads are
+	// also marked as `bumplimit: 1` when their
+	// technical "bump limit" is technically "reached".
+	// By definition, "rolling" and "sticky" threads don't expire.
+	if (threadInfo.isSticky || threadInfo.isRolling) {
+		threadInfo.isBumpLimitReached = false
+	}
 	// Set `.inReplyTo` array for each comment.
 	// `.inReplyTo` array contains comment IDs.
 	for (const comment of comments) {
@@ -100,7 +107,9 @@ export default function constructThread(threadInfo, comments, {
 			}
 		}
 	}
-	threadInfo.subject = getPostSubject(comments[0], { messages })
+	if (!threadInfo.subject) {
+		threadInfo.subject = getPostSubject(comments[0], { messages })
+	}
 	return {
 		...threadInfo,
 		id: threadId,

@@ -33,7 +33,8 @@ export default function parseComment(post, {
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
 	defaultAuthorName,
-	parseContent
+	parseContent,
+	parseContentForOpeningPost
 }) {
 	let rawComment = post.com
 	let authorWasBanned = false
@@ -76,7 +77,8 @@ export default function parseComment(post, {
 	const parsedAuthorRole = parseAuthorRole(post, chan)
 	const comment = constructComment(
 		boardId,
-		post.resto, // `threadId`.
+		// `resto` is `0` for the first post of the thread.
+		post.resto || post.no,
 		post.no,
 		rawComment,
 		parseAuthor(post.name, { defaultAuthorName, boardId }),
@@ -96,7 +98,7 @@ export default function parseComment(post, {
 			attachmentThumbnailUrlFpath,
 			fileAttachmentUrl
 		}),
-		post.time,
+		new Date(post.time * 1000),
 		{
 			filters,
 			parseCommentPlugins,
@@ -104,7 +106,8 @@ export default function parseComment(post, {
 			messages,
 			getUrl,
 			commentUrlRegExp,
-			parseContent
+			parseContent,
+			parseContentForOpeningPost
 		}
 	)
 	if (chan === '8ch' && parsedAuthorRole) {
@@ -175,6 +178,10 @@ function parseAttachments(post, options) {
 		files = files.concat(post.extra_files)
 	}
 	return files.filter(file => !wasAttachmentDeleted(file, options))
+		// On `8ch.net` sometimes a `file` can be just `[]` (which is a bug).
+		// For example, one time there was a thread with `extra_files: [ [] ]`.
+		// https://github.com/OpenIB/OpenIB/issues/298
+		.filter(_ => !Array.isArray(_))
 		.map(file => parseAttachment(file, options))
 }
 

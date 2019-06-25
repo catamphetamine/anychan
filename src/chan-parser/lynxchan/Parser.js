@@ -4,8 +4,7 @@ import parseBoards from './parseBoardsResponse'
 import parseThreads from './parseThreadsResponse'
 import parseThread from './parseThreadResponse'
 
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.4chan'
-import EIGHT_CHAN_PARSE_COMMENT_PLUGINS from './parseCommentPlugins.8ch'
+import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
 import KOHLCHAN_PARSE_COMMENT_PLUGINS from './parseCommentPlugins.kohlchan'
 
 export default class FourChanParser extends Parser {
@@ -22,8 +21,6 @@ export default class FourChanParser extends Parser {
 
 function getParseCommentPlugins(chan) {
 	switch (chan) {
-		case '8ch':
-			return EIGHT_CHAN_PARSE_COMMENT_PLUGINS
 		case 'kohlchan':
 			return KOHLCHAN_PARSE_COMMENT_PLUGINS
 		default:

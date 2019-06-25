@@ -1,4 +1,5 @@
-import getMimeType from 'webapp-frontend/src/utility/getMimeType'
+import getMimeType from '../utility/getMimeType'
+import splitFilename from '../utility/splitFilename'
 
 export default function parseAttachment(file, options) {
 	const { chan } = options
@@ -15,21 +16,26 @@ export default function parseAttachment(file, options) {
 			}
 		}
 	}
+	let name
+	// Just in case there's some new file type without a `filename`.
+	if (file.filename) {
+		name = splitFilename(file.filename)[0]
+	}
 	const mimeType = getMimeType(file.ext)
 	if (mimeType && mimeType.indexOf('image/') === 0) {
-		return parsePicture(file, mimeType, options)
+		return parsePicture(file, mimeType, name, options)
 	}
 	if (mimeType && mimeType.indexOf('video/') === 0) {
-		return parseVideo(file, mimeType, options)
+		return parseVideo(file, mimeType, name, options)
 	}
 	// `kohlchan.net` supports attaching audio files.
 	if (mimeType && mimeType.indexOf('audio/') === 0) {
-		return parseAudio(file, mimeType, options)
+		return parseAudio(file, mimeType, name, options)
 	}
-	return parseFile(file, mimeType, options)
+	return parseFile(file, mimeType, name, options)
 }
 
-function parsePicture(file, mimeType, {
+function parsePicture(file, mimeType, name, {
 	chan,
 	boardId,
 	attachmentUrl,
@@ -61,6 +67,8 @@ function parsePicture(file, mimeType, {
 		type: 'picture',
 		picture: {
 			type: mimeType,
+			// Most of the times users would prefer not disclosing the actual file name.
+			// title: name,
 			width: file.w,
 			height: file.h,
 			size: file.fsize, // in bytes
@@ -75,7 +83,7 @@ function parsePicture(file, mimeType, {
 	return attachment
 }
 
-function parseVideo(file, mimeType, {
+function parseVideo(file, mimeType, name, {
 	chan,
 	boardId,
 	attachmentUrl,
@@ -86,6 +94,8 @@ function parseVideo(file, mimeType, {
 		type: 'video',
 		video: {
 			type: mimeType,
+			// Most of the times users would prefer not disclosing the actual file name.
+			// title: name,
 			width: file.w,
 			height: file.h,
 			size: file.fsize, // in bytes
@@ -105,7 +115,7 @@ function parseVideo(file, mimeType, {
 	return attachment
 }
 
-function parseAudio(file, mimeType, {
+function parseAudio(file, mimeType, name, {
 	boardId,
 	fileAttachmentUrl,
 	attachmentUrl
@@ -114,13 +124,13 @@ function parseAudio(file, mimeType, {
 		type: 'audio',
 		audio: {
 			type: mimeType,
-			title: file.filename,
+			title: name,
 			url: formatUrl(fileAttachmentUrl || attachmentUrl, boardId, file.tim, file.ext, file.filename)
 		}
 	}
 }
 
-function parseFile(file, mimeType, {
+function parseFile(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	fileAttachmentUrl
@@ -129,7 +139,7 @@ function parseFile(file, mimeType, {
 		type: 'file',
 		file: {
 			type: mimeType,
-			name: file.filename,
+			name,
 			ext: file.ext,
 			size: file.fsize, // in bytes
 			width: file.w, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.

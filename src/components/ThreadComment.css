@@ -77,10 +77,6 @@
 	font-weight: 300;
 }
 
-.post__author--generic .post__author-name {
-	color: var(--PostAuthorName-color);
-}
-
 .post__author-name + .post__author-trip-code {
 	margin-left: 0.35em;
 }
@@ -94,23 +90,24 @@
 	}
 }
 
-/* Added `.thread__comment` here for CSS selector specificity. */
+/* Added `.thread__comment` for CSS selector specificity over the
+  `.thread__comment--thread` above. */
 .thread__comment {
+	.post__author--generic:not(.post__author--eligible) .post__author-name {
+		color: var(--PostAuthorName-color);
+	}
+
+	.post__author--eligible,
+	.post__author-icon--outline {
+		color: var(--PostAuthorName-color--eligible);
+	}
+
 	.post__author--administrator {
 		color: var(--PostAuthor-color--administrator);
 	}
+
 	.post__author--moderator {
 		color: var(--PostAuthor-color--moderator);
-	}
-}
-
-/* Added `.thread__comment` here for CSS selector specificity. */
-.thread__comment {
-	.post__author--eligible {
-		.post__author-icon,
-		.post__author-name {
-			color: var(--PostAuthorName-color--eligible);
-		}
 	}
 }
 

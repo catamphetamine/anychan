@@ -30,7 +30,8 @@ export default function parseComment(post, {
 	icons,
 	useRelativeUrls,
 	getUrl,
-	parseContent
+	parseContent,
+	parseContentForOpeningPost
 }) {
 	let subject = post.subject
 	// `post.comment` is always present, even when there's no text.
@@ -63,14 +64,15 @@ export default function parseComment(post, {
 		post.banned === 1,
 		subject,
 		post.files.length === 0 ? undefined : post.files.map(file => parseAttachment(file, { useRelativeUrls })),
-		post.timestamp,
+		new Date(post.timestamp * 1000),
 		{
 			filters,
 			parseCommentPlugins,
 			correctGrammar,
 			messages,
 			getUrl,
-			parseContent
+			parseContent,
+			parseContentForOpeningPost
 		}
 	)
 	if (author && typeof author === 'object') {

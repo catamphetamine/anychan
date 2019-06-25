@@ -1,15 +1,39 @@
 :root {
-	--base-color-800: #5f2a62;
-	--base-color-700: #6E2CC4;
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	--base-color-900: #43197B;
+	--base-color-800: #5820A1;
+	--base-color-700: #5E15B9; /* #6E2CC4; */
 	--base-color-600: #9C58F4;
 	--base-color-500: #A25FF8;
 	--base-color-400: #B47BFE;
 	--base-color-300: #CAA2FF;
 	--base-color-200: #D1AEFF;
 	--base-color-100: #F7F0FF;
-	--accent-color-700: #adf182;
-	--accent-color-600: #a0de59;
-	--accent-color-500: #c7fba5;
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	--accent-color-900: #205100;
+	--accent-color-800: #338001;
+	--accent-color-700: #3F9C05;
+	--accent-color-600: #5ABD1C;
+	--accent-color-500: #6FD72E;
+	--accent-color-400: #a0de59;
+	--accent-color-300: #adf182;
+	--accent-color-200: #c7fba5;
+	--accent-color-100: #EEFFE3;
+	/* Component colors. */
+	--Header-color: var(--white-color);
+	--Header-backgroundColor: var(--base-color-800);
+	--Header-backgroundColor--title: var(--accent-color-800);
+	--HeaderSeparator-color: transparent;
+	--Notification-backgroundColor: var(--base-color-800);
+	--Menu-color--active: var(--accent-color-600);
+	--Clickable-color: var(--base-color-700);
+	--Clickable-color--active: var(--base-color-600);
+	--PostQuote-color: var(--accent-color-700);
+	--PostInlineSpoiler-backgroundColor: #eeebf0;
+	--PostInlineSpoiler-backgroundColor--postActive: hsl(260, 30%, 92%);
+	--PostInlineSpoiler-backgroundColor--censored: #E8DFF4;
+	--Content-backgroundColor--postActive: hsl(260, 70%, 98%);
+	--Empty-backgroundColor: #ECEBED;
 }
 
 .theme--eva {

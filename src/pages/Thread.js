@@ -144,7 +144,7 @@ export default class ThreadPage extends React.Component {
 
 function getThreadImage(thread) {
 	const comment = thread.comments[0]
-	if (comment.attachments.length > 0) {
+	if (comment.attachments && comment.attachments.length > 0) {
 		const attachment = comment.attachments[0]
 		switch (attachment.type) {
 			case 'picture':

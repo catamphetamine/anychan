@@ -1,0 +1,54 @@
+:root {
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	--gray-base-color-100 : #E9E9E7;
+	--gray-base-color-150 : #E1E0DE;
+	--gray-base-color-200 : #D7D5D1;
+	--gray-base-color-300 : #BCB9B3;
+	--gray-base-color-400 : #B3B0A9;
+	--gray-base-color-500 : #A19E99;
+	--gray-base-color-600 : #948E86;
+	--gray-base-color-700 : #857E73;
+	--gray-base-color-800 : #787166;
+	--gray-base-color-900 : #635C4F;
+
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	--base-color-100 : #FFF4EC;
+	--base-color-200 : #FFD0AF;
+	--base-color-300 : #FFA061;
+	--base-color-400 : #FF8732;
+	--base-color-500 : #FF6A00;
+	--base-color-600 : #DD5C00;
+	--base-color-700 : #BE4800;
+	--base-color-800 : #9E4200;
+	--base-color-900 : #6D2D00;
+
+	/* Base color transparency: rgba(0, 179, 255, 0.7); */
+
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	--accent-color-100 : #97E0FF;
+	--accent-color-200 : #63D0FF;
+	--accent-color-300 : #3FC6FF;
+	--accent-color-400 : #25BEFF;
+	--accent-color-500 : #00B3FF;
+	--accent-color-600 : #009CDF;
+	--accent-color-700 : #0084BD;
+	--accent-color-800 : #006996;
+	--accent-color-900 : #003F5A;
+
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/*
+	--alt-accent-color-100 : #FFA6C7;
+	--alt-accent-color-200 : #FF78AA;
+	--alt-accent-color-300 : #FF5191;
+	--alt-accent-color-400 : #FF2A79;
+	--alt-accent-color-500 : #FF005E;
+	--alt-accent-color-600 : #D90050;
+	--alt-accent-color-700 : #BC0045;
+	--alt-accent-color-800 : #980038;
+	--alt-accent-color-900 : #6E0029;
+	*/
+
+	--PostInlineSpoiler-backgroundColor: #F0EFEB;
+	--PostInlineSpoiler-backgroundColor--postActive: hsl(36, 30%, 92%);
+	--Content-backgroundColor--postActive: hsl(36, 70%, 96%);
+}

@@ -67,7 +67,7 @@
 	"thumbnailSize": 200,
 	"commentsUrl": "/{boardId}/res/{threadId}.json",
 	"threadsUrl": "/{boardId}/catalog.json",
-	"countryFlagUrl": "/static/flags/{country}.png",
+	"countryFlagUrl": "/.static/flags/{country}.png",
 	"boards": [
 		{
 			"id": "b",
@@ -110,8 +110,19 @@
 			"category": "Allgemein"
 		},
 		{
+			"id": "cyber",
+			"name": "CYBER",
+			"category": "Allgemein"
+		},
+		{
 			"id": "d",
 			"name": "Drogen",
+			"category": "Allgemein"
+		},
+		{
+			"id": "danisch",
+			"name": "Danisch",
+			"description": "Kommentarspalte von Hadmut",
 			"category": "Allgemein"
 		},
 		{
@@ -142,6 +153,11 @@
 		{
 			"id": "foto",
 			"name": "Foto & Kunst",
+			"category": "Allgemein"
+		},
+		{
+			"id": "jp",
+			"name": "2D/Chaos",
 			"category": "Allgemein"
 		},
 		{

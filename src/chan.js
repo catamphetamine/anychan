@@ -23,7 +23,7 @@ const CHANS = [
 ]
 
 // These URLs could be strings inside `index.json` hosted somewhere on a CDN.
-twoChannel.icon = TwoChannelLogo
+twoChannel.icon = TwoChannelIcon
 fourChan.icon = FourChanIcon
 eightChan.icon = EightChanIcon
 kohlChan.icon = KohlChanIcon

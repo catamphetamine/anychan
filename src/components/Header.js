@@ -2,9 +2,10 @@ import React from 'react'
 import { MenuIcon } from 'react-responsive-ui'
 import { Link } from 'react-website'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 import ApplicationMenu from './ApplicationMenu'
-import ChanLogo, { hasLogo } from './ChanLogo'
+import ChanIcon from './ChanIcon'
 
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
@@ -33,43 +34,41 @@ export default class Header extends React.Component {
 
 		return (
 			<nav className="webpage__header">
-				{hasLogo() &&
+				<Link
+					to={addChanParameter('/')}
+					title={getChan().title}
+					className="header__logo-link">
+					<ChanIcon className="header__logo"/>
+				</Link>
+
+				{!isBoardPage && !isThreadPage &&
 					<Link
 						to={addChanParameter('/')}
-						title={getChan().title}
-						className="header__logo-link">
-						<ChanLogo className="header__logo"/>
+						className="webpage__header-title webpage__header-title--primary header__uncolored-link">
+						{getChan().title}
 					</Link>
 				}
+				{isBoardPage && isThreadLocation(route) &&
+					<Link
+						instantBack
+						to={getUrl(board)}
+						className="webpage__header-title webpage__header-title--primary header__uncolored-link">
+						{board.name}
+					</Link>
+				}
+				{isBoardPage && !isThreadLocation(route) &&
+					<div className="webpage__header-title webpage__header-title--primary">
+						{board.name}
+					</div>
+				}
 
-				<div className="header__title">
-					{!isBoardPage && !isThreadPage &&
-						<Link
-							to={addChanParameter('/')}
-							className="header__uncolored-link">
-							{getChan().title}
-						</Link>
-					}
-					{isBoardPage &&
-						<span className="header__board-title">
-							{isThreadLocation(route) &&
-								<Link
-									instantBack
-									to={getUrl(board)}
-									className="header__uncolored-link">
-									{board.name}
-								</Link>
-							}
-							{!isThreadLocation(route) && board.name}
-						</span>
-					}
+				<div className={classNames('header__separator', {
+					'header__separator--thread': isThreadPage
+				})}/>
+
+				<div className="webpage__header-title webpage__header-title--secondary">
 					{isThreadPage &&
-						<div className="header__separator"/>
-					}
-					{isThreadPage &&
-						<span className="header__thread-title">
-							{thread.subject}
-						</span>
+						thread.subject
 					}
 				</div>
 

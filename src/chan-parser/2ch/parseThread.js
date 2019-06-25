@@ -12,6 +12,7 @@ export default function parseThread(thread, posts, {
 	boardId,
 	filters,
 	messages,
+	isPreview,
 	defaultAuthorName,
 	parseCommentPlugins,
 	commentLengthLimit, // Max comment length until it generates a shortened preview.
@@ -41,7 +42,8 @@ export default function parseThread(thread, posts, {
 		icons,
 		useRelativeUrls,
 		getUrl,
-		parseContent
+		parseContent,
+		parseContentForOpeningPost: !isPreview
 	}))
 	const threadInfo = {
 		boardId,
@@ -66,7 +68,7 @@ export default function parseThread(thread, posts, {
 	if (hasVoting) {
 		threadInfo.hasVoting = true
 	}
-	if (commentsCount >= bumpLimit && !threadInfo.isSticky && !threadInfo.isRolling) {
+	if (commentsCount >= bumpLimit) {
 		threadInfo.isBumpLimitReached = true
 	}
 	// Is only used for `/res/THREAD-ID.json` API response.

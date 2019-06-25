@@ -1,11 +1,9 @@
 {
-	"engine": "vichan",
 	"defaultAuthorName": {
 		"*": "Bernd",
 		"ru": "Бернд"
 	},
-	"attachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}",
-	"attachmentThumbnailUrl": "https://kohlchan.net/{boardId}/thumb/{name}{ext}",
-	"fileAttachmentUrl": "https://kohlchan.net/{boardId}/src/{name}{ext}/{originalName}{ext}",
+	"attachmentUrl": "https://kohlchan.net{url}",
+	"attachmentThumbnailUrl": "https://kohlkanal.net{url}",
 	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
 }
