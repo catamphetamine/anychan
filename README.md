@@ -1,22 +1,21 @@
 Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
-[`4chan.org` demo](https://catamphetamine.github.io/chanchan/?chan=4chan)
+Supported engines:
 
-[`8ch.net` demo](https://catamphetamine.github.io/chanchan/?chan=8ch)
+* [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/chanchan/?chan=4chan).
+* [vichan](https://github.com/vichan-devel/vichan)/[infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See [`8ch.net` demo](https://catamphetamine.github.io/chanchan/?chan=8ch).
+* [lynxchan](http://lynxhub.com/) ([kohlchan.net](https://kohlchan.net)). See [`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan).
+* [makaba](https://2ch.hk/api/) ([2ch.hk](https://2ch.hk/)). See [`2ch.hk` demo](https://catamphetamine.github.io/chanchan/?chan=2ch).
 
-[`2ch.hk` demo](https://catamphetamine.github.io/chanchan/?chan=2ch)
+Don't mind the seemingly slower speed of the demos: the only reason for that is the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 
-[`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan)
+This project currently has only a subset of features. "To do":
 
-Don't mind the slower speeds: the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
-
-This is a demo showcase project and currently has only a small subset of features. "To do":
-
+  * Add dark mode and themes.
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.
   * Add "favorite" boards list.
-  * Add dark mode.
   * Add a non-default theme.
   * Add support for "passes" (`4chan.org`, `2ch.hk`).
 
@@ -320,4 +319,4 @@ To define custom/additional settings one can create `configuration.json` file in
 
 ### kohlchan.net
 
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net/API.md)
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net/API.md) (the old `vichan` API which is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)

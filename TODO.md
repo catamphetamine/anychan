@@ -12,6 +12,10 @@ Add `chanData.threads: { a: { '123': { ... } }}` + tests + updateThreads.
 
 
 
+kohlchan: emoji.
+
+
+
 Не исключать цитаты при генерации thread.subject
 
 Ссылку на доску в шапке сделать как "Back".
