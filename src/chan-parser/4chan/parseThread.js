@@ -73,7 +73,11 @@ export default function parseThread(posts, {
 	if (thread.last_modified) {
 		threadInfo.lastModifiedAt = new Date(thread.last_modified * 1000)
 	}
-	if (thread.bumplimit === 1) {
+	// On `8ch.net` "rolling" "sticky" threads are
+	// also marked as `bumplimit: 1` when their
+	// technical "bump limit" is technically "reached".
+	// By definition, "rolling" and "sticky" threads don't expire.
+	if (thread.bumplimit === 1 && !threadInfo.isSticky && !threadInfo.isRolling) {
 		threadInfo.isBumpLimitReached = true
 	}
 	if (thread.imagelimit === 1) {
