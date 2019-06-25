@@ -71,9 +71,13 @@
 	z-index: -1;
 
 	background-color: var(--Header-backgroundColor--title);
-	border-right: 1px solid var(--HeaderSeparator-color);
+	/*border-right: 1px solid var(--HeaderSeparator-color);*/
 
 	transform: skew(-20deg, 0);
+}
+
+.header__separator--thread {
+	border-right: 1px solid var(--HeaderSeparator-color);
 }
 
 .header__board-title,
