@@ -264,10 +264,14 @@ function getBoardsResult(boards) {
  * @return {string} [preview]
  */
 function generateTextPreview(comment) {
-	const textPreview = getPostText(comment, {
-		ignoreAttachments: true,
-		softLimit: 150
-	})
+	const textPreview = getPostText(
+		comment.content,
+		comment.attachments,
+		{
+			ignoreAttachments: true,
+			softLimit: 150
+		}
+	)
 	if (textPreview) {
 		comment.textPreview = trimText(textPreview, 150)
 	}
