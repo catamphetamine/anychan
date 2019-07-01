@@ -14,19 +14,6 @@
 	"language": "de",
 	"title": "KOHLCHAN",
 	"description": "Kohlchan is a young German imageboard. It is generally considered to be the successor to Krautchan, which was killed by cancer and its lazy administration which decided to delete fucking everything because they couldn't even be bothered to contact their hoster. The name \"Kohlchan\" was used because Kohl and Kraut can both mean \"cabbage\", and it also pays homage to former German chancellor Helmut Kohl. At the beginning of the imageboard the default name was set to \"Helmut\", but since some users could not live with that, the name was changed back to Bernd.",
-	"copyright": [
-		{
-			"type": "link",
-			"url": "https://github.com/vichan-devel/vichan",
-			"content": "vichan"
-		},
-		" Copyright © 2012-2019 ",
-		{
-			"type": "link",
-			"url": "https://github.com/vichan-devel",
-			"content": "vichan-devel"
-		}
-	],
 	"links": [{
 		"type": "faq",
 		"text": "FAQ",

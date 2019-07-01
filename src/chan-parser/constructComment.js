@@ -21,6 +21,7 @@ export default function constructComment(
 		correctGrammar,
 		messages,
 		getUrl,
+		emojiUrl,
 		commentUrlRegExp,
 		parseContent,
 		parseContentForOpeningPost
@@ -64,7 +65,8 @@ export default function constructComment(
 				boardId,
 				threadId,
 				messages,
-				getUrl
+				getUrl,
+				emojiUrl
 			})
 		}
 		// The "opening" post of a thread is always parsed
@@ -95,7 +97,7 @@ export default function constructComment(
 		comment.authorRole = authorRole
 	}
 	if (authorWasBanned) {
-		comment.authorWasBanned = true
+		comment.authorWasBanned = authorWasBanned
 	}
 	return comment
 }

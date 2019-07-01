@@ -64,7 +64,8 @@
 }
 
 .page__heading,
-.page__heading-text {
+.page__heading-text,
+.rrui__modal__title {
 	line-height: 1.35em;
 	font-size: 1.3rem;
 	font-weight: 400;

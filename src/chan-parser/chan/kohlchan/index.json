@@ -1,8 +1,10 @@
 {
+	"thumbnailSize": 200,
 	"defaultAuthorName": {
 		"*": "Bernd",
 		"ru": "Бернд"
 	},
+	"emojiUrl": "https://kohlchan.net{url}",
 	"attachmentUrl": "https://kohlchan.net{url}",
 	"attachmentThumbnailUrl": "https://kohlkanal.net{url}",
 	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"

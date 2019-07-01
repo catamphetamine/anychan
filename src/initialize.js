@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser'
 
 import { getChanIdByDomain, setChan, getChan } from './chan'
-import { applySettings, getSettings } from './utility/settings'
+import { applySettings } from './utility/settings'
 import configuration from './configuration'
 
 import DvaChannelSiteIcon from '../chan/2ch/icon.png'
@@ -32,7 +32,7 @@ export default function() {
 		siteIcon.href = getSiteIcon(getChan().id)
 	}
 	// Apply default settings.
-	applySettings(getSettings())
+	applySettings()
 }
 
 export function getSiteIcon(chanId) {

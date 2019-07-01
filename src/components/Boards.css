@@ -2,33 +2,33 @@
 
 .boards {
 	.boards__view-switch {
-		color: var(--base-color-700);
+		color: var(--Clickable-color--dark);
 		&:hover {
-			background-color: var(--BoardsPage-backgroundColor--hover);
+			background-color: var(--Boards-backgroundColor--hover);
 		}
 		&:focus {
-			background-color: var(--BoardsPage-backgroundColor--hover);
-			box-shadow: 0 0 0 1px var(--gray-color-100);
+			background-color: var(--Boards-backgroundColor--hover);
+			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-borderColor--focus);
 		}
 		&:active {
-			color: var(--base-color-600);
+			color: var(--Boards-color--active);
 		}
 	}
 
 	.boards-list__board-url {
 		&:before, &:after {
-    	color: var(--gray-color-200);
+    	color: var(--BoardsSlash-color);
 		}
 	}
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: var(--BoardsPage-backgroundColor--hover);
+		background-color: var(--Boards-backgroundColor--hover);
 	}
 
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
-		color: var(--base-color-600);
+		color: var(--Boards-color--active);
 	}
 
 	.boards__view-switch--disabled {
@@ -36,20 +36,20 @@
 	}
 }
 
-.boards--dark {
+.boards--sidebar {
 	.boards__view-switch {
 		color: currentColor;
 		&:hover {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-backgroundColor--active);
+			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--sidebarActive);
 		}
 		&:focus {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-backgroundColor--active);
+			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--sidebarActive);
 		}
 		&:active {
 			color: currentColor;
-			background-color: var(--BoardsViewSwitcher-backgroundColor--active);
+			background-color: var(--Boards-backgroundColor--sidebarActive);
 		}
 	}
 
@@ -63,42 +63,42 @@
 	}
 
 	.boards__show-all {
-		color: var(--base-color-300);
+		color: var(--Boards-color--sidebarActive);
 		&:active {
-			color: var(--base-color-400);
+			background-color: var(--Boards-backgroundColor--sidebarHover);
 		}
 	}
 
 	.boards-list__board-url {
-		color: var(--base-color-300);
+		color: var(--Boards-color--sidebarActive);
 		&:before, &:after {
-			color: #6d7682;
+			color: var(--BoardsSlash-color--sidebar);
 		}
 	}
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: var(--Boards-backgroundColor--hover);
+		background-color: var(--Boards-backgroundColor--sidebarHover);
 	}
 
 	.boards-list__board-url--selected,
 	.boards-list__board-name--selected {
-		background-color: var(--Boards-backgroundColor--selected);
+		background-color: var(--Boards-backgroundColor--sidebarSelected);
 	}
 
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
-		background-color: var(--Boards-backgroundColor--active);
+		background-color: var(--Boards-backgroundColor--sidebarActive);
 	}
 
 	.boards-list__board-name--active,
 	/* `:active` is for cases when the link is clicked and dragged. */
 	.boards-list__board-name:active {
-		color: var(--base-color-300);
+		color: var(--Boards-color--sidebarActive);
 	}
 
 	.boards__view-switcher {
-		color: var(--BoardsViewSwitcher-color);
+		color: var(--BoardsViewSwitcher-color--sidebar);
 	}
 }
 
@@ -161,7 +161,7 @@
 	&:after {
 		content: '/';
 		display: inline-block;
-		font-family: var(--font-family);
+		font-family: var(--Document-fontFamily);
 		font-weight: 300;
 	}
 	&:before {
@@ -195,8 +195,15 @@
 	transition: none;
 }
 
+.boards__show-all {
+	padding-top: calc(var(--unit) * 0.5);
+	padding-bottom: calc(var(--unit) * 0.5);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+}
+
 .boards__show-all-wrapper {
-	margin-top: calc(var(--unit) * 2);
+	margin-top: calc(var(--unit) * 1.5);
 	text-align: center;
 }
 
@@ -210,6 +217,6 @@
 
 .boards__nothing-found {
 	margin-top: calc(var(--unit) * 2);
-	color: var(--gray-color-700);
+	color: var(--Content-color);
 	text-align: center;
 }

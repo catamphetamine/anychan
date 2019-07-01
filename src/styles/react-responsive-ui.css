@@ -1,23 +1,5 @@
 @import "../../../webapp-frontend/src/styles/react-responsive-ui.css";
 
-:root {
-	--rrui-button-text-color: var(--base-color-700);
-	--rrui-button-text-color-active: var(--base-color-600);
-
-	--rrui-accent-color       : var(--base-color-600);
-	--rrui-accent-color-light : var(--base-color-500);
-	--rrui-gray-color         : var(--gray-color-400);
-}
-
 .rrui__snackbar__container {
 	z-index: var(--notifications-z-index);
-}
-
-.rrui__text-input {
-	margin-bottom: var(--unit);
-}
-
-.rrui__input-error {
-	position: absolute;
-	margin-top: 0;
 }

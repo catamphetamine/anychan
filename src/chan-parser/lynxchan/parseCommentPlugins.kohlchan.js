@@ -10,8 +10,12 @@ import {
 	parseLink
 } from './parseCommentPlugins'
 
+// Since May 28th, 2019 `kohlchan.net` has been migrated from `vichan` to `lynxchan`.
+// The old messages still have the old markup.
+import legacyMarkupPlugins from '../4chan/parseCommentPlugins.kohlchan'
+
 // `kohlchan.net` has regular quotes and "inverse" quotes.
-const parseKohlChanInverseQuote = {
+const parseKohlChanRedQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -33,7 +37,7 @@ const parseKohlChanInverseQuote = {
 
 // `kohlchan.net` has regular quotes and "inverse" quotes,
 // and also some "orange" quotes which are ignored.
-const parseKohlChanInverseQuote2 = {
+const parseKohlChanOrangeQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -46,7 +50,7 @@ const parseKohlChanInverseQuote2 = {
 		if (content) {
 			return {
 				type: 'inline-quote',
-				kind: 'inverse',
+				kind: 'inverse-orange',
 				content
 			}
 		}
@@ -55,7 +59,7 @@ const parseKohlChanInverseQuote2 = {
 
 const EMOTE_ID_REG_EXP = /^\/\.static\/images\/([^/]+)\.png$/
 
-const parseKohlChanEmote = {
+const parseKohlChanEmoji = {
 	tag: 'img',
 	attributes: [
 		{
@@ -63,13 +67,18 @@ const parseKohlChanEmote = {
 			value: 'emote'
 		}
 	],
-	createBlock(content, util) {
+	// Without `content: false` the plugin wouldn't work
+	// because empty DOM elements are ignored.
+	content: false,
+	createBlock(content, util, { emojiUrl }) {
+		const url = util.getAttribute('src')
 		// "/.static/images/chen.png" -> "chen"
-		const match = EMOTE_ID_REG_EXP.match(util.getAttribute('src'))
-		if (match) {
-			return `(:${match[1]}:)`
+		const match = url.match(EMOTE_ID_REG_EXP)
+		return {
+			type: 'emoji',
+			name: match ? match[1] : 'emoji',
+			url: emojiUrl.replace('{url}', url)
 		}
-		return '(:emoji:)'
 	}
 }
 
@@ -80,8 +89,9 @@ export default [
 	parseStrikethrough,
 	parseSpoiler,
 	parseQuote,
-	parseKohlChanInverseQuote,
-	parseKohlChanInverseQuote2,
-	parseKohlChanEmote,
-	parseLink
+	parseKohlChanRedQuote,
+	parseKohlChanOrangeQuote,
+	parseKohlChanEmoji,
+	parseLink,
+	...legacyMarkupPlugins
 ]

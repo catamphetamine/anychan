@@ -13,7 +13,12 @@ export default function parseRole(capCode) {
 			return 'moderator'
 		default:
 			if (capCode) {
-				console.error(`Unsupported "capcode": ${capCode}`)
+				if (typeof window !== 'undefined') {
+					// Report the error to `sentry.io`.
+					setTimeout(() => { throw new Error(`Unknown 4chan.org "capcode": ${capCode}`) }, 0)
+				} else {
+					console.warn(`Unknown 4chan.org "capcode": ${capCode}`)
+				}
 			}
 	}
 }

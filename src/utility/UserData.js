@@ -9,7 +9,7 @@ export class UserData {
 			type: 'list',
 			expires: false
 		},
-		hiddenAuthors: {
+		ignoredAuthors: {
 			type: 'list',
 			expires: false
 		},
@@ -20,10 +20,16 @@ export class UserData {
 			type: 'boards-threads'
 		},
 		readComments: {
-			type: 'boards-threads-comment'
+			type: 'boards-threads-data'
 		},
 		watchedThreads: {
-			type: 'boards-threads'
+			type: 'boards-threads',
+			expires: false,
+			data: 'watchedThreadsInfo'
+		},
+		watchedThreadsInfo: {
+			type: 'boards-threads-data',
+			expires: false
 		},
 		ownThreads: {
 			type: 'boards-threads'
@@ -44,11 +50,25 @@ export class UserData {
 		// Create data access methods.
 		for (const key of Object.keys(this.data)) {
 			const data = this.data[key]
-			const [ addTo, removeFrom, getFrom ] = getFunctions(data.type)
+			const [ addTo, removeFrom, getFrom, mergeWith ] = getFunctions(data.type)
 			this[`add${capitalize(key)}`] = (...args) => addTo.apply(this, [this.storage, this.prefix + key].concat(args))
-			this[`remove${capitalize(key)}`] = (...args) => removeFrom.apply(this, [this.storage, this.prefix + key].concat(args))
+			this[`remove${capitalize(key)}`] = (...args) => {
+				removeFrom.apply(this, [this.storage, this.prefix + key].concat(args))
+				// Also remove from "data" key.
+				if (data.data) {
+					this[`remove${capitalize(data.data)}`].apply(this, args)
+				}
+			}
 			this[`get${capitalize(key)}`] = (...args) => getFrom.apply(this, [this.storage, this.prefix + key].concat(args))
+			this[`merge${capitalize(key)}`] = (...args) => mergeWith.apply(this, [this.storage, this.prefix + key].concat(args))
 		}
+	}
+
+	get() {
+		return Object.keys(this.data).reduce((data, key) => ({
+			...data,
+			[key]: this.storage.get(this.prefix + key)
+		}), {})
 	}
 
 	/**
@@ -65,19 +85,23 @@ export class UserData {
 			let threads
 			switch (data.type) {
 				case 'boards-threads-comments':
-				case 'boards-threads-comment':
+				case 'boards-threads-data':
 					boardsData = this.storage.get(this.prefix + key)
 					if (boardsData) {
 						threads = boardsData[boardId]
 						if (threads) {
-							let expired = false
+							let changed = false
 							for (const threadId of Object.keys(threads)) {
 								if (!getThreadById(threadId)) {
-									delete threads[threadId]
-									expired = true
+									if (data.expires === false) {
+										// Ignore
+									} else {
+										delete threads[threadId]
+										changed = true
+									}
 								}
 							}
-							if (expired) {
+							if (changed) {
 								this.storage.set(this.prefix + key, boardsData)
 							}
 						}
@@ -89,10 +113,29 @@ export class UserData {
 						threads = boardsData[boardId]
 						if (threads) {
 							const formerThreadsCount = threads.length
-							const remainingThreads = threads.filter(getThreadById)
-							if (remainingThreads.length < formerThreadsCount) {
-								boardsData[boardId] = remainingThreads
-								this.storage.set(this.prefix + key, boardsData)
+							const remainingThreadIds = threads.filter(getThreadById)
+							if (remainingThreadIds.length < formerThreadsCount) {
+								if (data.expires === false) {
+									const dataKey = data.data
+									if (dataKey) {
+										boardsData = this.storage.get(this.prefix + dataKey)
+										if (boardsData) {
+											const threadsData = boardsData[boardId]
+											if (threadsData) {
+												for (const expiredThreadId of threads.filter(id => !getThreadById(id))) {
+													const thread = threadsData[expiredThreadId]
+													if (thread) {
+														thread.expired = true
+													}
+												}
+												this.storage.set(this.prefix + dataKey, boardsData)
+											}
+										}
+									}
+								} else {
+									boardsData[boardId] = remainingThreadIds
+									this.storage.set(this.prefix + key, boardsData)
+								}
 							}
 						}
 					}
@@ -108,6 +151,22 @@ export class UserData {
 			}
 		})
 	}
+
+	replace(data) {
+		this.clear()
+		for (const key of Object.keys(data)) {
+			this.storage.set(this.prefix + key, data[key])
+		}
+	}
+
+	merge(data) {
+		for (const key of Object.keys(data)) {
+			this.storage.set(
+				this.prefix + key,
+				this[`merge${capitalize(key)}`](data[key])
+			)
+		}
+	}
 }
 
 function capitalize(string) {
@@ -116,7 +175,7 @@ function capitalize(string) {
 
 function getFunctions(type) {
 	switch (type) {
-		// hiddenAuthors: [
+		// ignoredAuthors: [
 		//   'a0dbf7',
 		//   ...
 		// ]
@@ -128,7 +187,8 @@ function getFunctions(type) {
 			return [
 				addToList,
 				removeFromList,
-				getFromList
+				getFromList,
+				mergeWithList
 			]
 		// hiddenThreads: {
 		//   a: [
@@ -141,7 +201,8 @@ function getFunctions(type) {
 			return [
 				addToBoardIdThreadIds,
 				removeFromBoardIdThreadIds,
-				getFromBoardIdThreadIds
+				getFromBoardIdThreadIds,
+				mergeWithBoardIdThreadIds
 			]
 		// hiddenComments: {
 		//   a: {
@@ -158,7 +219,8 @@ function getFunctions(type) {
 			return [
 				addToBoardIdThreadIdCommentIds,
 				removeFromBoardIdThreadIdCommentIds,
-				getFromBoardIdThreadIdCommentIds
+				getFromBoardIdThreadIdCommentIds,
+				mergeWithBoardIdThreadIdCommentIds
 			]
 		// readComments: {
 		//   a: {
@@ -168,11 +230,12 @@ function getFunctions(type) {
 		//   ],
 		//   ...
 		// }
-		case 'boards-threads-comment':
+		case 'boards-threads-data':
 			return [
-				addToBoardIdThreadIdCommentId,
-				removeFromBoardIdThreadIdCommentId,
-				getFromBoardIdThreadIdCommentId
+				addToBoardIdThreadIdData,
+				removeFromBoardIdThreadIdData,
+				getFromBoardIdThreadIdData,
+				mergeWithBoardIdThreadIdData
 			]
 	}
 }
@@ -229,58 +292,107 @@ function getFromBoardIdThreadIds(storage, key, boardId, threadId) {
 	return threadIdsByBoardId
 }
 
-function addToBoardIdThreadIdCommentId(storage, key, boardId, threadId, commentId) {
-	const boardIdThreadIdCommentId = storage.get(key, {})
-	if (!boardIdThreadIdCommentId[boardId]) {
-		boardIdThreadIdCommentId[boardId] = {}
+function mergeWithBoardIdThreadIds(storage, key, data) {
+	const boardIdThreadIds = storage.get(key, {})
+	for (const boardId of Object.keys(data)) {
+		const threadIds = boardIdThreadIds[boardId]
+		if (!threadIds) {
+			boardIdThreadIds[boardId] = threadIds = []
+		}
+		for (const threadId of data[boardId]) {
+			if (threadIds.indexOf(threadId) < 0) {
+				threadIds.push(threadId)
+			}
+		}
 	}
-	threadId = String(threadId)
-	boardIdThreadIdCommentId[boardId][threadId] = commentId
-	storage.set(key, boardIdThreadIdCommentId)
+	return boardIdThreadIds
 }
 
-function removeFromBoardIdThreadIdCommentId(storage, key, boardId, threadId, commentId) {
-	const boardIdThreadIdCommentId = storage.get(key, {})
+function addToBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+	const boardIdThreadIdData = storage.get(key, {})
+	if (!boardIdThreadIdData[boardId]) {
+		boardIdThreadIdData[boardId] = {}
+	}
+	threadId = String(threadId)
+	boardIdThreadIdData[boardId][threadId] = data
+	storage.set(key, boardIdThreadIdData)
+}
+
+function removeFromBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+	const boardIdThreadIdData = storage.get(key, {})
 	if (threadId) {
-		const threadIdCommentId = boardIdThreadIdCommentId[boardId]
-		if (!threadIdCommentId) {
+		const threadIdData = boardIdThreadIdData[boardId]
+		if (!threadIdData) {
 			return
 		}
 		threadId = String(threadId)
-		if (commentId) {
-			if (threadIdCommentId[threadId] !== commentId) {
+		if (data) {
+			if (threadIdData[threadId] !== data) {
 				return
 			}
 		}
-		delete threadIdCommentId[threadId]
-		if (Object.keys(threadIdCommentId).length === 0) {
-			delete boardIdThreadIdCommentId[boardId]
+		delete threadIdData[threadId]
+		if (Object.keys(threadIdData).length === 0) {
+			delete boardIdThreadIdData[boardId]
 		}
 	} else {
-		delete boardIdThreadIdCommentId[boardId]
+		delete boardIdThreadIdData[boardId]
 	}
-	if (Object.keys(boardIdThreadIdCommentId).length === 0) {
+	if (Object.keys(boardIdThreadIdData).length === 0) {
 		storage.delete(key)
 	} else {
-		storage.set(key, boardIdThreadIdCommentId)
+		storage.set(key, boardIdThreadIdData)
 	}
 }
 
-function getFromBoardIdThreadIdCommentId(storage, key, boardId, threadId, commentId) {
-	const boardIdThreadIdCommentId = storage.get(key, {})
+function getFromBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+	const boardIdThreadIdData = storage.get(key, {})
 	if (boardId) {
-		const threadIdCommentId = boardIdThreadIdCommentId[boardId] || {}
+		const threadIdData = boardIdThreadIdData[boardId] || {}
 		if (threadId) {
 			threadId = String(threadId)
-			const _commentId = threadIdCommentId[threadId]
-			if (commentId) {
-				return _commentId === commentId
+			const _commentId = threadIdData[threadId]
+			if (data) {
+				return _commentId === data
 			}
 			return _commentId
 		}
-		return threadIdCommentId
+		return threadIdData
 	}
-	return boardIdThreadIdCommentId
+	return boardIdThreadIdData
+}
+
+function mergeWithBoardIdThreadIdData(storage, key, data) {
+	const boardIdThreadIdData = storage.get(key, {})
+	for (const boardId of Object.keys(data)) {
+		const threadIdData = boardIdThreadIdData[boardId]
+		if (!threadIdData) {
+			boardIdThreadIdData[boardId] = threadIdData = {}
+		}
+		for (const threadId of Object.keys(data[boardId])) {
+			const newValue = data[boardId][threadId]
+			if (threadIdData[threadId] === newValue) {
+				continue
+			} else if (threadIdData[threadId] === undefined) {
+				threadIdData[threadId] = newValue
+			} else {
+				// For numbers a greater one usually means a later one.
+				// For example, "latest seen thread id" or "latest read comment id".
+				// So only replace the existing value if it's a number
+				// and if the number is greater than the existing one.
+				// In all other cases it's not determined how the merging process
+				// should be performed so just skip those cases.
+				if (typeof newValue === 'number') {
+					if (newValue > threadIdData[threadId]) {
+						threadIdData[threadId] = newValue
+					}
+					continue
+				}
+				console.warn(`No merging strategy specified for "${key}"`)
+			}
+		}
+	}
+	return boardIdThreadIdData
 }
 
 function addToBoardIdThreadIdCommentIds(storage, key, boardId, threadId, commentId) {
@@ -361,6 +473,28 @@ function getFromBoardIdThreadIdCommentIds(storage, key, boardId, threadId, comme
 	return boardIdThreadIdCommentIds
 }
 
+function mergeWithBoardIdThreadIdCommentIds(storage, key, data) {
+	const boardIdThreadIdCommentIds = storage.get(key, {})
+	for (const boardId of Object.keys(data)) {
+		const threadIdCommentIds = boardIdThreadIdCommentIds[boardId]
+		if (!threadIdCommentIds) {
+			boardIdThreadIdCommentIds[boardId] = threadIdCommentIds = {}
+		}
+		for (const threadId of Object.keys(data[boardId])) {
+			let commentIds = threadIdCommentIds[threadId]
+			if (!commentIds) {
+				threadIdCommentIds[threadId] = commentIds = []
+			}
+			for (const commentId of data[boardId][threadId]) {
+				if (commentIds.indexOf(commentId) < 0) {
+					commentIds.push(commentId)
+				}
+			}
+		}
+	}
+	return boardIdThreadIdCommentIds
+}
+
 function addToList(storage, key, item) {
 	const list = storage.get(key, [])
 	const index = list.indexOf(item)
@@ -392,6 +526,16 @@ function getFromList(storage, key, item) {
 	if (item) {
 		const index = list.indexOf(item)
 		return index >= 0
+	}
+	return list
+}
+
+function mergeWithList(storage, key, data) {
+	const list = storage.get(key, [])
+	for (const item of data) {
+		if (list.indexOf(item) < 0) {
+			list.push(item)
+		}
 	}
 	return list
 }

@@ -1,122 +1,20 @@
-/* <Post/> overrides */
-
-.post__quote-block__marker,
-.post__inline-quote,
-.post__inline-quote--link:hover {
-	color: var(--PostQuote-color);
-}
-
 /* <ThreadComment/> */
-
-.thread__comment-container {
-	&:last-child .thread__comment {
-		margin-bottom: 0;
-	}
-}
-
-.thread__comment-container--click {
-	.thread__comment {
-		background-color: var(--Content-backgroundColor--postActive);
-	}
-	.thread__comment .post__inline-spoiler--hidden {
-		background-color: var(--PostInlineSpoiler-backgroundColor--postActive);
-	}
-}
-
-.thread__comment, .thread__comment .post__inline-spoiler {
-	transition: box-shadow 120ms, background-color 60ms;
-}
-
-.thread__comment--hidden {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	color: var(--Post-color--hidden);
-	font-family: var(--font-family);
-	font-weight: 300;
-}
-
-.post__header-badge--banned {
-	color: var(--PostBannedBadge-color);
-	/*opacity: 1;*/
-}
 
 /* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
 .post__inline-quote__block--inverse {
-	color: var(--PostInverseQuote-color);
+	color: var(--PostQuote-color--inverse);
 }
 
-.post__author {
-	display: flex;
-	align-items: center;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	color: var(--PostAuthor-color);
-}
-
-.post__author-icon-container {
-	position: relative;
-	width: 1em;
-	height: 1em;
-	margin-right: 0.35em;
-	margin-bottom: 0.1em;
-}
-
-.post__author-icon {
-	width: 100%;
-	height: 100%;
-}
-
-.post__author-icon--outline {
-	position: absolute;
-	opacity: 0.5;
-}
-
-.post__author-name,
-.post__author-trip-code {
-	/*font-family: var(--font-family);*/
-	font-weight: 300;
-}
-
-.post__author-name + .post__author-trip-code {
-	margin-left: 0.35em;
+/* `kohlchan.net` has red "inverse" quotes and orange "inverse" quotes. */
+.post__inline-quote__block--inverse-orange {
+	color: var(--PostQuote-color--inverse2);
 }
 
 .thread__comment--thread {
 	.post__header-top,
-	.post__footer,
-	/* `.post__author` is for author name/role. */
-	.post__author {
+	.post__footer {
 		color: var(--Post-color--secondaryThread);
 	}
-}
-
-/* Added `.thread__comment` for CSS selector specificity over the
-  `.thread__comment--thread` above. */
-.thread__comment {
-	.post__author--generic:not(.post__author--eligible) .post__author-name {
-		color: var(--PostAuthorName-color);
-	}
-
-	.post__author--eligible,
-	.post__author-icon--outline {
-		color: var(--PostAuthorName-color--eligible);
-	}
-
-	.post__author--administrator {
-		color: var(--PostAuthor-color--administrator);
-	}
-
-	.post__author--moderator {
-		color: var(--PostAuthor-color--moderator);
-	}
-}
-
-.post__custom-country-flag {
-	width: 100%;
-	height: 100%;
-	/* Center the image horizontally and vertically. */
-	object-fit: contain;
-	/*box-shadow: 0 0 0 1px currentColor;*/
 }
 
 .post__footer-badge-icon--comments-count {
@@ -138,16 +36,10 @@
 	margin-right: 0.35em;
 }
 
+/* `8ch.net` red heading. */
 .post__text--8ch-heading {
 	color: rgb(175, 10, 15);
 	font-weight: bolder;
-}
-
-.post__header-badge--country {
-	/* Some country flag colors are too contrasty but other
-	   countries' flag colors are too low-contrasty so it requires
-	   `opacity: 1` in order to be eligible in all cases. */
-	opacity: 1;
 }
 
 .post__text--ascii-shift-jis-art {

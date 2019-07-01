@@ -106,7 +106,7 @@ export class Boards extends React.PureComponent {
 			boardsByPopularity,
 			boardsByCategory,
 			showAllBoards,
-			darkMode,
+			sidebar,
 			className
 		} = this.props
 
@@ -122,7 +122,7 @@ export class Boards extends React.PureComponent {
 
 		return (
 			<nav className={classNames(className, 'boards', {
-				'boards--dark': darkMode,
+				'boards--sidebar': sidebar,
 				'boards--all': showAllBoards
 			})}>
 				{boardsByPopularity && boardsByCategory &&
@@ -218,7 +218,7 @@ Boards.propTypes = {
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
 	})),
 	showAllBoards: PropTypes.bool,
-	darkMode: PropTypes.bool,
+	sidebar: PropTypes.bool,
 	className: PropTypes.string
 }
 

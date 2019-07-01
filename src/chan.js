@@ -94,3 +94,14 @@ export function getChanIdByDomain(domain) {
 		}
 	}
 }
+
+export function getProxyUrl() {
+	if (getChan().proxy.aws) {
+		if (configuration.corsProxyUrlAws) {
+			return configuration.corsProxyUrlAws
+		}
+	}
+	if (configuration.corsProxyUrl) {
+		return configuration.corsProxyUrl
+	}
+}

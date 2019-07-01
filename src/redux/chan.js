@@ -1,7 +1,7 @@
 import { ReduxModule } from 'react-website'
 
 import configuration from '../configuration'
-import { getChan, shouldUseRelativeUrls } from '../chan'
+import { getChan, shouldUseRelativeUrls, getProxyUrl } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import UserData from '../utility/UserData'
@@ -181,13 +181,9 @@ function proxyUrl(url) {
 	if (!getChan().proxy) {
 		return url
 	}
-	if (getChan().proxy.aws) {
-		if (configuration.corsProxyUrlAws) {
-			return configuration.corsProxyUrlAws.replace('{url}', url)
-		}
-	}
-	if (configuration.corsProxyUrl) {
-		return configuration.corsProxyUrl.replace('{url}', url)
+	const proxyUrl = getProxyUrl()
+	if (proxyUrl) {
+		return proxyUrl.replace('{url}', url)
 	}
 	return url
 }

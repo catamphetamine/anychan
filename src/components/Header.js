@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { MenuIcon } from 'react-responsive-ui'
 import { Link } from 'react-website'
 import { connect } from 'react-redux'
@@ -62,7 +63,7 @@ export default class Header extends React.Component {
 					</div>
 				}
 
-				<div className={classNames('header__separator', {
+				<HeaderSeparator line className={classNames('header__separator', 'header__separator--left', {
 					'header__separator--thread': isThreadPage
 				})}/>
 
@@ -72,8 +73,41 @@ export default class Header extends React.Component {
 					}
 				</div>
 
+				<HeaderSeparator inverse className={classNames('header__separator', 'header__separator--right')}/>
+
 				<ApplicationMenu/>
 			</nav>
 		)
 	}
+}
+
+// Using `0.1` instead of `0` and `2.9` instead of `3.0` here
+// to add some side padding for the `<line/>` so that it isn't clipped.
+const HEADER_SEPARATOR_POINTS = '0,0 2.9,0 0.1,10 0,10'
+const HEADER_SEPARATOR_INVERSE_POINTS = '3,0 2.9,0 0.1,10 3,10'
+
+function HeaderSeparator({ inverse, line, ...rest }) {
+	return (
+		<svg {...rest} viewBox="0 0 3 10">
+			<polyline
+				stroke="none"
+				fill="currentColor"
+				points={inverse ? HEADER_SEPARATOR_INVERSE_POINTS : HEADER_SEPARATOR_POINTS}/>
+			{line &&
+				<line
+					x1="0.1"
+					y1="10"
+					x2="2.9"
+					y2="0"
+					stroke="currentColor"
+					strokeWidth="1"
+					className="header__separator-line" />
+			}
+		</svg>
+	)
+}
+
+HeaderSeparator.propTypes = {
+	inverse: PropTypes.bool,
+	line: PropTypes.bool
 }

@@ -1,0 +1,7 @@
+.thread__comment--hidden {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	color: var(--Post-color--secondary);
+	font-family: var(--Document-fontFamily);
+	font-weight: 300;
+}

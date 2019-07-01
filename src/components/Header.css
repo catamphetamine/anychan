@@ -8,11 +8,12 @@
 
 	background-color: var(--Header-backgroundColor);
 	color: var(--Header-color);
-	border-bottom: 1px solid var(--Header-borderColor);
-	/*border-top: 1px solid rgba(0,0,0,.0975);*/
+	border-bottom: var(--Header-borderWidth) solid var(--Header-borderColor);
 
 	.application-menu {
-		margin-right: var(--unit);
+		height: 100%;
+		padding-left: calc(var(--unit) / 2);
+		padding-right: calc(var(--unit) / 2);
 	}
 }
 
@@ -27,6 +28,10 @@
 .webpage__header-title--primary {
 	padding-left: calc(var(--unit) / 2);
 	background-color: var(--Header-backgroundColor--title);
+}
+
+.webpage__header .application-menu {
+	background-color: var(--Header-backgroundColor--menu);
 }
 
 .webpage__header-title--secondary {
@@ -64,20 +69,33 @@
 
 .header__separator
 {
-	width: var(--header-height);
-	height: 100%;
-	margin-left: calc(-0.75 * var(--header-height));
-	margin-right: calc(0.15 * var(--header-height));
-	z-index: -1;
+	width: calc(var(--header-height) * 3 / 10);
+	height: var(--header-height);
+	color: var(--Header-backgroundColor--title);
+}
 
-	background-color: var(--Header-backgroundColor--title);
-	/*border-right: 1px solid var(--HeaderSeparator-color);*/
+.header__separator--left
+{
+	color: var(--Header-backgroundColor--title);
+}
 
-	transform: skew(-20deg, 0);
+.header__separator--right
+{
+	color: var(--Header-backgroundColor--menu);
+}
+
+.header__separator-line {
+	/* `vector-effect` fixes `stroke-width` to be in screen pixels. */
+	/* (instead of <svg/> `viewBox` units) */
+	/* `vector-effect` is not supported in Edge and IE but */
+	/* it's purely a presentational tweak and doesn't affect operation. */
+	vector-effect: non-scaling-stroke;
 }
 
 .header__separator--thread {
-	border-right: 1px solid var(--HeaderSeparator-color);
+	.header__separator-line {
+		color: var(--HeaderSeparator-color--left);
+	}
 }
 
 .header__board-title,

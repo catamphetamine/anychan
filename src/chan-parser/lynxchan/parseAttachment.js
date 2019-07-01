@@ -21,7 +21,8 @@ function parsePicture(file, mimeType, name, {
 	chan,
 	boardId,
 	attachmentUrl,
-	attachmentThumbnailUrl
+	attachmentThumbnailUrl,
+	thumbnailSize
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'picture', chan)
 	return {
@@ -36,7 +37,7 @@ function parsePicture(file, mimeType, name, {
 			url: formatUrl(attachmentUrl, file.path),
 			sizes: [{
 				type: getMimeType(thumbnailExt),
-				...getThumbnailSize(file.width, file.height),
+				...getThumbnailSize(file.width, file.height, thumbnailSize),
 				url: formatUrl(attachmentThumbnailUrl, file.thumb)
 			}]
 		}
@@ -47,7 +48,8 @@ function parseVideo(file, mimeType, name, {
 	chan,
 	boardId,
 	attachmentUrl,
-	attachmentThumbnailUrl
+	attachmentThumbnailUrl,
+	thumbnailSize
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'video', chan)
 	return {
@@ -62,7 +64,7 @@ function parseVideo(file, mimeType, name, {
 			url: formatUrl(attachmentUrl, file.path),
 			picture: {
 				type: getMimeType(thumbnailExt),
-				...getThumbnailSize(file.width, file.height),
+				...getThumbnailSize(file.width, file.height, thumbnailSize),
 				url: formatUrl(attachmentThumbnailUrl, file.thumb)
 			}
 		}
@@ -104,9 +106,10 @@ function formatUrl(url, path) {
 	return url.replace(/{url}/, path)
 }
 
-// `kohlchan.net` has thumbnail size `200`.
-// Could be read from a config file.
-function getThumbnailSize(width, height, maxSize = 200) {
+// `lynxchan` doesn't provide `width` and `height`
+// neither for the thumbnail (which is a bug).
+// http://lynxhub.com/lynxchan/res/722.html#q984
+function getThumbnailSize(width, height, maxSize) {
 	if (width >= height) {
 		return {
 			width: maxSize,
@@ -120,6 +123,10 @@ function getThumbnailSize(width, height, maxSize = 200) {
 	}
 }
 
+const KOHLCHAN_PNG_REG_EXP = /-imagepng$/
+const KOHLCHAN_GIF_REG_EXP = /-imagegif$/
+const KOHLCHAN_JPG_REG_EXP = /-imagejpeg$/
+
 function getThumbnailExt(file, type, chan) {
 	// Assume that all videos have ".jpg" thumbnails (makes sense).
 	if (type === 'video') {
@@ -127,7 +134,30 @@ function getThumbnailExt(file, type, chan) {
 	}
 	// `kohlchan.net` always has ".png" extension for thumbnails.
 	if (chan === 'kohlchan') {
-		return '.png'
+		if (KOHLCHAN_PNG_REG_EXP.test(file.thumb)) {
+			return '.png'
+		}
+		if (KOHLCHAN_GIF_REG_EXP.test(file.thumb)) {
+			return '.png'
+		}
+		if (KOHLCHAN_JPG_REG_EXP.test(file.thumb)) {
+			return '.jpg'
+		}
 	}
-	return '.unknown-extension'
+	// Just a guess.
+	return '.jpg'
+}
+
+export function getPictureTypeFromUrl(url) {
+	if (KOHLCHAN_PNG_REG_EXP.test(url)) {
+		return 'image/png'
+	}
+	if (KOHLCHAN_GIF_REG_EXP.test(url)) {
+		return 'image/gif'
+	}
+	if (KOHLCHAN_JPG_REG_EXP.test(url)) {
+		return 'image/jpeg'
+	}
+	// Just a guess.
+	return 'image/jpeg'
 }

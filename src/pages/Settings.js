@@ -1,25 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { preload, meta } from 'react-website'
-import { Button, Select, TextInput } from 'react-responsive-ui'
-import { Form, Field } from 'easy-react-form'
-
-import configuration from '../configuration'
+import { meta } from 'react-website'
+import { Modal, Button, Switch, Select, TextInput, FileUploadButton } from 'react-responsive-ui'
+import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
+import saveFile from 'webapp-frontend/src/utility/saveFile'
+import readTextFile from 'webapp-frontend/src/utility/readTextFile'
 
 import {
 	getSettings,
 	resetSettings,
-	saveLocale,
-	saveFontSize
+	replaceSettings,
+	saveTheme,
+	saveFontSize,
+	saveLocale
 } from '../redux/app'
 
-import getMessages, { getLanguageNames } from '../messages'
+import getMessages, {
+	getLanguageNames
+} from '../messages'
 
 import {
+	THEMES,
 	FONT_SIZES,
+	applySettings,
+	getThemes,
+	isBuiltInTheme,
+	addTheme,
+	removeTheme,
+	applyTheme,
 	applyFontSize,
-	getIgnoredWordsByLanguage
+	getIgnoredWordsByLanguage,
+	getSettingsData
 } from '../utility/settings'
+
+// import { getProxyUrl } from '../chan'
 
 import UserData from '../utility/UserData'
 
@@ -30,8 +44,10 @@ import {
 } from 'webapp-frontend/src/components/ContentSection'
 
 import { notify } from 'webapp-frontend/src/redux/notifications'
-
+import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
+import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/video-youtube-cache'
+import { validateUrl } from 'webapp-frontend/src/utility/url'
 
 import './Settings.css'
 
@@ -41,26 +57,41 @@ const LANGUAGE_OPTIONS = Object.keys(LANGUAGE_NAMES).map((language) => ({
 	label: LANGUAGE_NAMES[language]
 }))
 
+const CSS_URL_REGEXP = /\.css$/
+
 @meta(() => ({
 	title: 'Settings'
 }))
 @connect(({ app }) => ({
+	locale: app.settings.locale,
 	settings: app.settings
 }), {
+	getSettings,
 	resetSettings,
-	saveLocale,
+	replaceSettings,
+	saveTheme,
 	saveFontSize,
-	notify
+	saveLocale,
+	notify,
+	okCancelDialog
 })
-@preload(({ dispatch }) => dispatch(getSettings()))
 export default class SettingsPage extends React.Component {
 	state = {
 		showIgnoredWords: false
 	}
 
+	addThemeForm = React.createRef()
+
 	constructor() {
 		super()
-		this.saveCorsProxyUrl = this.saveCorsProxyUrl.bind(this)
+		this.addTheme = this.addTheme.bind(this)
+		this.saveTheme = this.saveTheme.bind(this)
+		this.onResetSettings = this.onResetSettings.bind(this)
+		this.onImport = this.onImport.bind(this)
+		this.onAddUserData = this.onAddUserData.bind(this)
+		this.onClearUserData = this.onClearUserData.bind(this)
+		this.deleteCurrentTheme = this.deleteCurrentTheme.bind(this)
+		// this.saveCorsProxyUrl = this.saveCorsProxyUrl.bind(this)
 	}
 
 	showIgnoredWords = () => {
@@ -69,11 +100,17 @@ export default class SettingsPage extends React.Component {
 		})
 	}
 
-	async saveCorsProxyUrl({ corsProxyUrl }) {
-		console.log(corsProxyUrl)
-		alert('Not implemented')
-		// const { saveCorsProxyUrl } = this.props
-		// await saveCorsProxyUrl(corsProxyUrl)
+	// async saveCorsProxyUrl({ corsProxyUrl }) {
+	// 	console.log(corsProxyUrl)
+	// 	alert('Not implemented')
+	// 	// const { saveCorsProxyUrl } = this.props
+	// 	// await saveCorsProxyUrl(corsProxyUrl)
+	// }
+
+	async saveTheme(name) {
+		const { saveTheme } = this.props
+		await applyTheme(name)
+		saveTheme(name)
 	}
 
 	saveFontSize = (fontSize) => {
@@ -82,9 +119,172 @@ export default class SettingsPage extends React.Component {
 		saveFontSize(fontSize)
 	}
 
+	async onResetSettings() {
+		const {
+			locale,
+			resetSettings,
+			notify,
+			okCancelDialog
+		} = this.props
+		const messages = getMessages(locale)
+		okCancelDialog(messages.settings.data.resetSettings.warning)
+		if (await OkCancelDialog.getPromise()) {
+			resetSettings()
+			applySettings()
+			notify(messages.settings.data.resetSettings.done)
+		}
+	}
+
+	async onClearUserData() {
+		const {
+			locale,
+			notify,
+			okCancelDialog
+		} = this.props
+		const messages = getMessages(locale)
+		okCancelDialog(messages.settings.data.clearUserData.warning)
+		if (await OkCancelDialog.getPromise()) {
+			UserData.clear()
+			notify(messages.settings.data.clearUserData.done)
+		}
+	}
+
+	onShowAddThemeModal = () => {
+		this.setState({
+			showAddThemeModal: true
+		})
+	}
+
+	showAddThemeModal = () => {
+		this.setState({
+			showAddThemeModal: true
+		})
+	}
+
+	hideAddThemeModal = () => {
+		this.setState({
+			showAddThemeModal: false,
+			pasteCodeInstead: false
+		})
+	}
+
+	async addTheme(theme) {
+		const { locale } = this.props
+		try {
+			if (theme.code) {
+				delete theme.url
+			}
+			await applyTheme(theme)
+			await addTheme(theme)
+			await this.saveTheme(theme.name)
+			this.hideAddThemeModal()
+		} catch (error) {
+			console.error(error)
+			if (error.message === 'STYLESHEET_ERROR') {
+				const messages = getMessages(locale)
+				throw new Error(messages.settings.theme.add.cssFileError)
+			}
+			throw error
+		}
+	}
+
+	async deleteCurrentTheme() {
+		const {
+			settings: { theme },
+			locale,
+			okCancelDialog
+		} = this.props
+		const messages = getMessages(locale)
+		okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme))
+		if (await OkCancelDialog.getPromise()) {
+			removeTheme(theme)
+			this.saveTheme()
+		}
+	}
+
+	pasteCodeInstead = () => {
+		this.setState({
+			pasteCodeInstead: true
+		}, () => {
+			this.addThemeForm.current.getWrappedInstance().focus('code')
+		})
+	}
+
+	validateCssUrl = (value) => {
+		const { settings } = this.props
+		const messages = getMessages(settings.locale)
+		if (!validateUrl(value)) {
+			return messages.settings.theme.add.invalidUrl
+		}
+		if (!CSS_URL_REGEXP.test(value)) {
+			return messages.settings.theme.add.invalidExtension
+		}
+	}
+
+	onExport = () => {
+		const { settings, notify } = this.props
+		const messages = getMessages(settings.locale)
+		saveFile(
+			JSON.stringify({
+				settings: getSettingsData(),
+				userData: UserData.get()
+			}, null, 2),
+			'captchan-settings.json'
+		)
+	}
+
+	async onImport(file) {
+		const {
+			locale,
+			notify,
+			okCancelDialog,
+			replaceSettings
+		} = this.props
+		const messages = getMessages(locale)
+		const text = await readTextFile(file)
+		let json
+		try {
+			json = JSON.parse(text)
+		} catch (error) {
+			return notify(messages.settings.data.import.error, { type: 'error' })
+		}
+		const { settings, userData } = json
+		okCancelDialog(messages.settings.data.import.warning)
+		if (await OkCancelDialog.getPromise()) {
+			replaceSettings(settings)
+			UserData.replace(userData)
+			applySettings()
+			notify(messages.settings.data.import.done)
+		}
+	}
+
+	async onAddUserData(file) {
+		const { settings: { locale }, notify } = this.props
+		const messages = getMessages(locale)
+		const text = await readTextFile(file)
+		let json
+		try {
+			json = JSON.parse(text)
+		} catch (error) {
+			return notify(messages.settings.data.import.error, { type: 'error' })
+		}
+		const { settings, userData } = json
+		UserData.merge(userData)
+		notify(messages.settings.data.merge.done)
+	}
+
 	render() {
-		const { settings, saveLocale, resetSettings } = this.props
-		const { showIgnoredWords } = this.state
+		const {
+			settings,
+			saveLocale
+		} = this.props
+
+		const {
+			showIgnoredWords,
+			showAddThemeModal,
+			pasteCodeInstead
+		} = this.state
+
 		const messages = getMessages(settings.locale)
 
 		return (
@@ -94,17 +294,109 @@ export default class SettingsPage extends React.Component {
 					{messages.settings.title}
 				</h1>
 
-				{/* Language */}
 				<ContentSections>
+					{/* Language */}
 					<ContentSection>
 						<ContentSectionHeader lite>
 							{messages.settings.language}
 						</ContentSectionHeader>
-
 						<Select
 							value={settings.locale}
 							options={LANGUAGE_OPTIONS}
 							onChange={saveLocale}/>
+					</ContentSection>
+
+					{/* Theme */}
+					<ContentSection>
+						<ContentSectionHeader lite>
+							{messages.settings.theme.title}
+						</ContentSectionHeader>
+
+						<div className="form">
+							<Select
+								value={settings.theme}
+								options={getThemeOptions(settings.locale)}
+								onChange={this.saveTheme}
+								className="form__component"/>
+							<div className="form__component form__component--button">
+								<Button
+									onClick={this.showAddThemeModal}
+									className="rrui__button--text">
+									{messages.settings.theme.add.title}
+								</Button>
+							</div>
+							<div className="form__component form__component--button">
+								<a
+									href="https://github.com/catamphetamine/chanchan/blob/master/docs/themes/guide.md"
+									target="_blank">
+									{messages.settings.theme.readThemesGuide}
+								</a>
+							</div>
+							{!isBuiltInTheme(settings.theme) &&
+								<div className="form__component form__component--button">
+									<Button
+										onClick={this.deleteCurrentTheme}
+										className="rrui__button--text">
+										{messages.settings.theme.deleteCurrent.title}
+									</Button>
+								</div>
+							}
+						</div>
+
+						<Modal
+							isOpen={showAddThemeModal}
+							close={this.hideAddThemeModal}>
+							<Modal.Title>
+								{messages.settings.theme.add.title}
+							</Modal.Title>
+							<Modal.Content>
+								<Form
+									autoFocus
+									ref={this.addThemeForm}
+									requiredMessage={messages.form.error.required}
+									onSubmit={this.addTheme}
+									className="form">
+									<Field
+										required
+										name="name"
+										label={messages.settings.theme.add.name}
+										component={TextInput}
+										className="form__component"/>
+									{!pasteCodeInstead &&
+										<Field
+											required
+											name="url"
+											label={messages.settings.theme.add.url}
+											validate={this.validateCssUrl}
+											component={TextInput}
+											className="form__component"/>
+									}
+									{!pasteCodeInstead &&
+										<Button
+											onClick={this.pasteCodeInstead}
+											className="rrui__button--text form__component">
+											{messages.settings.theme.add.pasteCodeInstead}
+										</Button>
+									}
+									{pasteCodeInstead &&
+										<Field
+											required
+											name="code"
+											label={messages.settings.theme.add.code}
+											component={TextInput}
+											className="form__component"/>
+									}
+									<div className="form__actions">
+										<Submit
+											submit
+											component={Button}
+											className="rrui__button--background form__component form__action">
+											{messages.actions.add}
+										</Submit>
+									</div>
+								</Form>
+							</Modal.Content>
+						</Modal>
 					</ContentSection>
 
 					{/* Font Size */}
@@ -112,7 +404,6 @@ export default class SettingsPage extends React.Component {
 						<ContentSectionHeader lite>
 							{messages.settings.fontSize.title}
 						</ContentSectionHeader>
-
 						<Select
 							value={settings.fontSize}
 							options={getFontSizeOptions(settings.locale)}
@@ -120,18 +411,20 @@ export default class SettingsPage extends React.Component {
 					</ContentSection>
 
 					{/* CORS Proxy URL */}
+					{/*
 					<ContentSection>
 						<ContentSectionHeader lite>
 							CORS Proxy URL
 						</ContentSectionHeader>
-
 						<Form onSubmit={this.saveCorsProxyUrl}>
 							<Field
+								readOnly
 								name="corsProxyUrl"
 								component={TextInput}
-								value={configuration.corsProxyUrl}/>
+								value={getProxyUrl()}/>
 						</Form>
 					</ContentSection>
+					*/}
 
 					{/* Filters */}
 					<ContentSection>
@@ -177,7 +470,7 @@ export default class SettingsPage extends React.Component {
 						{!showIgnoredWords &&
 							<Button
 								onClick={this.showIgnoredWords}
-								className="rrui__button--auto-height">
+								className="rrui__button--text">
 								{messages.settings.filters.showCensoredWordsList}
 							</Button>
 						}
@@ -193,26 +486,61 @@ export default class SettingsPage extends React.Component {
 						<ContentSectionHeader lite>
 							{messages.settings.data.title}
 						</ContentSectionHeader>
-						<div className="settings-page__button-row">
-							<Button
-								onClick={resetSettings}
-								className="rrui__button--auto-height">
-								{messages.settings.data.resetSettings}
-							</Button>
-						</div>
-						<div className="settings-page__button-row">
-							<Button
-								onClick={UserData.clear}
-								className="rrui__button--auto-height">
-								{messages.settings.data.clearUserData}
-							</Button>
-						</div>
-						<div className="settings-page__button-row">
-							<Button
-								onClick={clearYouTubeCache}
-								className="rrui__button--auto-height">
-								{messages.settings.data.clearYouTubeCache}
-							</Button>
+						<p className="content-section__description">
+							{messages.settings.data.description}
+						</p>
+						<div className="form">
+							<div className="form__component form__component--button">
+								<Button
+									onClick={this.onResetSettings}
+									className="rrui__button--text">
+									{messages.settings.data.resetSettings.title}
+								</Button>
+							</div>
+							<div className="form__component form__component--button">
+								<Button
+									onClick={this.onClearUserData}
+									className="rrui__button--text">
+									{messages.settings.data.clearUserData.title}
+								</Button>
+							</div>
+							<div className="form__component form__component--button">
+								<Button
+									onClick={clearYouTubeCache}
+									className="rrui__button--text">
+									{messages.settings.data.clearYouTubeCache.title}
+								</Button>
+							</div>
+							<br/>
+							<div className="form__component form__component--button">
+								<Button
+									onClick={this.onExport}
+									className="rrui__button--text rrui__button--multiline">
+									{messages.settings.data.export.title}
+								</Button>
+							</div>
+							<div className="form__component form__component--button">
+								<FileUploadButton
+									accept=".json"
+									component={Button}
+									onChange={this.onImport}
+									className="rrui__button--text rrui__button--multiline">
+									{messages.settings.data.import.title}
+								</FileUploadButton>
+							</div>
+							<br/>
+							<div className="form__component form__component--button">
+								<FileUploadButton
+									accept=".json"
+									component={Button}
+									onChange={this.onAddUserData}
+									className="rrui__button--text rrui__button--multiline">
+									{messages.settings.data.merge.title}
+								</FileUploadButton>
+							</div>
+							<p className="form__component form__component--description">
+								{messages.settings.data.merge.description}
+							</p>
 						</div>
 					</ContentSection>
 				</ContentSections>
@@ -225,5 +553,12 @@ function getFontSizeOptions(locale) {
 	return FONT_SIZES.map((fontSize) => ({
 		value: fontSize,
 		label: getMessages(locale).settings.fontSize[fontSize]
+	}))
+}
+
+function getThemeOptions(locale) {
+	return getThemes().map((theme) => ({
+		value: theme.name,
+		label: getMessages(locale).settings.theme.themes[theme.name] || theme.name
 	}))
 }

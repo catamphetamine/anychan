@@ -13,12 +13,14 @@ export default function parseAndFormatComment(rawComment, {
 	boardId,
 	threadId,
 	messages,
-	getUrl
+	getUrl,
+	emojiUrl
 }) {
 	let content = parseComment(rawComment, {
 		filters,
 		correctGrammar,
 		commentUrlRegExp,
+		emojiUrl,
 		plugins
 	})
 	// Split content into paragraphs on multiple line breaks,

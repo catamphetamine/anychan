@@ -20,6 +20,8 @@ body {
 	right    : 0;
 	bottom   : 0;
 
+	justify-content: space-evenly;
+
 	height: var(--footer-menu-height);
 	color: var(--Header-color);
 	background-color: var(--Header-backgroundColor);

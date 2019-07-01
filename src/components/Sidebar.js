@@ -22,7 +22,7 @@ export default class Sidebar extends React.Component {
 				'sidebar--light': false
 			})}>
 				<SimpleBar className="sidebar__scrollable-list">
-					<Boards darkMode/>
+					<Boards sidebar/>
 				</SimpleBar>
 			</section>
 		)

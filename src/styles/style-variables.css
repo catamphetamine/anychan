@@ -1,0 +1,78 @@
+:root {
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/* "Base" color (orange in this case). */
+	--base-color-100: #FFF4EC;
+	--base-color-200: #FFD0AF;
+	--base-color-300: #FFA061;
+	--base-color-400: #FF8732;
+	--base-color-500: #f76700;
+	--base-color-600: #e76000;
+	--base-color-700: #b84600;
+	--base-color-800: #9E4200;
+	--base-color-900: #6D2D00;
+	/* Empty. */
+	--Empty-backgroundColor: #eaeaea;
+	/* Document. */
+	--Document-fontFamily: Roboto, sans-serif;
+	--Document-fontFamily--text: sans-serif;
+	/* Header. */
+	--Header-color: var(--gray-color-800);
+	--Header-backgroundColor: var(--white-color);
+	--Header-backgroundColor--title: var(--Header-backgroundColor);
+	--Header-backgroundColor--menu: var(--Header-backgroundColor);
+	--Header-borderColor: rgba(0,0,0,0.11);
+	--Header-borderWidth: 1px;
+	/* HeaderSeparator. */
+	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
+	/* NotificationBadge. */
+	--NotificationBadge-color: var(--white-color);
+	--NotificationBadge-backgroundColor: red;
+	/* Sidebar. */
+	--Sidebar-color: var(--gray-color-100);
+	--Sidebar-backgroundColor: var(--gray-color-800);
+	--Sidebar-borderColor: transparent;
+	/* Boards. */
+	--Boards-backgroundColor--sidebarHover: var(--gray-color-750);
+	--Boards-backgroundColor--sidebarActive: var(--gray-color-700);
+	--Boards-backgroundColor--sidebarSelected: var(--gray-color-900);
+	--Boards-backgroundColor--hover: var(--Content-color--50);
+	--Boards-color--active: var(--base-color-600);
+	--Boards-color--sidebarActive: var(--base-color-300);
+	/* BoardsViewSwitcher. */
+	--BoardsViewSwitcher-color--sidebar: var(--gray-color-300);
+	--BoardsViewSwitcher-borderColor--focus: var(--Content-color--100);
+	/* BoardsSlash. */
+	--BoardsSlash-color: var(--gray-color-200);
+	--BoardsSlash-color--sidebar: #6d7682;
+	/* Content. */
+	--Content-color: var(--black-color);
+	--Content-backgroundColor: var(--white-color);
+	--Content-backgroundColor--active: hsl(36, 70%, 96%);
+	/* Post. */
+	--Post-color--secondaryThread: var(--gray-color-400);
+	--Post-borderColor: rgba(0,0,0,0.15);
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-color: #F0EFEB;
+	--PostInlineSpoiler-color--postActive: hsl(36, 30%, 92%);
+	/* PostQuote. */
+	--PostQuote-color: var(--base-color-700);
+	/* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
+	--PostQuote-color--inverse: #cc0000;
+	--PostQuote-color--inverse2: #E04000;
+	/* PostQuoteMarker. */
+	--PostQuoteMarker-color: currentColor;
+	/* PostAuthor. */
+	--PostAuthor-color: var(--gray-color-600);
+	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
+	--PostAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
+	/* PostAuthorName. */
+	--PostAuthorName-color: var(--base-color-700);
+	--PostAuthorName-color--id: var(--gray-color-800);
+	/* PostBannedIcon. */
+	--PostBannedIcon-color: #dd0000;
+	/* CommentTree. */
+	--CommentTree-color: #D7D5D1;
+	--CommentTree-color--branch: #BCB9B3;
+	--CommentTree-color--hover: var(--base-color-600);
+	--CommentTree-backgroundColor--hover: rgba(0,0,0,0.044);
+}

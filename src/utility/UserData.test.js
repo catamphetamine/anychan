@@ -71,6 +71,71 @@ describe('UserData', () => {
 		)
 	})
 
+	it('should merge favorite boards (intersection)', () => {
+		storage.clear()
+		storage.data = {
+			favoriteBoards: [
+				'a',
+				'b'
+			]
+		}
+		userData.merge({
+			favoriteBoards: [
+				'b',
+				'c'
+			]
+		})
+		expectToEqual(
+			storage.data,
+			{
+				favoriteBoards: [
+					'a',
+					'b',
+					'c'
+				]
+			}
+		)
+	})
+
+	it('should merge favorite boards (destination not exists)', () => {
+		storage.data = {}
+		userData.merge({
+			favoriteBoards: [
+				'b',
+				'c'
+			]
+		})
+		expectToEqual(
+			storage.data,
+			{
+				favoriteBoards: [
+					'b',
+					'c'
+				]
+			}
+		)
+	})
+
+	it('should merge favorite boards (source not exists)', () => {
+		storage.clear()
+		storage.data = {
+			favoriteBoards: [
+				'b',
+				'c'
+			]
+		}
+		userData.merge({})
+		expectToEqual(
+			storage.data,
+			{
+				favoriteBoards: [
+					'b',
+					'c'
+				]
+			}
+		)
+	})
+
 	it('should add/remove/get watched threads', () => {
 		storage.clear()
 		userData.addWatchedThreads('a', 123)
@@ -185,6 +250,87 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{}
+		)
+	})
+
+	it('should merge watched threads (intersection)', () => {
+		storage.data = {
+			watchedThreads: {
+				a: [
+					123
+				],
+				b: [
+					789
+				]
+			}
+		}
+		userData.merge({
+			watchedThreads: {
+				a: [
+					123,
+					456
+				],
+				b: [
+					790
+				],
+				c: [
+					111,
+					222
+				]
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				watchedThreads: {
+					a: [
+						123,
+						456
+					],
+					b: [
+						789,
+						790
+					],
+					c: [
+						111,
+						222
+					]
+				}
+			}
+		)
+	})
+
+	it('should merge watched threads (no source)', () => {
+		storage.data = {
+			watchedThreads: {
+				a: [123]
+			}
+		}
+		userData.merge({})
+		expectToEqual(
+			storage.data,
+			{
+				watchedThreads: {
+					a: [123]
+				}
+			}
+		)
+	})
+
+	it('should merge watched threads (no destination)', () => {
+		storage.data = {}
+		userData.merge({
+			watchedThreads: {
+				a: [123]
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				watchedThreads: {
+					a: [123]
+				}
+			}
 		)
 	})
 
@@ -309,6 +455,86 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{}
+		)
+	})
+
+	it('should merge read comments', () => {
+		storage.data = {
+			readComments: {
+				a: {
+					'123': 124,
+					'125': 126
+				}
+			}
+		}
+		userData.merge({
+			readComments: {
+				a: {
+					'123': 123,
+					'125': 127,
+					'456': 456
+				},
+				b: {
+					'789': 790
+				}
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				readComments: {
+					a: {
+						'123': 124,
+						'125': 127,
+						'456': 456
+					},
+					b: {
+						'789': 790
+					}
+				}
+			}
+		)
+	})
+
+	it('should merge read comments (source not exists)', () => {
+		storage.data = {}
+		userData.merge({
+			readComments: {
+				a: {
+					'123': 123
+				}
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				readComments: {
+					a: {
+						'123': 123
+					}
+				}
+			}
+		)
+	})
+
+	it('should merge read comments (destination not exists)', () => {
+		storage.data = {
+			readComments: {
+				a: {
+					'123': 123
+				}
+			}
+		}
+		userData.merge({})
+		expectToEqual(
+			storage.data,
+			{
+				readComments: {
+					a: {
+						'123': 123
+					}
+				}
+			}
 		)
 	})
 
@@ -486,11 +712,146 @@ describe('UserData', () => {
 		)
 	})
 
+	it('should merge own comments', () => {
+		storage.data = {
+			ownComments: {
+				a: {
+					'123': [
+						124
+					]
+				}
+			}
+		}
+		userData.merge({
+			ownComments: {
+				a: {
+					'123': [
+						123,
+						125
+					],
+					'456': [
+						457
+					]
+				},
+				b: {
+					'789': [
+						789
+					]
+				}
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				ownComments: {
+					a: {
+						'123': [
+							124,
+							123,
+							125
+						],
+						'456': [
+							457
+						]
+					},
+					b: {
+						'789': [
+							789
+						]
+					}
+				}
+			}
+		)
+	})
+
+	it('should merge own comments (source not exists)', () => {
+		storage.data = {}
+		userData.merge({
+			ownComments: {
+				a: {
+					'123': [
+						124
+					]
+				}
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				ownComments: {
+					a: {
+						'123': [
+							124
+						]
+					}
+				}
+			}
+		)
+	})
+
+	it('should merge own comments (destination not exists)', () => {
+		storage.data = {
+			ownComments: {
+				a: {
+					'123': [
+						124
+					]
+				}
+			}
+		}
+		userData.merge({})
+		expectToEqual(
+			storage.data,
+			{
+				ownComments: {
+					a: {
+						'123': [
+							124
+						]
+					}
+				}
+			}
+		)
+	})
+
+	it('should also remove from "data" key when removing from key', () => {
+		storage.clear()
+		userData.addWatchedThreads('a', 123)
+		userData.addWatchedThreadsInfo('a', 123, {
+			subject: 'Anime'
+		})
+		expectToEqual(
+			storage.data,
+			{
+				watchedThreads: {
+					a: [
+						123
+					]
+				},
+				watchedThreadsInfo: {
+					a: {
+						'123': {
+							subject: 'Anime'
+						}
+					}
+				}
+			}
+		)
+		userData.removeWatchedThreads('a', 123)
+		expectToEqual(
+			storage.data,
+			{}
+		)
+	})
+
 	it('should clear data on thread expiration', () => {
 		storage.clear()
 		userData.addWatchedThreads('a', 123)
 		userData.addWatchedThreads('a', 456)
 		userData.addWatchedThreads('b', 789)
+		userData.addWatchedThreadsInfo('a', 123, { name: 'Anime 1' })
+		userData.addWatchedThreadsInfo('a', 456, { name: 'Anime 2' })
+		userData.addWatchedThreadsInfo('b', 789, { name: 'Random' })
 		userData.addReadComments('a', 123, 124)
 		userData.addReadComments('a', 456, 456)
 		userData.addReadComments('a', 456, 457)
@@ -511,6 +872,21 @@ describe('UserData', () => {
 					b: [
 						789
 					]
+				},
+				watchedThreadsInfo: {
+					a: {
+						'123': {
+							name: 'Anime 1'
+						},
+						'456': {
+							name: 'Anime 2'
+						}
+					},
+					b: {
+						'789': {
+							name: 'Random'
+						}
+					}
 				},
 				readComments: {
 					a: {
@@ -546,11 +922,28 @@ describe('UserData', () => {
 			{
 				watchedThreads: {
 					a: [
+						123,
 						456
 					],
 					b: [
 						789
 					]
+				},
+				watchedThreadsInfo: {
+					a: {
+						'123': {
+							name: 'Anime 1',
+							expired: true
+						},
+						'456': {
+							name: 'Anime 2'
+						}
+					},
+					b: {
+						'789': {
+							name: 'Random'
+						}
+					}
 				},
 				readComments: {
 					a: {

@@ -23,7 +23,13 @@ export default function parseRole(capCode) {
 			}
 		default:
 			if (capCode) {
-				console.error(`Unsupported "capcode": ${capCode}`)
+				if (typeof window !== 'undefined') {
+					// Report the error to `sentry.io`.
+					setTimeout(() => { throw new Error(`Unknown 8ch.net "capcode": ${capCode}`) }, 0)
+				} else {
+					console.warn(`Unknown 8ch.net "capcode": ${capCode}`)
+				}
 			}
+			return
 	}
 }

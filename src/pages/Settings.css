@@ -8,8 +8,8 @@
 	margin-top: 0;
 	margin-bottom: var(--unit);
 	padding: var(--unit);
-	background-color: #fcfcfc;
-	border: 1px solid var(--gray-color-100);
+	background-color: var(--Content-color--50);
+	border: 1px solid var(--Content-color--100);
 }
 
 .settings-page__filters-tips {
@@ -39,11 +39,4 @@
 
 .settings-page__filters-practice-link {
 	color: inherit;
-}
-
-.settings-page__button-row {
-	margin-bottom: calc(var(--unit) / 2);
-	&:last-child {
-		margin-bottom: 0;
-	}
 }

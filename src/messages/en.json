@@ -35,6 +35,28 @@
 				}
 			}
 		},
+		"theme": {
+			"title": "Theme",
+			"add": {
+				"title": "Add Theme",
+				"name": "Name",
+				"url": "URL",
+				"code": "Code",
+				"pasteCodeInstead": "Paste code instead",
+				"invalidUrl": "Invalid URL",
+				"invalidExtension": "Not a \".css\" file URL",
+				"cssFileError": "Couldn't load the \".css\" file"
+			},
+			"readThemesGuide": "Make a new theme guide",
+			"deleteCurrent": {
+				"title": "Delete current theme",
+				"warning": "Are you sure you want to delete theme \"{0}\"?"
+			},
+			"themes": {
+				"default": "Default",
+				"neon-genesis-evangelion": "Neon Genesis Evangelion"
+			}
+		},
 		"fontSize": {
 			"title": "Font Size",
 			"small": "Small",
@@ -43,15 +65,40 @@
 		},
 		"data": {
 			"title": "Data",
-			"resetSettings": "Reset Settings",
-			"clearUserData": "Clear User Data",
-			"clearYouTubeCache": "Clear YouTube Cache"
+			"description": "",
+			"resetSettings": {
+				"title": "Reset Settings",
+				"warning": "All your settings (including word filters, added themes) will be reset. Are you sure?",
+				"done": "The settings have been reset"
+			},
+			"clearUserData": {
+				"title": "Clear User Data",
+				"warning": "All your user data (\"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
+				"done": "The user data has been cleared"
+			},
+			"clearYouTubeCache": {
+				"title": "Clear YouTube Cache"
+			},
+			"export": {
+				"title": "Back up settings and user data"
+			},
+			"import": {
+				"title": "Restore settings and user data from backup",
+				"warning": "All your current settings and user data will be overwritten. Are you sure?",
+				"error": "Syntax error",
+				"done": "The settings and user data have been restored"
+			},
+			"merge": {
+				"title": "Add user data from backup",
+				"description": "Don't lose your history anymore coming home from work — just bring a «backup of settings and user data» and «add» it at home: no historical data is lost this way.",
+				"done": "User data has been added"
+			}
 		}
 	},
 	"showBoardsList": "Show boards list",
 	"boardsList": "All boards",
 	"boardsByPopularity": "Popular",
-	"boardsByCategory": "By category",
+	"boardsByCategory": "By Category",
 	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
@@ -71,6 +118,7 @@
 	"showNext": "Show next",
 	"post": {
 		"banned": "The author of this comment was banned",
+		"bannedReason": ". Reason: \"{0}\".",
 		"sticky": "Sticky thread",
 		"rolling": "Rolling thread",
 		"closed": "Closed thread",
@@ -93,7 +141,11 @@
 	"actions": {
 		"post": "Post",
 		"save": "Save",
-		"cancel": "Cancel"
+		"add": "Add",
+		"ok": "Ok",
+		"cancel": "Cancel",
+		"yes": "Yes",
+		"no": "No"
 	},
 	"role": {
 		"administrator": "Administrator",

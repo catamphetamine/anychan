@@ -26,12 +26,12 @@ import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
+import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/app'
 
 import getMessages from '../messages'
-import { applySettings } from '../utility/settings'
 import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 
 import './Application.css'
@@ -49,7 +49,6 @@ import './Application.css'
 })
 @preload(async ({ dispatch, getState }) => {
 	await dispatch(getSettings())
-	applySettings(getState().app.settings)
 	await dispatch(getBoards())
 }, {
 	blocking: true
@@ -99,6 +98,8 @@ export default class App extends React.Component {
 			children
 		} = this.props
 
+		const messages = getMessages(locale)
+
 		return (
 			<div className={classNames(`theme--${theme}`)}>
 				{/* Page loading indicator */}
@@ -116,7 +117,7 @@ export default class App extends React.Component {
 						i={slideshowIndex}
 						isOpen={slideshowIsOpen}
 						onClose={closeSlideshow}
-						messages={getMessages(locale).slideshow}>
+						messages={messages.slideshow}>
 						{slideshowPictures}
 					</Slideshow>
 				}
@@ -133,11 +134,17 @@ export default class App extends React.Component {
 							className={classNames('webpage__content', {
 								'webpage__content--regular': isRegularContent(route)
 							})}>
-							{ children }
+							{children}
 						</main>
 						<Footer className="background-content"/>
 					</div>
 				</div>
+
+				<OkCancelDialog
+					okLabel={messages.actions.ok}
+					cancelLabel={messages.actions.cancel}
+					yesLabel={messages.actions.yes}
+					noLabel={messages.actions.no}/>
 			</div>
 		)
 	}

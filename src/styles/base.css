@@ -1,14 +1,16 @@
 @import "../../../webapp-frontend/src/styles/base.css";
 
 body {
-	overflow-y: auto;
+	color: var(--Content-color);
+	background-color: var(--Content-backgroundColor);
 }
 
 /* Set `<body/>` background color
    in order to show correct color when scrolling
    past top/bottom of the page on touch devices. */
 .body--content-sections {
-	background-color: var(--Empty-backgroundColor);
+	color: var(--Document-color);
+	background-color: var(--Document-backgroundColor);
 }
 
 h1, h2, h3 {

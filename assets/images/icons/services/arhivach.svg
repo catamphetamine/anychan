@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 74 74">
-<polygon fill="#F6904D" points="35,1 73,9.9 69,49.5 40.5,73 5.2,52.7 1,11.7 "/>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 74">
+<polygon fill="currentColor" color="#F6904D" data-fill="true" points="35,1 73,9.9 69,49.5 40.5,73 5.2,52.7 1,11.7 "/>
 <g>
-	<polygon fill="none" stroke="#231F20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="41.6,25.8 1,11.7 35,1 73,9.9 	"/>
-	<polygon fill="none" stroke="#231F20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="73,9.9 41.6,25.8 40.5,73 69,49.5 	"/>
-	<polygon fill="none" stroke="#231F20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="40.5,73 41.6,25.8 1,11.7 5.2,52.7 	"/>
-	<polygon fill="#231F20" points="22.1,29.3 22.1,19 55.1,5.7 49.4,4.4 15.9,16.8 15.9,26.6 	"/>
+	<polygon fill="none" stroke="currentColor" color="#231F20" data-stroke="true" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="41.6,25.8 1,11.7 35,1 73,9.9"/>
+	<polygon fill="none" stroke="currentColor" color="#231F20" data-stroke="true" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="73,9.9 41.6,25.8 40.5,73 69,49.5"/>
+	<polygon fill="none" stroke="currentColor" color="#231F20" data-stroke="true" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="40.5,73 41.6,25.8 1,11.7 5.2,52.7"/>
+	<polygon fill="currentColor" color="#231F20" data-stroke="true" points="22.1,29.3 22.1,19 55.1,5.7 49.4,4.4 15.9,16.8 15.9,26.6"/>
 </g>
-<polygon fill="#231F20" points="54.6,25.3 60.4,22 56.2,33.4 65,28.6 52.3,58 56.4,37.8 48.7,41.5 "/>
+<polygon fill="currentColor" color="#231F20" data-stroke="true" points="54.6,25.3 60.4,22 56.2,33.4 65,28.6 52.3,58 56.4,37.8 48.7,41.5"/>
 </svg>

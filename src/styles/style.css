@@ -3,11 +3,8 @@
 @import "../../../webapp-frontend/src/styles/grid.css";
 
 @import "./constants";
+@import "./style-variables";
 @import "./react-responsive-ui";
 @import "./components";
 @import "./base";
 @import "./font-size";
-
-@import "./theme/default";
-@import "./theme/orange";
-/*@import "./theme/eva";*/

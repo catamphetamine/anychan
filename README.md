@@ -1,3 +1,5 @@
+# <img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/assets/images/icon%40192x192.png" width="48" height="48"/> chanchan
+
 Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
 Supported engines:
@@ -11,12 +13,11 @@ Don't mind the seemingly slower speed of the demos: the only reason for that is 
 
 This project currently has only a subset of features. "To do":
 
-  * Add dark mode and themes.
+  * Add night mode.
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.
   * Add "favorite" boards list.
-  * Add a non-default theme.
   * Add support for "passes" (`4chan.org`, `2ch.hk`).
 
 <!--
@@ -43,19 +44,55 @@ This project currently has only a subset of features. "To do":
 
 <img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
 
-## Install
+#### Themes
+
+The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/chanchan/blob/master/docs/themes/guide.md) via adding custom themes.
+
+##### Default theme
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/default-theme-screenshot-3605x1955.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/default-theme-screenshot-1024x555.png" width="512" height="278"/>
+
+##### Neon Genesis Evangelion
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/eva-theme-screenshot-1024x555.png" width="512" height="278"/>
+
+## Chan API
+
+### 4chan.org
+
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org.md)
+* [API (official docs)](https://github.com/4chan/4chan-API)
+
+### 8ch.net
+
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/8ch.net.md)
+
+### 2ch.hk
+
+* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk.md)
+* [API (official docs)](https://2ch.hk/api/)
+
+### kohlchan.net
+
+* [Old API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net.old.md) (the old `vichan` API is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)
+
+## Known issues
+
+There're some limitations for chans running on `lynxchan` engine (for example, `kohlchan.net`) due to the [lack of support for several features](https://github.com/catamphetamine/chanchan/blob/master/docs/lynxchan.md) in that engine.
+
+The lists of threads/comments are implemented via a "[Virtual Scroller](https://github.com/catamphetamine/virtual-scroller)" which results in an enormous performance boost but at the same time [doesn't support some native in-browser features](https://github.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
+
+## Develop
 
 ```
 git clone git@github.com:catamphetamine/webapp-frontend.git
 git clone git@github.com:catamphetamine/chanchan.git
 cd chanchan
 npm install
-```
-
-## Develop
-
-```
-cd chanchan
 npm run dev
 ```
 
@@ -68,7 +105,7 @@ cd chanchan
 npm run build
 ```
 
-See the `build/assets` directory.
+The build will be output to the `build/assets` directory.
 
 ## Proxy
 
@@ -300,23 +337,3 @@ To define custom/additional settings one can create `configuration.json` file in
 	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}"
 }
 ```
-
-## Chan API
-
-### 4chan.org
-
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org/API.md)
-* [API (official docs)](https://github.com/4chan/4chan-API)
-
-### 8ch.net
-
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/8ch.net/API.md)
-
-### 2ch.hk
-
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk/API.md)
-* [API (official docs)](https://2ch.hk/api/)
-
-### kohlchan.net
-
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net/API.md) (the old `vichan` API which is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)
