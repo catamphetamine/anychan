@@ -65,14 +65,14 @@ export default class Footer extends React.Component {
 								{getChan().copyright}
 							</PostBlock>
 						}
-						<p className="footer__copyright-chanchan">
-							{getMessages(locale).copyright.preChanchan}
+						<p className="footer__copyright-captchan">
+							{getMessages(locale).copyright.preCaptchan}
 							<a
 								target="_blank"
-								href="https://github.com/catamphetamine/chanchan">
-								chanchan
+								href="https://github.com/catamphetamine/captchan">
+								captchan
 							</a>
-							{getMessages(locale).copyright.postChanchan}
+							{getMessages(locale).copyright.postCaptchan}
 							{getMessages(locale).copyright.preAuthor}
 							<a
 								target="_blank"

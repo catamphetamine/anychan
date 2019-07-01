@@ -144,7 +144,7 @@ export default function parseComment(post, {
 			// `8ch.net` and `4chan.org` have correct country codes.
 			// Examples: "GB", "US", "RU".
 			comment.authorCountry = post.country
-			// `chanchan` has its own localized country names.
+			// `captchan` has its own localized country names.
 			// comment.authorCountryName = post.country_name
 		}
 	}

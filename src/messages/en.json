@@ -156,8 +156,8 @@
 		}
 	},
 	"copyright": {
-		"chanchan": "chanchan",
-		"postChanchan": " imageboard client",
+		"captchan": "captchan",
+		"postCaptchan": " imageboard client",
 		"preAuthor": " by "
 	},
 	"errorPages": {

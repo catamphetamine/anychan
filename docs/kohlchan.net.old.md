@@ -2,7 +2,7 @@
 
 `kohlchan.net` is built on [`vichan`](https://github.com/vichan-devel/vichan) engine which is a fork of [`Tinyboard`](https://github.com/savetheinternet/Tinyboard) engine.
 
-`vichan` API is mostly compatible to [`4chan` API](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org.md). For example, compare the official [`vichan` API readme](https://github.com/vichan-devel/vichan-API) to the official [`4chan` API readme](https://github.com/4chan/4chan-API): they're mostly the same.
+`vichan` API is mostly compatible to [`4chan` API](https://github.com/catamphetamine/captchan/blob/master/docs/4chan.org.md). For example, compare the official [`vichan` API readme](https://github.com/vichan-devel/vichan-API) to the official [`4chan` API readme](https://github.com/4chan/4chan-API): they're mostly the same.
 
 ### Post
 
@@ -43,4 +43,4 @@ Possible `name`s:
 
 ### Get boards list
 
-`kohlchan.net` doesn't have a `/boards.json` API. The boards list is stored statically in a [JSON file](https://github.com/catamphetamine/chanchan/blob/master/chan/kohlchan/index.json).
+`kohlchan.net` doesn't have a `/boards.json` API. The boards list is stored statically in a [JSON file](https://github.com/catamphetamine/captchan/blob/master/chan/kohlchan/index.json).

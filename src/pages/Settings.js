@@ -327,7 +327,7 @@ export default class SettingsPage extends React.Component {
 							</div>
 							<div className="form__component form__component--button">
 								<a
-									href="https://github.com/catamphetamine/chanchan/blob/master/docs/themes/guide.md"
+									href="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"
 									target="_blank">
 									{messages.settings.theme.readThemesGuide}
 								</a>

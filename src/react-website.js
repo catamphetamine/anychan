@@ -11,8 +11,8 @@ import { createConfig } from 'webapp-frontend/src/react-website.common'
 // export { default as icon } from '../assets/images/icon@192x192.png'
 
 // const DEFAULT_META = {
-// 	site_name   : 'chanchan',
-// 	title       : 'chanchan',
+// 	site_name   : 'captchan',
+// 	title       : 'captchan',
 // 	description : 'An alternative GUI for an imageboard (4chan.org, 2ch.hk, etc).',
 // 	image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg'
 // }
@@ -29,7 +29,7 @@ export default createConfig({
 		locale      : getChan().language && getHTMLLocaleFromLanguage(getChan().language)
 	},
 
-	// `gh-pages` will have `/chanchan` base path.
+	// `gh-pages` will have `/captchan` base path.
 	basename: getBasePath()
 })
 

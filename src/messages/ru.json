@@ -156,8 +156,8 @@
 		}
 	},
 	"copyright": {
-		"preChanchan": "Клиент для имиджборд «",
-		"postChanchan": "»",
+		"preCaptchan": "Клиент для имиджборд «",
+		"postCaptchan": "»",
 		"preAuthor": ", автор "
 	},
 	"errorPages": {

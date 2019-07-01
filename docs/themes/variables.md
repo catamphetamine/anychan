@@ -1,6 +1,6 @@
 # Theme Variables
 
-This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://github.com/catamphetamine/chanchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://github.com/catamphetamine/chanchan/issues) to discuss that.
+This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://github.com/catamphetamine/captchan/issues) to discuss that.
 
 ## Document
 

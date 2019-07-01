@@ -84,7 +84,7 @@ export default {
 
 	resolve: {
     modules: [
-    	// Tell Webpack to look for `node_modules` in `chanchan/node_modules`
+    	// Tell Webpack to look for `node_modules` in `captchan/node_modules`
     	// instead of `webapp-frontend/node_modules`.
       'node_modules',
       // Using a relative path here instead of a global path

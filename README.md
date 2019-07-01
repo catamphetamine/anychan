@@ -1,13 +1,13 @@
-# <img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/assets/images/icon%40192x192.png" width="48" height="48"/> chanchan
+# <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/assets/images/icon%40192x192.png" width="48" height="48"/> captchan
 
 Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
 Supported engines:
 
-* [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/chanchan/?chan=4chan).
-* [vichan](https://github.com/vichan-devel/vichan)/[infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See [`8ch.net` demo](https://catamphetamine.github.io/chanchan/?chan=8ch).
-* [lynxchan](http://lynxhub.com/) ([kohlchan.net](https://kohlchan.net)). See [`kohlchan.net` demo](https://catamphetamine.github.io/chanchan/?chan=kohlchan).
-* [makaba](https://2ch.hk/api/) ([2ch.hk](https://2ch.hk/)). See [`2ch.hk` demo](https://catamphetamine.github.io/chanchan/?chan=2ch).
+* [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/captchan/?chan=4chan).
+* [vichan](https://github.com/vichan-devel/vichan)/[infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See [`8ch.net` demo](https://catamphetamine.github.io/captchan/?chan=8ch).
+* [lynxchan](http://lynxhub.com/) ([kohlchan.net](https://kohlchan.net)). See [`kohlchan.net` demo](https://catamphetamine.github.io/captchan/?chan=kohlchan).
+* [makaba](https://2ch.hk/api/) ([2ch.hk](https://2ch.hk/)). See [`2ch.hk` demo](https://catamphetamine.github.io/captchan/?chan=2ch).
 
 Don't mind the seemingly slower speed of the demos: the only reason for that is the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 
@@ -34,55 +34,55 @@ This project currently has only a subset of features. "To do":
 
 #### Browsing
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-3639x1959.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-3639x1959.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-1024x551.png" width="512" height="276"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-1024x551.png" width="512" height="276"/>
 
 #### Media
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-3602x1952.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
 
 #### Themes
 
-The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/chanchan/blob/master/docs/themes/guide.md) via adding custom themes.
+The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes.
 
 ##### Default theme
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/default-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/default-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-1024x555.png" width="512" height="278"/>
 
 ##### Neon Genesis Evangelion
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/chanchan/master/docs/images/eva-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-1024x555.png" width="512" height="278"/>
 
 ## Chan API
 
 ### 4chan.org
 
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/4chan.org.md)
+* [API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/4chan.org.md)
 * [API (official docs)](https://github.com/4chan/4chan-API)
 
 ### 8ch.net
 
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/8ch.net.md)
+* [API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/8ch.net.md)
 
 ### 2ch.hk
 
-* [API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/2ch.hk.md)
+* [API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/2ch.hk.md)
 * [API (official docs)](https://2ch.hk/api/)
 
 ### kohlchan.net
 
-* [Old API (with examples)](https://github.com/catamphetamine/chanchan/blob/master/docs/kohlchan.net.old.md) (the old `vichan` API is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)
+* [Old API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/kohlchan.net.old.md) (the old `vichan` API is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)
 
 ## Known issues
 
-There're some limitations for chans running on `lynxchan` engine (for example, `kohlchan.net`) due to the [lack of support for several features](https://github.com/catamphetamine/chanchan/blob/master/docs/lynxchan.md) in that engine.
+There're some limitations for chans running on `lynxchan` engine (for example, `kohlchan.net`) due to the [lack of support for several features](https://github.com/catamphetamine/captchan/blob/master/docs/lynxchan.md) in that engine.
 
 The lists of threads/comments are implemented via a "[Virtual Scroller](https://github.com/catamphetamine/virtual-scroller)" which results in an enormous performance boost but at the same time [doesn't support some native in-browser features](https://github.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
 
@@ -90,8 +90,8 @@ The lists of threads/comments are implemented via a "[Virtual Scroller](https://
 
 ```
 git clone git@github.com:catamphetamine/webapp-frontend.git
-git clone git@github.com:catamphetamine/chanchan.git
-cd chanchan
+git clone git@github.com:catamphetamine/captchan.git
+cd captchan
 npm install
 npm run dev
 ```
@@ -101,7 +101,7 @@ Go to [`http://localhost:1234`](http://localhost:1234)
 ## Deploy
 
 ```
-cd chanchan
+cd captchan
 npm run build
 ```
 
