@@ -34,14 +34,6 @@ export default {
 			}]
 		}, {
 			test: /\.css$/,
-			include: [
-				path.resolve(PROJECT_ROOT, 'src/styles/theme')
-			],
-			use: [{
-				loader: 'file-loader'
-			}]
-		}, {
-			test: /\.css$/,
 			exclude: [
 				path.resolve(PROJECT_ROOT, 'src/styles/theme')
 			],
@@ -58,6 +50,14 @@ export default {
 				}
 			}, {
 				loader: 'postcss-loader'
+			}]
+		}, {
+			test: /\.css$/,
+			include: [
+				path.resolve(PROJECT_ROOT, 'src/styles/theme')
+			],
+			use: [{
+				loader: 'file-loader'
 			}]
 		}, {
 			test: /\.(jpg|png|gif)$/,
