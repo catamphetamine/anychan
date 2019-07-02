@@ -1,6 +1,6 @@
 // A capcode is a way of verifying someone as a privileged user.
 // Normal users do not have the ability to post using a capcode.
-export default function parseRole(capCode) {
+export default function parseRole(capCode, { boardId }) {
 	// https://github.com/ctrlcctrlv/infinity/blob/2bc5b6dbf31af50f54e73f88569496e19b143aad/inc/instance-config.php
 	switch (capCode) {
 		case 'Admin':
@@ -22,6 +22,15 @@ export default function parseRole(capCode) {
 				jurisdiction: 'board'
 			}
 		default:
+			// Everyone on `/newsplus` seems to have the "Reporter" capcode.
+			// It's not clear what it means. Maybe they're all moderators
+			// and regular users can't post there.
+			if (boardId === 'newsplus' && capCode === 'Reporter') {
+				return {
+					role: 'moderator',
+					jurisdiction: 'board'
+				}
+			}
 			if (capCode) {
 				if (typeof window !== 'undefined') {
 					// Report the error to `sentry.io`.

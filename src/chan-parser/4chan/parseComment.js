@@ -74,7 +74,7 @@ export default function parseComment(post, {
 			}
 		}
 	}
-	const parsedAuthorRole = parseAuthorRole(post, chan)
+	const parsedAuthorRole = parseAuthorRole(post, chan, { boardId })
 	const comment = constructComment(
 		boardId,
 		// `resto` is `0` for the first post of the thread.
@@ -154,12 +154,12 @@ export default function parseComment(post, {
 	return comment
 }
 
-function parseAuthorRole(post, chan) {
+function parseAuthorRole(post, chan, { boardId }) {
 	switch (chan) {
 		case '4chan':
 			return parseAuthorRoleFourChannel(post.capcode)
 		case '8ch':
-			return parseAuthorRoleEightChannel(post.capcode)
+			return parseAuthorRoleEightChannel(post.capcode, { boardId })
 		case 'kohlchan':
 			return parseAuthorRoleKohlChan(post.name)
 	}
