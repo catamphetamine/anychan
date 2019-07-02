@@ -158,6 +158,12 @@ export default class App extends React.Component {
 							className={classNames('webpage__content', {
 								'webpage__content--regular': isRegularContent(route)
 							})}>
+							{announcement &&
+								<Announcement
+									announcement={announcement}
+									onClose={hideAnnouncement}
+									closeLabel={messages.actions.close}/>
+							}
 							{children}
 						</main>
 						<Footer className="background-content"/>
@@ -169,13 +175,6 @@ export default class App extends React.Component {
 					cancelLabel={messages.actions.cancel}
 					yesLabel={messages.actions.yes}
 					noLabel={messages.actions.no}/>
-
-				{announcement &&
-					<Announcement
-						announcement={announcement}
-						onClose={hideAnnouncement}
-						closeLabel={messages.actions.close}/>
-				}
 			</div>
 		)
 	}

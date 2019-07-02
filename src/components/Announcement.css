@@ -1,9 +1,6 @@
 .announcement {
 	display: flex;
 	align-items: center;
-	position: fixed;
-	left: 0;
-	right: 0;
 	top: var(--header-height);
 	padding-left: var(--unit);
 	padding-right: var(--unit);
