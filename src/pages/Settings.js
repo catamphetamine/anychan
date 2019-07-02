@@ -388,10 +388,16 @@ export default class SettingsPage extends React.Component {
 											className="form__component"/>
 									}
 									<div className="form__actions">
+										<Button
+											onClick={this.hideAddThemeModal}
+											className="rrui__button--text form__action">
+											{messages.actions.cancel}
+										</Button>
+
 										<Submit
 											submit
 											component={Button}
-											className="rrui__button--background form__component form__action">
+											className="rrui__button--background form__action">
 											{messages.actions.add}
 										</Submit>
 									</div>
