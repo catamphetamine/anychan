@@ -145,7 +145,8 @@
 		"ok": "Ok",
 		"cancel": "Cancel",
 		"yes": "Yes",
-		"no": "No"
+		"no": "No",
+		"close": "Close"
 	},
 	"role": {
 		"administrator": "Administrator",

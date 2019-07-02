@@ -2,6 +2,9 @@
 
 This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://github.com/catamphetamine/captchan/issues) to discuss that.
 
+All variables listed here have their default values — see
+[style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css).
+
 ## Document
 
 * `--Document-color: black` — Text color on a page.
@@ -15,6 +18,7 @@ This document describes the [CSS Variables](https://developer.mozilla.org/docs/W
 * `--Header-backgroundColor: white` — Header background color.
 * `--Header-backgroundColor--title: var(--Header-backgroundColor)` — Header background color on the left side.
 * `--Header-backgroundColor--menu: var(--Header-backgroundColor)` — Header background color on the right side.
+* `--Header-borderWidth: 1px` — Header bottom border width.
 * `--Header-borderColor: gray` — Header bottom border color color.
 
 ## HeaderSeparator
@@ -29,6 +33,15 @@ On thread pages there's a separator line between board name and thread subject i
 
 * `--NotificationBadge-color: white` — Notification badge text color.
 * `--NotificationBadge-backgroundColor: red` — Notification badge background color.
+
+## Announcement
+
+Sometimes chan administration needs to announce something to the users. Things like latest news, contests, etc. Such an announcement appears on top of the page, below the header.
+
+* `--Announcement-backgroundColor: white` — Announcement background color.
+* `--Announcement-color: black` — Announcement text color.
+* `--Announcement-borderWidth: 1px` — Header bottom border width.
+* `--Announcement-borderColor: gray` — Header bottom border color color.
 
 ## Menu
 

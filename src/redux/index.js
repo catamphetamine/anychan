@@ -5,3 +5,4 @@ export { default as app } from './app';
 export { default as chan } from './chan';
 export { default as board } from './board';
 export { default as thread } from './thread';
+export { default as announcement } from './announcement';

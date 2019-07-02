@@ -1,6 +1,6 @@
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
-	/* "Base" color (orange in this case). */
+	/* "Base" color (orange). */
 	--base-color-100: #FFF4EC;
 	--base-color-200: #FFD0AF;
 	--base-color-300: #FFA061;
@@ -27,6 +27,11 @@
 	/* NotificationBadge. */
 	--NotificationBadge-color: var(--white-color);
 	--NotificationBadge-backgroundColor: red;
+	/* Announcement. */
+	--Announcement-backgroundColor: var(--Content-backgroundColor);
+	--Announcement-color: var(--Content-color);
+	--Announcement-borderWidth: var(--Header-borderWidth);
+	--Announcement-borderColor: var(--Header-borderColor);
 	/* Sidebar. */
 	--Sidebar-color: var(--gray-color-100);
 	--Sidebar-backgroundColor: var(--gray-color-800);

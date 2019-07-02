@@ -320,20 +320,78 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 
 By default the application uses `./configuration/default.json` settings.
 
-To define custom/additional settings one can create `configuration.json` file in the `./configuration` directory. Example:
+To define custom/additional settings one can create `configuration.json` file in the `./configuration` directory.
+
+<details>
+<summary>Example:</summary>
 
 #### configuration.json
 
 ```js
 {
-	"defaultChan": "...",
+	// The default chan to use.
+	// Can be overridden via a `?chan=` URL parameter.
+	"chan": "4chan",
+	// Google Analytics can be used for tracking page views.
+	// Though most users block it in their web browsers.
 	"googleAnalytics": {
-		"id": "..."
+		"id": "UA-123456789-0"
 	},
+	// YouTube Data API V3 is used for parsing YouTube links
+	// into embedded video attachments having a title and a thumbnail.
 	"youtube": {
-		"apiKey": "..."
+		"apiKey": "TpJTfNAIzaFVteEnl4E-SyCvZRvuuHUZeL3owO8"
 	},
+	// CORS Proxy settings (see the "Proxy" section of the readme).
+	// AWS EC2 is the easiest way to set up a free 1-year proxy.
+	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}",
+	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
+	// Such chans can be proxied through Heroku, for example.
 	"corsProxyUrl": "https://example.herokuapp.com/{url}",
-	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}"
+	// Sometimes chan administration needs to announce something
+	// to the users. Things like latest news, contests, etc.
+	// See the "Announcements" section below.
+	"announcementUrl": "/announcement.json",
+	// Announcement polling interval (in milliseconds).
+	// By default it checks for new announcements every hour:
+	// 60 * 60 * 1000 = 3600000
+	"announcementPollInterval": 3600000
 }
 ```
+
+<details>
+<summary>Announcements</summary>
+
+###
+
+Sometimes chan administration needs to announce something to the users. Things like latest news, contests, etc. For that an optional `announcementUrl` configuration parameter exists. For example, if a chan is hosted at `4chan.org` then `announcementUrl` could be `/announcement.json` meaning that the app will periodically try to `GET https://4chan.org/announcement.json` and show the announcement if it exists: a user will be presented with an announcement bar on top of the page. When a user clicks the close (x) button a `announcementRead` cookie is created with the value of the announcement date and so the announcement is no longer shown for this user until there's a new announcement with a different date.
+
+#### announcement.json
+
+```js
+{
+	// Date in "ISO" format.
+	// Could be just a date:
+	// date: "2019-07-02"
+	// or a date with time:
+	date: "2019-07-02T14:37",
+	// Announcement content (an array of strings or objects).
+	content: [
+		"4chan is now owned and led by ",
+		{
+			"type": "link",
+			"url": "https://twitter.com/hiroyuki_ni",
+			"content": "Hiroyuki Nishimura"
+		},
+		", the founder of the largest anonymous BBS in Japan, 2channel. Read the full announcement on the ",
+		{
+
+			"type": "link",
+			"url": "https://www.4chan.org/4channews.php",
+			"content": "4chan News page"
+		},
+		"."
+	]
+}
+```
+</details>

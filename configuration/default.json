@@ -1,11 +1,12 @@
 {
+	"chan": "2ch",
 	"corsProxyUrl": "https://chan-chan.herokuapp.com/{url}",
 	"corsProxyUrl2": "https://cors-anywhere.herokuapp.com/{url}",
-	"defaultChan": "2ch",
 	"webpack": {
 		"devserver": {
 			"host": "localhost",
 			"port": 1234
 		}
-	}
+	},
+	"announcementPollInterval": 3600000
 }

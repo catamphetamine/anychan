@@ -13,6 +13,8 @@ import 'react-website/components/Loading.css'
 // it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-website/components/LoadingIndicator.css'
 
+import Announcement, { announcementPropType } from '../components/Announcement'
+
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
@@ -30,26 +32,43 @@ import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/app'
+import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
 import getMessages from '../messages'
 import { isContentSectionsContent, isRegularContent } from '../utility/routes'
+import { pollAnnouncement } from '../utility/announcement'
+import configuration from '../configuration'
 
 import './Application.css'
 
-@connect(({ app, slideshow, found }) => ({
+@connect(({ app, slideshow, found, announcement }) => ({
 	locale: app.settings.locale,
 	theme: app.settings.theme,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
 	slideshowPictures: slideshow.pictures,
-  location: found.resolvedMatch.location
+  location: found.resolvedMatch.location,
+  announcement: announcement.announcement
 }), {
-	closeSlideshow
+	closeSlideshow,
+	hideAnnouncement
 })
 @preload(async ({ dispatch, getState }) => {
+	// Apply user's settings.
 	await dispatch(getSettings())
+	// Get the list of boards.
 	await dispatch(getBoards())
+	// Show announcements.
+	// Dummy URL for testing:
+	// configuration.announcementUrl = '/'
+	if (configuration.announcementUrl) {
+		pollAnnouncement(
+			configuration.announcementUrl,
+			announcement => dispatch(showAnnouncement(announcement)),
+			configuration.announcementPollInterval
+		)
+	}
 }, {
 	blocking: true
 })
@@ -58,6 +77,9 @@ export default class App extends React.Component {
 		locale: PropTypes.string.isRequired,
 		theme: PropTypes.string.isRequired,
 		route: PropTypes.object.isRequired,
+		announcement: announcementPropType,
+		hideAnnouncement: PropTypes.func.isRequired,
+		closeSlideshow: PropTypes.func.isRequired,
 		children : PropTypes.node.isRequired
 	}
 
@@ -87,6 +109,7 @@ export default class App extends React.Component {
 
 	render() {
 		const {
+			announcement,
 			locale,
 			theme,
 			route,
@@ -94,6 +117,7 @@ export default class App extends React.Component {
 			slideshowIsOpen,
 			slideshowPictures,
 			closeSlideshow,
+			hideAnnouncement,
 			location,
 			children
 		} = this.props
@@ -145,6 +169,13 @@ export default class App extends React.Component {
 					cancelLabel={messages.actions.cancel}
 					yesLabel={messages.actions.yes}
 					noLabel={messages.actions.no}/>
+
+				{announcement &&
+					<Announcement
+						announcement={announcement}
+						onClose={hideAnnouncement}
+						closeLabel={messages.actions.close}/>
+				}
 			</div>
 		)
 	}

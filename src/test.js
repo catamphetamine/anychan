@@ -3,4 +3,7 @@ import './utility/UserData.test'
 
 import configuration from './configuration'
 
-loadYouTubeLinksTestWithApiKey(configuration.youtube && configuration.youtube.apiKey)
+const youTubeApiKey = configuration.youtube && configuration.youtube.apiKey
+if (youTubeApiKey) {
+	loadYouTubeLinksTestWithApiKey(youTubeApiKey)
+}
