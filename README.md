@@ -348,6 +348,10 @@ To define custom/additional settings one can create `configuration.json` file in
 	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
 	// Such chans can be proxied through Heroku, for example.
 	"corsProxyUrl": "https://example.herokuapp.com/{url}",
+	// `sentry.io` can be set up to report all client-side errors.
+	"sentry.io": {
+		"url": "https://1d8af64f618e9b01849237ccbc26e968@sentry.io/1413881"
+	},
 	// Sometimes chan administration needs to announce something
 	// to the users. Things like latest news, contests, etc.
 	// See the "Announcements" section below.
