@@ -1,6 +1,6 @@
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
-	/* "Orange" color. */
+	/* "Base" color (orange). */
 	--base-color-100 : #FFF4EC;
 	--base-color-200 : #FFD0AF;
 	--base-color-300 : #FFA061;

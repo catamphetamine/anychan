@@ -42,7 +42,7 @@ export function getChan(id = getChanId()) {
 }
 
 function getChanId() {
-	return (typeof window !== 'undefined' && window._chan) || configuration.defaultChan
+	return (typeof window !== 'undefined' && window._chan) || configuration.chan
 }
 
 function setChanId(chanId) {
@@ -55,7 +55,7 @@ export const setChan = setChanId
 
 // Adds `chan` URL parameter for multi-chan `gh-pages` demo.
 export function addChanParameter(url) {
-	if (getChanId() === configuration.defaultChan) {
+	if (getChanId() === configuration.chan) {
 		return url
 	}
 	const isAbsoluteUrl = /^[a-z]+:\/\//.test(url)

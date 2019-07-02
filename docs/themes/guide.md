@@ -6,7 +6,7 @@ Themes should mostly use the available [CSS Variables](https://github.com/catamp
 
 See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master/src/styles/theme) as an example.
 
-##### Default theme
+### Default theme
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-3605x1955.png)
 
@@ -14,7 +14,7 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 [style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css)
 
-##### Neon Genesis Evangelion
+### Neon Genesis Evangelion
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
 
