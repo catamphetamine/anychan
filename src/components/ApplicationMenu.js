@@ -14,6 +14,7 @@ import {
 } from '../redux/app'
 
 import getMessages from '../messages'
+import { addChanParameter } from '../chan'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
@@ -97,7 +98,7 @@ export default class ApplicationMenu extends React.Component {
 				fillIcon: BellIconFill
 			},
 			{
-				url: '/settings',
+				url: addChanParameter('/settings'),
 				isActive: !isSidebarShown,
 				outlineIcon: SettingsIconOutline,
 				fillIcon: SettingsIconFill
