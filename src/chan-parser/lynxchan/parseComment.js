@@ -59,8 +59,8 @@ export default function parseComment(post, {
 			// in `/catalog.json` API response (which is a bug).
 			// http://lynxhub.com/lynxchan/res/722.html#q984
 			// `width` and `height` are set later when the image is loaded.
-			width: 0,
-			height: 0,
+			width: thumbnailSize,
+			height: thumbnailSize,
 			// Even if `path` URL would be derived from `thumb` URL
 			// the `width` and `height` would still be unspecified.
 			// path: getFileUrlFromThumbnailUrl(post.thumb, chan),
