@@ -381,6 +381,7 @@ export default class SettingsPage extends React.Component {
 									{pasteCodeInstead &&
 										<Field
 											required
+											multiline
 											name="code"
 											label={messages.settings.theme.add.code}
 											component={TextInput}
