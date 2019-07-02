@@ -39,8 +39,10 @@
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	/* Stretches the page to 100% height */
+	/* Stretches the page to 100% height. */
 	min-height: 100vh;
+	/* Prevents horizontal overflow. */
+	max-width: 100%;
 }
 
 .rrui__slideshow {
@@ -102,6 +104,9 @@
 .content {
 	padding-left: calc(var(--unit) * 2);
 	padding-right: calc(var(--unit) * 2);
+
+	/* Prevents horizontal overflow of a page. */
+	width: 100%;
 
 	@mixin xxs {
 		padding-left: var(--unit);

@@ -37,18 +37,17 @@
 	--Sidebar-backgroundColor: var(--gray-color-800);
 	--Sidebar-borderColor: transparent;
 	/* Boards. */
-	--Boards-backgroundColor--sidebarHover: var(--gray-color-750);
-	--Boards-backgroundColor--sidebarActive: var(--gray-color-700);
-	--Boards-backgroundColor--sidebarSelected: var(--gray-color-900);
-	--Boards-backgroundColor--hover: var(--Content-color--50);
-	--Boards-color--active: var(--base-color-600);
-	--Boards-color--sidebarActive: var(--base-color-300);
-	/* BoardsViewSwitcher. */
-	--BoardsViewSwitcher-color--sidebar: var(--gray-color-300);
-	--BoardsViewSwitcher-borderColor--focus: var(--Content-color--100);
-	/* BoardsSlash. */
-	--BoardsSlash-color: var(--gray-color-200);
-	--BoardsSlash-color--sidebar: #6d7682;
+	--Boards-backgroundColor--hover: var(--gray-color-750);
+	--Boards-backgroundColor--active: var(--gray-color-700);
+	--Boards-backgroundColor--selected: var(--gray-color-900);
+	--Boards-color--active: var(--base-color-300);
+	--Boards-color--slash: #6d7682;
+	--Boards-color--viewSwitcher: var(--gray-color-300);
+	/* BoardsPage. */
+	--BoardsPage-backgroundColor--hover: var(--Content-color--50);
+	--BoardsPage-backgroundColor--active: var(--base-color-100);
+	--BoardsPage-color--active: var(--Clickable-color--dark);
+	--BoardsPage-color--slash: var(--gray-color-200);
 	/* Content. */
 	--Content-color: var(--black-color);
 	--Content-backgroundColor: var(--white-color);

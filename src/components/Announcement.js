@@ -19,7 +19,7 @@ export default function Announcement({ onClose, closeLabel, announcement }) {
 			<button
 				type="button"
 				onClick={onClose}
-				aria-label={closeLabel}
+				title={closeLabel}
 				className="announcement__close rrui__button-reset">
 				<Close className="announcement__close-icon"/>
 			</button>

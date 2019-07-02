@@ -43,7 +43,11 @@ export default class BoardsPanel extends React.Component {
 })
 export class Boards extends React.PureComponent {
 	state = {
-		view: this.props.boardsByPopularity ? 'default' : (this.props.boardsByCategory ? 'by-category' : 'default')
+		view: this.props.boardsByPopularity ? 'default' : (
+			this.props.boardsByCategory && (this.props.listComponent === BoardsList) ?
+				'by-category' :
+				'default'
+		)
 	}
 
 	constructor(props) {
@@ -98,15 +102,54 @@ export class Boards extends React.PureComponent {
 		}
 	}
 
+	getBoardsListItems() {
+		const {
+			selectedBoard,
+			boards,
+			boardsByPopularity,
+			boardsByCategory,
+			showAllBoards
+		} = this.props
+		const {
+			view,
+			filteredBoards
+		} = this.state
+		switch (view) {
+			case 'by-category':
+				return boardsByCategory.reduce((all, category, i) => {
+					return all.concat([{
+						key: category.category || '—',
+						category: category.category,
+						first: i === 0
+					}]).concat(category.boards.map((board) => ({
+						key: board.id,
+						board,
+						selected: selectedBoard && board.id === selectedBoard.id
+					})))
+				}, [])
+			case 'default':
+				return (filteredBoards || boardsByPopularity || boards)
+					.filter(board => showAllBoards || !board.isHidden)
+					.map((board) => ({
+						key: board.id,
+						board,
+						selected: selectedBoard && board.id === selectedBoard.id
+					}))
+			default:
+				// Unsupported `view`.
+				return []
+			}
+	}
+
 	render() {
 		const {
 			locale,
-			selectedBoard,
 			boards,
 			boardsByPopularity,
 			boardsByCategory,
 			showAllBoards,
 			sidebar,
+			listComponent: List,
 			className
 		} = this.props
 
@@ -122,10 +165,9 @@ export class Boards extends React.PureComponent {
 
 		return (
 			<nav className={classNames(className, 'boards', {
-				'boards--sidebar': sidebar,
-				'boards--all': showAllBoards
+				'boards--sidebar': sidebar
 			})}>
-				{boardsByPopularity && boardsByCategory &&
+				{boardsByPopularity && (boardsByCategory && (List === BoardsList)) &&
 					<div className="boards__view-switcher">
 						<Button
 							disabled={view === 'default'}
@@ -163,33 +205,14 @@ export class Boards extends React.PureComponent {
 					</div>
 				}
 
-				<div className={classNames('boards-list', {
-					'boards-list--default': view === 'default',
-					'boards-list--by-category': view === 'by-category'
-				})}>
-					{view === 'by-category' && boardsByCategory.map((category, i) => (
-						<React.Fragment key={category.category || '—'}>
-							<div className="boards-list-section__pre-title"/>
-							<h2 className={classNames('boards-list-section__title', {
-								'boards-list-section__title--first': i === 0
-							})}>
-								{category.category}
-							</h2>
-							{category.boards.map((board) => (
-								<Board
-									key={board.id}
-									board={board}
-									isSelected={selectedBoard && board.id === selectedBoard.id}/>
-							))}
-						</React.Fragment>
-					))}
-					{view === 'default' && (filteredBoards || boardsByPopularity || boards).filter(board => showAllBoards || !board.isHidden).map((board) => (
-						<Board
-							key={board.id}
-							isSelected={selectedBoard && board.id === selectedBoard.id}
-							board={board}/>
-					))}
-				</div>
+				<List
+					className={classNames('boards-list', {
+						'boards-list--grid': List === BoardsList,
+						'boards-list--default': view === 'default',
+						'boards-list--by-category': view === 'by-category'
+					})}>
+					{this.getBoardsListItems()}
+				</List>
 
 				{!showAllBoards && (getChan().allBoardsUrl || getChan().hideBoardCategories) &&
 					<div className="boards__show-all-wrapper">
@@ -219,7 +242,12 @@ Boards.propTypes = {
 	})),
 	showAllBoards: PropTypes.bool,
 	sidebar: PropTypes.bool,
+	listComponent: PropTypes.elementType.isRequired,
 	className: PropTypes.string
+}
+
+Boards.defaultProps = {
+	listComponent: BoardsList
 }
 
 class Board extends React.Component {
@@ -323,4 +351,53 @@ class Board extends React.Component {
 Board.propTypes = {
 	board: PropTypes.shape(boardShape).isRequired,
 	isSelected: PropTypes.bool
+}
+
+function BoardsList({ className, children }) {
+	return (
+		<div className={className}>
+			{children.map((item) => (
+				<BoardsListItem {...item}/>
+			))}
+		</div>
+	)
+}
+
+BoardsList.propTypes = {
+	className: PropTypes.string,
+	children: PropTypes.arrayOf(PropTypes.shape({
+		key: PropTypes.string.isRequired,
+		board: PropTypes.object,
+		selected: PropTypes.bool,
+		first: PropTypes.bool,
+		category: PropTypes.string
+	})).isRequired
+}
+
+function BoardsListItem({ category, board, selected, first }) {
+	if (!board) {
+		return (
+			<React.Fragment key={category || '—'}>
+				<div className="boards-list-section__pre-title"/>
+				<h2 className={classNames('boards-list-section__title', {
+					'boards-list-section__title--first': first
+				})}>
+					{category}
+				</h2>
+			</React.Fragment>
+		)
+	}
+	return (
+		<Board
+			board={board}
+			isSelected={selected}/>
+	)
+}
+
+BoardsListItem.propTypes = {
+	key: PropTypes.string.isRequired,
+	board: PropTypes.object,
+	category: PropTypes.string,
+	selected: PropTypes.bool,
+	first: PropTypes.bool
 }

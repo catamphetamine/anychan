@@ -174,24 +174,20 @@ A "post author section" is post author name and its surroundings like the "perso
 
 ### Boards
 
-Board selection list. There're two of them: one is on the "Show all boards" (`/boards`) page and the other is in the sidebar. The styling variables for the sidebar one have `--sidebar` in their postfix.
+Sidebar board selection list.
 
-* `--Boards-color--active: orange` — Text color of a "Show all boards" boards list entry when it's clicked.
-* `--Boards-backgroundColor--hover: gray` — Background color of a "Show all boards" boards list entry on mouse over.
-* `--Boards-color--sidebarActive: orange` — Text color of a sidebar boards list entry when it's clicked.
-* `--Boards-backgroundColor--sidebarHover: gray` — Background color of a sidebar boards list entry on mouse over.
-* `--Boards-backgroundColor--sidebarActive: gray` — Background color of a sidebar boards list entry when it's clicked.
-* `--Boards-backgroundColor--sidebarSelected: black` — Background color of a sidebar boards list entry when the boards is selected.
+* `--Boards-color--active: orange` — Text color of a sidebar boards list entry when it's clicked.
+* `--Boards-backgroundColor--hover: gray` — Background color of a sidebar boards list entry on mouse over.
+* `--Boards-backgroundColor--active: gray` — Background color of a sidebar boards list entry when it's clicked.
+* `--Boards-backgroundColor--selected: black` — Background color of a sidebar boards list entry when the boards is selected.
+* `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list in sidebar.
+* `--Boards-color--viewSwitcher: white` — Sidebar boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
 
-### BoardsViewSwitcher
+### BoardsPage
 
-Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
+Board selection list on the `/boards` page .
 
-* `--BoardsViewSwitcher-color--sidebar: white` — Sidebar boards view switcher text color.
-
-### BoardsSlash
-
-In the boards list there're "slash" (`/`) characters on both sides of board URLs.
-
-* `--BoardsSlash-color: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on "Show all boards" page.
-* `--BoardsSlash-color--sidebar: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list in sidebar.
+* `--BoardsPage-color--active: orange` — Text color of a "Show all boards" boards list entry when it's clicked.
+* `--BoardsPage-backgroundColor--hover: gray` — Background color of a "Show all boards" boards list entry on mouse over.
+* `--BoardsPage-backgroundColor--active: gray` — Background color of a "Show all boards" boards list entry on click.
+* `--BoardsPage-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on "Show all boards" page.

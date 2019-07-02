@@ -31,7 +31,7 @@
     "scroll-into-view-if-needed": "^2.2.20",
     "simplebar-react": "^1.0.0",
     "smooth-scroll-into-view-if-needed": "^1.1.23",
-    "virtual-scroller": "^1.0.4"
+    "virtual-scroller": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

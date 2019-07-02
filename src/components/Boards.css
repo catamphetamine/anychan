@@ -1,55 +1,19 @@
 @import "../styles/common";
 
-.boards {
-	.boards__view-switch {
-		color: var(--Clickable-color--dark);
-		&:hover {
-			background-color: var(--Boards-backgroundColor--hover);
-		}
-		&:focus {
-			background-color: var(--Boards-backgroundColor--hover);
-			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-borderColor--focus);
-		}
-		&:active {
-			color: var(--Boards-color--active);
-		}
-	}
-
-	.boards-list__board-url {
-		&:before, &:after {
-    	color: var(--BoardsSlash-color);
-		}
-	}
-
-	.boards-list__board-url--hover,
-	.boards-list__board-name--hover {
-		background-color: var(--Boards-backgroundColor--hover);
-	}
-
-	.boards-list__board-url--active,
-	.boards-list__board-name--active {
-		color: var(--Boards-color--active);
-	}
-
-	.boards__view-switch--disabled {
-		color: currentColor;
-	}
-}
-
 .boards--sidebar {
 	.boards__view-switch {
 		color: currentColor;
 		&:hover {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--sidebarActive);
+			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
 		}
 		&:focus {
 			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--sidebarActive);
+			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
 		}
 		&:active {
 			color: currentColor;
-			background-color: var(--Boards-backgroundColor--sidebarActive);
+			background-color: var(--Boards-backgroundColor--active);
 		}
 	}
 
@@ -63,42 +27,46 @@
 	}
 
 	.boards__show-all {
-		color: var(--Boards-color--sidebarActive);
+		color: var(--Boards-color--active);
 		&:active {
-			background-color: var(--Boards-backgroundColor--sidebarHover);
+			background-color: var(--Boards-backgroundColor--hover);
 		}
 	}
 
 	.boards-list__board-url {
-		color: var(--Boards-color--sidebarActive);
+		color: var(--Boards-color--active);
 		&:before, &:after {
-			color: var(--BoardsSlash-color--sidebar);
+			color: var(--Boards-color--slash);
 		}
 	}
 
 	.boards-list__board-url--hover,
 	.boards-list__board-name--hover {
-		background-color: var(--Boards-backgroundColor--sidebarHover);
+		background-color: var(--Boards-backgroundColor--hover);
 	}
 
 	.boards-list__board-url--selected,
 	.boards-list__board-name--selected {
-		background-color: var(--Boards-backgroundColor--sidebarSelected);
+		background-color: var(--Boards-backgroundColor--selected);
 	}
 
 	.boards-list__board-url--active,
 	.boards-list__board-name--active {
-		background-color: var(--Boards-backgroundColor--sidebarActive);
+		background-color: var(--Boards-backgroundColor--active);
 	}
 
 	.boards-list__board-name--active,
 	/* `:active` is for cases when the link is clicked and dragged. */
 	.boards-list__board-name:active {
-		color: var(--Boards-color--sidebarActive);
+		color: var(--Boards-color--active);
 	}
 
 	.boards__view-switcher {
-		color: var(--BoardsViewSwitcher-color--sidebar);
+		color: var(--Boards-color--viewSwitcher);
+	}
+
+	.boards-list__board-name {
+		padding-right: calc(var(--unit) * 2);
 	}
 }
 
@@ -108,14 +76,19 @@
 	align-content: center;
 }
 
-.boards--all {
-	width: 100%;
-}
-
-.boards-list {
+.boards-list--grid {
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-rows: auto;
+	.boards-list-section__pre-title,
+	.boards-list-section__title,
+	.boards-list__board-url,
+	.boards-list__board-name {
+		grid-column: span 1;
+	}
+}
+
+.boards-list {
 	margin-top: calc(var(--unit) * 2);
 	user-select: none;
 	line-height: 1.7em;
@@ -128,12 +101,7 @@
 	margin-right: var(--unit);
 }
 
-.boards-list-section__pre-title {
-	grid-column: span 1;
-}
-
 .boards-list-section__title {
-	grid-column: span 1;
 	margin-top: 1.5em;
 	margin-bottom: 0.5em;
 	padding-left: var(--unit);
@@ -149,7 +117,6 @@
 
 .boards-list__board-url {
 	display: block;
-	grid-column: span 1;
 	padding-left: var(--unit);
 	text-align: right;
 	font-family: monospace;
@@ -175,8 +142,7 @@
 .boards-list__board-name {
 	display: block;
 	padding-left: var(--unit);
-	padding-right: calc(var(--unit) * 2);
-	grid-column: span 1;
+	padding-right: var(--unit);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

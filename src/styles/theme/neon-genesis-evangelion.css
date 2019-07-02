@@ -45,12 +45,13 @@
 	--Sidebar-backgroundColor: #2d252d;
 	--Sidebar-borderColor: rgba(0,0,0,0.125);
 	/* Boards. */
-	--Boards-backgroundColor--sidebarHover: #393039;
-	--Boards-backgroundColor--sidebarActive: #3f313f;
-	--Boards-backgroundColor--sidebarSelected: #201720;
-	/* BoardsSlash. */
-	--BoardsSlash-color: var(--Content-color--200);
-	--BoardsSlash-color--sidebar: #665566;
+	--Boards-backgroundColor--hover: #393039;
+	--Boards-backgroundColor--active: #3f313f;
+	--Boards-backgroundColor--selected: #201720;
+	--Boards-color--slash: #665566;
+	/* BoardsPage. */
+	--BoardsPage-color--slash: var(--Content-color--200);
+	--BoardsPage-backgroundColor--active: var(--Content-color--100);
 	/* HoverButton. */
 	--HoverButton-borderColor: #d0ecce;
 	--HoverButton-borderColor--active: #d9a26d;
