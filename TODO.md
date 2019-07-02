@@ -2,23 +2,20 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
-Можно сделать sidebar collapsible (оставляя только id досок).
 
-Add readme lynxchan issues.
+Выделить chan-parser в пакет npm, и часть readme в него.
+
+Сделать единый каталог с добавлением чанов в GUI.
+
+Может быть сделать sidebar collapsible (оставляя только id досок).
 
 Не скроллить, если ветка ответов закрыта по кнопке числа ответов (а не по клику на древо).
 
 Add tests for kohlchan.
 
-kohlchan: emoji.
-
-Add Eva theme github example.
-
 Add themes/default.css and --night to all widgets via a night property.
 
 Add FadeInOut on trackedThreads and notifications click.
-
-Add `chanData.threads: { a: { '123': { ... } }}` + tests + updateThreads.
 
 
 
