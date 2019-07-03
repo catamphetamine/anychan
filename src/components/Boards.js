@@ -192,6 +192,7 @@ export class Boards extends React.PureComponent {
 				{showAllBoards && view === 'default' &&
 					<TextInput
 						type="search"
+						autoFocus
 						icon={SearchIcon}
 						placeholder={getMessages(locale).search}
 						value={searchQuery}
