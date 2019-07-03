@@ -10,9 +10,13 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 ### Default theme
 
+#### Light
+
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-1024x548.png" width="512" height="274"/>
+
+#### Dark
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-3605x1929.png)
 
@@ -22,9 +26,13 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 ### Neon Genesis Evangelion
 
+#### Light
+
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-1024x548.png" width="512" height="274"/>
+
+#### Dark
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
 
