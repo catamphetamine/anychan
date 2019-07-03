@@ -5,6 +5,26 @@ This document describes the [CSS Variables](https://developer.mozilla.org/docs/W
 All variables listed here have their default values — see
 [style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in the [style-variables.css](https://github.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) of the parent project.
 
+"Light" mode should be styled via `.light` CSS selector and "Dark" mode should be styled via `.dark` CSS selector. Both can be styled via `:root` CSS selector.
+
+## Colors
+
+There're three main colors in the palette: "black", "white" and "color".
+
+* "Black" is for text, and for "Dark Mode" it's actually "white", so semantically it's called `--Content-color`.
+
+* "White" is for text background, and for "Dark Mode" it's actually "black", so semantically it's called `--Content-backgroundColor`.
+
+* "Color" is about bringing some color, and it's usually a "branding" color: sky blue for Twitter, dark blue for Facebook, red for YouTube, etc. In order to differentiate the "color" from the other colors it's called `--base-color`.
+
+Each color can have variations: from `100` for the "lightest" one to `900` for the "darkest" one. The meaning of "lightest" and "darkest" depends on the context. For example, for `--Content-color` "lightest" means the lightest in "Light Mode" and the darkest in "Dark Mode". And for `--base-color` regardless of "Light Mode" or "Dark Mode" "lightest" means the lightest and "darkest" means the darkest.
+
+See [this article](https://refactoringui.com/previews/building-your-color-palette) for more details on building a color palette.
+
+## Base color
+
+* All variations of `--base-color`: from `--base-color-100` for the lightest one to `--base-color-900` for the darkest one. See [this article](https://refactoringui.com/previews/building-your-color-palette) for more details on building a color palette.
+
 ## Document
 
 * `--Document-color: black` — Text color on a page.
@@ -76,6 +96,11 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Error-color: white` — Error notification color.
 * `--Error-backgroundColor: red` — Error notification background color.
 
+## Selection
+
+* `--Selection-color: white` — Selected text color.
+* `--Selection-backgroundColor: orange` — Selected text background color.
+
 ## Notification
 
 * `--Notification-color: white` — Notification text color.
@@ -107,13 +132,9 @@ Some buttons can be "pushed" meaning that they stay in the "pushed" state until 
 
 "Content" are posts and generic page content.
 
-* `--Content-color: black` — Content text color.
+* All variations of `--Content-color`: from `--Content-color-100` for the "lightest" one to `--Content-color-900` for the "darkest" one. In "Dark Mode" `--Content-color-100` is the "darkest" variation and `--Content-color-900` is for the "lightest" one. See [this article](https://refactoringui.com/previews/building-your-color-palette) for more details on building a color palette.
 * `--Content-backgroundColor: white` — Content background color.
 * `--Content-backgroundColor--active: yellow` — When a thread is clicked in a threads list then it's highlighted with this color.
-* `--Content-color--50` — The lightest variation of `--Content-color`. For black `--Content-color` that would be an extremely light gray color.
-* `--Content-color--100` — A very light variation of `--Content-color`. For black `--Content-color` that would be a very light gray color.
-* `--Content-color--200` — A light variation of `--Content-color`. For black `--Content-color` that would be a light gray color.
-* `--Content-color--300` — A lighter variation of `--Content-color`. For black `--Content-color` that would be gray color.
 
 ## ContentSection
 
@@ -125,7 +146,10 @@ An example of a "Content Section" is a post.
 
 * `--Post-color--secondary: gray` — A color for "secondary" content of a post. "Secondary" content is everything besides the comment text (comment date, buttons color, icons color).
 * `--Post-color--secondaryThread: gray` — While `--Post-color--secondary` is used on board pages (example: `/a/`) `--Post-color--secondaryThread` is used on thread pages (example: `/a/123456`). The rationale is that when scrolling a thread "secondary" content has less informational value than when scrolling a list of threads.
-* `--Post-borderColor: gray` — Bottom border color of posts on a thread page.
+
+## CommentSeparator
+
+* `--CommentSeparator-color: gray` — Comments separator line color.
 
 ### PostBannedIcon
 
@@ -169,9 +193,13 @@ A "post author section" is post author name and its surroundings like the "perso
 ### PostInlineSpoiler
 
 * `--PostInlineSpoiler-color: gray` — Spoiler color.
-* `--PostInlineSpoiler-color--postActive: gray` — When a thread is clicked in a list of threads all spoilers in its opening post will have this color.
+* `--PostInlineSpoiler-color--contentActive: gray` — When a thread is clicked in a list of threads all spoilers in its opening post will have this color.
 * `--PostInlineSpoiler-color--censored: red` — Ignored word spoiler color.
-* `--PostInlineSpoiler-color--censoredPostActive: red` — When a thread is clicked in a list of threads all ignored word spoilers in its opening post will have this color.
+* `--PostInlineSpoiler-color--censoredContentActive: red` — When a thread is clicked in a list of threads all ignored word spoilers in its opening post will have this color.
+
+### PostAttachment
+
+* `--PostAttachment-shadowColor--hover: gray` — The color of `box-shadow` of a post attachment on mouse over.
 
 ### CommentTree
 

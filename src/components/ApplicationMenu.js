@@ -15,7 +15,7 @@ import {
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
-import { applyDarkMode } from '../utility/settings'
+import applyDarkMode from 'webapp-frontend/src/utility/darkMode'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'

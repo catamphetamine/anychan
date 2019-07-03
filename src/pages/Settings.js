@@ -385,7 +385,7 @@ export default class SettingsPage extends React.Component {
 											name="code"
 											label={messages.settings.theme.add.code}
 											component={TextInput}
-											className="form__component"/>
+											className="form__component rrui__input--monospace"/>
 									}
 									<div className="form__actions">
 										<Button

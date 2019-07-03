@@ -1,7 +1,7 @@
 @import "../../../webapp-frontend/src/styles/base.css";
 
 body {
-	color: var(--Content-color);
+	color: var(--Content-color-900);
 	background-color: var(--Content-backgroundColor);
 }
 

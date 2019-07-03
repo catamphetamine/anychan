@@ -1,3 +1,4 @@
+/* Global. */
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
 	/* "Base" color (orange). */
@@ -10,88 +11,115 @@
 	--base-color-700: #c76c00;
 	--base-color-800: #BD7200;
 	--base-color-900: #925800;
+}
+
+/* Light mode. */
+.light {
 	/* Document. */
 	--Document-color: var(--white-color);
 	--Document-backgroundColor: #3a1400;
+
 	/* Header. */
 	--Header-color: var(--white-color);
 	--Header-backgroundColor: #5f238c;
 	--Header-backgroundColor--title: #732771;
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
 	--Header-borderWidth: 0;
+
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: transparent;
+
 	/* NotificationBadge. */
 	--NotificationBadge-backgroundColor: #e88a00;
+
 	/* Notification. */
 	--Notification-backgroundColor: var(--Header-backgroundColor--title);
 	--Notification-borderColor: #5b0063;
 	--Notification-borderWidth: 3px;
-	/* Picture. */
-	--Picture-backgroundColor: var(--Content-color--50);
+
 	/* Menu. */
 	--Menu-color--active: var(--base-color-400);
 	--Menu-color--selected: var(--base-color-400);
+
 	/* Content. */
 	--Content-backgroundColor: #f6ffe9;
-	--Content-backgroundColor--active: hsl(80, 100%, 90%);
-	--Content-color--300: #889476;
-	--Content-color--200: #b6c5a1;
-	--Content-color--100: #dbe7c9;
-	--Content-color--50: #e2ecd5;
+	--Content-backgroundColor--active: hsl(80, 90%, 92%);
+	--Content-color-100: #e2ecd5;
+	--Content-color-200: #dbe7c9;
+	--Content-color-300: #b6c5a1;
+	--Content-color-400: #889476;
+
 	/* Error. */
 	--Error-backgroundColor: #df1e00;
+
 	/* Sidebar. */
 	--Sidebar-backgroundColor: #2d252d;
 	--Sidebar-borderColor: rgba(0,0,0,0.125);
+
 	/* Boards. */
 	--Boards-backgroundColor--hover: #393039;
 	--Boards-backgroundColor--active: #3f313f;
 	--Boards-backgroundColor--selected: #201720;
 	--Boards-color--slash: #665566;
+
 	/* BoardsPage. */
-	--BoardsPage-color--slash: var(--Content-color--200);
-	--BoardsPage-backgroundColor--active: var(--Content-color--100);
+	--BoardsPage-color--slash: var(--Content-color-300);
+	--BoardsPage-backgroundColor--active: var(--Content-color-200);
+
 	/* HoverButton. */
 	--HoverButton-color--active: var(--white-color);
 	--HoverButton-color--pushed: var(--PostQuote-color);
+	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
 	--HoverButton-borderColor: #d0ecce;
 	--HoverButton-borderColor--active: #d9a26d;
 	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
 	--HoverButton-borderColor--pushedFocus: #b6e5b3;
+	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--active);
 	--HoverButton-backgroundColor: #f1ffe4;
 	--HoverButton-backgroundColor--active: var(--base-color-300);
 	--HoverButton-backgroundColor--pushed: var(--PostQuote-backgroundColor);
+
 	/* Post. */
 	--Post-color--secondary: var(--gray-color-700);
 	--Post-color--secondaryThread: var(--gray-color-600);
-	--Post-borderColor: #855f50;
+
 	/* PostQuote. */
 	--PostQuote-backgroundColor: #dfffcb;
 	--PostQuote-backgroundColor--hover: #d3ffb9;
 	--PostQuote-borderColor--hover: transparent;
 	--PostQuote-color: #288700;
+
 	/* PostQuoteMarker. */
 	--PostQuoteMarker-opacity: 0;
+
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #e3ecc7;
-	--PostInlineSpoiler-color--postActive: #d7eaba;
+	--PostInlineSpoiler-color--contentActive: #d7eaba;
 	--PostInlineSpoiler-color--censored: #ffe0ce;
-	--PostInlineSpoiler-color--censoredPostActive: #fad9b1;
+	--PostInlineSpoiler-color--censoredContentActive: #fad9b1;
+
+	/* CommentSeparator. */
+	--CommentSeparator-color: #855f50;
 }
 
 /* Dark Mode. */
-:root.dark {
+.dark {
 	/* Document. */
 	--Document-color: var(--white-color);
 	--Document-backgroundColor: #000008;
+
 	/* Content. */
 	--Content-backgroundColor: #151634;
 	--Content-backgroundColor--active: #181a3f;
-	--Content-color--50: #242643;
-	--Content-color--100: #282947;
-	--Content-color--200: #3a3b71;
-	--Content-color--300: #434485;
+	--Content-color-100: #242643;
+	--Content-color-200: #37385a;
+	--Content-color-300: #5c5d93;
+	--Content-color-400: #7273ad;
+	--Content-color-500: #8384bc;
+	--Content-color-600: #9495c8;
+	--Content-color-700: #a6a7d7;
+	--Content-color-800: #c5c6e8;
+
 	/* Header. */
 	--Header-color: var(--white-color);
 	--Header-backgroundColor: #251946;
@@ -99,18 +127,24 @@
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
 	--Header-borderWidth: 1px;
 	--Header-borderColor: rgba(255,255,255,0.13);
+
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: var(--Header-borderColor);
+
 	/* Sidebar. */
 	--Sidebar-backgroundColor: #020b26;
 	--Sidebar-borderColor: rgba(0,0,0,0.125);
 	--Sidebar-color--scrollbar: #626877;
+
 	/* Boards. */
 	--Boards-backgroundColor--hover: #182039;
 	--Boards-backgroundColor--active: #1f273e;
 	--Boards-backgroundColor--selected: #111934;
-	/* Boards. */
+	--Boards-color--slash: #47486d;
+
+	/* BoardsPage. */
 	--BoardsPage-color--slash: #665566;
+
 	/* HoverButton. */
 	--HoverButton-backgroundColor: #212350;
 	--HoverButton-backgroundColor--active: #4a387f;
@@ -120,19 +154,29 @@
 	--HoverButton-borderColor--active: #46972c;
 	--HoverButton-borderColor--pushed: #4a387f;
 	--HoverButton-borderColor--pushedFocus: #46972c;
-	/* Post. */
-	--Post-borderColor: var(--Document-backgroundColor);
-	--Post-borderWidth: 3px;
+
+	/* Picture. */
+	--Picture-borderColor--focus: #392b21;
+
 	/* PostQuote. */
 	--PostQuote-backgroundColor: transparent;
 	--PostQuote-backgroundColor--hover: #191b3d;
 	--PostQuote-borderColor--hover: rgba(255,255,255,0.07);
 	--PostQuote-color: #75cc59;
+
 	/* PostQuoteMarker. */
 	--PostQuoteMarker-opacity: 0.7;
+
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #323459;
-	--PostInlineSpoiler-color--postActive: #393c66;
-	--PostInlineSpoiler-color--censored: #362548;
-	--PostInlineSpoiler-color--censoredPostActive: #3e2b51;
+	--PostInlineSpoiler-color--contentActive: #393c66;
+	--PostInlineSpoiler-color--censored: #3d2f4c;
+	--PostInlineSpoiler-color--censoredContentActive: #403150;
+
+	/* PostAttachment. */
+	--PostAttachment-shadowColor--hover: rgba(70,70,100,0.22);
+
+	/* CommentSeparator. */
+	--CommentSeparator-color: var(--Document-backgroundColor);
+	--CommentSeparator-width: 3px;
 }

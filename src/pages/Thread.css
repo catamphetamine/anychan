@@ -10,7 +10,7 @@
 		margin-top: 0;
 	}
 	.thread__comment {
-		border-bottom: var(--Post-borderWidth) solid var(--Post-borderColor);
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 		border-radius: 0;
 		box-shadow: none;
 	}

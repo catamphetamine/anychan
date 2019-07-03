@@ -183,6 +183,5 @@
 
 .boards__nothing-found {
 	margin-top: calc(var(--unit) * 2);
-	color: var(--Content-color);
 	text-align: center;
 }

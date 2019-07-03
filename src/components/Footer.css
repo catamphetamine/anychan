@@ -56,7 +56,6 @@ body {
 .footer__copyright {
 	margin-top: 1em;
 	margin-bottom: 1em;
-	/*color: var(--gray-color-600);*/
 	opacity: 0.75;
 	text-align: center;
 	font-weight: 300;

@@ -4,6 +4,7 @@ import settings from './react-website'
 import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
+import darkMode from 'webapp-frontend/src/utility/darkMode'
 
 export default async function() {
 	let isFirstRender = true

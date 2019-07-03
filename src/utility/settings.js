@@ -1,5 +1,6 @@
 import { getPreferredLocale } from 'react-website'
 import loadStylesheet from 'webapp-frontend/src/utility/loadStylesheet'
+import applyDarkMode from 'webapp-frontend/src/utility/darkMode'
 
 import IGNORED_WORDS_RU from '../messages/offensive.ru.json'
 import IGNORED_WORDS_EN from '../messages/offensive.en.json'
@@ -44,14 +45,6 @@ function getDefaultLanguage() {
 		return getChan().langauge
 	}
 	return 'en'
-}
-
-export function applyDarkMode(value) {
-	if (value) {
-		document.documentElement.classList.add('dark')
-	} else {
-		document.documentElement.classList.remove('dark')
-	}
 }
 
 /**

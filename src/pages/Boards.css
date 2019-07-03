@@ -38,6 +38,6 @@
 	}
 
 	.boards-list__board-name {
-		color: var(--Content-color);
+		color: var(--Content-color-900);
 	}
 }

@@ -17,9 +17,7 @@ export default class Sidebar extends React.Component {
 		const { isShown } = this.props
 		return (
 			<section className={classNames('sidebar', {
-				'sidebar--show': isShown,
-				'sidebar--dark': true,
-				'sidebar--light': false
+				'sidebar--show': isShown
 			})}>
 				<SimpleBar className="sidebar__scrollable-list">
 					<Boards sidebar/>

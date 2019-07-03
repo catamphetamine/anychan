@@ -5,13 +5,6 @@
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 	border-right: 1px solid var(--Sidebar-borderColor);
-}
-
-.sidebar--light {
-	background-color: var(--white-color);
-}
-
-.sidebar--dark {
 	background-color: var(--Sidebar-backgroundColor);
 	color: var(--Sidebar-color);
 }
@@ -37,24 +30,13 @@
 	}
 	/* Track */
 	&::-webkit-scrollbar-track {
-		background-color: transparent; /* var(--gray-color-100); */
+		background-color: transparent;
 	}
 }
 
 /* Styling scrollbar is not supported in Firefox, etc. */
-.sidebar--light {
-	/* Handle */
-	&::-webkit-scrollbar-thumb {
-		background-color: var(--gray-color-300);
-	}
-	/* Handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background-color: var(--gray-color-500);
-	}
-}
-
-/* Styling scrollbar is not supported in Firefox, etc. */
-.sidebar--dark {
+/* Scrollbar colors for a dark sidebar. */
+.sidebar {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
 		background-color: var(--gray-color-600);
@@ -66,7 +48,8 @@
 }
 
 /* `simplebar` style (works in all browsers). */
-.sidebar--dark {
+/* Colors for a dark sidebar. */
+.sidebar {
 	.simplebar-scrollbar:before {
 		background-color: var(--Sidebar-color--scrollbar)
 	}
