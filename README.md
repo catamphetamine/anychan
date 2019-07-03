@@ -31,18 +31,6 @@ This project currently has only a subset of features. "To do":
 
 ## Screenshots
 
-#### Browsing
-
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-3639x1959.png)
-
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-1024x551.png" width="512" height="276"/>
-
-#### Media
-
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
-
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
-
 #### Themes
 
 The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Regular" mode and "Dark" mode.
@@ -66,6 +54,12 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x555.png" width="512" height="274"/>
+
+#### Media
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
 
 ## Chan API
 
