@@ -88,8 +88,9 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 ## Picture
 
 * `--Picture-backgroundColor: gray` — Background color of a picture while it's being loaded.
-* `--Picture-borderColor: gray` — Picture border color.
 * `--Picture-borderWidth: 1px` — Picture border width.
+* `--Picture-borderColor: gray` — Picture border color.
+* `--Picture-borderColor--focus: gray` — Picture border color when focused.
 
 ## Error
 
