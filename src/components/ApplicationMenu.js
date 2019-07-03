@@ -8,13 +8,14 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import {
 	toggleSidebar,
-	toggleNightMode,
+	toggleDarkMode,
 	toggleTrackedThreads,
 	toggleNotifications
 } from '../redux/app'
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
+import { applyDarkMode } from '../utility/settings'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
@@ -36,12 +37,12 @@ import './ApplicationMenu.css'
 @connect(({ app }) => ({
 	locale: app.settings.locale,
 	isSidebarShown: app.isSidebarShown,
-	isNightMode: app.isNightMode,
+	darkMode: app.settings.darkMode,
 	areTrackedThreadsShown: app.areTrackedThreadsShown,
 	areNotificationsShown: app.areNotificationsShown
 }), {
 	toggleSidebar,
-	toggleNightMode,
+	toggleDarkMode,
 	toggleTrackedThreads,
 	toggleNotifications,
 	notify
@@ -51,11 +52,11 @@ export default class ApplicationMenu extends React.Component {
 		footer: PropTypes.bool,
 		locale: PropTypes.string.isRequired,
 		isSidebarShown: PropTypes.bool,
-		isNightMode: PropTypes.bool,
+		darkMode: PropTypes.bool,
 		areTrackedThreadsShown: PropTypes.bool,
 		areNotificationsShown: PropTypes.bool,
 		toggleSidebar: PropTypes.func.isRequired,
-		toggleNightMode: PropTypes.func.isRequired,
+		toggleDarkMode: PropTypes.func.isRequired,
 		toggleTrackedThreads: PropTypes.func.isRequired,
 		toggleNotifications: PropTypes.func.isRequired
 	}
@@ -65,11 +66,11 @@ export default class ApplicationMenu extends React.Component {
 			footer,
 			locale,
 			isSidebarShown,
-			isNightMode,
+			darkMode,
 			areTrackedThreadsShown,
 			areNotificationsShown,
 			toggleSidebar,
-			toggleNightMode,
+			toggleDarkMode,
 			toggleTrackedThreads,
 			toggleNotifications,
 			notify
@@ -78,8 +79,11 @@ export default class ApplicationMenu extends React.Component {
 		let menuItems = [
 			{
 				title: messages.nightMode.title,
-				action: () => notify('Not implemented yet'), // toggleNightMode,
-				isActive: isNightMode,
+				action: () => {
+					toggleDarkMode()
+					applyDarkMode(!darkMode)
+				},
+				isActive: darkMode,
 				outlineIcon: MoonIconOutline,
 				fillIcon: MoonIconFill
 			},

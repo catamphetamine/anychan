@@ -6,72 +6,62 @@ import UserSettings from '../utility/UserSettings'
 const redux = new ReduxModule()
 
 export const getSettings = redux.simpleAction(
-	(state) => ({
-		...state,
-		settings: _getSettings()
-	})
+	() => _getSettings(),
+	'settings'
 )
 
 export const resetSettings = redux.simpleAction(
-	(state) => {
+	() => {
 		UserSettings.reset()
-		return {
-			...state,
-			settings: _getSettings()
-		}
-	}
+		return _getSettings()
+	},
+	'settings'
 )
 
 export const replaceSettings = redux.simpleAction(
-	(state, settings) => {
+	(settings) => {
 		UserSettings.set(settings)
-		return {
-			...state,
-			settings: _getSettings()
-		}
-	}
-)
-
-export const saveLocale = redux.action(
-	(locale) => async () => saveSetting('locale', locale),
+		return _getSettings()
+	},
 	'settings'
 )
 
-export const saveTheme = redux.action(
-	(theme) => async () => saveSetting('theme', theme),
+export const saveLocale = redux.simpleAction(
+	(locale) => saveSetting('locale', locale),
 	'settings'
 )
 
-export const saveFontSize = redux.action(
-	(fontSize) => async () => saveSetting('fontSize', fontSize),
+export const saveTheme = redux.simpleAction(
+	(theme) => saveSetting('theme', theme),
+	'settings'
+)
+
+export const saveFontSize = redux.simpleAction(
+	(fontSize) => saveSetting('fontSize', fontSize),
 	'settings'
 )
 
 export const showSidebar = redux.simpleAction(
-	(state, params) => ({
-		...state,
-		isSidebarShown: true
-	})
+	() => true,
+	'isSidebarShown'
 )
 
 export const hideSidebar = redux.simpleAction(
-	(state, params) => ({
-		...state,
-		isSidebarShown: false
-	})
+	() => false,
+	'isSidebarShown'
 )
 
 export const toggleSidebar = redux.simpleAction(
-	(state, params) => ({
+	(state) => ({
 		...state,
 		isSidebarShown: !state.isSidebarShown
 	})
 )
 
-export const toggleNightMode = redux.simpleAction(
-	(state, params) => ({
+export const toggleDarkMode = redux.simpleAction(
+	(state) => ({
 		...state,
-		isNightMode: !state.isNightMode
+		settings: saveSetting('darkMode', !state.settings.darkMode)
 	})
 )
 

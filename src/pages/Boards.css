@@ -1,6 +1,6 @@
 .boards-page {
 	.boards__view-switch {
-		color: var(--Clickable-color--dark);
+		color: var(--Clickable-color--text);
 		&:hover {
 			background-color: var(--BoardsPage-backgroundColor--hover);
 		}

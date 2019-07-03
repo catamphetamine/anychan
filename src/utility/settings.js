@@ -28,6 +28,7 @@ function getDefaultSettings() {
 export function applySettings() {
 	const settings = getSettings()
 	applyTheme(settings.theme)
+	applyDarkMode(settings.darkMode)
 	if (settings.fontSize) {
 		applyFontSize(settings.fontSize)
 	}
@@ -43,6 +44,14 @@ function getDefaultLanguage() {
 		return getChan().langauge
 	}
 	return 'en'
+}
+
+export function applyDarkMode(value) {
+	if (value) {
+		document.documentElement.classList.add('dark')
+	} else {
+		document.documentElement.classList.remove('dark')
+	}
 }
 
 /**

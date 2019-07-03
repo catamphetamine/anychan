@@ -17,7 +17,7 @@
 	--Document-fontFamily--text: sans-serif;
 	/* Header. */
 	--Header-color: var(--gray-color-800);
-	--Header-backgroundColor: var(--white-color);
+	--Header-backgroundColor: var(--Content-backgroundColor);
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor);
 	--Header-borderColor: rgba(0,0,0,0.11);
@@ -36,6 +36,7 @@
 	--Sidebar-color: var(--gray-color-100);
 	--Sidebar-backgroundColor: var(--gray-color-800);
 	--Sidebar-borderColor: transparent;
+	--Sidebar-color--scrollbar: var(--gray-color-300);
 	/* Boards. */
 	--Boards-backgroundColor--hover: var(--gray-color-750);
 	--Boards-backgroundColor--active: var(--gray-color-700);
@@ -46,7 +47,7 @@
 	/* BoardsPage. */
 	--BoardsPage-backgroundColor--hover: var(--Content-color--50);
 	--BoardsPage-backgroundColor--active: var(--base-color-100);
-	--BoardsPage-color--active: var(--Clickable-color--dark);
+	--BoardsPage-color--active: var(--Clickable-color--text);
 	--BoardsPage-color--slash: var(--gray-color-200);
 	/* Content. */
 	--Content-color: var(--black-color);
@@ -55,6 +56,7 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--gray-color-400);
 	--Post-borderColor: rgba(0,0,0,0.15);
+	--Post-borderWidth: 1px;
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #F0EFEB;
 	--PostInlineSpoiler-color--postActive: hsl(36, 30%, 92%);
@@ -79,4 +81,37 @@
 	--CommentTree-color--branch: #BCB9B3;
 	--CommentTree-color--hover: var(--base-color-600);
 	--CommentTree-backgroundColor--hover: rgba(0,0,0,0.044);
+}
+
+/* Dark Mode. */
+:root.dark {
+	/* Header. */
+	--Header-color: #d4d4d4;
+	--Header-borderColor: #3f3f3f;
+	/* HeaderSeparator. */
+	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
+	/* Sidebar. */
+	--Sidebar-backgroundColor: var(--Content-color--50);
+	/* Boards. */
+	--Boards-backgroundColor--hover: var(--Content-color--100);
+	--Boards-backgroundColor--active: var(--Content-color--200);
+	--Boards-backgroundColor--selected: #3b3b3b;
+	--Boards-color--viewSwitcher: var(--Header-color);
+	/* Content. */
+	--Content-backgroundColor--active: #282828;
+	/* Post. */
+	--Post-borderColor: rgba(255,255,255,0.12);
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-color: #434343;
+	--PostInlineSpoiler-color--postActive: #474747;
+	--PostInlineSpoiler-color--censored: #6d5050;
+	--PostInlineSpoiler-color--censoredPostActive: #755858;
+	/* PostQuote. */
+	--PostQuote-backgroundColor--hover: #2c2c2c;
+	--PostQuote-borderColor--hover: #373737;
+	/* CommentTree. */
+	--CommentTree-color: var(--Content-color--200);
+	--CommentTree-color--branch: var(--Content-color--300);
+	/* Picture. */
+	--Picture-borderColor--focus: var(--Content-color--200);
 }

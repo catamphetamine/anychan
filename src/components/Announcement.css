@@ -20,7 +20,7 @@
 	width: calc(var(--unit) * 1);
 	height: calc(var(--unit) * 1);
 	&:focus {
-		color: var(--Clickable-color--dark);
+		color: var(--Clickable-color--text);
 	}
 	&:active {
 		color: var(--Clickable-color);

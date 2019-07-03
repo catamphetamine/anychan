@@ -13,7 +13,6 @@ Don't mind the seemingly slower speed of the demos: the only reason for that is 
 
 This project currently has only a subset of features. "To do":
 
-  * Add night mode.
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.

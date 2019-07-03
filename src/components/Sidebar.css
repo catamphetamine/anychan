@@ -68,7 +68,7 @@
 /* `simplebar` style (works in all browsers). */
 .sidebar--dark {
 	.simplebar-scrollbar:before {
-		background-color: var(--gray-color-300)
+		background-color: var(--Sidebar-color--scrollbar)
 	}
 }
 

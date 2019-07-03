@@ -1,3 +1,9 @@
+:root,
+:root.dark {
+	/* Boards. */
+	--Boards-color--slash: #665566;
+}
+
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
 	/* "Base" color (orange). */
@@ -48,17 +54,17 @@
 	--Boards-backgroundColor--hover: #393039;
 	--Boards-backgroundColor--active: #3f313f;
 	--Boards-backgroundColor--selected: #201720;
-	--Boards-color--slash: #665566;
 	/* BoardsPage. */
 	--BoardsPage-color--slash: var(--Content-color--200);
 	--BoardsPage-backgroundColor--active: var(--Content-color--100);
 	/* HoverButton. */
-	--HoverButton-borderColor: #d0ecce;
-	--HoverButton-borderColor--active: #d9a26d;
-	--HoverButton-borderColor--pushed: #b6e5b3;
-	--HoverButton-backgroundColor: #f1ffe4;
 	--HoverButton-color--active: var(--white-color);
 	--HoverButton-color--pushed: var(--PostQuote-color);
+	--HoverButton-borderColor: #d0ecce;
+	--HoverButton-borderColor--active: #d9a26d;
+	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
+	--HoverButton-borderColor--pushedFocus: #b6e5b3;
+	--HoverButton-backgroundColor: #f1ffe4;
 	--HoverButton-backgroundColor--active: var(--base-color-300);
 	--HoverButton-backgroundColor--pushed: var(--PostQuote-backgroundColor);
 	/* Post. */
@@ -71,11 +77,65 @@
 	--PostQuote-borderColor--hover: transparent;
 	--PostQuote-color: #288700;
 	/* PostQuoteMarker. */
-	--PostQuoteMarker-padding: 0px;
 	--PostQuoteMarker-opacity: 0;
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #e3ecc7;
 	--PostInlineSpoiler-color--postActive: #d7eaba;
 	--PostInlineSpoiler-color--censored: #ffe0ce;
 	--PostInlineSpoiler-color--censoredPostActive: #fad9b1;
+}
+
+/* Dark Mode. */
+:root.dark {
+	/* Document. */
+	--Document-color: var(--white-color);
+	--Document-backgroundColor: #000008;
+	/* Content. */
+	--Content-backgroundColor: #151634;
+	--Content-backgroundColor--active: #181a3f;
+	--Content-color--50: #242643;
+	--Content-color--100: #282947;
+	--Content-color--200: #3a3b71;
+	--Content-color--300: #434485;
+	/* Header. */
+	--Header-color: var(--white-color);
+	--Header-backgroundColor: #251946;
+	--Header-backgroundColor--title: #350054;
+	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
+	--Header-borderWidth: 1px;
+	--Header-borderColor: rgba(255,255,255,0.13);
+	/* HeaderSeparator. */
+	--HeaderSeparator-color--left: var(--Header-borderColor);
+	/* Sidebar. */
+	--Sidebar-backgroundColor: #020b26;
+	--Sidebar-borderColor: rgba(0,0,0,0.125);
+	--Sidebar-color--scrollbar: #626877;
+	/* Boards. */
+	--Boards-backgroundColor--hover: #182039;
+	--Boards-backgroundColor--active: #1f273e;
+	--Boards-backgroundColor--selected: #111934;
+	/* HoverButton. */
+	--HoverButton-backgroundColor: #212350;
+	--HoverButton-backgroundColor--active: #4a387f;
+	--HoverButton-backgroundColor--pushed: #4a387f;
+	--HoverButton-borderColor: #34365f;
+	--HoverButton-borderColor--hover: #46972c;
+	--HoverButton-borderColor--active: #46972c;
+	--HoverButton-borderColor--pushed: #4a387f;
+	--HoverButton-borderColor--pushedFocus: #46972c;
+	/* Post. */
+	--Post-borderColor: var(--Document-backgroundColor);
+	--Post-borderWidth: 3px;
+	/* PostQuote. */
+	--PostQuote-backgroundColor: transparent;
+	--PostQuote-backgroundColor--hover: #191b3d;
+	--PostQuote-borderColor--hover: rgba(255,255,255,0.07);
+	--PostQuote-color: #75cc59;
+	/* PostQuoteMarker. */
+	--PostQuoteMarker-opacity: 0.7;
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-color: #323459;
+	--PostInlineSpoiler-color--postActive: #393c66;
+	--PostInlineSpoiler-color--censored: #362548;
+	--PostInlineSpoiler-color--censoredPostActive: #3e2b51;
 }

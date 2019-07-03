@@ -49,6 +49,6 @@
 	display: none;
 	text-align: center;
 	button {
-		color: var(--Clickable-color--dark);
+		color: var(--Clickable-color--text);
 	}
 }

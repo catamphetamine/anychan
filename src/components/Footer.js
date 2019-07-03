@@ -12,6 +12,8 @@ import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
+import CaptchanLogo from '../../assets/images/icon.svg'
+
 import './Footer.css'
 
 @connect(({ app, found }) => ({
@@ -70,6 +72,7 @@ export default class Footer extends React.Component {
 							<a
 								target="_blank"
 								href="https://github.com/catamphetamine/captchan">
+								<CaptchanLogo className="footer__copyright-captchan-logo"/>
 								captchan
 							</a>
 							{getMessages(locale).copyright.postCaptchan}

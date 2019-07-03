@@ -3,7 +3,7 @@
 This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://github.com/catamphetamine/captchan/issues) to discuss that.
 
 All variables listed here have their default values — see
-[style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css).
+[style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in the [style-variables.css](https://github.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) of the parent project.
 
 ## Document
 
@@ -54,12 +54,14 @@ Sometimes chan administration needs to announce something to the users. Things l
 * `--Sidebar-color: white` — Sidebar text color.
 * `--Sidebar-backgroundColor: black` — Sidebar background color.
 * `--Sidebar-borderColor: transparent` — Sidebar right border color.
+* `--Sidebar-color--scrollbar: white` — Sidebar scrollbar color.
 
 ## Clickable
 
 A clickable is a link or a button. Links and textual buttons are darker than buttons with background for eligibility reasons.
 
-* `--Clickable-color--dark: brown` — Link color.
+* `--Clickable-color--text: brown` — Link color.
+* `--Clickable-color--textActive: orange` — Link color on click.
 * `--Clickable-color: orange` — Link color when clicked. Button background color.
 * `--Clickable-color--light: red` — Button background color when clicked.
 
@@ -112,6 +114,12 @@ Some buttons can be "pushed" meaning that they stay in the "pushed" state until 
 * `--Content-color--100` — A very light variation of `--Content-color`. For black `--Content-color` that would be a very light gray color.
 * `--Content-color--200` — A light variation of `--Content-color`. For black `--Content-color` that would be a light gray color.
 * `--Content-color--300` — A lighter variation of `--Content-color`. For black `--Content-color` that would be gray color.
+
+## ContentSection
+
+An example of a "Content Section" is a post.
+
+* `--ContentSection-shadowColor: gray` — The color of `box-shadow` of a content section.
 
 ## Post
 
