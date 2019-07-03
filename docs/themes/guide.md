@@ -4,6 +4,8 @@ The application comes pre-packaged with a couple of built-in themes. Users can a
 
 Themes should mostly use the available [CSS Variables](https://github.com/catamphetamine/captchan/blob/master/docs/themes/variables.md). If a customization can't be achieved using the available CSS Variables consider contacting the repo author through [issues](https://github.com/catamphetamine/captchan/issues) for a discussion of adding new CSS Variables, or just use CSS selectors directly instead.
 
+Each theme should provide both "Regular" mode (`:root`) and "Dark" mode (`:root.dark`).
+
 See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master/src/styles/theme) as an example.
 
 ### Default theme

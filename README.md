@@ -45,7 +45,7 @@ This project currently has only a subset of features. "To do":
 
 #### Themes
 
-The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes.
+The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Regular" mode and "Dark" mode.
 
 ##### Default theme
 

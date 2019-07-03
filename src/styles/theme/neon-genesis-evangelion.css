@@ -1,9 +1,3 @@
-:root,
-:root.dark {
-	/* Boards. */
-	--Boards-color--slash: #665566;
-}
-
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
 	/* "Base" color (orange). */
@@ -54,6 +48,7 @@
 	--Boards-backgroundColor--hover: #393039;
 	--Boards-backgroundColor--active: #3f313f;
 	--Boards-backgroundColor--selected: #201720;
+	--Boards-color--slash: #665566;
 	/* BoardsPage. */
 	--BoardsPage-color--slash: var(--Content-color--200);
 	--BoardsPage-backgroundColor--active: var(--Content-color--100);
@@ -114,6 +109,8 @@
 	--Boards-backgroundColor--hover: #182039;
 	--Boards-backgroundColor--active: #1f273e;
 	--Boards-backgroundColor--selected: #111934;
+	/* Boards. */
+	--BoardsPage-color--slash: #665566;
 	/* HoverButton. */
 	--HoverButton-backgroundColor: #212350;
 	--HoverButton-backgroundColor--active: #4a387f;
