@@ -10,16 +10,24 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 ### Default theme
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-1024x555.png" width="512" height="274"/>
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-3605x1929.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-1024x555.png" width="512" height="274"/>
 
 [style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css)
 
 ### Neon Genesis Evangelion
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-1024x555.png" width="512" height="274"/>
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x555.png" width="512" height="274"/>
 
 [neon-genesis-evangelion.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/theme/neon-genesis-evangelion.css)

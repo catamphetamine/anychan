@@ -49,15 +49,23 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 ##### Default theme
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-1024x555.png" width="512" height="274"/>
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-3605x1929.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-1024x555.png" width="512" height="274"/>
 
 ##### Neon Genesis Evangelion
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-3605x1955.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-screenshot-1024x555.png" width="512" height="278"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-1024x555.png" width="512" height="274"/>
+
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
+
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x555.png" width="512" height="274"/>
 
 ## Chan API
 
