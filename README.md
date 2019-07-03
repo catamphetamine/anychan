@@ -379,7 +379,7 @@ Sometimes chan administration needs to announce something to the users. Things l
 	// date: "2019-07-02"
 	// or a date with time:
 	date: "2019-07-02T14:37",
-	// Announcement content (an array of strings or objects).
+	// Announcement content (either a string or an array of strings and objects).
 	content: [
 		"4chan is now owned and led by ",
 		{

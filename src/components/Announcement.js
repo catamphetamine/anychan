@@ -35,8 +35,11 @@ Announcement.propTypes = {
 
 export const announcementPropType = PropTypes.shape({
 	date: PropTypes.string.isRequired,
-	content: PropTypes.arrayOf(PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.object
-	]))
+	content: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object
+		])),
+		PropTypes.string
+	]).isRequired
 })

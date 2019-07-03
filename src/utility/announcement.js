@@ -39,6 +39,7 @@ export async function fetchAnnouncement(url, showAnnouncement) {
 		// 		"."
 		// 	]
 		// }
+		validateAnnouncement(json)
 		const announcementReadDate = getCookie(COOKIE_NAME)
 		if (!announcementReadDate || announcementReadDate !== json.date) {
 			showAnnouncement(json)
@@ -50,4 +51,18 @@ export async function fetchAnnouncement(url, showAnnouncement) {
 
 export function hideAnnouncement(json) {
 	setCookie(COOKIE_NAME, json.date)
+}
+
+function validateAnnouncement(json) {
+	if (typeof json.date !== 'string') {
+		throw new Error(`Announcement "date" must be a string`)
+	}
+	// Check that the `date` is in ISO format.
+	// Otherwise `new Date()` returns "Invalid Date".
+	if (isNaN(new Date(json.date).getTime())) {
+		throw new Error(`Announcement "date" must be in ISO format. Examples: "2019-07-02", "2019-07-02T14:37".`)
+	}
+	if (typeof json.content !== 'string' && !Array.isArray(json.content)) {
+		throw new Error(`Announcement "content" must be either a string or an array of strings and objects`)
+	}
 }
