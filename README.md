@@ -29,13 +29,11 @@ This project currently has only a subset of features. "To do":
 	* Format MathML equations on `4chan.org/sci`. Block-level equations: [eqn]f(x_4) = a+2*b[/eqn]. Inline equations: [math]f(x)=\\frac{x^3-x}{(x^2+1)^2}[/math].
 -->
 
-## Screenshots
-
-#### Themes
+## Themes
 
 The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Regular" mode and "Dark" mode.
 
-##### Default theme
+### Default theme
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
 
@@ -45,7 +43,7 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-1024x548.png" width="512" height="274"/>
 
-##### Neon Genesis Evangelion
+### Neon Genesis Evangelion
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
 
@@ -55,7 +53,9 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x548.png" width="512" height="274"/>
 
-#### Media
+## Screenshots
+
+### Media
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
 
