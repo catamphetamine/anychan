@@ -93,7 +93,7 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 There're some limitations for chans running on `lynxchan` engine (for example, `kohlchan.net`) due to the [lack of support for several features](https://github.com/catamphetamine/captchan/blob/master/docs/lynxchan.md) in that engine.
 
-There're some limitations for `8ch.net` caused by its `OpenIB` engine due to the [lack of support for several features](https://github.com/catamphetamine/captchan/blob/master/docs/OpenIB.md) in that engine.
+There're some very minor limitations for `8ch.net` caused by its `OpenIB` engine due to the [lack of support for several very minor features](https://github.com/catamphetamine/captchan/blob/master/docs/OpenIB.md) in that engine.
 
 There're [some very minor bugs](https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md) for `2ch.hk` caused by its `makaba` engine.
 
