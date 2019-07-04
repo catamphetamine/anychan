@@ -65,10 +65,10 @@ export default function parseComment(post, {
 		parseAuthor(post.name, { defaultAuthorName, boardId }),
 		parsedAuthorRole && (chan === 'kohlchan' ? parsedAuthorRole.role : parsedAuthorRole),
 		post.banMessage, // '(USER WAS BANNED FOR THIS POST)'
-		// `post.sub` is absent when there's no comment subject.
-		// On `4chan.org` and `8ch.net` thread subject sometimes contains
+		// `post.subject` is `null` when there's no comment subject.
+		// `lynxchan` thread subject sometimes contains
 		// escaped characters like "&quot;", "&lt;", "&gt;".
-		post.subject,
+		post.subject && unescapeContent(post.subject),
 		files.length === 0 ? undefined : files.map(file => parseAttachment(file, {
 			chan,
 			boardId,
@@ -139,7 +139,8 @@ function parseAuthorRole(role, chan) {
 }
 
 // "/.static/flags/onion.png" ->  "onion".
-const FLAG_ID_REGEXP = /^\/\.static\/flags\/([^/]+)\.png$/
+// "/.static/flags/vsa/ca.png" -> "vsa/ca". (California)
+const FLAG_ID_REGEXP = /^\/\.static\/flags\/(.+)\.png$/
 function parseKohlchanFlagId(flag) {
 	const match = flag.match(FLAG_ID_REGEXP)
 	if (match) {

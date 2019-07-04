@@ -110,7 +110,7 @@ describe('parseComment', () => {
 		)
 	})
 
-	it('should kohlchan.net custom flags', () => {
+	it('should parse kohlchan.net custom flags', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
@@ -139,7 +139,36 @@ describe('parseComment', () => {
 		)
 	})
 
-	it('should kohlchan.net country flags', () => {
+	it('should parse kohlchan.net custom flags ("/vsa" subdirectory)', () => {
+		const date = new Date()
+		parseCommentTest(
+			{
+				postId: 456,
+				creation: date.toISOString(),
+				markdown: 'Text',
+				flag: "/.static/flags/vsa/ca.png",
+				flagCode: null,
+				flagName: "California"
+			},
+			{
+				boardId: 'b',
+				threadId: 123
+			},
+			{
+				id: 456,
+				createdAt: date,
+				authorIconId: 'vsa/ca',
+				authorIconName: 'California',
+				content: [
+					[
+						'Text'
+					]
+				]
+			}
+		)
+	})
+
+	it('should parse kohlchan.net country flags', () => {
 		const date = new Date()
 		parseCommentTest(
 			{

@@ -109,7 +109,15 @@ function getCommentsCount(thread) {
 	// `lynxchan` doesn't provide neither `postCount`
 	// nor `fileCount` in "get thread" API response.
 	if (thread.postCount === undefined) {
-		return thread.posts.reduce((total, post) => total + post.files.length, 0)
+		// A workaround for `lynxchan` bug:
+		// `lynxchan` doesn't return `postCount`
+		// if there're no attachments in replies
+		// in `/catalog.json` API response
+		// which doesn't have `posts[]` property.
+		if (thread.posts) {
+			return thread.posts.length
+		}
+		return 0
 	}
 	return thread.postCount
 }
@@ -118,7 +126,15 @@ function getCommentAttachmentsCount(thread) {
 	// `lynxchan` doesn't provide neither `postCount`
 	// nor `fileCount` in "get thread" API response.
 	if (thread.fileCount === undefined) {
-		return thread.posts.length
+		// A workaround for `lynxchan` bug:
+		// `lynxchan` doesn't return `fileCount`
+		// if there're no attachments in replies
+		// in `/catalog.json` API response
+		// which doesn't have `posts[]` property.
+		if (thread.posts) {
+			return thread.posts.reduce((total, post) => total + post.files.length, 0)
+		}
+		return 0
 	}
 	return thread.fileCount
 }
