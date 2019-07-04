@@ -175,8 +175,4 @@
 
 	/* PostAttachment. */
 	--PostAttachment-shadowColor--hover: rgba(70,70,100,0.22);
-
-	/* CommentSeparator. */
-	--CommentSeparator-color: var(--Document-backgroundColor);
-	--CommentSeparator-width: 3px;
 }

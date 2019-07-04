@@ -109,13 +109,13 @@
 
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-800);
-	--Sidebar-backgroundColor: var(--Content-color-100);
-	--Sidebar-color--scrollbar: var(--Content-color-400);
+	--Sidebar-backgroundColor: #202020;
+	--Sidebar-color--scrollbar: var(--Content-color-300);
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: var(--Content-color-200);
-	--Boards-backgroundColor--active: var(--Content-color-300);
-	--Boards-backgroundColor--selected: #3b3b3b;
+	--Boards-backgroundColor--hover: #343434;
+	--Boards-backgroundColor--active: #3f3f3f;
+	--Boards-backgroundColor--selected: #2c2c2c;
 	--Boards-color--active: var(--base-color-300);
 	--Boards-color--slash: var(--Content-color-400);
 	--Boards-color--viewSwitcher: var(--Header-color);
@@ -131,11 +131,12 @@
 	--Post-color--secondaryThread: var(--Content-color-500);
 
 	/* PostQuote. */
-	--PostQuote-backgroundColor--hover: #2c2c2c;
-	--PostQuote-borderColor--hover: #373737;
+	--PostQuote-backgroundColor--hover: #2a2a2a;
+	--PostQuote-borderColor--hover: #303030;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(255,255,255,0.12);
+	--CommentSeparator-color: var(--Document-backgroundColor);
+	--CommentSeparator-width: 3px;
 
 	/* CommentTree. */
 	--CommentTree-color: var(--Content-color-300);
