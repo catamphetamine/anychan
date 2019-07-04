@@ -95,6 +95,8 @@ There're some limitations for chans running on `lynxchan` engine (for example, `
 
 There're some limitations for `8ch.net` caused by its `OpenIB` engine due to the [lack of support for several features](https://github.com/catamphetamine/captchan/blob/master/docs/OpenIB.md) in that engine.
 
+There're [some very minor bugs](https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md) for `2ch.hk` caused by its `makaba` engine.
+
 The lists of threads/comments are implemented via a "[Virtual Scroller](https://github.com/catamphetamine/virtual-scroller)" which results in an enormous performance boost but at the same time [doesn't support some native in-browser features](https://github.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
 
 ## Develop

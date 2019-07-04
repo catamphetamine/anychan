@@ -14,7 +14,9 @@ export default function parseThreadResponse(response, options) {
 		maxAttachmentsSize: response.max_files_size,
 		defaultAuthorName: response.default_name,
 		commentsCount: response.posts_count,
-		commentAttachmentsCount: response.files_count,
+		// `files_count` is incorrect, even with `1` subtracted from it:
+		// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
+		commentAttachmentsCount: response.files_count - 1,
 		hasVoting: response.enable_likes === 1,
 		hasFlags: response.enable_flags === 1,
 		icons: response.enable_icons === 1 && response.icons && response.icons.reduce((icons, { name, num }) => {

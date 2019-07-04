@@ -13,6 +13,8 @@ export default function parseThreads(response, options) {
 		bumpLimit: response.bump_limit,
 		defaultAuthorName: response.default_name,
 		commentsCount: thread.posts_count,
+		// `files_count` is incorrect:
+		// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
 		commentAttachmentsCount: thread.files_count,
 		hasVoting: response.enable_likes === 1,
 		hasFlags: response.enable_flags === 1,
