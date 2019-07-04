@@ -47,7 +47,7 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/video-youtube-cache'
-import { validateUrl } from 'webapp-frontend/src/utility/url'
+import { validateUrl, validateRelativeUrl } from 'webapp-frontend/src/utility/url'
 
 import './Settings.css'
 
@@ -57,7 +57,7 @@ const LANGUAGE_OPTIONS = Object.keys(LANGUAGE_NAMES).map((language) => ({
 	label: LANGUAGE_NAMES[language]
 }))
 
-const CSS_URL_REGEXP = /\.css$/
+const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
 @meta(() => ({
 	title: 'Settings'
@@ -213,7 +213,7 @@ export default class SettingsPage extends React.Component {
 	validateCssUrl = (value) => {
 		const { settings } = this.props
 		const messages = getMessages(settings.locale)
-		if (!validateUrl(value)) {
+		if (!validateUrl(value) && !validateRelativeUrl(value)) {
 			return messages.settings.theme.add.invalidUrl
 		}
 		if (!CSS_URL_REGEXP.test(value)) {
