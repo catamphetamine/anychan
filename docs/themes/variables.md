@@ -148,10 +148,6 @@ An example of a "Content Section" is a post.
 * `--Post-color--secondary: gray` — A color for "secondary" content of a post. "Secondary" content is everything besides the comment text (comment date, buttons color, icons color).
 * `--Post-color--secondaryThread: gray` — While `--Post-color--secondary` is used on board pages (example: `/a/`) `--Post-color--secondaryThread` is used on thread pages (example: `/a/123456`). The rationale is that when scrolling a thread "secondary" content has less informational value than when scrolling a list of threads.
 
-## CommentSeparator
-
-* `--CommentSeparator-color: gray` — Comments separator line color.
-
 ### PostBannedIcon
 
 * `--PostBannedIcon-color: red` — The color of the "User was banned for this post" icon.
@@ -201,6 +197,17 @@ A "post author section" is post author name and its surroundings like the "perso
 ### PostAttachment
 
 * `--PostAttachment-shadowColor--hover: gray` — The color of `box-shadow` of a post attachment on mouse over.
+
+### PostVotes
+
+Some chans allow upvoting/downvoting comments and threads on some boards (for example, [`2ch.hk`](https://2ch.hk/) on [`po`](https://2ch.hk/po/) and [`news`](https://2ch.hk/news/) boards).
+
+* `--PostVotes-color--positive: green` — The color of a positive post rating.
+* `--PostVotes-color--positive: red` — The color of a negative post rating.
+
+### CommentSeparator
+
+* `--CommentSeparator-color: gray` — Comments separator line color.
 
 ### CommentTree
 
