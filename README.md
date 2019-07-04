@@ -155,6 +155,9 @@ It's recommended to create a custom configuration file for enabling features lik
 	// YouTube Data API V3 is used for parsing YouTube links
 	// into embedded video attachments having a title and a thumbnail.
 	"youtube": {
+		// Can be single key or an array of keys in which case
+		// a key will be randomly selected from the list on every API request.
+		// YouTube has a limit of `1 000 000` API requests per day for a key.
 		"apiKey": "TpJTfNAIzaFVteEnl4E-SyCvZRvuuHUZeL3owO8"
 	},
 
