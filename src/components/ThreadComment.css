@@ -38,7 +38,7 @@
 
 /* `8ch.net` red heading. */
 .post__text--8ch-heading {
-	color: rgb(175, 10, 15);
+	color: var(--PostHeading8ch-color);
 	font-weight: bolder;
 }
 

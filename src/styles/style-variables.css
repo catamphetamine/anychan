@@ -16,22 +16,6 @@
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor);
 
-	/* Sidebar. */
-	--Sidebar-borderColor: transparent;
-
-	/* BoardsPage. */
-	--BoardsPage-backgroundColor--hover: var(--Content-color-100);
-	--BoardsPage-color--active: var(--Clickable-color--text);
-
-	/* CommentSeparator. */
-	--CommentSeparator-width: 1px;
-}
-
-/* Light mode. */
-.light {
-	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
-
 	/* NotificationBadge. */
 	--NotificationBadge-color: var(--white-color);
 	--NotificationBadge-backgroundColor: red;
@@ -41,6 +25,37 @@
 	--Announcement-color: var(--Content-color-900);
 	--Announcement-borderWidth: var(--Header-borderWidth);
 	--Announcement-borderColor: var(--Header-borderColor);
+
+	/* Sidebar. */
+	--Sidebar-borderColor: transparent;
+
+	/* BoardsPage. */
+	--BoardsPage-backgroundColor--hover: var(--Content-color-100);
+	--BoardsPage-color--active: var(--Clickable-color--text);
+
+	/* CommentSeparator. */
+	--CommentSeparator-width: 1px;
+
+	/* PostAuthor. */
+	--PostAuthor-color: var(--Content-color-600);
+
+	/* PostAuthorName. */
+	--PostAuthorName-color: var(--base-color-700);
+	--PostAuthorName-color--id: var(--Content-color-800);
+
+	/* PostBannedIcon. */
+	--PostBannedIcon-color: var(--Error-backgroundColor);
+
+	/* PostQuote. */
+	/* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
+	--PostQuote-color--inverse: #cc0000;
+	--PostQuote-color--inverse2: #E04000;
+}
+
+/* Light mode. */
+.light {
+	/* HeaderSeparator. */
+	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
 
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-100);
@@ -60,37 +75,22 @@
 	--BoardsPage-color--slash: var(--Content-color-200);
 
 	/* Content. */
-	--Content-color: var(--black-color);
-	--Content-backgroundColor: var(--white-color);
 	--Content-backgroundColor--active: hsl(36, 70%, 96%);
 
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-400);
 
-	/* PostInlineSpoiler. */
-	--PostInlineSpoiler-color: #F0EFEB;
-	--PostInlineSpoiler-color--contentActive: hsl(36, 30%, 92%);
-
-	/* PostQuote. */
-	--PostQuote-color: var(--base-color-700);
-	/* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
-	--PostQuote-color--inverse: #cc0000;
-	--PostQuote-color--inverse2: #E04000;
-
-	/* PostQuoteMarker. */
-	--PostQuoteMarker-color: currentColor;
-
 	/* PostAuthor. */
-	--PostAuthor-color: var(--Content-color-600);
 	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
 	--PostAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
 
-	/* PostAuthorName. */
-	--PostAuthorName-color: var(--base-color-700);
-	--PostAuthorName-color--id: var(--Content-color-800);
+	/* PostInlineSpoiler. */
+	/* Adds a warmer color to it. */
+	--PostInlineSpoiler-color: #F0EFEB;
+	--PostInlineSpoiler-color--contentActive: hsl(36, 30%, 92%);
 
-	/* PostBannedIcon. */
-	--PostBannedIcon-color: #dd0000;
+	/* PostHeading8ch. */
+	--PostHeading8ch-color: rgb(175, 10, 15);
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(0,0,0,0.15);
@@ -130,9 +130,16 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-500);
 
+	/* PostAuthor. */
+	--PostAuthor-color--administrator: #ff005f;
+	--PostAuthor-color--moderator: #00b3ff;
+
 	/* PostQuote. */
 	--PostQuote-backgroundColor--hover: #2a2a2a;
 	--PostQuote-borderColor--hover: #303030;
+
+	/* PostHeading8ch. */
+	--PostHeading8ch-color: #c70000;
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: var(--Document-backgroundColor);
