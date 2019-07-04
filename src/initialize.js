@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser'
+import { onCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import { getChanIdByDomain, setChanId, getChan } from './chan'
 import { applySettings } from './utility/settings'
@@ -9,11 +10,17 @@ import FourChanSiteIcon from '../chan/4chan/icon.png'
 import EightChanSiteIcon from '../chan/8ch/icon.png'
 import KohlChanSiteIcon from '../chan/kohlchan/icon.png'
 
+// Initialize Cookie Policy.
+// Don't show Cookie Notice by default (better UX).
+window.SHOW_COOKIE_NOTICE = configuration.cookieNotice
+
 // Initialize `sentry.io`.
 if (process.env.NODE_ENV === 'production') {
 	if (configuration['sentry.io']) {
-		Sentry.init({
-			dsn: configuration['sentry.io'].url
+		onCookiesAccepted(() => {
+			Sentry.init({
+				dsn: configuration['sentry.io'].url
+			})
 		})
 	}
 }

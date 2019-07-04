@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Menu from 'webapp-frontend/src/components/Menu'
-
+import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import {
@@ -80,6 +80,9 @@ export default class ApplicationMenu extends React.Component {
 			{
 				title: messages.nightMode.title,
 				action: () => {
+					if (!areCookiesAccepted()) {
+						return notify(messages.cookies.required)
+					}
 					toggleDarkMode()
 					applyDarkMode(!darkMode)
 				},

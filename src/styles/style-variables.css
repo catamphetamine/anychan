@@ -21,8 +21,6 @@
 	--NotificationBadge-backgroundColor: red;
 
 	/* Announcement. */
-	--Announcement-backgroundColor: var(--Content-backgroundColor);
-	--Announcement-color: var(--Content-color-900);
 	--Announcement-borderWidth: var(--Header-borderWidth);
 	--Announcement-borderColor: var(--Header-borderColor);
 
@@ -54,6 +52,10 @@
 
 /* Light mode. */
 .light {
+	/* Announcement. */
+	--Announcement-color: var(--Content-color-900);
+	--Announcement-backgroundColor: var(--base-color-200);
+
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
 
@@ -104,6 +106,10 @@
 
 /* Dark Mode. */
 .dark {
+	/* Announcement. */
+	--Announcement-color: var(--Content-color-900);
+	--Announcement-backgroundColor: var(--Content-color-200);
+
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 

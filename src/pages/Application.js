@@ -29,9 +29,10 @@ import 'webapp-frontend/src/components/TimeAgo.ru'
 
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
+import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import { getBoards } from '../redux/chan'
-import { getSettings } from '../redux/app'
+import { getSettings, setCookiesAccepted } from '../redux/app'
 import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
 import getMessages from '../messages'
@@ -44,6 +45,7 @@ import './Application.css'
 @connect(({ app, slideshow, found, announcement }) => ({
 	locale: app.settings.locale,
 	theme: app.settings.theme,
+	cookiesAccepted: app.cookiesAccepted,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
@@ -52,7 +54,8 @@ import './Application.css'
   announcement: announcement.announcement
 }), {
 	closeSlideshow,
-	hideAnnouncement
+	hideAnnouncement,
+	setCookiesAccepted
 })
 @preload(async ({ dispatch, getState }) => {
 	// Apply user's settings.
@@ -77,6 +80,8 @@ export default class App extends React.Component {
 		route: PropTypes.object.isRequired,
 		announcement: announcementPropType,
 		hideAnnouncement: PropTypes.func.isRequired,
+		cookiesAccepted: PropTypes.bool.isRequired,
+		setCookiesAccepted: PropTypes.func.isRequired,
 		closeSlideshow: PropTypes.func.isRequired,
 		children : PropTypes.node.isRequired
 	}
@@ -116,6 +121,8 @@ export default class App extends React.Component {
 			slideshowPictures,
 			closeSlideshow,
 			hideAnnouncement,
+			cookiesAccepted,
+			setCookiesAccepted,
 			location,
 			children
 		} = this.props
@@ -156,6 +163,23 @@ export default class App extends React.Component {
 							className={classNames('webpage__content', {
 								'webpage__content--regular': isRegularContent(route)
 							})}>
+							{!cookiesAccepted &&
+								<Announcement
+									onClick={() => {
+										acceptCookies()
+										setCookiesAccepted()
+									}}
+									buttonLabel={messages.actions.accept}>
+									{configuration.cookiePolicyUrl ?
+										addLearnMoreLink(
+											messages.cookies.notice,
+											messages.actions.learnMore,
+											configuration.cookiePolicyUrl
+										) :
+										messages.cookies.notice
+									}
+								</Announcement>
+							}
 							{announcement &&
 								<Announcement
 									announcement={announcement}

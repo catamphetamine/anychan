@@ -180,7 +180,15 @@ It's recommended to create a custom configuration file for enabling features lik
 	// Announcement polling interval (in milliseconds).
 	// By default it checks for new announcements every hour:
 	// 60 * 60 * 1000 = 3600000
-	"announcementPollInterval": 3600000
+	"announcementPollInterval": 3600000,
+
+	// Whether to show GDPR Cookie Notice.
+	// Is `false` by default.
+	"cookieNotice": true,
+
+	// If `cookiePolicyUrl` is set then a "Learn More" link
+	// will be shown in the GDPR Cookie Notice.
+	"cookiePolicyUrl": "http://example.com/cookie-policy.html"
 }
 ```
 

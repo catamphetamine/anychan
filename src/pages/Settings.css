@@ -40,3 +40,7 @@
 .settings-page__filters-practice-link {
 	color: inherit;
 }
+
+.settings-page__cookies-required {
+	text-align: center;
+}

@@ -5,6 +5,7 @@ import { Modal, Button, Switch, Select, TextInput, FileUploadButton } from 'reac
 import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 import saveFile from 'webapp-frontend/src/utility/saveFile'
 import readTextFile from 'webapp-frontend/src/utility/readTextFile'
+import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import {
 	getSettings,
@@ -64,7 +65,8 @@ const CSS_URL_REGEXP = /\.css(\?.*)?$/
 }))
 @connect(({ app }) => ({
 	locale: app.settings.locale,
-	settings: app.settings
+	settings: app.settings,
+	cookiesAccepted: app.cookiesAccepted
 }), {
 	getSettings,
 	resetSettings,
@@ -273,7 +275,35 @@ export default class SettingsPage extends React.Component {
 		notify(messages.settings.data.merge.done)
 	}
 
+	getMessages() {
+		const { locale } = this.props
+		return getMessages(locale)
+	}
+
 	render() {
+		const {
+			cookiesAccepted
+		} = this.props
+
+		return (
+			<section className="settings-page content text-content">
+				{/* Settings */}
+				<h1 className="page__heading">
+					{this.getMessages().settings.title}
+				</h1>
+
+				{cookiesAccepted && this.renderSettings()}
+
+				{!cookiesAccepted &&
+					<p className="settings-page__cookies-required">
+						{this.getMessages().cookies.required}
+					</p>
+				}
+			</section>
+		)
+	}
+
+	renderSettings() {
 		const {
 			settings,
 			saveLocale
@@ -288,270 +318,263 @@ export default class SettingsPage extends React.Component {
 		const messages = getMessages(settings.locale)
 
 		return (
-			<section className="settings-page content text-content">
-				{/* Settings */}
-				<h1 className="page__heading">
-					{messages.settings.title}
-				</h1>
+			<ContentSections>
+				{/* Language */}
+				<ContentSection>
+					<ContentSectionHeader lite>
+						{messages.settings.language}
+					</ContentSectionHeader>
+					<Select
+						value={settings.locale}
+						options={LANGUAGE_OPTIONS}
+						onChange={saveLocale}/>
+				</ContentSection>
 
-				<ContentSections>
-					{/* Language */}
-					<ContentSection>
-						<ContentSectionHeader lite>
-							{messages.settings.language}
-						</ContentSectionHeader>
+				{/* Theme */}
+				<ContentSection>
+					<ContentSectionHeader lite>
+						{messages.settings.theme.title}
+					</ContentSectionHeader>
+
+					<div className="form">
 						<Select
-							value={settings.locale}
-							options={LANGUAGE_OPTIONS}
-							onChange={saveLocale}/>
-					</ContentSection>
-
-					{/* Theme */}
-					<ContentSection>
-						<ContentSectionHeader lite>
-							{messages.settings.theme.title}
-						</ContentSectionHeader>
-
-						<div className="form">
-							<Select
-								value={settings.theme}
-								options={getThemeOptions(settings.locale)}
-								onChange={this.saveTheme}
-								className="form__component"/>
+							value={settings.theme}
+							options={getThemeOptions(settings.locale)}
+							onChange={this.saveTheme}
+							className="form__component"/>
+						<div className="form__component form__component--button">
+							<Button
+								onClick={this.showAddThemeModal}
+								className="rrui__button--text">
+								{messages.settings.theme.add.title}
+							</Button>
+						</div>
+						<div className="form__component form__component--button">
+							<a
+								href="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"
+								target="_blank">
+								{messages.settings.theme.readThemesGuide}
+							</a>
+						</div>
+						{!isBuiltInTheme(settings.theme) &&
 							<div className="form__component form__component--button">
 								<Button
-									onClick={this.showAddThemeModal}
+									onClick={this.deleteCurrentTheme}
 									className="rrui__button--text">
-									{messages.settings.theme.add.title}
+									{messages.settings.theme.deleteCurrent.title}
 								</Button>
 							</div>
-							<div className="form__component form__component--button">
-								<a
-									href="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"
-									target="_blank">
-									{messages.settings.theme.readThemesGuide}
-								</a>
-							</div>
-							{!isBuiltInTheme(settings.theme) &&
-								<div className="form__component form__component--button">
-									<Button
-										onClick={this.deleteCurrentTheme}
-										className="rrui__button--text">
-										{messages.settings.theme.deleteCurrent.title}
-									</Button>
-								</div>
-							}
-						</div>
+						}
+					</div>
 
-						<Modal
-							isOpen={showAddThemeModal}
-							close={this.hideAddThemeModal}>
-							<Modal.Title>
-								{messages.settings.theme.add.title}
-							</Modal.Title>
-							<Modal.Content>
-								<Form
-									autoFocus
-									ref={this.addThemeForm}
-									requiredMessage={messages.form.error.required}
-									onSubmit={this.addTheme}
-									className="form">
+					<Modal
+						isOpen={showAddThemeModal}
+						close={this.hideAddThemeModal}>
+						<Modal.Title>
+							{messages.settings.theme.add.title}
+						</Modal.Title>
+						<Modal.Content>
+							<Form
+								autoFocus
+								ref={this.addThemeForm}
+								requiredMessage={messages.form.error.required}
+								onSubmit={this.addTheme}
+								className="form">
+								<Field
+									required
+									name="name"
+									label={messages.settings.theme.add.name}
+									component={TextInput}
+									className="form__component"/>
+								{!pasteCodeInstead &&
 									<Field
 										required
-										name="name"
-										label={messages.settings.theme.add.name}
+										name="url"
+										label={messages.settings.theme.add.url}
+										validate={this.validateCssUrl}
 										component={TextInput}
 										className="form__component"/>
-									{!pasteCodeInstead &&
-										<Field
-											required
-											name="url"
-											label={messages.settings.theme.add.url}
-											validate={this.validateCssUrl}
-											component={TextInput}
-											className="form__component"/>
-									}
-									{!pasteCodeInstead &&
-										<Button
-											onClick={this.pasteCodeInstead}
-											className="rrui__button--text form__component">
-											{messages.settings.theme.add.pasteCodeInstead}
-										</Button>
-									}
-									{pasteCodeInstead &&
-										<Field
-											required
-											multiline
-											name="code"
-											label={messages.settings.theme.add.code}
-											component={TextInput}
-											className="form__component rrui__input--monospace"/>
-									}
-									<div className="form__actions">
-										<Button
-											onClick={this.hideAddThemeModal}
-											className="rrui__button--text form__action">
-											{messages.actions.cancel}
-										</Button>
+								}
+								{!pasteCodeInstead &&
+									<Button
+										onClick={this.pasteCodeInstead}
+										className="rrui__button--text form__component">
+										{messages.settings.theme.add.pasteCodeInstead}
+									</Button>
+								}
+								{pasteCodeInstead &&
+									<Field
+										required
+										multiline
+										name="code"
+										label={messages.settings.theme.add.code}
+										component={TextInput}
+										className="form__component rrui__input--monospace"/>
+								}
+								<div className="form__actions">
+									<Button
+										onClick={this.hideAddThemeModal}
+										className="rrui__button--text form__action">
+										{messages.actions.cancel}
+									</Button>
 
-										<Submit
-											submit
-											component={Button}
-											className="rrui__button--background form__action">
-											{messages.actions.add}
-										</Submit>
-									</div>
-								</Form>
-							</Modal.Content>
-						</Modal>
-					</ContentSection>
+									<Submit
+										submit
+										component={Button}
+										className="rrui__button--background form__action">
+										{messages.actions.add}
+									</Submit>
+								</div>
+							</Form>
+						</Modal.Content>
+					</Modal>
+				</ContentSection>
 
-					{/* Font Size */}
-					<ContentSection>
-						<ContentSectionHeader lite>
-							{messages.settings.fontSize.title}
-						</ContentSectionHeader>
-						<Select
-							value={settings.fontSize}
-							options={getFontSizeOptions(settings.locale)}
-							onChange={this.saveFontSize}/>
-					</ContentSection>
+				{/* Font Size */}
+				<ContentSection>
+					<ContentSectionHeader lite>
+						{messages.settings.fontSize.title}
+					</ContentSectionHeader>
+					<Select
+						value={settings.fontSize}
+						options={getFontSizeOptions(settings.locale)}
+						onChange={this.saveFontSize}/>
+				</ContentSection>
 
-					{/* CORS Proxy URL */}
-					{/*
-					<ContentSection>
-						<ContentSectionHeader lite>
-							CORS Proxy URL
-						</ContentSectionHeader>
-						<Form onSubmit={this.saveCorsProxyUrl}>
-							<Field
-								readOnly
-								name="corsProxyUrl"
-								component={TextInput}
-								value={getProxyUrl()}/>
-						</Form>
-					</ContentSection>
-					*/}
+				{/* CORS Proxy URL */}
+				{/*
+				<ContentSection>
+					<ContentSectionHeader lite>
+						CORS Proxy URL
+					</ContentSectionHeader>
+					<Form onSubmit={this.saveCorsProxyUrl}>
+						<Field
+							readOnly
+							name="corsProxyUrl"
+							component={TextInput}
+							value={getProxyUrl()}/>
+					</Form>
+				</ContentSection>
+				*/}
 
-					{/* Filters */}
-					<ContentSection>
-						<ContentSectionHeader lite>
-							{messages.settings.filters.title}
-						</ContentSectionHeader>
-						<div className="settings-page__filters-docs">
-							{messages.settings.filters.docs.titleStart}
-							<a
-								target="_blank"
-								href="https://www.regexpal.com/"
-								className="settings-page__filters-practice-link">
-								{messages.settings.filters.docs.titleRegExps}
-							</a>
-							{messages.settings.filters.docs.titleEnd}:
-							<ul className="settings-page__filters-tips">
-								<li>
-									<code>^</code> — {messages.settings.filters.docs.tips.start}.
-								</li>
-								<li>
-									<code>$</code> — {messages.settings.filters.docs.tips.end}.
-								</li>
-								<li>
-									<code>.</code> — {messages.settings.filters.docs.tips.any}.
-								</li>
-								<li>
-									<code>[abc]</code> — {messages.settings.filters.docs.tips.anyOf}: <code>a</code>, <code>b</code>, <code>c</code>.
-								</li>
-								<li>
-									<code>a?</code> — {messages.settings.filters.docs.tips.optional} <code>a</code>.
-								</li>
-								<li>
-									<code>.*</code> — {messages.settings.filters.docs.tips.anyCountOf}.
-								</li>
-								<li>
-									<code>.+</code> — {messages.settings.filters.docs.tips.oneOrMoreOf}.
-								</li>
-								<li>
-									<code>{'.{0,2}'}</code> — {messages.settings.filters.docs.tips.rangeCountOf}.
-								</li>
-							</ul>
-						</div>
-						{!showIgnoredWords &&
+				{/* Filters */}
+				<ContentSection>
+					<ContentSectionHeader lite>
+						{messages.settings.filters.title}
+					</ContentSectionHeader>
+					<div className="settings-page__filters-docs">
+						{messages.settings.filters.docs.titleStart}
+						<a
+							target="_blank"
+							href="https://www.regexpal.com/"
+							className="settings-page__filters-practice-link">
+							{messages.settings.filters.docs.titleRegExps}
+						</a>
+						{messages.settings.filters.docs.titleEnd}:
+						<ul className="settings-page__filters-tips">
+							<li>
+								<code>^</code> — {messages.settings.filters.docs.tips.start}.
+							</li>
+							<li>
+								<code>$</code> — {messages.settings.filters.docs.tips.end}.
+							</li>
+							<li>
+								<code>.</code> — {messages.settings.filters.docs.tips.any}.
+							</li>
+							<li>
+								<code>[abc]</code> — {messages.settings.filters.docs.tips.anyOf}: <code>a</code>, <code>b</code>, <code>c</code>.
+							</li>
+							<li>
+								<code>a?</code> — {messages.settings.filters.docs.tips.optional} <code>a</code>.
+							</li>
+							<li>
+								<code>.*</code> — {messages.settings.filters.docs.tips.anyCountOf}.
+							</li>
+							<li>
+								<code>.+</code> — {messages.settings.filters.docs.tips.oneOrMoreOf}.
+							</li>
+							<li>
+								<code>{'.{0,2}'}</code> — {messages.settings.filters.docs.tips.rangeCountOf}.
+							</li>
+						</ul>
+					</div>
+					{!showIgnoredWords &&
+						<Button
+							onClick={this.showIgnoredWords}
+							className="rrui__button--text">
+							{messages.settings.filters.showCensoredWordsList}
+						</Button>
+					}
+					{showIgnoredWords &&
+						<pre className="settings-page__filters">
+							{getIgnoredWordsByLanguage(settings.locale).join('\n')}
+						</pre>
+					}
+				</ContentSection>
+
+				{/* Data */}
+				<ContentSection>
+					<ContentSectionHeader lite>
+						{messages.settings.data.title}
+					</ContentSectionHeader>
+					<p className="content-section__description">
+						{messages.settings.data.description}
+					</p>
+					<div className="form">
+						<div className="form__component form__component--button">
 							<Button
-								onClick={this.showIgnoredWords}
+								onClick={this.onResetSettings}
 								className="rrui__button--text">
-								{messages.settings.filters.showCensoredWordsList}
+								{messages.settings.data.resetSettings.title}
 							</Button>
-						}
-						{showIgnoredWords &&
-							<pre className="settings-page__filters">
-								{getIgnoredWordsByLanguage(settings.locale).join('\n')}
-							</pre>
-						}
-					</ContentSection>
-
-					{/* Data */}
-					<ContentSection>
-						<ContentSectionHeader lite>
-							{messages.settings.data.title}
-						</ContentSectionHeader>
-						<p className="content-section__description">
-							{messages.settings.data.description}
-						</p>
-						<div className="form">
-							<div className="form__component form__component--button">
-								<Button
-									onClick={this.onResetSettings}
-									className="rrui__button--text">
-									{messages.settings.data.resetSettings.title}
-								</Button>
-							</div>
-							<div className="form__component form__component--button">
-								<Button
-									onClick={this.onClearUserData}
-									className="rrui__button--text">
-									{messages.settings.data.clearUserData.title}
-								</Button>
-							</div>
-							<div className="form__component form__component--button">
-								<Button
-									onClick={clearYouTubeCache}
-									className="rrui__button--text">
-									{messages.settings.data.clearYouTubeCache.title}
-								</Button>
-							</div>
-							<br/>
-							<div className="form__component form__component--button">
-								<Button
-									onClick={this.onExport}
-									className="rrui__button--text rrui__button--multiline">
-									{messages.settings.data.export.title}
-								</Button>
-							</div>
-							<div className="form__component form__component--button">
-								<FileUploadButton
-									accept=".json"
-									component={Button}
-									onChange={this.onImport}
-									className="rrui__button--text rrui__button--multiline">
-									{messages.settings.data.import.title}
-								</FileUploadButton>
-							</div>
-							<br/>
-							<div className="form__component form__component--button">
-								<FileUploadButton
-									accept=".json"
-									component={Button}
-									onChange={this.onAddUserData}
-									className="rrui__button--text rrui__button--multiline">
-									{messages.settings.data.merge.title}
-								</FileUploadButton>
-							</div>
-							<p className="form__component form__component--description">
-								{messages.settings.data.merge.description}
-							</p>
 						</div>
-					</ContentSection>
-				</ContentSections>
-			</section>
+						<div className="form__component form__component--button">
+							<Button
+								onClick={this.onClearUserData}
+								className="rrui__button--text">
+								{messages.settings.data.clearUserData.title}
+							</Button>
+						</div>
+						<div className="form__component form__component--button">
+							<Button
+								onClick={clearYouTubeCache}
+								className="rrui__button--text">
+								{messages.settings.data.clearYouTubeCache.title}
+							</Button>
+						</div>
+						<br/>
+						<div className="form__component form__component--button">
+							<Button
+								onClick={this.onExport}
+								className="rrui__button--text rrui__button--multiline">
+								{messages.settings.data.export.title}
+							</Button>
+						</div>
+						<div className="form__component form__component--button">
+							<FileUploadButton
+								accept=".json"
+								component={Button}
+								onChange={this.onImport}
+								className="rrui__button--text rrui__button--multiline">
+								{messages.settings.data.import.title}
+							</FileUploadButton>
+						</div>
+						<br/>
+						<div className="form__component form__component--button">
+							<FileUploadButton
+								accept=".json"
+								component={Button}
+								onChange={this.onAddUserData}
+								className="rrui__button--text rrui__button--multiline">
+								{messages.settings.data.merge.title}
+							</FileUploadButton>
+						</div>
+						<p className="form__component form__component--description">
+							{messages.settings.data.merge.description}
+						</p>
+					</div>
+				</ContentSection>
+			</ContentSections>
 		)
 	}
 }

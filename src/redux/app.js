@@ -1,5 +1,7 @@
 import { ReduxModule } from 'react-website'
 
+import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
+
 import { getSettings as _getSettings } from '../utility/settings'
 import UserSettings from '../utility/UserSettings'
 
@@ -79,7 +81,13 @@ export const toggleNotifications = redux.simpleAction(
 	})
 )
 
-export default redux.reducer()
+export const setCookiesAccepted = redux.simpleAction(
+	(state) => ({ ...state, cookiesAccepted: true })
+)
+
+export default redux.reducer({
+	cookiesAccepted: areCookiesAccepted()
+})
 
 /**
  * Applies a setting and saves it to `localStorage`.

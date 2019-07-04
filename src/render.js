@@ -5,6 +5,7 @@ import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
 import darkMode from 'webapp-frontend/src/utility/darkMode'
+import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 export default async function() {
 	let isFirstRender = true
@@ -30,7 +31,7 @@ export default async function() {
 			// Hide sidebar navigation pop up (only on small screens).
 			dispatch(hideSidebar())
 			// Set up Google Analytics.
-			if (configuration.googleAnalytics) {
+			if (configuration.googleAnalytics && areCookiesAccepted()) {
 				// Set up Google Analytics via `gtag`.
 				gtag('config', configuration.googleAnalytics.id, {
 					// Anonymize IP for all Google Analytics events.
