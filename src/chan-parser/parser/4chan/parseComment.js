@@ -37,7 +37,7 @@ export default function parseComment(post, {
 	parseContentForOpeningPost
 }) {
 	let rawComment = post.com
-	let authorWasBanned = false
+	let authorBanned = false
 	// `post.com` is absent when there's no text.
 	if (rawComment) {
 		// I figured that 4chan places <wbr> ("line break") tags
@@ -69,7 +69,7 @@ export default function parseComment(post, {
 		// Test if the author was banned for this post.
 		if (chan === '4chan') {
 			if (USER_BANNED_MARK.test(rawComment)) {
-				authorWasBanned = true
+				authorBanned = true
 				rawComment = rawComment.replace(USER_BANNED_MARK, '')
 			}
 		}
@@ -83,7 +83,7 @@ export default function parseComment(post, {
 		rawComment,
 		parseAuthor(post.name, { defaultAuthorName, boardId }),
 		parsedAuthorRole && (chan === '8ch' ? parsedAuthorRole.role : parsedAuthorRole),
-		authorWasBanned,
+		authorBanned,
 		// `post.sub` is absent when there's no comment subject.
 		// On `4chan.org` and `8ch.net` thread subject sometimes contains
 		// escaped characters like "&quot;", "&lt;", "&gt;".

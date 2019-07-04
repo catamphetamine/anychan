@@ -47,7 +47,7 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				authorWasBanned: true,
+				authorBanned: true,
 				authorBanReason: '(USER WAS BANNED FOR THIS POST)',
 				content: [
 					[

@@ -121,7 +121,7 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				authorWasBanned: true,
+				authorBanned: true,
 				tripCode: '!!5pvF7WEJc.',
 				createdAt: date,
 				content: [

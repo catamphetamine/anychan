@@ -262,7 +262,7 @@ An attachment can be a:
 	// Examples: "administrator", "moderator".
 	authorRole: String?,
 	// If `true` then it means that the author was banned for the message.
-	authorWasBanned: boolean?,
+	authorBanned: boolean?,
 	// An optional `String` with the ban reason.
 	authorBanReason: String?,
 	// Downvotes count for this comment.

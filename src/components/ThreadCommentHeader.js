@@ -100,7 +100,7 @@ export const HEADER_BADGES = [
 			}
 			return getMessages(locale).post.banned
 		},
-		condition: post => post.authorWasBanned
+		condition: post => post.authorBanned
 	},
 	{
 		name: 'sage',

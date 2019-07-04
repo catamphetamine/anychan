@@ -11,7 +11,7 @@ export default function constructComment(
 	rawComment,
 	authorName,
 	authorRole,
-	authorWasBanned,
+	authorBanned,
 	subject,
 	attachments,
 	createdAt,
@@ -96,10 +96,10 @@ export default function constructComment(
 	if (authorRole) {
 		comment.authorRole = authorRole
 	}
-	if (authorWasBanned) {
-		comment.authorWasBanned = true
-		if (typeof authorWasBanned === 'string') {
-			comment.authorBanReason = authorWasBanned
+	if (authorBanned) {
+		comment.authorBanned = true
+		if (typeof authorBanned === 'string') {
+			comment.authorBanReason = authorBanned
 		}
 	}
 	return comment
