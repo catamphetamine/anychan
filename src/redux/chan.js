@@ -8,6 +8,7 @@ import UserData from '../utility/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import createParser from '../chan-parser'
+import { getChan as getChanParserConfig } from '../chan-parser/chan'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 import createByIdIndex from '../utility/createByIdIndex'
 
@@ -166,15 +167,18 @@ export const getThread = redux.action(
 export default redux.reducer()
 
 function createChanParser({ filters, locale }) {
-	return createParser(getChan().id, {
-		filters,
-		commentLengthLimit: configuration.commentLengthLimit,
-		addOnContentChange: true,
-		expandReplies: true,
-		messages: locale ? getMessages(locale) : undefined,
-		useRelativeUrls: shouldUseRelativeUrls(),
-		getUrl
-	})
+	return createParser(
+		getChanParserConfig(getChan().id) || { id: getChan().id, ...getChan().parser },
+		{
+			filters,
+			commentLengthLimit: configuration.commentLengthLimit,
+			addOnContentChange: true,
+			expandReplies: true,
+			messages: locale ? getMessages(locale) : undefined,
+			useRelativeUrls: shouldUseRelativeUrls(),
+			getUrl
+		}
+	)
 }
 
 function proxyUrl(url) {

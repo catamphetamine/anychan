@@ -19,7 +19,9 @@ export default function constructThread(threadInfo, comments, {
 	// technical "bump limit" is technically "reached".
 	// By definition, "rolling" and "sticky" threads don't expire.
 	if (threadInfo.isSticky || threadInfo.isRolling) {
-		threadInfo.isBumpLimitReached = false
+		if (threadInfo.isBumpLimitReached) {
+			threadInfo.isBumpLimitReached = false
+		}
 	}
 	// Set `.inReplyTo` array for each comment.
 	// `.inReplyTo` array contains comment IDs.

@@ -1,3 +1,5 @@
 {
+	"id": "2ch",
+	"engine": "makaba",
 	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
 }

@@ -8,5 +8,6 @@
 			"port": 1234
 		}
 	},
+	"announcementUrl": "/announcement.json",
 	"announcementPollInterval": 3600000
 }

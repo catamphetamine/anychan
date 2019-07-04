@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser'
 
-import { getChanIdByDomain, setChan, getChan } from './chan'
+import { getChanIdByDomain, setChanId, getChan } from './chan'
 import { applySettings } from './utility/settings'
 import configuration from './configuration'
 
@@ -24,7 +24,7 @@ export default function() {
 	// Supports `chan` URL parameter for multi-chan `gh-pages` demo.
 	const chan = new URL(window.location.href).searchParams.get('chan') || getChanIdByDomain(window.location.domain)
 	if (chan) {
-		setChan(chan)
+		setChanId(chan)
 	}
 	// Apply chan site icon.
 	if (getSiteIcon(getChan().id)) {

@@ -107,6 +107,8 @@ npm run dev
 
 Go to [`http://localhost:1234`](http://localhost:1234)
 
+One may also want to create a [custom configuration file](#configuration). Also check if the [proxy](#proxy) server still works.
+
 ## Build
 
 ```
@@ -117,17 +119,112 @@ npm install
 npm run build
 ```
 
-The build will be output to the `build/assets` directory: `index.html` and a bunch of `.js`, `.css` and `.png` files with random generated names.
+The build will be output to the `build/assets` directory: `index.html` and a bunch of `.js`/`.css`/image files with random generated names.
 
-Prior to running `npm run build` it's recommended to create a [custom configuration file](#configuration).
+Prior to running `npm run build` it's recommended to create a [custom configuration file](#configuration) for enabling advanced features.
+
+## Configuration
+
+It's recommended to create a custom configuration file for enabling features like YouTube video link parsing, Google Analytics, error reporting, etc. By default the application uses `./configuration/default.json` settings file. To define custom settings create a `./configuration/configuration.json` file.
+
+<details>
+<summary>Configuration example</summary>
+
+#### configuration.json
+
+```js
+{
+	// The default chan to use.
+	// Can be overridden via a `?chan=` URL parameter.
+	// For a built-in chan supply the chan id string.
+	// For a custom chan supply a chan info JSON object.
+	// See the "chan" directory for the list of built-in chans
+	// and use their `index.json` files as an example.
+	"chan": "4chan",
+
+	// Google Analytics can be used for tracking page views.
+	// Though most users block it in their web browsers.
+	"googleAnalytics": {
+		"id": "UA-123456789-0"
+	},
+
+	// YouTube Data API V3 is used for parsing YouTube links
+	// into embedded video attachments having a title and a thumbnail.
+	"youtube": {
+		"apiKey": "TpJTfNAIzaFVteEnl4E-SyCvZRvuuHUZeL3owO8"
+	},
+
+	// CORS Proxy settings (see the "Proxy" section of the readme).
+	// AWS EC2 is the easiest way to set up a free 1-year proxy.
+	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}",
+
+	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
+	// Such chans can be proxied through Heroku, for example.
+	"corsProxyUrl": "https://example.herokuapp.com/{url}",
+
+	// `sentry.io` can be set up to report all client-side errors.
+	"sentry.io": {
+		"url": "https://1d8af64f618e9b01849237ccbc26e968@sentry.io/1413881"
+	},
+
+	// Sometimes chan administration needs to announce something
+	// to the users. Things like latest news, contests, etc.
+	// See the "Announcements" section below.
+	// The URL must be a "same-origin" one (a "relative" URL).
+	"announcementUrl": "/announcement.json",
+
+	// Announcement polling interval (in milliseconds).
+	// By default it checks for new announcements every hour:
+	// 60 * 60 * 1000 = 3600000
+	"announcementPollInterval": 3600000
+}
+```
+
+<details>
+<summary>Announcements</summary>
+
+###
+
+Sometimes chan administration needs to announce something to the users. Things like latest news, contests, etc. For that an optional `announcementUrl` configuration parameter exists. For example, if a chan is hosted at `4chan.org` then `announcementUrl` could be `/announcement.json` meaning that the app will periodically try to `GET https://4chan.org/announcement.json`: if the file exists and is not empty then the app will show the announcement — a user will be presented with an announcement bar on top of the page. When a user clicks the close (x) button an `announcementRead` cookie is created with the value of the announcement date and so the announcement is no longer shown for this user until there's a new announcement with a different date.
+
+#### announcement.json
+
+```js
+{
+	// Date in "ISO" format.
+	// Could be just a date:
+	// date: "2019-07-02"
+	// or a date with time:
+	date: "2019-07-02T14:37",
+	// Announcement content (either a string or an array of strings and objects).
+	content: [
+		"4chan is now owned and led by ",
+		{
+			"type": "link",
+			"url": "https://twitter.com/hiroyuki_ni",
+			"content": "Hiroyuki Nishimura"
+		},
+		", the founder of the largest anonymous BBS in Japan, 2channel. Read the full announcement on the ",
+		{
+
+			"type": "link",
+			"url": "https://www.4chan.org/4channews.php",
+			"content": "4chan News page"
+		},
+		"."
+	]
+}
+```
+</details>
+</details>
 
 ## Proxy
 
-All chans (`4chan.org`, `2ch.hk`, etc) don't allow calling their API from other websites by prohibiting [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for another website to be able to query chan API directly.
+All chans (`4chan.org`, `2ch.hk`, etc) don't allow calling their API from other websites by prohibiting [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for another website to be able to query chan API.
 
-A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay (a couple of seconds) for all API requests. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347).
+A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay for all API requests. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347).
 
-For production deployment a dedicated CORS proxy should be used. A free AWS EC2 "micro" server could be set up but CloudFlare blocks traffic from AWS EC2 (I guess because it can be easily set up for a DDoS attack) so `4chan.org`, for example, won't work and will return `403 Forbidden` for an AWS EC2 proxy.
+For production deployment a dedicated CORS proxy should be used. A free 1-year AWS EC2 "micro" server could be set up but CloudFlare blocks traffic from AWS EC2 (I guess because it can be easily set up for a DDoS attack) so `4chan.org`, for example, won't work and will return `403 Forbidden` for an AWS EC2 proxy. [Heroku](https://www.heroku.com/) seems to work though.
 
 <details>
 <summary>An example of setting up a free AWS EC2 CORS proxy</summary>
@@ -328,99 +425,4 @@ I've had an issue with `certbot` generating an empty `*.conf` file for the websi
 
 ####
 
-In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API.
-
-## Configuration
-
-By default the application uses `./configuration/default.json` settings file.
-
-To define custom/additional settings one can create a `configuration.json` file in the `./configuration` directory.
-
-<details>
-<summary>Example:</summary>
-
-#### configuration.json
-
-```js
-{
-	// The default chan to use.
-	// Can be overridden via a `?chan=` URL parameter.
-	// For a built-in chan supply the chan id string.
-	// For a custom chan supply a chan info JSON object.
-	// See the "chan" directory for the list of built-in chans
-	// and use their `index.json` files as an example.
-	"chan": "4chan",
-
-	// Google Analytics can be used for tracking page views.
-	// Though most users block it in their web browsers.
-	"googleAnalytics": {
-		"id": "UA-123456789-0"
-	},
-
-	// YouTube Data API V3 is used for parsing YouTube links
-	// into embedded video attachments having a title and a thumbnail.
-	"youtube": {
-		"apiKey": "TpJTfNAIzaFVteEnl4E-SyCvZRvuuHUZeL3owO8"
-	},
-
-	// CORS Proxy settings (see the "Proxy" section of the readme).
-	// AWS EC2 is the easiest way to set up a free 1-year proxy.
-	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}",
-
-	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
-	// Such chans can be proxied through Heroku, for example.
-	"corsProxyUrl": "https://example.herokuapp.com/{url}",
-
-	// `sentry.io` can be set up to report all client-side errors.
-	"sentry.io": {
-		"url": "https://1d8af64f618e9b01849237ccbc26e968@sentry.io/1413881"
-	},
-
-	// Sometimes chan administration needs to announce something
-	// to the users. Things like latest news, contests, etc.
-	// See the "Announcements" section below.
-	"announcementUrl": "/announcement.json",
-
-	// Announcement polling interval (in milliseconds).
-	// By default it checks for new announcements every hour:
-	// 60 * 60 * 1000 = 3600000
-	"announcementPollInterval": 3600000
-}
-```
-
-<details>
-<summary>Announcements</summary>
-
-###
-
-Sometimes chan administration needs to announce something to the users. Things like latest news, contests, etc. For that an optional `announcementUrl` configuration parameter exists. For example, if a chan is hosted at `4chan.org` then `announcementUrl` could be `/announcement.json` meaning that the app will periodically try to `GET https://4chan.org/announcement.json` and show the announcement if it exists: a user will be presented with an announcement bar on top of the page. When a user clicks the close (x) button a `announcementRead` cookie is created with the value of the announcement date and so the announcement is no longer shown for this user until there's a new announcement with a different date.
-
-#### announcement.json
-
-```js
-{
-	// Date in "ISO" format.
-	// Could be just a date:
-	// date: "2019-07-02"
-	// or a date with time:
-	date: "2019-07-02T14:37",
-	// Announcement content (either a string or an array of strings and objects).
-	content: [
-		"4chan is now owned and led by ",
-		{
-			"type": "link",
-			"url": "https://twitter.com/hiroyuki_ni",
-			"content": "Hiroyuki Nishimura"
-		},
-		", the founder of the largest anonymous BBS in Japan, 2channel. Read the full announcement on the ",
-		{
-
-			"type": "link",
-			"url": "https://www.4chan.org/4channews.php",
-			"content": "4chan News page"
-		},
-		"."
-	]
-}
-```
-</details>
+In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API. There's also a dedicated `corsProxyUrlAws` setting for chans that don't block AWS yet.

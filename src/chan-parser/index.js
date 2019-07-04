@@ -1,1 +1,4 @@
-export { default as default } from './chan/createChanParser'
+// Added `/index.js` so that there's no warning:
+// "There are multiple modules with names that only differ in casing.
+//  This can lead to unexpected behavior when compiling on a filesystem with other case-semantic."
+export { default as default } from './parser/index.js'

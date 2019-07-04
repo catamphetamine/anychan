@@ -1,5 +1,7 @@
 {
-	"engine": "vichan",
+	"id": "8ch",
+	"engine": "OpenIB",
+	"parser": "4chan",
 	"defaultAuthorName": {
 		"*": "Anonymous",
 		"sudo": "/bin/sh",

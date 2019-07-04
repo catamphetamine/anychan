@@ -34,27 +34,36 @@ eightChan.logo = EightChanLogo
 kohlChan.logo = KohlChanLogo
 
 export function getChan(id = getChanId()) {
-	const chan = CHANS.find(_ => _.id === id)
-	if (chan) {
+	if (id) {
+		const chan = CHANS.find(_ => _.id === id)
+		if (!chan) {
+			throw new Error(`Unknown chan: ${id}`)
+		}
 		return chan
 	}
-	throw new Error(`Unknown chan: ${id}`)
+	if (typeof configuration.chan === 'object') {
+		return configuration.chan
+	}
+	throw new Error('No chan configured')
 }
 
 function getChanId() {
-	return (typeof window !== 'undefined' && window._chan) || configuration.chan
+	return (typeof window !== 'undefined' && window._chan) ||
+		(typeof configuration.chan === 'string' && configuration.chan)
 }
 
-function setChanId(chanId) {
+export function setChanId(chanId) {
 	if (typeof window !== 'undefined') {
 		window._chan = chanId
 	}
 }
 
-export const setChan = setChanId
-
 // Adds `chan` URL parameter for multi-chan `gh-pages` demo.
 export function addChanParameter(url) {
+	// Custom configured chans don't have a "built-in chan id".
+	if (!getChanId()) {
+		return url
+	}
 	if (getChanId() === configuration.chan) {
 		return url
 	}

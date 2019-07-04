@@ -1,4 +1,7 @@
 {
+	"id": "kohlchan",
+	"engine": "lynxchan",
+	"parser": "lynxchan",
 	"thumbnailSize": 200,
 	"defaultAuthorName": {
 		"*": "Bernd",
@@ -6,6 +9,6 @@
 	},
 	"emojiUrl": "https://kohlchan.net{url}",
 	"attachmentUrl": "https://kohlchan.net{url}",
-	"attachmentThumbnailUrl": "https://kohlkanal.net{url}",
+	"attachmentThumbnailUrl": "https://kohlchan.net{url}",
 	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
 }

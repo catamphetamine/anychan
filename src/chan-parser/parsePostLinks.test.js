@@ -3,9 +3,9 @@ import parsePostLinks from './parsePostLinks'
 import { describe, it } from './mocha'
 import expectToEqual from './expectToEqual'
 
-import FourChannel from './chan/4chan'
-import EightChannel from './chan/8ch'
-import TwoChannel from './chan/2ch'
+import FourChannel from './chan/4chan/index.json'
+import EightChannel from './chan/8ch/index.json'
+import TwoChannel from './chan/2ch/index.json'
 
 describe('parsePostLinks', () => {
 	it('should parse anchor post links', () => {

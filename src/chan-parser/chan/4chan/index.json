@@ -1,4 +1,6 @@
 {
+	"id": "4chan",
+	"engine": "4chan",
 	"defaultAuthorName": "Anonymous",
 	"attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",
 	"attachmentThumbnailUrl": "https://i.4cdn.org/{boardId}/{name}s.jpg",

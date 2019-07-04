@@ -60,9 +60,7 @@ import './Application.css'
 	// Get the list of boards.
 	await dispatch(getBoards())
 	// Show announcements.
-	// Dummy URL for testing:
-	// configuration.announcementUrl = '/'
-	if (configuration.announcementUrl) {
+	if (process.env.NODE_ENV === 'production' && configuration.announcementUrl) {
 		pollAnnouncement(
 			configuration.announcementUrl,
 			announcement => dispatch(showAnnouncement(announcement)),

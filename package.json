@@ -6,9 +6,10 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --hot --config webpack/webpack.config.dev.babel.js",
-    "build": "npm-run-all build:bundle copy-index-html",
+    "build": "npm-run-all build:bundle copy-index-html create-announcement-json",
     "build:bundle": "webpack --mode production --colors --display-error-details --config ./webpack/webpack.config.prod.babel.js",
-    "copy-index-html": "cpy build/assets/index.html build/assets --rename=404.html"
+    "copy-index-html": "cpy build/assets/index.html build/assets --rename=404.html",
+    "create-announcement-json": "nodetouch build/assets/announcement.json"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
@@ -70,6 +71,7 @@
     "style-loader": "^0.23.1",
     "svg-react-loader": "^0.4.6",
     "terser-webpack-plugin": "^1.2.3",
+    "touch": "^3.1.0",
     "universal-webpack": "^0.6.6",
     "url-loader": "^1.1.2",
     "web-service": "^0.5.7",

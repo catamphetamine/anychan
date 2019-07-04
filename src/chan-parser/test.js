@@ -8,6 +8,7 @@ import './compileFilters.test'
 import './ignoreText.test'
 import './parsePostLink.test'
 import './parsePostLinks.test'
-// Providers.
-import './2ch/test'
-import './4chan/test'
+// Parsers.
+import './parser/2ch/test'
+import './parser/4chan/test'
+import './parser/lynxchan/test'

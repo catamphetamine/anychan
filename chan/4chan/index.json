@@ -1,6 +1,5 @@
 {
 	"id": "4chan",
-	"parser": "4chan",
 	"color": "#8dc63f",
 	"website": "https://4chan.org",
 	"domains": [

@@ -14,7 +14,16 @@ export function pollAnnouncement(url, showAnnouncement, interval) {
 export async function fetchAnnouncement(url, showAnnouncement) {
 	try {
 		const response = await fetch(url)
-		const json = await response.json()
+		// Exit if the URL returns 404 Not Found.
+		if (!response.ok) {
+			return
+		}
+		const text = await response.text()
+		// Exit if the file is empty.
+		if (!text) {
+			return
+		}
+		const json = JSON.parse(text)
 		// An example announcement for testing:
 		// const json = {
 		// 	// Date in "ISO" format.
@@ -39,6 +48,11 @@ export async function fetchAnnouncement(url, showAnnouncement) {
 		// 		"."
 		// 	]
 		// }
+		// Exit if it's an empty object.
+		// (if some administrators prefer not having HTTP 404 Not Found logs)
+		if (Object.keys(json).length === 0 && json.constructor === Object) {
+			return
+		}
 		validateAnnouncement(json)
 		const announcementReadDate = getCookie(COOKIE_NAME)
 		if (!announcementReadDate || announcementReadDate !== json.date) {

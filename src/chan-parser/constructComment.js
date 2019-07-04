@@ -97,7 +97,10 @@ export default function constructComment(
 		comment.authorRole = authorRole
 	}
 	if (authorWasBanned) {
-		comment.authorWasBanned = authorWasBanned
+		comment.authorWasBanned = true
+		if (typeof authorWasBanned === 'string') {
+			comment.authorWasBannedWithReason = authorWasBanned
+		}
 	}
 	return comment
 }

@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-	window.TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE = require('./chan-parser/2ch/test.data').BOARDS_RESPONSE_EXAMPLE
+	window.TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE = require('./chan-parser/parser/2ch/test.data').BOARDS_RESPONSE_EXAMPLE
 }
 
 // Run the application.

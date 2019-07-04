@@ -1,6 +1,5 @@
 {
 	"id": "8ch",
-	"parser": "4chan",
 	"color": "#239623",
 	"website": "https://8ch.net",
 	"domains": [
