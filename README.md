@@ -107,14 +107,19 @@ npm run dev
 
 Go to [`http://localhost:1234`](http://localhost:1234)
 
-## Deploy
+## Build
 
 ```
+git clone git@github.com:catamphetamine/webapp-frontend.git
+git clone git@github.com:catamphetamine/captchan.git
 cd captchan
+npm install
 npm run build
 ```
 
-The build will be output to the `build/assets` directory.
+The build will be output to the `build/assets` directory: `index.html` and a bunch of `.js`, `.css` and `.png` files with random generated names.
+
+Prior to running `npm run build` it's recommended to create a [custom configuration file](#configuration).
 
 ## Proxy
 
@@ -327,9 +332,9 @@ In `./configuration/default.json` there's `corsProxyUrl` setting — this is the
 
 ## Configuration
 
-By default the application uses `./configuration/default.json` settings.
+By default the application uses `./configuration/default.json` settings file.
 
-To define custom/additional settings one can create `configuration.json` file in the `./configuration` directory.
+To define custom/additional settings one can create a `configuration.json` file in the `./configuration` directory.
 
 <details>
 <summary>Example:</summary>
@@ -340,31 +345,42 @@ To define custom/additional settings one can create `configuration.json` file in
 {
 	// The default chan to use.
 	// Can be overridden via a `?chan=` URL parameter.
+	// For a built-in chan supply the chan id string.
+	// For a custom chan supply a chan info JSON object.
+	// See the "chan" directory for the list of built-in chans
+	// and use their `index.json` files as an example.
 	"chan": "4chan",
+
 	// Google Analytics can be used for tracking page views.
 	// Though most users block it in their web browsers.
 	"googleAnalytics": {
 		"id": "UA-123456789-0"
 	},
+
 	// YouTube Data API V3 is used for parsing YouTube links
 	// into embedded video attachments having a title and a thumbnail.
 	"youtube": {
 		"apiKey": "TpJTfNAIzaFVteEnl4E-SyCvZRvuuHUZeL3owO8"
 	},
+
 	// CORS Proxy settings (see the "Proxy" section of the readme).
 	// AWS EC2 is the easiest way to set up a free 1-year proxy.
 	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}",
+
 	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
 	// Such chans can be proxied through Heroku, for example.
 	"corsProxyUrl": "https://example.herokuapp.com/{url}",
+
 	// `sentry.io` can be set up to report all client-side errors.
 	"sentry.io": {
 		"url": "https://1d8af64f618e9b01849237ccbc26e968@sentry.io/1413881"
 	},
+
 	// Sometimes chan administration needs to announce something
 	// to the users. Things like latest news, contests, etc.
 	// See the "Announcements" section below.
 	"announcementUrl": "/announcement.json",
+
 	// Announcement polling interval (in milliseconds).
 	// By default it checks for new announcements every hour:
 	// 60 * 60 * 1000 = 3600000
