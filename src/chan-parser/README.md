@@ -264,7 +264,7 @@ An attachment can be a:
 	// If `true` then it means that the author was banned for the message.
 	authorWasBanned: boolean?,
 	// An optional `String` with the ban reason.
-	authorWasBannedWithReason: String?,
+	authorBanReason: String?,
 	// Downvotes count for this comment.
 	// Only for boards like `/po/` on `2ch.hk`.
 	upvotes: number?,

@@ -95,8 +95,8 @@ export const HEADER_BADGES = [
 		name: 'banned',
 		icon: StopIcon,
 		title: (post, locale) => {
-			if (post.authorWasBannedWithReason) {
-				return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{0}', post.authorWasBannedWithReason)
+			if (post.authorBanReason) {
+				return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{0}', post.authorBanReason)
 			}
 			return getMessages(locale).post.banned
 		},
