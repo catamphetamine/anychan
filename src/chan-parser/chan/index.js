@@ -12,9 +12,7 @@ const CHANS = [
 	KohlChan
 ]
 
-export default CHANS
-
-export function getChan(id) {
+export default function getChan(id) {
 	for (const chan of CHANS) {
 		if (chan.id === id) {
 			return chan

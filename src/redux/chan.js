@@ -7,8 +7,7 @@ import getUrl from '../utility/getUrl'
 import UserData from '../utility/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
-import createParser from '../chan-parser'
-import { getChan as getChanParserConfig } from '../chan-parser/chan'
+import createParser, { getChan as getChanParserConfig } from '../chan-parser'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 import createByIdIndex from '../utility/createByIdIndex'
 
