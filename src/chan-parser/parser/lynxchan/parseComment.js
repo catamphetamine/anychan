@@ -37,26 +37,33 @@ export default function parseComment(post, {
 	// This workaround fixes that:
 	const rawComment = post.markdown.replace(/\u000d/g, '')
 	const parsedAuthorRole = parseAuthorRole(post.signedRole, chan)
-		// In `/catalog.json` API response there're no `files`, only `thumb` property, which is a bug.
-		// http://lynxhub.com/lynxchan/res/722.html#q984
-	const files = post.files || [{
-		// A stub for the absent `files` bug in `/catalog.json` API response.
-		// http://lynxhub.com/lynxchan/res/722.html#q984
-		mime: getPictureTypeFromUrl(post.thumb, chan),
-		// `lynxchan` doesn't provide `width` and `height`
-		// neither for the picture not for the thumbnail
-		// in `/catalog.json` API response (which is a bug).
-		// http://lynxhub.com/lynxchan/res/722.html#q984
-		// `width` and `height` are set later when the image is loaded.
-		width: thumbnailSize,
-		height: thumbnailSize,
-		// Even if `path` URL would be derived from `thumb` URL
-		// the `width` and `height` would still be unspecified.
-		// path: getFileUrlFromThumbnailUrl(post.thumb, chan),
-		path: post.thumb,
-		thumb: post.thumb,
-		originalName: '[stub]'
-	}]
+	let files = post.files
+	// In `/catalog.json` API response there're no `files`, only `thumb` property, which is a bug.
+	// http://lynxhub.com/lynxchan/res/722.html#q984
+	if (!files) {
+		if (post.thumb) {
+			files = [{
+				// A stub for the absent `files` bug in `/catalog.json` API response.
+				// http://lynxhub.com/lynxchan/res/722.html#q984
+				mime: getPictureTypeFromUrl(post.thumb, chan),
+				// `lynxchan` doesn't provide `width` and `height`
+				// neither for the picture not for the thumbnail
+				// in `/catalog.json` API response (which is a bug).
+				// http://lynxhub.com/lynxchan/res/722.html#q984
+				// `width` and `height` are set later when the image is loaded.
+				width: thumbnailSize,
+				height: thumbnailSize,
+				// Even if `path` URL would be derived from `thumb` URL
+				// the `width` and `height` would still be unspecified.
+				// path: getFileUrlFromThumbnailUrl(post.thumb, chan),
+				path: post.thumb,
+				thumb: post.thumb,
+				originalName: '[stub]'
+			}]
+		} else {
+			files = []
+		}
+	}
 	const comment = constructComment(
 		boardId,
 		threadId,
