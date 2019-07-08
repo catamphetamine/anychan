@@ -27,7 +27,7 @@ const parseKohlChanRedQuote = {
 		content = dropQuoteMarker(content, '<')
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				kind: 'inverse',
 				content
 			}
@@ -49,7 +49,7 @@ const parseKohlChanOrangeQuote = {
 		content = dropQuoteMarker(content, '<')
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				kind: 'inverse-orange',
 				content
 			}

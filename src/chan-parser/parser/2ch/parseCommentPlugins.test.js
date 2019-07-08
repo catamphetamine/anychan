@@ -149,7 +149,7 @@ describe('parseComment', () => {
 				},
 				'\n',
 				{
-					type: 'inline-quote',
+					type: 'quote',
 					content: 'test'
 				},
 				'\n',
@@ -228,7 +228,7 @@ describe('parseComment', () => {
 			[
 				[
 					{
-						"type": "inline-quote",
+						"type": "quote",
 						"content": [
 							"Отмечается, что в ходе ",
 							{
@@ -266,7 +266,7 @@ describe('parseComment', () => {
 				],
 				[
 					{
-						type: 'inline-quote',
+						type: 'quote',
 						content: 'Дискасс.'
 					}
 				]

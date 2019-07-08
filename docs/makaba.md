@@ -1,4 +1,4 @@
-# OpenIB
+# makaba
 
 While adding support for `2ch.hk` some very minor bugs have been discovered in the `makaba` engine (as of June 2019).
 

@@ -13,7 +13,7 @@ const parseInlineQuote = {
 		content = dropQuoteMarker(content)
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				content
 			}
 		}
@@ -30,7 +30,7 @@ const parseQuote = {
 	],
 	createBlock(content) {
 		return {
-			type: 'inline-quote',
+			type: 'quote',
 			content
 		}
 	}

@@ -18,8 +18,8 @@ export default function postProcessCommentContent(content, {
 	// Sometimes chan messages HTML contains things like "\\n" or "\\r\\n".
 	removeNewLineCharacters(content)
 	// It looks better without combining consequtive quote lines.
-	// // Combine `{ type: 'inline-quote' }` objects on consequtive lines
-	// // into a single `{ type: 'inline-quote' }` object with "\n"s inside.
+	// // Combine `{ type: 'quote' }` objects on consequtive lines
+	// // into a single `{ type: 'quote' }` object with "\n"s inside.
 	// combineQuotes(content)
 	// Set `content`, `url`, `threadId` and `boardId` of `{ type: 'post-link' }` objects.
 	setPostLinkUrls(content, { boardId, threadId, messages, getUrl })

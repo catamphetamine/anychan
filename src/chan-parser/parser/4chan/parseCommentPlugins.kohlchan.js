@@ -37,7 +37,7 @@ const parseKohlChanInverseQuote = {
 		content = dropQuoteMarker(content, '<')
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				kind: 'inverse',
 				content
 			}

@@ -1,6 +1,11 @@
 Chan API response parser.
 
-Supported chans: `2ch.hk`, `4chan.org`, `8ch.net`, `kohlchan.net`.
+Supported engines:
+
+* [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/captchan/?chan=4chan).
+* [vichan](https://github.com/vichan-devel/vichan)/[infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See [`8ch.net` demo](https://catamphetamine.github.io/captchan/?chan=8ch).
+* [lynxchan](http://lynxhub.com/) ([kohlchan.net](https://kohlchan.net)). See [`kohlchan.net` demo](https://catamphetamine.github.io/captchan/?chan=kohlchan).
+* [makaba](https://2ch.hk/api/) ([2ch.hk](https://2ch.hk/)). See [`2ch.hk` demo](https://catamphetamine.github.io/captchan/?chan=2ch).
 
 Features:
 
@@ -80,135 +85,31 @@ Parses board contents. Returns a list of [Threads](#thread).
 
 Parses a thread (having a list of [comments](#comment)). Returns a [Thread](#thread).
 
+## Content
+
+A post can have `content` and sometimes `contentPreview` both of which are [`Content`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostContent.md).
+
 ## Attachment
 
 An attachment can be a:
 
-* [Picture](#picture) attachment
-
-```js
-{
-	type: 'picture',
-	picture: Picture,
-	// Will be `true` if the picture is marked as a "spoiler".
-	// (for example, on `4chan.org`)
-	spoiler: boolean?
-}
-```
-
-* [Video](#video) attachment
-
-```js
-{
-	type: 'video',
-	video: Video,
-	// Will be `true` if the video is marked as a "spoiler".
-	// (for example, on `4chan.org`)
-	spoiler: boolean?
-}
-```
-
-* [File](#file) attachment
-
-```js
-{
-	type: 'file',
-	file: File
-}
-```
-
-### Picture
-
-```js
-{
-	// Picture MIME type. Example: "image/jpeg".
-	type: string,
-	// Picture width.
-	width: number,
-	// Picture height.
-	height: number,
-	// `true` if the image has transparent background.
-	// (for example, in case of `2ch.hk` "stickers")
-	transparent: boolean?,
-	// Picture file size (in bytes).
-	size: number,
-	// Picture file URL.
-	url: string,
-	// (only for `2ch.hk`)
-	// "sticker" in case of a `2ch.hk` sticker.
-	kind: string?,
-	// Extra picture sizes (thumbnails).
-	sizes: [
-		{
-			// Thumbnail MIME type.
-			type: string,
-			// Thumbnail width.
-			width: number,
-			// Thumbnail height.
-			height: number,
-			// Thumbnail file URL.
-			url: string
-		}
-	]
-}
-```
-
-### Video
-
-```js
-{
-	// Video MIME type. Example: "video/webm".
-	type: string,
-	// Video width.
-	width: number,
-	// Video height.
-	height: number,
-	// Video file size (in bytes).
-	size: number,
-	// Video duration (in seconds).
-	duration: number,
-	// Video thumbnail (poster).
-	picture: Picture,
-	// Video file URL (in case of a video file).
-	url: string
-}
-```
+* [`Picture`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#file) attachment
 
 <!--
-### YouTube video (parsed from comment)
+Additional fields:
 
 ```js
 {
-	width: number?,
-	height: number?,
-	// Video duration (in seconds).
-	duration: number?,
-	// Video thumbnail (poster).
-	picture: Picture,
-	// "YouTube" in case of a YouTube video.
-	provider: string,
-	// YouTube video ID (in case of a YouTube video).
-	id: string
+	// (only for `2ch.hk`)
+	// `true` in case of a `2ch.hk` sticker.
+	sticker: boolean?
 }
 ```
 -->
 
-### File
+* [`Video`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#video) attachment
 
-```js
-{
-	// File MIME type. Example: "application/pdf".
-	type: string,
-	// File name. Example: "Report".
-	name: string,
-	// File extension with a dot. Example: ".pdf".
-	ext: string,
-	// File size (in bytes).
-	size: number,
-	// File URL.
-	url: string
-}
-```
+* [`File`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#file) attachment
 
 ## Comment
 
@@ -385,43 +286,3 @@ An attachment can be a:
 	showNames: boolean?
 }
 ```
-
-## InlineContent
-
-An "inline content" can be:
-
-  * A string
-  * An object
-  * An array of strings and objects
-
-Examples of an object:
-
-```js
-{
-	type: 'text',
-	style: 'bold',
-	content: InlineContent
-}
-```
-
-```js
-{
-	type: 'link',
-	url: 'https://google.com',
-	content: InlineContent
-}
-```
-
-```js
-{
-	type: 'spoiler',
-	content: InlineContent
-}
-```
-
-## Content
-
-"Content" is an array of "block-level" elements. A block-level element can be:
-
-  * A paragraph (`InlineContent`)
-  * An embedded attachment (picture, video)

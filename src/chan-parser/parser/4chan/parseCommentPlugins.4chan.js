@@ -126,7 +126,7 @@ export const parseQuote = {
 		content = dropQuoteMarker(content)
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				content
 			}
 		}

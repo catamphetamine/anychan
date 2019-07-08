@@ -53,7 +53,7 @@ function parsePicture(file, mimeType, name, origin) {
 		}
 	}
 	if (file.type === STICKER_FILE_TYPE) {
-		attachment.picture.transparent = true
+		attachment.picture.transparentBackground = true
 		// // A link to a page with "Add this sticker to your library" button.
 		// // Example: "/makaba/stickers/show/DJfQnwJM".
 		// ....installStickerLink = `${origin}${file.install}`

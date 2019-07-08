@@ -131,7 +131,7 @@ const parseEightChanQuote = {
 		content = dropQuoteMarker(content)
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				content: appendNewLine(content)
 			}
 		}
@@ -151,7 +151,7 @@ const parseEightChanInverseQuote = {
 		content = dropQuoteMarker(content, '<')
 		if (content) {
 			return {
-				type: 'inline-quote',
+				type: 'quote',
 				kind: 'inverse',
 				content: appendNewLine(content)
 			}

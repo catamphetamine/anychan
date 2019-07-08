@@ -65,7 +65,7 @@ describe('parseLinksInText', () => {
 		const content = [
 			[
 				{
-					type: 'inline-quote',
+					type: 'quote',
 					content: 'Abc http://twitter.net/abc def'
 				},
 				'Abc http://twitter.net/abc def',
@@ -82,7 +82,7 @@ describe('parseLinksInText', () => {
 			[
 				[
 					{
-						type: 'inline-quote',
+						type: 'quote',
 						content: 'Abc http://twitter.net/abc def'
 					},
 					'Abc ',

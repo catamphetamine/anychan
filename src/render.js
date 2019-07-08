@@ -5,7 +5,7 @@ import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
 import darkMode from 'webapp-frontend/src/utility/darkMode'
-import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
+// import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 export default async function() {
 	let isFirstRender = true
@@ -31,12 +31,26 @@ export default async function() {
 			// Hide sidebar navigation pop up (only on small screens).
 			dispatch(hideSidebar())
 			// Set up Google Analytics.
-			if (configuration.googleAnalytics && areCookiesAccepted()) {
+			// A simple Google Analytics setup with anonymized IP addresses
+			// and without any "Demographics" tracking features
+			// seems to comply with GDPR.
+			// Google Analytics cookie violates GDPR.
+			if (configuration.googleAnalytics) {
 				// Set up Google Analytics via `gtag`.
 				gtag('config', configuration.googleAnalytics.id, {
 					// Anonymize IP for all Google Analytics events.
 					// https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization
+					// This makes Google Analytics compliant with GDPR:
+					// https://www.jeffalytics.com/gdpr-ip-addresses-google-analytics/
 					'anonymize_ip': true,
+					// Google Analytics can get users' "Demographics" (age, sex)
+					// from "3rd party" data sources if "Advertising Reporting Features"
+					// are enabled in Google Analytics admin panel.
+					// Such data could be considered "Personal Identifiable Information"
+					// which falls under the terms of GDPR.
+					// There's also "Remarketing" feature that could also
+					// fall under the terms of GDPR.
+					'allow_display_features': false,
 					// Specifies what percentage of users should be tracked.
 					// This defaults to 100 (no users are sampled out) but
 					// large sites may need to use a lower sample rate

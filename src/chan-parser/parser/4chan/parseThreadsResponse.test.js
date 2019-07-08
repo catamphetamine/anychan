@@ -163,7 +163,7 @@ describe('4chan.org', () => {
 							],
 							[
 								{
-									"type": "inline-quote",
+									"type": "quote",
 									"content": [
 										"Previous thread: ",
 										{
