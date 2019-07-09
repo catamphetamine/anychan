@@ -273,7 +273,7 @@ function Comment({
 				onToggleShowReplies,
 				toggleShowRepliesButtonRef
 			})}
-			saveBandwidth
+			useSmallestThumbnailsForAttachments
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
