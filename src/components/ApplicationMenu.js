@@ -32,6 +32,9 @@ import BellIconFill from 'webapp-frontend/assets/images/icons/menu/bell-fill.svg
 import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
 import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
 
+import BoardIconOutline from '../../assets/images/icons/menu/board-outline.svg'
+import BoardIconFill from '../../assets/images/icons/menu/board-fill.svg'
+
 import './ApplicationMenu.css'
 
 @connect(({ app }) => ({
@@ -116,8 +119,9 @@ export default class ApplicationMenu extends React.Component {
 				title: messages.boards.title,
 				action: toggleSidebar,
 				isActive: isSidebarShown,
-				outlineIcon: FeedIconOutline,
-				fillIcon: FeedIconFill
+				outlineIcon: BoardIconOutline,
+				fillIcon: BoardIconFill,
+				size: 'xxl'
 			}].concat(menuItems)
 		}
 		return menuItems
