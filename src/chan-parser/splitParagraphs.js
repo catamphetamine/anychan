@@ -1,6 +1,11 @@
 import searchContent from 'webapp-frontend/src/utility/post/searchContent'
 import splitContent from 'webapp-frontend/src/utility/post/splitContent'
 
+/**
+ * Splits `content` into paragraphs where there're two or more `\n` characters.
+ * @param  {any} content
+ * @return {any} A copy of `content` with paragraphs split.
+ */
 export default function splitParagraphs(content) {
 	let paragraphs = content
 	let i = 0

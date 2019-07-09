@@ -139,7 +139,6 @@ export default class ThreadComment extends React.PureComponent {
 				postRef={postRef}
 				compact={mode === 'thread' && comment.id !== thread.id}
 				comment={comment}
-				thread={thread}
 				hidden={hidden}
 				url={getUrl(board, thread, comment)}
 				locale={locale}
@@ -245,9 +244,17 @@ function Comment({
 				className="thread__comment thread__comment--hidden"/>
 		)
 	}
+	let attachmentThumbnailSize = getChan().thumbnailSize
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
-	const showHalfSizedAttachmentThumbnails = getChan().id === '4chan' && !comment.isRootComment
+	if (getChan().id === '4chan' && !comment.isRootComment) {
+		attachmentThumbnailSize /= 2
+	}
+	// `2ch.hk` thumbnails on `/b/` are low-quality anyway.
+	// // `2ch.hk` creates bigger thumbnails for `/b/` for some reason.
+	// if (getChan().id === '2ch' && boardId === 'b') {
+	// 	attachmentThumbnailSize *= 1.1
+	// }
 	return (
 		<Post
 			{...rest}
@@ -271,7 +278,7 @@ function Comment({
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			attachmentThumbnailSize={showHalfSizedAttachmentThumbnails ? getChan().thumbnailSize / 2 : getChan().thumbnailSize}
+			attachmentThumbnailSize={attachmentThumbnailSize}
 			commentLengthLimit={configuration.commentLengthLimit}
 			fixAttachmentThumbnailSizes={getChan().id === 'kohlchan' && comment.attachments ? true : false}
 			className={classNames(className, 'thread__comment', 'content-section')} />
