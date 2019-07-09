@@ -83,15 +83,12 @@ export const getThreads = redux.action(
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const threads = createChanParser({
-			filters,
-			locale,
-			commentLengthLimit: configuration.commentLengthLimitForThreadPreview
-		}).parseThreads(response, {
+		const threads = createChanParser({ filters, locale }).parseThreads(response, {
 			boardId,
 			// Can parse the list of threads up to 4x faster without parsing content.
 			// Example: when parsing content — 130 ms, when not parsing content — 20 ms.
-			parseContent: false
+			parseContent: false,
+			commentLengthLimit: configuration.commentLengthLimitForThreadPreview
 		})
 		console.log(`Threads parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		for (const thread of threads) {
@@ -121,16 +118,12 @@ export const getThread = redux.action(
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const thread = createChanParser({
-			filters,
-			locale,
-			commentLengthLimit: configuration.commentLengthLimit
-		}).parseThread(response, {
+		const thread = createChanParser({ filters, locale }).parseThread(response, {
 			boardId,
 			// Can parse thread comments up to 4x faster without parsing content.
 			// Example: when parsing content — 650 ms, when not parsing content — 200 ms.
 			parseContent: false,
-			expandContent: true
+			commentLengthLimit: configuration.commentLengthLimit
 		})
 		// Generate text preview which is used for `<meta description/>` on the thread page.
 		generateTextPreview(thread.comments[0])
@@ -173,12 +166,11 @@ export const getThread = redux.action(
 
 export default redux.reducer()
 
-function createChanParser({ filters, locale, commentLengthLimit }) {
+function createChanParser({ filters, locale }) {
 	return createParser(
 		getChanParserConfig(getChan().id) || { id: getChan().id, ...getChan().parser },
 		{
 			filters,
-			commentLengthLimit,
 			addOnContentChange: true,
 			expandReplies: true,
 			messages: locale ? getMessages(locale) : undefined,
