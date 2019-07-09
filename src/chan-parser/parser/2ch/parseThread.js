@@ -16,7 +16,7 @@ export default function parseThread(thread, posts, {
 	defaultAuthorName,
 	parseCommentPlugins,
 	commentLengthLimit, // Max comment length until it generates a shortened preview.
-	maxCommentLength, // Board-wide max comment length allowed by chan.
+	maxCommentLength, // Board-wide max new comment length allowed by chan.
 	maxAttachmentsSize,
 	bumpLimit,
 	hasVoting,

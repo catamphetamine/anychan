@@ -1,5 +1,6 @@
 const DEFAULT_CONFIGURATION = {
-	commentLengthLimit: 500
+	commentLengthLimitForThreadPreview: 500,
+	commentLengthLimit: 1000
 }
 
 export default {

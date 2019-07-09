@@ -191,7 +191,17 @@ It's recommended to create a custom configuration file for enabling features lik
 
 	// If `cookiePolicyUrl` is set then a "Learn More" link
 	// will be shown in the GDPR Cookie Notice.
-	"cookiePolicyUrl": "http://example.com/cookie-policy.html"
+	"cookiePolicyUrl": "http://example.com/cookie-policy.html",
+
+	// The maximum length of a thread comment (in "points")
+	// until a "Read more"  preview is generated for it.
+	// Is `1000` by default.
+	"commentLengthLimit": 1000,
+
+	// The maximum length of a thread preview (in "points") on board page
+	// until a "Read more"  preview is generated for it.
+	// Is `500` by default.
+	"commentLengthLimitForThreadPreview": 500
 }
 ```
 

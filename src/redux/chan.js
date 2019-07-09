@@ -83,7 +83,11 @@ export const getThreads = redux.action(
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const threads = createChanParser({ filters, locale }).parseThreads(response, {
+		const threads = createChanParser({
+			filters,
+			locale,
+			commentLengthLimit: configuration.commentLengthLimitForThreadPreview
+		}).parseThreads(response, {
 			boardId,
 			// Can parse the list of threads up to 4x faster without parsing content.
 			// Example: when parsing content — 130 ms, when not parsing content — 20 ms.
@@ -117,7 +121,11 @@ export const getThread = redux.action(
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const thread = createChanParser({ filters, locale }).parseThread(response, {
+		const thread = createChanParser({
+			filters,
+			locale,
+			commentLengthLimit: configuration.commentLengthLimit
+		}).parseThread(response, {
 			boardId,
 			// Can parse thread comments up to 4x faster without parsing content.
 			// Example: when parsing content — 650 ms, when not parsing content — 200 ms.
@@ -165,12 +173,12 @@ export const getThread = redux.action(
 
 export default redux.reducer()
 
-function createChanParser({ filters, locale }) {
+function createChanParser({ filters, locale, commentLengthLimit }) {
 	return createParser(
 		getChanParserConfig(getChan().id) || { id: getChan().id, ...getChan().parser },
 		{
 			filters,
-			commentLengthLimit: configuration.commentLengthLimit,
+			commentLengthLimit,
 			addOnContentChange: true,
 			expandReplies: true,
 			messages: locale ? getMessages(locale) : undefined,

@@ -221,7 +221,8 @@ Additional fields:
 	isBumpLimitReached: boolean?,
 	// `4chan.org` sets a limit on maximum attachments count in a thread.
 	isAttachmentLimitReached: boolean?,
-	// Maximum comment length in a thread on the board (a board-wide setting).
+	// Maximum comment length in a thread on the board
+	// when posting a new comment/thread (a board-wide setting).
 	// Is only present on threads on `2ch.hk`.
 	// `4chan.org` has it on boards.
 	maxCommentLength: number?,

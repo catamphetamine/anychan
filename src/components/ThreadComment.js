@@ -137,6 +137,7 @@ export default class ThreadComment extends React.PureComponent {
 		const commentElement = (
 			<Comment
 				postRef={postRef}
+				mode={mode}
 				compact={mode === 'thread' && comment.id !== thread.id}
 				comment={comment}
 				hidden={hidden}
@@ -223,6 +224,7 @@ ThreadComment.propTypes = {
 }
 
 function Comment({
+	mode,
 	comment,
 	hidden,
 	showingReplies,
@@ -279,13 +281,14 @@ function Comment({
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			attachmentThumbnailSize={attachmentThumbnailSize}
-			commentLengthLimit={configuration.commentLengthLimit}
+			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
 			fixAttachmentThumbnailSizes={getChan().id === 'kohlchan' && comment.attachments ? true : false}
 			className={classNames(className, 'thread__comment', 'content-section')} />
 	)
 }
 
 Comment.propTypes = {
+	mode: PropTypes.oneOf(['board', 'thread']),
 	comment: post.isRequired,
 	hidden: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
