@@ -93,7 +93,7 @@ A post can have `content` and sometimes `contentPreview` both of which are [`Con
 
 An attachment can be a:
 
-* [`Picture`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#file) attachment
+* [`Picture`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#picture) attachment
 
 <!--
 Additional fields:
