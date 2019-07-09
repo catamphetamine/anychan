@@ -209,4 +209,11 @@
 	.footer .application-menu {
 		display: none;
 	}
+
+	/* Move notifications to the right side
+	   because they aren't that eligible when shown
+	   above the sidebar with the boards list. */
+	.rrui__snackbar__container {
+		justify-content: flex-end;
+	}
 }

@@ -76,6 +76,9 @@
 	--BoardsPage-backgroundColor--active: var(--base-color-100);
 	--BoardsPage-color--slash: var(--Content-color-200);
 
+	/* Notification. */
+	--Notification-color: var(--base-color-300);
+
 	/* Content. */
 	--Content-backgroundColor--active: hsl(36, 70%, 96%);
 
@@ -129,6 +132,9 @@
 	/* BoardsPage. */
 	--BoardsPage-backgroundColor--active: var(--Content-color-200);
 	--BoardsPage-color--slash: var(--Content-color-300);
+
+	/* Notification. */
+	--Notification-color: var(--base-color-300);
 
 	/* Content. */
 	--Content-backgroundColor--active: #292929;
