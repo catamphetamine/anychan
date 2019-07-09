@@ -170,9 +170,9 @@ function stripLinks(content) {
 function setPostLinkQuote(postLink, post, options) {
 	const text = getPostSummary(post.content, post.attachments, {
 		messages: options && options.messages,
-		maxLength: 150,
+		maxLength: 180,
 		countNewLines: true,
-		fitFactor: 1.2
+		fitFactor: 1.35
 	})
 	if (text) {
 		// Set `content.quote` to the quoted post text abstract.
