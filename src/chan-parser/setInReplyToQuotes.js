@@ -171,7 +171,8 @@ function setPostLinkQuote(postLink, post, options) {
 	const text = getPostSummary(post.content, post.attachments, {
 		messages: options && options.messages,
 		maxLength: 150,
-		countNewLines: true
+		countNewLines: true,
+		fitFactor: 1.2
 	})
 	if (text) {
 		// Set `content.quote` to the quoted post text abstract.
