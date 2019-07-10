@@ -85,28 +85,9 @@ export function mergeWithBoardIdThreadIdCommentIdData(storage, key, data) {
 				threadIdCommentIdData[threadId] = commentIdData = {}
 			}
 			for (const commentId of Object.keys(data[boardId][threadId])) {
-				commentIdData[commentId] = mergeData(
-					commentIdData[commentId],
-					data[boardId][threadId][commentId]
-				)
+				commentIdData[commentId] = data[boardId][threadId][commentId]
 			}
 		}
 	}
 	return boardIdThreadIdCommentIdData
-}
-
-export function mergeData(previousData, newData) {
-	if (previousData === undefined) {
-		return newData
-	}
-	if (newData === undefined) {
-		return previousData
-	}
-	if (typeof newData === 'object') {
-		return {
-			...previousData,
-			...newData
-		}
-	}
-	return newData
 }

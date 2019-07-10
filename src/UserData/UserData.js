@@ -58,11 +58,6 @@ export class UserData {
 			type: 'boards-threads-data'
 		},
 		watchedThreads: {
-			type: 'boards-threads',
-			expires: false,
-			data: 'watchedThreadsInfo'
-		},
-		watchedThreadsInfo: {
 			type: 'boards-threads-data',
 			expires: false
 		},
@@ -131,7 +126,31 @@ export class UserData {
 							for (const threadId of Object.keys(threads)) {
 								if (!getThreadById(threadId)) {
 									if (data.expires === false) {
-										// Ignore
+										// Only handles `boards-threads-data` type.
+										switch (data.type) {
+											case 'boards-threads-comments-data':
+												const comments = threads[threadId]
+												for (const commentId of Object.keys(comments)) {
+													if (typeof comments[commentId] === 'object') {
+														comments[commentId].expired = true
+													} else {
+														console.warn(`Thread ${threadId} expired but comment data is not an object`, comments[commentId])
+													}
+												}
+												break
+											case 'boards-threads-comments':
+												// Ignore.
+												break
+											case 'boards-threads-data':
+												if (typeof threads[threadId] === 'object') {
+													threads[threadId].expired = true
+												} else {
+													console.warn(`Thread ${threadId} expired but data is not an object`, threads[threadId])
+												}
+												break
+											default:
+												console.warn(`Thread ${threadId} expired but data expiry is not implemented for type "${data.type}"`)
+										}
 									} else {
 										delete threads[threadId]
 										changed = true
@@ -152,27 +171,8 @@ export class UserData {
 							const formerThreadsCount = threads.length
 							const remainingThreadIds = threads.filter(getThreadById)
 							if (remainingThreadIds.length < formerThreadsCount) {
-								if (data.expires === false) {
-									const dataKey = data.data
-									if (dataKey) {
-										boardsData = this.storage.get(this.prefix + dataKey)
-										if (boardsData) {
-											const threadsData = boardsData[boardId]
-											if (threadsData) {
-												for (const expiredThreadId of threads.filter(id => !getThreadById(id))) {
-													const thread = threadsData[expiredThreadId]
-													if (thread) {
-														thread.expired = true
-													}
-												}
-												this.storage.set(this.prefix + dataKey, boardsData)
-											}
-										}
-									}
-								} else {
-									boardsData[boardId] = remainingThreadIds
-									this.storage.set(this.prefix + key, boardsData)
-								}
+								boardsData[boardId] = remainingThreadIds
+								this.storage.set(this.prefix + key, boardsData)
 							}
 						}
 					}

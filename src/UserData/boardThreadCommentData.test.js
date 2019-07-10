@@ -3,7 +3,6 @@ import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
 import { UserData } from './UserData'
 import MemoryStorage from '../utility/MemoryStorage'
-import { mergeData } from './boardThreadCommentData'
 
 const storage = new MemoryStorage()
 const userData = new UserData(storage)
@@ -282,41 +281,6 @@ describe('UserData', () => {
 					}
 				}
 			}
-		)
-	})
-
-	it('should merge data', () => {
-		expectToEqual(
-			mergeData(undefined, undefined),
-			undefined
-		)
-		expectToEqual(
-			mergeData({ a: 'b' }, undefined),
-			{ a: 'b' }
-		)
-		expectToEqual(
-			mergeData(undefined, { c: 'd' }),
-			{ c: 'd' }
-		)
-		expectToEqual(
-			mergeData({ a: 'b' }, { c: 'd' }),
-			{ a: 'b', c: 'd' }
-		)
-		expectToEqual(
-			mergeData({ a: 'b', k: 'l' }, { a: 'f', c: 'd' }),
-			{ a: 'f', c: 'd', k: 'l' }
-		)
-		expectToEqual(
-			mergeData(1, undefined),
-			1
-		)
-		expectToEqual(
-			mergeData(undefined, 2),
-			2
-		)
-		expectToEqual(
-			mergeData(1, 2),
-			2
 		)
 	})
 })

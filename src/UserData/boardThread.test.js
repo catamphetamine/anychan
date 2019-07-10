@@ -11,22 +11,22 @@ userData.prefix = ''
 describe('UserData', () => {
 	it('should add/remove/get watched threads', () => {
 		storage.clear()
-		userData.addWatchedThreads('a', 123)
+		userData.addHiddenThreads('a', 123)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123
 					]
 				}
 			}
 		)
-		userData.addWatchedThreads('a', 456)
+		userData.addHiddenThreads('a', 456)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123,
 						456
@@ -34,11 +34,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addWatchedThreads('b', 789)
+		userData.addHiddenThreads('b', 789)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123,
 						456
@@ -50,7 +50,7 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getWatchedThreads(),
+			userData.getHiddenThreads(),
 			{
 				a: [
 					123,
@@ -62,33 +62,33 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getWatchedThreads('a'),
+			userData.getHiddenThreads('a'),
 			[
 				123,
 				456
 			]
 		)
 		expectToEqual(
-			userData.getWatchedThreads('c'),
+			userData.getHiddenThreads('c'),
 			[]
 		)
 		expectToEqual(
-			userData.getWatchedThreads('a', 123),
+			userData.getHiddenThreads('a', 123),
 			true
 		)
 		expectToEqual(
-			userData.getWatchedThreads('a', 789),
+			userData.getHiddenThreads('a', 789),
 			false
 		)
 		expectToEqual(
-			userData.getWatchedThreads('c', 111),
+			userData.getHiddenThreads('c', 111),
 			false
 		)
-		userData.removeWatchedThreads('b')
+		userData.removeHiddenThreads('b')
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123,
 						456
@@ -96,11 +96,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeWatchedThreads('b', 789)
+		userData.removeHiddenThreads('b', 789)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123,
 						456
@@ -108,18 +108,18 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeWatchedThreads('a', 123)
+		userData.removeHiddenThreads('a', 123)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						456
 					]
 				}
 			}
 		)
-		userData.removeWatchedThreads('a', 456)
+		userData.removeHiddenThreads('a', 456)
 		expectToEqual(
 			storage.data,
 			{}
@@ -128,7 +128,7 @@ describe('UserData', () => {
 
 	it('should merge watched threads (intersection)', () => {
 		storage.data = {
-			watchedThreads: {
+			hiddenThreads: {
 				a: [
 					123
 				],
@@ -138,7 +138,7 @@ describe('UserData', () => {
 			}
 		}
 		userData.merge({
-			watchedThreads: {
+			hiddenThreads: {
 				a: [
 					123,
 					456
@@ -155,7 +155,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [
 						123,
 						456
@@ -175,7 +175,7 @@ describe('UserData', () => {
 
 	it('should merge watched threads (no source)', () => {
 		storage.data = {
-			watchedThreads: {
+			hiddenThreads: {
 				a: [123]
 			}
 		}
@@ -183,7 +183,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [123]
 				}
 			}
@@ -193,14 +193,14 @@ describe('UserData', () => {
 	it('should merge watched threads (no destination)', () => {
 		storage.data = {}
 		userData.merge({
-			watchedThreads: {
+			hiddenThreads: {
 				a: [123]
 			}
 		})
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
+				hiddenThreads: {
 					a: [123]
 				}
 			}

@@ -9,44 +9,11 @@ const userData = new UserData(storage)
 userData.prefix = ''
 
 describe('UserData', () => {
-	it('should also remove from "data" key when removing from key', () => {
-		storage.clear()
-		userData.addWatchedThreads('a', 123)
-		userData.addWatchedThreadsInfo('a', 123, {
-			subject: 'Anime'
-		})
-		expectToEqual(
-			storage.data,
-			{
-				watchedThreads: {
-					a: [
-						123
-					]
-				},
-				watchedThreadsInfo: {
-					a: {
-						'123': {
-							subject: 'Anime'
-						}
-					}
-				}
-			}
-		)
-		userData.removeWatchedThreads('a', 123)
-		expectToEqual(
-			storage.data,
-			{}
-		)
-	})
-
 	it('should clear data on thread expiration', () => {
 		storage.clear()
-		userData.addWatchedThreads('a', 123)
-		userData.addWatchedThreads('a', 456)
-		userData.addWatchedThreads('b', 789)
-		userData.addWatchedThreadsInfo('a', 123, { name: 'Anime 1' })
-		userData.addWatchedThreadsInfo('a', 456, { name: 'Anime 2' })
-		userData.addWatchedThreadsInfo('b', 789, { name: 'Random' })
+		userData.addWatchedThreads('a', 123, { name: 'Anime 1' })
+		userData.addWatchedThreads('a', 456, { name: 'Anime 2' })
+		userData.addWatchedThreads('b', 789, { name: 'Random' })
 		userData.addReadComments('a', 123, 124)
 		userData.addReadComments('a', 456, 456)
 		userData.addReadComments('a', 456, 457)
@@ -56,19 +23,13 @@ describe('UserData', () => {
 		userData.addOwnComments('a', 456, 456)
 		userData.addOwnComments('a', 456, 457)
 		userData.addOwnComments('b', 789, 790)
+		userData.addCommentVotes('a', 123, 124, 1)
+		userData.addCommentVotes('a', 456, 456, 1)
+		userData.addCommentVotes('b', 789, 790, -1)
 		expectToEqual(
 			storage.data,
 			{
 				watchedThreads: {
-					a: [
-						123,
-						456
-					],
-					b: [
-						789
-					]
-				},
-				watchedThreadsInfo: {
 					a: {
 						'123': {
 							name: 'Anime 1'
@@ -108,6 +69,21 @@ describe('UserData', () => {
 							790
 						]
 					}
+				},
+				commentVotes: {
+					a: {
+						'123': {
+							'124': 1
+						},
+						'456': {
+							'456': 1
+						}
+					},
+					b: {
+						'789': {
+							'790': -1
+						}
+					}
 				}
 			}
 		)
@@ -116,15 +92,6 @@ describe('UserData', () => {
 			storage.data,
 			{
 				watchedThreads: {
-					a: [
-						123,
-						456
-					],
-					b: [
-						789
-					]
-				},
-				watchedThreadsInfo: {
 					a: {
 						'123': {
 							name: 'Anime 1',
@@ -159,6 +126,18 @@ describe('UserData', () => {
 						'789': [
 							790
 						]
+					}
+				},
+				commentVotes: {
+					a: {
+						'456': {
+							'456': 1
+						}
+					},
+					b: {
+						'789': {
+							'790': -1
+						}
 					}
 				}
 			}
