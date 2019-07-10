@@ -1,0 +1,6 @@
+import './UserData.test'
+import './list.test'
+import './boardThread.test'
+import './boardThreadData.test'
+import './boardThreadComment.test'
+import './boardThreadCommentData.test'

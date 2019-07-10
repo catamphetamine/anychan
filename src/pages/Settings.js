@@ -36,7 +36,7 @@ import {
 
 // import { getProxyUrl } from '../chan'
 
-import UserData from '../utility/UserData'
+import UserData from '../UserData/UserData'
 
 import {
 	ContentSections,

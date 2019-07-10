@@ -4,7 +4,7 @@ import configuration from '../configuration'
 import { getChan, shouldUseRelativeUrls, getProxyUrl } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
-import UserData from '../utility/UserData'
+import UserData from '../UserData/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
 import createParser, { getChan as getChanParserConfig } from '../chan-parser'
