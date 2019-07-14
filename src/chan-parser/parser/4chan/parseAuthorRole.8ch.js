@@ -16,6 +16,11 @@ export default function parseRole(capCode, { boardId }) {
 			return {
 				role: 'moderator'
 			}
+		case 'Board Moderator':
+			return {
+				role: 'moderator',
+				jurisdiction: 'board'
+			}
 		case 'Board Volunteer':
 			return {
 				role: 'moderator',
