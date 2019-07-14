@@ -89,6 +89,18 @@
 	margin-right: var(--unit);
 	/*min-height: calc(var(--unit) * 3);*/
 	text-align: center;
+	@mixin s {
+		margin-top: calc(var(--unit) / 2);
+		margin-bottom: calc(var(--unit) / 2);
+	}
+	@mixin xs {
+		margin-top: calc(var(--unit) / 3);
+		margin-bottom: calc(var(--unit) / 3);
+	}
+	@mixin xxs {
+		margin-top: calc(var(--unit) / 4);
+		margin-bottom: calc(var(--unit) / 4);
+	}
 }
 
 @mixin m-plus {
