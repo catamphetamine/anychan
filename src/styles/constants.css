@@ -11,7 +11,7 @@
 	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
 	--PageContent-padding: calc(var(--unit) * 2);
 	--PageContent-padding--nonContentSection: 0px;
-	@mixin xxs {
+	@mixin upto-m {
 		--PageContent-padding: var(--unit);
 		--PageContent-padding--nonContentSection: var(--ContentSection-padding--horizontal);
 	}

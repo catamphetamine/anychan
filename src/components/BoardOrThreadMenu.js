@@ -38,7 +38,7 @@ export default function BoardOrThreadMenu({
 	[
 		{
 			title: messages.actions.search,
-			onClick: () => notify('Not implemented yet', { duration: 1000000000 }),
+			onClick: () => notify('Not implemented yet'),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,
