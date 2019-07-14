@@ -4,6 +4,11 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
+virtual scroller page up/down no timer
+
+Add "Adding a new chan" instructions for `captchan` and `chan-parser`.
+
+Toggle search on Ctrl/Cmd + F.
 
 Expand attachments: not expand more than its max width.
 

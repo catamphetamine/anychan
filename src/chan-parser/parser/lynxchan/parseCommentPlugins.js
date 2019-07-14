@@ -81,6 +81,64 @@ export const parseQuote = {
 	}
 }
 
+// `lynxchan` has regular quotes and "inverse" (orange) quotes.
+export const parseInverseQuote = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'orangeText'
+		}
+	],
+	createBlock(content) {
+		content = dropQuoteMarker(content, '<')
+		if (content) {
+			return {
+				type: 'quote',
+				// kind: 'inverse-orange',
+				kind: 'inverse',
+				content
+			}
+		}
+	}
+}
+
+// `8ch.net` "ASCII art" or "ShiftJIS art".
+export const parseAsciiOrShiftJISArt = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'aa'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'ascii-shift-jis-art',
+			content
+		}
+	}
+}
+
+// Red heading.
+export const parseHeading = {
+	tag: 'span',
+	attributes: [
+		{
+			name: 'class',
+			value: 'redText'
+		}
+	],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'heading',
+			content
+		}
+	}
+}
+
 export const parseLink = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlRegExp }) {
@@ -107,7 +165,11 @@ export default [
 	parseBold,
 	parseItalic,
 	parseUnderline,
+	parseStrikethrough,
 	parseSpoiler,
 	parseQuote,
+	parseInverseQuote,
+	parseAsciiOrShiftJISArt,
+	parseHeading,
 	parseLink
 ]

@@ -182,10 +182,11 @@ A "post author section" is post author name and its surroundings like the "perso
 * `--PostQuoteMarker-width: 2px` — Post quote marker width.
 * `--PostQuoteMarker-padding: 0.2em` — Post quote marker top and bottom padding.
 
-`8ch.net` and `kohlchan.net` have a notion of "inverse" quotes: the ones posted with a `<` prefix rather than the normal `>` quote prefix. There's no explanation on how "inverse" quotes are different from the normal quotes and what's the purpose of their existence. Furthermore, `kohlchan.net` also has "orange" "inverse" quotes.
+`8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`) have a notion of "inverse" quotes: the ones posted with a `<` prefix rather than the normal `>` quote prefix. There's no explanation on how "inverse" quotes are different from the normal ones and what's the purpose of their existence.
+<!-- Furthermore, `kohlchan.net` also has "orange" "inverse" quotes. -->
 
 * `--PostQuote-color--inverse: red` — "Inverse" quote text color.
-* `--PostQuote-color--inverse2: orange` — "Orange" "inverse" quote text color.
+<!-- * `--PostQuote-color--inverse2: orange` — "Orange" "inverse" quote text color. -->
 
 ### PostInlineSpoiler
 

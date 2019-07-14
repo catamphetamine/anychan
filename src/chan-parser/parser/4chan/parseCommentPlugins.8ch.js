@@ -83,7 +83,7 @@ const parseEightChanDetected = {
 	}
 }
 
-// `8ch.net` heading.
+// Red heading.
 const parseEightChanHeading = {
 	tag: 'span',
 	attributes: [
@@ -95,7 +95,7 @@ const parseEightChanHeading = {
 	createBlock(content) {
 		return {
 			type: 'text',
-			style: '8ch-heading',
+			style: 'heading',
 			content
 		}
 	}

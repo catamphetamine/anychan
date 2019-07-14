@@ -45,9 +45,10 @@
 	--PostBannedIcon-color: var(--Error-backgroundColor);
 
 	/* PostQuote. */
-	/* `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes. */
+	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+	    have regular quotes and "inverse" quotes. */
 	--PostQuote-color--inverse: #cc0000;
-	--PostQuote-color--inverse2: #E04000;
+	/*--PostQuote-color--inverse2: #E04000;*/
 }
 
 /* Light mode. */

@@ -1,61 +1,10 @@
 import dropQuoteMarker from '../../dropQuoteMarker'
 
-import {
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseStrikethrough,
-	parseSpoiler,
-	parseQuote,
-	parseLink
-} from './parseCommentPlugins'
+import DEFAULT_PLUGINS from './parseCommentPlugins'
 
 // Since May 28th, 2019 `kohlchan.net` has been migrated from `vichan` to `lynxchan`.
 // The old messages still have the old markup.
-import legacyMarkupPlugins from '../4chan/parseCommentPlugins.kohlchan'
-
-// `kohlchan.net` has regular quotes and "inverse" quotes.
-const parseKohlChanRedQuote = {
-	tag: 'span',
-	attributes: [
-		{
-			name: 'class',
-			value: 'redText'
-		}
-	],
-	createBlock(content) {
-		content = dropQuoteMarker(content, '<')
-		if (content) {
-			return {
-				type: 'quote',
-				kind: 'inverse',
-				content
-			}
-		}
-	}
-}
-
-// `kohlchan.net` has regular quotes and "inverse" quotes,
-// and also some "orange" quotes which are ignored.
-const parseKohlChanOrangeQuote = {
-	tag: 'span',
-	attributes: [
-		{
-			name: 'class',
-			value: 'orangeText'
-		}
-	],
-	createBlock(content) {
-		content = dropQuoteMarker(content, '<')
-		if (content) {
-			return {
-				type: 'quote',
-				kind: 'inverse-orange',
-				content
-			}
-		}
-	}
-}
+import LEGACY_MARKUP_PLUGINS from '../4chan/parseCommentPlugins.kohlchan'
 
 const EMOTE_ID_REG_EXP = /^\/\.static\/images\/([^/]+)\.png$/
 
@@ -83,15 +32,7 @@ const parseKohlChanEmoji = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseStrikethrough,
-	parseSpoiler,
-	parseQuote,
-	parseKohlChanRedQuote,
-	parseKohlChanOrangeQuote,
 	parseKohlChanEmoji,
-	parseLink,
-	...legacyMarkupPlugins
+	...DEFAULT_PLUGINS,
+	...LEGACY_MARKUP_PLUGINS
 ]
