@@ -702,10 +702,6 @@ if (ids = this.responseText.match(/<!-- thread:([0-9]+),no:([0-9]+) -->/)) {
 
 * Можно написать в tumba.ch
 
-* Можно интегрировать с LynxChan (http://lynxhub.com/lynxchan/): http://lynxhub.com/lynxchan/res/722.html.
-
-* Написал в hispachan.org
-
 * Можно добавить haibane.ru
 
 https://github.com/ahushh/Monaba/issues/47

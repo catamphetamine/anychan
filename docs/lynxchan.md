@@ -1,6 +1,6 @@
 # lynxchan
 
-While [adding support](http://lynxhub.com/lynxchan/res/722.html#q984) for [`lynxchan`](http://lynxhub.com/) several issues have been discovered in the `lynxchan` engine (as of June 2019).
+While [adding support](http://lynxhub.com/lynxchan/res/722.html#q984) for [`lynxchan`](https://gitgud.io/LynxChan/LynxChan) several issues have been discovered in the `lynxchan` engine (as of June 2019).
 
 * No thread creation date on threads in `/catalog.json` API response.
 * No `signedRole` property on threads in `/catalog.json` API response.
