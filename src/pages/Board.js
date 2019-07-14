@@ -21,6 +21,7 @@ import { getChan } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
+import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadComment from '../components/ThreadComment'
 import VirtualScroller from 'virtual-scroller/react'
 
@@ -62,6 +63,8 @@ export default class BoardPage extends React.Component {
 		locale: PropTypes.string.isRequired
 	}
 
+	state = {}
+
 	constructor() {
 		super()
 		this.onThreadClick = this.onThreadClick.bind(this)
@@ -94,6 +97,10 @@ export default class BoardPage extends React.Component {
 		} finally {
 			preloadFinished()
 		}
+	}
+
+	setSearchBarShown = (isSearchBarShown) => {
+		this.setState({ isSearchBarShown })
 	}
 
 	onVirtualScrollerStateChange = (state) => {
@@ -138,6 +145,10 @@ export default class BoardPage extends React.Component {
 			virtualScrollerState
 		} = this.props
 
+		const {
+			isSearchBarShown
+		} = this.state
+
 		const itemComponentProps = {
 			mode: 'board',
 			board,
@@ -150,9 +161,24 @@ export default class BoardPage extends React.Component {
 
 		return (
 			<section className="board-page content text-content">
-				<h1 className="page__heading">
-					{board.name}
-				</h1>
+				<div className="board-page__header">
+					<h1 className="page__heading">
+						{board.name}
+					</h1>
+					<BoardOrThreadMenu
+						smallScreen
+						mode="board"
+						notify={notify}
+						locale={locale}
+						isSearchBarShown={isSearchBarShown}
+						setSearchBarShown={this.setSearchBarShown}/>
+				</div>
+				<BoardOrThreadMenu
+					mode="board"
+					notify={notify}
+					locale={locale}
+					isSearchBarShown={isSearchBarShown}
+					setSearchBarShown={this.setSearchBarShown}/>
 				{getChan().id === '2ch' && board.id === 'd' &&
 					<p className="board-page__api-bug-note">
 						Данный раздел пуст из-за бага в <a href={`https://2ch.hk/${board.id}/catalog.json`} target="_blank">API Двача</a>.

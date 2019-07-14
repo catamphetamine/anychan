@@ -175,7 +175,7 @@ export class Boards extends React.PureComponent {
 							className={classNames('boards__view-switch', {
 								'boards__view-switch--disabled': view === 'default'
 							})}>
-							{getMessages(locale).boardsByPopularity}
+							{getMessages(locale).boards.byPopularity}
 						</Button>
 
 						<Button
@@ -184,7 +184,7 @@ export class Boards extends React.PureComponent {
 							className={classNames('boards__view-switch', {
 								'boards__view-switch--disabled': view === 'by-category'
 							})}>
-							{getMessages(locale).boardsByCategory}
+							{getMessages(locale).boards.byCategory}
 						</Button>
 					</div>
 				}

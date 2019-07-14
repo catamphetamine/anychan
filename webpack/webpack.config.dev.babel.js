@@ -21,7 +21,7 @@ configuration.plugins.push(
 		// favicon: 'assets/images/icon@192x192.png',
     // Seems to use "lodash" templates.
     templateParameters: {
-      googleAnalytics: applicationConfiguration.googleAnalytics
+      googleAnalytics: null // applicationConfiguration.googleAnalytics
     }
 	})
 )

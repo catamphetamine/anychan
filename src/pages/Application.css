@@ -102,23 +102,14 @@
 }
 
 .content {
-	padding-left: calc(var(--unit) * 2);
-	padding-right: calc(var(--unit) * 2);
+	padding-left: var(--PageContent-padding);
+	padding-right: var(--PageContent-padding);
 
 	/* Prevents horizontal overflow of a page. */
 	width: 100%;
-
-	@mixin xxs {
-		padding-left: var(--unit);
-		padding-right: var(--unit);
-	}
 }
 
 .webpage__main--content-sections {
-	.content {
-		padding-left: calc(var(--unit) * 2);
-		padding-right: calc(var(--unit) * 2);
-	}
 	.background-content {
 		padding-left: 0;
 		padding-right: 0;
@@ -127,10 +118,7 @@
 
 @mixin upto-m {
 	.webpage__main--content-sections {
-		.content {
-			padding-left: 0;
-			padding-right: 0;
-		}
+		--PageContent-padding: 0px;
 		.background-content {
 			padding-left: var(--unit);
 			padding-right: var(--unit);

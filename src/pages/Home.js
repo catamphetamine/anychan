@@ -77,7 +77,7 @@ export default class Home extends React.Component {
 							type="button"
 							onClick={showSidebar}
 							className="rrui__button-reset">
-							{getMessages(locale).showBoardsList}
+							{getMessages(locale).boards.showBoardsList}
 						</button>
 					</p>
 				</div>

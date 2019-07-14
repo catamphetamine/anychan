@@ -12,8 +12,8 @@
 
 	.application-menu {
 		height: 100%;
-		padding-left: calc(var(--unit) / 2);
-		padding-right: calc(var(--unit) / 2);
+		padding-left: var(--unit);
+		padding-right: var(--unit);
 	}
 }
 

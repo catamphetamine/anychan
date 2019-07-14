@@ -13,13 +13,14 @@ body {
 	}
 }
 
-.footer .application-menu
-{
+.footer .application-menu {
 	position : fixed;
 	left     : 0;
 	right    : 0;
 	bottom   : 0;
 
+	/* Remove the negative side margin. */
+	margin: 0;
 	justify-content: space-evenly;
 
 	height: var(--footer-menu-height);

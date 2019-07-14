@@ -7,4 +7,11 @@
 	--header-z-index: 2;
 	--slideshow-z-index: 3;
 	--notifications-z-index: 4;
+
+	--PageContent-padding: calc(var(--unit) * 2);
+	--PageContent-padding--nonContentSection: 0px;
+	@mixin xxs {
+		--PageContent-padding: var(--unit);
+		--PageContent-padding--nonContentSection: var(--ContentSection-padding--horizontal);
+	}
 }

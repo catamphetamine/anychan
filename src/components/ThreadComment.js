@@ -115,16 +115,8 @@ export default class ThreadComment extends React.PureComponent {
 			comment,
 			mode,
 			locale,
-			notify,
 			parentComment,
-			showingReplies,
-			onToggleShowReplies,
-			toggleShowRepliesButtonRef,
-			initialExpandContent,
-			onExpandContent,
-			onContentDidChange,
-			onCommentContentChange,
-			postRef
+			...rest
 		} = this.props
 
 		const {
@@ -136,25 +128,17 @@ export default class ThreadComment extends React.PureComponent {
 		// (half the size) when they're not "OP posts".
 		const commentElement = (
 			<Comment
-				postRef={postRef}
+				{...rest}
 				mode={mode}
 				compact={mode === 'thread' && comment.id !== thread.id}
 				comment={comment}
 				hidden={hidden}
-				url={getUrl(board, thread, comment)}
 				locale={locale}
+				url={getUrl(board, thread, comment)}
 				onAttachmentClick={this.onAttachmentClick}
-				notify={notify}
 				onReply={mode === 'thread' && !thread.isLocked ? this.onReply : undefined}
 				onVote={thread.hasVoting ? this.onVote : undefined}
 				parentComment={parentComment}
-				showingReplies={showingReplies}
-				onToggleShowReplies={onToggleShowReplies}
-				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
-				initialExpandContent={initialExpandContent}
-				onExpandContent={onExpandContent}
-				onContentDidChange={onContentDidChange}
-				onCommentContentChange={onCommentContentChange}
 				className={classNames(`thread__comment--${mode}`, {
 					'thread__comment--opening': mode === 'thread' && comment.id === thread.id
 				})}/>

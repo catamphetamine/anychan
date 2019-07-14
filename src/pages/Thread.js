@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import {
 	preload,
 	meta,
@@ -7,6 +8,7 @@ import {
 	wasInstantNavigation,
 	isInstantBackAbleNavigation
 } from 'react-website'
+
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
@@ -16,6 +18,7 @@ import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
+import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
 import VirtualScroller from 'virtual-scroller/react'
 
@@ -56,7 +59,30 @@ export default class ThreadPage extends React.Component {
 		locale: PropTypes.string.isRequired
 	}
 
+	state = {}
+
 	virtualScroller = React.createRef()
+
+	setThreadTracked = (isThreadTracked) => {
+		this.setState({ isThreadTracked })
+	}
+
+	setSearchBarShown = (isSearchBarShown) => {
+		this.setState({ isSearchBarShown })
+	}
+
+	setAttachmentsExpanded = (areAttachmentsExpanded) => {
+		this.setState({ areAttachmentsExpanded })
+	}
+
+	openSlideshow = () => {
+		const { thread, openSlideshow } = this.props
+		const attachments = thread.comments.reduce(
+			(attachments, comment) => attachments.concat(comment.attachments || []),
+			[]
+		)
+		openSlideshow(attachments, 0, { slideshowMode: true })
+	}
 
 	onVirtualScrollerStateChange = (state) => {
 		this.virtualScrollerState = state
@@ -100,6 +126,12 @@ export default class ThreadPage extends React.Component {
 			notify
 		} = this.props
 
+		const {
+			isThreadTracked,
+			isSearchBarShown,
+			areAttachmentsExpanded
+		} = this.state
+
 		const itemComponentProps = {
 			onCommentContentChange: (id) => {
 				const index = thread.comments.findIndex(_ => _.id === id)
@@ -110,8 +142,22 @@ export default class ThreadPage extends React.Component {
 			thread,
 			openSlideshow,
 			notify,
-			locale
+			locale,
+			expandAttachments: areAttachmentsExpanded
 		}
+
+		// const menu = (
+		// 	<ThreadMenu
+		// 		locale={locale}
+		// 		openSlideshow={this.openSlideshow}
+		// 		isThreadTracked={isThreadTracked}
+		// 		setThreadTracked={this.setThreadTracked}
+		// 		isSearchBarShown={isSearchBarShown}
+		// 		setSearchBarShown={this.setSearchBarShown}
+		// 		areAttachmentsExpanded={areAttachmentsExpanded}
+		// 		setAttachmentsExpanded={this.setAttachmentsExpanded}
+		// 		className="board-or-thread-menu board-or-thread-menu--small-screen"/>
+		// )
 
 		return (
 			<section className={classNames('thread-page', 'content', 'text-content')}>
@@ -127,6 +173,31 @@ export default class ThreadPage extends React.Component {
 					</h1>
 				</header>
 				*/}
+				<div className="thread-page__header">
+					<BoardOrThreadMenu
+						mode="thread"
+						smallScreen
+						notify={notify}
+						locale={locale}
+						openSlideshow={this.openSlideshow}
+						isThreadTracked={isThreadTracked}
+						setThreadTracked={this.setThreadTracked}
+						isSearchBarShown={isSearchBarShown}
+						setSearchBarShown={this.setSearchBarShown}
+						areAttachmentsExpanded={areAttachmentsExpanded}
+						setAttachmentsExpanded={this.setAttachmentsExpanded}/>
+				</div>
+				<BoardOrThreadMenu
+					mode="thread"
+					notify={notify}
+					locale={locale}
+					openSlideshow={this.openSlideshow}
+					isThreadTracked={isThreadTracked}
+					setThreadTracked={this.setThreadTracked}
+					isSearchBarShown={isSearchBarShown}
+					setSearchBarShown={this.setSearchBarShown}
+					areAttachmentsExpanded={areAttachmentsExpanded}
+					setAttachmentsExpanded={this.setAttachmentsExpanded}/>
 				<VirtualScroller
 					ref={this.virtualScroller}
 					onMount={this.onVirtualScrollerMount}

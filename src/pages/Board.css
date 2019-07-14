@@ -1,17 +1,30 @@
 @import "../styles/common";
 
 .board-page {
-	.page__heading {
-		display: block;
-		@mixin l-plus {
-			display: none;
-		}
+	--margin-top--large-screen: calc(var(--unit) * 2);
+	/* `position: relative` is for <ThreadMenu/> on large screens. */
+	position: relative;
+}
+
+.board-page__header {
+	display: block;
+	@mixin l-plus {
+		display: none;
+	}
+	/* `position: relative` is for <ThreadMenu/> on small screens. */
+	position: relative;
+	.board-or-thread-menu {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		margin: 0;
+		transform: translateY(-50%);
 	}
 }
 
 .board-page__threads {
 	@mixin l-plus {
-		margin-top: calc(var(--unit) * 2);
+		margin-top: var(--margin-top--large-screen);
 	}
 }
 

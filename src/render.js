@@ -35,7 +35,7 @@ export default async function() {
 			// and without any "Demographics" tracking features
 			// seems to comply with GDPR.
 			// Google Analytics cookie violates GDPR.
-			if (configuration.googleAnalytics) {
+			if (configuration.googleAnalytics && process.env.NODE_ENV === 'production') {
 				// Set up Google Analytics via `gtag`.
 				gtag('config', configuration.googleAnalytics.id, {
 					// Anonymize IP for all Google Analytics events.

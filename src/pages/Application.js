@@ -50,6 +50,7 @@ import './Application.css'
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
 	slideshowPictures: slideshow.pictures,
+	slideshowMode: slideshow.slideshowMode,
   location: found.resolvedMatch.location,
   announcement: announcement.announcement
 }), {
@@ -119,6 +120,7 @@ export default class App extends React.Component {
 			slideshowIndex,
 			slideshowIsOpen,
 			slideshowPictures,
+			slideshowMode,
 			closeSlideshow,
 			hideAnnouncement,
 			cookiesAccepted,
@@ -145,6 +147,7 @@ export default class App extends React.Component {
 					<Slideshow
 						i={slideshowIndex}
 						isOpen={slideshowIsOpen}
+						slideshowMode={slideshowMode}
 						onClose={closeSlideshow}
 						messages={messages.slideshow}>
 						{slideshowPictures}

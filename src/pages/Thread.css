@@ -1,8 +1,17 @@
 @import "../styles/common";
 
+.thread-page {
+	--margin-top--large-screen: calc(var(--unit) * 2);
+	/* `position: relative` is for <ThreadMenu/>. */
+	position: relative;
+}
+
 .thread-page__header {
 	display: flex;
-	flex-direction: column;
+	justify-content: flex-end;
+	@mixin l-plus {
+		display: none;
+	}
 }
 
 .thread-page {
@@ -18,7 +27,7 @@
 
 .thread-page__comments {
 	@mixin l-plus {
-		margin-top: calc(var(--unit) * 2);
+		margin-top: var(--margin-top--large-screen);
 	}
 }
 

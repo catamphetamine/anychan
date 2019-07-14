@@ -2,13 +2,17 @@
 	"languageName": "Русский",
 	"boards": {
 		"title": "Список досок",
-		"showAll": "Показать все доски"
+		"showAll": "Показать все доски",
+		"showBoardsList": "Показать список досок",
+		"byPopularity": "Популярные",
+		"byCategory": "По разделам"
 	},
 	"notifications": {
 		"title": "Уведомления"
 	},
 	"trackedThreads": {
-		"title": "Отслеживаемые треды"
+		"title": "Отслеживаемые треды",
+		"trackThread": "Отслеживать этот тред"
 	},
 	"nightMode": {
 		"title": "Ночной режим"
@@ -95,10 +99,6 @@
 			}
 		}
 	},
-	"showBoardsList": "Показать список досок",
-	"boardsList": "Все доски",
-	"boardsByPopularity": "Популярные",
-	"boardsByCategory": "По разделам",
 	"loadingBoardsError": "Не удалось загрузить список досок",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
@@ -116,6 +116,8 @@
 	"noSearchResults": "Ничего не найдено",
 	"showPrevious": "Показать предыдущие",
 	"showNext": "Показать следующие",
+	"expandAttachments": "Раскрыть картинки",
+	"viewAttachments": "Посмотреть картинки",
 	"post": {
 		"banned": "Автор этого сообщения был забанен",
 		"bannedReason": ". Причина: \"{0}\".",
@@ -148,7 +150,8 @@
 		"no": "Нет",
 		"close": "Закрыть",
 		"accept": "Принять",
-		"learnMore": "Подробнее"
+		"learnMore": "Подробнее",
+		"search": "Поиск"
 	},
 	"role": {
 		"administrator": "Администратор",

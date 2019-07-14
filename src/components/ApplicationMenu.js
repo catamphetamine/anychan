@@ -82,45 +82,45 @@ export default class ApplicationMenu extends React.Component {
 		let menuItems = [
 			{
 				title: messages.nightMode.title,
-				action: () => {
+				onClick: () => {
 					if (!areCookiesAccepted()) {
 						return notify(messages.cookies.required)
 					}
 					toggleDarkMode()
 					applyDarkMode(!darkMode)
 				},
-				isActive: darkMode,
-				outlineIcon: MoonIconOutline,
-				fillIcon: MoonIconFill
+				isSelected: darkMode,
+				icon: MoonIconOutline,
+				iconActive: MoonIconFill
 			},
 			{
 				title: messages.trackedThreads.title,
-				action: () => notify('Not implemented yet'), // toggleTrackedThreads,
-				isActive: areTrackedThreadsShown,
-				outlineIcon: StarIconOutline,
-				fillIcon: StarIconFill
+				onClick: () => notify('Not implemented yet'), // toggleTrackedThreads,
+				isSelected: areTrackedThreadsShown,
+				icon: StarIconOutline,
+				iconActive: StarIconFill
 			},
 			{
 				title: messages.notifications.title,
-				action: () => notify('Not implemented yet'), // toggleNotifications,
-				isActive: areNotificationsShown,
-				outlineIcon: BellIconOutline,
-				fillIcon: BellIconFill
+				onClick: () => notify('Not implemented yet'), // toggleNotifications,
+				isSelected: areNotificationsShown,
+				icon: BellIconOutline,
+				iconActive: BellIconFill
 			},
 			{
 				url: addChanParameter('/settings'),
-				isActive: !isSidebarShown,
-				outlineIcon: SettingsIconOutline,
-				fillIcon: SettingsIconFill
+				isSelected: !isSidebarShown,
+				icon: SettingsIconOutline,
+				iconActive: SettingsIconFill
 			}
 		]
 		if (footer) {
 			menuItems = [{
 				title: messages.boards.title,
-				action: toggleSidebar,
-				isActive: isSidebarShown,
-				outlineIcon: BoardIconOutline,
-				fillIcon: BoardIconFill,
+				onClick: toggleSidebar,
+				isSelected: isSidebarShown,
+				icon: BoardIconOutline,
+				iconActive: BoardIconFill,
 				size: 'xxl'
 			}].concat(menuItems)
 		}

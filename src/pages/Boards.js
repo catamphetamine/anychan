@@ -12,7 +12,7 @@ import getMessages from '../messages'
 import './Boards.css'
 
 @meta(({ app }) => ({
-	title: getMessages(app.settings.locale).boardsList
+	title: getMessages(app.settings.locale).boards.title
 }))
 @preload(({ dispatch }) => dispatch(getAllBoards()))
 @connect(({ app, chan }) => ({
