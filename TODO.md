@@ -13,6 +13,33 @@ Expand attachments: max height === screen height - header/footer height.
 
 Expand attachments: expand videos as HTML <video/> tags because preview pictures are small.
 
+Expand attachments: test for transparent background pictures:
+
+```js
+picturesAndVideos = [{
+	"type": "picture",
+	"picture": {
+		"type": "image/png",
+		"width": 512,
+		"height": 512,
+		"size": 0,
+		"url": "https://2ch.hk/stickers/IFJWXtwd/v6avOejd.png",
+		"sizes": [
+			{
+				"type": "image/png",
+				"width": 200,
+				"height": 200,
+				"url": "https://2ch.hk/stickers/IFJWXtwd/v6avOejd_thumb.png"
+			}
+		],
+		"transparentBackground": true
+	}
+}]
+```
+
+
+
+
 Add loading indicator stripe in place of the spinner + under board name + under thread preview.
 
 
