@@ -9,22 +9,26 @@
 .board-page__header {
 	display: block;
 	@mixin l-plus {
-		display: none;
+		.page__heading {
+			display: none;
+		}
 	}
-	/* `position: relative` is for <ThreadMenu/> on small screens. */
-	position: relative;
-	.board-or-thread-menu {
-		position: absolute;
-		right: 0;
-		top: 50%;
-		margin: 0;
-		transform: translateY(-50%);
+	@mixin upto-m {
+		/* `position: relative` is for <ThreadMenu/> on small screens. */
+		position: relative;
+		.board-or-thread-menu {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			margin: 0;
+			transform: translateY(-50%);
+		}
 	}
 }
 
 .board-page__threads {
 	@mixin l-plus {
-		margin-top: var(--margin-top--large-screen);
+		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
 	}
 }
 

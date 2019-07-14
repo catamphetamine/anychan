@@ -178,7 +178,6 @@ export default class ThreadPage extends React.Component {
 				<div className="thread-page__header">
 					<BoardOrThreadMenu
 						mode="thread"
-						smallScreen
 						notify={notify}
 						locale={locale}
 						openSlideshow={this.openSlideshow}
@@ -189,17 +188,6 @@ export default class ThreadPage extends React.Component {
 						areAttachmentsExpanded={areAttachmentsExpanded}
 						setAttachmentsExpanded={this.setAttachmentsExpanded}/>
 				</div>
-				<BoardOrThreadMenu
-					mode="thread"
-					notify={notify}
-					locale={locale}
-					openSlideshow={this.openSlideshow}
-					isThreadTracked={isThreadTracked}
-					setThreadTracked={this.setThreadTracked}
-					isSearchBarShown={isSearchBarShown}
-					setSearchBarShown={this.setSearchBarShown}
-					areAttachmentsExpanded={areAttachmentsExpanded}
-					setAttachmentsExpanded={this.setAttachmentsExpanded}/>
 				<VirtualScroller
 					ref={this.virtualScroller}
 					onMount={this.onVirtualScrollerMount}

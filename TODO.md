@@ -13,6 +13,8 @@ Expand attachments: max height === screen height - header/footer height.
 
 Expand attachments: expand videos as HTML <video/> tags because preview pictures are small.
 
+Expand attachments: check for YouTube videos and HTML <video/>s (http://localhost:1234/v/4267625).
+
 Expand attachments: test for transparent background pictures:
 
 ```js
@@ -39,6 +41,7 @@ picturesAndVideos = [{
 
 
 
+В слайдшоу: возможно, не показывать video preview, если размер preview очень мал, а сразу показывать HTML <video/>.
 
 Add loading indicator stripe in place of the spinner + under board name + under thread preview.
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
 import getMessages from '../messages'
 
@@ -24,7 +23,6 @@ export default function BoardOrThreadMenu({
 	mode,
 	locale,
 	notify,
-	smallScreen,
 	isThreadTracked,
 	setThreadTracked,
 	isSearchBarShown,
@@ -40,7 +38,7 @@ export default function BoardOrThreadMenu({
 	[
 		{
 			title: messages.actions.search,
-			onClick: () => notify('Not implemented yet'),
+			onClick: () => notify('Not implemented yet', { duration: 1000000000 }),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,
@@ -85,10 +83,7 @@ export default function BoardOrThreadMenu({
 	return (
 		<Menu
 			{...rest}
-			className={classNames('board-or-thread-menu', {
-				'board-or-thread-menu--small-screen': smallScreen,
-				'board-or-thread-menu--large-screen': !smallScreen
-			})}>
+			className="board-or-thread-menu">
 			{menuItems}
 		</Menu>
 	)
@@ -97,7 +92,6 @@ export default function BoardOrThreadMenu({
 BoardOrThreadMenu.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
 	locale: PropTypes.string.isRequired,
-	smallScreen: PropTypes.bool,
 	isThreadTracked: PropTypes.bool,
 	setThreadTracked: PropTypes.func.isRequired,
 	isSearchBarShown: PropTypes.bool,

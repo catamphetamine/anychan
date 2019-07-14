@@ -1,10 +1,5 @@
 @import "../styles/common";
 
-.board-or-thread-menu--small-screen {
-	margin-top: calc(var(--unit) * 0.5);
-	margin-bottom: calc(var(--unit) * 0.5);
-}
-
 .board-or-thread-menu {
 	justify-content: flex-end;
 	padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));
@@ -12,13 +7,13 @@
 	color: var(--Content-color-600);
 	--MenuIcon-width: calc(var(--unit) * 1.25);
 	--Menu-color--selected: var(--Content-color-700);
-}
-
-.board-or-thread-menu--large-screen {
-	position: absolute;
-	right: 0;
-	top: calc(-1 * var(--margin-top--large-screen) + (var(--margin-top--large-screen) - var(--MenuIcon-width)) / 2);
 	@mixin upto-m {
-		display: none;
+		margin-top: calc(var(--unit) * 0.5);
+		margin-bottom: calc(var(--unit) * 0.5);
+	}
+	@mixin l-plus {
+		position: absolute;
+		right: 0;
+		top: calc(-1 * var(--BoardOrThreadPage-marginTop--largeScreen) + (var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
 	}
 }

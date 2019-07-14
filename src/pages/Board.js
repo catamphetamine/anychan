@@ -168,19 +168,12 @@ export default class BoardPage extends React.Component {
 						{board.name}
 					</h1>
 					<BoardOrThreadMenu
-						smallScreen
 						mode="board"
 						notify={notify}
 						locale={locale}
 						isSearchBarShown={isSearchBarShown}
 						setSearchBarShown={this.setSearchBarShown}/>
 				</div>
-				<BoardOrThreadMenu
-					mode="board"
-					notify={notify}
-					locale={locale}
-					isSearchBarShown={isSearchBarShown}
-					setSearchBarShown={this.setSearchBarShown}/>
 				{getChan().id === '2ch' && board.id === 'd' &&
 					<p className="board-page__api-bug-note">
 						Данный раздел пуст из-за бага в <a href={`https://2ch.hk/${board.id}/catalog.json`} target="_blank">API Двача</a>.

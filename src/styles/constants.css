@@ -8,6 +8,7 @@
 	--slideshow-z-index: 3;
 	--notifications-z-index: 4;
 
+	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
 	--PageContent-padding: calc(var(--unit) * 2);
 	--PageContent-padding--nonContentSection: 0px;
 	@mixin xxs {
