@@ -125,12 +125,14 @@ export default class BoardPage extends React.Component {
 
 	componentWillUnmount() {
 		if (isInstantBackAbleNavigation()) {
+			// Save `virtual-scroller` state in Redux state.
 			const {
 				setVirtualScrollerState,
 				setScrollPosition
 			} = this.props
 			setVirtualScrollerState(this.virtualScrollerState)
-			// `window.scrollY` is not supported by Internet Explorer.
+			// Using `window.pageYOffset` instead of `window.scrollY`
+			// because `window.scrollY` is not supported by Internet Explorer.
 			setScrollPosition(window.pageYOffset)
 		}
 	}
