@@ -162,8 +162,8 @@ function getThumbnailExt(file, type, chan) {
 	if (chan === '8ch') {
 		return file.ext
 	}
-	// `kohlchan.net` always has ".png" extension for thumbnails.
-	if (chan === 'kohlchan') {
+	// `lainchan.org` always has ".png" extension for thumbnails.
+	if (chan === 'lainchan' || chan === 'arisuchan') {
 		return '.png'
 	}
 	return file.ext

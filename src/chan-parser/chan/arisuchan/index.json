@@ -1,0 +1,8 @@
+{
+	"id": "arisuchan",
+	"language": "en",
+	"parser": "4chan",
+	"attachmentUrl": "https://arisuchan.jp/{boardId}/src/{name}{ext}",
+	"attachmentThumbnailUrl": "https://arisuchan.jp/{boardId}/thumb/{name}{ext}",
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+}

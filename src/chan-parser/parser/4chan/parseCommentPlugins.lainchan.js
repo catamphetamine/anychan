@@ -1,7 +1,3 @@
-import createLink from '../../utility/createLink'
-import dropQuoteMarker from '../../dropQuoteMarker'
-import parsePostLink from '../../parsePostLink'
-
 import {
 	parseBold,
 	parseItalic,
