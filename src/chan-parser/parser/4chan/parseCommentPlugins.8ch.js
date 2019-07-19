@@ -6,7 +6,7 @@ import {
 	parseUnderline,
 	parseLink,
 	parseCode
-} from './parseCommentPlugins.4chan'
+} from './parseCommentPlugins'
 
 const parseStrikethrough = {
 	tag: 's',
