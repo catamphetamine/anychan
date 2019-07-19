@@ -5,7 +5,7 @@ Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 Supported engines:
 
 * [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/captchan/?chan=4chan).
-* [vichan](https://github.com/vichan-devel/vichan) ([lainchan.org](https://lainchan.org/)) / [infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See: [`8ch.net` demo](https://catamphetamine.github.io/captchan/?chan=8ch), [`lainchan.org` demo](https://catamphetamine.github.io/captchan/?chan=8ch), [`arisuchan.jp` demo](https://catamphetamine.github.io/captchan/?chan=arisuchan).
+* [vichan](https://github.com/vichan-devel/vichan) ([lainchan.org](https://lainchan.org/), [arisuchan.jp](https://arisuchan.jp/)) / [infinity](https://github.com/ctrlcctrlv/infinity)/[OpenIB](https://github.com/OpenIB/OpenIB/) ([8ch.net](https://8ch.net/)). See: [`8ch.net` demo](https://catamphetamine.github.io/captchan/?chan=8ch), [`lainchan.org` demo](https://catamphetamine.github.io/captchan/?chan=lainchan), [`arisuchan.jp` demo](https://catamphetamine.github.io/captchan/?chan=arisuchan).
 * [lynxchan](https://gitgud.io/LynxChan/LynxChan) ([kohlchan.net](https://kohlchan.net)). See [`kohlchan.net` demo](https://catamphetamine.github.io/captchan/?chan=kohlchan).
 * [makaba](https://2ch.hk/api/) ([2ch.hk](https://2ch.hk/)). See [`2ch.hk` demo](https://catamphetamine.github.io/captchan/?chan=2ch).
 
