@@ -4,9 +4,9 @@
 	justify-content: flex-end;
 	padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));
 	padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));
-	color: var(--Content-color-600);
+	color: var(--ThreadActions-color);
 	--MenuIcon-width: calc(var(--unit) * 1.25);
-	--Menu-color--selected: var(--Content-color-700);
+	--Menu-color--selected: var(--ThreadActions-color--selected);
 	@mixin upto-m {
 		margin-top: calc(var(--unit) * 0.5);
 		margin-bottom: calc(var(--unit) * 0.5);

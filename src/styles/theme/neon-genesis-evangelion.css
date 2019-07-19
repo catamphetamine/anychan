@@ -2,27 +2,27 @@
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
 	/* "Base" color (orange). */
-	--base-color-100 : #FFF4EC;
-	--base-color-200 : #FFD0AF;
-	--base-color-300 : #FFA061;
-	--base-color-400 : #FF8732;
-	--base-color-500: #ff9800;
-	--base-color-600: #eb8c00;
-	--base-color-700: #c76c00;
-	--base-color-800: #BD7200;
-	--base-color-900: #925800;
+	--base-color-100: #fff2e0;
+	--base-color-200: #ffd195;
+	--base-color-300: #feb352;
+	--base-color-400: #ff981f;
+	--base-color-500: #ff8400;
+	--base-color-600: #e36b00;
+	--base-color-700: #b55100;
+	--base-color-800: #823b01;
+	--base-color-900: #613000;
 }
 
 /* Light mode. */
 .light {
 	/* Document. */
-	--Document-color: var(--white-color);
-	--Document-backgroundColor: #3a1400;
+	--Document-color: var(--gray-color-100);
+	--Document-backgroundColor: #261b53;
 
 	/* Header. */
-	--Header-color: var(--white-color);
-	--Header-backgroundColor: #5f238c;
-	--Header-backgroundColor--title: #732771;
+	--Header-color: var(--Document-color);
+	--Header-backgroundColor: #3d2e80;
+	--Header-backgroundColor--title: #622468;
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
 	--Header-borderWidth: 0;
 
@@ -36,10 +36,15 @@
 	--Notification-backgroundColor: var(--Header-backgroundColor--title);
 	--Notification-borderColor: #5b0063;
 	--Notification-borderWidth: 3px;
+	--Notification-borderWidth--error: 0px;
 
 	/* Menu. */
 	--Menu-color--active: var(--base-color-400);
 	--Menu-color--selected: var(--base-color-400);
+
+	/* ThreadActions. */
+	--ThreadActions-color: var(--gray-color-400);
+	--ThreadActions-color--selected: var(--gray-color-300);
 
 	/* Content. */
 	--Content-backgroundColor: #f6ffe9;
@@ -53,14 +58,17 @@
 	--Error-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-	--Sidebar-backgroundColor: #2d252d;
-	--Sidebar-borderColor: rgba(0,0,0,0.125);
+	--Sidebar-color: var(--Document-color);
+	--Sidebar-backgroundColor: #2b235f;
+	--Sidebar-borderColor: rgba(255,255,255,0.02);
+	--Sidebar-color--scrollbar: #665f97;
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: #393039;
-	--Boards-backgroundColor--active: #3f313f;
-	--Boards-backgroundColor--selected: #201720;
+	--Boards-backgroundColor--hover: #332a6a;
+	--Boards-backgroundColor--active: #383070;
+	--Boards-backgroundColor--selected: #211b4e;
 	--Boards-color--slash: #665566;
+	--Boards-color--viewSwitcher: var(--gray-color-300);
 
 	/* BoardsPage. */
 	--BoardsPage-color--slash: var(--Content-color-300);
@@ -87,7 +95,7 @@
 	--PostQuote-backgroundColor: #dfffcb;
 	--PostQuote-backgroundColor--hover: #d3ffb9;
 	--PostQuote-borderColor--hover: transparent;
-	--PostQuote-color: #288700;
+	--PostQuote-color: #268000;
 
 	/* PostQuoteMarker. */
 	--PostQuoteMarker-opacity: 0;
@@ -99,48 +107,52 @@
 	--PostInlineSpoiler-color--censoredContentActive: #fad9b1;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: #855f50;
+	--CommentSeparator-color: #bcd19e;
 }
 
 /* Dark Mode. */
 .dark {
+	/* Slightly muted link/button colors in "Dark Mode". */
+	--base-color-300: #dc9363;
+	--base-color-400: #d96d1f;
+	--base-color-500: #e75f00;
+
 	/* Document. */
-	--Document-color: var(--white-color);
-	--Document-backgroundColor: #000008;
+	--Document-backgroundColor: #0c0e34;
 
 	/* Content. */
-	--Content-backgroundColor: #151634;
-	--Content-backgroundColor--active: #181a3f;
-	--Content-color-100: #242643;
-	--Content-color-200: #37385a;
-	--Content-color-300: #5c5d93;
-	--Content-color-400: #7273ad;
-	--Content-color-500: #8384bc;
-	--Content-color-600: #9495c8;
-	--Content-color-700: #a6a7d7;
-	--Content-color-800: #c5c6e8;
+	--Content-backgroundColor: #28294d;
+	--Content-backgroundColor--active: #2a2b52;
+	--Content-color-100: #313356;
+	--Content-color-200: #43446d;
+	--Content-color-300: #54558a;
+	--Content-color-400: #6667a2;
+	--Content-color-500: #7778b2;
+	--Content-color-600: #8687b0;
+	--Content-color-700: #9798bd;
+	--Content-color-800: #a9aacb;
+	--Content-color-900: #b9b9d4;
 
 	/* Header. */
-	--Header-color: var(--white-color);
-	--Header-backgroundColor: #251946;
-	--Header-backgroundColor--title: #350054;
+	--Header-color: var(--gray-color-300);
+	--Header-backgroundColor: #1e1f47;
+	--Header-backgroundColor--title: #3d004e;
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
-	--Header-borderWidth: 1px;
-	--Header-borderColor: rgba(255,255,255,0.13);
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: var(--Header-borderColor);
+	--HeaderSeparator-color--left: transparent;
 
 	/* Sidebar. */
-	--Sidebar-backgroundColor: #020b26;
-	--Sidebar-borderColor: rgba(0,0,0,0.125);
+	--Sidebar-backgroundColor: #11133b;
+	--Sidebar-borderColor: rgba(255,255,255,0.03);
 	--Sidebar-color--scrollbar: #626877;
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: #182039;
-	--Boards-backgroundColor--active: #1f273e;
-	--Boards-backgroundColor--selected: #111934;
-	--Boards-color--slash: #47486d;
+	--Boards-backgroundColor--hover: #252752;
+	--Boards-backgroundColor--active: #2a2c5d;
+	--Boards-backgroundColor--selected: #1b1d48;
+	--Boards-color--slash: #5f608c;
+	--Boards-color--viewSwitcher: var(--Content-color-700);
 
 	/* BoardsPage. */
 	--BoardsPage-color--slash: #665566;
@@ -155,23 +167,18 @@
 	--HoverButton-borderColor--pushed: #4a387f;
 	--HoverButton-borderColor--pushedFocus: #46972c;
 
-	/* Picture. */
-	--Picture-borderColor--focus: #392b21;
-
 	/* PostQuote. */
 	--PostQuote-backgroundColor: transparent;
-	--PostQuote-backgroundColor--hover: #191b3d;
-	--PostQuote-borderColor--hover: rgba(255,255,255,0.07);
-	--PostQuote-color: #75cc59;
+	--PostQuote-color: #7ac263;
 
 	/* PostQuoteMarker. */
 	--PostQuoteMarker-opacity: 0.7;
 
 	/* PostInlineSpoiler. */
-	--PostInlineSpoiler-color: #323459;
-	--PostInlineSpoiler-color--contentActive: #393c66;
-	--PostInlineSpoiler-color--censored: #3d2f4c;
-	--PostInlineSpoiler-color--censoredContentActive: #403150;
+	--PostInlineSpoiler-color: #373965;
+	--PostInlineSpoiler-color--contentActive: #393b6b;
+	--PostInlineSpoiler-color--censored: #443256;
+	--PostInlineSpoiler-color--censoredContentActive: #463258;
 
 	/* PostAttachment. */
 	--PostAttachment-shadowColor--hover: rgba(70,70,100,0.22);

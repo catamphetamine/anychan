@@ -15,7 +15,7 @@ import {
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
-import applyDarkMode from 'webapp-frontend/src/utility/darkMode'
+import { applyDarkMode } from 'webapp-frontend/src/utility/style'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
@@ -81,7 +81,7 @@ export default class ApplicationMenu extends React.Component {
 		const messages = getMessages(locale)
 		let menuItems = [
 			{
-				title: messages.nightMode.title,
+				title: messages.darkMode,
 				onClick: () => {
 					if (!areCookiesAccepted()) {
 						return notify(messages.cookies.required)

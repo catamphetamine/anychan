@@ -10,7 +10,7 @@ import constructThread from '../../constructThread'
  */
 export default function parseThread(thread, posts, {
 	boardId,
-	filters,
+	censoredWords,
 	messages,
 	isPreview,
 	defaultAuthorName,
@@ -33,7 +33,7 @@ export default function parseThread(thread, posts, {
 }) {
 	const comments = posts.map(comment => parseComment(comment, {
 		boardId,
-		filters,
+		censoredWords,
 		messages,
 		defaultAuthorName,
 		parseCommentPlugins,

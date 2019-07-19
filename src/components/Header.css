@@ -12,7 +12,8 @@
 
 	.application-menu {
 		height: 100%;
-		padding-left: var(--unit);
+		margin-left: 0;
+		padding-left: var(--MenuIcon-padding);
 		padding-right: var(--unit);
 	}
 }
@@ -56,6 +57,7 @@
 {
 	height: calc(var(--unit) * 2);
 	width: calc(var(--unit) * 2);
+	color: var(--Header-color);
 }
 
 .header__title

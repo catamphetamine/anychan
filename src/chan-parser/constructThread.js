@@ -124,7 +124,7 @@ function getPostSubject(post, { messages }) {
 		return post.title
 	}
 	return getPostSummary(post.content, post.attachments, {
-		messages,
+		messages: messages.contentType,
 		maxLength: 60,
 		stopOnNewLine: true
 	})

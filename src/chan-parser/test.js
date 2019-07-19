@@ -4,8 +4,6 @@ import './removeNewLineCharacters.test'
 import './dropQuoteMarker.test'
 import './splitParagraphs.test'
 import './parseComment.test'
-import './compileFilters.test'
-import './ignoreText.test'
 import './parsePostLink.test'
 import './parsePostLinks.test'
 // Parsers.

@@ -48,7 +48,7 @@ import './Thread.css'
 	await dispatch(getThread(
 		params.board,
 		params.thread,
-		getState().app.settings.filters,
+		getState().app.settings.censoredWords,
 		getState().app.settings.locale
 	))
 })

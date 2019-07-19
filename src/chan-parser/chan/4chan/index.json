@@ -1,5 +1,6 @@
 {
 	"id": "4chan",
+	"language": "en",
 	"engine": "4chan",
 	"defaultAuthorName": "Anonymous",
 	"attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",

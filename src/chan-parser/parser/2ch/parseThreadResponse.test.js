@@ -435,9 +435,9 @@ describe('2ch.hk', () => {
 		expectToEqual(
 			new Parser(TwoChannel, {
 				messages: {
-					deletedPost: 'Удалённое сообщение',
-					hiddenPost: 'Скрытое сообщение',
-					quotedPost: 'Сообщение'
+					deletedComment: 'Удалённое сообщение',
+					hiddenComment: 'Скрытое сообщение',
+					quotedComment: 'Сообщение'
 				},
 				getUrl(board, thread, comment) {
 					return `/${board.id}/${thread.id}#${comment.id}`

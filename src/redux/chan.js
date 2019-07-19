@@ -23,6 +23,10 @@ export const getBoards = redux.action(
 		if (getChan().boards) {
 			return getBoardsResult(getChan().boards)
 		}
+		// Validate configuration
+		if (!getChan().boardsUrl) {
+			throw new Error(`Neither "boards" no "boardsUrl" was found in chan config`)
+		}
 		const apiRequestStartedAt = Date.now()
 		let response
 		// Using the "Top 20 boards" endpoint instead.
@@ -76,14 +80,14 @@ export const getAllBoards = redux.action(
 )
 
 export const getThreads = redux.action(
-	(boardId, filters, locale) => async http => {
+	(boardId, censoredWords, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
 			addOrigin(getChan().threadsUrl).replace('{boardId}', boardId)
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const threads = createChanParser({ filters, locale }).parseThreads(response, {
+		const threads = createChanParser({ censoredWords, locale }).parseThreads(response, {
 			boardId,
 			// Can parse the list of threads up to 4x faster without parsing content.
 			// Example: when parsing content — 130 ms, when not parsing content — 20 ms.
@@ -111,14 +115,14 @@ export const getThreads = redux.action(
 )
 
 export const getThread = redux.action(
-	(boardId, threadId, filters, locale) => async http => {
+	(boardId, threadId, censoredWords, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
 			addOrigin(getChan().commentsUrl).replace('{boardId}', boardId).replace('{threadId}', threadId)
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
-		const thread = createChanParser({ filters, locale }).parseThread(response, {
+		const thread = createChanParser({ censoredWords, locale }).parseThread(response, {
 			boardId,
 			// Can parse thread comments up to 4x faster without parsing content.
 			// Example: when parsing content — 650 ms, when not parsing content — 200 ms.
@@ -126,7 +130,7 @@ export const getThread = redux.action(
 			commentLengthLimit: configuration.commentLengthLimit
 		})
 		// Generate text preview which is used for `<meta description/>` on the thread page.
-		generateTextPreview(thread.comments[0])
+		generateTextPreview(thread.comments[0], getMessages(locale))
 		console.log(`Thread parsed in ${(Date.now() - startedAt) / 1000} secs`)
 		// // Move thread subject from the first comment to the thread object.
 		// const subject = thread.comments[0].title
@@ -166,11 +170,11 @@ export const getThread = redux.action(
 
 export default redux.reducer()
 
-function createChanParser({ filters, locale }) {
+function createChanParser({ censoredWords, locale }) {
 	return createParser(
 		getChanParserConfig(getChan().id) || { id: getChan().id, ...getChan().parser },
 		{
-			filters,
+			censoredWords,
 			addOnContentChange: true,
 			expandReplies: true,
 			messages: locale ? getMessages(locale) : undefined,
@@ -262,13 +266,14 @@ function getBoardsResult(boards) {
  * @param {object} comment
  * @return {string} [preview]
  */
-function generateTextPreview(comment) {
+function generateTextPreview(comment, messages) {
 	const textPreview = getPostText(
 		comment.content,
 		comment.attachments,
 		{
 			ignoreAttachments: true,
-			softLimit: 150
+			softLimit: 150,
+			messages: messages.contentTypes
 		}
 	)
 	if (textPreview) {

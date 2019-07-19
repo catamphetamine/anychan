@@ -90,7 +90,7 @@ export class Boards extends React.PureComponent {
 			// Must be the same as the code inside `@preload()` in `pages/Board.js`.
 			await getThreads(
 				board.id,
-				settings.filters,
+				settings.censoredWords,
 				settings.locale
 			)
 			pushLocation(getUrl(board))

@@ -11,7 +11,7 @@ import constructThread from '../../constructThread'
 export default function parseThread(thread, {
 	chan,
 	boardId,
-	filters,
+	censoredWords,
 	messages,
 	isPreview,
 	parseCommentPlugins,
@@ -32,7 +32,7 @@ export default function parseThread(thread, {
 		chan,
 		boardId,
 		threadId,
-		filters,
+		censoredWords,
 		messages,
 		parseCommentPlugins,
 		getUrl,

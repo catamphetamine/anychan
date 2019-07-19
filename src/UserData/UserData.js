@@ -1,4 +1,4 @@
-import LocalStorage from '../utility/LocalStorage'
+import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
 
 import {

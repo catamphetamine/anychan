@@ -59,9 +59,11 @@ export default class Home extends React.Component {
 					</div>
 
 					{description &&
-						<p className="home-page__description">
-							{description}
-						</p>
+						<div className="home-page__description">
+							<PostBlock>
+								{description}
+							</PostBlock>
+						</div>
 					}
 
 					{announcement &&

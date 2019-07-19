@@ -4,6 +4,8 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
+переделать скриншоты тем можно
+
 virtual scroller page up/down no timer
 
 Add "Adding a new chan" instructions for `captchan` and `chan-parser`.
@@ -710,57 +712,11 @@ https://github.com/ahushh/Monaba/issues/47
 
 https://github.com/arisu-dev/arisuchan
 
-```
-setBoards(
-        Board.fromSiteNameCode(this, "art and design", "art"),
-        Board.fromSiteNameCode(this, "culture and media", "cult"),
-        Board.fromSiteNameCode(this, "cyberpunk and cybersecurity", "cyb"),
-        Board.fromSiteNameCode(this, "personal experiences", "feels"),
-        Board.fromSiteNameCode(this, "psychology and psychonautics", "psy"),
-        Board.fromSiteNameCode(this, "arisuchan meta", "q"),
-        Board.fromSiteNameCode(this, "miscellaneous", "r"),
-        Board.fromSiteNameCode(this, "киберпанк-доска", "ru"),
-        Board.fromSiteNameCode(this, "science and technology", "tech"),
-        Board.fromSiteNameCode(this, "paranoia", "x"),
-        Board.fromSiteNameCode(this, "zaibatsu", "z"),
-        Board.fromSiteNameCode(this, "diy and projects", "Δ"),
-        Board.fromSiteNameCode(this, "programming", "λ")
-);
-```
-
-https://arisuchan.jp/ru/catalog.json
-
-https://arisuchan.jp/ru/res/15.json
-
 * Можно написать в lainchan (не активен).
 
 https://github.com/lainchan/lainchan
 
 https://github.com/vichan-devel/vichan-API/
-
-```
-setBoards(
-  Board.fromSiteNameCode(this, "Programming", "λ"),
-  Board.fromSiteNameCode(this, "Do It Yourself", "Δ"),
-  Board.fromSiteNameCode(this, "Security", "sec"),
-  Board.fromSiteNameCode(this, "Technology", "Ω"),
-  Board.fromSiteNameCode(this, "Games and Interactive Media", "inter"),
-  Board.fromSiteNameCode(this, "Literature", "lit"),
-  Board.fromSiteNameCode(this, "Musical and Audible Media", "music"),
-  Board.fromSiteNameCode(this, "Visual Media", "vis"),
-  Board.fromSiteNameCode(this, "Humanity", "hum"),
-  Board.fromSiteNameCode(this, "Drugs 3.0", "drug"),
-  Board.fromSiteNameCode(this, "Consciousness and Dreams", "zzz"),
-  Board.fromSiteNameCode(this, "layer", "layer"),
-  Board.fromSiteNameCode(this, "Questions and Complaints", "q"),
-  Board.fromSiteNameCode(this, "Random", "r"),
-  Board.fromSiteNameCode(this, "Lain", "lain")
-);
-```
-
-https://lainchan.org/sec/catalog.json
-
-https://lainchan.org/sec/res/4243.json
 
 * Можно добавить 8ch.net:
 
@@ -771,11 +727,9 @@ https://8ch.net/now/threads.json
 https://8ch.net/now/res/1.json
 
 
-* Можно добавить kohlchan.net:
+* Можно написать в kohlchan.net:
 
 https://kohlchan.net
-
-https://encyclopediadramatica.rs/List_of_*chan_boards
 
 
 * Можно добавить wizchan.org:

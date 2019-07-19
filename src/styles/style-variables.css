@@ -5,11 +5,11 @@
 	--base-color-100: #FFF4EC;
 	--base-color-200: #FFD0AF;
 	--base-color-300: #FFA061;
-	--base-color-400: #FF8732;
+	--base-color-400: #ff7f24;
 	--base-color-500: #f76700;
-	--base-color-600: #e76000;
+	--base-color-600: #d65800;
 	--base-color-700: #b84600;
-	--base-color-800: #9E4200;
+	--base-color-800: #8f3c00;
 	--base-color-900: #6D2D00;
 
 	/* Header. */
@@ -27,9 +27,17 @@
 	/* Sidebar. */
 	--Sidebar-borderColor: transparent;
 
+	/* Boards. */
+	--Boards-fontFamily--url: monospace;
+	--Boards-fontWeight--url: normal;
+
 	/* BoardsPage. */
 	--BoardsPage-backgroundColor--hover: var(--Content-color-100);
 	--BoardsPage-color--active: var(--Clickable-color--text);
+
+	/* ThreadActions. */
+	--ThreadActions-color: var(--Content-color-600);
+	--ThreadActions-color--selected: var(--Content-color-700);
 
 	/* CommentSeparator. */
 	--CommentSeparator-width: 1px;
@@ -38,17 +46,10 @@
 	--PostAuthor-color: var(--Content-color-600);
 
 	/* PostAuthorName. */
-	--PostAuthorName-color: var(--base-color-700);
 	--PostAuthorName-color--id: var(--Content-color-800);
 
 	/* PostBannedIcon. */
-	--PostBannedIcon-color: var(--Error-backgroundColor);
-
-	/* PostQuote. */
-	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
-	    have regular quotes and "inverse" quotes. */
-	--PostQuote-color--inverse: #cc0000;
-	/*--PostQuote-color--inverse2: #E04000;*/
+	--PostBannedIcon-color: var(--Error-color);
 }
 
 /* Light mode. */
@@ -90,13 +91,22 @@
 	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
 	--PostAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
 
+	/* PostAuthorName. */
+	--PostAuthorName-color: var(--base-color-700);
+
 	/* PostInlineSpoiler. */
 	/* Adds a warmer color to it. */
 	--PostInlineSpoiler-color: #F0EFEB;
 	--PostInlineSpoiler-color--contentActive: hsl(36, 30%, 92%);
 
-	/* PostHeading8ch. */
-	--PostHeading8ch-color: rgb(175, 10, 15);
+	/* PostSubheading. */
+	--PostSubheading-color: #af0000;
+
+	/* PostQuote. */
+	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+	    have regular quotes and "inverse" quotes. */
+	--PostQuote-color--inverse: #cc0000;
+	/*--PostQuote-color--inverse2: #E04000;*/
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(0,0,0,0.15);
@@ -104,21 +114,26 @@
 	/* CommentTree. */
 	--CommentTree-color: #D7D5D1;
 	--CommentTree-color--branch: #BCB9B3;
-	--CommentTree-color--hover: var(--base-color-600);
+	--CommentTree-color--hover: var(--Clickable-color);
 	--CommentTree-backgroundColor--hover: rgba(0,0,0,0.044);
 }
 
 /* Dark Mode. */
 .dark {
+	/* Slightly muted link/button colors in "Dark Mode". */
+	--base-color-300: #dc9363;
+	--base-color-400: #d96d1f;
+	--base-color-500: #e75f00;
+
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);
 	--Announcement-backgroundColor: var(--Content-color-200);
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
+	--HeaderSeparator-color--left: rgba(255,255,255,0.15);
 
 	/* Sidebar. */
-	--Sidebar-color: var(--Content-color-800);
+	--Sidebar-color: var(--Content-color-900);
 	--Sidebar-backgroundColor: #202020;
 	--Sidebar-color--scrollbar: var(--Content-color-300);
 
@@ -138,7 +153,7 @@
 	--Notification-color: var(--base-color-300);
 
 	/* Content. */
-	--Content-backgroundColor--active: #292929;
+	--Content-backgroundColor--active: #2f2f2f;
 
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-500);
@@ -147,16 +162,21 @@
 	--PostAuthor-color--administrator: #ff005f;
 	--PostAuthor-color--moderator: #00b3ff;
 
-	/* PostQuote. */
-	--PostQuote-backgroundColor--hover: #2a2a2a;
-	--PostQuote-borderColor--hover: #303030;
+	/* PostAuthorName. */
+	--PostAuthorName-color: var(--base-color-300);
 
-	/* PostHeading8ch. */
-	--PostHeading8ch-color: #c70000;
+	/* PostQuote. */
+	--PostQuote-backgroundColor--hover: rgba(255,255,255,0.02);
+	--PostQuote-borderColor--hover: rgba(255,255,255,0.05);
+	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+	    have regular quotes and "inverse" quotes. */
+	--PostQuote-color--inverse: #dc5e5e;
+
+	/* PostSubheading. */
+	--PostSubheading-color: #e25656;
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: var(--Document-backgroundColor);
-	--CommentSeparator-width: 3px;
 
 	/* CommentTree. */
 	--CommentTree-color: var(--Content-color-300);

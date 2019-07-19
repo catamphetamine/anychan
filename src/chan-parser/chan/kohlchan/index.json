@@ -1,5 +1,6 @@
 {
 	"id": "kohlchan",
+	"language": "de",
 	"engine": "lynxchan",
 	"parser": "lynxchan",
 	"thumbnailSize": 200,

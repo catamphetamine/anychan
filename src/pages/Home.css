@@ -40,10 +40,12 @@
 	margin-bottom: 0;
 }
 
+/*
 .home-page__description,
 .home-page__announcement {
 	line-height: 1.35em;
 }
+ */
 
 .home-page__show-boards-list {
 	display: none;

@@ -1,6 +1,5 @@
-import filterComment from './filterComment'
 import parseAndFormatComment from './parseAndFormatComment'
-import ignoreText from './ignoreText'
+import censorWords from 'webapp-frontend/src/utility/post/censorWords'
 
 const NO_OP = () => {}
 
@@ -16,7 +15,7 @@ export default function constructComment(
 	attachments,
 	createdAt,
 	{
-		filters,
+		censoredWords,
 		parseCommentPlugins,
 		correctGrammar,
 		messages,
@@ -40,8 +39,8 @@ export default function constructComment(
 		}
 		if (subject) {
 			comment.title = subject
-			if (filters) {
-				const subjectCensored = ignoreText(subject, filters)
+			if (censoredWords) {
+				const subjectCensored = censorWords(subject, censoredWords)
 				if (subjectCensored !== subject) {
 					comment.titleCensored = subjectCensored
 				}
@@ -56,7 +55,7 @@ export default function constructComment(
 	if (rawComment) {
 		function parseCommentContent() {
 			return parseAndFormatComment(rawComment, {
-				filters,
+				censoredWords,
 				correctGrammar,
 				commentUrlRegExp,
 				plugins: parseCommentPlugins,

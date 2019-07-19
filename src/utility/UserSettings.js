@@ -1,8 +1,4 @@
-import LocalStorage from './LocalStorage'
-
-const storage = new LocalStorage()
-
-import { getObject, setObject, deleteObject } from 'webapp-frontend/src/utility/localStorage'
+import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 
 class UserSettings {
 	constructor(storage) {

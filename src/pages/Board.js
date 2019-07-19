@@ -53,7 +53,7 @@ import './Board.css'
 	// Must be the same as the code inside `onBoardClick` in `components/Boards.js`.
 	await dispatch(getThreads(
 		params.board,
-		getState().app.settings.filters,
+		getState().app.settings.censoredWords,
 		getState().app.settings.locale
 	))
 })
@@ -86,7 +86,7 @@ export default class BoardPage extends React.Component {
 			await getThread(
 				board.id,
 				thread.id,
-				settings.filters,
+				settings.censoredWords,
 				locale
 			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.

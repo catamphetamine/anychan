@@ -20,13 +20,13 @@ export default function setPostLinksContent(content, { messages }) {
 
 function getPostLinkContent(postLink, messages) {
 	if (postLink.postWasDeleted) {
-		return messages.deletedPost
+		return messages.deletedComment
 	}
 	if (postLink.postIsHidden) {
 		if (postLink.postIsHiddenRule) {
-			return `${messages.hiddenPost} (${postLink.postIsHiddenRule})`
+			return `${messages.hiddenComment} (${postLink.postIsHiddenRule})`
 		}
-		return messages.hiddenPost
+		return messages.hiddenComment
 	}
 	// No change.
 	return postLink.content

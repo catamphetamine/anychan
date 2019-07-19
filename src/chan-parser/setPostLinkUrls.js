@@ -16,7 +16,7 @@ export default function setPostLinkUrls(content, { boardId, threadId, messages, 
 
 function setPostLinkUrl(postLink, { boardId, threadId, messages, getUrl }) {
 	// Set content.
-	postLink.content = messages.quotedPost
+	postLink.content = messages.quotedComment
 	// Set board ID.
 	if (!postLink.boardId) {
 		postLink.boardId = boardId

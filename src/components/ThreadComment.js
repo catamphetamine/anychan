@@ -230,17 +230,6 @@ function Comment({
 				className="thread__comment thread__comment--hidden"/>
 		)
 	}
-	let attachmentThumbnailSize = getChan().thumbnailSize
-	// `4chan.org` displays attachment thumbnails as `125px`
-	// (half the size) when they're not "OP posts".
-	if (getChan().id === '4chan' && !comment.isRootComment) {
-		attachmentThumbnailSize /= 2
-	}
-	// `2ch.hk` thumbnails on `/b/` are low-quality anyway.
-	// // `2ch.hk` creates bigger thumbnails for `/b/` for some reason.
-	// if (getChan().id === '2ch' && boardId === 'b') {
-	// 	attachmentThumbnailSize *= 1.1
-	// }
 	return (
 		<Post
 			{...rest}
@@ -264,7 +253,6 @@ function Comment({
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			attachmentThumbnailSize={attachmentThumbnailSize}
 			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
 			fixAttachmentThumbnailSizes={getChan().id === 'kohlchan' && comment.attachments ? true : false}
 			className={classNames(className, 'thread__comment', 'content-section')} />

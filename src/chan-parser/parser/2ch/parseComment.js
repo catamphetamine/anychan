@@ -22,7 +22,7 @@ const MAILTO = /^mailto:/
 export default function parseComment(post, {
 	boardId,
 	defaultAuthorName,
-	filters,
+	censoredWords,
 	parseCommentPlugins,
 	messages,
 	hasVoting,
@@ -66,7 +66,7 @@ export default function parseComment(post, {
 		post.files.length === 0 ? undefined : post.files.map(file => parseAttachment(file, { useRelativeUrls })),
 		new Date(post.timestamp * 1000),
 		{
-			filters,
+			censoredWords,
 			parseCommentPlugins,
 			correctGrammar,
 			messages,

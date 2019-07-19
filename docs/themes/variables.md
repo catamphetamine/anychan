@@ -83,7 +83,7 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Clickable-color--text: brown` — Link color.
 * `--Clickable-color--textActive: orange` — Link color on click.
 * `--Clickable-color: orange` — Link color when clicked. Button background color.
-* `--Clickable-color--light: red` — Button background color when clicked.
+* `--Clickable-color--active: red` — Button background color when clicked.
 
 ## Picture
 
@@ -91,11 +91,17 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Picture-borderWidth: 1px` — Picture border width.
 * `--Picture-borderColor: gray` — Picture border color.
 * `--Picture-borderColor--focus: gray` — Picture border color when focused.
+* `--Picture-filter: none` — Picture filter. For example, "Dark Mode" uses `brightness(85%)`.
 
 ## Error
 
-* `--Error-color: white` — Error notification color.
-* `--Error-backgroundColor: red` — Error notification background color.
+* `--Error-color: red` — Error message text color.
+* `--Error-backgroundColor: red` — Error `Notification` background color. Error `Notification` text color will be `--Content-color-900`.
+
+## Warning
+
+* `--Warning-color: yellow` — Warning message text color.
+* `--Warning-backgroundColor: yellow` — Warning `Notification` background color. Warning `Notification` text color will be `--Content-color-900`.
 
 ## Selection
 
@@ -108,10 +114,25 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Notification-backgroundColor: black` — Notification background color.
 * `--Notification-borderColor: transparent` — Notification border color.
 * `--Notification-borderWidth: 0px` — Notification border width.
-* `--Notification-color--error: var(--Error-color)` — Error notification text color.
+
+### Notification (error)
+
+* `--Notification-color--error: white` — Error notification text color.
 * `--Notification-backgroundColor--error: var(--Error-backgroundColor)` — Error notification background color.
 * `--Notification-borderColor--error: var(--Notification-borderColor)` — Error notification border color.
 * `--Notification-borderWidth--error: var(--Notification-borderWidth)` — Error notification border width.
+
+### Notification (warning)
+
+* `--Notification-color--warning: white` — Warning notification text color.
+* `--Notification-backgroundColor--warning: var(--Warning-backgroundColor)` — Warning notification background color.
+* `--Notification-borderColor--warning: var(--Notification-borderColor)` — Warning notification border color.
+* `--Notification-borderWidth--warning: var(--Notification-borderWidth)` Warning notification border width.
+
+## Modal
+
+* `--Modal-borderColor: transparent` — Modal border color.
+* `--Modal-borderWidth: 0px` — Modal border width.
 
 ## HoverButton
 
@@ -227,6 +248,10 @@ Sidebar board selection list.
 * `--Boards-backgroundColor--selected: black` — Background color of a sidebar boards list entry when the boards is selected.
 * `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list in sidebar.
 * `--Boards-color--viewSwitcher: white` — Sidebar boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
+<!--
+* `--Boards-fontFamily--url: monospace` — Font family of a sidebar boards list URLs.
+* `--Boards-fontWeight--url: normal` — Font weight of a sidebar boards list URLs.
+-->
 
 ### BoardsPage
 

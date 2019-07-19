@@ -2,28 +2,28 @@ import { ReduxModule } from 'react-website'
 
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
-import { getSettings as _getSettings } from '../utility/settings'
+import Settings from '../utility/settings'
 import UserSettings from '../utility/UserSettings'
 
 const redux = new ReduxModule()
 
 export const getSettings = redux.simpleAction(
-	() => _getSettings(),
+	() => Settings.get(),
 	'settings'
 )
 
 export const resetSettings = redux.simpleAction(
 	() => {
 		UserSettings.reset()
-		return _getSettings()
+		return Settings.get()
 	},
 	'settings'
 )
 
 export const replaceSettings = redux.simpleAction(
-	(settings) => {
-		UserSettings.set(settings)
-		return _getSettings()
+	(newSettings) => {
+		UserSettings.set(newSettings)
+		return Settings.get()
 	},
 	'settings'
 )
@@ -97,5 +97,5 @@ export default redux.reducer({
  */
 function saveSetting(name, value) {
 	UserSettings.set(name, value)
-	return _getSettings()
+	return Settings.get()
 }

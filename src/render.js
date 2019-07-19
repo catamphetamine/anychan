@@ -4,7 +4,6 @@ import settings from './react-website'
 import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
-import darkMode from 'webapp-frontend/src/utility/darkMode'
 // import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 export default async function() {

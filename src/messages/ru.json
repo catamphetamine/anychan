@@ -1,5 +1,4 @@
 {
-	"languageName": "Русский",
 	"boards": {
 		"title": "Список досок",
 		"showAll": "Показать все доски",
@@ -7,38 +6,11 @@
 		"byPopularity": "Популярные",
 		"byCategory": "По разделам"
 	},
-	"notifications": {
-		"title": "Уведомления"
-	},
 	"trackedThreads": {
 		"title": "Отслеживаемые треды",
 		"trackThread": "Отслеживать этот тред"
 	},
-	"nightMode": {
-		"title": "Ночной режим"
-	},
 	"settings": {
-		"title": "Настройки",
-		"language": "Язык",
-		"filters": {
-			"title": "Фильтры",
-			"showCensoredWordsList": "Показать список скрываемых слов",
-			"docs": {
-				"titleStart": "Шпаргалка по ",
-				"titleRegExps": "регулярным выражениям",
-				"titleEnd": null,
-				"tips": {
-					"start": "Начало слова",
-					"end": "Конец слова",
-					"any": "Любая буква",
-					"anyOf": "Любая буква из",
-					"optional": "Необязательная буква",
-					"anyCountOf": "Любое количество любых букв",
-					"oneOrMoreOf": "Одна или более любых букв",
-					"rangeCountOf": "От нуля до двух любых букв"
-				}
-			}
-		},
 		"theme": {
 			"title": "Оформление",
 			"add": {
@@ -61,11 +33,31 @@
 				"neon-genesis-evangelion": "Евангелион"
 			}
 		},
-		"fontSize": {
-			"title": "Размер шрифта",
-			"small": "Мелкий",
-			"medium": "Средний",
-			"large": "Крупный"
+		"censorship": {
+			"title": "Скрываемые слова",
+			"showCensoredWordsList": "Показать список скрываемых слов",
+			"test": {
+				"title": "Проверить правила скрытия",
+				"useCustomRule": "Ввести правило вручную",
+				"rule": "Правило",
+				"text": "Текст",
+				"result": "Итог"
+			},
+			"docs": {
+				"titleStart": "Шпаргалка по ",
+				"titleRegExps": "регулярным выражениям",
+				"titleEnd": null,
+				"tips": {
+					"start": "Начало слова",
+					"end": "Конец слова",
+					"any": "Любая буква",
+					"anyOf": "Любая буква из",
+					"optional": "Необязательная буква",
+					"anyCountOf": "Любое количество любых букв",
+					"oneOrMoreOf": "Одна или более любых букв",
+					"rangeCountOf": "От нуля до двух любых букв"
+				}
+			}
 		},
 		"data": {
 			"title": "Данные",
@@ -102,60 +94,14 @@
 	"loadingBoardsError": "Не удалось загрузить список досок",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
-	"deletedPost": "Удалённое сообщение",
-	"hiddenPost": "Скрытое сообщение",
-	"quotedPost": "Сообщение",
-	"picture": "Картинка",
-	"video": "Видео",
-	"audio": "Аудиозапись",
-	"code": "Код",
-	"link": "Ссылка",
-	"attachment": "Вложение",
-	"videoNotFound": "Видео не найдено",
-	"search": "Поиск",
-	"noSearchResults": "Ничего не найдено",
-	"showPrevious": "Показать предыдущие",
-	"showNext": "Показать следующие",
-	"expandAttachments": "Раскрыть картинки",
-	"viewAttachments": "Посмотреть картинки",
 	"post": {
-		"banned": "Автор этого сообщения был забанен",
-		"bannedReason": ". Причина: \"{0}\".",
-		"sticky": "Прикреплённый тред",
 		"rolling": "Бесконечный тред",
-		"closed": "Тред закрыт",
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
 		"threadAuthor": "Автор треда",
-		"commentsCount": "Комментариев",
 		"commentAttachmentsCount": "Вложений в комментариях",
-		"uniquePostersCount": "Уникальных IP-адресов комментаторов",
-		"repliesCount": "Ответов",
-		"readMore": "Показать\u00a0полностью",
-		"moreActions": "Действия",
-		"reply": "Ответить",
-		"spoiler": "Спойлер"
-	},
-	"form": {
-		"error": {
-			"required": "Обязательно"
-		}
-	},
-	"actions": {
-		"post": "Отправить",
-		"save": "Сохранить",
-		"add": "Добавить",
-		"ok": "Хорошо",
-		"cancel": "Отмена",
-		"yes": "Да",
-		"no": "Нет",
-		"close": "Закрыть",
-		"accept": "Принять",
-		"learnMore": "Подробнее",
-		"search": "Поиск"
+		"uniquePostersCount": "Уникальных IP-адресов комментаторов"
 	},
 	"role": {
-		"administrator": "Администратор",
-		"moderator": "Модератор",
 		"board": {
 			"administrator": "Администратор доски",
 			"moderator": "Модератор доски"
@@ -165,33 +111,5 @@
 		"preCaptchan": "Клиент для имиджборд «",
 		"postCaptchan": "»",
 		"preAuthor": ", автор "
-	},
-	"errorPages": {
-		"404": {
-			"title": "Страница не найдена"
-		},
-		"500": {
-			"title": "Ошибка"
-		},
-		"requestedURL": "Адрес страницы"
-	},
-	"slideshow": {
-		"actions": {
-			"previous": "Предыдущий",
-			"next": "Следующий",
-			"download": "Скачать",
-			"close": "Закрыть",
-			"scaleUp": "Увеличить",
-			"scaleDown": "Уменьшить",
-			"scaleReset": "Исходный размер",
-			"searchInGoogle": "Поискать в Гугле",
-			"showControls": "Показать действия",
-			"hideControls": "Скрыть действия",
-			"openExternalLink": "Открыть оригинал"
-		}
-	},
-	"cookies": {
-		"notice": "Наш сайт использует «Куки» и «Хранилище Обозревателя» для обеспечения более полного соответствия содержимого индивидуальным потребностям, для предоставления возможностей социальной сети и для отслеживания посещаемости сайта.",
-		"required": "Необходимо сначала принять политику использования «Куки» и «Хранилища Обозревателя»."
 	}
 }

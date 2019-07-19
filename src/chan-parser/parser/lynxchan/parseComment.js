@@ -17,7 +17,7 @@ export default function parseComment(post, {
 	chan,
 	boardId,
 	threadId,
-	filters,
+	censoredWords,
 	parseCommentPlugins,
 	commentLengthLimit,
 	messages,
@@ -87,7 +87,7 @@ export default function parseComment(post, {
 		// http://lynxhub.com/lynxchan/res/722.html#q984
 		new Date(post.creation || 0),
 		{
-			filters,
+			censoredWords,
 			parseCommentPlugins,
 			commentLengthLimit,
 			messages,
@@ -111,6 +111,7 @@ export default function parseComment(post, {
 	}
 	if (post.email) {
 		if (post.email === 'sage') {
+			post.email = undefined
 			comment.isSage = true
 		}
 	}

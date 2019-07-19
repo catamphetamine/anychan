@@ -7,6 +7,7 @@ import classNames from 'classnames'
 
 import ApplicationMenu from './ApplicationMenu'
 import ChanIcon from './ChanIcon'
+import ChanLogo from './ChanLogo'
 
 import getMessages from '../messages'
 import { isBoardLocation, isThreadLocation } from '../utility/routes'
@@ -34,12 +35,17 @@ export default class Header extends React.Component {
 		const isThreadPage = isThreadLocation(route) && thread
 
 		return (
-			<nav className="webpage__header">
+			<nav className="webpage__header rrui__fixed-full-width">
 				<Link
 					to={addChanParameter('/')}
 					title={getChan().title}
 					className="header__logo-link">
-					<ChanIcon className="header__logo"/>
+					{['lainchan', 'arisuchan'].includes(getChan().id) &&
+						<ChanLogo className="header__logo"/>
+					}
+					{!['lainchan', 'arisuchan'].includes(getChan().id) &&
+						<ChanIcon className="header__logo"/>
+					}
 				</Link>
 
 				{!isBoardPage && !isThreadPage &&

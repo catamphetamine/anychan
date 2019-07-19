@@ -13,7 +13,7 @@ import 'react-website/components/Loading.css'
 // it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-website/components/LoadingIndicator.css'
 
-import Announcement, { announcementPropType } from '../components/Announcement'
+import Announcement, { announcementPropType } from 'webapp-frontend/src/components/Announcement'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'

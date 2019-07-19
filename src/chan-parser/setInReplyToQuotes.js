@@ -98,7 +98,7 @@ export default function setInReplyToQuotes(content, getPostById, options, conten
 				// `kohlchan.net` and `8ch.net` have regular (green) quotes
 				// and "inverse" (red) quotes.
 				// Can only combine quotes of same "kind".
-				if (quote.kind === contentParent[startFromIndex].kind) {
+				if (combinedQuotes.length === 0 || quote.kind === combinedQuotes[combinedQuotes.length - 1].kind) {
 					combinedQuotes.push(quote)
 				} else {
 					canCombineQuotes = false
@@ -109,29 +109,16 @@ export default function setInReplyToQuotes(content, getPostById, options, conten
 				contentParent[i] = {
 					...content
 				}
-				delete contentParent[i].quoteKind
-				delete contentParent[i].quoteKinds
 				// Set `post-link` quote.
 				contentParent[i].content = [quote]
-				// `kohlchan.net` and `8ch.net` have regular (green) quotes
-				// and "inverse" (red) quotes.
-				if (quote.kind) {
-					contentParent[i].quoteKind = quote.kind
-				}
 			}
 		})
 		if (followingQuotesCount > 0) {
 			if (combinedQuotes.length === 1) {
 				const quote = combinedQuotes[0]
 				content.content = [quote]
-				if (quote.kind) {
-					content.quoteKind = quote.kind
-				}
 			} else {
 				content.content = combinedQuotes
-				if (combinedQuotes.find(_ => _.kind)) {
-					content.quoteKinds = combinedQuotes.map(_ => _.kind)
-				}
 			}
 			// Remove the combined quotes and "\n"s before them from post content.
 			contentParent.splice(index + 1, combinedQuotes.length * 2)
@@ -169,7 +156,7 @@ function stripLinks(content) {
 
 function setPostLinkQuote(postLink, post, options) {
 	const text = getPostSummary(post.content, post.attachments, {
-		messages: options && options.messages,
+		messages: options && options.messages && options.messages.contentType,
 		maxLength: 180,
 		countNewLines: true,
 		fitFactor: 1.35

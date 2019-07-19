@@ -1,5 +1,4 @@
 {
-	"languageName": "English",
 	"boards": {
 		"title": "Boards list",
 		"showAll": "Show all boards",
@@ -7,22 +6,43 @@
 		"byPopularity": "Popular",
 		"byCategory": "By Category"
 	},
-	"notifications": {
-		"title": "Notifications"
-	},
 	"trackedThreads": {
 		"title": "Tracked threads",
 		"trackThread": "Track this thread"
 	},
-	"nightMode": {
-		"title": "Night mode"
-	},
 	"settings": {
-		"title": "Settings",
-		"language": "Language",
-		"filters": {
-			"title": "Filters",
+		"theme": {
+			"title": "Theme",
+			"add": {
+				"title": "Add Theme",
+				"name": "Name",
+				"url": "URL",
+				"code": "Code",
+				"pasteCodeInstead": "Paste code instead",
+				"invalidUrl": "Invalid URL",
+				"invalidExtension": "Not a \".css\" file URL",
+				"cssFileError": "Couldn't load the \".css\" file"
+			},
+			"readThemesGuide": "\"Making a new theme\" guide",
+			"deleteCurrent": {
+				"title": "Delete current theme",
+				"warning": "Are you sure you want to delete theme \"{0}\"?"
+			},
+			"themes": {
+				"default": "Default",
+				"neon-genesis-evangelion": "Neon Genesis Evangelion"
+			}
+		},
+		"censorship": {
+			"title": "Censored Words",
 			"showCensoredWordsList": "Show Censored Words List",
+			"test": {
+				"title": "Test censorship rules",
+				"useCustomRule": "Use a custom rule",
+				"rule": "Rule",
+				"text": "Text",
+				"result": "Result"
+			},
 			"docs": {
 				"titleStart": null,
 				"titleRegExps": "Regular expressions",
@@ -39,40 +59,12 @@
 				}
 			}
 		},
-		"theme": {
-			"title": "Theme",
-			"add": {
-				"title": "Add Theme",
-				"name": "Name",
-				"url": "URL",
-				"code": "Code",
-				"pasteCodeInstead": "Paste code instead",
-				"invalidUrl": "Invalid URL",
-				"invalidExtension": "Not a \".css\" file URL",
-				"cssFileError": "Couldn't load the \".css\" file"
-			},
-			"readThemesGuide": "Make a new theme guide",
-			"deleteCurrent": {
-				"title": "Delete current theme",
-				"warning": "Are you sure you want to delete theme \"{0}\"?"
-			},
-			"themes": {
-				"default": "Default",
-				"neon-genesis-evangelion": "Neon Genesis Evangelion"
-			}
-		},
-		"fontSize": {
-			"title": "Font Size",
-			"small": "Small",
-			"medium": "Medium",
-			"large": "Large"
-		},
 		"data": {
 			"title": "Data",
-			"description": "",
+			"description": "\"User data\" are the data describing the user rather than the app: \"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs.",
 			"resetSettings": {
 				"title": "Reset Settings",
-				"warning": "All your settings (including word filters, added themes) will be reset. Are you sure?",
+				"warning": "All your settings (including censored words list, added themes) will be reset. Are you sure?",
 				"done": "The settings have been reset"
 			},
 			"clearUserData": {
@@ -102,60 +94,14 @@
 	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
-	"deletedPost": "Deleted message",
-	"hiddenPost": "Hidden message",
-	"quotedPost": "Message",
-	"picture": "Picture",
-	"video": "Video",
-	"audio": "Audio",
-	"code": "Code",
-	"link": "Link",
-	"attachment": "Attachment",
-	"videoNotFound": "Video not found",
-	"search": "Search",
-	"noSearchResults": "Nothing found",
-	"showPrevious": "Show previous",
-	"showNext": "Show next",
-	"expandAttachments": "Expand attachments",
-	"viewAttachments": "View attachments",
 	"post": {
-		"banned": "The author of this comment was banned",
-		"bannedReason": ". Reason: \"{0}\".",
-		"sticky": "Sticky thread",
 		"rolling": "Rolling thread",
-		"closed": "Closed thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
 		"threadAuthor": "Thread author",
-		"commentsCount": "Comments",
 		"commentAttachmentsCount": "Attachments in comments",
-		"uniquePostersCount": "Unique poster IP addresses",
-		"repliesCount": "Replies",
-		"readMore": "Show\u00a0more",
-		"moreActions": "More actions",
-		"reply": "Reply",
-		"spoiler": "Spoiler"
-	},
-	"form": {
-		"error": {
-			"required": "Required"
-		}
-	},
-	"actions": {
-		"post": "Post",
-		"save": "Save",
-		"add": "Add",
-		"ok": "Ok",
-		"cancel": "Cancel",
-		"yes": "Yes",
-		"no": "No",
-		"close": "Close",
-		"accept": "Accept",
-		"learnMore": "Learn more",
-		"search": "Search"
+		"uniquePostersCount": "Unique poster IP addresses"
 	},
 	"role": {
-		"administrator": "Administrator",
-		"moderator": "Moderator",
 		"board": {
 			"administrator": "Board administrator",
 			"moderator": "Board moderator"
@@ -165,33 +111,5 @@
 		"captchan": "captchan",
 		"postCaptchan": " imageboard client",
 		"preAuthor": " by "
-	},
-	"errorPages": {
-		"404": {
-			"title": "Page not found"
-		},
-		"500": {
-			"title": "Error"
-		},
-		"requestedURL": "Page URL"
-	},
-	"slideshow": {
-		"actions": {
-			"previous": "Previous",
-			"next": "Next",
-			"download": "Download",
-			"close": "Close",
-			"scaleUp": "Scale Up",
-			"scaleDown": "Scale Down",
-			"scaleReset": "Initial size",
-			"searchInGoogle": "Search in Google",
-			"showControls": "Show controls",
-			"hideControls": "Hide controls",
-			"openExternalLink": "Open external link"
-		}
-	},
-	"cookies": {
-		"notice": "This website uses Cookies and Local Storage to personalise content, to provide social media features and to analyse traffic.",
-		"required": "You must accept the Cookies and Local Storage policy first."
 	}
 }

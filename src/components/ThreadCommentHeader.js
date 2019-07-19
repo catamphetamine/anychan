@@ -6,7 +6,7 @@ import { post } from '../PropTypes'
 import getMessages, { getCountryNames } from '../messages'
 import { getChan, shouldUseRelativeUrls } from '../chan'
 
-import CountryFlag from './CountryFlag'
+import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
 
 import AnonymousPersonIcon from '../../assets/images/icons/person-outline-anonymous.svg'
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'

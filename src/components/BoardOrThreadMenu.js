@@ -57,7 +57,7 @@ export default function BoardOrThreadMenu({
 			iconActive: StarIconFill
 		},
 		{
-			title: messages.expandAttachments,
+			title: messages.post.expandAttachments,
 			onClick: () => setAttachmentsExpanded(!areAttachmentsExpanded),
 			isSelected: areAttachmentsExpanded,
 			icon: PictureIconOutline,

@@ -119,7 +119,8 @@
 	display: block;
 	padding-left: var(--unit);
 	text-align: right;
-	font-family: monospace;
+	font-family: var(--Boards-fontFamily--url);
+	font-weight: var(--Boards-fontWeight--url);
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
 	outline: none;

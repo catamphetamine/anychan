@@ -4,12 +4,14 @@ import stringToColor from '../../utility/stringToColor'
 import parseAuthor from './parseAuthor'
 import parseAuthorRoleFourChannel from './parseAuthorRole.4chan'
 import parseAuthorRoleEightChannel from './parseAuthorRole.8ch'
-import parseAuthorRoleKohlChan from './parseAuthorRole.kohlchan'
 import parseAttachment from './parseAttachment'
 
 import constructComment from '../../constructComment'
 
 const USER_BANNED_MARK = /<br><br><b style="color:red;">\(USER WAS BANNED FOR THIS POST\)<\/b>$/
+
+// Actually, `lainchan` doesn't provide the "warnings" in JSON.
+// const LAINCHAN_POST_WARNING_REGEXP = /<span class="public_warning">\((.+)\)<\/span>$/
 
 /**
  * Parses response comment JSON object.
@@ -20,7 +22,7 @@ const USER_BANNED_MARK = /<br><br><b style="color:red;">\(USER WAS BANNED FOR TH
 export default function parseComment(post, {
 	chan,
 	boardId,
-	filters,
+	censoredWords,
 	parseCommentPlugins,
 	commentLengthLimit,
 	messages,
@@ -73,6 +75,15 @@ export default function parseComment(post, {
 				rawComment = rawComment.replace(USER_BANNED_MARK, '')
 			}
 		}
+		// // Actually, `lainchan` doesn't provide the "warnings" in JSON.
+		// else if (chan === 'lainchan') {
+		// 	const match = rawComment.match(LAINCHAN_POST_WARNING_REGEXP)
+		// 	if (match) {
+		// 		// Maybe not really banned. Maybe just a "warning".
+		// 		authorBanned = match[0]
+		// 		rawComment = rawComment.replace(LAINCHAN_POST_WARNING_REGEXP, '')
+		// 	}
+		// }
 	}
 	const parsedAuthorRole = parseAuthorRole(post, chan, { boardId })
 	const comment = constructComment(
@@ -100,7 +111,7 @@ export default function parseComment(post, {
 		}),
 		new Date(post.time * 1000),
 		{
-			filters,
+			censoredWords,
 			parseCommentPlugins,
 			commentLengthLimit,
 			messages,
@@ -135,18 +146,11 @@ export default function parseComment(post, {
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// displays poster country flags.
 	if (post.country) {
-		// `kohlchan.net` has incorrect country codes.
-		// Examples: "UA", "RU-MOW", "TEXAS", "PROXYFAG".
-		if (chan === 'kohlchan') {
-			comment.authorIconId = post.country.toLowerCase()
-			comment.authorIconName = post.country_name
-		} else {
-			// `8ch.net` and `4chan.org` have correct country codes.
-			// Examples: "GB", "US", "RU".
-			comment.authorCountry = post.country
-			// `captchan` has its own localized country names.
-			// comment.authorCountryName = post.country_name
-		}
+		// `8ch.net` and `4chan.org` have correct country codes.
+		// Examples: "GB", "US", "RU".
+		comment.authorCountry = post.country
+		// `captchan` has its own localized country names.
+		// comment.authorCountryName = post.country_name
 	}
 	if (post.trip) {
 		comment.tripCode = post.trip
@@ -160,8 +164,6 @@ function parseAuthorRole(post, chan, { boardId }) {
 			return parseAuthorRoleFourChannel(post.capcode)
 		case '8ch':
 			return parseAuthorRoleEightChannel(post.capcode, { boardId })
-		case 'kohlchan':
-			return parseAuthorRoleKohlChan(post.name)
 	}
 }
 

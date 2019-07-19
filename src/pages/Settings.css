@@ -33,7 +33,7 @@
 	*/
 
 	code {
-		color: var(--base-color-700);
+		color: var(--Clickable-color--text);
 	}
 }
 

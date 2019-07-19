@@ -12,7 +12,7 @@ export default function parsePostLink(href, { commentUrlRegExp }) {
 				postId: parseInt(match[1])
 			}
 		}
-	} else if (href[0] === '/' && href[1] !== '/') {
+	} else {
 		// `4chan.org` board page:
 		// `<a href="/a/thread/189127987#p189135882" class="quotelink" style="">&gt;&gt;189135882</a>`
 		// `8ch.net` both board page and thread page:

@@ -4,7 +4,7 @@ import postProcessCommentContent from './postProcessCommentContent'
 import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
 
 export default function parseAndFormatComment(rawComment, {
-	filters,
+	censoredWords,
 	correctGrammar,
 	commentUrlRegExp,
 	plugins,
@@ -17,7 +17,7 @@ export default function parseAndFormatComment(rawComment, {
 	emojiUrl
 }) {
 	let content = parseComment(rawComment, {
-		filters,
+		censoredWords,
 		correctGrammar,
 		commentUrlRegExp,
 		emojiUrl,

@@ -1,4 +1,4 @@
-import ignoreText from './ignoreText'
+import censorWords from 'webapp-frontend/src/utility/post/censorWords'
 
 const NEW_LINE_AROUND = [
 	'div',
@@ -72,13 +72,13 @@ class CommentParser {
 	}
 
 	parseText(text) {
-		const { correctGrammar, filters } = this.options
+		const { correctGrammar, censoredWords } = this.options
 		if (correctGrammar) {
 			text = correctGrammar(text)
 		}
-		if (filters) {
-			return ignoreText(text, filters)
-			// const result = filterComment(rawComment, filters)
+		if (censoredWords) {
+			return censorWords(text, censoredWords)
+			// const result = filterComment(rawComment, censoredWords)
 			// if (result) {
 			// 	comment.hidden = true
 			// 	if (result.name !== '*') {

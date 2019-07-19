@@ -12,7 +12,7 @@ import {
 import './ThreadCommentHidden.css'
 
 export default function ThreadCommentHidden({ post, locale, className }) {
-	let content = getMessages(locale).hiddenPost
+	let content = getMessages(locale).hiddenComment
 	if (post.hiddenRule) {
 		content += ` (${post.hiddenRule})`
 	}

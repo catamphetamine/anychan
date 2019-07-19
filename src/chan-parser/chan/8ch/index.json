@@ -1,5 +1,6 @@
 {
 	"id": "8ch",
+	"language": "en",
 	"engine": "OpenIB",
 	"parser": "4chan",
 	"defaultAuthorName": {

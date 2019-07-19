@@ -40,7 +40,7 @@
 
 /* `8ch.net` red heading. */
 .post__text--heading {
-	color: var(--PostHeading8ch-color);
+	color: var(--PostSubheading-color);
 	font-weight: bolder;
 }
 
