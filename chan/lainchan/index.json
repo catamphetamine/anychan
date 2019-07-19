@@ -1,0 +1,121 @@
+{
+	"id": "lainchan",
+	"color": "#7fdd57",
+	"website": "https://lainchan.org",
+	"domains": [
+		"lainchan.org"
+	],
+	"language": "en",
+	"title": "lainchan",
+	"description": "Our main distinguishing factors are related to our appreciation of Lain and Serial Experiments Lain. The series is influenced by themes such as reality, identity, and communication, and it demonstrates them by using philosophy, computer history, cyberpunk literature, and conspiracy theory. (from https://en.wikipedia.org/wiki/Serial_Experiments_Lain). Most of the boards on the image board reflect aspects or influences of the series. Because the series is influenced by cyberpunk literature, it very easy to label the lainchan.org community as just a cyberpunk image board, but I believe that label is incomplete at best and a restriction at worst. My answer isn't the only answer, and I happy to see others posting their answer to the same question. My question to you which you don't need to answer here. The lainchan community is to you what you want it to be. What do you want it to be?",
+	"links": [{
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://lainchan.org/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://lainchan.org/rules.html"
+	}, {
+		"type": "news",
+		"text": "News",
+		"url": "https://lainchan.org/news.html"
+	}, {
+		"type": "donate",
+		"text": "Donate",
+		"url": "https://lainchan.org/donate.html"
+	}, {
+		"type": "contact",
+		"text": "Contact",
+		"url": "mailto:admin@lainchan.org"
+	}, {
+		"type": "other",
+		"text": "zine",
+		"url": "https://lainchan.org/zine/"
+	}, {
+		"type": "radio",
+		"text": "Radio",
+		"url": "https://lainchan.org/radio.html"
+	}, {
+		"type": "irc",
+		"text": "IRC",
+		"url": "https://lainchan.org/irc.html"
+	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/_lainchan"
+	}, {
+		"type": "github",
+		"text": "GitHub",
+		"url": "https://twitter.com/_lainchan"
+	}],
+	"thumbnailSize": 200,
+	"commentsUrl": "https://lainchan.org/{boardId}/res/{threadId}.json",
+	"threadsUrl": "https://lainchan.org/{boardId}/catalog.json",
+	"commentUrl": "https://lainchan.org/{boardId}/res/{threadId}.html#{commentId}",
+  "boards": [
+    {
+      "id": "λ",
+      "name": "Programming"
+    },
+    {
+      "id": "Δ",
+      "name": "Do It Yourself"
+    },
+    {
+      "id": "sec",
+      "name": "Security"
+    },
+    {
+      "id": "Ω",
+      "name": "Technology"
+    },
+    {
+      "id": "inter",
+      "name": "Games and Interactive Media"
+    },
+    {
+      "id": "lit",
+      "name": "Literature"
+    },
+    {
+      "id": "music",
+      "name": "Musical and Audible Media"
+    },
+    {
+      "id": "vis",
+      "name": "Visual Media"
+    },
+    {
+      "id": "hum",
+      "name": "Humanity"
+    },
+    {
+      "id": "drug",
+      "name": "Drugs 3.0"
+    },
+    {
+      "id": "zzz",
+      "name": "Consciousness and Dreams"
+    },
+    {
+      "id": "layer",
+      "name": "layer"
+    },
+    {
+      "id": "q",
+      "name": "Questions and Complaints"
+    },
+    {
+      "id": "r",
+      "name": "Random"
+    },
+    {
+      "id": "lain",
+      "name": "Lain"
+    }
+  ],
+  "proxy": {
+  	"aws": true
+  }
+}
