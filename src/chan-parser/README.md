@@ -47,7 +47,7 @@ Available `options`:
 
 * `messages` — (optional) `messages` are mostly used for setting post link content. Examples: `messages.deletedComment === "Comment deleted"`, `messages.hiddenComment === "Hidden comment"`, `messages.quotedComment === "Comment"`.
 
-* `censoredWords` — (optional) An array of word filters used for censoring certain words in comments' content or subject. The word filters must be pre-compiled via `compileWordPatterns(censoredWords, language)` where `compileWordPatterns` is a function exported from this package. `language` argument can be either `"en"` or `"ru"` or `"de"` (more languages can be added) and is only used for finding word boundaries. `censoredWords` argument passed to `compileWordPatterns()` must be an array of `string` patterns. The standard regular expression syntax applies (`^` meaning "word start", `$` meaning "word end", `.` meaning "any letter", etc). Example: `^mother.*$`, `fc?uck`.
+* `censoredWords` — (optional) An array of pre-compiled word filters which can be used for censoring certain words in comments' content or subject. The word filters must be pre-compiled via `compileWordPatterns(censoredWords, language)` where `compileWordPatterns` is a function exported from this package. `language` argument can be either `"en"` or `"ru"` or `"de"` (more languages can be added) and is only used for finding word boundaries. `censoredWords` argument passed to `compileWordPatterns()` must be an array of `string` patterns. The standard regular expression syntax applies (`^` meaning "word start", `$` meaning "word end", `.` meaning "any letter", etc). Example: `^mother.*$`, `fc?uck`.
 
 * `commentLengthLimit` — (optional) A `number` telling the maximum comment length (in "points" which can be thought of as "characters and character equivalents for non-text content") upon exceeding which a preview is generated for a comment (as `comment.contentPreview`).
 
@@ -303,3 +303,75 @@ If the chan runs on an already supported engine then specify the `parser` proper
 * Create the engine's directory in `./src/chan-parser/parser`.
 * Create `Parser.js` file in the engine's directory (same as for existing engines). The `Parser` class must extend `./src/chan-parser/Parser.js` and implement three methods (`parseBoards()`, `parseThreads()` and `parseThread()`) and also provide a list of HTML "comment parser plugins" (see other engines as an example).
 * Add the engine parser in `./src/chan-parser/parser/index.js` (same as for existing engines).
+
+## Comment parser plugins
+
+Chan comments are formatted in HTML. Different chans use their own comment HTML syntax. For example, bold text could be `<strong>bold</strong>` at some chans, `<b>bold</b>` at other chans and `<span class="bold">bold</span>` at the other chans, even if they all used the same engine. Hence, every chan requires defining their own set of "comment parser plugins" in `./src/chan-parser/parser/${engine}` directory.
+
+A "comment parser plugin" is an object having properties:
+
+* `tag: String` — HTML tag (in lower case).
+* `attributes: object[]?` — A set of HTML tag attribute filters. An attribute filter is an object of shape `{ name: String, value: String }`.
+* `createBlock(content: PostContent, node, options): PostContent?` — Receives child `content` and wraps it in a parent content block. Can return `undefined`. Can return a string, an object or an array of strings or objects. `node` is the DOM `Node` and provides methods like `getAttribute(name: String)`. `options` is an object providing some configuration options like `commentUrlRegExp` for parsing comment links (`<a href="/b/123#456">&gt;&gt;456</a>`).
+
+Example:
+
+```html
+<strong>bold <span class="italic">text</span></strong>
+```
+
+Plugins:
+
+```js
+const parseBold = {
+	tag: 'strong',
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'bold',
+			content
+		}
+	}
+}
+
+const parseItalic = {
+	tag: 'span',
+	attributes: [{
+		name: 'class',
+		value: 'italic'
+	}],
+	createBlock(content) {
+		return {
+			type: 'text',
+			style: 'italic',
+			content
+		}
+	}
+}
+
+export default [
+	parseBold,
+	parseItalic
+]
+```
+
+Result:
+
+```js
+[
+	[
+		{
+			type: 'text',
+			style: 'bold',
+			content: [
+				'bold ',
+				{
+					type: 'text',
+					style: 'italic',
+					content: 'text'
+				}
+			]
+		}
+	]
+]
+```
