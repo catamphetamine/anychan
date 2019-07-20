@@ -34,8 +34,8 @@ import './Board.css'
 @connect(({ app, chan, board }) => ({
 	board: chan.board,
 	threads: chan.threads,
-	settings: app.settings,
 	locale: app.settings.locale,
+	censoredWords: app.settings.censoredWords,
 	virtualScrollerState: board.virtualScrollerState,
 	scrollPosition: board.scrollPosition
 }), {
@@ -77,7 +77,7 @@ export default class BoardPage extends React.Component {
 			getThread,
 			pushLocation,
 			notify,
-			settings,
+			censoredWords,
 			locale
 		} = this.props
 		try {
@@ -86,7 +86,7 @@ export default class BoardPage extends React.Component {
 			await getThread(
 				board.id,
 				thread.id,
-				settings.censoredWords,
+				censoredWords,
 				locale
 			)
 			// Won't ever throw because `goto()` doesn't return a `Promise`.

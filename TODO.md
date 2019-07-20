@@ -4,6 +4,32 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 
 
+
+Check <video/> border (focused).
+
+Slideshow: wasExpanded -> ... , isShown -> isCurrentSlide.
+
+Maybe remove isPlayerFocusable() from Video.js.
+
+Сохраняется ли фокус на видео, когда autoPlay меняется с false на true в slideshowMode.
+
+Сделать Picture функциональным компонентом (hooks).
+
+Проверить режим слайдшоу для видео и картинок (и обычный режим).
+
+Проверить expanded режим для видео и картинок.
+
+Maybe add hotkeys for "Expand attachments" and "Start slideshow".
+
+Check spoilers and transparent background pictures.
+
+Check errored image reload on click.
+
+
+
+
+https://github.com/catamphetamine/captchan/issues/4
+
 переделать скриншоты тем можно
 
 virtual scroller page up/down no timer

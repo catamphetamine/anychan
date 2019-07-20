@@ -1,3 +1,5 @@
+import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
+
 import createLink from '../../utility/createLink'
 import dropQuoteMarker from '../../dropQuoteMarker'
 import parsePostLink from '../../parsePostLink'
@@ -48,7 +50,7 @@ export const parseCode = {
 		return {
 			type: 'code',
 			// inline: true,
-			content
+			content: content && getContentText(content)
 		}
 	}
 }

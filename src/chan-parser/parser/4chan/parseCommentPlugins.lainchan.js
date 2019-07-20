@@ -6,6 +6,8 @@ import {
 	parseLink
 } from './parseCommentPlugins'
 
+import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
+
 // They have advanced code highlighting.
 // https://lainchan.org/faq.html
 // `<code/>` tags are placed inside `<pre/>` tags
@@ -36,13 +38,15 @@ export const parseCode = {
 		const result = {
 			type: 'code',
 			inline: true,
-			content
+			content: content && getContentText(content)
 		}
 		// `<pre><code class="hljs clojure">...</code></pre>`.
 		const cssClass = utility.getAttribute('class')
-		const langMatch = cssClass.match(CODE_LANG_REGEXP)
-		if (langMatch) {
-			result.language = langMatch[1]
+		if (cssClass) {
+			const langMatch = cssClass.match(CODE_LANG_REGEXP)
+			if (langMatch) {
+				result.language = langMatch[1]
+			}
 		}
 		return result
 	}
