@@ -102,7 +102,7 @@ The only chan running on `makaba` engine is currently [`2ch.hk`](https://2ch.hk)
 
 ### lynxchan
 
-[`lynxchan`](https://gitgud.io/LynxChan/LynxChan) seems to be the only still-being-maintained imageboard engine left out there. Has [JSON API](https://gitgud.io/LynxChan/LynxChan/blob/master/doc/Json.txt).
+[`lynxchan`](https://gitgud.io/LynxChan/LynxChan) seems to be the only still-being-maintained imageboard engine left. Has [JSON API](https://gitgud.io/LynxChan/LynxChan/blob/master/doc/Json.txt).
 
 Chans running on `lynxchan`:
 
