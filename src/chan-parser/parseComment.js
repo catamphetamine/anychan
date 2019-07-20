@@ -42,7 +42,7 @@ class CommentParser {
 			if (typeof paragraph === 'string') {
 				paragraph = [paragraph]
 			}
-			// Promote top-level "monospace" blocks to non-inline blocks.
+			// Promote top-level "code" blocks to non-inline blocks.
 			const hasBlockLevelRootLevelBlocks = paragraph.find(isBlockLevelRootLevelBlock)
 			if (!hasBlockLevelRootLevelBlocks) {
 				return [paragraph]
@@ -161,7 +161,7 @@ class CommentParser {
 }
 
 function isBlockLevelRootLevelBlock(block) {
-	return block.type === 'monospace' && !block.inline
+	return block.type === 'code' && !block.inline
 }
 
 function moveBlockLevelRootLevelBlocksToTop(_paragraph) {

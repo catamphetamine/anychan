@@ -56,7 +56,7 @@ describe('parseComment', () => {
 					'High quality video output profile (goes into mpv.conf):'
 				],
 				{
-					type: 'monospace',
+					type: 'code',
 					content: 'profile=gpu-hq'
 				},
 				[
@@ -89,7 +89,7 @@ describe('parseComment', () => {
 					"High quality video output profile (goes into mpv.conf):"
 				],
 				{
-					type: "monospace",
+					type: "code",
 					content: "profile=gpu-hq"
 				},
 				[

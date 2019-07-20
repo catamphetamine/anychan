@@ -46,7 +46,7 @@ export const parseCode = {
 	],
 	createBlock(content) {
 		return {
-			type: 'monospace',
+			type: 'code',
 			// inline: true,
 			content
 		}

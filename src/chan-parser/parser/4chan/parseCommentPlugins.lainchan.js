@@ -18,12 +18,12 @@ export const parseCodeBlock = {
 		if (Array.isArray(content) &&
 			content.length === 1 &&
 			typeof content[0] === 'object' &&
-			content[0].type === 'monospace') {
+			content[0].type === 'code') {
 			delete content[0].inline
 			return content[0]
 		}
 		return {
-			type: 'monospace',
+			type: 'code',
 			content
 		}
 	}
@@ -34,7 +34,7 @@ export const parseCode = {
 	tag: 'code',
 	createBlock(content, utility) {
 		const result = {
-			type: 'monospace',
+			type: 'code',
 			inline: true,
 			content
 		}
