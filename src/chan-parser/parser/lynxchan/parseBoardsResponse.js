@@ -1,5 +1,4 @@
 import parseBoard from './parseBoard'
-import parseBoardEightChan from './parseBoard.8ch'
 
 /**
  * Parses chan API response for boards list.
@@ -7,8 +6,7 @@ import parseBoardEightChan from './parseBoard.8ch'
  * @return {object[]} See README.md for "Board" object description.
  */
 export default function parseBoards(response, { chan }) {
-	if (chan === '8ch') {
-		return response.map(parseBoardEightChan)
-	}
-	return response.boards.map(parseBoard)
+	// `lynxchan` doesn't provide a "get boards list" API URL.
+	// Only 10 `topBoards` in `/index.json`.
+	return response.topBoards.map(parseBoard)
 }

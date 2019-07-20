@@ -1,0 +1,10 @@
+{
+	"id": "endchan",
+	"language": "en",
+	"parser": "lynxchan",
+	"thumbnailSize": 255,
+	"defaultAuthorName": "Anonymous",
+	"attachmentUrl": "https://endchan.xyz{url}",
+	"attachmentThumbnailUrl": "https://endchan.xyz{url}",
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+}

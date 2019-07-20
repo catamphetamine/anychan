@@ -3,6 +3,7 @@
 import TwoChannel from './2ch/index.json'
 import FourChannel from './4chan/index.json'
 import EightChannel from './8ch/index.json'
+import EndChan from './endchan/index.json'
 import KohlChan from './kohlchan/index.json'
 import LainChan from './lainchan/index.json'
 import ArisuChan from './arisuchan/index.json'
@@ -11,6 +12,7 @@ const CHANS = [
 	TwoChannel,
 	FourChannel,
 	EightChannel,
+	EndChan,
 	KohlChan,
 	LainChan,
 	ArisuChan

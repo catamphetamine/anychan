@@ -1,0 +1,41 @@
+{
+	"id": "endchan",
+	"color": "#000000",
+	"website": "https://endchan.xyz",
+	"domains": [
+		"endchan.xyz"
+	],
+	"language": "en",
+	"title": "EndChan",
+	"description": "The imageboard at the end of the universe. You can make your own imageboard for free w/o experience or technical knowledge.",
+	"links": [{
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://endchan.xyz/.static/faq.html"
+	}, {
+		"type": "help",
+		"text": "Help",
+		"url": "https://endchan.xyz/.static/posting.html"
+	}, {
+		"type": "irc",
+		"text": "IRC",
+		"url": "https://qchat.rizon.net/?channels=EndChan"
+	}, {
+		"type": "discord",
+		"text": "Discord",
+		"url": "https://discord.gg/ffWabPn"
+	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/endchanxyz"
+	}],
+	"thumbnailSize": 255,
+	"commentsUrl": "/{boardId}/res/{threadId}.json",
+	"threadsUrl": "/{boardId}/catalog.json",
+	"boardsUrl": "/index.json",
+	"countryFlagUrl": "/.static/flags/{country}.png",
+	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
+	"proxy": {
+		"aws": false
+	}
+}
