@@ -3,6 +3,11 @@ import {
 	parseLink
 } from './parseCommentPlugins'
 
+import {
+	parseCode,
+	parseCodeBlock
+} from './parseCommentPlugins.lainchan'
+
 export const parseBold = {
 	tag: 'span',
 	attributes: [
@@ -88,34 +93,6 @@ const parseHeading = {
 	}
 }
 
-// They have advanced code highlighting.
-// https://lainchan.org/faq.html
-const CODE_LANG_REGEXP = /^hljs (\S+)$/
-export const parseCode = {
-	tag: 'pre',
-	// tag: 'code',
-	// attributes: [
-	// 	{
-	// 		name: 'class',
-	// 		value: 'hljs'
-	// 	}
-	// ],
-	createBlock(content, utility) {
-		const result = {
-			type: 'monospace',
-			// inline: true,
-			content
-		}
-		// `<pre><code class="hljs clojure">...</code></pre>`.
-		// const cssClass = utility.getAttribute('class')
-		// const langMatch = cssClass.match(CODE_LANG_REGEXP)
-		// if (langMatch) {
-		// 	result.language = langMatch[0]
-		// }
-		return result
-	}
-}
-
 const parseSpoiler = {
 	tag: 'span',
 	attributes: [
@@ -141,5 +118,6 @@ export default [
 	parseSpoiler,
 	parseQuote,
 	parseLink,
-	parseCode
+	parseCode,
+	parseCodeBlock
 ]
