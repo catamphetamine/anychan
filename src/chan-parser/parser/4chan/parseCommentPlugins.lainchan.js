@@ -31,7 +31,14 @@ export const parseCodeBlock = {
 	}
 }
 
-const CODE_LANG_REGEXP = /^hljs (\S+)$/
+// `lainchan` has:
+// `<pre><code class="hljs clojure">...</code></pre>`.
+// `arisuchan` has:
+// `<pre class="block"><code class="block hljs clojure">...</code></pre>`.
+// Actually, `arisuchan` doesn't provide the "hljs clojure" part in JSON API response.
+// I guess I see why that's the case: `arisuchan` most likely uses `highlight.js`'s
+// "autodetect" feature which requires all syntaxes be loaded which is not an option.
+const CODE_LANG_REGEXP = /\bhljs (\S+)$/
 export const parseCode = {
 	tag: 'code',
 	createBlock(content, utility) {
@@ -40,9 +47,13 @@ export const parseCode = {
 			inline: true,
 			content: content && getContentText(content)
 		}
+		// `lainchan` has:
 		// `<pre><code class="hljs clojure">...</code></pre>`.
+		// `arisuchan` has:
+		// `<pre class="block"><code class="block hljs clojure">...</code></pre>`.
 		const cssClass = utility.getAttribute('class')
 		if (cssClass) {
+			console.log(cssClass)
 			const langMatch = cssClass.match(CODE_LANG_REGEXP)
 			if (langMatch) {
 				result.language = langMatch[1]
