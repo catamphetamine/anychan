@@ -12,14 +12,10 @@ import UserSettings from './UserSettings'
 class Settings {
 	constructor(storage, {
 		languages,
-		getDefaultLanguage,
-		getContentLanguage,
 		themes
 	}) {
 		this.storage = storage
 		this.languages = languages
-		this._getDefaultLanguage = getDefaultLanguage
-		this.getContentLanguage = getContentLanguage
 	}
 
 	async apply() {
@@ -36,7 +32,7 @@ class Settings {
 		}
 		// Compile censored word patterns.
 		if (settings.censoredWords) {
-			settings.censoredWords = compileWordPatterns(settings.censoredWords, this.getContentLanguage())
+			settings.censoredWords = compileWordPatterns(settings.censoredWords, settings.language)
 		}
 		return settings
 	}
@@ -46,7 +42,7 @@ class Settings {
 			theme: 'default',
 			fontSize: 'medium',
 			locale: this.getDefaultLanguage(),
-			censoredWords: getCensoredWordsByLanguage(this.getContentLanguage())
+			censoredWords: getCensoredWordsByLanguage(this.getDefaultLanguage())
 		}
 	}
 
@@ -58,12 +54,6 @@ class Settings {
 		if (typeof window !== 'undefined') {
 			if (this.isSupportedLanguage(navigator.language)) {
 				return navigator.language
-			}
-		}
-		if (this._getDefaultLanguage) {
-			const language = this._getDefaultLanguage()
-			if (language) {
-				return language
 			}
 		}
 		return this.languages[0]
@@ -88,15 +78,6 @@ const languages = Object.keys(getLanguageNames())
 const settings = new Settings(UserSettings, {
 	languages,
 	themes: THEMES,
-	getDefaultLanguage() {
-		const language = getChan().language
-		if (languages.includes(language)) {
-			return language
-		}
-	},
-	getContentLanguage() {
-		return getChan().language
-	},
 	getCensoredWordsByLanguage
 })
 

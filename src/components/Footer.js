@@ -59,7 +59,7 @@ export default class Footer extends React.Component {
 					<div className="footer__copyright">
 						{typeof getChan().copyright === 'string' &&
 							<p>
-								{getChan().copyright.replace('{0}', (new Date()).getFullYear())}
+								{getChan().copyright}
 							</p>
 						}
 						{Array.isArray(getChan().copyright) &&
@@ -95,3 +95,5 @@ export default class Footer extends React.Component {
 const COPYRIGHT_REPORT = {
 	_html: getChan().copyrightReport
 }
+
+// copyright.replace('{0}', (new Date()).getFullYear())

@@ -1,3 +1,5 @@
+const TRAILING_SLASH_REGEXP = /\/$/
+
 export default class Parser {
 	constructor(chanSettings, {
 		parseBoards,
@@ -7,12 +9,12 @@ export default class Parser {
 	}) {
 		const {
 			id,
-			// `parser` setting is optional (falls back to `id`).
-			parser,
+			url,
 			...restChanSettings
 		} = chanSettings
 		this.options = {
 			chan: id,
+			chanUrl: url.replace(TRAILING_SLASH_REGEXP, ''),
 			...restChanSettings,
 			...rest
 		}

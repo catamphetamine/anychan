@@ -1,5 +1,6 @@
 import configuration from './configuration'
 import CHANS from './chans'
+import { getChanSettings } from './chan-parser'
 
 export function getChan(id = getChanId()) {
 	if (id) {
@@ -32,6 +33,7 @@ export function addChanParameter(url) {
 	if (!getChanId()) {
 		return url
 	}
+	// "Default chan" id doesn't need to be explicitly passed around.
 	if (getChanId() === configuration.chan) {
 		return url
 	}
@@ -50,11 +52,18 @@ export function addChanParameter(url) {
 	return url
 }
 
-export function shouldUseRelativeUrls() {
+// Some chans may be deployed on regular HTTP for simplicity.
+// `4chan.org` has "https://www.4chan.org" website URL:
+// when navigating to "https://4chan.org" images won't load.
+const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
+export function isDeployedOnChanDomain(chan = getChan()) {
 	if (typeof window !== 'undefined') {
 		const domain = window.location.hostname
-		if (getChan().domains) {
-			if (getChan().domains.includes(domain)) {
+		if (getChanUrl(chan.id).replace(HTTPS_REGEXP, '') === domain) {
+			return true
+		}
+		if (chan.domains) {
+			if (chan.domains.includes(domain)) {
 				return true
 			}
 		}
@@ -62,12 +71,10 @@ export function shouldUseRelativeUrls() {
 	return false
 }
 
-export function getChanIdByDomain(domain) {
+export function getChanIdByDomain() {
 	for (const chan of CHANS) {
-		for (const domain of chan.domains) {
-			if (window.location.domain === domain) {
-				return chan
-			}
+		if (isDeployedOnChanDomain(chan)) {
+			return chan
 		}
 	}
 }
@@ -80,5 +87,33 @@ export function getProxyUrl() {
 	}
 	if (configuration.corsProxyUrl) {
 		return configuration.corsProxyUrl
+	}
+}
+
+/**
+ * Adds HTTP origin to a possibly relative URL.
+ * For example, if this application is deployed on 2ch.hk domain
+ * then there's no need to query `https://2ch.hk/...` URLs
+ * and instead relative URLs `/...` should be queried.
+ * This function checks whether the application should use
+ * relative URLs and transforms the URL accordingly.
+ */
+export function getAbsoluteUrl(url) {
+	if (url[0] === '/' && url[1] !== '/') {
+		if (!isDeployedOnChanDomain() ) {
+			return getChanUrl() + url
+		}
+	}
+	return url
+}
+
+export function getChanUrl(chanId = getChanId()) {
+	return getChanParserSettings().url
+}
+
+export function getChanParserSettings(chanId = getChanId()) {
+	return getChanSettings(chanId) || {
+		id: chanId,
+		...getChan(chanId).parser
 	}
 }

@@ -1,11 +1,5 @@
 {
 	"id": "4chan",
-	"color": "#8dc63f",
-	"website": "https://4chan.org",
-	"domains": [
-		"www.4chan.org"
-	],
-	"language": "en",
 	"title": "4chan",
 	"description": "4chan is a simple image-based bulletin board where anyone can post comments and share images. There are boards dedicated to a variety of topics, from Japanese animation and culture to videogames, music, and photography. Users do not need to register an account before participating in the community. Feel free to click on a board below that interests you and jump right in!",
 	"copyright": "Copyright © 2003-{0} 4chan community support LLC. All rights reserved.",
@@ -62,11 +56,6 @@
 		"text": "Mobile apps",
 		"url": "https://www.reddit.com/r/androidapps/comments/6kasmo/which_is_the_better_4chan_client/"
 	}],
-	"thumbnailSize": 250,
-	"commentsUrl": "http://a.4cdn.org/{boardId}/thread/{threadId}.json",
-	"threadsUrl": "http://a.4cdn.org/{boardId}/catalog.json",
-	"boardsUrl": "http://a.4cdn.org/boards.json",
-	"commentUrl": "https://boards.4channel.org/{boardId}/thread/{threadId}#p{commentId}",
 	"boardCategories": [
 		"Japanese Culture",
 		"Video Games",

@@ -16,8 +16,8 @@ export default {
   "autoSage": false,
   "files": [{
     "originalName": "Europe-768x443.jpg",
-    "path": "/.media/5f1d59337225ab646b3251d1cb2ccfaa-imagejpeg.jpg",
-    "thumb": "/.media/t_5f1d59337225ab646b3251d1cb2ccfaa-imagejpeg",
+    "path": "https://kohlchan.net/.media/5f1d59337225ab646b3251d1cb2ccfaa-imagejpeg.jpg",
+    "thumb": "https://kohlchan.net/.media/t_5f1d59337225ab646b3251d1cb2ccfaa-imagejpeg",
     "mime": "image/jpeg",
     "size": 58589,
     "width": 768,
@@ -47,16 +47,16 @@ export default {
 			"creation": "2019-06-02T17:18:07.591Z",
 			"files": [{
 				"originalName": "ssr.jpg",
-				"path": "/.media/9eb5f926cc9f3a9489f3ba9f693dfbc4-imagejpeg.jpg",
-				"thumb": "/.media/t_9eb5f926cc9f3a9489f3ba9f693dfbc4-imagejpeg",
+				"path": "https://kohlchan.net/.media/9eb5f926cc9f3a9489f3ba9f693dfbc4-imagejpeg.jpg",
+				"thumb": "https://kohlchan.net/.media/t_9eb5f926cc9f3a9489f3ba9f693dfbc4-imagejpeg",
 				"mime": "image/jpeg",
 				"size": 191181,
 				"width": 800,
 				"height": 450
 			}, {
 				"originalName": "yjs.jpg",
-				"path": "/.media/bd91d1becebd847b67eb2b439da16557-imagejpeg.jpg",
-				"thumb": "/.media/t_bd91d1becebd847b67eb2b439da16557-imagejpeg",
+				"path": "https://kohlchan.net/.media/bd91d1becebd847b67eb2b439da16557-imagejpeg.jpg",
+				"thumb": "https://kohlchan.net/.media/t_bd91d1becebd847b67eb2b439da16557-imagejpeg",
 				"mime": "image/jpeg",
 				"size": 190141,
 				"width": 800,

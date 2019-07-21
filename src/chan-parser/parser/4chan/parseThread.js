@@ -24,6 +24,8 @@ export default function parseThread(posts, {
 	attachmentUrlFpath,
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
+	useRelativeUrls,
+	chanUrl,
 	defaultAuthorName,
 	parseContent,
 	expandReplies,
@@ -44,6 +46,8 @@ export default function parseThread(posts, {
 		attachmentUrlFpath,
 		attachmentThumbnailUrlFpath,
 		fileAttachmentUrl,
+		useRelativeUrls,
+		chanUrl,
 		defaultAuthorName,
 		parseContent,
 		parseContentForOpeningPost: !isPreview

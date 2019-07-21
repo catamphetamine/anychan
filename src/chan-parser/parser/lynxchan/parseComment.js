@@ -27,6 +27,8 @@ export default function parseComment(post, {
 	attachmentUrl,
 	attachmentThumbnailUrl,
 	thumbnailSize,
+	useRelativeUrls,
+	chanUrl,
 	defaultAuthorName,
 	parseContent,
 	parseContentForOpeningPost
@@ -81,7 +83,9 @@ export default function parseComment(post, {
 			boardId,
 			attachmentUrl,
 			attachmentThumbnailUrl,
-			thumbnailSize
+			thumbnailSize,
+			useRelativeUrls,
+			chanUrl
 		})),
 		// In `/catalog.json` API response there's no `creation` property which is a bug.
 		// http://lynxhub.com/lynxchan/res/722.html#q984
@@ -132,7 +136,8 @@ export default function parseComment(post, {
 			// flagCode: null
 			// flagName: "Onion"
 			// ````
-			comment.authorIconId = flagId
+			// comment.authorIconId = flagId
+			comment.authorIconUrl = post.flag
 			comment.authorIconName = post.flagName
 		}
 	}

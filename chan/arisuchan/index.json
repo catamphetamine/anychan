@@ -1,11 +1,5 @@
 {
 	"id": "arisuchan",
-	"color": "#be132d",
-	"website": "https://arisuchan.jp",
-	"domains": [
-		"arisuchan.jp"
-	],
-	"language": "en",
 	"title": "arisuchan",
 	"description": [
     "From a young age Alice has been interested in technology, far beyond what most would consider healthy or normal, and quickly grew weary of hearing that she \"was not like other girls.\" Computers and online communities provided much needed socialization during a period in her life in which she shared almost nothing in common with her peers. While she cannot attribute it to any particular trauma, she has suffered from increasingly bizarre and disturbing dreams. Perhaps it is from years of recreational drug use, but she now favors more directed and introspective psychonautic exploration.",
@@ -40,10 +34,6 @@
 		"text": "Donate",
 		"url": "https://arisuchan.jp/infornography.php#faq"
 	}],
-	"thumbnailSize": 256,
-	"commentsUrl": "https://arisuchan.jp/{boardId}/res/{threadId}.json",
-	"threadsUrl": "https://arisuchan.jp/{boardId}/catalog.json",
-	"commentUrl": "https://arisuchan.jp/{boardId}/res/{threadId}.html#{commentId}",
   "boards": [
     {
       "id": "art",

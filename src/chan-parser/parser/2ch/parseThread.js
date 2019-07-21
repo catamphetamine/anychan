@@ -25,6 +25,7 @@ export default function parseThread(thread, posts, {
 	commentsCount,
 	commentAttachmentsCount,
 	useRelativeUrls,
+	chanUrl,
 	getUrl,
 	commentUrlRegExp,
 	parseContent,
@@ -41,6 +42,7 @@ export default function parseThread(thread, posts, {
 		hasFlags,
 		icons,
 		useRelativeUrls,
+		chanUrl,
 		getUrl,
 		parseContent,
 		parseContentForOpeningPost: !isPreview

@@ -21,10 +21,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default function() {
-	// Initialize the chan being used.
-	// `URL` is not available in IE11.
-	// Supports `chan` URL parameter for multi-chan `gh-pages` demo.
-	const chan = new URL(window.location.href).searchParams.get('chan') || getChanIdByDomain(window.location.domain)
+	// Get the chan id.
+	// Chan id can be specified as "chan" URL parameter
+	// (`chan` URL parameter is used for multi-chan `gh-pages` demo)
+	// or it could be derived from the current domain.
+	// If not chan id is determined at this step then the
+	// "default chan" configured in `configuration.json` will be used.
+	// // `URL` is not available in IE11.
+	const chan = new URL(window.location.href).searchParams.get('chan') || getChanIdByDomain()
 	if (chan) {
 		setChanId(chan)
 	}

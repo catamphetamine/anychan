@@ -1,6 +1,11 @@
 {
 	"id": "2ch",
-	"language": "ru",
+	"url": "https://2ch.hk",
 	"engine": "makaba",
-	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json",
+		"getBoards": "/boards.json"
+	}
 }

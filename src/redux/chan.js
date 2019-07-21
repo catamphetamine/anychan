@@ -1,13 +1,19 @@
 import { ReduxModule } from 'react-website'
 
 import configuration from '../configuration'
-import { getChan, shouldUseRelativeUrls, getProxyUrl } from '../chan'
+import {
+	getChan,
+	getAbsoluteUrl,
+	getChanParserSettings,
+	isDeployedOnChanDomain,
+	getProxyUrl
+} from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import UserData from '../UserData/UserData'
 
 // import EIGHT_CHAN_BOARDS_RESPONSE from '../../chan/8ch/boards.json'
-import createParser, { getChan as getChanParserConfig } from '../chan-parser'
+import createParser, { getChanSettings } from '../chan-parser'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 import createByIdIndex from '../utility/createByIdIndex'
 
@@ -24,8 +30,8 @@ export const getBoards = redux.action(
 			return getBoardsResult(getChan().boards)
 		}
 		// Validate configuration
-		if (!getChan().boardsUrl) {
-			throw new Error(`Neither "boards" no "boardsUrl" was found in chan config`)
+		if (!getChanParserSettings().api.getBoards) {
+			throw new Error(`Neither "boards" nor "api.getBoards" were found in chan or chan-parser config`)
 		}
 		const apiRequestStartedAt = Date.now()
 		let response
@@ -41,7 +47,7 @@ export const getBoards = redux.action(
 		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 			response = getBoardsResponseExample(getChan().id)
 		} else {
-			response = await http.get(proxyUrl(addOrigin(getChan().boardsUrl)))
+			response = await http.get(proxyUrl(getAbsoluteUrl(getChanParserSettings().api.getBoards)))
 		}
 		console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		return getBoardsResult(createChanParser({}).parseBoards(response, {
@@ -68,7 +74,9 @@ export const getAllBoards = redux.action(
 		if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 			response = getBoardsResponseExample(getChan().id)
 		} else {
-			response = await http.get(proxyUrl(addOrigin(getChan().allBoardsUrl || getChan().boardsUrl)))
+			response = await http.get(proxyUrl(getAbsoluteUrl(
+				getChanParserSettings().api.getAllBoards || getChanParserSettings().api.getBoards
+			)))
 		}
 		console.log(`Get all boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		return getBoardsResult(createChanParser({}).parseBoards(response))
@@ -83,7 +91,8 @@ export const getThreads = redux.action(
 	(boardId, censoredWords, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
-			addOrigin(getChan().threadsUrl).replace('{boardId}', boardId)
+			getAbsoluteUrl(getChanParserSettings().api.getThreads)
+				.replace('{boardId}', boardId)
 		))
 		console.log(`Get threads API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
@@ -118,7 +127,9 @@ export const getThread = redux.action(
 	(boardId, threadId, censoredWords, locale) => async http => {
 		const apiRequestStartedAt = Date.now()
 		const response = await http.get(proxyUrl(
-			addOrigin(getChan().commentsUrl).replace('{boardId}', boardId).replace('{threadId}', threadId)
+			getAbsoluteUrl(getChanParserSettings().api.getThread)
+				.replace('{boardId}', boardId)
+				.replace('{threadId}', threadId)
 		))
 		console.log(`Get thread API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 		const startedAt = Date.now()
@@ -172,13 +183,13 @@ export default redux.reducer()
 
 function createChanParser({ censoredWords, locale }) {
 	return createParser(
-		getChanParserConfig(getChan().id) || { id: getChan().id, ...getChan().parser },
+		getChanParserSettings(),
 		{
 			censoredWords,
 			addOnContentChange: true,
 			expandReplies: true,
 			messages: locale ? getMessages(locale) : undefined,
-			useRelativeUrls: shouldUseRelativeUrls(),
+			useRelativeUrls: isDeployedOnChanDomain(),
 			getUrl
 		}
 	)
@@ -200,23 +211,6 @@ function getBoardsResponseExample(chan) {
 		case '2ch':
 			return window.TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE
 	}
-}
-
-/**
- * Adds HTTP origin to a possibly relative URL.
- * For example, if this application is deployed on 2ch.hk domain
- * then there's no need to query `https://2ch.hk/...` URLs
- * and instead relative URLs `/...` should be queried.
- * This function checks whether the application should use
- * relative URLs and transforms the URL accordingly.
- */
-function addOrigin(url) {
-	if (url[0] === '/') {
-		if (!shouldUseRelativeUrls(url)) {
-			url = getChan().website + url
-		}
-	}
-	return url
 }
 
 function setThreadInfo(thread, mode) {

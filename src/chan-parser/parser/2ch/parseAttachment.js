@@ -2,9 +2,8 @@ import getMimeType from '../../utility/getMimeType'
 import splitFilename from '../../utility/splitFilename'
 
 const STICKER_FILE_TYPE = 100
-const ORIGIN = 'https://2ch.hk'
 
-export default function parseAttachment(file, { useRelativeUrls }) {
+export default function parseAttachment(file, { useRelativeUrls, chanUrl }) {
 	// Stickers don't have a `fullname`.
 	let name
 	if (file.fullname) {
@@ -14,7 +13,7 @@ export default function parseAttachment(file, { useRelativeUrls }) {
 	// (2ch.hk, 2ch.so, 2ch.pm, 2ch.yt, 2ch.wf, 2ch.re).
 	// By using relative URLs in case of running on an "official" domain
 	// attachment URLs will keep working if `2ch.hk` domain is blocked.
-	const origin = useRelativeUrls ? '' : ORIGIN
+	const origin = useRelativeUrls ? '' : chanUrl
 	const mimeType = getContentTypeByFileType(file.type) ||
 		// Fallback for incorrect attachments.
 		// (there were some cases supposedly in old threads)

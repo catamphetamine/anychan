@@ -29,6 +29,7 @@ export default function parseComment(post, {
 	hasFlags,
 	icons,
 	useRelativeUrls,
+	chanUrl,
 	getUrl,
 	parseContent,
 	parseContentForOpeningPost
@@ -63,7 +64,9 @@ export default function parseComment(post, {
 		parseRole(post.trip),
 		post.banned === 1,
 		subject,
-		post.files.length === 0 ? undefined : post.files.map(file => parseAttachment(file, { useRelativeUrls })),
+		post.files.length === 0 ? undefined : post.files.map((file) => {
+			return parseAttachment(file, { useRelativeUrls, chanUrl })
+		}),
 		new Date(post.timestamp * 1000),
 		{
 			censoredWords,
@@ -124,25 +127,19 @@ export default function parseComment(post, {
 				}
 			}
 		} else if (icons) {
-			const match = post.icon.match(/\/icons\/logos\/([^\/]+).png" title=\"([^"]+)\"/)
-			if (match) {
-				comment.authorIconId = match[1]
-				comment.authorIconName = match[2]
-			} else {
-				// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
-				// https://2ch.hk/icons/logos/krym.gif
-				const match = post.icon.match(/\/icons\/logos\/([^\/]+).gif" title=\"([^"]+)\"/)
-				if (match) {
-					comment.authorIconId = match[1]
-					comment.authorIconName = match[2]
-				} else {
-					console.error(`Couldn't parse poster flag/icon: ${post.icon}`)
-				}
-			}
+			comment.authorIconUrl = post.icon.match(AUTHOR_ICON_URL_REGEXP)[1]
+			comment.authorIconName = post.icon.match(AUTHOR_ICON_TITLE_REGEXP)[1]
+			// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
+			// https://2ch.hk/icons/logos/krym.gif
+			// const authorIconIdRegExp = /\/icons\/logos\/([^\/]+).(png|gif)"
+			// comment.authorIconId = match[1]
 		}
 	}
 	return comment
 }
+
+const AUTHOR_ICON_URL_REGEXP = / src="([^"]+)"/
+const AUTHOR_ICON_TITLE_REGEXP = / title="([^"]+)"/
 
 /**
  * This is a reverse-engineered guess of

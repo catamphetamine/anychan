@@ -13,64 +13,19 @@ Maybe remove isPlayerFocusable() from Video.js.
 
 Сохраняется ли фокус на видео, когда autoPlay меняется с false на true в slideshowMode.
 
-Сделать Picture функциональным компонентом (hooks).
-
-Проверить режим слайдшоу для видео и картинок (и обычный режим).
-
-Проверить expanded режим для видео и картинок.
-
 Maybe add hotkeys for "Expand attachments" and "Start slideshow".
-
-Check spoilers and transparent background pictures.
 
 Check errored image reload on click.
 
-
-
-
-https://github.com/catamphetamine/captchan/issues/4
-
-переделать скриншоты тем можно
+переделать скриншоты тем мб
 
 virtual scroller page up/down no timer
 
-Add "Adding a new chan" instructions for `captchan` and `chan-parser`.
-
 Toggle search on Ctrl/Cmd + F.
-
-Expand attachments: not expand more than its max width.
-
-Expand attachments: no border and no content section padding.
 
 Expand attachments: max height === screen height - header/footer height.
 
-Expand attachments: expand videos as HTML <video/> tags because preview pictures are small.
 
-Expand attachments: check for YouTube videos and HTML <video/>s (http://localhost:1234/v/4267625).
-
-Expand attachments: test for transparent background pictures:
-
-```js
-picturesAndVideos = [{
-	"type": "picture",
-	"picture": {
-		"type": "image/png",
-		"width": 512,
-		"height": 512,
-		"size": 0,
-		"url": "https://2ch.hk/stickers/IFJWXtwd/v6avOejd.png",
-		"sizes": [
-			{
-				"type": "image/png",
-				"width": 200,
-				"height": 200,
-				"url": "https://2ch.hk/stickers/IFJWXtwd/v6avOejd_thumb.png"
-			}
-		],
-		"transparentBackground": true
-	}
-}]
-```
 
 
 

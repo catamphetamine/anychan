@@ -1,8 +1,13 @@
 {
 	"id": "lainchan",
-	"language": "en",
-	"parser": "4chan",
-	"attachmentUrl": "https://lainchan.org/{boardId}/src/{name}{ext}",
-	"attachmentThumbnailUrl": "https://lainchan.org/{boardId}/thumb/{name}{ext}",
-	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	"url": "https://lainchan.org",
+	"engine": "vichan",
+	"attachmentUrl": "/{boardId}/src/{name}{ext}",
+	"attachmentThumbnailUrl": "/{boardId}/thumb/{name}{ext}",
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json",
+		"getBoards": "/{boardId}/res/{threadId}.html#{commentId}"
+	}
 }

@@ -146,7 +146,7 @@ npm install
 npm run build
 ```
 
-The build will be output to the `build/assets` directory: `index.html` and a bunch of `.js`/`.css`/image files with random generated names.
+The build will be output to the `build/assets` directory: `index.html` and a bunch of `.js`/`.css`/`.map`/image files with random generated names (and also about a 100 of code syntax highlighter language plugins that are only loaded on demand at runtime when highlighting a given language in "code" blocks).
 
 Prior to running `npm run build` it's recommended to create a [custom configuration file](#configuration) for enabling advanced features.
 
@@ -272,7 +272,159 @@ First [add the chan to `src/chan-parser`](https://github.com/catamphetamine/capt
 
 * Create chan's directory in `./chan`.
 * Create `index.json`, `logo.svg`/`logo.jpg`/`logo.png` and `icon.png` files in the chan's directory (see other chans as an example).
-* Add these files for the chan in `./src/chans.js` (same as for existing chans).
+* Add these files for the chan in `./src/chans.js` (same as for the existing chans).
+
+<details>
+<summary><code>index.json</code> format</summary>
+
+###
+
+```js
+{
+	// (required)
+	// Chan unique ID.
+	"id": "4chan",
+
+	// (required)
+	// Chan title.
+	"title": "4chan",
+
+	// (optional)
+	// The text displayed under chan "title" on the home page.
+	"subtitle": "The imageboard",
+
+	// (required)
+	// Chan description.
+	// Can be a `String` or `InlineContent` (text with hyperlinks):
+	// https://github.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
+	"description": "4chan is the oldest English-speaking imageboard",
+
+	// (optional)
+	// Footer links.
+	// Each link must have `text` and `url`.
+	// Link `type` is optional and currently doesn't have any effect.
+	"links": [{
+		"type": "rules",
+		"text": "Rules",
+		"url": "http://www.4chan.org/rules"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "http://www.4chan.org/faq"
+	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/4chan"
+	}],
+
+	// (optional)
+	// Footer copyright.
+	// Can be a `String` or `InlineContent` (text with hyperlinks):
+	// https://github.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
+	"copyright": "Copyright © 2003-2019 4chan community support LLC. All rights reserved.",
+
+	// (required)
+	// JSON API URLs.
+	"api": {
+		// (required)
+		// The API for getting a thread with its comments.
+		"getThread": "/{boardId}/res/{threadId}.json",
+
+		// (required)
+		// The API for getting the list of threads of a board.
+		"getThreads": "/{boardId}/catalog.json",
+
+		// (optional)
+		// The API for getting the boards list.
+		// If the "get boards" API is missing
+		// (which is the case for `vichan` and `lynxchan` engines)
+		// then provide the boards list manually
+		// via the "boards" configuration parameter.
+		"getBoards": "/boards.json"
+	},
+
+	// (optional)
+	// If the "get boards" API is missing
+	// (which is the case for `vichan` and `lynxchan` engines)
+	// then provide the boards list manually
+	// via the "boards" configuration parameter.
+	"boards": [{
+		"id": "art",
+		"name": "Art and Design"
+	}, {
+		"id": "cult",
+		"name": "Culture and Media"
+	}],
+
+	// (optional)
+	// Defines the order of board categories in the sidebar
+	// when "By Category" board list view mode is selected.
+	"boardCategories": [
+		"Japanese Culture",
+		"Video Games",
+		"Interests",
+		"Creative",
+		"Other",
+		"Miscellaneous",
+		"Adult"
+	],
+
+	// (optional)
+	// If "get boards" API provides board categories
+	// and if there're too many boards in some category
+	// then such board category can be hidden in the sidebar
+	// and "Show All Boards" link will appear under the boards list.
+	"hideBoardCategories": [
+		"User boards"
+	],
+
+	// (optional)
+	// CORS proxy settings.
+	"proxy": {
+		// (optional)
+		// Set to `true` if the chan doesn't block the AWS EC2 subnet.
+		// Will use Heroku proxy otherwise (which is slower).
+		// Is `false` by default.
+		"aws": true
+	},
+
+	// (optional)
+	// Most chans use "relative" URLs for attachments.
+	// Some chans also may have "backup" domains
+	// in case their primary domain name is
+	// blocked by the authorities.
+	// These backup domains may be used by `captchan`
+	// to output the correct image URLs for such chans:
+	// if a chan uses "relative" URLs for attachments
+	// and is running on one of its "backup" domains
+	// `captchan` will use "relative" image URLs
+	// (`/images/...`) rather than absolute ones
+	// (`https://default-chan-domain.net/images/...`)
+	// so that if `default-chan-domain.net` is unavailable
+	// then images won't output "404 Not Found" error.
+	// There's no need to include the default domain
+	// in the list beacuse it will be included automatically.
+	"domains": [
+		"kohl.chan",
+		"kohlchankxguym67.onion",
+		"kohlchan7cwtdwfuicqhxgqx4k47bsvlt2wn5eduzovntrzvonv4cqyd.onion"
+	],
+
+	// (optional)
+	// Error page pictures.
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://s.4cdn.org/image/error/404/404-DanKim.gif",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-3.png",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-5.png",
+				"https://s.4cdn.org/image/error/404/404-Anonymous-6.png"
+			]
+		}
+	}
+}
+```
+</details>
 
 ## Proxy
 

@@ -19,7 +19,7 @@ describe('kohlchan.net', () => {
 			"cyclic": false,
 			"autoSage": false,
 			"lastBump": "2019-07-01T18:28:14.680Z",
-			"thumb": "/.media/t_82b9c3a866f6233f1c0253d3eb819ea5-imagepng"
+			"thumb": "https://kohlchan.net/.media/t_82b9c3a866f6233f1c0253d3eb819ea5-imagepng"
 		}]
 
 		const THREADS = [{

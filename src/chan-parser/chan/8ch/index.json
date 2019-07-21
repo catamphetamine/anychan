@@ -1,8 +1,7 @@
 {
 	"id": "8ch",
-	"language": "en",
+	"url": "https://8ch.net",
 	"engine": "OpenIB",
-	"parser": "4chan",
 	"defaultAuthorName": {
 		"*": "Anonymous",
 		"sudo": "/bin/sh",
@@ -22,5 +21,11 @@
 	"attachmentThumbnailUrlFpath": "https://media.8ch.net/file_store/thumb/{name}{ext}",
 	"attachmentUrl": "https://media.8ch.net/{boardId}/src/{name}{ext}",
 	"attachmentThumbnailUrl": "https://media.8ch.net/{boardId}/thumb/{name}{ext}",
-	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json",
+		"getBoards": "/boards-top20.json",
+		"getAllBoards": "/boards.json"
+	}
 }

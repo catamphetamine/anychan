@@ -34,6 +34,8 @@ export default function parseComment(post, {
 	attachmentUrlFpath,
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
+	useRelativeUrls,
+	chanUrl,
 	defaultAuthorName,
 	parseContent,
 	parseContentForOpeningPost
@@ -107,7 +109,9 @@ export default function parseComment(post, {
 			// `8ch.net` has `fpath: 0/1` parameter.
 			attachmentUrlFpath,
 			attachmentThumbnailUrlFpath,
-			fileAttachmentUrl
+			fileAttachmentUrl,
+			useRelativeUrls,
+			chanUrl
 		}),
 		new Date(post.time * 1000),
 		{

@@ -1,8 +1,12 @@
 {
 	"id": "arisuchan",
-	"language": "en",
-	"parser": "4chan",
-	"attachmentUrl": "https://arisuchan.jp/{boardId}/src/{name}{ext}",
-	"attachmentThumbnailUrl": "https://arisuchan.jp/{boardId}/thumb/{name}{ext}",
-	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	"url": "https://arisuchan.jp",
+	"engine": "vichan",
+	"attachmentUrl": "/{boardId}/src/{name}{ext}",
+	"attachmentThumbnailUrl": "/{boardId}/thumb/{name}{ext}",
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+  "api": {
+  	"getThread": "/{boardId}/res/{threadId}.json",
+  	"getThreads": "/{boardId}/catalog.json"
+  }
 }

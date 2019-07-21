@@ -1,10 +1,13 @@
 {
 	"id": "endchan",
-	"language": "en",
-	"parser": "lynxchan",
+	"url": "https://endchan.xyz",
+	"engine": "lynxchan",
 	"thumbnailSize": 255,
 	"defaultAuthorName": "Anonymous",
-	"attachmentUrl": "https://endchan.xyz{url}",
-	"attachmentThumbnailUrl": "https://endchan.xyz{url}",
-	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+	"commentUrlRegExp": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json",
+		"getBoards": "/index.json"
+	}
 }

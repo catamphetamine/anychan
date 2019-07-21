@@ -26,7 +26,7 @@ const parseKohlChanEmoji = {
 		return {
 			type: 'emoji',
 			name: match ? match[1] : 'emoji',
-			url: emojiUrl.replace('{url}', url)
+			url: emojiUrl ? emojiUrl.replace('{url}', url) : url
 		}
 	}
 }

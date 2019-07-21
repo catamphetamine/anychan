@@ -4,7 +4,9 @@ import TwoChannelParser from './2ch/Parser'
 import FourChannelParser from './4chan/Parser'
 import LynxChanParser from './lynxchan/Parser'
 
-function getChanParser(parserId) {
+import { getChanParser } from '../chan'
+
+function getParser(parserId) {
 	switch (parserId) {
 		case '2ch':
 			return TwoChannelParser
@@ -13,12 +15,18 @@ function getChanParser(parserId) {
 		case 'lynxchan':
 			return LynxChanParser
 		default:
-			throw new TypeError(`Unknown chan parser: ${parserId}`)
+			throw new RangeError(`Unknown chan parser: ${parserId}`)
 	}
 }
 
 export default function createParser(chanSettings, options) {
-	// `parser` setting is optional (falls back to `id`).
-	const Parser = getChanParser(chanSettings.parser || chanSettings.id)
-	return new Parser(chanSettings, options)
+	if (chanSettings.parser) {
+		const Parser = getParser(chanSettings.parser)
+		return new Parser(chanSettings, options)
+	}
+	const createParser = getChanParser(chanSettings.id)
+	if (!createParser) {
+		throw new RangeError(`Unknown chan: ${chanSettings.id}`)
+	}
+	return createParser(options)
 }

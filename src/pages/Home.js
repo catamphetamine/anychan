@@ -5,7 +5,7 @@ import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
 import ChanLogo, { hasLogo } from '../components/ChanLogo'
 
-import { getChan } from '../chan'
+import { getChan, getChanUrl } from '../chan'
 import getMessages from '../messages'
 import { showSidebar } from '../redux/app'
 
@@ -24,8 +24,6 @@ export default class Home extends React.Component {
 		} = this.props
 
 		const {
-			color,
-			website,
 			title,
 			subtitle,
 			description,
@@ -40,7 +38,7 @@ export default class Home extends React.Component {
 						{hasLogo() &&
 							<a
 								target="_blank"
-								href={website}
+								href={getChanUrl()}
 								className="home-page__logo-link">
 								<ChanLogo className="home-page__logo"/>
 							</a>
@@ -48,8 +46,7 @@ export default class Home extends React.Component {
 						<div className="home-page__title">
 							<a
 								target="_blank"
-								href={website}
-								style={{ color }}>
+								href={getChanUrl()}>
 								{title}
 							</a>
 							<div className="home-page__subtitle">

@@ -2,6 +2,10 @@ import getMimeType from '../../utility/getMimeType'
 import splitFilename from '../../utility/splitFilename'
 
 export default function parseAttachment(file, options) {
+	options = {
+		...options,
+		toAbsoluteUrl: url => toAbsoluteUrl(url, options)
+	}
 	const [name] = splitFilename(file.originalName)
 	const mimeType = file.mime
 	if (mimeType && mimeType.indexOf('image/') === 0) {
@@ -22,7 +26,8 @@ function parsePicture(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
-	thumbnailSize
+	thumbnailSize,
+	toAbsoluteUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'picture', chan)
 	const picture = {
@@ -31,11 +36,11 @@ function parsePicture(file, mimeType, name, {
 		type: mimeType,
 		width: file.width,
 		height: file.height,
-		url: formatUrl(attachmentUrl, file.path),
+		url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path)),
 		sizes: [{
 			type: getMimeType(thumbnailExt),
 			...getThumbnailSize(file.width, file.height, thumbnailSize),
-			url: formatUrl(attachmentThumbnailUrl, file.thumb)
+			url: toAbsoluteUrl(formatUrl(attachmentThumbnailUrl, file.thumb))
 		}]
 	}
 	// `lynxchan` doesn't provide thumbnail `size`
@@ -54,7 +59,8 @@ function parseVideo(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
-	thumbnailSize
+	thumbnailSize,
+	toAbsoluteUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'video', chan)
 	return {
@@ -66,11 +72,11 @@ function parseVideo(file, mimeType, name, {
 			width: file.width,
 			height: file.height,
 			size: file.size, // in bytes
-			url: formatUrl(attachmentUrl, file.path),
+			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path)),
 			picture: {
 				type: getMimeType(thumbnailExt),
 				...getThumbnailSize(file.width, file.height, thumbnailSize),
-				url: formatUrl(attachmentThumbnailUrl, file.thumb)
+				url: toAbsoluteUrl(formatUrl(attachmentThumbnailUrl, file.thumb))
 			}
 		}
 	}
@@ -78,21 +84,23 @@ function parseVideo(file, mimeType, name, {
 
 function parseAudio(file, mimeType, name, {
 	boardId,
-	attachmentUrl
+	attachmentUrl,
+	toAbsoluteUrl
 }) {
 	return {
 		type: 'audio',
 		audio: {
 			type: mimeType,
 			title: name,
-			url: formatUrl(attachmentUrl, file.path)
+			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path))
 		}
 	}
 }
 
 function parseFile(file, mimeType, name, {
 	boardId,
-	attachmentUrl
+	attachmentUrl,
+	toAbsoluteUrl
 }) {
 	const [_unused, ext] = splitFilename(file.path)
 	return {
@@ -102,13 +110,16 @@ function parseFile(file, mimeType, name, {
 			name,
 			ext,
 			size: file.size, // in bytes
-			url: formatUrl(attachmentUrl, file.path)
+			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path))
 		}
 	}
 }
 
-function formatUrl(url, path) {
-	return url.replace(/{url}/, path)
+function formatUrl(urlTemplate, url) {
+	if (urlTemplate) {
+		return urlTemplate.replace(/{url}/, url)
+	}
+	return url
 }
 
 // `lynxchan` doesn't provide `width` and `height`
@@ -128,9 +139,9 @@ function getThumbnailSize(width, height, maxSize) {
 	}
 }
 
-const KOHLCHAN_PNG_REG_EXP = /-imagepng$/
-const KOHLCHAN_GIF_REG_EXP = /-imagegif$/
-const KOHLCHAN_JPG_REG_EXP = /-imagejpeg$/
+const PNG_REG_EXP = /-imagepng$/
+const GIF_REG_EXP = /-imagegif$/
+const JPG_REG_EXP = /-imagejpeg$/
 
 function getThumbnailExt(file, type, chan) {
 	// Assume that all videos have ".jpg" thumbnails (makes sense).
@@ -139,13 +150,13 @@ function getThumbnailExt(file, type, chan) {
 	}
 	// `kohlchan.net` always has ".png" extension for thumbnails.
 	if (chan === 'kohlchan') {
-		if (KOHLCHAN_PNG_REG_EXP.test(file.thumb)) {
+		if (PNG_REG_EXP.test(file.thumb)) {
 			return '.png'
 		}
-		if (KOHLCHAN_GIF_REG_EXP.test(file.thumb)) {
+		if (GIF_REG_EXP.test(file.thumb)) {
 			return '.png'
 		}
-		if (KOHLCHAN_JPG_REG_EXP.test(file.thumb)) {
+		if (JPG_REG_EXP.test(file.thumb)) {
 			return '.jpg'
 		}
 	}
@@ -154,15 +165,24 @@ function getThumbnailExt(file, type, chan) {
 }
 
 export function getPictureTypeFromUrl(url) {
-	if (KOHLCHAN_PNG_REG_EXP.test(url)) {
+	if (PNG_REG_EXP.test(url)) {
 		return 'image/png'
 	}
-	if (KOHLCHAN_GIF_REG_EXP.test(url)) {
+	if (GIF_REG_EXP.test(url)) {
 		return 'image/gif'
 	}
-	if (KOHLCHAN_JPG_REG_EXP.test(url)) {
+	if (JPG_REG_EXP.test(url)) {
 		return 'image/jpeg'
 	}
 	// Just a guess.
 	return 'image/jpeg'
+}
+
+function toAbsoluteUrl(url, { useRelativeUrls, chanUrl }) {
+	if (url[0] === '/' && url[1] !== '/') {
+		if (!useRelativeUrls) {
+			return chanUrl + url
+		}
+	}
+	return url
 }

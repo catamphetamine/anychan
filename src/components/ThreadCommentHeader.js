@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { post } from '../PropTypes'
 import getMessages, { getCountryNames } from '../messages'
-import { getChan, shouldUseRelativeUrls } from '../chan'
+import { getChan, getChanUrl, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
 
 import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
 
@@ -48,6 +48,12 @@ export default function Header({ post, locale }) {
 				}
 				{!authorNameIsOriginalPoster &&
 					<PersonIcon
+						className={classNames('post__author-icon', {
+							'post__author-icon--outline': post.authorIdColor
+						})}/>
+				}
+				{post.authorIdColor &&
+					<PersonIconBottomBorder
 						className={classNames('post__author-icon', {
 							'post__author-icon--outline': post.authorIdColor
 						})}/>
@@ -132,7 +138,8 @@ export const HEADER_BADGES = [
 				}
 			}
 			return {
-				country: post.authorIconId,
+				// country: post.authorIconId,
+				url: post.authorIconUrl,
 				name: post.authorIconName
 			}
 		},
@@ -192,24 +199,35 @@ function ChanFlagBadge({ className, ...rest }) {
 	)
 }
 
-function ChanFlag({ country, name, ...rest }) {
-	let countryFlagUrl = getChan().countryFlagUrl
-	// Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
-	// https://2ch.hk/icons/logos/krym.gif
-	if (getChan().id === '2ch' && country === 'krym') {
-		countryFlagUrl = countryFlagUrl.replace(/\.png$/, '.gif')
-	}
+function ChanFlag({ name, url, ...rest }) {
+	// let url = getChan().countryFlagUrl
+	// // Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
+	// // https://2ch.hk/icons/logos/krym.gif
+	// if (getChan().id === '2ch' && country === 'krym') {
+	// 	url = url.replace(/\.png$/, '.gif')
+	// }
 	// Transform relative URL to an absolute one.
-	if (countryFlagUrl[0] === '/' && countryFlagUrl[1] !== '/') {
-		if (!shouldUseRelativeUrls() ) {
-			countryFlagUrl = getChan().website + countryFlagUrl
-		}
-	}
+	url = getAbsoluteUrl(url)
+	// src={url.replace('{country}', country)}
 	return (
 		<img
 			{...rest}
 			alt={name}
-			src={countryFlagUrl.replace('{country}', country)}
+			src={url}
 			className="post__custom-country-flag"/>
+	)
+}
+
+function PersonIconBottomBorder(props) {
+	return (
+		<svg viewBox="0 0 100 100" {...props}>
+			<line
+				stroke="currentColor"
+				strokeWidth={10}
+				x1={10}
+				y1={100}
+				x2={90}
+				y2={100}/>
+		</svg>
 	)
 }

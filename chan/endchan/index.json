@@ -1,11 +1,5 @@
 {
 	"id": "endchan",
-	"color": "#000000",
-	"website": "https://endchan.xyz",
-	"domains": [
-		"endchan.xyz"
-	],
-	"language": "en",
 	"title": "EndChan",
 	"description": "The imageboard at the end of the universe. You can make your own imageboard for free w/o experience or technical knowledge.",
 	"links": [{
@@ -29,12 +23,6 @@
 		"text": "Twitter",
 		"url": "https://twitter.com/endchanxyz"
 	}],
-	"thumbnailSize": 255,
-	"commentsUrl": "/{boardId}/res/{threadId}.json",
-	"threadsUrl": "/{boardId}/catalog.json",
-	"boardsUrl": "/index.json",
-	"countryFlagUrl": "/.static/flags/{country}.png",
-	"commentUrl": "/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": false
 	}

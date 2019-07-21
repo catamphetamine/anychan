@@ -128,7 +128,8 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				authorIconId: 'onion',
+				// authorIconId: 'onion',
+				authorIconUrl: '/.static/flags/onion.png',
 				authorIconName: 'Onion',
 				content: [
 					[
@@ -157,7 +158,8 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				authorIconId: 'vsa/ca',
+				// authorIconId: 'vsa/ca',
+				authorIconUrl: '/.static/flags/vsa/ca.png',
 				authorIconName: 'California',
 				content: [
 					[

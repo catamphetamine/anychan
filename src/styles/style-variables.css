@@ -130,7 +130,7 @@
 	--Announcement-backgroundColor: var(--Content-color-200);
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(255,255,255,0.15);
+	--HeaderSeparator-color--left: rgba(255,255,255,0.1);
 
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-900);

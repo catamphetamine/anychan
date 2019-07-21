@@ -1,11 +1,5 @@
 {
 	"id": "8ch",
-	"color": "#239623",
-	"website": "https://8ch.net",
-	"domains": [
-		"8ch.net"
-	],
-	"language": "en",
 	"title": "8chan",
 	"subtitle": "Embrace infamy",
 	"description": "Welcome to 8chan, the Darkest Reaches of the Internet. On 8chan, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8chan might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8chan, boards and posts are user-created and do not represent the opinions of the 8chan administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
@@ -83,12 +77,6 @@
 			"url": "https://8ch.net/faq.html#where-is-the-mobile-app"
 		}
 	],
-	"thumbnailSize": 255,
-	"commentsUrl": "http://8ch.net/{boardId}/res/{threadId}.json",
-	"threadsUrl": "http://8ch.net/{boardId}/catalog.json",
-	"boardsUrl": "https://8ch.net/boards-top20.json",
-	"allBoardsUrl": "http://8ch.net/boards.json",
-	"commentUrl": "https://8ch.net/{boardId}/res/{threadId}.html#{commentId}",
 	"proxy": {
 		"aws": false
 	},

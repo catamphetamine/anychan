@@ -14,20 +14,34 @@ import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
 // because that's how the spec dictates.
 // https://html.spec.whatwg.org/multipage/grouping-content.html#the-pre-element
 // `<pre><code class="hljs clojure">...</code></pre>`.
+const ARISUCHAN_INLINE_CODE_CLASS_REGEXP = /^inline\s?/
 export const parseCodeBlock = {
 	tag: 'pre',
 	createBlock(content, utility) {
+		let inline = false
+		// `arisuchan.jp` marks inline code with "inline" CSS class:
+		// `<pre class="inline"><code class="inline nohighlight"></code></pre>`
+		const cssClass = utility.getAttribute('class')
+		if (ARISUCHAN_INLINE_CODE_CLASS_REGEXP.test(cssClass)) {
+			inline = true
+		}
 		if (Array.isArray(content) &&
 			content.length === 1 &&
 			typeof content[0] === 'object' &&
 			content[0].type === 'code') {
-			delete content[0].inline
+			if (!inline) {
+				delete content[0].inline
+			}
 			return content[0]
 		}
-		return {
+		const result = {
 			type: 'code',
 			content
 		}
+		if (inline) {
+			result.inline = true
+		}
+		return result
 	}
 }
 

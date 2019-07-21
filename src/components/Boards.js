@@ -9,7 +9,7 @@ import { getThreads } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 
-import { getChan, addChanParameter } from '../chan'
+import { getChan, getChanParserSettings, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 
@@ -215,7 +215,7 @@ export class Boards extends React.PureComponent {
 					{this.getBoardsListItems()}
 				</List>
 
-				{!showAllBoards && (getChan().allBoardsUrl || getChan().hideBoardCategories) &&
+				{!showAllBoards && (getChanParserSettings().api.getAllBoards || getChan().hideBoardCategories) &&
 					<div className="boards__show-all-wrapper">
 						<Link to={addChanParameter('/boards')} className="boards__show-all">
 							{getMessages(locale).boards.showAll}
