@@ -35,7 +35,8 @@ export default class Footer extends React.Component {
 		} = this.props
 		return (
 			<footer className={classNames(className, 'footer', {
-				'footer--center': isRegularContent(route)
+				'footer--center': isRegularContent(route),
+				'background-content': isContentSectionsContent(route)
 			})}>
 				<div className={classNames('content', {
 					'text-content': isContentSectionsContent(route) || isRegularContent(route)

@@ -11,6 +11,10 @@
 	--base-color-700: #b55100;
 	--base-color-800: #823b01;
 	--base-color-900: #613000;
+
+	/* Menu. */
+	--Menu-color--active: var(--base-color-400);
+	--Menu-color--selected: var(--base-color-400);
 }
 
 /* Light mode. */
@@ -37,10 +41,6 @@
 	--Notification-borderColor: #5b0063;
 	--Notification-borderWidth: 3px;
 	--Notification-borderWidth--error: 0px;
-
-	/* Menu. */
-	--Menu-color--active: var(--base-color-400);
-	--Menu-color--selected: var(--base-color-400);
 
 	/* ThreadActions. */
 	--ThreadActions-color: var(--gray-color-400);
@@ -112,6 +112,12 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: #bcd19e;
+}
+
+.light .background-content {
+	/* Clickable. */
+	--Clickable-color--text: var(--base-color-300);
+	--Clickable-color--textActive: var(--base-color-400);
 }
 
 /* Dark Mode. */

@@ -100,14 +100,14 @@ export default class App extends React.Component {
 	}
 
 	setBodyBackground(route) {
-		// Set or reset "body--content-sections" class
+		// Set or reset "document--background" class
 		// which changes `<body/>` background color
 		// in order to show correct color when scrolling
 		// past top/bottom of the page on touch devices.
 		if (isContentSectionsContent(route)) {
-			document.body.classList.add('body--content-sections')
+			document.body.classList.add('document--background')
 		} else {
-			document.body.classList.remove('body--content-sections')
+			document.body.classList.remove('document--background')
 		}
 	}
 
