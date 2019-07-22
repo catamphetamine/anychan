@@ -1,3 +1,5 @@
+import unescapeContent from '../../utility/unescapeContent'
+
 export default function parseAuthor(name, { defaultAuthorName, boardId }) {
 	if (defaultAuthorName) {
 		if (typeof defaultAuthorName === 'object') {
@@ -15,7 +17,9 @@ export default function parseAuthor(name, { defaultAuthorName, boardId }) {
 			return
 		}
 	}
-	return name
+	// On `lainchan` author names are escaped.
+	// Example: "x&lt;-&gt;y".
+	return name && unescapeContent(name)
 }
 
 function is(name, defaultAuthorName) {
