@@ -46,6 +46,10 @@
 	--ThreadActions-color: var(--gray-color-400);
 	--ThreadActions-color--selected: var(--gray-color-300);
 
+	/* Clickable. */
+	--Clickable-color--text: #3200b1;
+	--Clickable-color--textActive: #692eff;
+
 	/* Content. */
 	--Content-backgroundColor: #f6ffe9;
 	--Content-backgroundColor--active: hsl(80, 90%, 92%);
@@ -93,7 +97,7 @@
 
 	/* PostQuote. */
 	--PostQuote-backgroundColor: #dfffcb;
-	--PostQuote-backgroundColor--hover: #d3ffb9;
+	--PostQuote-backgroundColor--hover: #daffc3;
 	--PostQuote-borderColor--hover: transparent;
 	--PostQuote-color: #268000;
 
