@@ -67,7 +67,6 @@ export const parseCode = {
 		// `<pre class="block"><code class="block hljs clojure">...</code></pre>`.
 		const cssClass = utility.getAttribute('class')
 		if (cssClass) {
-			console.log(cssClass)
 			const langMatch = cssClass.match(CODE_LANG_REGEXP)
 			if (langMatch) {
 				result.language = langMatch[1]
