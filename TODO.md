@@ -7,19 +7,11 @@ react-website: add @serverSideRender(({ children: string }) => string) (и уб�
 
 Check <video/> border (focused).
 
-Slideshow: wasExpanded -> ... , isShown -> isCurrentSlide.
-
-Maybe remove isPlayerFocusable() from Video.js.
-
 Сохраняется ли фокус на видео, когда autoPlay меняется с false на true в slideshowMode.
 
 Maybe add hotkeys for "Expand attachments" and "Start slideshow".
 
-Check errored image reload on click.
-
 переделать скриншоты тем мб
-
-virtual scroller page up/down no timer
 
 Toggle search on Ctrl/Cmd + F.
 
