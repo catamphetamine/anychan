@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 import Menu from 'webapp-frontend/src/components/Menu'
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
@@ -43,28 +44,15 @@ import './ApplicationMenu.css'
 	darkMode: app.settings.darkMode,
 	areTrackedThreadsShown: app.areTrackedThreadsShown,
 	areNotificationsShown: app.areNotificationsShown
-}), {
-	toggleSidebar,
-	toggleDarkMode,
-	toggleTrackedThreads,
-	toggleNotifications,
-	notify
-})
-export default class ApplicationMenu extends React.Component {
-	static propTypes = {
-		footer: PropTypes.bool,
-		locale: PropTypes.string.isRequired,
-		isSidebarShown: PropTypes.bool,
-		darkMode: PropTypes.bool,
-		areTrackedThreadsShown: PropTypes.bool,
-		areNotificationsShown: PropTypes.bool,
-		toggleSidebar: PropTypes.func.isRequired,
-		toggleDarkMode: PropTypes.func.isRequired,
-		toggleTrackedThreads: PropTypes.func.isRequired,
-		toggleNotifications: PropTypes.func.isRequired
+}), dispatch => ({ dispatch }))
+export default class _ApplicationMenu extends React.Component {
+	render() {
+		return <ApplicationMenu {...this.props}/>
 	}
+}
 
-	getMenuItems() {
+function ApplicationMenu(props) {
+	function getMenuItems() {
 		const {
 			footer,
 			locale,
@@ -72,12 +60,8 @@ export default class ApplicationMenu extends React.Component {
 			darkMode,
 			areTrackedThreadsShown,
 			areNotificationsShown,
-			toggleSidebar,
-			toggleDarkMode,
-			toggleTrackedThreads,
-			toggleNotifications,
-			notify
-		} = this.props
+			dispatch
+		} = props
 		const messages = getMessages(locale)
 		let menuItems = [
 			{
@@ -86,7 +70,7 @@ export default class ApplicationMenu extends React.Component {
 					if (!areCookiesAccepted()) {
 						return notify(messages.cookies.required)
 					}
-					toggleDarkMode()
+					dispatch(toggleDarkMode())
 					applyDarkMode(!darkMode)
 				},
 				isSelected: darkMode,
@@ -95,14 +79,14 @@ export default class ApplicationMenu extends React.Component {
 			},
 			{
 				title: messages.trackedThreads.title,
-				onClick: () => notify('Not implemented yet'), // toggleTrackedThreads,
+				onClick: () => dispatch(notify('Not implemented yet')), // () => dispatch(toggleTrackedThreads()),
 				isSelected: areTrackedThreadsShown,
 				icon: StarIconOutline,
 				iconActive: StarIconFill
 			},
 			{
 				title: messages.notifications.title,
-				onClick: () => notify('Not implemented yet'), // toggleNotifications,
+				onClick: () => dispatch(notify('Not implemented yet')), // () => dispatch(toggleNotifications()),
 				isSelected: areNotificationsShown,
 				icon: BellIconOutline,
 				iconActive: BellIconFill
@@ -117,7 +101,7 @@ export default class ApplicationMenu extends React.Component {
 		if (footer) {
 			menuItems = [{
 				title: messages.boards.title,
-				onClick: toggleSidebar,
+				onClick: () => dispatch(toggleSidebar()),
 				isSelected: isSidebarShown,
 				icon: BoardIconOutline,
 				iconActive: BoardIconFill,
@@ -127,11 +111,19 @@ export default class ApplicationMenu extends React.Component {
 		return menuItems
 	}
 
-	render() {
-		return (
-			<Menu className="application-menu">
-				{this.getMenuItems()}
-			</Menu>
-		)
-	}
+	return (
+		<Menu className={classNames('application-menu', props.footer && 'rrui__fixed-full-width')}>
+			{getMenuItems()}
+		</Menu>
+	)
+}
+
+ApplicationMenu.propTypes = {
+	footer: PropTypes.bool,
+	locale: PropTypes.string.isRequired,
+	isSidebarShown: PropTypes.bool,
+	darkMode: PropTypes.bool,
+	areTrackedThreadsShown: PropTypes.bool,
+	areNotificationsShown: PropTypes.bool,
+	dispatch: PropTypes.func.isRequired
 }
