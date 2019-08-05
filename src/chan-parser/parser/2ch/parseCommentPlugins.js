@@ -194,14 +194,17 @@ const parseLink = {
 		if (util.hasAttribute('data-thread')) {
 			const threadId = util.getAttribute('data-thread')
 			const postId = util.getAttribute('data-num')
-			const boardId = href.match(/^\/([^\/]+)/)[1]
-			return {
-				type: 'post-link',
-				boardId,
-				threadId: parseInt(threadId),
-				postId: parseInt(postId),
-				content: content.slice('>>'.length),
-				url: `https://2ch.hk${href}`
+			// There have been cases when this regexp didn't match.
+			const boardIdMatch = href.match(/^\/([^\/]+)/)
+			if (boardIdMatch) {
+				return {
+					type: 'post-link',
+					boardId: boardIdMatch[1],
+					threadId: parseInt(threadId),
+					postId: parseInt(postId),
+					content: content.slice('>>'.length),
+					url: `https://2ch.hk${href}`
+				}
 			}
 		}
 		return createLink(href, content)
