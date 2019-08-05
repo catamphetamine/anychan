@@ -27,8 +27,14 @@ export default function() {
 	// or it could be derived from the current domain.
 	// If not chan id is determined at this step then the
 	// "default chan" configured in `configuration.json` will be used.
-	// // `URL` is not available in IE11.
-	const chan = new URL(window.location.href).searchParams.get('chan') || getChanIdByDomain()
+	let chan
+	// `URL` is not available in IE11.
+	if (typeof URL !== 'undefined' && typeof URLSearchParams !== 'undefined') {
+		chan = new URL(window.location.href).searchParams.get('chan')
+	}
+	if (!chan) {
+		chan = getChanIdByDomain()
+	}
 	if (chan) {
 		setChanId(chan)
 	}

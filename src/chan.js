@@ -43,6 +43,9 @@ export function addChanParameter(url) {
 		url = 'http://example.com' + url
 	}
 	// `URL` is not available in IE11.
+	if (typeof URL === 'undefined' || typeof URLSearchParams === 'undefined') {
+		return url
+	}
 	url = new URL(url)
 	url.searchParams.set('chan', getChanId())
 	url = url.href
