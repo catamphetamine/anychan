@@ -16,43 +16,56 @@ import './Error.css'
 	locale: app.settings.locale,
 	location: found.resolvedMatch.location
 }))
-export default class GenericError extends React.Component {
-	static propTypes = {
-		locale: PropTypes.string.isRequired,
-		location: PropTypes.object.isRequired
-	}
-
+export default class ErrorPage_ extends React.Component {
 	render() {
-		const {
-			locale,
-			location
-		} = this.props
-
-		const custom = getChan().errorPages && getChan().errorPages['500']
-
-		return (
-			<section className={classNames('error-page', {
-				'error-page--image': custom && custom.images
-			})}>
-				<div className="content text-content">
-					<h1 className="error-page__title">
-						{getMessages(locale).errorPages['500'].title}
-					</h1>
-					{custom && custom.images &&
-						<img
-							aria-hidden
-							src={getRandomElement(custom.images)}
-							className="error-page__image"/>
-					}
-					{location.query.url &&
-						<Link to={location.query.url} className="error-page__requested-url">
-							{getMessages(locale).errorPages.requestedURL}
-						</Link>
-					}
-				</div>
-			</section>
-		)
+		return <ErrorPage {...this.props}/>
 	}
+}
+
+export function ErrorPage({
+	locale,
+	location,
+	status
+}) {
+	const custom = getChan().errorPages && getChan().errorPages[status]
+	const messages = getMessages(locale).errorPages[status]
+	return (
+		<section className={classNames('error-page', {
+			'error-page--image': custom && custom.images
+		})}>
+			<div className="content text-content">
+				<h1 className="error-page__title">
+					{messages.title}
+				</h1>
+				{messages.description &&
+					<p className="error-page__description">
+						{messages.description}
+					</p>
+				}
+				{custom && custom.images &&
+					<img
+						aria-hidden
+						src={getRandomElement(custom.images)}
+						className="error-page__image"/>
+				}
+				{location.query.url &&
+					<Link to={location.query.url} className="error-page__requested-url">
+						{getMessages(locale).errorPages.requestedURL}
+					</Link>
+				}
+			</div>
+		</section>
+	)
+}
+
+ErrorPage.propTypes = {
+	locale: PropTypes.string.isRequired,
+	location: PropTypes.object.isRequired,
+	status: PropTypes.number.isRequired
+}
+
+ErrorPage.defaultProps = {
+	status: 500
 }
 
 function getRandomElement(array) {

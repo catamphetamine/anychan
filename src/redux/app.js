@@ -85,6 +85,10 @@ export const setCookiesAccepted = redux.simpleAction(
 	(state) => ({ ...state, cookiesAccepted: true })
 )
 
+export const setOfflineMode = redux.simpleAction(
+	(state) => ({ ...state, offline: true })
+)
+
 export default redux.reducer({
 	cookiesAccepted: areCookiesAccepted()
 })

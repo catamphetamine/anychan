@@ -18,12 +18,14 @@ import './Footer.css'
 
 @connect(({ app, found }) => ({
 	locale: app.settings.locale,
+	offline: app.offline,
   route: found.resolvedMatch
 }))
 export default class Footer extends React.Component {
 	static propTypes = {
 		route: PropTypes.object.isRequired,
 		locale: PropTypes.string.isRequired,
+		offline: PropTypes.bool,
 		className: PropTypes.string
 	}
 
@@ -31,6 +33,7 @@ export default class Footer extends React.Component {
 		const {
 			route,
 			locale,
+			offline,
 			className
 		} = this.props
 		return (
@@ -86,7 +89,7 @@ export default class Footer extends React.Component {
 							.
 						</p>
 					</div>
-					<ApplicationMenu footer/>
+					{!offline && <ApplicationMenu footer/>}
 				</div>
 			</footer>
 		)

@@ -9,7 +9,15 @@
 	font-size: 1.8rem;
 }
 
+.error-page__description {
+	margin: 0;
+}
+
 .error-page--image .error-page__title {
+	margin-top: calc(var(--unit) * 4);
+}
+
+.error-page__description + .error-page__image {
 	margin-top: calc(var(--unit) * 4);
 }
 

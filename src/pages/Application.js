@@ -32,9 +32,10 @@ import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import { getBoards } from '../redux/chan'
-import { getSettings, setCookiesAccepted } from '../redux/app'
+import { getSettings, setCookiesAccepted, setOfflineMode } from '../redux/app'
 import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
+import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 import { isContentSectionsContent, isRegularContent } from '../utility/routes'
 import { pollAnnouncement } from '../utility/announcement'
@@ -46,6 +47,7 @@ import './Application.css'
 	locale: app.settings.locale,
 	theme: app.settings.theme,
 	cookiesAccepted: app.cookiesAccepted,
+	offline: app.offline,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
 	slideshowIsOpen: slideshow.isOpen,
@@ -58,11 +60,29 @@ import './Application.css'
 	hideAnnouncement,
 	setCookiesAccepted
 })
-@preload(async ({ dispatch, getState }) => {
-	// Apply user's settings.
-	await dispatch(getSettings())
+@preload(async ({ dispatch, getState, location }) => {
+	// Apply user's settings (from local storage).
+	dispatch(getSettings())
+	// Detect offline mode.
+	if (location.pathname === '/offline') {
+		return dispatch(setOfflineMode(true))
+	}
 	// Get the list of boards.
-	await dispatch(getBoards())
+	try {
+		await dispatch(getBoards())
+	} catch (error) {
+		if (error.message.indexOf('Request has been terminated') === 0) {
+			console.error(error)
+			window.location = addChanParameter(
+				`/offline?url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
+			)
+			// Don't show the page content because it won't be correct.
+			// (maybe javascript won't even execute this line, or maybe it will).
+			await new Promise(resolve => {})
+		} else {
+			throw error
+		}
+	}
 	// Show announcements.
 	if (process.env.NODE_ENV === 'production' && configuration.announcementUrl) {
 		pollAnnouncement(
@@ -82,6 +102,7 @@ export default class App extends React.Component {
 		announcement: announcementPropType,
 		hideAnnouncement: PropTypes.func.isRequired,
 		cookiesAccepted: PropTypes.bool.isRequired,
+		offline: PropTypes.bool,
 		setCookiesAccepted: PropTypes.func.isRequired,
 		closeSlideshow: PropTypes.func.isRequired,
 		children : PropTypes.node.isRequired
@@ -124,6 +145,7 @@ export default class App extends React.Component {
 			closeSlideshow,
 			hideAnnouncement,
 			cookiesAccepted,
+			offline,
 			setCookiesAccepted,
 			location,
 			children
@@ -154,9 +176,9 @@ export default class App extends React.Component {
 					</Slideshow>
 				}
 
-				<div className="webpage">
-					<Header/>
-					<Sidebar/>
+				<div className={classNames('webpage', offline && 'webpage--offline')}>
+					{!offline && <Header/>}
+					{!offline && <Sidebar/>}
 					<div className={classNames('webpage__main', {
 						'webpage__main--content-sections': isContentSectionsContent(route)
 					})}>

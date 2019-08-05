@@ -29,6 +29,10 @@
 	}
 }
 
+.webpage--offline {
+	--header-height: 0;
+}
+
 .webpage__content--regular {
 	display: flex;
 	align-items: center;

@@ -9,21 +9,21 @@ import getMessages from '../messages'
 
 import { ErrorPage } from './Error'
 
-// import './NotFound.css'
+// import './Offline.css'
 
 @meta(({ app }) => ({
-	title: getMessages(app.settings.locale).errorPages['404'].title
+	title: getMessages(app.settings.locale).errorPages['503'].title
 }))
 @connect(({ app, found }) => ({
 	locale: app.settings.locale,
 	location: found.resolvedMatch.location
 }))
-export default class NotFound extends React.Component {
+export default class Offline extends React.Component {
 	static propTypes = {
 		locale: PropTypes.string.isRequired,
 		location: PropTypes.object.isRequired
 	}
 	render() {
-		return <ErrorPage {...this.props} status={404}/>
+		return <ErrorPage {...this.props} status={503}/>
 	}
 }
