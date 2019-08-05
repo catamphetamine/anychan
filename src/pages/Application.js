@@ -21,6 +21,7 @@ import Sidebar from '../components/Sidebar'
 import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import Slideshow from 'webapp-frontend/src/components/Slideshow'
+import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/YouTubeVideo'
 
 // `react-time-ago` languages.
 import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
@@ -111,6 +112,8 @@ export default class App extends React.Component {
 	componentDidMount() {
 		const { route } = this.props
 		this.setBodyBackground(route)
+		// Load YouTube video player API.
+		loadYouTubeVideoPlayerApi()
 	}
 
 	componentDidUpdate(prevProps) {
