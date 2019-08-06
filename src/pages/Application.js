@@ -65,17 +65,25 @@ import './Application.css'
 	// Apply user's settings (from local storage).
 	dispatch(getSettings())
 	// Detect offline mode.
-	if (location.pathname === '/offline') {
+	if (location.query.offline) {
 		return dispatch(setOfflineMode(true))
 	}
 	// Get the list of boards.
 	try {
 		await dispatch(getBoards())
 	} catch (error) {
-		if (error.message.indexOf('Request has been terminated') === 0) {
+		let errorPageUrl
+		if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503) {
+			errorPageUrl = '/offline'
+		} else if (error.status === 404) {
+			errorPageUrl = '/not-found'
+		} else {
+			errorPageUrl = '/error'
+		}
+		if (errorPageUrl) {
 			console.error(error)
 			window.location = addChanParameter(
-				`/offline?url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
+				`${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
 			)
 			// Don't show the page content because it won't be correct.
 			// (maybe javascript won't even execute this line, or maybe it will).
@@ -216,7 +224,7 @@ export default class App extends React.Component {
 							}
 							{children}
 						</main>
-						<Footer className="background-content"/>
+						<Footer/>
 					</div>
 				</div>
 
