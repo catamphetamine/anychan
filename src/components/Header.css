@@ -6,6 +6,7 @@
 	/* Hide the separator line overflow. */
 	overflow: hidden;
 
+	height: var(--Header-height);
 	background-color: var(--Header-backgroundColor);
 	color: var(--Header-color);
 	border-bottom: var(--Header-borderWidth) solid var(--Header-borderColor);
@@ -69,10 +70,9 @@
   text-overflow: ellipsis;
 }
 
-.header__separator
-{
-	width: calc(var(--header-height) * 3 / 10);
-	height: var(--header-height);
+.header__separator {
+	width: calc(var(--Header-height) * 3 / 10);
+	/*height: var(--Header-height);*/
 	color: var(--Header-backgroundColor--title);
 }
 

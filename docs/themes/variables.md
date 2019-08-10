@@ -30,7 +30,10 @@ See [this article](https://refactoringui.com/previews/building-your-color-palett
 * `--Document-color: black` — Text color on a page.
 * `--Document-backgroundColor: white` — Background color of a page.
 * `--Document-fontFamily: Roboto` — Application font.
-* `--Document-fontFamily--text: sans-serif` — Text content font.
+
+## Text
+
+* `--Text-fontFamily: sans-serif` — Text content font.
 
 ## Header
 
@@ -71,10 +74,10 @@ Sometimes chan administration needs to announce something to the users. Things l
 
 ## Sidebar
 
-* `--Sidebar-color: white` — Sidebar text color.
-* `--Sidebar-backgroundColor: black` — Sidebar background color.
-* `--Sidebar-borderColor: transparent` — Sidebar right border color.
-* `--Sidebar-color--scrollbar: white` — Sidebar scrollbar color.
+* `--Sidebar-color: black` — Sidebar text color.
+* `--Sidebar-backgroundColor: white` — Sidebar background color.
+* `--Sidebar-borderColor: black` — Sidebar right border color.
+* `--Sidebar-color--scrollbar: black` — Sidebar scrollbar color.
 
 ## Clickable
 
@@ -240,24 +243,18 @@ Some chans allow upvoting/downvoting comments and threads on some boards (for ex
 
 ### Boards
 
-Sidebar board selection list.
+Board selection list.
 
-* `--Boards-color--active: orange` — Text color of a sidebar boards list entry when it's clicked.
-* `--Boards-backgroundColor--hover: gray` — Background color of a sidebar boards list entry on mouse over.
-* `--Boards-backgroundColor--active: gray` — Background color of a sidebar boards list entry when it's clicked.
-* `--Boards-backgroundColor--selected: black` — Background color of a sidebar boards list entry when the boards is selected.
-* `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list in sidebar.
-* `--Boards-color--viewSwitcher: white` — Sidebar boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
-<!--
-* `--Boards-fontFamily--url: monospace` — Font family of a sidebar boards list URLs.
-* `--Boards-fontWeight--url: normal` — Font weight of a sidebar boards list URLs.
--->
-
-### BoardsPage
-
-Board selection list on the `/boards` page .
-
-* `--BoardsPage-color--active: orange` — Text color of a "Show all boards" boards list entry when it's clicked.
-* `--BoardsPage-backgroundColor--hover: gray` — Background color of a "Show all boards" boards list entry on mouse over.
-* `--BoardsPage-backgroundColor--active: gray` — Background color of a "Show all boards" boards list entry on click.
-* `--BoardsPage-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on "Show all boards" page.
+* `--Boards-color: white` — Text color of a boards list entry.
+* `--Boards-color--active: orange` — Text color of a boards list entry when it's clicked.
+* `--Boards-backgroundColor--hover: gray` — Background color of a boards list entry on mouse over.
+* `--Boards-backgroundColor--active: gray` — Background color of a boards list entry when it's clicked.
+* `--Boards-backgroundColor--selected: black` — Background color of a boards list entry when the boards is selected.
+* `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list.
+* `--Boards-color--slashHover: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on mouse over.
+* `--Boards-color--slashActive: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when clicked.
+* `--Boards-color--slashSelected: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when selected.
+* `--Boards-color--viewSwitcher: white` — Boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
+* `--Boards-fontFamily--url: monospace` — Font family of boards list URLs.
+* `--Boards-fontWeight--url: normal` — Font weight of boards list URLs.
+* `--Boards-fontWeight: normal` — Font weight of boards list names.

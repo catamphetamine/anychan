@@ -33,15 +33,15 @@
 	margin-left: 0.35em;
 }
 
-.thread__comment--thread {
+.thread-comment--thread {
 	.post__author {
 		color: var(--Post-color--secondaryThread);
 	}
 }
 
-/* Added `.thread__comment` for CSS selector specificity over the
-  `.thread__comment--thread` above. */
-.thread__comment {
+/* Added `.thread-comment` for CSS selector specificity over the
+  `.thread-comment--thread` above. */
+.thread-comment {
 	.post__author--generic:not(.post__author--id) .post__author-name {
 		color: var(--PostAuthorName-color);
 	}

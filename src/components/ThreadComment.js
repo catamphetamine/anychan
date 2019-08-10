@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import memoize from 'fast-memoize'
 
 import { post } from '../PropTypes'
 
@@ -13,6 +14,10 @@ import ThreadCommentHidden from './ThreadCommentHidden'
 
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
+import PostAttachment from 'webapp-frontend/src/components/PostAttachment'
+import getNonEmbeddedAttachments from 'webapp-frontend/src/utility/post/getNonEmbeddedAttachments'
+import getPostThumbnail from 'webapp-frontend/src/utility/post/getPostThumbnail'
+import getSortedAttachments from 'webapp-frontend/src/utility/post/getSortedAttachments'
 
 import { getChan } from '../chan'
 import getMessages from '../messages'
@@ -22,161 +27,160 @@ import configuration from '../configuration'
 
 import './ThreadComment.css'
 
-export default class ThreadComment extends React.PureComponent {
-	state = {
-		hidden: this.props.comment.hidden,
-		showReplyForm: this.props.initialShowReplyForm
-	}
+// `ThreadComment` is a class because `virtual-scroller` requires
+// its `component` to be a React.Component in order to assign a `ref`
+// that could be used for calling `.updateItem(i)` manually.
+// (which is done when YouTube/Twitter/etc links are loaded)
+export default function ThreadComment({
+	comment,
+	thread,
+	board,
+	mode,
+	locale,
+	parentComment,
+	onClick: onClick_,
+	onClickUrl,
+	initialShowReplyForm,
+	onToggleShowReplyForm,
+	onContentDidChange,
+	openSlideshow,
+	notify,
+	postRef,
+	className,
+	...rest
+}) {
+	const [hidden, setHidden] = useState(comment.hidden)
+	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
+	const replyForm = useRef()
+	const isMounted = useRef()
 
-	replyForm = React.createRef()
-
-	toggleShowHide = () => {
-		this.setState(({ hidden }) => ({
-			hidden: !hidden
-		}))
-	}
-
-	toggleShowReplyForm = (value, callback) => {
-		const {
-			onToggleShowReplyForm,
-			onContentDidChange
-		} = this.props
-		if (onToggleShowReplyForm) {
-			onToggleShowReplyForm(value)
-		}
-		this.setState({
-			showReplyForm: value
-		}, () => {
-			// `virtual-scroller` item height is reduced when reply form is hidden.
+	useEffect(() => {
+		if (isMounted.current) {
+			// Update reply form expanded state in `virtual-scroller` state.
+			if (onToggleShowReplyForm) {
+				onToggleShowReplyForm(value)
+			}
+			// Reply form has been toggled: update `virtual-scroller` item height.
 			if (onContentDidChange) {
 				onContentDidChange()
 			}
-			if (callback) {
-				callback()
+			if (!showReplyForm) {
+				console.log('.focus() the "Reply" button of `postRef.current` here.')
 			}
-		})
-	}
+		} else {
+			isMounted.current = true
+		}
+	}, [showReplyForm])
 
-	showReplyForm = (callback) => this.toggleShowReplyForm(true, callback)
-	hideReplyForm = (callback) => this.toggleShowReplyForm(false, callback)
+	const toggleShowHide = useCallback(
+		() => setHidden(!hidden),
+		[hidden]
+	)
 
-	onClick = (event) => {
-		const { board, thread, comment, onClick } = this.props
+	const onClick = useCallback((event) => {
 		event.preventDefault()
-		onClick(comment, thread, board)
-	}
+		onClick_(comment, thread, board)
+	}, [onClick_, comment])
 
-	onVote = (vote) => {
-		const { notify } = this.props
+	const onVote = useCallback((vote) => {
 		notify('Not implemented yet')
-	}
+	}, [comment])
 
-	onReply = () => {
-		const { notify } = this.props
-		const { showReplyForm } = this.state
+	const onReply = useCallback(() => {
 		notify('Not implemented yet')
 		// if (showReplyForm) {
-		// 	this.replyForm.current.focus()
+		// 	replyForm.current.focus()
 		// } else {
-		// 	this.showReplyForm(() => {
-		// 		// The form auto-focuses on mount.
-		// 		// this.replyForm.current.focus()
-		// 	})
+		// 	setShowReplyForm(true)
 		// }
-	}
+	}, [comment])
 
-	onCancelReply = () => {
-		this.hideReplyForm(() => {
-			// .focus() the "Reply" button of `this.postRef.current` here.
-		})
-	}
+	const onCancelReply = useCallback(() => {
+		setShowReplyForm(false)
+		// Reset the draft in `localStorage` here.
+	}, [comment])
 
-	onSubmitReply = ({ content }) => {
-		const { notify } = this.props
+	const onSubmitReply = useCallback(({ content }) => {
 		notify('Not implemented yet')
 		// Disable reply form.
 		// Show a spinner.
 		// Wait for the new comment to be fetched as part of thread auto-update.
 		// Hide the reply form.
-		// Focus the "Reply" button of `this.postRef.current` here.
-	}
+		// Focus the "Reply" button of `postRef.current` here.
+	}, [comment])
 
-	onAttachmentClick = (attachment, i, attachments) => {
-		const { openSlideshow } = this.props
-		openSlideshow(attachments, i)
-	}
-
-	render() {
-		const {
-			onClick,
-			onClickUrl,
-			board,
-			thread,
-			comment,
-			mode,
-			locale,
-			parentComment,
-			...rest
-		} = this.props
-
-		const {
-			hidden,
-			showReplyForm
-		} = this.state
-
-		// `4chan.org` displays attachment thumbnails as `125px`
-		// (half the size) when they're not "OP posts".
-		const commentElement = (
-			<Comment
-				{...rest}
-				mode={mode}
-				compact={mode === 'thread' && comment.id !== thread.id}
-				comment={comment}
-				hidden={hidden}
-				locale={locale}
-				url={getUrl(board, thread, comment)}
-				onAttachmentClick={this.onAttachmentClick}
-				onReply={mode === 'thread' && !thread.isLocked ? this.onReply : undefined}
-				onVote={thread.hasVoting ? this.onVote : undefined}
-				parentComment={parentComment}
-				className={classNames(`thread__comment--${mode}`, {
-					'thread__comment--opening': mode === 'thread' && comment.id === thread.id
-				})}/>
-		)
-
-		const id = parentComment ? undefined : comment.id
-
-		if (hidden || onClick) {
-			return (
-				<OnClick
-					id={id}
-					filter={commentOnClickFilter}
-					onClick={hidden ? this.toggleShowHide : (onClick ? this.onClick : undefined)}
-					url={(getBasePath() || '') + onClickUrl}
-					onClickClassName="thread__comment-container--click"
-					className="thread__comment-container">
-					{commentElement}
-				</OnClick>
-			)
+	const onAttachmentClick = useCallback((attachment) => {
+		const attachments = getSortedAttachments(comment)
+		const i = attachments.indexOf(attachment)
+		// If an attachment is either an uploaded one or an embedded one
+		// then it will be in `post.attachments`.
+		// If an attachment is only attached to a `link`
+		// (for example, an inline-level YouTube video link)
+		// then it won't be included in `post.attachments`.
+		if (i >= 0) {
+			openSlideshow(attachments, i)
+		} else {
+			openSlideshow([attachment], 0)
 		}
+	}, [comment, openSlideshow])
 
-		const replyForm = showReplyForm ? (
-			<PostForm
-				ref={this.replyForm}
-				locale={locale}
-				onCancel={this.onCancelReply}
-				onSubmit={this.onSubmitReply}/>
-		) : null
+	// `4chan.org` displays attachment thumbnails as `125px`
+	// (half the size) when they're not "OP posts".
+	// `postRef` is supplied by `<CommentTree/>`
+	// and is used to focus stuff on toggle reply form.
+	const commentElement = (
+		<Comment
+			{...rest}
+			postRef={postRef}
+			mode={mode}
+			compact={mode === 'thread' && comment.id !== thread.id}
+			comment={comment}
+			hidden={hidden}
+			toggleShowHide={toggleShowHide}
+			locale={locale}
+			url={getUrl(board, thread, comment)}
+			onAttachmentClick={onAttachmentClick}
+			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
+			onVote={thread.hasVoting ? onVote : undefined}
+			notify={notify}
+			parentComment={parentComment}
+			className={classNames(className, `thread-comment--${mode}`, {
+				'thread-comment--opening': mode === 'thread' && comment.id === thread.id
+			})}/>
+	)
 
+	const id = parentComment ? undefined : comment.id
+
+	if (onClick_) {
 		return (
-			<div
+			<OnClick
 				id={id}
-				className="thread__comment-container">
+				filter={commentOnClickFilter}
+				onClick={onClick_ ? onClick : undefined}
+				url={(getBasePath() || '') + onClickUrl}
+				onClickClassName="thread-comment__container--click"
+				className="thread-comment__container">
 				{commentElement}
-				{replyForm}
-			</div>
+			</OnClick>
 		)
 	}
+
+	const replyFormElement = showReplyForm ? (
+		<PostForm
+			ref={replyForm}
+			locale={locale}
+			onCancel={onCancelReply}
+			onSubmit={onSubmitReply}/>
+	) : null
+
+	return (
+		<div
+			id={id}
+			className="thread-comment__container">
+			{commentElement}
+			{replyFormElement}
+		</div>
+	)
 }
 
 ThreadComment.propTypes = {
@@ -195,67 +199,112 @@ ThreadComment.propTypes = {
 	openSlideshow: PropTypes.func.isRequired,
 	notify: PropTypes.func.isRequired,
 	parentComment: post,
-	showingReplies: PropTypes.bool,
-	onToggleShowReplies: PropTypes.func,
-	toggleShowRepliesButtonRef: PropTypes.any,
-	initialExpandContent: PropTypes.bool,
-	onExpandContent: PropTypes.func,
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
-	onContentDidChange: PropTypes.func,
-	onCommentContentChange: PropTypes.func,
-	postRef: PropTypes.any
+	onContentDidChange: PropTypes.func
 }
 
 function Comment({
 	mode,
 	comment,
 	hidden,
+	toggleShowHide,
 	showingReplies,
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
+	onAttachmentClick,
 	onCommentContentChange,
 	parentComment,
 	postRef,
 	notify,
 	locale,
+	compact,
+	screenWidth,
 	className,
 	...rest
 }) {
-	if (hidden) {
-		return (
-			<ThreadCommentHidden
-				post={comment}
-				locale={locale}
-				className="thread__comment thread__comment--hidden"/>
-		)
+	const footerBadges = useMemo(() => getFooterBadges(comment, {
+		parentComment,
+		showingReplies,
+		onToggleShowReplies,
+		toggleShowRepliesButtonRef
+	}), [comment, showingReplies])
+	let postThumbnail
+	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board'
+	if (!rest.expandAttachments) {
+		postThumbnail = getPostThumbnailMemoized(comment, {
+			showPostThumbnailWhenThereAreMultipleAttachments
+		})
 	}
-	return (
+	const postThumbnailOnClick = useCallback(() => {
+		if (onAttachmentClick) {
+			const attachments = getNonEmbeddedAttachments(comment)
+			onAttachmentClick(
+				postThumbnail,
+				attachments.indexOf(postThumbnail),
+				attachments
+			)
+		}
+	}, [postThumbnail])
+	const onMoreActions = useCallback(() => {
+		notify('Not implemented yet')
+	}, [])
+	const commentClassName = 'thread-comment__comment'
+	// `postRef` is supplied by `<CommentTree/>`
+	// and is used to focus stuff on toggle reply form.
+	const postElement = hidden ? (
+		<ThreadCommentHidden
+			comment={comment}
+			locale={locale}
+			onShow={toggleShowHide}
+			className={commentClassName}/>
+	) : (
 		<Post
 			{...rest}
 			ref={postRef}
 			post={comment}
+			compact={compact}
+			stretch
 			header={Header}
 			locale={locale}
 			genericMessages={getMessages(locale)}
 			messages={getMessages(locale).post}
-			onMoreActions={() => notify('Not implemented yet')}
+			onMoreActions={onMoreActions}
 			onPostContentChange={onCommentContentChange}
 			headerBadges={HEADER_BADGES}
-			footerBadges={getFooterBadges(comment, {
-				parentComment,
-				showingReplies,
-				onToggleShowReplies,
-				toggleShowRepliesButtonRef
-			})}
+			footerBadges={footerBadges}
 			useSmallestThumbnailsForAttachments
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
+			onAttachmentClick={onAttachmentClick}
 			fixAttachmentThumbnailSizes={getChan().id === 'kohlchan' && comment.attachments ? true : false}
-			className={classNames(className, 'thread__comment', 'content-section')} />
+			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
+			className={commentClassName}/>
+	)
+	return (
+		<div
+			className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
+				'thread-comment--titled': comment.title,
+				'thread-comment--compact': compact,
+				'thread-comment--hidden': hidden,
+				'thread-comment--has-thumbnail': postThumbnail,
+				'thread-comment--has-no-thumbnail': !postThumbnail,
+				'content-section': mode === 'board'
+			})}>
+			<div className="thread-comment__thumbnail">
+				{postThumbnail &&
+					<PostAttachment
+						useSmallestThumbnail
+						attachment={postThumbnail}
+						spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
+						onClick={postThumbnailOnClick}/>
+				}
+			</div>
+			{postElement}
+		</div>
 	)
 }
 
@@ -263,11 +312,14 @@ Comment.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']),
 	comment: post.isRequired,
 	hidden: PropTypes.bool,
+	toggleShowHide: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	parentComment: post,
 	showingReplies: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
+	// `postRef` is supplied by `<CommentTree/>`
+	// and is used to focus stuff on toggle reply form.
 	postRef: PropTypes.any,
 	onCommentContentChange: PropTypes.func,
 	className: PropTypes.string
@@ -287,3 +339,6 @@ const SERVICE_ICONS = {
 	'2ch': getChan('2ch').logo,
 	'4chan': getChan('4chan').logo
 }
+
+// Memoization won't work for "rest" and "default" arguments.
+const getPostThumbnailMemoized = memoize(getPostThumbnail)

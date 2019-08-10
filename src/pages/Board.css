@@ -33,14 +33,14 @@
 }
 
 .board-page__threads {
-	.thread__comment-container {
+	.thread-comment__container {
 		margin-top: calc(var(--unit) * 1);
 		margin-bottom: calc(var(--unit) * 1);
 	}
-	.thread__comment-container:first-child {
+	.thread-comment__container:first-child {
 		margin-top: 0;
 	}
-	.thread__comment-container:last-child {
+	.thread-comment__container:last-child {
 		margin-bottom: 0;
 	}
 }

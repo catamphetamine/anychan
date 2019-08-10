@@ -4,7 +4,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
-	border-right: 1px solid var(--Sidebar-borderColor);
+	border-left: 1px solid var(--Sidebar-borderColor);
 	background-color: var(--Sidebar-backgroundColor);
 	color: var(--Sidebar-color);
 }

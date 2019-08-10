@@ -1,0 +1,8 @@
+.tracked-threads {
+	padding-left: calc(var(--unit) * 1);
+	padding-right: calc(var(--unit) * 1);
+	padding-top: calc(var(--unit) * 4);
+	padding-bottom: calc(var(--unit) * 2);
+	text-align: center;
+	color: var(--Content-color-600);
+}

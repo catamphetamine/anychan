@@ -8,7 +8,8 @@
 	},
 	"trackedThreads": {
 		"title": "Tracked threads",
-		"trackThread": "Track this thread"
+		"trackThread": "Track this thread",
+		"empty": "No tracked threads"
 	},
 	"settings": {
 		"theme": {

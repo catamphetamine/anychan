@@ -1,75 +1,5 @@
 @import "../styles/common";
 
-.boards--sidebar {
-	.boards__view-switch {
-		color: currentColor;
-		&:hover {
-			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
-		}
-		&:focus {
-			background-color: transparent;
-			box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
-		}
-		&:active {
-			color: currentColor;
-			background-color: var(--Boards-backgroundColor--active);
-		}
-	}
-
-	.boards__view-switcher,
-	.boards-list__board-name {
-		font-weight: 300;
-	}
-
-	.boards-list-section__title {
-		text-overflow: ellipsis;
-	}
-
-	.boards__show-all {
-		color: var(--Boards-color--active);
-		&:active {
-			background-color: var(--Boards-backgroundColor--hover);
-		}
-	}
-
-	.boards-list__board-url {
-		color: var(--Boards-color--active);
-		&:before, &:after {
-			color: var(--Boards-color--slash);
-		}
-	}
-
-	.boards-list__board-url--hover,
-	.boards-list__board-name--hover {
-		background-color: var(--Boards-backgroundColor--hover);
-	}
-
-	.boards-list__board-url--selected,
-	.boards-list__board-name--selected {
-		background-color: var(--Boards-backgroundColor--selected);
-	}
-
-	.boards-list__board-url--active,
-	.boards-list__board-name--active {
-		background-color: var(--Boards-backgroundColor--active);
-	}
-
-	.boards-list__board-name--active,
-	/* `:active` is for cases when the link is clicked and dragged. */
-	.boards-list__board-name:active {
-		color: var(--Boards-color--active);
-	}
-
-	.boards__view-switcher {
-		color: var(--Boards-color--viewSwitcher);
-	}
-
-	.boards-list__board-name {
-		padding-right: calc(var(--unit) * 2);
-	}
-}
-
 .boards {
 	display: flex;
 	flex-direction: column;
@@ -112,7 +42,7 @@
 }
 
 .boards-list-section__title--first {
-	margin-top: 0.5em;
+	margin-top: 0;
 }
 
 .boards-list__board-url {
@@ -147,7 +77,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: currentColor;
+	color: var(--Boards-color);
 }
 
 .boards__view-switcher {
@@ -180,9 +110,100 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc(var(--unit) * 2);
+	--rrui-input-field-background-color-focus: var(--Boards-backgroundColor);
+	--rrui-input-field-text-color: var(--Sidebar-color);
 }
 
 .boards__nothing-found {
 	margin-top: calc(var(--unit) * 2);
 	text-align: center;
+	color: var(--Sidebar-color);
+}
+
+.boards__view-switch {
+	color: currentColor;
+	&:hover {
+		background-color: transparent;
+		box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
+	}
+	&:focus {
+		background-color: transparent;
+		box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
+	}
+	&:active {
+		color: currentColor;
+		background-color: var(--Boards-backgroundColor--active);
+	}
+}
+
+.boards-list__board-name {
+	font-weight: var(--Boards-fontWeight);
+}
+
+.boards-list-section__title {
+	text-overflow: ellipsis;
+}
+
+.boards__show-all {
+	color: var(--Boards-color--active);
+	&:active {
+		background-color: var(--Boards-backgroundColor--hover);
+	}
+}
+
+.boards-list__board-url {
+	color: var(--Boards-color--active);
+	&:before, &:after {
+		color: var(--Boards-color--slash);
+	}
+}
+
+.boards-list__board-url--selected,
+.boards-list__board-name--selected {
+	background-color: var(--Boards-backgroundColor--selected);
+}
+
+.boards-list__board-url--selected {
+	&:before, &:after {
+		color: var(--Boards-color--slashSelected);
+	}
+}
+
+.boards-list__board-url--hover,
+.boards-list__board-name--hover {
+	background-color: var(--Boards-backgroundColor--hover);
+}
+
+.boards-list__board-url--hover {
+	&:before, &:after {
+		color: var(--Boards-color--slashHover);
+	}
+}
+
+.boards-list__board-url--active,
+.boards-list__board-name--active {
+	background-color: var(--Boards-backgroundColor--active);
+}
+
+.boards-list__board-url--active {
+	&:before, &:after {
+		color: var(--Boards-color--slashActive);
+	}
+}
+
+.boards-list__board-name--active,
+/* `.boards-list__board-url:active` is for cases
+   when the "url" part of the link is clicked. */
+.boards-list__board-url:active,
+/* `:active` is for cases when the link is clicked and dragged. */
+.boards-list__board-name:active {
+	color: var(--Boards-color--active);
+}
+
+.boards__view-switcher {
+	color: var(--Boards-color--viewSwitcher);
+}
+
+.boards-list__board-name {
+	padding-right: calc(var(--unit) * 2);
 }

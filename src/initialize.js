@@ -30,7 +30,11 @@ export default function() {
 	let chan
 	// `URL` is not available in IE11.
 	if (typeof URL !== 'undefined' && typeof URLSearchParams !== 'undefined') {
-		chan = new URL(window.location.href).searchParams.get('chan')
+		const urlParams = new URL(window.location.href).searchParams
+		// `.searchParams` still may be `undefined` here in old versions of Chrome.
+		if (urlParams) {
+			chan = urlParams.get('chan')
+		}
 	}
 	if (!chan) {
 		chan = getChanIdByDomain()

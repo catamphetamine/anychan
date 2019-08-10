@@ -1,4 +1,4 @@
-.thread__comment--hidden {
+.thread-comment--hidden {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	color: var(--Post-color--secondary);

@@ -2,29 +2,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import OnClick from 'webapp-frontend/src/components/OnClick'
+
 import { post } from '../PropTypes'
 import getMessages from '../messages'
 
-import {
-	ContentSection
-} from 'webapp-frontend/src/components/ContentSection'
-
 import './ThreadCommentHidden.css'
 
-export default function ThreadCommentHidden({ post, locale, className }) {
+export default function ThreadCommentHidden({
+	onShow,
+	comment,
+	locale,
+	...rest
+}) {
 	let content = getMessages(locale).hiddenComment
-	if (post.hiddenRule) {
-		content += ` (${post.hiddenRule})`
+	if (comment.hiddenRule) {
+		content += ` (${comment.hiddenRule})`
 	}
 	return (
-		<ContentSection className={className}>
+		<OnClick
+			{...rest}
+			onClick={onShow}
+			onClickClassName={undefined}>
 			{content}
-		</ContentSection>
+		</OnClick>
 	)
 }
 
 ThreadCommentHidden.propTypes = {
-	post: post.isRequired,
+	comment: post.isRequired,
 	locale: PropTypes.string.isRequired,
 	className: PropTypes.string
 }

@@ -2,8 +2,10 @@
 
 .board-or-thread-menu {
 	justify-content: flex-end;
-	padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));
-	padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));
+	/*padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
+	/*padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
+	padding-left: calc(var(--PageContent-padding) + var(--Post-padding--horizontal));
+	padding-right: calc(var(--PageContent-padding) + var(--Post-padding--horizontal));
 	color: var(--ThreadActions-color);
 	--MenuIcon-width: calc(var(--unit) * 1.25);
 	--Menu-color--selected: var(--ThreadActions-color--selected);

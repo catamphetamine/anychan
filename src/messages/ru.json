@@ -8,7 +8,8 @@
 	},
 	"trackedThreads": {
 		"title": "Отслеживаемые треды",
-		"trackThread": "Отслеживать этот тред"
+		"trackThread": "Отслеживать этот тред",
+		"empty": "Нет отслеживаемых тредов"
 	},
 	"settings": {
 		"theme": {

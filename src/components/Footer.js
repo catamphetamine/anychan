@@ -8,7 +8,7 @@ import ApplicationMenu from './ApplicationMenu'
 
 import getMessages from '../messages'
 import { getChan } from '../chan'
-import { isContentSectionsContent, isRegularContent } from '../utility/routes'
+import { isContentSectionsContent, isBoardsLocation } from '../utility/routes'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
@@ -38,12 +38,9 @@ export default class Footer extends React.Component {
 		} = this.props
 		return (
 			<footer className={classNames(className, 'footer', {
-				'footer--center': isRegularContent(route),
-				'background-content': isContentSectionsContent(route)
+				'background-content': isContentSectionsContent(route) || isBoardsLocation(route)
 			})}>
-				<div className={classNames('content', {
-					'text-content': isContentSectionsContent(route) || isRegularContent(route)
-				})}>
+				<div className="content">
 					{getChan().links &&
 						<nav>
 							<ul className="footer__chan-links">

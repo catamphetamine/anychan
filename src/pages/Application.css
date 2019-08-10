@@ -13,7 +13,7 @@
 	position : relative;
 	z-index  : 0;
 
-	margin-top: var(--header-height);
+	margin-top: var(--Header-height);
 
 	flex-shrink : 0;
 	flex-grow   : 1;
@@ -30,22 +30,17 @@
 }
 
 .webpage--offline {
-	--header-height: 0;
+	--Header-height: 0;
 }
 
-.webpage__content--regular {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-}
-
-.webpage__main {
+.webpage__content-container {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	/* Stretches the page to 100% height. */
 	min-height: 100vh;
 	/* Prevents horizontal overflow. */
+	width: 100%;
 	max-width: 100%;
 }
 
@@ -53,12 +48,14 @@
 	z-index: var(--slideshow-z-index);
 }
 
-.thread__comment,
+/*
+.thread-comment,
 .settings-page .content-section {
 	@mixin upto-s {
 		border-radius: 0;
 	}
 }
+*/
 
 .board-page__title {
 	margin-left: var(--unit);
@@ -107,13 +104,28 @@
 	}
 }
 
-@mixin m-plus {
-	.text-content {
-	  width: 100%;
-		max-width: 50em;
-	}
-	.webpage__main--content-sections .text-content {
-		max-width: 53em;
+.text-content {
+	width: 100%;
+	max-width: var(--Text-maxWidth);
+}
+
+:root {
+	--Content-maxWidth: var(--Text-maxWidth);
+}
+
+.webpage__content-container {
+	flex-basis: var(--Content-maxWidth);
+}
+
+.webpage--board,
+.webpage--thread {
+	--Content-maxWidth: calc(3 * var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+	main {
+		width: 100%;
+		max-width: var(--Content-maxWidth);
+		/* Center horizontally. */
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
 
@@ -125,16 +137,26 @@
 	width: 100%;
 }
 
-.webpage__main--content-sections {
+/* These two override `padding-left` and `padding-right` on `.content`. */
+.thread-page,
+.board-page {
+	--PageContent-padding: 0px;
+}
+
+/*
+.webpage--content-sections {
 	.background-content {
 		padding-left: 0;
 		padding-right: 0;
 	}
 }
+*/
 
 @mixin upto-m {
-	.webpage__main--content-sections {
-		--PageContent-padding: 0px;
+	.webpage--content-sections {
+		.content {
+			--PageContent-padding: 0px;
+		}
 		.background-content {
 			padding-left: var(--unit);
 			padding-right: var(--unit);
@@ -158,7 +180,7 @@
 		left: 0;
 		top: 0;
 		right: 0;
-		bottom: var(--footer-menu-height);
+		bottom: var(--FooterMenu-height);
 		z-index: var(--sidebar-z-index);
 	}
 	.sidebar--show {
@@ -174,35 +196,59 @@
 
 @mixin l-plus {
 	body {
-		--header-height: calc(var(--unit) * 3);
-		--footer-menu-height: 0px;
-		--sidebar-max-width: calc(var(--unit) * 26);
+		--Header-height: calc(var(--unit) * 3);
+		--Sidebar-width: calc(var(--unit) * 23);
+		--FooterMenu-height: 0px;
 	}
 
 	.webpage__header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: var(--header-height);
-		min-height: var(--header-height);
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
 		z-index: 1;
-		/*position: sticky;*/
-		/*bottom: 0;*/
 	}
 
 	.sidebar {
 		display: block;
 		position: sticky;
-		/*top: 0;*/
-		top: var(--header-height);
-		width: 22%;
-		max-width: calc(var(--unit) * 26);
-		min-height: calc(100vh - var(--header-height));
-		max-height: calc(100vh - var(--header-height));
+		top: var(--Header-height);
+		flex-basis: var(--Sidebar-width);
+		min-height: calc(100vh - var(--Header-height));
+		max-height: calc(100vh - var(--Header-height));
+	}
+
+	.webpage__padding-left,
+	.webpage__padding-right {
+		min-width: 0;
+	}
+
+	.webpage__content-container {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	.webpage__padding-left {
+		flex-grow: 1;
+	}
+
+	.webpage__padding-right {
+		flex-grow: 0.6;
+	}
+
+	.sidebar {
+		flex-grow: 0.1;
+	}
+
+	.webpage--board,
+	.webpage--thread {
+		.text-content {
+		  width: 100%;
+			max-width: var(--Text-maxWidth);
+		}
 	}
 
 	.board-page__title {
@@ -217,7 +263,38 @@
 	/* Move notifications to the right side
 	   because they aren't that eligible when shown
 	   above the sidebar with the boards list. */
+	/* Update: Sidebar has been moved to the right side. */
+	/*
 	.rrui__snackbar__container {
 		justify-content: flex-end;
+	}
+	*/
+}
+
+@mixin xl-plus {
+	.webpage__padding-left {
+		flex-grow: 2;
+	}
+	.webpage__padding-right {
+		flex-grow: 0.5;
+	}
+	.sidebar {
+		flex-grow: 1.5;
+		flex-basis: 0;
+	}
+	.webpage--board,
+	.webpage--thread {
+		.webpage__padding-left {
+			flex-grow: 2;
+		}
+		.webpage__padding-right {
+			flex-grow: 1;
+		}
+		.sidebar {
+			flex-grow: 1;
+			/* `flex-basis` must equal to `.thread-comment__thumbnail` width + margins:
+			   this makes thread comment text be centered on screen. */
+			flex-basis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		}
 	}
 }

@@ -1,18 +1,141 @@
-/* <ThreadComment/> */
+@import "../styles/common";
+
+.thread-comment {
+	padding-top: var(--Post-padding--vertical);
+	padding-bottom: var(--Post-padding--vertical);
+	padding-left: var(--Post-padding--horizontal);
+	padding-right: var(--Post-padding--horizontal);
+}
+
+.thread-comment--compact {
+	--Post-padding--vertical: var(--Post-padding--verticalCompact);
+}
+
+/* Thread comment styles begin. */
+
+.thread-comment__thumbnail {
+	display: none;
+}
+
+.thread-comment--thread {
+	padding-top: 0;
+	padding-bottom: 0;
+	.thread-comment__thumbnail,
+	.thread-comment__comment {
+		padding-top: var(--Post-padding--vertical);
+		padding-bottom: var(--Post-padding--vertical);
+	}
+	/* Adding a transparent border to post thumbnail so that
+	   the comment's height doesn't change when it's expanded
+	   and borders on `__thumbnail` and `__comment` are replaced
+	   with the border on `.thread-comment` itself.
+	   When using `virtual-scroller` it's better to not change
+	   item height if not required. */
+	.thread-comment__thumbnail {
+		border-bottom: var(--CommentSeparator-width) solid transparent;
+	}
+	.thread-comment__comment {
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+}
+
+@mixin m-plus {
+	.thread-comment--thumbnail {
+		--PostQuote-paddingLeft: calc(var(--PostThumbnail-marginRight) / 2);
+		--PostQuote-paddingRight: 0px;
+		display: flex;
+	}
+
+	/* Hide the first post attachment if it's already
+	   being shown as the comment thumbnail. */
+	.thread-comment--has-thumbnail {
+		.post__attachments {
+			.post__attachment-thumbnail--post-thumbnail-candidate {
+				display: none;
+			}
+		}
+	}
+
+	.thread-page__comments {
+		/* The individual borders on `__thumbnail` and `__content`
+		   will be replaced with the border on `.thread-comment` itself. */
+		.comment-tree__comment--nested,
+		.comment-tree__comment--expanded {
+			> .thread-comment__thumbnail,
+			> .thread-comment__comment {
+				border-bottom: 0;
+			}
+		}
+
+		/* `border-bottom` is added to `.comment-tree__branch-toggler`
+		   for cases when deeply nested replies are expanded
+		   so that the next higher-level expanded reply has an illusion
+		   of having `border-top`. */
+		.comment-tree__comment--nested,
+		.comment-tree__comment--expanded,
+		.comment-tree__branch-toggler {
+			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		}
+
+		.comment-tree__comment--nested {
+			border-left: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		}
+	}
+
+	.thread-comment__thumbnail {
+		display: flex;
+		justify-content: flex-end;
+		/* In case of changing these also change `.sidebar`'s
+		   `flex-basis` accordingly in `Application.css`. */
+		width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		min-width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		/* Using `padding-right` instead of `margin-right` here
+		   so that `border-bottom` is continuous. */
+		padding-right: var(--PostThumbnail-marginRight);
+		margin-top: 0.2em;
+	}
+
+	.thread-comment--thread {
+		.thread-comment__thumbnail {
+			margin-top: 1.35em;
+		}
+		&.thread-comment--titled {
+			.thread-comment__thumbnail {
+				margin-top: 1.85em;
+			}
+		}
+	}
+
+	.thread-comment--has-no-thumbnail {
+		.thread-comment__thumbnail {
+			/* `!important` overrides `.thread-comment--titled .thread-comment__thumbnail`
+			   and  `.thread-comment--thread .thread-comment__thumbnail` selectors specificity. */
+			/*padding-top: 0 !important;*/
+			/*padding-bottom: 0 !important;*/
+			margin-top: 0 !important;
+		}
+	}
+
+	.thread-comment__comment {
+		flex: auto;
+	}
+}
+
+/* Thread comment styles end. */
 
 /* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
     have regular quotes and "inverse" quotes. */
 /* `8ch.net` "inverse" quotes are red. */
-.post__inline-quote__block--inverse {
+.post__quote-block--inverse {
 	color: var(--PostQuote-color--inverse);
 }
 
 /* `kohlchan.net` "inverse" quotes are orange. */
-/*.post__inline-quote__block--inverse-orange {
+/*.post__quote-block--inverse-orange {
 	color: var(--PostQuote-color--inverse2);
 }*/
 
-.thread__comment--thread {
+.thread-comment--thread {
 	.post__header-top,
 	.post__footer {
 		color: var(--Post-color--secondaryThread);

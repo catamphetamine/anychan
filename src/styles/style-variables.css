@@ -25,15 +25,17 @@
 	--Announcement-borderColor: var(--Header-borderColor);
 
 	/* Sidebar. */
-	--Sidebar-borderColor: transparent;
+	--Sidebar-color: var(--Content-color-900);
+	--Sidebar-backgroundColor: var(--Content-backgroundColor);
+	--Sidebar-borderColor: var(--Header-borderColor);
+	--Sidebar-color--scrollbar: var(--Content-color-500);
 
 	/* Boards. */
 	--Boards-fontFamily--url: monospace;
 	--Boards-fontWeight--url: normal;
-
-	/* BoardsPage. */
-	--BoardsPage-backgroundColor--hover: var(--Content-color-100);
-	--BoardsPage-color--active: var(--Clickable-color--text);
+	--Boards-fontWeight: normal;
+	--Boards-color: currentColor;
+	--Boards-color--viewSwitcher: var(--Content-color-600);
 
 	/* ThreadActions. */
 	--ThreadActions-color: var(--Content-color-600);
@@ -61,22 +63,15 @@
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
 
-	/* Sidebar. */
-	--Sidebar-color: var(--Content-color-100);
-	--Sidebar-backgroundColor: var(--Content-color-800);
-	--Sidebar-color--scrollbar: var(--Content-color-300);
-
 	/* Boards. */
-	--Boards-backgroundColor--hover: var(--gray-color-750);
-	--Boards-backgroundColor--active: var(--Content-color-700);
-	--Boards-backgroundColor--selected: var(--Content-color-900);
-	--Boards-color--active: var(--base-color-300);
-	--Boards-color--slash: #6d7682;
-	--Boards-color--viewSwitcher: var(--Content-color-300);
-
-	/* BoardsPage. */
-	--BoardsPage-backgroundColor--active: var(--base-color-100);
-	--BoardsPage-color--slash: var(--Content-color-200);
+	--Boards-backgroundColor--hover: var(--Boards-backgroundColor--selected);
+	--Boards-backgroundColor--active: var(--base-color-100);
+	--Boards-backgroundColor--selected: #f9f7f5;
+	--Boards-color--active: var(--Clickable-color--text);
+	--Boards-color--slash: var(--Content-color-200);
+	--Boards-color--slashHover: var(--Boards-color--slashSelected);
+	--Boards-color--slashActive: #e9ccb8;
+	--Boards-color--slashSelected: #ead5c0;
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);
@@ -109,7 +104,7 @@
 	/*--PostQuote-color--inverse2: #E04000;*/
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(0,0,0,0.15);
+	--CommentSeparator-color: rgba(0,0,0,0.1);
 
 	/* CommentTree. */
 	--CommentTree-color: #D7D5D1;
@@ -130,37 +125,30 @@
 	--Announcement-backgroundColor: var(--Content-color-200);
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(255,255,255,0.1);
-
-	/* Sidebar. */
-	--Sidebar-color: var(--Content-color-900);
-	--Sidebar-backgroundColor: #202020;
-	--Sidebar-color--scrollbar: var(--Content-color-300);
+	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: #343434;
-	--Boards-backgroundColor--active: #3f3f3f;
-	--Boards-backgroundColor--selected: #2c2c2c;
+	--Boards-backgroundColor--hover: var(--Boards-backgroundColor--selected);
+	--Boards-backgroundColor--active: #2c2c2c;
+	--Boards-backgroundColor--selected: #303030;
 	--Boards-color--active: var(--base-color-300);
-	--Boards-color--slash: var(--Content-color-400);
-	--Boards-color--viewSwitcher: var(--Header-color);
-
-	/* BoardsPage. */
-	--BoardsPage-backgroundColor--active: var(--Content-color-200);
-	--BoardsPage-color--slash: var(--Content-color-300);
+	--Boards-color--slash: var(--Content-color-300);
+	--Boards-color--slashHover: var(--Boards-color--slashSelected);
+	--Boards-color--slashActive: var(--Boards-color--slash);
+	--Boards-color--slashSelected: var(--Boards-color--slash);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);
 
 	/* Content. */
-	--Content-backgroundColor--active: #2f2f2f;
+	--Content-backgroundColor--active: #333331;
 
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-500);
 
 	/* PostAuthor. */
-	--PostAuthor-color--administrator: #ff005f;
-	--PostAuthor-color--moderator: #00b3ff;
+	--PostAuthor-color--administrator: #c44876;
+	--PostAuthor-color--moderator: #57add1;
 
 	/* PostAuthorName. */
 	--PostAuthorName-color: var(--base-color-300);
@@ -176,9 +164,8 @@
 	--PostSubheading-color: #cf5858;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: var(--Document-backgroundColor);
+	--CommentSeparator-color: rgba(255,255,255,0.1);
 
 	/* CommentTree. */
-	--CommentTree-color: var(--Content-color-300);
-	--CommentTree-color--branch: var(--Content-color-400);
+	--CommentTree-color: rgba(255,255,255,0.15);
 }

@@ -62,21 +62,19 @@
 	--Error-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-	--Sidebar-color: var(--Document-color);
+	--Sidebar-color: #cccccc;
 	--Sidebar-backgroundColor: #2b235f;
-	--Sidebar-borderColor: rgba(255,255,255,0.02);
+	--Sidebar-borderColor: rgba(255,255,255,0.05);
 	--Sidebar-color--scrollbar: #665f97;
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: #332a6a;
-	--Boards-backgroundColor--active: #383070;
-	--Boards-backgroundColor--selected: #211b4e;
-	--Boards-color--slash: #665566;
-	--Boards-color--viewSwitcher: var(--gray-color-300);
-
-	/* BoardsPage. */
-	--BoardsPage-color--slash: var(--Content-color-300);
-	--BoardsPage-backgroundColor--active: var(--Content-color-200);
+	--Boards-backgroundColor--selected: #332a6a;
+	--Boards-backgroundColor--active: #372e71;
+	--Boards-color--active: var(--base-color-300);
+	--Boards-color--slash: #5f588c;
+	--Boards-color--slashSelected: var(--Boards-color--slash);
+	--Boards-color--slashActive: #7b6545;
+	--Boards-fontWeight: 300;
 
 	/* HoverButton. */
 	--HoverButton-color--active: var(--white-color);
@@ -102,7 +100,8 @@
 	--PostQuote-color: #268000;
 
 	/* PostQuoteMarker. */
-	--PostQuoteMarker-opacity: 0;
+	--PostQuoteMarker-padding: 0px;
+	--PostQuoteMarker-opacity: 0.25;
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #e3ecc7;
@@ -118,6 +117,8 @@
 	/* Clickable. */
 	--Clickable-color--text: var(--base-color-300);
 	--Clickable-color--textActive: var(--base-color-400);
+	/* Content. */
+	color: var(--Sidebar-color);
 }
 
 /* Dark Mode. */
@@ -145,27 +146,17 @@
 
 	/* Header. */
 	--Header-color: var(--gray-color-300);
-	--Header-backgroundColor: #1e1f47;
-	--Header-backgroundColor--title: #3d004e;
+	--Header-backgroundColor: #28295a;
+	--Header-backgroundColor--title: #441851;
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
 
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: transparent;
 
-	/* Sidebar. */
-	--Sidebar-backgroundColor: #11133b;
-	--Sidebar-borderColor: rgba(255,255,255,0.03);
-	--Sidebar-color--scrollbar: #626877;
-
 	/* Boards. */
-	--Boards-backgroundColor--hover: #252752;
-	--Boards-backgroundColor--active: #2a2c5d;
-	--Boards-backgroundColor--selected: #1b1d48;
-	--Boards-color--slash: #5f608c;
-	--Boards-color--viewSwitcher: var(--Content-color-700);
-
-	/* BoardsPage. */
-	--BoardsPage-color--slash: #665566;
+	--Boards-backgroundColor--active: #202042;
+	--Boards-backgroundColor--selected: #232447;
+	--Boards-color--slashActive: #655339;
 
 	/* HoverButton. */
 	--HoverButton-backgroundColor: #212350;
@@ -182,7 +173,7 @@
 	--PostQuote-color: #7ac263;
 
 	/* PostQuoteMarker. */
-	--PostQuoteMarker-opacity: 0.7;
+	/*--PostQuoteMarker-opacity: 0.7;*/
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #373965;

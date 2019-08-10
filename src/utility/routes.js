@@ -1,5 +1,5 @@
 export function isBoardLocation(route) {
-	return route.params.board
+	return route.params.board && !route.params.thread
 }
 
 export function isThreadLocation(route) {
@@ -12,7 +12,6 @@ export function isContentSectionsContent(route) {
 		route.location.pathname === '/settings'
 }
 
-export function isRegularContent(route) {
-	return !isContentSectionsContent(route)
-	// return route.location.pathname === '/'
+export function isBoardsLocation(route) {
+	return route.location.pathname === '/boards'
 }

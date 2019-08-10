@@ -1,43 +1,38 @@
+.webpage--boards {
+	background-color: var(--Sidebar-backgroundColor);
+}
+
 .boards-page {
-	.boards__view-switch {
-		color: var(--Clickable-color--text);
-		&:hover {
-			background-color: var(--BoardsPage-backgroundColor--hover);
-		}
-		&:focus {
-			background-color: var(--BoardsPage-backgroundColor--hover);
-			box-shadow: 0 0 0 1px var(--BoardsViewSwitcher-borderColor--focus);
-		}
-		&:active {
-			color: var(--BoardsPage-color--active);
-		}
-	}
-
-	.boards-list__board-url {
-		&:before, &:after {
-    	color: var(--BoardsPage-color--slash);
-		}
-	}
-
-	.boards__view-switch--disabled {
-		color: currentColor;
-	}
-
 	.boards-list__item {
 		display: flex;
 	}
-
-	.boards-list__item:hover {
-		background-color: var(--BoardsPage-backgroundColor--hover);
-		background-color: var(--BoardsPage-backgroundColor--hover);
-	}
-
-	.boards-list__item:active {
-		background-color: var(--BoardsPage-backgroundColor--active);
-		color: var(--BoardsPage-color--active);
-	}
-
 	.boards-list__board-name {
-		color: var(--Content-color-900);
+		font-weight: normal;
+	}
+	.boards-list__item:not(:active) {
+		.boards-list__board-name {
+			color: var(--Sidebar-color);
+		}
+	}
+	.boards-list__item:active {
+		.boards-list__board-name {
+			color: var(--Boards-color--active);
+		}
+	}
+	.boards-list__item:hover {
+		background-color: var(--Boards-backgroundColor--hover);
+		.boards-list__board-url {
+			&:before, &:after {
+				color: var(--Boards-color--slashHover);
+			}
+		}
+	}
+	.boards-list__item:active {
+		background-color: var(--Boards-backgroundColor--active);
+		.boards-list__board-url {
+			&:before, &:after {
+				color: var(--Boards-color--slashActive);
+			}
+		}
 	}
 }

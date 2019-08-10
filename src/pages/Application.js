@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { preload, Loading } from 'react-website'
@@ -38,8 +38,14 @@ import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
-import { isContentSectionsContent, isRegularContent } from '../utility/routes'
+import {
+	isContentSectionsContent,
+	isThreadLocation,
+	isBoardLocation,
+	isBoardsLocation
+} from '../utility/routes'
 import { pollAnnouncement } from '../utility/announcement'
+import getBasePath from '../utility/getBasePath'
 import configuration from '../configuration'
 
 import './Application.css'
@@ -56,11 +62,7 @@ import './Application.css'
 	slideshowMode: slideshow.slideshowMode,
   location: found.resolvedMatch.location,
   announcement: announcement.announcement
-}), {
-	closeSlideshow,
-	hideAnnouncement,
-	setCookiesAccepted
-})
+}), dispatch => ({ dispatch }))
 @preload(async ({ dispatch, getState, location }) => {
 	// Apply user's settings (from local storage).
 	dispatch(getSettings())
@@ -83,7 +85,7 @@ import './Application.css'
 		if (errorPageUrl) {
 			console.error(error)
 			window.location = addChanParameter(
-				`${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
+				`${getBasePath() || ''}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
 			)
 			// Don't show the page content because it won't be correct.
 			// (maybe javascript won't even execute this line, or maybe it will).
@@ -103,137 +105,149 @@ import './Application.css'
 }, {
 	blocking: true
 })
-export default class App extends React.Component {
-	static propTypes = {
-		locale: PropTypes.string.isRequired,
-		theme: PropTypes.string.isRequired,
-		route: PropTypes.object.isRequired,
-		announcement: announcementPropType,
-		hideAnnouncement: PropTypes.func.isRequired,
-		cookiesAccepted: PropTypes.bool.isRequired,
-		offline: PropTypes.bool,
-		setCookiesAccepted: PropTypes.func.isRequired,
-		closeSlideshow: PropTypes.func.isRequired,
-		children : PropTypes.node.isRequired
-	}
-
-	componentDidMount() {
-		const { route } = this.props
-		this.setBodyBackground(route)
-		// Load YouTube video player API.
-		loadYouTubeVideoPlayerApi()
-	}
-
-	componentDidUpdate(prevProps) {
-		const { route } = this.props
-		if (route !== prevProps.route) {
-			this.setBodyBackground(route)
-		}
-	}
-
-	setBodyBackground(route) {
-		// Set or reset "document--background" class
-		// which changes `<body/>` background color
-		// in order to show correct color when scrolling
-		// past top/bottom of the page on touch devices.
-		if (isContentSectionsContent(route)) {
-			document.body.classList.add('document--background')
-		} else {
-			document.body.classList.remove('document--background')
-		}
-	}
-
+export default class App_ extends React.Component {
 	render() {
-		const {
-			announcement,
-			locale,
-			theme,
-			route,
-			slideshowIndex,
-			slideshowIsOpen,
-			slideshowPictures,
-			slideshowMode,
-			closeSlideshow,
-			hideAnnouncement,
-			cookiesAccepted,
-			offline,
-			setCookiesAccepted,
-			location,
-			children
-		} = this.props
+		return <App {...this.props}/>
+	}
+}
 
-		const messages = getMessages(locale)
+function App({
+	announcement,
+	locale,
+	theme,
+	route,
+	slideshowIndex,
+	slideshowIsOpen,
+	slideshowPictures,
+	slideshowMode,
+	cookiesAccepted,
+	offline,
+	dispatch,
+	location,
+	children
+}) {
+	const hasMounted = useRef()
 
-		return (
-			<div className={classNames(`theme--${theme}`)}>
-				{/* Page loading indicator */}
-				<Loading/>
+	useEffect(() => {
+		setBodyBackground(route)
+		if (!hasMounted.current) {
+			// Load YouTube video player API.
+			loadYouTubeVideoPlayerApi()
+		}
+	}, [route])
 
-				{/* Pop-up messages */}
-				<Snackbar/>
+	const onCloseSlideshow = useCallback(() => {
+		dispatch(closeSlideshow())
+	}, [dispatch])
 
-				{/* Detects touch device. */}
-				<DeviceInfo/>
+	const onHideAnnouncement = useCallback(() => {
+		dispatch(hideAnnouncement())
+	}, [dispatch])
 
-				{/* Picture Slideshow */}
-				{slideshowPictures &&
-					<Slideshow
-						i={slideshowIndex}
-						isOpen={slideshowIsOpen}
-						slideshowMode={slideshowMode}
-						onClose={closeSlideshow}
-						messages={messages.slideshow}>
-						{slideshowPictures}
-					</Slideshow>
+	const onAcceptCookies = useCallback(() => {
+		acceptCookies()
+		dispatch(setCookiesAccepted())
+	}, [dispatch])
+
+	const messages = getMessages(locale)
+
+	return (
+		<div className={classNames(`theme--${theme}`)}>
+			{/* Page loading indicator */}
+			<Loading/>
+
+			{/* Pop-up messages */}
+			<Snackbar/>
+
+			{/* Detects touch capability and screen size. */}
+			<DeviceInfo/>
+
+			{/* Picture Slideshow */}
+			{slideshowPictures &&
+				<Slideshow
+					i={slideshowIndex}
+					isOpen={slideshowIsOpen}
+					slideshowMode={slideshowMode}
+					onClose={onCloseSlideshow}
+					messages={messages.slideshow}>
+					{slideshowPictures}
+				</Slideshow>
+			}
+
+			<div className={classNames('webpage', {
+				'webpage--offline': offline,
+				'webpage--content-sections': isContentSectionsContent(route),
+				'webpage--boards': isBoardsLocation(route),
+				'webpage--board': isBoardLocation(route),
+				'webpage--thread': isThreadLocation(route)
+			})}>
+				{!offline && <Header/>}
+				{!offline &&
+					<div className="webpage__padding-left"/>
 				}
-
-				<div className={classNames('webpage', offline && 'webpage--offline')}>
-					{!offline && <Header/>}
-					{!offline && <Sidebar/>}
-					<div className={classNames('webpage__main', {
-						'webpage__main--content-sections': isContentSectionsContent(route)
-					})}>
-						{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
-						<main
-							tabIndex={-1}
-							className={classNames('webpage__content', {
-								'webpage__content--regular': isRegularContent(route)
-							})}>
-							{!cookiesAccepted &&
-								<Announcement
-									onClick={() => {
-										acceptCookies()
-										setCookiesAccepted()
-									}}
-									buttonLabel={messages.actions.accept}>
-									{configuration.cookiePolicyUrl ?
-										addLearnMoreLink(
-											messages.cookies.notice,
-											messages.actions.learnMore,
-											configuration.cookiePolicyUrl
-										) :
-										messages.cookies.notice
-									}
-								</Announcement>
-							}
-							{announcement &&
-								<Announcement
-									announcement={announcement}
-									onClose={hideAnnouncement}
-									closeLabel={messages.actions.close}/>
-							}
-							{children}
-						</main>
-						<Footer/>
-					</div>
+				<div className="webpage__content-container">
+					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
+					<main
+						tabIndex={-1}
+						className="webpage__content">
+						{!cookiesAccepted &&
+							<Announcement
+								onClick={onAcceptCookies}
+								buttonLabel={messages.actions.accept}>
+								{configuration.cookiePolicyUrl ?
+									addLearnMoreLink(
+										messages.cookies.notice,
+										messages.actions.learnMore,
+										configuration.cookiePolicyUrl
+									) :
+									messages.cookies.notice
+								}
+							</Announcement>
+						}
+						{announcement &&
+							<Announcement
+								announcement={announcement}
+								onClose={onHideAnnouncement}
+								closeLabel={messages.actions.close}/>
+						}
+						{children}
+					</main>
+					<Footer/>
 				</div>
-
-				<OkCancelDialog
-					okLabel={messages.actions.ok}
-					cancelLabel={messages.actions.cancel}
-					yesLabel={messages.actions.yes}
-					noLabel={messages.actions.no}/>
+				{!offline &&
+					<div className="webpage__padding-right"/>
+				}
+				{!offline && <Sidebar/>}
 			</div>
-		)
+
+			<OkCancelDialog
+				okLabel={messages.actions.ok}
+				cancelLabel={messages.actions.cancel}
+				yesLabel={messages.actions.yes}
+				noLabel={messages.actions.no}/>
+		</div>
+	)
+}
+
+App.propTypes = {
+	locale: PropTypes.string.isRequired,
+	theme: PropTypes.string.isRequired,
+	route: PropTypes.object.isRequired,
+	announcement: announcementPropType,
+	cookiesAccepted: PropTypes.bool.isRequired,
+	offline: PropTypes.bool,
+	dispatch: PropTypes.func.isRequired,
+	children: PropTypes.node.isRequired
+}
+
+function setBodyBackground(route) {
+	// Set or reset "document--background" class
+	// which changes `<body/>` background color
+	// in order to show correct color when scrolling
+	// past top/bottom of the page on touch devices.
+	if (isContentSectionsContent(route) && !isThreadLocation(route)) {
+		document.body.classList.add('document--background')
+	} else {
+		document.body.classList.remove('document--background')
 	}
 }

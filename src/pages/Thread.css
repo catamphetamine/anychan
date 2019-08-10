@@ -9,15 +9,10 @@
 	h1.page__heading {
 		margin-top: 0;
 	}
-	.thread__comment {
-		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-		border-radius: 0;
-		box-shadow: none;
-	}
 }
 
-.thread-page__comments {
-	@mixin l-plus {
+@mixin l-plus {
+	.thread-page__comments {
 		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
 	}
 }
@@ -27,7 +22,7 @@
 .thread-page__comments {
 	// Add extra spacing for the first post's header
 	// because it displays thread stats (comments count, attachments count).
-	.thread__comment--opening.post--compact .post__footer {
+	.thread-comment--opening.post--compact .post__footer {
 		padding-top: 0.2em;
 	}
 }

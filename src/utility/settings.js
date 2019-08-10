@@ -40,6 +40,7 @@ class Settings {
 	getDefaultSettings() {
 		return {
 			theme: 'default',
+			darkMode: true,
 			fontSize: 'medium',
 			locale: this.getDefaultLanguage(),
 			censoredWords: getCensoredWordsByLanguage(this.getDefaultLanguage())

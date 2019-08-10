@@ -1,7 +1,7 @@
 @import "../styles/common";
 
 body {
-	--footer-menu-height: calc(var(--unit) * 3);
+	--FooterMenu-height: calc(var(--unit) * 3);
 }
 
 .footer {
@@ -23,7 +23,7 @@ body {
 	margin: 0;
 	justify-content: space-evenly;
 
-	height: var(--footer-menu-height);
+	height: var(--FooterMenu-height);
 	color: var(--Header-color);
 	background-color: var(--Header-backgroundColor);
 	border-top: 1px solid var(--Header-borderColor);
@@ -33,21 +33,7 @@ body {
 
 .footer {
 	margin-top: calc(var(--unit) * 4);
-	margin-bottom: var(--footer-menu-height);
-}
-
-.footer--center {
-	/* `display: flex` has a weird bug: the footer is removed from the "flow". */;
-	/*
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	*/
-	/* This is a hack to center footer content. */
-	text-align: center;
-	.content {
-		display: inline-block;
-	}
+	margin-bottom: var(--FooterMenu-height);
 }
 
 .footer__link {

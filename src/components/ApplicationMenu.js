@@ -8,10 +8,9 @@ import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import {
-	toggleSidebar,
-	toggleDarkMode,
-	toggleTrackedThreads,
-	toggleNotifications
+	showSidebar,
+	setSidebarMode,
+	toggleDarkMode
 } from '../redux/app'
 
 import getMessages from '../messages'
@@ -41,6 +40,7 @@ import './ApplicationMenu.css'
 @connect(({ app }) => ({
 	locale: app.settings.locale,
 	isSidebarShown: app.isSidebarShown,
+	sidebarMode: app.sidebarMode,
 	darkMode: app.settings.darkMode,
 	areTrackedThreadsShown: app.areTrackedThreadsShown,
 	areNotificationsShown: app.areNotificationsShown
@@ -57,58 +57,88 @@ function ApplicationMenu(props) {
 			footer,
 			locale,
 			isSidebarShown,
+			sidebarMode,
 			darkMode,
-			areTrackedThreadsShown,
-			areNotificationsShown,
 			dispatch
 		} = props
 		const messages = getMessages(locale)
-		let menuItems = [
-			{
-				title: messages.darkMode,
-				onClick: () => {
-					if (!areCookiesAccepted()) {
-						return notify(messages.cookies.required)
-					}
-					dispatch(toggleDarkMode())
-					applyDarkMode(!darkMode)
-				},
-				isSelected: darkMode,
-				icon: MoonIconOutline,
-				iconActive: MoonIconFill
-			},
-			{
-				title: messages.trackedThreads.title,
-				onClick: () => dispatch(notify('Not implemented yet')), // () => dispatch(toggleTrackedThreads()),
-				isSelected: areTrackedThreadsShown,
-				icon: StarIconOutline,
-				iconActive: StarIconFill
-			},
-			{
-				title: messages.notifications.title,
-				onClick: () => dispatch(notify('Not implemented yet')), // () => dispatch(toggleNotifications()),
-				isSelected: areNotificationsShown,
-				icon: BellIconOutline,
-				iconActive: BellIconFill
-			},
-			{
-				url: addChanParameter('/settings'),
-				isSelected: !isSidebarShown,
-				icon: SettingsIconOutline,
-				iconActive: SettingsIconFill
-			}
-		]
-		if (footer) {
-			menuItems = [{
-				title: messages.boards.title,
-				onClick: () => dispatch(toggleSidebar()),
-				isSelected: isSidebarShown,
-				icon: BoardIconOutline,
-				iconActive: BoardIconFill,
-				size: 'xxl'
-			}].concat(menuItems)
+		const areBoardsShown = sidebarMode === 'boards' && (footer ? isSidebarShown : true)
+		const areTrackedThreadsShown = sidebarMode === 'tracked-threads' && (footer ? isSidebarShown : true)
+		const areNotificationsShown = sidebarMode === 'notifications' && (footer ? isSidebarShown : true)
+		const settingsItem = {
+			url: addChanParameter('/settings'),
+			isSelected: !isSidebarShown,
+			icon: SettingsIconOutline,
+			iconActive: SettingsIconFill
 		}
-		return menuItems
+		const darkModeItem = {
+			title: messages.darkMode,
+			onClick: () => {
+				if (!areCookiesAccepted()) {
+					return notify(messages.cookies.required)
+				}
+				dispatch(toggleDarkMode())
+				applyDarkMode(!darkMode)
+			},
+			isSelected: darkMode,
+			icon: MoonIconOutline,
+			iconActive: MoonIconFill
+		}
+		const boardsItem = {
+			title: messages.boards.title,
+			onClick() {
+				if (footer) {
+					dispatch(showSidebar(areBoardsShown ? false : true))
+				}
+				dispatch(setSidebarMode('boards'))
+			},
+			isSelected: footer ? areBoardsShown : undefined,
+			icon: BoardIconOutline,
+			iconActive: BoardIconFill,
+			size: 'xxl'
+		}
+		const trackedThreadsItem = {
+			title: messages.trackedThreads.title,
+			onClick() {
+				if (footer) {
+					dispatch(showSidebar(areTrackedThreadsShown ? false : true))
+				}
+				dispatch(setSidebarMode('tracked-threads'))
+			},
+			isSelected: areTrackedThreadsShown,
+			icon: StarIconOutline,
+			iconActive: StarIconFill
+		}
+		const notificationsItem = {
+			title: messages.notifications.title,
+			onClick() {
+				if (footer) {
+					dispatch(showSidebar(areNotificationsShown ? false : true))
+				}
+				dispatch(setSidebarMode('notifications'))
+			},
+			isSelected: areNotificationsShown,
+			icon: BellIconOutline,
+			iconActive: BellIconFill
+		}
+		// Mobile menu is optimized for holding the phone in the right hand.
+		if (footer) {
+			return [
+				settingsItem,
+				darkModeItem,
+				boardsItem,
+				trackedThreadsItem,
+				notificationsItem
+			]
+		}
+		// Desktop menu is optimized for left-to-right mouse navigation.
+		return [
+			darkModeItem,
+			trackedThreadsItem,
+			notificationsItem,
+			boardsItem,
+			settingsItem
+		]
 	}
 
 	return (

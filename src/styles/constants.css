@@ -2,17 +2,18 @@
 @import "../../../webapp-frontend/src/styles/grid.mixins.css";
 
 :root {
-	--header-height: 0;
 	--sidebar-z-index: 1;
 	--header-z-index: 2;
 	--slideshow-z-index: 3;
 	--notifications-z-index: 4;
 
 	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
-	--PageContent-padding: calc(var(--unit) * 2);
+	/*--PageContent-padding: calc(var(--unit) * 2);*/
+	--PageContent-padding: var(--unit);
+	/*
 	--PageContent-padding--nonContentSection: 0px;
 	@mixin upto-m {
-		--PageContent-padding: var(--unit);
-		--PageContent-padding--nonContentSection: var(--ContentSection-padding--horizontal);
+		--PageContent-padding--nonContentSection: var(--Post-padding--horizontal);
 	}
+	*/
 }

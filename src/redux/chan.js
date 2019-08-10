@@ -114,12 +114,12 @@ export const getThreads = redux.action(
 			threads
 		}
 	},
-	(state, { threads, boardId }) => ({
+	(state, { boardId, threads }) => ({
 		...state,
+		threads,
 		// `8ch.net` has too many boards (20 000) so they're not parsed.
 		// For `8ch.net` `boards` contains only a small amount of most active boards.
-		board: state.boards.find(_ => _.id === boardId) || { id: boardId, name: boardId },
-		threads
+		board: state.boards.find(_ => _.id === boardId) || { id: boardId, name: boardId }
 	})
 )
 

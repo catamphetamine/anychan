@@ -44,7 +44,7 @@ export const saveFontSize = redux.simpleAction(
 )
 
 export const showSidebar = redux.simpleAction(
-	() => true,
+	(value = true) => value,
 	'isSidebarShown'
 )
 
@@ -53,31 +53,10 @@ export const hideSidebar = redux.simpleAction(
 	'isSidebarShown'
 )
 
-export const toggleSidebar = redux.simpleAction(
-	(state) => ({
-		...state,
-		isSidebarShown: !state.isSidebarShown
-	})
-)
-
 export const toggleDarkMode = redux.simpleAction(
 	(state) => ({
 		...state,
 		settings: saveSetting('darkMode', !state.settings.darkMode)
-	})
-)
-
-export const toggleTrackedThreads = redux.simpleAction(
-	(state, params) => ({
-		...state,
-		areTrackedThreadsShown: !state.areTrackedThreadsShown
-	})
-)
-
-export const toggleNotifications = redux.simpleAction(
-	(state, params) => ({
-		...state,
-		areNotificationsShown: !state.areNotificationsShown
 	})
 )
 
@@ -89,8 +68,13 @@ export const setOfflineMode = redux.simpleAction(
 	(state) => ({ ...state, offline: true })
 )
 
+export const setSidebarMode = redux.simpleAction(
+	(state, sidebarMode) => ({ ...state, sidebarMode })
+)
+
 export default redux.reducer({
-	cookiesAccepted: areCookiesAccepted()
+	cookiesAccepted: areCookiesAccepted(),
+	sidebarMode: 'boards'
 })
 
 /**

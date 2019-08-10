@@ -12,6 +12,7 @@ import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/prelo
 import { getChan, getChanParserSettings, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
+import { isThreadLocation, isBoardLocation } from '../utility/routes'
 
 import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 
@@ -32,7 +33,8 @@ export default class BoardsPanel extends React.Component {
 	}
 }
 
-@connect(({ app }) => ({
+@connect(({ found, app }) => ({
+	route: found.resolvedMatch,
 	settings: app.settings
 }), {
 	preloadStarted,
@@ -96,15 +98,20 @@ export class Boards extends React.PureComponent {
 			pushLocation(getUrl(board))
 		} catch (error) {
 			console.error(error)
-			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error '})
+			notify(getMessages(settings.locale).loadingThreadsError, { type: 'error' })
 		} finally {
 			preloadFinished()
 		}
 	}
 
+	isBoardSelected(board) {
+		const { selectedBoard, route } = this.props
+		return selectedBoard && board.id === selectedBoard.id &&
+			(isBoardLocation(route) || isThreadLocation(route))
+	}
+
 	getBoardsListItems() {
 		const {
-			selectedBoard,
 			boards,
 			boardsByPopularity,
 			boardsByCategory,
@@ -124,7 +131,7 @@ export class Boards extends React.PureComponent {
 					}]).concat(category.boards.map((board) => ({
 						key: board.id,
 						board,
-						selected: selectedBoard && board.id === selectedBoard.id
+						selected: this.isBoardSelected(board)
 					})))
 				}, [])
 			case 'default':
@@ -133,7 +140,7 @@ export class Boards extends React.PureComponent {
 					.map((board) => ({
 						key: board.id,
 						board,
-						selected: selectedBoard && board.id === selectedBoard.id
+						selected: this.isBoardSelected(board)
 					}))
 			default:
 				// Unsupported `view`.
@@ -148,7 +155,6 @@ export class Boards extends React.PureComponent {
 			boardsByPopularity,
 			boardsByCategory,
 			showAllBoards,
-			sidebar,
 			listComponent: List,
 			className
 		} = this.props
@@ -164,9 +170,7 @@ export class Boards extends React.PureComponent {
 		}
 
 		return (
-			<nav className={classNames(className, 'boards', {
-				'boards--sidebar': sidebar
-			})}>
+			<nav className="boards">
 				{boardsByPopularity && (boardsByCategory && (List === BoardsList)) &&
 					<div className="boards__view-switcher">
 						<Button
@@ -242,7 +246,6 @@ Boards.propTypes = {
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
 	})),
 	showAllBoards: PropTypes.bool,
-	sidebar: PropTypes.bool,
 	listComponent: PropTypes.elementType.isRequired,
 	className: PropTypes.string
 }

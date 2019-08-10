@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import getUrl from '../utility/getUrl'
+import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
 import { getThread } from '../redux/chan'
 import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
 import { notify } from 'webapp-frontend/src/redux/notifications'
@@ -37,12 +38,7 @@ import './Thread.css'
 	locale: app.settings.locale,
 	virtualScrollerState: thread.virtualScrollerState,
 	scrollPosition: thread.scrollPosition
-}), {
-	setVirtualScrollerState,
-	setScrollPosition,
-	openSlideshow,
-	notify
-})
+}), dispatch => ({ dispatch }))
 @preload(async ({ getState, dispatch, params }) => {
 	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
 	await dispatch(getThread(
@@ -52,172 +48,140 @@ import './Thread.css'
 		getState().app.settings.locale
 	))
 })
-export default class ThreadPage extends React.Component {
-	static propTypes = {
-		openSlideshow: PropTypes.func.isRequired,
-		notify: PropTypes.func.isRequired,
-		locale: PropTypes.string.isRequired
+export default class ThreadPage_ extends React.Component {
+	render() {
+		return <ThreadPage {...this.props}/>
 	}
+}
 
-	state = {}
-
-	virtualScroller = React.createRef()
-
-	setThreadTracked = (isThreadTracked) => {
-		this.setState({ isThreadTracked })
-	}
-
-	setSearchBarShown = (isSearchBarShown) => {
-		this.setState({ isSearchBarShown })
-	}
-
-	setAttachmentsExpanded = (areAttachmentsExpanded) => {
-		this.setState({ areAttachmentsExpanded })
-	}
-
-	openSlideshow = () => {
-		const { thread, openSlideshow } = this.props
+function ThreadPage({
+	board,
+	thread,
+	locale,
+	virtualScrollerState: initialVirtualScrollerState,
+	scrollPosition,
+	dispatch
+}) {
+	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState()
+	const [isSearchBarShown, setSearchBarShown] = useState()
+	const [isThreadTracked, setThreadTracked] = useState()
+	const virtualScroller = useRef()
+	const virtualScrollerState = useRef()
+	const openThreadWideSlideshow = useCallback(() => {
 		const attachments = thread.comments.reduce(
 			(attachments, comment) => attachments.concat(comment.attachments || []),
 			[]
 		)
-		openSlideshow(attachments, 0, { slideshowMode: true })
-	}
-
-	onVirtualScrollerStateChange = (state) => {
-		this.virtualScrollerState = state
-	}
-
-	onVirtualScrollerMount = () => {
+		dispatch(openSlideshow(attachments, 0, { slideshowMode: true }))
+	}, [thread, dispatch])
+	const onVirtualScrollerStateChange = useCallback(
+		state => virtualScrollerState.current = state,
+		[]
+	)
+	const onVirtualScrollerMount = useCallback(() => {
 		if (wasInstantNavigation()) {
-			const { scrollPosition } = this.props
 			window.scrollTo(0, scrollPosition)
 		}
-	}
-
-	onVirtualScrollerLastSeenItemIndexChange = (newLastSeenItemIndex, previousLastSeenItemIndex) => {
-		const { thread } = this.props
-		let i = previousLastSeenItemIndex + 1
-		while (i <= newLastSeenItemIndex) {
-			thread.comments[i].parseContent()
-			i++
+	}, [])
+	const onItemFirstRender = useCallback(
+		(i) => thread.comments[i].parseContent(),
+		[thread]
+	)
+	// Runs only once before the initial render.
+	// Sets `--PostThumbnail-maxWidth` CSS variable.
+	useMemo(
+		() => updateAttachmentThumbnailMaxSize(thread.comments),
+		[thread]
+	)
+	useEffect(() => {
+		return () => {
+			if (isInstantBackAbleNavigation()) {
+				// Save `virtual-scroller` state in Redux state.
+				dispatch(setVirtualScrollerState(virtualScrollerState.current))
+				// Using `window.pageYOffset` instead of `window.scrollY`
+				// because `window.scrollY` is not supported by Internet Explorer.
+				dispatch(setScrollPosition(window.pageYOffset))
+			}
 		}
-	}
-
-	componentWillUnmount() {
-		if (isInstantBackAbleNavigation()) {
-			// Save `virtual-scroller` state in Redux state.
-			const {
-				setVirtualScrollerState,
-				setScrollPosition
-			} = this.props
-			setVirtualScrollerState(this.virtualScrollerState)
-			// Using `window.pageYOffset` instead of `window.scrollY`
-			// because `window.scrollY` is not supported by Internet Explorer.
-			setScrollPosition(window.pageYOffset)
-		}
-	}
-
-	render() {
-		const {
-			board,
-			thread,
-			locale,
-			openSlideshow,
-			virtualScrollerState,
-			notify
-		} = this.props
-
-		const {
-			isThreadTracked,
-			isSearchBarShown,
-			areAttachmentsExpanded
-		} = this.state
-
-		const itemComponentProps = {
-			onCommentContentChange: (id) => {
-				const index = thread.comments.findIndex(_ => _.id === id)
-				this.virtualScroller.current.updateItem(index)
-			},
-			mode: 'thread',
-			board,
-			thread,
-			openSlideshow,
-			notify,
-			locale,
-			expandAttachments: areAttachmentsExpanded
-		}
-
-		// const menu = (
-		// 	<ThreadMenu
-		// 		locale={locale}
-		// 		openSlideshow={this.openSlideshow}
-		// 		isThreadTracked={isThreadTracked}
-		// 		setThreadTracked={this.setThreadTracked}
-		// 		isSearchBarShown={isSearchBarShown}
-		// 		setSearchBarShown={this.setSearchBarShown}
-		// 		areAttachmentsExpanded={areAttachmentsExpanded}
-		// 		setAttachmentsExpanded={this.setAttachmentsExpanded}
-		// 		className="board-or-thread-menu board-or-thread-menu--small-screen"/>
-		// )
-
-		return (
-			<section className={classNames('thread-page', 'content', 'text-content')}>
-				{/*
-				<header className="thread-page__header page__heading">
-					<div className="page__heading-text">
-						<Link to={getUrl(board)}>
-							{board.name}
-						</Link>
-					</div>
-					<h1 className="page__heading-text">
-						{thread.subject}
-					</h1>
-				</header>
-				*/}
-				<div className="thread-page__header">
-					<BoardOrThreadMenu
-						mode="thread"
-						notify={notify}
-						locale={locale}
-						openSlideshow={this.openSlideshow}
-						isThreadTracked={isThreadTracked}
-						setThreadTracked={this.setThreadTracked}
-						isSearchBarShown={isSearchBarShown}
-						setSearchBarShown={this.setSearchBarShown}
-						areAttachmentsExpanded={areAttachmentsExpanded}
-						setAttachmentsExpanded={this.setAttachmentsExpanded}/>
+	}, [])
+	const itemComponentProps = useMemo(() => ({
+		// `onCommentContentChange()` is passed as `onPostContentChange()`
+		// to `<Post/>` which is then called whenever the comment content changes
+		// (YouTube video links get loaded, Twitter links get loaded, etc)
+		// to update autogenerated quotes in all replies to this comment.
+		// This is only used for thread page because on board page there're
+		// no replies with autogenerated quotes.
+		onCommentContentChange(id) {
+			const index = thread.comments.findIndex(_ => _.id === id)
+			virtualScroller.current.updateItem(index)
+		},
+		mode: 'thread',
+		board,
+		thread,
+		openSlideshow: (...args) => dispatch(openSlideshow.apply(this, args)),
+		notify: (...args) => dispatch(notify.apply(this, args)),
+		locale,
+		expandAttachments: areAttachmentsExpanded
+	}), [thread, areAttachmentsExpanded, dispatch])
+	return (
+		<section className={classNames('thread-page', 'content')}>
+			{/*
+			<header className="thread-page__header page__heading">
+				<div className="page__heading-text">
+					<Link to={getUrl(board)}>
+						{board.name}
+					</Link>
 				</div>
-				<VirtualScroller
-					ref={this.virtualScroller}
-					onMount={this.onVirtualScrollerMount}
-					onLastSeenItemIndexChange={this.onVirtualScrollerLastSeenItemIndexChange}
-					initialState={wasInstantNavigation() ? virtualScrollerState : undefined}
-					onStateChange={this.onVirtualScrollerStateChange}
-					items={thread.comments}
-					itemComponent={CommentComponent}
-					itemComponentProps={itemComponentProps}
-					className="thread-page__comments"/>
-			</section>
-		)
-	}
+				<h1 className="page__heading-text">
+					{thread.subject}
+				</h1>
+			</header>
+			*/}
+			<div className="thread-page__header">
+				<BoardOrThreadMenu
+					mode="thread"
+					notify={(...args) => dispatch(notify(...args))}
+					locale={locale}
+					openSlideshow={openThreadWideSlideshow}
+					isThreadTracked={isThreadTracked}
+					setThreadTracked={setThreadTracked}
+					isSearchBarShown={isSearchBarShown}
+					setSearchBarShown={setSearchBarShown}
+					areAttachmentsExpanded={areAttachmentsExpanded}
+					setAttachmentsExpanded={setAttachmentsExpanded}/>
+			</div>
+			<VirtualScroller
+				ref={virtualScroller}
+				onMount={onVirtualScrollerMount}
+				onItemFirstRender={onItemFirstRender}
+				initialState={wasInstantNavigation() ? initialVirtualScrollerState : undefined}
+				onStateChange={onVirtualScrollerStateChange}
+				items={thread.comments}
+				itemComponent={CommentComponent}
+				itemComponentProps={itemComponentProps}
+				className="thread-page__comments"/>
+		</section>
+	)
 }
 
 function getThreadImage(thread) {
 	const comment = thread.comments[0]
 	if (comment.attachments && comment.attachments.length > 0) {
-		const attachment = comment.attachments[0]
-		switch (attachment.type) {
-			case 'picture':
-				return attachment.picture.url
-			case 'video':
-				return attachment.video.picture.url
+		for (const attachment of comment.attachments) {
+			switch (attachment.type) {
+				case 'picture':
+					return attachment.picture.url
+				case 'video':
+					return attachment.video.picture.url
+			}
 		}
 	}
 }
 
-// Rewrote the component as `PureComponent` to optimize
-// `<VirtualScroller/>` re-rendering.
+// `CommentComponent` is required to be a `Component`
+// in order to be `ref`-able inside `virtual-scroller`
+// in order for `.updateItem(i)` to be able to be called.
+// Made it a `PureComponent` to optimize `<VirtualScroller/>` re-rendering.
 class CommentComponent extends React.PureComponent {
 	render() {
 		const {
@@ -232,15 +196,6 @@ class CommentComponent extends React.PureComponent {
 		)
 	}
 }
-
-// function CommentComponent({ children: comment, ...rest }) {
-// 	return (
-// 		<ThreadCommentTree
-// 			key={comment.id}
-// 			comment={comment}
-// 			{...rest}/>
-// 	)
-// }
 
 CommentComponent.propTypes = {
 	children: PropTypes.object.isRequired

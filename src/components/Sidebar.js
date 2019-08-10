@@ -6,25 +6,33 @@ import { connect } from 'react-redux'
 import SimpleBar from 'simplebar-react'
 
 import Boards from '../components/Boards'
+import TrackedThreads from '../components/TrackedThreads'
+import Notifications from '../components/Notifications'
 
 import './Sidebar.css'
 
 @connect(({ app }) => ({
-	isShown: app.isSidebarShown
+	isShown: app.isSidebarShown,
+	mode: app.sidebarMode
 }))
-export default class Sidebar extends React.Component {
+export default class Sidebar_ extends React.Component {
 	render() {
-		const { isShown } = this.props
-		return (
-			<section className={classNames('sidebar', {
-				'sidebar--show': isShown
-			})}>
-				<SimpleBar className="sidebar__scrollable-list">
-					<Boards sidebar/>
-				</SimpleBar>
-			</section>
-		)
+		return <Sidebar {...this.props}/>
 	}
+}
+
+function Sidebar({ isShown, mode }) {
+	return (
+		<section className={classNames('sidebar', {
+			'sidebar--show': isShown
+		})}>
+			<SimpleBar className="sidebar__scrollable-list">
+				{mode === 'boards' && <Boards/>}
+				{mode === 'tracked-threads' && <TrackedThreads/>}
+				{mode === 'notifications' && <Notifications/>}
+			</SimpleBar>
+		</section>
+	)
 }
 
 Sidebar.propTypes = {
