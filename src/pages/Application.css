@@ -30,7 +30,7 @@
 }
 
 .webpage--offline {
-	--Header-height: 0;
+	--Header-height: 0px;
 	.webpage__content-container {
 		margin-left: auto;
 		margin-right: auto;
@@ -198,10 +198,15 @@
 	}
 }
 
+@mixin upto-m {
+	:root {
+		--Header-height: 0px;
+	}
+}
+
 @mixin l-plus {
-	body {
-		--Header-height: calc(var(--unit) * 3);
-		--Sidebar-width: calc(var(--unit) * 23);
+	:root {
+		--Sidebar-minWidth: calc(var(--unit) * 23);
 		--FooterMenu-height: 0px;
 	}
 
@@ -220,7 +225,7 @@
 		display: block;
 		position: sticky;
 		top: var(--Header-height);
-		flex-basis: var(--Sidebar-width);
+		flex-basis: var(--Sidebar-minWidth);
 		min-height: calc(100vh - var(--Header-height));
 		max-height: calc(100vh - var(--Header-height));
 	}

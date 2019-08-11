@@ -7,6 +7,8 @@
 	--slideshow-z-index: 3;
 	--notifications-z-index: 4;
 
+	--Header-height: calc(var(--unit) * 3);
+
 	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
 	/*--PageContent-padding: calc(var(--unit) * 2);*/
 	--PageContent-padding: var(--unit);
