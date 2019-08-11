@@ -34,7 +34,7 @@
 	--Boards-fontFamily--url: monospace;
 	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;
-	--Boards-color: currentColor;
+	--Boards-color: var(--Sidebar-color);
 	--Boards-color--viewSwitcher: var(--Content-color-600);
 
 	/* ThreadActions. */
