@@ -31,6 +31,10 @@
 
 .webpage--offline {
 	--Header-height: 0;
+	.webpage__content-container {
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
 .webpage__content-container {
