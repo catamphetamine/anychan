@@ -89,6 +89,7 @@
 .boards__view-switch {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
+	/* Resets `react-responsive-ui` `<Button/>` color transition. */
 	transition: none;
 }
 
