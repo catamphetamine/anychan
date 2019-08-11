@@ -316,7 +316,15 @@
 		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
 		--Sidebar-flexGrow--thread: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--thread));
 		--Sidebar-flexBasis: 0;
-		--Sidebar-minWidth: calc(var(--unit) * 25);
+		--Sidebar-flexBasis--wide: 0;
+		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
+		   only based on their `flex-grow`: this makes it easy to place the central
+		   column in the center of the screen. */
+		/* Otherwise the layout would "jump" for some weird reason when
+		   switching "Tracked threads" / "Notifications" on `/b/` page
+		   where thumbnail width is small. */
+		--Sidebar-minWidth: 0px;
+		/*--Sidebar-minWidth: calc(var(--unit) * 25);*/
 		/* Setting `--Sidebar-minWidth--wide` to `--Sidebar-minWidth`
 		   so that flexbox doesn't resize non-right-side columns
 		   when clicking "Tracked threads" and "Notifications" menu buttons. */
@@ -326,6 +334,7 @@
 	.webpage--board,
 	.webpage--thread {
 		&:not(.webpage--wide-sidebar) {
+			/* These rules must be equal to those in the "xxl-plus" mixin below. */
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
@@ -340,6 +349,7 @@
 	.webpage--thread {
 		/* Overrides the `&:not(.webpage--wide-sidebar)` selector above. */
 		&.webpage--wide-sidebar {
+			/* These rules must be equal to those in the "xl-plus" mixin above. */
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
