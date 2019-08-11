@@ -191,3 +191,7 @@ CommentComponent.propTypes = {
 	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
 	children: PropTypes.object.isRequired
 }
+
+// Using `React.memo()` so that `virtual-scroller`
+// doesn't update the items as the user scrolls.
+CommentComponent = React.memo(CommentComponent)
