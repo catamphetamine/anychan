@@ -21,26 +21,29 @@ import './Boards.css'
 	boardsByCategory: chan.allBoards.boardsByCategory,
 	boardsByPopularity: chan.allBoards.boardsByPopularity
 }))
-export default class BoardsPage extends React.Component {
+export default class BoardsPage_ extends React.Component {
 	render() {
-		const {
-			locale,
-			boards,
-			boardsByCategory,
-			boardsByPopularity
-		} = this.props
-		return (
-			<section className="boards-page content text-content">
-				<Boards
-					locale={locale}
-					boards={boards}
-					boardsByPopularity={boardsByPopularity}
-					boardsByCategory={boardsByCategory}
-					listComponent={BoardsList}
-					showAllBoards/>
-			</section>
-		)
+		return <BoardsPage {...this.props}/>
 	}
+}
+
+function BoardsPage({
+	locale,
+	boards,
+	boardsByCategory,
+	boardsByPopularity
+}) {
+	return (
+		<section className="boards-page content text-content">
+			<Boards
+				locale={locale}
+				boards={boards}
+				boardsByPopularity={boardsByPopularity}
+				boardsByCategory={boardsByCategory}
+				listComponent={BoardsList}
+				showAllBoards/>
+		</section>
+	)
 }
 
 function BoardsList({ className, children }) {
