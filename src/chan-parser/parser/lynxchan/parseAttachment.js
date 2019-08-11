@@ -1,4 +1,4 @@
-import getMimeType from '../../utility/getMimeType'
+import getMimeType, { getExtension } from '../../utility/getMimeType'
 import splitFilename from '../../utility/splitFilename'
 
 export default function parseAttachment(file, options) {
@@ -185,4 +185,25 @@ function toAbsoluteUrl(url, { useRelativeUrls, chanUrl }) {
 		}
 	}
 	return url
+}
+
+// `lynxchan` doesn't provide the original image URL
+// in `/catalog.json` API response (which is a bug).
+// http://lynxhub.com/lynxchan/res/722.html#q984
+// This function returns the probable original image URL.
+const THUMBNAIL_URL_REGEXP = /\/t_[0-9a-f]+-image([a-z]+)$/
+export function guessFileUrlFromThumbnailUrl(thumbnailUrl, chan) {
+	const match = thumbnailUrl.match(THUMBNAIL_URL_REGEXP)
+	if (match) {
+		return thumbnailUrl.replace('/t_', '/') + '.' + getExtension(`image/${match[1]}`)
+	}
+	// Images from `kohlchan.net` before moving to `lynxchan` in May 2019
+	// have incorrect URLs: they don't have the extension part.
+	// For example:
+	// Exists: https://kohlchan.net/.media/82b9c3a866f6233f1c0253d3eb819ea5-imagepng
+	// Not exists: https://kohlchan.net/.media/82b9c3a866f6233f1c0253d3eb819ea5-imagepng.png
+	//
+	// Could also be a video file URL: ignores such cases.
+	//
+	return thumbnailUrl
 }

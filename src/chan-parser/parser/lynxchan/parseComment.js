@@ -3,7 +3,7 @@ import stringToColor from '../../utility/stringToColor'
 
 import parseAuthorRoleKohlChan from './parseAuthorRole.kohlchan'
 import parseAuthor from './parseAuthor'
-import parseAttachment, { getPictureTypeFromUrl as getPictureTypeFromUrlKohlChan } from './parseAttachment'
+import parseAttachment, { getPictureTypeFromUrl, guessFileUrlFromThumbnailUrl } from './parseAttachment'
 
 import constructComment from '../../constructComment'
 
@@ -57,8 +57,8 @@ export default function parseComment(post, {
 				height: thumbnailSize,
 				// Even if `path` URL would be derived from `thumb` URL
 				// the `width` and `height` would still be unspecified.
-				// path: getFileUrlFromThumbnailUrl(post.thumb, chan),
-				path: post.thumb,
+				// path: post.thumb,
+				path: guessFileUrlFromThumbnailUrl(post.thumb, chan),
 				thumb: post.thumb,
 				originalName: '[stub]'
 			}]
@@ -161,21 +161,3 @@ function parseKohlchanFlagId(flag) {
 
 // "br".
 const FLAG_ID_COUNTRY_CODE_REGEXP = /^([a-z]{2})$/
-
-// function getFileUrlFromThumbnailUrl(thumbnailUrl, chan) {
-// 	switch (chan) {
-// 		case 'kohlchan':
-// 			return thumbnailUrl.replace('/.media/t_', '/.media/')
-// 		default:
-// 			return thumbnailUrl
-// 	}
-// }
-
-function getPictureTypeFromUrl(url, chan) {
-	switch (chan) {
-		case 'kohlchan':
-			return getPictureTypeFromUrlKohlChan(url)
-		default:
-			return 'image/jpeg'
-	}
-}

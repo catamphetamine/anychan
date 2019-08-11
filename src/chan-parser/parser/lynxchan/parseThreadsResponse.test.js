@@ -49,7 +49,7 @@ describe('kohlchan.net', () => {
 						type: 'image/png',
 						width: 200,
 						height: 200,
-						url: 'https://kohlchan.net/.media/t_82b9c3a866f6233f1c0253d3eb819ea5-imagepng',
+						url: 'https://kohlchan.net/.media/82b9c3a866f6233f1c0253d3eb819ea5-imagepng.png',
             sizes: [{
               "height": 200,
               "type": "image/png",
