@@ -29,7 +29,7 @@ export default function Header({ post, locale }) {
 		authorName = getMessages(locale).post.threadAuthor
 		authorNameIsOriginalPoster = true
 	}
-	if (!(post.authorId || authorName || post.authorEmail || post.authorRole || post.tripCode)) {
+	if (!hasAuthor(post)) {
 		return null
 	}
 	const authorRoleName = post.authorRole && (getRoleName(post.authorRole, post, locale) || post.authorRole)
@@ -230,4 +230,8 @@ function PersonIconBottomBorder(props) {
 				y2={100}/>
 		</svg>
 	)
+}
+
+export function hasAuthor(post) {
+	return post.authorId || post.authorName || post.authorEmail || post.authorRole || post.tripCode
 }

@@ -8,7 +8,7 @@ import { post } from '../PropTypes'
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
 import PostForm from './PostForm'
-import Header, { HEADER_BADGES } from './ThreadCommentHeader'
+import Header, { HEADER_BADGES, hasAuthor } from './ThreadCommentHeader'
 import { getFooterBadges } from './ThreadCommentFooter'
 import ThreadCommentHidden from './ThreadCommentHidden'
 
@@ -288,6 +288,7 @@ function Comment({
 		<div
 			className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
 				'thread-comment--titled': comment.title,
+				'thread-comment--authored': hasAuthor(comment),
 				'thread-comment--compact': compact,
 				'thread-comment--hidden': hidden,
 				'thread-comment--has-thumbnail': postThumbnail,

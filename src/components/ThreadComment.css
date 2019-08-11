@@ -104,6 +104,11 @@
 				margin-top: 1.85em;
 			}
 		}
+		&.thread-comment--authored {
+			.thread-comment__thumbnail {
+				margin-top: 3.65em;
+			}
+		}
 	}
 
 	.thread-comment--has-no-thumbnail {
