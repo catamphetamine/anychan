@@ -206,7 +206,6 @@
 
 @mixin l-plus {
 	:root {
-		--Sidebar-minWidth: calc(var(--unit) * 23);
 		--FooterMenu-height: 0px;
 	}
 
@@ -225,31 +224,9 @@
 		display: block;
 		position: sticky;
 		top: var(--Header-height);
-		flex-basis: var(--Sidebar-minWidth);
 		min-height: calc(100vh - var(--Header-height));
 		max-height: calc(100vh - var(--Header-height));
-	}
-
-	.webpage__padding-left,
-	.webpage__padding-right {
-		min-width: 0;
-	}
-
-	.webpage__content-container {
-		flex-grow: 0;
-		flex-shrink: 1;
-	}
-
-	.webpage__padding-left {
-		flex-grow: 1;
-	}
-
-	.webpage__padding-right {
-		flex-grow: 0.6;
-	}
-
-	.sidebar {
-		flex-grow: 0.1;
+		min-width: var(--Sidebar-minWidth);
 	}
 
 	.webpage--board,
@@ -269,6 +246,31 @@
 		display: none;
 	}
 
+	/*.webpage__padding-left,
+	.webpage__padding-right {
+		min-width: 0;
+	}*/
+	.webpage__content-container {
+		flex-grow: 0;
+		/* Is shrinkable so that it leaves some space
+		   to the sidebar on smaller screens. */
+		/*flex-shrink: 1;*/
+	}
+	.webpage__padding-left {
+		flex-grow: var(--PaddingLeft-flexGrow);
+	}
+	.webpage__padding-right {
+		flex-grow: var(--PaddingRight-flexGrow);
+	}
+	.sidebar {
+		flex-grow: var(--Sidebar-flexGrow);
+		flex-basis: var(--Sidebar-flexBasis);
+	}
+	:root {
+		--PaddingRight-flexGrow--wide: 0.1;
+		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
+	}
+
 	/* Move notifications to the right side
 	   because they aren't that eligible when shown
 	   above the sidebar with the boards list. */
@@ -280,30 +282,66 @@
 	*/
 }
 
+@mixin l-xl {
+	/* On "xxl" screens (1440p and larger) the screen width is enough
+	   no not widen the sidebar for "wide" content.
+	   This results in better UX because sidebar width doesn't "jump"
+	   when switching to "Tracked threads" / "Notifications". */
+	.webpage--wide-sidebar {
+		--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--wide);
+		--Sidebar-minWidth: var(--Sidebar-minWidth--wide);
+		--Sidebar-flexBasis: var(--Sidebar-flexBasis--wide);
+		--Sidebar-flexGrow: var(--Sidebar-flexGrow--wide);
+	}
+}
+
+@mixin l {
+	/* Flexbox proportions. */
+	:root {
+		--PaddingLeft-flexGrow: 1;
+		--PaddingRight-flexGrow: 0.6;
+		--Sidebar-flexGrow: 0.1;
+		--Sidebar-flexBasis: var(--Sidebar-minWidth);
+		--Sidebar-minWidth: calc(var(--unit) * 23);
+		--Sidebar-minWidth--wide: calc(var(--unit) * 36);
+	}
+}
+
 @mixin xl-plus {
-	.webpage__padding-left {
-		flex-grow: 2;
-	}
-	.webpage__padding-right {
-		flex-grow: 0.5;
-	}
-	.sidebar {
-		flex-grow: 1.5;
-		flex-basis: 0;
+	/* Flexbox proportions. */
+	:root {
+		--PaddingLeft-flexGrow: 1;
+		--PaddingRight-flexGrow: 0.25;
+		--PaddingRight-flexGrow--thread: 0.5;
+		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
+		--Sidebar-flexGrow--thread: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--thread));
+		--Sidebar-flexBasis: 0;
+		--Sidebar-minWidth: calc(var(--unit) * 25);
+		/* Setting `--Sidebar-minWidth--wide` to `--Sidebar-minWidth`
+		   so that flexbox doesn't resize non-right-side columns
+		   when clicking "Tracked threads" and "Notifications" menu buttons. */
+		--Sidebar-minWidth--wide: var(--Sidebar-minWidth);
+		/*--Sidebar-minWidth--wide: calc(var(--unit) * 40);*/
 	}
 	.webpage--board,
 	.webpage--thread {
-		.webpage__padding-left {
-			flex-grow: 2;
+		&:not(.webpage--wide-sidebar) {
+			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
+			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
-		.webpage__padding-right {
-			flex-grow: 1;
-		}
-		.sidebar {
-			flex-grow: 1;
-			/* `flex-basis` must equal to `.thread-comment__thumbnail` width + margins:
-			   this makes thread comment text be centered on screen. */
-			flex-basis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		/* `flex-basis` must equal to `.thread-comment__thumbnail` width + margins:
+		   this makes thread comment text be centered on screen. */
+		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+	}
+}
+
+@mixin xxl-plus {
+	.webpage--board,
+	.webpage--thread {
+		/* Overrides the `&:not(.webpage--wide-sidebar)` selector above. */
+		&.webpage--wide-sidebar {
+			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
+			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
 	}
 }

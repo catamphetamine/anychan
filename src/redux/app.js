@@ -44,7 +44,7 @@ export const saveFontSize = redux.simpleAction(
 )
 
 export const showSidebar = redux.simpleAction(
-	(value = true) => value,
+	(shouldBeShown) => shouldBeShown,
 	'isSidebarShown'
 )
 

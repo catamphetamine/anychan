@@ -54,6 +54,7 @@ import './Application.css'
 	locale: app.settings.locale,
 	theme: app.settings.theme,
 	cookiesAccepted: app.cookiesAccepted,
+	sidebarMode: app.sidebarMode,
 	offline: app.offline,
 	route: found.resolvedMatch,
 	slideshowIndex: slideshow.index,
@@ -120,6 +121,7 @@ function App({
 	slideshowIsOpen,
 	slideshowPictures,
 	slideshowMode,
+	sidebarMode,
 	cookiesAccepted,
 	offline,
 	dispatch,
@@ -179,7 +181,8 @@ function App({
 				'webpage--content-sections': isContentSectionsContent(route),
 				'webpage--boards': isBoardsLocation(route),
 				'webpage--board': isBoardLocation(route),
-				'webpage--thread': isThreadLocation(route)
+				'webpage--thread': isThreadLocation(route),
+				'webpage--wide-sidebar': sidebarMode !== 'boards'
 			})}>
 				{!offline && <Header/>}
 				{!offline &&

@@ -88,9 +88,13 @@ function ApplicationMenu(props) {
 			title: messages.boards.title,
 			onClick() {
 				if (footer) {
-					dispatch(showSidebar(areBoardsShown ? false : true))
+					if (areBoardsShown) {
+						dispatch(showSidebar(false))
+					} else {
+						dispatch(showSidebar(true))
+						dispatch(setSidebarMode('boards'))
+					}
 				}
-				dispatch(setSidebarMode('boards'))
 			},
 			isSelected: footer ? areBoardsShown : undefined,
 			icon: BoardIconOutline,
@@ -101,9 +105,15 @@ function ApplicationMenu(props) {
 			title: messages.trackedThreads.title,
 			onClick() {
 				if (footer) {
-					dispatch(showSidebar(areTrackedThreadsShown ? false : true))
+					if (areTrackedThreadsShown) {
+						dispatch(showSidebar(false))
+					} else {
+						dispatch(showSidebar(true))
+						dispatch(setSidebarMode('tracked-threads'))
+					}
+				} else {
+					dispatch(setSidebarMode(areTrackedThreadsShown ? 'boards' : 'tracked-threads'))
 				}
-				dispatch(setSidebarMode('tracked-threads'))
 			},
 			isSelected: areTrackedThreadsShown,
 			icon: StarIconOutline,
@@ -113,9 +123,15 @@ function ApplicationMenu(props) {
 			title: messages.notifications.title,
 			onClick() {
 				if (footer) {
-					dispatch(showSidebar(areNotificationsShown ? false : true))
+					if (areNotificationsShown) {
+						dispatch(showSidebar(false))
+					} else {
+						dispatch(showSidebar(true))
+						dispatch(setSidebarMode('notifications'))
+					}
+				} else {
+					dispatch(setSidebarMode(areNotificationsShown ? 'boards' : 'notifications'))
 				}
-				dispatch(setSidebarMode('notifications'))
 			},
 			isSelected: areNotificationsShown,
 			icon: BellIconOutline,
@@ -136,7 +152,7 @@ function ApplicationMenu(props) {
 			darkModeItem,
 			trackedThreadsItem,
 			notificationsItem,
-			boardsItem,
+			// boardsItem,
 			settingsItem
 		]
 	}
