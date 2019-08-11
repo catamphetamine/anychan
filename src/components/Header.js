@@ -75,7 +75,7 @@ export default class Header extends React.Component {
 
 				<div className="webpage__header-title webpage__header-title--secondary">
 					{isThreadPage &&
-						thread.subject
+						thread.title
 					}
 				</div>
 

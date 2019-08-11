@@ -46,7 +46,7 @@ See [this article](https://refactoringui.com/previews/building-your-color-palett
 
 ## HeaderSeparator
 
-On thread pages there's a separator line between board name and thread subject in the header.
+On thread pages there's a separator line between board name and thread title in the header.
 
 * `--HeaderSeparator-color--left` — The color of the separator line.
 

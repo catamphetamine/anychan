@@ -1,6 +1,6 @@
 export default {
   "boardId": "v",
-  "subject": "«Stalker 2»",
+  "title": "«Stalker 2»",
   "commentsCount": 17,
   "commentAttachmentsCount": 7,
   "uniquePostersCount": 18,

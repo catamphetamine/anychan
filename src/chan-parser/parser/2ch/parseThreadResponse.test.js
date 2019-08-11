@@ -446,7 +446,7 @@ describe('2ch.hk', () => {
 			{
 				boardId: 'vg',
 				id: COMMENTS[0].id,
-				subject: COMMENTS[0].title,
+				title: COMMENTS[0].title,
 				commentsCount: 123,
 				commentAttachmentsCount: 455,
 				comments: COMMENTS

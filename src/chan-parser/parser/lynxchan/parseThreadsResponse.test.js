@@ -27,7 +27,7 @@ describe('kohlchan.net', () => {
 			boardId: "a",
 			commentsCount: 181,
 			commentAttachmentsCount: 161,
-			subject: "Gemeinsames Animuschauen",
+			title: "Gemeinsames Animuschauen",
 			isSticky: true,
 			lastModifiedAt: new Date("2019-07-01T18:28:14.680Z"),
 			comments: [{

@@ -76,7 +76,7 @@ describe('4chan.org', () => {
 			{
 				"boardId": "a",
 				"id": 2952650,
-				"subject": "/stg/- Slave Trainer General/Maledom general",
+				"title": "/stg/- Slave Trainer General/Maledom general",
 				"lastModifiedAt": new Date(1549225356 * 1000),
 				"commentsCount": 193,
 				"commentAttachmentsCount": 36,

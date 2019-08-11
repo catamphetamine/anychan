@@ -1,7 +1,7 @@
 export default {
   id: 1534,
   boardId: "a",
-  subject: "Was ist dieses Anime",
+  title: "Was ist dieses Anime",
   comments: [
     {
       id: 1534,

@@ -109,8 +109,8 @@ export default function constructThread(threadInfo, comments, {
 			}
 		}
 	}
-	if (!threadInfo.subject) {
-		threadInfo.subject = getPostSubject(comments[0], { messages })
+	if (!threadInfo.title) {
+		threadInfo.title = getPostTitle(comments[0], { messages })
 	}
 	return {
 		...threadInfo,
@@ -119,13 +119,18 @@ export default function constructThread(threadInfo, comments, {
 	}
 }
 
-function getPostSubject(post, { messages }) {
+function getPostTitle(post, { messages }) {
 	if (post.title) {
 		return post.title
 	}
-	return getPostSummary(post.content, post.attachments, {
+	const summary = getPostSummary(post.content, post.attachments, {
 		messages: messages.contentType,
 		maxLength: 60,
 		stopOnNewLine: true
 	})
+	if (summary) {
+		return summary
+	}
+	// Thread title is guaranteed to be non-empty.
+	return `#${post.id}`
 }

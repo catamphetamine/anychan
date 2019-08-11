@@ -51,7 +51,7 @@ export default function parseThread(thread, {
 	}))
 	const threadInfo = {
 		boardId,
-		subject: thread.subject,
+		title: thread.subject,
 		// `lynxchan` doesn't provide neither `postCount`
 		// nor `fileCount` in "get thread" API response.
 		commentsCount: getCommentsCount(thread),
