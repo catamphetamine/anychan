@@ -267,6 +267,7 @@
 		flex-basis: var(--Sidebar-flexBasis);
 	}
 	:root {
+		--Sidebar-flexBasis: 0;
 		--PaddingRight-flexGrow--wide: 0.1;
 		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
 	}
@@ -290,7 +291,6 @@
 	.webpage--wide-sidebar {
 		--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--wide);
 		--Sidebar-minWidth: var(--Sidebar-minWidth--wide);
-		--Sidebar-flexBasis: var(--Sidebar-flexBasis--wide);
 		--Sidebar-flexGrow: var(--Sidebar-flexGrow--wide);
 	}
 }
@@ -301,7 +301,6 @@
 		--PaddingLeft-flexGrow: 1;
 		--PaddingRight-flexGrow: 0.6;
 		--Sidebar-flexGrow: 0.1;
-		--Sidebar-flexBasis: var(--Sidebar-minWidth);
 		--Sidebar-minWidth: calc(var(--unit) * 23);
 		--Sidebar-minWidth--wide: calc(var(--unit) * 36);
 	}
@@ -315,8 +314,6 @@
 		--PaddingRight-flexGrow--thread: 0.5;
 		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
 		--Sidebar-flexGrow--thread: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--thread));
-		--Sidebar-flexBasis: 0;
-		--Sidebar-flexBasis--wide: 0;
 		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
 		   only based on their `flex-grow`: this makes it easy to place the central
 		   column in the center of the screen. */
