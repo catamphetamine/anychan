@@ -83,3 +83,7 @@ function BoardsListItem({ children: { board } }) {
 BoardsListItem.propTypes = {
 	children: PropTypes.object.isRequired
 }
+
+// Using `React.memo()` so that `virtual-scroller`
+// doesn't re-render items as the user scrolls.
+BoardsListItem = React.memo(BoardsListItem)
