@@ -104,7 +104,11 @@ export default function parseComment(post, {
 		}
 	)
 	if (post.email) {
-		comment.authorEmail = post.email
+		if (post.email === 'sage') {
+			comment.isSage = true
+		} else {
+			comment.authorEmail = post.email
+		}
 	}
 	// Imageboards identify their posters by a hash of their IP addresses on some boards.
 	// For example, `/pol/` on `kohlchan.net`.
@@ -112,12 +116,6 @@ export default function parseComment(post, {
 	if (post.id) {
 		comment.authorId = post.id
 		comment.authorIdColor = stringToColor(post.id)
-	}
-	if (post.email) {
-		if (post.email === 'sage') {
-			post.email = undefined
-			comment.isSage = true
-		}
 	}
 	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
 	// displays poster country flags.
