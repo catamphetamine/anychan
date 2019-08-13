@@ -69,9 +69,11 @@ export default class Header extends React.Component {
 					</div>
 				}
 
-				<HeaderSeparator line className={classNames('header__separator', 'header__separator--left', {
-					'header__separator--thread': isThreadPage
-				})}/>
+				<HeaderSeparator
+					line
+					className={classNames('header__separator', 'header__separator--left', {
+						'header__separator--thread': isThreadPage
+					})}/>
 
 				<div className="webpage__header-title webpage__header-title--secondary">
 					{isThreadPage &&
@@ -79,8 +81,13 @@ export default class Header extends React.Component {
 					}
 				</div>
 
-				<HeaderSeparator inverse className={classNames('header__separator', 'header__separator--right')}/>
-
+				<HeaderSeparator
+					inverse
+					line
+					className={classNames(
+						'header__separator',
+						'header__separator--right'
+					)}/>
 				<ApplicationMenu/>
 			</nav>
 		)

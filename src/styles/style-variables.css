@@ -26,6 +26,7 @@
 
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-900);
+	--Sidebar-color--misc: var(--Content-color-600);
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	--Sidebar-borderColor: var(--Header-borderColor);
 	--Sidebar-color--scrollbar: var(--Content-color-500);
@@ -35,10 +36,14 @@
 	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;
 	--Boards-color: var(--Sidebar-color);
-	--Boards-color--viewSwitcher: var(--Content-color-600);
+	--Boards-color--viewSwitcher: var(--Sidebar-color--misc);
+	--Boards-backgroundColor--hover: var(--Sidebar-backgroundColor--hover);
+	--Boards-backgroundColor--active: var(--Sidebar-backgroundColor--active);
+	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
 
 	/* ThreadActions. */
 	--ThreadActions-color: var(--Content-color-600);
+	--ThreadActions-color--active: var(--gray-color-650);
 	--ThreadActions-color--selected: var(--Content-color-700);
 
 	/* CommentSeparator. */
@@ -56,17 +61,19 @@
 
 /* Light mode. */
 .light {
+	/* Sidebar. */
+	--Sidebar-backgroundColor--hover: #f9f7f5;
+	--Sidebar-backgroundColor--active: var(--base-color-100);
+
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);
 	--Announcement-backgroundColor: var(--base-color-200);
 
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
+	--HeaderSeparator-color--right: transparent;
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: var(--Boards-backgroundColor--selected);
-	--Boards-backgroundColor--active: var(--base-color-100);
-	--Boards-backgroundColor--selected: #f9f7f5;
 	--Boards-color--active: var(--Clickable-color--text);
 	--Boards-color--slash: var(--Content-color-200);
 	--Boards-color--slashHover: var(--Boards-color--slashSelected);
@@ -120,6 +127,10 @@
 	--base-color-400: #d96d1f;
 	--base-color-500: #e75f00;
 
+	/* Sidebar. */
+	--Sidebar-backgroundColor--hover: #303030;
+	--Sidebar-backgroundColor--active: #2c2c2c;
+
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);
 	--Announcement-backgroundColor: var(--Content-color-200);
@@ -128,9 +139,6 @@
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
 	/* Boards. */
-	--Boards-backgroundColor--hover: var(--Boards-backgroundColor--selected);
-	--Boards-backgroundColor--active: #2c2c2c;
-	--Boards-backgroundColor--selected: #303030;
 	--Boards-color--active: var(--base-color-300);
 	--Boards-color--slash: var(--Content-color-300);
 	--Boards-color--slashHover: var(--Boards-color--slashSelected);

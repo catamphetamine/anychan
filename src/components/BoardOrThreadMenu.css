@@ -9,6 +9,7 @@
 	color: var(--ThreadActions-color);
 	--MenuIcon-width: calc(var(--unit) * 1.25);
 	--Menu-color--selected: var(--ThreadActions-color--selected);
+	--Menu-color--active: var(--ThreadActions-color--active);
 	@mixin upto-m {
 		margin-top: calc(var(--unit) * 0.5);
 		margin-bottom: calc(var(--unit) * 0.5);

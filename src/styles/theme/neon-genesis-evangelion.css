@@ -20,72 +20,102 @@
 /* Light mode. */
 .light {
 	/* Document. */
-	--Document-color: var(--gray-color-100);
-	--Document-backgroundColor: #261b53;
+	--Document-backgroundColor: #ece1f2;
 
 	/* Header. */
-	--Header-color: var(--Document-color);
+	--Header-color: #fce7ff;
+	--Header-color--textHover: var(--base-color-300);
+	--Header-color--textActive: var(--base-color-400);
+	/*
 	--Header-backgroundColor: #3d2e80;
 	--Header-backgroundColor--title: #622468;
+	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
+	*/
+	--Header-backgroundColor: #a976c3;
+	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
 	--Header-borderWidth: 0;
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: transparent;
+	--HeaderSeparator-color--left: rgba(255,255,255,0.3);
+	--HeaderSeparator-color--right: var(--HeaderSeparator-color--left);
 
 	/* NotificationBadge. */
 	--NotificationBadge-backgroundColor: #e88a00;
 
 	/* Notification. */
 	--Notification-backgroundColor: var(--Header-backgroundColor--title);
-	--Notification-borderColor: #5b0063;
-	--Notification-borderWidth: 3px;
-	--Notification-borderWidth--error: 0px;
-
-	/* ThreadActions. */
-	--ThreadActions-color: var(--gray-color-400);
-	--ThreadActions-color--selected: var(--gray-color-300);
+	--Notification-borderWidth: 0px;
+	--Notification-color: var(--Header-color);
 
 	/* Clickable. */
-	--Clickable-color--text: #3200b1;
-	--Clickable-color--textActive: #692eff;
+	--Clickable-color--text: #7a00b9;
+	--Clickable-color--textActive: #a024e0;
 
 	/* Content. */
+	--Content-backgroundColor--active: #fefcff;
+	/* Green. */
+	/*
 	--Content-backgroundColor: #f6ffe9;
 	--Content-backgroundColor--active: hsl(80, 90%, 92%);
 	--Content-color-100: #e2ecd5;
 	--Content-color-200: #dbe7c9;
 	--Content-color-300: #b6c5a1;
 	--Content-color-400: #889476;
+	*/
+
+	/* Selection. */
+	--Selection-backgroundColor: #f1e9f6;
 
 	/* Error. */
 	--Error-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-	--Sidebar-color: #cccccc;
-	--Sidebar-backgroundColor: #2b235f;
-	--Sidebar-borderColor: rgba(255,255,255,0.05);
-	--Sidebar-color--scrollbar: #665f97;
+	/* Green. */
+	/*
+  --Sidebar-color: #29420e;
+  --Sidebar-backgroundColor: #a0de59;
+  --Sidebar-backgroundColor--hover: #a5eb55;
+  --Sidebar-backgroundColor--active: #a6e85b;
+	--Sidebar-color--scrollbar: #7fb052;
+	*/
+	/* Purple. */
+  --Sidebar-color: #29420e;
+  --Sidebar-color--misc: #9f86af;
+  --Sidebar-color--scrollbar: #cbbad6;
+  --Sidebar-backgroundColor: #f1e9f6;
+  --Sidebar-backgroundColor--hover: var(--Document-backgroundColor);
+  --Sidebar-backgroundColor--active: #e9def0;
 
 	/* Boards. */
-	--Boards-backgroundColor--selected: #332a6a;
-	--Boards-backgroundColor--active: #372e71;
-	--Boards-color--active: var(--base-color-300);
-	--Boards-color--slash: #5f588c;
+	/* Green. */
+	/*
+  --Boards-color--active: #895f00;
+	--Boards-color--slash: #68a621;
 	--Boards-color--slashSelected: var(--Boards-color--slash);
-	--Boards-color--slashActive: #7b6545;
-	--Boards-fontWeight: 300;
+	--Boards-color--slashActive: var(--Boards-color--slash);
+  --Boards-color--viewSwitcher: var(--Content-color-700);
+  */
+  --Boards-color--slash: #d8bcea;
+  --Boards-color--slashHover: var(--Boards-color--slash);
+  --Boards-color--slashActive: var(--Boards-color--slash);
+  --Boards-color--slashSelected: var(--Boards-color--slash);
 
 	/* HoverButton. */
-	--HoverButton-color--active: var(--white-color);
+	--HoverButton-color: #8f799c;
+	--HoverButton-color--active: #815d0c;
 	--HoverButton-color--pushed: var(--PostQuote-color);
 	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
-	--HoverButton-borderColor: #d0ecce;
+	/* Green. */
+	/*--HoverButton-borderColor: #d0ecce;*/
+	--HoverButton-borderColor: var(--Boards-color--slash);
 	--HoverButton-borderColor--active: #d9a26d;
 	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
 	--HoverButton-borderColor--pushedFocus: #b6e5b3;
 	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--active);
-	--HoverButton-backgroundColor: #f1ffe4;
+	/* Green. */
+	/*--HoverButton-backgroundColor: #f1ffe4;*/
+	--HoverButton-backgroundColor: var(--Sidebar-backgroundColor);
 	--HoverButton-backgroundColor--active: var(--base-color-300);
 	--HoverButton-backgroundColor--pushed: var(--PostQuote-backgroundColor);
 
@@ -98,27 +128,25 @@
 	--PostQuote-backgroundColor--hover: #daffc3;
 	--PostQuote-borderColor--hover: transparent;
 	--PostQuote-color: #268000;
+	--PostQuote-borderWidth: 0px;
+	--PostQuote-spacing: 2px;
 
 	/* PostQuoteMarker. */
 	--PostQuoteMarker-padding: 0px;
 	--PostQuoteMarker-opacity: 0.25;
 
 	/* PostInlineSpoiler. */
+	/*
 	--PostInlineSpoiler-color: #e3ecc7;
 	--PostInlineSpoiler-color--contentActive: #d7eaba;
 	--PostInlineSpoiler-color--censored: #ffe0ce;
 	--PostInlineSpoiler-color--censoredContentActive: #fad9b1;
+	*/
+	--PostInlineSpoiler-color--contentActive: #f0edef;
+	--PostInlineSpoiler-color--censoredContentActive: #f0e1e6;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: #bcd19e;
-}
-
-.light .background-content {
-	/* Clickable. */
-	--Clickable-color--text: var(--base-color-300);
-	--Clickable-color--textActive: var(--base-color-400);
-	/* Content. */
-	color: var(--Sidebar-color);
+	/*--CommentSeparator-color: #bcd19e;*/
 }
 
 /* Dark Mode. */
@@ -153,20 +181,27 @@
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: transparent;
 
+	/* Sidebar. */
+  --Sidebar-color--scrollbar: #434472;
+	--Sidebar-backgroundColor: var(--Content-backgroundColor);
+	--Sidebar-backgroundColor--hover: #232447;
+	--Sidebar-backgroundColor--active: #202042;
+
 	/* Boards. */
-	--Boards-backgroundColor--active: #202042;
-	--Boards-backgroundColor--selected: #232447;
 	--Boards-color--slashActive: #655339;
 
 	/* HoverButton. */
-	--HoverButton-backgroundColor: #212350;
-	--HoverButton-backgroundColor--active: #4a387f;
+	--HoverButton-backgroundColor: #2c2d62;
+	--HoverButton-backgroundColor--active: #4d3b83;
 	--HoverButton-backgroundColor--pushed: #4a387f;
-	--HoverButton-borderColor: #34365f;
+	--HoverButton-backgroundColor--pushedActive: var(--HoverButton-backgroundColor--active);
+	--HoverButton-color--pushed: var(--base-color-300);
+	--HoverButton-color--pushedActive: var(--HoverButton-color--pushed);
+	--HoverButton-borderColor: #393c77;
 	--HoverButton-borderColor--hover: #46972c;
-	--HoverButton-borderColor--active: #46972c;
-	--HoverButton-borderColor--pushed: #4a387f;
-	--HoverButton-borderColor--pushedFocus: #46972c;
+	--HoverButton-borderColor--active: var(--HoverButton-borderColor--hover);
+	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
+	--HoverButton-borderColor--pushedFocus: var(--HoverButton-borderColor--active);
 
 	/* PostQuote. */
 	--PostQuote-backgroundColor: transparent;

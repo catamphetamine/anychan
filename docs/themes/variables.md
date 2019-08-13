@@ -38,6 +38,8 @@ See [this article](https://refactoringui.com/previews/building-your-color-palett
 ## Header
 
 * `--Header-color: black` — Header text color.
+* `--Header-color--textHover: var(--Clickable-color--text)` — Header text color when hovered.
+* `--Header-color--textActive: var(--Clickable-color--textActive)` — Header text color when clicked.
 * `--Header-backgroundColor: white` — Header background color.
 * `--Header-backgroundColor--title: var(--Header-backgroundColor)` — Header background color on the left side.
 * `--Header-backgroundColor--menu: var(--Header-backgroundColor)` — Header background color on the right side.
@@ -76,6 +78,8 @@ Sometimes chan administration needs to announce something to the users. Things l
 
 * `--Sidebar-color: black` — Sidebar text color.
 * `--Sidebar-backgroundColor: white` — Sidebar background color.
+* `--Sidebar-backgroundColor--hover: gray` — Sidebar active element background color on mouse over.
+* `--Sidebar-backgroundColor--active: gray` — Sidebar active element background color on click.
 * `--Sidebar-borderColor: black` — Sidebar right border color.
 * `--Sidebar-color--scrollbar: black` — Sidebar scrollbar color.
 
@@ -247,9 +251,11 @@ Board selection list.
 
 * `--Boards-color: white` — Text color of a boards list entry.
 * `--Boards-color--active: orange` — Text color of a boards list entry when it's clicked.
+<!--
 * `--Boards-backgroundColor--hover: gray` — Background color of a boards list entry on mouse over.
 * `--Boards-backgroundColor--active: gray` — Background color of a boards list entry when it's clicked.
 * `--Boards-backgroundColor--selected: black` — Background color of a boards list entry when the boards is selected.
+-->
 * `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list.
 * `--Boards-color--slashHover: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on mouse over.
 * `--Boards-color--slashActive: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when clicked.

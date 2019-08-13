@@ -1,7 +1,6 @@
 @import "../styles/common";
 
-.webpage__header
-{
+.webpage__header {
 	display: none;
 	/* Hide the separator line overflow. */
 	overflow: hidden;
@@ -14,7 +13,7 @@
 	.application-menu {
 		height: 100%;
 		margin-left: 0;
-		padding-left: var(--MenuIcon-padding);
+		padding-left: var(--unit);
 		padding-right: var(--unit);
 	}
 }
@@ -38,10 +37,6 @@
 
 .webpage__header-title--secondary {
 	flex: 1;
-}
-
-.header__link {
-	height: 100%;
 }
 
 .header__logo-link
@@ -94,9 +89,15 @@
 	vector-effect: non-scaling-stroke;
 }
 
-.header__separator--thread {
+.header__separator--left {
 	.header__separator-line {
 		color: var(--HeaderSeparator-color--left);
+	}
+}
+
+.header__separator--right {
+	.header__separator-line {
+		color: var(--HeaderSeparator-color--right);
 	}
 }
 
@@ -108,21 +109,12 @@
   white-space: nowrap;
 }
 
-.header__uncolored-link:not(:hover):not(:active) {
-	color: inherit;
-}
-
-.menu-button
-{
-	width  : calc(var(--unit) * 2);
-	height : calc(var(--unit) * 2);
-	cursor : pointer;
-	color  : var(--gray-color-800);
-}
-
-.header__link
-{
-	height : 100%;
-	display : flex;
-	align-items : center;
+.header__uncolored-link {
+	color: var(--Header-color);
+	&:hover {
+		color: var(--Header-color--textHover);
+	}
+	&:active {
+		color: var(--Header-color--textActive);
+	}
 }
