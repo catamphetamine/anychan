@@ -28,7 +28,7 @@ import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 import './Thread.css'
 
 @meta(({ chan: { board, thread }}) => ({
-	title: thread && thread.subject || board && board.name,
+	title: thread && thread.title || board && board.name,
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
@@ -133,7 +133,7 @@ function ThreadPage({
 					</Link>
 				</div>
 				<h1 className="page__heading-text">
-					{thread.subject}
+					{thread.title}
 				</h1>
 			</header>
 			*/}
