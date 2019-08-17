@@ -133,7 +133,7 @@ export default function ThreadComment({
 			{...rest}
 			postRef={postRef}
 			mode={mode}
-			compact={mode === 'thread' && comment.id !== thread.id}
+			isFirstPostInThread={comment.id === thread.id}
 			comment={comment}
 			hidden={hidden}
 			toggleShowHide={toggleShowHide}
@@ -208,12 +208,12 @@ function Comment({
 	mode,
 	comment,
 	hidden,
+	isFirstPostInThread,
 	toggleShowHide,
 	showingReplies,
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
 	onAttachmentClick,
-	onCommentContentChange,
 	parentComment,
 	postRef,
 	notify,
@@ -230,7 +230,8 @@ function Comment({
 		toggleShowRepliesButtonRef
 	}), [comment, showingReplies])
 	let postThumbnail
-	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board'
+	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board' ||
+		(mode === 'thread' && isFirstPostInThread)
 	if (!rest.expandAttachments) {
 		postThumbnail = getPostThumbnailMemoized(comment, {
 			showPostThumbnailWhenThereAreMultipleAttachments
@@ -263,14 +264,13 @@ function Comment({
 			{...rest}
 			ref={postRef}
 			post={comment}
-			compact={compact}
+			compact={mode === 'thread' && !isFirstPostInThread}
 			stretch
 			header={Header}
 			locale={locale}
 			genericMessages={getMessages(locale)}
 			messages={getMessages(locale).post}
 			onMoreActions={onMoreActions}
-			onPostContentChange={onCommentContentChange}
 			headerBadges={HEADER_BADGES}
 			footerBadges={footerBadges}
 			useSmallestThumbnailsForAttachments
@@ -313,6 +313,7 @@ Comment.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']),
 	comment: post.isRequired,
 	hidden: PropTypes.bool,
+	isFirstPostInThread: PropTypes.bool,
 	toggleShowHide: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	parentComment: post,
@@ -322,7 +323,6 @@ Comment.propTypes = {
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	postRef: PropTypes.any,
-	onCommentContentChange: PropTypes.func,
 	className: PropTypes.string
 }
 

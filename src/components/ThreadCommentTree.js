@@ -14,6 +14,7 @@ export default class ThreadCommentTree extends React.Component {
 	}
 
 	getCommentComponentProps = ({ getState, updateState }) => {
+		// `onHeightChange()` is supplied by `virtual-scroller`.
 		const { onHeightChange } = this.props
 		return {
 			initialShowReplyForm: getState() && getState().showReplyForm,
@@ -27,6 +28,7 @@ export default class ThreadCommentTree extends React.Component {
 	render() {
 		const {
 			state,
+			// `onHeightChange()` is supplied by `virtual-scroller`.
 			onHeightChange,
 			...rest
 		} = this.props
