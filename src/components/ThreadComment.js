@@ -18,6 +18,7 @@ import PostAttachment from 'webapp-frontend/src/components/PostAttachment'
 import getNonEmbeddedAttachments from 'webapp-frontend/src/utility/post/getNonEmbeddedAttachments'
 import getPostThumbnail from 'webapp-frontend/src/utility/post/getPostThumbnail'
 import getSortedAttachments from 'webapp-frontend/src/utility/post/getSortedAttachments'
+import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 
 import { getChan, isLynxChan } from '../chan'
 import getMessages from '../messages'
@@ -110,7 +111,7 @@ export default function ThreadComment({
 	}, [comment])
 
 	const onAttachmentClick = useCallback((attachment) => {
-		const attachments = getSortedAttachments(comment)
+		const attachments = getSortedAttachments(comment).filter(isSlideSupported)
 		const i = attachments.indexOf(attachment)
 		// If an attachment is either an uploaded one or an embedded one
 		// then it will be in `post.attachments`.

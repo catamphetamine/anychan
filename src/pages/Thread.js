@@ -11,19 +11,20 @@ import {
 
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import VirtualScroller from 'virtual-scroller/react'
 
-import getUrl from '../utility/getUrl'
-import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
 import { getThread } from '../redux/chan'
 import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
+import getUrl from '../utility/getUrl'
+import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
+import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
-import VirtualScroller from 'virtual-scroller/react'
-
-import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 
 import './Thread.css'
 
@@ -71,7 +72,7 @@ function ThreadPage({
 		const attachments = thread.comments.reduce(
 			(attachments, comment) => attachments.concat(comment.attachments || []),
 			[]
-		)
+		).filter(isSlideSupported)
 		dispatch(openSlideshow(attachments, 0, { slideshowMode: true }))
 	}, [thread, dispatch])
 	const onVirtualScrollerStateChange = useCallback(
