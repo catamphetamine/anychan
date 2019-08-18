@@ -62,6 +62,10 @@
 		"text": "ВКонтакте",
 		"url": "https://vk.com/ru2ch"
 	}, {
+		"type": "telegram",
+		"text": "Telegram",
+		"url": "https://teleg.run/dvachannel"
+	}, {
 		"type": "api",
 		"text": "API",
 		"url": "https://github.com/catamphetamine/captchan#2chhk"
