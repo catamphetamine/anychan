@@ -120,3 +120,11 @@ export function getChanParserSettings(chanId = getChanId()) {
 		...getChan(chanId).parser
 	}
 }
+
+export function isLynxChan(chanId = getChanId()) {
+	switch (chanId) {
+		case 'kohlchan':
+		case 'endchan':
+			return true
+	}
+}

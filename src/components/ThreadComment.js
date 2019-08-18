@@ -19,7 +19,7 @@ import getNonEmbeddedAttachments from 'webapp-frontend/src/utility/post/getNonEm
 import getPostThumbnail from 'webapp-frontend/src/utility/post/getPostThumbnail'
 import getSortedAttachments from 'webapp-frontend/src/utility/post/getSortedAttachments'
 
-import { getChan } from '../chan'
+import { getChan, isLynxChan } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
 import getUrl from '../utility/getUrl'
@@ -251,7 +251,7 @@ function Comment({
 		notify('Not implemented yet')
 	}, [])
 	const commentClassName = 'thread-comment__comment'
-	const shouldFixAttachmentPictureSize = getChan().id === 'kohlchan' && mode === 'board' && comment.attachments ? true : false
+	const shouldFixAttachmentPictureSize = isLynxChan() && mode === 'board' && comment.attachments ? true : false
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	const postElement = hidden ? (
