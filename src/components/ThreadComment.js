@@ -251,6 +251,7 @@ function Comment({
 		notify('Not implemented yet')
 	}, [])
 	const commentClassName = 'thread-comment__comment'
+	const shouldFixAttachmentPictureSize = getChan().id === 'kohlchan' && comment.attachments ? true : false
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	const postElement = hidden ? (
@@ -280,7 +281,7 @@ function Comment({
 			maxAttachmentThumbnails={false}
 			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
 			onAttachmentClick={onAttachmentClick}
-			fixAttachmentThumbnailSizes={getChan().id === 'kohlchan' && comment.attachments ? true : false}
+			fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
 			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
 			className={commentClassName}/>
 	)
@@ -301,7 +302,8 @@ function Comment({
 						useSmallestThumbnail
 						attachment={postThumbnail}
 						spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
-						onClick={postThumbnailOnClick}/>
+						onClick={postThumbnailOnClick}
+						fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
 				}
 			</div>
 			{postElement}
