@@ -53,7 +53,7 @@
 	--Clickable-color--textActive: #a024e0;
 
 	/* Content. */
-	--Content-backgroundColor--active: #fefcff;
+	--Content-backgroundColor--active: #fdf8ff;
 	/* Green. */
 	/*
 	--Content-backgroundColor: #f6ffe9;
@@ -142,8 +142,8 @@
 	--PostInlineSpoiler-color--censored: #ffe0ce;
 	--PostInlineSpoiler-color--censoredContentActive: #fad9b1;
 	*/
-	--PostInlineSpoiler-color--contentActive: #f0edef;
-	--PostInlineSpoiler-color--censoredContentActive: #f0e1e6;
+	--PostInlineSpoiler-color--contentActive: #f2eaed;
+	--PostInlineSpoiler-color--censoredContentActive: #efdde3;
 
 	/* CommentSeparator. */
 	/*--CommentSeparator-color: #bcd19e;*/
