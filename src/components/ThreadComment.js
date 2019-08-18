@@ -251,7 +251,7 @@ function Comment({
 		notify('Not implemented yet')
 	}, [])
 	const commentClassName = 'thread-comment__comment'
-	const shouldFixAttachmentPictureSize = getChan().id === 'kohlchan' && comment.attachments ? true : false
+	const shouldFixAttachmentPictureSize = getChan().id === 'kohlchan' && mode === 'board' && comment.attachments ? true : false
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	const postElement = hidden ? (
