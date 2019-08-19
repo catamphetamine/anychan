@@ -61,19 +61,26 @@ describe('kohlchan.net', () => {
 			}]
 		}]
 
+		const threads = new Parser(KohlChan, {
+			messages: {
+				deletedComment: 'Удалённое сообщение',
+				hiddenComment: 'Скрытое сообщение',
+				quotedComment: 'Сообщение'
+			},
+			getUrl(board, thread, comment) {
+				return `/${board.id}/${thread.id}#${comment.id}`
+			}
+		}).parseThreads(API_RESPONSE, {
+			boardId: 'a'
+		})
+
+		// Remove the `isLynxChanCatalogAttachmentsBug` flag.
+		for (const thread of threads) {
+			delete thread.comments[0].attachments[0].isLynxChanCatalogAttachmentsBug
+		}
+
 		expectToEqual(
-			new Parser(KohlChan, {
-				messages: {
-					deletedComment: 'Удалённое сообщение',
-					hiddenComment: 'Скрытое сообщение',
-					quotedComment: 'Сообщение'
-				},
-				getUrl(board, thread, comment) {
-					return `/${board.id}/${thread.id}#${comment.id}`
-				}
-			}).parseThreads(API_RESPONSE, {
-				boardId: 'a'
-			}),
+			threads,
 			THREADS
 		)
 	})

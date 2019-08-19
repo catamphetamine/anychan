@@ -40,10 +40,12 @@ export default function parseComment(post, {
 	const rawComment = post.markdown.replace(/\u000d/g, '')
 	const parsedAuthorRole = parseAuthorRole(post.signedRole, chan)
 	let files = post.files
+	let isLynxChanCatalogAttachmentsBug
 	// In `/catalog.json` API response there're no `files`, only `thumb` property, which is a bug.
 	// http://lynxhub.com/lynxchan/res/722.html#q984
 	if (!files) {
 		if (post.thumb) {
+			isLynxChanCatalogAttachmentsBug = true
 			files = [{
 				// A stub for the absent `files` bug in `/catalog.json` API response.
 				// http://lynxhub.com/lynxchan/res/722.html#q984
@@ -138,6 +140,9 @@ export default function parseComment(post, {
 			comment.authorIconUrl = post.flag
 			comment.authorIconName = post.flagName
 		}
+	}
+	if (isLynxChanCatalogAttachmentsBug) {
+		comment.attachments[0].isLynxChanCatalogAttachmentsBug = true
 	}
 	return comment
 }

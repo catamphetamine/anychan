@@ -20,7 +20,7 @@ import getPostThumbnail from 'webapp-frontend/src/utility/post/getPostThumbnail'
 import getSortedAttachments from 'webapp-frontend/src/utility/post/getSortedAttachments'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 
-import { getChan, isLynxChan } from '../chan'
+import { getChan } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
 import getUrl from '../utility/getUrl'
@@ -252,7 +252,7 @@ function Comment({
 		notify('Not implemented yet')
 	}, [])
 	const commentClassName = 'thread-comment__comment'
-	const shouldFixAttachmentPictureSize = isLynxChan() && mode === 'board' && comment.attachments ? true : false
+	const shouldFixAttachmentPictureSize = mode === 'board' && comment.attachments && comment.attachments.length === 1 && comment.attachments[0].isLynxChanCatalogAttachmentsBug
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	const postElement = hidden ? (
