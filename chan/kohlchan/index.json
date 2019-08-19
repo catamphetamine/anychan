@@ -250,7 +250,7 @@
 	"errorPages": {
 		"404": {
 			"images": [
-				"https://kohlchan.net/static/404.png"
+				"https://kohlchan.net/.static/images/404.png"
 			]
 		}
 	}
