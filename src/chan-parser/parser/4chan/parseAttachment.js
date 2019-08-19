@@ -1,5 +1,6 @@
 import getMimeType from '../../utility/getMimeType'
 import splitFilename from '../../utility/splitFilename'
+import formatUrl from '../../utility/formatUrl'
 
 export default function parseAttachment(file, options) {
 	const { chan } = options
@@ -18,7 +19,7 @@ export default function parseAttachment(file, options) {
 	}
 	options = {
 		...options,
-		toAbsoluteUrl: url => toAbsoluteUrl(url, options)
+		formatUrl: (...args) => formatAttachmentUrl.apply(this, args.concat(options))
 	}
 	// Just in case there's some new file type without a `filename`.
 	if (file.filename) {
@@ -43,7 +44,7 @@ function parsePicture(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'picture', chan)
 	const thumbnailType = getMimeType(thumbnailExt)
@@ -51,13 +52,13 @@ function parsePicture(file, mimeType, name, {
 		type: thumbnailType,
 		width: file.tn_w,
 		height: file.tn_h,
-		url: toAbsoluteUrl(formatUrl(
+		url: formatUrl(
 			attachmentThumbnailUrl,
 			boardId,
 			file.tim,
 			thumbnailExt,
 			file.filename
-		))
+		)
 	}]
 	// `4chan.org` generates smaller copies of images (limited to 1024x1024)
 	// for images having both width and height greater than 1024px.
@@ -70,13 +71,13 @@ function parsePicture(file, mimeType, name, {
 			type: thumbnailType,
 			width: aspectRatio >= 1 ? 1024 : Math.round(1024 * aspectRatio),
 			height: aspectRatio >= 1 ? Math.round(1024 / aspectRatio) : 1024,
-			url: toAbsoluteUrl(formatUrl(
+			url: formatUrl(
 				attachmentUrl,
 				boardId,
 				file.tim + 'm',
 				thumbnailExt,
 				file.filename
-			))
+			)
 		})
 	}
 	const attachment = {
@@ -88,13 +89,13 @@ function parsePicture(file, mimeType, name, {
 			width: file.w,
 			height: file.h,
 			size: file.fsize, // in bytes
-			url: toAbsoluteUrl(formatUrl(
+			url: formatUrl(
 				attachmentUrl,
 				boardId,
 				file.tim,
 				file.ext,
 				file.filename
-			)),
+			),
 			sizes
 		}
 	}
@@ -110,7 +111,7 @@ function parseVideo(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	attachmentThumbnailUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'video', chan)
 	const attachment = {
@@ -122,24 +123,24 @@ function parseVideo(file, mimeType, name, {
 			width: file.w,
 			height: file.h,
 			size: file.fsize, // in bytes
-			url: toAbsoluteUrl(formatUrl(
+			url: formatUrl(
 				attachmentUrl,
 				boardId,
 				file.tim,
 				file.ext,
 				file.filename
-			)),
+			),
 			picture: {
 				type: getMimeType(thumbnailExt),
 				width: file.tn_w,
 				height: file.tn_h,
-				url: toAbsoluteUrl(formatUrl(
+				url: formatUrl(
 					attachmentThumbnailUrl,
 					boardId,
 					file.tim,
 					thumbnailExt,
 					file.filename
-				))
+				)
 			}
 		}
 	}
@@ -154,20 +155,20 @@ function parseAudio(file, mimeType, name, {
 	boardId,
 	fileAttachmentUrl,
 	attachmentUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	return {
 		type: 'audio',
 		audio: {
 			type: mimeType,
 			title: name,
-			url: toAbsoluteUrl(formatUrl(
+			url: formatUrl(
 				fileAttachmentUrl || attachmentUrl,
 				boardId,
 				file.tim,
 				file.ext,
 				file.filename
-			))
+			)
 		}
 	}
 }
@@ -176,7 +177,7 @@ function parseFile(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
 	fileAttachmentUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	return {
 		type: 'file',
@@ -187,13 +188,13 @@ function parseFile(file, mimeType, name, {
 			size: file.fsize, // in bytes
 			width: file.w, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
 			height: file.h, // 4chan.org `/f/` board attachments (Flash files) have `width` and `height`.
-			url: toAbsoluteUrl(formatUrl(
+			url: formatUrl(
 				fileAttachmentUrl || attachmentUrl,
 				boardId,
 				file.tim,
 				file.ext,
 				file.filename
-			))
+			)
 		}
 	}
 }
@@ -218,19 +219,18 @@ function getThumbnailExt(file, type, chan) {
 	return file.ext
 }
 
-function formatUrl(urlTemplate, boardId, name, ext, originalName) {
-	return urlTemplate
-		.replace('{boardId}', boardId)
-		.replace('{name}', name)
-		.replace('{ext}', ext)
-		.replace('{originalName}', originalName)
-}
-
-function toAbsoluteUrl(url, { useRelativeUrls, chanUrl }) {
-	if (url[0] === '/' && url[1] !== '/') {
-		if (!useRelativeUrls) {
-			return chanUrl + url
-		}
-	}
-	return url
+function formatAttachmentUrl(
+	urlTemplate,
+	boardId,
+	name,
+	ext,
+	originalName,
+	{ useRelativeUrls, chanUrl }
+) {
+	return formatUrl(urlTemplate, {
+		boardId,
+		name,
+		ext,
+		originalName
+	}, useRelativeUrls ? undefined : chanUrl)
 }

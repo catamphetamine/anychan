@@ -102,7 +102,9 @@ export default function parseComment(post, {
 			commentUrlRegExp,
 			parseContent,
 			parseContentForOpeningPost,
-			emojiUrl
+			emojiUrl,
+			useRelativeUrls,
+			chanUrl
 		}
 	)
 	if (post.email) {

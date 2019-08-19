@@ -19,14 +19,14 @@ const parseKohlChanEmoji = {
 	// Without `content: false` the plugin wouldn't work
 	// because empty DOM elements are ignored.
 	content: false,
-	createBlock(content, util, { emojiUrl }) {
+	createBlock(content, util, { emojiUrl, formatUrl }) {
 		const url = util.getAttribute('src')
 		// "/.static/images/chen.png" -> "chen"
 		const match = url.match(EMOTE_ID_REG_EXP)
 		return {
 			type: 'emoji',
 			name: match ? match[1] : 'emoji',
-			url: emojiUrl ? emojiUrl.replace('{url}', url) : url
+			url: formatUrl(emojiUrl, { url })
 		}
 	}
 }

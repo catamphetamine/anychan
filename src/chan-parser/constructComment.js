@@ -1,5 +1,6 @@
 import parseAndFormatComment from './parseAndFormatComment'
 import censorWords from 'webapp-frontend/src/utility/post/censorWords'
+import formatUrl from './utility/formatUrl'
 
 const NO_OP = () => {}
 
@@ -21,6 +22,8 @@ export default function constructComment(
 		messages,
 		getUrl,
 		emojiUrl,
+		useRelativeUrls,
+		chanUrl,
 		commentUrlRegExp,
 		parseContent,
 		parseContentForOpeningPost
@@ -65,7 +68,10 @@ export default function constructComment(
 				threadId,
 				messages,
 				getUrl,
-				emojiUrl
+				emojiUrl,
+				formatUrl(url, parameters) {
+					return formatUrl(url, parameters, useRelativeUrls ? undefined : chanUrl)
+				}
 			})
 		}
 		// The "opening" post of a thread is always parsed
