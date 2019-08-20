@@ -1,6 +1,7 @@
 export default function parseRole(name) {
 	switch (name) {
 		case 'Root':
+		case 'Administrator':
 			return {
 				role: 'administrator'
 			}
