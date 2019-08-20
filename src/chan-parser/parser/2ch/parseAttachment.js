@@ -3,7 +3,8 @@ import splitFilename from '../../utility/splitFilename'
 
 const STICKER_FILE_TYPE = 100
 
-export default function parseAttachment(file, { useRelativeUrls, chanUrl }) {
+export default function parseAttachment(file, { toAbsoluteUrl }) {
+	const formatUrl = toAbsoluteUrl
 	// Stickers don't have a `fullname`.
 	let name
 	if (file.fullname) {
@@ -13,26 +14,25 @@ export default function parseAttachment(file, { useRelativeUrls, chanUrl }) {
 	// (2ch.hk, 2ch.so, 2ch.pm, 2ch.yt, 2ch.wf, 2ch.re).
 	// By using relative URLs in case of running on an "official" domain
 	// attachment URLs will keep working if `2ch.hk` domain is blocked.
-	const origin = useRelativeUrls ? '' : chanUrl
 	const mimeType = getContentTypeByFileType(file.type) ||
 		// Fallback for incorrect attachments.
 		// (there were some cases supposedly in old threads)
 		getMimeType(file.path)
 	if (mimeType && mimeType.indexOf('image/') === 0) {
-		return parsePicture(file, mimeType, name, origin)
+		return parsePicture(file, mimeType, name, formatUrl)
 	}
 	if (mimeType && mimeType.indexOf('video/') === 0) {
-		return parseVideo(file, mimeType, name, origin)
+		return parseVideo(file, mimeType, name, formatUrl)
 	}
 	// `2ch.hk` doesn't allow attaching audio files
 	// but just in case such feature is added in some future.
 	if (mimeType && mimeType.indexOf('audio/') === 0) {
-		return parseAudio(file, mimeType, name, origin)
+		return parseAudio(file, mimeType, name, formatUrl)
 	}
-	return parseFile(file, mimeType, name, origin)
+	return parseFile(file, mimeType, name, formatUrl)
 }
 
-function parsePicture(file, mimeType, name, origin) {
+function parsePicture(file, mimeType, name, formatUrl) {
 	const attachment = {
 		type: 'picture',
 		picture: {
@@ -42,12 +42,12 @@ function parsePicture(file, mimeType, name, origin) {
 			width: file.width,
 			height: file.height,
 			size: file.size * 1024, // in bytes
-			url: `${origin}${file.path}`,
+			url: formatUrl(file.path),
 			sizes: [{
 				type: getMimeType(file.thumbnail),
 				width: file.tn_width,
 				height: file.tn_height,
-				url: `${origin}${file.thumbnail}`
+				url: formatUrl(file.thumbnail)
 			}]
 		}
 	}
@@ -55,12 +55,12 @@ function parsePicture(file, mimeType, name, origin) {
 		attachment.picture.transparentBackground = true
 		// // A link to a page with "Add this sticker to your library" button.
 		// // Example: "/makaba/stickers/show/DJfQnwJM".
-		// ....installStickerLink = `${origin}${file.install}`
+		// ....installStickerLink = formatUrl(file.install)
 	}
 	return attachment
 }
 
-function parseVideo(file, mimeType, name, origin) {
+function parseVideo(file, mimeType, name, formatUrl) {
 	return {
 		type: 'video',
 		video: {
@@ -79,29 +79,29 @@ function parseVideo(file, mimeType, name, origin) {
 			width: file.width,
 			height: file.height,
 			size: file.size * 1024, // in bytes
-			url: `${origin}${file.path}`,
+			url: formatUrl(file.path),
 			picture: {
 				type: getMimeType(file.thumbnail),
 				width: file.tn_width,
 				height: file.tn_height,
-				url: `${origin}${file.thumbnail}`
+				url: formatUrl(file.thumbnail)
 			}
 		}
 	}
 }
 
-function parseAudio(file, mimeType, name, origin) {
+function parseAudio(file, mimeType, name, formatUrl) {
 	return {
 		type: 'audio',
 		audio: {
 			type: mimeType,
 			title: name,
-			url: `${origin}${file.path}`
+			url: formatUrl(file.path)
 		}
 	}
 }
 
-function parseFile(file, mimeType, origin, name) {
+function parseFile(file, mimeType, formatUrl, name) {
 	const [_unused, ext] = splitFilename(file.path)
 	return {
 		type: 'file',
@@ -112,7 +112,7 @@ function parseFile(file, mimeType, origin, name) {
 			size: file.size * 1024, // in bytes
 			width: file.width,
 			height: file.height,
-			url: `${origin}${file.path}`
+			url: formatUrl(file.path)
 		}
 	}
 }

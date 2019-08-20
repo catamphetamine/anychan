@@ -27,8 +27,7 @@ export default function parseComment(post, {
 	attachmentUrl,
 	attachmentThumbnailUrl,
 	thumbnailSize,
-	useRelativeUrls,
-	chanUrl,
+	toAbsoluteUrl,
 	defaultAuthorName,
 	parseContent,
 	parseContentForOpeningPost
@@ -86,8 +85,7 @@ export default function parseComment(post, {
 			attachmentUrl,
 			attachmentThumbnailUrl,
 			thumbnailSize,
-			useRelativeUrls,
-			chanUrl
+			toAbsoluteUrl
 		})),
 		// In `/catalog.json` API response there's no `creation` property which is a bug.
 		// http://lynxhub.com/lynxchan/res/722.html#q984
@@ -98,13 +96,11 @@ export default function parseComment(post, {
 			commentLengthLimit,
 			messages,
 			getUrl,
-			emojiUrl,
 			commentUrlRegExp,
 			parseContent,
 			parseContentForOpeningPost,
 			emojiUrl,
-			useRelativeUrls,
-			chanUrl
+			toAbsoluteUrl
 		}
 	)
 	if (post.email) {

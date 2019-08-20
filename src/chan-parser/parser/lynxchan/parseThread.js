@@ -26,8 +26,7 @@ export default function parseThread(thread, {
 	parseContent,
 	expandReplies,
 	addOnContentChange,
-	useRelativeUrls,
-	chanUrl
+	toAbsoluteUrl
 }) {
 	const threadId = thread.threadId
 	const comments = [thread].concat(thread.posts || []).map(comment => parseComment(comment, {
@@ -43,8 +42,7 @@ export default function parseThread(thread, {
 		attachmentUrl,
 		attachmentThumbnailUrl,
 		thumbnailSize,
-		useRelativeUrls,
-		chanUrl,
+		toAbsoluteUrl,
 		defaultAuthorName,
 		parseContent,
 		parseContentForOpeningPost: !isPreview

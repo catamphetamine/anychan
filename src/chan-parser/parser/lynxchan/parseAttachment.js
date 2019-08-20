@@ -4,7 +4,7 @@ import splitFilename from '../../utility/splitFilename'
 export default function parseAttachment(file, options) {
 	options = {
 		...options,
-		toAbsoluteUrl: url => toAbsoluteUrl(url, options)
+		formatUrl: (...args) => options.toAbsoluteUrl(formatUrl.apply(this, args))
 	}
 	const [name] = splitFilename(file.originalName)
 	const mimeType = file.mime
@@ -27,7 +27,7 @@ function parsePicture(file, mimeType, name, {
 	attachmentUrl,
 	attachmentThumbnailUrl,
 	thumbnailSize,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'picture', chan)
 	const picture = {
@@ -36,11 +36,11 @@ function parsePicture(file, mimeType, name, {
 		type: mimeType,
 		width: file.width,
 		height: file.height,
-		url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path)),
+		url: formatUrl(attachmentUrl, file.path),
 		sizes: [{
 			type: getMimeType(thumbnailExt),
 			...getThumbnailSize(file.width, file.height, thumbnailSize),
-			url: toAbsoluteUrl(formatUrl(attachmentThumbnailUrl, file.thumb))
+			url: formatUrl(attachmentThumbnailUrl, file.thumb)
 		}]
 	}
 	// `lynxchan` doesn't provide thumbnail `size`
@@ -60,7 +60,7 @@ function parseVideo(file, mimeType, name, {
 	attachmentUrl,
 	attachmentThumbnailUrl,
 	thumbnailSize,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	const thumbnailExt = getThumbnailExt(file, 'video', chan)
 	return {
@@ -72,11 +72,11 @@ function parseVideo(file, mimeType, name, {
 			width: file.width,
 			height: file.height,
 			size: file.size, // in bytes
-			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path)),
+			url: formatUrl(attachmentUrl, file.path),
 			picture: {
 				type: getMimeType(thumbnailExt),
 				...getThumbnailSize(file.width, file.height, thumbnailSize),
-				url: toAbsoluteUrl(formatUrl(attachmentThumbnailUrl, file.thumb))
+				url: formatUrl(attachmentThumbnailUrl, file.thumb)
 			}
 		}
 	}
@@ -85,14 +85,14 @@ function parseVideo(file, mimeType, name, {
 function parseAudio(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	return {
 		type: 'audio',
 		audio: {
 			type: mimeType,
 			title: name,
-			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path))
+			url: formatUrl(attachmentUrl, file.path)
 		}
 	}
 }
@@ -100,7 +100,7 @@ function parseAudio(file, mimeType, name, {
 function parseFile(file, mimeType, name, {
 	boardId,
 	attachmentUrl,
-	toAbsoluteUrl
+	formatUrl
 }) {
 	const [_unused, ext] = splitFilename(file.path)
 	return {
@@ -110,12 +110,15 @@ function parseFile(file, mimeType, name, {
 			name,
 			ext,
 			size: file.size, // in bytes
-			url: toAbsoluteUrl(formatUrl(attachmentUrl, file.path))
+			url: formatUrl(attachmentUrl, file.path)
 		}
 	}
 }
 
 function formatUrl(urlTemplate, url) {
+	// `kohlchan.net` doesn't have URL templates for attachments
+	// but in reality it redirects to `kohlkanal.net`
+	// so maybe in some future URL templates could be added.
 	if (urlTemplate) {
 		return urlTemplate.replace(/{url}/, url)
 	}
@@ -176,15 +179,6 @@ export function getPictureTypeFromUrl(url) {
 	}
 	// Just a guess.
 	return 'image/jpeg'
-}
-
-function toAbsoluteUrl(url, { useRelativeUrls, chanUrl }) {
-	if (url[0] === '/' && url[1] !== '/') {
-		if (!useRelativeUrls) {
-			return chanUrl + url
-		}
-	}
-	return url
 }
 
 // `lynxchan` doesn't provide the original image URL

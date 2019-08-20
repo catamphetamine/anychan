@@ -1,6 +1,5 @@
 import getMimeType from '../../utility/getMimeType'
 import splitFilename from '../../utility/splitFilename'
-import formatUrl from '../../utility/formatUrl'
 
 export default function parseAttachment(file, options) {
 	const { chan } = options
@@ -19,7 +18,7 @@ export default function parseAttachment(file, options) {
 	}
 	options = {
 		...options,
-		formatUrl: (...args) => formatAttachmentUrl.apply(this, args.concat(options))
+		formatUrl: (...args) => options.toAbsoluteUrl(formatUrl.apply(this, args))
 	}
 	// Just in case there's some new file type without a `filename`.
 	if (file.filename) {
@@ -219,18 +218,16 @@ function getThumbnailExt(file, type, chan) {
 	return file.ext
 }
 
-function formatAttachmentUrl(
+function formatUrl(
 	urlTemplate,
 	boardId,
 	name,
 	ext,
-	originalName,
-	{ useRelativeUrls, chanUrl }
+	originalName
 ) {
-	return formatUrl(urlTemplate, {
-		boardId,
-		name,
-		ext,
-		originalName
-	}, useRelativeUrls ? undefined : chanUrl)
+	return urlTemplate
+		.replace('{boardId}', boardId)
+		.replace('{name}', name)
+		.replace('{ext}', ext)
+		.replace('{originalName}', originalName)
 }

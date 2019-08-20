@@ -5,6 +5,7 @@ export default class Parser {
 		parseBoards,
 		parseThreads,
 		parseThread,
+		useRelativeUrls,
 		...rest
 	}) {
 		const {
@@ -12,9 +13,19 @@ export default class Parser {
 			url,
 			...restChanSettings
 		} = chanSettings
+		const chanUrl = url.replace(TRAILING_SLASH_REGEXP, '')
+		function toAbsoluteUrl(url) {
+			// Convert relative URLs to absolute ones.
+			if (!useRelativeUrls) {
+				if (url[0] === '/' && url[1] !== '/') {
+					return chanUrl + url
+				}
+			}
+			return url
+		}
 		this.options = {
 			chan: id,
-			chanUrl: url.replace(TRAILING_SLASH_REGEXP, ''),
+			toAbsoluteUrl,
 			...restChanSettings,
 			...rest
 		}
@@ -27,24 +38,39 @@ export default class Parser {
 		this._parseThread = parseThread
 	}
 
-	parseBoards(response, options) {
-		return this._parseBoards(response, {
+	getOptions(options) {
+		return {
 			...this.options,
 			...options
-		})
+		}
 	}
 
+	/**
+	 * Parses chan "get boards list" API response.
+	 * @param  {any} response
+	 * @return {object[]}
+	 */
+	parseBoards(response) {
+		return this._parseBoards(response, this.getOptions())
+	}
+
+	/**
+	 * Parses chan "get threads list" API response.
+	 * @param  {any} response
+	 * @param  {object} [options] — See the "Available `options`" section of `chan-parser` README.
+	 * @return {object[]}
+	 */
 	parseThreads(response, options) {
-		return this._parseThreads(response, {
-			...this.options,
-			...options
-		})
+		return this._parseThreads(response, this.getOptions(options))
 	}
 
+	/**
+	 * Parses chan "get thread comments" API response.
+	 * @param  {any} response
+	 * @param  {object} [options] — See the "Available `options`" section of `chan-parser` README.
+	 * @return {object[]}
+	 */
 	parseThread(response, options) {
-		return this._parseThread(response, {
-			...this.options,
-			...options
-		})
+		return this._parseThread(response, this.getOptions(options))
 	}
 }

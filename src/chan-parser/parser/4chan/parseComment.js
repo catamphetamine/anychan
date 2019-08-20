@@ -34,8 +34,7 @@ export default function parseComment(post, {
 	attachmentUrlFpath,
 	attachmentThumbnailUrlFpath,
 	fileAttachmentUrl,
-	useRelativeUrls,
-	chanUrl,
+	toAbsoluteUrl,
 	defaultAuthorName,
 	parseContent,
 	parseContentForOpeningPost
@@ -110,8 +109,7 @@ export default function parseComment(post, {
 			attachmentUrlFpath,
 			attachmentThumbnailUrlFpath,
 			fileAttachmentUrl,
-			useRelativeUrls,
-			chanUrl
+			toAbsoluteUrl
 		}),
 		new Date(post.time * 1000),
 		{

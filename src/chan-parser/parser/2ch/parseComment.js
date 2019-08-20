@@ -28,8 +28,7 @@ export default function parseComment(post, {
 	hasVoting,
 	hasFlags,
 	icons,
-	useRelativeUrls,
-	chanUrl,
+	toAbsoluteUrl,
 	getUrl,
 	parseContent,
 	parseContentForOpeningPost
@@ -65,7 +64,7 @@ export default function parseComment(post, {
 		post.banned === 1,
 		title,
 		post.files.length === 0 ? undefined : post.files.map((file) => {
-			return parseAttachment(file, { useRelativeUrls, chanUrl })
+			return parseAttachment(file, { toAbsoluteUrl })
 		}),
 		new Date(post.timestamp * 1000),
 		{

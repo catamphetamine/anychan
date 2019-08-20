@@ -51,7 +51,7 @@ Available `options`:
 
 * `commentLengthLimit` — (optional) A `number` telling the maximum comment length (in "points" which can be thought of as "characters and character equivalents for non-text content") upon exceeding which a preview is generated for a comment (as `comment.contentPreview`).
 
-* `useRelativeUrls` — (optional) (is only used by `2ch` parser) Determines whether to use relative or absolute URLs for attachments. Relative URLs are for the cases when a chan is temporarily hosted on an alternative domain and so all attachments are too meaning that the default chan domain name shouldn't be present in attachment URLs.
+* `useRelativeUrls` — (optional) Determines whether to use relative or absolute URLs for attachments. Relative URLs are for the cases when a chan is temporarily hosted on an alternative domain and so all attachments are too meaning that the default chan domain name shouldn't be present in attachment URLs. Is `false` by default.
 
 * `parseContent` — (optional) Can be set to `false` to skip parsing comment HTML (except for the "opening" post of the thread which is always parsed up-front because it makes sense). The rationale is that when there're 500-some comments in a thread parsing all of them can take up to a second on a modern CPU which results in a subpar user experience. By deferring parsing comment HTML an application can first only parse, say, the first 10 comments' HTML and only when the page has been loaded it can proceed to parsing the rest of the comments (maybe even just the next 10 comments until the user scrolls down). If `parseContent` is set to `false` then each comment will have `.parseContent()` method that should be called to parse comment content on demand.
 
