@@ -13,4 +13,5 @@ export default function getBasePath() {
 		if (window.location.pathname.indexOf('/captchan') === 0) {
 			return '/captchan'
 		}
+	}
 }
