@@ -15,6 +15,10 @@
 	/* Menu. */
 	--Menu-color--active: var(--base-color-400);
 	--Menu-color--selected: var(--base-color-400);
+
+	/* HeaderSeparator. */
+	--HeaderSeparator-opacity--left: 1;
+	--HeaderSeparator-opacity--right: 1;
 }
 
 /* Light mode. */

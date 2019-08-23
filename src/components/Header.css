@@ -71,14 +71,18 @@
 	color: var(--Header-backgroundColor--title);
 }
 
-.header__separator--left
-{
+.header__separator--left {
+	opacity: var(--HeaderSeparator-opacity--left);
 	color: var(--Header-backgroundColor--title);
 }
 
-.header__separator--right
-{
+.header__separator--right {
+	opacity: var(--HeaderSeparator-opacity--right);
 	color: var(--Header-backgroundColor--menu);
+}
+
+.header__separator--thread {
+	opacity: 1;
 }
 
 .header__separator-line {

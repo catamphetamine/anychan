@@ -24,6 +24,10 @@
 	--Announcement-borderWidth: var(--Header-borderWidth);
 	--Announcement-borderColor: var(--Header-borderColor);
 
+	/* HeaderSeparator. */
+	--HeaderSeparator-opacity--left: 0;
+	--HeaderSeparator-opacity--right: 0;
+
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-900);
 	--Sidebar-color--misc: var(--Content-color-600);
