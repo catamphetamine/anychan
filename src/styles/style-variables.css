@@ -116,12 +116,6 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(0,0,0,0.1);
-
-	/* CommentTree. */
-	--CommentTree-color: #D7D5D1;
-	--CommentTree-color--branch: #BCB9B3;
-	--CommentTree-color--hover: var(--Clickable-color);
-	--CommentTree-backgroundColor--hover: rgba(0,0,0,0.044);
 }
 
 /* Dark Mode. */
@@ -177,7 +171,4 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(255,255,255,0.1);
-
-	/* CommentTree. */
-	--CommentTree-color: rgba(255,255,255,0.15);
 }

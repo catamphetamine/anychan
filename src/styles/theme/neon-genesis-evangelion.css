@@ -30,11 +30,6 @@
 	--Header-color: #fce7ff;
 	--Header-color--textHover: var(--base-color-300);
 	--Header-color--textActive: var(--base-color-400);
-	/*
-	--Header-backgroundColor: #3d2e80;
-	--Header-backgroundColor--title: #622468;
-	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
-	*/
 	--Header-backgroundColor: #a976c3;
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
@@ -58,15 +53,6 @@
 
 	/* Content. */
 	--Content-backgroundColor--active: #fdf8ff;
-	/* Green. */
-	/*
-	--Content-backgroundColor: #f6ffe9;
-	--Content-backgroundColor--active: hsl(80, 90%, 92%);
-	--Content-color-100: #e2ecd5;
-	--Content-color-200: #dbe7c9;
-	--Content-color-300: #b6c5a1;
-	--Content-color-400: #889476;
-	*/
 
 	/* Selection. */
 	--Selection-backgroundColor: #f1e9f6;
@@ -75,15 +61,6 @@
 	--Error-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-	/* Green. */
-	/*
-  --Sidebar-color: #29420e;
-  --Sidebar-backgroundColor: #a0de59;
-  --Sidebar-backgroundColor--hover: #a5eb55;
-  --Sidebar-backgroundColor--active: #a6e85b;
-	--Sidebar-color--scrollbar: #7fb052;
-	*/
-	/* Purple. */
   --Sidebar-color: #29420e;
   --Sidebar-color--misc: #9f86af;
   --Sidebar-color--scrollbar: #cbbad6;
@@ -92,14 +69,6 @@
   --Sidebar-backgroundColor--active: #e9def0;
 
 	/* Boards. */
-	/* Green. */
-	/*
-  --Boards-color--active: #895f00;
-	--Boards-color--slash: #68a621;
-	--Boards-color--slashSelected: var(--Boards-color--slash);
-	--Boards-color--slashActive: var(--Boards-color--slash);
-  --Boards-color--viewSwitcher: var(--Content-color-700);
-  */
   --Boards-color--slash: #d8bcea;
   --Boards-color--slashHover: var(--Boards-color--slash);
   --Boards-color--slashActive: var(--Boards-color--slash);
@@ -110,15 +79,11 @@
 	--HoverButton-color--active: #815d0c;
 	--HoverButton-color--pushed: var(--PostQuote-color);
 	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
-	/* Green. */
-	/*--HoverButton-borderColor: #d0ecce;*/
 	--HoverButton-borderColor: var(--Boards-color--slash);
 	--HoverButton-borderColor--active: #d9a26d;
 	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
 	--HoverButton-borderColor--pushedFocus: #b6e5b3;
 	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--active);
-	/* Green. */
-	/*--HoverButton-backgroundColor: #f1ffe4;*/
 	--HoverButton-backgroundColor: var(--Sidebar-backgroundColor);
 	--HoverButton-backgroundColor--active: var(--base-color-300);
 	--HoverButton-backgroundColor--pushed: var(--PostQuote-backgroundColor);
@@ -140,17 +105,12 @@
 	--PostQuoteMarker-opacity: 0.25;
 
 	/* PostInlineSpoiler. */
-	/*
-	--PostInlineSpoiler-color: #e3ecc7;
-	--PostInlineSpoiler-color--contentActive: #d7eaba;
-	--PostInlineSpoiler-color--censored: #ffe0ce;
-	--PostInlineSpoiler-color--censoredContentActive: #fad9b1;
-	*/
 	--PostInlineSpoiler-color--contentActive: #f2eaed;
 	--PostInlineSpoiler-color--censoredContentActive: #efdde3;
 
-	/* CommentSeparator. */
-	/*--CommentSeparator-color: #bcd19e;*/
+	/* CommentTree. */
+	--CommentTree-color: var(--base-color-400);
+	--CommentTree-color--hover: var(--base-color-500);
 }
 
 /* Dark Mode. */
@@ -210,9 +170,6 @@
 	/* PostQuote. */
 	--PostQuote-backgroundColor: transparent;
 	--PostQuote-color: #7ac263;
-
-	/* PostQuoteMarker. */
-	/*--PostQuoteMarker-opacity: 0.7;*/
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #373965;
