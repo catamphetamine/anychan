@@ -444,7 +444,9 @@ describe('2ch.hk', () => {
 				}
 			}).parseThread(API_RESPONSE_1, { boardId: 'vg' }),
 			{
-				boardId: 'vg',
+				board: {
+					id: 'vg'
+				},
 				id: COMMENTS[0].id,
 				title: COMMENTS[0].title,
 				commentsCount: 123,

@@ -74,7 +74,9 @@ describe('4chan.org', () => {
 
 		const THREADS = [
 			{
-				"boardId": "a",
+				"board": {
+					"id": "a"
+				},
 				"id": 2952650,
 				"title": "/stg/- Slave Trainer General/Maledom general",
 				"lastModifiedAt": new Date(1549225356 * 1000),

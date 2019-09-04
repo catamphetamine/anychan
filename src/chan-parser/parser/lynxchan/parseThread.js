@@ -48,7 +48,9 @@ export default function parseThread(thread, {
 		parseContentForOpeningPost: !isPreview
 	}))
 	const threadInfo = {
-		boardId,
+		board: {
+			id: boardId
+		},
 		title: thread.subject,
 		// `lynxchan` doesn't provide neither `postCount`
 		// nor `fileCount` in "get thread" API response.

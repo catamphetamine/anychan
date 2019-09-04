@@ -199,9 +199,12 @@ Additional fields:
 	// Thread ID.
 	// Same as the "id" of the first comment.
 	id: number,
-	// Board ID.
-	// Example: "b".
-	boardId: string,
+	// Board.
+	board: {
+		// Board ID.
+		// Example: "b".
+		id: string
+	},
 	// Comments count in this thread.
 	// (not including the main comment of the thread).
 	commentsCount: number,

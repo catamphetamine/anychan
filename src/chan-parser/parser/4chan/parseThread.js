@@ -51,7 +51,9 @@ export default function parseThread(posts, {
 		parseContentForOpeningPost: !isPreview
 	}))
 	const threadInfo = {
-		boardId,
+		board: {
+			id: boardId
+		},
 		commentsCount: thread.replies,
 		commentAttachmentsCount: getCommentAttachmentsCount(thread)
 	}

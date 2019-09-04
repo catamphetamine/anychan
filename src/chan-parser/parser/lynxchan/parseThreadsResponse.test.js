@@ -24,7 +24,9 @@ describe('kohlchan.net', () => {
 
 		const THREADS = [{
 			id: 297,
-			boardId: "a",
+			board: {
+				id: "a"
+			},
 			commentsCount: 181,
 			commentAttachmentsCount: 161,
 			title: "Gemeinsames Animuschauen",

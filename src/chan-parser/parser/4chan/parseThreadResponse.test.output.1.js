@@ -1,5 +1,7 @@
 export default {
-  "boardId": "v",
+  "board": {
+    "id": "v"
+  },
   "title": "«Stalker 2»",
   "commentsCount": 17,
   "commentAttachmentsCount": 7,
