@@ -8,7 +8,7 @@ import unescapeContent from '../../utility/unescapeContent'
 export default function parseBoard(board) {
 	const parsedBoard = {
 		id: board.board,
-		name: board.title,
+		title: board.title,
 		description: unescapeContent(board.meta_description),
 		category: getBoardCategory(board.board),
 		bumpLimit: board.bump_limit,

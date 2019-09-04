@@ -74,7 +74,7 @@ function BoardsListItem({ children: { board } }) {
 				{board.id}
 			</div>
 			<div className="boards-list__board-name">
-				{board.name}
+				{board.title}
 			</div>
 		</Link>
 	)

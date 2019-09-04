@@ -6,7 +6,7 @@
 export default function parseBoard(board, boardTags) {
 	const parsedBoard = {
 		id: board.id,
-		name: board.name,
+		title: board.name,
 		description: board.info,
 		category: board.category,
 		commentsPerHour: board.speed,

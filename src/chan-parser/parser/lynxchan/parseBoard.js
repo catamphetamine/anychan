@@ -8,6 +8,6 @@ import unescapeContent from '../../utility/unescapeContent'
 export default function parseBoard(board) {
 	return {
 		id: board.boardUri,
-		name: board.boardName
+		title: board.boardName
 	}
 }

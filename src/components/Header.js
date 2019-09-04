@@ -10,7 +10,10 @@ import ChanIcon from './ChanIcon'
 import ChanLogo from './ChanLogo'
 
 import getMessages from '../messages'
-import { isBoardLocation, isThreadLocation } from '../utility/routes'
+import {
+	isBoardLocation,
+	isThreadLocation
+} from '../utility/routes'
 import getUrl from '../utility/getUrl'
 import { getChan, addChanParameter } from '../chan'
 
@@ -60,12 +63,12 @@ export default class Header extends React.Component {
 						instantBack
 						to={getUrl(board)}
 						className="webpage__header-title webpage__header-title--primary header__uncolored-link">
-						{board.name}
+						{board.title}
 					</Link>
 				}
 				{isBoardPage && !isThreadLocation(route) &&
 					<div className="webpage__header-title webpage__header-title--primary">
-						{board.name}
+						{board.title}
 					</div>
 				}
 
@@ -77,7 +80,7 @@ export default class Header extends React.Component {
 
 				<div className="webpage__header-title webpage__header-title--secondary">
 					{isThreadPage &&
-						thread.title
+						(thread.titleCensored || thread.title)
 					}
 				</div>
 

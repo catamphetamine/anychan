@@ -255,9 +255,9 @@ Additional fields:
 	// Board ID.
 	// Example: "b".
 	id: string,
-	// Board name.
+	// Board title.
 	// Example: "Anime & Manga".
-	name: string,
+	title: string,
 	// Board description.
 	description: string,
 	// Is this board "Not Safe For Work".

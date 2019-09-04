@@ -28,7 +28,7 @@ import VirtualScroller from 'virtual-scroller/react'
 import './Board.css'
 
 @meta(({ chan: { board }}) => ({
-	title: board && board.name,
+	title: board && board.title,
 	description: board && board.description
 }))
 @connect(({ app, chan, board }) => ({
@@ -68,6 +68,8 @@ function BoardPage({
 		try {
 			dispatch(preloadStarted())
 			// Must be the same as the code inside `@preload()` in `pages/Thread.js`.
+			// The only reason this code is copy-pasted is because a thread card
+			// can't be a `<Link/>` because "<a> cannot appear as a descendant of <a>".
 			await dispatch(getThread(
 				board.id,
 				thread.id,
@@ -126,7 +128,7 @@ function BoardPage({
 		<section className="board-page content">
 			<div className="board-page__header">
 				<h1 className="page__heading">
-					{board.name}
+					{board.title}
 				</h1>
 				<BoardOrThreadMenu
 					mode="board"
@@ -153,6 +155,16 @@ function BoardPage({
 				className="board-page__threads"/>
 		</section>
 	)
+}
+
+BoardPage.propTypes = {
+	board: PropTypes.string.isRequired,
+	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
+	locale: PropTypes.string.isRequired,
+	censoredWords: PropTypes.arrayOf(PropTypes.object),
+	virtualScrollerState: PropTypes.object,
+	scrollPosition: PropTypes.number,
+	dispatch: PropTypes.func.isRequired
 }
 
 function CommentComponent({

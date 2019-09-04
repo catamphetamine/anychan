@@ -70,7 +70,7 @@ export class Boards extends React.PureComponent {
 			searchQuery: query,
 			filteredBoards: (boards || boardsByPopularity).filter((board) => {
 				// Some boards on `8ch.net` don't have a name.
-				return (board.name && board.name.toLowerCase().includes(query)) ||
+				return (board.title && board.title.toLowerCase().includes(query)) ||
 					board.id.toLowerCase().includes(query)
 			})
 		})
@@ -318,6 +318,7 @@ class Board extends React.Component {
 			<React.Fragment>
 				<Link
 					to={getUrl(board)}
+					title={board.title}
 					tabIndex={-1}
 					onDragStart={this.onDragStart}
 					onClick={onBoardClick}
@@ -334,6 +335,7 @@ class Board extends React.Component {
 				</Link>
 				<Link
 					to={getUrl(board)}
+					title={board.title}
 					onDragStart={this.onDragStart}
 					onClick={this.onBoardClick}
 					onMouseDown={this.onPointerDown}
@@ -345,7 +347,7 @@ class Board extends React.Component {
 						'boards-list__board-name--hover': isHovered,
 						'boards-list__board-name--active': isActive
 					})}>
-					{board.name}
+					{board.title}
 				</Link>
 			</React.Fragment>
 		)
