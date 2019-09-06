@@ -82,9 +82,6 @@ export default function setInReplyToQuotes(content, getPostById, options, conten
 		if (contentParent[index + 1] !== '\n') {
 			return
 		}
-		// `kohlchan.net` and `8ch.net` have regular (green) quotes
-		// and "inverse" (red) quotes.
-		let canCombineQuotes = true
 		const combinedQuotes = []
 		// See if there's already an existing post quote for this post link.
 		// (composed manually by post author)
@@ -94,24 +91,16 @@ export default function setInReplyToQuotes(content, getPostById, options, conten
 			// and having nested hyperlinks will result in invalid HTML markup.
 			// To prevent that, strip links from the quote.
 			stripLinks(quote.content)
-			if (canCombineQuotes) {
-				// `kohlchan.net` and `8ch.net` have regular (green) quotes
-				// and "inverse" (red) quotes.
-				// Can only combine quotes of same "kind".
-				if (combinedQuotes.length === 0 || quote.kind === combinedQuotes[combinedQuotes.length - 1].kind) {
-					combinedQuotes.push(quote)
-				} else {
-					canCombineQuotes = false
-				}
-			}
-			if (!canCombineQuotes) {
-				// Transform the quote to a post-link quote.
-				contentParent[i] = {
-					...content
-				}
-				// Set `post-link` quote.
-				contentParent[i].content = [quote]
-			}
+			// if (canCombineQuotes) {
+			combinedQuotes.push(quote)
+			// } else {
+			// 	// Transform the quote to a post-link quote.
+			// 	contentParent[i] = {
+			// 		...content,
+			// 		// Set `post-link` quote.
+			// 		content: [quote]
+			// 	}
+			// }
 		})
 		if (followingQuotesCount > 0) {
 			if (combinedQuotes.length === 1) {
