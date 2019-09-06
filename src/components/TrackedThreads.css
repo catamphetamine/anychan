@@ -47,33 +47,41 @@
 	z-index: 1;
 }
 
-.tracked-threads__thread:not(.tracked-threads__thread--expired) {
-	.tracked-threads__thread__link {
-		&:hover {
+.tracked-threads__thread__remove {
+	color: var(--Boards-color--slash);
+	&:hover {
+		color: var(--Sidebar-color--misc);
+		.tracked-threads__thread__remove-background {
 			background-color: var(--Boards-backgroundColor--hover);
 		}
-		&:active {
+	}
+	&:active {
+		color: var(--Boards-color--active);
+		.tracked-threads__thread__remove-background {
 			background-color: var(--Boards-backgroundColor--active);
 		}
 	}
 }
 
-.tracked-threads__thread__remove {
-	color: var(--Boards-color--slash);
-	&:hover {
+.tracked-threads__thread--expired {
+	.tracked-threads__thread__board,
+	.tracked-threads__thread__title {
+		opacity: 0.75;
 		color: var(--Sidebar-color--misc);
+		cursor: default;
 	}
-	&:active {
-		color: var(--Boards-color--active);
-		.tracked-threads__thread__remove-background {
-			background-color: var(--Boards-color--slash);
+	.tracked-threads__thread__board {
+		&:before,
+		&:after {
+			opacity: 0.4;
 		}
 	}
-}
-
-.tracked-threads__thread--expired {
-	.tracked-threads__thread__title {
-		opacity: 0.5;
+	.tracked-threads__thread__thumbnail {
+		--Picture-borderColor: rgba(0,0,0,0.085);
+		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
+		.rrui__picture__loading-error {
+			color: rgba(0,0,0,0.3);
+		}
 	}
 }
 
@@ -89,14 +97,12 @@
 }
 
 .tracked-threads__thread__board {
-	color: var(--Boards-color--active);
 	&:before,
 	&:after {
 		content: '/';
 		display: inline-block;
 		font-family: var(--Document-fontFamily);
 		font-weight: 300;
-		color: var(--Boards-color--slash);
 	}
 	&:before {
 		margin-right: var(--Boards-margin--slash);
@@ -106,22 +112,34 @@
 	}
 }
 
-.tracked-threads__thread__link {
-	&:hover {
-		.tracked-threads__thread__board {
-			&:before, &:after {
-				color: var(--Boards-color--slashHover);
-			}
+.tracked-threads__thread:not(.tracked-threads__thread--expired) {
+	.tracked-threads__thread__board {
+		color: var(--Boards-color--active);
+		&:before,
+		&:after {
+			color: var(--Boards-color--slash);
 		}
 	}
-	&:active {
-		.tracked-threads__thread__board {
-			&:before, &:after {
-				color: var(--Boards-color--slashActive);
+
+	.tracked-threads__thread__link {
+		&:hover {
+			background-color: var(--Boards-backgroundColor--hover);
+			.tracked-threads__thread__board {
+				&:before, &:after {
+					color: var(--Boards-color--slashHover);
+				}
 			}
 		}
-		.tracked-threads__thread__title {
-			color: var(--Boards-color--active);
+		&:active {
+			background-color: var(--Boards-backgroundColor--active);
+			.tracked-threads__thread__board {
+				&:before, &:after {
+					color: var(--Boards-color--slashActive);
+				}
+			}
+			.tracked-threads__thread__title {
+				color: var(--Boards-color--active);
+			}
 		}
 	}
 }
