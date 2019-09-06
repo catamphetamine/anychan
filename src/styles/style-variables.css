@@ -34,8 +34,11 @@
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	--Sidebar-borderColor: var(--Header-borderColor);
 	--Sidebar-color--scrollbar: var(--Content-color-500);
+	--Sidebar-color--accent: var(--PostQuote-color);
 
 	/* Boards. */
+	--Boards-lineHeight: 1.7em;
+	--Boards-margin--slash: 0.1em;
 	--Boards-fontFamily--url: monospace;
 	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;

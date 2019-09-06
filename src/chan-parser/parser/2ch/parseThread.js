@@ -13,6 +13,7 @@ export default function parseThread(thread, posts, {
 	censoredWords,
 	messages,
 	isPreview,
+	boardTitle,
 	defaultAuthorName,
 	parseCommentPlugins,
 	commentLengthLimit, // Max comment length until it generates a shortened preview.
@@ -47,7 +48,8 @@ export default function parseThread(thread, posts, {
 	}))
 	const threadInfo = {
 		board: {
-			id: boardId
+			id: boardId,
+			title: boardTitle
 		},
 		commentsCount,
 		commentAttachmentsCount
@@ -84,6 +86,7 @@ export default function parseThread(thread, posts, {
 	return constructThread(threadInfo, comments, {
 		boardId,
 		messages,
+		censoredWords,
 		commentLengthLimit,
 		commentUrlRegExp,
 		expandReplies,

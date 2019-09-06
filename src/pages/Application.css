@@ -267,7 +267,6 @@
 		flex-basis: var(--Sidebar-flexBasis);
 	}
 	:root {
-		--Sidebar-flexBasis: 0;
 		--PaddingRight-flexGrow--wide: 0.1;
 		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
 	}
@@ -299,8 +298,9 @@
 	/* Flexbox proportions. */
 	:root {
 		--PaddingLeft-flexGrow: 1;
-		--PaddingRight-flexGrow: 0.6;
-		--Sidebar-flexGrow: 0.1;
+		--PaddingRight-flexGrow: 0.3;
+		--Sidebar-flexBasis: var(--Sidebar-minWidth);
+		--Sidebar-flexGrow: 0.4;
 		--Sidebar-minWidth: calc(var(--unit) * 23);
 		--Sidebar-minWidth--wide: calc(var(--unit) * 36);
 	}
@@ -311,7 +311,11 @@
 	:root {
 		--PaddingLeft-flexGrow: 1;
 		--PaddingRight-flexGrow: 0.25;
-		--PaddingRight-flexGrow--thread: 0.5;
+		--PaddingRight-flexGrow--thread: var(--PaddingRight-flexGrow); /* 0.5; */
+		/* Setting sidebar `flex-basis` to `0` so that the layout is computed
+		   purely via `flex` shares of left padding, right padding and the sidebar
+		   resulting in page content always being centered. */
+		--Sidebar-flexBasis: 0;
 		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
 		--Sidebar-flexGrow--thread: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--thread));
 		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
@@ -335,7 +339,7 @@
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
-		/* `flex-basis` must equal to `.thread-comment__thumbnail` width + margins:
+		/* `flex-basis` must be equal to `.thread-comment__thumbnail` width + margins:
 		   this makes thread comment text be centered on screen. */
 		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
 	}

@@ -4,18 +4,21 @@ import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 import { UserData } from './UserData'
 import MemoryStorage from 'webapp-frontend/src/utility/MemoryStorage'
 
-const storage = new MemoryStorage()
-const userData = new UserData(storage)
-userData.prefix = ''
+const storage = new MemoryStorage({
+	emulateSerialize: true
+})
+const userData = new UserData(storage, {
+	prefix: ''
+})
 
 describe('UserData', () => {
 	it('should add/remove/get own comments', () => {
 		storage.clear()
-		userData.addOwnComments('a', 123, 124)
+		userData.addHiddenComments('a', 123, 124)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124
@@ -24,11 +27,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addOwnComments('a', 123, 125)
+		userData.addHiddenComments('a', 123, 125)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -38,11 +41,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addOwnComments('a', 456, 456)
+		userData.addHiddenComments('a', 456, 456)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -55,11 +58,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addOwnComments('b', 789, 790)
+		userData.addHiddenComments('b', 789, 790)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -78,7 +81,7 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getOwnComments(),
+			userData.getHiddenComments(),
 			{
 				a: {
 					'123': [
@@ -97,19 +100,19 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getOwnComments('b', 789, 790),
+			userData.getHiddenComments('b', 789, 790),
 			true
 		)
 		expectToEqual(
-			userData.getOwnComments('b', 789, 791),
+			userData.getHiddenComments('b', 789, 791),
 			false
 		)
 		expectToEqual(
-			userData.getOwnComments('b', 789),
+			userData.getHiddenComments('b', 789),
 			[790]
 		)
 		expectToEqual(
-			userData.getOwnComments('a'),
+			userData.getHiddenComments('a'),
 			{
 				'123': [
 					124,
@@ -121,22 +124,22 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getOwnComments('c'),
+			userData.getHiddenComments('c'),
 			{}
 		)
 		expectToEqual(
-			userData.getOwnComments('c', 111),
+			userData.getHiddenComments('c', 111),
 			[]
 		)
 		expectToEqual(
-			userData.getOwnComments('c', 111, 112),
+			userData.getHiddenComments('c', 111, 112),
 			false
 		)
-		userData.removeOwnComments('b')
+		userData.removeHiddenComments('b')
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -149,11 +152,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeOwnComments('a', 456)
+		userData.removeHiddenComments('a', 456)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -163,11 +166,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeOwnComments('a', 123, 124)
+		userData.removeHiddenComments('a', 123, 124)
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							125
@@ -176,7 +179,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeOwnComments('a', 123)
+		userData.removeHiddenComments('a', 123)
 		expectToEqual(
 			storage.data,
 			{}
@@ -185,7 +188,7 @@ describe('UserData', () => {
 
 	it('should merge own comments', () => {
 		storage.data = {
-			ownComments: {
+			hiddenComments: {
 				a: {
 					'123': [
 						124
@@ -194,7 +197,7 @@ describe('UserData', () => {
 			}
 		}
 		userData.merge({
-			ownComments: {
+			hiddenComments: {
 				a: {
 					'123': [
 						123,
@@ -214,7 +217,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -238,7 +241,7 @@ describe('UserData', () => {
 	it('should merge own comments (source not exists)', () => {
 		storage.data = {}
 		userData.merge({
-			ownComments: {
+			hiddenComments: {
 				a: {
 					'123': [
 						124
@@ -249,7 +252,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124
@@ -262,7 +265,7 @@ describe('UserData', () => {
 
 	it('should merge own comments (destination not exists)', () => {
 		storage.data = {
-			ownComments: {
+			hiddenComments: {
 				a: {
 					'123': [
 						124
@@ -274,7 +277,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124

@@ -1,9 +1,9 @@
 export function isBoardLocation(route) {
-	return route.params.board && !route.params.thread
+	return route.params.board !== undefined && route.params.thread === undefined
 }
 
 export function isThreadLocation(route) {
-	return route.params.thread
+	return route.params.thread !== undefined
 }
 
 export function isContentSectionsContent(route) {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
-	pushLocation,
+	goto,
 	preload,
 	meta,
 	wasInstantNavigation,
@@ -10,10 +10,9 @@ import {
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-import { getThreads, getThread } from '../redux/chan'
+import { getThreads } from '../redux/chan'
 import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
 import { notify } from 'webapp-frontend/src/redux/notifications'
-import { preloadStarted, preloadFinished } from 'webapp-frontend/src/redux/preload'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import { getChan } from '../chan'
@@ -40,7 +39,6 @@ import './Board.css'
 	scrollPosition: board.scrollPosition
 }), dispatch => ({ dispatch }))
 @preload(async ({ getState, dispatch, params }) => {
-	// Must be the same as the code inside `onBoardClick` in `components/Boards.js`.
 	await dispatch(getThreads(
 		params.board,
 		getState().app.settings.censoredWords,
@@ -65,26 +63,11 @@ function BoardPage({
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const virtualScrollerState = useRef()
 	const onThreadClick = useCallback(async (comment, thread, board) => {
-		try {
-			dispatch(preloadStarted())
-			// Must be the same as the code inside `@preload()` in `pages/Thread.js`.
-			// The only reason this code is copy-pasted is because a thread card
-			// can't be a `<Link/>` because "<a> cannot appear as a descendant of <a>".
-			await dispatch(getThread(
-				board.id,
-				thread.id,
-				censoredWords,
-				locale
-			))
-			// Won't ever throw because `goto()` doesn't return a `Promise`.
-			dispatch(pushLocation(getUrl(board, thread), { instantBack: true }))
-		} catch (error) {
-			console.error(error)
-			dispatch(notify(getMessages(locale).loadingCommentsError, { type: 'error' }))
-		} finally {
-			dispatch(preloadFinished())
-		}
-	}, [dispatch, censoredWords, locale])
+		// The only reason the navigation is done programmatically via `goto()`
+		// is because a thread card can't be a `<Link/>` because
+		// "<a> cannot appear as a descendant of <a>".
+		dispatch(goto(getUrl(board, thread), { instantBack: true }))
+	}, [dispatch])
 	const onVirtualScrollerStateChange = useCallback(
 		state => virtualScrollerState.current = state,
 		[]

@@ -19,7 +19,7 @@ import './Footer.css'
 @connect(({ app, found }) => ({
 	locale: app.settings.locale,
 	offline: app.offline,
-  route: found.resolvedMatch
+	route: found.resolvedMatch
 }))
 export default class Footer extends React.Component {
 	static propTypes = {

@@ -107,6 +107,7 @@ export default function parseThread(posts, {
 	return constructThread(threadInfo, comments, {
 		boardId,
 		messages,
+		censoredWords,
 		commentLengthLimit,
 		commentUrlRegExp,
 		expandReplies,

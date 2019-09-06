@@ -26,14 +26,17 @@ import SettingsIconFill from 'webapp-frontend/assets/images/icons/menu/settings-
 import MoonIconOutline from 'webapp-frontend/assets/images/icons/menu/moon-outline.svg'
 import MoonIconFill from 'webapp-frontend/assets/images/icons/menu/moon-fill.svg'
 
-import BellIconOutline from 'webapp-frontend/assets/images/icons/menu/bell-outline.svg'
-import BellIconFill from 'webapp-frontend/assets/images/icons/menu/bell-fill.svg'
+// import BellIconOutline from 'webapp-frontend/assets/images/icons/menu/bell-outline.svg'
+// import BellIconFill from 'webapp-frontend/assets/images/icons/menu/bell-fill.svg'
 
-import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
-import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
+// import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
+// import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
 
-import BoardIconOutline from '../../assets/images/icons/menu/board-outline.svg'
-import BoardIconFill from '../../assets/images/icons/menu/board-fill.svg'
+// import BoardIconOutline from '../../assets/images/icons/menu/board-outline.svg'
+// import BoardIconFill from '../../assets/images/icons/menu/board-fill.svg'
+
+import MenuIconOutline from 'webapp-frontend/assets/images/icons/menu/menu-outline.svg'
+import MenuIconFill from 'webapp-frontend/assets/images/icons/menu/menu-fill.svg'
 
 import './ApplicationMenu.css'
 
@@ -84,74 +87,88 @@ function ApplicationMenu(props) {
 			icon: MoonIconOutline,
 			iconActive: MoonIconFill
 		}
-		const boardsItem = {
-			title: messages.boards.title,
+		const menuItem = {
+			title: messages.menu,
 			onClick() {
-				if (footer) {
-					if (areBoardsShown) {
-						dispatch(showSidebar(false))
-					} else {
-						dispatch(showSidebar(true))
-						dispatch(setSidebarMode('boards'))
-					}
-				}
-			},
-			isSelected: footer ? areBoardsShown : undefined,
-			icon: BoardIconOutline,
-			iconActive: BoardIconFill,
-			size: 'xxl'
-		}
-		const trackedThreadsItem = {
-			title: messages.trackedThreads.title,
-			onClick() {
-				if (footer) {
-					if (areTrackedThreadsShown) {
-						dispatch(showSidebar(false))
-					} else {
-						dispatch(showSidebar(true))
-						dispatch(setSidebarMode('tracked-threads'))
-					}
+				if (isSidebarShown) {
+					dispatch(showSidebar(false))
 				} else {
-					dispatch(setSidebarMode(areTrackedThreadsShown ? 'boards' : 'tracked-threads'))
+					dispatch(showSidebar(true))
 				}
 			},
-			isSelected: areTrackedThreadsShown,
-			icon: StarIconOutline,
-			iconActive: StarIconFill
+			isSelected: isSidebarShown,
+			icon: MenuIconOutline,
+			iconActive: MenuIconFill
 		}
-		const notificationsItem = {
-			title: messages.notifications.title,
-			onClick() {
-				if (footer) {
-					if (areNotificationsShown) {
-						dispatch(showSidebar(false))
-					} else {
-						dispatch(showSidebar(true))
-						dispatch(setSidebarMode('notifications'))
-					}
-				} else {
-					dispatch(setSidebarMode(areNotificationsShown ? 'boards' : 'notifications'))
-				}
-			},
-			isSelected: areNotificationsShown,
-			icon: BellIconOutline,
-			iconActive: BellIconFill
-		}
+		// const boardsItem = {
+		// 	title: messages.boards.title,
+		// 	onClick() {
+		// 		if (footer) {
+		// 			if (areBoardsShown) {
+		// 				dispatch(showSidebar(false))
+		// 			} else {
+		// 				dispatch(showSidebar(true))
+		// 				dispatch(setSidebarMode('boards'))
+		// 			}
+		// 		}
+		// 	},
+		// 	isSelected: footer ? areBoardsShown : undefined,
+		// 	icon: BoardIconOutline,
+		// 	iconActive: BoardIconFill,
+		// 	size: 'xxl'
+		// }
+		// const trackedThreadsItem = {
+		// 	title: messages.trackedThreads.title,
+		// 	onClick() {
+		// 		if (footer) {
+		// 			if (areTrackedThreadsShown) {
+		// 				dispatch(showSidebar(false))
+		// 			} else {
+		// 				dispatch(showSidebar(true))
+		// 				dispatch(setSidebarMode('tracked-threads'))
+		// 			}
+		// 		} else {
+		// 			dispatch(setSidebarMode(areTrackedThreadsShown ? 'boards' : 'tracked-threads'))
+		// 		}
+		// 	},
+		// 	isSelected: areTrackedThreadsShown,
+		// 	icon: StarIconOutline,
+		// 	iconActive: StarIconFill
+		// }
+		// const notificationsItem = {
+		// 	title: messages.notifications.title,
+		// 	onClick() {
+		// 		if (footer) {
+		// 			if (areNotificationsShown) {
+		// 				dispatch(showSidebar(false))
+		// 			} else {
+		// 				dispatch(showSidebar(true))
+		// 				dispatch(setSidebarMode('notifications'))
+		// 			}
+		// 		} else {
+		// 			dispatch(setSidebarMode(areNotificationsShown ? 'boards' : 'notifications'))
+		// 		}
+		// 	},
+		// 	isSelected: areNotificationsShown,
+		// 	icon: BellIconOutline,
+		// 	iconActive: BellIconFill
+		// }
 		// Mobile menu is optimized for holding the phone in the right hand.
 		if (footer) {
 			return [
 				settingsItem,
 				darkModeItem,
-				boardsItem,
-				trackedThreadsItem,
-				notificationsItem
+				// boardsItem,
+				// trackedThreadsItem,
+				// notificationsItem
+				menuItem
 			]
 		}
 		// Desktop menu is optimized for left-to-right mouse navigation.
 		return [
 			darkModeItem,
-			trackedThreadsItem,
-			notificationsItem,
+			// trackedThreadsItem,
+			// notificationsItem,
 			// boardsItem,
 			settingsItem
 		]

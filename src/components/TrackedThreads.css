@@ -1,8 +1,175 @@
 .tracked-threads {
-	padding-left: calc(var(--unit) * 1);
-	padding-right: calc(var(--unit) * 1);
-	padding-top: calc(var(--unit) * 3);
-	padding-bottom: calc(var(--unit) * 2);
+	/*padding-top: calc(var(--unit) * 1);*/
+	/*padding-bottom: calc(var(--unit) * 1);*/
+	--Picture-borderColor: var(--Sidebar-color--misc);
+}
+
+.tracked-threads--empty {
+	/*
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	*/
+	color: var(--Sidebar-color--misc);
+}
+
+.tracked-threads__empty {
+	margin-top: calc(var(--unit) * 5);
 	text-align: center;
-	color: var(--Content-color-600);
+}
+
+.tracked-threads__thread {
+	position: relative;
+	height: var(--Boards-lineHeight);
+}
+
+.tracked-threads__thread--selected {
+	background-color: var(--Boards-backgroundColor--selected);
+}
+
+.tracked-threads__thread,
+.tracked-threads__thread-inner {
+	display: flex;
+	align-items: center;
+}
+
+.tracked-threads__thread-inner {
+	height: 100%;
+	/* `min-width: 0` fixes overflow. */
+	min-width: 0;
+	padding-left: calc(var(--unit) * 1);
+	/*padding-right: var(--Boards-lineHeight);*/
+	padding-right: 0.2em;
+	margin-right: -0.2em;
+	flex: 1;
+	/* `z-index: 1` is used so that the `<Link/>`
+	   is above the "Remove" `<button/>` when hovered/clicked. */
+	z-index: 1;
+}
+
+.tracked-threads__thread:not(.tracked-threads__thread--expired) {
+	.tracked-threads__thread__link {
+		&:hover {
+			background-color: var(--Boards-backgroundColor--hover);
+		}
+		&:active {
+			background-color: var(--Boards-backgroundColor--active);
+		}
+	}
+}
+
+.tracked-threads__thread__remove {
+	color: var(--Boards-color--slash);
+	&:hover {
+		color: var(--Sidebar-color--misc);
+	}
+	&:active {
+		color: var(--Boards-color--active);
+		.tracked-threads__thread__remove-background {
+			background-color: var(--Boards-color--slash);
+		}
+	}
+}
+
+.tracked-threads__thread--expired {
+	.tracked-threads__thread__title {
+		opacity: 0.5;
+	}
+}
+
+.tracked-threads__thread__thumbnail {
+	margin-right: 0.5em;
+	/* Prevents the `<Picture/>` from being clickable.
+	   (for example, when the image wasn't found). */
+	pointer-events: none;
+	.rrui__picture__loading-error {
+		width: 1em;
+		height: 1em;
+	}
+}
+
+.tracked-threads__thread__board {
+	color: var(--Boards-color--active);
+	&:before,
+	&:after {
+		content: '/';
+		display: inline-block;
+		font-family: var(--Document-fontFamily);
+		font-weight: 300;
+		color: var(--Boards-color--slash);
+	}
+	&:before {
+		margin-right: var(--Boards-margin--slash);
+	}
+	&:after {
+		margin-left: var(--Boards-margin--slash);
+	}
+}
+
+.tracked-threads__thread__link {
+	&:hover {
+		.tracked-threads__thread__board {
+			&:before, &:after {
+				color: var(--Boards-color--slashHover);
+			}
+		}
+	}
+	&:active {
+		.tracked-threads__thread__board {
+			&:before, &:after {
+				color: var(--Boards-color--slashActive);
+			}
+		}
+		.tracked-threads__thread__title {
+			color: var(--Boards-color--active);
+		}
+	}
+}
+
+.tracked-threads__thread__title {
+	/* `min-width: 0` fixes overflow. */
+	min-width: 0;
+	margin-left: 0.3em;
+	color: var(--Boards-color);
+	flex: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tracked-threads__thread__new-replies,
+.tracked-threads__thread__new-comments {
+	margin-left: 0.4em;
+}
+
+.tracked-threads__thread__new-replies + .tracked-threads__thread__new-comments {
+	margin-left: 0.25em;
+}
+
+.tracked-threads__thread__new-replies {
+	color: var(--Sidebar-color--accent);
+}
+
+.tracked-threads__thread__remove {
+	width: var(--Boards-lineHeight);
+	height: var(--Boards-lineHeight);
+	padding: 0.2em;
+	/*
+	right: 0.2em;
+	top: 0.2em;
+	width: calc(var(--Boards-lineHeight) - 2 * 0.2em);
+	height: calc(var(--Boards-lineHeight) - 2 * 0.2em);
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+	*/
+}
+
+.tracked-threads__thread__remove-background {
+	width: 100%;
+	height: 100%;
+}
+
+.tracked-threads__thread__remove-icon {
+	width: 0.6em;
+	height: 0.6em;
 }

@@ -34,6 +34,8 @@ import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-fron
 
 import { getBoards } from '../redux/chan'
 import { getSettings, setCookiesAccepted, setOfflineMode } from '../redux/app'
+import { getFavoriteBoards } from '../redux/favoriteBoards'
+import { getTrackedThreads } from '../redux/threadTracker'
 import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
 import { addChanParameter } from '../chan'
@@ -67,6 +69,8 @@ import './Application.css'
 @preload(async ({ dispatch, getState, location }) => {
 	// Apply user's settings (from local storage).
 	dispatch(getSettings())
+	dispatch(getFavoriteBoards())
+	dispatch(getTrackedThreads())
 	// Detect offline mode.
 	if (location.query.offline) {
 		return dispatch(setOfflineMode(true))

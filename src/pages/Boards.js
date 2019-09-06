@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import VirtualScroller from 'virtual-scroller/react'
 
 import { Boards } from '../components/Boards'
-import { getAllBoards } from '../redux/chan'
+import { getBoards } from '../redux/chan'
 import getUrl from '../utility/getUrl'
 
 import getMessages from '../messages'
@@ -14,7 +14,7 @@ import './Boards.css'
 @meta(({ app }) => ({
 	title: getMessages(app.settings.locale).boards.title
 }))
-@preload(({ dispatch }) => dispatch(getAllBoards()))
+@preload(({ dispatch }) => dispatch(getBoards({ all: true })))
 @connect(({ app, chan }) => ({
 	locale: app.settings.locale,
 	boards: chan.allBoards.boards,

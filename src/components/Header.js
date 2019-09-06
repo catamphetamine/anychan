@@ -79,9 +79,7 @@ export default class Header extends React.Component {
 					})}/>
 
 				<div className="webpage__header-title webpage__header-title--secondary">
-					{isThreadPage &&
-						(thread.titleCensored || thread.title)
-					}
+					{isThreadPage && (thread.titleCensored || thread.title)}
 				</div>
 
 				<HeaderSeparator

@@ -54,7 +54,6 @@ export default function ThreadComment({
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 	const replyForm = useRef()
 	const isMounted = useRef()
-
 	useEffect(() => {
 		if (isMounted.current) {
 			// Update reply form expanded state in `virtual-scroller` state.
@@ -151,6 +150,19 @@ export default function ThreadComment({
 	)
 
 	const id = parentComment ? undefined : comment.id
+
+	// Not using a `<Link/>` here because "<a> cannot appear as a descendant of <a>".
+	// if (!onClick_ && onClickUrl) {
+	// 	return (
+	// 		<Link
+	// 			id={id}
+	// 			to={onClickUrl}
+	// 			onClickClassName="thread-comment__container--click"
+	// 			className="thread-comment__container">
+	// 			{commentElement}
+	// 		</Link>
+	// 	)
+	// }
 
 	if (onClick_) {
 		return (

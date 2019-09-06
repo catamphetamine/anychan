@@ -13,14 +13,16 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import VirtualScroller from 'virtual-scroller/react'
 
-import { getThread } from '../redux/chan'
-import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
+import { setVirtualScrollerState, setScrollPosition, isThreadTracked } from '../redux/thread'
+import { getThreadComments } from '../redux/chan'
+import { trackThread, untrackThread, threadExpired } from '../redux/threadTracker'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import getUrl from '../utility/getUrl'
 import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+import { hasAttachmentPicture, getThumbnailSize } from 'webapp-frontend/src/utility/post/attachment'
 
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
@@ -29,7 +31,7 @@ import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 import './Thread.css'
 
 @meta(({ chan: { board, thread }}) => ({
-	title: thread && thread.title || board && board.name,
+	title: thread && thread.title || board && board.title,
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
@@ -37,17 +39,31 @@ import './Thread.css'
 	board: chan.board,
 	thread: chan.thread,
 	locale: app.settings.locale,
+	isThreadTracked: thread.isTracked,
 	virtualScrollerState: thread.virtualScrollerState,
 	scrollPosition: thread.scrollPosition
 }), dispatch => ({ dispatch }))
 @preload(async ({ getState, dispatch, params }) => {
-	// Must be the same as the code inside `onThreadClick` in `pages/Board.js`.
-	await dispatch(getThread(
-		params.board,
-		params.thread,
-		getState().app.settings.censoredWords,
-		getState().app.settings.locale
-	))
+	const boardId = params.board
+	const threadId = parseInt(params.thread)
+	try {
+		await dispatch(getThreadComments(
+			boardId,
+			threadId,
+			getState().app.settings.censoredWords,
+			getState().app.settings.locale
+		))
+		dispatch(isThreadTracked(
+			boardId,
+			threadId
+		))
+	} catch (error) {
+		if (error.status === 404) {
+			// Clear expired thread from user data.
+			dispatch(threadExpired(boardId, threadId))
+		}
+		throw error
+	}
 })
 export default class ThreadPage_ extends React.Component {
 	render() {
@@ -61,11 +77,11 @@ function ThreadPage({
 	locale,
 	virtualScrollerState: initialVirtualScrollerState,
 	scrollPosition,
+	isThreadTracked,
 	dispatch
 }) {
 	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState()
 	const [isSearchBarShown, setSearchBarShown] = useState()
-	const [isThreadTracked, setThreadTracked] = useState()
 	const virtualScroller = useRef()
 	const virtualScrollerState = useRef()
 	const openThreadWideSlideshow = useCallback(() => {
@@ -105,6 +121,39 @@ function ThreadPage({
 			}
 		}
 	}, [])
+	const onSetThreadTracked = useCallback((shouldTrackThread) => {
+		if (shouldTrackThread) {
+			const trackedThread = {
+				id: thread.id,
+				title: thread.title,
+				board: {
+					id: board.id,
+					title: board.title
+				}
+			}
+			const thumbnailAttachment = thread.comments[0].attachments && thread.comments[0].attachments.filter(hasAttachmentPicture)[0]
+			if (thumbnailAttachment) {
+				const thumbnail = getThumbnailSize(thumbnailAttachment)
+				trackedThread.thumbnail = {
+					type: thumbnail.type,
+					url: thumbnail.url,
+					width: thumbnail.width,
+					height: thumbnail.height
+				}
+				if (thumbnailAttachment.spoiler) {
+					trackedThread.thumbnail.spoiler = true
+				}
+			}
+			dispatch(trackThread(trackedThread))
+		} else {
+			dispatch(untrackThread({
+				id: thread.id,
+				board: {
+					id: board.id
+				}
+			}))
+		}
+	}, [board, thread, dispatch])
 	const itemComponentProps = useMemo(() => ({
 		// `updateLinkedPost()` is passed to `<Post/>`.
 		// It's called whenever there's a parent comment who's `content` did change
@@ -131,11 +180,11 @@ function ThreadPage({
 			<header className="thread-page__header page__heading">
 				<div className="page__heading-text">
 					<Link to={getUrl(board)}>
-						{board.name}
+						{board.title}
 					</Link>
 				</div>
 				<h1 className="page__heading-text">
-					{thread.title}
+					{thread.titleCensored || thread.title}
 				</h1>
 			</header>
 			*/}
@@ -146,7 +195,7 @@ function ThreadPage({
 					locale={locale}
 					openSlideshow={openThreadWideSlideshow}
 					isThreadTracked={isThreadTracked}
-					setThreadTracked={setThreadTracked}
+					setThreadTracked={onSetThreadTracked}
 					isSearchBarShown={isSearchBarShown}
 					setSearchBarShown={setSearchBarShown}
 					areAttachmentsExpanded={areAttachmentsExpanded}
@@ -164,6 +213,16 @@ function ThreadPage({
 				className="thread-page__comments"/>
 		</section>
 	)
+}
+
+ThreadPage.propTypes = {
+	board: PropTypes.object.isRequired,
+	thread: PropTypes.object.isRequired,
+	locale: PropTypes.string.isRequired,
+	virtualScrollerState: PropTypes.object,
+	scrollPosition: PropTypes.number,
+	isThreadTracked: PropTypes.bool,
+	dispatch: PropTypes.func.isRequired
 }
 
 function getThreadImage(thread) {

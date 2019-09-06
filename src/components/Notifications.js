@@ -17,8 +17,10 @@ export default class Notifications_ extends React.Component {
 
 function Notifications({ locale }) {
 	return (
-		<section className="notifications">
-			{getMessages(locale).notifications.empty}
+		<section className="notifications notifications--empty">
+			<div className="notifications__empty">
+				{getMessages(locale).notifications.empty}
+			</div>
 		</section>
 	)
 }

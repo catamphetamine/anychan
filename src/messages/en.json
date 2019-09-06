@@ -1,6 +1,7 @@
 {
 	"boards": {
-		"title": "Boards list",
+		"title": "Boards",
+		"favorite": "Favorites",
 		"showAll": "Show all boards",
 		"showBoardsList": "Show boards list",
 		"byPopularity": "Popular",
@@ -9,6 +10,7 @@
 	"trackedThreads": {
 		"title": "Tracked threads",
 		"trackThread": "Track this thread",
+		"untrackThread": "Don't track this thread",
 		"empty": "No tracked threads"
 	},
 	"settings": {

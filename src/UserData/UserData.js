@@ -1,3 +1,4 @@
+import isEqual from 'lodash/isEqual'
 import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
 
@@ -5,7 +6,8 @@ import {
 	addToList,
 	removeFromList,
 	getFromList,
-	mergeWithList
+	mergeWithList,
+	// setInList
 } from './list'
 
 import {
@@ -37,16 +39,13 @@ import {
 } from './boardThread'
 
 export class UserData {
-	prefix = 'user.'
-
 	data = {
 		favoriteBoards: {
-			type: 'list',
-			expires: false
+			type: 'list'
 		},
 		ignoredAuthors: {
 			type: 'list',
-			expires: false
+			limit: 1000
 		},
 		hiddenComments: {
 			type: 'boards-threads-comments'
@@ -57,9 +56,16 @@ export class UserData {
 		readComments: {
 			type: 'boards-threads-data'
 		},
-		watchedThreads: {
-			type: 'boards-threads-data',
-			expires: false
+		trackedThreads: {
+			type: 'boards-threads'
+		},
+		trackedThreadsList: {
+			type: 'threads',
+			index: 'trackedThreads',
+			indexKey: thread => [thread.board.id, thread.id],
+			isEqual: (one, two) => one.id === two.id && one.board.id === two.board.id,
+			expires: false,
+			limit: 100
 		},
 		ownThreads: {
 			type: 'boards-threads'
@@ -72,22 +78,57 @@ export class UserData {
 		}
 	}
 
-	constructor(storage) {
+	constructor(storage, options = {}) {
 		this.storage = storage
+		this.prefix = options.prefix === undefined ? 'user.' : options.prefix
 		// Create data access methods.
 		for (const key of Object.keys(this.data)) {
-			const data = this.data[key]
-			const [ addTo, removeFrom, getFrom, mergeWith ] = getFunctions(data.type)
-			this[`add${capitalize(key)}`] = (...args) => addTo.apply(this, [this.storage, this.prefix + key].concat(args))
-			this[`remove${capitalize(key)}`] = (...args) => {
-				removeFrom.apply(this, [this.storage, this.prefix + key].concat(args))
-				// Also remove from "data" key.
-				if (data.data) {
-					this[`remove${capitalize(data.data)}`].apply(this, args)
+			const collection = this.data[key]
+			const {
+				addTo,
+				removeFrom,
+				getFrom,
+				mergeWith,
+				// setIn
+			} = getFunctions(collection.type)
+			const preArgs = [this.storage, this.prefix + key]
+			const getArgs = (args) => {
+				let allArgs = preArgs
+				switch (collection.type) {
+					case 'list':
+					case 'threads':
+						allArgs = allArgs.concat(collection)
+				}
+				return allArgs.concat(args)
+			}
+			this[`add${capitalize(key)}`] = (...args) => {
+				addTo.apply(this, getArgs(args))
+				// Also add to "index" collection.
+				if (collection.index) {
+					const item = args[args.length - 1]
+					this[`add${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
 				}
 			}
-			this[`get${capitalize(key)}`] = (...args) => getFrom.apply(this, [this.storage, this.prefix + key].concat(args))
-			this[`merge${capitalize(key)}`] = (...args) => mergeWith.apply(this, [this.storage, this.prefix + key].concat(args))
+			this[`remove${capitalize(key)}`] = (...args) => {
+				// Also remove from "index" collection.
+				if (collection.index) {
+					const item = getFrom.apply(this, getArgs(args))
+					if (!item) {
+						return console.error(`Item "${JSON.stringify(args)}" not found in "${collection.index}"`)
+					}
+					this[`remove${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+				}
+				removeFrom.apply(this, getArgs(args))
+			}
+			// this[`set${capitalize(key)}`] = (...args) => {
+			// 	setIn.apply(this, getArgs(args))
+			// }
+			this[`get${capitalize(key)}`] = (...args) => {
+				return getFrom.apply(this, getArgs(args))
+			}
+			this[`merge${capitalize(key)}`] = (...args) => {
+				return mergeWith.apply(this, getArgs(args))
+			}
 		}
 	}
 
@@ -109,25 +150,35 @@ export class UserData {
 	 */
 	updateThreads(boardId, threads) {
 		const getThreadById = createByIdIndex(threads)
+		this.onThreadsExpired(boardId, id => !getThreadById(id))
+	}
+
+	onThreadExpired(boardId, threadId) {
+		this.onThreadsExpired(boardId, id => id === threadId)
+	}
+
+	onThreadsExpired(boardId, isThreadExpired) {
 		for (const key of Object.keys(this.data)) {
-			const data = this.data[key]
+			const collection = this.data[key]
 			// Babel doesn't know how to handle variables inside `case`.
 			let boardsData
 			let threads
-			switch (data.type) {
+			const read = () => this.storage.get(this.prefix + key)
+			const update = (value) => this.storage.set(this.prefix + key, value)
+			switch (collection.type) {
 				case 'boards-threads-comments-data':
 				case 'boards-threads-comments':
 				case 'boards-threads-data':
-					boardsData = this.storage.get(this.prefix + key)
+					boardsData = read()
 					if (boardsData) {
 						threads = boardsData[boardId]
 						if (threads) {
 							let changed = false
 							for (const threadId of Object.keys(threads)) {
-								if (!getThreadById(threadId)) {
-									if (data.expires === false) {
+								if (isThreadExpired(threadId)) {
+									if (collection.expires === false) {
 										// Only handles `boards-threads-data` type.
-										switch (data.type) {
+										switch (collection.type) {
 											case 'boards-threads-comments-data':
 												const comments = threads[threadId]
 												for (const commentId of Object.keys(comments)) {
@@ -158,21 +209,45 @@ export class UserData {
 								}
 							}
 							if (changed) {
-								this.storage.set(this.prefix + key, boardsData)
+								update(boardsData)
 							}
 						}
 					}
 					break
 				case 'boards-threads':
-					boardsData = this.storage.get(this.prefix + key)
+					boardsData = read()
 					if (boardsData) {
 						threads = boardsData[boardId]
 						if (threads) {
 							const formerThreadsCount = threads.length
-							const remainingThreadIds = threads.filter(getThreadById)
+							const remainingThreadIds = threads.filter(_ => !isThreadExpired(_))
 							if (remainingThreadIds.length < formerThreadsCount) {
 								boardsData[boardId] = remainingThreadIds
-								this.storage.set(this.prefix + key, boardsData)
+								update(boardsData)
+							}
+						}
+					}
+					break
+				case 'threads':
+					threads = read()
+					if (threads) {
+						const formerThreadsCount = threads.length
+						const remainingThreads = threads.filter((thread) => {
+							return thread.board.id !== boardId || !isThreadExpired(thread.id)
+						})
+						if (remainingThreads.length < formerThreadsCount) {
+							if (collection.expires === false) {
+								update(threads.map((thread) => {
+									if (remainingThreads.indexOf(thread) >= 0) {
+										return thread
+									}
+									return {
+										...thread,
+										expired: true
+									}
+								}))
+							} else {
+								update(remainingThreads)
 							}
 						}
 					}
@@ -221,12 +296,14 @@ function getFunctions(type) {
 		//   'b'
 		// ]
 		case 'list':
-			return [
-				addToList,
-				removeFromList,
-				getFromList,
-				mergeWithList
-			]
+		case 'threads':
+			return {
+				addTo: addToList,
+				removeFrom: removeFromList,
+				getFrom: getFromList,
+				mergeWith: mergeWithList,
+				// setIn: setInList
+			}
 		// hiddenThreads: {
 		//   a: [
 		//     123,
@@ -235,12 +312,12 @@ function getFunctions(type) {
 		//   ...
 		// }
 		case 'boards-threads':
-			return [
-				addToBoardIdThreadIds,
-				removeFromBoardIdThreadIds,
-				getFromBoardIdThreadIds,
-				mergeWithBoardIdThreadIds
-			]
+			return {
+				addTo: addToBoardIdThreadIds,
+				removeFrom: removeFromBoardIdThreadIds,
+				getFrom: getFromBoardIdThreadIds,
+				mergeWith: mergeWithBoardIdThreadIds
+			}
 		// hiddenComments: {
 		//   a: {
 		//     '123': [
@@ -253,12 +330,12 @@ function getFunctions(type) {
 		//   ...
 		// }
 		case 'boards-threads-comments':
-			return [
-				addToBoardIdThreadIdCommentIds,
-				removeFromBoardIdThreadIdCommentIds,
-				getFromBoardIdThreadIdCommentIds,
-				mergeWithBoardIdThreadIdCommentIds
-			]
+			return {
+				addTo: addToBoardIdThreadIdCommentIds,
+				removeFrom: removeFromBoardIdThreadIdCommentIds,
+				getFrom: getFromBoardIdThreadIdCommentIds,
+				mergeWith: mergeWithBoardIdThreadIdCommentIds
+			}
 		// commentVotes: {
 		//   a: {
 		//     '123': {
@@ -271,12 +348,12 @@ function getFunctions(type) {
 		//   ...
 		// }
 		case 'boards-threads-comments-data':
-			return [
-				addToBoardIdThreadIdCommentIdData,
-				removeFromBoardIdThreadIdCommentIdData,
-				getFromBoardIdThreadIdCommentIdData,
-				mergeWithBoardIdThreadIdCommentIdData
-			]
+			return {
+				addTo: addToBoardIdThreadIdCommentIdData,
+				removeFrom: removeFromBoardIdThreadIdCommentIdData,
+				getFrom: getFromBoardIdThreadIdCommentIdData,
+				mergeWith: mergeWithBoardIdThreadIdCommentIdData
+			}
 		// readComments: {
 		//   a: {
 		//   	'124': 111, // Latest read comment id.
@@ -286,13 +363,24 @@ function getFunctions(type) {
 		//   ...
 		// }
 		case 'boards-threads-data':
-			return [
-				addToBoardIdThreadIdData,
-				removeFromBoardIdThreadIdData,
-				getFromBoardIdThreadIdData,
-				mergeWithBoardIdThreadIdData
-			]
+			return {
+				addTo: addToBoardIdThreadIdData,
+				removeFrom: removeFromBoardIdThreadIdData,
+				getFrom: getFromBoardIdThreadIdData,
+				mergeWith: mergeWithBoardIdThreadIdData
+			}
 	}
 }
 
 export default new UserData(new LocalStorage())
+
+function getCount(storage, key) {
+	const data = storage.get(key, {})
+	return data.$$count || 0
+}
+
+function setCount(storage, key, count) {
+	const data = storage.get(key, {})
+	data.$$count = count
+	storage.set(key, data)
+}

@@ -19,14 +19,13 @@
 }
 
 .boards-list {
-	margin-top: calc(var(--unit) * 2);
 	user-select: none;
-	line-height: 1.7em;
+	line-height: var(--Boards-lineHeight);
 }
 
 .boards__view-switcher {
-	margin-top: var(--unit);
-	margin-bottom: calc(-1 * var(--unit));
+	margin-top: 0;
+	margin-bottom: var(--unit);
 	margin-left: var(--unit);
 	margin-right: var(--unit);
 }
@@ -54,19 +53,19 @@
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
 	outline: none;
-
 	&:before,
 	&:after {
 		content: '/';
 		display: inline-block;
 		font-family: var(--Document-fontFamily);
 		font-weight: 300;
+		color: var(--Boards-color--slash);
 	}
 	&:before {
-		margin-right: 0.1em;
+		margin-right: var(--Boards-margin--slash);
 	}
 	&:after {
-		margin-left: 0.1em;
+		margin-left: var(--Boards-margin--slash);
 	}
 }
 
@@ -94,6 +93,7 @@
 }
 
 .boards__show-all {
+	display: inline-block;
 	padding-top: calc(var(--unit) * 0.5);
 	padding-bottom: calc(var(--unit) * 0.5);
 	padding-left: var(--unit);
@@ -111,6 +111,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc(var(--unit) * 2);
+	margin-bottom: calc(var(--unit) * 2);
 	--rrui-input-field-background-color-focus: var(--Boards-backgroundColor);
 	--rrui-input-field-text-color: var(--Sidebar-color);
 }
@@ -154,9 +155,6 @@
 
 .boards-list__board-url {
 	color: var(--Boards-color--active);
-	&:before, &:after {
-		color: var(--Boards-color--slash);
-	}
 }
 
 .boards-list__board-url--selected,
@@ -207,4 +205,10 @@
 
 .boards-list__board-name {
 	padding-right: calc(var(--unit) * 2);
+}
+
+/* Adds extra spacing between the "BOARDS" section heading
+   and the boards-by-category list due to big category titles. */
+.sidebar-section__title + .boards .boards-list--by-category {
+	margin-top: var(--unit);
 }

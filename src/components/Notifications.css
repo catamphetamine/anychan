@@ -1,8 +1,20 @@
 .notifications {
 	padding-left: calc(var(--unit) * 1);
 	padding-right: calc(var(--unit) * 1);
-	padding-top: calc(var(--unit) * 3);
-	padding-bottom: calc(var(--unit) * 2);
+	padding-top: calc(var(--unit) * 1);
+	padding-bottom: calc(var(--unit) * 1);
+}
+
+.notifications--empty {
+	/*
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	*/
+	color: var(--Sidebar-color--misc);
+}
+
+.notifications__empty {
+	margin-top: calc(var(--unit) * 5);
 	text-align: center;
-	color: var(--Content-color-600);
 }

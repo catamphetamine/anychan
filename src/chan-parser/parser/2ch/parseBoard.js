@@ -13,7 +13,7 @@ export default function parseBoard(board, boardTags) {
 		bumpLimit: board.bump_limit
 	}
 	if (board.enable_names === 1) {
-		parsedBoard.showNames = true
+		parsedBoard.areNamesAllowed = true
 	}
 	if (board.enable_sage === 1) {
 		parsedBoard.isSageAllowed = true

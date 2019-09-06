@@ -49,15 +49,14 @@ export default function BoardOrThreadMenu({
 	:
 	[
 		{
-			title: messages.trackedThreads.trackThread,
-			onClick: () => notify('Not implemented yet'),
-			// onClick: () => setThreadTracked(!isThreadTracked),
+			title: isThreadTracked ? messages.trackedThreads.untrackThread : messages.trackedThreads.trackThread,
+			onClick: () => setThreadTracked(!isThreadTracked),
 			isSelected: isThreadTracked,
 			icon: StarIconOutline,
 			iconActive: StarIconFill
 		},
 		{
-			title: messages.post.expandAttachments,
+			title: areAttachmentsExpanded ? messages.post.collapseAttachments : messages.post.expandAttachments,
 			onClick: () => setAttachmentsExpanded(!areAttachmentsExpanded),
 			isSelected: areAttachmentsExpanded,
 			icon: PictureIconOutline,

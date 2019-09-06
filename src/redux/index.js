@@ -5,4 +5,6 @@ export { default as app } from './app';
 export { default as chan } from './chan';
 export { default as board } from './board';
 export { default as thread } from './thread';
+export { default as threadTracker } from './threadTracker';
+export { default as favoriteBoards } from './favoriteBoards';
 export { default as announcement } from './announcement';

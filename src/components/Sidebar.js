@@ -8,12 +8,18 @@ import SimpleBar from 'simplebar-react'
 import Boards from '../components/Boards'
 import TrackedThreads from '../components/TrackedThreads'
 import Notifications from '../components/Notifications'
+import SidebarSection from '../components/SidebarSection'
+
+import getMessages from '../messages'
 
 import './Sidebar.css'
 
-@connect(({ app }) => ({
+@connect(({ app, favoriteBoards, threadTracker }) => ({
+	locale: app.settings.locale,
 	isShown: app.isSidebarShown,
-	mode: app.sidebarMode
+	mode: app.sidebarMode,
+	favoriteBoards: favoriteBoards.favoriteBoards,
+	trackedThreads: threadTracker.trackedThreads
 }))
 export default class Sidebar_ extends React.Component {
 	render() {
@@ -21,20 +27,41 @@ export default class Sidebar_ extends React.Component {
 	}
 }
 
-function Sidebar({ isShown, mode }) {
+function Sidebar({
+	isShown,
+	mode,
+	locale,
+	favoriteBoards,
+	trackedThreads
+}) {
+	// {mode === 'boards' && <Boards/>}
+	// {mode === 'tracked-threads' && <TrackedThreads/>}
+	// {mode === 'notifications' && <Notifications/>}
 	return (
 		<section className={classNames('sidebar', {
 			'sidebar--show': isShown
 		})}>
 			<SimpleBar className="sidebar__scrollable-list">
-				{mode === 'boards' && <Boards/>}
-				{mode === 'tracked-threads' && <TrackedThreads/>}
-				{mode === 'notifications' && <Notifications/>}
+				{trackedThreads.length > 0 &&
+					<SidebarSection title={getMessages(locale).trackedThreads.title}>
+						<TrackedThreads/>
+					</SidebarSection>
+				}
+				{favoriteBoards.length > 0 &&
+					<SidebarSection title={getMessages(locale).boards.favorite}>
+						<Boards boards={favoriteBoards}/>
+					</SidebarSection>
+				}
+				<SidebarSection title={getMessages(locale).boards.title}>
+					<Boards/>
+				</SidebarSection>
 			</SimpleBar>
 		</section>
 	)
 }
 
 Sidebar.propTypes = {
-	isShown: PropTypes.bool
+	isShown: PropTypes.bool,
+	locale: PropTypes.string.isRequired,
+	mode: PropTypes.string.isRequired
 }

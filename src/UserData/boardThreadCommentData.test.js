@@ -4,9 +4,12 @@ import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 import { UserData } from './UserData'
 import MemoryStorage from 'webapp-frontend/src/utility/MemoryStorage'
 
-const storage = new MemoryStorage()
-const userData = new UserData(storage)
-userData.prefix = ''
+const storage = new MemoryStorage({
+	emulateSerialize: true
+})
+const userData = new UserData(storage, {
+	prefix: ''
+})
 
 describe('UserData', () => {
 	it('should add/remove/get comment votes', () => {

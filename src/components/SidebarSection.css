@@ -1,0 +1,27 @@
+.sidebar-section {
+	margin-top: calc(var(--unit) * 3);
+	&:first-child {
+		margin-top: calc(var(--unit) * 2);
+	}
+	&:last-child {
+		margin-bottom: calc(var(--unit) * 2);
+	}
+}
+
+.sidebar-section__title {
+	margin-top: 0;
+	margin-bottom: var(--unit);
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 85%;
+	font-weight: lighter;
+	letter-spacing: 1px;
+	color: var(--Sidebar-color--misc);
+	user-select: none;
+	cursor: default;
+}

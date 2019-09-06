@@ -12,7 +12,7 @@ export default function parseBoard(board) {
 		description: unescapeContent(board.meta_description),
 		category: getBoardCategory(board.board),
 		bumpLimit: board.bump_limit,
-		attachmentLimit: board.image_limit
+		maxAttachmentsInThread: board.image_limit
 	}
 	if (board.ws_board === 0) {
 		parsedBoard.isNotSafeForWork = true
@@ -51,7 +51,7 @@ export default function parseBoard(board) {
 	parsedBoard.maxAttachmentsSize = board.max_filesize // Example: 4194304
 	parsedBoard.maxVideoAttachmentsSize = board.max_webm_filesize // Example: 3145728
 	parsedBoard.createThreadCooldown = board.cooldowns.threads
-	parsedBoard.replyCooldown = board.cooldowns.replies
+	parsedBoard.postCommentCooldown = board.cooldowns.replies
 	parsedBoard.attachFileCooldown = board.cooldowns.images
 	return parsedBoard
 }

@@ -1,6 +1,7 @@
 {
 	"boards": {
-		"title": "Список досок",
+		"title": "Доски",
+		"favorite": "Избранное",
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",
@@ -9,6 +10,7 @@
 	"trackedThreads": {
 		"title": "Отслеживаемые треды",
 		"trackThread": "Отслеживать этот тред",
+		"untrackThread": "Не отслеживать этот тред",
 		"empty": "Нет отслеживаемых тредов"
 	},
 	"settings": {

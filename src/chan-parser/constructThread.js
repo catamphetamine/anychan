@@ -1,4 +1,6 @@
 import getPostSummary from 'webapp-frontend/src/utility/post/getPostSummary'
+import getPostText from 'webapp-frontend/src/utility/post/getPostText'
+import censorWords from 'webapp-frontend/src/utility/post/censorWords'
 
 import createByIdIndex from './createByIdIndex'
 import getInReplyToPostIds from './getInReplyToPostIds'
@@ -8,6 +10,7 @@ import postProcessThreadCommentContent from './postProcessThreadCommentContent'
 export default function constructThread(threadInfo, comments, {
 	boardId,
 	messages,
+	censoredWords,
 	commentLengthLimit,
 	commentUrlRegExp,
 	expandReplies,
@@ -111,6 +114,14 @@ export default function constructThread(threadInfo, comments, {
 	}
 	if (!threadInfo.title) {
 		threadInfo.title = getPostTitle(comments[0], { messages })
+		if (threadInfo.title) {
+			if (censoredWords) {
+				const titleCensored = censorWords(threadInfo.title, censoredWords)
+				if (titleCensored !== threadInfo.title) {
+					threadInfo.titleCensored = getPostText(titleCensored)
+				}
+			}
+		}
 	}
 	return {
 		...threadInfo,

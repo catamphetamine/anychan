@@ -8,15 +8,19 @@ import createParser from './createParser'
 import getProxyUrl from './getProxyUrl'
 import groupBoardsByCategory from '../chan-parser/groupBoardsByCategory'
 
-export default async function getBoards({ http }) {
+export default async function getBoards({ http, all }) {
 	// Most chans don't provide `/boards.json` API
 	// so their boards list is defined as a static one in JSON configuration.
 	if (getChan().boards) {
 		return getBoardsResult(getChan().boards)
 	}
+	// The API endpoint URL.
+	const url = all ?
+		getChanParserSettings().api.getAllBoards || getChanParserSettings().api.getBoards :
+		getChanParserSettings().api.getBoards
 	// Validate configuration
-	if (!getChanParserSettings().api.getBoards) {
-		throw new Error(`Neither "boards" nor "api.getBoards" were found in chan or chan-parser config`)
+	if (!url) {
+		throw new Error(`Neither "boards" nor "api.getBoards" were found in chan or \`chan-parser\` config`)
 	}
 	const apiRequestStartedAt = Date.now()
 	let response
@@ -32,11 +36,11 @@ export default async function getBoards({ http }) {
 	if (process.env.NODE_ENV !== 'production' && getBoardsResponseExample(getChan().id)) {
 		response = getBoardsResponseExample(getChan().id)
 	} else {
-		response = await http.get(getProxyUrl(getAbsoluteUrl(getChanParserSettings().api.getBoards)))
+		response = await http.get(getProxyUrl(getAbsoluteUrl(url)))
 	}
-	console.log(`Get boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
+	console.log(`Get ${all ? 'all ' : ''}boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 	return getBoardsResult(createParser({}).parseBoards(response, {
-		hideBoardCategories: getChan().hideBoardCategories
+		hideBoardCategories: all ? undefined : getChan().hideBoardCategories
 	}))
 }
 

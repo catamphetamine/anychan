@@ -4,46 +4,172 @@ import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 import { UserData } from './UserData'
 import MemoryStorage from 'webapp-frontend/src/utility/MemoryStorage'
 
-const storage = new MemoryStorage()
-const userData = new UserData(storage)
-userData.prefix = ''
+const storage = new MemoryStorage({
+	emulateSerialize: true
+})
+const userData = new UserData(storage, {
+	prefix: ''
+})
 
 describe('UserData', () => {
+	it('should add to / remove from index when adding to / removing from data collection', () => {
+		storage.clear()
+		userData.addTrackedThreadsList({
+			id: 123,
+			title: 'Anime 1',
+			board: { id: 'a' }
+		})
+		userData.addTrackedThreadsList({
+			id: 456,
+			title: 'Anime 2',
+			board: { id: 'a' }
+		})
+		userData.addTrackedThreadsList({
+			id: 789,
+			title: 'Random',
+			board: { id: 'b' }
+		})
+		expectToEqual(
+			storage.data,
+			{
+				trackedThreads: {
+					a: [
+						123,
+						456
+					],
+					b: [
+						789
+					]
+				},
+				trackedThreadsList: [
+					{
+						id: 123,
+						title: 'Anime 1',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 456,
+						title: 'Anime 2',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 789,
+						title: 'Random',
+						board: {
+							id: 'b'
+						}
+					}
+				]
+			}
+		)
+		userData.removeTrackedThreadsList({
+			id: 123,
+			board: {
+				id: 'a'
+			}
+		})
+		expectToEqual(
+			storage.data,
+			{
+				trackedThreads: {
+					a: [
+						456
+					],
+					b: [
+						789
+					]
+				},
+				trackedThreadsList: [
+					{
+						id: 456,
+						title: 'Anime 2',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 789,
+						title: 'Random',
+						board: {
+							id: 'b'
+						}
+					}
+				]
+			}
+		)
+	})
+
 	it('should clear data on thread expiration', () => {
 		storage.clear()
-		userData.addWatchedThreads('a', 123, { name: 'Anime 1' })
-		userData.addWatchedThreads('a', 456, { name: 'Anime 2' })
-		userData.addWatchedThreads('b', 789, { name: 'Random' })
+		// userData.addTrackedThreads('a', 123, { title: 'Anime 1' })
+		// userData.addTrackedThreads('a', 456, { title: 'Anime 2' })
+		// userData.addTrackedThreads('b', 789, { title: 'Random' })
+		userData.addTrackedThreadsList({
+			id: 123,
+			title: 'Anime 1',
+			board: { id: 'a' }
+		})
+		userData.addTrackedThreadsList({
+			id: 456,
+			title: 'Anime 2',
+			board: { id: 'a' }
+		})
+		userData.addTrackedThreadsList({
+			id: 789,
+			title: 'Random',
+			board: { id: 'b' }
+		})
 		userData.addReadComments('a', 123, 124)
 		userData.addReadComments('a', 456, 456)
 		userData.addReadComments('a', 456, 457)
 		userData.addReadComments('b', 789, 790)
-		userData.addOwnComments('a', 123, 124)
-		userData.addOwnComments('a', 123, 125)
-		userData.addOwnComments('a', 456, 456)
-		userData.addOwnComments('a', 456, 457)
-		userData.addOwnComments('b', 789, 790)
+		userData.addHiddenComments('a', 123, 124)
+		userData.addHiddenComments('a', 123, 125)
+		userData.addHiddenComments('a', 456, 456)
+		userData.addHiddenComments('a', 456, 457)
+		userData.addHiddenComments('b', 789, 790)
 		userData.addCommentVotes('a', 123, 124, 1)
 		userData.addCommentVotes('a', 456, 456, 1)
 		userData.addCommentVotes('b', 789, 790, -1)
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
-					a: {
-						'123': {
-							name: 'Anime 1'
-						},
-						'456': {
-							name: 'Anime 2'
+				trackedThreads: {
+					a: [
+						123,
+						456
+					],
+					b: [
+						789
+					]
+				},
+				trackedThreadsList: [
+					{
+						id: 123,
+						title: 'Anime 1',
+						board: {
+							id: 'a'
 						}
 					},
-					b: {
-						'789': {
-							name: 'Random'
+					{
+						id: 456,
+						title: 'Anime 2',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 789,
+						title: 'Random',
+						board: {
+							id: 'b'
 						}
 					}
-				},
+				],
 				readComments: {
 					a: {
 						'123': 124,
@@ -53,7 +179,7 @@ describe('UserData', () => {
 						'789': 790
 					}
 				},
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'123': [
 							124,
@@ -91,22 +217,38 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				watchedThreads: {
-					a: {
-						'123': {
-							name: 'Anime 1',
-							expired: true
+				trackedThreads: {
+					a: [
+						456
+					],
+					b: [
+						789
+					]
+				},
+				trackedThreadsList: [
+					{
+						id: 123,
+						title: 'Anime 1',
+						board: {
+							id: 'a'
 						},
-						'456': {
-							name: 'Anime 2'
+						expired: true
+					},
+					{
+						id: 456,
+						title: 'Anime 2',
+						board: {
+							id: 'a'
 						}
 					},
-					b: {
-						'789': {
-							name: 'Random'
+					{
+						id: 789,
+						title: 'Random',
+						board: {
+							id: 'b'
 						}
 					}
-				},
+				],
 				readComments: {
 					a: {
 						'456': 457
@@ -115,7 +257,7 @@ describe('UserData', () => {
 						'789': 790
 					}
 				},
-				ownComments: {
+				hiddenComments: {
 					a: {
 						'456': [
 							456,
