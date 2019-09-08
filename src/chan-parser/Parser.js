@@ -48,10 +48,11 @@ export default class Parser {
 	/**
 	 * Parses chan "get boards list" API response.
 	 * @param  {any} response
+	 * @param  {object} [options] — See the "Available `options`" section of `chan-parser` README.
 	 * @return {object[]}
 	 */
-	parseBoards(response) {
-		return this._parseBoards(response, this.getOptions())
+	parseBoards(response, options) {
+		return this._parseBoards(response, this.getOptions(options))
 	}
 
 	/**

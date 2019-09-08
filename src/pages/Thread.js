@@ -123,12 +123,17 @@ function ThreadPage({
 	}, [])
 	const onSetThreadTracked = useCallback((shouldTrackThread) => {
 		if (shouldTrackThread) {
+			const latestComment = thread.comments[thread.comments.length - 1]
 			const trackedThread = {
 				id: thread.id,
 				title: thread.title,
 				board: {
 					id: board.id,
 					title: board.title
+				},
+				latestComment: {
+					id: latestComment.id,
+					createdAt: latestComment.createdAt.getTime(),
 				}
 			}
 			const thumbnailAttachment = thread.comments[0].attachments && thread.comments[0].attachments.filter(hasAttachmentPicture)[0]

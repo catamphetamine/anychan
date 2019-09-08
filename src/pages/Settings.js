@@ -1,28 +1,27 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
 import { meta } from 'react-website'
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import LanguageSettings from 'webapp-frontend/src/components/settings/LanguageSettings'
 import FontSizeSettings from 'webapp-frontend/src/components/settings/FontSizeSettings'
+import DarkModeSettings from 'webapp-frontend/src/components/settings/DarkModeSettings'
 
 import ThemeSettings from '../components/settings/ThemeSettings'
 import DataSettings from '../components/settings/DataSettings'
 import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
-
 import {
-	resetSettings,
-	replaceSettings,
-	saveTheme,
 	saveFontSize,
-	saveLocale
+	saveLocale,
+	saveAutoDarkMode,
+	setDarkMode
 } from '../redux/app'
 
 import getMessages, {
 	getLanguageNames
 } from '../messages'
 
-import {
+import UserSettings, {
 	getCensoredWordsByLanguage
 } from '../utility/settings'
 
@@ -34,8 +33,6 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
-import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 
 import './Settings.css'
@@ -49,15 +46,7 @@ const LANGUAGE_NAMES = getLanguageNames()
 	locale: app.settings.locale,
 	settings: app.settings,
 	cookiesAccepted: app.cookiesAccepted
-}), {
-	resetSettings,
-	replaceSettings,
-	saveTheme,
-	saveFontSize,
-	saveLocale,
-	notify,
-	okCancelDialog
-})
+}), dispatch => ({ dispatch }))
 export default class SettingsPage_ extends React.Component {
 	render() {
 		return <SettingsPage {...this.props}/>
@@ -89,38 +78,42 @@ function SettingsPage({
 
 function Settings({
 	settings,
-	saveLocale,
-	saveTheme,
-	saveFontSize,
-	resetSettings,
-	replaceSettings,
-	okCancelDialog,
-	notify,
+	dispatch,
 	locale
 }) {
 	const messages = getMessages(locale)
+	const onSetDarkMode = useCallback(value => dispatch(setDarkMode(value)), [dispatch])
+	const onLocaleChange = useCallback(locale => dispatch(saveLocale(locale)), [dispatch])
+	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
+	const onAutoDarkModeChange = useCallback(darkMode => dispatch(saveAutoDarkMode(darkMode)), [dispatch])
 	return (
 		<ContentSections>
 			{/* Language */}
 			<LanguageSettings
 				messages={messages}
 				value={settings.locale}
-				onChange={saveLocale}
+				onChange={onLocaleChange}
 				languages={LANGUAGE_NAMES}/>
 
 			{/* Theme */}
 			<ThemeSettings
 				messages={messages}
-				value={settings.theme}
-				onChange={saveTheme}
-				guideUrl="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"
-				okCancelDialog={okCancelDialog}/>
+				settings={settings}
+				dispatch={dispatch}
+				guideUrl="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"/>
+
+			{/* Dark Mode */}
+			<DarkModeSettings
+				messages={messages}
+				autoDarkModeValue={settings.autoDarkMode}
+				onAutoDarkModeChange={onAutoDarkModeChange}
+				onSetDarkMode={onSetDarkMode}/>
 
 			{/* Font Size */}
 			<FontSizeSettings
 				messages={messages}
 				value={settings.fontSize}
-				onChange={saveFontSize}/>
+				onChange={onFontSizeChange}/>
 
 			{/* CORS Proxy URL */}
 			{/*
@@ -147,10 +140,7 @@ function Settings({
 			{/* Data */}
 			<DataSettings
 				messages={messages}
-				onResetSettings={resetSettings}
-				onReplaceSettings={replaceSettings}
-				okCancelDialog={okCancelDialog}
-				notify={notify}/>
+				dispatch={dispatch}/>
 		</ContentSections>
 	)
 }

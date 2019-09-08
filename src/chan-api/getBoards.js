@@ -40,11 +40,10 @@ export default async function getBoards({ http, all }) {
 	}
 	console.log(`Get ${all ? 'all ' : ''}boards API request finished in ${(Date.now() - apiRequestStartedAt) / 1000} secs`)
 	const result = getBoardsResult(createParser({}).parseBoards(response, {
-		hideBoardCategories: all ? undefined : getChan().hideBoardCategories
+		hiddenBoardCategories: all ? undefined : getChan().hiddenBoardCategories
 	}))
 	if (all) {
-		// Set a flag that this is the full list of boards.
-		result.allBoards = true
+		return { allBoards: result }
 	}
 	return result
 }

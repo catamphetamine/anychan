@@ -61,6 +61,22 @@ export default function CensoredWordsSettings({
 					</li>
 				</ul>
 			</div>
+			{/* "Hide Censored Words" button. */}
+			{showCensoredWords &&
+				<div className="form__component form__component--button">
+					<Button
+						onClick={() => setShowCensoredWords(false)}
+						className="rrui__button--text">
+						{messages.settings.censorship.hideCensoredWordsList}
+					</Button>
+				</div>
+			}
+			{/* Censored words list. */}
+			{showCensoredWords &&
+				<pre className="settings-page__filters">
+					{getCensoredWordsByLanguage(language).join('\n')}
+				</pre>
+			}
 			{/* "Show Censored Words" button. */}
 			{!showCensoredWords &&
 				<div className="form__component form__component--button">
@@ -70,12 +86,6 @@ export default function CensoredWordsSettings({
 						{messages.settings.censorship.showCensoredWordsList}
 					</Button>
 				</div>
-			}
-			{/* Censored words list. */}
-			{showCensoredWords &&
-				<pre className="settings-page__filters">
-					{getCensoredWordsByLanguage(language).join('\n')}
-				</pre>
 			}
 			{/* "Test Censored Word Rules" button. */}
 			<div className="form__component form__component--button">

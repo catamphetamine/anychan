@@ -1,6 +1,7 @@
 import { ReduxModule } from 'react-website'
 
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
+import { applyDarkMode } from 'webapp-frontend/src/utility/style'
 
 import Settings from '../utility/settings'
 import UserSettings from '../utility/UserSettings'
@@ -53,10 +54,42 @@ export const hideSidebar = redux.simpleAction(
 	'isSidebarShown'
 )
 
-export const toggleDarkMode = redux.simpleAction(
-	(state) => ({
+export const saveDarkMode = redux.simpleAction(
+	(state, value) => {
+		// Disable "Auto Dark Mode" feature.
+		saveSetting('autoDarkMode', false)
+		return {
+			...state,
+			settings: saveSetting('darkMode', value)
+		}
+	}
+)
+
+export const saveAutoDarkMode = redux.simpleAction(
+	(state, value) => {
+		// Reset manual "Dark Mode" setting.
+		saveSetting('darkMode', undefined)
+		return {
+			...state,
+			settings: saveSetting('autoDarkMode', value)
+		}
+	}
+)
+
+export const setDarkMode = redux.simpleAction(
+	(state, darkMode) => {
+		applyDarkMode(darkMode)
+		return {
+			...state,
+			darkMode
+		}
+	}
+)
+
+export const saveBoardsView = redux.simpleAction(
+	(state, boardsView) => ({
 		...state,
-		settings: saveSetting('darkMode', !state.settings.darkMode)
+		settings: saveSetting('boardsView', boardsView)
 	})
 )
 

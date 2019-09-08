@@ -63,7 +63,7 @@ Available `options`:
 
 * `expandReplies` — (optional) Set to `true` to expand the optional `comment.replies[]` array from a list of comment ids to the list of the actual comment objects.
 
-### Parser.parseBoards(apiResponse)
+### Parser.parseBoards(apiResponse, { hiddenBoardCategories })
 
 Parses a list of [Boards](#board).
 

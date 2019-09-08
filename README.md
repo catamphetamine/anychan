@@ -374,7 +374,7 @@ First [add the chan to `src/chan-parser`](https://github.com/catamphetamine/capt
 	// and if there're too many boards in some category
 	// then such board category can be hidden in the sidebar
 	// and "Show All Boards" link will appear under the boards list.
-	"hideBoardCategories": [
+	"hiddenBoardCategories": [
 		"User boards"
 	],
 

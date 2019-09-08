@@ -5,6 +5,9 @@ import { Modal, Button, Select, TextInput } from 'react-responsive-ui'
 import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { validateUrl, validateRelativeUrl } from 'webapp-frontend/src/utility/url'
+import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
+
+import { saveTheme } from '../../redux/app'
 
 import {
 	getThemes,
@@ -23,23 +26,24 @@ const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
 export default function ThemeSettings({
 	messages,
-	value,
-	onChange,
-	okCancelDialog,
+	settings,
+	dispatch,
 	guideUrl
 }) {
 	const [showAddThemeModal, setShowAddThemeModal] = useState()
 
-	async function saveTheme(name) {
+	const value = settings.theme
+
+	async function onSaveTheme(name) {
 		await applyTheme(name)
-		onChange(name)
+		dispatch(saveTheme(name))
 	}
 
 	async function deleteCurrentTheme() {
-		okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', value))
+		dispatch(okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', value)))
 		if (await OkCancelDialog.getPromise()) {
 			removeTheme(value)
-			await saveTheme(getThemes()[0].name)
+			await onSaveTheme(getThemes()[0].name)
 		}
 	}
 
@@ -58,7 +62,7 @@ export default function ThemeSettings({
 				<Select
 					value={value}
 					options={options}
-					onChange={saveTheme}
+					onChange={onSaveTheme}
 					className="form__component"/>
 				<div className="form__component form__component--button">
 					<Button
@@ -97,7 +101,7 @@ export default function ThemeSettings({
 				<Modal.Content>
 					<AddTheme
 						messages={messages}
-						saveTheme={saveTheme}
+						saveTheme={onSaveTheme}
 						close={() => setShowAddThemeModal(false)}/>
 				</Modal.Content>
 			</Modal>
@@ -107,9 +111,8 @@ export default function ThemeSettings({
 
 ThemeSettings.propTypes = {
 	messages: PropTypes.object.isRequired,
-	value: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	okCancelDialog: PropTypes.func,
+	settings: PropTypes.string.isRequired,
+	dispatch: PropTypes.func.isRequired,
 	guideUrl: PropTypes.string
 }
 

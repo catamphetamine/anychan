@@ -2,6 +2,7 @@
 
 .settings-page__filters {
 	margin: 0;
+	margin-top: var(--unit);
 }
 
 .settings-page__filters-docs {

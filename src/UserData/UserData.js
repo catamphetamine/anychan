@@ -133,10 +133,16 @@ export class UserData {
 	}
 
 	get() {
-		return Object.keys(this.data).reduce((data, key) => ({
-			...data,
-			[key]: this.storage.get(this.prefix + key)
-		}), {})
+		return Object.keys(this.data).reduce((data, key) => {
+			const keyData = this.storage.get(this.prefix + key)
+			if (keyData === undefined) {
+				return data
+			}
+			return {
+				...data,
+				[key]: keyData
+			}
+		}, {})
 	}
 
 	cache(cache) {
@@ -257,11 +263,11 @@ export class UserData {
 	}
 
 	clear = () => {
-		this.storage.forEach((key) => {
+		for (const key of this.storage.keys()) {
 			if (key.indexOf(this.prefix) === 0) {
 				this.storage.delete(key)
 			}
-		})
+		}
 	}
 
 	replace(data) {

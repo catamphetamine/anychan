@@ -6,6 +6,8 @@ import saveFile from 'webapp-frontend/src/utility/saveFile'
 import readTextFile from 'webapp-frontend/src/utility/readTextFile'
 import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/video-youtube-cache'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
+import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
+import { notify } from 'webapp-frontend/src/redux/notifications'
 
 import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 
@@ -14,30 +16,35 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
+import {
+	resetSettings,
+	replaceSettings
+} from '../../redux/app'
+
 import Settings from '../../utility/settings'
 import UserData from '../../UserData/UserData'
+import onUserDataChange from '../../UserData/onUserDataChange'
 
 export default function DataSettings({
 	messages,
-	onResetSettings,
-	onReplaceSettings,
-	okCancelDialog,
-	notify
+	dispatch
 }) {
-	async function _onResetSettings() {
-		okCancelDialog(messages.settings.data.resetSettings.warning)
+	async function onResetSettings() {
+		dispatch(okCancelDialog(messages.settings.data.resetSettings.warning))
 		if (await OkCancelDialog.getPromise()) {
-			onResetSettings()
-			Settings.apply()
-			notify(messages.settings.data.resetSettings.done)
+			dispatch(resetSettings())
+			Settings.apply({ dispatch })
+			dispatch(notify(messages.settings.data.resetSettings.done))
 		}
 	}
 
 	async function onClearUserData() {
-		okCancelDialog(messages.settings.data.clearUserData.warning)
+		dispatch(okCancelDialog(messages.settings.data.clearUserData.warning))
 		if (await OkCancelDialog.getPromise()) {
 			UserData.clear()
-			notify(messages.settings.data.clearUserData.done)
+			// Update tracked threads list in the UI.
+			onUserDataChange(dispatch)
+			dispatch(notify(messages.settings.data.clearUserData.done))
 		}
 	}
 
@@ -47,11 +54,13 @@ export default function DataSettings({
 		try {
 			json = JSON.parse(text)
 		} catch (error) {
-			return notify(messages.settings.data.import.error, { type: 'error' })
+			return dispatch(notify(messages.settings.data.import.error, { type: 'error' }))
 		}
 		const { settings, userData } = json
 		UserData.merge(userData)
-		notify(messages.settings.data.merge.done)
+		// Update tracked threads list in the UI.
+		onUserDataChange(dispatch)
+		dispatch(notify(messages.settings.data.merge.done))
 	}
 
 	async function onImport(file) {
@@ -60,15 +69,17 @@ export default function DataSettings({
 		try {
 			json = JSON.parse(text)
 		} catch (error) {
-			return notify(messages.settings.data.import.error, { type: 'error' })
+			return dispatch(notify(messages.settings.data.import.error, { type: 'error' }))
 		}
 		const { settings, userData } = json
-		okCancelDialog(messages.settings.data.import.warning)
+		dispatch(okCancelDialog(messages.settings.data.import.warning))
 		if (await OkCancelDialog.getPromise()) {
-			onReplaceSettings(settings)
+			dispatch(replaceSettings(settings))
 			UserData.replace(userData)
-			Settings.apply()
-			notify(messages.settings.data.import.done)
+			Settings.apply({ dispatch })
+			// Update tracked threads list in the UI.
+			onUserDataChange(dispatch)
+			dispatch(notify(messages.settings.data.import.done))
 		}
 	}
 
@@ -93,7 +104,7 @@ export default function DataSettings({
 			<div className="form">
 				<div className="form__component form__component--button">
 					<Button
-						onClick={_onResetSettings}
+						onClick={onResetSettings}
 						className="rrui__button--text">
 						{messages.settings.data.resetSettings.title}
 					</Button>
@@ -149,8 +160,5 @@ export default function DataSettings({
 
 DataSettings.propTypes = {
 	messages: PropTypes.object.isRequired,
-	onResetSettings: PropTypes.func.isRequired,
-	onReplaceSettings: PropTypes.func.isRequired,
-	okCancelDialog: PropTypes.func.isRequired,
-	notify: PropTypes.func.isRequired
+	dispatch: PropTypes.func.isRequired
 }

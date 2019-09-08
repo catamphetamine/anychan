@@ -10,6 +10,8 @@ import TrackedThreads from '../components/TrackedThreads'
 import Notifications from '../components/Notifications'
 import SidebarSection from '../components/SidebarSection'
 
+import SortableList from 'webapp-frontend/src/components/SortableList'
+
 import getMessages from '../messages'
 
 import './Sidebar.css'
@@ -48,11 +50,11 @@ function Sidebar({
 					</SidebarSection>
 				}
 				{favoriteBoards.length > 0 &&
-					<SidebarSection title={getMessages(locale).boards.favorite}>
+					<SidebarSection title={getMessages(locale).boards.title}>
 						<Boards boards={favoriteBoards}/>
 					</SidebarSection>
 				}
-				<SidebarSection title={getMessages(locale).boards.title}>
+				<SidebarSection title={getMessages(locale).boards.all}>
 					<Boards/>
 				</SidebarSection>
 			</SimpleBar>

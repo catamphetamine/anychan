@@ -1,7 +1,7 @@
 {
 	"boards": {
 		"title": "Доски",
-		"favorite": "Избранное",
+		"all": "Все Доски",
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",
@@ -36,9 +36,14 @@
 				"neon-genesis-evangelion": "Евангелион"
 			}
 		},
+		"darkMode": {
+			"title": "Ночной режим",
+			"auto": "Использовать настройки системы"
+		},
 		"censorship": {
 			"title": "Скрываемые слова",
 			"showCensoredWordsList": "Показать список скрываемых слов",
+			"hideCensoredWordsList": "Скрыть список скрываемых слов",
 			"test": {
 				"title": "Проверить правила скрытия",
 				"useCustomRule": "Ввести правило вручную",

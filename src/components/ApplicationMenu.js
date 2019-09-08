@@ -10,12 +10,12 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 import {
 	showSidebar,
 	setSidebarMode,
-	toggleDarkMode
+	saveDarkMode,
+	setDarkMode
 } from '../redux/app'
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
-import { applyDarkMode } from 'webapp-frontend/src/utility/style'
 
 import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
 import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
@@ -44,7 +44,7 @@ import './ApplicationMenu.css'
 	locale: app.settings.locale,
 	isSidebarShown: app.isSidebarShown,
 	sidebarMode: app.sidebarMode,
-	darkMode: app.settings.darkMode,
+	darkMode: app.darkMode,
 	areTrackedThreadsShown: app.areTrackedThreadsShown,
 	areNotificationsShown: app.areNotificationsShown
 }), dispatch => ({ dispatch }))
@@ -78,10 +78,10 @@ function ApplicationMenu(props) {
 			title: messages.darkMode,
 			onClick: () => {
 				if (!areCookiesAccepted()) {
-					return notify(messages.cookies.required)
+					return dispatch(notify(messages.cookies.required))
 				}
-				dispatch(toggleDarkMode())
-				applyDarkMode(!darkMode)
+				dispatch(setDarkMode(!darkMode))
+				dispatch(saveDarkMode(!darkMode))
 			},
 			isSelected: darkMode,
 			icon: MoonIconOutline,

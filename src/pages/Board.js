@@ -39,10 +39,11 @@ import './Board.css'
 	scrollPosition: board.scrollPosition
 }), dispatch => ({ dispatch }))
 @preload(async ({ getState, dispatch, params }) => {
+	const settings = getState().app.settings
 	await dispatch(getThreads(
 		params.board,
-		getState().app.settings.censoredWords,
-		getState().app.settings.locale
+		settings.censoredWords,
+		settings.locale
 	))
 })
 export default class BoardPage_ extends React.Component {

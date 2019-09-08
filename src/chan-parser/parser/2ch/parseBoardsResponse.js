@@ -5,7 +5,7 @@ import parseBoard from './parseBoard'
  * @param  {object} response — Chan API response for boards list.
  * @return {object[]} See README.md for "Board" object description.
  */
-export default function parseBoards(response, { hideBoardCategories }) {
+export default function parseBoards(response, { hiddenBoardCategories }) {
 	// Parse tags.
 	const boardTags = {}
 	for (const tag of response.tags) {
@@ -16,7 +16,7 @@ export default function parseBoards(response, { hideBoardCategories }) {
 	let boards = response.boards.map(board => parseBoard(board, boardTags))
 	// Mark hidden boards.
 	for (const board of boards) {
-		if (hideBoardCategories && hideBoardCategories.indexOf(board.category) >= 0) {
+		if (hiddenBoardCategories && hiddenBoardCategories.indexOf(board.category) >= 0) {
 			// Special case for `2ch.hk`'s `/int/` board which is in the ignored category.
 			if (board.id !== 'int') {
 				board.isHidden = true

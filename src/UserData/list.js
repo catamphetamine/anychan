@@ -90,11 +90,20 @@ export function mergeWithList(storage, key, collection, data) {
 }
 
 function trimList(list, limit) {
-	if (list.length > limit) {
-		return list.slice(
-			list.length - limit,
-			list.length
-		)
+	while (list.length > limit) {
+		// Remove expired items first.
+		let expiredItemIndex = list.findIndex(_ => _.expired)
+		if (expiredItemIndex >= 0) {
+			list = list.slice(0, expiredItemIndex).concat(list.slice(expiredItemIndex + 1))
+		} else {
+			// Remove the required amount of non-expired items.
+			return list.slice(
+				list.length - limit,
+				list.length
+			)
+		}
 	}
+	// The `list` might have been altered here.
+	// (expired items may have been removed)
 	return list
 }

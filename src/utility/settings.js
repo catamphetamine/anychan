@@ -2,10 +2,11 @@ import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
 import IGNORED_WORDS_EN from 'webapp-frontend/src/messages/offensive.en.json'
 
 import compileWordPatterns from 'webapp-frontend/src/utility/post/compileWordPatterns'
-import { applyDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
+import { applyDarkMode, autoDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
 
 import { getLanguageNames } from '../messages'
 import { getChan } from '../chan'
+import { setDarkMode } from '../redux/app'
 import { THEMES, applyTheme } from './themes'
 import UserSettings from './UserSettings'
 
@@ -18,11 +19,18 @@ class Settings {
 		this.languages = languages
 	}
 
-	async apply() {
+	async apply({ dispatch }) {
 		const settings = this.get()
 		await applyTheme(settings.theme)
-		applyDarkMode(settings.darkMode)
+		autoDarkMode(
+			settings.autoDarkMode,
+			value => dispatch(setDarkMode(value))
+		)
+		if (!settings.autoDarkMode) {
+			dispatch(setDarkMode(settings.darkMode))
+		}
 		applyFontSize(settings.fontSize)
+		return settings
 	}
 
 	get() {
@@ -41,6 +49,8 @@ class Settings {
 		return {
 			theme: 'default',
 			fontSize: 'medium',
+			darkMode: false,
+			autoDarkMode: true,
 			locale: this.getDefaultLanguage(),
 			censoredWords: getCensoredWordsByLanguage(this.getDefaultLanguage())
 		}

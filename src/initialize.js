@@ -3,6 +3,7 @@ import { onCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import { getChanIdByDomain, setChanId, getChan } from './chan'
 import Settings from './utility/settings'
+import { delayedDispatch } from './utility/dispatch'
 import configuration from './configuration'
 
 // Initialize Cookie Policy.
@@ -47,6 +48,8 @@ export default function() {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
 		siteIcon.href = getChan().icon
 	}
-	// Apply default settings.
-	Settings.apply()
+	// Apply user settings.
+	Settings.apply({
+		dispatch: delayedDispatch
+	})
 }

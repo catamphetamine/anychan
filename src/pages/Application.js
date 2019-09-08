@@ -48,6 +48,7 @@ import {
 } from '../utility/routes'
 import { pollAnnouncement } from '../utility/announcement'
 import getBasePath from '../utility/getBasePath'
+import { dispatchDelayedActions } from '../utility/dispatch'
 import configuration from '../configuration'
 
 import './Application.css'
@@ -67,7 +68,10 @@ import './Application.css'
   announcement: announcement.announcement
 }), dispatch => ({ dispatch }))
 @preload(async ({ dispatch, getState, location }) => {
-	// Apply user's settings (from local storage).
+	// Dispatch delayed actions.
+	// For example, `dispatch(autoDarkMode())`.
+	dispatchDelayedActions(dispatch)
+	// Fill in user's preferences.
 	dispatch(getSettings())
 	dispatch(getFavoriteBoards())
 	dispatch(getTrackedThreads())

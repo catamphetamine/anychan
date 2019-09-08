@@ -9,6 +9,7 @@ import { getChan, getChanParserSettings, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
+import { saveBoardsView } from '../redux/app'
 
 import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 
@@ -19,8 +20,10 @@ import './Boards.css'
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory,
 	selectedBoard: chan.board,
+	boardsView: app.settings.boardsView,
+	shouldSaveBoardsView: true,
 	locale: app.settings.locale
-}))
+}), dispatch => ({ dispatch }))
 export default class BoardsInSidebar extends React.Component {
 	render() {
 		return (
@@ -44,24 +47,30 @@ function Boards_({
 	boards,
 	boardsByPopularity,
 	boardsByCategory,
+	boardsView,
+	shouldSaveBoardsView,
 	showAllBoards,
 	listComponent,
 	selectedBoard,
 	isBoardOrThreadLocation,
 	locale,
+	dispatch,
 	className
 }) {
 	const [searchQuery, setSearchQuery] = useState()
 	const [filteredBoards, setFilteredBoards] = useState()
-	const [view, setView] = useState(
-		boardsByPopularity ? 'default' : (
-			boardsByCategory && (listComponent === BoardsList) ?
-				'by-category' :
-				'default'
-		)
-	)
-	const onChangeViewAllBoards = useCallback(() => setView('default'), [])
-	const onChangeViewByCategory = useCallback(() => setView('by-category'), [])
+	const [view, setView] = useState(getBoardsView(boardsView, {
+		canViewByCategory: boardsByCategory && (listComponent === BoardsList),
+		canViewByPopularity: boardsByPopularity
+	}))
+	const onSetView = useCallback((view) => {
+		setView(view)
+		if (shouldSaveBoardsView) {
+			dispatch(saveBoardsView(view === 'default' ? undefined : view))
+		}
+	}, [dispatch])
+	const onChangeViewAllBoards = useCallback(() => onSetView('default'), [])
+	const onChangeViewByCategory = useCallback(() => onSetView('by-category'), [])
 	const onSearchQueryChange = useCallback((query) => {
 		query = query.toLowerCase()
 		setSearchQuery(query)
@@ -115,7 +124,7 @@ function Boards_({
 	const List = listComponent
 	return (
 		<nav className="boards">
-			{boardsByPopularity && (boardsByCategory && (List === BoardsList)) &&
+			{boardsByPopularity && (boardsByCategory && List === BoardsList) &&
 				<div className="boards__view-switcher">
 					<Button
 						disabled={view === 'default'}
@@ -163,7 +172,7 @@ function Boards_({
 				{getBoardsListItems()}
 			</List>
 
-			{!showAllBoards && (getChanParserSettings().api.getAllBoards || getChan().hideBoardCategories) &&
+			{!showAllBoards && (getChanParserSettings().api.getAllBoards || getChan().hiddenBoardCategories) &&
 				<div className="boards__show-all-wrapper">
 					<Link to={addChanParameter('/boards')} className="boards__show-all">
 						{getMessages(locale).boards.showAll}
@@ -188,10 +197,13 @@ Boards_.propTypes = {
 		category: PropTypes.string.isRequired,
 		boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired
 	})),
+	boardsView: PropTypes.string,
+	shouldSaveBoardsView: PropTypes.bool,
 	showAllBoards: PropTypes.bool,
 	selectedBoard: PropTypes.shape(boardShape),
 	isBoardOrThreadLocation: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
+	dispatch: PropTypes.func,
 	listComponent: PropTypes.elementType.isRequired,
 	className: PropTypes.string
 }
@@ -328,3 +340,21 @@ BoardsListItem.propTypes = {
 // Re-rendering the full `<Boards/>` list is about `150` ms (which is a lot).
 // (seems that rendering a `<Link/>` is a long time).
 BoardsListItem = React.memo(BoardsListItem)
+
+function getBoardsView(boardsView, { canViewByCategory, canViewByPopularity }) {
+	switch (boardsView) {
+		case 'by-category':
+			if (canViewByCategory) {
+				return boardsView
+			}
+		case 'default':
+			return boardsView
+	}
+	if (canViewByPopularity) {
+		return 'default'
+	}
+	if (canViewByCategory) {
+		return 'by-category'
+	}
+	return 'default'
+}

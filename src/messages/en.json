@@ -1,7 +1,7 @@
 {
 	"boards": {
 		"title": "Boards",
-		"favorite": "Favorites",
+		"all": "All Boards",
 		"showAll": "Show all boards",
 		"showBoardsList": "Show boards list",
 		"byPopularity": "Popular",
@@ -36,9 +36,14 @@
 				"neon-genesis-evangelion": "Neon Genesis Evangelion"
 			}
 		},
+		"darkMode": {
+			"title": "Dark Mode",
+			"auto": "Use system preference"
+		},
 		"censorship": {
 			"title": "Censored Words",
 			"showCensoredWordsList": "Show Censored Words List",
+			"hideCensoredWordsList": "Hide Censored Words List",
 			"test": {
 				"title": "Test censorship rules",
 				"useCustomRule": "Use a custom rule",

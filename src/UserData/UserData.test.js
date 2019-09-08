@@ -285,4 +285,69 @@ describe('UserData', () => {
 			}
 		)
 	})
+
+	it('should merge user data', () => {
+		storage.clear()
+		userData.addTrackedThreadsList({
+			id: 123,
+			title: 'Anime 1',
+			board: { id: 'a' }
+		})
+		userData.addTrackedThreadsList({
+			id: 456,
+			title: 'Anime 2',
+			board: { id: 'a' }
+		})
+		// Create merged dataset.
+		const storage2 = new MemoryStorage({
+			emulateSerialize: true
+		})
+		const userData2 = new UserData(storage2, {
+			prefix: ''
+		})
+		userData2.addTrackedThreadsList({
+			id: 789,
+			title: 'Random',
+			board: { id: 'b' }
+		})
+		userData.merge(userData2.get())
+		// Validate merge results.
+		expectToEqual(
+			storage.data,
+			{
+				trackedThreads: {
+					a: [
+						123,
+						456
+					],
+					b: [
+						789
+					]
+				},
+				trackedThreadsList: [
+					{
+						id: 123,
+						title: 'Anime 1',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 456,
+						title: 'Anime 2',
+						board: {
+							id: 'a'
+						}
+					},
+					{
+						id: 789,
+						title: 'Random',
+						board: {
+							id: 'b'
+						}
+					}
+				]
+			}
+		)
+	})
 })

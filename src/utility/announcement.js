@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from 'webapp-frontend/src/utility/cookie'
+import { getCookie, setCookie } from 'webapp-frontend/src/utility/cookies'
 
 const COOKIE_NAME = 'announcementRead'
 
