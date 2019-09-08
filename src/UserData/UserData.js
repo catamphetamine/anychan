@@ -41,7 +41,8 @@ import {
 export class UserData {
 	data = {
 		favoriteBoards: {
-			type: 'list'
+			type: 'list',
+			isEqual: (one, two) => one.id === two.id
 		},
 		ignoredAuthors: {
 			type: 'list',

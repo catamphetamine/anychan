@@ -32,6 +32,18 @@ export default class BoardsInSidebar extends React.Component {
 	}
 }
 
+@connect(({ app, chan }) => ({
+	selectedBoard: chan.board,
+	locale: app.settings.locale
+}), dispatch => ({ dispatch }))
+export class FavoriteBoards extends React.Component {
+	render() {
+		return (
+			<Boards showAllBoardsLink={false} {...this.props}/>
+		)
+	}
+}
+
 // `<Boards/>` are used in `pages/Boards.js`.
 @connect(({ found }) => ({
 	isBoardOrThreadLocation: isBoardLocation(found.resolvedMatch) ||
@@ -50,6 +62,7 @@ function Boards_({
 	boardsView,
 	shouldSaveBoardsView,
 	showAllBoards,
+	showAllBoardsLink,
 	listComponent,
 	selectedBoard,
 	isBoardOrThreadLocation,
@@ -172,7 +185,7 @@ function Boards_({
 				{getBoardsListItems()}
 			</List>
 
-			{!showAllBoards && (getChanParserSettings().api.getAllBoards || getChan().hiddenBoardCategories) &&
+			{!showAllBoards && showAllBoardsLink && (getChanParserSettings().api.getAllBoards || getChan().hiddenBoardCategories) &&
 				<div className="boards__show-all-wrapper">
 					<Link to={addChanParameter('/boards')} className="boards__show-all">
 						{getMessages(locale).boards.showAll}
@@ -200,6 +213,7 @@ Boards_.propTypes = {
 	boardsView: PropTypes.string,
 	shouldSaveBoardsView: PropTypes.bool,
 	showAllBoards: PropTypes.bool,
+	showAllBoardsLink: PropTypes.bool.isRequired,
 	selectedBoard: PropTypes.shape(boardShape),
 	isBoardOrThreadLocation: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
@@ -209,7 +223,8 @@ Boards_.propTypes = {
 }
 
 Boards_.defaultProps = {
-	listComponent: BoardsList
+	listComponent: BoardsList,
+	showAllBoardsLink: true
 }
 
 // // Don't re-render `<Boards/>` on page navigation (on `route` change).

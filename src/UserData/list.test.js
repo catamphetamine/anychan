@@ -34,60 +34,62 @@ describe('UserData', () => {
 
 	it('should add/remove/get favorite boards', () => {
 		storage.clear()
-		userData.addFavoriteBoards('a')
+		userData.addFavoriteBoards({ id: 'a' })
 		expectToEqual(
 			storage.data,
 			{
 				favoriteBoards: [
-					'a'
+					{ id: 'a' }
 				]
 			}
 		)
-		userData.addFavoriteBoards('b')
+		userData.addFavoriteBoards({ id: 'b' })
+		// Ignores duplicates.
+		userData.addFavoriteBoards({ id: 'b' })
 		expectToEqual(
 			storage.data,
 			{
 				favoriteBoards: [
-					'a',
-					'b'
+					{ id: 'a' },
+					{ id: 'b' }
 				]
 			}
 		)
 		expectToEqual(
 			userData.getFavoriteBoards(),
 			[
-				'a',
-				'b'
+				{ id: 'a' },
+				{ id: 'b' }
 			]
 		)
 		expectToEqual(
-			userData.getFavoriteBoards('a'),
-			true
+			userData.getFavoriteBoards({ id: 'a' }),
+			{ id: 'a' }
 		)
 		expectToEqual(
-			userData.getFavoriteBoards('c'),
-			false
+			userData.getFavoriteBoards({ id: 'c' }),
+			undefined
 		)
-		userData.removeFavoriteBoards('c')
-		expectToEqual(
-			storage.data,
-			{
-				favoriteBoards: [
-					'a',
-					'b'
-				]
-			}
-		)
-		userData.removeFavoriteBoards('b')
+		userData.removeFavoriteBoards({ id: 'c' })
 		expectToEqual(
 			storage.data,
 			{
 				favoriteBoards: [
-					'a'
+					{ id: 'a' },
+					{ id: 'b' }
 				]
 			}
 		)
-		userData.removeFavoriteBoards('a')
+		userData.removeFavoriteBoards({ id: 'b' })
+		expectToEqual(
+			storage.data,
+			{
+				favoriteBoards: [
+					{ id: 'a' }
+				]
+			}
+		)
+		userData.removeFavoriteBoards({ id: 'a' })
 		expectToEqual(
 			storage.data,
 			{}
@@ -98,23 +100,23 @@ describe('UserData', () => {
 		storage.clear()
 		storage.data = {
 			favoriteBoards: [
-				'a',
-				'b'
+				{ id: 'a' },
+				{ id: 'b' }
 			]
 		}
 		userData.merge({
 			favoriteBoards: [
-				'b',
-				'c'
+				{ id: 'b' },
+				{ id: 'c' }
 			]
 		})
 		expectToEqual(
 			storage.data,
 			{
 				favoriteBoards: [
-					'a',
-					'b',
-					'c'
+					{ id: 'a' },
+					{ id: 'b' },
+					{ id: 'c' }
 				]
 			}
 		)
@@ -124,16 +126,16 @@ describe('UserData', () => {
 		storage.data = {}
 		userData.merge({
 			favoriteBoards: [
-				'b',
-				'c'
+				{ id: 'b' },
+				{ id: 'c' }
 			]
 		})
 		expectToEqual(
 			storage.data,
 			{
 				favoriteBoards: [
-					'b',
-					'c'
+					{ id: 'b' },
+					{ id: 'c' }
 				]
 			}
 		)
@@ -143,8 +145,8 @@ describe('UserData', () => {
 		storage.clear()
 		storage.data = {
 			favoriteBoards: [
-				'b',
-				'c'
+				{ id: 'b' },
+				{ id: 'c' }
 			]
 		}
 		userData.merge({})
@@ -152,8 +154,8 @@ describe('UserData', () => {
 			storage.data,
 			{
 				favoriteBoards: [
-					'b',
-					'c'
+					{ id: 'b' },
+					{ id: 'c' }
 				]
 			}
 		)

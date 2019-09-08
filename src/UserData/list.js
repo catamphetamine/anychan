@@ -1,12 +1,7 @@
 export function addToList(storage, key, collection, item) {
 	let list = storage.get(key, [])
-	let index
-	if (collection.isEqual) {
-		index = list.findIndex(_ => collection.isEqual(_, item))
-	} else {
-		index = list.indexOf(item)
-	}
-	if (index >= 0) {
+	// Ignores duplicates.
+	if (get(list, collection, item) !== undefined) {
 		return
 	}
 	// Create a new list for explicit "reference inequality"
@@ -54,11 +49,7 @@ export function removeFromList(storage, key, collection, item) {
 	}
 }
 
-export function getFromList(storage, key, collection, item) {
-	const list = storage.get(key, [])
-	if (item === undefined) {
-		return list
-	}
+function get(list, collection, item) {
 	if (typeof item === 'function') {
 		const index = list.findIndex(item)
 		if (index >= 0) {
@@ -70,16 +61,26 @@ export function getFromList(storage, key, collection, item) {
 	} else {
 		const index = list.indexOf(item)
 		if (index >= 0) {
-			return true
+			// return true
+			return item
 		}
-		return false
+		// return false
+		return
 	}
+}
+
+export function getFromList(storage, key, collection, item) {
+	const list = storage.get(key, [])
+	if (item === undefined) {
+		return list
+	}
+	return get(list, collection, item)
 }
 
 export function mergeWithList(storage, key, collection, data) {
 	let list = storage.get(key, [])
 	for (const item of data) {
-		if (list.indexOf(item) < 0) {
+		if (get(list, collection, item) === undefined) {
 			list.push(item)
 		}
 	}

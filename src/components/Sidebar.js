@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import SimpleBar from 'simplebar-react'
 
-import Boards from '../components/Boards'
+import Boards, { FavoriteBoards } from '../components/Boards'
 import TrackedThreads from '../components/TrackedThreads'
 import Notifications from '../components/Notifications'
 import SidebarSection from '../components/SidebarSection'
@@ -51,7 +51,7 @@ function Sidebar({
 				}
 				{favoriteBoards.length > 0 &&
 					<SidebarSection title={getMessages(locale).boards.title}>
-						<Boards boards={favoriteBoards}/>
+						<FavoriteBoards boards={favoriteBoards}/>
 					</SidebarSection>
 				}
 				<SidebarSection title={getMessages(locale).boards.all}>

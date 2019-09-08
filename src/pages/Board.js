@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import { getThreads } from '../redux/chan'
+import { addFavoriteBoard } from '../redux/favoriteBoards'
 import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
@@ -45,6 +46,13 @@ import './Board.css'
 		settings.censoredWords,
 		settings.locale
 	))
+	if (settings.autoAddFavoriteBoards !== false) {
+		const board = getState().chan.board
+		dispatch(addFavoriteBoard({
+			id: board.id,
+			title: board.title
+		}))
+	}
 })
 export default class BoardPage_ extends React.Component {
 	render() {
