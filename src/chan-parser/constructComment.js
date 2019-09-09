@@ -28,8 +28,14 @@ export default function constructComment(
 	}
 ) {
 	const comment = {
-		id,
-		createdAt
+		id
+	}
+	// The date on which the comment was posted.
+	// All chans except `lynxchan` have this.
+	// `lynxchan` doesn't have it which is a bug
+	// but seems like they don't want to fix it.
+	if (createdAt) {
+		comment.createdAt = createdAt
 	}
 	if (attachments) {
 		comment.attachments = attachments

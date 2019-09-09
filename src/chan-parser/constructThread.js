@@ -112,6 +112,7 @@ export default function constructThread(threadInfo, comments, {
 			}
 		}
 	}
+	// Autogenerate thread title.
 	if (!threadInfo.title) {
 		threadInfo.title = getPostTitle(comments[0], { messages })
 		if (threadInfo.title) {
@@ -122,6 +123,13 @@ export default function constructThread(threadInfo, comments, {
 				}
 			}
 		}
+	}
+	// The date on which the thread was created.
+	// All chans except `lynxchan` have this.
+	// `lynxchan` doesn't have it which is a bug
+	// but seems like they don't want to fix it.
+	if (comments[0].createdAt) {
+		threadInfo.createdAt = comments[0].createdAt
 	}
 	return {
 		...threadInfo,

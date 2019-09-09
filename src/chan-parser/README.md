@@ -257,9 +257,16 @@ Additional fields:
 		// when posting a new reply or creating a new thread.
 		areBadgesAllowed: boolean
 	},
-	// "Last Modified Date", including: replies, deletions, sticky/closed status changes.
-	// Only present for `4chan.org`.
-	lastModifiedAt: Date?,
+	// The date on which the thread was created.
+	// All chans except `lynxchan` have this.
+	// `lynxchan` doesn't have it which is a bug
+	// but seems like they don't want to fix it.
+	createdAt: Date?,
+	// "Last Modified Date", usually including:
+	// posting new comments, deleting existing comments, sticky/closed status changes.
+	// Is usually present on all chans in "get threads list" API response
+	// but not in "get thread comments" API response.
+	updatedAt: Date?,
 	// Custom spoiler ID (if custom spoilers are used on the board).
 	// Only present for `4chan.org`.
 	customSpoilerId: number?,

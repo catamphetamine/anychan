@@ -31,7 +31,7 @@ describe('kohlchan.net', () => {
 			commentAttachmentsCount: 161,
 			title: "Gemeinsames Animuschauen",
 			isSticky: true,
-			lastModifiedAt: new Date("2019-07-01T18:28:14.680Z"),
+			updatedAt: new Date("2019-07-01T18:28:14.680Z"),
 			comments: [{
 				content: [
 					[
@@ -43,7 +43,6 @@ describe('kohlchan.net', () => {
 					]
 				],
 				id: 297,
-				createdAt: new Date(0),
 				title: "Gemeinsames Animuschauen",
 				attachments: [{
 					type: 'picture',

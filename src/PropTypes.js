@@ -14,12 +14,14 @@ export const thread = shape({
 	}),
 	title: string,
 	titleCensored: string,
+	createdAt: date,
+	updatedAt: date,
 	comments: arrayOf(comment).isRequired
 })
 
 export const comment = shape({
 	id: number.isRequired,
-	createdAt: date.isRequired,
+	createdAt: date,
 	authorName: string,
 	authorEmail: string,
 	authorRole: string,

@@ -7,8 +7,8 @@
 	"fileAttachmentUrl": "https://i.4cdn.org/{boardId}/{originalName}{ext}",
 	"commentUrlRegExp": "^\\/(.+?)\\/thread\\/(\\d+)#p(\\d+)$",
 	"api": {
-		"getThread": "http://a.4cdn.org/{boardId}/thread/{threadId}.json",
-		"getThreads": "http://a.4cdn.org/{boardId}/catalog.json",
-		"getBoards": "http://a.4cdn.org/boards.json"
+		"getThread": "https://a.4cdn.org/{boardId}/thread/{threadId}.json",
+		"getThreads": "https://a.4cdn.org/{boardId}/catalog.json",
+		"getBoards": "https://a.4cdn.org/boards.json"
 	}
 }

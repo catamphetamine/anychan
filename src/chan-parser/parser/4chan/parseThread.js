@@ -75,9 +75,9 @@ export default function parseThread(posts, {
 	if (thread.unique_ips) {
 		threadInfo.uniquePostersCount = thread.unique_ips
 	}
-	// Only for `/catalog.json` API response.
+	// `last_modified` is only present in `/catalog.json` API response.
 	if (thread.last_modified) {
-		threadInfo.lastModifiedAt = new Date(thread.last_modified * 1000)
+		threadInfo.updatedAt = new Date(thread.last_modified * 1000)
 	}
 	// `8ch.net` has a concept of "bumplocked" threads that are in "autosage" mode.
 	// https://twitter.com/infinitechan/status/555013038839848961

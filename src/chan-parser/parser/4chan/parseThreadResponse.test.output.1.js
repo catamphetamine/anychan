@@ -8,6 +8,7 @@ export default {
   "uniquePostersCount": 18,
   "customSpoilersCount": 1,
   "id": 456354102,
+  "createdAt": new Date("2019-03-29T09:15:00.000Z"),
   "comments": [
     {
       "id": 456354102,

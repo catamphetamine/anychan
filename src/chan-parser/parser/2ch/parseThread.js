@@ -83,6 +83,7 @@ export default function parseThread(thread, posts, {
 	if (maxAttachmentsSize) {
 		threadInfo.maxAttachmentsSize = maxAttachmentsSize
 	}
+	threadInfo.updatedAt = new Date(openingPost.lasthit * 1000)
 	return constructThread(threadInfo, comments, {
 		boardId,
 		messages,

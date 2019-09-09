@@ -79,7 +79,8 @@ describe('4chan.org', () => {
 				},
 				"id": 2952650,
 				"title": "/stg/- Slave Trainer General/Maledom general",
-				"lastModifiedAt": new Date(1549225356 * 1000),
+				"createdAt": new Date("2019-02-01T06:37:01.000Z"),
+				"updatedAt": new Date(1549225356 * 1000),
 				"commentsCount": 193,
 				"commentAttachmentsCount": 36,
 				"comments" : [

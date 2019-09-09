@@ -89,7 +89,7 @@ export default function parseComment(post, {
 		})),
 		// In `/catalog.json` API response there's no `creation` property which is a bug.
 		// http://lynxhub.com/lynxchan/res/722.html#q984
-		new Date(post.creation || 0),
+		post.creation ? new Date(post.creation) : undefined,
 		{
 			censoredWords,
 			parseCommentPlugins,

@@ -4,6 +4,7 @@ export default {
     id: "a"
   },
   title: "Was ist dieses Anime",
+  createdAt: new Date("2019-06-01T16:10:01.564Z"),
   comments: [
     {
       id: 1534,

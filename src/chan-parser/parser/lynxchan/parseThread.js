@@ -70,9 +70,9 @@ export default function parseThread(thread, {
 	if (thread.autoSage) {
 		threadInfo.isBumpLimitReached = true
 	}
-	// Only for `/catalog.json` API response.
+	// `lastBump` is only present in `/catalog.json` API response.
 	if (thread.lastBump) {
-		threadInfo.lastModifiedAt = new Date(thread.lastBump)
+		threadInfo.updatedAt = new Date(thread.lastBump)
 	}
 	// Only for "get thread" API response.
 	if (thread.forceAnonymity) {
