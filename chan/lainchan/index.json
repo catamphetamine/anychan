@@ -63,63 +63,63 @@
 	"boards": [
 		{
 			"id": "λ",
-			"name": "Programming"
+			"title": "Programming"
 		},
 		{
 			"id": "Δ",
-			"name": "Do It Yourself"
+			"title": "Do It Yourself"
 		},
 		{
 			"id": "sec",
-			"name": "Security"
+			"title": "Security"
 		},
 		{
 			"id": "Ω",
-			"name": "Technology"
+			"title": "Technology"
 		},
 		{
 			"id": "inter",
-			"name": "Games and Interactive Media"
+			"title": "Games and Interactive Media"
 		},
 		{
 			"id": "lit",
-			"name": "Literature"
+			"title": "Literature"
 		},
 		{
 			"id": "music",
-			"name": "Musical and Audible Media"
+			"title": "Musical and Audible Media"
 		},
 		{
 			"id": "vis",
-			"name": "Visual Media"
+			"title": "Visual Media"
 		},
 		{
 			"id": "hum",
-			"name": "Humanity"
+			"title": "Humanity"
 		},
 		{
 			"id": "drug",
-			"name": "Drugs 3.0"
+			"title": "Drugs 3.0"
 		},
 		{
 			"id": "zzz",
-			"name": "Consciousness and Dreams"
+			"title": "Consciousness and Dreams"
 		},
 		{
 			"id": "layer",
-			"name": "layer"
+			"title": "layer"
 		},
 		{
 			"id": "q",
-			"name": "Questions and Complaints"
+			"title": "Questions and Complaints"
 		},
 		{
 			"id": "r",
-			"name": "Random"
+			"title": "Random"
 		},
 		{
 			"id": "lain",
-			"name": "Lain"
+			"title": "Lain"
 		}
 	],
 	"proxy": {

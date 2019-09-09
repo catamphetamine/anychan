@@ -37,55 +37,55 @@
   "boards": [
     {
       "id": "art",
-      "name": "Art and Design"
+      "title": "Art and Design"
     },
     {
       "id": "cult",
-      "name": "Culture and Media"
+      "title": "Culture and Media"
     },
     {
       "id": "cyb",
-      "name": "Cyberpunk and Cybersecurity"
+      "title": "Cyberpunk and Cybersecurity"
     },
     {
       "id": "feels",
-      "name": "Personal Experiences"
+      "title": "Personal Experiences"
     },
     {
       "id": "psy",
-      "name": "Psychology and Psychonautics"
+      "title": "Psychology and Psychonautics"
     },
     {
       "id": "q",
-      "name": "Arisuchan Meta"
+      "title": "Arisuchan Meta"
     },
     {
       "id": "r",
-      "name": "Miscellaneous"
+      "title": "Miscellaneous"
     },
     {
       "id": "ru",
-      "name": "Киберпанк-доска"
+      "title": "Киберпанк-доска"
     },
     {
       "id": "tech",
-      "name": "Science and Technology"
+      "title": "Science and Technology"
     },
     {
       "id": "x",
-      "name": "Paranoia"
+      "title": "Paranoia"
     },
     {
       "id": "z",
-      "name": "Zaibatsu"
+      "title": "Zaibatsu"
     },
     {
       "id": "Δ",
-      "name": "DIY and Projects"
+      "title": "DIY and Projects"
     },
     {
       "id": "λ",
-      "name": "Programming"
+      "title": "Programming"
     }
   ],
   "proxy": {
