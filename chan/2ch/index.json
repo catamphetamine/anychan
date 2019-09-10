@@ -84,7 +84,7 @@
 		"Разное",
 		"Взрослым"
 	],
-	"hiddenBoardCategories": [
+	"hideBoardCategories": [
 		"Прочие"
 	],
 	"proxy": {

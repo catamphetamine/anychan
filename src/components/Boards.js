@@ -185,7 +185,7 @@ function Boards_({
 				{getBoardsListItems()}
 			</List>
 
-			{!showAllBoards && showAllBoardsLink && (getChanParserSettings().api.getAllBoards || getChan().hiddenBoardCategories) &&
+			{!showAllBoards && showAllBoardsLink && (getChanParserSettings().api.getAllBoards || getChan().hideBoardCategories) &&
 				<div className="boards__show-all-wrapper">
 					<Link to={addChanParameter('/boards')} className="boards__show-all">
 						{getMessages(locale).boards.showAll}
