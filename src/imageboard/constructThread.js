@@ -104,7 +104,7 @@ function getPostTitle(post, { messages }) {
 		return post.title
 	}
 	const summary = getPostSummary(post.content, post.attachments, {
-		messages: messages.contentType,
+		messages,
 		maxLength: 60,
 		stopOnNewLine: true
 	})

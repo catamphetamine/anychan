@@ -102,6 +102,9 @@
 	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
+	"deletedComment": "Deleted comment",
+	"hiddenComment": "Hidden comment",
+	"quotedComment": "Comment",
 	"post": {
 		"rolling": "Rolling thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",

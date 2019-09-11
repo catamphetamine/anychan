@@ -2,12 +2,21 @@ import Chan from '../imageboard'
 import { getChanConfig, addChanParameter, isDeployedOnChanDomain } from '../chan'
 import getProxyUrl from './utility/getProxyUrl'
 
-export default function Chan_(options = {}) {
-	const { censoredWords, messages, http } = options
+export default function Chan_({
+	censoredWords,
+	messages,
+	http
+}) {
 	return Chan(
 		getChanConfig(),
 		{
-			messages,
+			messages: messages && {
+				quotedComment: messages.quotedComment,
+				hiddenComment: messages.hiddenComment,
+				deletedComment: messages.deletedComment,
+				...messages.contentType,
+				linkTo: messages.post.linkTo
+			},
 			censoredWords,
 			// `expandReplies` must also be `true` in `./getThread.js`
 			// in `addOnContentChange(comment)` function.

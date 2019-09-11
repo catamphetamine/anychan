@@ -11,7 +11,15 @@ export default async function getBoards({ http, all }) {
 	const options = {
 		hideBoardCategories: all ? undefined : getChan().hideBoardCategories
 	}
-	const boards = await (all ? chan.getAllBoards(options) : chan.getBoards(options))
+	let boards = await (all ? chan.getAllBoards(options) : chan.getBoards(options))
+	// Mark hidden boards.
+	if (!all) {
+		markHiddenBoards(boards)
+	}
+	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
+	if (getChan().id === '2ch') {
+		boards = boards.filter(_ => _.id !== 'abu')
+	}
 	if (all) {
 		return { allBoards: getBoardsResult(boards) }
 	}
@@ -82,4 +90,21 @@ function groupBoardsByCategory(boards, categoriesOrder = []) {
 		category.boards.push(board)
 		return categories
 	}, categories).filter(_ => _.boards.length > 0)
+}
+
+function markHiddenBoards(boards) {
+	const hideBoardCategories = getChan().hideBoardCategories
+	const chanId = getChan().id
+	if (hideBoardCategories) {
+		for (const board of boards) {
+			if (hideBoardCategories.indexOf(board.category) >= 0) {
+				// Special case for `2ch.hk`'s `/int/` board which happens to be
+				// in the ignored category but shouldn't be hidden.
+				if (chanId === '2ch' && board.id === 'int') {
+					continue
+				}
+				board.isHidden = true
+			}
+		}
+	}
 }

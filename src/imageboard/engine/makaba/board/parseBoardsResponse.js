@@ -13,17 +13,5 @@ export default function parseBoards(response, { hideBoardCategories }) {
 		boardTags[tag.board].push(tag.tag)
 	}
 	// Parse boards.
-	let boards = response.boards.map(board => parseBoard(board, boardTags))
-	// Mark hidden boards.
-	for (const board of boards) {
-		if (hideBoardCategories && hideBoardCategories.indexOf(board.category) >= 0) {
-			// Special case for `2ch.hk`'s `/int/` board which is in the ignored category.
-			if (board.id !== 'int') {
-				board.isHidden = true
-			}
-		}
-	}
-	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
-	boards = boards.filter(_ => _.id !== 'abu')
-	return boards
+	return response.boards.map(board => parseBoard(board, boardTags))
 }
