@@ -6,7 +6,13 @@ import { forEachFollowingQuote } from 'webapp-frontend/src/utility/post/combineQ
  * Has some CPU usage.
  * @return {boolean} [contentDidChange] — Returns `true` if `content` did change (either as a result of setting an in-reply-to quote or as a result of setting "deleted post"/"hidden post" flag).
  */
-export default function setInReplyToQuotes(content, getPostById, options, contentParent, isLastInParagraph = true) {
+export default function setInReplyToQuotes(
+	content,
+	getPostById,
+	options,
+	contentParent,
+	isLastInParagraph = true
+) {
 	if (Array.isArray(content)) {
 		let i = 0
 		let contentDidChange = false

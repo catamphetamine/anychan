@@ -1,6 +1,7 @@
 import Chan from './Chan'
 import setThreadInfo from './utility/setThreadInfo'
 import createByIdIndex from '../utility/createByIdIndex'
+import getMessages from './utility/getMessages'
 import configuration from '../configuration'
 
 import { generateQuotes } from '../imageboard'
@@ -41,7 +42,7 @@ export default async function getThread({
 				commentLengthLimit: configuration.commentLengthLimit,
 				getCommentById,
 				threadId,
-				messages,
+				messages: getMessages(messages),
 				isFirstRun,
 				isParentCommentUpdate
 			})
