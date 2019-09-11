@@ -1,0 +1,19 @@
+{
+	"id": "2ch",
+	"domain": "2ch.hk",
+	"engine": "makaba",
+	"commentUrlParser": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json",
+		"getBoards": "/boards.json",
+		"vote": {
+			"method": "GET",
+			"url": "/makaba/likes.fcgi",
+			"voteParam": "task",
+			"voteParamUp": "like",
+			"voteParamUp": "dislike",
+			"params": "{ \"board\": \"{boardId}\", \"num\": {commentId} }"
+		}
+	}
+}

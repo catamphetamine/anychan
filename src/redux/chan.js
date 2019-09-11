@@ -2,9 +2,9 @@ import { ReduxModule } from 'react-website'
 
 import getMessages from '../messages'
 
-import _getBoards from '../chan-api/getBoards'
-import _getThreads from '../chan-api/getThreads'
-import _getThreadComments from '../chan-api/getThreadComments'
+import _getBoards from '../api/getBoards'
+import _getThreads from '../api/getThreads'
+import _getThread from '../api/getThread'
 
 const redux = new ReduxModule('CHAN')
 
@@ -46,10 +46,10 @@ export const getThreads = redux.action(
 	}
 )
 
-export const getThreadComments = redux.action(
+export const getThread = redux.action(
 	'GET_THREAD_COMMENTS',
 	(boardId, threadId, censoredWords, locale) => async http => {
-		return await _getThreadComments({
+		return await _getThread({
 			boardId,
 			threadId,
 			censoredWords,

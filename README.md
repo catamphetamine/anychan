@@ -268,7 +268,7 @@ Sometimes chan administration needs to announce something to the users. Things l
 
 ## Adding a new chan
 
-First [add the chan to `src/chan-parser`](https://github.com/catamphetamine/captchan/tree/master/src/chan-parser#adding-a-new-chan). Then add the chan to `captchan` itself:
+First [add the chan to `src/imageboard`](https://github.com/catamphetamine/captchan/tree/master/src/imageboard#adding-a-new-chan). Then add the chan to `captchan` itself:
 
 * Create chan's directory in `./chan`.
 * Create `index.json`, `logo.svg`/`logo.jpg`/`logo.png` and `icon.png` files in the chan's directory (see other chans as an example).

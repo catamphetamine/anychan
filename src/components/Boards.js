@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { getChan, getChanParserSettings, addChanParameter } from '../chan'
+import { getChan, getChanConfig, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
@@ -185,7 +185,7 @@ function Boards_({
 				{getBoardsListItems()}
 			</List>
 
-			{!showAllBoards && showAllBoardsLink && (getChanParserSettings().api.getAllBoards || getChan().hideBoardCategories) &&
+			{!showAllBoards && showAllBoardsLink && (getChanConfig().api.getAllBoards || getChan().hideBoardCategories) &&
 				<div className="boards__show-all-wrapper">
 					<Link to={addChanParameter('/boards')} className="boards__show-all">
 						{getMessages(locale).boards.showAll}

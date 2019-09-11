@@ -1,0 +1,10 @@
+import './correctQuotes.test'
+import './parseLinksInText.test'
+import './removeNewLineCharacters.test'
+import './dropQuoteMarker.test'
+import './splitParagraphs.test'
+import './parseComment.test'
+import './parsePostLink.test'
+import './parsePostLinks.test'
+// Engines.
+import './engine/test'

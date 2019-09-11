@@ -1,6 +1,6 @@
 import configuration from './configuration'
 import CHANS from './chans'
-import { getChanSettings } from './chan-parser'
+import { getConfig } from './imageboard'
 
 export function getChan(id = getChanId()) {
 	if (id) {
@@ -58,11 +58,12 @@ export function addChanParameter(url) {
 // Some chans may be deployed on regular HTTP for simplicity.
 // `4chan.org` has "https://www.4chan.org" website URL:
 // when navigating to "https://4chan.org" images won't load.
-const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
+// const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
+const WWW_REGEXP = /^(www\.)?/
 export function isDeployedOnChanDomain(chan = getChan()) {
 	if (typeof window !== 'undefined') {
-		const domain = window.location.hostname
-		if (getChanUrl(chan.id).replace(HTTPS_REGEXP, '') === domain) {
+		const domain = window.location.hostname.replace(WWW_REGEXP, '')
+		if (getChanDomain(chan.id).replace(WWW_REGEXP, '') === domain) {
 			return true
 		}
 		if (chan.domains) {
@@ -104,19 +105,19 @@ export function getProxyUrl() {
 export function getAbsoluteUrl(url) {
 	if (url[0] === '/' && url[1] !== '/') {
 		if (!isDeployedOnChanDomain() ) {
-			return getChanUrl() + url
+			return `https://${getChanDomain()}${url}`
 		}
 	}
 	return url
 }
 
-export function getChanUrl(chanId = getChanId()) {
-	return getChanParserSettings().url
+export function getChanDomain(chanId = getChanId()) {
+	return getChanConfig(chanId).domain
 }
 
-export function getChanParserSettings(chanId = getChanId()) {
-	return getChanSettings(chanId) || {
+export function getChanConfig(chanId = getChanId()) {
+	return getConfig(chanId) || {
 		id: chanId,
-		...getChan(chanId).parser
+		...getChan(chanId).engine
 	}
 }

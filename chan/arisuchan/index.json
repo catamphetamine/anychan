@@ -34,60 +34,6 @@
 		"text": "Donate",
 		"url": "https://arisuchan.jp/infornography.php#faq"
 	}],
-  "boards": [
-    {
-      "id": "art",
-      "title": "Art and Design"
-    },
-    {
-      "id": "cult",
-      "title": "Culture and Media"
-    },
-    {
-      "id": "cyb",
-      "title": "Cyberpunk and Cybersecurity"
-    },
-    {
-      "id": "feels",
-      "title": "Personal Experiences"
-    },
-    {
-      "id": "psy",
-      "title": "Psychology and Psychonautics"
-    },
-    {
-      "id": "q",
-      "title": "Arisuchan Meta"
-    },
-    {
-      "id": "r",
-      "title": "Miscellaneous"
-    },
-    {
-      "id": "ru",
-      "title": "Киберпанк-доска"
-    },
-    {
-      "id": "tech",
-      "title": "Science and Technology"
-    },
-    {
-      "id": "x",
-      "title": "Paranoia"
-    },
-    {
-      "id": "z",
-      "title": "Zaibatsu"
-    },
-    {
-      "id": "Δ",
-      "title": "DIY and Projects"
-    },
-    {
-      "id": "λ",
-      "title": "Programming"
-    }
-  ],
   "proxy": {
   	"aws": false
   }

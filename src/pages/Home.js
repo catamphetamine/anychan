@@ -6,7 +6,7 @@ import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
 import ChanLogo, { hasLogo } from '../components/ChanLogo'
 
-import { getChan, getChanUrl } from '../chan'
+import { getChan, getChanDomain } from '../chan'
 import getMessages from '../messages'
 import { showSidebar, setSidebarMode } from '../redux/app'
 
@@ -43,7 +43,7 @@ function Home({
 					{hasLogo() &&
 						<a
 							target="_blank"
-							href={getChanUrl()}
+							href={`https://${getChanDomain()}`}
 							className="home-page__logo-link">
 							<ChanLogo className="home-page__logo"/>
 						</a>
@@ -51,7 +51,7 @@ function Home({
 					<div className="home-page__title">
 						<a
 							target="_blank"
-							href={getChanUrl()}>
+							href={`https://${getChanDomain()}`}>
 							{title}
 						</a>
 						<div className="home-page__subtitle">

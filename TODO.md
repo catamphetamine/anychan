@@ -14,13 +14,35 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
+
+
+Добавить голосование (upvotes/downvotes) на `2ch.hk`.
+
+
+
+
+
+
+Release `social-components` npm module.
+
+Release `imageboard` npm module. Move API docs to `imageboard/docs` leaving "This document has been moved to [`imageboard/docs/...`](...)" notes in this repo. Rename `2ch.hk.md` to `makaba.md`, `4chan.org.md` -> `4chan.md`.
+
+
+
+
+
+
+У треда хранить количество комментариев в тот раз, когда прочитывал тред (`visitedCommentsCount`), но при этом комментарии могут удаляться, и тогда счётчик съедет, и не покажет "+N" в каталоге. Для таких случаев хранить ещё и `updatedAt`, и смотреть, изменилась ли она. Если изменилась, а новых комментариев нету, то показывать что-нибудь типа "+?", или просто "+".
+
+Для коллекций типа `...-comment` в UserData (например, latestReadComment или ownComments) допускать, что комментарий может быть удалён, и поэтому как-то делать fallback до первого существующего предыдущего комментария, например (в случае с latestReadComment).
+
+Не подсвечивать текущую доску в списках "Досок" и "Всех Досок", если уже показан в сайдбаре подсвеченный отслеживаемый тред. Аналогично, не подсвечивать текущую доску в списке "Всех Досок", если она уже показана в списке "Досок" в сайдбаре.
+
 В хедере показывать мб квадратную картинку треда. Если picture spoiler, то делать blur в хедере.
 
 Если тред отслеживается, то помечать его иконкой в каталоге (мб звездой оранжевой).
 
-Синхронизировать добавление/удаление tracked threads между вкладками (localStorage events).
-
-При заходе с одного чана на другой — экспайрятся все треды. Мб есть какое-то решение. А мб и нет.
+Синхронизировать добавление/удаление tracked threads между вкладками (localStorage events) — вообще, синхронизировать таким образом всю UserData (прочитанность комментариев, тредов, и т.п.), и вызывать `onUserDataChange()`.
 
 После удаления треда из списка отслеживаемых показывать "Тред удалён из списка. Отменить". Для удалённых тредов — не показывать. Для существующих — показывать как-то, мб через Notification.
 
@@ -122,8 +144,6 @@ Show the "bump limit" indicator in the "Watched threads" list for threads that h
 При ответе в тред сделать галку "Не отслеживать комментарии в этом треде".
 
 
-Выделить chan-parser в пакет npm, и часть readme в него. Можно вынести в него описание chan api, а в captchan написать, что "This document has been moved to [`chan-parser/docs/...`](...)".
-
 Redo screenshots.
 
 
@@ -200,12 +220,6 @@ Load instagram posts through CORS proxy (if configured).
 При показе цитаты на "Удалённый комментарий" делать его без ссылки и с `title="Deleted comment"`.
 
 Обновление в `react-time-ago` можно вынести в `requestIdleCallback()`.
-
-В `getPostText()` ссылки можно заменять на `"[link to www.google.com]"` вместо просто `(link)`.
-
-
-Добавить голосование (upvotes/downvotes) на `2ch.hk`.
-
 
 
 

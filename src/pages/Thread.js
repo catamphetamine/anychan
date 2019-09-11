@@ -14,7 +14,7 @@ import classNames from 'classnames'
 import VirtualScroller from 'virtual-scroller/react'
 
 import { setVirtualScrollerState, setScrollPosition, isThreadTracked } from '../redux/thread'
-import { getThreadComments } from '../redux/chan'
+import { getThread } from '../redux/chan'
 import { trackThread, untrackThread, threadExpired } from '../redux/threadTracker'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
@@ -47,7 +47,7 @@ import './Thread.css'
 	const boardId = params.board
 	const threadId = parseInt(params.thread)
 	try {
-		await dispatch(getThreadComments(
+		await dispatch(getThread(
 			boardId,
 			threadId,
 			getState().app.settings.censoredWords,

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { post } from '../PropTypes'
 import getMessages, { getCountryNames } from '../messages'
-import { getChan, getChanUrl, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
+import { getChan, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
 
 import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
 

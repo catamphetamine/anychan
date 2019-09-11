@@ -1,0 +1,213 @@
+{
+	"id": "kohlchan",
+	"domain": "kohlchan.net",
+	"engine": "lynxchan",
+	"thumbnailSize": 200,
+	"defaultAuthorName": {
+		"*": "Bernd",
+		"ru": "Бернд"
+	},
+	"commentUrlParser": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"api": {
+		"getThread": "/{boardId}/res/{threadId}.json",
+		"getThreads": "/{boardId}/catalog.json"
+	},
+	"boards": [
+		{
+			"id": "b",
+			"title": "Unser gemeinsamer, freier Kanal KC",
+			"category": "VIP"
+		},
+		{
+			"id": "pol",
+			"title": "Politik",
+			"category": "VIP"
+		},
+		{
+			"id": "int",
+			"title": "International",
+			"category": "VIP"
+		},
+		{
+			"id": "a",
+			"title": "Animu",
+			"category": "Allgemein"
+		},
+		{
+			"id": "alt",
+			"title": "Krautchan",
+			"category": "Allgemein"
+		},
+		{
+			"id": "bus",
+			"title": "Bus fahren",
+			"category": "Allgemein"
+		},
+		{
+			"id": "c",
+			"title": "Computer & Technik",
+			"category": "Allgemein"
+		},
+		{
+			"id": "co",
+			"title": "Comics und Cartoon",
+			"category": "Allgemein"
+		},
+		{
+			"id": "cyber",
+			"title": "CYBER",
+			"category": "Allgemein"
+		},
+		{
+			"id": "d",
+			"title": "Drogen",
+			"category": "Allgemein"
+		},
+		{
+			"id": "danisch",
+			"title": "Danisch",
+			"description": "Kommentarspalte von Hadmut",
+			"category": "Allgemein"
+		},
+		{
+			"id": "e",
+			"title": "Essen & Trinken",
+			"category": "Allgemein"
+		},
+		{
+			"id": "f",
+			"title": "Fahrzeuge",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fb",
+			"title": "Frag Bernd",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fefe",
+			"title": "Fefe (dietchan)",
+			"category": "Allgemein"
+		},
+		{
+			"id": "fit",
+			"title": "Fitness",
+			"category": "Allgemein"
+		},
+		{
+			"id": "foto",
+			"title": "Foto & Kunst",
+			"category": "Allgemein"
+		},
+		{
+			"id": "jp",
+			"title": "2D/Chaos",
+			"category": "Allgemein"
+		},
+		{
+			"id": "l",
+			"title": "Literatur",
+			"category": "Allgemein"
+		},
+		{
+			"id": "mali",
+			"title": "Kreatives und Malen",
+			"category": "Allgemein"
+		},
+		{
+			"id": "med",
+			"title": "Medizin",
+			"category": "Allgemein"
+		},
+		{
+			"id": "mu",
+			"title": "Musik",
+			"category": "Allgemein"
+		},
+		{
+			"id": "n",
+			"title": "Natur",
+			"category": "Allgemein"
+		},
+		{
+			"id": "ng",
+			"title": "NG",
+			"category": "Allgemein"
+		},
+		{
+			"id": "ph",
+			"title": "Philosophie",
+			"category": "Allgemein"
+		},
+		{
+			"id": "prog",
+			"title": "Programmieren",
+			"category": "Allgemein"
+		},
+		{
+			"id": "s",
+			"title": "Schönes",
+			"category": "Allgemein"
+		},
+		{
+			"id": "soz",
+			"title": "Soziales",
+			"category": "Allgemein"
+		},
+		{
+			"id": "trv",
+			"title": "Travel (de/en)",
+			"category": "Allgemein"
+		},
+		{
+			"id": "tu",
+			"title": "Turingvollständigkeit",
+			"category": "Allgemein"
+		},
+		{
+			"id": "tv",
+			"title": "TV&VHS",
+			"category": "Allgemein"
+		},
+		{
+			"id": "v",
+			"title": "Videospiele",
+			"category": "Allgemein"
+		},
+		{
+			"id": "w",
+			"title": "Wissenschaft",
+			"category": "Allgemein"
+		},
+		{
+			"id": "we",
+			"title": "Weltschmerz",
+			"category": "Allgemein"
+		},
+		{
+			"id": "x",
+			"title": "X-Factor",
+			"category": "Allgemein"
+		},
+		{
+			"id": "kohl",
+			"title": "Verwaltung (de/en)",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "km",
+			"title": "Krautmeister",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "m",
+			"title": "Müll (de/en)",
+			"category": "Sonstiges"
+		},
+		{
+			"id": "ru",
+			"title": "Бред",
+			"category": "Sonstiges"
+		}
+	]
+}

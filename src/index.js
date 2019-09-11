@@ -8,15 +8,11 @@ if (process.env.NODE_ENV !== 'production') {
 	// Self-test.
 	setTimeout(() => require('./test'))
 
-	// `chan-parser` self-test.
-	setTimeout(() => require('./chan-parser/test'))
+	// `imageboard` self-test.
+	setTimeout(() => require('./imageboard/test'))
 
 	// `webapp-frontend/src/utility` self-test.
 	setTimeout(() => require('webapp-frontend/src/utility/test'))
-}
-
-if (process.env.NODE_ENV !== 'production') {
-	window.TWO_CHANNEL_BOARDS_RESPONSE_EXAMPLE = require('./chan-parser/parser/2ch/test.data').BOARDS_RESPONSE_EXAMPLE
 }
 
 // Run the application.
