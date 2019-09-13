@@ -383,7 +383,7 @@ Additional fields:
 
 A `censoredWords` option can be passed to the `Chan` function to censor certain words in parsed comments' `content` or `title`. The `censoredWords: object[]?` option must be a list of word filters pre-compiled via the exported `compileWordPatterns(censoredWords, language)` function:
 
-* `language: string` — (required) A lowercase two-letter language code (examples: `"en"`, `"ru"`, `"de"`) and is only used to generate a regular expression for splitting text into individual words.
+* `language: string` — (required) A lowercase two-letter language code (examples: `"en"`, `"ru"`, `"de"`) that's used to generate a regular expression for splitting text into individual words.
 
 * `censoredWords: string[]` — (required) An array of `string` word patterns. The standard regular expression syntax applies, `^` meaning "word start", `$` meaning "word end", `.` meaning "any letter", etc. The patterns are applied to each individual word and if there's a match then the whole word is censored.
 
