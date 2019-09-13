@@ -70,7 +70,7 @@ If a `chanId` is supported by the library out-of-the-box (see the `./chan` direc
 
 Available `chanConfig` properties:
 
-* `id: string?` — (optional) Chan identifier that could be used to differentiate between different chans using the same engine in the engine code. For example, `4chan` engine used by `4chan` chan is compatible with `8ch.net` chan and the small differences are handled internally in the `4chan` engine code via `if (id === "8ch") { ... } else { ... }`.
+* `id: string` — (required) Chan ID.
 * `engine: string` — (required) The engine used by the chan. Must be supported out-of-the-box (see the `./engine` directory). Supported engines: `"4chan"`, `"vichan"`, `"OpenIB"`, `"lynxchan"`, `"makaba"`.
 * `commentUrlParser: string` — (required) A `string` used to parse "in reply to" comment ids from comment HTML content to populate `comment.inReplyTo` arrays.
 * `defaultAuthorName: (string|object)?` — (optional) Can be a `string` or an object of shape `{ boardId: defaultName }` where `boardId === "*"` means "any other board". Default author name is used to determine whether a comment's `authorName` should be set to `undefined` instead of a dummy string value (for example, `"Anonymous"`).
