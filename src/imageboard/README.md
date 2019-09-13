@@ -429,6 +429,50 @@ Censored words in comment/thread `title`s don't result in their replacement but 
   // * `"makaba"`
   "engine": "vichan",
 
+  // (optional)
+  // Boards list.
+  // Some smaller older imageboards don't provide a "get boards list" API.
+  // For such imageboards the boards list is "hardcoded" in the config.
+  "boards": [
+    {
+      // (required)
+      // Board ID.
+      "id": "λ",
+
+      // (required)
+      // Board title.
+      "title": "Programming",
+
+      // (optional)
+      // Board category.
+      // Can be used to display boards grouped by category.
+      "category": "Technology"
+    },
+    ...
+  ],
+
+  // (required)
+  "api": {
+    // (required if there's no "boards" config parameter)
+    // "Get boards list" API URL.
+    "getBoards": "/boards-top20.json",
+
+    // (optional)
+    // "Get all boards list" API URL.
+    // `8ch.net` has about `20,000` boards total
+    // so "getBoards" API only returns top 20 of them
+    // while "getAllBoards" API returns all `20,000` of them.
+    "getAllBoards": "/boards.json",
+
+    // (required)
+    // "Get threads list" API URL template.
+    "getThreads": "/{boardId}/catalog.json",
+
+    // (required)
+    // "Get thread comments" API URL template.
+    "getThread": "/{boardId}/res/{threadId}.json"
+  },
+
   // (required)
   // A template for parsing links to other comments in comment HTML.
   // The first "group" must match board id,
