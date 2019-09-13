@@ -4,13 +4,14 @@ import getEngine from './engine/index'
 import getChan from './chan/index'
 
 export default function Chan(chanConfig, options) {
-	const Chan = getChan(chanConfig.id)
-	if (Chan) {
-		return Chan(options)
+	if (typeof chanConfig === 'string') {
+		const chanId = chanConfig
+		const Chan = getChan(chanId)
+		if (Chan) {
+			return Chan(options)
+		}
+		throw new RangeError(`Unknown chan: ${chanId}`)
 	}
-	if (chanConfig.engine) {
-		const Engine = getEngine(chanConfig.engine)
-		return new Engine(chanConfig, options)
-	}
-	throw new RangeError(`Unknown chan: ${chanConfig.id}`)
+	const Engine = getEngine(chanConfig.engine)
+	return new Engine(chanConfig, options)
 }
