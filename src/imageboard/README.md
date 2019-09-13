@@ -19,19 +19,19 @@ import request from 'superagent'
 import Chan from './imageboard'
 
 const chan = Chan('4chan', {
-	request(method, url, parameters) {
-		// Sends an HTTP request.
-		// Any HTTP request library can be used here.
-		// Must return a `Promise` resolving to response JSON.
-		switch (method) {
-			case 'POST':
-				return request.post(url).send(parameters)
-			case 'GET':
-				return request.get(url)
-			default:
-				throw new Error('Not supported')
-		}
-	}
+  request(method, url, parameters) {
+    // Sends an HTTP request.
+    // Any HTTP request library can be used here.
+    // Must return a `Promise` resolving to response JSON.
+    switch (method) {
+      case 'POST':
+        return request.post(url).send(parameters)
+      case 'GET':
+        return request.get(url)
+      default:
+        throw new Error('Not supported')
+    }
+  }
 })
 
 // Get the list of boards.
@@ -139,9 +139,9 @@ Additional fields:
 
 ```js
 {
-	// (only for `2ch.hk`)
-	// `true` in case of a `2ch.hk` sticker.
-	sticker: boolean?
+  // (only for `2ch.hk`)
+  // `true` in case of a `2ch.hk` sticker.
+  sticker: boolean?
 }
 ```
 -->
@@ -154,81 +154,81 @@ Additional fields:
 
 ```js
 {
-	// Comment ID.
-	id: number,
-	// Board ID.
-	// Example: "b".
-	boardId: string,
-	// Thread ID.
-	threadId: number,
-	// Comment title ("subject").
-	title: string?,
-	// If `title` contains ignored words then a censored title
-	// containing "censored" "spoilers" will be generated.
-	titleCensored: InlineContent?,
-	// The date on which the comment was posted.
-	createdAt: Date,
-	// A "tripcode".
-	// https://encyclopediadramatica.rs/Tripcode
-	tripCode: String?,
-	// `2ch.hk` provides means for "original posters" to identify themselves
-	// when replying in their own threads with a previously set "OP" cookie.
-	isThreadAuthor: boolean?,
-	// Some chans identify their users by a hash of their IP address subnet
-	// on some of their boards (for example, all chans do that on `/pol/` boards).
-	authorId: String?,
-	// If `authorId` is present then it's converted into a HEX color.
-	// Example: "#c05a7f".
-	authorIdColor: String?,
-	// Comment author name.
-	authorName: String?,
-	// `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
-	// If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-	authorNameId: boolean?,
-	// A two-letter ISO country code (or "ZZ" for "Anonymized").
-	// Chans usually show poster flags on `/int/` boards.
-	authorCountry: String?,
-	// Some chans allow icons for posts on some boards.
-	// For example, `kohlchan.net` shows user icons on `/int/` board.
-	// Author icon examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
-	// `authorBadgeUrl` is `/.static/flags/${authorBadge}.png`.
-	// `authorBadgeName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
-	// Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
-	// Author icon examples in this case: "nya", "liber", "comm", "libertar", etc.
-	// `authorBadgeUrl` is `/icons/logos/${authorBadge}.png`.
-	// `authorBadgeName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
-	authorBadgeUrl: String?,
-	authorBadgeName: String?,
-	// If the comment was posted by a "priviliged" user
-	// then it's gonna be the role of the comment author.
-	// Examples: "administrator", "moderator".
-	authorRole: String?,
-	// `8ch.net` and `lynxchan` have "global adiministrators"
-	// and "board administrators", and "global moderators"
-	// and "board moderators", so `authorRoleDomain` is gonna be
-	// "board" for a "board administrator" or "board moderator".
-	authorRoleDomain: String?,
-	// If `true` then it means that the author was banned for the message.
-	authorBan: boolean?,
-	// An optional `String` with the ban reason.
-	authorBanReason: String?,
-	// Downvotes count for this comment.
-	// Only for boards like `/po/` on `2ch.hk`.
-	upvotes: number?,
-	// Downvotes count for this comment.
-	// Only for boards like `/po/` on `2ch.hk`.
-	downvotes: number?,
-	// Comment content.
-	// Example: `[['Text']]`.
-	content: Content?,
-	// If the `content` is too long a preview is generated.
-	contentPreview: Content?,
-	// Comment attachments.
-	attachments: Attachment[]?,
-	// The IDs of the comments to which this comment replies.
-	inReplyTo: number[]?,
-	// The IDs of the comments which are replies to this comment.
-	replies: number[]?
+  // Comment ID.
+  id: number,
+  // Board ID.
+  // Example: "b".
+  boardId: string,
+  // Thread ID.
+  threadId: number,
+  // Comment title ("subject").
+  title: string?,
+  // If `title` contains ignored words then a censored title
+  // containing "censored" "spoilers" will be generated.
+  titleCensored: InlineContent?,
+  // The date on which the comment was posted.
+  createdAt: Date,
+  // A "tripcode".
+  // https://encyclopediadramatica.rs/Tripcode
+  tripCode: String?,
+  // `2ch.hk` provides means for "original posters" to identify themselves
+  // when replying in their own threads with a previously set "OP" cookie.
+  isThreadAuthor: boolean?,
+  // Some chans identify their users by a hash of their IP address subnet
+  // on some of their boards (for example, all chans do that on `/pol/` boards).
+  authorId: String?,
+  // If `authorId` is present then it's converted into a HEX color.
+  // Example: "#c05a7f".
+  authorIdColor: String?,
+  // Comment author name.
+  authorName: String?,
+  // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
+  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+  authorNameId: boolean?,
+  // A two-letter ISO country code (or "ZZ" for "Anonymized").
+  // Chans usually show poster flags on `/int/` boards.
+  authorCountry: String?,
+  // Some chans allow icons for posts on some boards.
+  // For example, `kohlchan.net` shows user icons on `/int/` board.
+  // Author icon examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
+  // `authorBadgeUrl` is `/.static/flags/${authorBadge}.png`.
+  // `authorBadgeName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
+  // Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
+  // Author icon examples in this case: "nya", "liber", "comm", "libertar", etc.
+  // `authorBadgeUrl` is `/icons/logos/${authorBadge}.png`.
+  // `authorBadgeName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
+  authorBadgeUrl: String?,
+  authorBadgeName: String?,
+  // If the comment was posted by a "priviliged" user
+  // then it's gonna be the role of the comment author.
+  // Examples: "administrator", "moderator".
+  authorRole: String?,
+  // `8ch.net` and `lynxchan` have "global adiministrators"
+  // and "board administrators", and "global moderators"
+  // and "board moderators", so `authorRoleDomain` is gonna be
+  // "board" for a "board administrator" or "board moderator".
+  authorRoleDomain: String?,
+  // If `true` then it means that the author was banned for the message.
+  authorBan: boolean?,
+  // An optional `String` with the ban reason.
+  authorBanReason: String?,
+  // Downvotes count for this comment.
+  // Only for boards like `/po/` on `2ch.hk`.
+  upvotes: number?,
+  // Downvotes count for this comment.
+  // Only for boards like `/po/` on `2ch.hk`.
+  downvotes: number?,
+  // Comment content.
+  // Example: `[['Text']]`.
+  content: Content?,
+  // If the `content` is too long a preview is generated.
+  contentPreview: Content?,
+  // Comment attachments.
+  attachments: Attachment[]?,
+  // The IDs of the comments to which this comment replies.
+  inReplyTo: number[]?,
+  // The IDs of the comments which are replies to this comment.
+  replies: number[]?
 }
 ```
 
@@ -236,101 +236,101 @@ Additional fields:
 
 ```js
 {
-	// Thread ID.
-	// Same as the "id" of the first comment.
-	id: number,
-	// Board ID.
-	// Example: "b".
-	boardId: string,
-	// Comments count in this thread.
-	// (not including the main comment of the thread).
-	commentsCount: number,
-	// Attachments count in the comments of this thread.
-	// (doesn't include the main comment of the thread).
-	commentAttachmentsCount: number,
-	// Thread title ("subject").
-	// Either the first comment's `title` or is
-	// autogenerated from the first comment's content.
-	title: string?,
-	// If `title` contains ignored words then a censored title
-	// containing "censored" "spoilers" will be generated.
-	// (with "spoilers" represented by "​░​" characters)
-	titleCensored: string?,
-	// Comments in this thread.
-	// (including the main comment of the thread).
-	comments: Comment[],
-	// Is this thread "sticky" (pinned).
-	isSticky: boolean?,
-	// Is this thread locked.
-	isLocked: boolean?,
-	// A "rolling" thread is the one where old messages are purged as new ones come in.
-	isRolling: boolean?,
-	// Was the "bump limit" reached for this thread already.
-	// Is `false` when the thread is "sticky" or "rolling"
-	// because such threads don't expire.
-	isBumpLimitReached: boolean?,
-	// `4chan.org` sets a limit on maximum attachments count in a thread.
-	isAttachmentLimitReached: boolean?,
-	// `2ch.hk` and `lynxchan` don't specify board settings in `/boards.json` API response.
-	// Instead, they return various limits as part of "get threads" or
-	// "get thread comments" API responses (`2ch.hk` returns for both
-	// and `lynxchan` returns only for "get thread comments" API).
-	// In such case `board` will be present in a `Thread` object.
-	// Also `board` will be present when "get thread comments" API response
-	// contains board title.
-	board: {
-		// (both `lynxchan` and `2ch.hk`)
-		// Board title.
-		title: string,
-		// (`2ch.hk` only)
-		// "Bump limit" for threads on this board.
-		bumpLimit: number,
-		// (both `lynxchan` and `2ch.hk`)
-		// Maximum comment length.
-		maxCommentLength: number,
-		// (`2ch.hk` only)
-		// Maximum total attachments size for a post.
-		maxAttachmentsSize: number,
-		// (`lynxchan` only)
-		// Maximum attachment size for a post.
-		maxAttachmentSize: number,
-		// (`lynxchan` only)
-		// Maximum attachments count for a post.
-		maxAttachments: number,
-		// (`2ch.hk` only)
-		// Whether this board allows "Subject" when posting a new reply or creating a new thread.
-		areSubjectsAllowed: boolean,
-		// (`2ch.hk` only)
-		// Whether this board allows attachments on posts.
-		areAttachmentsAllowed: boolean,
-		// (`2ch.hk` only)
-		// Whether this board allows specifying "tags" when creating a new thread.
-		areTagsAllowed: boolean,
-		// (`2ch.hk` only)
-		// Whether this board allows voting for comments/threads.
-		hasVoting: boolean,
-		// (both `lynxchan` and `2ch.hk`)
-		// An array of "badges" (like country flags but not country flags)
-		// that can be used when posting a new reply or creating a new thread.
-		// Each "badge" has an `id` and a `title`.
-		badges: object[]?
-	},
-	// The date on which the thread was created.
-	// All chans except `lynxchan` have this.
-	// `lynxchan` doesn't have it which is a bug
-	// but seems like they don't want to fix it.
-	createdAt: Date?,
-	// "Last Modified Date", usually including:
-	// posting new comments, deleting existing comments, sticky/closed status changes.
-	// Is usually present on all chans in "get threads list" API response
-	// but not in "get thread comments" API response.
-	updatedAt: Date?,
-	// Custom spoiler ID (if custom spoilers are used on the board).
-	// Only present for `4chan.org`.
-	customSpoilerId: number?,
-	// Unique poster IP address subnets count.
-	// Only present in "get thread" API response.
-	uniquePostersCount: number?
+  // Thread ID.
+  // Same as the "id" of the first comment.
+  id: number,
+  // Board ID.
+  // Example: "b".
+  boardId: string,
+  // Comments count in this thread.
+  // (not including the main comment of the thread).
+  commentsCount: number,
+  // Attachments count in the comments of this thread.
+  // (doesn't include the main comment of the thread).
+  commentAttachmentsCount: number,
+  // Thread title ("subject").
+  // Either the first comment's `title` or is
+  // autogenerated from the first comment's content.
+  title: string?,
+  // If `title` contains ignored words then a censored title
+  // containing "censored" "spoilers" will be generated.
+  // (with "spoilers" represented by "​░​" characters)
+  titleCensored: string?,
+  // Comments in this thread.
+  // (including the main comment of the thread).
+  comments: Comment[],
+  // Is this thread "sticky" (pinned).
+  isSticky: boolean?,
+  // Is this thread locked.
+  isLocked: boolean?,
+  // A "rolling" thread is the one where old messages are purged as new ones come in.
+  isRolling: boolean?,
+  // Was the "bump limit" reached for this thread already.
+  // Is `false` when the thread is "sticky" or "rolling"
+  // because such threads don't expire.
+  isBumpLimitReached: boolean?,
+  // `4chan.org` sets a limit on maximum attachments count in a thread.
+  isAttachmentLimitReached: boolean?,
+  // `2ch.hk` and `lynxchan` don't specify board settings in `/boards.json` API response.
+  // Instead, they return various limits as part of "get threads" or
+  // "get thread comments" API responses (`2ch.hk` returns for both
+  // and `lynxchan` returns only for "get thread comments" API).
+  // In such case `board` will be present in a `Thread` object.
+  // Also `board` will be present when "get thread comments" API response
+  // contains board title.
+  board: {
+    // (both `lynxchan` and `2ch.hk`)
+    // Board title.
+    title: string,
+    // (`2ch.hk` only)
+    // "Bump limit" for threads on this board.
+    bumpLimit: number,
+    // (both `lynxchan` and `2ch.hk`)
+    // Maximum comment length.
+    maxCommentLength: number,
+    // (`2ch.hk` only)
+    // Maximum total attachments size for a post.
+    maxAttachmentsSize: number,
+    // (`lynxchan` only)
+    // Maximum attachment size for a post.
+    maxAttachmentSize: number,
+    // (`lynxchan` only)
+    // Maximum attachments count for a post.
+    maxAttachments: number,
+    // (`2ch.hk` only)
+    // Whether this board allows "Subject" when posting a new reply or creating a new thread.
+    areSubjectsAllowed: boolean,
+    // (`2ch.hk` only)
+    // Whether this board allows attachments on posts.
+    areAttachmentsAllowed: boolean,
+    // (`2ch.hk` only)
+    // Whether this board allows specifying "tags" when creating a new thread.
+    areTagsAllowed: boolean,
+    // (`2ch.hk` only)
+    // Whether this board allows voting for comments/threads.
+    hasVoting: boolean,
+    // (both `lynxchan` and `2ch.hk`)
+    // An array of "badges" (like country flags but not country flags)
+    // that can be used when posting a new reply or creating a new thread.
+    // Each "badge" has an `id` and a `title`.
+    badges: object[]?
+  },
+  // The date on which the thread was created.
+  // All chans except `lynxchan` have this.
+  // `lynxchan` doesn't have it which is a bug
+  // but seems like they don't want to fix it.
+  createdAt: Date?,
+  // "Last Modified Date", usually including:
+  // posting new comments, deleting existing comments, sticky/closed status changes.
+  // Is usually present on all chans in "get threads list" API response
+  // but not in "get thread comments" API response.
+  updatedAt: Date?,
+  // Custom spoiler ID (if custom spoilers are used on the board).
+  // Only present for `4chan.org`.
+  customSpoilerId: number?,
+  // Unique poster IP address subnets count.
+  // Only present in "get thread" API response.
+  uniquePostersCount: number?
 }
 ```
 
@@ -338,47 +338,47 @@ Additional fields:
 
 ```js
 {
-	// Board ID.
-	// Example: "b".
-	id: string,
-	// Board title.
-	// Example: "Anime & Manga".
-	title: string,
-	// Board description.
-	description: string,
-	// Is this board "Not Safe For Work".
-	isNotSafeForWork: boolean?,
-	// "Bump limit" for threads on this board.
-	bumpLimit: number?,
-	// The maximum attachments count in a thread.
-	// Only present for 4chan.org
-	maxAttachmentsInThread: number?,
-	// Maximum comment length in a thread on the board (a board-wide setting).
-	// Only present for `4chan.org`.
-	// `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
-	maxCommentLength: number?,
-	// Maximum total attachments size in a thread on the board (a board-wide setting).
-	// Only present for `4chan.org`.
-	// `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
-	maxAttachmentsSize: number?,
-	// Maximum total video attachments size in a thread on the board (a board-wide setting).
-	// Only present for `4chan.org`.
-	maxVideoAttachmentsSize: number?,
-	// Create new thread cooldown.
-	// Only present for `4chan.org`.
-	createThreadCooldown: number?,
-	// Post new comment cooldown.
-	// Only present for `4chan.org`.
-	postCommentCooldown: number?,
-	// Post new comment with an attachment cooldown.
-	// Only present for `4chan.org`.
-	attachFileCooldown: number?,
-	// Whether "sage" is allowed when posting comments on this board.
-	// Only present for `4chan.org`.
-	isSageAllowed: boolean?,
-	// Whether to show a "Name" field in a "post new comment" form on this board.
-	// Only present for `2ch.hk`.
-	areNamesAllowed: boolean?
+  // Board ID.
+  // Example: "b".
+  id: string,
+  // Board title.
+  // Example: "Anime & Manga".
+  title: string,
+  // Board description.
+  description: string,
+  // Is this board "Not Safe For Work".
+  isNotSafeForWork: boolean?,
+  // "Bump limit" for threads on this board.
+  bumpLimit: number?,
+  // The maximum attachments count in a thread.
+  // Only present for 4chan.org
+  maxAttachmentsInThread: number?,
+  // Maximum comment length in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
+  maxCommentLength: number?,
+  // Maximum total attachments size in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
+  maxAttachmentsSize: number?,
+  // Maximum total video attachments size in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  maxVideoAttachmentsSize: number?,
+  // Create new thread cooldown.
+  // Only present for `4chan.org`.
+  createThreadCooldown: number?,
+  // Post new comment cooldown.
+  // Only present for `4chan.org`.
+  postCommentCooldown: number?,
+  // Post new comment with an attachment cooldown.
+  // Only present for `4chan.org`.
+  attachFileCooldown: number?,
+  // Whether "sage" is allowed when posting comments on this board.
+  // Only present for `4chan.org`.
+  isSageAllowed: boolean?,
+  // Whether to show a "Name" field in a "post new comment" form on this board.
+  // Only present for `2ch.hk`.
+  areNamesAllowed: boolean?
 }
 ```
 
@@ -395,72 +395,72 @@ Additional fields:
 
 ```js
 {
-	// (required)
-	// Chan unique ID.
-	"id": "4chan",
+  // (required)
+  // Chan unique ID.
+  "id": "4chan",
 
-	// (required)
-	// Chan website domain name.
-	"domain": "4chan.org",
+  // (required)
+  // Chan website domain name.
+  "domain": "4chan.org",
 
-	// (optional)
-	// Chan engine.
-	// Isn't currently being used anywhere.
-	"engine": "vichan",
+  // (optional)
+  // Chan engine.
+  // Isn't currently being used anywhere.
+  "engine": "vichan",
 
-	// (required)
-	// Comment URL pattern.
-	// Is used for parsing quoted comment URLs.
-	// The first "group" must match board id,
-	// the second "group" must match thread id,
-	// the third "group" must match comment id.
-	"commentUrlParser": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
+  // (required)
+  // Comment URL pattern.
+  // Is used for parsing quoted comment URLs.
+  // The first "group" must match board id,
+  // the second "group" must match thread id,
+  // the third "group" must match comment id.
+  "commentUrlParser": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$"
 
-	// (optional)
-	// Attachment URL pattern.
-	// Is required for chan engines that don't
-	// provide the full attachment URL (`vichan`)
-	// or for chans that host attachments on another domain
-	// (`4chan` hosts attachments at `https://i.4cdn.org`).
-	// Available parameters are:
-	// * boardId — board ID ("b", etc).
-	// * name — attachment filename on server.
-	// * originalName — original attachment filename, is used for non-image file attachments.
-	// * ext — "." character plus attachment file extension.
-	"attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",
+  // (optional)
+  // Attachment URL pattern.
+  // Is required for chan engines that don't
+  // provide the full attachment URL (`vichan`)
+  // or for chans that host attachments on another domain
+  // (`4chan` hosts attachments at `https://i.4cdn.org`).
+  // Available parameters are:
+  // * boardId — board ID ("b", etc).
+  // * name — attachment filename on server.
+  // * originalName — original attachment filename, is used for non-image file attachments.
+  // * ext — "." character plus attachment file extension.
+  "attachmentUrl": "https://i.4cdn.org/{boardId}/{name}{ext}",
 
-	// (optional)
-	// Attachment thumbnail URL pattern.
-	// Same as "attachmentUrl" but for thumbnails.
-	"attachmentThumbnailUrl": "https://i.4cdn.org/{boardId}/{name}s.jpg",
+  // (optional)
+  // Attachment thumbnail URL pattern.
+  // Same as "attachmentUrl" but for thumbnails.
+  "attachmentThumbnailUrl": "https://i.4cdn.org/{boardId}/{name}s.jpg",
 
-	// (optional)
-	// Chans usually store images/videos under random-generated filenames
-	// and all other files under their original filename,
-	// hence the separate "fileAttachmentUrl" parameter.
-	"fileAttachmentUrl": "https://i.4cdn.org/{boardId}/{originalName}{ext}",
+  // (optional)
+  // Chans usually store images/videos under random-generated filenames
+  // and all other files under their original filename,
+  // hence the separate "fileAttachmentUrl" parameter.
+  "fileAttachmentUrl": "https://i.4cdn.org/{boardId}/{originalName}{ext}",
 
-	// (optional)
-	// Most chans set author name to some default placeholder
-	// like "Anonymous" when no author name has been input.
-	// The parser then checks if author name is equal to
-	// "defaultAuthorName" and if it is then it assumes it's empty.
-	// Can be a string or an object of shape `{ boardId: defaultAuthorName }`.
-	"defaultAuthorName": "Anonymous",
-	// or on a per-board basis:
-	// "defaultAuthorName": {
-	// 	"*": "Anonymous",
-	// 	"ru": "Аноним",
-	// 	"christan": "Christanon"
-	// }
+  // (optional)
+  // Most chans set author name to some default placeholder
+  // like "Anonymous" when no author name has been input.
+  // The parser then checks if author name is equal to
+  // "defaultAuthorName" and if it is then it assumes it's empty.
+  // Can be a string or an object of shape `{ boardId: defaultAuthorName }`.
+  "defaultAuthorName": "Anonymous",
+  // or on a per-board basis:
+  // "defaultAuthorName": {
+  //  "*": "Anonymous",
+  //  "ru": "Аноним",
+  //  "christan": "Christanon"
+  // }
 
-	// (optional)
-	// Thumbnail size. Is required for `lynxchan`.
-	// `lynxchan` engine currently has a bug:
-	// it doesn't provide thumbnail dimensions.
-	// To work around that bug, thumbnail dimensions
-	// are derived from the original image aspect ratio.
-	"thumbnailSize": 255
+  // (optional)
+  // Thumbnail size. Is required for `lynxchan`.
+  // `lynxchan` engine currently has a bug:
+  // it doesn't provide thumbnail dimensions.
+  // To work around that bug, thumbnail dimensions
+  // are derived from the original image aspect ratio.
+  "thumbnailSize": 255
 }
 ```
 </details>
@@ -493,34 +493,34 @@ Plugins:
 
 ```js
 const parseBold = {
-	tag: 'strong',
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'bold',
-			content
-		}
-	}
+  tag: 'strong',
+  createBlock(content) {
+    return {
+      type: 'text',
+      style: 'bold',
+      content
+    }
+  }
 }
 
 const parseItalic = {
-	tag: 'span',
-	attributes: [{
-		name: 'class',
-		value: 'italic'
-	}],
-	createBlock(content) {
-		return {
-			type: 'text',
-			style: 'italic',
-			content
-		}
-	}
+  tag: 'span',
+  attributes: [{
+    name: 'class',
+    value: 'italic'
+  }],
+  createBlock(content) {
+    return {
+      type: 'text',
+      style: 'italic',
+      content
+    }
+  }
 }
 
 export default [
-	parseBold,
-	parseItalic
+  parseBold,
+  parseItalic
 ]
 ```
 
@@ -528,19 +528,19 @@ Result:
 
 ```js
 [
-	[
-		{
-			type: 'text',
-			style: 'bold',
-			content: [
-				'bold ',
-				{
-					type: 'text',
-					style: 'italic',
-					content: 'text'
-				}
-			]
-		}
-	]
+  [
+    {
+      type: 'text',
+      style: 'bold',
+      content: [
+        'bold ',
+        {
+          type: 'text',
+          style: 'italic',
+          content: 'text'
+        }
+      ]
+    }
+  ]
 ]
 ```
