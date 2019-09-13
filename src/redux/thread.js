@@ -26,7 +26,7 @@ redux.on('CHAN', 'GET_THREAD_COMMENTS', (state, { thread, board }) => ({
 redux.on('THREAD_TRACKER', 'TRACK_THREAD', (state, { thread }) => {
 	if (state.thread &&
 		thread.id === state.thread.id &&
-		thread.board.id === state.board.id) {
+		thread.board.id === state.thread.boardId) {
 		return {
 			...state,
 			isTracked: true
@@ -38,7 +38,7 @@ redux.on('THREAD_TRACKER', 'TRACK_THREAD', (state, { thread }) => {
 redux.on('THREAD_TRACKER', 'UNTRACK_THREAD', (state, { thread }) => {
 	if (state.thread &&
 		thread.id === state.thread.id &&
-		thread.board.id === state.thread.board.id) {
+		thread.board.id === state.thread.boardId) {
 		return {
 			...state,
 			isTracked: false
