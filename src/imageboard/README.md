@@ -34,9 +34,14 @@ const chan = Chan('4chan', {
 	}
 })
 
+// Get the list of boards.
 chan.getBoards().then((boards) => console.log(boards))
-chan.getThreads('a').then((threads) => console.log(threads))
-chan.getThread('a', 12345).then((thread) => console.log(thread))
+
+// Get the list of threads on "/a/" board.
+chan.getThreads({ boardId: 'a' }).then((threads) => console.log(threads))
+
+// Get thread info and comments list for thread "12345" on "/a/" board.
+chan.getThread({ boardId: 'a', threadId: 12345 }).then((thread) => console.log(thread))
 ```
 
 ## `Chan`
