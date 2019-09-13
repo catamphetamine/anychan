@@ -9,8 +9,8 @@ Supported engines:
 
 Features:
 
-* Parses chan comments HTML into structured JSON documents.
-* Automatically inserts quoted posts' text when none provided.
+* (optional) Parse chan comments HTML into structured JSON documents.
+* Automatically insert quoted posts' text when none provided.
 
 ## Example
 
