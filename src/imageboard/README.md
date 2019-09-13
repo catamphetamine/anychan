@@ -52,11 +52,11 @@ To use the package first construct a `Chan` instance using the default exported 
 import Chan from './imageboard'
 ```
 
-### `Chan(chanIdOrChanSettings, options)`
+### `Chan(chanIdOrChanConfig, options)`
 
 The default exported function, creates a new `Chan` instance.
 
-If a `chanId` is supported by the library out-of-the-box (has an entry in `chan` directory) then those pre-configured `chanSettings` are used internally. Otherwise, `chanSettings` should be supplied.
+If a `chanId` is supported by the library out-of-the-box (has an entry in `chan` directory) then such `chanId` can be passed as a string. Otherwise, `chanConfig` object should be supplied.
 
 `chanId`s supported out-of-the-box:
 
@@ -68,9 +68,9 @@ If a `chanId` is supported by the library out-of-the-box (has an entry in `chan`
 * `"arisuchan"`
 * `"endchan"`
 
-Available `chanSettings`:
+Available `chanConfig` properties:
 
-* `id` — (optional) Chan identifier that could be used to differentiate between different chans using the same engine. For example, `4chan` engine is compatible with `8ch.net` and the small differences are handled internally via `if (id === "8ch") { ... } else { ... }`.
+* `id` — (optional) Chan identifier that could be used to differentiate between different chans using the same engine in the engine code. For example, `4chan` engine used by `"4chan"` chan is compatible with `8ch.net` chan and the small differences are handled internally in the `4chan` engine code via `if (id === "8ch") { ... } else { ... }`.
 * `commentUrlParser` — (required) A `string` used to parse "in reply to" comment ids from comment HTML content to populate `comment.inReplyTo` arrays.
 * `defaultAuthorName` — (optional) Can be a `string` or an object of shape `{ boardId: defaultName }` where `boardId === "*"` means "any other board". Default author name is used to determine whether a comment's `authorName` should be set to `undefined` instead of a dummy string value (for example, `"Anonymous"`).
 * `attachmentUrl` — (required for `"4chan"` engine) A `string` having variables: `{boardId}`, `{name}`, `{originalName}`, `{ext}`.
