@@ -1,5 +1,3 @@
-import generatePostPreview from 'webapp-frontend/src/utility/post/generatePostPreview'
-
 import setInReplyToQuotes from './setInReplyToQuotes'
 import setPostLinksContent from './setPostLinksContent'
 
@@ -15,7 +13,6 @@ import setPostLinksContent from './setPostLinksContent'
 export default function generateQuotes(content, {
 	// `comment` is only used for generating post preview.
 	comment,
-	commentLengthLimit,
 	getCommentById,
 	threadId,
 	messages,
@@ -43,15 +40,6 @@ export default function generateQuotes(content, {
 			if (setPostLinksContent(content, { messages })) {
 				contentDidChange = true
 			}
-		}
-	}
-	// Generate preview for long comments.
-	// (must come after `setInReplyToQuotes()`
-	//  which is called inside `postProcessComments()`)
-	if (commentLengthLimit && contentDidChange) {
-		const preview = generatePostPreview(content, comment.attachments, { limit: commentLengthLimit })
-		if (preview) {
-			comment.contentPreview = preview
 		}
 	}
 	return contentDidChange

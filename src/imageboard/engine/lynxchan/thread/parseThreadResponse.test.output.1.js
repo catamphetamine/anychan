@@ -1,7 +1,11 @@
 export default {
   id: 1534,
+  boardId: "a",
   board: {
-    id: "a"
+    "maxAttachments": 4,
+    "maxAttachmentSize": 134217728,
+    "maxCommentLength": 16384,
+    "title": "Animu"
   },
   title: "Was ist dieses Anime",
   createdAt: new Date("2019-06-01T16:10:01.564Z"),
@@ -95,8 +99,5 @@ export default {
   ],
   commentsCount: 2,
   commentAttachmentsCount: 2,
-  maxCommentLength: 16384,
-  maxAttachments: 4,
-  // "maxFileSize": "128.00 MB",
   forceAnonymity: true
 }

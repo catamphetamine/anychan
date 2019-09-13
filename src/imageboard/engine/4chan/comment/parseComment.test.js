@@ -1,19 +1,14 @@
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'
 
-import parseComment from './parseComment'
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.4chan'
+import FourChan from '../../../chan/4chan'
 
 function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 	const consoleWarn = console.warn
 	const warnings = []
 	console.warn = (text) => warnings.push(text)
 
-	comment = parseComment(comment, {
-		...options,
-		chan: '4chan',
-		parseCommentPlugins: PARSE_COMMENT_PLUGINS
-	})
+	comment = FourChan({}).parseComment(comment, options, {})
 
 	console.warn = consoleWarn
 
@@ -37,7 +32,7 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				authorBanned: true,
+				authorBan: true,
 				content: [
 					[
 						'Text.'

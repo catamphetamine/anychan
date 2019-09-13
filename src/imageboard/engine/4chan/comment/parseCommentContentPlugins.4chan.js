@@ -9,7 +9,7 @@ import {
 	parseCode,
 	parseQuote,
 	parseLink
-} from './parseCommentPlugins'
+} from './parseCommentContentPlugins'
 
 // They have these in `/g/` for some reason.
 const parseBoldLegacy = {

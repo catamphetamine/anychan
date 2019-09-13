@@ -1,13 +1,11 @@
 export default {
-  "board": {
-    "id": "v"
-  },
   "title": "«Stalker 2»",
   "commentsCount": 17,
   "commentAttachmentsCount": 7,
   "uniquePostersCount": 18,
   "customSpoilersCount": 1,
   "id": 456354102,
+  "boardId": "v",
   "createdAt": new Date("2019-03-29T09:15:00.000Z"),
   "comments": [
     {

@@ -1,4 +1,4 @@
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.kohlchan'
+import PARSE_COMMENT_CONTENT_PLUGINS from './parseCommentContentPlugins.kohlchan'
 
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'
@@ -12,7 +12,7 @@ function parseCommentTest(comment, expected, expectedWarnings = []) {
 	console.warn = (text) => warnings.push(text)
 
 	comment = parseComment(comment, {
-		plugins: PARSE_COMMENT_PLUGINS
+		plugins: PARSE_COMMENT_CONTENT_PLUGINS
 	})
 
 	console.warn = consoleWarn

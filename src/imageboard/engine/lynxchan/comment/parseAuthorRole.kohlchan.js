@@ -13,7 +13,7 @@ export default function parseRole(name) {
 		case 'Board owner':
 			return {
 				role: 'administrator',
-				jurisdiction: 'board'
+				domain: 'board'
 			}
 		case 'Global volunteer':
 			return {
@@ -22,7 +22,7 @@ export default function parseRole(name) {
 		case 'Board volunteer':
 			return {
 				role: 'moderator',
-				jurisdiction: 'board'
+				domain: 'board'
 			}
 		default:
 			if (name) {

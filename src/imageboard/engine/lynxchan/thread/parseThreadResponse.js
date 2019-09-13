@@ -1,11 +1,15 @@
 import parseThread from './parseThread'
+import getBoardInfo from '../board/getBoardInfo'
 
 /**
- * Parses chan API response for thread comments list.
- * @param  {object} response — Chan API response for thread comments list
- * @param  {object} options
- * @return {object} See README.md for "Thread" object description.
+ * Parses "get thread comments" API response.
+ * @param  {object} response — "get thread comments" API response.
+ * @return {object} `{ thread, comments, board }`
  */
-export default function parseThreadResponse(response, options) {
-	return parseThread(response, options)
+export default function parseThreadResponse(response) {
+	return {
+		thread: parseThread(response),
+		comments: [response].concat(response.posts || []),
+		board: getBoardInfo(response)
+	}
 }

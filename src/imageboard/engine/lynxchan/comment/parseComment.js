@@ -3,9 +3,7 @@ import stringToColor from '../../../utility/stringToColor'
 
 import parseAuthorRoleKohlChan from './parseAuthorRole.kohlchan'
 import parseAuthor from './parseAuthor'
-import parseAttachment, { getPictureTypeFromUrl, guessFileUrlFromThumbnailUrl } from './parseAttachment'
-
-import constructComment from '../../../constructComment'
+import parseAttachments from './parseAttachments'
 
 /**
  * Parses response comment JSON object.
@@ -17,90 +15,47 @@ export default function parseComment(post, {
 	chan,
 	boardId,
 	threadId,
-	censoredWords,
-	parseCommentPlugins,
-	commentLengthLimit,
-	messages,
-	commentUrl,
-	commentUrlParser,
-	emojiUrl,
 	attachmentUrl,
 	attachmentThumbnailUrl,
 	thumbnailSize,
 	toAbsoluteUrl,
-	defaultAuthorName,
-	parseContent
+	defaultAuthorName
 }) {
 	// `post.markdown` is not really "markdown", it's HTML.
 	// `lynxchan` has a bug of inserting "carriage return" (U+000D)
 	// characters before every "new line" (<br>).
 	// This workaround fixes that:
-	const rawComment = post.markdown.replace(/\u000d/g, '')
+	const content = post.markdown.replace(/\u000d/g, '')
 	const parsedAuthorRole = parseAuthorRole(post.signedRole, chan)
-	let files = post.files
-	let isLynxChanCatalogAttachmentsBug
-	// In `/catalog.json` API response there're no `files`, only `thumb` property, which is a bug.
-	// http://lynxhub.com/lynxchan/res/722.html#q984
-	if (!files) {
-		if (post.thumb) {
-			isLynxChanCatalogAttachmentsBug = true
-			files = [{
-				// A stub for the absent `files` bug in `/catalog.json` API response.
-				// http://lynxhub.com/lynxchan/res/722.html#q984
-				mime: getPictureTypeFromUrl(post.thumb, chan),
-				// `lynxchan` doesn't provide `width` and `height`
-				// neither for the picture not for the thumbnail
-				// in `/catalog.json` API response (which is a bug).
-				// http://lynxhub.com/lynxchan/res/722.html#q984
-				// `width` and `height` are set later when the image is loaded.
-				width: thumbnailSize,
-				height: thumbnailSize,
-				// Even if `path` URL would be derived from `thumb` URL
-				// the `width` and `height` would still be unspecified.
-				// path: post.thumb,
-				path: guessFileUrlFromThumbnailUrl(post.thumb, chan),
-				thumb: post.thumb,
-				originalName: '[stub]'
-			}]
-		} else {
-			files = []
-		}
-	}
-	const comment = constructComment(
+	const comment = {
 		boardId,
 		threadId,
-		post.threadId || post.postId,
-		rawComment,
-		parseAuthor(post.name, { defaultAuthorName, boardId }),
-		parsedAuthorRole && (chan === 'kohlchan' ? parsedAuthorRole.role : parsedAuthorRole),
-		post.banMessage, // '(USER WAS BANNED FOR THIS POST)'
+		// `threadId` is present in "get threads list" API response
+		// and at the root level (the "opening comment") of "get thread comments" API response.
+		// `postId` is present in "get thread comments" API response
+		// for all comments except the "opening comment".
+		id: post.threadId || post.postId,
 		// `post.subject` is `null` when there's no comment subject.
 		// `lynxchan` thread subject sometimes contains
 		// escaped characters like "&quot;", "&lt;", "&gt;".
-		post.subject && unescapeContent(post.subject),
-		files.length === 0 ? undefined : files.map(file => parseAttachment(file, {
+		title: post.subject && unescapeContent(post.subject),
+		content,
+		authorName: parseAuthor(post.name, { defaultAuthorName, boardId }),
+		authorRole: parsedAuthorRole && (chan === 'kohlchan' ? parsedAuthorRole.role : parsedAuthorRole),
+		authorBan: post.banMessage && true,
+		authorBanReason: post.banMessage, // '(USER WAS BANNED FOR THIS POST)'
+		attachments: parseAttachments(post, {
 			chan,
 			boardId,
 			attachmentUrl,
 			attachmentThumbnailUrl,
 			thumbnailSize,
 			toAbsoluteUrl
-		})),
+		}),
 		// In `/catalog.json` API response there's no `creation` property which is a bug.
 		// http://lynxhub.com/lynxchan/res/722.html#q984
-		post.creation ? new Date(post.creation) : undefined,
-		{
-			censoredWords,
-			parseCommentPlugins,
-			commentLengthLimit,
-			messages,
-			commentUrl,
-			commentUrlParser,
-			parseContent,
-			emojiUrl,
-			toAbsoluteUrl
-		}
-	)
+		createdAt: post.creation ? new Date(post.creation) : undefined
+	}
 	if (post.email) {
 		if (post.email === 'sage') {
 			comment.isSage = true
@@ -132,13 +87,10 @@ export default function parseComment(post, {
 			// flagCode: null
 			// flagName: "Onion"
 			// ````
-			// comment.authorIconId = flagId
-			comment.authorIconUrl = post.flag
-			comment.authorIconName = post.flagName
+			// comment.authorBadgeId = flagId
+			comment.authorBadgeUrl = post.flag
+			comment.authorBadgeName = post.flagName
 		}
-	}
-	if (isLynxChanCatalogAttachmentsBug) {
-		comment.attachments[0].isLynxChanCatalogAttachmentsBug = true
 	}
 	return comment
 }

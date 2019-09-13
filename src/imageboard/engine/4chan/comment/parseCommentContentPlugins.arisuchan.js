@@ -1,12 +1,12 @@
 import {
 	parseQuote,
 	parseLink
-} from './parseCommentPlugins'
+} from './parseCommentContentPlugins'
 
 import {
 	parseCode,
 	parseCodeBlock
-} from './parseCommentPlugins.lainchan'
+} from './parseCommentContentPlugins.lainchan'
 
 export const parseBold = {
 	tag: 'span',

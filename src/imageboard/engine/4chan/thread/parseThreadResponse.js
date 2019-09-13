@@ -1,11 +1,13 @@
 import parseThread from './parseThread'
 
 /**
- * Parses chan API response for thread comments list.
- * @param  {object} response — Chan API response for thread comments list
- * @param  {object} options
- * @return {object} See README.md for "Thread" object description.
+ * Parses "get thread comments" API response.
+ * @param  {object} response — "get thread comments" API response.
+ * @return {object} `{ thread, comments }`
  */
-export default function parseThreadResponse(response, options) {
-	return parseThread(response.posts, options)
+export default function parseThreadResponse(response) {
+	return {
+		thread: parseThread(response.posts[0]),
+		comments: response.posts
+	}
 }

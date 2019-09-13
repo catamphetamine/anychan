@@ -17,15 +17,16 @@ export const isThreadTracked = redux.simpleAction(
 	'isTracked'
 )
 
-redux.on('CHAN', 'GET_THREAD_COMMENTS', (state, { thread }) => ({
+redux.on('CHAN', 'GET_THREAD_COMMENTS', (state, { thread, board }) => ({
   ...state,
-	thread
+	thread,
+	board
 }))
 
 redux.on('THREAD_TRACKER', 'TRACK_THREAD', (state, { thread }) => {
 	if (state.thread &&
 		thread.id === state.thread.id &&
-		thread.board.id === state.thread.board.id) {
+		thread.board.id === state.board.id) {
 		return {
 			...state,
 			isTracked: true

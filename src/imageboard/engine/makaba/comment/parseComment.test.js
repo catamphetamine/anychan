@@ -1,20 +1,14 @@
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'
 
-import parseComment from './parseComment'
-import correctGrammar from './correctGrammar'
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
+import TwoChan from '../../../chan/2ch'
 
 function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 	const consoleWarn = console.warn
 	const warnings = []
 	console.warn = (text) => warnings.push(text)
 
-	comment = parseComment(comment, {
-		...options,
-		correctGrammar,
-		parseCommentPlugins: PARSE_COMMENT_PLUGINS
-	})
+	comment = TwoChan({}).parseComment(comment, options, {})
 
 	console.warn = consoleWarn
 
@@ -31,7 +25,8 @@ describe('parseComment', () => {
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: "Текст.\u003cbr\u003e\u003cbr\u003e\u003cspan class=\"thanks-abu\" style=\"color: red;\"\u003eАбу благословил этот пост.\u003c/span\u003e",
-				banned: 0
+				banned: 0,
+				parent: "0"
 			},
 			{
 				boardId: 'b',
@@ -58,7 +53,8 @@ describe('parseComment', () => {
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
-				trip: '!!%adm%!!'
+				trip: '!!%adm%!!',
+				parent: "0"
 			},
 			{
 				boardId: 'b',
@@ -85,7 +81,8 @@ describe('parseComment', () => {
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
-				trip: '!!%mod%!!'
+				trip: '!!%mod%!!',
+				parent: "0"
 			},
 			{
 				boardId: 'b',
@@ -113,7 +110,8 @@ describe('parseComment', () => {
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
 				trip: '!!5pvF7WEJc.',
-				banned: 1
+				banned: 1,
+				parent: "0"
 			},
 			{
 				boardId: 'b',
@@ -121,7 +119,7 @@ describe('parseComment', () => {
 			},
 			{
 				id: 456,
-				authorBanned: true,
+				authorBan: true,
 				tripCode: '!!5pvF7WEJc.',
 				createdAt: date,
 				content: [

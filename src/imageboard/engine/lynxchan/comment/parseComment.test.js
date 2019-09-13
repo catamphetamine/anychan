@@ -1,8 +1,7 @@
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'
 
-import parseComment from './parseComment'
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.kohlchan'
+import KohlChan from '../../../chan/kohlchan'
 
 function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 	const consoleWarn = console.warn
@@ -11,14 +10,13 @@ function parseCommentTest(comment, options, expected, expectedWarnings = []) {
 
 	const attachmentsAreBeingTested = comment.files !== undefined
 
-	comment = parseComment({
-		files: [],
-		...comment
-	}, {
-		...options,
-		chan: 'kohlchan',
-		parseCommentPlugins: PARSE_COMMENT_PLUGINS
-	})
+	comment = KohlChan({}).parseComment(
+		{
+			files: [],
+			...comment
+		},
+		options
+	)
 
 	if (!attachmentsAreBeingTested) {
 		delete comment.attachments
@@ -47,7 +45,7 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				authorBanned: true,
+				authorBan: true,
 				authorBanReason: '(USER WAS BANNED FOR THIS POST)',
 				content: [
 					[
@@ -128,9 +126,9 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				// authorIconId: 'onion',
-				authorIconUrl: '/.static/flags/onion.png',
-				authorIconName: 'Onion',
+				// authorBadgeId: 'onion',
+				authorBadgeUrl: '/.static/flags/onion.png',
+				authorBadgeName: 'Onion',
 				content: [
 					[
 						'Text'
@@ -158,9 +156,9 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				createdAt: date,
-				// authorIconId: 'vsa/ca',
-				authorIconUrl: '/.static/flags/vsa/ca.png',
-				authorIconName: 'California',
+				// authorBadgeId: 'vsa/ca',
+				authorBadgeUrl: '/.static/flags/vsa/ca.png',
+				authorBadgeName: 'California',
 				content: [
 					[
 						'Text'

@@ -1,5 +1,5 @@
-import { describe, it } from './utility/mocha'
-import expectToEqual from './utility/expectToEqual'
+import { describe, it } from 'webapp-frontend/src/utility/mocha'
+import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
 import correctQuotes from './correctQuotes'
 

@@ -4,7 +4,7 @@ import {
 	parseUnderline,
 	parseQuote,
 	parseLink
-} from './parseCommentPlugins'
+} from './parseCommentContentPlugins'
 
 import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
 

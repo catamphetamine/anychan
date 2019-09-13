@@ -4,6 +4,11 @@ import { forEachFollowingQuote } from 'webapp-frontend/src/utility/post/combineQ
 /**
  * Adds "in-reply-to" quotes.
  * Has some CPU usage.
+ * @param {any} content — Comment `content`.
+ * @param {function} getPostById — Retuns comment by id.
+ * @param {object} options
+ * @param {object} contentParent — Shouldn't be passed. Is only passed internally when recursing. The parent block of `content` block.
+ * @param {boolean} isLastInParagraph — If the `content` block is the last one in `contentParent`.
  * @return {boolean} [contentDidChange] — Returns `true` if `content` did change (either as a result of setting an in-reply-to quote or as a result of setting "deleted post"/"hidden post" flag).
  */
 export default function setInReplyToQuotes(

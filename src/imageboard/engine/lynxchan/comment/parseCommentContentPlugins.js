@@ -2,7 +2,7 @@ import createLink from '../../../utility/createLink'
 import dropQuoteMarker from '../../../dropQuoteMarker'
 import parsePostLink from '../../../parsePostLink'
 
-export const parseBold = {
+const bold = {
 	tag: 'strong',
 	createBlock(content) {
 		return {
@@ -13,7 +13,7 @@ export const parseBold = {
 	}
 }
 
-export const parseItalic = {
+const italic = {
 	tag: 'em',
 	createBlock(content) {
 		return {
@@ -24,7 +24,7 @@ export const parseItalic = {
 	}
 }
 
-export const parseUnderline = {
+const underline = {
 	tag: 'u',
 	createBlock(content) {
 		return {
@@ -35,7 +35,7 @@ export const parseUnderline = {
 	}
 }
 
-export const parseStrikethrough = {
+const strikethrough = {
 	tag: 's',
 	createBlock(content) {
 		return {
@@ -46,7 +46,7 @@ export const parseStrikethrough = {
 	}
 }
 
-export const parseSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -62,7 +62,7 @@ export const parseSpoiler = {
 	}
 }
 
-export const parseQuote = {
+const quote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -82,7 +82,7 @@ export const parseQuote = {
 }
 
 // `lynxchan` has regular quotes and "inverse" (orange) quotes.
-export const parseInverseQuote = {
+const inverseQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -104,7 +104,7 @@ export const parseInverseQuote = {
 }
 
 // `8ch.net` "ASCII art" or "ShiftJIS art".
-export const parseAsciiOrShiftJISArt = {
+const asciiOrShiftJISArt = {
 	tag: 'span',
 	attributes: [
 		{
@@ -122,7 +122,7 @@ export const parseAsciiOrShiftJISArt = {
 }
 
 // Red heading.
-export const parseHeading = {
+const heading = {
 	tag: 'span',
 	attributes: [
 		{
@@ -139,12 +139,12 @@ export const parseHeading = {
 	}
 }
 
-export const parseLink = {
+const link = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlParser }) {
 		const className = util.getAttribute('class')
 		const href = util.getAttribute('href')
-		if (className === 'quoteLink') {
+		if (className === 'highlightlink') {
 			const postLink = parsePostLink(href, { commentUrlParser })
 			return {
 				type: 'post-link',
@@ -162,14 +162,14 @@ export const parseLink = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseStrikethrough,
-	parseSpoiler,
-	parseQuote,
-	parseInverseQuote,
-	parseAsciiOrShiftJISArt,
-	parseHeading,
-	parseLink
+	bold,
+	italic,
+	underline,
+	strikethrough,
+	spoiler,
+	quote,
+	inverseQuote,
+	asciiOrShiftJISArt,
+	heading,
+	link
 ]

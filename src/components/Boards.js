@@ -20,6 +20,7 @@ import './Boards.css'
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory,
 	selectedBoard: chan.board,
+	highlightSelectedBoard: true,
 	boardsView: app.settings.boardsView,
 	shouldSaveBoardsView: true,
 	locale: app.settings.locale
@@ -34,6 +35,7 @@ export default class BoardsInSidebar extends React.Component {
 
 @connect(({ app, chan }) => ({
 	selectedBoard: chan.board,
+	highlightSelectedBoard: true,
 	locale: app.settings.locale
 }), dispatch => ({ dispatch }))
 export class FavoriteBoards extends React.Component {
@@ -65,6 +67,7 @@ function Boards_({
 	showAllBoardsLink,
 	listComponent,
 	selectedBoard,
+	highlightSelectedBoard,
 	isBoardOrThreadLocation,
 	locale,
 	dispatch,
@@ -94,8 +97,10 @@ function Boards_({
 		}))
 	}, [boards, boardsByPopularity])
 	const isBoardSelected = useCallback((board) => {
-		return isBoardOrThreadLocation && board.id === selectedBoard.id
-	}, [isBoardOrThreadLocation, selectedBoard])
+		return highlightSelectedBoard &&
+			isBoardOrThreadLocation &&
+			board.id === selectedBoard.id
+	}, [highlightSelectedBoard, isBoardOrThreadLocation, selectedBoard])
 	const getBoardsListItems = useCallback(() => {
 		switch (view) {
 			case 'by-category':
@@ -215,6 +220,7 @@ Boards_.propTypes = {
 	showAllBoards: PropTypes.bool,
 	showAllBoardsLink: PropTypes.bool.isRequired,
 	selectedBoard: PropTypes.shape(boardShape),
+	highlightSelectedBoard: PropTypes.bool,
 	isBoardOrThreadLocation: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
 	dispatch: PropTypes.func,

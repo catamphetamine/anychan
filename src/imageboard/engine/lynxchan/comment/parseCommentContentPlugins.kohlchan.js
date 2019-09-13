@@ -1,14 +1,14 @@
 import dropQuoteMarker from '../../../dropQuoteMarker'
 
-import DEFAULT_PLUGINS from './parseCommentPlugins'
+import PARSE_COMMENT_CONTENT_PLUGINS from './parseCommentContentPlugins'
 
 // Since May 28th, 2019 `kohlchan.net` has been migrated from `vichan` to `lynxchan`.
 // The old messages still have the old markup.
-import LEGACY_MARKUP_PLUGINS from '../../4chan/comment/parseCommentPlugins.kohlchan'
+import LEGACY_MARKUP_PLUGINS from '../../4chan/comment/parseCommentContentPlugins.kohlchan'
 
 const EMOTE_ID_REG_EXP = /^\/\.static\/images\/([^/]+)\.png$/
 
-const parseKohlChanEmoji = {
+const emoji = {
 	tag: 'img',
 	attributes: [
 		{
@@ -32,7 +32,7 @@ const parseKohlChanEmoji = {
 }
 
 export default [
-	parseKohlChanEmoji,
-	...DEFAULT_PLUGINS,
+	emoji,
+	...PARSE_COMMENT_CONTENT_PLUGINS,
 	...LEGACY_MARKUP_PLUGINS
 ]

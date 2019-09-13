@@ -1,33 +1,37 @@
-import parseThread from './parseThread'
-import getBoardSettings from '../board/getBoardSettings'
+import getBoardInfo from '../board/getBoardInfo'
 
 /**
- * Parses chan API response for thread comments list.
- * @param  {object} response — Chan API response for thread comments list
- * @param  {object} options
- * @return {object} See README.md for "Thread" object description.
+ * Parses "get thread comments" API response.
+ * @param  {object} response — "get thread comments" API response.
+ * @return {object} `{ board, thread, comments }`.
  */
-export default function parseThreadResponse(response, options) {
-	const parsedThread = parseThread(response.threads[0], response.threads[0].posts, {
-		...options,
-		boardTitle: response.BoardName,
-		bumpLimit: response.bump_limit,
-		boardSettings: getBoardSettings(response),
-		defaultAuthorName: response.default_name,
-		commentsCount: response.posts_count,
-		// `files_count` is incorrect, even with `1` subtracted from it:
-		// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
-		commentAttachmentsCount: response.files_count - 1,
-		hasVoting: response.enable_likes === 1,
-		hasFlags: response.enable_flags === 1,
-		icons: response.enable_icons === 1 && response.icons && response.icons.reduce((icons, { name, num }) => {
-			icons[name] = num
-			return icons
-		}, {})
-	})
-	// Only for `/res/THREAD-ID.json` API response.
-	if (response.unique_posters) {
-		parsedThread.uniquePostersCount = parseInt(response.unique_posters)
+export default function parseThreadResponse(response) {
+	const {
+		current_thread,
+		posts_count,
+		files_count,
+		unique_posters
+	} = response
+	const openingPost = response.threads[0].posts[0]
+	return {
+		board: {
+			defaultAuthorName: response.default_name,
+			...getBoardInfo(response)
+		},
+		comments: response.threads[0].posts,
+		thread: {
+			id: parseInt(current_thread),
+			commentsCount: posts_count,
+			// `unique_posters` is only present in "get thread comments" API response.
+			uniquePostersCount: parseInt(unique_posters),
+			// `files_count` is incorrect, even with `1` subtracted from it:
+			// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
+			commentAttachmentsCount: files_count - 1,
+			isLocked: openingPost.closed === 1,
+			isRolling: openingPost.endless === 1,
+			// If the thread is pinned `sticky` will be a number greater than `0`.
+			isSticky: openingPost.sticky > 0,
+			updatedAt: new Date(openingPost.lasthit * 1000)
+		}
 	}
-	return parsedThread
 }

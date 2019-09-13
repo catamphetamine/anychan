@@ -1,7 +1,11 @@
-import { describe, it } from '../../../utility/mocha'
-import expectToEqual from '../../../utility/expectToEqual'
+import { describe, it } from 'webapp-frontend/src/utility/mocha'
+import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
-import correctGrammar from './correctGrammar'
+import _correctGrammar from './correctGrammar'
+
+function correctGrammar(text) {
+	return _correctGrammar(text, { language: 'ru' })
+}
 
 describe('correctGrammar', () => {
 	it('should correct grammar', () => {

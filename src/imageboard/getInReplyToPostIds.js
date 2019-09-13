@@ -1,22 +1,33 @@
 import parsePostLinks from './parsePostLinks'
 import visitPostParts from 'webapp-frontend/src/utility/post/visitPostParts'
 
-export default function getInReplyToPostIds(post, { boardId, threadId, commentUrlParser }) {
-	if (post.rawContent) {
-		return getInReplyToPostIdsForRawContent(post.rawContent, {
-			boardId,
-			threadId,
-			commentUrlParser
-		})
-	} else if (post.content) {
-		return getInReplyToPostIdsForParsedContent(post.content, {
-			boardId,
-			threadId
-		})
+export default function getInReplyToPostIds(post, {
+	boardId,
+	threadId,
+	commentUrlParser,
+	parseContent
+}) {
+	if (post.content) {
+		if (parseContent === false) {
+			return getInReplyToPostIdsForRawContent(post.content, {
+				boardId,
+				threadId,
+				commentUrlParser
+			})
+		} else {
+			return getInReplyToPostIdsForParsedContent(post.content, {
+				boardId,
+				threadId
+			})
+		}
 	}
 }
 
-function getInReplyToPostIdsForRawContent(rawContent, { boardId, threadId, commentUrlParser }) {
+function getInReplyToPostIdsForRawContent(rawContent, {
+	boardId,
+	threadId,
+	commentUrlParser
+}) {
 	const links = parsePostLinks(rawContent, { commentUrlParser })
 		.filter((link) => {
 			return !link.boardId && !link.threadId ||
@@ -27,7 +38,10 @@ function getInReplyToPostIdsForRawContent(rawContent, { boardId, threadId, comme
 	}
 }
 
-function getInReplyToPostIdsForParsedContent(content, { boardId, threadId }) {
+function getInReplyToPostIdsForParsedContent(content, {
+	boardId,
+	threadId
+}) {
 	let inReplyTo
 	visitPostParts(
 		'post-link',

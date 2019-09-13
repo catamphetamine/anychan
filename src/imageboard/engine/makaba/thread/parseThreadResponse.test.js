@@ -12,8 +12,13 @@ describe('2ch.hk', () => {
 			"BoardInfoOuter": "Видеоигры, general, официальные треды",
 			"BoardName": "Video Games General",
 			"default_name": "Аноним",
+			"current_thread": "28727050",
 			"posts_count": 123,
 			"files_count": 456,
+			"bump_limit": 500,
+			"max_comment": 15000,
+			"max_files_size": 20480,
+			"unique_posters": "12",
 			"threads": [
 				{
 					"posts": [
@@ -139,7 +144,7 @@ describe('2ch.hk', () => {
 						{
 							"banned": 0,
 							"closed": 0,
-							"comment": "<a href=\"/vg/res/28727050.html#28942787\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942787\">>>28942787</a><br>Это группа порядочных ?<br><a href=\"/vg/res/28727050.html#28942908\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942908\">>>28942908</a><br>Ммм?<br><a href=\"/vg/res/28727050.html#28942793\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942793\">>>28942793</a><br>А что там?",
+							"comment": "<a href=\"/vg/res/28727050.html#28942787\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942787\">>>28942787</a><br>Это группа порядочных?<br><a href=\"/vg/res/28727050.html#28942908\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942908\">>>28942908</a><br>Ммм?<br><a href=\"/vg/res/28727050.html#28942793\" class=\"post-reply-link\" data-thread=\"28727050\" data-num=\"28942793\">>>28942793</a><br>А что там?",
 							"date": "16/01/19 Срд 12:47:03",
 							"email": "",
 							"endless": 0,
@@ -171,7 +176,7 @@ describe('2ch.hk', () => {
 							"style": "bold",
 							"content": "PLAYERUNKNOWN'S BATTLEGROUNDS"
 						},
-						" — это шутер в котором выигрывает последний оставшийся в живых участник. Начиная игру ни с чем, вы должны раздобыть оружие и припасы чтобы бороться за первое место и стать последним героем. Игра вышла из раннего доступа в конце 2017 года. Движок игры — UE4. Перед приобретением рекомендуется на просторах ютуба или твича познакомиться с игрой. ",
+						" - это шутер в котором выигрывает последний оставшийся в живых участник. Начиная игру ни с чем, вы должны раздобыть оружие и припасы чтобы бороться за первое место и стать последним героем. Игра вышла из раннего доступа в конце 2017 года. Движок игры - UE4. Перед приобретением рекомендуется на просторах ютуба или твича познакомиться с игрой. ",
 						"\n",
 						"Недавно разработчики выпустили эвент пасс, который можно приобрести за 600 рублей и приступить к работе. Квесты жесткие."
 					],
@@ -179,7 +184,7 @@ describe('2ch.hk', () => {
 						{
 							"type": "spoiler",
 							"content": [
-								"Ссылка на шапку треда — ",
+								"Ссылка на шапку треда - ",
 								{
 									"type": "link",
 									"content": "pastebin.com/A9RjkRnv",
@@ -190,7 +195,7 @@ describe('2ch.hk', () => {
 						}
 					],
 					[
-						"Своровать у Габена — ",
+						"Своровать у Габена - ",
 						{
 							"type": "link",
 							"content": "store.steampowered2.com/app/578080",
@@ -199,7 +204,7 @@ describe('2ch.hk', () => {
 						},
 						" ",
 						"\n",
-						"Своровать у мейлру — ",
+						"Своровать у мейлру - ",
 						{
 							"type": "link",
 							"content": "pubg.mail.ru",
@@ -208,7 +213,7 @@ describe('2ch.hk', () => {
 						}
 					],
 					[
-						"Статистика игроков — ",
+						"Статистика игроков - ",
 						{
 							"type": "link",
 							"content": "pubg.op.gg",
@@ -217,7 +222,7 @@ describe('2ch.hk', () => {
 						}
 					],
 					[
-						"Сайт для просмотра реплеев, не заходя в игру — ",
+						"Сайт для просмотра реплеев, не заходя в игру - ",
 						{
 							"type": "link",
 							"content": "minmax.gg/chickendinner",
@@ -228,7 +233,7 @@ describe('2ch.hk', () => {
 					[
 						"Роадмап от разработчиков на 2018 год:",
 						"\n",
-						"На ангельском — ",
+						"На ангельском - ",
 						{
 							"type": "link",
 							"content": "fix.pubg.com",
@@ -441,17 +446,27 @@ describe('2ch.hk', () => {
 				}
 			}).parseThread(API_RESPONSE_1, { boardId: 'vg' }),
 			{
-				board: {
-					id: 'vg',
-					title: 'Video Games General'
-				},
 				id: COMMENTS[0].id,
 				title: COMMENTS[0].title,
+				boardId: 'vg',
 				createdAt: new Date('2018-12-26T07:10:09.000Z'),
 				updatedAt: new Date('2019-01-31T22:47:58.000Z'),
 				commentsCount: 123,
 				commentAttachmentsCount: 455,
-				comments: COMMENTS
+				uniquePostersCount: 12,
+				comments: COMMENTS,
+				board: {
+					"defaultAuthorName": "Аноним",
+					"bumpLimit": 500,
+					maxCommentLength: 15000,
+					maxAttachmentsSize: 20480,
+					"title": "Video Games General",
+					"areSubjectsAllowed": false,
+					"areAttachmentsAllowed": false,
+					"areTagsAllowed": false,
+					"hasVoting": false,
+					"hasFlags": false
+				}
 			}
 		)
 	})

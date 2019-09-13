@@ -20,10 +20,10 @@ const DOUBLE_NEW_LINE_AROUND = [
  * Parses comment HTML.
  * Returns an array of paragraphs.
  * @param  {object} comment
- * @param  {object} options — `{ plugins }`
+ * @param  {object} options — `{ plugins, censoredWords, filterText, emojiUrl, toAbsoluteUrl, commentUrlParser }`
  * @return {any[][]}
  */
-export default function parseComment(comment, options = {}) {
+export default function parseComment(comment, options) {
 	return new CommentParser(options).parse(comment)
 }
 
@@ -72,9 +72,9 @@ class CommentParser {
 	}
 
 	parseText(text) {
-		const { correctGrammar, censoredWords } = this.options
-		if (correctGrammar) {
-			text = correctGrammar(text)
+		const { filterText, censoredWords } = this.options
+		if (filterText) {
+			text = filterText(text)
 		}
 		if (censoredWords) {
 			return censorWords(text, censoredWords)

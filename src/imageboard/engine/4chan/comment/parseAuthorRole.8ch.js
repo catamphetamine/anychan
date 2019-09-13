@@ -10,7 +10,7 @@ export default function parseRole(capCode, { boardId }) {
 		case 'Board Owner':
 			return {
 				role: 'administrator',
-				jurisdiction: 'board'
+				domain: 'board'
 			}
 		case 'Global Volunteer':
 			return {
@@ -19,12 +19,12 @@ export default function parseRole(capCode, { boardId }) {
 		case 'Board Moderator':
 			return {
 				role: 'moderator',
-				jurisdiction: 'board'
+				domain: 'board'
 			}
 		case 'Board Volunteer':
 			return {
 				role: 'moderator',
-				jurisdiction: 'board'
+				domain: 'board'
 			}
 		default:
 			// Everyone on `/newsplus` seems to have the "Reporter" capcode.
@@ -33,7 +33,7 @@ export default function parseRole(capCode, { boardId }) {
 			if (boardId === 'newsplus' && capCode === 'Reporter') {
 				return {
 					role: 'moderator',
-					jurisdiction: 'board'
+					domain: 'board'
 				}
 			}
 			if (capCode) {

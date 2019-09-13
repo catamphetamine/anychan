@@ -1,7 +1,7 @@
 import dropQuoteMarker from '../../../dropQuoteMarker'
 import createLink from '../../../utility/createLink'
 
-const parseInlineQuote = {
+const inlineQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -20,7 +20,7 @@ const parseInlineQuote = {
 	}
 }
 
-const parseQuote = {
+const quote = {
 	tag: 'div',
 	attributes: [
 		{
@@ -36,7 +36,7 @@ const parseQuote = {
 	}
 }
 
-const parseBold = {
+const bold = {
 	tag: 'strong',
 	createBlock(content) {
 		return {
@@ -48,7 +48,7 @@ const parseBold = {
 }
 
 // There's `<b>` in a pinned index post in `/sn/`, for example.
-const parseBoldLegacy = {
+const boldLegacy = {
 	tag: 'b',
 	createBlock(content) {
 		return {
@@ -59,7 +59,7 @@ const parseBoldLegacy = {
 	}
 }
 
-const parseItalic = {
+const italic = {
 	tag: 'em',
 	createBlock(content) {
 		return {
@@ -73,7 +73,7 @@ const parseItalic = {
 // There seems to be no `<i>`s on 2ch.hk.
 // Still some "advanced" users (like moderators) may potentially
 // use it in their "advanced" custom markup (like pinned index posts).
-const parseItalicLegacy = {
+const italicLegacy = {
 	tag: 'i',
 	createBlock(content) {
 		return {
@@ -84,7 +84,7 @@ const parseItalicLegacy = {
 	}
 }
 
-const parseSubscript = {
+const subscript = {
 	tag: 'sub',
 	createBlock(content) {
 		return {
@@ -95,7 +95,7 @@ const parseSubscript = {
 	}
 }
 
-const parseSuperscript = {
+const superscript = {
 	tag: 'sup',
 	createBlock(content) {
 		return {
@@ -106,7 +106,7 @@ const parseSuperscript = {
 	}
 }
 
-const parseStrikethrough = {
+const strikethrough = {
 	tag: 'span',
 	attributes: [
 		{
@@ -123,7 +123,7 @@ const parseStrikethrough = {
 	}
 }
 
-const parseSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -139,7 +139,7 @@ const parseSpoiler = {
 	}
 }
 
-const parseUnderline = {
+const underline = {
 	tag: 'span',
 	attributes: [
 		{
@@ -157,7 +157,7 @@ const parseUnderline = {
 }
 
 // Sometimes moderators use direct HTML markup in opening posts.
-const parseUnderlineTag = {
+const underlineTag = {
 	tag: 'u',
 	createBlock(content) {
 		return {
@@ -168,7 +168,7 @@ const parseUnderlineTag = {
 	}
 }
 
-const parseOverline = {
+const overline = {
 	tag: 'span',
 	attributes: [
 		{
@@ -185,7 +185,7 @@ const parseOverline = {
 	}
 }
 
-const parseLink = {
+const link = {
 	tag: 'a',
 	createBlock(content, util) {
 		// Both board page and thread page:
@@ -212,7 +212,7 @@ const parseLink = {
 }
 
 // There's some `style` in a pinned index post in `/sn/`, for example.
-const parseStyle = {
+const style = {
 	tag: 'style',
 	createBlock() {
 		return
@@ -220,7 +220,7 @@ const parseStyle = {
 }
 
 // There's some `script` in a pinned index post in `/sn/`, for example.
-const parseScript = {
+const script = {
 	tag: 'script',
 	createBlock() {
 		return
@@ -243,20 +243,20 @@ const parseScript = {
 // }
 
 export default [
-	parseInlineQuote,
-	parseQuote,
-	parseLink,
-	parseBold,
-	parseBoldLegacy,
-	parseItalic,
-	parseItalicLegacy,
-	parseStrikethrough,
-	parseUnderline,
-	parseUnderlineTag,
-	parseOverline,
-	parseSpoiler,
-	parseSubscript,
-	parseSuperscript,
-	parseStyle,
-	parseScript
+	inlineQuote,
+	quote,
+	link,
+	bold,
+	boldLegacy,
+	italic,
+	italicLegacy,
+	strikethrough,
+	underline,
+	underlineTag,
+	overline,
+	spoiler,
+	subscript,
+	superscript,
+	style,
+	script
 ]

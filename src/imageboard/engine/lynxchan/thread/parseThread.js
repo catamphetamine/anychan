@@ -1,140 +1,82 @@
-import parseComment from '../comment/parseComment'
-
-import constructThread from '../../../constructThread'
-
 /**
  * Parses chan API response for a thread.
  * @param  {object} response — Chan API response for a thread
  * @param  {object} options
  * @return {object} See README.md for "Thread" object description.
  */
-export default function parseThread(thread, {
-	chan,
-	boardId,
-	censoredWords,
-	messages,
-	parseCommentPlugins,
-	commentLengthLimit,
-	commentUrl,
-	commentUrlParser,
-	emojiUrl,
-	attachmentUrl,
-	attachmentThumbnailUrl,
-	thumbnailSize,
-	defaultAuthorName,
-	parseContent,
-	expandReplies,
-	toAbsoluteUrl
+export default function parseThread({
+	threadId,
+	subject,
+	locked,
+	pinned,
+	cyclic,
+	autoSage,
+	lastBump,
+	forceAnonymity,
+	maxFileCount,
+	maxMessageLength,
+	postCount,
+	fileCount,
+	posts
 }) {
-	const threadId = thread.threadId
-	const comments = [thread].concat(thread.posts || []).map(comment => parseComment(comment, {
-		chan,
-		boardId,
-		threadId,
-		censoredWords,
-		messages,
-		parseCommentPlugins,
-		commentUrl,
-		commentUrlParser,
-		emojiUrl,
-		attachmentUrl,
-		attachmentThumbnailUrl,
-		thumbnailSize,
-		toAbsoluteUrl,
-		defaultAuthorName,
-		parseContent
-	}))
-	const threadInfo = {
-		board: {
-			id: boardId
-		},
-		title: thread.subject,
+	const thread = {
+		id: threadId,
+		title: subject,
+		isLocked: locked,
+		isSticky: pinned,
+		isRolling: cyclic,
 		// `lynxchan` doesn't provide neither `postCount`
 		// nor `fileCount` in "get thread" API response.
-		commentsCount: getCommentsCount(thread),
-		commentAttachmentsCount: getCommentAttachmentsCount(thread)
-	}
-	if (thread.locked) {
-		threadInfo.isLocked = true
-	}
-	if (thread.pinned) {
-		threadInfo.isSticky = true
-	}
-	if (thread.cyclic) {
-		threadInfo.isRolling = true
+		commentsCount: getCommentsCount(postCount, posts),
+		commentAttachmentsCount: getCommentAttachmentsCount(fileCount, posts)
 	}
 	// `autoSage: true` can be set on a "sticky" thread for example.
-	if (thread.autoSage) {
-		threadInfo.isBumpLimitReached = true
+	if (autoSage) {
+		thread.isBumpLimitReached = true
 	}
 	// `lastBump` is only present in `/catalog.json` API response.
-	if (thread.lastBump) {
-		threadInfo.updatedAt = new Date(thread.lastBump)
+	if (lastBump) {
+		thread.updatedAt = new Date(lastBump)
 	}
 	// Only for "get thread" API response.
-	if (thread.forceAnonymity) {
+	if (forceAnonymity) {
 		// `forceAnonymity: true` disables author names in a thread:
 		// forces empty/default `name` on all posts of a thread.
-		threadInfo.forceAnonymity = true
+		thread.forceAnonymity = true
 	}
-	// Non-standardized property.
-	// Only for "get thread" API response.
-	if (thread.maxFileCount !== undefined) {
-		// Example: 4.
-		threadInfo.maxAttachments = thread.maxFileCount
-	}
-	// Non-standardized property.
-	// Only for "get thread" API response.
-	// if (thread.parseFileSize !== undefined) {
-	// 	// Example: "128.00 MB".
-	// 	threadInfo.maxFileSize = parseFileSize(thread.parseFileSize)
-	// }
-	// Non-standardized property.
-	// Only for "get thread" API response.
-	if (thread.maxMessageLength !== undefined) {
-		// Example: 16384.
-		threadInfo.maxCommentLength = thread.maxMessageLength
-	}
-	return constructThread(threadInfo, comments, {
-		boardId,
-		messages,
-		censoredWords,
-		commentLengthLimit,
-		commentUrlParser,
-		expandReplies
-	})
+	return thread
 }
 
-function getCommentsCount(thread) {
+function getCommentsCount(postCount, posts) {
 	// `lynxchan` doesn't provide neither `postCount`
 	// nor `fileCount` in "get thread" API response.
-	if (thread.postCount === undefined) {
+	if (postCount === undefined) {
 		// A workaround for `lynxchan` bug:
 		// `lynxchan` doesn't return `postCount`
 		// if there're no attachments in replies
 		// in `/catalog.json` API response
 		// which doesn't have `posts[]` property.
-		if (thread.posts) {
-			return thread.posts.length
+		if (posts) {
+			return posts.length
 		}
 		return 0
 	}
-	return thread.postCount
+	return postCount
 }
 
-function getCommentAttachmentsCount(thread) {
+function getCommentAttachmentsCount(fileCount, posts) {
 	// `lynxchan` doesn't provide neither `postCount`
 	// nor `fileCount` in "get thread" API response.
-	if (thread.fileCount === undefined) {
+	if (fileCount === undefined) {
 		// A workaround for `lynxchan` bug:
 		// `lynxchan` doesn't return `fileCount`
 		// if there're no attachments in replies
 		// in `/catalog.json` API response
 		// which doesn't have `posts[]` property.
-		if (thread.posts) {
-			return thread.posts.reduce((total, post) => total + post.files.length, 0)
+		if (posts) {
+			return posts.reduce((total, post) => total + post.files.length, 0)
 		}
 		return 0
 	}
-	return thread.fileCount
+	return fileCount
 }

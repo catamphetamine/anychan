@@ -5,7 +5,7 @@ import parseBoard from './parseBoard'
  * @param  {object} response — Chan API response for boards list.
  * @return {object[]} See README.md for "Board" object description.
  */
-export default function parseBoards(response, { hideBoardCategories }) {
+export default function parseBoardsResponse(response, { hideBoardCategories }) {
 	// Parse tags.
 	const boardTags = {}
 	for (const tag of response.tags) {

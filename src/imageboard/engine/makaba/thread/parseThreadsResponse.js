@@ -1,28 +1,49 @@
-import parseThread from './parseThread'
-import getBoardSettings from '../board/getBoardSettings'
+import getBoardInfo from '../board/getBoardInfo'
 
 /**
- * Parses chan API response for threads list.
- * @param  {object} response — Chan API response for threads list.
- * @param  {object} options
- * @return {object[]} See README.md for "Thread" object description.
+ * Parses "get threads list" API response.
+ * @param  {object} response — "get threads list" API response.
+ * @return {object} `{ board, threads, comments }`.
  */
-export default function parseThreads(response, options) {
-	return response.threads.map((thread) => parseThread(thread, [thread], {
-		...options,
-		boardTitle: response.BoardName,
-		bumpLimit: response.bump_limit,
-		boardSettings: getBoardSettings(response),
-		defaultAuthorName: response.default_name,
-		commentsCount: thread.posts_count,
-		// `files_count` is incorrect:
-		// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
-		commentAttachmentsCount: thread.files_count,
-		hasVoting: response.enable_likes === 1,
-		hasFlags: response.enable_flags === 1,
-		icons: response.enable_icons === 1 && response.icons && response.icons.reduce((icons, { name, num }) => {
-			icons[name] = num
-			return icons
-		}, {})
-	}))
+export default function parseThreadsResponse(response) {
+	return {
+		board: {
+			defaultAuthorName: response.threads[0].default_name,
+			...getBoardInfo(response)
+		},
+		comments: response.threads,
+		threads: response.threads.map(({
+			num,
+			posts_count,
+			files_count,
+			lasthit,
+			closed,
+			sticky,
+			endless
+		}) => {
+			const thread = {
+				id: parseInt(num),
+				commentsCount: posts_count,
+				// `files_count` is incorrect:
+				// https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md
+				commentAttachmentsCount: files_count,
+				updatedAt: new Date(lasthit * 1000)
+			}
+			if (closed === 1) {
+				thread.isLocked = true
+			}
+			// If the thread is pinned `sticky` will be a number greater than `0`.
+			if (sticky > 0) {
+				thread.isSticky = true
+			}
+			// "Rolling" threads never go into "bump limit":
+			// instead messages are being shifted from the start of
+			// such thread as new messages are posted to it.
+			// The "opening post" is always preserved.
+			if (endless === 1) {
+				thread.isRolling = true
+			}
+			return thread
+		})
+	}
 }

@@ -1,4 +1,4 @@
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins.4chan'
+import PARSE_COMMENT_PLUGINS from './parseCommentContentPlugins.4chan'
 
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'

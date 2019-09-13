@@ -5,9 +5,9 @@ import trimWhitespace from 'webapp-frontend/src/utility/post/trimWhitespace'
 
 export default function parseAndFormatComment(rawComment, {
 	censoredWords,
-	correctGrammar,
+	filterText,
 	commentUrlParser,
-	plugins,
+	parseCommentContentPlugins,
 	// These're used by `postProcessCommentContent`
 	comment,
 	boardId,
@@ -19,11 +19,11 @@ export default function parseAndFormatComment(rawComment, {
 }) {
 	let content = parseComment(rawComment, {
 		censoredWords,
-		correctGrammar,
+		filterText,
 		commentUrlParser,
 		emojiUrl,
 		toAbsoluteUrl,
-		plugins
+		plugins: parseCommentContentPlugins
 	})
 	// Split content into paragraphs on multiple line breaks,
 	// trim whitespace around paragraphs.

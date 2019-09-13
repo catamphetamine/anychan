@@ -1,9 +1,7 @@
+import parseCommentContent from './parseCommentContent'
+
 export default class Engine {
 	constructor(chanSettings, {
-		parseBoards,
-		parseThreads,
-		parseThread,
-		parseVoteResponse,
 		useRelativeUrls,
 		request,
 		...rest
@@ -21,6 +19,7 @@ export default class Engine {
 			chan: id,
 			toAbsoluteUrl: this.toAbsoluteUrl,
 			commentUrl: '/{boardId}/{threadId}#{commentId}',
+			parseCommentContent: this.parseCommentContent,
 			...restChanSettings,
 			...rest
 		}
@@ -28,10 +27,6 @@ export default class Engine {
 		if (this.options.commentUrlParser) {
 			this.options.commentUrlParser = new RegExp(this.options.commentUrlParser)
 		}
-		this.parseBoards = (response, options) => parseBoards(response, this.getOptions(options))
-		this.parseThreads = (response, options) => parseThreads(response, this.getOptions(options))
-		this.parseThread = (response, options) => parseThread(response, this.getOptions(options))
-		this.parseVoteResponse = (response, options) => parseVoteResponse(response, this.getOptions(options))
 	}
 
 	getOptions(options) {
@@ -90,48 +85,55 @@ export default class Engine {
 
 	/**
 	 * Performs a "get threads list" API query and parses the response.
+	 * @param  {object} parameters — `{ boardId }`.
 	 * @param  {object} [options] — See the README.
 	 * @return {object[]} — A list of `Thread` objects.
 	 */
-	async getThreads(options) {
+	async getThreads(parameters, options) {
 		// The API endpoint URL.
-		const url = this.options.api.getThreads
-			.replace('{boardId}', options.boardId)
+		const url = setParameters(this.options.api.getThreads, parameters)
 		// Query the API endpoint.
 		const response = await this.request('GET', this.toAbsoluteUrl(url))
 		// Parse the threads list.
-		return this.parseThreads(response, options)
+		// `boardId` is still used there.
+		return this.parseThreads(response, {
+			...parameters,
+			...options
+		})
 	}
 
 	/**
 	 * Performs a "get thread comments" API query and parses the response.
+	 * @param  {object} parameters — `{ boardId, threadId }`.
 	 * @param  {object} [options] — See the README.
 	 * @return {object} — A `Thread` object.
 	 */
-	async getThread(options) {
+	async getThread(parameters, options) {
 		// The API endpoint URL.
-		const url = this.options.api.getThread
-			.replace('{boardId}', options.boardId)
-			.replace('{threadId}', options.threadId)
+		const url = setParameters(this.options.api.getThread, parameters)
 		// Query the API endpoint.
 		const response = await this.request('GET', this.toAbsoluteUrl(url))
 		// Parse the thread comments list.
-		return this.parseThread(response, options)
+		// `boardId` and `threadId` are still used there.
+		return this.parseThread(response, {
+			...parameters,
+			...options
+		})
 	}
 
 	/**
 	 * Performs a "vote" API request and parses the response.
-	 * @param  {object} [options] — See the README.
+	 * @param  {object} parameters — `{ boardId, threadId, commentId, up }`.
 	 * @return {boolean} — `true` if the vote has been accepted.
 	 */
-	async vote(options) {
-		// The API endpoint URL.
-		const url = this.toAbsoluteUrl(setParameters(this.options.api.vote.url, options))
-		// Send a request to the API endpoint.
-		// Strangely, `2ch.hk` requires sending a `GET` HTTP request in order to vote.
+	async vote(params) {
 		const voteApi = this.options.api.vote
 		const method = voteApi.method
-		const parameters = getParameters(voteApi, options)
+		const parameters = getVoteParameters(voteApi, params)
+		// The API endpoint URL.
+		const url = this.toAbsoluteUrl(setParameters(voteApi.url, parameters))
+		// Send a request to the API endpoint.
+		// Strangely, `2ch.hk` requires sending a `GET` HTTP request in order to vote.
 		let response
 		switch (method) {
 			case 'GET':
@@ -144,15 +146,31 @@ export default class Engine {
 		// Parse vote status.
 		return this.parseVoteResponse(response, options)
 	}
+
+	/**
+	 * Can be used when `parseContent: false` option is passed.
+	 * @param {object} comment
+	 * @param {object} [options] — `{ threadId }` if `threadId` isn't already part of `this.options`.
+	 */
+	parseCommentContent = (comment, options) => {
+		// `post-link` parser uses `boardId` and `threadId`
+		// for parsing links like `4chan`'s `href="#p265789424"`
+		// that're present in "get thread comments" API response.
+		if (!options.boardId || !options.threadId) {
+			console.error('`boardId` and `threadId` options are required when parsing thread comments.')
+		}
+		parseCommentContent(comment, this.getOptions(options))
+	}
 }
 
-function setParameters(string, options) {
+function setParameters(string, parameters) {
+	for (const key of Object.keys(parameters)) {
+		string = string.replace('{' + key + '}', parameters[key])
+	}
 	return string
-		.replace('{boardId}', options.boardId)
-		.replace('{commentId}', options.commentId)
 }
 
-function getParameters(voteApi, options) {
+function getVoteParameters(voteApi, parameters) {
 	const {
 		params,
 		voteParam,
@@ -160,11 +178,11 @@ function getParameters(voteApi, options) {
 		voteParamDown
 	} = voteApi
 	if (params) {
-		const parameters = JSON.parse(setParameters(params, options))
+		const voteParameters = JSON.parse(setParameters(params, parameters))
 		if (voteParam) {
-			parameters[voteParam] = options.up ? voteParamUp : voteParamDown
+			voteParameters[voteParam] = options.up ? voteParamUp : voteParamDown
 		}
-		return parameters
+		return voteParameters
 	}
 }
 

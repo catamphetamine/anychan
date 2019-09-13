@@ -3,6 +3,10 @@
 	"domain": "2ch.hk",
 	"engine": "makaba",
 	"commentUrlParser": "^\\/(.+?)\\/res\\/(\\d+).html#(\\d+)$",
+	"language": {
+		"int": "en",
+		"*": "ru"
+	},
 	"api": {
 		"getThread": "/{boardId}/res/{threadId}.json",
 		"getThreads": "/{boardId}/catalog.json",

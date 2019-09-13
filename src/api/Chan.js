@@ -1,7 +1,8 @@
 import Chan from '../imageboard'
-import { getChanConfig, addChanParameter, isDeployedOnChanDomain } from '../chan'
+import { getChan, getChanConfig, addChanParameter, isDeployedOnChanDomain } from '../chan'
 import getProxyUrl from './utility/getProxyUrl'
 import getMessages from './utility/getMessages'
+import correctGrammar from './utility/correctGrammar'
 
 export default function Chan_({
 	censoredWords,
@@ -20,6 +21,7 @@ export default function Chan_({
 			// Simply adds `?chan=...` to comment links.
 			// By default `commentUrl` is "/{boardId}/{threadId}#{commentId}".
 			commentUrl: addChanParameter('/{boardId}/{threadId}#{commentId}'),
+			filterText: getChan().id === '2ch' ? correctGrammar : undefined,
 			request: (method, url, data) => http[method.toLowerCase()](getProxyUrl(url), data)
 		}
 	)

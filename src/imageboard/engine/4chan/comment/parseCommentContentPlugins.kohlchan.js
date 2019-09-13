@@ -5,7 +5,7 @@ import {
 	parseItalic,
 	parseQuote,
 	parseLink
-} from './parseCommentPlugins'
+} from './parseCommentContentPlugins'
 
 // `kohlchan.net` spoiler.
 const parseKohlChanSpoiler = {

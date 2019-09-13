@@ -106,7 +106,7 @@ export const HEADER_BADGES = [
 			}
 			return getMessages(locale).post.banned
 		},
-		condition: post => post.authorBanned
+		condition: post => post.authorBan
 	},
 	{
 		name: 'sage',
@@ -138,13 +138,13 @@ export const HEADER_BADGES = [
 				}
 			}
 			return {
-				// country: post.authorIconId,
-				url: post.authorIconUrl,
-				name: post.authorIconName
+				// country: post.authorBadgeId,
+				url: post.authorBadgeUrl,
+				name: post.authorBadgeName
 			}
 		},
-		title: (post, locale) => post.authorCountry ? getCountryNames(locale)[post.authorCountry] : post.authorIconName,
-		condition: post => post.authorCountry || post.authorIconName
+		title: (post, locale) => post.authorCountry ? getCountryNames(locale)[post.authorCountry] : post.authorBadgeName,
+		condition: post => post.authorCountry || post.authorBadgeName
 	},
 	{
 		name: 'bump-limit',
@@ -174,8 +174,8 @@ export const HEADER_BADGES = [
 ]
 
 function getRoleName(authorRole, post, locale) {
-	if (post.authorRoleJurisdiction) {
-		const roleNames = getMessages(locale).role[post.authorRoleJurisdiction]
+	if (post.authorRoleDomain) {
+		const roleNames = getMessages(locale).role[post.authorRoleDomain]
 		if (roleNames && roleNames[authorRole]) {
 			return roleNames[authorRole]
 		}

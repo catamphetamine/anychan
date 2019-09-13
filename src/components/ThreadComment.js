@@ -141,7 +141,7 @@ export default function ThreadComment({
 			url={getUrl(board, thread, comment)}
 			onAttachmentClick={onAttachmentClick}
 			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
-			onVote={thread.hasVoting ? onVote : undefined}
+			onVote={board.hasVoting ? onVote : undefined}
 			notify={notify}
 			parentComment={parentComment}
 			className={classNames(className, `thread-comment--${mode}`, {

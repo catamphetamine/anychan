@@ -14,6 +14,7 @@ export const getBoards = redux.action(
 		...state,
 		// `result` has `boards` and potentially other things
 		// like `boardsByCategory` and `boardsByPopularity`.
+		// Also contains `allBoards` object in case of `all: true`.
 		...result
 	})
 )
@@ -35,8 +36,9 @@ export const getThreads = redux.action(
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
+		populateBoardInfo(board, threads[0])
 		for (const thread of threads) {
-			populateBoardSettings(board, thread)
+			delete thread.board
 		}
 		return {
 			...state,
@@ -63,7 +65,7 @@ export const getThread = redux.action(
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
-		populateBoardSettings(board, thread)
+		populateBoardInfo(board, thread)
 		return {
 			...state,
 			board,
@@ -92,14 +94,16 @@ function getBoardById(boards, boardId, board) {
 	return { id: boardId, title: boardId }
 }
 
-function populateBoardSettings(board, thread) {
+function populateBoardInfo(board, thread) {
 	// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 	// Instead, it returns the board settings as part of "get threads" and
 	// "get thread comments" API responses.
-	if (thread.boardSettings) {
-		for (const key of Object.keys(thread.boardSettings)) {
-			board[key] = thread.boardSettings[key]
+	// Also chans like `lynxchan` having userboards return board title
+	// as part of "get thread comments" API response.
+	if (thread.board) {
+		for (const key of Object.keys(thread.board)) {
+			board[key] = thread.board[key]
 		}
-		delete thread.boardSettings
+		delete thread.board
 	}
 }

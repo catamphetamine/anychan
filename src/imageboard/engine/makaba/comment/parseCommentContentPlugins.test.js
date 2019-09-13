@@ -1,5 +1,4 @@
-import correctGrammar from './correctGrammar'
-import PARSE_COMMENT_PLUGINS from './parseCommentPlugins'
+import PARSE_COMMENT_CONTENT_PLUGINS from './parseCommentContentPlugins'
 
 import { describe, it } from '../../../utility/mocha'
 import expectToEqual from '../../../utility/expectToEqual'
@@ -13,8 +12,7 @@ function parseCommentTest(comment, expected, expectedWarnings = []) {
 	console.warn = (text) => warnings.push(text)
 
 	comment = parseComment(comment, {
-		correctGrammar,
-		plugins: PARSE_COMMENT_PLUGINS
+		plugins: PARSE_COMMENT_CONTENT_PLUGINS
 	})
 
 	console.warn = consoleWarn
@@ -29,14 +27,6 @@ function parseCommentTest(comment, expected, expectedWarnings = []) {
 
 describe('parseComment', () => {
 	it('should parse comments', () => {
-		parseCommentTest(
-			"Sosach ,возник вопрос ,как легче всего воровать пароли ,допустим в кабинете информатики ?",
-			[
-				// ["Sosach ,возник вопрос ,как легче всего воровать пароли ,допустим в кабинете информатики ?"]
-				["Sosach, возник вопрос, как легче всего воровать пароли, допустим в кабинете информатики?"]
-			]
-		)
-
 		parseCommentTest(
 			'<a href=\"https:&#47;&#47;www.youtube.org&#47;watch?v=dIFbIUUo0OU\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https:&#47;&#47;www.youtube.org&#47;watch?v=dIFbIUUo0OU</a>',
 			[
@@ -53,7 +43,7 @@ describe('parseComment', () => {
 			"Помогите найти видео. Там мужик кулаками машет и делат так &quot;уц-уц-уц&quot; или &quot;уш-уш-уш&quot;. Вроде демонстрации кунфу.",
 			[
 				[
-					'Помогите найти видео. Там мужик кулаками машет и делат так «уц-уц-уц» или «уш-уш-уш». Вроде демонстрации кунфу.'
+					'Помогите найти видео. Там мужик кулаками машет и делат так "уц-уц-уц" или "уш-уш-уш". Вроде демонстрации кунфу.'
 				]
 			]
 		)
@@ -253,7 +243,7 @@ describe('parseComment', () => {
 						content: 'вопрос к тням'
 					},
 					'\n',
-					'Несколько лет назад…'
+					'Несколько лет назад...'
 				],
 				[
 					'Так же, пост из моего прошлого треда, на эту же тему:',
