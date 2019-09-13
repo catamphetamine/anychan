@@ -1,6 +1,7 @@
 export default function getBoardInfo(response) {
 	const board = {
 		title: response.BoardName,
+		defaultAuthorName: response.default_name,
 		bumpLimit: response.bump_limit,
 		maxCommentLength: response.max_comment,
 		maxAttachmentsSize: response.max_files_size,

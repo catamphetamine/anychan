@@ -14,10 +14,7 @@ export default function parseThreadResponse(response) {
 	} = response
 	const openingPost = response.threads[0].posts[0]
 	return {
-		board: {
-			defaultAuthorName: response.default_name,
-			...getBoardInfo(response)
-		},
+		board: getBoardInfo(response),
 		comments: response.threads[0].posts,
 		thread: {
 			id: parseInt(current_thread),
