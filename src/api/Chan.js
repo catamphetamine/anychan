@@ -21,7 +21,7 @@ export default function Chan_({
 			// Simply adds `?chan=...` to comment links.
 			// By default `commentUrl` is "/{boardId}/{threadId}#{commentId}".
 			commentUrl: decodeURI(addChanParameter('/{boardId}/{threadId}#{commentId}')),
-			filterText: getChan().id === '2ch' ? correctGrammar : undefined,
+			filterText: getChan().id === '2ch' ? text => correctGrammar(text, { language: 'ru' }) : undefined,
 			request: (method, url, data) => http[method.toLowerCase()](getProxyUrl(url), data)
 		}
 	)
