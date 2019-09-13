@@ -10,7 +10,9 @@ Supported engines:
 Features:
 
 * (optional) Parse comments HTML into structured JSON documents.
+* (optional) Automatically generate shortened "previews" for long comments.
 * (optional) Automatically insert quoted posts' text when none provided.
+* (optional) [Censor](#censorship) certain words using regular expression syntax.
 
 ## Example
 
@@ -114,115 +116,57 @@ Returns a [Thread](#thread).
 
 Parses `comment` content if `parseContent: false` option was used when creating a `Chan` instance.
 
-## Content
+## Models
 
-A post can have `content` and sometimes `contentPreview` both of which are [`Content`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostContent.md).
-
-## Attachment
-
-An attachment can be a:
-
-* [`Picture`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#picture) attachment
-
-<!--
-Additional fields:
+### Board
 
 ```js
 {
-  // (only for `2ch.hk`)
-  // `true` in case of a `2ch.hk` sticker.
-  sticker: boolean?
-}
-```
--->
-
-* [`Video`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#video) attachment
-
-* [`File`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#file) attachment
-
-## Comment
-
-```js
-{
-  // Comment ID.
-  id: number,
   // Board ID.
   // Example: "b".
-  boardId: string,
-  // Thread ID.
-  threadId: number,
-  // Comment title ("subject").
-  title: string?,
-  // If `title` contains ignored words then a censored title
-  // containing "censored" "spoilers" will be generated.
-  titleCensored: InlineContent?,
-  // The date on which the comment was posted.
-  createdAt: Date,
-  // A "tripcode".
-  // https://encyclopediadramatica.rs/Tripcode
-  tripCode: String?,
-  // `2ch.hk` provides means for "original posters" to identify themselves
-  // when replying in their own threads with a previously set "OP" cookie.
-  isThreadAuthor: boolean?,
-  // Some chans identify their users by a hash of their IP address subnet
-  // on some of their boards (for example, all chans do that on `/pol/` boards).
-  authorId: String?,
-  // If `authorId` is present then it's converted into a HEX color.
-  // Example: "#c05a7f".
-  authorIdColor: String?,
-  // Comment author name.
-  authorName: String?,
-  // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
-  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-  authorNameId: boolean?,
-  // A two-letter ISO country code (or "ZZ" for "Anonymized").
-  // Chans usually show poster flags on `/int/` boards.
-  authorCountry: String?,
-  // Some chans allow icons for posts on some boards.
-  // For example, `kohlchan.net` shows user icons on `/int/` board.
-  // Author icon examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
-  // `authorBadgeUrl` is `/.static/flags/${authorBadge}.png`.
-  // `authorBadgeName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
-  // Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
-  // Author icon examples in this case: "nya", "liber", "comm", "libertar", etc.
-  // `authorBadgeUrl` is `/icons/logos/${authorBadge}.png`.
-  // `authorBadgeName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
-  authorBadgeUrl: String?,
-  authorBadgeName: String?,
-  // If the comment was posted by a "priviliged" user
-  // then it's gonna be the role of the comment author.
-  // Examples: "administrator", "moderator".
-  authorRole: String?,
-  // `8ch.net` and `lynxchan` have "global adiministrators"
-  // and "board administrators", and "global moderators"
-  // and "board moderators", so `authorRoleDomain` is gonna be
-  // "board" for a "board administrator" or "board moderator".
-  authorRoleDomain: String?,
-  // If `true` then it means that the author was banned for the message.
-  authorBan: boolean?,
-  // An optional `String` with the ban reason.
-  authorBanReason: String?,
-  // Downvotes count for this comment.
-  // Only for boards like `/po/` on `2ch.hk`.
-  upvotes: number?,
-  // Downvotes count for this comment.
-  // Only for boards like `/po/` on `2ch.hk`.
-  downvotes: number?,
-  // Comment content.
-  // Example: `[['Text']]`.
-  content: Content?,
-  // If the `content` is too long a preview is generated.
-  contentPreview: Content?,
-  // Comment attachments.
-  attachments: Attachment[]?,
-  // The IDs of the comments to which this comment replies.
-  inReplyTo: number[]?,
-  // The IDs of the comments which are replies to this comment.
-  replies: number[]?
+  id: string,
+  // Board title.
+  // Example: "Anime & Manga".
+  title: string,
+  // Board description.
+  description: string,
+  // Is this board "Not Safe For Work".
+  isNotSafeForWork: boolean?,
+  // "Bump limit" for threads on this board.
+  bumpLimit: number?,
+  // The maximum attachments count in a thread.
+  // Only present for 4chan.org
+  maxAttachmentsInThread: number?,
+  // Maximum comment length in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
+  maxCommentLength: number?,
+  // Maximum total attachments size in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
+  maxAttachmentsSize: number?,
+  // Maximum total video attachments size in a thread on the board (a board-wide setting).
+  // Only present for `4chan.org`.
+  maxVideoAttachmentsSize: number?,
+  // Create new thread cooldown.
+  // Only present for `4chan.org`.
+  createThreadCooldown: number?,
+  // Post new comment cooldown.
+  // Only present for `4chan.org`.
+  postCommentCooldown: number?,
+  // Post new comment with an attachment cooldown.
+  // Only present for `4chan.org`.
+  attachFileCooldown: number?,
+  // Whether "sage" is allowed when posting comments on this board.
+  // Only present for `4chan.org`.
+  isSageAllowed: boolean?,
+  // Whether to show a "Name" field in a "post new comment" form on this board.
+  // Only present for `2ch.hk`.
+  areNamesAllowed: boolean?
 }
 ```
 
-## Thread
+### Thread
 
 ```js
 {
@@ -324,53 +268,116 @@ Additional fields:
 }
 ```
 
-## Board
+### Comment
 
 ```js
 {
+  // Comment ID.
+  id: number,
   // Board ID.
   // Example: "b".
-  id: string,
-  // Board title.
-  // Example: "Anime & Manga".
-  title: string,
-  // Board description.
-  description: string,
-  // Is this board "Not Safe For Work".
-  isNotSafeForWork: boolean?,
-  // "Bump limit" for threads on this board.
-  bumpLimit: number?,
-  // The maximum attachments count in a thread.
-  // Only present for 4chan.org
-  maxAttachmentsInThread: number?,
-  // Maximum comment length in a thread on the board (a board-wide setting).
-  // Only present for `4chan.org`.
-  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
-  maxCommentLength: number?,
-  // Maximum total attachments size in a thread on the board (a board-wide setting).
-  // Only present for `4chan.org`.
-  // `2ch.hk` also has it but doesn't return it as part of the `/boards.json` response.
-  maxAttachmentsSize: number?,
-  // Maximum total video attachments size in a thread on the board (a board-wide setting).
-  // Only present for `4chan.org`.
-  maxVideoAttachmentsSize: number?,
-  // Create new thread cooldown.
-  // Only present for `4chan.org`.
-  createThreadCooldown: number?,
-  // Post new comment cooldown.
-  // Only present for `4chan.org`.
-  postCommentCooldown: number?,
-  // Post new comment with an attachment cooldown.
-  // Only present for `4chan.org`.
-  attachFileCooldown: number?,
-  // Whether "sage" is allowed when posting comments on this board.
-  // Only present for `4chan.org`.
-  isSageAllowed: boolean?,
-  // Whether to show a "Name" field in a "post new comment" form on this board.
-  // Only present for `2ch.hk`.
-  areNamesAllowed: boolean?
+  boardId: string,
+  // Thread ID.
+  threadId: number,
+  // Comment title ("subject").
+  title: string?,
+  // If `title` contains ignored words then a censored title
+  // containing "censored" "spoilers" will be generated.
+  titleCensored: InlineContent?,
+  // The date on which the comment was posted.
+  createdAt: Date,
+  // A "tripcode".
+  // https://encyclopediadramatica.rs/Tripcode
+  tripCode: String?,
+  // `2ch.hk` provides means for "original posters" to identify themselves
+  // when replying in their own threads with a previously set "OP" cookie.
+  isThreadAuthor: boolean?,
+  // Some chans identify their users by a hash of their IP address subnet
+  // on some of their boards (for example, all chans do that on `/pol/` boards).
+  authorId: String?,
+  // If `authorId` is present then it's converted into a HEX color.
+  // Example: "#c05a7f".
+  authorIdColor: String?,
+  // Comment author name.
+  authorName: String?,
+  // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
+  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+  authorNameId: boolean?,
+  // A two-letter ISO country code (or "ZZ" for "Anonymized").
+  // Chans usually show poster flags on `/int/` boards.
+  authorCountry: String?,
+  // Some chans allow icons for posts on some boards.
+  // For example, `kohlchan.net` shows user icons on `/int/` board.
+  // Author icon examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
+  // `authorBadgeUrl` is `/.static/flags/${authorBadge}.png`.
+  // `authorBadgeName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
+  // Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
+  // Author icon examples in this case: "nya", "liber", "comm", "libertar", etc.
+  // `authorBadgeUrl` is `/icons/logos/${authorBadge}.png`.
+  // `authorBadgeName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
+  authorBadgeUrl: String?,
+  authorBadgeName: String?,
+  // If the comment was posted by a "priviliged" user
+  // then it's gonna be the role of the comment author.
+  // Examples: "administrator", "moderator".
+  authorRole: String?,
+  // `8ch.net` and `lynxchan` have "global adiministrators"
+  // and "board administrators", and "global moderators"
+  // and "board moderators", so `authorRoleDomain` is gonna be
+  // "board" for a "board administrator" or "board moderator".
+  authorRoleDomain: String?,
+  // If `true` then it means that the author was banned for the message.
+  authorBan: boolean?,
+  // An optional `String` with the ban reason.
+  authorBanReason: String?,
+  // Downvotes count for this comment.
+  // Only for boards like `/po/` on `2ch.hk`.
+  upvotes: number?,
+  // Downvotes count for this comment.
+  // Only for boards like `/po/` on `2ch.hk`.
+  downvotes: number?,
+  // Comment content.
+  // If `parseContent: false` option was passed
+  // then `content` is an HTML string (or `undefined`).
+  // Otherwise, it's `Content` (or `undefined`).
+  // Content example: `[['Comment text']]`.
+  content: (string|Content)?,
+  // If the `content` is too long a preview is generated.
+  contentPreview: Content?,
+  // Comment attachments.
+  attachments: Attachment[]?,
+  // The IDs of the comments to which this comment replies.
+  inReplyTo: number[]?,
+  // The IDs of the comments which are replies to this comment.
+  replies: number[]?
 }
 ```
+
+### Content
+
+Each comment can have `content` and sometimes `contentPreview` both of which are [`Content`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostContent.md) unless `parseContent: false` option was passed in which case `content` is an HTML string and no `contentPreview` is generated.
+
+### Attachment
+
+An attachment can be a:
+
+* [`Picture`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#picture) attachment
+
+<!--
+Additional fields:
+
+```js
+{
+  // (only for `2ch.hk`)
+  // `true` in case of a `2ch.hk` sticker.
+  sticker: boolean?
+}
+```
+-->
+
+* [`Video`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#video) attachment
+
+* [`File`](https://github.com/catamphetamine/webapp-frontend/tree/master/src/utility/post/PostAttachments.md#file) attachment
 
 ## Censorship
 
@@ -397,6 +404,10 @@ Word pattern examples:
 * `^cocks?` — Matches `"cock"` and `"cocks"`.
 
 * `^cock.{0,3}` — Matches `"cock"`, `"cocks"`, `"cocker"`, `"cockers"`.
+
+Censored words in parsed comments' `content` will be replaced with `{ type: "spoiler", censored: true, content: "the-word-that-got-censored" }`.
+
+Censored words in comment/thread `title`s don't result in their replacement but rather a new `titleCensored` property is generated with the words censored. The rationale is that `title` is a `string`, not `Content`, therefore it should stay a `string`. `content`, on the other hand, is already of `Content` type so it's edited in-place.
 
 ## Chan config
 
