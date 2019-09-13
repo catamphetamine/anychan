@@ -1,4 +1,4 @@
-Easy access to popular imageboards' API.
+An easy uniform wrapper over the popular imageboards' API.
 
 Supported engines:
 
@@ -10,7 +10,7 @@ Supported engines:
 Features:
 
 * (optional) Parse chan comments HTML into structured JSON documents.
-* Automatically insert quoted posts' text when none provided.
+* (optional) Automatically insert quoted posts' text when none provided.
 
 ## Example
 
