@@ -486,7 +486,7 @@ Censored words in comment/thread `title`s don't result in their replacement but 
   //  "christan": "Christanon"
   // }
 
-  // (optional)
+  // (required for `lynxchan`)
   // Thumbnail size. Is required for `lynxchan`.
   // `lynxchan` engine currently has a bug:
   // it doesn't provide thumbnail dimensions.
