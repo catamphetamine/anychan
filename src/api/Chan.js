@@ -20,7 +20,7 @@ export default function Chan_({
 			useRelativeUrls: isDeployedOnChanDomain(),
 			// Simply adds `?chan=...` to comment links.
 			// By default `commentUrl` is "/{boardId}/{threadId}#{commentId}".
-			commentUrl: addChanParameter('/{boardId}/{threadId}#{commentId}'),
+			commentUrl: decodeURI(addChanParameter('/{boardId}/{threadId}#{commentId}')),
 			filterText: getChan().id === '2ch' ? correctGrammar : undefined,
 			request: (method, url, data) => http[method.toLowerCase()](getProxyUrl(url), data)
 		}
