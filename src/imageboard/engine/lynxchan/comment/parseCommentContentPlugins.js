@@ -144,7 +144,7 @@ const link = {
 	createBlock(content, util, { commentUrlParser }) {
 		const className = util.getAttribute('class')
 		const href = util.getAttribute('href')
-		if (className === 'highlightlink') {
+		if (className === 'quoteLink') {
 			const postLink = parsePostLink(href, { commentUrlParser })
 			return {
 				type: 'post-link',
