@@ -1,5 +1,3 @@
-import censorWords from 'webapp-frontend/src/utility/post/censorWords'
-
 import stringToColor from './utility/stringToColor'
 
 export default function Comment({
@@ -7,23 +5,9 @@ export default function Comment({
 	threadId,
 	...comment
 }, {
-	censoredWords,
-	filterText,
 	parseContent,
 	parseCommentContent
 }) {
-	// Censor/filter comment title.
-	if (comment.title) {
-		if (filterText) {
-			comment.title = filterText(comment.title)
-		}
-		if (censoredWords) {
-			const titleCensored = censorWords(comment.title, censoredWords)
-			if (titleCensored !== comment.title) {
-				comment.titleCensored = titleCensored
-			}
-		}
-	}
 	// Parse comment content.
 	if (comment.content) {
 		if (parseContent !== false) {

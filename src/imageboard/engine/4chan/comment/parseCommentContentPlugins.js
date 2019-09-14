@@ -4,7 +4,7 @@ import createLink from '../../../utility/createLink'
 import dropQuoteMarker from '../../../dropQuoteMarker'
 import parsePostLink from '../../../parsePostLink'
 
-export const parseBold = {
+export const bold = {
 	tag: 'strong',
 	createBlock(content) {
 		return {
@@ -15,7 +15,7 @@ export const parseBold = {
 	}
 }
 
-export const parseItalic = {
+export const italic = {
 	tag: 'em',
 	createBlock(content) {
 		return {
@@ -26,7 +26,7 @@ export const parseItalic = {
 	}
 }
 
-export const parseUnderline = {
+export const underline = {
 	tag: 'u',
 	createBlock(content) {
 		return {
@@ -38,7 +38,7 @@ export const parseUnderline = {
 }
 
 // They have code tags in `/g/`.
-export const parseCode = {
+export const code = {
 	tag: 'pre',
 	attributes: [
 		{
@@ -55,7 +55,7 @@ export const parseCode = {
 	}
 }
 
-export const parseQuote = {
+export const quote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -74,7 +74,7 @@ export const parseQuote = {
 	}
 }
 
-export const parseLink = {
+export const link = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlParser }) {
 		const href = util.getAttribute('href')
@@ -103,12 +103,3 @@ export const parseLink = {
 		}
 	}
 }
-
-export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseCode,
-	parseQuote,
-	parseLink
-]

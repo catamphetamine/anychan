@@ -1,9 +1,9 @@
 import {
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseQuote,
-	parseLink
+	bold,
+	italic,
+	underline,
+	quote,
+	link
 } from './parseCommentContentPlugins'
 
 import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
@@ -15,7 +15,7 @@ import { getContentText } from 'webapp-frontend/src/utility/post/getPostText'
 // https://html.spec.whatwg.org/multipage/grouping-content.html#the-pre-element
 // `<pre><code class="hljs clojure">...</code></pre>`.
 const ARISUCHAN_INLINE_CODE_CLASS_REGEXP = /^inline\s?/
-export const parseCodeBlock = {
+export const codeBlock = {
 	tag: 'pre',
 	createBlock(content, utility) {
 		let inline = false
@@ -53,7 +53,7 @@ export const parseCodeBlock = {
 // I guess I see why that's the case: `arisuchan` most likely uses `highlight.js`'s
 // "autodetect" feature which requires all syntaxes be loaded which is not an option.
 const CODE_LANG_REGEXP = /\bhljs (\S+)$/
-export const parseCode = {
+export const code = {
 	tag: 'code',
 	createBlock(content, utility) {
 		const result = {
@@ -76,7 +76,7 @@ export const parseCode = {
 	}
 }
 
-const parseSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -93,12 +93,12 @@ const parseSpoiler = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseSpoiler,
-	parseQuote,
-	parseLink,
-	parseCode,
-	parseCodeBlock
+	bold,
+	italic,
+	underline,
+	spoiler,
+	quote,
+	link,
+	code,
+	codeBlock
 ]

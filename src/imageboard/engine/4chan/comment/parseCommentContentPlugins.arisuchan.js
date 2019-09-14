@@ -1,14 +1,14 @@
 import {
-	parseQuote,
-	parseLink
+	quote,
+	link
 } from './parseCommentContentPlugins'
 
 import {
-	parseCode,
-	parseCodeBlock
+	code,
+	codeBlock
 } from './parseCommentContentPlugins.lainchan'
 
-export const parseBold = {
+export const bold = {
 	tag: 'span',
 	attributes: [
 		{
@@ -25,7 +25,7 @@ export const parseBold = {
 	}
 }
 
-export const parseItalic = {
+export const italic = {
 	tag: 'span',
 	attributes: [
 		{
@@ -42,7 +42,7 @@ export const parseItalic = {
 	}
 }
 
-export const parseUnderline = {
+export const underline = {
 	tag: 'span',
 	attributes: [
 		{
@@ -59,7 +59,7 @@ export const parseUnderline = {
 	}
 }
 
-const parseStrikethrough = {
+const strikethrough = {
 	tag: 'span',
 	attributes: [
 		{
@@ -76,7 +76,7 @@ const parseStrikethrough = {
 	}
 }
 
-const parseHeading = {
+const heading = {
 	tag: 'span',
 	attributes: [
 		{
@@ -93,7 +93,7 @@ const parseHeading = {
 	}
 }
 
-const parseSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -110,14 +110,14 @@ const parseSpoiler = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseStrikethrough,
-	parseHeading,
-	parseSpoiler,
-	parseQuote,
-	parseLink,
-	parseCode,
-	parseCodeBlock
+	bold,
+	italic,
+	underline,
+	strikethrough,
+	heading,
+	spoiler,
+	quote,
+	link,
+	code,
+	codeBlock
 ]

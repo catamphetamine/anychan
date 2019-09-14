@@ -1,3 +1,5 @@
+import censorWords from 'webapp-frontend/src/utility/post/censorWords'
+
 import parseAndFormatComment from './parseAndFormatComment'
 
 export default function parseCommentContent(comment, {
@@ -27,4 +29,16 @@ export default function parseCommentContent(comment, {
 		emojiUrl,
 		toAbsoluteUrl
 	})
+	// Censor/filter comment title.
+	if (comment.title) {
+		if (filterText) {
+			comment.title = filterText(comment.title)
+		}
+		if (censoredWords) {
+			const titleCensored = censorWords(comment.title, censoredWords)
+			if (titleCensored !== comment.title) {
+				comment.titleCensored = titleCensored
+			}
+		}
+	}
 }

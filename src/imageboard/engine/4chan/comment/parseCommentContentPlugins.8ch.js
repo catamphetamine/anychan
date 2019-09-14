@@ -1,14 +1,14 @@
 import dropQuoteMarker from '../../../dropQuoteMarker'
 
 import {
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseLink,
-	parseCode
+	bold,
+	italic,
+	underline,
+	link,
+	code
 } from './parseCommentContentPlugins'
 
-const parseStrikethrough = {
+const strikethrough = {
 	tag: 's',
 	createBlock(content) {
 		return {
@@ -20,7 +20,7 @@ const parseStrikethrough = {
 }
 
 // `8ch.net` regular text.
-const parseEightChanText = {
+const text = {
 	tag: 'p',
 	attributes: [
 		{
@@ -34,7 +34,7 @@ const parseEightChanText = {
 }
 
 // `8ch.net` "ASCII art" or "ShiftJIS art".
-const parseEightChanAsciiOrShiftJISArt = {
+const asciiShiftJisArt = {
 	tag: 'span',
 	attributes: [
 		{
@@ -52,7 +52,7 @@ const parseEightChanAsciiOrShiftJISArt = {
 }
 
 // `8ch.net` new line.
-const parseEightChanNewLine = {
+const newLine = {
 	tag: 'p',
 	attributes: [
 		{
@@ -66,7 +66,7 @@ const parseEightChanNewLine = {
 }
 
 // `8ch.net` "(((detected)))".
-const parseEightChanDetected = {
+const detected = {
 	tag: 'span',
 	attributes: [
 		{
@@ -84,7 +84,7 @@ const parseEightChanDetected = {
 }
 
 // Red heading.
-const parseEightChanHeading = {
+const heading = {
 	tag: 'span',
 	attributes: [
 		{
@@ -102,7 +102,7 @@ const parseEightChanHeading = {
 }
 
 // `8ch.net` spoiler.
-const parseEightChanSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -119,7 +119,7 @@ const parseEightChanSpoiler = {
 }
 
 // `8ch.net` quote.
-const parseEightChanQuote = {
+const quote = {
 	tag: 'p',
 	attributes: [
 		{
@@ -139,7 +139,7 @@ const parseEightChanQuote = {
 }
 
 // `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes.
-const parseEightChanInverseQuote = {
+const inverseQuote = {
 	tag: 'p',
 	attributes: [
 		{
@@ -160,20 +160,20 @@ const parseEightChanInverseQuote = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseStrikethrough,
-	parseLink,
-	parseCode,
-	parseEightChanText,
-	parseEightChanAsciiOrShiftJISArt,
-	parseEightChanNewLine,
-	parseEightChanDetected,
-	parseEightChanHeading,
-	parseEightChanSpoiler,
-	parseEightChanQuote,
-	parseEightChanInverseQuote
+	bold,
+	italic,
+	underline,
+	strikethrough,
+	link,
+	code,
+	text,
+	asciiShiftJisArt,
+	newLine,
+	detected,
+	heading,
+	spoiler,
+	quote,
+	inverseQuote
 ]
 
 function appendNewLine(content) {

@@ -3,16 +3,16 @@ import dropQuoteMarker from '../../../dropQuoteMarker'
 import parsePostLink from '../../../parsePostLink'
 
 import {
-	parseBold,
-	parseItalic,
-	parseUnderline,
-	parseCode,
-	parseQuote,
-	parseLink
+	bold,
+	italic,
+	underline,
+	code,
+	quote,
+	link
 } from './parseCommentContentPlugins'
 
 // They have these in `/g/` for some reason.
-const parseBoldLegacy = {
+const boldLegacy = {
 	tag: 'b',
 	createBlock(content) {
 		return {
@@ -24,7 +24,7 @@ const parseBoldLegacy = {
 }
 
 // They have these in `/g/` for some reason.
-const parseItalicLegacy = {
+const italicLegacy = {
 	tag: 'i',
 	createBlock(content) {
 		return {
@@ -36,7 +36,7 @@ const parseItalicLegacy = {
 }
 
 // 4chan.org spoiler.
-const parseSpoiler = {
+const spoiler = {
 	tag: 's',
 	createBlock(content) {
 		return {
@@ -46,7 +46,7 @@ const parseSpoiler = {
 	}
 }
 
-const parseDeletedLink = {
+const deletedLink = {
 	tag: 'span',
 	attributes: [
 		{
@@ -70,7 +70,7 @@ const parseDeletedLink = {
 }
 
 // "ASCII art" or "ShiftJIS art".
-const parseAsciiOrShiftJISArt = {
+const asciiShiftJisArt = {
 	tag: 'span',
 	attributes: [
 		{
@@ -101,15 +101,16 @@ const parseAsciiOrShiftJISArt = {
 // * `<div align="center"/>`
 // * There're even `<table/>`s in "Photography"
 export default [
-	parseBold,
-	parseBoldLegacy,
-	parseItalic,
-	parseItalicLegacy,
-	parseUnderline,
-	parseSpoiler,
-	parseDeletedLink,
-	parseQuote,
-	parseLink,
-	parseCode,
-	parseAsciiOrShiftJISArt
+	bold,
+	boldLegacy,
+	italic,
+	italicLegacy,
+	underline,
+	spoiler,
+	quote,
+	// `deletedLink` must precede `link`.
+	deletedLink,
+	link,
+	code,
+	asciiShiftJisArt
 ]

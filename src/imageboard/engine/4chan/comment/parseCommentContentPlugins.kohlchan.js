@@ -1,14 +1,14 @@
 import dropQuoteMarker from '../../../dropQuoteMarker'
 
 import {
-	parseBold,
-	parseItalic,
-	parseQuote,
-	parseLink
+	bold,
+	italic,
+	quote,
+	link
 } from './parseCommentContentPlugins'
 
 // `kohlchan.net` spoiler.
-const parseKohlChanSpoiler = {
+const spoiler = {
 	tag: 'span',
 	attributes: [
 		{
@@ -25,7 +25,7 @@ const parseKohlChanSpoiler = {
 }
 
 // `kohlchan.net` and `8ch.net` have regular quotes and "inverse" quotes.
-const parseKohlChanInverseQuote = {
+const inverseQuote = {
 	tag: 'span',
 	attributes: [
 		{
@@ -46,7 +46,7 @@ const parseKohlChanInverseQuote = {
 }
 
 // `kohlchan.net` underlined text.
-const parseKohlChanUnderline = {
+const underline = {
 	tag: 'span',
 	attributes: [
 		{
@@ -64,7 +64,7 @@ const parseKohlChanUnderline = {
 }
 
 // `kohlchan.net` strikethrough text.
-const parseKohlChanStrikethrough = {
+const strikethrough = {
 	tag: 'span',
 	attributes: [
 		{
@@ -82,7 +82,7 @@ const parseKohlChanStrikethrough = {
 }
 
 // `kohlchan.net` code.
-const parseKohlChanCode = {
+const code = {
 	tag: 'code',
 	createBlock(content) {
 		return {
@@ -94,13 +94,13 @@ const parseKohlChanCode = {
 }
 
 export default [
-	parseBold,
-	parseItalic,
-	parseQuote,
-	parseLink,
-	parseKohlChanSpoiler,
-	parseKohlChanInverseQuote,
-	parseKohlChanUnderline,
-	parseKohlChanStrikethrough,
-	parseKohlChanCode
+	bold,
+	italic,
+	quote,
+	link,
+	spoiler,
+	inverseQuote,
+	underline,
+	strikethrough,
+	code
 ]
