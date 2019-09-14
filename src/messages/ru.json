@@ -122,5 +122,8 @@
 		"preCaptchan": "Клиент для имиджборд «",
 		"postCaptchan": "»",
 		"preAuthor": ", автор "
+	},
+	"country": {
+		"anonymous": "Аноним"
 	}
 }

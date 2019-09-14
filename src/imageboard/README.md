@@ -15,7 +15,17 @@ Features:
 * (optional) [Censor](#censorship) certain words using regular expression syntax.
 * (optional) Automatically generate thread title when it's missing.
 
+## Install
+
+```
+npm install imageboard --save
+```
+
 ## Example
+
+```
+npm install superagent --save
+```
 
 ```js
 import request from 'superagent'
@@ -271,11 +281,6 @@ Parses `comment` content if `parseContent: false` option was used when creating 
 {
   // Comment ID.
   id: number,
-  // Board ID.
-  // Example: "b".
-  boardId: string,
-  // Thread ID.
-  threadId: number,
   // Comment title ("subject").
   title: string?,
   // If `title` contains ignored words then a censored title
@@ -298,14 +303,16 @@ Parses `comment` content if `parseContent: false` option was used when creating 
   // If `authorId` is present then it's converted into a HEX color.
   // Example: "#c05a7f".
   authorIdColor: String?,
+  // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
+  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+  authorIdName: boolean?,
   // Comment author name.
   authorName: String?,
+  // Comment author's email address.
+  authorEmail: String?
   // Comment author's "tripcode".
   // https://encyclopediadramatica.rs/Tripcode
   authorTripCode: String?,
-  // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
-  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
-  authorNameId: boolean?,
   // A two-letter ISO country code (or "ZZ" for "Anonymized").
   // Chans usually show poster flags on `/int/` boards.
   authorCountry: String?,
@@ -333,6 +340,9 @@ Parses `comment` content if `parseContent: false` option was used when creating 
   authorBan: boolean?,
   // An optional `String` with the ban reason.
   authorBanReason: String?,
+  // If this comment was posted with a "sage".
+  // https://knowyourmeme.com/memes/sage
+  isSage: boolean?,
   // Downvotes count for this comment.
   // Only for boards like `/po/` on `2ch.hk`.
   upvotes: number?,

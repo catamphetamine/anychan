@@ -21,7 +21,7 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
+				num: '123',
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: "Текст.\u003cbr\u003e\u003cbr\u003e\u003cspan class=\"thanks-abu\" style=\"color: red;\"\u003eАбу благословил этот пост.\u003c/span\u003e",
@@ -33,7 +33,7 @@ describe('parseComment', () => {
 				threadId: 123,
 			},
 			{
-				id: 456,
+				id: 123,
 				createdAt: date,
 				abuLike: true,
 				content: [
@@ -49,7 +49,7 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
+				num: '123',
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
@@ -61,7 +61,7 @@ describe('parseComment', () => {
 				threadId: 123,
 			},
 			{
-				id: 456,
+				id: 123,
 				authorRole: 'administrator',
 				createdAt: date,
 				content: [
@@ -77,7 +77,7 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
+				num: '123',
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
@@ -89,7 +89,7 @@ describe('parseComment', () => {
 				threadId: 123,
 			},
 			{
-				id: 456,
+				id: 123,
 				authorRole: 'moderator',
 				createdAt: date,
 				content: [
@@ -105,7 +105,7 @@ describe('parseComment', () => {
 		const date = new Date()
 		parseCommentTest(
 			{
-				num: '456',
+				num: '123',
 				files: [],
 				timestamp: date.getTime() / 1000,
 				comment: 'Текст',
@@ -118,7 +118,7 @@ describe('parseComment', () => {
 				threadId: 123,
 			},
 			{
-				id: 456,
+				id: 123,
 				authorBan: true,
 				authorTripCode: '!!5pvF7WEJc.',
 				createdAt: date,

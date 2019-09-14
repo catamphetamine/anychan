@@ -122,5 +122,8 @@
 		"captchan": "captchan",
 		"postCaptchan": " imageboard client",
 		"preAuthor": " by "
+	},
+	"country": {
+		"anonymous": "Anonymous"
 	}
 }

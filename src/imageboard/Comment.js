@@ -1,77 +1,61 @@
 import censorWords from 'webapp-frontend/src/utility/post/censorWords'
 
+import stringToColor from './utility/stringToColor'
+
 export default function Comment({
 	boardId,
 	threadId,
-	id,
-	title,
-	content,
-	authorName,
-	authorRole,
-	authorTripCode,
-	authorBan,
-	authorBanReason,
-	attachments,
-	createdAt,
-	updatedAt,
-	...rest
+	...comment
 }, {
 	censoredWords,
 	filterText,
 	parseContent,
 	parseCommentContent
 }) {
-	const comment = {
-		id,
-		...rest
-	}
-	// The date on which the comment was posted.
-	// All chans except `lynxchan` have this.
-	// `lynxchan` doesn't have it which is a bug
-	// but seems like they don't want to fix it.
-	if (createdAt) {
-		comment.createdAt = createdAt
-	}
-	if (updatedAt) {
-		comment.updatedAt = updatedAt
-	}
-	if (attachments) {
-		comment.attachments = attachments
-	}
-	if (title) {
+	// Censor/filter comment title.
+	if (comment.title) {
 		if (filterText) {
-			title = filterText(title)
+			comment.title = filterText(comment.title)
 		}
-		if (title) {
-			comment.title = title
-			if (censoredWords) {
-				const titleCensored = censorWords(title, censoredWords)
-				if (titleCensored !== title) {
-					comment.titleCensored = titleCensored
-				}
+		if (censoredWords) {
+			const titleCensored = censorWords(comment.title, censoredWords)
+			if (titleCensored !== comment.title) {
+				comment.titleCensored = titleCensored
 			}
 		}
 	}
-	if (content) {
-		comment.content = content
+	// Parse comment content.
+	if (comment.content) {
 		if (parseContent !== false) {
-			parseCommentContent(comment, { boardId, threadId })
+			parseCommentContent(comment, {
+				boardId,
+				threadId
+			})
 		}
 	}
-	if (authorName) {
-		comment.authorName = authorName
+	// Detect "sage" in author's email.
+	// https://knowyourmeme.com/memes/sage
+	// Some users write "Sage" instead of "sage".
+	// I guess those are mobile users with `<input type="text"/>` autocapitalization.
+	if (comment.authorEmail === 'sage' || comment.authorEmail === 'Sage') {
+		comment.isSage = true
+		delete comment.authorEmail
 	}
-	if (authorRole) {
-		comment.authorRole = authorRole
+	// Generate `authorIdColor` from `authorId` IP subnet address hash.
+	if (comment.authorId) {
+		if (!comment.authorIdColor) {
+			comment.authorIdColor = stringToColor(comment.authorId)
+		}
 	}
-	if (authorTripCode) {
-		comment.authorTripCode = authorTripCode
-	}
-	if (authorBan) {
-		comment.authorBan = true
-	}
-	if (authorBanReason) {
-		comment.authorBanReason = authorBanReason
+	// Remove all `undefined` properties.
+	// That's for cleaner testing so that the tests
+	// don't have to specify all `undefined` properties.
+	// `lynxchan` sometimes sets a property to `null`
+	// instead of not including it in the API response.
+	for (const key of Object.keys(comment)) {
+		if (comment[key] === undefined || comment[key] === null) {
+			delete comment[key]
+		}
 	}
 	return comment
 }

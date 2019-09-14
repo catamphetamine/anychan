@@ -1,5 +1,4 @@
 import unescapeContent from '../../../utility/unescapeContent'
-import stringToColor from '../../../utility/stringToColor'
 
 import parseAuthorRoleKohlChan from './parseAuthorRole.kohlchan'
 import parseAuthor from './parseAuthor'
@@ -36,13 +35,23 @@ export default function parseComment(post, {
 		// `postId` is present in "get thread comments" API response
 		// for all comments except the "opening comment".
 		id: post.threadId || post.postId,
+		// In `/catalog.json` API response there's no `creation` property which is a bug.
+		// http://lynxhub.com/lynxchan/res/722.html#q984
+		createdAt: post.creation && new Date(post.creation),
+		// I guess `lastEditTime` won't be present in `/catalog.json` API response.
+		updatedAt: post.lastEditTime && new Date(post.lastEditTime),
 		// `post.subject` is `null` when there's no comment subject.
 		// `lynxchan` thread subject sometimes contains
 		// escaped characters like "&quot;", "&lt;", "&gt;".
 		title: post.subject && unescapeContent(post.subject),
 		content,
 		authorName: author && author.name,
+		authorEmail: post.email,
 		authorTripCode: author && author.tripCode,
+		// Imageboards identify their posters by a hash of their IP addresses on some boards.
+		// For example, `/pol/` on `kohlchan.net`.
+		// `kohlchan.net` examples: eeac31, 0501f9.
+		authorId: post.id,
 		authorRole: parsedAuthorRole && (chan === 'kohlchan' ? parsedAuthorRole.role : parsedAuthorRole),
 		authorBan: post.banMessage && true,
 		authorBanReason: post.banMessage, // '(USER WAS BANNED FOR THIS POST)'
@@ -53,29 +62,10 @@ export default function parseComment(post, {
 			attachmentThumbnailUrl,
 			thumbnailSize,
 			toAbsoluteUrl
-		}),
-		// In `/catalog.json` API response there's no `creation` property which is a bug.
-		// http://lynxhub.com/lynxchan/res/722.html#q984
-		createdAt: post.creation && new Date(post.creation),
-		// I guess `lastEditTime` won't be present in `/catalog.json` API response.
-		updatedAt: post.lastEditTime && new Date(post.lastEditTime)
+		})
 	}
-	if (post.email) {
-		if (post.email === 'sage') {
-			comment.isSage = true
-		} else {
-			comment.authorEmail = post.email
-		}
-	}
-	// Imageboards identify their posters by a hash of their IP addresses on some boards.
-	// For example, `/pol/` on `kohlchan.net`.
-	// `kohlchan.net` examples: eeac31, 0501f9.
-	if (post.id) {
-		comment.authorId = post.id
-		comment.authorIdColor = stringToColor(post.id)
-	}
-	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
-	// displays poster country flags.
+	// `kohlchan.net` displays comment author country flag
+	// on boards like `/int/`.
 	if (post.flag) {
 		const flagId = parseKohlchanFlagId(post.flag)
 		let country
@@ -85,6 +75,10 @@ export default function parseComment(post, {
 		if (country) {
 			comment.authorCountry = country
 		} else {
+			// Some "flags" aren't country flags
+			// but rather region flags or even an "Anonymous" flag.
+			// Such "flags" are interpreted as "badges".
+			//
 			// `post.flagCode` is `null` for "Onion" flag:
 			// ```
 			// flag: "/.static/flags/onion.png"

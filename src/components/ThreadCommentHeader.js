@@ -7,6 +7,7 @@ import getMessages, { getCountryNames } from '../messages'
 import { getChan, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
 
 import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
+import AnonymousCountryIcon from 'webapp-frontend/assets/images/icons/anonymous.svg'
 
 import AnonymousPersonIcon from '../../assets/images/icons/person-outline-anonymous.svg'
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
@@ -68,7 +69,7 @@ export default function Header({ post, locale }) {
 			</div>
 			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
 				<div className="post__author-name">
-					{post.authorId && !post.authorNameId && `${post.authorId} `}
+					{post.authorId && !post.authorIdName && `${post.authorId} `}
 					{authorName && `${authorName} `}
 					{post.authorRole && !(post.authorId || authorName) && `${authorRoleName} `}
 					{post.authorRole &&  (post.authorId || authorName) && `(${authorRoleName.toLowerCase()}) `}
@@ -134,7 +135,9 @@ export const HEADER_BADGES = [
 			if (post.authorCountry) {
 				return {
 					country: post.authorCountry,
-					name: getCountryNames(locale)[post.authorCountry]
+					name: post.authorCountry === 'ZZ' ?
+						getMessages(locale).country.anonymous :
+						getCountryNames(locale)[post.authorCountry]
 				}
 			}
 			return {
@@ -143,7 +146,14 @@ export const HEADER_BADGES = [
 				name: post.authorBadgeName
 			}
 		},
-		title: (post, locale) => post.authorCountry ? getCountryNames(locale)[post.authorCountry] : post.authorBadgeName,
+		title: (post, locale) => {
+			if (post.authorCountry) {
+				return post.authorCountry === 'ZZ' ?
+					getMessages(locale).country.anonymous :
+					getCountryNames(locale)[post.authorCountry]
+			}
+			return post.authorBadgeName
+		},
 		condition: post => post.authorCountry || post.authorBadgeName
 	},
 	{
@@ -186,8 +196,24 @@ function getRoleName(authorRole, post, locale) {
 function CountryFlagBadge({ className, ...rest }) {
 	return (
 		<div className={className}>
-			<CountryFlag {...rest}/>
+			<CountryFlag_ {...rest}/>
 		</div>
+	)
+}
+
+function CountryFlag_({ country, name }) {
+	if (country === 'ZZ') {
+		return (
+			<AnonymousCountryIcon
+				title={name}
+				className="country-flag--anonymous"/>
+		)
+	}
+		console.log(name)
+	return (
+		<CountryFlag
+			country={country}
+			name={name}/>
 	)
 }
 

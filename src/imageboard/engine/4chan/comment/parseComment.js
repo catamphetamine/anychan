@@ -1,5 +1,4 @@
 import unescapeContent from '../../../utility/unescapeContent'
-import stringToColor from '../../../utility/stringToColor'
 
 import parseAuthor from './parseAuthor'
 import parseAuthorRoleFourChan from './parseAuthorRole.4chan'
@@ -30,7 +29,7 @@ export default function parseComment(post, {
 	defaultAuthorName
 }) {
 	let content = post.com
-	let authorBan = false
+	let authorBan
 	// `post.com` is absent when there's no text.
 	if (content) {
 		// I figured that 4chan places <wbr> ("line break") tags
@@ -82,13 +81,33 @@ export default function parseComment(post, {
 		// `resto` is `0` for the first post of the thread.
 		threadId: post.resto || post.no,
 		id: post.no,
+		createdAt: new Date(post.time * 1000),
 		// `post.sub` is absent when there's no comment subject.
 		// On `4chan.org` and `8ch.net` thread subject sometimes contains
 		// escaped characters like "&quot;", "&lt;", "&gt;".
 		title: post.sub && unescapeContent(post.sub),
 		content,
 		authorName: parseAuthor(post.name, { defaultAuthorName, boardId }),
-		authorRole: parsedAuthorRole && (chan === '8ch' ? parsedAuthorRole.role : parsedAuthorRole),
+		// `8ch.net` has `email` field.
+		authorEmail: post.email,
+		authorRole: parsedAuthorRole && (typeof parsedAuthorRole === 'object' ? parsedAuthorRole.role : parsedAuthorRole),
+		authorRoleDomain: parsedAuthorRole && (typeof parsedAuthorRole === 'object' ? parsedAuthorRole.domain : undefined),
+		authorTripCode: post.trip,
+		// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
+		// displays poster country flags.
+		// `8ch.net` and `4chan.org` have correct country codes.
+		// Examples: "GB", "US", "RU".
+		authorCountry: post.country,
+		// Country names should be displayed by the app
+		// from its own "country code to country name" dictionary.
+		// authorCountryName: post.country_name,
+		// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
+		// identify their posters by a hash of their IP addresses on some boards.
+		// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.
+		// `8ch.net` example: 2e20aa, d1e8f1, 000000.
+		// `kohlchan.net` examples: a8d15, 90048, a26d4.
+		// `4chan.org` examples: Bg9BS7Xl, rhGbaBg/, L/+PhYNf.
+		authorId: post.id,
 		authorBan,
 		attachments: parseAttachments(post, {
 			chan,
@@ -100,42 +119,7 @@ export default function parseComment(post, {
 			attachmentThumbnailUrlFpath,
 			fileAttachmentUrl,
 			toAbsoluteUrl
-		}),
-		createdAt: new Date(post.time * 1000)
-	}
-	if (chan === '8ch' && parsedAuthorRole) {
-		comment.authorRoleDomain = parsedAuthorRole.domain
-	}
-	// `8ch.net` and `kohlchan.net` (`vichan` engine) have `email` property.
-	if (post.email) {
-		// I guess those are mobile users with `<input type="text"/>` autocapitalization.
-		if (post.email === 'sage' || post.email === 'Sage') {
-			comment.isSage = true
-		} else {
-			comment.authorEmail = post.email
-		}
-	}
-	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
-	// identify their posters by a hash of their IP addresses on some boards.
-	// For example, `/pol/` on `4chan.org`, `8ch.net`, `kohlchan.net`.
-	// `8ch.net` example: 2e20aa, d1e8f1, 000000.
-	// `kohlchan.net` examples: a8d15, 90048, a26d4.
-	// `4chan.org` examples: Bg9BS7Xl, rhGbaBg/, L/+PhYNf.
-	if (post.id) {
-		comment.authorId = post.id
-		comment.authorIdColor = stringToColor(post.id)
-	}
-	// `4chan`-alike imageboards (`4chan.org`, `8ch.net`, `kohlchan.net`)
-	// displays poster country flags.
-	if (post.country) {
-		// `8ch.net` and `4chan.org` have correct country codes.
-		// Examples: "GB", "US", "RU".
-		comment.authorCountry = post.country
-		// `captchan` has its own localized country names.
-		// comment.authorCountryName = post.country_name
-	}
-	if (post.trip) {
-		comment.authorTripCode = post.trip
+		})
 	}
 	return comment
 }
