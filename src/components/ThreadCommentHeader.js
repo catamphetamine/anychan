@@ -82,9 +82,9 @@ export default function Header({ post, locale }) {
 					}
 				</div>
 			}
-			{post.tripCode &&
+			{post.authorTripCode &&
 				<div className="post__author-trip-code">
-					{post.tripCode}
+					{post.authorTripCode}
 				</div>
 			}
 		</div>
@@ -233,5 +233,5 @@ function PersonIconBottomBorder(props) {
 }
 
 export function hasAuthor(post) {
-	return post.authorId || post.authorName || post.authorEmail || post.authorRole || post.tripCode
+	return post.authorId || post.authorName || post.authorEmail || post.authorRole || post.authorTripCode
 }

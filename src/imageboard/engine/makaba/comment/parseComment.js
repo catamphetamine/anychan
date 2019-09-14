@@ -85,7 +85,7 @@ export default function parseComment(post, {
 		comment.downvotes = post.dislikes
 	}
 	if (post.trip && !comment.authorRole) {
-		comment.tripCode = post.trip
+		comment.authorTripCode = post.trip
 	}
 	if (!isOpeningPost && post.op) {
 		comment.isThreadAuthor = true

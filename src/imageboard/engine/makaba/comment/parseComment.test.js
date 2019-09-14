@@ -120,7 +120,7 @@ describe('parseComment', () => {
 			{
 				id: 456,
 				authorBan: true,
-				tripCode: '!!5pvF7WEJc.',
+				authorTripCode: '!!5pvF7WEJc.',
 				createdAt: date,
 				content: [
 					[

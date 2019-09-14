@@ -27,6 +27,7 @@ export default function parseComment(post, {
 	// This workaround fixes that:
 	const content = post.markdown.replace(/\u000d/g, '')
 	const parsedAuthorRole = parseAuthorRole(post.signedRole, chan)
+	const author = parseAuthor(post.name, { defaultAuthorName, boardId })
 	const comment = {
 		boardId,
 		threadId,
@@ -40,7 +41,8 @@ export default function parseComment(post, {
 		// escaped characters like "&quot;", "&lt;", "&gt;".
 		title: post.subject && unescapeContent(post.subject),
 		content,
-		authorName: parseAuthor(post.name, { defaultAuthorName, boardId }),
+		authorName: author && author.name,
+		authorTripCode: author && author.tripCode,
 		authorRole: parsedAuthorRole && (chan === 'kohlchan' ? parsedAuthorRole.role : parsedAuthorRole),
 		authorBan: post.banMessage && true,
 		authorBanReason: post.banMessage, // '(USER WAS BANNED FOR THIS POST)'

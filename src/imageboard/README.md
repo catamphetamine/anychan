@@ -283,9 +283,6 @@ Parses `comment` content if `parseContent: false` option was used when creating 
   titleCensored: InlineContent?,
   // The date on which the comment was posted.
   createdAt: Date,
-  // A "tripcode".
-  // https://encyclopediadramatica.rs/Tripcode
-  tripCode: String?,
   // `2ch.hk` provides means for "original posters" to identify themselves
   // when replying in their own threads with a previously set "OP" cookie.
   isThreadAuthor: boolean?,
@@ -297,6 +294,9 @@ Parses `comment` content if `parseContent: false` option was used when creating 
   authorIdColor: String?,
   // Comment author name.
   authorName: String?,
+  // Comment author's "tripcode".
+  // https://encyclopediadramatica.rs/Tripcode
+  authorTripCode: String?,
   // `2ch.hk` autogenerates names based on IP address subnet hash on `/po` board.
   // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
   authorNameId: boolean?,

@@ -8,6 +8,7 @@ export default function Comment({
 	content,
 	authorName,
 	authorRole,
+	authorTripCode,
 	authorBan,
 	authorBanReason,
 	attachments,
@@ -58,6 +59,9 @@ export default function Comment({
 	}
 	if (authorRole) {
 		comment.authorRole = authorRole
+	}
+	if (authorTripCode) {
+		comment.authorTripCode = authorTripCode
 	}
 	if (authorBan) {
 		comment.authorBan = true

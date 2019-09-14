@@ -135,7 +135,7 @@ export default function parseComment(post, {
 		// comment.authorCountryName = post.country_name
 	}
 	if (post.trip) {
-		comment.tripCode = post.trip
+		comment.authorTripCode = post.trip
 	}
 	return comment
 }

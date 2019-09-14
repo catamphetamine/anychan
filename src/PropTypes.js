@@ -26,7 +26,7 @@ export const comment = shape({
 	authorEmail: string,
 	authorRole: string,
 	authorId: string,
-	tripCode: string,
+	authorTripCode: string,
 	title: string,
 	titleCensored: censoredText,
 	content: postContent,
