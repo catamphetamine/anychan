@@ -13,7 +13,7 @@ const emoji = {
 	attributes: [
 		{
 			name: 'class',
-			value: 'emote'
+			value: /^emote\s?/
 		}
 	],
 	// Without `content: false` the plugin wouldn't work

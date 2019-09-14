@@ -76,5 +76,75 @@ describe('parseComment', () => {
 			]
 		)
 	})
+
+	it('should match attributes', () => {
+		expectToEqual(
+			parseComment(
+				'<div class="a">b</div>',
+				{
+					plugins: [
+						{
+							tag: 'div',
+							attributes: [{
+								name: 'class',
+								value: 'a'
+							}],
+							createBlock(content) {
+								return {
+									type: 'text',
+									style: 'a',
+									content
+								}
+							}
+						}
+					]
+				}
+			),
+			[
+				[
+					{
+						type: 'text',
+						style: 'a',
+						content: 'b'
+					}
+				]
+			]
+		)
+	})
+
+	it('should match regular expression attributes', () => {
+		expectToEqual(
+			parseComment(
+				'<div class="a a1 a2">b</div>',
+				{
+					plugins: [
+						{
+							tag: 'div',
+							attributes: [{
+								name: 'class',
+								value: /^a\s?/
+							}],
+							createBlock(content) {
+								return {
+									type: 'text',
+									style: 'a',
+									content
+								}
+							}
+						}
+					]
+				}
+			),
+			[
+				[
+					{
+						type: 'text',
+						style: 'a',
+						content: 'b'
+					}
+				]
+			]
+		)
+	})
 })
 

@@ -58,13 +58,24 @@ class CommentParser {
 		if (element.tagName.toLowerCase() !== plugin.tag) {
 			return
 		}
+		// `attributes` could have been implemented as an object
+		// rather than an array: that would result in cleaner code
+		// but at the same time also in 2x slower performance
+		// of this `for of` loop (the test is at the bottom of the page).
 		if (plugin.attributes) {
 			for (const attribute of plugin.attributes) {
 				if (!element.hasAttribute(attribute.name)) {
 					return
 				}
-				if (element.getAttribute(attribute.name) !== attribute.value) {
-					return
+				const value = element.getAttribute(attribute.name)
+				if (attribute.value instanceof RegExp) {
+					if (!attribute.value.test(value)) {
+						return
+					}
+				} else {
+					if (value !== attribute.value) {
+						return
+					}
 				}
 			}
 		}
@@ -210,3 +221,55 @@ function trimNewLinesRightSide(paragraph) {
 	}
 	return paragraph
 }
+
+// `attributes` Arrays vs Objects lookup performance test.
+// Arrays seem to be 2x faster than Objects.
+
+// var object = {
+//   a: 'a',
+//   b: 'b',
+//   c: 'c'
+// }
+
+// var array = [{
+//   name: 'a',
+//   value: 'a'
+// }, {
+//   name: 'b',
+//   value: 'b'
+// }, {
+//   name: 'c',
+//   value: 'c'
+// }]
+
+// var startedAt = Date.now()
+
+// var i = 0
+// while (i < 10000000) {
+// 	for (key of Object.keys(object)) {
+// 		if (key === 'c') {
+// 			if (a[key] !== 'c') {
+// 				break
+// 			}
+// 		}
+// 	}
+// 	i++
+// }
+
+// console.log('Object time:', Date.now() - startedAt)
+
+// startedAt = Date.now()
+
+// var i = 0
+// while (i < 10000000) {
+// 	for (element of array) {
+// 		if (element.name === 'c') {
+// 			if (element.value !== 'c') {
+// 				break
+// 			}
+// 		}
+// 	}
+// 	i++
+// }
+
+// console.log('Array time:', Date.now() - startedAt)
