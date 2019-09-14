@@ -13,6 +13,7 @@ export default function Comment({
 	authorBanReason,
 	attachments,
 	createdAt,
+	updatedAt,
 	...rest
 }, {
 	censoredWords,
@@ -30,6 +31,9 @@ export default function Comment({
 	// but seems like they don't want to fix it.
 	if (createdAt) {
 		comment.createdAt = createdAt
+	}
+	if (updatedAt) {
+		comment.updatedAt = updatedAt
 	}
 	if (attachments) {
 		comment.attachments = attachments

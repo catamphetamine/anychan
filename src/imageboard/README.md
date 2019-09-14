@@ -247,8 +247,8 @@ Parses `comment` content if `parseContent: false` option was used when creating 
     badges: object[]?
   },
   // The date on which the thread was created.
-  // All chans except `lynxchan` have this.
-  // `lynxchan` doesn't have it which is a bug
+  // Is absent in "get threads list" API response
+  // of `lynxchan` engine which is a bug
   // but seems like they don't want to fix it.
   createdAt: Date?,
   // "Last Modified Date", usually including:
@@ -283,6 +283,12 @@ Parses `comment` content if `parseContent: false` option was used when creating 
   titleCensored: InlineContent?,
   // The date on which the comment was posted.
   createdAt: Date,
+  // "Last Modified Date".
+  // I guess it includes all possible comment "modification"
+  // actions like editing comment text, deleting attachments, etc.
+  // Is present on "modified" comments in "get thread comments"
+  // API response of `lynxchan` engine.
+  updatedAt: Date?,
   // `2ch.hk` provides means for "original posters" to identify themselves
   // when replying in their own threads with a previously set "OP" cookie.
   isThreadAuthor: boolean?,

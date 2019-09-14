@@ -56,7 +56,9 @@ export default function parseComment(post, {
 		}),
 		// In `/catalog.json` API response there's no `creation` property which is a bug.
 		// http://lynxhub.com/lynxchan/res/722.html#q984
-		createdAt: post.creation ? new Date(post.creation) : undefined
+		createdAt: post.creation && new Date(post.creation),
+		// I guess `lastEditTime` won't be present in `/catalog.json` API response.
+		updatedAt: post.lastEditTime && new Date(post.lastEditTime)
 	}
 	if (post.email) {
 		if (post.email === 'sage') {
