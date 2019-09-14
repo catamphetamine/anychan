@@ -139,25 +139,30 @@ const heading = {
 	}
 }
 
+const postLink = {
+	tag: 'a',
+	attributes: [{
+		name: 'class',
+		value: 'quoteLink'
+	}],
+	createBlock(content, util, { commentUrlParser }) {
+		const postLink = parsePostLink(util.getAttribute('href'), { commentUrlParser })
+		return {
+			type: 'post-link',
+			boardId: postLink.boardId || null, // Will be set later in comment post-processing.
+			threadId: postLink.threadId || null, // Will be set later in comment post-processing.
+			postId: postLink.postId,
+			content: content.slice('>>'.length),
+			url: null // Will be set later in comment post-processing.
+		}
+	}
+}
+
 const link = {
 	tag: 'a',
 	createBlock(content, util, { commentUrlParser }) {
-		const className = util.getAttribute('class')
-		const href = util.getAttribute('href')
-		if (className === 'quoteLink') {
-			const postLink = parsePostLink(href, { commentUrlParser })
-			return {
-				type: 'post-link',
-				boardId: postLink.boardId || null, // Will be set later in comment post-processing.
-				threadId: postLink.threadId || null, // Will be set later in comment post-processing.
-				postId: postLink.postId,
-				content: content.slice('>>'.length),
-				url: null // Will be set later in comment post-processing.
-			}
-		} else {
-			// "https://google.de/"
-			return createLink(href, content)
-		}
+		// "https://google.de/"
+		return createLink(util.getAttribute('href'), content)
 	}
 }
 
@@ -171,5 +176,6 @@ export default [
 	inverseQuote,
 	asciiOrShiftJISArt,
 	heading,
+	postLink,
 	link
 ]
