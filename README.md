@@ -517,7 +517,9 @@ http {
 			proxy_http_version 1.1;
 
 			# Proxy the HTTP request to the destination server.
-			proxy_pass $1;
+			# "$is_args$args" is for GET URL parameters
+			# otherwise they'd be discarded.
+			proxy_pass $1$is_args$args;
 		}
 	}
 }

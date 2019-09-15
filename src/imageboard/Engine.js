@@ -124,7 +124,7 @@ export default class Engine {
 	/**
 	 * Performs a "vote" API request and parses the response.
 	 * @param  {object} parameters — `{ boardId, threadId, commentId, up }`.
-	 * @return {boolean} — `true` if the vote has been accepted.
+	 * @return {boolean} — Returns `true` if the vote has been accepted.  Returns `false` if the user has already voted for this thread or comment.
 	 */
 	async vote(params) {
 		const voteApi = this.options.api.vote
@@ -144,7 +144,7 @@ export default class Engine {
 				break
 		}
 		// Parse vote status.
-		return this.parseVoteResponse(response, options)
+		return this.parseVoteResponse(response)
 	}
 
 	/**
@@ -180,7 +180,7 @@ function getVoteParameters(voteApi, parameters) {
 	if (params) {
 		const voteParameters = JSON.parse(setParameters(params, parameters))
 		if (voteParam) {
-			voteParameters[voteParam] = options.up ? voteParamUp : voteParamDown
+			voteParameters[voteParam] = parameters.up ? voteParamUp : voteParamDown
 		}
 		return voteParameters
 	}

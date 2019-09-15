@@ -12,7 +12,7 @@
 			"url": "/makaba/likes.fcgi",
 			"voteParam": "task",
 			"voteParamUp": "like",
-			"voteParamUp": "dislike",
+			"voteParamDown": "dislike",
 			"params": "{ \"board\": \"{boardId}\", \"num\": {commentId} }"
 		}
 	}

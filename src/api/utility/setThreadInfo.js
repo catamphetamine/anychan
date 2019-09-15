@@ -1,4 +1,4 @@
-export default function setThreadInfo(thread, mode) {
+export default function setThreadInfo(thread, { mode, votes }) {
 	thread.comments[0].commentsCount = thread.commentsCount
 	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
@@ -11,8 +11,10 @@ export default function setThreadInfo(thread, mode) {
 	thread.comments[0].isRolling = thread.isRolling
 	thread.comments[0].isLocked = thread.isLocked
 	// Set viewing mode (board, thread).
+	// Also set votes.
 	for (const comment of thread.comments) {
 		comment.mode = mode
+		comment.vote = votes[comment.id]
 	}
 	// Set "thread shows author IDs" flag.
 	const hasAuthorIds = thread.comments.some(comment => comment.authorId)

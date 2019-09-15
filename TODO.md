@@ -14,8 +14,7 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
-Добавить голосование (upvotes/downvotes) на `2ch.hk`.
-
+В virtual scroller можно сделать специальный флаг типа «сохранять скролл позишен при препенде айтемов» и по умолчанию не сохранять, потому что модет быть поиск по строке
 
 
 

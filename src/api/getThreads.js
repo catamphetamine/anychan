@@ -1,6 +1,7 @@
 import Chan from './Chan'
 import setThreadInfo from './utility/setThreadInfo'
 import configuration from '../configuration'
+import UserData from '../UserData/UserData'
 
 import { generatePreview } from '../imageboard'
 
@@ -18,8 +19,12 @@ export default async function getThreads({
 		// Example: when parsing comments content — 650 ms, when not parsing comments content — 200 ms.
 		parseContent: false
 	})
+	const votes = UserData.getCommentVotes(boardId)
 	for (const thread of threads) {
-		setThreadInfo(thread, 'thread')
+		setThreadInfo(thread, {
+			mode: 'thread',
+			votes: votes[thread.id] || {}
+		})
 		const comment = thread.comments[0]
 		comment.parseContent = () => {
 			if (comment.content) {

@@ -123,6 +123,12 @@ Returns a [Thread](#thread).
 
 Parses `comment` content if `parseContent: false` option was used when creating a `Chan` instance.
 
+### `vote({ up, boardId, threadId, commentId })`
+
+Some imageboards (like `2ch.hk`) allow upvoting or downvoting threads and comments on certain boards (like `/po/` on `2ch.hk`).
+
+Returns `true` if the vote has been accepted. Returns `false` if the user has already voted.
+
 ## Models
 
 ### Board

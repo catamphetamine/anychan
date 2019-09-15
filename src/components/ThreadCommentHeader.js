@@ -209,7 +209,6 @@ function CountryFlag_({ country, name }) {
 				className="country-flag--anonymous"/>
 		)
 	}
-		console.log(name)
 	return (
 		<CountryFlag
 			country={country}

@@ -5,6 +5,9 @@ import getMessages from '../messages'
 import _getBoards from '../api/getBoards'
 import _getThreads from '../api/getThreads'
 import _getThread from '../api/getThread'
+import _vote from '../api/vote'
+
+import UserData from '../UserData/UserData'
 
 const redux = new ReduxModule('CHAN')
 
@@ -71,6 +74,22 @@ export const getThread = redux.action(
 			board,
 			thread
 		}
+	}
+)
+
+export const vote = redux.action(
+	({ up, boardId, threadId, commentId }) => async http => {
+		const voteAccepted = await _vote({
+			up,
+			boardId,
+			commentId,
+			http
+		})
+		// If the vote has been accepted then mark this comment as "voted" in user data.
+		// If the vote hasn't been accepted due to "already voted"
+		// then also mark this comment as "voted" in user data.
+		UserData.addCommentVotes(boardId, threadId, commentId, up)
+		return voteAccepted
 	}
 )
 

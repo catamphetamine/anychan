@@ -4,6 +4,7 @@ import parseBoardsResponse from './board/parseBoardsResponse'
 import parseThreadsResponse from './thread/parseThreadsResponse'
 import parseThreadResponse from './thread/parseThreadResponse'
 import parseComment from './comment/parseComment'
+import parseVoteResponse from './vote/parseVoteResponse'
 
 import Board from '../../Board'
 import Thread from '../../Thread'
@@ -79,5 +80,14 @@ export default class Makaba extends Engine {
 	parseComment(comment, options, board) {
 		options = this.getOptions(options)
 		return Comment(parseComment(comment, options, board), options)
+	}
+
+	/**
+	 * Parses "vote" API response.
+	 * @param  {object} response
+	 * @return {boolean} Returns `true` if the vote has been accepted.
+	 */
+	parseVoteResponse(response) {
+		return parseVoteResponse(response)
 	}
 }

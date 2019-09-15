@@ -16,7 +16,6 @@ import VirtualScroller from 'virtual-scroller/react'
 import { setVirtualScrollerState, setScrollPosition, isThreadTracked } from '../redux/thread'
 import { getThread } from '../redux/chan'
 import { trackThread, untrackThread, threadExpired } from '../redux/threadTracker'
-import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import getUrl from '../utility/getUrl'
@@ -26,7 +25,7 @@ import { hasAttachmentPicture, getThumbnailSize } from 'webapp-frontend/src/util
 
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
-import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
+import { isSlideSupported, preloadPicture } from 'webapp-frontend/src/components/Slideshow'
 
 import './Thread.css'
 
@@ -84,11 +83,18 @@ function ThreadPage({
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const virtualScroller = useRef()
 	const virtualScrollerState = useRef()
-	const openThreadWideSlideshow = useCallback(() => {
+	const openThreadWideSlideshow = useCallback(async () => {
 		const attachments = thread.comments.reduce(
 			(attachments, comment) => attachments.concat(comment.attachments || []),
 			[]
 		).filter(isSlideSupported)
+		if (attachments[0].type === 'picture') {
+			try {
+				await preloadPicture(attachments[0])
+			} catch (error) {
+				console.error(error)
+			}
+		}
 		dispatch(openSlideshow(attachments, 0, { slideshowMode: true }))
 	}, [thread, dispatch])
 	const onVirtualScrollerStateChange = useCallback(
@@ -174,8 +180,7 @@ function ThreadPage({
 		mode: 'thread',
 		board,
 		thread,
-		openSlideshow: (...args) => dispatch(openSlideshow.apply(this, args)),
-		notify: (...args) => dispatch(notify.apply(this, args)),
+		dispatch,
 		locale,
 		expandAttachments: areAttachmentsExpanded
 	}), [thread, areAttachmentsExpanded, dispatch])
@@ -196,7 +201,7 @@ function ThreadPage({
 			<div className="thread-page__header">
 				<BoardOrThreadMenu
 					mode="thread"
-					notify={(...args) => dispatch(notify(...args))}
+					dispatch={dispatch}
 					locale={locale}
 					openSlideshow={openThreadWideSlideshow}
 					isThreadTracked={isThreadTracked}

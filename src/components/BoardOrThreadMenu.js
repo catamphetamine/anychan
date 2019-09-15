@@ -17,12 +17,14 @@ import SlideshowIconFill from 'webapp-frontend/assets/images/icons/slideshow-fil
 import SearchIconOutline from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 import SearchIconFill from 'webapp-frontend/assets/images/icons/menu/search-fill.svg'
 
+import { notify } from 'webapp-frontend/src/redux/notifications'
+
 import './BoardOrThreadMenu.css'
 
 export default function BoardOrThreadMenu({
 	mode,
 	locale,
-	notify,
+	dispatch,
 	isThreadTracked,
 	setThreadTracked,
 	isSearchBarShown,
@@ -38,7 +40,7 @@ export default function BoardOrThreadMenu({
 	[
 		{
 			title: messages.actions.search,
-			onClick: () => notify('Not implemented yet'),
+			onClick: () => dispatch(notify('Not implemented yet')),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,
@@ -70,7 +72,7 @@ export default function BoardOrThreadMenu({
 		},
 		{
 			title: messages.actions.search,
-			onClick: () => notify('Not implemented yet'),
+			onClick: () => dispatch(notify('Not implemented yet')),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,

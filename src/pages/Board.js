@@ -13,8 +13,6 @@ import classNames from 'classnames'
 import { getThreads } from '../redux/chan'
 import { addFavoriteBoard } from '../redux/favoriteBoards'
 import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
-import { notify } from 'webapp-frontend/src/redux/notifications'
-import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import { getChan } from '../chan'
 import getMessages from '../messages'
@@ -112,8 +110,7 @@ function BoardPage({
 		board,
 		threads,
 		onClick: onThreadClick,
-		openSlideshow: (...args) => dispatch(openSlideshow.apply(this, args)),
-		notify: (...args) => dispatch(notify.apply(this, args)),
+		dispatch,
 		locale
 	}), [threads, dispatch])
 	return (
@@ -124,7 +121,7 @@ function BoardPage({
 				</h1>
 				<BoardOrThreadMenu
 					mode="board"
-					notify={(...args) => dispatch(notify(...args))}
+					dispatch={dispatch}
 					locale={locale}
 					isSearchBarShown={isSearchBarShown}
 					setSearchBarShown={setSearchBarShown}/>

@@ -20,6 +20,10 @@ import getPostThumbnail from 'webapp-frontend/src/utility/post/getPostThumbnail'
 import getSortedAttachments from 'webapp-frontend/src/utility/post/getSortedAttachments'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 
+import { vote as voteForComment } from '../redux/chan'
+import { notify } from 'webapp-frontend/src/redux/notifications'
+import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
+
 import { getChan } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
@@ -44,14 +48,14 @@ export default function ThreadComment({
 	initialShowReplyForm,
 	onToggleShowReplyForm,
 	onContentDidChange,
-	openSlideshow,
-	notify,
+	dispatch,
 	postRef,
 	className,
 	...rest
 }) {
 	const [hidden, setHidden] = useState(comment.hidden)
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
+	const [vote, setVote] = useState(comment.vote)
 	const replyForm = useRef()
 	const isMounted = useRef()
 	useEffect(() => {
@@ -82,12 +86,35 @@ export default function ThreadComment({
 		onClick_(comment, thread, board)
 	}, [onClick_, comment])
 
-	const onVote = useCallback((vote) => {
-		notify('Not implemented yet')
-	}, [comment])
+	const onVote = useCallback(async (up) => {
+		try {
+			const voteAccepted = await dispatch(voteForComment({
+				boardId: board.id,
+				threadId: thread.id,
+				commentId: comment.id,
+				up
+			}))
+			if (voteAccepted) {
+				if (up) {
+					comment.upvotes++
+				} else {
+					comment.downvotes++
+				}
+			} else {
+				dispatch(notify(getMessages(locale).post.alreadyVoted))
+			}
+			// If the vote has been accepted then mark this comment as "voted".
+			// If the vote hasn't been accepted due to "already voted"
+			// then also mark this comment as "voted".
+			comment.vote = up
+			setVote(comment.vote)
+		} catch (error) {
+			dispatch(notify(error.message, { type: 'error' }))
+		}
+	}, [board, thread, comment, dispatch])
 
 	const onReply = useCallback(() => {
-		notify('Not implemented yet')
+		dispatch(notify('Not implemented yet'))
 		// if (showReplyForm) {
 		// 	replyForm.current.focus()
 		// } else {
@@ -101,7 +128,7 @@ export default function ThreadComment({
 	}, [comment])
 
 	const onSubmitReply = useCallback(({ content }) => {
-		notify('Not implemented yet')
+		dispatch(notify('Not implemented yet'))
 		// Disable reply form.
 		// Show a spinner.
 		// Wait for the new comment to be fetched as part of thread auto-update.
@@ -118,11 +145,11 @@ export default function ThreadComment({
 		// (for example, an inline-level YouTube video link)
 		// then it won't be included in `post.attachments`.
 		if (i >= 0) {
-			openSlideshow(attachments, i)
+			dispatch(openSlideshow(attachments, i))
 		} else {
-			openSlideshow([attachment], 0)
+			dispatch(openSlideshow([attachment], 0))
 		}
-	}, [comment, openSlideshow])
+	}, [comment, dispatch])
 
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
@@ -142,7 +169,8 @@ export default function ThreadComment({
 			onAttachmentClick={onAttachmentClick}
 			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
 			onVote={board.hasVoting ? onVote : undefined}
-			notify={notify}
+			vote={vote}
+			dispatch={dispatch}
 			parentComment={parentComment}
 			className={classNames(className, `thread-comment--${mode}`, {
 				'thread-comment--opening': mode === 'thread' && comment.id === thread.id
@@ -209,8 +237,7 @@ ThreadComment.propTypes = {
 	}).isRequired,
 	comment: post.isRequired,
 	locale: PropTypes.string.isRequired,
-	openSlideshow: PropTypes.func.isRequired,
-	notify: PropTypes.func.isRequired,
+	dispatch: PropTypes.func.isRequired,
 	parentComment: post,
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
@@ -229,7 +256,7 @@ function Comment({
 	onAttachmentClick,
 	parentComment,
 	postRef,
-	notify,
+	dispatch,
 	locale,
 	compact,
 	screenWidth,
@@ -261,8 +288,8 @@ function Comment({
 		}
 	}, [postThumbnail])
 	const onMoreActions = useCallback(() => {
-		notify('Not implemented yet')
-	}, [])
+		dispatch(notify('Not implemented yet'))
+	}, [dispatch])
 	const commentClassName = 'thread-comment__comment'
 	const shouldFixAttachmentPictureSize = mode === 'board' && comment.attachments && comment.attachments.length === 1 && comment.attachments[0].isLynxChanCatalogAttachmentsBug
 	// `postRef` is supplied by `<CommentTree/>`

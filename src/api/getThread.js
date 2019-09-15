@@ -3,6 +3,7 @@ import setThreadInfo from './utility/setThreadInfo'
 import createByIdIndex from '../utility/createByIdIndex'
 import getMessages from './utility/getMessages'
 import configuration from '../configuration'
+import UserData from '../UserData/UserData'
 
 import { generateQuotes, generatePreview, generateThreadTitle } from '../imageboard'
 
@@ -84,7 +85,10 @@ export default async function getThread({
 	})
 	// Generate text preview which is used for `<meta description/>` on the thread page.
 	generateTextPreview(thread.comments[0], messages)
-	setThreadInfo(thread, 'comment')
+	setThreadInfo(thread, {
+		mode: 'comment',
+		votes: UserData.getCommentVotes(boardId, threadId)
+	})
 	return {
 		boardId,
 		thread: {
