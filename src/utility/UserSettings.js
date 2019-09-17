@@ -3,10 +3,11 @@ import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 class UserSettings {
 	constructor(storage) {
 		this.storage = storage
+		this.key = 'captchan.' + 'settings'
 	}
 
 	get(name, defaultValue) {
-		const settings = this.storage.get('settings', {})
+		const settings = this.storage.get(this.key, {})
 		if (name) {
 			const value = settings[name]
 			if (value === undefined) {
@@ -26,7 +27,7 @@ class UserSettings {
 				this.set(settings)
 			}
 		} else {
-			this.storage.delete('settings')
+			this.storage.delete(this.key)
 		}
 	}
 
@@ -42,7 +43,7 @@ class UserSettings {
 		} else {
 			settings = name
 		}
-		this.storage.set('settings', settings)
+		this.storage.set(this.key, settings)
 	}
 }
 

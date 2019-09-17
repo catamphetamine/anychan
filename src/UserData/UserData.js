@@ -81,7 +81,7 @@ export class UserData {
 
 	constructor(storage, options = {}) {
 		this.storage = storage
-		this.prefix = options.prefix === undefined ? 'user.' : options.prefix
+		this.prefix = options.prefix === undefined ? 'captchan.user.' : options.prefix
 		// Create data access methods.
 		for (const key of Object.keys(this.data)) {
 			const collection = this.data[key]
