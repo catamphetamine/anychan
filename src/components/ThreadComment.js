@@ -287,9 +287,29 @@ function Comment({
 			)
 		}
 	}, [postThumbnail])
-	const onMoreActions = useCallback(() => {
-		dispatch(notify('Not implemented yet'))
-	}, [dispatch])
+	const moreActions = useMemo(() => {
+		return [
+			{
+				label: getMessages(locale).post.moreActions.copyUrl,
+				onClick: () => dispatch(notify('Not implemented yet'))
+			},
+			{
+				label: getMessages(locale).post.moreActions.report,
+				onClick: () => dispatch(notify('Not implemented yet'))
+			},
+			{
+				divider: true
+			},
+			{
+				label: getMessages(locale).post.moreActions.hide,
+				onClick: () => dispatch(notify('Not implemented yet'))
+			},
+			{
+				label: getMessages(locale).post.moreActions.ignoreAuthor,
+				onClick: () => dispatch(notify('Not implemented yet'))
+			}
+		]
+	}, [dispatch, locale])
 	const commentClassName = 'thread-comment__comment'
 	const shouldFixAttachmentPictureSize = mode === 'board' && comment.attachments && comment.attachments.length === 1 && comment.attachments[0].isLynxChanCatalogAttachmentsBug
 	// `postRef` is supplied by `<CommentTree/>`
@@ -311,7 +331,7 @@ function Comment({
 			locale={locale}
 			genericMessages={getMessages(locale)}
 			messages={getMessages(locale).post}
-			onMoreActions={onMoreActions}
+			moreActions={moreActions}
 			headerBadges={HEADER_BADGES}
 			footerBadges={footerBadges}
 			useSmallestThumbnailsForAttachments

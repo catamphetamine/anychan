@@ -110,7 +110,13 @@
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
 		"threadAuthor": "Автор треда",
 		"commentAttachmentsCount": "Вложений в комментариях",
-		"uniquePostersCount": "Уникальных IP-адресов комментаторов"
+		"uniquePostersCount": "Уникальных IP-адресов комментаторов",
+		"moreActions": {
+			"copyUrl": "Скопировать ссылку",
+			"report": "Пожаловаться",
+			"hide": "Скрыть",
+			"ignoreAuthor": "Игнорировать автора"
+		}
 	},
 	"role": {
 		"board": {

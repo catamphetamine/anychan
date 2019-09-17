@@ -110,7 +110,13 @@
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
 		"threadAuthor": "Thread author",
 		"commentAttachmentsCount": "Attachments in comments",
-		"uniquePostersCount": "Unique poster IP addresses"
+		"uniquePostersCount": "Unique poster IP addresses",
+		"moreActions": {
+			"copyUrl": "Copy link",
+			"report": "Report",
+			"hide": "Hide",
+			"ignoreAuthor": "Ignore author"
+		}
 	},
 	"role": {
 		"board": {
