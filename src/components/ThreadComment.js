@@ -298,9 +298,6 @@ function Comment({
 				onClick: () => dispatch(notify('Not implemented yet'))
 			},
 			{
-				divider: true
-			},
-			{
 				label: getMessages(locale).post.moreActions.hide,
 				onClick: () => dispatch(notify('Not implemented yet'))
 			},
