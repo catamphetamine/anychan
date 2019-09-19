@@ -1,0 +1,44 @@
+.ListButton {
+	width: var(--List-lineHeight);
+	height: var(--List-lineHeight);
+	padding: var(--ListButton-padding);
+	/*
+	right: 0.2em;
+	top: 0.2em;
+	width: calc(var(--List-lineHeight) - 2 * 0.2em);
+	height: calc(var(--List-lineHeight) - 2 * 0.2em);
+	margin-left: 0.2em;
+	margin-right: 0.2em;
+	*/
+}
+
+.ListButton__background {
+	width: 100%;
+	height: 100%;
+}
+
+.ListButton__icon {
+	width: var(--ListButtonIcon-width);
+	height: var(--ListButtonIcon-width);
+}
+
+.sidebar {
+	.ListButton {
+		color: var(--Sidebar-color--misc);
+		&:hover {
+			color: var(--Sidebar-color--misc);
+			.ListButton__background {
+				background-color: var(--Boards-backgroundColor--hover);
+			}
+		}
+		&:active {
+			color: var(--Boards-color--active);
+			.ListButton__background {
+				background-color: var(--Boards-backgroundColor--active);
+			}
+		}
+	}
+	.ListButton--muted {
+		color: var(--Boards-color--slash);
+	}
+}

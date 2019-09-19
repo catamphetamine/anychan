@@ -1,0 +1,18 @@
+.sidebar-section-more-button {
+	--SidebarSectionMoreButton-width: var(--unit);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--SidebarSectionMoreButton-width) + var(--unit) / 2);
+	height: var(--unit);
+	padding-left: calc(var(--unit) / 4);
+	padding-right: calc(var(--unit) / 4);
+	position: absolute;
+	right: var(--SidebarSection-paddingLeft);
+	top: calc((100% - var(--SidebarSectionMoreButton-width)) / 2);
+}
+
+.sidebar-section-more-button__icon {
+	width: 100%;
+	opacity: 0.5;
+}

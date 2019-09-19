@@ -41,9 +41,15 @@ export default class BoardsInSidebar extends React.Component {
 export class FavoriteBoards extends React.Component {
 	render() {
 		return (
-			<Boards showAllBoardsLink={false} {...this.props}/>
+			<FavoriteBoards_ {...this.props}/>
 		)
 	}
+}
+
+function FavoriteBoards_(props) {
+	return (
+		<Boards showAllBoardsLink={false} {...props}/>
+	)
 }
 
 // `<Boards/>` are used in `pages/Boards.js`.
@@ -184,7 +190,7 @@ function Boards_({
 			<List
 				className={classNames('boards-list', {
 					'boards-list--grid': List === BoardsList,
-					'boards-list--default': view === 'default',
+					// 'boards-list--default': view === 'default',
 					'boards-list--by-category': view === 'by-category'
 				})}>
 				{getBoardsListItems()}

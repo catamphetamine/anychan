@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-website'
 import classNames from 'classnames'
 
+import ListButton from './ListButton'
+
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation } from '../utility/routes'
@@ -11,8 +13,6 @@ import { untrackThread } from '../redux/threadTracker'
 import { trackedThread, board, thread } from '../PropTypes'
 
 import Picture from 'webapp-frontend/src/components/Picture'
-
-import DeleteIcon from 'webapp-frontend/assets/images/icons/close-thicker.svg'
 
 import './TrackedThreads.css'
 
@@ -124,15 +124,11 @@ function TrackedThread({
 					</div>
 				}
 			</Component>
-			<button
-				type="button"
+			<ListButton
+				muted
+				icon="remove"
 				onClick={onUntrackThread}
-				title={getMessages(locale).trackedThreads.untrackThread}
-				className="rrui__button-reset tracked-threads__thread__remove">
-				<div className="tracked-threads__thread__remove-background">
-					<DeleteIcon className="tracked-threads__thread__remove-icon"/>
-				</div>
-			</button>
+				title={getMessages(locale).trackedThreads.untrackThread}/>
 		</div>
 	)
 }

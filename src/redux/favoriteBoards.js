@@ -10,16 +10,16 @@ export const getFavoriteBoards = redux.simpleAction(
 )
 
 export const addFavoriteBoard = redux.simpleAction(
-	(boardId) => {
-		UserData.addFavoriteBoards(boardId)
+	(board) => {
+		UserData.addFavoriteBoards(board)
 		return _getFavoriteBoards()
 	},
 	'favoriteBoards'
 )
 
 export const removeFavoriteBoard = redux.simpleAction(
-	(boardId, threadId) => {
-		UserData.removeFavoriteBoards(boardId)
+	(board) => {
+		UserData.removeFavoriteBoards(board)
 		return _getFavoriteBoards()
 	},
 	'favoriteBoards'

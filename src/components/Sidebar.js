@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 
 import SimpleBar from 'simplebar-react'
 
-import Boards, { FavoriteBoards } from '../components/Boards'
-import TrackedThreads from '../components/TrackedThreads'
-import Notifications from '../components/Notifications'
-import SidebarSection from '../components/SidebarSection'
+import Boards, { FavoriteBoards } from './Boards'
+import TrackedThreads from './TrackedThreads'
+import Notifications from './Notifications'
+import SidebarSection from './SidebarSection'
+import EditFavoriteBoards from './EditFavoriteBoards'
 
 import SortableList from 'webapp-frontend/src/components/SortableList'
 
@@ -36,6 +37,7 @@ function Sidebar({
 	favoriteBoards,
 	trackedThreads
 }) {
+	const [editingFavoriteBoards, setEditingFavoriteBoards] = useState()
 	// {mode === 'boards' && <Boards/>}
 	// {mode === 'tracked-threads' && <TrackedThreads/>}
 	// {mode === 'notifications' && <Notifications/>}
@@ -50,8 +52,11 @@ function Sidebar({
 					</SidebarSection>
 				}
 				{favoriteBoards.length > 0 &&
-					<SidebarSection title={getMessages(locale).boards.title}>
-						<FavoriteBoards boards={favoriteBoards}/>
+					<SidebarSection
+						title={getMessages(locale).boards.title}
+						onMore={setEditingFavoriteBoards}>
+						{editingFavoriteBoards && <EditFavoriteBoards boards={favoriteBoards}/>}
+						{!editingFavoriteBoards && <FavoriteBoards boards={favoriteBoards}/>}
 					</SidebarSection>
 				}
 				<SidebarSection title={getMessages(locale).boards.all}>

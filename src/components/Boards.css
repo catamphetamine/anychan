@@ -20,7 +20,7 @@
 
 .boards-list {
 	user-select: none;
-	line-height: var(--Boards-lineHeight);
+	line-height: var(--List-lineHeight);
 }
 
 .boards__view-switcher {
@@ -193,9 +193,11 @@
 .boards-list__board-name--active,
 /* `.boards-list__board-url:active` is for cases
    when the "url" part of the link is clicked. */
-.boards-list__board-url:active,
+/* Using the `a.` prefix so that `<div/>`s aren't colored
+   when clicked in `<EditFavoriteBoards/>`. */
+a.boards-list__board-url:active,
 /* `:active` is for cases when the link is clicked and dragged. */
-.boards-list__board-name:active {
+a.boards-list__board-name:active {
 	color: var(--Boards-color--active);
 }
 

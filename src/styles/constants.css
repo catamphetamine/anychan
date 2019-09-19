@@ -12,6 +12,11 @@
 	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
 	/*--PageContent-padding: calc(var(--unit) * 2);*/
 	--PageContent-padding: var(--unit);
+
+	--List-lineHeight: 1.7em;
+	--ListButtonIcon-width: 0.6em;
+	--ListButton-padding: 0.2em;
+
 	/*
 	--PageContent-padding--nonContentSection: 0px;
 	@mixin upto-m {
