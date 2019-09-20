@@ -77,11 +77,14 @@ Sometimes chan administration needs to announce something to the users. Things l
 ## Sidebar
 
 * `--Sidebar-color: black` — Sidebar text color.
+* `--Sidebar-color-200: gray` - Sidebar "muted" content color.
+* `--Sidebar-color-500: black` — Sidebar scrollbar color.
+* `--Sidebar-color-600: black` — Sidebar "miscellaneous" content color.
+* `--Sidebar-color--active: orange` — Sidebar link color.
 * `--Sidebar-backgroundColor: white` — Sidebar background color.
 * `--Sidebar-backgroundColor--hover: gray` — Sidebar active element background color on mouse over.
 * `--Sidebar-backgroundColor--active: gray` — Sidebar active element background color on click.
 * `--Sidebar-borderColor: black` — Sidebar right border color.
-* `--Sidebar-color--scrollbar: black` — Sidebar scrollbar color.
 
 ## Clickable
 
@@ -100,10 +103,10 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Picture-borderColor--focus: gray` — Picture border color when focused.
 * `--Picture-filter: none` — Picture filter. For example, "Dark Mode" uses `brightness(85%)`.
 
-## Error
+## Critical
 
-* `--Error-color: red` — Error message text color.
-* `--Error-backgroundColor: red` — Error `Notification` background color. Error `Notification` text color will be `--Content-color-900`.
+* `--Critical-color: red` — Error message text color.
+* `--Critical-backgroundColor: red` — Error `Notification` background color. Error `Notification` text color will be `--Content-color-900`.
 
 ## Warning
 
@@ -122,12 +125,12 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Notification-borderColor: transparent` — Notification border color.
 * `--Notification-borderWidth: 0px` — Notification border width.
 
-### Notification (error)
+### Notification (critical)
 
-* `--Notification-color--error: white` — Error notification text color.
-* `--Notification-backgroundColor--error: var(--Error-backgroundColor)` — Error notification background color.
-* `--Notification-borderColor--error: var(--Notification-borderColor)` — Error notification border color.
-* `--Notification-borderWidth--error: var(--Notification-borderWidth)` — Error notification border width.
+* `--Notification-color--critical: white` — Error notification text color.
+* `--Notification-backgroundColor--critical: var(--Critical-backgroundColor)` — Error notification background color.
+* `--Notification-borderColor--critical: var(--Notification-borderColor)` — Error notification border color.
+* `--Notification-borderWidth--critical: var(--Notification-borderWidth)` — Error notification border width.
 
 ### Notification (warning)
 
@@ -251,11 +254,6 @@ Board selection list.
 
 * `--Boards-color: white` — Text color of a boards list entry.
 * `--Boards-color--active: orange` — Text color of a boards list entry when it's clicked.
-<!--
-* `--Boards-backgroundColor--hover: gray` — Background color of a boards list entry on mouse over.
-* `--Boards-backgroundColor--active: gray` — Background color of a boards list entry when it's clicked.
-* `--Boards-backgroundColor--selected: black` — Background color of a boards list entry when the boards is selected.
--->
 * `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list.
 * `--Boards-color--slashHover: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on mouse over.
 * `--Boards-color--slashActive: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when clicked.

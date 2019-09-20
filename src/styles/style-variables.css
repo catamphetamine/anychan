@@ -30,10 +30,10 @@
 
 	/* Sidebar. */
 	--Sidebar-color: var(--Content-color-900);
-	--Sidebar-color--misc: var(--Content-color-600);
+	--Sidebar-color-500: var(--Content-color-500);
+	--Sidebar-color-600: var(--Content-color-600);
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	--Sidebar-borderColor: var(--Header-borderColor);
-	--Sidebar-color--scrollbar: var(--Content-color-500);
 	--Sidebar-color--accent: var(--PostQuote-color);
 
 	/* Boards. */
@@ -42,7 +42,9 @@
 	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;
 	--Boards-color: var(--Sidebar-color);
-	--Boards-color--viewSwitcher: var(--Sidebar-color--misc);
+	--Boards-color--active: var(--Sidebar-color--active);
+	--Boards-color--slash: var(--Sidebar-color-200);
+	--Boards-color--viewSwitcher: var(--Sidebar-color-600);
 	--Boards-backgroundColor--hover: var(--Sidebar-backgroundColor--hover);
 	--Boards-backgroundColor--active: var(--Sidebar-backgroundColor--active);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
@@ -62,12 +64,14 @@
 	--PostAuthorName-color--id: var(--Content-color-800);
 
 	/* PostBannedIcon. */
-	--PostBannedIcon-color: var(--Error-color);
+	--PostBannedIcon-color: var(--Critical-color);
 }
 
 /* Light mode. */
 .light {
 	/* Sidebar. */
+	--Sidebar-color-200: var(--Content-color-200);
+	--Sidebar-color--active: var(--Clickable-color--text);
 	--Sidebar-backgroundColor--hover: #f9f7f5;
 	--Sidebar-backgroundColor--active: var(--base-color-100);
 
@@ -80,8 +84,6 @@
 	--HeaderSeparator-color--right: transparent;
 
 	/* Boards. */
-	--Boards-color--active: var(--Clickable-color--text);
-	--Boards-color--slash: var(--Content-color-200);
 	--Boards-color--slashHover: var(--Boards-color--slashSelected);
 	--Boards-color--slashActive: #e9ccb8;
 	--Boards-color--slashSelected: #ead5c0;
@@ -128,6 +130,8 @@
 	--base-color-500: #e75f00;
 
 	/* Sidebar. */
+	--Sidebar-color-200: var(--Content-color-300);
+	--Sidebar-color--active: var(--base-color-300);
 	--Sidebar-backgroundColor--hover: #303030;
 	--Sidebar-backgroundColor--active: #2c2c2c;
 
@@ -139,8 +143,6 @@
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
 	/* Boards. */
-	--Boards-color--active: var(--base-color-300);
-	--Boards-color--slash: var(--Content-color-300);
 	--Boards-color--slashHover: var(--Boards-color--slashSelected);
 	--Boards-color--slashActive: var(--Boards-color--slash);
 	--Boards-color--slashSelected: var(--Boards-color--slash);

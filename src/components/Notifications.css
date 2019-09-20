@@ -1,3 +1,5 @@
+/* This component isn't currently used in the app. */
+
 .notifications {
 	padding-left: calc(var(--unit) * 1);
 	padding-right: calc(var(--unit) * 1);
@@ -11,7 +13,7 @@
 	align-items: center;
 	justify-content: center;
 	*/
-	color: var(--Sidebar-color--misc);
+	color: var(--Sidebar-color-600);
 }
 
 .notifications__empty {

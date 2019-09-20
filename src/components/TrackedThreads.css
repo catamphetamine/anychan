@@ -1,7 +1,7 @@
 .tracked-threads {
 	/*padding-top: calc(var(--unit) * 1);*/
 	/*padding-bottom: calc(var(--unit) * 1);*/
-	--Picture-borderColor: var(--Sidebar-color--misc);
+	--Picture-borderColor: var(--Sidebar-color-600);
 }
 
 .tracked-threads--empty {
@@ -10,7 +10,7 @@
 	align-items: center;
 	justify-content: center;
 	*/
-	color: var(--Sidebar-color--misc);
+	color: var(--Sidebar-color-600);
 }
 
 .tracked-threads__empty {
@@ -51,7 +51,7 @@
 	.tracked-threads__thread__board,
 	.tracked-threads__thread__title {
 		opacity: 0.75;
-		color: var(--Sidebar-color--misc);
+		color: var(--Sidebar-color-600);
 		cursor: default;
 	}
 	.tracked-threads__thread__board {

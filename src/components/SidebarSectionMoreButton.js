@@ -7,7 +7,7 @@ import EllipsisIcon from 'webapp-frontend/assets/images/icons/ellipsis.svg'
 
 import './SidebarSectionMoreButton.css'
 
-export default function SidebarSectionMoreButton({ onClick }) {
+export default function SidebarSectionMoreButton({ title, onClick }) {
 	const [isPushed, setPushed] = useState()
 	const onClick_ = useCallback(() => {
 		const setPushedState = () => setPushed(!isPushed)
@@ -20,15 +20,18 @@ export default function SidebarSectionMoreButton({ onClick }) {
 	}, [isPushed, onClick])
 	return (
 		<Button
+			title={title}
 			onClick={onClick_}
-			className={classNames('sidebar-section-more-button', 'hover-button', 'rrui__button-reset', {
-				'hover-button--pushed': isPushed
+			aria-pressed={isPushed}
+			className={classNames('SidebarSectionMoreButton', 'SidebarButton', 'rrui__button-reset', {
+				'SidebarButton--pushed': isPushed
 			})}>
-			<EllipsisIcon className="sidebar-section-more-button__icon"/>
+			<EllipsisIcon className="SidebarSectionMoreButton__Icon"/>
 		</Button>
 	)
 }
 
 SidebarSectionMoreButton.propTypes = {
+	title: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired
 }

@@ -57,22 +57,22 @@
 	/* Selection. */
 	--Selection-backgroundColor: #f1e9f6;
 
-	/* Error. */
-	--Error-backgroundColor: #df1e00;
+	/* Critical. */
+	--Critical-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-  --Sidebar-color: #29420e;
-  --Sidebar-color--misc: #9f86af;
-  --Sidebar-color--scrollbar: #cbbad6;
-  --Sidebar-backgroundColor: #f1e9f6;
-  --Sidebar-backgroundColor--hover: var(--Document-backgroundColor);
-  --Sidebar-backgroundColor--active: #e9def0;
+	--Sidebar-color: #29420e;
+	--Sidebar-color-200: #d8bcea;
+	--Sidebar-color-500: #cbbad6;
+	--Sidebar-color-600: #9f86af;
+	--Sidebar-backgroundColor: #f1e9f6;
+	--Sidebar-backgroundColor--hover: var(--Document-backgroundColor);
+	--Sidebar-backgroundColor--active: #e9def0;
 
 	/* Boards. */
-  --Boards-color--slash: #d8bcea;
-  --Boards-color--slashHover: var(--Boards-color--slash);
-  --Boards-color--slashActive: var(--Boards-color--slash);
-  --Boards-color--slashSelected: var(--Boards-color--slash);
+	--Boards-color--slashHover: var(--Boards-color--slash);
+	--Boards-color--slashActive: var(--Boards-color--slash);
+	--Boards-color--slashSelected: var(--Boards-color--slash);
 
 	/* HoverButton. */
 	--HoverButton-color: #8f799c;
@@ -146,7 +146,7 @@
 	--HeaderSeparator-color--left: transparent;
 
 	/* Sidebar. */
-  --Sidebar-color--scrollbar: #434472;
+	--Sidebar-color-500: #8081ae;
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	--Sidebar-backgroundColor--hover: #232447;
 	--Sidebar-backgroundColor--active: #202042;

@@ -5,13 +5,18 @@ import SidebarSectionMoreButton from './SidebarSectionMoreButton'
 
 import './SidebarSection.css'
 
-export default function SidebarSection({ title, onMore, children }) {
+export default function SidebarSection({
+	title,
+	moreLabel,
+	onMore,
+	children
+}) {
 	return (
 		<section className="sidebar-section">
 			<h1 className="sidebar-section__title">
 				{title}
 				{onMore &&
-					<SidebarSectionMoreButton onClick={onMore}/>
+					<SidebarSectionMoreButton title={moreLabel} onClick={onMore}/>
 				}
 			</h1>
 			{children}
@@ -21,6 +26,7 @@ export default function SidebarSection({ title, onMore, children }) {
 
 SidebarSection.propTypes = {
 	title: PropTypes.string.isRequired,
+	moreLabel: PropTypes.string,
 	onMore: PropTypes.func,
 	children: PropTypes.node.isRequired
 }

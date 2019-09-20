@@ -1,18 +1,44 @@
-.sidebar-section-more-button {
+.SidebarSectionMoreButton {
 	--SidebarSectionMoreButton-width: var(--unit);
+	--SidebarSectionMoreButton-height: 100%;
+	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: calc(var(--SidebarSectionMoreButton-width) + var(--unit) / 2);
-	height: var(--unit);
-	padding-left: calc(var(--unit) / 4);
-	padding-right: calc(var(--unit) / 4);
+	width: calc(var(--SidebarSectionMoreButton-width) + 2 * var(--SidebarSectionMoreButton-paddingLeft));
+	height: var(--SidebarSectionMoreButton-height);
+	padding-left: var(--SidebarSectionMoreButton-paddingLeft);
+	padding-right: var(--SidebarSectionMoreButton-paddingLeft);
 	position: absolute;
-	right: var(--SidebarSection-paddingLeft);
-	top: calc((100% - var(--SidebarSectionMoreButton-width)) / 2);
+	right: calc(var(--SidebarSection-paddingLeft) - var(--SidebarSectionMoreButton-paddingLeft));
+	top: calc((100% - var(--SidebarSectionMoreButton-height)) / 2);
 }
 
-.sidebar-section-more-button__icon {
+.SidebarSectionMoreButton__Icon {
 	width: 100%;
 	opacity: 0.5;
+}
+
+.SidebarButton {
+	color: var(--Sidebar-color-500);
+	&:hover {
+		/*box-shadow: 0 0 0 1px var(--Sidebar-color-200);*/
+		background-color: var(--Sidebar-backgroundColor--hover);
+		color: var(--Sidebar-color);
+	}
+	&:active {
+		background-color: var(--Sidebar-backgroundColor--active);
+		color: var(--Sidebar-color--active);
+	}
+}
+
+.SidebarButton--pushed {
+	& {
+		background-color: var(--Sidebar-backgroundColor--active);
+		color: var(--Sidebar-color--active);
+	}
+	&:hover {
+		background-color: var(--Sidebar-backgroundColor--active);
+		color: var(--Sidebar-color--active);
+	}
 }

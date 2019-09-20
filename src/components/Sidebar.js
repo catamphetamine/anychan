@@ -54,6 +54,7 @@ function Sidebar({
 				{favoriteBoards.length > 0 &&
 					<SidebarSection
 						title={getMessages(locale).boards.title}
+						moreLabel={getMessages(locale).actions.edit}
 						onMore={setEditingFavoriteBoards}>
 						{editingFavoriteBoards && <EditFavoriteBoards boards={favoriteBoards}/>}
 						{!editingFavoriteBoards && <FavoriteBoards boards={favoriteBoards}/>}

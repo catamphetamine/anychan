@@ -24,21 +24,21 @@
 
 .sidebar {
 	.ListButton {
-		color: var(--Sidebar-color--misc);
+		color: var(--Sidebar-color-600);
 		&:hover {
-			color: var(--Sidebar-color--misc);
+			color: var(--Sidebar-color-600);
 			.ListButton__background {
-				background-color: var(--Boards-backgroundColor--hover);
+				background-color: var(--Sidebar-backgroundColor--hover);
 			}
 		}
 		&:active {
-			color: var(--Boards-color--active);
+			color: var(--Sidebar-color--active);
 			.ListButton__background {
-				background-color: var(--Boards-backgroundColor--active);
+				background-color: var(--Sidebar-backgroundColor--active);
 			}
 		}
 	}
 	.ListButton--muted {
-		color: var(--Boards-color--slash);
+		color: var(--Sidebar-color-200);
 	}
 }

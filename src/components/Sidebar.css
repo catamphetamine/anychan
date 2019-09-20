@@ -49,7 +49,7 @@
 /* Colors for a dark sidebar. */
 .sidebar {
 	.simplebar-scrollbar:before {
-		background-color: var(--Sidebar-color--scrollbar)
+		background-color: var(--Sidebar-color-500);
 	}
 }
 
