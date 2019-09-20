@@ -1,9 +1,13 @@
 import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
+import { getChan } from '../chan'
 
 class UserSettings {
-	constructor(storage) {
+	constructor(storage, options = {}) {
 		this.storage = storage
-		this.key = 'captchan.' + 'settings'
+		this.prefix = options.prefix === undefined ?
+			'captchan.' + (options.chanId ? options.chanId + '.' : '') :
+			options.prefix
+		this.key = this.prefix + 'settings'
 	}
 
 	get(name, defaultValue) {
@@ -47,4 +51,6 @@ class UserSettings {
 	}
 }
 
-export default new UserSettings(new LocalStorage())
+export default new UserSettings(new LocalStorage(), {
+	chanId: getChan().id
+})

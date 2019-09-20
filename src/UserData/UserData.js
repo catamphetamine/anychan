@@ -1,6 +1,7 @@
 import isEqual from 'lodash/isEqual'
 import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
+import { getChan } from '../chan'
 
 import {
 	addToList,
@@ -81,7 +82,9 @@ export class UserData {
 
 	constructor(storage, options = {}) {
 		this.storage = storage
-		this.prefix = options.prefix === undefined ? 'captchan.user.' : options.prefix
+		this.prefix = options.prefix === undefined ?
+			'captchan.' + (options.chanId ? options.chanId + '.' : '') + 'user.' :
+			options.prefix
 		// Create data access methods.
 		for (const key of Object.keys(this.data)) {
 			const collection = this.data[key]
@@ -379,7 +382,9 @@ function getFunctions(type) {
 	}
 }
 
-export default new UserData(new LocalStorage())
+export default new UserData(new LocalStorage(), {
+	chanId: getChan().id
+})
 
 function getCount(storage, key) {
 	const data = storage.get(key, {})
