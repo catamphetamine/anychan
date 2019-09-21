@@ -16,7 +16,6 @@ This project currently has only a subset of features. "To do":
   * Add message posting.
   * Add thread watching.
   * Add thread auto-update.
-  * Add "favorite" boards list.
   * Add support for "passes" (`4chan.org`, `2ch.hk`).
 
 <!--
