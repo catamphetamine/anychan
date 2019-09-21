@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import VirtualScroller from 'virtual-scroller/react'
 
 import { Boards } from '../components/Boards'
+import BoardUrl from '../components/BoardUrl'
 import { getBoards } from '../redux/chan'
 import getUrl from '../utility/getUrl'
 
@@ -70,9 +71,7 @@ function BoardsListItem({ children: { board } }) {
 		<Link
 			to={getUrl(board)}
 			className="boards-list__item">
-			<div className="boards-list__board-url">
-				{board.id}
-			</div>
+			<BoardUrl boardId={board.id} className="boards-list__board-url"/>
 			<div className="boards-list__board-name">
 				{board.title}
 			</div>
