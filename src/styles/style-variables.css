@@ -45,8 +45,8 @@
 	--Boards-color--active: var(--Sidebar-baseColor-700);
 	--Boards-color--slash: var(--Sidebar-color-200);
 	--Boards-color--viewSwitcher: var(--Sidebar-color-600);
-	--Boards-backgroundColor--hover: var(--Sidebar-baseColor-50);
-	--Boards-backgroundColor--active: var(--Sidebar-baseColor-100);
+	--Boards-backgroundColor--hover: var(--Sidebar-highlightColor-100);
+	--Boards-backgroundColor--active: var(--Sidebar-highlightColor-200);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
 
 	/* ThreadActions. */
@@ -71,9 +71,10 @@
 .light {
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
+	--Sidebar-highlightColor-100: #f9f7f5;
+	--Sidebar-highlightColor-200: var(--base-color-100);
+	--Sidebar-baseColor-200: #eec8ad;
 	--Sidebar-baseColor-700: var(--Clickable-color--text);
-	--Sidebar-baseColor-50: #f9f7f5;
-	--Sidebar-baseColor-100: var(--base-color-100);
 
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);
@@ -131,9 +132,10 @@
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-300);
+	--Sidebar-highlightColor-100: #303030;
+	--Sidebar-highlightColor-200: #2c2c2c;
+	--Sidebar-baseColor-200: #6c4d38;
 	--Sidebar-baseColor-700: var(--base-color-300);
-	--Sidebar-baseColor-50: #303030;
-	--Sidebar-baseColor-100: #2c2c2c;
 
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);

@@ -8,6 +8,8 @@ import BoardUrl from './BoardUrl'
 
 import { board } from '../PropTypes'
 import getMessages from '../messages'
+
+import { saveAutoAddFavoriteBoards } from '../redux/app'
 import { removeFavoriteBoard, addFavoriteBoard } from '../redux/favoriteBoards'
 
 import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
@@ -83,6 +85,9 @@ EditFavoriteBoards.propTypes = {
 function Board({ board, locale, dispatch }) {
 	const onRemoveFavoriteBoard = useCallback(async () => {
 		await dispatch(removeFavoriteBoard(board))
+		// Don't auto-add visited boards to the list of "favorite" boards
+		// once the user has deleted a single board from this "auto" list.
+		dispatch(saveAutoAddFavoriteBoards(false))
 	}, [dispatch, board])
 	return (
 		<tr>
@@ -121,8 +126,11 @@ function BoardOptionComponent({
 	focused
 }) {
 	return (
-		<span className="edit-favorite-boards__search__option rrui__text-line">
-			<BoardUrl boardId={value.id}/> {value.title}
+		<span className="edit-favorite-boards__search__option">
+			<BoardUrl boardId={value.id}/>
+			<span className="rrui__text-line">
+				{value.title}
+			</span>
 		</span>
 	)
 }

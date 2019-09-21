@@ -20,10 +20,17 @@ export default async function getBoards({ http, all }) {
 	if (getChan().id === '2ch') {
 		boards = boards.filter(_ => _.id !== 'abu')
 	}
-	if (all) {
-		return { allBoards: getBoardsResult(boards) }
+	const result = getBoardsResult(boards)
+	if (!chan.hasMoreBoards()) {
+		return {
+			...result,
+			allBoards: result
+		}
 	}
-	return getBoardsResult(boards)
+	if (all) {
+		return { allBoards: result }
+	}
+	return result
 }
 
 export function getBoardsExample(chan) {

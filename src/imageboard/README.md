@@ -111,6 +111,10 @@ Returns a list of [Boards](#board). For some imageboards this isn't gonna be a f
 
 Returns a list of all [Boards](#board). For example, `8ch.net` has about `20,000` boards so `getBoards()` returns just the "top 20 boards" list while `getAllBoards()` returns all `20,000` boards.
 
+### `hasMoreBoards()`
+
+Returns `true` if an imageboard has a "get all boards" API endpoint that's different from the regular "get boards" API endpoint. In other words, returns `true` if an imageboard provides separate API endpoints for getting a list of "most popular boards" and a list of "all boards available".
+
 ### `getThreads({ boardId }, options)`
 
 Returns a list of [Threads](#thread).

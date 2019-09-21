@@ -62,12 +62,13 @@
 
 	/* Sidebar. */
 	--Sidebar-color-200: #d8bcea;
-	--Sidebar-color-500: #cbbad6;
+	--Sidebar-color-500: #ad93bd;
 	--Sidebar-color-600: #9f86af;
 	--Sidebar-color-900: #29420e;
 	--Sidebar-backgroundColor: #f1e9f6;
-	--Sidebar-baseColor-50: var(--Document-backgroundColor);
-	--Sidebar-baseColor-100: #e9def0;
+	--Sidebar-baseColor-200: #c592e2;
+	--Sidebar-highlightColor-100: var(--Document-backgroundColor);
+	--Sidebar-highlightColor-200: #e9def0;
 
 	/* Boards. */
 	--Boards-color--slashHover: var(--Boards-color--slash);
@@ -148,8 +149,8 @@
 	/* Sidebar. */
 	--Sidebar-color-500: #8081ae;
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
-	--Sidebar-baseColor-50: #232447;
-	--Sidebar-baseColor-100: #202042;
+	--Sidebar-highlightColor-100: #232447;
+	--Sidebar-highlightColor-200: #202042;
 
 	/* Boards. */
 	--Boards-color--slashActive: #655339;

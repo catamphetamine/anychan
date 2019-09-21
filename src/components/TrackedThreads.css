@@ -57,10 +57,10 @@
 		}
 	}
 	.tracked-threads__thread__thumbnail {
-		--Picture-borderColor: rgba(0,0,0,0.085);
+		--Picture-borderColor: var(--Sidebar-color-200);
 		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
 		.rrui__picture__loading-error {
-			color: rgba(0,0,0,0.3);
+			color: var(--Sidebar-color-500);
 		}
 	}
 }

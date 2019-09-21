@@ -81,9 +81,10 @@ Sometimes chan administration needs to announce something to the users. Things l
 * `--Sidebar-color-500: black` — Sidebar scrollbar color.
 * `--Sidebar-color-600: black` — Sidebar "miscellaneous" content color.
 * `--Sidebar-color-900: black` — Sidebar text color.
-* `--Sidebar-baseColor-50: gray` — Sidebar active element background color on mouse over.
-* `--Sidebar-baseColor-100: gray` — Sidebar active element background color on click.
+* `--Sidebar-baseColor-200: orange` — Sidebar input border color when focused.
 * `--Sidebar-baseColor-700: orange` — Sidebar link color.
+* `--Sidebar-highlightColor-100: gray` — Sidebar active element background color on mouse over.
+* `--Sidebar-highlightColor-200: gray` — Sidebar active element background color on click.
 * `--Sidebar-borderColor: black` — Sidebar right border color.
 
 ## Clickable

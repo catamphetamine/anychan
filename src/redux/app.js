@@ -44,6 +44,11 @@ export const saveFontSize = redux.simpleAction(
 	'settings'
 )
 
+export const saveAutoAddFavoriteBoards = redux.simpleAction(
+	(value) => saveSetting('autoAddFavoriteBoards', value),
+	'settings'
+)
+
 export const showSidebar = redux.simpleAction(
 	(shouldBeShown) => shouldBeShown,
 	'isSidebarShown'

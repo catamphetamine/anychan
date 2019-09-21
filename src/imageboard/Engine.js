@@ -84,6 +84,18 @@ export default class Engine {
 	}
 
 	/**
+	 * Returns `true` if an imageboard has a "get all boards" API endpoint
+	 * that's different from the regular "get boards" API endpoint.
+	 * In other words, returns `true` if an imageboard provides separate API
+	 * endpoints for getting a list of "most popular boards" and a list of
+	 * "all boards available".
+	 * @return {boolean}
+	 */
+	hasMoreBoards() {
+		return this.options.api.getAllBoards !== undefined
+	}
+
+	/**
 	 * Performs a "get threads list" API query and parses the response.
 	 * @param  {object} parameters — `{ boardId }`.
 	 * @param  {object} [options] — See the README.

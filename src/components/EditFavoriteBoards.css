@@ -28,14 +28,16 @@
 }
 
 .edit-favorite-boards__search {
-	--rrui-input-field-background-color: var(--Sidebar-baseColor-50);
+	--rrui-input-field-background-color: var(--Sidebar-highlightColor-100);
 	--rrui-input-field-background-color-focus: var(--rrui-input-field-background-color);
 	--rrui-input-field-background-color-error: var(--rrui-input-field-background-color);
+	--rrui-input-field-background-color-error-focus: var(--rrui-input-field-background-color-focus);
 	--rrui-input-field-border-bottom-width: 1px;
 	--rrui-input-field-border-width: 1px;
 	--rrui-input-field-border-color: var(--Sidebar-color-200);
-	--rrui-input-field-border-color-focus: var(--rrui-input-field-border-color);
+	--rrui-input-field-border-color-focus: var(--Sidebar-baseColor-200);
 	--rrui-input-field-border-color-error: var(--rrui-input-field-border-color);
+	--rrui-input-field-border-color-error-focus: var(--rrui-input-field-border-color-focus);
 	--rrui-input-field-icon-margin-left: calc(var(--unit) / 2);
 	--rrui-options-list-negative-side-margin: 0px;
 	padding-left: var(--SidebarSection-paddingLeft);
@@ -46,7 +48,7 @@
 .edit-favorite-boards__search__option {
 	display: flex;
 	line-height: var(--rrui-list-item-height);
-	white-space: nowrap;
+	overflow: hidden;
 	.board-url {
 		margin-right: var(--unit);
 	}
