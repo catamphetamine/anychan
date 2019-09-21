@@ -8,8 +8,8 @@ import getMessages from '../messages'
 
 import './Notifications.css'
 
-@connect(({ app }) => ({
-	locale: app.settings.locale
+@connect(({ settings }) => ({
+	locale: settings.settings.locale
 }))
 export default class Notifications_ extends React.Component {
 	render() {

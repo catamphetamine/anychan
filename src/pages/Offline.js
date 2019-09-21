@@ -11,11 +11,11 @@ import { ErrorPage } from './Error'
 
 // import './Offline.css'
 
-@meta(({ app }) => ({
-	title: getMessages(app.settings.locale).errorPages['503'].title
+@meta(({ settings }) => ({
+	title: getMessages(settings.settings.locale).errorPages['503'].title
 }))
-@connect(({ app, found }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, found }) => ({
+	locale: settings.settings.locale,
 	location: found.resolvedMatch.location
 }))
 export default class Offline extends React.Component {

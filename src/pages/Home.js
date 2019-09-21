@@ -12,8 +12,8 @@ import { showSidebar, setSidebarMode } from '../redux/app'
 
 import './Home.css'
 
-@connect(({ app }) => ({
-	locale: app.settings.locale
+@connect(({ settings }) => ({
+	locale: settings.settings.locale
 }), dispatch => ({ dispatch }))
 export default class Home_ extends React.Component {
 	render() {

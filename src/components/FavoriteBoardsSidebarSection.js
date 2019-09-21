@@ -9,8 +9,8 @@ import EditFavoriteBoards from './EditFavoriteBoards'
 import getMessages from '../messages'
 import { getBoards } from '../redux/chan'
 
-@connect(({ app, chan, favoriteBoards }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, chan, favoriteBoards }) => ({
+	locale: settings.settings.locale,
 	favoriteBoards: favoriteBoards.favoriteBoards,
 	allBoards: chan.allBoards && chan.allBoards.boards
 }), (dispatch) => ({ dispatch }))

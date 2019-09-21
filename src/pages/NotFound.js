@@ -11,11 +11,11 @@ import { ErrorPage } from './Error'
 
 // import './NotFound.css'
 
-@meta(({ app }) => ({
-	title: getMessages(app.settings.locale).errorPages['404'].title
+@meta(({ settings }) => ({
+	title: getMessages(settings.settings.locale).errorPages['404'].title
 }))
-@connect(({ app, found }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, found }) => ({
+	locale: settings.settings.locale,
 	location: found.resolvedMatch.location
 }))
 export default class NotFound extends React.Component {

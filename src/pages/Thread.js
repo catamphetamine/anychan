@@ -34,10 +34,10 @@ import './Thread.css'
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 }))
-@connect(({ chan, app, thread }) => ({
+@connect(({ chan, settings, thread }) => ({
 	board: chan.board,
 	thread: chan.thread,
-	locale: app.settings.locale,
+	locale: settings.settings.locale,
 	isThreadTracked: thread.isTracked,
 	virtualScrollerState: thread.virtualScrollerState,
 	scrollPosition: thread.scrollPosition
@@ -49,8 +49,8 @@ import './Thread.css'
 		await dispatch(getThread(
 			boardId,
 			threadId,
-			getState().app.settings.censoredWords,
-			getState().app.settings.locale
+			getState().settings.settings.censoredWords,
+			getState().settings.settings.locale
 		))
 		dispatch(isThreadTracked(
 			boardId,

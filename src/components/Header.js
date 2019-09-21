@@ -19,8 +19,8 @@ import { getChan, addChanParameter } from '../chan'
 
 import './Header.css'
 
-@connect(({ app, chan, found }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, chan, found }) => ({
+	locale: settings.settings.locale,
 	board: chan.board,
 	thread: chan.thread,
 	route: found.resolvedMatch

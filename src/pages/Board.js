@@ -29,16 +29,16 @@ import './Board.css'
 	title: board && board.title,
 	description: board && board.description
 }))
-@connect(({ app, chan, board }) => ({
+@connect(({ settings, chan, board }) => ({
 	board: chan.board,
 	threads: chan.threads,
-	locale: app.settings.locale,
-	censoredWords: app.settings.censoredWords,
+	locale: settings.settings.locale,
+	censoredWords: settings.settings.censoredWords,
 	virtualScrollerState: board.virtualScrollerState,
 	scrollPosition: board.scrollPosition
 }), dispatch => ({ dispatch }))
 @preload(async ({ getState, dispatch, params }) => {
-	const settings = getState().app.settings
+	const settings = getState().settings.settings
 	await dispatch(getThreads(
 		params.board,
 		settings.censoredWords,

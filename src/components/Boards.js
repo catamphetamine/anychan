@@ -9,7 +9,7 @@ import { getChan, getChanConfig, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
-import { saveBoardsView } from '../redux/app'
+import { saveBoardsView } from '../redux/settings'
 
 import BoardUrl from './BoardUrl'
 
@@ -17,15 +17,15 @@ import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.
 
 import './Boards.css'
 
-@connect(({ app, chan }) => ({
+@connect(({ settings, chan }) => ({
 	boards: chan.boards,
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory,
 	selectedBoard: chan.board,
 	highlightSelectedBoard: true,
-	boardsView: app.settings.boardsView,
+	boardsView: settings.settings.boardsView,
 	shouldSaveBoardsView: true,
-	locale: app.settings.locale
+	locale: settings.settings.locale
 }), dispatch => ({ dispatch }))
 export default class BoardsInSidebar extends React.Component {
 	render() {
@@ -35,10 +35,10 @@ export default class BoardsInSidebar extends React.Component {
 	}
 }
 
-@connect(({ app, chan }) => ({
+@connect(({ settings, chan }) => ({
 	selectedBoard: chan.board,
 	highlightSelectedBoard: true,
-	locale: app.settings.locale
+	locale: settings.settings.locale
 }), dispatch => ({ dispatch }))
 export class FavoriteBoards extends React.Component {
 	render() {
@@ -69,7 +69,7 @@ function Boards_({
 	boards,
 	boardsByPopularity,
 	boardsByCategory,
-	boardsView,
+	boardsView: boardsViewSetting,
 	shouldSaveBoardsView,
 	showAllBoards,
 	showAllBoardsLink,
@@ -83,17 +83,19 @@ function Boards_({
 }) {
 	const [searchQuery, setSearchQuery] = useState()
 	const [filteredBoards, setFilteredBoards] = useState()
-	const [view, setView] = useState(getBoardsView(boardsView, {
+	const [view, setView] = useState()
+	const defaultBoardsView = getBoardsView(boardsViewSetting, {
 		canViewByCategory: boardsByCategory && (listComponent === BoardsList),
 		canViewByPopularity: boardsByPopularity
-	}))
+	})
+	const boardsView = view || defaultBoardsView
 	const onSetView = useCallback((view) => {
 		setView(view)
 		if (shouldSaveBoardsView) {
-			dispatch(saveBoardsView(view === 'default' ? undefined : view))
+			dispatch(saveBoardsView(view))
 		}
 	}, [dispatch])
-	const onChangeViewAllBoards = useCallback(() => onSetView('default'), [])
+	const onChangeViewAllBoards = useCallback(() => onSetView('list'), [])
 	const onChangeViewByCategory = useCallback(() => onSetView('by-category'), [])
 	const onSearchQueryChange = useCallback((query) => {
 		query = query.toLowerCase()
@@ -110,7 +112,7 @@ function Boards_({
 			board.id === selectedBoard.id
 	}, [highlightSelectedBoard, isBoardOrThreadLocation, selectedBoard])
 	const getBoardsListItems = useCallback(() => {
-		switch (view) {
+		switch (boardsView) {
 			case 'by-category':
 				return boardsByCategory.reduce((all, category, i) => {
 					return all.concat([{
@@ -123,7 +125,7 @@ function Boards_({
 						selected: isBoardSelected(board)
 					})))
 				}, [])
-			case 'default':
+			case 'list':
 				return (filteredBoards || boardsByPopularity || boards)
 					.filter(board => showAllBoards || !board.isHidden)
 					.map((board) => ({
@@ -132,11 +134,11 @@ function Boards_({
 						selected: isBoardSelected(board)
 					}))
 			default:
-				// Unsupported `view`.
+				// Unsupported `boardsView`.
 				return []
 			}
 	}, [
-		view,
+		boardsView,
 		boards,
 		boardsByPopularity,
 		boardsByCategory,
@@ -153,26 +155,26 @@ function Boards_({
 			{boardsByPopularity && (boardsByCategory && List === BoardsList) &&
 				<div className="boards__view-switcher">
 					<Button
-						disabled={view === 'default'}
+						disabled={boardsView === 'list'}
 						onClick={onChangeViewAllBoards}
 						className={classNames('boards__view-switch', {
-							'boards__view-switch--disabled': view === 'default'
+							'boards__view-switch--disabled': boardsView === 'list'
 						})}>
 						{getMessages(locale).boards.byPopularity}
 					</Button>
 
 					<Button
-						disabled={view === 'by-category'}
+						disabled={boardsView === 'by-category'}
 						onClick={onChangeViewByCategory}
 						className={classNames('boards__view-switch', {
-							'boards__view-switch--disabled': view === 'by-category'
+							'boards__view-switch--disabled': boardsView === 'by-category'
 						})}>
 						{getMessages(locale).boards.byCategory}
 					</Button>
 				</div>
 			}
 
-			{showAllBoards && view === 'default' &&
+			{showAllBoards && boardsView === 'list' &&
 				<TextInput
 					type="search"
 					autoFocus
@@ -183,7 +185,7 @@ function Boards_({
 					className="boards__search"/>
 			}
 
-			{showAllBoards && view === 'default' && searchQuery && filteredBoards.length === 0 &&
+			{showAllBoards && boardsView === 'list' && searchQuery && filteredBoards.length === 0 &&
 				<div className="boards__nothing-found">
 					{getMessages(locale).noSearchResults}
 				</div>
@@ -192,8 +194,8 @@ function Boards_({
 			<List
 				className={classNames('boards-list', {
 					'boards-list--grid': List === BoardsList,
-					// 'boards-list--default': view === 'default',
-					'boards-list--by-category': view === 'by-category'
+					// 'boards-list--list': boardsView === 'list',
+					'boards-list--by-category': boardsView === 'by-category'
 				})}>
 				{getBoardsListItems()}
 			</List>
@@ -378,14 +380,14 @@ function getBoardsView(boardsView, { canViewByCategory, canViewByPopularity }) {
 			if (canViewByCategory) {
 				return boardsView
 			}
-		case 'default':
+		case 'list':
 			return boardsView
 	}
 	if (canViewByPopularity) {
-		return 'default'
+		return 'list'
 	}
 	if (canViewByCategory) {
 		return 'by-category'
 	}
-	return 'default'
+	return 'list'
 }

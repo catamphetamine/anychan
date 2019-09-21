@@ -15,14 +15,6 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
-
-Можно выделить settings в отдельный reducer.
-
-
-
-
-
-
 Release `social-components` npm module.
 
 Release `imageboard` npm module. Move API docs to `imageboard/docs` leaving "This document has been moved to [`imageboard/docs/...`](...)" notes in this repo. Rename `2ch.hk.md` to `makaba.md`, `4chan.org.md` -> `4chan.md`.

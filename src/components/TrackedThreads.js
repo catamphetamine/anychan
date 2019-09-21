@@ -17,9 +17,9 @@ import Picture from 'webapp-frontend/src/components/Picture'
 
 import './TrackedThreads.css'
 
-@connect(({ found, app, threadTracker, chan }) => ({
+@connect(({ found, settings, threadTracker, chan }) => ({
 	isThreadLocation: isThreadLocation(found.resolvedMatch),
-	locale: app.settings.locale,
+	locale: settings.settings.locale,
 	trackedThreads: threadTracker.trackedThreads,
 	selectedBoard: chan.board,
 	selectedThread: chan.thread

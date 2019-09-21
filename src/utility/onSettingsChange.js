@@ -1,4 +1,4 @@
-import { getSettings } from '../redux/app'
+import { getSettings } from '../redux/settings'
 import Settings from './settings'
 
 export default function onSettingsChange(dispatch) {

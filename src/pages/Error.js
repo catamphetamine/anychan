@@ -9,11 +9,11 @@ import getMessages from '../messages'
 
 import './Error.css'
 
-@meta(({ app }) => ({
-	title: getMessages(app.settings.locale).errorPages['500'].title
+@meta(({ settings }) => ({
+	title: getMessages(settings.settings.locale).errorPages['500'].title
 }))
-@connect(({ app, found }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, found }) => ({
+	locale: settings.settings.locale,
 	location: found.resolvedMatch.location
 }))
 export default class ErrorPage_ extends React.Component {

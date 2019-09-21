@@ -6,13 +6,15 @@ import classNames from 'classnames'
 import Menu from 'webapp-frontend/src/components/Menu'
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 import { notify } from 'webapp-frontend/src/redux/notifications'
+import { autoDarkMode } from 'webapp-frontend/src/utility/style'
 
 import {
 	showSidebar,
 	setSidebarMode,
-	saveDarkMode,
 	setDarkMode
 } from '../redux/app'
+
+import { saveDarkMode } from '../redux/settings'
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
@@ -40,8 +42,8 @@ import MenuIconFill from 'webapp-frontend/assets/images/icons/menu/menu-fill.svg
 
 import './ApplicationMenu.css'
 
-@connect(({ app }) => ({
-	locale: app.settings.locale,
+@connect(({ app, settings }) => ({
+	locale: settings.settings.locale,
 	isSidebarShown: app.isSidebarShown,
 	sidebarMode: app.sidebarMode,
 	darkMode: app.darkMode,
@@ -82,6 +84,7 @@ function ApplicationMenu(props) {
 				}
 				dispatch(setDarkMode(!darkMode))
 				dispatch(saveDarkMode(!darkMode))
+				autoDarkMode(false)
 			},
 			isSelected: darkMode,
 			icon: MoonIconOutline,

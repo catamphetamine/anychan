@@ -13,9 +13,9 @@ import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
 import {
 	saveFontSize,
 	saveLocale,
-	saveAutoDarkMode,
-	setDarkMode
-} from '../redux/app'
+	saveAutoDarkMode
+} from '../redux/settings'
+import { setDarkMode } from '../redux/app'
 
 import getMessages, {
 	getLanguageNames
@@ -39,12 +39,12 @@ import './Settings.css'
 
 const LANGUAGE_NAMES = getLanguageNames()
 
-@meta(({ app }) => ({
-	title: getMessages(app.settings.locale).settings.title
+@meta(({ settings }) => ({
+	title: getMessages(settings.settings.locale).settings.title
 }))
-@connect(({ app }) => ({
-	locale: app.settings.locale,
-	settings: app.settings,
+@connect(({ app, settings }) => ({
+	locale: settings.settings.locale,
+	settings: settings.settings,
 	cookiesAccepted: app.cookiesAccepted
 }), dispatch => ({ dispatch }))
 export default class SettingsPage_ extends React.Component {

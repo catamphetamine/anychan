@@ -16,8 +16,8 @@ import CaptchanLogo from '../../assets/images/icon.svg'
 
 import './Footer.css'
 
-@connect(({ app, found }) => ({
-	locale: app.settings.locale,
+@connect(({ app, settings, found }) => ({
+	locale: settings.settings.locale,
 	offline: app.offline,
 	route: found.resolvedMatch
 }))

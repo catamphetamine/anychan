@@ -7,7 +7,7 @@ import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { validateUrl, validateRelativeUrl } from 'webapp-frontend/src/utility/url'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 
-import { saveTheme } from '../../redux/app'
+import { saveTheme } from '../../redux/settings'
 
 import {
 	getThemes,

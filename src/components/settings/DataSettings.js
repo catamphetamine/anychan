@@ -19,7 +19,7 @@ import {
 import {
 	resetSettings,
 	replaceSettings
-} from '../../redux/app'
+} from '../../redux/settings'
 
 import Settings from '../../utility/settings'
 import UserData from '../../UserData/UserData'

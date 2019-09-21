@@ -18,8 +18,8 @@ import getMessages from '../messages'
 
 import './Sidebar.css'
 
-@connect(({ app, threadTracker }) => ({
-	locale: app.settings.locale,
+@connect(({ app, settings, threadTracker }) => ({
+	locale: settings.settings.locale,
 	isShown: app.isSidebarShown,
 	mode: app.sidebarMode,
 	trackedThreads: threadTracker.trackedThreads

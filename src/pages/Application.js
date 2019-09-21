@@ -33,7 +33,8 @@ import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import { getBoards } from '../redux/chan'
-import { getSettings, setCookiesAccepted, setOfflineMode } from '../redux/app'
+import { getSettings } from '../redux/settings'
+import { setCookiesAccepted, setOfflineMode } from '../redux/app'
 import { getFavoriteBoards } from '../redux/favoriteBoards'
 import { getTrackedThreads } from '../redux/threadTracker'
 import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
@@ -57,9 +58,9 @@ import configuration from '../configuration'
 
 import './Application.css'
 
-@connect(({ app, slideshow, found, announcement }) => ({
-	locale: app.settings.locale,
-	theme: app.settings.theme,
+@connect(({ app, settings, slideshow, found, announcement }) => ({
+	locale: settings.settings.locale,
+	theme: settings.settings.theme,
 	cookiesAccepted: app.cookiesAccepted,
 	sidebarMode: app.sidebarMode,
 	offline: app.offline,

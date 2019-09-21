@@ -11,12 +11,12 @@ import getMessages from '../messages'
 
 import './Boards.css'
 
-@meta(({ app }) => ({
-	title: getMessages(app.settings.locale).boards.title
+@meta(({ settings }) => ({
+	title: getMessages(settings.settings.locale).boards.title
 }))
 @preload(({ dispatch }) => dispatch(getBoards({ all: true })))
-@connect(({ app, chan }) => ({
-	locale: app.settings.locale,
+@connect(({ settings, chan }) => ({
+	locale: settings.settings.locale,
 	boards: chan.allBoards.boards,
 	boardsByCategory: chan.allBoards.boardsByCategory,
 	boardsByPopularity: chan.allBoards.boardsByPopularity
