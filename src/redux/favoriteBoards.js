@@ -17,6 +17,14 @@ export const addFavoriteBoard = redux.simpleAction(
 	'favoriteBoards'
 )
 
+export const setFavoriteBoards = redux.simpleAction(
+	(favoriteBoards) => {
+		UserData.setFavoriteBoards(favoriteBoards)
+		return _getFavoriteBoards()
+	},
+	'favoriteBoards'
+)
+
 export const removeFavoriteBoard = redux.simpleAction(
 	(board) => {
 		UserData.removeFavoriteBoards(board)

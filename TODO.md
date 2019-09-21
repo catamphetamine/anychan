@@ -15,11 +15,6 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
-Добавить SortableList. Drag'n'drop "избранных" досок чтобы не активировался при нажатии на `<button/>` (например, на кнопку убирания доски из списка).
-
-
-
-
 
 Можно выделить settings в отдельный reducer.
 

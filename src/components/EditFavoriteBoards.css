@@ -12,6 +12,21 @@
 	/* `user-select: none` is for drag'n'drop. */
 	user-select: none;
 	border-spacing: 0;
+	cursor: grab;
+	tr {
+		/*
+		&:hover {
+			&, .edit-favorite-boards__remove {
+				background-color: var(--Sidebar-highlightColor-100);
+			}
+		}
+		*/
+		&:active {
+			&, .edit-favorite-boards__remove {
+				background-color: var(--Sidebar-highlightColor-200);
+			}
+		}
+	}
 	td {
 		height: var(--List-lineHeight);
 		line-height: var(--List-lineHeight);
@@ -25,6 +40,11 @@
 
 .edit-favorite-boards__board-url-column {
 	text-align: right;
+}
+
+.edit-favorite-boards__board-name-column {
+	/* `position: relative` is for the "Remove" button. */
+	position: relative;
 }
 
 .edit-favorite-boards__search {

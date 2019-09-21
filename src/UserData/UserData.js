@@ -133,6 +133,10 @@ export class UserData {
 			this[`merge${capitalize(key)}`] = (...args) => {
 				return mergeWith.apply(this, getArgs(args))
 			}
+			this[`set${capitalize(key)}`] = (...args) => {
+				const [storage, key] = preArgs
+				storage.set(key, args[0])
+			}
 		}
 	}
 
