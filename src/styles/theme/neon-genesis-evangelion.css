@@ -61,13 +61,13 @@
 	--Critical-backgroundColor: #df1e00;
 
 	/* Sidebar. */
-	--Sidebar-color: #29420e;
 	--Sidebar-color-200: #d8bcea;
 	--Sidebar-color-500: #cbbad6;
 	--Sidebar-color-600: #9f86af;
+	--Sidebar-color-900: #29420e;
 	--Sidebar-backgroundColor: #f1e9f6;
-	--Sidebar-backgroundColor--hover: var(--Document-backgroundColor);
-	--Sidebar-backgroundColor--active: #e9def0;
+	--Sidebar-baseColor-50: var(--Document-backgroundColor);
+	--Sidebar-baseColor-100: #e9def0;
 
 	/* Boards. */
 	--Boards-color--slashHover: var(--Boards-color--slash);
@@ -148,8 +148,8 @@
 	/* Sidebar. */
 	--Sidebar-color-500: #8081ae;
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
-	--Sidebar-backgroundColor--hover: #232447;
-	--Sidebar-backgroundColor--active: #202042;
+	--Sidebar-baseColor-50: #232447;
+	--Sidebar-baseColor-100: #202042;
 
 	/* Boards. */
 	--Boards-color--slashActive: #655339;

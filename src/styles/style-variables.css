@@ -29,9 +29,9 @@
 	--HeaderSeparator-opacity--right: 0;
 
 	/* Sidebar. */
-	--Sidebar-color: var(--Content-color-900);
 	--Sidebar-color-500: var(--Content-color-500);
 	--Sidebar-color-600: var(--Content-color-600);
+	--Sidebar-color-900: var(--Content-color-900);
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	--Sidebar-borderColor: var(--Header-borderColor);
 	--Sidebar-color--accent: var(--PostQuote-color);
@@ -41,12 +41,12 @@
 	--Boards-fontFamily--url: monospace;
 	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;
-	--Boards-color: var(--Sidebar-color);
-	--Boards-color--active: var(--Sidebar-color--active);
+	--Boards-color: var(--Sidebar-color-900);
+	--Boards-color--active: var(--Sidebar-baseColor-700);
 	--Boards-color--slash: var(--Sidebar-color-200);
 	--Boards-color--viewSwitcher: var(--Sidebar-color-600);
-	--Boards-backgroundColor--hover: var(--Sidebar-backgroundColor--hover);
-	--Boards-backgroundColor--active: var(--Sidebar-backgroundColor--active);
+	--Boards-backgroundColor--hover: var(--Sidebar-baseColor-50);
+	--Boards-backgroundColor--active: var(--Sidebar-baseColor-100);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
 
 	/* ThreadActions. */
@@ -71,9 +71,9 @@
 .light {
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
-	--Sidebar-color--active: var(--Clickable-color--text);
-	--Sidebar-backgroundColor--hover: #f9f7f5;
-	--Sidebar-backgroundColor--active: var(--base-color-100);
+	--Sidebar-baseColor-700: var(--Clickable-color--text);
+	--Sidebar-baseColor-50: #f9f7f5;
+	--Sidebar-baseColor-100: var(--base-color-100);
 
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);
@@ -131,9 +131,9 @@
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-300);
-	--Sidebar-color--active: var(--base-color-300);
-	--Sidebar-backgroundColor--hover: #303030;
-	--Sidebar-backgroundColor--active: #2c2c2c;
+	--Sidebar-baseColor-700: var(--base-color-300);
+	--Sidebar-baseColor-50: #303030;
+	--Sidebar-baseColor-100: #2c2c2c;
 
 	/* Announcement. */
 	--Announcement-color: var(--Content-color-900);

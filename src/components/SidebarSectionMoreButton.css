@@ -1,4 +1,7 @@
 .SidebarSectionMoreButton {
+	--rrui-button-side-padding: var(--SidebarSectionMoreButton-paddingLeft);
+	--rrui-button-busy-indicator-bottom: 0px;
+	--rrui-button-busy-indicator-width: 1px;
 	--SidebarSectionMoreButton-width: var(--unit);
 	--SidebarSectionMoreButton-height: 100%;
 	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
@@ -7,8 +10,6 @@
 	justify-content: center;
 	width: calc(var(--SidebarSectionMoreButton-width) + 2 * var(--SidebarSectionMoreButton-paddingLeft));
 	height: var(--SidebarSectionMoreButton-height);
-	padding-left: var(--SidebarSectionMoreButton-paddingLeft);
-	padding-right: var(--SidebarSectionMoreButton-paddingLeft);
 	position: absolute;
 	right: calc(var(--SidebarSection-paddingLeft) - var(--SidebarSectionMoreButton-paddingLeft));
 	top: calc((100% - var(--SidebarSectionMoreButton-height)) / 2);
@@ -23,22 +24,22 @@
 	color: var(--Sidebar-color-500);
 	&:hover {
 		/*box-shadow: 0 0 0 1px var(--Sidebar-color-200);*/
-		background-color: var(--Sidebar-backgroundColor--hover);
-		color: var(--Sidebar-color);
+		background-color: var(--Sidebar-baseColor-50);
+		color: var(--Sidebar-color-900);
 	}
 	&:active {
-		background-color: var(--Sidebar-backgroundColor--active);
-		color: var(--Sidebar-color--active);
+		background-color: var(--Sidebar-baseColor-100);
+		color: var(--Sidebar-baseColor-700);
 	}
 }
 
 .SidebarButton--pushed {
 	& {
-		background-color: var(--Sidebar-backgroundColor--active);
-		color: var(--Sidebar-color--active);
+		background-color: var(--Sidebar-baseColor-100);
+		color: var(--Sidebar-baseColor-700);
 	}
 	&:hover {
-		background-color: var(--Sidebar-backgroundColor--active);
-		color: var(--Sidebar-color--active);
+		background-color: var(--Sidebar-baseColor-100);
+		color: var(--Sidebar-baseColor-700);
 	}
 }

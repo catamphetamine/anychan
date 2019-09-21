@@ -11,7 +11,7 @@
 	}
 	.boards-list__item:not(:active) {
 		.boards-list__board-name {
-			color: var(--Sidebar-color);
+			color: var(--Sidebar-color-900);
 		}
 	}
 	.boards-list__item:active {

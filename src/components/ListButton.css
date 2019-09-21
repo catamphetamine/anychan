@@ -28,13 +28,13 @@
 		&:hover {
 			color: var(--Sidebar-color-600);
 			.ListButton__background {
-				background-color: var(--Sidebar-backgroundColor--hover);
+				background-color: var(--Sidebar-baseColor-50);
 			}
 		}
 		&:active {
-			color: var(--Sidebar-color--active);
+			color: var(--Sidebar-baseColor-700);
 			.ListButton__background {
-				background-color: var(--Sidebar-backgroundColor--active);
+				background-color: var(--Sidebar-baseColor-100);
 			}
 		}
 	}
