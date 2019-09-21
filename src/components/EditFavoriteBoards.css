@@ -1,4 +1,65 @@
 .edit-favorite-boards__remove {
 	position: absolute;
 	right: 0;
+	/* `overflow: hidden` doesn't work on `<td/>`s
+	   so using `background-color` for the "Remove" button
+	   so that it's not obstructed by a long board title. */
+	background-color: var(--Sidebar-backgroundColor);
+}
+
+.edit-favorite-boards__list {
+	width: 100%;
+	/* `user-select: none` is for drag'n'drop. */
+	user-select: none;
+	border-spacing: 0;
+	td {
+		height: var(--List-lineHeight);
+		line-height: var(--List-lineHeight);
+		padding: 0;
+		&:first-child,
+		&:last-child {
+			width: 50%;
+		}
+	}
+}
+
+.edit-favorite-boards__board-url-column {
+	text-align: right;
+}
+
+.edit-favorite-boards__search {
+	--rrui-input-field-background-color: var(--Sidebar-baseColor-50);
+	--rrui-input-field-background-color-focus: var(--rrui-input-field-background-color);
+	--rrui-input-field-background-color-error: var(--rrui-input-field-background-color);
+	--rrui-input-field-border-bottom-width: 1px;
+	--rrui-input-field-border-width: 1px;
+	--rrui-input-field-border-color: var(--Sidebar-color-200);
+	--rrui-input-field-border-color-focus: var(--rrui-input-field-border-color);
+	--rrui-input-field-border-color-error: var(--rrui-input-field-border-color);
+	--rrui-input-field-icon-margin-left: calc(var(--unit) / 2);
+	--rrui-options-list-negative-side-margin: 0px;
+	padding-left: var(--SidebarSection-paddingLeft);
+	padding-right: var(--SidebarSection-paddingLeft);
+	margin-bottom: var(--unit);
+}
+
+.edit-favorite-boards__search__option {
+	display: flex;
+	line-height: var(--rrui-list-item-height);
+	white-space: nowrap;
+	.board-url {
+		margin-right: var(--unit);
+	}
+}
+
+.edit-favorite-boards__search {
+	.rrui__list__item:not(:active) {
+		.board-url {
+			color: var(--Sidebar-baseColor-700);
+			&:before,
+			&:after {
+				color: var(--Sidebar-color-200);
+			}
+		}
+	}
 }
