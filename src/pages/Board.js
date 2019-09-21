@@ -44,7 +44,7 @@ import './Board.css'
 		settings.censoredWords,
 		settings.locale
 	))
-	if (settings.autoAddFavoriteBoards !== false) {
+	if (settings.autoSuggestFavoriteBoards !== false) {
 		const board = getState().chan.board
 		dispatch(addFavoriteBoard({
 			id: board.id,

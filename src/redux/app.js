@@ -45,7 +45,7 @@ export const saveFontSize = redux.simpleAction(
 )
 
 export const saveAutoAddFavoriteBoards = redux.simpleAction(
-	(value) => saveSetting('autoAddFavoriteBoards', value),
+	(value) => saveSetting('autoSuggestFavoriteBoards', value),
 	'settings'
 )
 
