@@ -40,7 +40,7 @@ import {
 } from './boardThread'
 
 export class UserData {
-	data = {
+	collections = {
 		favoriteBoards: {
 			type: 'list',
 			isEqual: (one, two) => one.id === two.id
@@ -86,8 +86,8 @@ export class UserData {
 			'captchan.' + (options.chanId ? options.chanId + '.' : '') + 'user.' :
 			options.prefix
 		// Create data access methods.
-		for (const key of Object.keys(this.data)) {
-			const collection = this.data[key]
+		for (const key of Object.keys(this.collections)) {
+			const collection = this.collections[key]
 			const {
 				addTo,
 				removeFrom,
@@ -137,7 +137,7 @@ export class UserData {
 	}
 
 	get() {
-		return Object.keys(this.data).reduce((data, key) => {
+		return Object.keys(this.collections).reduce((data, key) => {
 			const keyData = this.storage.get(this.prefix + key)
 			if (keyData === undefined) {
 				return data
@@ -168,8 +168,8 @@ export class UserData {
 	}
 
 	onThreadsExpired(boardId, isThreadExpired) {
-		for (const key of Object.keys(this.data)) {
-			const collection = this.data[key]
+		for (const key of Object.keys(this.collections)) {
+			const collection = this.collections[key]
 			// Babel doesn't know how to handle variables inside `case`.
 			let boardsData
 			let threads
@@ -287,6 +287,14 @@ export class UserData {
 				this.prefix + key,
 				this[`merge${capitalize(key)}`](data[key])
 			)
+		}
+	}
+
+	matchKey(key) {
+		for (const key_ of Object.keys(this.collections)) {
+			if (this.prefix + key_ === key) {
+				return true
+			}
 		}
 	}
 }

@@ -32,8 +32,10 @@ export default function DataSettings({
 	async function onResetSettings() {
 		dispatch(okCancelDialog(messages.settings.data.resetSettings.warning))
 		if (await OkCancelDialog.getPromise()) {
+			// Reset settings.
 			dispatch(resetSettings())
 			Settings.apply({ dispatch })
+			// Done.
 			dispatch(notify(messages.settings.data.resetSettings.done))
 		}
 	}
@@ -41,9 +43,13 @@ export default function DataSettings({
 	async function onClearUserData() {
 		dispatch(okCancelDialog(messages.settings.data.clearUserData.warning))
 		if (await OkCancelDialog.getPromise()) {
+			// Reset user data.
+			// Could also be implented as `resetUserData()`
+			// similar to `resetSettings()`.
 			UserData.clear()
 			// Update tracked threads list in the UI.
-			onUserDataChange(dispatch)
+			onUserDataChange(null, dispatch)
+			// Done.
 			dispatch(notify(messages.settings.data.clearUserData.done))
 		}
 	}
@@ -57,9 +63,13 @@ export default function DataSettings({
 			return dispatch(notify(messages.settings.data.import.error, { type: 'error' }))
 		}
 		const { settings, userData } = json
+		// Add user data.
+		// Could also be implented as `mergeUserData()`
+		// similar to `replaceSettings()`.
 		UserData.merge(userData)
 		// Update tracked threads list in the UI.
-		onUserDataChange(dispatch)
+		onUserDataChange(null, dispatch)
+		// Done.
 		dispatch(notify(messages.settings.data.merge.done))
 	}
 
@@ -74,11 +84,16 @@ export default function DataSettings({
 		const { settings, userData } = json
 		dispatch(okCancelDialog(messages.settings.data.import.warning))
 		if (await OkCancelDialog.getPromise()) {
+			// Replace settings.
 			dispatch(replaceSettings(settings))
-			UserData.replace(userData)
 			Settings.apply({ dispatch })
+			// Replace user data.
+			// Could also be implented as `replaceUserData()`
+			// similar to `replaceSettings()`.
+			UserData.replace(userData)
 			// Update tracked threads list in the UI.
-			onUserDataChange(dispatch)
+			onUserDataChange(null, dispatch)
+			// Done.
 			dispatch(notify(messages.settings.data.import.done))
 		}
 	}

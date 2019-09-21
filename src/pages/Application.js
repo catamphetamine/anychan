@@ -40,6 +40,8 @@ import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
+import UserData from '../UserData/UserData'
+import onUserDataChange from '../UserData/onUserDataChange'
 import {
 	isContentSectionsContent,
 	isThreadLocation,
@@ -48,6 +50,8 @@ import {
 } from '../utility/routes'
 import { pollAnnouncement } from '../utility/announcement'
 import getBasePath from '../utility/getBasePath'
+import onSettingsChange from '../utility/onSettingsChange'
+import UserSettings from '../utility/UserSettings'
 import { dispatchDelayedActions } from '../utility/dispatch'
 import configuration from '../configuration'
 
@@ -137,6 +141,37 @@ function App({
 	children
 }) {
 	const hasMounted = useRef()
+
+	useEffect(() => {
+		function updateUserData(key) {
+			onUserDataChange(key, dispatch)
+		}
+		function updateUserSettings() {
+			onSettingsChange(dispatch)
+		}
+		// Listens for changes to `localStorage`.
+		// https://developer.mozilla.org/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#Responding_to_storage_changes_with_the_StorageEvent
+		// https://developer.mozilla.org/docs/Web/API/StorageEvent
+		function localStorageListener(event) {
+			if (!event.key) {
+				updateUserSettings()
+				updateUserData(event.key)
+			} else {
+				if (UserSettings.matchKey(event.key)) {
+					updateUserSettings()
+				}
+				if (UserData.matchKey(event.key)) {
+					updateUserData(event.key)
+				}
+			}
+		}
+		window.addEventListener('storage', localStorageListener)
+		// `localStorage` might have changed before this listener has been added
+		// therefore emulate a "change" event to apply any possible changes.
+		return () => {
+			window.removeEventListener('storage', localStorageListener)
+		}
+	}, [])
 
 	useEffect(() => {
 		setBodyBackground(route)

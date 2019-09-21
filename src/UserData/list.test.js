@@ -10,7 +10,7 @@ const storage = new MemoryStorage({
 const userData = new UserData(storage, {
 	prefix: ''
 })
-userData.data.trackedThreadsList.limit = 2
+userData.collections.trackedThreadsList.limit = 2
 
 describe('UserData', () => {
 	it('should trim collections on limit reach', () => {

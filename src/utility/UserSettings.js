@@ -49,6 +49,10 @@ class UserSettings {
 		}
 		this.storage.set(this.key, settings)
 	}
+
+	matchKey(key) {
+		return key === this.key
+	}
 }
 
 export default new UserSettings(new LocalStorage(), {

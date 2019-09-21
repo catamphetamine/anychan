@@ -14,7 +14,6 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
-Синхронизировать добавление/удаление tracked threads между вкладками (localStorage events) — вообще, синхронизировать таким образом всю UserData (прочитанность комментариев, тредов, и т.п.), и вызывать `onUserDataChange()`.
 
 Добавить SortableList. Drag'n'drop "избранных" досок чтобы не активировался при нажатии на `<button/>` (например, на кнопку убирания доски из списка).
 
@@ -23,12 +22,6 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 Можно выделить settings в отдельный reducer.
-
-
-
-
-
-В virtual scroller можно сделать специальный флаг типа «сохранять скролл позишен при препенде айтемов» и по умолчанию не сохранять, потому что модет быть поиск по строке
 
 
 
@@ -240,6 +233,8 @@ Load instagram posts through CORS proxy (if configured).
 На странице доски можно добавить кнопку "Обсуждаемое" ("Active"), где показывать "топ" тредов (по "скорости" постинга в них). Такой API есть на `2ch.hk`.
 
 
+
+Добавить в `onUserDataChange()` прочитанность комментариев.
 
 
 
