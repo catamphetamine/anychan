@@ -5,6 +5,7 @@ import { Link } from 'react-website'
 import classNames from 'classnames'
 
 import ListButton from './ListButton'
+import BoardUrl from './BoardUrl'
 
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
@@ -107,9 +108,9 @@ function TrackedThread({
 						blur={thread.thumbnail.spoiler ? 0.1 : undefined}
 						className="tracked-threads__thread__thumbnail"/>
 				}
-				<div className="tracked-threads__thread__board">
-					{thread.board.id}
-				</div>
+				<BoardUrl
+					boardId={thread.board.id}
+					className="tracked-threads__thread__board"/>
 				<div className="tracked-threads__thread__title">
 					{thread.title}
 				</div>

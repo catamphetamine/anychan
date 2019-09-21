@@ -23,10 +23,6 @@
 	height: var(--List-lineHeight);
 }
 
-.tracked-threads__thread--selected {
-	background-color: var(--Boards-backgroundColor--selected);
-}
-
 .tracked-threads__thread,
 .tracked-threads__thread-inner {
 	display: flex;
@@ -80,28 +76,24 @@
 	}
 }
 
-.tracked-threads__thread__board {
-	&:before,
-	&:after {
-		content: '/';
-		display: inline-block;
-		font-family: var(--Document-fontFamily);
-		font-weight: 300;
-	}
-	&:before {
-		margin-right: var(--Boards-margin--slash);
-	}
-	&:after {
-		margin-left: var(--Boards-margin--slash);
-	}
-}
-
 .tracked-threads__thread:not(.tracked-threads__thread--expired) {
 	.tracked-threads__thread__board {
 		color: var(--Boards-color--active);
 		&:before,
 		&:after {
 			color: var(--Boards-color--slash);
+		}
+	}
+
+	/* Using this level of specificity because otherwise
+	   `:not()` would have higher priority. */
+	&.tracked-threads__thread--selected {
+		background-color: var(--Boards-backgroundColor--selected);
+		.board-url {
+			&:before,
+			&:after {
+				color: var(--Boards-color--slashSelected);
+			}
 		}
 	}
 

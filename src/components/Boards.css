@@ -44,28 +44,17 @@
 	margin-top: 0;
 }
 
-.boards-list__board-url {
+.boards-list__board-url-link {
 	display: block;
-	padding-left: var(--unit);
 	text-align: right;
-	font-family: var(--Boards-fontFamily--url);
-	font-weight: var(--Boards-fontWeight--url);
-	/* Don't wrap the side slashes. */
-	white-space: nowrap;
 	outline: none;
+}
+
+.boards-list__board-url {
+	padding-left: var(--unit);
 	&:before,
 	&:after {
-		content: '/';
-		display: inline-block;
-		font-family: var(--Document-fontFamily);
-		font-weight: 300;
 		color: var(--Boards-color--slash);
-	}
-	&:before {
-		margin-right: var(--Boards-margin--slash);
-	}
-	&:after {
-		margin-left: var(--Boards-margin--slash);
 	}
 }
 
@@ -113,24 +102,24 @@
 	margin-top: calc(var(--unit) * 2);
 	margin-bottom: calc(var(--unit) * 2);
 	--rrui-input-field-background-color-focus: var(--Boards-backgroundColor);
-	--rrui-input-field-text-color: var(--Sidebar-color);
+	--rrui-input-field-text-color: var(--Sidebar-color-900);
 }
 
 .boards__nothing-found {
 	margin-top: calc(var(--unit) * 2);
 	text-align: center;
-	color: var(--Sidebar-color);
+	color: var(--Sidebar-color-900);
 }
 
 .boards__view-switch {
 	color: currentColor;
 	&:hover {
 		background-color: transparent;
-		box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
+		box-shadow: inset 0 0 0 1px var(--Boards-backgroundColor--active);
 	}
 	&:focus {
 		background-color: transparent;
-		box-shadow: 0 0 0 1px var(--Boards-backgroundColor--active);
+		box-shadow: inset 0 0 0 1px var(--Boards-backgroundColor--active);
 	}
 	&:active {
 		color: currentColor;

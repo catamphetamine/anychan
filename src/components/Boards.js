@@ -11,6 +11,8 @@ import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
 import { saveBoardsView } from '../redux/app'
 
+import BoardUrl from './BoardUrl'
+
 import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 
 import './Boards.css'
@@ -282,12 +284,14 @@ function Board({
 				onMouseUp={onPointerUp}
 				onMouseEnter={onPointerEnter}
 				onMouseLeave={onPointerOut}
-				className={classNames('boards-list__board-url', {
-					'boards-list__board-url--selected': isSelected,
-					'boards-list__board-url--hover': isHovered,
-					'boards-list__board-url--active': isActive
-				})}>
-				{board.id}
+				className="boards-list__board-url-link">
+				<BoardUrl
+					boardId={board.id}
+					className={classNames('boards-list__board-url', {
+						'boards-list__board-url--selected': isSelected,
+						'boards-list__board-url--hover': isHovered,
+						'boards-list__board-url--active': isActive
+					})}/>
 			</Link>
 			<Link
 				to={getUrl(board)}
