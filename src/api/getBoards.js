@@ -30,7 +30,10 @@ export default async function getBoards({ http, all }) {
 	if (all) {
 		return { allBoards: result }
 	}
-	return result
+	return {
+		...result,
+		hasMoreBoards: true
+	}
 }
 
 export function getBoardsExample(chan) {

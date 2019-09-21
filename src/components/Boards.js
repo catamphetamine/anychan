@@ -21,6 +21,7 @@ import './Boards.css'
 	boards: chan.boards,
 	boardsByPopularity: chan.boardsByPopularity,
 	boardsByCategory: chan.boardsByCategory,
+	hasMoreBoards: chan.hasMoreBoards,
 	selectedBoard: chan.board,
 	highlightSelectedBoard: true,
 	boardsView: settings.settings.boardsView,
@@ -77,6 +78,7 @@ function Boards_({
 	selectedBoard,
 	highlightSelectedBoard,
 	isBoardOrThreadLocation,
+	hasMoreBoards,
 	locale,
 	dispatch,
 	className
@@ -200,7 +202,7 @@ function Boards_({
 				{getBoardsListItems()}
 			</List>
 
-			{!showAllBoards && showAllBoardsLink && (getChanConfig().api.getAllBoards || getChan().hideBoardCategories) &&
+			{!showAllBoards && showAllBoardsLink && (hasMoreBoards || getChan().hideBoardCategories) &&
 				<div className="boards__show-all-wrapper">
 					<Link to={addChanParameter('/boards')} className="boards__show-all">
 						{getMessages(locale).boards.showAll}
@@ -232,6 +234,7 @@ Boards_.propTypes = {
 	selectedBoard: PropTypes.shape(boardShape),
 	highlightSelectedBoard: PropTypes.bool,
 	isBoardOrThreadLocation: PropTypes.bool,
+	hasMoreBoards: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
 	dispatch: PropTypes.func,
 	listComponent: PropTypes.elementType.isRequired,
