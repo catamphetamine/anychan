@@ -11,38 +11,30 @@
 	width: 100%;
 	/* `user-select: none` is for drag'n'drop. */
 	user-select: none;
-	border-spacing: 0;
 	cursor: grab;
-	tr {
-		/*
-		&:hover {
-			&, .edit-favorite-boards__remove {
-				background-color: var(--Sidebar-highlightColor-100);
-			}
-		}
-		*/
-		&:active {
-			&, .edit-favorite-boards__remove {
-				background-color: var(--Sidebar-highlightColor-200);
-			}
-		}
-	}
-	td {
-		height: var(--List-lineHeight);
-		line-height: var(--List-lineHeight);
-		padding: 0;
-		&:first-child,
-		&:last-child {
-			width: 50%;
-		}
+}
+
+.edit-favorite-boards__board {
+	display: flex;
+	height: var(--List-lineHeight);
+	line-height: var(--List-lineHeight);
+	.boards-list__board-name {
+		padding-right: calc(var(--unit) * 2.5);
 	}
 }
 
-.edit-favorite-boards__board-url-column {
-	text-align: right;
+.edit-favorite-boards__board--dragged {
+	background-color: var(--Sidebar-highlightColor-200);
+	cursor: grabbing;
 }
 
-.edit-favorite-boards__board-name-column {
+.edit-favorite-boards__board--dragging {
+	.edit-favorite-boards__remove {
+		display: none;
+	}
+}
+
+.edit-favorite-boards__board {
 	/* `position: relative` is for the "Remove" button. */
 	position: relative;
 }

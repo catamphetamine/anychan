@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Autocomplete } from 'react-responsive-ui'
+import classNames from 'classnames'
 
 import ListButton from './ListButton'
 import BoardUrl from './BoardUrl'
@@ -10,7 +11,7 @@ import SortableList from 'webapp-frontend/src/components/SortableList'
 import { board } from '../PropTypes'
 import getMessages from '../messages'
 
-import { saveAutoAddFavoriteBoards } from '../redux/app'
+import { saveAutoSuggestFavoriteBoards } from '../redux/settings'
 import {
 	removeFavoriteBoard,
 	addFavoriteBoard,
@@ -22,10 +23,10 @@ import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.
 import './Boards.css'
 import './EditFavoriteBoards.css'
 
-@connect(({ app, chan, favoriteBoards }) => ({
+@connect(({ settings, chan, favoriteBoards }) => ({
 	favoriteBoards: favoriteBoards.favoriteBoards,
 	allBoards: chan.allBoards && chan.allBoards.boards,
-	locale: app.settings.locale
+	locale: settings.settings.locale
 }), dispatch => ({ dispatch }))
 export default class EditFavoriteBoards_ extends React.Component {
 	render() {
@@ -72,14 +73,13 @@ function EditFavoriteBoards({
 						// `board.title` can be `undefined` on some `8ch.net` userboards.
 						label: `/${board.id}/ ${board.title || ''}`
 					}))}/>
-			<table className="edit-favorite-boards__list">
-				<SortableList
-					component="tbody"
-					value={favoriteBoards}
-					onChange={onFavoriteBoardsOrderChange}
-					itemComponent={Board}
-					itemComponentProps={itemComponentProps}/>
-			</table>
+			<SortableList
+				component="div"
+				className="edit-favorite-boards__list"
+				value={favoriteBoards}
+				onChange={onFavoriteBoardsOrderChange}
+				itemComponent={Board}
+				itemComponentProps={itemComponentProps}/>
 		</section>
 	)
 }
@@ -91,34 +91,38 @@ EditFavoriteBoards.propTypes = {
 	dispatch: PropTypes.func.isRequired
 }
 
-function Board({ children: board, locale, dispatch, style }) {
+function Board({
+	children: board,
+	locale,
+	dispatch,
+	style,
+	dragging,
+	dragged
+}) {
 	const onRemoveFavoriteBoard = useCallback(async () => {
 		await dispatch(removeFavoriteBoard(board))
 		// Don't auto-add visited boards to the list of "favorite" boards
 		// once the user has deleted a single board from this "auto" list.
-		dispatch(saveAutoAddFavoriteBoards(false))
+		dispatch(saveAutoSuggestFavoriteBoards(false))
 	}, [dispatch, board])
 	return (
-		<tr style={style}>
-			<td></td>
-			<td className="edit-favorite-boards__board-url-column">
-				<BoardUrl
-					boardId={board.id}
-					className="boards-list__board-url"/>
-			</td>
-			<td className="edit-favorite-boards__board-name-column">
-				<span className="boards-list__board-name">
-					{board.title}
-					<ListButton
-						muted
-						icon="remove"
-						onClick={onRemoveFavoriteBoard}
-						title={getMessages(locale).actions.remove}
-						className="edit-favorite-boards__remove"/>
-				</span>
-			</td>
-			<td></td>
-		</tr>
+		<div style={style} className={classNames('edit-favorite-boards__board', {
+			'edit-favorite-boards__board--dragging': dragging,
+			'edit-favorite-boards__board--dragged': dragged
+		})}>
+			<BoardUrl
+				boardId={board.id}
+				className="boards-list__board-url"/>
+			<span className="boards-list__board-name">
+				{board.title}
+			</span>
+			<ListButton
+				muted
+				icon="remove"
+				onClick={onRemoveFavoriteBoard}
+				title={getMessages(locale).actions.remove}
+				className="edit-favorite-boards__remove"/>
+		</div>
 	)
 }
 
