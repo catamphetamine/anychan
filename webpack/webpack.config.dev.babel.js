@@ -26,9 +26,9 @@ configuration.plugins.push(
 	})
 )
 
-const { host, port } = applicationConfiguration.webpack.devserver
+const { port } = applicationConfiguration.webpack.devserver
 
-configuration.output.publicPath = `http://${host}:${port}${configuration.output.publicPath}`
+configuration.output.publicPath = `http://localhost:${port}${configuration.output.publicPath}`
 
 // `webpack-dev-server`.
 configuration.devServer = {

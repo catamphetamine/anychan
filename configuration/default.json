@@ -4,7 +4,6 @@
 	"corsProxyUrl2": "https://cors-anywhere.herokuapp.com/{url}",
 	"webpack": {
 		"devserver": {
-			"host": "localhost",
 			"port": 1234
 		}
 	},
