@@ -27,6 +27,7 @@
     "react-focus-lock": "^1.18.3",
     "react-redux": "^5.1.1",
     "react-responsive-ui": "^0.14.176",
+    "react-sortable-dnd-list": "^1.0.0",
     "react-syntax-highlighter": "^11.0.2",
     "react-time-ago": "^5.0.3",
     "react-website": "^3.1.29",

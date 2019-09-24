@@ -10,8 +10,6 @@ import TrackedThreads from './TrackedThreads'
 import Notifications from './Notifications'
 import SidebarSection from './SidebarSection'
 
-import SortableList from 'webapp-frontend/src/components/SortableList'
-
 import FavoriteBoardsSidebarSection from './FavoriteBoardsSidebarSection'
 
 import getMessages from '../messages'

@@ -2,11 +2,11 @@ import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Autocomplete } from 'react-responsive-ui'
+import SortableList from 'react-sortable-dnd-list'
 import classNames from 'classnames'
 
 import ListButton from './ListButton'
 import BoardUrl from './BoardUrl'
-import SortableList from 'webapp-frontend/src/components/SortableList'
 
 import { board } from '../PropTypes'
 import getMessages from '../messages'
