@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { getChan, getChanConfig, addChanParameter } from '../chan'
+import { getChan, addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'

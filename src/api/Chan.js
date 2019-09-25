@@ -1,4 +1,4 @@
-import Chan from '../imageboard'
+import Chan from 'imageboard'
 import { getChan, getChanConfig, addChanParameter, isDeployedOnChanDomain } from '../chan'
 import getProxyUrl from './utility/getProxyUrl'
 import getMessages from './utility/getMessages'

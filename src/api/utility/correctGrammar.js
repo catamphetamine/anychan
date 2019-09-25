@@ -1,4 +1,4 @@
-import { LETTER } from 'webapp-frontend/src/utility/post/compileWordPatterns'
+import { LETTER } from 'social-components/commonjs/utility/post/compileWordPatterns'
 
 import correctQuotes from './correctQuotes'
 

@@ -4,7 +4,7 @@ import { Modal, Button, Select, TextInput } from 'react-responsive-ui'
 
 import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
-import { validateUrl, validateRelativeUrl } from 'webapp-frontend/src/utility/url'
+import { validateUrl, validateRelativeUrl } from 'social-components/commonjs/utility/url'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 
 import { saveTheme } from '../../redux/settings'

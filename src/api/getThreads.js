@@ -3,7 +3,7 @@ import setThreadInfo from './utility/setThreadInfo'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
 
-import { generatePreview } from '../imageboard'
+import { generatePreview } from 'imageboard'
 
 export default async function getThreads({
 	boardId,

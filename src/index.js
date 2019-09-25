@@ -8,9 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
 	// Self-test.
 	setTimeout(() => require('./test'))
 
-	// `imageboard` self-test.
-	setTimeout(() => require('./imageboard/test'))
-
 	// `webapp-frontend/src/utility` self-test.
 	setTimeout(() => require('webapp-frontend/src/utility/test'))
 }

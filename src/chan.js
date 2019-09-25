@@ -1,6 +1,6 @@
 import configuration from './configuration'
 import CHANS from './chans'
-import { getConfig } from './imageboard'
+import { getConfig } from 'imageboard'
 
 export function getChan(id = getChanId()) {
 	if (id) {

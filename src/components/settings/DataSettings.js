@@ -4,7 +4,7 @@ import { Button, TextInput, FileUploadButton } from 'react-responsive-ui'
 
 import saveFile from 'webapp-frontend/src/utility/saveFile'
 import readTextFile from 'webapp-frontend/src/utility/readTextFile'
-import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/video-youtube-cache'
+import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/YouTubeVideoCache'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 import { notify } from 'webapp-frontend/src/redux/notifications'

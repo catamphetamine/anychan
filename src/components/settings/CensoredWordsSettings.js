@@ -7,8 +7,8 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
-import censorWords from 'webapp-frontend/src/utility/post/censorWords'
-import compileWordPatterns from 'webapp-frontend/src/utility/post/compileWordPatterns'
+import censorWords from 'social-components/commonjs/utility/post/censorWords'
+import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 

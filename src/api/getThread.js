@@ -5,10 +5,10 @@ import getMessages from './utility/getMessages'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
 
-import { generateQuotes, generatePreview, generateThreadTitle } from '../imageboard'
+import { generateQuotes, generatePreview, generateThreadTitle } from 'imageboard'
 
-import getPostText from 'webapp-frontend/src/utility/post/getPostText'
-import trimText from 'webapp-frontend/src/utility/post/trimText'
+import getPostText from 'social-components/commonjs/utility/post/getPostText'
+import trimText from 'social-components/commonjs/utility/post/trimText'
 
 export default async function getThread({
 	boardId,

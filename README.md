@@ -2,6 +2,8 @@
 
 Modern GUI for imageboards (4chan.org, 8ch.net, 2ch.hk, kohlchan.net, etc).
 
+Based on [`imageboard`](https://github.com/catamphetamine/imageboard) library.
+
 Supported engines:
 
 * [4chan](https://github.com/4chan/4chan-API) ([4chan.org](https://www.4chan.org/)). See [`4chan.org` demo](https://catamphetamine.github.io/captchan/?chan=4chan).
@@ -36,29 +38,29 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 #### Light
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Dark
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
 
 ### Neon Genesis Evangelion
 
 #### Light
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Dark
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
 
 ## Screenshots
 
@@ -265,13 +267,13 @@ Sometimes chan administration needs to announce something to the users. Things l
 </details>
 </details>
 
-## Adding a new chan
+## Adding a new imageboard
 
-First [add the chan to `src/imageboard`](https://github.com/catamphetamine/captchan/tree/master/src/imageboard#adding-a-new-chan). Then add the chan to `captchan` itself:
+First [add the imageboard to `imageboard`](https://github.com/catamphetamine/imageboard#adding-a-new-imageboard) library. Then add the imageboard to `captchan` itself:
 
-* Create chan's directory in `./chan`.
+* Create the imageboard's directory in `./chan`.
 * Create `index.json`, `logo.svg`/`logo.jpg`/`logo.png` and `icon.png` files in the chan's directory (see other chans as an example).
-* Add these files for the chan in `./src/chans.js` (same as for the existing chans).
+* Add these files for the imageboard in `./src/chans.js` (same as for the existing chans).
 
 <details>
 <summary><code>index.json</code> format</summary>
@@ -438,3 +440,7 @@ For production deployment a dedicated CORS proxy should be used. A free 1-year A
 ####
 
 In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API. There's also a dedicated `corsProxyUrlAws` setting for chans that don't block AWS yet.
+
+## License
+
+[MIT](LICENSE)

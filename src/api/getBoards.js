@@ -8,10 +8,7 @@ export default async function getBoards({ http, all }) {
 	// 	response = getBoardsExample(getChan().id)
 	// }
 	const chan = Chan({ http })
-	const options = {
-		hideBoardCategories: all ? undefined : getChan().hideBoardCategories
-	}
-	let boards = await (all ? chan.getAllBoards(options) : chan.getBoards(options))
+	let boards = await (all ? chan.getAllBoards() : chan.getBoards())
 	// Mark hidden boards.
 	if (!all) {
 		markHiddenBoards(boards)

@@ -1,4 +1,4 @@
-import { getPostThumbnailSize } from 'webapp-frontend/src/utility/post/getPostThumbnail'
+import { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnail'
 
 const CSS_VARIABLE_NAME = '--PostThumbnail-maxWidth'
 

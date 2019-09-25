@@ -1,1 +1,0 @@
-export { default as default, getExtension as getExtension } from 'webapp-frontend/src/utility/getMimeType'

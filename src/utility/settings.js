@@ -1,7 +1,7 @@
 import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
 import IGNORED_WORDS_EN from 'webapp-frontend/src/messages/offensive.en.json'
 
-import compileWordPatterns from 'webapp-frontend/src/utility/post/compileWordPatterns'
+import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 import { applyDarkMode, autoDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
 
 import { getLanguageNames } from '../messages'
