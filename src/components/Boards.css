@@ -31,10 +31,10 @@
 }
 
 .boards-list-section__title {
-	margin-top: 1.5em;
-	margin-bottom: 0.5em;
+	margin-top: 0.9em;
+	margin-bottom: 0.2em;
 	padding-left: var(--unit);
-	font-size: 1.3rem;
+	font-size: 1.2em;
 	font-weight: 300;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -196,10 +196,4 @@ a.boards-list__board-name:active {
 
 .boards-list__board-name {
 	padding-right: calc(var(--unit) * 2);
-}
-
-/* Adds extra spacing between the "BOARDS" section heading
-   and the boards-by-category list due to big category titles. */
-.sidebar-section__title + .boards .boards-list--by-category {
-	margin-top: var(--unit);
 }
