@@ -70,56 +70,9 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
 
-## Chan API
-
-### 4chan
-
-* [`4chan.org` API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/4chan.org.md)
-* [`4chan.org` API (brief official docs)](https://github.com/4chan/4chan-API)
-
-### vichan
-
-[`vichan`](https://github.com/vichan-devel/vichan) engine was originally a fork of [`Tinyboard`](https://github.com/savetheinternet/Tinyboard) engine having more features. After `4chan.org` added their [JSON API](https://github.com/catamphetamine/captchan/blob/master/docs/4chan.org.md) in 2012 so did `vichan`, and they did it in a way that it's compatible with `4chan.org` JSON API. For example, compare the official [`vichan` API readme](https://github.com/vichan-devel/vichan-API) to the official [`4chan` API readme](https://github.com/4chan/4chan-API): they're mostly the same. As of November 2017, `vichan` engine is no longer being maintained.
-
-Chans running on their own `vichan` forks:
-
-* [`lainchan.org`](https://github.com/lainchan/lainchan)
-* [`arisuchan.jp`](https://github.com/arisu-dev/arisuchan)
-
-### infinity
-
-[infinity](https://github.com/ctrlcctrlv/infinity) is a vichan fork permitting users to create their own boards (hence the name). As of April 2017, `infinity` engine is no longer being maintained. [OpenIB](https://github.com/OpenIB/OpenIB/) is a security-focused fork of the `infinity` engine which is no longer being maintained too.
-
-The only chan running on `infinity` engine is currently [`8ch.net`](https://8ch.net).
-
-* [`8ch.net` API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/8ch.net.md).
-
-### makaba
-
-The only chan running on `makaba` engine is currently [`2ch.hk`](https://2ch.hk).
-
-* [`2ch.hk` API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/2ch.hk.md)
-* [`2ch.hk` API (brief official docs)](https://2ch.hk/api/)
-
-### lynxchan
-
-[`lynxchan`](https://gitgud.io/LynxChan/LynxChan) seems to be the only still-being-maintained imageboard engine left. Has [JSON API](https://gitgud.io/LynxChan/LynxChan/blob/master/doc/Json.txt).
-
-Chans running on `lynxchan`:
-
-* [`kohlchan.net`](http://kohlchan.net)
-
-<!--
-* [Old API (with examples)](https://github.com/catamphetamine/captchan/blob/master/docs/kohlchan.net.old.md) (the old `vichan` API is no longer relevant: since May 28th, 2019 `kohlchan.net` [has been migrated](https://kohlchan.net/kohl/res/13096.html) from `vichan` to `lynxchan`)
--->
-
 ## Known issues
 
-There're some limitations for chans running on `lynxchan` engine (for example, `kohlchan.net`) due to the [lack of support for several features](https://github.com/catamphetamine/captchan/blob/master/docs/lynxchan.md) in that engine.
-
-There're some very minor limitations for `8ch.net` caused by its `OpenIB` engine due to the [lack of support for several very minor features](https://github.com/catamphetamine/captchan/blob/master/docs/OpenIB.md) in that engine.
-
-There're [some very minor bugs](https://github.com/catamphetamine/captchan/blob/master/docs/makaba.md) for `2ch.hk` caused by its `makaba` engine.
+See [known issues](https://github.com/catamphetamine/imageboard#known-issues) of the `imageboard` library.
 
 The lists of threads/comments are implemented via a "[Virtual Scroller](https://github.com/catamphetamine/virtual-scroller)" which results in great performance boost but at the same time [doesn't support some native in-browser features](https://github.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
 
