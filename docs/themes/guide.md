@@ -12,15 +12,15 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 #### Light
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-light-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Dark
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/default-dark-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
 
 [style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css)
 
@@ -28,14 +28,14 @@ See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master
 
 #### Light
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-light-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Dark
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-3605x1929.png)
+[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/themes/eva-dark-1024x548.png" width="512" height="274"/>
+<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
 
 [neon-genesis-evangelion.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/theme/neon-genesis-evangelion.css)
