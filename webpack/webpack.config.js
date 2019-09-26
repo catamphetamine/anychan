@@ -49,7 +49,10 @@ export default {
 					sourceMap: true
 				}
 			}, {
-				loader: 'postcss-loader'
+				loader: 'postcss-loader',
+				options: {
+					sourceMap: true
+				}
 			}]
 		}, {
 			test: /\.css$/,
