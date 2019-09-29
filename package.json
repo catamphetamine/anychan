@@ -19,7 +19,7 @@
     "fast-memoize": "^2.5.1",
     "file-saver": "^2.0.2",
     "filesize": "^4.0.0",
-    "imageboard": "^0.1.1",
+    "imageboard": "^0.1.6",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",
     "react": "^16.9.0",

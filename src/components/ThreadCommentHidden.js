@@ -15,7 +15,7 @@ export default function ThreadCommentHidden({
 	locale,
 	...rest
 }) {
-	let content = getMessages(locale).hiddenComment
+	let content = getMessages(locale).comment.hidden
 	if (comment.hiddenRule) {
 		content += ` (${comment.hiddenRule})`
 	}

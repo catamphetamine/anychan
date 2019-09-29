@@ -94,16 +94,25 @@
 	--Post-color--secondaryThread: var(--gray-color-600);
 
 	/* PostQuote. */
+	--PostQuote-color: #1f6900;
 	--PostQuote-backgroundColor: #dfffcb;
-	--PostQuote-backgroundColor--hover: #daffc3;
-	--PostQuote-borderColor--hover: transparent;
-	--PostQuote-color: #268000;
 	--PostQuote-borderWidth: 0px;
-	--PostQuote-spacing: 2px;
+	--PostQuote-marginTop: 2px;
+
+	/* PostQuote (generated). */
+	--PostQuote-color--generated: #900000;
+	--PostQuote-backgroundColor--generated: #fff8fe;
+	--PostQuote-borderWidth--generated: 1px;
+	--PostQuote-borderColor--generated: #ffd9f1;
+	--PostQuote-marginTop--generated: 4px;
 
 	/* PostQuoteMarker. */
-	--PostQuoteMarker-padding: 0px;
+	--PostQuoteMarker-color--generated: currentColor;
 	--PostQuoteMarker-opacity: 0.25;
+
+	/* PostQuoteMarker (generated). */
+	--PostQuoteMarker-color--generated: #e6b2b2;
+	--PostQuoteMarker-opacity--generated: 1;
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color--contentActive: #f2eaed;
@@ -169,7 +178,6 @@
 	--HoverButton-borderColor--pushedFocus: var(--HoverButton-borderColor--active);
 
 	/* PostQuote. */
-	--PostQuote-backgroundColor: transparent;
 	--PostQuote-color: #7ac263;
 
 	/* PostInlineSpoiler. */

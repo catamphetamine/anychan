@@ -71,7 +71,7 @@
 .light {
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
-	--Sidebar-highlightColor-100: #f9f7f5;
+	--Sidebar-highlightColor-100: #faf7f2;
 	--Sidebar-highlightColor-200: var(--base-color-100);
 	--Sidebar-baseColor-200: #eec8ad;
 	--Sidebar-baseColor-700: var(--Clickable-color--text);
@@ -166,8 +166,6 @@
 	--PostAuthorName-color: var(--base-color-300);
 
 	/* PostQuote. */
-	--PostQuote-backgroundColor--hover: rgba(255,255,255,0.02);
-	--PostQuote-borderColor--hover: rgba(255,255,255,0.05);
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
 	--PostQuote-color--inverse: #dc5e5e;

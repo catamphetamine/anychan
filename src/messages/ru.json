@@ -102,9 +102,12 @@
 	"loadingBoardsError": "Не удалось загрузить список досок",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
-	"deletedComment": "Удалённое сообщение",
-	"hiddenComment": "Скрытое сообщение",
-	"quotedComment": "Сообщение",
+	"comment": {
+		"default": "Комментарий",
+		"deleted": "Удалённый комментарий",
+		"hidden": "Скрытый комментарий",
+		"external": "Комментарий из другого треда"
+	},
 	"post": {
 		"rolling": "Бесконечный тред",
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
