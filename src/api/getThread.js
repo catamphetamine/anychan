@@ -105,8 +105,7 @@ export default async function getThread({
  */
 function generateTextPreview(comment, messages) {
 	const textPreview = getPostText(
-		comment.content,
-		comment.attachments,
+		comment,
 		{
 			ignoreAttachments: true,
 			softLimit: 150,
