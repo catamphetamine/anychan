@@ -131,14 +131,16 @@
 /* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
     have regular quotes and "inverse" quotes. */
 /* `8ch.net` "inverse" quotes are red. */
-.post__quote-block--inverse {
-	color: var(--PostQuote-color--inverse);
+.post__inline-quote--inverse {
+	--PostQuote-marginTop: var(--PostQuote-marginTop--inverse);
+	--PostQuote-color: var(--PostQuote-color--inverse);
+	--PostQuote-backgroundColor: var(--PostQuote-backgroundColor--inverse);
+	--PostQuote-borderWidth: var(--PostQuote-borderWidth--inverse);
+	--PostQuote-borderColor: var(--PostQuote-borderColor--inverse);
+	.post__quote-marker {
+		--PostQuoteMarker-padding: var(--PostQuoteMarker-padding--inverse);
+	}
 }
-
-/* `kohlchan.net` "inverse" quotes are orange. */
-/*.post__quote-block--inverse-orange {
-	color: var(--PostQuote-color--inverse2);
-}*/
 
 .thread-comment--thread {
 	.post__header-top,

@@ -113,11 +113,13 @@
 	/* PostSubheading. */
 	--PostSubheading-color: #af0000;
 
-	/* PostQuote. */
+	/* PostQuote (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
-	--PostQuote-color--inverse: #cc0000;
-	/*--PostQuote-color--inverse2: #E04000;*/
+	--PostQuote-color--inverse: #950000;
+	--PostQuote-backgroundColor--inverse: #ffecec;
+	--PostQuote-borderWidth--inverse: 0px;
+	--PostQuoteMarker-padding--inverse: 0px;
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(0,0,0,0.1);
@@ -165,7 +167,7 @@
 	/* PostAuthorName. */
 	--PostAuthorName-color: var(--base-color-300);
 
-	/* PostQuote. */
+	/* PostQuote (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
 	--PostQuote-color--inverse: #dc5e5e;
