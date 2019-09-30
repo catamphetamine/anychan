@@ -57,6 +57,20 @@
 	/* CommentSeparator. */
 	--CommentSeparator-width: 1px;
 
+	/* PostQuote (inverse). */
+	--PostQuote-color--inverse: var(--PostQuote-color);
+	--PostQuote-backgroundColor--inverse: var(--PostQuote-backgroundColor);
+	--PostQuote-backgroundColor--inverse--hover: var(--PostQuote-backgroundColor--inverse);
+	--PostQuote-borderWidth--inverse: 0px;
+	--PostQuote-marginTop--inverse: 0px;
+
+	/* PostQuoteMarker (inverse). */
+	--PostQuoteMarker-color--inverse: var(--PostQuoteMarker-color);
+	--PostQuoteMarker-opacity--inverse: var(--PostQuoteMarker-opacity);
+	--PostQuoteMarker-width--inverse: var(--PostQuoteMarker-width);
+	--PostQuoteMarker-padding--inverse: var(--PostQuoteMarker-padding--standalone);
+	--PostQuoteMarker-color--inverse: currentColor;
+
 	/* PostAuthor. */
 	--PostAuthor-color: var(--Content-color-600);
 

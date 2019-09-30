@@ -138,7 +138,10 @@
 	--PostQuote-borderWidth: var(--PostQuote-borderWidth--inverse);
 	--PostQuote-borderColor: var(--PostQuote-borderColor--inverse);
 	.post__quote-marker {
+		--PostQuoteMarker-color: var(--PostQuoteMarker-color--inverse);
+		--PostQuoteMarker-width: var(--PostQuoteMarker-width--inverse);
 		--PostQuoteMarker-padding: var(--PostQuoteMarker-padding--inverse);
+		--PostQuoteMarker-opacity: var(--PostQuoteMarker-opacity--inverse);
 	}
 }
 
