@@ -61,6 +61,8 @@
 	--Critical-backgroundColor: #df1e00;
 
 	/* Notification. */
+	/* Border is added because `var(--Notification-backgroundColor)`
+	   is the same as the mobile `var(--Header-backgroundColor)`. */
 	--Notification-borderWidth: 1px;
 	--Notification-borderColor: var(--Content-backgroundColor);
 
