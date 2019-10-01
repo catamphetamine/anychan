@@ -40,7 +40,7 @@
 }
 
 @mixin m-plus {
-	.thread-comment {
+	.thread-comment--thread {
 		/* Using `margin-right` instead of `padding-right` here
 		   so that the expanded replies don't have their bottom border
 		   past the "..." (more actions) button of a post. */
