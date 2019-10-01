@@ -60,6 +60,10 @@
 	/* Critical. */
 	--Critical-backgroundColor: #df1e00;
 
+	/* Notification. */
+	--Notification-borderWidth: 1px;
+	--Notification-borderColor: var(--Content-backgroundColor);
+
 	/* Sidebar. */
 	--Sidebar-color-200: #d8bcea;
 	--Sidebar-color-500: #ad93bd;
