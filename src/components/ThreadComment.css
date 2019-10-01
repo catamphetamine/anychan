@@ -40,6 +40,14 @@
 }
 
 @mixin m-plus {
+	.thread-comment {
+		/* Using `margin-right` instead of `padding-right` here
+		   so that the expanded replies don't have their bottom border
+		   past the "..." (more actions) button of a post. */
+		margin-right: var(--Post-padding--horizontal);
+		padding-right: 0px;
+	}
+
 	.thread-comment--thumbnail {
 		--PostQuote-paddingLeft: calc(var(--PostThumbnail-marginRight) / 2);
 		--PostQuote-paddingRight: 0px;
@@ -53,32 +61,6 @@
 			.post__attachment-thumbnail--post-thumbnail-candidate {
 				display: none;
 			}
-		}
-	}
-
-	.thread-page__comments {
-		/* The individual borders on `__thumbnail` and `__content`
-		   will be replaced with the border on `.thread-comment` itself. */
-		.comment-tree__comment--nested,
-		.comment-tree__comment--expanded {
-			> .thread-comment__thumbnail,
-			> .thread-comment__comment {
-				border-bottom: 0;
-			}
-		}
-
-		/* `border-bottom` is added to `.comment-tree__branch-toggler`
-		   for cases when deeply nested replies are expanded
-		   so that the next higher-level expanded reply has an illusion
-		   of having `border-top`. */
-		.comment-tree__comment--nested,
-		.comment-tree__comment--expanded,
-		.comment-tree__branch-toggler {
-			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-		}
-
-		.comment-tree__comment--nested {
-			border-left: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 		}
 	}
 
@@ -123,6 +105,38 @@
 
 	.thread-comment__comment {
 		flex: auto;
+	}
+
+	.comment-tree__comment--nested {
+		.post__quote-block {
+			--PostQuote-marginLeft: 0px;
+		}
+	}
+}
+
+.thread-page__comments {
+	/* The individual borders on `__thumbnail` and `__content`
+	   will be replaced with the border on `.thread-comment` itself. */
+	.comment-tree__comment--nested,
+	.comment-tree__comment--expanded {
+		> .thread-comment__thumbnail,
+		> .thread-comment__comment {
+			border-bottom: 0;
+		}
+	}
+
+	/* `border-bottom` is added to `.comment-tree__branch-toggler`
+	   for cases when deeply nested replies are expanded
+	   so that the next higher-level expanded reply has an illusion
+	   of having `border-top`. */
+	.comment-tree__comment--nested,
+	.comment-tree__comment--expanded,
+	.comment-tree__branch-toggler {
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+
+	.comment-tree__comment--nested {
+		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
 	}
 }
 
