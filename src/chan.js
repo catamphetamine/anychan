@@ -121,3 +121,25 @@ export function getChanConfig(chanId = getChanId()) {
 		...getChan(chanId).engine
 	}
 }
+
+export function getCommentUrl(board, thread, comment) {
+	const config = getChanConfig()
+	return `https://${getDomainByBoard(board, config)}${config.commentUrl
+		.replace('{boardId}', board.id)
+		.replace('{threadId}', thread.id)
+		.replace('{commentId}', comment.id)
+	}`
+}
+
+function getDomainByBoard(board, config) {
+	if (config.domainByBoard) {
+		const property = 'isNotSafeForWork'
+		if (config.domainByBoard[property] && board[property]) {
+			return config.domainByBoard[property]
+		}
+		if (config.domainByBoard['*']) {
+			return config.domainByBoard['*']
+		}
+	}
+	return config.domain
+}

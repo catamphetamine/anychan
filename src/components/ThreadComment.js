@@ -25,7 +25,9 @@ import { vote as voteForComment } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
-import { getChan } from '../chan'
+import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+
+import { getChan, getCommentUrl } from '../chan'
 import getMessages from '../messages'
 import getBasePath from '../utility/getBasePath'
 import getUrl from '../utility/getUrl'
@@ -116,12 +118,13 @@ export default function ThreadComment({
 
 	const onReply = useCallback(() => {
 		dispatch(notify('Not implemented yet'))
+		openLinkInNewTab(getCommentUrl(board, thread, comment))
 		// if (showReplyForm) {
 		// 	replyForm.current.focus()
 		// } else {
 		// 	setShowReplyForm(true)
 		// }
-	}, [comment])
+	}, [board, thread, comment, dispatch])
 
 	const onCancelReply = useCallback(() => {
 		setShowReplyForm(false)
