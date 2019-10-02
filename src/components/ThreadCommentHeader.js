@@ -184,8 +184,8 @@ export const HEADER_BADGES = [
 ]
 
 function getRoleName(authorRole, post, locale) {
-	if (post.authorRoleDomain) {
-		const roleNames = getMessages(locale).role[post.authorRoleDomain]
+	if (post.authorRoleScope) {
+		const roleNames = getMessages(locale).role[post.authorRoleScope]
 		if (roleNames && roleNames[authorRole]) {
 			return roleNames[authorRole]
 		}
