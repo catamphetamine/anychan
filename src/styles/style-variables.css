@@ -132,7 +132,10 @@
 	    have regular quotes and "inverse" quotes. */
 	--PostQuote-color--inverse: #950000;
 	--PostQuote-backgroundColor--inverse: #ffecec;
-	--PostQuote-borderWidth--inverse: 0px;
+	--PostQuote-borderWidth--inverse: 1px;
+	--PostQuote-borderColor--inverse: #ffd2d2;
+
+	/* PostQuoteMarker (inverse). */
 	--PostQuoteMarker-padding--inverse: 0px;
 
 	/* CommentSeparator. */
