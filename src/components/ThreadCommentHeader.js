@@ -72,14 +72,21 @@ export default function Header({ post, locale }) {
 					{post.authorId && !post.authorIdName && `${post.authorId} `}
 					{authorName && `${authorName} `}
 					{post.authorRole && !(post.authorId || authorName) && `${authorRoleName} `}
-					{post.authorRole &&  (post.authorId || authorName) && `(${authorRoleName.toLowerCase()}) `}
+					{post.authorRole &&  (post.authorId || authorName) &&
+						<React.Fragment>
+							<span className="post__author-role--supplementary">
+								{authorRoleName.toLowerCase()}
+							</span>
+							{' '}
+						</React.Fragment>
+					}
 					{post.authorEmail &&
-						<span>
+						<React.Fragment>
 							<a href={`mailto:${post.authorEmail}`}>
 								{post.authorEmail}
 							</a>
 							{' '}
-						</span>
+						</React.Fragment>
 					}
 				</div>
 			}

@@ -160,10 +160,7 @@
 }
 
 .thread-comment--thread {
-	.post__header-top,
-	.post__footer {
-		color: var(--Post-color--secondaryThread);
-	}
+	--Post-color--secondary: var(--Post-color--secondaryThread);
 }
 
 .post__footer-badge-icon--comments-count {

@@ -33,30 +33,43 @@
 	margin-left: 0.35em;
 }
 
-.thread-comment--thread {
-	.post__author {
-		color: var(--Post-color--secondaryThread);
+.post__author--generic:not(.post__author--id) .post__author-name {
+	color: var(--PostAuthorName-color);
+}
+
+.post__author-icon {
+	color: var(--Post-color--secondary);
+}
+
+.post__author--id,
+.post__author-icon--outline {
+	color: var(--PostAuthorName-color--id);
+}
+
+.post__author--administrator {
+	.post__author-name {
+		color: var(--PostAuthor-color--administrator);
 	}
 }
 
-/* Added `.thread-comment` for CSS selector specificity over the
-  `.thread-comment--thread` above. */
-.thread-comment {
-	.post__author--generic:not(.post__author--id) .post__author-name {
-		color: var(--PostAuthorName-color);
-	}
-
-	.post__author--id,
-	.post__author-icon--outline {
-		color: var(--PostAuthorName-color--id);
-	}
-
-	.post__author--administrator {
-		color: var(--PostAuthor-color--administrator);
-	}
-
-	.post__author--moderator {
+.post__author--moderator {
+	.post__author-name {
 		color: var(--PostAuthor-color--moderator);
+	}
+}
+
+.post__author--administrator,
+.post__author--moderator {
+	.post__author-name {
+		font-weight: normal;
+	}
+}
+
+.post__author-role--supplementary {
+	font-weight: 300;
+	&:before,
+	&:after {
+		content: '/';
 	}
 }
 
