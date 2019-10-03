@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import memoize from 'fast-memoize'
 
-import { post } from '../PropTypes'
+import {
+	comment as commentType,
+	thread as threadType,
+	board as boardType
+} from '../PropTypes'
 
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
@@ -26,6 +30,7 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+import copyTextToClipboard from 'webapp-frontend/src/utility/clipboard'
 
 import { getChan, getCommentUrl } from '../chan'
 import getMessages from '../messages'
@@ -166,6 +171,8 @@ export default function ThreadComment({
 			mode={mode}
 			isFirstPostInThread={comment.id === thread.id}
 			comment={comment}
+			thread={thread}
+			board={board}
 			hidden={hidden}
 			toggleShowHide={toggleShowHide}
 			locale={locale}
@@ -239,7 +246,9 @@ ThreadComment.propTypes = {
 	thread: PropTypes.shape({
 		id: PropTypes.string.isRequired
 	}).isRequired,
-	comment: post.isRequired,
+	comment: commentType.isRequired,
+	thread: threadType.isRequired,
+	board: boardType.isRequired,
 	locale: PropTypes.string.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	parentComment: post,
@@ -251,6 +260,8 @@ ThreadComment.propTypes = {
 function Comment({
 	mode,
 	comment,
+	thread,
+	board,
 	hidden,
 	isFirstPostInThread,
 	toggleShowHide,
@@ -264,6 +275,7 @@ function Comment({
 	locale,
 	compact,
 	screenWidth,
+	expandAttachments,
 	className,
 	...rest
 }) {
@@ -276,7 +288,7 @@ function Comment({
 	let postThumbnail
 	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board' ||
 		(mode === 'thread' && isFirstPostInThread)
-	if (!rest.expandAttachments) {
+	if (!expandAttachments) {
 		postThumbnail = getPostThumbnailMemoized(comment, {
 			showPostThumbnailWhenThereAreMultipleAttachments
 		})
@@ -295,7 +307,11 @@ function Comment({
 		return [
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
-				onClick: () => dispatch(notify('Not implemented yet'))
+				onClick: () => {
+					// Copy the original (non-captchan) comment URL for now.
+					// (until `captchan` has set of the basic features)
+					copyTextToClipboard(getCommentUrl(board, thread, comment))
+				}
 			},
 			{
 				label: getMessages(locale).post.moreActions.report,
@@ -310,7 +326,7 @@ function Comment({
 				onClick: () => dispatch(notify('Not implemented yet'))
 			}
 		]
-	}, [dispatch, locale])
+	}, [dispatch, locale, board, thread, comment])
 	const commentClassName = 'thread-comment__comment'
 	const shouldFixAttachmentPictureSize = mode === 'board' && comment.attachments && comment.attachments.length === 1 && comment.attachments[0].isLynxChanCatalogAttachmentsBug
 	// `postRef` is supplied by `<CommentTree/>`
@@ -326,6 +342,7 @@ function Comment({
 			{...rest}
 			ref={postRef}
 			post={comment}
+			expandAttachments={expandAttachments}
 			compact={mode === 'thread' && !isFirstPostInThread}
 			stretch
 			header={Header}
@@ -374,7 +391,10 @@ function Comment({
 
 Comment.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']),
-	comment: post.isRequired,
+	comment: commentType.isRequired,
+	thread: threadType.isRequired,
+	board: boardType.isRequired,
+	expandAttachments: PropTypes.bool,
 	hidden: PropTypes.bool,
 	isFirstPostInThread: PropTypes.bool,
 	toggleShowHide: PropTypes.func.isRequired,
