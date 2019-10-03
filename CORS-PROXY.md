@@ -5,7 +5,9 @@ AWS offers a year-long "free tier" usage plan for EC2 "micro" server instances.
 <!-- https://trodzen.wordpress.com/2018/04/07/yet-another-linux-ec2-server-config/ -->
 
 * Create a free EC2 "micro" instance.
-* Connect to it via SSH as `ec2-user`.
+* While creating an EC2 instance, on "Step 6. Configure Security Groups" add the `80` (for HTTP) and `443` (for HTTPS) ports for `nginx` using "Add Rule" button. Alternatively, after creating an EC2 instance: Select the instance -> Scroll right -> Click the security group -> "Actions" -> "Edit inbound rules" -> "Add Rule".
+* Create a new SSH key for accessing the server. Download the `*.pem` file. Convert the `*.pem` file to a `*.ppk` file using [PuTTYGen](https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/putty.html): "Load" the `*.pem` file, optionally specify a "Key passphrase", click "Save Private Key".
+* Connect to the server via SSH using the `*.ppk` key and `ec2-user` username.
 * Install nginx: `sudo amazon-linux-extras install nginx1.12`
 * Auto start nginx: `sudo chkconfig nginx on`
 * Configure nginx: `sudo nano /etc/nginx/nginx.conf`
@@ -23,6 +25,8 @@ http {
 
 		# This setting is required to keep double slashes in the requested URL.
 		merge_slashes off;
+
+		# Remove `root`, `location /` and `error_page` entries.
 
 		# Only proxy URLs starting with "http://" or "https://".
 		location ~* ^/https?://.+$ {
@@ -86,9 +90,10 @@ http {
 }
 ```
 
-* Reload `nginx` config: `sudo service nginx reload`
-* `nginx` should be working (HTTP should output a dummy webpage).
-* Next, an SSL certificate will be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somehwere on `dot.tk` which will have a DNS `A` record pointing to the AWS server IP address.
+* Restart `nginx`: `sudo service nginx restart`. Could reload `nginx` instead: `sudo service nginx reload`, but it says "Job for nginx.service invalid." until restarted for the first time.
+* `nginx` should be working: opening the server's HTTP URL in a web browser should output a dummy webpage. Otherwise see `sudo tail /var/log/nginx/error.log`.
+
+* Next, an SSL certificate has to be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somewhere that will have a DNS `A` record pointing to the AWS server IP address. For example, on `dot.tk` website one can create a free `*.tk` domain name having a record with `Name` `WWW` of `Type` `A` with a `Target` of the AWS EC2 instance IPv4 address and the resulting "non-AWS" domain name will be `www.DOT-TK-DOMAIN-NAME.tk`.
 
 * Install `certbot` for issuing free "letsEncrypt" certificates:
 
@@ -114,7 +119,7 @@ text = True
 
 * Create a dummy "ACME challenge" response file: `sudo mkdir -p /var/www/html/.well-known/acme-challenge && sudo sh -c "echo Success > /var/www/html/.well-known/acme-challenge/example.html"`
 
-* Register in letsEncrypt network: `sudo certbot register --email me@example.com`
+* Register in letsEncrypt network: `sudo certbot register --email YOUR-EMAIL-ADDRESS-HERE`
 
 * Configure `nginx` to serve "ACME challenge" response files:
 
@@ -128,13 +133,20 @@ server {
 }
 ```
 
-* Check the dummy "ACME challenge" response: `sudo service nginx reload && curl -L http://YOUR-DOMAIN-NAME-HERE/.well-known/acme-challenge/example.html`
+* `sudo service nginx reload`
+
+* Check the dummy "ACME challenge" response for AWS domain name: `curl -L http://YOUR-INSTANCE-SUBNAME.YOUR-REGION.compute.amazonaws.com
+/.well-known/acme-challenge/example.html`
+
+* If it says "Success" then the "ACME challenge" has been set up correctly. Now check the non-AWS domain name you've created on `dot.tk` or some other free DNS service.
+
+* Check the dummy "ACME challenge" response for non-AWS domain name: `curl -L http://YOUR-NON-AWS-DOMAIN-NAME-HERE/.well-known/acme-challenge/example.html`
 
 * If it says "Success" then remove the dummy "ACME challenge" response file (`certbot` will create its own): `sudo rm /var/www/html/.well-known/acme-challenge/example.html`
 
-* Check `certbot` certificate issueance: `sudo certbot certonly --dry-run -d YOUR_DOMAIN_NAME_HERE`
+* Check `certbot` certificate issueance: `sudo certbot certonly --dry-run -d YOUR_NON_AWS_DOMAIN_NAME_HERE`
 
-* If it says "The dry run was successful" then issue the certificate: `sudo certbot certonly -d YOUR_DOMAIN_NAME_HERE`
+* If it says "The dry run was successful" then issue the certificate: `sudo certbot certonly -d YOUR_NON_AWS_DOMAIN_NAME_HERE`
 
 * Set up `nginx` to use the generated certificates in the `server` entry:
 
@@ -144,9 +156,9 @@ server {
 	listen 443 ssl;
 	...
 
-	ssl_certificate /etc/letsencrypt/live/YOUR_DOMAIN_NAME_HERE/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/YOUR_DOMAIN_NAME_HERE/privkey.pem;
-	ssl_trusted_certificate /etc/letsencrypt/live/YOUR_DOMAIN_NAME_HERE/chain.pem;
+	ssl_certificate /etc/letsencrypt/live/YOUR_NON_AWS_DOMAIN_NAME_HERE/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/YOUR_NON_AWS_DOMAIN_NAME_HERE/privkey.pem;
+	ssl_trusted_certificate /etc/letsencrypt/live/YOUR_NON_AWS_DOMAIN_NAME_HERE/chain.pem;
 
 	# Optimize certificate chain loading in a single round trip.
 	ssl_stapling on;
@@ -154,6 +166,8 @@ server {
 	...
 }
 ```
+
+* `sudo service nginx reload`
 
 <!--
 ```
@@ -186,8 +200,6 @@ text = True
 0 8 * * * root certbot renew --quiet --allow-subset-of-names
 ```
 
-* Reload `nginx` config: `sudo service nginx reload`
-
-* HTTPS should be working.
+* HTTPS should be working. Test it by opening `https://YOUR-NON-AWS-DOMAIN-NAME` in a web browser. If it doesn't output the dummy page, see `sudo tail /var/log/nginx/error.log`.
 
 I've had an issue with `certbot` generating an empty `*.conf` file for the website for some reason which prevented it from renewing the certificate but the fix was [easy](https://github.com/certbot/certbot/issues/7093).
