@@ -60,6 +60,9 @@
 	/* Critical. */
 	--Critical-backgroundColor: #df1e00;
 
+	/* Picture. */
+	--Picture-borderColor--focus: #a976c3;
+
 	/* Notification. */
 	/* Border is added because `var(--Notification-backgroundColor)`
 	   is the same as the mobile `var(--Header-backgroundColor)`. */
