@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import memoize from 'fast-memoize'
 
 import {
 	comment as commentType,
@@ -289,9 +288,11 @@ function Comment({
 	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board' ||
 		(mode === 'thread' && isFirstPostInThread)
 	if (!expandAttachments) {
-		postThumbnail = getPostThumbnailMemoized(comment, {
-			showPostThumbnailWhenThereAreMultipleAttachments
-		})
+		postThumbnail = useMemo(() => {
+			return getPostThumbnail(comment, {
+				showPostThumbnailWhenThereAreMultipleAttachments
+			})
+		}, [comment, showPostThumbnailWhenThereAreMultipleAttachments])
 	}
 	const postThumbnailOnClick = useCallback(() => {
 		if (onAttachmentClick) {
@@ -423,6 +424,3 @@ const SERVICE_ICONS = {
 	'2ch': getChan('2ch').logo,
 	'4chan': getChan('4chan').logo
 }
-
-// Memoization won't work for "rest" and "default" arguments.
-const getPostThumbnailMemoized = memoize(getPostThumbnail)
