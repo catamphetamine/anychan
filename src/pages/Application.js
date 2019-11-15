@@ -89,7 +89,11 @@ import './Application.css'
 		await dispatch(getBoards())
 	} catch (error) {
 		let errorPageUrl
-		if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503) {
+		// `503 Service Unavailable`
+		// `502 Bad Gateway`
+		// "Request has been terminated" error is thrown by a web browser
+		// when it can't connect to the server (doesn't have a `status`).
+		if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
 			errorPageUrl = '/offline'
 		} else if (error.status === 404) {
 			errorPageUrl = '/not-found'
