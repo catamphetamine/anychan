@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { meta, Link } from 'react-website'
 import classNames from 'classnames'
 
+import ExternalLink from 'webapp-frontend/src/components/ExternalLink'
+
 import { getChan } from '../chan'
 import getMessages from '../messages'
 
@@ -12,9 +14,10 @@ import './Error.css'
 @meta(({ settings }) => ({
 	title: getMessages(settings.settings.locale).errorPages['500'].title
 }))
-@connect(({ settings, found }) => ({
+@connect(({ settings, found, app }) => ({
 	locale: settings.settings.locale,
-	location: found.resolvedMatch.location
+	location: found.resolvedMatch.location,
+	offline: app.offline
 }))
 export default class ErrorPage_ extends React.Component {
 	render() {
@@ -25,10 +28,12 @@ export default class ErrorPage_ extends React.Component {
 export function ErrorPage({
 	locale,
 	location,
-	status
+	status,
+	offline
 }) {
 	const custom = getChan().errorPages && getChan().errorPages[status]
 	const messages = getMessages(locale).errorPages[status]
+	const LinkComponent = offline ? ExternalLink : Link
 	return (
 		<section className={classNames('error-page', {
 			'error-page--image': custom && custom.images
@@ -49,9 +54,9 @@ export function ErrorPage({
 						className="error-page__image"/>
 				}
 				{location.query.url &&
-					<Link to={location.query.url} className="error-page__requested-url">
+					<LinkComponent to={location.query.url} className="error-page__requested-url">
 						{getMessages(locale).errorPages.requestedURL}
-					</Link>
+					</LinkComponent>
 				}
 			</div>
 		</section>
@@ -61,7 +66,8 @@ export function ErrorPage({
 ErrorPage.propTypes = {
 	locale: PropTypes.string.isRequired,
 	location: PropTypes.object.isRequired,
-	status: PropTypes.number.isRequired
+	status: PropTypes.number.isRequired,
+	offline: PropTypes.boolean
 }
 
 ErrorPage.defaultProps = {
