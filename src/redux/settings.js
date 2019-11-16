@@ -6,67 +6,97 @@ import UserSettings from '../utility/UserSettings'
 const redux = new ReduxModule()
 
 export const getSettings = redux.simpleAction(
-	() => Settings.get(),
-	'settings'
+	(state) => ({
+		...state,
+		settings: Settings.get()
+	})
 )
 
 export const resetSettings = redux.simpleAction(
-	() => {
+	(state) => {
 		UserSettings.reset()
-		return Settings.get()
-	},
-	'settings'
+		return {
+			...state,
+			settings: Settings.get()
+		}
+	}
 )
 
 export const replaceSettings = redux.simpleAction(
-	(newSettings) => {
+	(state, newSettings) => {
 		UserSettings.set(newSettings)
-		return Settings.get()
-	},
-	'settings'
+		return {
+			...state,
+			settings: Settings.get()
+		}
+	}
 )
 
 export const saveLocale = redux.simpleAction(
-	(value) => saveSetting('locale', value),
-	'settings'
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('locale', value)
+		}
+	}
 )
 
 export const saveTheme = redux.simpleAction(
-	(value) => saveSetting('theme', value),
-	'settings'
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('theme', value)
+		}
+	}
 )
 
 export const saveFontSize = redux.simpleAction(
-	(value) => saveSetting('fontSize', value),
-	'settings'
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('fontSize', value)
+		}
+	}
 )
 
 export const saveAutoSuggestFavoriteBoards = redux.simpleAction(
-	(value) => saveSetting('autoSuggestFavoriteBoards', value),
-	'settings'
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('autoSuggestFavoriteBoards', value)
+		}
+	}
 )
 
 export const saveDarkMode = redux.simpleAction(
-	(value) => {
+	(state, value) => {
 		// Disable "Auto Dark Mode" feature.
 		saveSetting('autoDarkMode', false)
-		return saveSetting('darkMode', value)
-	},
-	'settings'
+		return {
+			...state,
+			settings: saveSetting('darkMode', value)
+		}
+	}
 )
 
 export const saveAutoDarkMode = redux.simpleAction(
-	(value) => {
+	(state, value) => {
 		// Reset manual "Dark Mode" setting.
 		saveSetting('darkMode', undefined)
-		return saveSetting('autoDarkMode', value)
-	},
-	'settings'
+		return {
+			...state,
+			settings: saveSetting('autoDarkMode', value)
+		}
+	}
 )
 
 export const saveBoardsView = redux.simpleAction(
-	(value) => saveSetting('boardsView', value),
-	'settings'
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('boardsView', value)
+		}
+	}
 )
 
 export default redux.reducer()

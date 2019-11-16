@@ -6,13 +6,17 @@ import { applyDarkMode } from 'webapp-frontend/src/utility/style'
 const redux = new ReduxModule()
 
 export const showSidebar = redux.simpleAction(
-	(shouldBeShown) => shouldBeShown,
-	'isSidebarShown'
+	(state, shouldBeShown) => ({
+		...state,
+		isSidebarShown: shouldBeShown
+	})
 )
 
 export const hideSidebar = redux.simpleAction(
-	() => false,
-	'isSidebarShown'
+	(state) => ({
+		...state,
+		isSidebarShown: false
+	})
 )
 
 export const setDarkMode = redux.simpleAction(

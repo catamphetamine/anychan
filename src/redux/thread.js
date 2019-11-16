@@ -13,8 +13,12 @@ export const setScrollPosition = redux.simpleAction(
 )
 
 export const isThreadTracked = redux.simpleAction(
-	(boardId, threadId) => UserData.getTrackedThreads(boardId, threadId) ? true : false,
-	'isTracked'
+	(state, { boardId, threadId }) => {
+		return {
+			...state,
+			isTracked: UserData.getTrackedThreads(boardId, threadId) ? true : false
+		}
+	}
 )
 
 redux.on('CHAN', 'GET_THREAD_COMMENTS', (state, { thread, board }) => ({

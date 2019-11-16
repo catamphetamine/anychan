@@ -53,14 +53,14 @@ import './Thread.css'
 			getState().settings.settings.censoredWords,
 			getState().settings.settings.locale
 		))
-		dispatch(isThreadTracked(
+		dispatch(isThreadTracked({
 			boardId,
 			threadId
-		))
+		}))
 	} catch (error) {
 		if (error.status === 404) {
 			// Clear expired thread from user data.
-			dispatch(threadExpired(boardId, threadId))
+			dispatch(threadExpired({ boardId, threadId }))
 		}
 		throw error
 	}

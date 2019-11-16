@@ -5,32 +5,40 @@ import UserData from '../UserData/UserData'
 const redux = new ReduxModule()
 
 export const getFavoriteBoards = redux.simpleAction(
-	_getFavoriteBoards,
-	'favoriteBoards'
+	(state) => ({
+		...state,
+		favoriteBoards: _getFavoriteBoards()
+	})
 )
 
 export const addFavoriteBoard = redux.simpleAction(
-	(board) => {
+	(state, board) => {
 		UserData.addFavoriteBoards(board)
-		return _getFavoriteBoards()
-	},
-	'favoriteBoards'
+		return {
+			...state,
+			favoriteBoards: _getFavoriteBoards()
+		}
+	}
 )
 
 export const setFavoriteBoards = redux.simpleAction(
-	(favoriteBoards) => {
+	(state, favoriteBoards) => {
 		UserData.setFavoriteBoards(favoriteBoards)
-		return _getFavoriteBoards()
-	},
-	'favoriteBoards'
+		return {
+			...state,
+			favoriteBoards: _getFavoriteBoards()
+		}
+	}
 )
 
 export const removeFavoriteBoard = redux.simpleAction(
-	(board) => {
+	(state, board) => {
 		UserData.removeFavoriteBoards(board)
-		return _getFavoriteBoards()
-	},
-	'favoriteBoards'
+		return {
+			...state,
+			favoriteBoards: _getFavoriteBoards()
+		}
+	}
 )
 
 export default redux.reducer({

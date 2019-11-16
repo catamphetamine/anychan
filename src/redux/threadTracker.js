@@ -5,8 +5,10 @@ import UserData from '../UserData/UserData'
 const redux = new ReduxModule('THREAD_TRACKER')
 
 export const getTrackedThreads = redux.simpleAction(
-	_getTrackedThreads,
-	'trackedThreads'
+	(state) => ({
+		...state,
+		trackedThreads: _getTrackedThreads()
+	})
 )
 
 // Using `.action()` instead of `.simpleAction()` here
@@ -66,11 +68,13 @@ redux.on('CHAN', 'GET_THREADS', (state, { boardId, threads }) => {
 })
 
 export const threadExpired = redux.simpleAction(
-	(boardId, threadId) => {
+	(state, { boardId, threadId }) => {
 		UserData.onThreadExpired(boardId, threadId)
-		return _getTrackedThreads()
-	},
-	'trackedThreads'
+		return {
+			...state,
+			trackedThreads: _getTrackedThreads()
+		}
+	}
 )
 
 export default redux.reducer({
