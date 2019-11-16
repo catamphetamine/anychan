@@ -287,12 +287,18 @@ function Comment({
 	let postThumbnail
 	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board' ||
 		(mode === 'thread' && isFirstPostInThread)
-	if (!expandAttachments) {
+	// React hooks don't allow `if`/`else`.
+	// if (!expandAttachments) {
 		postThumbnail = useMemo(() => {
 			return getPostThumbnail(comment, {
 				showPostThumbnailWhenThereAreMultipleAttachments
 			})
 		}, [comment, showPostThumbnailWhenThereAreMultipleAttachments])
+	// }
+	// React hooks don't allow `if`/`else`,
+	// so this is a workaround.
+	if (expandAttachments) {
+		postThumbnail = undefined;
 	}
 	const postThumbnailOnClick = useCallback(() => {
 		if (onAttachmentClick) {
