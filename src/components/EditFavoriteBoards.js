@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Autocomplete } from 'react-responsive-ui'
 import SortableList from 'react-sortable-dnd-list'
 import classNames from 'classnames'
@@ -23,23 +23,11 @@ import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.
 import './Boards.css'
 import './EditFavoriteBoards.css'
 
-@connect(({ settings, chan, favoriteBoards }) => ({
-	favoriteBoards: favoriteBoards.favoriteBoards,
-	allBoards: chan.allBoards && chan.allBoards.boards,
-	locale: settings.settings.locale
-}), dispatch => ({ dispatch }))
-export default class EditFavoriteBoards_ extends React.Component {
-	render() {
-		return <EditFavoriteBoards {...this.props}/>
-	}
-}
-
-function EditFavoriteBoards({
-	favoriteBoards,
-	allBoards,
-	locale,
-	dispatch
-}) {
+export default function EditFavoriteBoards() {
+	const favoriteBoards = useSelector(({ favoriteBoards }) => favoriteBoards.favoriteBoards)
+	const allBoards = useSelector(({ chan }) => chan.allBoards && chan.allBoards.boards)
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const dispatch = useDispatch()
 	const [selectedBoard, setSelectedBoard] = useState()
 	const onSelectBoard = useCallback((board) => {
 		// Set a new "selected board" with empty `value` and `label`
@@ -85,10 +73,10 @@ function EditFavoriteBoards({
 }
 
 EditFavoriteBoards.propTypes = {
-	favoriteBoards: PropTypes.arrayOf(board).isRequired,
-	allBoards: PropTypes.arrayOf(board).isRequired,
-	locale: PropTypes.string.isRequired,
-	dispatch: PropTypes.func.isRequired
+	// favoriteBoards: PropTypes.arrayOf(board).isRequired,
+	// allBoards: PropTypes.arrayOf(board).isRequired,
+	// locale: PropTypes.string.isRequired,
+	// dispatch: PropTypes.func.isRequired
 }
 
 function Board({

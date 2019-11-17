@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import SimpleBar from 'simplebar-react'
 
@@ -16,27 +16,14 @@ import getMessages from '../messages'
 
 import './Sidebar.css'
 
-@connect(({ app, settings, threadTracker }) => ({
-	locale: settings.settings.locale,
-	isShown: app.isSidebarShown,
-	mode: app.sidebarMode,
-	trackedThreads: threadTracker.trackedThreads
-}))
-export default class Sidebar_ extends React.Component {
-	render() {
-		return <Sidebar {...this.props}/>
-	}
-}
-
-function Sidebar({
-	isShown,
-	mode,
-	locale,
-	trackedThreads
-}) {
+export default function Sidebar() {
 	// {mode === 'boards' && <Boards/>}
 	// {mode === 'tracked-threads' && <TrackedThreads/>}
 	// {mode === 'notifications' && <Notifications/>}
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const isShown = useSelector(({ app }) => app.isSidebarShown)
+	const mode = useSelector(({ app }) => app.sidebarMode)
+	const trackedThreads = useSelector(({ threadTracker }) => threadTracker.trackedThreads)
 	return (
 		<section className={classNames('sidebar', {
 			'sidebar--show': isShown
@@ -57,7 +44,7 @@ function Sidebar({
 }
 
 Sidebar.propTypes = {
-	isShown: PropTypes.bool,
-	locale: PropTypes.string.isRequired,
-	mode: PropTypes.string.isRequired
+	// isShown: PropTypes.bool,
+	// locale: PropTypes.string.isRequired,
+	// mode: PropTypes.string.isRequired
 }

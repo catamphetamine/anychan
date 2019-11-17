@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-website'
-import { connect } from 'react-redux'
+import { Link } from 'react-pages'
+import { useSelector, useDispatch } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
@@ -17,56 +17,40 @@ import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.
 
 import './Boards.css'
 
-@connect(({ settings, chan }) => ({
-	boards: chan.boards,
-	boardsByPopularity: chan.boardsByPopularity,
-	boardsByCategory: chan.boardsByCategory,
-	hasMoreBoards: chan.hasMoreBoards,
-	selectedBoard: chan.board,
-	highlightSelectedBoard: true,
-	boardsView: settings.settings.boardsView,
-	shouldSaveBoardsView: true,
-	locale: settings.settings.locale
-}), dispatch => ({ dispatch }))
-export default class BoardsInSidebar extends React.Component {
-	render() {
-		return (
-			<Boards {...this.props}/>
-		)
-	}
-}
-
-@connect(({ settings, chan }) => ({
-	selectedBoard: chan.board,
-	highlightSelectedBoard: true,
-	locale: settings.settings.locale
-}), dispatch => ({ dispatch }))
-export class FavoriteBoards extends React.Component {
-	render() {
-		return (
-			<FavoriteBoards_ {...this.props}/>
-		)
-	}
-}
-
-function FavoriteBoards_(props) {
+export default function BoardsInSidebar(props) {
+	const boards = useSelector(({ chan }) => chan.boards)
+	const boardsByPopularity = useSelector(({ chan }) => chan.boardsByPopularity)
+	const boardsByCategory = useSelector(({ chan }) => chan.boardsByCategory)
+	const hasMoreBoards = useSelector(({ chan }) => chan.hasMoreBoards)
+	const selectedBoard = useSelector(({ chan }) => chan.board)
+	const boardsView = useSelector(({ settings }) => settings.settings.boardsView)
 	return (
-		<Boards showAllBoardsLink={false} {...props}/>
+		<Boards
+			highlightSelectedBoard
+			shouldSaveBoardsView
+			boards={boards}
+			boardsByPopularity={boardsByPopularity}
+			boardsByCategory={boardsByCategory}
+			hasMoreBoards={hasMoreBoards}
+			selectedBoard={selectedBoard}
+			boardsView={boardsView}
+			{...props}/>
+	)
+}
+
+export function FavoriteBoards(props) {
+	const selectedBoard = useSelector(({ chan }) => chan.board)
+	return (
+		<Boards
+			showAllBoardsLink={false}
+			selectedBoard={selectedBoard}
+			highlightSelectedBoard
+			{...props}/>
 	)
 }
 
 // `<Boards/>` are used in `pages/Boards.js`.
-@connect(({ found }) => ({
-	isBoardOrThreadLocation: isBoardLocation(found.resolvedMatch) ||
-		isThreadLocation(found.resolvedMatch)
-}))
-export class Boards extends React.Component {
-	render() {
-		return <Boards_ {...this.props}/>
-	}
-}
-
-function Boards_({
+export function Boards({
 	boards,
 	boardsByPopularity,
 	boardsByCategory,
@@ -77,12 +61,15 @@ function Boards_({
 	listComponent,
 	selectedBoard,
 	highlightSelectedBoard,
-	isBoardOrThreadLocation,
 	hasMoreBoards,
-	locale,
-	dispatch,
 	className
 }) {
+	const dispatch = useDispatch()
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const isBoardOrThreadLocation = useSelector(({ found }) => {
+		return isBoardLocation(found.resolvedMatch) ||
+			isThreadLocation(found.resolvedMatch)
+	})
 	const [searchQuery, setSearchQuery] = useState()
 	const [filteredBoards, setFilteredBoards] = useState()
 	const [view, setView] = useState()
@@ -220,7 +207,7 @@ const boardShape = {
 	commentsPerHour: PropTypes.number
 }
 
-Boards_.propTypes = {
+Boards.propTypes = {
 	boards: PropTypes.arrayOf(PropTypes.shape(boardShape)).isRequired,
 	boardsByPopularity: PropTypes.arrayOf(PropTypes.shape(boardShape)),
 	boardsByCategory: PropTypes.arrayOf(PropTypes.shape({
@@ -233,15 +220,15 @@ Boards_.propTypes = {
 	showAllBoardsLink: PropTypes.bool.isRequired,
 	selectedBoard: PropTypes.shape(boardShape),
 	highlightSelectedBoard: PropTypes.bool,
-	isBoardOrThreadLocation: PropTypes.bool,
+	// isBoardOrThreadLocation: PropTypes.bool,
 	hasMoreBoards: PropTypes.bool,
-	locale: PropTypes.string.isRequired,
-	dispatch: PropTypes.func,
+	// locale: PropTypes.string.isRequired,
+	// dispatch: PropTypes.func,
 	listComponent: PropTypes.elementType.isRequired,
 	className: PropTypes.string
 }
 
-Boards_.defaultProps = {
+Boards.defaultProps = {
 	listComponent: BoardsList,
 	showAllBoardsLink: true
 }
@@ -249,7 +236,7 @@ Boards_.defaultProps = {
 // // Don't re-render `<Boards/>` on page navigation (on `route` change).
 // // Re-rendering `<Boards/>` is about `150` ms (which is a lot).
 // // (seems that rendering a `<Link/>` is a long time).
-// Boards_ = React.memo(Boards_)
+// Boards = React.memo(Boards)
 
 function Board({
 	board,

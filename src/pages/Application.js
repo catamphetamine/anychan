@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { preload, Loading } from 'react-website'
+import { useSelector, useDispatch } from 'react-redux'
+import { Loading } from 'react-pages'
 import classNames from 'classnames'
 
 // Not importing `react-time-ago/Tooltip.css` because
 // it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-time-ago/Tooltip.css'
 
-import 'react-website/components/Loading.css'
+import 'react-pages/components/Loading.css'
 // Not importing `LoadingIndicator.css` because
 // it's already loaded as part of `react-responsive-ui/style.css`.
-// import 'react-website/components/LoadingIndicator.css'
+// import 'react-pages/components/LoadingIndicator.css'
 
 import Announcement, { announcementPropType } from 'webapp-frontend/src/components/Announcement'
 
@@ -58,93 +58,23 @@ import configuration from '../configuration'
 
 import './Application.css'
 
-@connect(({ app, settings, slideshow, found, announcement }) => ({
-	locale: settings.settings.locale,
-	theme: settings.settings.theme,
-	cookiesAccepted: app.cookiesAccepted,
-	sidebarMode: app.sidebarMode,
-	offline: app.offline,
-	route: found.resolvedMatch,
-	slideshowIndex: slideshow.index,
-	slideshowIsOpen: slideshow.isOpen,
-	slideshowPictures: slideshow.pictures,
-	slideshowMode: slideshow.slideshowMode,
-  location: found.resolvedMatch.location,
-  announcement: announcement.announcement
-}), dispatch => ({ dispatch }))
-@preload(async ({ dispatch, getState, location }) => {
-	// Dispatch delayed actions.
-	// For example, `dispatch(autoDarkMode())`.
-	dispatchDelayedActions(dispatch)
-	// Fill in user's preferences.
-	dispatch(getSettings())
-	dispatch(getFavoriteBoards())
-	dispatch(getTrackedThreads())
-	// Detect offline mode.
-	if (location.query.offline) {
-		return dispatch(setOfflineMode(true))
-	}
-	// Get the list of boards.
-	try {
-		await dispatch(getBoards())
-	} catch (error) {
-		let errorPageUrl
-		// `503 Service Unavailable`
-		// `502 Bad Gateway`
-		// "Request has been terminated" error is thrown by a web browser
-		// when it can't connect to the server (doesn't have a `status`).
-		if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
-			errorPageUrl = '/offline'
-		} else if (error.status === 404) {
-			errorPageUrl = '/not-found'
-		} else {
-			errorPageUrl = '/error'
-		}
-		if (errorPageUrl) {
-			console.error(error)
-			window.location = addChanParameter(
-				`${getBasePath() || ''}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
-			)
-			// Don't show the page content because it won't be correct.
-			// (maybe javascript won't even execute this line, or maybe it will).
-			await new Promise(resolve => {})
-		} else {
-			throw error
-		}
-	}
-	// Show announcements.
-	if (process.env.NODE_ENV === 'production' && configuration.announcementUrl) {
-		pollAnnouncement(
-			configuration.announcementUrl,
-			announcement => dispatch(showAnnouncement(announcement)),
-			configuration.announcementPollInterval
-		)
-	}
-}, {
-	blocking: true
-})
-export default class App_ extends React.Component {
-	render() {
-		return <App {...this.props}/>
-	}
-}
-
-function App({
-	announcement,
-	locale,
-	theme,
-	route,
-	slideshowIndex,
-	slideshowIsOpen,
-	slideshowPictures,
-	slideshowMode,
-	sidebarMode,
-	cookiesAccepted,
-	offline,
-	dispatch,
-	location,
+export default function App({
 	children
 }) {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const theme = useSelector(({ settings }) => settings.settings.theme)
+	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
+	const sidebarMode = useSelector(({ app }) => app.sidebarMode)
+	const offline = useSelector(({ app }) => app.offline)
+	const route = useSelector(({ found }) => found.resolvedMatch)
+	const slideshowIndex = useSelector(({ slideshow }) => slideshow.index)
+	const slideshowIsOpen = useSelector(({ slideshow }) => slideshow.isOpen)
+	const slideshowPictures = useSelector(({ slideshow }) => slideshow.pictures)
+	const slideshowMode = useSelector(({ slideshow }) => slideshow.slideshowMode)
+  const location = useSelector(({ found }) => found.resolvedMatch.location)
+  const announcement = useSelector(({ announcement }) => announcement.announcement)
+	const dispatch = useDispatch()
+
 	const hasMounted = useRef()
 
 	useEffect(() => {
@@ -281,14 +211,67 @@ function App({
 }
 
 App.propTypes = {
-	locale: PropTypes.string.isRequired,
-	theme: PropTypes.string.isRequired,
-	route: PropTypes.object.isRequired,
-	announcement: announcementPropType,
-	cookiesAccepted: PropTypes.bool.isRequired,
-	offline: PropTypes.bool,
-	dispatch: PropTypes.func.isRequired,
+	// locale: PropTypes.string.isRequired,
+	// theme: PropTypes.string.isRequired,
+	// route: PropTypes.object.isRequired,
+	// announcement: announcementPropType,
+	// cookiesAccepted: PropTypes.bool.isRequired,
+	// offline: PropTypes.bool,
+	// dispatch: PropTypes.func.isRequired,
 	children: PropTypes.node.isRequired
+}
+
+App.load = {
+	load: async ({ dispatch, getState, location }) => {
+		// Dispatch delayed actions.
+		// For example, `dispatch(autoDarkMode())`.
+		dispatchDelayedActions(dispatch)
+		// Fill in user's preferences.
+		dispatch(getSettings())
+		dispatch(getFavoriteBoards())
+		dispatch(getTrackedThreads())
+		// Detect offline mode.
+		if (location.query.offline) {
+			return dispatch(setOfflineMode(true))
+		}
+		// Get the list of boards.
+		try {
+			await dispatch(getBoards())
+		} catch (error) {
+			let errorPageUrl
+			// `503 Service Unavailable`
+			// `502 Bad Gateway`
+			// "Request has been terminated" error is thrown by a web browser
+			// when it can't connect to the server (doesn't have a `status`).
+			if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
+				errorPageUrl = '/offline'
+			} else if (error.status === 404) {
+				errorPageUrl = '/not-found'
+			} else {
+				errorPageUrl = '/error'
+			}
+			if (errorPageUrl) {
+				console.error(error)
+				window.location = addChanParameter(
+					`${getBasePath() || ''}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
+				)
+				// Don't show the page content because it won't be correct.
+				// (maybe javascript won't even execute this line, or maybe it will).
+				await new Promise(resolve => {})
+			} else {
+				throw error
+			}
+		}
+		// Show announcements.
+		if (process.env.NODE_ENV === 'production' && configuration.announcementUrl) {
+			pollAnnouncement(
+				configuration.announcementUrl,
+				announcement => dispatch(showAnnouncement(announcement)),
+				configuration.announcementPollInterval
+			)
+		}
+	},
+	blocking: true
 }
 
 function setBodyBackground(route) {

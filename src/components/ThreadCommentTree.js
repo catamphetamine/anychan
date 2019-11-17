@@ -1,21 +1,25 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
 
 import CommentTree from 'webapp-frontend/src/components/CommentTree'
 import ThreadComment from './ThreadComment'
 
 import './ThreadCommentTree.css'
 
-export default class ThreadCommentTree extends React.Component {
-	onSubtreeStateChange = (subtreeState) => {
-		const { onStateChange } = this.props
+export default function ThreadCommentTree({
+	state,
+	// `onHeightChange()` is supplied by `virtual-scroller`.
+	onHeightChange,
+	// `onStateChange()` is supplied by `virtual-scroller`.
+	onStateChange,
+	...rest
+}) {
+	const onSubtreeStateChange = useCallback((subtreeState) => {
 		// console.log('@ Subtree state changed\n', JSON.stringify(subtreeState, null, 2))
-		this.subtreeState = subtreeState
-		onStateChange(this.subtreeState)
-	}
+		onStateChange(subtreeState)
+	}, [onStateChange])
 
-	getCommentComponentProps = ({ getState, updateState }) => {
-		// `onHeightChange()` is supplied by `virtual-scroller`.
-		const { onHeightChange } = this.props
+	const getCommentComponentProps = useCallback(({ getState, updateState }) => {
 		return {
 			initialShowReplyForm: getState() && getState().showReplyForm,
 			onToggleShowReplyForm: (value) => updateState({ showReplyForm: value }),
@@ -23,26 +27,26 @@ export default class ThreadCommentTree extends React.Component {
 			onExpandContent: () => updateState({ expandContent: true }),
 			onContentDidChange: onHeightChange
 		}
-	}
+	}, [onHeightChange])
 
-	render() {
-		const {
-			state,
-			// `onHeightChange()` is supplied by `virtual-scroller`.
-			onHeightChange,
-			...rest
-		} = this.props
-		return (
-			<CommentTree
-				{...rest}
-				initialState={state}
-				onStateChange={this.onSubtreeStateChange}
-				onDidToggleShowReplies={onHeightChange}
-				onShowReply={onShowReply}
-				component={ThreadComment}
-				getComponentProps={this.getCommentComponentProps}/>
-		)
-	}
+	return (
+		<CommentTree
+			{...rest}
+			initialState={state}
+			onStateChange={onSubtreeStateChange}
+			onDidToggleShowReplies={onHeightChange}
+			onShowReply={onShowReply}
+			component={ThreadComment}
+			getComponentProps={getCommentComponentProps}/>
+	)
+}
+
+ThreadCommentTree.propTypes = {
+	state: PropTypes.object,
+	// `onHeightChange()` is supplied by `virtual-scroller`.
+	onHeightChange: PropTypes.func.isRequired,
+	// `onStateChange()` is supplied by `virtual-scroller`.
+	onStateChange: PropTypes.func.isRequired
 }
 
 function onShowReply(comment) {

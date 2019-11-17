@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
-import { connect } from 'react-redux'
-import { meta } from 'react-website'
+import { useSelector, useDispatch } from 'react-redux'
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 import LanguageSettings from 'webapp-frontend/src/components/settings/LanguageSettings'
@@ -39,25 +38,10 @@ import './Settings.css'
 
 const LANGUAGE_NAMES = getLanguageNames()
 
-@meta(({ settings }) => ({
-	title: getMessages(settings.settings.locale).settings.title
-}))
-@connect(({ app, settings }) => ({
-	locale: settings.settings.locale,
-	settings: settings.settings,
-	cookiesAccepted: app.cookiesAccepted
-}), dispatch => ({ dispatch }))
-export default class SettingsPage_ extends React.Component {
-	render() {
-		return <SettingsPage {...this.props}/>
-	}
-}
-
-function SettingsPage({
-	cookiesAccepted,
-	locale,
-	...rest
-}) {
+export default function SettingsPage() {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const settings = useSelector(({ settings }) => settings.settings)
+	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
 	return (
 		<section className="settings-page content text-content">
 			{/* Settings */}
@@ -65,7 +49,7 @@ function SettingsPage({
 				{getMessages(locale).settings.title}
 			</h1>
 			{cookiesAccepted &&
-				<Settings locale={locale} {...rest}/>
+				<Settings locale={locale} settings={settings}/>
 			}
 			{!cookiesAccepted &&
 				<p className="settings-page__cookies-required">
@@ -76,11 +60,15 @@ function SettingsPage({
 	)
 }
 
+SettingsPage.meta = ({ settings }) => ({
+	title: getMessages(settings.settings.locale).settings.title
+})
+
 function Settings({
 	settings,
-	dispatch,
 	locale
 }) {
+	const dispatch = useDispatch()
 	const messages = getMessages(locale)
 	const onSetDarkMode = useCallback(value => dispatch(setDarkMode(value)), [dispatch])
 	const onLocaleChange = useCallback(locale => dispatch(saveLocale(locale)), [dispatch])
@@ -121,7 +109,7 @@ function Settings({
 				<ContentSectionHeader lite>
 					CORS Proxy URL
 				</ContentSectionHeader>
-				<Form onSubmit={this.saveCorsProxyUrl}>
+				<Form onSubmit={saveCorsProxyUrl}>
 					<Field
 						readOnly
 						name="corsProxyUrl"

@@ -2,14 +2,12 @@ import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import {
-	preload,
-	meta,
 	Link,
 	wasInstantNavigation,
 	isInstantBackAbleNavigation
-} from 'react-website'
+} from 'react-pages'
 
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import VirtualScroller from 'virtual-scroller/react'
 
@@ -30,56 +28,14 @@ import { isSlideSupported, preloadPicture } from 'webapp-frontend/src/components
 
 import './Thread.css'
 
-@meta(({ chan: { board, thread }}) => ({
-	title: thread && thread.title || board && board.title,
-	description: thread && thread.comments[0].textPreview,
-	image: thread && getThreadImage(thread)
-}))
-@connect(({ chan, settings, thread }) => ({
-	board: chan.board,
-	thread: chan.thread,
-	locale: settings.settings.locale,
-	isThreadTracked: thread.isTracked,
-	virtualScrollerState: thread.virtualScrollerState,
-	scrollPosition: thread.scrollPosition
-}), dispatch => ({ dispatch }))
-@preload(async ({ getState, dispatch, params }) => {
-	const boardId = params.board
-	const threadId = parseInt(params.thread)
-	try {
-		await dispatch(getThread(
-			boardId,
-			threadId,
-			getState().settings.settings.censoredWords,
-			getState().settings.settings.locale
-		))
-		dispatch(isThreadTracked({
-			boardId,
-			threadId
-		}))
-	} catch (error) {
-		if (error.status === 404) {
-			// Clear expired thread from user data.
-			dispatch(threadExpired({ boardId, threadId }))
-		}
-		throw error
-	}
-})
-export default class ThreadPage_ extends React.Component {
-	render() {
-		return <ThreadPage {...this.props}/>
-	}
-}
-
-function ThreadPage({
-	board,
-	thread,
-	locale,
-	virtualScrollerState: initialVirtualScrollerState,
-	scrollPosition,
-	isThreadTracked,
-	dispatch
-}) {
+export default function ThreadPage() {
+	const board = useSelector(({ chan }) => chan.board)
+	const thread = useSelector(({ chan }) => chan.thread)
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const isThreadTracked = useSelector(({ thread }) => thread.isTracked)
+	const initialVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
+	const scrollPosition = useSelector(({ thread }) => thread.scrollPosition)
+	const dispatch = useDispatch()
 	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const virtualScroller = useRef()
@@ -226,14 +182,33 @@ function ThreadPage({
 	)
 }
 
-ThreadPage.propTypes = {
-	board: PropTypes.object.isRequired,
-	thread: PropTypes.object.isRequired,
-	locale: PropTypes.string.isRequired,
-	virtualScrollerState: PropTypes.object,
-	scrollPosition: PropTypes.number,
-	isThreadTracked: PropTypes.bool,
-	dispatch: PropTypes.func.isRequired
+ThreadPage.meta = ({ chan: { board, thread }}) => ({
+	title: thread && thread.title || board && board.title,
+	description: thread && thread.comments[0].textPreview,
+	image: thread && getThreadImage(thread)
+})
+
+ThreadPage.load = async ({ getState, dispatch, params }) => {
+	const boardId = params.board
+	const threadId = parseInt(params.thread)
+	try {
+		await dispatch(getThread(
+			boardId,
+			threadId,
+			getState().settings.settings.censoredWords,
+			getState().settings.settings.locale
+		))
+		dispatch(isThreadTracked({
+			boardId,
+			threadId
+		}))
+	} catch (error) {
+		if (error.status === 404) {
+			// Clear expired thread from user data.
+			dispatch(threadExpired({ boardId, threadId }))
+		}
+		throw error
+	}
 }
 
 function getThreadImage(thread) {

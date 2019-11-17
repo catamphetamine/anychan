@@ -3,7 +3,7 @@ import * as reducers from './redux'
 
 import { getChan, getChanIconUrl } from './chan'
 import getBasePath from './utility/getBasePath'
-import { createConfig } from 'webapp-frontend/src/react-website.common'
+import { createConfig } from 'webapp-frontend/src/react-pages.common'
 
 // Uncomment for "server-side-rendering" build.
 // // "Favicon" must be imported on the client side too

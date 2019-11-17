@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Link } from 'react-website'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import ListButton from './ListButton'
@@ -17,27 +17,13 @@ import Picture from 'webapp-frontend/src/components/Picture'
 
 import './TrackedThreads.css'
 
-@connect(({ found, settings, threadTracker, chan }) => ({
-	isThreadLocation: isThreadLocation(found.resolvedMatch),
-	locale: settings.settings.locale,
-	trackedThreads: threadTracker.trackedThreads,
-	selectedBoard: chan.board,
-	selectedThread: chan.thread
-}), dispatch => ({ dispatch }))
-export default class TrackedThreads_ extends React.Component {
-	render() {
-		return <TrackedThreads {...this.props}/>
-	}
-}
-
-function TrackedThreads({
-	isThreadLocation,
-	locale,
-	trackedThreads,
-	selectedBoard,
-	selectedThread,
-	dispatch
-}) {
+export default function TrackedThreads() {
+	const isThreadPage = useSelector(({ found }) => isThreadLocation(found.resolvedMatch))
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const trackedThreads = useSelector(({ threadTracker }) => threadTracker.trackedThreads)
+	const selectedBoard = useSelector(({ chan }) => chan.board)
+	const selectedThread = useSelector(({ chan }) => chan.thread)
+	const dispatch = useDispatch()
 	return (
 		<section className={classNames('tracked-threads', {
 			'tracked-threads--empty': trackedThreads.length === 0
@@ -55,7 +41,7 @@ function TrackedThreads({
 						locale={locale}
 						selectedBoard={selectedBoard}
 						selectedThread={selectedThread}
-						selected={isThreadLocation &&
+						selected={isThreadPage &&
 							selectedBoard.id === thread.board.id &&
 							selectedThread.id === thread.id}
 						dispatch={dispatch}/>
@@ -66,12 +52,12 @@ function TrackedThreads({
 }
 
 TrackedThreads.propTypes = {
-	isThreadLocation: PropTypes.bool,
-	locale: PropTypes.string.isRequired,
-	trackedThreads: PropTypes.arrayOf(trackedThread).isRequired,
-	selectedBoard: board.isRequired,
-	selectedThread: thread.isRequired,
-	dispatch: PropTypes.func.isRequired
+	// isThreadLocation: PropTypes.bool,
+	// locale: PropTypes.string.isRequired,
+	// trackedThreads: PropTypes.arrayOf(trackedThread).isRequired,
+	// selectedBoard: board.isRequired,
+	// selectedThread: thread.isRequired,
+	// dispatch: PropTypes.func.isRequired
 }
 
 // // Don't re-render `<TrackedThreads/>` on page navigation (on `route` change).

@@ -2,12 +2,10 @@ import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
 	goto,
-	preload,
-	meta,
 	wasInstantNavigation,
 	isInstantBackAbleNavigation
-} from 'react-website'
-import { connect } from 'react-redux'
+} from 'react-pages'
+import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import { getThreads } from '../redux/chan'
@@ -25,48 +23,14 @@ import VirtualScroller from 'virtual-scroller/react'
 
 import './Board.css'
 
-@meta(({ chan: { board }}) => ({
-	title: board && board.title,
-	description: board && board.description
-}))
-@connect(({ settings, chan, board }) => ({
-	board: chan.board,
-	threads: chan.threads,
-	locale: settings.settings.locale,
-	censoredWords: settings.settings.censoredWords,
-	virtualScrollerState: board.virtualScrollerState,
-	scrollPosition: board.scrollPosition
-}), dispatch => ({ dispatch }))
-@preload(async ({ getState, dispatch, params }) => {
-	const settings = getState().settings.settings
-	await dispatch(getThreads(
-		params.board,
-		settings.censoredWords,
-		settings.locale
-	))
-	if (settings.autoSuggestFavoriteBoards !== false) {
-		const board = getState().chan.board
-		dispatch(addFavoriteBoard({
-			id: board.id,
-			title: board.title
-		}))
-	}
-})
-export default class BoardPage_ extends React.Component {
-	render() {
-		return <BoardPage {...this.props}/>
-	}
-}
-
-function BoardPage({
-	board,
-	threads,
-	locale,
-	censoredWords,
-	virtualScrollerState: initialVirtualScrollerState,
-	scrollPosition,
-	dispatch
-}) {
+export default function BoardPage() {
+	const board = useSelector(({ chan }) => chan.board)
+	const threads = useSelector(({ chan }) => chan.threads)
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const censoredWords = useSelector(({ settings }) => settings.settings.censoredWords)
+	const initialVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
+	const scrollPosition = useSelector(({ board }) => board.scrollPosition)
+	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const virtualScrollerState = useRef()
 	const onThreadClick = useCallback(async (comment, thread, board) => {
@@ -154,6 +118,27 @@ BoardPage.propTypes = {
 	virtualScrollerState: PropTypes.object,
 	scrollPosition: PropTypes.number,
 	dispatch: PropTypes.func.isRequired
+}
+
+BoardPage.meta = ({ chan: { board }}) => ({
+	title: board && board.title,
+	description: board && board.description
+})
+
+BoardPage.load = async ({ getState, dispatch, params }) => {
+	const settings = getState().settings.settings
+	await dispatch(getThreads(
+		params.board,
+		settings.censoredWords,
+		settings.locale
+	))
+	if (settings.autoSuggestFavoriteBoards !== false) {
+		const board = getState().chan.board
+		dispatch(addFavoriteBoard({
+			id: board.id,
+			title: board.title
+		}))
+	}
 }
 
 function CommentComponent({

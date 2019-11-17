@@ -127,7 +127,7 @@ function AddTheme({
 	// Focus the "Code" input after "Paste CSS code instead" has been clicked.
 	useEffect(() => {
 		if (pasteCodeInstead) {
-			addThemeForm.current.getWrappedInstance().focus('code')
+			addThemeForm.current.focus('code')
 		}
 	}, [pasteCodeInstead])
 

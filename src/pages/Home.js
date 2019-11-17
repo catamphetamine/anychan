@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
@@ -12,19 +12,7 @@ import { showSidebar, setSidebarMode } from '../redux/app'
 
 import './Home.css'
 
-@connect(({ settings }) => ({
-	locale: settings.settings.locale
-}), dispatch => ({ dispatch }))
-export default class Home_ extends React.Component {
-	render() {
-		return <Home {...this.props}/>
-	}
-}
-
-function Home({
-	locale,
-	dispatch
-}) {
+export default function Home() {
 	const {
 		title,
 		subtitle,
@@ -32,6 +20,8 @@ function Home({
 		announcement,
 		links
 	} = getChan()
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const dispatch = useDispatch()
 	const onShowBoardsList = useCallback(() => {
 		dispatch(showSidebar(true))
 		dispatch(setSidebarMode('boards'))
@@ -87,9 +77,4 @@ function Home({
 			</div>
 		</section>
 	)
-}
-
-Home.propTypes = {
-	locale: PropTypes.string.isRequired,
-	dispatch: PropTypes.func.isRequired
 }

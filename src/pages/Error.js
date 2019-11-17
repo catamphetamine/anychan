@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { meta, Link } from 'react-website'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import ExternalLink from 'webapp-frontend/src/components/ExternalLink'
@@ -11,26 +11,12 @@ import getMessages from '../messages'
 
 import './Error.css'
 
-@meta(({ settings }) => ({
-	title: getMessages(settings.settings.locale).errorPages['500'].title
-}))
-@connect(({ settings, found, app }) => ({
-	locale: settings.settings.locale,
-	location: found.resolvedMatch.location,
-	offline: app.offline
-}))
-export default class ErrorPage_ extends React.Component {
-	render() {
-		return <ErrorPage {...this.props}/>
-	}
-}
-
-export function ErrorPage({
-	locale,
-	location,
-	status,
-	offline
+export default function ErrorPage({
+	status
 }) {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const location = useSelector(({ found }) => found.resolvedMatch.location)
+	const offline = useSelector(({ app }) => app.offline)
 	const custom = getChan().errorPages && getChan().errorPages[status]
 	const messages = getMessages(locale).errorPages[status]
 	const LinkComponent = offline ? ExternalLink : Link
@@ -64,15 +50,19 @@ export function ErrorPage({
 }
 
 ErrorPage.propTypes = {
-	locale: PropTypes.string.isRequired,
-	location: PropTypes.object.isRequired,
-	status: PropTypes.number.isRequired,
-	offline: PropTypes.boolean
+	// locale: PropTypes.string.isRequired,
+	// location: PropTypes.object.isRequired,
+	// offline: PropTypes.boolean,
+	status: PropTypes.number.isRequired
 }
 
 ErrorPage.defaultProps = {
 	status: 500
 }
+
+ErrorPage.meta = ({ settings }) => ({
+	title: getMessages(settings.settings.locale).errorPages['500'].title
+})
 
 function getRandomElement(array) {
 	return array[Math.floor(Math.random() * array.length)]

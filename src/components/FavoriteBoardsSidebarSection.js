@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { FavoriteBoards } from './Boards'
 import SidebarSection from './SidebarSection'
@@ -9,23 +9,11 @@ import EditFavoriteBoards from './EditFavoriteBoards'
 import getMessages from '../messages'
 import { getBoards } from '../redux/chan'
 
-@connect(({ settings, chan, favoriteBoards }) => ({
-	locale: settings.settings.locale,
-	favoriteBoards: favoriteBoards.favoriteBoards,
-	allBoards: chan.allBoards && chan.allBoards.boards
-}), (dispatch) => ({ dispatch }))
-export default class FavoriteBoardsSidebarSection_ extends React.Component {
-	render() {
-		return <FavoriteBoardsSidebarSection {...this.props}/>
-	}
-}
-
-function FavoriteBoardsSidebarSection({
-	favoriteBoards,
-	allBoards,
-	locale,
-	dispatch
-}) {
+export default function FavoriteBoardsSidebarSection() {
+	const favoriteBoards = useSelector(({ favoriteBoards }) => favoriteBoards.favoriteBoards)
+	const allBoards = useSelector(({ chan }) => chan.allBoards && chan.allBoards.boards)
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const dispatch = useDispatch()
 	const [editingFavoriteBoards, setEditingFavoriteBoards] = useState()
 	const onMore = useCallback(async (isEditMode) => {
 		if (isEditMode && !allBoards) {
@@ -48,7 +36,7 @@ function FavoriteBoardsSidebarSection({
 }
 
 FavoriteBoardsSidebarSection.propTypes = {
-	board: board.isRequired,
-	locale: PropTypes.string.isRequired,
-	dispatch: PropTypes.func.isRequired
+	// board: board.isRequired,
+	// locale: PropTypes.string.isRequired,
+	// dispatch: PropTypes.func.isRequired
 }

@@ -13,6 +13,30 @@ Check redirect in preload. Maybe make default initialClientSideRender flag. Add 
 
 
 
+`virtual-scroller`: если вновь измеренная высота не совпадает с предыдущей, и это попадает в текущий экран (или сверху), то `window.scrollY += delta`.
+
+
+
+
+
+При нажатии на картинку — крутить (анимированно) до поста с ней, и убрать раскрашивание цвета рамки картинки.
+
+
+Не загружать ссылки на ютуб и прочее при поиске.
+
+При поиске не учитывать регистр.
+
+`thread.updatedAt` seems to be present in all currently supported engines: show it in `/catalog` view on thread cards. Maybe to the right of the "comments count"/"attachments count" icons. Иконка — мб циферблат ("time icon"). Tooltip: в зависимости от того, какой chan — у `4chan` будет "the last time the thread was modified (post added/modified/deleted, thread closed/sticky settings modified)". У `lynxchan` — "last time this thread was bumped". У `makaba` — наверное, так же, как и у `4chan`.
+
+`post-link`s: rename `postWasDeleted` -> `deleted`, `postIsHidden` -> `hidden`, `postIsExternal` -> remove and compare `boardId` and `threadId` instead. `deleted` — Maybe add to `webapp-frontend`, other -> only in `captchan` (perhaps).
+
+В превью тредов не подставляет "Комментарий" на месте ссылок на посты ("Прошлый тред 31225129 (OP)").
+
+Если текст `post-link` оканчивается на " OP", то можно делать не "(комментарий)", а "(тред)".
+
+Вместо круглых скобок делать квадратные (`[]`).
+
+`messages.thread.default = Тред`, `messages.thread.external = Другой тред`. Цвет — тоже серый, как для удалённых сообщений. Плюс серый цвет для всех external `post-link`s в виде цитат.
 
 Block post links:
 
@@ -145,7 +169,7 @@ Toggle search on Ctrl/Cmd + F.
 Expand attachments: max height === screen height - header/footer height.
 
 
-Show the "bump limit" indicator in the "Watched threads" list for threads that have reached their "bump limit".
+Show the "bump limit" indicator in the "Watched threads" list for threads that have reached their "bump limit". Also show "Closed thread" indicator there.
 
 Как-то помечать цветом (или полоской слева, или ещё как-то) own comments, own threads, replies to own comments.
 

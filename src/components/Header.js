@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MenuIcon } from 'react-responsive-ui'
-import { Link } from 'react-website'
-import { connect } from 'react-redux'
+import { Link } from 'react-pages'
+import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import ApplicationMenu from './ApplicationMenu'
@@ -19,80 +19,70 @@ import { getChan, addChanParameter } from '../chan'
 
 import './Header.css'
 
-@connect(({ settings, chan, found }) => ({
-	locale: settings.settings.locale,
-	board: chan.board,
-	thread: chan.thread,
-	route: found.resolvedMatch
-}))
-export default class Header extends React.Component {
-	render() {
-		const {
-			locale,
-			route,
-			board,
-			thread
-		} = this.props
+export default function Header() {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const board = useSelector(({ chan }) => chan.board)
+	const thread = useSelector(({ chan }) => chan.thread)
+	const route = useSelector(({ found }) => found.resolvedMatch)
 
-		const isBoardPage = (isBoardLocation(route) || isThreadLocation(route)) && board
-		const isThreadPage = isThreadLocation(route) && thread
+	const isBoardPage = (isBoardLocation(route) || isThreadLocation(route)) && board
+	const isThreadPage = isThreadLocation(route) && thread
 
-		return (
-			<nav className="webpage__header rrui__fixed-full-width">
+	return (
+		<nav className="webpage__header rrui__fixed-full-width">
+			<Link
+				to={addChanParameter('/')}
+				title={getChan().title}
+				className="header__logo-link">
+				{['lainchan', 'arisuchan'].includes(getChan().id) &&
+					<ChanLogo className="header__logo"/>
+				}
+				{!['lainchan', 'arisuchan'].includes(getChan().id) &&
+					<ChanIcon className="header__logo"/>
+				}
+			</Link>
+
+			{!isBoardPage && !isThreadPage &&
 				<Link
 					to={addChanParameter('/')}
-					title={getChan().title}
-					className="header__logo-link">
-					{['lainchan', 'arisuchan'].includes(getChan().id) &&
-						<ChanLogo className="header__logo"/>
-					}
-					{!['lainchan', 'arisuchan'].includes(getChan().id) &&
-						<ChanIcon className="header__logo"/>
-					}
+					className="webpage__header-title webpage__header-title--primary header__uncolored-link">
+					{getChan().title}
 				</Link>
-
-				{!isBoardPage && !isThreadPage &&
-					<Link
-						to={addChanParameter('/')}
-						className="webpage__header-title webpage__header-title--primary header__uncolored-link">
-						{getChan().title}
-					</Link>
-				}
-				{isBoardPage && isThreadLocation(route) &&
-					<Link
-						instantBack
-						to={getUrl(board)}
-						className="webpage__header-title webpage__header-title--primary header__uncolored-link">
-						{board.title}
-					</Link>
-				}
-				{isBoardPage && !isThreadLocation(route) &&
-					<div className="webpage__header-title webpage__header-title--primary">
-						{board.title}
-					</div>
-				}
-
-				<HeaderSeparator
-					line
-					className={classNames('header__separator', 'header__separator--left', {
-						'header__separator--thread': isThreadPage
-					})}/>
-
-				<div className="webpage__header-title webpage__header-title--secondary">
-					{isThreadPage && (thread.titleCensored || thread.title)}
+			}
+			{isBoardPage && isThreadLocation(route) &&
+				<Link
+					instantBack
+					to={getUrl(board)}
+					className="webpage__header-title webpage__header-title--primary header__uncolored-link">
+					{board.title}
+				</Link>
+			}
+			{isBoardPage && !isThreadLocation(route) &&
+				<div className="webpage__header-title webpage__header-title--primary">
+					{board.title}
 				</div>
+			}
 
-				<HeaderSeparator
-					inverse
-					line
-					className={classNames(
-						'header__separator',
-						'header__separator--right'
-					)}/>
-				<ApplicationMenu/>
-			</nav>
-		)
-	}
+			<HeaderSeparator
+				line
+				className={classNames('header__separator', 'header__separator--left', {
+					'header__separator--thread': isThreadPage
+				})}/>
+
+			<div className="webpage__header-title webpage__header-title--secondary">
+				{isThreadPage && (thread.titleCensored || thread.title)}
+			</div>
+
+			<HeaderSeparator
+				inverse
+				line
+				className={classNames(
+					'header__separator',
+					'header__separator--right'
+				)}/>
+			<ApplicationMenu/>
+		</nav>
+	)
 }
 
 // Using `0.1` instead of `0` and `2.9` instead of `3.0` here

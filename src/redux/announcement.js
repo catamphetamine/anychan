@@ -1,4 +1,4 @@
-import { ReduxModule } from 'react-website'
+import { ReduxModule } from 'react-pages'
 
 import { hideAnnouncement as _hideAnnouncement } from '../utility/announcement'
 

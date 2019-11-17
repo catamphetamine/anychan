@@ -1,4 +1,4 @@
-import { ReduxModule } from 'react-website'
+import { ReduxModule } from 'react-pages'
 
 import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 import { applyDarkMode } from 'webapp-frontend/src/utility/style'

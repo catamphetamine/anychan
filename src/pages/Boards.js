@@ -1,6 +1,6 @@
 import React from 'react'
-import { meta, preload, Link } from 'react-website'
-import { connect } from 'react-redux'
+import { Link } from 'react-pages'
+import { useSelector } from 'react-redux'
 import VirtualScroller from 'virtual-scroller/react'
 
 import { Boards } from '../components/Boards'
@@ -12,28 +12,11 @@ import getMessages from '../messages'
 
 import './Boards.css'
 
-@meta(({ settings }) => ({
-	title: getMessages(settings.settings.locale).boards.title
-}))
-@preload(({ dispatch }) => dispatch(getBoards({ all: true })))
-@connect(({ settings, chan }) => ({
-	locale: settings.settings.locale,
-	boards: chan.allBoards.boards,
-	boardsByCategory: chan.allBoards.boardsByCategory,
-	boardsByPopularity: chan.allBoards.boardsByPopularity
-}))
-export default class BoardsPage_ extends React.Component {
-	render() {
-		return <BoardsPage {...this.props}/>
-	}
-}
-
-function BoardsPage({
-	locale,
-	boards,
-	boardsByCategory,
-	boardsByPopularity
-}) {
+export default function BoardsPage() {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const boards = useSelector(({ chan }) => chan.allBoards.boards)
+	const boardsByCategory = useSelector(({ chan }) => chan.allBoards.boardsByCategory)
+	const boardsByPopularity = useSelector(({ chan }) => chan.allBoards.boardsByPopularity)
 	return (
 		<section className="boards-page content text-content">
 			<Boards
@@ -46,6 +29,12 @@ function BoardsPage({
 		</section>
 	)
 }
+
+BoardsPage.meta = ({ settings }) => ({
+	title: getMessages(settings.settings.locale).boards.title
+})
+
+BoardsPage.load = ({ dispatch }) => dispatch(getBoards({ all: true }))
 
 function BoardsList({ className, children }) {
 	// On `8ch.net` there're about 20 000 user-created boards.

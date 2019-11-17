@@ -2,22 +2,14 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import getMessages from '../messages'
 
 import './Notifications.css'
 
-@connect(({ settings }) => ({
-	locale: settings.settings.locale
-}))
-export default class Notifications_ extends React.Component {
-	render() {
-		return <Notifications {...this.props}/>
-	}
-}
-
-function Notifications({ locale }) {
+export default function Notifications() {
+	const locale = useSelector(({ settings }) => settings.settings.locale)
 	return (
 		<section className="notifications notifications--empty">
 			<div className="notifications__empty">
@@ -25,8 +17,4 @@ function Notifications({ locale }) {
 			</div>
 		</section>
 	)
-}
-
-Notifications.propTypes = {
-	locale: PropTypes.string.isRequired
 }

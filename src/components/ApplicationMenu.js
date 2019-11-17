@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import Menu from 'webapp-frontend/src/components/Menu'
@@ -42,30 +42,18 @@ import MenuIconFill from 'webapp-frontend/assets/images/icons/menu/menu-fill.svg
 
 import './ApplicationMenu.css'
 
-@connect(({ app, settings }) => ({
-	locale: settings.settings.locale,
-	isSidebarShown: app.isSidebarShown,
-	sidebarMode: app.sidebarMode,
-	darkMode: app.darkMode,
-	areTrackedThreadsShown: app.areTrackedThreadsShown,
-	areNotificationsShown: app.areNotificationsShown
-}), dispatch => ({ dispatch }))
-export default class _ApplicationMenu extends React.Component {
-	render() {
-		return <ApplicationMenu {...this.props}/>
-	}
-}
+export default function ApplicationMenu({
+	footer
+}) {
+	const dispatch = useDispatch()
+	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const isSidebarShown = useSelector(({ app }) => app.isSidebarShown)
+	const sidebarMode = useSelector(({ app }) => app.sidebarMode)
+	const darkMode = useSelector(({ app }) => app.darkMode)
+	const areTrackedThreadsShown = useSelector(({ app }) => app.areTrackedThreadsShown)
+	const areNotificationsShown = useSelector(({ app }) => app.areNotificationsShown)
 
-function ApplicationMenu(props) {
 	function getMenuItems() {
-		const {
-			footer,
-			locale,
-			isSidebarShown,
-			sidebarMode,
-			darkMode,
-			dispatch
-		} = props
 		const messages = getMessages(locale)
 		const areBoardsShown = sidebarMode === 'boards' && (footer ? isSidebarShown : true)
 		const areTrackedThreadsShown = sidebarMode === 'tracked-threads' && (footer ? isSidebarShown : true)
@@ -178,7 +166,7 @@ function ApplicationMenu(props) {
 	}
 
 	return (
-		<Menu className={classNames('application-menu', props.footer && 'rrui__fixed-full-width')}>
+		<Menu className={classNames('application-menu', footer && 'rrui__fixed-full-width')}>
 			{getMenuItems()}
 		</Menu>
 	)
@@ -186,10 +174,10 @@ function ApplicationMenu(props) {
 
 ApplicationMenu.propTypes = {
 	footer: PropTypes.bool,
-	locale: PropTypes.string.isRequired,
-	isSidebarShown: PropTypes.bool,
-	darkMode: PropTypes.bool,
-	areTrackedThreadsShown: PropTypes.bool,
-	areNotificationsShown: PropTypes.bool,
-	dispatch: PropTypes.func.isRequired
+	// locale: PropTypes.string.isRequired,
+	// isSidebarShown: PropTypes.bool,
+	// darkMode: PropTypes.bool,
+	// areTrackedThreadsShown: PropTypes.bool,
+	// areNotificationsShown: PropTypes.bool,
+	// dispatch: PropTypes.func.isRequired
 }
