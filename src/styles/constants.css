@@ -4,7 +4,7 @@
 :root {
 	--sidebar-z-index: 1;
 	--header-z-index: 2;
-	--slideshow-z-index: 3;
+	--Slideshow-zIndex: 3;
 	--notifications-z-index: 4;
 
 	--Header-height: calc(var(--unit) * 3);

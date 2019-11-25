@@ -1,25 +1,47 @@
-react-website: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
+// react-website: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
 
-После обновления до `react-redux@6` убрать `getWrappedInstance()` во всех кодах.
-
-
-
-`react-website`:
-
-Check redirect in preload. Maybe make default initialClientSideRender flag. Add custom preload indicator. Check forceUpdate really updating the comment in updateItem(i). Check youtube video images height non loaded.
-
-Мб сделать в react-website что-нибудь, чтобы последний компонент route'а всегда re-mount-ился при смене location.
+// Мб сделать в `react-pages` что-нибудь, чтобы последний компонент route'а всегда re-mount-ился при смене location, даже если URL остался тем же: это решит те случаи, когда, например, на странице есть ссылка на саму себя. Но это редкие случаи.
 
 
 
 
-`virtual-scroller`: если вновь измеренная высота не совпадает с предыдущей, и это попадает в текущий экран (или сверху), то `window.scrollY += delta`.
+`virtual-scroller`: если вновь измеренная высота какого-то item'а не совпадает с измеренной ранее, и этот `item` попадает в текущий экран (или находится сверху текущего экрана), то делать на месте поправку положения scrollbar'а: `window.scrollY += deltaHeight`.
+
+`virtual-scroller`: сделать instance method `.onListStateChange(listState)`, который будет сохранять новый `listState` в `virtual-scroller` `state`, вызывая `onStateChange()`. Изначально можно инициализировать его пустым объектом (`{}`). Initial `listState` можно передавать в рамках `state={...}`. Хранить в такм `listState` `expandAttachments`, т.к. это настройка для всего списка комментариев, и поэтому она не для `itemState`. Проставлять `initialExpandAttachments` в `useState()` из этого `virtual-scroller` `state.listState`.
+
+`virtual-scroller`: если развернуть ответы к первому посту, далее проскроллить вниз, далее опять вверх, и свернуть ответы к первому посту, то под первым постом вроде бы как образуется "пустота" — `virtual-scroller` мб не перерендеривается.
 
 
 
 
 
-При нажатии на картинку — крутить (анимированно) до поста с ней, и убрать раскрашивание цвета рамки картинки.
+На мобильных: не показывать footer menu. Вместо этого — меню будет справа посередине. При заходе в тред — будет меняться на стрелку "назад". В сайдбаре на мобильных сделать сверху отступ где-нибудь в 30vh, чтобы пальцу было удобно выбирать одну из "favourite" досок. Наверху будут кнопки переключения ночного режима и ссылка на страницу настроек. Переход иконки кнопки меню/влево сделать анимацией трёх палочек (переключение — в `onNavigate()` в зависимости от location'а).
+
+При навигации из сайдбара — сворачивать его по началу навигации, а не по окончанию. Мб добавить анимаций (быстрых) сворачивания/разворачивания сайдбара справа.
+
+
+
+
+
+
+
+
+Убрать footer={document.querySelector('footer .application-menu')} после переноса кнопки меню вправо.
+
+Сделать нормальный скейлинг для слайдов: анимировать slide width и height + `this.slideshow.scale.offsetX`, `this.slideshow.scale.offsetY`.
+
+Сделать scale больше maxScale (например, для мобильных): на них может потребоваться разглядеть картинку при маленькой ширине экрана (например, текст).
+
+Переделать scale через requestAnimationFrame() и без transform, и убрать у Picture pixel ratio multiplier.
+
+Проверить потом pinch zoom slideshow.
+
+
+
+
+
+
+
 
 
 Не загружать ссылки на ютуб и прочее при поиске.
@@ -281,6 +303,8 @@ Load instagram posts through CORS proxy (if configured).
 Добавить в `onUserDataChange()` прочитанность комментариев.
 
 
+ignore words: validate rules on save and on compile.
+
 
 При автозамене кавычек на парные (`«»`) они могут ставиться неправильно, когда весь текст в кавычках разделён другими блоками. Например: `"Цитата <strong>блок</strong>" "Вторая цитата"` -> `"Цитата <strong>блок</strong>« »Вторая цитата"`. При подобной автозамене кавычек можно проставлять флаг, если попалась первая непарная кавычка, и в случае проставления такого флага дальше уже не автозаменять кавычки.
 
@@ -354,6 +378,8 @@ Backup YouTube video api with oEmbed through CORS proxy (if configured).
 
 В "Слайдшоу" можно добавить "Поиск в iqdb":
 https://iqdb.org/?url=http://i.4cdn.org/a/1554643360980s.jpg
+
+// При открытии картинки на мобильных: она может загружаться через "крутилку", и, соответственно, будет затемнение миниатюры (с показом "крутилки"), и если проигрывается анимация "scaleOpenCloseTransition", то затемнение пропадёт сразу на увеличиваемой миниатюре.
 
 
 Можно сделать какой-нибудь архиватор треда. Картинки и видео можно скачивать в виде `Blob`'ов через `fetch()`. Далее эти `Blob`'ы можно упаковывать вместе с `index.html`, в котором может быть записан JSON постов треда, и через javascript этот JSON может отображаться в разметку `<body/>`. Далее, `index.html`, копия JSON'а и `Blob`'ы, видимо, могут быть записаны в ZIP-архив (тоже `Blob`), который уже потом может быть скачан из браузера в виде файла.

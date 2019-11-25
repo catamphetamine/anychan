@@ -4,6 +4,7 @@ import settings from './react-pages'
 import configuration from './configuration'
 
 import { hideSidebar } from './redux/app'
+import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 // import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
 export default async function() {
@@ -11,6 +12,8 @@ export default async function() {
 	// Renders the webpage on the client side
 	const result = await render(settings, {
 		onNavigate(url, location, { dispatch, getState }) {
+			// Close slideshow on "Back"/"Forward" navigation.
+			dispatch(closeSlideshow())
 			// Focus the page on subsequent renders.
 			// (for screen readers and accessibility).
 			if (isFirstRender) {

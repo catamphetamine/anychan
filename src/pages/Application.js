@@ -69,13 +69,15 @@ export default function App({
 	const route = useSelector(({ found }) => found.resolvedMatch)
 	const slideshowIndex = useSelector(({ slideshow }) => slideshow.index)
 	const slideshowIsOpen = useSelector(({ slideshow }) => slideshow.isOpen)
-	const slideshowPictures = useSelector(({ slideshow }) => slideshow.pictures)
-	const slideshowMode = useSelector(({ slideshow }) => slideshow.slideshowMode)
+	const slideshowSlides = useSelector(({ slideshow }) => slideshow.slides)
+	const slideshowMode = useSelector(({ slideshow }) => slideshow.mode)
+	const thumbnailImage = useSelector(({ slideshow }) => slideshow.thumbnailImage)
   const location = useSelector(({ found }) => found.resolvedMatch.location)
   const announcement = useSelector(({ announcement }) => announcement.announcement)
 	const dispatch = useDispatch()
 
 	const hasMounted = useRef()
+	const header = useRef()
 
 	useEffect(() => {
 		function updateUserData(key) {
@@ -143,16 +145,27 @@ export default function App({
 			<DeviceInfo/>
 
 			{/* Picture Slideshow */}
-			{slideshowPictures &&
-				<Slideshow
-					i={slideshowIndex}
-					isOpen={slideshowIsOpen}
-					slideshowMode={slideshowMode}
-					onClose={onCloseSlideshow}
-					messages={messages.slideshow}>
-					{slideshowPictures}
-				</Slideshow>
-			}
+			<Slideshow
+				i={slideshowIndex}
+				isOpen={slideshowIsOpen}
+				mode={slideshowMode}
+				showControls={slideshowMode === 'flow'}
+				showPagination
+				thumbnailImage={thumbnailImage}
+				onClose={onCloseSlideshow}
+				messages={messages.slideshow}
+				closeOnSlideClick={slideshowMode !== 'flow'}
+				overlayOpacity={0}
+				overlayOpacityFlowMode={0.85}
+				overlayOpacitySmallScreen={0.1}
+				animateOpenCloseSmallScreen
+				animateOpenCloseScaleSmallScreen
+				animateOpenCloseOnPanOut
+				smallScreenMaxWidth={500}
+				header={header.current}
+				footer={document.querySelector('footer .application-menu')}>
+				{slideshowSlides}
+			</Slideshow>
 
 			<div className={classNames('webpage', {
 				'webpage--offline': offline,
@@ -162,7 +175,9 @@ export default function App({
 				'webpage--thread': isThreadLocation(route),
 				'webpage--wide-sidebar': sidebarMode !== 'boards'
 			})}>
-				{!offline && <Header/>}
+				{!offline &&
+					<Header ref={header}/>
+				}
 				{!offline &&
 					<div className="webpage__padding-left"/>
 				}

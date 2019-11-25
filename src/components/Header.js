@@ -19,7 +19,7 @@ import { getChan, addChanParameter } from '../chan'
 
 import './Header.css'
 
-export default function Header() {
+function Header({}, ref) {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const board = useSelector(({ chan }) => chan.board)
 	const thread = useSelector(({ chan }) => chan.thread)
@@ -29,7 +29,7 @@ export default function Header() {
 	const isThreadPage = isThreadLocation(route) && thread
 
 	return (
-		<nav className="webpage__header rrui__fixed-full-width">
+		<nav ref={ref} className="webpage__header rrui__fixed-full-width">
 			<Link
 				to={addChanParameter('/')}
 				title={getChan().title}
@@ -84,6 +84,10 @@ export default function Header() {
 		</nav>
 	)
 }
+
+Header = React.forwardRef(Header)
+
+export default Header
 
 // Using `0.1` instead of `0` and `2.9` instead of `3.0` here
 // to add some side padding for the `<line/>` so that it isn't clipped.

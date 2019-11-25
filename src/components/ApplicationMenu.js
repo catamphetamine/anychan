@@ -147,12 +147,12 @@ export default function ApplicationMenu({
 		// Mobile menu is optimized for holding the phone in the right hand.
 		if (footer) {
 			return [
-				settingsItem,
 				darkModeItem,
+				menuItem,
+				settingsItem
 				// boardsItem,
 				// trackedThreadsItem,
 				// notificationsItem
-				menuItem
 			]
 		}
 		// Desktop menu is optimized for left-to-right mouse navigation.

@@ -24,7 +24,8 @@ import getThumbnailSize from 'social-components/commonjs/utility/attachment/getT
 
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
-import { isSlideSupported, preloadPicture } from 'webapp-frontend/src/components/Slideshow'
+import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
+import { preloadPictureSlide } from 'webapp-frontend/src/components/Slideshow.Picture'
 
 import './Thread.css'
 
@@ -47,12 +48,12 @@ export default function ThreadPage() {
 		).filter(isSlideSupported)
 		if (attachments[0].type === 'picture') {
 			try {
-				await preloadPicture(attachments[0])
+				await preloadPictureSlide(attachments[0])
 			} catch (error) {
 				console.error(error)
 			}
 		}
-		dispatch(openSlideshow(attachments, 0, { slideshowMode: true }))
+		dispatch(openSlideshow(attachments, 0, { mode: 'flow' }))
 	}, [thread, dispatch])
 	const onVirtualScrollerStateChange = useCallback(
 		state => virtualScrollerState.current = state,

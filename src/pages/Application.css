@@ -48,10 +48,6 @@
 	max-width: 100%;
 }
 
-.rrui__slideshow {
-	z-index: var(--slideshow-z-index);
-}
-
 /*
 .thread-comment,
 .settings-page .content-section {
@@ -64,10 +60,6 @@
 .board-page__title {
 	margin-left: var(--unit);
 	margin-right: var(--unit);
-}
-
-.rrui__slideshow--fullscreen {
-	z-index: var(--slideshow-z-index);
 }
 
 .page__heading,

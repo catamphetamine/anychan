@@ -144,18 +144,26 @@ export default function ThreadComment({
 		// Focus the "Reply" button of `postRef.current` here.
 	}, [comment])
 
-	const onAttachmentClick = useCallback((attachment) => {
-		const attachments = getSortedAttachments(comment).filter(isSlideSupported)
-		const i = attachments.indexOf(attachment)
+	const onAttachmentClick = useCallback((attachment, options = {}) => {
+		// `<PostLink/>` doesn't provide `options` (and `thumbnailImage` as part of it).
+		const { thumbnailImage } = options
+		// The attachment clicked might be a `link` attachment
+		// that's not part of `post.attachments` (that can be `undefined`).
+		let attachments
+		let i = -1
+		if (comment.attachments) {
+			attachments = getSortedAttachments(comment).filter(isSlideSupported)
+			i = attachments.indexOf(attachment)
+		}
 		// If an attachment is either an uploaded one or an embedded one
 		// then it will be in `post.attachments`.
 		// If an attachment is only attached to a `link`
 		// (for example, an inline-level YouTube video link)
 		// then it won't be included in `post.attachments`.
 		if (i >= 0) {
-			dispatch(openSlideshow(attachments, i))
+			dispatch(openSlideshow(attachments, i, { thumbnailImage }))
 		} else {
-			dispatch(openSlideshow([attachment], 0))
+			dispatch(openSlideshow([attachment], 0, { thumbnailImage }))
 		}
 	}, [comment, dispatch])
 
@@ -300,13 +308,12 @@ function Comment({
 	if (expandAttachments) {
 		postThumbnail = undefined;
 	}
-	const postThumbnailOnClick = useCallback(() => {
+	const postThumbnailOnClick = useCallback((event) => {
 		if (onAttachmentClick) {
 			const attachments = getNonEmbeddedAttachments(comment)
 			onAttachmentClick(
 				postThumbnail,
-				attachments.indexOf(postThumbnail),
-				attachments
+				{ thumbnailImage: event.target }
 			)
 		}
 	}, [postThumbnail])

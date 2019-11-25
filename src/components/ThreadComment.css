@@ -39,6 +39,19 @@
 	}
 }
 
+/* Add some left padding to first-level comment tree branch.
+	If comments don't have any side padding
+	then the root replies branch line would be ineligible
+	because it would be drawn at the very screen edge (mobile devices).
+	This CSS variable can be used for styling such special case. */
+@mixin upto-s {
+	:root {
+		--CommentTreeBranch-paddingLeft--firstLevel: 0.25;
+	}
+}
+
+/* Move the first attachment to the left side of the comment on large screens. */
+/* (classic imageboard message style) */
 @mixin m-plus {
 	.thread-comment--thread {
 		/* Using `margin-right` instead of `padding-right` here
@@ -114,6 +127,7 @@
 	}
 }
 
+/* Comment tree comment borders. */
 .thread-page__comments {
 	/* The individual borders on `__thumbnail` and `__content`
 	   will be replaced with the border on `.thread-comment` itself. */
