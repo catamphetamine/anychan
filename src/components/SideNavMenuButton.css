@@ -1,0 +1,70 @@
+@import "../styles/common";
+
+.SideNavMenuButton {
+	display: none;
+	position: fixed;
+	top: calc(50% - var(--unit));
+	right: calc(var(--Post-padding--horizontal) / 2);
+	width: calc(var(--unit) * 2);
+	height: calc(var(--unit) * 2);
+	z-index: var(--SideNavMenuButton-zIndex);
+	@mixin upto-m {
+		display: block;
+	}
+	/*&:focus,*/
+	&:active {
+		color: var(--base-color-700);
+		/*background-color: var(--base-color-200);*/
+	}
+}
+
+/* https://codepen.io/bennettfeely/pen/twbyA */
+
+.SideNavMenuButtonIcon {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.SideNavMenuButtonIconBar {
+	position: absolute;
+	left: 0;
+	top: calc((100% - 6%) / 2);
+	width: 100%;
+	height: 6%;
+	background-color: currentColor;
+}
+
+.SideNavMenuButtonIconBar--transition {
+	transition: transform var(--rrui-menu-button-animation-duration), opacity var(--rrui-menu-button-animation-duration);
+}
+
+.SideNavMenuButtonIconBar:nth-child(1) {
+	transform: translateY(-450%);
+}
+
+.SideNavMenuButtonIconBar:nth-child(3) {
+	transform: translateY(450%);
+}
+
+/*
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIconBar:nth-child(1) {
+	transform: translateY(-550%);
+}
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIconBar:nth-child(3) {
+	transform: translateY(550%);
+}
+*/
+
+.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(2) {
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(1) {
+	transform: rotate(-45deg) scale(0.9);
+}
+
+.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(3) {
+	transform: rotate(45deg) scale(0.9);
+}

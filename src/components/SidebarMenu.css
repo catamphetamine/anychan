@@ -1,0 +1,35 @@
+.SidebarMenu {
+	margin-top: var(--unit);
+}
+
+.SidebarMenuItem {
+	display: flex;
+	align-items: center;
+	padding-left: calc(var(--unit) * 1);
+	padding-right: calc(var(--unit) * 1);
+	height: var(--List-lineHeight);
+	/* Styles `<Link/>`s and `<button/>`s. */
+	color: var(--Clickable-color--text);
+	&:active {
+		color: var(--Clickable-color--textActive);
+		.SidebarMenuItemTitle {
+			color: inherit;
+		}
+	}
+}
+
+.SidebarMenuItemTitle {
+	color: var(--Boards-color);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.SidebarMenuIcon {
+	width: calc(var(--unit) * 1);
+	height: calc(var(--unit) * 1);
+	margin-right: calc(var(--unit) * 1);
+	margin-left: calc(var(--unit) * 0.5);
+	/* Prevent the icon from shrinking when title text overflows. */
+	flex-shrink: 0;
+}

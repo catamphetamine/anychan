@@ -18,6 +18,7 @@ import Announcement, { announcementPropType } from 'webapp-frontend/src/componen
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
+import SideNavMenuButton from '../components/SideNavMenuButton'
 import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import Slideshow from 'webapp-frontend/src/components/Slideshow'
@@ -177,6 +178,9 @@ export default function App({
 			})}>
 				{!offline &&
 					<Header ref={header}/>
+				}
+				{!offline &&
+					<SideNavMenuButton/>
 				}
 				{!offline &&
 					<div className="webpage__padding-left"/>

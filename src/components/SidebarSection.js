@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import SidebarSectionMoreButton from './SidebarSectionMoreButton'
 
@@ -9,10 +10,11 @@ export default function SidebarSection({
 	title,
 	moreLabel,
 	onMore,
+	className,
 	children
 }) {
 	return (
-		<section className="sidebar-section">
+		<section className={classNames(className, 'sidebar-section')}>
 			<h1 className="sidebar-section__title">
 				{title}
 				{onMore &&

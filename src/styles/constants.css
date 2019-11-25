@@ -3,6 +3,7 @@
 
 :root {
 	--sidebar-z-index: 1;
+	--SideNavMenuButton-zIndex: 2;
 	--header-z-index: 2;
 	--Slideshow-zIndex: 3;
 	--notifications-z-index: 4;

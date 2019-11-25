@@ -11,7 +11,10 @@ export default async function() {
 	let isFirstRender = true
 	// Renders the webpage on the client side
 	const result = await render(settings, {
-		onNavigate(url, location, { dispatch, getState }) {
+		onNavigate(url, location, { dispatch, getState, routeMatch }) {
+			// `window._previousLocationRouteMatch` is used in `<SideNavMenuButton/>`.
+			window._previousLocationRouteMatch = window._currentLocationRouteMatch
+			window._currentLocationRouteMatch = routeMatch
 			// Close slideshow on "Back"/"Forward" navigation.
 			dispatch(closeSlideshow())
 			// Focus the page on subsequent renders.

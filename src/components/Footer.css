@@ -1,7 +1,8 @@
 @import "../styles/common";
 
 body {
-	--FooterMenu-height: calc(var(--unit) * 3);
+	/*--FooterMenu-height: calc(var(--unit) * 3);*/
+	--FooterMenu-height: 0px;
 }
 
 .footer {
@@ -13,13 +14,13 @@ body {
 	}
 }
 
-.footer .application-menu {
+/* `margin: 0` remove the negative side margin. */
+/*.footer .application-menu {
 	position : fixed;
 	left     : 0;
 	right    : 0;
 	bottom   : 0;
 
-	/* Remove the negative side margin. */
 	margin: 0;
 	justify-content: space-evenly;
 
@@ -29,7 +30,7 @@ body {
 	border-top: 1px solid var(--Header-borderColor);
 
 	z-index: var(--header-z-index);
-}
+}*/
 
 .footer {
 	margin-top: calc(var(--unit) * 4);

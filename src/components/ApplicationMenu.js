@@ -64,20 +64,7 @@ export default function ApplicationMenu({
 			icon: SettingsIconOutline,
 			iconActive: SettingsIconFill
 		}
-		const darkModeItem = {
-			title: messages.darkMode,
-			onClick: () => {
-				if (!areCookiesAccepted()) {
-					return dispatch(notify(messages.cookies.required))
-				}
-				dispatch(setDarkMode(!darkMode))
-				dispatch(saveDarkMode(!darkMode))
-				autoDarkMode(false)
-			},
-			isSelected: darkMode,
-			icon: MoonIconOutline,
-			iconActive: MoonIconFill
-		}
+		const darkModeItem = getDarkModeMenuItem({ locale, dispatch, darkMode })
 		const menuItem = {
 			title: messages.menu,
 			onClick() {
@@ -180,4 +167,22 @@ ApplicationMenu.propTypes = {
 	// areTrackedThreadsShown: PropTypes.bool,
 	// areNotificationsShown: PropTypes.bool,
 	// dispatch: PropTypes.func.isRequired
+}
+
+export function getDarkModeMenuItem({ locale, dispatch, darkMode }) {
+	const messages = getMessages(locale)
+	return {
+		title: messages.darkMode,
+		onClick: () => {
+			if (!areCookiesAccepted()) {
+				return dispatch(notify(messages.cookies.required))
+			}
+			dispatch(setDarkMode(!darkMode))
+			dispatch(saveDarkMode(!darkMode))
+			autoDarkMode(false)
+		},
+		isSelected: darkMode,
+		icon: MoonIconOutline,
+		iconActive: MoonIconFill
+	}
 }

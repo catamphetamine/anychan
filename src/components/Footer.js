@@ -69,7 +69,7 @@ export default function Footer({ className }) {
 						.
 					</p>
 				</div>
-				{!offline && <ApplicationMenu footer/>}
+				{!offline && false && <ApplicationMenu footer/>}
 			</div>
 		</footer>
 	)

@@ -56,3 +56,9 @@
 .sidebar__scrollable-list {
 	height: 100%;
 }
+
+@mixin l-plus {
+	.SidebarSection--menu {
+		display: none;
+	}
+}

@@ -9,6 +9,7 @@ import Boards from './Boards'
 import TrackedThreads from './TrackedThreads'
 import Notifications from './Notifications'
 import SidebarSection from './SidebarSection'
+import SidebarMenu from './SidebarMenu'
 
 import FavoriteBoardsSidebarSection from './FavoriteBoardsSidebarSection'
 
@@ -29,6 +30,9 @@ export default function Sidebar() {
 			'sidebar--show': isShown
 		})}>
 			<SimpleBar className="sidebar__scrollable-list">
+				<SidebarSection title={getMessages(locale).menu} className="SidebarSection--menu">
+					<SidebarMenu/>
+				</SidebarSection>
 				{trackedThreads.length > 0 &&
 					<SidebarSection title={getMessages(locale).trackedThreads.title}>
 						<TrackedThreads/>
