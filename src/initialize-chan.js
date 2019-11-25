@@ -27,10 +27,12 @@ export default function() {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
 		siteIcon.href = getChan().icon
 	}
-	// `4chan.org` uses a shade of blue for its transparent PNG image color.
-	// Setting `--SlideshowSlide-backgroundColor` prevents visual flicker
-	// when images are expanded from thumbnails via an animation (on mobile devices).
-	if (chan === '4chan') {
-		document.documentElement.style.setProperty('--SlideshowSlide-backgroundColor', '#d3d9f1')
-	}
+	// Actually, don't set slide background color to a shade of blue
+	// because in "dark mode" it would be too bright.
+	// // `4chan.org` uses a shade of blue for its transparent PNG image color.
+	// // Setting `--SlideshowSlide-backgroundColor` prevents visual flicker
+	// // when images are expanded from thumbnails via an animation (on mobile devices).
+	// if (chan === '4chan') {
+	// 	document.documentElement.style.setProperty('--SlideshowSlide-backgroundColor', '#d3d9f1')
+	// }
 }
