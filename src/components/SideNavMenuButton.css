@@ -3,11 +3,13 @@
 .SideNavMenuButton {
 	display: none;
 	position: fixed;
-	top: calc(50% - var(--unit));
-	right: calc(var(--Post-padding--horizontal) / 2);
+	top: calc(35% - var(--unit) * 2 / 2);
+	right: calc(var(--Post-padding--horizontal) - var(--unit) / 2);
 	width: calc(var(--unit) * 2);
 	height: calc(var(--unit) * 2);
 	z-index: var(--SideNavMenuButton-zIndex);
+	box-sizing: content-box;
+	padding: calc(var(--unit) / 2);
 	@mixin upto-m {
 		display: block;
 	}

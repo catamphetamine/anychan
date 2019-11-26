@@ -5,17 +5,24 @@
 .SidebarMenuItem {
 	display: flex;
 	align-items: center;
+	/* `<button/>` requires `width: 100%` in order to stretch to full width. */
+	width: 100%;
 	padding-left: calc(var(--unit) * 1);
 	padding-right: calc(var(--unit) * 1);
 	height: var(--List-lineHeight);
 	/* Styles `<Link/>`s and `<button/>`s. */
 	color: var(--Clickable-color--text);
 	&:active {
+		background-color: var(--Boards-backgroundColor--active);
 		color: var(--Clickable-color--textActive);
 		.SidebarMenuItemTitle {
 			color: inherit;
 		}
 	}
+}
+
+.SidebarMenuItem--selected {
+	background-color: var(--Boards-backgroundColor--selected);
 }
 
 .SidebarMenuItemTitle {
