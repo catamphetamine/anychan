@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import getMessages from '../messages'
 import { addChanParameter } from '../chan'
+import { hideSidebar } from '../redux/app'
 
 import { getSettingsMenuItem, getDarkModeMenuItem } from './ApplicationMenu'
 
@@ -19,6 +20,11 @@ export default function SidebarMenu() {
 	const darkModeMenuItem = useMemo(() => {
 		return getDarkModeMenuItem({ locale, dispatch, darkMode })
 	}, [locale, dispatch, darkMode])
+	const onToggleDarkMode = useCallback(() => {
+		darkModeMenuItem.onClick()
+		// Hide sidebar pop up on navigation (only on small screens).
+		dispatch(hideSidebar())
+	}, [dispatch, darkModeMenuItem])
 	const DarkModeIcon = darkModeMenuItem.isSelected ? darkModeMenuItem.iconActive : darkModeMenuItem.icon
 	const isSettingsPage = locationPathname === settingsMenuItem.pathname
 	const SettingsIcon = isSettingsPage ? settingsMenuItem.iconActive : settingsMenuItem.icon
@@ -36,7 +42,7 @@ export default function SidebarMenu() {
 			</Link>
 			<button
 				type="button"
-				onClick={darkModeMenuItem.onClick}
+				onClick={onToggleDarkMode}
 				className={classNames('rrui__button-reset', 'SidebarMenuItem')}>
 				<DarkModeIcon className="SidebarMenuIcon"/>
 				<span className="SidebarMenuItemTitle">
