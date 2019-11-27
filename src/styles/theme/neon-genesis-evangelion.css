@@ -64,10 +64,11 @@
 	--Picture-borderColor--focus: #a976c3;
 
 	/* Notification. */
+	/* Border is no longer required because mobile footer is no longer shown. */
 	/* Border is added because `var(--Notification-backgroundColor)`
 	   is the same as the mobile `var(--Header-backgroundColor)`. */
-	--Notification-borderWidth: 1px;
-	--Notification-borderColor: var(--Content-backgroundColor);
+	/*--Notification-borderWidth: 1px;*/
+	/*--Notification-borderColor: var(--Content-backgroundColor);*/
 
 	/* Sidebar. */
 	--Sidebar-color-200: #d8bcea;
