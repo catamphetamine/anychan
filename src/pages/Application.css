@@ -171,7 +171,8 @@
 
 @mixin upto-m {
 	.sidebar {
-		display: none;
+		transform: translateX(100%);
+		transition: transform 160ms ease-out;
 		position: fixed;
 		left: 0;
 		top: 0;
@@ -180,7 +181,7 @@
 		z-index: var(--sidebar-z-index);
 	}
 	.sidebar--show {
-		display: block;
+		transform: none;
 	}
 	/* The extra specificity is to override .home-page__show-boards-list { display: none }. */
 	.home-page {
