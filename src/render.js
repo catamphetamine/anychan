@@ -9,12 +9,18 @@ import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
 export default async function() {
 	let isFirstRender = true
+	let currentRoute
 	// Renders the webpage on the client side
 	const result = await render(settings, {
-		onNavigate(url, location, { dispatch, getState, route }) {
+		onBeforeNavigate({ dispatch, location, params }) {
+			// Hide sidebar pop up on navigation (only on small screens).
+			dispatch(hideSidebar())
+		},
+		onNavigate(url, location, { dispatch, getState }) {
 			// `window._previousRoute` is used in `<SideNavMenuButton/>`.
-			window._previousRoute = window._currentRoute
-			window._currentRoute = route
+			// `window._previousRoute` could alternatively be stored somewhere in Redux state.
+			window._previousRoute = currentRoute
+			currentRoute = getState().found.match
 			// Close slideshow on "Back"/"Forward" navigation.
 			dispatch(closeSlideshow())
 			// Focus the page on subsequent renders.
@@ -33,8 +39,6 @@ export default async function() {
 					document.querySelector('main').focus()
 				}
 			}
-			// Hide sidebar navigation pop up (only on small screens).
-			dispatch(hideSidebar())
 			// Set up Google Analytics.
 			// A simple Google Analytics setup with anonymized IP addresses
 			// and without any "Demographics" tracking features
