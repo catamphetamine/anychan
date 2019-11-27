@@ -184,7 +184,12 @@
 		right: 0;
 		bottom: var(--FooterMenu-height);
 		z-index: var(--sidebar-z-index);
+		/*background-color: var(--Sidebar-backgroundColor--collapsible);*/
 	}
+	/*.light, .dark {
+		--Sidebar-highlightColor-100: var(--Sidebar-highlightColor-100--collapsible);
+		--Sidebar-highlightColor-200: var(--Sidebar-highlightColor-200--collapsible);
+	}*/
 	.sidebar--show {
 		transform: none;
 	}
@@ -205,6 +210,8 @@
 @mixin m {
 	.sidebar {
 		transform: translateY(100%);
+		border-left: none;
+		border-top: 1px solid var(--Sidebar-borderColor);
 	}
 	.sidebar--show {
 		transform: none;

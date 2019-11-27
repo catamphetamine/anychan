@@ -33,8 +33,11 @@
 	--Sidebar-color-600: var(--Content-color-600);
 	--Sidebar-color-900: var(--Content-color-900);
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
+	/*--Sidebar-backgroundColor--collapsible: var(--Sidebar-backgroundColor);*/
 	--Sidebar-borderColor: var(--Header-borderColor);
 	--Sidebar-color--accent: var(--PostQuote-color);
+	/*--Sidebar-highlightColor-100--collapsible: var(--Sidebar-highlightColor-100);*/
+	/*--Sidebar-highlightColor-200--collapsible: var(--Sidebar-highlightColor-200);*/
 
 	/* Boards. */
 	--Boards-margin--slash: 0.1em;
