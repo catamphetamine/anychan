@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { goBack, canGoBackInstantly } from 'react-pages'
 import classNames from 'classnames'
-import throttle from 'lodash/throttle'
 
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
 import { showSidebar } from '../redux/app'
 import getMessages from '../messages'
 
 import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
+import onWindowResize from 'webapp-frontend/src/hooks/onWindowResize'
 
 import './SideNavMenuButton.css'
 
@@ -32,18 +32,14 @@ export default function SideNavMenuButton() {
 	}, [dispatch])
 	const [position, setPosition] = useState()
 	function updatePosition() {
+		/* Setting percentage-based `top` position for `position: fixed`
+		   results in it jumping when mobile browser top/bottom bars appear/disappear.
+		   Instead, the `top` position is calculated and set in `px` via javascript. */
 		const topOffsetPercent = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--SideNavMenuButton-top'))
 		setPosition(getViewportHeight() * topOffsetPercent / 100 - node.current.offsetHeight)
 	}
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
-	useEffect(() => {
-		updatePosition()
-		const onWindowResize = throttle((event) => updatePosition(), 100)
-		window.addEventListener('resize', onWindowResize)
-		return () => {
-			window.removeEventListener('resize', onWindowResize)
-		}
-	}, [])
+	onWindowResize(updatePosition, { alsoOnMount: true })
 	return (
 		<button
 			ref={node}

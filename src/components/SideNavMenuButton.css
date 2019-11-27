@@ -17,7 +17,7 @@
 	position: fixed;
 	/* Setting percentage-based `top` position for `position: fixed`
 	   results in it jumping when mobile browser top/bottom bars appear/disappear.
-	   Instead, the `top` position is calculated and set via javascript.
+	   Instead, the `top` position is calculated and set in `px` via javascript.
 	   The initial `top: 100%` is just to hide the button until javascript is run. */
 	/*top: calc(35% - var(--unit) * 2 / 2);*/
 	top: 100%;
