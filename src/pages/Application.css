@@ -191,17 +191,22 @@
 	}
 }
 
-@mixin upto-m {
+@mixin upto-s {
 	:root {
 		--Header-height: 0px;
 	}
 }
 
-@mixin l-plus {
-	:root {
-		--FooterMenu-height: 0px;
+@mixin m {
+	.sidebar {
+		transform: translateY(100%);
 	}
+	.sidebar--show {
+		transform: none;
+	}
+}
 
+@mixin m-plus {
 	.webpage__header {
 		display: flex;
 		justify-content: space-between;
@@ -212,14 +217,22 @@
 		right: 0;
 		z-index: 1;
 	}
+}
+
+@mixin l-plus {
+	:root {
+		--FooterMenu-height: 0px;
+	}
 
 	.sidebar {
-		display: block;
 		position: sticky;
 		top: var(--Header-height);
 		min-height: calc(100vh - var(--Header-height));
 		max-height: calc(100vh - var(--Header-height));
 		min-width: var(--Sidebar-minWidth);
+		/* Resets any `transform`/`transition` potentially set on XS-S-size screens. */
+		transform: none;
+		transition: none;
 	}
 
 	.webpage--board,
