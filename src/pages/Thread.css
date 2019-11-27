@@ -17,6 +17,35 @@
 	}
 }
 
+.thread-page__header {
+	display: flex;
+	justify-content: space-between;
+	padding-left: var(--Post-padding--horizontal);
+}
+
+.thread-page__header-back-arrow {
+	width: calc(var(--unit) * 1);
+	height: calc(var(--unit) * 1);
+	/* Align the left side of the back arrow to the rest of the page content.
+	   The reason is that the back arrow icon itself isn't square. */
+	margin-left: calc(-1 * var(--unit) / 4);
+	margin-right: calc(var(--unit) / 8);
+	/* Prevent the back arrow icon from shrinking when board title overflows container. */
+	flex-shrink: 0;
+}
+
+.thread-page__header-back-link {
+	display: flex;
+	align-items: center;
+  overflow: hidden;
+}
+
+.thread-page__header-back-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 /*
 // No longer relevant because <Post compact/> flag is not set for the opening post of a thread.
 .thread-page__comments {

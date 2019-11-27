@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import {
 	Link,
 	wasInstantNavigation,
-	isInstantBackAbleNavigation
+	isInstantBackAbleNavigation,
+	goBack,
+	canGoBackInstantly
 } from 'react-pages'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,6 +18,7 @@ import { getThread } from '../redux/chan'
 import { trackThread, untrackThread, threadExpired } from '../redux/threadTracker'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
 
+import { addChanParameter } from '../chan'
 import getUrl from '../utility/getUrl'
 import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
@@ -26,6 +29,8 @@ import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 import { preloadPictureSlide } from 'webapp-frontend/src/components/Slideshow.Picture'
+
+import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
 
 import './Thread.css'
 
@@ -142,6 +147,12 @@ export default function ThreadPage() {
 		locale,
 		expandAttachments: areAttachmentsExpanded
 	}), [thread, areAttachmentsExpanded, dispatch])
+	const onBack = useCallback((event) => {
+		if (canGoBackInstantly()) {
+			dispatch(goBack())
+			event.preventDefault()
+		}
+	}, [dispatch])
 	return (
 		<section className={classNames('thread-page', 'content')}>
 			{/*
@@ -157,6 +168,15 @@ export default function ThreadPage() {
 			</header>
 			*/}
 			<div className="thread-page__header">
+				<Link
+					to={getUrl(board)}
+					onClick={onBack}
+					className="thread-page__header-back-link">
+					<LeftArrow className="thread-page__header-back-arrow"/>
+					<span className="thread-page__header-back-title">
+						{board.title}
+					</span>
+				</Link>
 				<BoardOrThreadMenu
 					mode="thread"
 					dispatch={dispatch}
