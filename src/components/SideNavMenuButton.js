@@ -32,7 +32,8 @@ export default function SideNavMenuButton() {
 	}, [dispatch])
 	const [position, setPosition] = useState()
 	function updatePosition() {
-		setPosition(getViewportHeight() * 0.35 - node.current.offsetHeight)
+		const topOffsetPercent = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--SideNavMenuButton-top'))
+		setPosition(getViewportHeight() * topOffsetPercent / 100 - node.current.offsetHeight)
 	}
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
 	useEffect(() => {
