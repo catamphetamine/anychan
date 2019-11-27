@@ -171,6 +171,11 @@
 
 @mixin upto-m {
 	.sidebar {
+		/* `box-shadow` adds some eligibility but at the same time
+		   it makes the left border stand out more that in turn
+		   makes the move-in/move-out animation more distracting. */
+		/*box-shadow: 0 0 10px rgba(0,0,0,0.1);*/
+		/*transform: translateX(calc(100% + 10px));*/
 		transform: translateX(100%);
 		transition: transform 160ms ease-out;
 		position: fixed;
@@ -230,9 +235,11 @@
 		min-height: calc(100vh - var(--Header-height));
 		max-height: calc(100vh - var(--Header-height));
 		min-width: var(--Sidebar-minWidth);
-		/* Resets any `transform`/`transition` potentially set on XS-S-size screens. */
+		/* Resets any `transform`/`transition`/`box-shadow`
+		   potentially set on XS-S-size screens. */
 		transform: none;
 		transition: none;
+		box-shadow: none;
 	}
 
 	.webpage--board,
