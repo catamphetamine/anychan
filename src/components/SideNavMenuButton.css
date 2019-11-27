@@ -1,9 +1,18 @@
 @import "../styles/common";
 
+:root {
+	--SideNavMenuButton-animationDuration: 120ms;
+}
+
 .SideNavMenuButton {
 	display: none;
 	position: fixed;
-	top: calc(35% - var(--unit) * 2 / 2);
+	/* Setting percentage-based `top` position for `position: fixed`
+	   results in it jumping when mobile browser top/bottom bars appear/disappear.
+	   Instead, the `top` position is calculated and set via javascript.
+	   The initial `top: 100%` is just to hide the button until javascript is run. */
+	/*top: calc(35% - var(--unit) * 2 / 2);*/
+	top: 100%;
 	right: calc(var(--Post-padding--horizontal) - var(--unit) / 2);
 	width: calc(var(--unit) * 2);
 	height: calc(var(--unit) * 2);
@@ -37,8 +46,23 @@
 	background-color: currentColor;
 }
 
-.SideNavMenuButtonIconBar--transition {
-	transition: transform var(--rrui-menu-button-animation-duration), opacity var(--rrui-menu-button-animation-duration);
+.SideNavMenuButtonIcon--transition .SideNavMenuButtonIconBar {
+	transition: transform var(--SideNavMenuButton-animationDuration), opacity var(--SideNavMenuButton-animationDuration);
+}
+
+.SideNavMenuButtonIconBar:nth-child(1),
+.SideNavMenuButtonIconBar:nth-child(2),
+.SideNavMenuButtonIconBar:nth-child(3) {
+	color: var(--Content-color-900);
+	z-index: 1;
+}
+
+.SideNavMenuButtonIconBar:nth-child(4),
+.SideNavMenuButtonIconBar:nth-child(5),
+.SideNavMenuButtonIconBar:nth-child(6) {
+	color: var(--Content-backgroundColor);
+	height: 12%;
+	top: calc((100% - 12%) / 2);
 }
 
 .SideNavMenuButtonIconBar:nth-child(1) {
@@ -47,6 +71,14 @@
 
 .SideNavMenuButtonIconBar:nth-child(3) {
 	transform: translateY(450%);
+}
+
+.SideNavMenuButtonIconBar:nth-child(4) {
+	transform: translateY(-225%);
+}
+
+.SideNavMenuButtonIconBar:nth-child(6) {
+	transform: translateY(225%);
 }
 
 /*
@@ -58,15 +90,40 @@
 }
 */
 
-.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(2) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(2),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(5) {
 	opacity: 0;
 	transform: scale(0.9);
 }
 
-.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(1) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(1),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(4) {
 	transform: rotate(-45deg) scale(0.9);
 }
 
-.SideNavMenuButtonIcon--expanded .SideNavMenuButtonIconBar:nth-child(3) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(3),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(6) {
 	transform: rotate(45deg) scale(0.9);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(2),
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(5) {
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(1) {
+	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-450%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(3) {
+	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(450%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(4) {
+	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-225%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(6) {
+	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(225%);
 }

@@ -58,12 +58,8 @@ export default function ApplicationMenu({
 		const areBoardsShown = sidebarMode === 'boards' && (footer ? isSidebarShown : true)
 		const areTrackedThreadsShown = sidebarMode === 'tracked-threads' && (footer ? isSidebarShown : true)
 		const areNotificationsShown = sidebarMode === 'notifications' && (footer ? isSidebarShown : true)
-		const settingsItem = {
-			url: addChanParameter('/settings'),
-			isSelected: !isSidebarShown,
-			icon: SettingsIconOutline,
-			iconActive: SettingsIconFill
-		}
+		const settingsItem = getSettingsMenuItem()
+		settingsItem.isSelected = !isSidebarShown
 		const darkModeItem = getDarkModeMenuItem({ locale, dispatch, darkMode })
 		const menuItem = {
 			title: messages.menu,
@@ -184,5 +180,14 @@ export function getDarkModeMenuItem({ locale, dispatch, darkMode }) {
 		isSelected: darkMode,
 		icon: MoonIconOutline,
 		iconActive: MoonIconFill
+	}
+}
+
+export function getSettingsMenuItem() {
+	return {
+		pathname: '/settings',
+		url: addChanParameter('/settings'),
+		icon: SettingsIconOutline,
+		iconActive: SettingsIconFill
 	}
 }

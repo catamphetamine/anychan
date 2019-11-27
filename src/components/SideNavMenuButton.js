@@ -1,22 +1,24 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { goBack, canGoBackInstantly } from 'react-pages'
 import classNames from 'classnames'
+import throttle from 'lodash/throttle'
 
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
 import { showSidebar } from '../redux/app'
 import getMessages from '../messages'
 
-import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
+import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
 
 import './SideNavMenuButton.css'
 
 export default function SideNavMenuButton() {
+	const node = useRef()
 	const dispatch = useDispatch()
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const _isThreadLocation = useSelector(({ found }) => isThreadLocation(found.resolvedMatch))
-	const canGoBack = _isThreadLocation && window._previousLocationRouteMatch && isBoardLocation(window._previousLocationRouteMatch) && canGoBackInstantly()
+	const canGoBack = _isThreadLocation && window._previousRoute && isBoardLocation(window._previousRoute) && canGoBackInstantly()
 	const isSidebarShown = useSelector(({ app }) => app.isSidebarShown)
 	const toggleSidebar = useCallback(() => {
 		if (isSidebarShown) {
@@ -28,30 +30,49 @@ export default function SideNavMenuButton() {
 	const onGoBack = useCallback(() => {
 		dispatch(goBack())
 	}, [dispatch])
+	const [position, setPosition] = useState()
+	function updatePosition() {
+		setPosition(getViewportHeight() * 0.35 - node.current.offsetHeight)
+	}
+	const style = useMemo(() => ({ top: position + 'px' }), [position])
+	useEffect(() => {
+		updatePosition()
+		const onWindowResize = throttle((event) => updatePosition(), 100)
+		window.addEventListener('resize', onWindowResize)
+		return () => {
+			window.removeEventListener('resize', onWindowResize)
+		}
+	}, [])
 	return (
 		<button
+			ref={node}
 			type="button"
 			title={canGoBack ? getMessages(locale).actions.back : (isSidebarShown ? getMessages(locale).actions.close : getMessages(locale).menu)}
 			onClick={canGoBack ? onGoBack : toggleSidebar}
+			style={style}
 			className="rrui__button-reset SideNavMenuButton">
-			{canGoBack ?
-				<LeftArrow/> :
-				<MenuIcon expanded={isSidebarShown}/>
-			}
+			<MenuIcon mode={canGoBack ? 'leftArrow' : (isSidebarShown ? 'cross' : 'menu')}/>
 		</button>
 	)
 }
 
-function MenuIcon({ expanded, className }) {
+function MenuIcon({ mode, className }) {
 	// This is to prevent the `transform` animations
 	// of menu icon bars from being played on page load.
 	// (when styles are included on a page via javascript)
-	const activated = expanded !== undefined
+	const isMounted = useRef()
+	useEffect(() => {
+		isMounted.current = true
+	}, [])
 	return (
 		<div className={classNames(className, 'SideNavMenuButtonIcon', {
-			'SideNavMenuButtonIcon--collapsed': !expanded,
-			'SideNavMenuButtonIcon--expanded': expanded
+			'SideNavMenuButtonIcon--leftArrow': mode === 'leftArrow',
+			'SideNavMenuButtonIcon--cross': mode === 'cross',
+			'SideNavMenuButtonIcon--transition': isMounted.current
 		})}>
+			<div className="SideNavMenuButtonIconBar"/>
+			<div className="SideNavMenuButtonIconBar"/>
+			<div className="SideNavMenuButtonIconBar"/>
 			<div className="SideNavMenuButtonIconBar"/>
 			<div className="SideNavMenuButtonIconBar"/>
 			<div className="SideNavMenuButtonIconBar"/>
@@ -60,6 +81,6 @@ function MenuIcon({ expanded, className }) {
 }
 
 MenuIcon.propTypes = {
-	expanded: PropTypes.bool,
+	mode: PropTypes.oneOf(['menu', 'cross', 'leftArrow']),
 	className: PropTypes.string
 }
