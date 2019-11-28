@@ -100,12 +100,14 @@ function TrackedThread({
 				<div className="tracked-threads__thread__title">
 					{thread.title}
 				</div>
-				{thread.newRepliesCount &&
+				{!thread.expired && thread.newRepliesCount &&
 					<div className="tracked-threads__thread__new-replies">
-						{thread.newRepliesCount}
+						<span className="tracked-threads__thread__new-replies-count">
+							{thread.newRepliesCount}
+						</span>
 					</div>
 				}
-				{thread.newCommentsCount &&
+				{!thread.expired && thread.newCommentsCount &&
 					<div className="tracked-threads__thread__new-comments">
 						{thread.newCommentsCount}
 					</div>
