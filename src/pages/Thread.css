@@ -17,12 +17,6 @@
 	}
 }
 
-.thread-page__header {
-	display: flex;
-	justify-content: space-between;
-	padding-left: var(--Post-padding--horizontal);
-}
-
 .thread-page__header-back-arrow {
 	width: calc(var(--unit) * 1);
 	height: calc(var(--unit) * 1);
@@ -35,9 +29,20 @@
 }
 
 .thread-page__header-back-link {
-	display: flex;
-	align-items: center;
-  overflow: hidden;
+	display: none;
+}
+
+@mixin upto-s {
+	.thread-page__header {
+		display: flex;
+		justify-content: space-between;
+		padding-left: var(--Post-padding--horizontal);
+	}
+	.thread-page__header-back-link {
+		display: flex;
+		align-items: center;
+	  overflow: hidden;
+	}
 }
 
 .thread-page__header-back-title {
