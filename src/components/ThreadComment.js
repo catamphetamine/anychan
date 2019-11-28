@@ -167,6 +167,11 @@ export default function ThreadComment({
 		}
 	}, [comment, dispatch])
 
+	const onPostLinkClick = useCallback((event, { boardId, threadId, postId }) => {
+		dispatch(notify(getMessages(locale).notImplemented))
+		event.preventDefault()
+	}, [dispatch, locale])
+
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
 	// `postRef` is supplied by `<CommentTree/>`
@@ -185,6 +190,7 @@ export default function ThreadComment({
 			locale={locale}
 			url={getUrl(board, thread, comment)}
 			onAttachmentClick={onAttachmentClick}
+			onPostLinkClick={onPostLinkClick}
 			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
 			onVote={board.hasVoting ? onVote : undefined}
 			vote={vote}
@@ -276,6 +282,7 @@ function Comment({
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
 	onAttachmentClick,
+	onPostLinkClick,
 	parentComment,
 	postRef,
 	dispatch,
@@ -373,6 +380,7 @@ function Comment({
 			maxAttachmentThumbnails={false}
 			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
 			onAttachmentClick={onAttachmentClick}
+			onPostLinkClick={onPostLinkClick}
 			fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
 			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
 			className={commentClassName}/>
