@@ -3,6 +3,10 @@ require('core-js/stable')
 // `async/await` support.
 require('regenerator-runtime/runtime')
 
+// https://github.com/gaearon/react-hot-loader
+// "Make sure `react-hot-loader` is required before `react` and `react-dom`".
+require('react-hot-loader');
+
 // Maintain CSS styles order.
 require('./styles/style.css')
 
