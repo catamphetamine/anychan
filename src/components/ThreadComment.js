@@ -121,14 +121,14 @@ export default function ThreadComment({
 	}, [board, thread, comment, dispatch])
 
 	const onReply = useCallback(() => {
-		dispatch(notify('Not implemented yet'))
+		dispatch(notify(getMessages(locale).notImplemented))
 		openLinkInNewTab(getCommentUrl(board, thread, comment))
 		// if (showReplyForm) {
 		// 	replyForm.current.focus()
 		// } else {
 		// 	setShowReplyForm(true)
 		// }
-	}, [board, thread, comment, dispatch])
+	}, [board, thread, comment, locale, dispatch])
 
 	const onCancelReply = useCallback(() => {
 		setShowReplyForm(false)
@@ -136,13 +136,13 @@ export default function ThreadComment({
 	}, [comment])
 
 	const onSubmitReply = useCallback(({ content }) => {
-		dispatch(notify('Not implemented yet'))
+		dispatch(notify(getMessages(locale).notImplemented))
 		// Disable reply form.
 		// Show a spinner.
 		// Wait for the new comment to be fetched as part of thread auto-update.
 		// Hide the reply form.
 		// Focus the "Reply" button of `postRef.current` here.
-	}, [comment])
+	}, [comment, locale])
 
 	const onAttachmentClick = useCallback((attachment, options = {}) => {
 		// `<PostLink/>` doesn't provide `options` (and `thumbnailImage` as part of it).
@@ -329,15 +329,15 @@ function Comment({
 			},
 			{
 				label: getMessages(locale).post.moreActions.report,
-				onClick: () => dispatch(notify('Not implemented yet'))
+				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			},
 			{
 				label: getMessages(locale).post.moreActions.hide,
-				onClick: () => dispatch(notify('Not implemented yet'))
+				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			},
 			{
 				label: getMessages(locale).post.moreActions.ignoreAuthor,
-				onClick: () => dispatch(notify('Not implemented yet'))
+				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			}
 		]
 	}, [dispatch, locale, board, thread, comment])

@@ -134,5 +134,6 @@
 	},
 	"country": {
 		"anonymous": "Anonymous"
-	}
+	},
+	"notImplemented": "This feature hasn't been implemented yet"
 }

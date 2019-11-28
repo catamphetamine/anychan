@@ -40,7 +40,7 @@ export default function BoardOrThreadMenu({
 	[
 		{
 			title: messages.actions.search,
-			onClick: () => dispatch(notify('Not implemented yet')),
+			onClick: () => dispatch(notify(messages.notImplemented)),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,
@@ -72,7 +72,7 @@ export default function BoardOrThreadMenu({
 		},
 		{
 			title: messages.actions.search,
-			onClick: () => dispatch(notify('Not implemented yet')),
+			onClick: () => dispatch(notify(messages.notImplemented)),
 			// onClick: () => setSearchBarShown(!isSearchBarShown),
 			isSelected: isSearchBarShown,
 			icon: SearchIconOutline,
