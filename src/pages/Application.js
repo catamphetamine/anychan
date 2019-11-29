@@ -77,9 +77,9 @@ export default function App({
   const announcement = useSelector(({ announcement }) => announcement.announcement)
 	const dispatch = useDispatch()
 
-	const hasMounted = useRef()
 	const header = useRef()
 
+	// UserData/UserSettings listeners.
 	useEffect(() => {
 		function updateUserData(key) {
 			onUserDataChange(key, dispatch)
@@ -112,11 +112,12 @@ export default function App({
 	}, [])
 
 	useEffect(() => {
+		// Load YouTube video player API.
+		loadYouTubeVideoPlayerApi()
+	}, [])
+
+	useEffect(() => {
 		setBodyBackground(route)
-		if (!hasMounted.current) {
-			// Load YouTube video player API.
-			loadYouTubeVideoPlayerApi()
-		}
 	}, [route])
 
 	const onCloseSlideshow = useCallback(() => {
