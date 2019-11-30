@@ -1,0 +1,14 @@
+Each time a website is deployed on `gh-pages` a new set of output files having unique (enough) MD5 hashes is generated.
+Each set of output files is about 10 MB.
+If deployes are done often, the `gh-pages` branch of the repo quickly grows in size.
+Just deleting the previous sets of output files locally is not enough: they should also be deleted from the remote Git repository.
+To do that, "BFG Cleaner" utility is used.
+
+1. Switch to `gh-pages` branch, navigate to it in a file manager and sort files by date.
+2. Select all "previous" build files (those that aren't part of the latest deployment).
+3. Delete them (`Shift + Del` on Windows).
+4. Commit the deletions: `git add . && git commit -m "Clean up"`.
+5. Run `./bfg.sh` script.
+6. It will output some info. That info may be skipped.
+7. Run `./bfg-finish.sh` script to finish deleting the files from the local Git index.
+8. Run `git push --force`: this will delete the removed files from the remote Git repository.
