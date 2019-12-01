@@ -189,13 +189,10 @@ An example of a "Content Section" is a post.
 A "post author section" is post author name and its surroundings like the "person" icon, an email or a "tripcode".
 
 * `--PostAuthor-color: black` — The color of a post author section.
-* `--PostAuthor-color--administrator: red` — The color of a post author section when the user is an administrator.
-* `--PostAuthor-color--moderator: blue` — The color of a post author section when the user is a moderator.
-
-### PostAuthorName
-
-* `--PostAuthorName-color: orange` — The color of a post author name.
-* `--PostAuthorName-color--id: black` — The color of a post author name when author IDs (IP address subnet hashes) are shown.
+* `--PostAuthor-color--dark: black` — The color of a post author name when author IDs (IP address subnet hashes) are shown.
+* `--PostAuthor-color--accent: orange` — The color of a post author name.
+* `--PostAuthor-color--administrator: red` — The color of a post author name when the user is an administrator.
+* `--PostAuthor-color--moderator: blue` — The color of a post author name when the user is a moderator.
 
 ### PostQuote
 

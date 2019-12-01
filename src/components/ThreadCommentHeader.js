@@ -13,6 +13,7 @@ import AnonymousPersonIcon from '../../assets/images/icons/person-outline-anonym
 import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
 import PersonFillIcon from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
 import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
+import VerifiedIcon from 'webapp-frontend/assets/images/icons/verified.svg'
 
 import StopIcon from 'webapp-frontend/assets/images/icons/stop.svg'
 import AnonymousIcon from '../../assets/images/icons/anonymous.svg'
@@ -24,42 +25,59 @@ import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
 import './ThreadCommentHeader.css'
 
 export default function Header({ post, locale }) {
+	const isThreadAuthorId = post.threadHasAuthorIds && post.isThreadAuthor
+	const authorIconIsOriginalPoster = isThreadAuthorId
 	let authorName = post.authorName
-	let authorNameIsOriginalPoster = false
-	if (post.threadHasAuthorIds && post.isThreadAuthor) {
+	if (isThreadAuthorId && !authorName) {
 		authorName = getMessages(locale).post.threadAuthor
-		authorNameIsOriginalPoster = true
 	}
-	if (!hasAuthor(post)) {
+	// On `2ch.hk` original poster's posts don't have `authorId`.
+	const authorNameIsId = post.authorIdName || isThreadAuthorId
+	// On `2ch.hk` original poster's posts don't have `authorId`.
+	if (!hasAuthor(post) && !isThreadAuthorId) {
 		return null
 	}
+	// Testing.
+	// post.authorId = 'af1e80'
+	// post.authorName = 'Gabe Newell'
+	// post.authorRole = 'administrator'
+	// post.authorTripCode = '!!tripcode35ae80'
+	// post.authorEmail = 'user@example.com'
 	const authorRoleName = post.authorRole && (getRoleName(post.authorRole, post, locale) || post.authorRole)
+	// `title` doesn't work on `<svg/>` itself for some reason (checked in Chrome).
 	return (
 		<div
 			className={classNames(
 				'post__author',
-				post.authorRole && `post__author--${post.authorRole}`, {
-					'post__author--generic': !post.authorRole,
-					'post__author--id': post.threadHasAuthorIds
-				}
+				post.authorRole && `post__author--${post.authorRole}`,
+				// {
+				// 	'post__author--generic': !post.authorRole
+				// }
 			)}>
 			<div className="post__author-icon-container">
-				{authorNameIsOriginalPoster &&
-					<AnonymousPersonIcon className="post__author-icon"/>
+				{authorIconIsOriginalPoster &&
+					<span title={getMessages(locale).post.threadAuthor}>
+						<AnonymousPersonIcon
+							className={classNames('post__author-icon', 'post__author-icon--outline', {
+								'post__author-icon--role': post.authorRole
+							})}/>
+					</span>
 				}
-				{!authorNameIsOriginalPoster &&
+				{!authorIconIsOriginalPoster &&
 					<PersonIcon
 						className={classNames('post__author-icon', {
-							'post__author-icon--outline': post.authorIdColor
+							'post__author-icon--outline': post.authorIdColor,
+							'post__author-icon--role': post.authorRole
 						})}/>
 				}
-				{post.authorIdColor &&
+				{!authorIconIsOriginalPoster && post.authorIdColor &&
 					<PersonIconBottomBorder
 						className={classNames('post__author-icon', {
-							'post__author-icon--outline': post.authorIdColor
+							'post__author-icon--outline': post.authorIdColor,
+							'post__author-icon--role': post.authorRole
 						})}/>
 				}
-				{post.authorIdColor &&
+				{!authorIconIsOriginalPoster && post.authorIdColor &&
 					<PersonFillIcon
 						className="post__author-icon"
 						style={{
@@ -67,34 +85,58 @@ export default function Header({ post, locale }) {
 						}}/>
 				}
 			</div>
-			{(post.authorId || authorName || post.authorEmail || post.authorRole) &&
-				<div className="post__author-name">
-					{post.authorId && !post.authorIdName && `${post.authorId} `}
-					{authorName && `${authorName} `}
-					{post.authorRole && !(post.authorId || authorName) && `${authorRoleName} `}
-					{post.authorRole &&  (post.authorId || authorName) &&
-						<React.Fragment>
-							<span className="post__author-role--supplementary">
-								{authorRoleName.toLowerCase()}
-							</span>
-							{' '}
-						</React.Fragment>
-					}
-					{post.authorEmail &&
-						<React.Fragment>
-							<a href={`mailto:${post.authorEmail}`}>
-								{post.authorEmail}
-							</a>
-							{' '}
-						</React.Fragment>
-					}
-				</div>
-			}
-			{post.authorTripCode &&
-				<div className="post__author-trip-code">
-					{post.authorTripCode}
-				</div>
-			}
+			<div className="post__author-info">
+				{post.authorId && !authorNameIsId &&
+					<span className="post__author-id">
+						{post.authorId}
+						{' '}
+					</span>
+				}
+				{authorName &&
+					<span className={classNames('post__author-name', {
+						'post__author-name--id': authorNameIsId,
+						'post__author-name--role': post.authorRole
+					})}>
+						{authorName}
+						{' '}
+					</span>
+				}
+				{authorName && post.authorVerified &&
+					<React.Fragment>
+						<span title={getMessages(locale).post.verified}>
+							<VerifiedIcon className="post__author-verified"/>
+						</span>
+						{' '}
+					</React.Fragment>
+				}
+				{post.authorRole &&
+					<React.Fragment>
+						<span className={classNames('post__author-role', {
+							'post__author-role--supplementary': post.authorId || authorName
+						})}>
+							{authorRoleName.toLowerCase()}
+						</span>
+						{' '}
+					</React.Fragment>
+				}
+				{post.authorEmail &&
+					<React.Fragment>
+						<a
+							href={`mailto:${post.authorEmail}`}
+							className={classNames('post__author-email', {
+								'post__author-email--separated': authorName || post.authorRole
+							})}>
+							{post.authorEmail}
+						</a>
+						{' '}
+					</React.Fragment>
+				}
+				{post.authorTripCode &&
+					<span className="post__author-trip-code">
+						{post.authorTripCode}
+					</span>
+				}
+			</div>
 		</div>
 	)
 }

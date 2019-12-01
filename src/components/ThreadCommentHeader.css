@@ -2,8 +2,6 @@
 	display: flex;
 	align-items: center;
 	margin-top: 0.5em;
-	/*margin-bottom: 0.5em;*/
-	color: var(--PostAuthor-color);
 }
 
 .post__author-icon-container {
@@ -24,49 +22,69 @@
 	opacity: 0.5;
 }
 
-.post__author-name,
-.post__author-trip-code {
+.post__author-verified {
+	/* Using `top` offset instead of `align-items: center` on the parent
+	   because otherwise whitespace before non-text content
+	   (like `<VerifiedIcon/>`) would disappear. */
+	position: relative;
+	top: 0.05em;
+	width: 0.8em;
+	height: 0.8em;
+	/*margin-left: 0.3em;*/
+	/*margin-right: 0.3em;*/
+	opacity: 0.5;
+}
+
+.post__author-info {
 	font-weight: 300;
+  /*display: flex;*/
+  /*align-items: center;*/
 }
 
-.post__author-name + .post__author-trip-code {
-	margin-left: 0.35em;
-}
-
-.post__author--generic:not(.post__author--id) .post__author-name {
-	color: var(--PostAuthorName-color);
-}
-
-.post__author-icon {
+.post__author-icon,
+.post__author-id,
+.post__author-trip-code {
 	color: var(--Post-color--secondary);
 }
 
-.post__author--id,
+.post__author-id,
 .post__author-icon--outline {
-	color: var(--PostAuthorName-color--id);
+	color: var(--PostAuthor-color--dark);
+}
+
+.post__author-icon--role,
+.post__author-name,
+.post__author-verified,
+.post__author-role,
+.post__author-email {
+	color: var(--PostAuthor-color--accent);
 }
 
 .post__author--administrator {
-	.post__author-name {
-		color: var(--PostAuthor-color--administrator);
-	}
+	--PostAuthor-color--accent: var(--PostAuthor-color--administrator);
 }
 
 .post__author--moderator {
-	.post__author-name {
-		color: var(--PostAuthor-color--moderator);
-	}
+	--PostAuthor-color--accent: var(--PostAuthor-color--moderator);
 }
 
-.post__author--administrator,
-.post__author--moderator {
-	.post__author-name {
-		font-weight: normal;
-	}
+.post__author-name--id {
+	color: var(--PostAuthor-color--dark);
+}
+
+.post__author-name--role {
+	font-weight: normal;
 }
 
 .post__author-role--supplementary {
 	font-weight: 300;
+	&:before,
+	&:after {
+		content: '/';
+	}
+}
+
+.post__author-email--separated {
 	&:before,
 	&:after {
 		content: '/';

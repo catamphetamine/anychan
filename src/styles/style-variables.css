@@ -76,9 +76,7 @@
 
 	/* PostAuthor. */
 	--PostAuthor-color: var(--Content-color-600);
-
-	/* PostAuthorName. */
-	--PostAuthorName-color--id: var(--Content-color-800);
+	--PostAuthor-color--dark: var(--Content-color-800);
 
 	/* PostBannedIcon. */
 	--PostBannedIcon-color: var(--Critical-color);
@@ -116,11 +114,9 @@
 	--Post-color--secondaryThread: var(--Content-color-400);
 
 	/* PostAuthor. */
+	--PostAuthor-color--accent: var(--base-color-700);
 	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
 	--PostAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
-
-	/* PostAuthorName. */
-	--PostAuthorName-color: var(--base-color-700);
 
 	/* PostInlineSpoiler. */
 	/* Adds a warmer color to it. */
@@ -181,11 +177,9 @@
 	--Post-color--secondaryThread: var(--Content-color-500);
 
 	/* PostAuthor. */
+	--PostAuthor-color--accent: var(--base-color-300);
 	--PostAuthor-color--administrator: #c44876;
 	--PostAuthor-color--moderator: #57add1;
-
-	/* PostAuthorName. */
-	--PostAuthorName-color: var(--base-color-300);
 
 	/* PostQuote (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
