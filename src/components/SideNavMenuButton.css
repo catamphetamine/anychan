@@ -2,13 +2,13 @@
 
 :root {
 	--SideNavMenuButton-animationDuration: 120ms;
-	/* On mobile phones the top position is adjusted so that
+	/* On tablets in horizontal position the top position is adjusted so that
 	   the right hand thumb could (presumably) reach it comfortably. */
-	--SideNavMenuButton-top: 35%;
-	@mixin m-plus {
-		/* On tablets in horizontal position the top position is adjusted so that
+	--SideNavMenuButton-top: 45%;
+	@mixin xxs {
+		/* On mobile phones the top position is adjusted so that
 		   the right hand thumb could (presumably) reach it comfortably. */
-		--SideNavMenuButton-top: 45%;
+		--SideNavMenuButton-top: 35%;
 	}
 }
 
