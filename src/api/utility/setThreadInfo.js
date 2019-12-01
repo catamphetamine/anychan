@@ -1,3 +1,9 @@
+/**
+ * Sets utility properties on thread comments.
+ * @param {object} thread
+ * @param {string} options.mode — Either "comment" (viewing thread page) or "thread" (viewing board page).
+ * @param {object} options.votes — Own votes in this thread, read from `localStorage`. An object of shape: `{ [commentId]: 1 or -1, ... }`.
+ */
 export default function setThreadInfo(thread, { mode, votes }) {
 	thread.comments[0].commentsCount = thread.commentsCount
 	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
@@ -10,11 +16,14 @@ export default function setThreadInfo(thread, { mode, votes }) {
 	thread.comments[0].isSticky = thread.isSticky
 	thread.comments[0].isRolling = thread.isRolling
 	thread.comments[0].isLocked = thread.isLocked
-	// Set viewing mode (board, thread).
-	// Also set votes.
 	for (const comment of thread.comments) {
+		// Set viewing mode (board, thread).
 		comment.mode = mode
-		comment.vote = votes[comment.id]
+		// If the user has previously voted for this comment,
+		// set the vote value (`1` or `-1`) on the comment.
+		if (votes[comment.id]) {
+			comment.vote = votes[comment.id]
+		}
 	}
 	// Set "thread shows author IDs" flag.
 	const hasAuthorIds = thread.comments.some(comment => comment.authorId)
