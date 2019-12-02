@@ -22,7 +22,13 @@ export default function Chan_({
 			// By default `commentUrl` is "/{boardId}/{threadId}#{commentId}".
 			commentUrl: decodeURI(addChanParameter('/{boardId}/{threadId}#{commentId}')),
 			filterText: getChan().id === '2ch' ? text => correctGrammar(text, { language: 'ru' }) : undefined,
-			request: (method, url, data) => http[method.toLowerCase()](getProxyUrl(url), data)
+			request: (method, url, data) => {
+				return http[method.toLowerCase()](getProxyUrl(url), data, {
+					headers: {
+						'Accept': 'application/json'
+					}
+				})
+			}
 		}
 	)
 }
