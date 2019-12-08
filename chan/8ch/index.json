@@ -1,23 +1,23 @@
 {
 	"id": "8ch",
-	"title": "8chan",
+	"title": "8kun",
 	"subtitle": "Embrace infamy",
-	"description": "Welcome to 8chan, the Darkest Reaches of the Internet. On 8chan, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8chan might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8chan, boards and posts are user-created and do not represent the opinions of the 8chan administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
+	"description": "Welcome to 8kun, the Darkest Reaches of the Internet. On 8kun, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8kun might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8kun, boards and posts are user-created and do not represent the opinions of the 8kun administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
 	"copyright": [
-		"All posts on 8chan are the responsibility of the individual poster and not the administration of 8chan, pursuant to 47\u00a0U.S.C. §\u00a0230.",
+		"All posts on 8kun  are the responsibility of the individual poster and not the administration of 8kun, pursuant to 47\u00a0U.S.C. §\u00a0230.",
 		"\n",
 		"We have not been served any secret court orders and are not under any gag orders.",
 		"\n",
 		"To file a DMCA takedown notice, please email ",
 		{
 			"type": "link",
-			"url": "mailto:dmca@8ch.net",
-			"content": "dmca@8ch.net"
+			"url": "mailto:compliance@isitwetyet.net",
+			"content": "compliance@isitwetyet.net"
 		},
 		". In the interest of transparency, notices of claimed infringement will be posted on ",
 		{
 			"type": "link",
-			"url": "https://8ch.net/delete/",
+			"url": "https://8kun.top/delete/",
 			"content": ">>>/delete/"
 		},
 		".",
@@ -39,27 +39,27 @@
 		{
 			"type": "faq",
 			"text": "FAQ",
-			"url": "https://8ch.net/faq.html"
+			"url": "https://8kun.top/faq.html"
 		},
 		{
 			"type": "link",
 			"text": "Ban List",
-			"url": "https://8ch.net/bans.html"
+			"url": "https://8kun.top/bans.html"
 		},
 		{
 			"type": "search",
 			"text": "Search",
-			"url": "https://8ch.net/search.php"
+			"url": "https://8kun.top/search.php"
 		},
 		{
 			"type": "advertise",
-			"text": "Advertise on 8chan",
-			"url": "https://8ch.net/ads.html"
+			"text": "Advertise on 8kun",
+			"url": "https://8kun.top/ads.html"
 		},
 		{
 			"type": "link",
 			"text": "Claim a Board",
-			"url": "https://8ch.net/claim.html"
+			"url": "https://8kun.top/claim.html"
 		},
 		{
 			"type": "twitter",
@@ -74,20 +74,10 @@
 		{
 			"type": "mobile",
 			"text": "Mobile App",
-			"url": "https://8ch.net/faq.html#where-is-the-mobile-app"
+			"url": "https://8kun.top/faq.html#where-is-the-mobile-app"
 		}
 	],
 	"proxy": {
 		"aws": false
-	},
-	"errorPages": {
-		"404": {
-			"images": [
-				"https://media.8ch.net/static/404-404/12.png",
-				"https://media.8ch.net/static/404-404/19.png",
-				"https://media.8ch.net/static/404-404/22.png",
-				"https://media.8ch.net/static/404-404/23.png"
-			]
-		}
 	}
 }
