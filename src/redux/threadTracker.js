@@ -26,6 +26,8 @@ export const trackThread = redux.action(
 		// serialization/deserialization.
 		thread.addedAt = Date.now()
 		UserData.addTrackedThreadsList(thread)
+		// Sort tracked threads.
+		UserData.setTrackedThreadsList(UserData.getTrackedThreadsList().sort(sortTrackedThreads))
 		return {
 			// Returning `thread` here only to acess it in a listener
 			// in `./redux/thread.js`.
@@ -83,4 +85,70 @@ export default redux.reducer({
 
 function _getTrackedThreads() {
 	return UserData.getTrackedThreadsList()
+}
+
+// Sorts tracked threads in order:
+// * Threads with new replies. Own threads first. More replies first.
+// * Threads with new comments. Own threads first. More comments first.
+// * Threads without new comments. Own threads first. Latest added first.
+// * Expired threads. Own threads first. Latest added first.
+function sortTrackedThreads(a, b) {
+	// Expired threads go last.
+	if (a.expired && b.expired) {
+		// Own threads first.
+		if (a.own && !b.own) {
+			return -1
+		} else if (!a.own && b.own) {
+			return 1
+		}
+		// Later added ones first.
+		return b.addedAt - a.addedAt
+	} else if (a.expired && !b.expired) {
+		return 1
+	} else if (!a.expired && b.expired) {
+		return -1
+	}
+	// Threads without new comments go before expired threads.
+	if (!a.newCommentsCount && !b.newCommentsCount) {
+		// Own threads first.
+		if (a.own && !b.own) {
+			return -1
+		} else if (!a.own && b.own) {
+			return 1
+		}
+		// Later added ones first.
+		return b.addedAt - a.addedAt
+	} else if (a.newCommentsCount && !b.newCommentsCount) {
+		return -1
+	} else if (!a.newCommentsCount && b.newCommentsCount) {
+		return 1
+	}
+	// Threads with new replies first.
+	if (a.newRepliesCount && b.newRepliesCount) {
+		// Own threads first.
+		if (a.own && !b.own) {
+			return -1
+		} else if (!a.own && b.own) {
+			return 1
+		}
+		// More new replies first.
+		if (a.newRepliesCount === b.newRepliesCount) {
+			// More new comments first.
+			return b.newCommentsCount - a.newCommentsCount
+		}
+		return b.newRepliesCount - a.newRepliesCount
+	} else if (a.newRepliesCount && !b.newRepliesCount) {
+		return -1
+	} else if (!a.newRepliesCount && b.newRepliesCount) {
+		return 1
+	}
+	// Threads with new comments left.
+	// Own threads first.
+	if (a.own && !b.own) {
+		return -1
+	} else if (!a.own && b.own) {
+		return 1
+	}
+	// More new comments first.
+	return b.newCommentsCount - a.newCommentsCount
 }
