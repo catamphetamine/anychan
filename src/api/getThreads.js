@@ -22,10 +22,12 @@ export default async function getThreads({
 	const votes = UserData.getCommentVotes(boardId)
 	for (const thread of threads) {
 		setThreadInfo(thread, {
-			mode: 'thread',
+			mode: 'board',
 			votes: votes[thread.id] || {}
 		})
 		const comment = thread.comments[0]
+		// Set `comment.boardId` for "is tracked thread" comment header badge.
+		comment.boardId = boardId
 		comment.parseContent = () => {
 			if (comment.content) {
 				chan.parseCommentContent(comment, {

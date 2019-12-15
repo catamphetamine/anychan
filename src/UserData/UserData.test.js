@@ -123,10 +123,10 @@ describe('UserData', () => {
 			title: 'Random',
 			board: { id: 'b' }
 		})
-		userData.addReadComments('a', 123, 124)
-		userData.addReadComments('a', 456, 456)
-		userData.addReadComments('a', 456, 457)
-		userData.addReadComments('b', 789, 790)
+		userData.addLatestReadComments('a', 123, 124)
+		userData.addLatestReadComments('a', 456, 456)
+		userData.addLatestReadComments('a', 456, 457)
+		userData.addLatestReadComments('b', 789, 790)
 		userData.addHiddenComments('a', 123, 124)
 		userData.addHiddenComments('a', 123, 125)
 		userData.addHiddenComments('a', 456, 456)
@@ -170,7 +170,7 @@ describe('UserData', () => {
 						}
 					}
 				],
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 124,
 						'456': 457
@@ -249,7 +249,7 @@ describe('UserData', () => {
 						}
 					}
 				],
-				readComments: {
+				latestReadComments: {
 					a: {
 						'456': 457
 					},

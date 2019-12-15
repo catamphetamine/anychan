@@ -1,0 +1,22 @@
+/* Not using `position: relative` here because it would screw
+   the `flex` container inside `<BoardOrThreadMenu/>` for some reason. */
+.StarIcon {
+	/* Gets rid of the vertical whitespace. */
+	line-height: 0;
+}
+
+.StarIconFill,
+.StarIconOutline {
+	width: 100%;
+	height: 100%;
+}
+
+.StarIconOutline {
+	margin-left: -100%;
+	color: var(--StarIconOutline-color);
+}
+
+.StarIconFill {
+	color: var(--StarIconFill-color);
+	opacity: 0.8;
+}

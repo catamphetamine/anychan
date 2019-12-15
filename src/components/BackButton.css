@@ -1,0 +1,89 @@
+@import "../styles/common";
+
+.BackButton {
+	display: none;
+	/* Setting percentage-based `top` position for `position: fixed`
+	   results in it jumping when mobile browser top/bottom bars appear/disappear.
+	   Instead, the `top` position is calculated and set in `px` via javascript.
+	   The initial `top: 100%` is just to hide the button until javascript is run. */
+	/*top: calc(35% - var(--unit) * 2 / 2);*/
+	border-right: 1px solid transparent;
+	transition: all 60ms;
+	@mixin l {
+		/* Show the button and align it to top. */
+		display: flex;
+		flex-direction: column;
+		position: fixed;
+		top: var(--Header-height);
+		bottom: 0;
+		left: 0;
+		z-index: var(--SideNavMenuButton-zIndex);
+		padding: calc(var(--unit));
+		padding-top: calc(var(--unit) * 1.7);
+		.BackButtonIcon {
+			opacity: 0.5;
+		}
+	}
+	@mixin xl-plus {
+		display: block;
+		position: static;
+		width: 100%;
+		height: 100%;
+		.BackButtonIcon {
+			position: fixed;
+			top: calc(var(--Header-height) + var(--unit) * 1.1);
+			left: calc(var(--unit) / 2);
+			margin: var(--unit);
+			opacity: 0.75;
+		}
+	}
+	/*&:focus,*/
+	&:active {
+		color: var(--Clickable-color--text);
+		/*background-color: var(--base-color-200);*/
+		.BackButtonIcon {
+			/*transform: scale(0.9);*/
+		}
+	}
+	&:hover {
+		/*color: var(--Clickable-color--text);*/
+		background-color: var(--BackButton-backgroundColor--hover);
+		border-right: 1px solid var(--BackButton-borderColor--hover);
+		.BackButtonLeftArrow {
+			&:before {
+				transform: translateX(10%) translateY(20%) rotate(-35deg);
+			}
+			&:after {
+				transform: translateX(10%) translateY(-20%) rotate(35deg);
+			}
+		}
+	}
+}
+
+.BackButtonIcon {
+	width: calc(0.75 * var(--unit) * 2);
+	height: calc(0.75 * var(--unit) * 2);
+	transition: transform 160ms;
+}
+
+.BackButtonLeftArrow {
+	position: relative;
+	&:before,
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: calc((100% - 5%) / 2);
+		height: 5%;
+		width: 100%;
+		transform-origin: left center;
+		background-color: currentColor;
+    transition: color 60ms, transform 0.5s cubic-bezier(0.25, 1.7, 0.35, 1.5);
+	}
+	&:before {
+		transform: translateX(10%) translateY(20%) rotate(-42deg);
+	}
+	&:after {
+		transform: translateX(10%) translateY(-20%) rotate(42deg);
+	}
+}

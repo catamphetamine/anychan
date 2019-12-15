@@ -33,8 +33,8 @@
 }
 
 .SidebarMenuIcon {
-	width: calc(var(--unit) * 1);
-	height: calc(var(--unit) * 1);
+	width: calc(var(--unit) * 1.2);
+	height: calc(var(--unit) * 1.2);
 	margin-right: calc(var(--unit) * 1);
 	margin-left: calc(var(--unit) * 0.5);
 	/* Prevent the icon from shrinking when title text overflows. */

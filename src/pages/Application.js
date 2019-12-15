@@ -19,17 +19,21 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar'
 import SideNavMenuButton from '../components/SideNavMenuButton'
+import BackButton from '../components/BackButton'
+import Slideshow from '../components/Slideshow'
 import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
-import Slideshow from 'webapp-frontend/src/components/Slideshow'
 import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/YouTubeVideo'
 
 // `react-time-ago` languages.
-import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
+// import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
 import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 
-import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
+import '@formatjs/intl-pluralrules/polyfill'
+import '@formatjs/intl-pluralrules/dist/locale-data/en'
+import '@formatjs/intl-pluralrules/dist/locale-data/ru'
+
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
 
@@ -68,16 +72,9 @@ export default function App({
 	const sidebarMode = useSelector(({ app }) => app.sidebarMode)
 	const offline = useSelector(({ app }) => app.offline)
 	const route = useSelector(({ found }) => found.resolvedMatch)
-	const slideshowIndex = useSelector(({ slideshow }) => slideshow.index)
-	const slideshowIsOpen = useSelector(({ slideshow }) => slideshow.isOpen)
-	const slideshowSlides = useSelector(({ slideshow }) => slideshow.slides)
-	const slideshowMode = useSelector(({ slideshow }) => slideshow.mode)
-	const thumbnailImage = useSelector(({ slideshow }) => slideshow.thumbnailImage)
   const location = useSelector(({ found }) => found.resolvedMatch.location)
   const announcement = useSelector(({ announcement }) => announcement.announcement)
 	const dispatch = useDispatch()
-
-	const header = useRef()
 
 	// UserData/UserSettings listeners.
 	useEffect(() => {
@@ -120,10 +117,6 @@ export default function App({
 		setBodyBackground(route)
 	}, [route])
 
-	const onCloseSlideshow = useCallback(() => {
-		dispatch(closeSlideshow())
-	}, [dispatch])
-
 	const onHideAnnouncement = useCallback(() => {
 		dispatch(hideAnnouncement())
 	}, [dispatch])
@@ -146,28 +139,8 @@ export default function App({
 			{/* Detects touch capability and screen size. */}
 			<DeviceInfo/>
 
-			{/* Picture Slideshow */}
-			<Slideshow
-				i={slideshowIndex}
-				isOpen={slideshowIsOpen}
-				mode={slideshowMode}
-				showControls={slideshowMode === 'flow'}
-				showPagination
-				thumbnailImage={thumbnailImage}
-				onClose={onCloseSlideshow}
-				messages={messages.slideshow}
-				closeOnSlideClick={slideshowMode !== 'flow'}
-				overlayOpacity={0}
-				overlayOpacityFlowMode={0.85}
-				overlayOpacitySmallScreen={0.1}
-				animateOpenCloseSmallScreen
-				animateOpenCloseScaleSmallScreen
-				animateOpenCloseOnPanOut
-				smallScreenMaxWidth={500}
-				header={header.current}
-				footer={document.querySelector('footer .application-menu')}>
-				{slideshowSlides}
-			</Slideshow>
+			{/* Picture/Video Slideshow */}
+			<Slideshow/>
 
 			<div className={classNames('webpage', {
 				'webpage--offline': offline,
@@ -178,13 +151,15 @@ export default function App({
 				'webpage--wide-sidebar': sidebarMode !== 'boards'
 			})}>
 				{!offline &&
-					<Header ref={header}/>
+					<Header/>
 				}
 				{!offline &&
 					<SideNavMenuButton/>
 				}
 				{!offline &&
-					<div className="webpage__padding-left"/>
+					<div className="webpage__padding-left">
+						<BackButton/>
+					</div>
 				}
 				<div className="webpage__content-container">
 					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}

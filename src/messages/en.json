@@ -9,9 +9,11 @@
 	},
 	"trackedThreads": {
 		"title": "Tracked threads",
+		"trackedThread": "Tracked thread",
 		"trackThread": "Track this thread",
 		"untrackThread": "Don't track this thread",
-		"empty": "No tracked threads"
+		"empty": "No tracked threads",
+		"showExpired": "Show expired"
 	},
 	"settings": {
 		"theme": {
@@ -112,7 +114,7 @@
 		"rolling": "Rolling thread",
 		"bumpLimitReached": "The thread has reached its bump limit and is going down",
 		"threadAuthor": "Thread author",
-		"commentAttachmentsCount": "Attachments in comments",
+		"attachmentsCount": "Attachments",
 		"uniquePostersCount": "Unique poster IP addresses",
 		"moreActions": {
 			"copyUrl": "Copy link",
@@ -135,5 +137,11 @@
 	"country": {
 		"anonymous": "Anonymous"
 	},
-	"notImplemented": "This feature hasn't been implemented yet"
+	"notImplemented": "This feature hasn't been implemented yet",
+	"backToPreviouslyViewedComment": "Return",
+	"nMoreComments": "{count, plural, one {# more comment} other {# more comments}}",
+	"noNewComments": "No new comments",
+	"newComments": "New comments",
+	"lastComment": "Last comment",
+	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it."
 }

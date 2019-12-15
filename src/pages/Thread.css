@@ -1,5 +1,12 @@
 @import "../styles/common";
 
+:root {
+	--BackToPreviousComment-height: calc(var(--unit) * 2);
+	@mixin s-plus {
+		--BackToPreviousComment-height: calc(var(--unit) * 2.5);
+	}
+}
+
 .thread-page {
 	/* `position: relative` is for <ThreadMenu/>. */
 	position: relative;
@@ -11,10 +18,17 @@
 	}
 }
 
-@mixin l-plus {
-	.thread-page__comments {
-		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
-	}
+.thread-page__no-new-comments {
+	margin-top: 0;
+	margin-bottom: 0;
+	/* Using `padding-top` instead of `margin-top` here
+	   so that `<BoardOrThreadMenu/>` vertical position is preserved
+	   when clicking on "Show previous comments" button. */
+	padding-top: 12vh;
+	/* `margin-bottom` doesn't collapse with `<Footer/>`'s `margin-top` anyway. */
+	margin-bottom: calc(20vh - var(--Footer-marginTop));
+	text-align: center;
+	color: var(--Content-color-700);
 }
 
 .thread-page__header-back-arrow {
@@ -30,19 +44,6 @@
 
 .thread-page__header-back-link {
 	display: none;
-}
-
-@mixin upto-s {
-	.thread-page__header {
-		display: flex;
-		justify-content: space-between;
-		padding-left: var(--Post-padding--horizontal);
-	}
-	.thread-page__header-back-link {
-		display: flex;
-		align-items: center;
-	  overflow: hidden;
-	}
 }
 
 .thread-page__header-back-title {
@@ -61,3 +62,250 @@
 	}
 }
 */
+
+.thread-page__menu-and-stats {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.thread-page__stats {
+	display: none;
+}
+
+/* Prevent thread menu from aligning to the left side
+   because the parent `flex` has `justify-content: space-between`
+   and `.thread-page__stats` are `display: none`. */
+.thread-page__menu-and-stats {
+	justify-content: flex-end;
+}
+
+.thread-page {
+	.ShowPrevious {
+		margin-bottom: 0;
+	}
+}
+
+/* `.thread-page__comments-container` is used here
+   instead of `.thread-page__comments` because
+   otherwise this `margin-top` would conflict with
+   `.thread-page__back-to-previous-comment-desktop`. */
+.thread-page__comments-container {
+	margin-top: var(--ThreadComments-marginTop);
+}
+
+/*
+.thread-page__stats--header {
+	display: none;
+}
+*/
+@mixin upto-s {
+	:root {
+		--ThreadComments-marginTop: calc(var(--unit) * -1);
+	}
+	.thread-page {
+		.ShowPrevious {
+			margin-top: calc(var(--unit) * 0.25);
+			margin-bottom: calc(var(--unit) * 0.75);
+		}
+	}
+	/*
+	.thread-page__stats {
+		padding-left: var(--Post-padding--horizontal);
+		padding-right: var(--Post-padding--horizontal);
+		margin-top: calc(var(--unit) * 0.5);
+	}
+	*/
+	/*
+	.thread-page__comments-and-controls-container--skipped {
+		.thread-page__menu-and-stats--above-content {
+			display: none;
+		}
+	}
+	*/
+	.thread-page__menu-and-stats--above-content {
+		display: none;
+	}
+	.thread-page__header {
+		display: flex;
+		justify-content: space-between;
+		padding-left: var(--Post-padding--horizontal);
+	}
+	.thread-page__header-back-link {
+		display: flex;
+		align-items: center;
+	  overflow: hidden;
+	}
+}
+
+@mixin m {
+	:root {
+		--ThreadComments-marginTop: calc(var(--unit) * -1 * 1.25);
+	}
+	.thread-page__menu-and-stats {
+		margin-top: calc(var(--unit) * 0.25);
+	}
+	.thread-page {
+		.ShowPrevious {
+			margin-top: calc(var(--unit) * 0.75);
+			margin-bottom: calc(var(--unit) * 0.25 * -1);
+		}
+	}
+}
+
+@mixin m-plus {
+	.thread-page__menu-and-stats--header {
+		display: none;
+	}
+	/*.thread-page__menu-and-stats {*/
+		/*margin-top: var(--unit);*/
+		/*margin-left: calc(var(--Post-padding--horizontal) + var(--PostThumbnailContainer-width));*/
+	/*}*/
+}
+
+@mixin l-plus {
+	:root {
+		--ThreadComments-marginTop: calc(var(--unit) * 0.5 * -1);
+	}
+	.thread-page__menu--header {
+		display: none;
+	}
+	.thread-page__menu-and-stats {
+		margin-top: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);
+	}
+	.thread-page {
+		.ShowPrevious {
+			margin-bottom: calc(var(--unit) * 0.5 * -1);
+		}
+	}
+	/*
+	.thread-page__comments--from-the-start,
+	.thread-page__no-new-comments {
+		margin-top: calc(var(--Post-padding--vertical) + var(--BoardOrThreadPage-marginTop--largeScreen));
+	}
+	*/
+	.thread-page__no-new-comments {
+		padding-top: 8vh;
+	}
+}
+
+.thread-page__stats {
+	/*color: var(--Post-color--secondary);*/
+	color: var(--Content-color-600);
+	font-weight: var(--Post-fontWeight--secondary);
+}
+
+.thread-page__stats-icon-container {
+	display: inline-block;
+}
+
+.thread-page__stats-icon {
+	color: var(--Content-color-500);
+}
+
+.thread-page__stats-comment-icon {
+	width: 1em;
+	height: 1em;
+	/*margin-bottom: -0.15em;*/
+	margin-bottom: -0.2em;
+	margin-right: 0.4em;
+}
+
+.thread-page__latest-comment-date {
+	margin-right: 0.4em;
+	/*color: var(--Post-color--secondary);*/
+}
+
+.thread-page__latest-comment-date-separator {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	color: var(--Content-color-300);
+	pointer-events: none;
+}
+
+.thread-page__stats-down-right-arrow-icon {
+	width: 0.6em;
+	height: 0.6em;
+	margin-bottom: 0em;
+}
+
+.thread-page__stats-sinking-icon {
+	width: 1.15em;
+	height: 1.15em;
+	margin-bottom: -0.25em;
+}
+
+.thread-page__back-to-previous-comment-mobile {
+	position: fixed;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	/*top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) + (var(--SideNavMenuButton-width) - var(--BackToPreviousComment-height)) / 2);*/
+	top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) * 2 + var(--SideNavMenuButton-width));
+	right: calc(var(--Post-padding--horizontal) - var(--SideNavMenuButton-padding));
+	/* Don't interfere with the floating menu button. */
+	/*right: calc(var(--Post-padding--horizontal) + var(--SideNavMenuButton-padding) + var(--SideNavMenuButton-width) + var(--SideNavMenuButton-right));*/
+	&:focus {
+		/*color: var(--Clickable-color--text);*/
+	}
+	&:active {
+		/*color: var(--Clickable-color--textActive);*/
+		color: var(--Clickable-color--text);
+	}
+}
+
+.thread-page__back-to-previous-comment-desktop {
+	position: sticky;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	top: calc(var(--Header-height) + (var(--ThreadComments-marginTop) - 1px) - 1px);
+	display: flex;
+	justify-content: flex-end;
+	height: 0;
+	margin-right: calc(var(--PostMoreActionsButton-paddingLeft) * 2 + var(--PostMoreActionsButton-width) + var(--Post-padding--horizontal));
+}
+
+.thread-page__back-to-previous-comment-desktop-button {
+	background-color: var(--Content-backgroundColor);
+	border-radius: 0;
+	border-color: var(--Header-borderColor);
+	height: var(--BackToPreviousComment-height);
+	/* Don't interfere with `.thread-page__menu--above-content`. */
+	margin-top: calc(-1 * (var(--ThreadComments-marginTop) - 1px));
+	/*
+	@mixin upto-xs {
+		padding-left: calc(var(--unit) / 2);
+		padding-right: calc(var(--unit) / 2);
+	}
+	@mixin s {
+		padding-left: calc(var(--unit) * 0.75);
+		padding-right: calc(var(--unit) * 0.75);
+	}
+	*/
+}
+
+.thread-page__back-to-previous-comment-desktop__arrow {
+	width: 0.8em;
+	height: 0.8em;
+	margin-right: 0.5em;
+	transform: rotate(-90deg);
+}
+
+.thread-page__back-to-previous-comment-mobile__arrow {
+	width: var(--SideNavMenuButton-width);
+	height: var(--SideNavMenuButton-width);
+	padding: var(--SideNavMenuButton-padding);
+	transform: rotate(-90deg);
+  box-sizing: content-box;
+}
+
+@mixin upto-m {
+	.thread-page__back-to-previous-comment-desktop {
+		display: none;
+	}
+}
+
+@mixin l-plus {
+	.thread-page__back-to-previous-comment-mobile {
+		display: none;
+	}
+}

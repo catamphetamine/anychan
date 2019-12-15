@@ -5,6 +5,7 @@
 	--SidebarSectionMoreButton-width: var(--unit);
 	--SidebarSectionMoreButton-height: 100%;
 	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
+	--SidebarSectionMoreButtonIcon-opacity: 0.5;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -17,13 +18,19 @@
 
 .SidebarSectionMoreButton__Icon {
 	width: 100%;
-	opacity: 0.5;
+	opacity: var(--SidebarSectionMoreButtonIcon-opacity);
 }
 
 .SidebarButton {
 	color: var(--Sidebar-color-500);
+	&:focus {
+		box-shadow: inset 0 0 0 1px var(--Sidebar-color-200);
+		opacity: var(--SidebarSectionMoreButtonIcon-opacity);
+		.SidebarSectionMoreButton__Icon {
+			opacity: 1;
+		}
+	}
 	&:hover {
-		/*box-shadow: 0 0 0 1px var(--Sidebar-color-200);*/
 		background-color: var(--Sidebar-highlightColor-100);
 		color: var(--Sidebar-color-900);
 	}

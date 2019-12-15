@@ -1,14 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import getMessages from '../messages'
+
+import StarIcon from './StarIcon'
 
 import Menu from 'webapp-frontend/src/components/Menu'
 
 import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
-import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
+// import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
 
-import PictureIconOutline from 'webapp-frontend/assets/images/icons/picture.svg'
+import PictureIconOutline from 'webapp-frontend/assets/images/icons/picture-outline.svg'
 import PictureIconFill from 'webapp-frontend/assets/images/icons/picture-fill.svg'
 
 import SlideshowIconOutline from 'webapp-frontend/assets/images/icons/slideshow-outline.svg'
@@ -32,6 +35,7 @@ export default function BoardOrThreadMenu({
 	areAttachmentsExpanded,
 	setAttachmentsExpanded,
 	openSlideshow,
+	className,
 	...rest
 }) {
 	const messages = getMessages(locale)
@@ -55,7 +59,7 @@ export default function BoardOrThreadMenu({
 			onClick: () => setThreadTracked(!isThreadTracked),
 			isSelected: isThreadTracked,
 			icon: StarIconOutline,
-			iconActive: StarIconFill
+			iconActive: StarIcon
 		},
 		{
 			title: areAttachmentsExpanded ? messages.post.collapseAttachments : messages.post.expandAttachments,
@@ -84,7 +88,7 @@ export default function BoardOrThreadMenu({
 	return (
 		<Menu
 			{...rest}
-			className="board-or-thread-menu">
+			className={classNames('board-or-thread-menu', className)}>
 			{menuItems}
 		</Menu>
 	)
@@ -99,5 +103,6 @@ BoardOrThreadMenu.propTypes = {
 	setSearchBarShown: PropTypes.func.isRequired,
 	areAttachmentsExpanded: PropTypes.bool,
 	setAttachmentsExpanded: PropTypes.func.isRequired,
-	openSlideshow: PropTypes.func.isRequired
+	openSlideshow: PropTypes.func.isRequired,
+	className: PropTypes.string
 }

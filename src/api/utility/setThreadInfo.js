@@ -1,12 +1,12 @@
 /**
  * Sets utility properties on thread comments.
  * @param {object} thread
- * @param {string} options.mode — Either "comment" (viewing thread page) or "thread" (viewing board page).
+ * @param {string} options.mode — Either "thread" (viewing thread page) or "board" (viewing board page).
  * @param {object} options.votes — Own votes in this thread, read from `localStorage`. An object of shape: `{ [commentId]: 1 or -1, ... }`.
  */
 export default function setThreadInfo(thread, { mode, votes }) {
 	thread.comments[0].commentsCount = thread.commentsCount
-	thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount
+	thread.comments[0].attachmentsCount = thread.attachmentsCount
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
 	// `isRootComment` is used for showing full-size attachment thumbnail
 	// on main thread posts on `4chan.org`.

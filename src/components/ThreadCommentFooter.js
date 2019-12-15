@@ -1,5 +1,5 @@
-import PictureIcon from 'webapp-frontend/assets/images/icons/picture.svg'
-import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
+import PictureIcon from 'webapp-frontend/assets/images/icons/picture-rect-square-outline.svg'
+import PersonIcon from 'webapp-frontend/assets/images/icons/person-outline-thinner.svg'
 
 import { isMiddleDialogueChainLink } from 'webapp-frontend/src/components/CommentTree'
 import { CommentsCountBadge, RepliesCountBadge } from 'webapp-frontend/src/components/Post.badges'
@@ -28,11 +28,11 @@ export function getFooterBadges(comment, {
 const FOOTER_BADGES = [
 	CommentsCountBadge,
 	{
-		name: 'comment-attachments-count',
+		name: 'attachments-count',
 		icon: PictureIcon,
-		title: (post, locale) => getMessages(locale).post.commentAttachmentsCount,
-		condition: (post) => post.commentAttachmentsCount,
-		content: post => post.commentAttachmentsCount
+		title: (post, locale) => getMessages(locale).post.attachmentsCount,
+		condition: (post) => post.attachmentsCount,
+		content: post => post.attachmentsCount
 	},
 	{
 		name: 'unique-posters-count',

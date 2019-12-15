@@ -39,9 +39,12 @@ export const getThreads = redux.action(
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
-		populateBoardInfo(board, threads[0])
+		populateBoardInfoFromThreadData(board, threads[0])
 		for (const thread of threads) {
 			delete thread.board
+		}
+		for (const thread of threads) {
+			setThreadInfo(thread, board)
 		}
 		return {
 			...state,
@@ -68,7 +71,8 @@ export const getThread = redux.action(
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
-		populateBoardInfo(board, thread)
+		populateBoardInfoFromThreadData(board, thread)
+		setThreadInfo(thread, board)
 		return {
 			...state,
 			board,
@@ -113,7 +117,7 @@ function getBoardById(boards, boardId, board) {
 	return { id: boardId, title: boardId }
 }
 
-function populateBoardInfo(board, thread) {
+function populateBoardInfoFromThreadData(board, thread) {
 	// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 	// Instead, it returns the board settings as part of "get threads" and
 	// "get thread comments" API responses.
@@ -124,5 +128,21 @@ function populateBoardInfo(board, thread) {
 			board[key] = thread.board[key]
 		}
 		delete thread.board
+	}
+}
+
+function setThreadInfo(thread, board) {
+	// `2ch.hk` and `4chan.org` provide `bumpLimit` info.
+	// Mark all comments that have reached that "bump limit".
+	if (board.bumpLimit) {
+		if (thread.comments.length >= board.bumpLimit) {
+			let i = board.bumpLimit - 1
+			while (i < thread.comments.length) {
+				// `isBumpLimitReached` is used in `<ThreadCommentHeader/>`
+				// to show a "sinking ship" badge.
+				thread.comments[i].isBumpLimitReached = true
+				i++
+			}
+		}
 	}
 }

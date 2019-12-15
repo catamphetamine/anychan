@@ -25,6 +25,9 @@
 .sidebar {
 	.ListButton {
 		color: var(--Sidebar-color-600);
+		&:focus {
+			color: var(--Sidebar-color-600);
+		}
 		&:hover {
 			color: var(--Sidebar-color-600);
 			.ListButton__background {

@@ -1,10 +1,9 @@
 import React, { useCallback, useRef, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { goBack, canGoBackInstantly } from 'react-pages'
 import classNames from 'classnames'
 
-import { isThreadLocation, isBoardLocation } from '../utility/routes'
+import { useCanGoBackFromThreadToBoard } from '../utility/routes'
 import { showSidebar } from '../redux/app'
 import getMessages from '../messages'
 
@@ -17,8 +16,7 @@ export default function SideNavMenuButton() {
 	const node = useRef()
 	const dispatch = useDispatch()
 	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const _isThreadLocation = useSelector(({ found }) => isThreadLocation(found.resolvedMatch))
-	const canGoBack = _isThreadLocation && window._previousRoute && isBoardLocation(window._previousRoute) && canGoBackInstantly()
+	const [canGoBack, goBack] = useCanGoBackFromThreadToBoard()
 	const isSidebarShown = useSelector(({ app }) => app.isSidebarShown)
 	const toggleSidebar = useCallback(() => {
 		if (isSidebarShown) {
@@ -27,16 +25,15 @@ export default function SideNavMenuButton() {
 			dispatch(showSidebar(true))
 		}
 	}, [dispatch, isSidebarShown])
-	const onGoBack = useCallback(() => {
-		dispatch(goBack())
-	}, [dispatch])
 	const [position, setPosition] = useState()
 	function updatePosition() {
 		/* Setting percentage-based `top` position for `position: fixed`
 		   results in it jumping when mobile browser top/bottom bars appear/disappear.
 		   Instead, the `top` position is calculated and set in `px` via javascript. */
 		const topOffsetPercent = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--SideNavMenuButton-top'))
-		setPosition(getViewportHeight() * topOffsetPercent / 100 - node.current.offsetHeight)
+		const position = getViewportHeight() * topOffsetPercent / 100 - node.current.offsetHeight
+		setPosition(position)
+		document.documentElement.style.setProperty('--SideNavMenuButton-top--px', position + 'px')
 	}
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
 	onWindowResize(updatePosition, { alsoOnMount: true })
@@ -45,7 +42,7 @@ export default function SideNavMenuButton() {
 			ref={node}
 			type="button"
 			title={canGoBack ? getMessages(locale).actions.back : (isSidebarShown ? getMessages(locale).actions.close : getMessages(locale).menu)}
-			onClick={canGoBack ? onGoBack : toggleSidebar}
+			onClick={canGoBack ? goBack : toggleSidebar}
 			style={style}
 			className="rrui__button-reset SideNavMenuButton">
 			<MenuIcon mode={canGoBack ? 'leftArrow' : (isSidebarShown ? 'cross' : 'menu')}/>

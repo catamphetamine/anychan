@@ -1,6 +1,7 @@
 @import "../styles/common";
 
 .board-or-thread-menu {
+	display: flex;
 	justify-content: flex-end;
 	/*padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
 	/*padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
@@ -14,6 +15,10 @@
 		margin-top: calc(var(--unit) * 0.5);
 		margin-bottom: calc(var(--unit) * 0.5);
 	}
+}
+
+/* This CSS class is also used for `.thread-page__stats`. */
+.board-or-thread-menu--above {
 	@mixin l-plus {
 		position: absolute;
 		right: 0;

@@ -14,33 +14,33 @@ const userData = new UserData(storage, {
 describe('UserData', () => {
 	it('should add/remove/get read comments', () => {
 		storage.clear()
-		userData.addReadComments('a', 123, 124)
+		userData.addLatestReadComments('a', 123, 124)
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 124
 					}
 				}
 			}
 		)
-		userData.addReadComments('a', 123, 125)
+		userData.addLatestReadComments('a', 123, 125)
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 125
 					}
 				}
 			}
 		)
-		userData.addReadComments('a', 456, 456)
+		userData.addLatestReadComments('a', 456, 456)
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 125,
 						'456': 456
@@ -48,11 +48,11 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addReadComments('b', 789, 790)
+		userData.addLatestReadComments('b', 789, 790)
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 125,
 						'456': 456
@@ -64,7 +64,7 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getReadComments(),
+			userData.getLatestReadComments(),
 			{
 				a: {
 					'123': 125,
@@ -76,41 +76,41 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getReadComments('b', 789, 790),
+			userData.getLatestReadComments('b', 789, 790),
 			true
 		)
 		expectToEqual(
-			userData.getReadComments('b', 789, 791),
+			userData.getLatestReadComments('b', 789, 791),
 			false
 		)
 		expectToEqual(
-			userData.getReadComments('b', 789),
+			userData.getLatestReadComments('b', 789),
 			790
 		)
 		expectToEqual(
-			userData.getReadComments('a'),
+			userData.getLatestReadComments('a'),
 			{
 				'123': 125,
 				'456': 456
 			}
 		)
 		expectToEqual(
-			userData.getReadComments('c'),
+			userData.getLatestReadComments('c'),
 			{}
 		)
 		expectToEqual(
-			userData.getReadComments('c', 111),
+			userData.getLatestReadComments('c', 111),
 			undefined
 		)
 		expectToEqual(
-			userData.getReadComments('c', 111, 112),
+			userData.getLatestReadComments('c', 111, 112),
 			false
 		)
-		userData.removeReadComments('b')
+		userData.removeLatestReadComments('b')
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 125,
 						'456': 456
@@ -118,18 +118,18 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeReadComments('a', 456)
+		userData.removeLatestReadComments('a', 456)
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 125
 					}
 				}
 			}
 		)
-		userData.removeReadComments('a', 123)
+		userData.removeLatestReadComments('a', 123)
 		expectToEqual(
 			storage.data,
 			{}
@@ -138,7 +138,7 @@ describe('UserData', () => {
 
 	it('should merge read comments', () => {
 		storage.data = {
-			readComments: {
+			latestReadComments: {
 				a: {
 					'123': 124,
 					'125': 126
@@ -146,7 +146,7 @@ describe('UserData', () => {
 			}
 		}
 		userData.merge({
-			readComments: {
+			latestReadComments: {
 				a: {
 					'123': 123,
 					'125': 127,
@@ -160,7 +160,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 124,
 						'125': 127,
@@ -177,7 +177,7 @@ describe('UserData', () => {
 	it('should merge read comments (source not exists)', () => {
 		storage.data = {}
 		userData.merge({
-			readComments: {
+			latestReadComments: {
 				a: {
 					'123': 123
 				}
@@ -186,7 +186,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 123
 					}
@@ -197,7 +197,7 @@ describe('UserData', () => {
 
 	it('should merge read comments (destination not exists)', () => {
 		storage.data = {
-			readComments: {
+			latestReadComments: {
 				a: {
 					'123': 123
 				}
@@ -207,7 +207,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				readComments: {
+				latestReadComments: {
 					a: {
 						'123': 123
 					}

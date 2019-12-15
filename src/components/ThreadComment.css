@@ -48,11 +48,24 @@
 	:root {
 		--CommentTreeBranch-paddingLeft--firstLevel: 0.25;
 	}
+	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
+	   because `--PostThumbnail-maxWidth` is defined on `<body/>`
+	   because it's default value is defined on `:root`. */
+	body {
+		--PostThumbnailContainer-width: 0px;
+	}
 }
 
 /* Move the first attachment to the left side of the comment on large screens. */
 /* (classic imageboard message style) */
 @mixin m-plus {
+	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
+	   because `--PostThumbnail-maxWidth` is defined on `<body/>`
+	   because it's default value is defined on `:root`. */
+	body {
+		--PostThumbnailContainer-width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+	}
+
 	.thread-comment--thread {
 		/* Using `margin-right` instead of `padding-right` here
 		   so that the expanded replies don't have their bottom border
@@ -82,8 +95,8 @@
 		justify-content: flex-end;
 		/* In case of changing these also change `.sidebar`'s
 		   `flex-basis` accordingly in `Application.css`. */
-		width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
-		min-width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		width: var(--PostThumbnailContainer-width);
+		min-width: var(--PostThumbnailContainer-width);
 		/* Using `padding-right` instead of `margin-right` here
 		   so that `border-bottom` is continuous. */
 		padding-right: var(--PostThumbnail-marginRight);
@@ -173,20 +186,29 @@
 	}
 }
 
-.thread-comment--thread {
+/* Using `.thread-page` instead of `.thread-comment--thread` here
+   because `var(--Post-color--secondary)` is used in `thread-page__stats`. */
+.thread-page {
 	--Post-color--secondary: var(--Post-color--secondaryThread);
 }
 
 .post__footer-badge-icon--comments-count {
-	margin-top: -0.1em;
-	margin-right: 0.35em;
+	/*margin-top: -0.1em;*/
+	/*margin-right: 0.35em;*/
+	margin-top: 0.05em;
+	margin-right: 0.32em;
 }
 
 .post__footer-badge-icon--attachments-count {
 	width: 0.95em;
 	height: 0.95em;
-	margin-top: -0.05em;
+	margin-top: 0em;
 	margin-right: 0.35em;
+}
+
+.post__footer-badge-icon--unique-posters-count {
+	width: 0.92em;
+	height: 0.92em;
 }
 
 .post__footer-badge-icon--replies-count {

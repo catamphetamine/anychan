@@ -112,3 +112,7 @@
 	/* By default post header badges have opacity about 0.8. */
 	opacity: 1;
 }
+
+.post__header-badge--tracking {
+	position: relative;
+}

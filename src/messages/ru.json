@@ -9,9 +9,11 @@
 	},
 	"trackedThreads": {
 		"title": "Отслеживаемые треды",
+		"trackedThread": "Отслеживаемый тред",
 		"trackThread": "Отслеживать этот тред",
 		"untrackThread": "Не отслеживать этот тред",
-		"empty": "Нет отслеживаемых тредов"
+		"empty": "Нет отслеживаемых тредов",
+		"showExpired": "Показать затёртые"
 	},
 	"settings": {
 		"theme": {
@@ -112,8 +114,8 @@
 		"rolling": "Бесконечный тред",
 		"bumpLimitReached": "Тред ушёл в бамп-лимит и тонет",
 		"threadAuthor": "Автор треда",
-		"commentAttachmentsCount": "Вложений в комментариях",
-		"uniquePostersCount": "Уникальных IP-адресов комментаторов",
+		"attachmentsCount": "Вложений",
+		"uniquePostersCount": "Уникальных IP-адресов комментаторов (включая автора)",
 		"moreActions": {
 			"copyUrl": "Скопировать ссылку",
 			"report": "Пожаловаться",
@@ -135,5 +137,11 @@
 	"country": {
 		"anonymous": "Аноним"
 	},
-	"notImplemented": "Ещё не сделано"
+	"notImplemented": "Ещё не сделано",
+	"backToPreviouslyViewedComment": "Вернуться",
+	"nMoreComments": "{count, plural, one {ещё # комментарий} few {ещё # комментария} many {ещё # комментариев} other {ещё # комментария}}",
+	"noNewComments": "Нет новых комментариев",
+	"newComments": "Новые комментарии",
+	"lastComment": "Последний комментарий",
+	"threadExpiresSoon": "Тред на {0} месте из {1}. Как только тред опустится ниже последнего места, он будет затёрт. Для того, чтобы поднять тред, оставьте в нём комментарий."
 }

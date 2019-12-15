@@ -33,6 +33,13 @@ import {
 } from './boardThreadData'
 
 import {
+	addToBoardIdData,
+	removeFromBoardIdData,
+	getFromBoardIdData,
+	mergeWithBoardIdData
+} from './boardData'
+
+import {
 	addToBoardIdThreadIds,
 	removeFromBoardIdThreadIds,
 	getFromBoardIdThreadIds,
@@ -41,26 +48,70 @@ import {
 
 export class UserData {
 	collections = {
+		// Users can add boards to the list of "Favorite boards"
+		// so that they don't have to scroll through the whole
+		// list of boards just to navigate to a board they visit often.
+		// Example: ['a', 'b'].
 		favoriteBoards: {
 			type: 'list',
 			isEqual: (one, two) => one.id === two.id
 		},
+		// Users can "ignore" all comments left by authors
+		// sharing the same "author fingerprint":
+		// usually a hash of IP subnet.
+		// Example: ['2fde80', '4b93e1'].
 		ignoredAuthors: {
 			type: 'list',
 			limit: 1000
 		},
+		// Users can hide certain comments.
+		// For example, if they're offensive.
+		// Example: { a: { 123: [125] } }.
 		hiddenComments: {
 			type: 'boards-threads-comments'
 		},
+		// Users can hide certain threads from being shown in "board" view.
+		// For example, if their "opening comments" are offensive.
+		// Example: { a: [123] }.
 		hiddenThreads: {
 			type: 'boards-threads'
 		},
-		readComments: {
+		// If a comment has been fully shown on screen
+		// it's marked as "read", so that next time the user
+		// goes to the thread page it shows the comments
+		// starting from the first non-"read" one.
+		// This way the user doesn't have to scroll to bottom
+		// every time they go to a thread page.
+		// Stores only the most recent "read" comment id for a thread.
+		// Example: { a: { 123: 125 } }.
+		latestReadComments: {
 			type: 'boards-threads-data'
 		},
+		// If a user has seen the opening post of a thread on a board
+		// while in "board" view then such thread is marked as "seen".
+		// It's called "seen", not "read", because the user didn't
+		// necessarily read the whole thread; they might even didn't
+		// click on it to go to the thread, but they've "seen" it.
+		// On a board page there's a switch: "Show all" / "Show new",
+		// "new" meaning newer than the latest "seen" one.
+		// Stores only the most recent "seen" thread id.
+		// Example: { a: 123 }.
+		latestSeenThreads: {
+			type: 'boards-data'
+		},
+		// Users can "track" certain threads.
+		// "Tracked" threads are shown as a list in sidebar,
+		// and they also get refreshed for new comments periodically.
+		// This is an index of "tracked" threads,
+		// containing just the ids of such threads.
 		trackedThreads: {
 			type: 'boards-threads'
 		},
+		// Users can "track" certain threads.
+		// "Tracked" threads are shown as a list in sidebar,
+		// and they also get refreshed for new comments periodically.
+		// This is a full list of "tracked" threads,
+		// containing all info about such threads (title, thumbnail, etc).
 		trackedThreadsList: {
 			type: 'threads',
 			index: 'trackedThreads',
@@ -69,12 +120,19 @@ export class UserData {
 			expires: false,
 			limit: 100
 		},
+		// User's own threads are tracked.
+		// For example, so that they're highlighted in "board" view.
 		ownThreads: {
 			type: 'boards-threads'
 		},
+		// User's own comments are tracked.
+		// For example, so that they're highlighted in "thread" view.
 		ownComments: {
 			type: 'boards-threads-comments'
 		},
+		// User's votes index.
+		// Is used to indicate that the user "has already voted for this comment",
+		// and to show whether it was an upvote or a downvote.
 		commentVotes: {
 			type: 'boards-threads-comments-data'
 		}
@@ -132,10 +190,12 @@ export class UserData {
 			}
 			this[`merge${capitalize(key)}`] = (...args) => {
 				return mergeWith.apply(this, getArgs(args))
+				// Doesn't update "index" collection.
 			}
 			this[`set${capitalize(key)}`] = (...args) => {
 				const [storage, key] = preArgs
 				storage.set(key, args[0])
+				// Doesn't update "index" collection.
 			}
 		}
 	}
@@ -198,6 +258,7 @@ export class UserData {
 												for (const commentId of Object.keys(comments)) {
 													if (typeof comments[commentId] === 'object') {
 														comments[commentId].expired = true
+														comments[commentId].expiredAt = Date.now()
 													} else {
 														console.warn(`Thread ${threadId} expired but comment data is not an object`, comments[commentId])
 													}
@@ -209,6 +270,7 @@ export class UserData {
 											case 'boards-threads-data':
 												if (typeof threads[threadId] === 'object') {
 													threads[threadId].expired = true
+													threads[threadId].expiredAt = Date.now()
 												} else {
 													console.warn(`Thread ${threadId} expired but data is not an object`, threads[threadId])
 												}
@@ -376,7 +438,7 @@ function getFunctions(type) {
 				getFrom: getFromBoardIdThreadIdCommentIdData,
 				mergeWith: mergeWithBoardIdThreadIdCommentIdData
 			}
-		// readComments: {
+		// latestReadComments: {
 		//   a: {
 		//   	'124': 111, // Latest read comment id.
 		//   	'356': 333,
@@ -390,6 +452,18 @@ function getFunctions(type) {
 				removeFrom: removeFromBoardIdThreadIdData,
 				getFrom: getFromBoardIdThreadIdData,
 				mergeWith: mergeWithBoardIdThreadIdData
+			}
+		// {
+		// 	a: 123,
+		// 	b: 456,
+		// 	...
+		// }
+		case 'boards-data':
+			return {
+				addTo: addToBoardIdData,
+				removeFrom: removeFromBoardIdData,
+				getFrom: getFromBoardIdData,
+				mergeWith: mergeWithBoardIdData
 			}
 	}
 }

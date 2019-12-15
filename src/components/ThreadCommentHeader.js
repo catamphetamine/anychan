@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import { post } from '../PropTypes'
 import getMessages, { getCountryNames } from '../messages'
 import { getChan, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
+import UserData from '../UserData/UserData'
+
+import StarIcon from './StarIcon'
 
 import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
 import AnonymousCountryIcon from 'webapp-frontend/assets/images/icons/anonymous.svg'
@@ -146,7 +150,35 @@ Header.propTypes = {
 	locale: PropTypes.string.isRequired
 }
 
+function TrackedThreadStatusIcon({ boardId, threadId, ...rest }) {
+	const isTracked = useSelector(({ threadTracker }) => {
+		const trackedThreadsIndex = threadTracker.trackedThreadsIndex
+		return trackedThreadsIndex[boardId] && trackedThreadsIndex[boardId].includes(threadId)
+	})
+	if (isTracked) {
+		return (
+			<StarIcon {...rest}/>
+		)
+	}
+	return null
+}
+
 export const HEADER_BADGES = [
+	{
+		name: 'tracking',
+		icon: TrackedThreadStatusIcon,
+		// icon: StarIcon,
+		title: (post, locale) => {
+			return getMessages(locale).trackedThreads.trackedThread
+		},
+		getIconProps: (post, locale) => ({
+			boardId: post.boardId,
+			threadId: post.id
+		}),
+		condition: (post) => {
+			return post.mode === 'board'
+		}
+	},
 	{
 		name: 'banned',
 		icon: StopIcon,
@@ -170,7 +202,7 @@ export const HEADER_BADGES = [
 		title: (post, locale) => getMessages(locale).post.threadAuthor,
 		// If there are author IDs in the thread then "Original poster" is
 		// gonna be the post author name instead of being a badge.
-		condition: post => post.isThreadAuthor && !post.threadHasAuthorIds
+		condition: post => post.mode === 'thread' && post.isThreadAuthor && !post.threadHasAuthorIds
 	},
 	{
 		name: 'country',
@@ -210,7 +242,7 @@ export const HEADER_BADGES = [
 		icon: SinkingBoatIcon,
 		title: (post, locale) => getMessages(locale).post.bumpLimitReached,
 		// On `2ch.hk` there can be "rolling" threads which aren't "sticky".
-		condition: (post, thread) => post.isBumpLimitReached
+		condition: (post, thread) => post.mode === 'board' && post.isBumpLimitReached
 	},
 	{
 		name: 'sticky',

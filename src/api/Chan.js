@@ -14,7 +14,9 @@ export default function Chan_({
 		{
 			messages: messages && getMessages(messages),
 			censoredWords,
-			// `expandReplies` must also be `true` in `./getThread.js`
+			// `expandReplies: true` option of `imageboard`
+			// transforms reply ids into reply comment objects.
+			// `expandReplies` must be `true` both here and in `./getThread.js`
 			// in `addOnContentChange(comment)` function.
 			expandReplies: true,
 			useRelativeUrls: isDeployedOnChanDomain(),

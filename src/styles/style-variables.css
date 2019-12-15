@@ -16,6 +16,9 @@
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor);
 
+	/* Footer. */
+	--Footer-marginTop: calc(var(--unit) * 4);
+
 	/* NotificationBadge. */
 	--NotificationBadge-color: var(--white-color);
 	--NotificationBadge-backgroundColor: red;
@@ -80,10 +83,18 @@
 
 	/* PostBannedIcon. */
 	--PostBannedIcon-color: var(--Critical-color);
+
+	/* StarIcon. */
+	--StarIconOutline-color: var(--Clickable-color--textActive);
+	--StarIconFill-color: var(--Clickable-color--active);
 }
 
 /* Light mode. */
 .light {
+	/* BackButton. */
+	--BackButton-backgroundColor--hover: #fffcf5;
+	--BackButton-borderColor--hover: #f9f3e4;
+
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
 	--Sidebar-highlightColor-100: #faf7f2;
@@ -148,6 +159,10 @@
 	--base-color-400: #d96d1f;
 	--base-color-500: #e75f00;
 
+	/* BackButton. */
+	--BackButton-backgroundColor--hover: #403e38;
+	--BackButton-borderColor--hover: #444032;
+
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-300);
 	--Sidebar-highlightColor-100: #303030;
@@ -191,4 +206,7 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(255,255,255,0.1);
+
+	/* StarIcon. */
+	--StarIconFill-color: var(--Clickable-color--text);
 }

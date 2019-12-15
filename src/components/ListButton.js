@@ -6,16 +6,17 @@ import RemoveIcon from 'webapp-frontend/assets/images/icons/close-thicker.svg'
 
 import './ListButton.css'
 
-export default function ListButton({
+function ListButton({
 	onClick,
 	title,
 	icon,
 	muted,
 	className
-}) {
+}, ref) {
 	const Icon = getIcon(icon)
 	return (
 		<button
+			ref={ref}
 			type="button"
 			onClick={onClick}
 			title={title}
@@ -29,6 +30,8 @@ export default function ListButton({
 	)
 }
 
+ListButton = React.forwardRef(ListButton)
+
 ListButton.propTypes = {
 	onClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
@@ -36,6 +39,8 @@ ListButton.propTypes = {
 	muted: PropTypes.bool,
 	className: PropTypes.string
 }
+
+export default ListButton
 
 function getIcon(icon) {
 	switch (icon) {

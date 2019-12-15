@@ -33,7 +33,7 @@ body {
 }*/
 
 .footer {
-	margin-top: calc(var(--unit) * 4);
+	margin-top: var(--Footer-marginTop);
 	margin-bottom: var(--FooterMenu-height);
 }
 

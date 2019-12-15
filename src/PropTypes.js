@@ -38,6 +38,7 @@ export const comment = shape({
 export const trackedThread = shape({
 	id: number.isRequired,
 	title: string.isRequired,
+	addedAt: number.isRequired,
 	board: shape({
 		id: string.isRequired
 	}),
@@ -49,6 +50,9 @@ export const trackedThread = shape({
 		height: number.isRequired
 	}),
 	expired: bool,
+	// `expiredAt` has been added on Dec 9th, 2019.
+	expiredAt: number,
+	own: bool,
 	newCommentsCount: number,
 	newRepliesCount: number
 })

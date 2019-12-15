@@ -88,7 +88,8 @@ export default function BoardPage() {
 					dispatch={dispatch}
 					locale={locale}
 					isSearchBarShown={isSearchBarShown}
-					setSearchBarShown={setSearchBarShown}/>
+					setSearchBarShown={setSearchBarShown}
+					className="board-or-thread-menu--above"/>
 			</div>
 			{getChan().id === '2ch' && board.id === 'd' &&
 				<p className="board-page__api-bug-note">

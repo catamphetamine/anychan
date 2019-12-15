@@ -1,0 +1,33 @@
+@import "../styles/common";
+
+.ShowPrevious {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: var(--unit);
+	margin-bottom: var(--unit);
+	@mixin upto-s {
+		margin-top: calc(var(--unit) * 0.5);
+		margin-bottom: calc(var(--unit) * 0.5);
+	}
+}
+
+.ShowPreviousShowAll {
+	margin-bottom: var(--unit);
+}
+
+.ShowPreviousDate {
+	color: var(--Content-color-600);
+	font-weight: 300;
+	/*color: var(--Content-color-500);*/
+	/*color: var(--Post-color--secondary);*/
+	/*font-weight: var(--Post-fontWeight--secondary);*/
+}
+
+.ShowPreviousDoubleArrow {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-bottom: -0.1em;
+	margin-right: 0.25em;
+}

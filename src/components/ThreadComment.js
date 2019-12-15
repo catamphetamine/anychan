@@ -14,6 +14,7 @@ import PostForm from './PostForm'
 import Header, { HEADER_BADGES, hasAuthor } from './ThreadCommentHeader'
 import { getFooterBadges } from './ThreadCommentFooter'
 import ThreadCommentHidden from './ThreadCommentHidden'
+import CommentReadStatusWatcher from './CommentReadStatusWatcher'
 
 import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
@@ -41,7 +42,7 @@ import './ThreadComment.css'
 
 // `ThreadComment` is a class because `virtual-scroller` requires
 // its `component` to be a React.Component in order to assign a `ref`
-// that could be used for calling `.updateItem(i)` manually.
+// that could be used for calling `.renderItem(i)` manually.
 // (which is done when YouTube/Twitter/etc links are loaded)
 export default function ThreadComment({
 	comment,
@@ -57,6 +58,7 @@ export default function ThreadComment({
 	onContentDidChange,
 	dispatch,
 	postRef,
+	scrollToComment,
 	className,
 	...rest
 }) {
@@ -69,7 +71,7 @@ export default function ThreadComment({
 		if (isMounted.current) {
 			// Update reply form expanded state in `virtual-scroller` state.
 			if (onToggleShowReplyForm) {
-				onToggleShowReplyForm(value)
+				onToggleShowReplyForm(showReplyForm)
 			}
 			// Reply form has been toggled: update `virtual-scroller` item height.
 			if (onContentDidChange) {
@@ -168,9 +170,11 @@ export default function ThreadComment({
 	}, [comment, dispatch])
 
 	const onPostLinkClick = useCallback((event, { boardId, threadId, postId }) => {
-		dispatch(notify(getMessages(locale).notImplemented))
-		event.preventDefault()
-	}, [dispatch, locale])
+		if (boardId === board.id && threadId === thread.id) {
+			event.preventDefault()
+			scrollToComment(postId, comment.id)
+		}
+	}, [board, thread, comment])
 
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
@@ -267,7 +271,8 @@ ThreadComment.propTypes = {
 	parentComment: post,
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
-	onContentDidChange: PropTypes.func
+	onContentDidChange: PropTypes.func,
+	scrollToComment: PropTypes.func.isRequired
 }
 
 function Comment({
@@ -386,28 +391,35 @@ function Comment({
 			className={commentClassName}/>
 	)
 	return (
-		<div
-			className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
-				'thread-comment--titled': comment.title,
-				'thread-comment--authored': hasAuthor(comment),
-				'thread-comment--compact': compact,
-				'thread-comment--hidden': hidden,
-				'thread-comment--has-thumbnail': postThumbnail,
-				'thread-comment--has-no-thumbnail': !postThumbnail,
-				'content-section': mode === 'board'
-			})}>
-			<div className="thread-comment__thumbnail">
-				{postThumbnail &&
-					<PostAttachment
-						useSmallestThumbnail
-						attachment={postThumbnail}
-						spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
-						onClick={postThumbnailOnClick}
-						fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
-				}
+		<React.Fragment>
+			<div
+				className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
+					'thread-comment--titled': comment.title,
+					'thread-comment--authored': hasAuthor(comment),
+					'thread-comment--compact': compact,
+					'thread-comment--hidden': hidden,
+					'thread-comment--has-thumbnail': postThumbnail,
+					'thread-comment--has-no-thumbnail': !postThumbnail,
+					'content-section': mode === 'board'
+				})}>
+				<div className="thread-comment__thumbnail">
+					{postThumbnail &&
+						<PostAttachment
+							useSmallestThumbnail
+							attachment={postThumbnail}
+							spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
+							onClick={postThumbnailOnClick}
+							fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
+					}
+				</div>
+				{postElement}
 			</div>
-			{postElement}
-		</div>
+			<CommentReadStatusWatcher
+				mode={mode}
+				boardId={board.id}
+				threadId={thread.id}
+				commentId={comment.id}/>
+		</React.Fragment>
 	)
 }
 
