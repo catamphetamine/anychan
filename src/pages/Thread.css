@@ -189,6 +189,15 @@
 	}
 }
 
+/* `.thread-page__comments-container` has "negative" top margin
+   which results in it obstructing the lower half of thread page menu
+   which in turn results in thread page menu not being clickable
+   in its lower half. `z-index: 1` works around that. */
+.thread-page__menu-and-stats {
+	position: relative;
+	z-index: 1;
+}
+
 .thread-page__stats {
 	/*color: var(--Post-color--secondary);*/
 	color: var(--Content-color-600);

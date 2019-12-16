@@ -24,54 +24,29 @@ export default function Chan_({
 			// By default `commentUrl` is "/{boardId}/{threadId}#{commentId}".
 			commentUrl: decodeURI(addChanParameter('/{boardId}/{threadId}#{commentId}')),
 			filterText: getChan().id === '2ch' ? text => correctGrammar(text, { language: 'ru' }) : undefined,
-			request: (method, url, data) => {
-				return http[method.toLowerCase()](getProxyUrl(url), data)
-					.then(response => validateResponse(response, url))
+			request: async (method, url, { body, headers }) => {
+				// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
+				// https://caniuse.com/#feat=fetch
+				if (window.fetch) {
+					const response = await fetch(getProxyUrl(url), { method, headers, body })
+					if (response.ok) {
+						return response.text()
+					}
+					const error = new Error(response.statusText)
+					error.status = response.status
+					throw error
+				} else {
+					// This is only for Safari 9.x and iOS Safari 9.x, because other browsers will use `fetch()`.
+					const response = await http[method.toLowerCase()](getProxyUrl(url), body, {
+						headers
+					})
+					// This is a temporary workaround for `react-pages` parsing JSON automatically.
+					if (typeof response !== 'string') {
+						return JSON.stringify(response)
+					}
+					return response
+				}
 			}
-			// request: function(method, url, parameters) {
-			// 	var HEADERS = {
-			// 		// Sometimes imageboards may go offline while still responding with a web page:
-			// 		// an incorrect 2xx HTTP status code with HTML content like "We're temporarily offline".
-			// 		// Accepting only `application/json` HTTP responses works around that.
-			// 		'Accept': 'application/json'
-			// 	}
-			// 	url = getProxyUrl(url)
-			// 	// Sends an HTTP request.
-			// 	// Any HTTP request library can be used here.
-			// 	// Must return a `Promise` resolving to response JSON.
-			// 	switch (method) {
-			// 		case 'POST':
-			// 			return fetch(url, {
-			// 				method: 'POST',
-			// 				headers: HEADERS,
-			// 				body: JSON.stringify(parameters)
-			// 			}).then(function(response) {
-			// 				return response.json()
-			// 			}).then((response) => {
-			// 				return validateResponse(response, url)
-			// 			})
-			// 		case 'GET':
-			// 			return fetch(url, {
-			// 				headers: HEADERS
-			// 			}).then(function(response) {
-			// 				return response.json()
-			// 			}).then((response) => {
-			// 				return validateResponse(response, url)
-			// 			})
-			// 		default:
-			// 			throw new Error(`Method not supported: ${method}`)
-			// 	}
-			// }
 		}
 	)
-}
-
-// Sometimes imageboards may go offline while still responding with a web page:
-// an incorrect 2xx HTTP status code with HTML content like "We're temporarily offline".
-// Accepting only `application/json` HTTP responses works around that.
-function validateResponse(response, url) {
-	if (typeof response === 'string') {
-		throw new Error(`HTTP request to ${url} returned text instead of JSON: ${response}`)
-	}
-	return response
 }

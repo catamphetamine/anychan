@@ -394,6 +394,20 @@ For production deployment a dedicated CORS proxy should be used. A free 1-year A
 
 In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API. There's also a dedicated `corsProxyUrlAws` setting for chans that don't block AWS yet.
 
+## Browser support
+
+This application uses [CSS Variables](https://caniuse.com/#feat=css-variables).
+
+<!-- [`position: sticky`](https://caniuse.com/#feat=css-sticky) -->
+<!-- | —  | 16+  | 32+     | 56+    | 42+   | 9.1+   | 9.3+       | 5+              | -->
+
+<!-- [`fetch`](https://caniuse.com/#feat=fetch) -->
+<!-- | —  | 16+  | 39+     | 49+    | 36+   | 10.1+  | 10.3+      | 5+              | -->
+
+| IE | Edge | Firefox | Chrome | Opera | Safari | iOS Safari | Android Browser |
+|----|------|---------|--------|-------|--------|------------|-----------------|
+| —  | 16+  | 31+     | 49+    | 36+   | 9.1+   | 9.3+       | 5+              |
+
 ## License
 
 [MIT](LICENSE)
