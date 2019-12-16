@@ -26,7 +26,52 @@ export default function Chan_({
 			filterText: getChan().id === '2ch' ? text => correctGrammar(text, { language: 'ru' }) : undefined,
 			request: (method, url, data) => {
 				return http[method.toLowerCase()](getProxyUrl(url), data)
+					.then(response => validateResponse(response, url))
 			}
+			// request: function(method, url, parameters) {
+			// 	var HEADERS = {
+			// 		// Sometimes imageboards may go offline while still responding with a web page:
+			// 		// an incorrect 2xx HTTP status code with HTML content like "We're temporarily offline".
+			// 		// Accepting only `application/json` HTTP responses works around that.
+			// 		'Accept': 'application/json'
+			// 	}
+			// 	url = getProxyUrl(url)
+			// 	// Sends an HTTP request.
+			// 	// Any HTTP request library can be used here.
+			// 	// Must return a `Promise` resolving to response JSON.
+			// 	switch (method) {
+			// 		case 'POST':
+			// 			return fetch(url, {
+			// 				method: 'POST',
+			// 				headers: HEADERS,
+			// 				body: JSON.stringify(parameters)
+			// 			}).then(function(response) {
+			// 				return response.json()
+			// 			}).then((response) => {
+			// 				return validateResponse(response, url)
+			// 			})
+			// 		case 'GET':
+			// 			return fetch(url, {
+			// 				headers: HEADERS
+			// 			}).then(function(response) {
+			// 				return response.json()
+			// 			}).then((response) => {
+			// 				return validateResponse(response, url)
+			// 			})
+			// 		default:
+			// 			throw new Error(`Method not supported: ${method}`)
+			// 	}
+			// }
 		}
 	)
+}
+
+// Sometimes imageboards may go offline while still responding with a web page:
+// an incorrect 2xx HTTP status code with HTML content like "We're temporarily offline".
+// Accepting only `application/json` HTTP responses works around that.
+function validateResponse(response, url) {
+	if (typeof response === 'string') {
+		throw new Error(`HTTP request to ${url} returned text instead of JSON: ${response}`)
+	}
+	return response
 }
