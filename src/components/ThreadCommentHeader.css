@@ -22,6 +22,10 @@
 	opacity: 0.5;
 }
 
+.post__author-icon--thread-author {
+	opacity: 0.85;
+}
+
 .post__author-verified {
 	/* Using `top` offset instead of `align-items: center` on the parent
 	   because otherwise whitespace before non-text content

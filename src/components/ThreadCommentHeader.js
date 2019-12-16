@@ -62,7 +62,7 @@ export default function Header({ post, locale }) {
 				{authorIconIsOriginalPoster &&
 					<span title={getMessages(locale).post.threadAuthor}>
 						<AnonymousPersonIcon
-							className={classNames('post__author-icon', 'post__author-icon--outline', {
+							className={classNames('post__author-icon', 'post__author-icon--outline', 'post__author-icon--thread-author', {
 								'post__author-icon--role': post.authorRole
 							})}/>
 					</span>
