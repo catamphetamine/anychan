@@ -25,14 +25,7 @@ export default function Chan_({
 			commentUrl: decodeURI(addChanParameter('/{boardId}/{threadId}#{commentId}')),
 			filterText: getChan().id === '2ch' ? text => correctGrammar(text, { language: 'ru' }) : undefined,
 			request: (method, url, data) => {
-				return http[method.toLowerCase()](getProxyUrl(url), data, {
-					headers: {
-						// Sometimes imageboards may go offline while still responding with a web page:
-						// an incorrect 2xx HTTP status code with HTML content like "We're temporarily offline".
-						// Accepting only `application/json` HTTP responses works around that.
-						'Accept': 'application/json'
-					}
-				})
+				return http[method.toLowerCase()](getProxyUrl(url), data)
 			}
 		}
 	)

@@ -250,8 +250,11 @@ App.load = {
 				window.location = addChanParameter(
 					`${getBasePath() || ''}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
 				)
-				// Don't show the page content because it won't be correct.
-				// (maybe javascript won't even execute this line, or maybe it will).
+				// Don't render the page because it would throw.
+				// (the app assumes the list of boards is available).
+				// (maybe javascript won't even execute this line,
+				//  because it's after a `window.location` redirect,
+				//  or maybe it will, so just in case).
 				await new Promise(resolve => {})
 			} else {
 				throw error
