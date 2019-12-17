@@ -92,8 +92,9 @@
 /* Light mode. */
 .light {
 	/* BackButton. */
-	--BackButton-backgroundColor--hover: #fffcf5;
-	--BackButton-borderColor--hover: #f9f3e4;
+	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
+	--BackButton-backgroundColor--hover: rgba(255, 148, 0, 0.04); /* #fffcf5; */
+	--BackButton-borderColor--hover: rgba(172, 146, 0, 0.08); /* #f9f3e4; */
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
@@ -160,8 +161,9 @@
 	--base-color-500: #e75f00;
 
 	/* BackButton. */
-	--BackButton-backgroundColor--hover: #403e38;
-	--BackButton-borderColor--hover: #444032;
+	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
+	--BackButton-backgroundColor--hover: rgba(103, 93, 62, 0.16); /* #403e38; */
+	--BackButton-borderColor--hover: rgba(103, 87, 34, 0.1); /* #444032; */
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-300);

@@ -27,8 +27,9 @@
 	--Document-backgroundColor: #ece1f2;
 
 	/* BackButton. */
-	--BackButton-backgroundColor--hover: #f8f5fc;
-	--BackButton-borderColor--hover: #f7f3fb;
+	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
+	--BackButton-backgroundColor--hover: rgba(74, 0, 173, 0.04); /* #f8f5fc; */
+	--BackButton-borderColor--hover: rgba(74, 0, 173, 0.008); /* #f7f3fb; */
 
 	/* Header. */
 	--Header-color: #fce7ff;
@@ -149,8 +150,9 @@
 	--Document-backgroundColor: #0c0e34;
 
 	/* BackButton. */
-	--BackButton-backgroundColor--hover: #33284e;
-	--BackButton-borderColor--hover: #362748;
+	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
+	--BackButton-backgroundColor--hover: rgba(186, 28, 77, 0.076); /* #33284e; */
+	--BackButton-borderColor--hover: rgba(177, 23, 25, 0.024); /* #362748; */
 
 	/* Content. */
 	--Content-backgroundColor: #28294d;
