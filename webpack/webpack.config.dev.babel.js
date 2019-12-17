@@ -9,6 +9,9 @@ import configuration from './webpack.config'
 // https://github.com/webpack/webpack-dev-server/issues/1327
 configuration.mode = 'development'
 
+// For profiling.
+// configuration.mode = 'production'
+
 // configuration.devtool = 'cheap-module-eval-source-map'
 
 configuration.plugins.push(
@@ -37,5 +40,11 @@ configuration.devServer = {
 	// https://webpack.js.org/configuration/dev-server/#devserver-historyapifallback
 	historyApiFallback: true
 }
+
+// For profiling.
+// configuration.optimization = {
+// 	// Disables minifier in production mode.
+// 	minimize: false
+// }
 
 export default configuration
