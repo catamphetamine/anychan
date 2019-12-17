@@ -247,6 +247,23 @@ function ThreadPage() {
 			event.preventDefault()
 		}
 	}, [dispatch])
+	const [showAllInProgress, setShowAllInProgress] = useState()
+	const [showAllWillFinish, setShowAllWillFinish] = useState()
+	const onShowAll = useCallback(() => {
+		setShowAllInProgress(true)
+	}, [])
+	useEffect(() => {
+		if (showAllInProgress) {
+			setFromIndex(0)
+			setShowAllWillFinish(true)
+		}
+	}, [showAllInProgress])
+	useEffect(() => {
+		if (showAllWillFinish) {
+			setShowAllInProgress(false)
+			setShowAllWillFinish(false)
+		}
+	}, [showAllWillFinish])
 	// const backToPreviouslyViewedCommentButtonRight = document.querySelector('.thread-comment') && document.querySelector('.thread-comment').getBoundingClientRect().right
 	// const backToPreviouslyViewedCommentButtonStyle = useMemo(() => {
 	// 	if (backToPreviouslyViewedCommentButtonRight === null) {
@@ -351,6 +368,7 @@ function ThreadPage() {
 					fromIndex={fromIndex}
 					setFromIndex={onSetFromIndex}
 					items={thread.comments}
+					onShowAll={onShowAll}
 					locale={locale}/>
 			}
 			<div className="thread-page__menu-and-stats thread-page__menu-and-stats--above-content">
@@ -392,7 +410,7 @@ function ThreadPage() {
 						items={shownComments}
 						itemComponent={CommentComponent}
 						itemComponentProps={itemComponentProps}
-						preserveScrollPositionOnPrependItems
+						preserveScrollPositionOnPrependItems={showAllInProgress ? false : true}
 						preserveScrollPositionAtBottomOnMount={initialFromIndex === thread.comments.length}
 						className={classNames('thread-page__comments', {
 							'thread-page__comments--from-the-start': fromIndex === 0

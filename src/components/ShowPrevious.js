@@ -15,6 +15,7 @@ export default function ShowPrevious({
 	setFromIndex,
 	items,
 	pageSize,
+	onShowAll,
 	locale
 }) {
 	const showPreviousButton = useRef()
@@ -40,7 +41,7 @@ export default function ShowPrevious({
 			onShowPrevious()
 		}
 	}, [hasShownPrevious])
-	const onShowAll = useCallback(() => setFromIndex(0), [setFromIndex])
+	// const onShowAll = useCallback(() => setFromIndex(0), [setFromIndex])
 	return (
 		<div className="ShowPrevious">
 			{hasShownPrevious &&
@@ -77,6 +78,7 @@ ShowPrevious.propTypes = {
 		createdAt: PropTypes.instanceOf(Date)
 	})).isRequired,
 	pageSize: PropTypes.number.isRequired,
+	onShowAll: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired
 }
 
