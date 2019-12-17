@@ -23,7 +23,7 @@ import VirtualScroller from 'virtual-scroller/react'
 
 import './Board.css'
 
-export default function BoardPage() {
+function BoardPage() {
 	const board = useSelector(({ chan }) => chan.board)
 	const threads = useSelector(({ chan }) => chan.threads)
 	const locale = useSelector(({ settings }) => settings.settings.locale)
