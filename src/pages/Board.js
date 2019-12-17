@@ -54,6 +54,7 @@ export default function BoardPage() {
 	)
 	// Runs only once before the initial render.
 	// Sets `--PostThumbnail-maxWidth` CSS variable.
+	// Not using `useEffect()` because it would run after render, not before it.
 	useMemo(
 		() => updateAttachmentThumbnailMaxSize(threads.map(thread => thread.comments[0])),
 		[threads]
@@ -76,7 +77,7 @@ export default function BoardPage() {
 		onClick: onThreadClick,
 		dispatch,
 		locale
-	}), [threads, dispatch])
+	}), [board, threads, dispatch, locale, onThreadClick])
 	return (
 		<section className="board-page content">
 			<div className="board-page__header">
@@ -182,3 +183,13 @@ CommentComponent.propTypes = {
 // Using `React.memo()` so that `virtual-scroller`
 // doesn't re-render items as the user scrolls.
 CommentComponent = React.memo(CommentComponent)
+
+// This is a workaround for cases when `found` doesn't remount
+// page component when navigating to the same route.
+// https://github.com/4Catalyzer/found/issues/639
+export default function BoardPageWrapper() {
+	const board = useSelector(({ chan }) => chan.board)
+	return <BoardPage key={board.id}/>
+}
+BoardPageWrapper.meta = BoardPage.meta
+BoardPageWrapper.load = BoardPage.load
