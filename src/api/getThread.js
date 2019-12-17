@@ -163,7 +163,7 @@ function generateTextPreview(comment, messages) {
 	const textPreview = getPostText(comment, {
 		ignoreAttachments: true,
 		softLimit: 150,
-		messages: messages.contentTypes
+		messages: messages.contentType
 	})
 	if (textPreview) {
 		comment.textPreview = trimText(textPreview, 150)
