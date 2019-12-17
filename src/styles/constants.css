@@ -2,11 +2,12 @@
 @import "../../../webapp-frontend/src/styles/grid.mixins.css";
 
 :root {
-	--sidebar-z-index: 1;
-	--SideNavMenuButton-zIndex: 2;
-	--header-z-index: 2;
-	--Slideshow-zIndex: 3;
-	--notifications-z-index: 4;
+	--Sidebar-zIndex: 10;
+	--Header-zIndex--below: 19;
+	--Header-zIndex: 20;
+	--SideNavMenuButton-zIndex: var(--Header-zIndex);
+	--Slideshow-zIndex: 30;
+	--Notification-zIndex: 40;
 
 	--Header-height: calc(var(--unit) * 3);
 

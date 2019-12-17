@@ -1,5 +1,5 @@
 @import "../../../webapp-frontend/src/styles/react-responsive-ui.css";
 
 .rrui__snackbar__container {
-	z-index: var(--notifications-z-index);
+	z-index: var(--Notification-zIndex);
 }
