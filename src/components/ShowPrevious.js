@@ -15,6 +15,7 @@ export default function ShowPrevious({
 	setFromIndex,
 	items,
 	pageSize,
+	firstTimePageSize,
 	onShowAll,
 	locale
 }) {
@@ -23,13 +24,19 @@ export default function ShowPrevious({
 		return new IntlMessageFormat(getMessages(locale).nMoreComments, locale)
 	}, [locale])
 	const [hasShownPrevious, setHasShownPrevious] = useState()
-	const onShowPrevious = useCallback(() => {
-		setFromIndex(fromIndex > pageSize * 1.4 ? fromIndex - pageSize : 0)
-	}, [setFromIndex, fromIndex, pageSize])
+	const onShowPrevious = useCallback((firstTime) => {
+		const _pageSize = firstTime ? firstTimePageSize : pageSize
+		setFromIndex(fromIndex > _pageSize * 1.4 ? fromIndex - _pageSize : 0)
+	}, [
+		setFromIndex,
+		fromIndex,
+		pageSize,
+		firstTimePageSize
+	])
 	const showPreviousButtonPreviousY = useRef()
 	const onShowPreviousClick = useCallback(() => {
 		if (hasShownPrevious) {
-			onShowPrevious()
+			onShowPrevious(false)
 		} else {
 			showPreviousButtonPreviousY.current = showPreviousButton.current.getBoundingClientRect().top
 			setHasShownPrevious(true)
@@ -38,7 +45,7 @@ export default function ShowPrevious({
 	useLayoutEffect(() => {
 		if (hasShownPrevious) {
 			window.scrollTo(0, window.scrollY + (showPreviousButton.current.getBoundingClientRect().top - showPreviousButtonPreviousY.current))
-			onShowPrevious()
+			onShowPrevious(true)
 		}
 	}, [hasShownPrevious])
 	// const onShowAll = useCallback(() => setFromIndex(0), [setFromIndex])
@@ -78,12 +85,14 @@ ShowPrevious.propTypes = {
 		createdAt: PropTypes.instanceOf(Date)
 	})).isRequired,
 	pageSize: PropTypes.number.isRequired,
+	firstTimePageSize: PropTypes.number.isRequired,
 	onShowAll: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired
 }
 
 ShowPrevious.defaultProps = {
-	pageSize: 24
+	pageSize: 24,
+	firstTimePageSize: 12
 }
 
 function getRelativeTimeFormatter(locale) {
