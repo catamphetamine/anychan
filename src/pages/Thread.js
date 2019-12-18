@@ -402,6 +402,7 @@ function ThreadPage() {
 				{shownComments.length > 0 && !searchQuery &&
 					<VirtualScroller
 						key="comments"
+						measureItemsBatchSize={12}
 						ref={virtualScroller}
 						onMount={onVirtualScrollerMount}
 						onItemFirstRender={onItemFirstRender}
