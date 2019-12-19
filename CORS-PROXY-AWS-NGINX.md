@@ -1,4 +1,4 @@
-# An example of setting up a free AWS EC2 CORS proxy
+# An example of setting up a free AWS EC2 CORS proxy running NginX
 
 AWS offers a year-long "free tier" usage plan for EC2 "micro" server instances.
 

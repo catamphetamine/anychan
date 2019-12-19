@@ -382,13 +382,17 @@ First [add the imageboard to `imageboard`](https://github.com/catamphetamine/ima
 
 ## Proxy
 
-All chans (`4chan.org`, `2ch.hk`, etc) don't allow calling their API from other websites by prohibiting [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for another website to be able to query chan API.
+None of the imageboards (`4chan.org`, `2ch.hk`, etc) allow calling their API from other websites: they're all configured to block [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for a third party website to be able to query their API.
 
-A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and also introduces an artifical delay for all API requests. There's also some [list of public CORS proxies](https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347).
+A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and rate limiting. For production, a dedicated CORS proxy should be set up.
 
-For production deployment a dedicated CORS proxy should be used. A free 1-year AWS EC2 "micro" server could be set up but CloudFlare blocks traffic from AWS EC2 (I guess because it can be easily set up for a DDoS attack) so `4chan.org`, for example, won't work and will return `403 Forbidden` for an AWS EC2 proxy. [Heroku](https://www.heroku.com/) seems to work though.
+A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set up as a proxy server. It won't work for all imageboards though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from such AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
 
-[An example of setting up a free AWS EC2 CORS proxy](https://github.com/catamphetamine/captchan/tree/master/CORS-PROXY.md).
+[Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
+
+* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://github.com/catamphetamine/captchan/tree/master/CORS-PROXY-AWS-NGINX.md).
+
+* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://github.com/catamphetamine/captchan/tree/master/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
 
 ####
 
