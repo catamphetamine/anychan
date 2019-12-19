@@ -100,6 +100,7 @@ function BoardPage() {
 				</p>
 			}
 			<VirtualScroller
+				measureItemsBatchSize={12}
 				onMount={onVirtualScrollerMount}
 				onItemFirstRender={onItemFirstRender}
 				initialState={wasInstantNavigation() ? initialVirtualScrollerState : undefined}
