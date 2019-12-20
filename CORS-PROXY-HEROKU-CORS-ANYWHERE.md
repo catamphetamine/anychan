@@ -31,12 +31,13 @@ const port = process.env.PORT || 8080
 
 const cors_proxy = require('cors-anywhere')
 cors_proxy.createServer({
-  originWhitelist: [] // Allow all origins.
+  originWhitelist: [] // Allows all "origins".
 }).listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port)
 })
 ```
 
+* Set up `originWhitelist` in `index.js` to only include the "origin" (`https://` plus the domain) on which the web application is hosted (in my case it's `https://catamphetamine.github.io`). For development, set up a dedicated CORS proxy, or use a public one like `https://cors-anywhere.herokuapp.com`: a production deployment should have only a single origin whitelisted for [security reasons](https://github.com/Rob--W/cors-anywhere/issues/55).
 * `heroku create <globally-unique-application-name>`.
 * `git add .`.
 * `git commit -m "Initial commit"`.
@@ -56,7 +57,7 @@ To work around that:
 * Replace `require('cors-anywhere')` with `require('./lib/cors-anywhere')`.
 * Copy `"dependencies"` from `package.json` of the unpacked archive to `package.json` in the cors proxy folder.
 * `npm install`.
-* Go to `./lib/cors-anywhere.js` and replace `headers['access-control-allow-origin'] = '*'` with `headers['access-control-allow-origin'] = request.headers['origin']` and add `headers['access-control-allow-credentials'] = true;` after it. Save the file.
+* Go to `./lib/cors-anywhere.js` and replace `headers['access-control-allow-origin'] = '*'` with `headers['access-control-allow-origin'] = 'INSERT_THE_ORIGIN_OF_YOUR_APP_HERE'` and add `headers['access-control-allow-credentials'] = true;` after it. Save the file.
 * Check that it still works: `npm start`.
 * `git add .`.
 * `git commit -m "Fixed cookies"`.
