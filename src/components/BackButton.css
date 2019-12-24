@@ -1,6 +1,7 @@
 @import "../styles/common";
 
 .BackButton {
+	--BackButtonIcon-width: calc(0.75 * var(--unit) * 2);
 	display: none;
 	/* Setting percentage-based `top` position for `position: fixed`
 	   results in it jumping when mobile browser top/bottom bars appear/disappear.
@@ -26,16 +27,19 @@
 		}
 	}
 	@mixin xl-plus {
+		--BackButtonIcon-left: calc(var(--unit) / 2);
+		--BackButtonIcon-padding: var(--unit);
 		display: block;
 		position: relative;
 		width: calc(100% + var(--Post-padding--horizontal) - var(--unit));
+		min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));
 		height: 100%;
 		z-index: var(--Header-zIndex--below);
 		.BackButtonIcon {
 			position: fixed;
 			top: calc(var(--Header-height) + var(--unit) * 1.1);
-			left: calc(var(--unit) / 2);
-			margin: var(--unit);
+			left: var(--BackButtonIcon-left);
+			margin: var(--BackButtonIcon-padding);
 			opacity: 0.75;
 		}
 	}
@@ -63,8 +67,8 @@
 }
 
 .BackButtonIcon {
-	width: calc(0.75 * var(--unit) * 2);
-	height: calc(0.75 * var(--unit) * 2);
+	width: var(--BackButtonIcon-width);
+	height: var(--BackButtonIcon-width);
 	transition: transform 160ms;
 }
 
