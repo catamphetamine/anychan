@@ -1,10 +1,6 @@
-import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import {
-	goto,
-	wasInstantNavigation,
-	isInstantBackAbleNavigation
-} from 'react-pages'
+import { goto } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
@@ -19,7 +15,7 @@ import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbna
 
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadComment from '../components/ThreadComment'
-import VirtualScroller from 'virtual-scroller/react'
+import ThreadCommentsList from '../components/ThreadCommentsList'
 
 import './Board.css'
 
@@ -32,24 +28,14 @@ function BoardPage() {
 	const scrollPosition = useSelector(({ board }) => board.scrollPosition)
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
-	const virtualScrollerState = useRef()
 	const onThreadClick = useCallback(async (comment, thread, board) => {
 		// The only reason the navigation is done programmatically via `goto()`
 		// is because a thread card can't be a `<Link/>` because
 		// "<a> cannot appear as a descendant of <a>".
 		dispatch(goto(getUrl(board, thread), { instantBack: true }))
 	}, [dispatch])
-	const onVirtualScrollerStateChange = useCallback(
-		state => virtualScrollerState.current = state,
-		[]
-	)
-	const onVirtualScrollerMount = useCallback(() => {
-		if (wasInstantNavigation()) {
-			window.scrollTo(0, scrollPosition)
-		}
-	}, [])
-	const onItemFirstRender = useCallback(
-		(i) => threads[i].comments[0].parseContent(),
+	const getItem = useCallback(
+		(i) => threads[i].comments[0],
 		[threads]
 	)
 	// Runs only once before the initial render.
@@ -59,17 +45,6 @@ function BoardPage() {
 		() => updateAttachmentThumbnailMaxSize(threads.map(thread => thread.comments[0])),
 		[threads]
 	)
-	useEffect(() => {
-		return () => {
-			if (isInstantBackAbleNavigation()) {
-				// Save `virtual-scroller` state in Redux state.
-				dispatch(setVirtualScrollerState(virtualScrollerState.current))
-				// Using `window.pageYOffset` instead of `window.scrollY`
-				// because `window.scrollY` is not supported by Internet Explorer.
-				dispatch(setScrollPosition(window.pageYOffset))
-			}
-		}
-	}, [])
 	const itemComponentProps = useMemo(() => ({
 		mode: 'board',
 		board,
@@ -99,12 +74,12 @@ function BoardPage() {
 					<a href={`https://2ch.hk/${board.id}`} target="_blank">Перейти на Двач</a>.
 				</p>
 			}
-			<VirtualScroller
-				measureItemsBatchSize={12}
-				onMount={onVirtualScrollerMount}
-				onItemFirstRender={onItemFirstRender}
-				initialState={wasInstantNavigation() ? initialVirtualScrollerState : undefined}
-				onStateChange={onVirtualScrollerStateChange}
+			<ThreadCommentsList
+				getItem={getItem}
+				initialState={initialVirtualScrollerState}
+				setState={setVirtualScrollerState}
+				scrollPosition={scrollPosition}
+				setScrollPosition={setScrollPosition}
 				items={threads}
 				itemComponent={CommentComponent}
 				itemComponentProps={itemComponentProps}
@@ -113,15 +88,15 @@ function BoardPage() {
 	)
 }
 
-BoardPage.propTypes = {
-	board: PropTypes.string.isRequired,
-	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
-	locale: PropTypes.string.isRequired,
-	censoredWords: PropTypes.arrayOf(PropTypes.object),
-	virtualScrollerState: PropTypes.object,
-	scrollPosition: PropTypes.number,
-	dispatch: PropTypes.func.isRequired
-}
+// BoardPage.propTypes = {
+// 	board: PropTypes.string.isRequired,
+// 	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
+// 	locale: PropTypes.string.isRequired,
+// 	censoredWords: PropTypes.arrayOf(PropTypes.object),
+// 	virtualScrollerState: PropTypes.object,
+// 	scrollPosition: PropTypes.number,
+// 	dispatch: PropTypes.func.isRequired
+// }
 
 BoardPage.meta = ({ chan: { board }}) => ({
 	title: board && board.title,

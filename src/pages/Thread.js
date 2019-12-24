@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import {
 	Link,
-	wasInstantNavigation,
 	isInstantBackAbleNavigation,
 	goBack,
 	canGoBackInstantly
@@ -11,7 +10,6 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
-import VirtualScroller from 'virtual-scroller/react'
 // import ReactTimeAgo from 'react-time-ago'
 import { Button } from 'react-responsive-ui'
 
@@ -32,6 +30,7 @@ import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
 import hasAttachmentPicture from 'social-components/commonjs/utility/attachment/hasPicture'
 import getThumbnailSize from 'social-components/commonjs/utility/attachment/getThumbnailSize'
 
+import ThreadCommentsList from '../components/ThreadCommentsList'
 import ShowPrevious from '../components/ShowPrevious'
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
@@ -79,15 +78,6 @@ function ThreadPage() {
 		}
 		dispatch(openSlideshow(attachments, 0, { mode: 'flow' }))
 	}, [thread, dispatch])
-	const onVirtualScrollerStateChange = useCallback(
-		state => virtualScrollerState.current = state,
-		[]
-	)
-	const onVirtualScrollerMount = useCallback(() => {
-		if (wasInstantNavigation()) {
-			window.scrollTo(0, scrollPosition)
-		}
-	}, [])
 	// Using `useMemo()` here to avoid reading from `localStorage` on each render.
 	// Maybe it's not required, but just in case.
 	const initialFromIndex = useMemo(() => getFromIndex(board, thread))
@@ -103,8 +93,8 @@ function ThreadPage() {
 		fromIndexRef.current = fromIndex
 	}, [])
 	const shownComments = useMemo(() => thread.comments.slice(fromIndex), [thread, fromIndex])
-	const onItemFirstRender = useCallback(
-		(i) => thread.comments[fromIndex + i].parseContent(),
+	const getItem = useCallback(
+		(i) => thread.comments[fromIndex + i],
 		[fromIndex, thread]
 	)
 	// Runs only once before the initial render.
@@ -113,17 +103,6 @@ function ThreadPage() {
 		() => updateAttachmentThumbnailMaxSize(thread.comments),
 		[thread]
 	)
-	useEffect(() => {
-		return () => {
-			if (isInstantBackAbleNavigation()) {
-				// Save `virtual-scroller` state in Redux state.
-				dispatch(setVirtualScrollerState(virtualScrollerState.current))
-				// Using `window.pageYOffset` instead of `window.scrollY`
-				// because `window.scrollY` is not supported by Internet Explorer.
-				dispatch(setScrollPosition(window.pageYOffset))
-			}
-		}
-	}, [])
 	const onSetThreadTracked = useCallback((shouldTrackThread) => {
 		if (shouldTrackThread) {
 			const latestComment = thread.comments[thread.comments.length - 1]
@@ -396,18 +375,19 @@ function ThreadPage() {
 					</React.Fragment>
 				}
 				{searchQuery &&
-					<VirtualScroller
+					<ThreadCommentsList
 						key="searchResults"/>
 				}
 				{shownComments.length > 0 && !searchQuery &&
-					<VirtualScroller
+					<ThreadCommentsList
 						key="comments"
-						measureItemsBatchSize={12}
 						ref={virtualScroller}
-						onMount={onVirtualScrollerMount}
-						onItemFirstRender={onItemFirstRender}
-						initialState={wasInstantNavigation() ? initialVirtualScrollerState : undefined}
-						onStateChange={onVirtualScrollerStateChange}
+						getItem={getItem}
+						initialState={initialVirtualScrollerState}
+						setState={setVirtualScrollerState}
+						stateRef={virtualScrollerState}
+						scrollPosition={scrollPosition}
+						setScrollPosition={setScrollPosition}
 						items={shownComments}
 						itemComponent={CommentComponent}
 						itemComponentProps={itemComponentProps}
