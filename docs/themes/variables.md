@@ -243,9 +243,9 @@ For "inverse" quotes there're the same style variables but ending with a `--inve
 * `--PostInlineSpoiler-color--censored: red` — Ignored word spoiler color.
 * `--PostInlineSpoiler-color--censoredContentActive: red` — When a thread is clicked in a list of threads all ignored word spoilers in its opening post will have this color.
 
-### PostAttachment
+<!-- ### PostAttachment -->
 
-* `--PostAttachment-shadowColor--hover: gray` — The color of `box-shadow` of a post attachment on mouse over.
+<!-- * `--PostAttachment-shadowColor--hover: gray` — The color of `box-shadow` of a post attachment on mouse over. -->
 
 ### PostVotes
 
