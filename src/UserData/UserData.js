@@ -148,6 +148,21 @@ export class UserData {
 		this.prefix = options.prefix === undefined ?
 			'captchan.' + (options.chanId ? options.chanId + '.' : '') + 'user.' :
 			options.prefix
+		this.shouldMigrate = options.migrate
+		// Migrate user data.
+		if (this.shouldMigrate !== false) {
+			const version = this.storage.get(this.prefix + 'version')
+			if (version !== VERSION) {
+				for (const key of Object.keys(this.collections)) {
+					const data = this.storage.get(this.prefix + key)
+					if (data !== undefined) {
+						migrate(key, data, version)
+						this.storage.set(this.prefix + key, data)
+					}
+				}
+				this.storage.set(this.prefix + 'version', VERSION)
+			}
+		}
 		// Create data access methods.
 		for (const key of Object.keys(this.collections)) {
 			const collection = this.collections[key]
@@ -202,18 +217,6 @@ export class UserData {
 				storage.set(key, args[0])
 				// Doesn't update "index" collection.
 			}
-		}
-		// Migrate user data.
-		const version = this.storage.get(this.prefix + 'version')
-		if (version !== VERSION) {
-			for (const key of Object.keys(this.collections)) {
-				const data = this.storage.get(this.prefix + key)
-				if (data !== undefined) {
-					migrate(key, data, version)
-					this.storage.set(this.prefix + key, data)
-				}
-			}
-			this.storage.set(this.prefix + 'version', VERSION)
 		}
 	}
 
@@ -359,7 +362,9 @@ export class UserData {
 
 	replace(data) {
 		// Migrate user data.
-		migrateUserData(data)
+		if (this.shouldMigrate !== false) {
+			migrateUserData(data)
+		}
 		// Clear current user data.
 		this.clear()
 		// Set user data.
@@ -370,7 +375,9 @@ export class UserData {
 
 	merge(data) {
 		// Migrate user data.
-		migrateUserData(data)
+		if (this.shouldMigrate !== false) {
+			migrateUserData(data)
+		}
 		// Merge user data.
 		for (const key of Object.keys(data)) {
 			// A collection could have been removed

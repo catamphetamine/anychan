@@ -470,8 +470,9 @@ CommentComponent.propTypes = {
 }
 
 function getFromIndex(board, thread) {
-	const latestReadCommentId = UserData.getLatestReadComments(board.id, thread.id)
-	if (latestReadCommentId) {
+	const latestReadCommentInfo = UserData.getLatestReadComments(board.id, thread.id)
+	if (latestReadCommentInfo) {
+		const { id: latestReadCommentId } = latestReadCommentInfo
 		const afterLatestReadCommentIndex = thread.comments.findIndex((comment) => {
 			return comment.id > latestReadCommentId
 		})

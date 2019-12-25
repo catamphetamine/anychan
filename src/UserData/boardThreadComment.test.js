@@ -8,8 +8,11 @@ const storage = new MemoryStorage({
 	emulateSerialize: true
 })
 const userData = new UserData(storage, {
-	prefix: ''
+	prefix: '',
+	migrate: false
 })
+
+userData.collections.latestReadComments.type = 'board-thread-comment'
 
 describe('UserData', () => {
 	it('should add/remove/get read comments', () => {

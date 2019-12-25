@@ -27,6 +27,7 @@ import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/YouTub
 
 // `react-time-ago` languages.
 // import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
+import 'webapp-frontend/src/components/TimeAgo.de'
 import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 

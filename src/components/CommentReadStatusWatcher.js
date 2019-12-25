@@ -9,7 +9,12 @@ export default function CommentReadStatusWatcher({
 	mode,
 	boardId,
 	threadId,
-	commentId
+	commentId,
+	commentIndex,
+	commentIsLast,
+	// commentCreatedAt,
+	// commentUpdatedAt,
+	threadUpdatedAt
 }) {
 	const isActive = (mode === 'board' && !isThreadSeen(boardId, threadId)) ||
 		(mode === 'thread' && !isCommentRead(boardId, threadId, commentId))
@@ -35,10 +40,22 @@ export default function CommentReadStatusWatcher({
 						const boardId = element.dataset.boardId
 						const threadId = parseInt(element.dataset.threadId)
 						const commentId = parseInt(element.dataset.commentId)
+						const commentIndex = parseInt(element.dataset.commentIndex)
+						const commentIsLast = element.dataset.commentIsLast === 'true'
+						// const commentCreatedAt = parseInt(element.dataset.commentCreatedAt)
+						// const commentUpdatedAt = parseInt(element.dataset.commentUpdatedAt)
+						const threadUpdatedAt = element.dataset.threadUpdatedAt && parseInt(element.dataset.threadUpdatedAt)
 						const mode = element.dataset.mode
 						if (mode === 'thread' && !isCommentRead(boardId, threadId, commentId)) {
 							// Sets the latest read comment id.
-							UserData.addLatestReadComments(boardId, threadId, commentId)
+							UserData.addLatestReadComments(boardId, threadId, {
+								id: commentId,
+								i: commentIndex,
+								last: commentIsLast,
+								// createdAt: commentCreatedAt,
+								// updatedAt: commentUpdatedAt,
+								threadUpdatedAt: threadUpdatedAt
+							})
 							// Update tracked threads list new comments counters in Sidebar.
 							if (UserData.getTrackedThreads(boardId, threadId)) {
 								onUserDataChange(UserData.prefix + 'latestReadComments', dispatch)
@@ -74,6 +91,8 @@ export default function CommentReadStatusWatcher({
 	if (!isActive) {
 		return null
 	}
+	// data-comment-created-at={commentCreatedAt.getTime()}
+	// data-comment-updated-at={commentUpdatedAt.getTime()}
 	return (
 		<div
 			ref={node}
@@ -81,7 +100,10 @@ export default function CommentReadStatusWatcher({
 			data-mode={mode}
 			data-board-id={boardId}
 			data-thread-id={threadId}
-			data-comment-id={commentId}/>
+			data-comment-id={commentId}
+			data-comment-index={commentIndex}
+			data-comment-is-last={commentIsLast}
+			data-thread-updated-at={threadUpdatedAt && threadUpdatedAt.getTime()}/>
 	)
 }
 
@@ -89,7 +111,12 @@ CommentReadStatusWatcher.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
 	boardId: PropTypes.string.isRequired,
 	threadId: PropTypes.number.isRequired,
-	commentId: PropTypes.number.isRequired
+	commentId: PropTypes.number.isRequired,
+	commentIndex: PropTypes.number.isRequired,
+	commentIsLast: PropTypes.bool.isRequired,
+	// commentCreatedAt: PropTypes.instanceof(Date).isRequired,
+	// commentUpdatedAt: PropTypes.instanceof(Date),
+	threadUpdatedAt: PropTypes.instanceof(Date)
 }
 
 const INVISIBLE_LINE_STYLE = {
@@ -102,8 +129,10 @@ const INVISIBLE_LINE_STYLE = {
 let CommentReadObserver
 
 function isCommentRead(boardId, threadId, commentId) {
-	const latestReadCommentId = UserData.getLatestReadComments(boardId, threadId)
-	return latestReadCommentId && latestReadCommentId >= commentId
+	const latestReadCommentInfo = UserData.getLatestReadComments(boardId, threadId)
+	if (latestReadCommentInfo) {
+		return latestReadCommentInfo.id >= commentId
+	}
 }
 
 function isThreadSeen(boardId, threadId) {

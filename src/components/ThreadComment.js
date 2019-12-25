@@ -418,9 +418,14 @@ function Comment({
 				mode={mode}
 				boardId={board.id}
 				threadId={thread.id}
-				commentId={comment.id}/>
+				commentId={comment.id}
+				commentIndex={thread.comments.indexOf(comment)}
+				commentIsLast={thread.comments[thread.comments.length - 1].id === comment.id}
+				threadUpdatedAt={thread.updatedAt}/>
 		</React.Fragment>
 	)
+	// commentCreatedAt={comment.createdAt}
+	// commentUpdatedAt={comment.updatedAt}
 }
 
 Comment.propTypes = {

@@ -12,5 +12,24 @@ export default function migrate(key, data, version = 0) {
 				}
 			}
 			break
+
+		case 'latestReadComments':
+			// Version 1.
+			// Dec 24, 2019.
+			// Converted `latestReadComments` from comment id to an object of shape:
+			// `{ id, no, createdAt, updatedAt?, threadUpdatedAt?, commentsCount }`.
+			if (version < 1) {
+				for (const boardId of Object.keys(data)) {
+					for (const threadId of Object.keys(data[boardId])) {
+						const id = data[boardId][threadId]
+						data[boardId][threadId] = {
+							id,
+							i: 0,
+							last: false
+						}
+					}
+				}
+			}
+			break
 	}
 }
