@@ -101,7 +101,8 @@
 */
 @mixin upto-s {
 	:root {
-		--ThreadComments-marginTop: calc(var(--unit) * -1);
+		/*--ThreadComments-marginTop: calc(var(--unit) * -1);*/
+		--ThreadComments-marginTop: 0px;
 	}
 	.thread-page {
 		.ShowPrevious {
@@ -135,6 +136,9 @@
 		display: flex;
 		align-items: center;
 	  overflow: hidden;
+	}
+	.thread-page__comments {
+		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
 }
 

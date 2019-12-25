@@ -25,17 +25,35 @@
 		padding-top: var(--Post-padding--vertical);
 		padding-bottom: var(--Post-padding--vertical);
 	}
-	/* Adding a transparent border to post thumbnail so that
-	   the comment's height doesn't change when it's expanded
-	   and borders on `__thumbnail` and `__comment` are replaced
-	   with the border on `.thread-comment` itself.
-	   When using `virtual-scroller` it's better to not change
-	   item height if not required. */
-	.thread-comment__thumbnail {
-		border-bottom: var(--CommentSeparator-width) solid transparent;
-	}
-	.thread-comment__comment {
+	@mixin upto-s {
 		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+	@mixin m-plus {
+		/* Adding a transparent border to post thumbnail so that
+		   the comment's height doesn't change when its replies are shown
+		   resulting in borders on `__thumbnail` and `__comment` being replaced
+		   with a border on `.thread-comment` itself.
+		   When using `virtual-scroller` it's better to not change
+		   item height, if not required. */
+		.thread-comment__thumbnail {
+			border-bottom: var(--CommentSeparator-width) solid transparent;
+		}
+		.thread-comment__comment {
+			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		}
+	}
+}
+
+.thread-comment--thread {
+	position: relative;
+	.thread-comment__aside-separator {
+		position: absolute;
+		top: calc(var(--Post-padding--vertical) + 0.2em);
+    width: calc(var(--PostThumbnailContainer-width) - var(--PostThumbnail-marginRight) / 2);
+    min-width: calc(var(--PostThumbnailContainer-width) - var(--PostThumbnail-marginRight) / 2);
+		height: var(--CommentSeparator-width--aside);
+		background-color: var(--CommentSeparator-color);
+		background-color: rgba(0,0,0,0.2);
 	}
 }
 
@@ -174,7 +192,7 @@
 	.comment-tree__comment--nested,
 	.comment-tree__comment--expanded,
 	.comment-tree__branch-toggler {
-		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		border-bottom: var(--CommentSeparator-width--replies) solid var(--CommentSeparator-color);
 	}
 
 	.comment-tree__comment--nested {

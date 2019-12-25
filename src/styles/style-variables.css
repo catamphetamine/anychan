@@ -1,3 +1,5 @@
+@import "../../../webapp-frontend/src/styles/grid.mixins.css";
+
 /* Global. */
 :root {
 	/* https://refactoringui.com/previews/building-your-color-palette */
@@ -18,6 +20,12 @@
 
 	/* Footer. */
 	--Footer-marginTop: calc(var(--unit) * 4);
+	@mixin upto-s {
+		--Footer-marginTop: calc(var(--unit) * 2);
+	}
+	@mixin m {
+		--Footer-marginTop: calc(var(--unit) * 3);
+	}
 
 	/* NotificationBadge. */
 	--NotificationBadge-color: var(--white-color);
@@ -62,6 +70,12 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-width: 1px;
+	--CommentSeparator-width--replies: 1px;
+	--CommentSeparator-width--aside: 0px;
+	@mixin m-plus {
+		/*--CommentSeparator-width: 0px;*/
+		/*--CommentSeparator-width--aside: 1px;*/
+	}
 
 	/* PostQuote (inverse). */
 	--PostQuote-color--inverse: var(--PostQuote-color);

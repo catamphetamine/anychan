@@ -12,7 +12,7 @@ import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
 import PostForm from './PostForm'
 import Header, { HEADER_BADGES, hasAuthor } from './ThreadCommentHeader'
-import { getFooterBadges } from './ThreadCommentFooter'
+import { hasReplies, getFooterBadges } from './ThreadCommentFooter'
 import ThreadCommentHidden from './ThreadCommentHidden'
 import CommentReadStatusWatcher from './CommentReadStatusWatcher'
 
@@ -376,6 +376,9 @@ function Comment({
 			genericMessages={getMessages(locale)}
 			messages={getMessages(locale).post}
 			moreActions={moreActions}
+			showingReplies={showingReplies}
+			onShowReplies={hasReplies(comment, parentComment) ? onToggleShowReplies : undefined}
+			toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
 			headerBadges={HEADER_BADGES}
 			footerBadges={footerBadges}
 			useSmallestThumbnailsForAttachments
@@ -402,6 +405,9 @@ function Comment({
 					'thread-comment--has-no-thumbnail': !postThumbnail,
 					'content-section': mode === 'board'
 				})}>
+				{mode === 'thread' &&
+					<div className="thread-comment__aside-separator"/>
+				}
 				<div className="thread-comment__thumbnail">
 					{postThumbnail &&
 						<PostAttachment
