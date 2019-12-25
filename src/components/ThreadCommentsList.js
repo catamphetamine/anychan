@@ -43,6 +43,7 @@ function ThreadCommentsList({
 	return (
 		<VirtualScroller
 			{...rest}
+			ref={ref}
 			onMount={onVirtualScrollerMount}
 			initialState={wasInstantNavigation() ? initialState : undefined}
 			onStateChange={onVirtualScrollerStateChange}
