@@ -24,7 +24,7 @@ export const resetSettings = redux.simpleAction(
 
 export const replaceSettings = redux.simpleAction(
 	(state, newSettings) => {
-		UserSettings.set(newSettings)
+		UserSettings.replace(newSettings)
 		return {
 			...state,
 			settings: Settings.get()

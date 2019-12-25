@@ -2,6 +2,7 @@ import isEqual from 'lodash/isEqual'
 import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
 import { getChan } from '../chan'
+import migrate from './UserData.migrate'
 
 import {
 	addToList,
@@ -45,6 +46,10 @@ import {
 	getFromBoardIdThreadIds,
 	mergeWithBoardIdThreadIds
 } from './boardThread'
+
+// Current version of user settings.
+// See `.migrate()` method comments for the changelog.
+const VERSION = 1
 
 export class UserData {
 	collections = {
@@ -198,10 +203,22 @@ export class UserData {
 				// Doesn't update "index" collection.
 			}
 		}
+		// Migrate user data.
+		const version = this.storage.get(this.prefix + 'version')
+		if (version !== VERSION) {
+			for (const key of Object.keys(this.collections)) {
+				const data = this.storage.get(this.prefix + key)
+				if (data !== undefined) {
+					migrate(key, data, version)
+					this.storage.set(this.prefix + key, data)
+				}
+			}
+			this.storage.set(this.prefix + 'version', VERSION)
+		}
 	}
 
 	get() {
-		return Object.keys(this.collections).reduce((data, key) => {
+		return Object.keys(this.collections).concat('version').reduce((data, key) => {
 			const keyData = this.storage.get(this.prefix + key)
 			if (keyData === undefined) {
 				return data
@@ -341,18 +358,29 @@ export class UserData {
 	}
 
 	replace(data) {
+		// Migrate user data.
+		migrateUserData(data)
+		// Clear current user data.
 		this.clear()
+		// Set user data.
 		for (const key of Object.keys(data)) {
 			this.storage.set(this.prefix + key, data[key])
 		}
 	}
 
 	merge(data) {
+		// Migrate user data.
+		migrateUserData(data)
+		// Merge user data.
 		for (const key of Object.keys(data)) {
-			this.storage.set(
-				this.prefix + key,
-				this[`merge${capitalize(key)}`](data[key])
-			)
+			// A collection could have been removed
+			// while the file has been laying on a disk.
+			if (this.collections[key]) {
+				this.storage.set(
+					this.prefix + key,
+					this[`merge${capitalize(key)}`](data[key])
+				)
+			}
 		}
 	}
 
@@ -362,6 +390,24 @@ export class UserData {
 				return true
 			}
 		}
+	}
+
+	migrate() {
+		const version = this.get('version', 0)
+		if (version === VERSION) {
+			return
+		}
+		this.storage.set('version', VERSION)
+	}
+}
+
+function migrateUserData(data) {
+	const version = data.version
+	if (version !== VERSION) {
+		for (const key of Object.keys(data)) {
+			migrate(key, data[key], version)
+		}
+		data.version = VERSION
 	}
 }
 

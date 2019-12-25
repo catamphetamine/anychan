@@ -142,7 +142,6 @@ const CLEAN_UP_EXPIRED_THREADS_AFTER = 30 * 24 * 60 * 60 * 1000
 function sortAndTrimTrackedThreads() {
 	const trackedThreads = UserData.getTrackedThreadsList()
 		.sort(sortTrackedThreads)
-		// `expiredAt` has been added on Dec 9th, 2019.
 		.filter(({ expiredAt }) => expiredAt ? (Date.now() - expiredAt < CLEAN_UP_EXPIRED_THREADS_AFTER) : true)
 	UserData.setTrackedThreadsList(trackedThreads)
 }
