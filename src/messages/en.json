@@ -16,6 +16,9 @@
 		"showExpired": "Show expired"
 	},
 	"settings": {
+		"language": {
+			"translationGuide": "\"Adding a new translation\" guide"
+		},
 		"theme": {
 			"title": "Theme",
 			"add": {
@@ -28,7 +31,7 @@
 				"invalidExtension": "Not a \".css\" file URL",
 				"cssFileError": "Couldn't load the \".css\" file"
 			},
-			"readThemesGuide": "\"Making a new theme\" guide",
+			"guide": "\"Making a new theme\" guide",
 			"deleteCurrent": {
 				"title": "Delete current theme",
 				"warning": "Are you sure you want to delete theme \"{0}\"?"

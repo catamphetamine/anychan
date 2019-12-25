@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import { post } from '../PropTypes'
-import getMessages, { getCountryNames } from '../messages'
+import getMessages, { getCountryName } from '../messages'
 import { getChan, getAbsoluteUrl, isDeployedOnChanDomain } from '../chan'
 import UserData from '../UserData/UserData'
 
@@ -218,7 +218,7 @@ export const HEADER_BADGES = [
 					country: post.authorCountry,
 					name: post.authorCountry === 'ZZ' ?
 						getMessages(locale).country.anonymous :
-						getCountryNames(locale)[post.authorCountry]
+						getCountryName(post.authorCountry, locale)
 				}
 			}
 			return {
@@ -231,7 +231,7 @@ export const HEADER_BADGES = [
 			if (post.authorCountry) {
 				return post.authorCountry === 'ZZ' ?
 					getMessages(locale).country.anonymous :
-					getCountryNames(locale)[post.authorCountry]
+					getCountryName(post.authorCountry, locale)
 			}
 			return post.authorBadgeName
 		},

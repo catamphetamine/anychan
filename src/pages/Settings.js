@@ -81,7 +81,16 @@ function Settings({
 				messages={messages}
 				value={settings.locale}
 				onChange={onLocaleChange}
-				languages={LANGUAGE_NAMES}/>
+				languages={LANGUAGE_NAMES}>
+				{/* "Adding a new language" guide. */}
+				<div className="form__component form__component--button">
+					<a
+						href="https://github.com/catamphetamine/captchan/blob/master/docs/translation/guide.md"
+						target="_blank">
+						{messages.settings.language.translationGuide}
+					</a>
+				</div>
+			</LanguageSettings>
 
 			{/* Theme */}
 			<ThemeSettings

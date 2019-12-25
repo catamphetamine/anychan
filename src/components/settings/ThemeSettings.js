@@ -76,7 +76,7 @@ export default function ThemeSettings({
 						<a
 							href={guideUrl}
 							target="_blank">
-							{messages.settings.theme.readThemesGuide}
+							{messages.settings.theme.guide}
 						</a>
 					</div>
 				}

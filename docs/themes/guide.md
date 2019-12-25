@@ -8,6 +8,10 @@ Each theme should provide both "Light" mode and "Dark" mode.
 
 See the [built-in themes](https://github.com/catamphetamine/captchan/tree/master/src/styles/theme) as an example.
 
+## Procedure
+
+To add a new theme, "fork" the repository (or several repositories), "clone" it (or them) to your disk, create/edit the files, and then create a "pull request" (or several "pull requests"). See the official [guide](https://guides.github.com/activities/forking/).
+
 ### Default theme
 
 #### Light
