@@ -426,7 +426,6 @@ function Comment({
 				threadId={thread.id}
 				commentId={comment.id}
 				commentIndex={thread.comments.indexOf(comment)}
-				commentIsLast={thread.comments[thread.comments.length - 1].id === comment.id}
 				threadUpdatedAt={thread.updatedAt}/>
 		</React.Fragment>
 	)

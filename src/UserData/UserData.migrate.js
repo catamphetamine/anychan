@@ -24,8 +24,7 @@ export default function migrate(key, data, version = 0) {
 						const id = data[boardId][threadId]
 						data[boardId][threadId] = {
 							id,
-							i: 0,
-							last: false
+							i: 0
 						}
 					}
 				}

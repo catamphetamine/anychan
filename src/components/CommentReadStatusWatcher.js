@@ -11,7 +11,6 @@ export default function CommentReadStatusWatcher({
 	threadId,
 	commentId,
 	commentIndex,
-	commentIsLast,
 	// commentCreatedAt,
 	// commentUpdatedAt,
 	threadUpdatedAt
@@ -41,7 +40,6 @@ export default function CommentReadStatusWatcher({
 						const threadId = parseInt(element.dataset.threadId)
 						const commentId = parseInt(element.dataset.commentId)
 						const commentIndex = parseInt(element.dataset.commentIndex)
-						const commentIsLast = element.dataset.commentIsLast === 'true'
 						// const commentCreatedAt = parseInt(element.dataset.commentCreatedAt)
 						// const commentUpdatedAt = parseInt(element.dataset.commentUpdatedAt)
 						const threadUpdatedAt = element.dataset.threadUpdatedAt && parseInt(element.dataset.threadUpdatedAt)
@@ -51,7 +49,6 @@ export default function CommentReadStatusWatcher({
 							UserData.addLatestReadComments(boardId, threadId, {
 								id: commentId,
 								i: commentIndex,
-								last: commentIsLast,
 								// createdAt: commentCreatedAt,
 								// updatedAt: commentUpdatedAt,
 								threadUpdatedAt: threadUpdatedAt
@@ -102,7 +99,6 @@ export default function CommentReadStatusWatcher({
 			data-thread-id={threadId}
 			data-comment-id={commentId}
 			data-comment-index={commentIndex}
-			data-comment-is-last={commentIsLast}
 			data-thread-updated-at={threadUpdatedAt && threadUpdatedAt.getTime()}/>
 	)
 }
@@ -113,7 +109,6 @@ CommentReadStatusWatcher.propTypes = {
 	threadId: PropTypes.number.isRequired,
 	commentId: PropTypes.number.isRequired,
 	commentIndex: PropTypes.number.isRequired,
-	commentIsLast: PropTypes.bool.isRequired,
 	// commentCreatedAt: PropTypes.instanceof(Date).isRequired,
 	// commentUpdatedAt: PropTypes.instanceof(Date),
 	threadUpdatedAt: PropTypes.instanceof(Date)
