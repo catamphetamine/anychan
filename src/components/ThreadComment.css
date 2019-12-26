@@ -25,6 +25,8 @@
 		padding-top: var(--Post-padding--vertical);
 		padding-bottom: var(--Post-padding--vertical);
 	}
+	/* Reset `box-shadow` set by `.content-section`. */
+	box-shadow: none;
 	/*@mixin upto-s {*/
 		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	/*}*/
@@ -73,16 +75,14 @@
 		--PostThumbnailContainer-width: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
 	}
 
-	.thread-comment--thread {
+	/*.thread-comment--thread {*/
 		/* Using `margin-right` instead of `padding-right` here
 		   so that the expanded replies don't have their bottom border
 		   extending further to the right than the "..." (more actions)
 		   button of a post. */
 		/*margin-right: var(--Post-padding--horizontal);*/
 		/*padding-right: 0px;*/
-		/* Reset `box-shadow` set by `.content-section`. */
-		box-shadow: none;
-	}
+	/*}*/
 
 	.thread-comment--thumbnail {
 		--PostQuote-paddingLeft: calc(var(--PostThumbnail-marginRight) / 2);

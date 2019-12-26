@@ -69,8 +69,11 @@
 	--ThreadActions-color--selected: var(--Content-color-700);
 
 	/* CommentSeparator. */
-	--CommentSeparator-width: 2px;
+	--CommentSeparator-width: 1px;
 	--CommentSeparator-color: var(--Document-backgroundColor);
+	@mixin m-plus {
+		--CommentSeparator-width: 2px;
+	}
 
 	/* PostQuote (inverse). */
 	--PostQuote-color--inverse: var(--PostQuote-color);
