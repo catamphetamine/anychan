@@ -69,13 +69,8 @@
 	--ThreadActions-color--selected: var(--Content-color-700);
 
 	/* CommentSeparator. */
-	--CommentSeparator-width: 1px;
-	--CommentSeparator-width--replies: 1px;
-	--CommentSeparator-width--aside: 0px;
-	@mixin m-plus {
-		/*--CommentSeparator-width: 0px;*/
-		/*--CommentSeparator-width--aside: 1px;*/
-	}
+	--CommentSeparator-width: 2px;
+	--CommentSeparator-color: var(--Document-backgroundColor);
 
 	/* PostQuote (inverse). */
 	--PostQuote-color--inverse: var(--PostQuote-color);
@@ -164,7 +159,7 @@
 	--PostQuoteMarker-padding--inverse: 0px;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(0,0,0,0.1);
+	/*--CommentSeparator-color: rgba(0,0,0,0.1);*/
 }
 
 /* Dark Mode. */
@@ -221,7 +216,7 @@
 	--PostSubheading-color: #cf5858;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(255,255,255,0.1);
+	/*--CommentSeparator-color: rgba(255,255,255,0.1);*/
 
 	/* StarIcon. */
 	--StarIconFill-color: var(--Clickable-color--text);

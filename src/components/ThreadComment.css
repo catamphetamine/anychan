@@ -25,36 +25,25 @@
 		padding-top: var(--Post-padding--vertical);
 		padding-bottom: var(--Post-padding--vertical);
 	}
-	@mixin upto-s {
+	/*@mixin upto-s {*/
 		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-	}
-	@mixin m-plus {
+	/*}*/
+	/*@mixin m-plus {*/
 		/* Adding a transparent border to post thumbnail so that
 		   the comment's height doesn't change when its replies are shown
 		   resulting in borders on `__thumbnail` and `__comment` being replaced
 		   with a border on `.thread-comment` itself.
 		   When using `virtual-scroller` it's better to not change
 		   item height, if not required. */
+		/*
 		.thread-comment__thumbnail {
 			border-bottom: var(--CommentSeparator-width) solid transparent;
 		}
 		.thread-comment__comment {
 			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 		}
-	}
-}
-
-.thread-comment--thread {
-	position: relative;
-	.thread-comment__aside-separator {
-		position: absolute;
-		top: calc(var(--Post-padding--vertical) + 0.2em);
-    width: calc(var(--PostThumbnailContainer-width) - var(--PostThumbnail-marginRight) / 2);
-    min-width: calc(var(--PostThumbnailContainer-width) - var(--PostThumbnail-marginRight) / 2);
-		height: var(--CommentSeparator-width--aside);
-		background-color: var(--CommentSeparator-color);
-		background-color: rgba(0,0,0,0.2);
-	}
+		*/
+	/*}*/
 }
 
 /* Add some left padding to first-level comment tree branch.
@@ -87,9 +76,12 @@
 	.thread-comment--thread {
 		/* Using `margin-right` instead of `padding-right` here
 		   so that the expanded replies don't have their bottom border
-		   past the "..." (more actions) button of a post. */
-		margin-right: var(--Post-padding--horizontal);
-		padding-right: 0px;
+		   extending further to the right than the "..." (more actions)
+		   button of a post. */
+		/*margin-right: var(--Post-padding--horizontal);*/
+		/*padding-right: 0px;*/
+		/* Reset `box-shadow` set by `.content-section`. */
+		box-shadow: none;
 	}
 
 	.thread-comment--thumbnail {
@@ -190,14 +182,17 @@
 	   so that the next higher-level expanded reply has an illusion
 	   of having `border-top`. */
 	.comment-tree__comment--nested,
-	.comment-tree__comment--expanded,
-	.comment-tree__branch-toggler {
-		border-bottom: var(--CommentSeparator-width--replies) solid var(--CommentSeparator-color);
+	.comment-tree__comment--expanded/*,*/
+	/*.comment-tree__branch-toggler*/
+	{
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
 
+	/*
 	.comment-tree__comment--nested {
 		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
 	}
+	*/
 }
 
 /* Thread comment styles end. */

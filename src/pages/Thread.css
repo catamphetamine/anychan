@@ -63,6 +63,13 @@
 }
 */
 
+/* Hide the bottom border on the last comment. */
+/* Don't remove it so that the `VirtualScroller` list item's height doesn't change. */
+/* For example, when a thread is "automatically refreshed" and new comments get appended. */
+.thread-comment--last {
+	border-bottom-color: transparent;
+}
+
 .thread-page__menu-and-stats {
 	display: flex;
 	justify-content: space-between;
@@ -99,10 +106,14 @@
 	display: none;
 }
 */
+
+:root {
+	--ThreadComments-marginTop: 0px;
+}
+
 @mixin upto-s {
 	:root {
 		/*--ThreadComments-marginTop: calc(var(--unit) * -1);*/
-		--ThreadComments-marginTop: 0px;
 	}
 	.thread-page {
 		.ShowPrevious {
@@ -137,17 +148,23 @@
 		align-items: center;
 	  overflow: hidden;
 	}
+	/*
 	.thread-page__comments {
 		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
+	*/
 }
 
 @mixin m {
 	:root {
-		--ThreadComments-marginTop: calc(var(--unit) * -1 * 1.25);
+		/*--ThreadComments-marginTop: calc(var(--unit) * -1 * 1.25);*/
 	}
 	.thread-page__menu-and-stats {
+		/* There was some reason for this formula on `margin-top`. */
+		/* Something connected to margins on `.ShowPrevious`. */
 		margin-top: calc(var(--unit) * 0.25);
+		/* `margin-bottom` is set to be equal to `margin-top`. */
+		margin-bottom: calc(var(--unit) * 0.25);
 	}
 	.thread-page {
 		.ShowPrevious {
@@ -169,13 +186,17 @@
 
 @mixin l-plus {
 	:root {
-		--ThreadComments-marginTop: calc(var(--unit) * 0.5 * -1);
+		/*--ThreadComments-marginTop: calc(var(--unit) * 0.5 * -1);*/
 	}
 	.thread-page__menu--header {
 		display: none;
 	}
 	.thread-page__menu-and-stats {
+		/* There was some reason for this formula on `margin-top`. */
+		/* Something connected to margins on `.ShowPrevious`. */
 		margin-top: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);
+		/* `margin-bottom` is set to be equal to `margin-top`. */
+		margin-bottom: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);
 	}
 	.thread-page {
 		.ShowPrevious {

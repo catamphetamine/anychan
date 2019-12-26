@@ -5,7 +5,8 @@ import VirtualScroller from 'virtual-scroller/react'
 import { isInstantBackAbleNavigation, wasInstantNavigation } from 'react-pages'
 
 function ThreadCommentsList({
-	initialState,
+	initialCustomState,
+	restoredState,
 	setState,
 	scrollPosition,
 	setScrollPosition,
@@ -45,7 +46,8 @@ function ThreadCommentsList({
 			{...rest}
 			ref={ref}
 			onMount={onVirtualScrollerMount}
-			initialState={wasInstantNavigation() ? initialState : undefined}
+			initialCustomState={initialCustomState}
+			initialState={wasInstantNavigation() ? restoredState : undefined}
 			onStateChange={onVirtualScrollerStateChange}
 			onItemFirstRender={onItemFirstRender}
 			measureItemsBatchSize={12}
@@ -56,7 +58,8 @@ function ThreadCommentsList({
 ThreadCommentsList = React.forwardRef(ThreadCommentsList)
 
 ThreadCommentsList.propTypes = {
-	initialState: PropTypes.object,
+	initialCustomState: PropTypes.object,
+	restoredState: PropTypes.object,
 	setState: PropTypes.func,
 	scrollPosition: PropTypes.number,
 	setScrollPosition: PropTypes.func,

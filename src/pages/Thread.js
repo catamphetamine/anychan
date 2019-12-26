@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {
 	Link,
 	isInstantBackAbleNavigation,
+	wasInstantNavigation,
 	goBack,
 	canGoBackInstantly
 } from 'react-pages'
@@ -50,14 +51,14 @@ function ThreadPage() {
 	const thread = useSelector(({ chan }) => chan.thread)
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const isThreadTracked = useSelector(({ threadTracker }) => threadTracker.trackedThreadsIndex[board.id] && threadTracker.trackedThreadsIndex[board.id].includes(thread.id))
-	const initialVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
+	const restoredVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
 	const scrollPosition = useSelector(({ thread }) => thread.scrollPosition)
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const [searchQuery, setSearchQuery] = useState()
 	const virtualScroller = useRef()
 	const virtualScrollerState = useRef()
-	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState(initialVirtualScrollerState && initialVirtualScrollerState.expandAttachments)
+	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState(wasInstantNavigation() && restoredVirtualScrollerState && restoredVirtualScrollerState.expandAttachments)
 	const onSetAttachmentsExpanded = useCallback((expandAttachments) => {
 		if (virtualScrollerState.current) {
 			virtualScrollerState.current.expandAttachments = expandAttachments
@@ -80,7 +81,8 @@ function ThreadPage() {
 	}, [thread, dispatch])
 	// Using `useMemo()` here to avoid reading from `localStorage` on each render.
 	// Maybe it's not required, but just in case.
-	const initialFromIndex = useMemo(() => getFromIndex(board, thread))
+	const _initialFromIndex = useMemo(() => getFromIndex(board, thread), [board, thread])
+	const initialFromIndex = wasInstantNavigation() && restoredVirtualScrollerState ? restoredVirtualScrollerState.fromIndex : _initialFromIndex
 	const [fromIndex, setFromIndex] = useState(initialFromIndex)
 	// `fromIndexRef` is only used in `scrollToComment()`
 	// to prevent changing `itemComponentProps` when `fromIndex` changes
@@ -91,7 +93,14 @@ function ThreadPage() {
 	const onSetFromIndex = useCallback((fromIndex) => {
 		setFromIndex(fromIndex)
 		fromIndexRef.current = fromIndex
+		if (virtualScrollerState.current) {
+			virtualScrollerState.current.fromIndex = fromIndex
+		}
 	}, [])
+	const initialVirtualScrollerCustomState = useMemo(() => ({
+		// expandAttachments: false,
+		fromIndex
+	}), [fromIndex])
 	const shownComments = useMemo(() => thread.comments.slice(fromIndex), [thread, fromIndex])
 	const getItem = useCallback(
 		(i) => thread.comments[fromIndex + i],
@@ -383,7 +392,8 @@ function ThreadPage() {
 						key="comments"
 						ref={virtualScroller}
 						getItem={getItem}
-						initialState={initialVirtualScrollerState}
+						initialCustomState={initialVirtualScrollerCustomState}
+						restoredState={restoredVirtualScrollerState}
 						setState={setVirtualScrollerState}
 						stateRef={virtualScrollerState}
 						scrollPosition={scrollPosition}

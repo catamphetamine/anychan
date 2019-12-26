@@ -278,7 +278,8 @@ function setBodyBackground(route) {
 	// which changes `<body/>` background color
 	// in order to show correct color when scrolling
 	// past top/bottom of the page on touch devices.
-	if (isContentSectionsContent(route) && !isThreadLocation(route)) {
+	// if (isContentSectionsContent(route) && !isThreadLocation(route)) {
+	if (isContentSectionsContent(route)) {
 		document.body.classList.add('document--background')
 	} else {
 		document.body.classList.remove('document--background')

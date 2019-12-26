@@ -396,18 +396,16 @@ function Comment({
 	return (
 		<React.Fragment>
 			<div
-				className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
+				className={classNames(className, 'content-section', 'thread-comment', 'thread-comment--thumbnail', {
 					'thread-comment--titled': comment.title,
 					'thread-comment--authored': hasAuthor(comment),
 					'thread-comment--compact': compact,
 					'thread-comment--hidden': hidden,
 					'thread-comment--has-thumbnail': postThumbnail,
 					'thread-comment--has-no-thumbnail': !postThumbnail,
-					'content-section': mode === 'board'
+					'thread-comment--last': thread.comments[thread.comments.length - 1].id === comment.id,
+					// 'content-section': mode === 'board'
 				})}>
-				{mode === 'thread' &&
-					<div className="thread-comment__aside-separator"/>
-				}
 				<div className="thread-comment__thumbnail">
 					{postThumbnail &&
 						<PostAttachment

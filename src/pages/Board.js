@@ -24,7 +24,7 @@ function BoardPage() {
 	const threads = useSelector(({ chan }) => chan.threads)
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const censoredWords = useSelector(({ settings }) => settings.settings.censoredWords)
-	const initialVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
+	const restoredVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
 	const scrollPosition = useSelector(({ board }) => board.scrollPosition)
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
@@ -76,7 +76,7 @@ function BoardPage() {
 			}
 			<ThreadCommentsList
 				getItem={getItem}
-				initialState={initialVirtualScrollerState}
+				restoredState={restoredVirtualScrollerState}
 				setState={setVirtualScrollerState}
 				scrollPosition={scrollPosition}
 				setScrollPosition={setScrollPosition}
