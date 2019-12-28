@@ -103,6 +103,13 @@
 	margin-top: var(--ThreadComments-marginTop);
 }
 
+.thread-page__comments-container {
+	@mixin m-l {
+    margin-left: var(--Comment-marginTop);
+    margin-right: var(--Comment-marginTop);
+  }
+}
+
 /*
 .thread-page__stats--header {
 	display: none;
