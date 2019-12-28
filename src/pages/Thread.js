@@ -24,7 +24,7 @@ import UserData from '../UserData/UserData'
 import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
-import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
+import { updateAttachmentThumbnailMaxSize } from '../utility/postThumbnail'
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 // import { getViewportWidth } from 'webapp-frontend/src/utility/dom'
 import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
@@ -83,6 +83,8 @@ function ThreadPage() {
 	// Maybe it's not required, but just in case.
 	const _initialFromIndex = useMemo(() => getFromIndex(board, thread), [board, thread])
 	const initialFromIndex = wasInstantNavigation() && restoredVirtualScrollerState ? restoredVirtualScrollerState.fromIndex : _initialFromIndex
+	// `setFromIndex()` shouldn't be called directly.
+	// Instead, it should be called via `onSetFromIndex()`.
 	const [fromIndex, setFromIndex] = useState(initialFromIndex)
 	// `fromIndexRef` is only used in `scrollToComment()`
 	// to prevent changing `itemComponentProps` when `fromIndex` changes
@@ -242,7 +244,7 @@ function ThreadPage() {
 	}, [])
 	useEffect(() => {
 		if (showAllInProgress) {
-			setFromIndex(0)
+			onSetFromIndex(0)
 			setShowAllWillFinish(true)
 		}
 	}, [showAllInProgress])

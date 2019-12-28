@@ -3,6 +3,7 @@ import { getChan, getChanConfig, addChanParameter, isDeployedOnChanDomain } from
 import getProxyUrl from './utility/getProxyUrl'
 import getMessages from './utility/getMessages'
 import correctGrammar from './utility/correctGrammar'
+import configuration from '../configuration'
 
 export default function Chan_({
 	censoredWords,
@@ -13,6 +14,7 @@ export default function Chan_({
 		getChanConfig(),
 		{
 			messages: messages && getMessages(messages),
+			generatedQuoteMaxLength: configuration.generatedQuoteMaxLength,
 			censoredWords,
 			// `expandReplies: true` option of `imageboard`
 			// transforms reply ids into reply comment objects.

@@ -1,5 +1,16 @@
 @import "../styles/common";
 
+/* Removing `PostQuoteMarker` turned out to reduce the overall readability of page content. */
+/*
+:root {
+	--PostQuoteMarker-width: 1px;
+	--PostQuoteMarker-opacity: 1;
+	--PostQuoteMarker-opacity--generated: 1;
+	--PostQuoteMarker-color: var(--PostQuote-borderColor);
+	--PostQuoteMarker-color--generated: var(--PostQuote-borderColor--generated);
+}
+*/
+
 .thread-comment {
 	padding-top: var(--Post-padding--vertical);
 	padding-bottom: var(--Post-padding--vertical);
@@ -17,6 +28,10 @@
 	display: none;
 }
 
+.comment-tree__comment--nested {
+	border-left: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+}
+
 .thread-comment--thread {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -26,9 +41,19 @@
 		padding-bottom: var(--Post-padding--vertical);
 	}
 	/* Reset `box-shadow` set by `.content-section`. */
-	box-shadow: none;
+	/*box-shadow: none;*/
+	background-color: var(--Content-backgroundColor);
 	/*@mixin upto-s {*/
+		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	&.thread-comment--opening {
+		/* Thread cards on board page have top/bottom borders
+		   with color `var(--Content-color-200)` on small screens.
+		   Having the same top border color on thread page
+		   helps the transition from board to thread to be
+		   visually a bit more seamless. */
+		border-top-color: var(--Content-color-200);
+	}
 	/*}*/
 	/*@mixin m-plus {*/
 		/* Adding a transparent border to post thumbnail so that
@@ -46,6 +71,39 @@
 		}
 		*/
 	/*}*/
+	@mixin m-plus {
+		box-shadow: inset 0 0 0 1px var(--CommentSeparator-color);
+	}
+}
+
+.thread-comment--board {
+	@mixin upto-s {
+		border-top: 1px solid var(--Content-color-200);
+		border-bottom: 1px solid var(--Content-color-200);
+	}
+	@mixin m-plus {
+		box-shadow: inset 0 0 0 1px var(--Content-color-200), var(--ContentSection-shadow);
+	}
+}
+
+@mixin m-plus {
+	:root {
+		--PostQuote-borderWidth--right: 1px;
+	}
+}
+
+/* Using a dedicated element instead of `margin-top`
+   because `VirtualScroller` requires not having gaps between list items. */
+.thread-page__comments {
+	.thread-comment__margin {
+		height: var(--Comment-marginTop);
+	}
+}
+
+.board-page__threads {
+	.thread-comment__margin {
+		height: var(--Comment-marginTop--boardPage);
+	}
 }
 
 /* Add some left padding to first-level comment tree branch.
@@ -85,8 +143,9 @@
 	/*}*/
 
 	.thread-comment--thumbnail {
-		--PostQuote-paddingLeft: calc(var(--PostThumbnail-marginRight) / 2);
-		--PostQuote-paddingRight: 0px;
+		--PostQuote-paddingLeft: var(--PostQuote-paddingLeft--thumbnail);
+		--PostQuote-paddingRight: var(--PostQuote-paddingLeft);
+		--PostQuote-marginRight: var(--PostQuote-paddingLeft);
 		display: flex;
 	}
 
@@ -107,10 +166,78 @@
 		   `flex-basis` accordingly in `Application.css`. */
 		width: var(--PostThumbnailContainer-width);
 		min-width: var(--PostThumbnailContainer-width);
+		/* Using `margin-right` instead of `padding-right`
+		   so that it's not included in `width`. */
+		/*margin-right: var(--PostThumbnail-marginRight);*/
 		/* Using `padding-right` instead of `margin-right` here
 		   so that `border-bottom` is continuous. */
+		/* This was relevant for the old design, not anymore though. */
 		padding-right: var(--PostThumbnail-marginRight);
 		margin-top: 0.2em;
+	}
+
+	.thread-comment--thread {
+		padding-left: calc(var(--Post-padding--horizontal) + var(--PostQuote-paddingLeft));
+	}
+
+	/* On thread page:
+	   1. If a comment has no attachments, then don't show the blank left part of it.
+	   2. If a comment is short, then don't expand it to full page width.
+	   That's only for comments that aren't part of an "expanded replies tree",
+	   because otherwise such tree wouldn't render correctly.
+	*/
+	.thread-page__comments {
+		.thread-comment--has-no-thumbnail:not(.comment-tree__comment--nested):not(.comment-tree__comment--expanded) {
+			/*margin-left: calc(var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) - var(--PostQuote-paddingLeft));*/
+			/*margin-left: calc(var(--PostThumbnailContainer-width) - var(--PostQuote-paddingLeft));*/
+			margin-left: calc(var(--PostThumbnailContainer-width));
+			.thread-comment__thumbnail {
+				display: none;
+				/*
+				width: var(--PostQuote-paddingLeft);
+				max-width: var(--PostQuote-paddingLeft);
+				min-width: var(--PostQuote-paddingLeft);
+				padding: 0;
+				*/
+			}
+			.thread-comment__comment {
+				/*margin-left: calc(var(--Post-padding--horizontal) / 2);*/
+			}
+		}
+
+		.thread-comment--has-thumbnail:not(.comment-tree__comment--nested):not(.comment-tree__comment--expanded) {
+			/*margin-left: calc(-1 * var(--PostQuote-paddingLeft) + (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width) - var(--PostQuote-paddingLeft)));*/
+			margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+			.thread-comment__thumbnail {
+				/*margin-left: var(--PostQuote-paddingLeft);*/
+				/*width: calc(var(--PostQuote-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
+				/*min-width: calc(var(--PostQuote-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
+				/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
+				width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+				min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+			}
+		}
+
+		.thread-comment--thread:not(.comment-tree__comment--nested):not(.comment-tree__comment--expanded) {
+			/* Don't stretch short comments to full width. */
+			display: inline-flex;
+		}
+
+		.thread-comment--thread.comment-tree__comment--nested,
+		.thread-comment--thread.comment-tree__comment--expanded {
+			width: 100%;
+		}
+
+		.thread-comment__container {
+			/* `display: flex` is required to prevent `.thread-comment__container`
+			   from stretching to `100%` of page width. */
+			/* Also `display: flex` fixes weird extra vertical space at the bottom
+			   when `.thread-comment`'s `display` is set to `inline-flex`. */
+			display: flex;
+			/* `flex-direction: column` is because there's `.thread-comment__margin`. */
+			flex-direction: column;
+	    align-items: flex-start;
+		}
 	}
 
 	.thread-comment--thread {

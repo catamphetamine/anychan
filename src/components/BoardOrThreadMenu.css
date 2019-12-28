@@ -16,12 +16,3 @@
 		margin-bottom: calc(var(--unit) * 0.5);
 	}
 }
-
-/* This CSS class is also used for `.thread-page__stats`. */
-.board-or-thread-menu--above {
-	@mixin l-plus {
-		position: absolute;
-		right: 0;
-		top: calc(-1 * var(--BoardOrThreadPage-marginTop--largeScreen) + (var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
-	}
-}

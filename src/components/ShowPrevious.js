@@ -23,6 +23,16 @@ export default function ShowPrevious({
 	const commentsCountMessage = useMemo(() => {
 		return new IntlMessageFormat(getMessages(locale).nMoreComments, locale)
 	}, [locale])
+	const nMoreComments = useMemo(() => {
+		return commentsCountMessage.formatHTMLMessage({
+			count: fromIndex,
+			tag: (text) => (
+				<span className="ShowPreviousCount">
+					{text}
+				</span>
+			)
+		})
+	}, [commentsCountMessage, fromIndex])
 	const [hasShownPrevious, setHasShownPrevious] = useState()
 	const onShowPrevious = useCallback((firstTime) => {
 		const _pageSize = firstTime ? firstTimePageSize : pageSize
@@ -66,7 +76,9 @@ export default function ShowPrevious({
 				className="rrui__button--text">
 				<span>
 					<DoubleArrowUp className="ShowPreviousDoubleArrow"/>
-					{commentsCountMessage.format({ count: fromIndex })}
+					{getFirstString(nMoreComments)}
+					{getFirstTag(nMoreComments)}
+					{getLastString(nMoreComments)}
 				</span>
 			</Button>
 			<ReactTimeAgo
@@ -95,11 +107,26 @@ ShowPrevious.defaultProps = {
 	firstTimePageSize: 12
 }
 
-function getRelativeTimeFormatter(locale) {
-	switch (locale) {
-		case 'ru':
-			return TIME_AGO_RU
-		default:
-			return TIME_AGO_EN
+function getFirstString(parts) {
+	if (typeof parts[0] === 'string') {
+		return parts[0]
+	}
+}
+
+function getFirstTag(parts) {
+	if (typeof parts[0] === 'object') {
+		return parts[0]
+	}
+	if (typeof parts[1] === 'object') {
+		return parts[1]
+	}
+}
+
+function getLastString(parts) {
+	if (typeof parts[1] === 'string') {
+		return parts[1]
+	}
+	if (typeof parts[2] === 'string') {
+		return parts[2]
 	}
 }

@@ -2,45 +2,47 @@ import { getPostThumbnailSize } from 'social-components/commonjs/utility/post/ge
 
 const CSS_VARIABLE_NAME = '--PostThumbnail-maxWidth'
 
-export default function updateAttachmentThumbnailMaxSize(posts) {
+export function updateAttachmentThumbnailMaxSize(posts) {
 	if (typeof window !== 'undefined') {
 		// Get attachment thumbnail size for setting
 		// `--PostThumbnail-maxWidth` CSS variable.
 		// There can be very small pictures attached
 		// so going through all attachments in all posts is required.
-		let attachmentThumbnailSize
+		let attachmentThumbnailMaxWidth
 		for (const post of posts) {
-			attachmentThumbnailSize = getAttachmentThumbnailMaxSize(
+			attachmentThumbnailMaxWidth = getAttachmentThumbnailMaxWidth(
 				post,
-				attachmentThumbnailSize
+				attachmentThumbnailMaxWidth
 			)
 		}
 		// Set `--PostThumbnail-maxWidth` CSS variable.
-		if (attachmentThumbnailSize) {
+		if (attachmentThumbnailMaxWidth) {
 			// Only update `--PostThumbnail-maxWidth` CSS variable if it hasn't been set
 			// or if the new value is bigger than the current one.
-			const prevAttachmentThumbnailSize = parseInt(document.body.style.getPropertyValue(CSS_VARIABLE_NAME))
-			if (isNaN(prevAttachmentThumbnailSize) || prevAttachmentThumbnailSize < attachmentThumbnailSize) {
+			const prevAttachmentThumbnailMaxWidth = parseInt(document.body.style.getPropertyValue(CSS_VARIABLE_NAME))
+			if (isNaN(prevAttachmentThumbnailMaxWidth) || prevAttachmentThumbnailMaxWidth < attachmentThumbnailMaxWidth) {
 				// Sets it on `<body/>` because there's a default value set on `<html/>`.
-				document.body.style.setProperty(CSS_VARIABLE_NAME, attachmentThumbnailSize + 'px')
+				document.body.style.setProperty(CSS_VARIABLE_NAME, attachmentThumbnailMaxWidth + 'px')
 			}
 		}
 	}
 }
 
-function getAttachmentThumbnailMaxSize(post, maxSizeSoFar) {
+function getAttachmentThumbnailMaxWidth(post, maxSizeSoFar) {
 	function update(size) {
 		if (maxSizeSoFar) {
-			maxSizeSoFar = Math.max(
-				maxSizeSoFar,
-				size.width,
-				size.height
-			)
+			// maxSizeSoFar = Math.max(
+			// 	maxSizeSoFar,
+			// 	size.width,
+			// 	size.height
+			// )
+			maxSizeSoFar = Math.max(maxSizeSoFar, size.width)
 		} else {
-			maxSizeSoFar = Math.max(
-				size.width,
-				size.height
-			)
+			maxSizeSoFar = size.width
+			// maxSizeSoFar = Math.max(
+			// 	size.width,
+			// 	size.height
+			// )
 		}
 	}
 	if (post.attachments) {

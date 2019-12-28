@@ -50,5 +50,7 @@ ThreadCommentTree.propTypes = {
 }
 
 function onShowReply(comment) {
-	comment.parseContent()
+	if (!comment.contentParsed) {
+		comment.parseContent()
+	}
 }

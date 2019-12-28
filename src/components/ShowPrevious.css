@@ -16,8 +16,12 @@
 	margin-bottom: var(--unit);
 }
 
+.ShowPreviousCount {
+	font-size: 110%;
+}
+
 .ShowPreviousDate {
-	color: var(--Content-color-600);
+	color: var(--Content-color-700);
 	font-weight: 300;
 	/*color: var(--Content-color-500);*/
 	/*color: var(--Post-color--secondary);*/

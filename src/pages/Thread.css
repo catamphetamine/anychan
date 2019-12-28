@@ -66,9 +66,11 @@
 /* Hide the bottom border on the last comment. */
 /* Don't remove it so that the `VirtualScroller` list item's height doesn't change. */
 /* For example, when a thread is "automatically refreshed" and new comments get appended. */
+/*
 .thread-comment--last {
 	border-bottom-color: transparent;
 }
+*/
 
 .thread-page__menu-and-stats {
 	display: flex;
@@ -196,7 +198,8 @@
 		/* Something connected to margins on `.ShowPrevious`. */
 		margin-top: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);
 		/* `margin-bottom` is set to be equal to `margin-top`. */
-		margin-bottom: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);
+		/*margin-bottom: calc(var(--Post-padding--vertical) - var(--unit) * 0.5);*/
+		/* `margin-bottom` is not set because there's `--Comment-marginTop`. */
 	}
 	.thread-page {
 		.ShowPrevious {

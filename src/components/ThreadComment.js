@@ -8,6 +8,8 @@ import {
 	board as boardType
 } from '../PropTypes'
 
+import { getMaxPostAttachmentThumbnailWidth } from '../utility/postThumbnail'
+
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
 import PostForm from './PostForm'
@@ -22,7 +24,7 @@ import PostAttachment from 'webapp-frontend/src/components/PostAttachment'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 
 import getNonEmbeddedAttachments from 'social-components/commonjs/utility/post/getNonEmbeddedAttachments'
-import getPostThumbnail from 'social-components/commonjs/utility/post/getPostThumbnail'
+import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnail'
 import getSortedAttachments from 'social-components/commonjs/utility/post/getSortedAttachments'
 
 import { vote as voteForComment } from '../redux/chan'
@@ -310,7 +312,7 @@ function Comment({
 	// React hooks don't allow `if`/`else`.
 	// if (!expandAttachments) {
 		postThumbnail = useMemo(() => {
-			return getPostThumbnail(comment, {
+			return getPostThumbnailAttachment(comment, {
 				showPostThumbnailWhenThereAreMultipleAttachments
 			})
 		}, [comment, showPostThumbnailWhenThereAreMultipleAttachments])
@@ -393,10 +395,23 @@ function Comment({
 			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
 			className={commentClassName}/>
 	)
+	const postStyle = useMemo(() => {
+		if (postThumbnail) {
+			const size = getPostThumbnailSize(postThumbnail)
+			return {
+				// width: size.width + 'px',
+				// minWidth: size.width + 'px',
+				// marginLeft: (getMaxPostAttachmentThumbnailWidth() - size.width) + 'px'
+				'--PostThumbnail-width': size.width + 'px'
+			}
+		}
+	}, [comment])
 	return (
 		<React.Fragment>
+			<div className="thread-comment__margin"/>
 			<div
-				className={classNames(className, 'content-section', 'thread-comment', 'thread-comment--thumbnail', {
+				style={postStyle}
+				className={classNames(className, 'thread-comment', 'thread-comment--thumbnail', {
 					'thread-comment--titled': comment.title,
 					'thread-comment--authored': hasAuthor(comment),
 					'thread-comment--compact': compact,
@@ -404,9 +419,10 @@ function Comment({
 					'thread-comment--has-thumbnail': postThumbnail,
 					'thread-comment--has-no-thumbnail': !postThumbnail,
 					'thread-comment--last': thread.comments[thread.comments.length - 1].id === comment.id,
-					// 'content-section': mode === 'board'
+					'content-section': mode === 'board'
 				})}>
-				<div className="thread-comment__thumbnail">
+				<div
+					className="thread-comment__thumbnail">
 					{postThumbnail &&
 						<PostAttachment
 							useSmallestThumbnail

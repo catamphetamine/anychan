@@ -19,6 +19,7 @@ const messages = new Messages({
 }, 'en')
 
 export const getLanguageNames = messages.getLanguageNames
+export const defaultLanguage = messages.defaultLanguage
 export default messages.getMessages
 
 export function getCountryName(country, language) {

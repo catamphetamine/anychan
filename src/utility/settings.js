@@ -5,7 +5,7 @@ import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
 import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 import { applyDarkMode, autoDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
 
-import { getLanguageNames } from '../messages'
+import { defaultLanguage, getLanguageNames } from '../messages'
 import { getChan } from '../chan'
 import { setDarkMode } from '../redux/app'
 import { THEMES, applyTheme } from './themes'
@@ -49,7 +49,7 @@ class Settings {
 	getDefaultSettings() {
 		return {
 			theme: 'default',
-			fontSize: 'medium',
+			fontSize: 'm',
 			darkMode: false,
 			autoDarkMode: true,
 			locale: this.getDefaultLanguage(),
@@ -67,7 +67,7 @@ class Settings {
 				return navigator.language
 			}
 		}
-		return this.languages[0]
+		return defaultLanguage
 	}
 
 	getCustomSettings() {

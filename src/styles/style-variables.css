@@ -63,17 +63,47 @@
 	--Boards-backgroundColor--active: var(--Sidebar-highlightColor-200);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
 
-	/* ThreadActions. */
-	--ThreadActions-color: var(--Content-color-600);
-	--ThreadActions-color--active: var(--gray-color-650);
-	--ThreadActions-color--selected: var(--Content-color-700);
+	/* Comment-marginTop. */
+	--Comment-marginTop: 2px;
+	@mixin xs {
+		--Comment-marginTop: 6px;
+	}
+	@mixin s {
+		--Comment-marginTop: 8px;
+	}
+	@mixin m-plus {
+		--Comment-marginTop: 12px;
+	}
+
+	/* Comment-marginTop--boardPage. */
+	--Comment-marginTop--boardPage: 10px;
+	@mixin xs-s {
+		--Comment-marginTop--boardPage: var(--unit);
+	}
+	@mixin m-plus {
+		--Comment-marginTop--boardPage: calc(var(--unit) * 1.5);
+	}
 
 	/* CommentSeparator. */
 	--CommentSeparator-width: 1px;
-	--CommentSeparator-color: var(--Document-backgroundColor);
+	--CommentSeparator-color: var(--Content-color-300);
 	@mixin m-plus {
-		--CommentSeparator-width: 2px;
+		/* `box-shadow` is used instead of `border-top`/`border-bottom`. */
+		--CommentSeparator-width: 0px;
 	}
+
+	/* CommentTree. */
+	--CommentTree-color: var(--Content-color-400);
+	--CommentTree-color--hover: var(--Content-color-600);
+	@mixin m-plus {
+		--CommentTree-borderWidth: 2px;
+	}
+
+	/* PostThumbnail. */
+	/* Default thumnail size. Will be overridden on `<body/>` after parsing chan response. */
+	--PostThumbnail-maxWidth: 220px;
+	--PostQuote-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) / 2);
+	--PostThumbnail-marginRight: calc(var(--Post-padding--horizontal) + var(--PostQuote-paddingLeft--thumbnail));
 
 	/* PostQuote (inverse). */
 	--PostQuote-color--inverse: var(--PostQuote-color);
@@ -81,6 +111,11 @@
 	--PostQuote-backgroundColor--inverse--hover: var(--PostQuote-backgroundColor--inverse);
 	--PostQuote-borderWidth--inverse: 0px;
 	--PostQuote-marginTop--inverse: 0px;
+
+	@mixin upto-xs {
+		/* Thinner PostQuoteMarker on mobile devices. */
+		--PostQuoteMarker-width: 1px;
+	}
 
 	/* PostQuoteMarker (inverse). */
 	--PostQuoteMarker-color--inverse: var(--PostQuoteMarker-color);
@@ -95,10 +130,6 @@
 
 	/* PostBannedIcon. */
 	--PostBannedIcon-color: var(--Critical-color);
-
-	/* StarIcon. */
-	--StarIconOutline-color: var(--Clickable-color--textActive);
-	--StarIconFill-color: var(--Clickable-color--active);
 }
 
 /* Light mode. */
@@ -163,6 +194,17 @@
 
 	/* CommentSeparator. */
 	/*--CommentSeparator-color: rgba(0,0,0,0.1);*/
+
+	/* StarIcon. */
+	--StarIconOutline-color: var(--Content-color-900);
+	--StarIconFill-color: var(--Clickable-color--active);
+
+	/* ThreadActions. */
+	/* A slightly darker color of Board/Thread menu icons,
+	   because they're on a gray background. */
+	--ThreadActions-color: var(--Content-color-700);
+	--ThreadActions-color--active: var(--gray-color-650);
+	--ThreadActions-color--selected: var(--Content-color-700);
 }
 
 /* Dark Mode. */
@@ -222,5 +264,11 @@
 	/*--CommentSeparator-color: rgba(255,255,255,0.1);*/
 
 	/* StarIcon. */
+	--StarIconOutline-color: var(--Clickable-color--textActive);
 	--StarIconFill-color: var(--Clickable-color--text);
+
+	/* ThreadActions. */
+	--ThreadActions-color: var(--Content-color-600);
+	--ThreadActions-color--active: var(--Content-color-900);
+	--ThreadActions-color--selected: var(--Content-color-800);
 }

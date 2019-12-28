@@ -1,7 +1,6 @@
 @import "../styles/common";
 
 .board-page {
-	--margin-top--large-screen: calc(var(--unit) * 2);
 	/* `position: relative` is for <ThreadMenu/> on large screens. */
 	position: relative;
 }
@@ -28,10 +27,21 @@
 
 .board-page__threads {
 	@mixin l-plus {
-		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
+		/*margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);*/
 	}
 }
 
+/* This CSS class is also used for `.thread-page__stats`. */
+.board-menu--above {
+	@mixin l-plus {
+		position: absolute;
+		right: 0;
+		/*top: calc(-1 * var(--BoardOrThreadPage-marginTop--largeScreen) + (var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);*/
+		top: calc((var(--Comment-marginTop--boardPage) - var(--MenuIcon-width)) / 2);
+	}
+}
+
+/*
 .board-page__threads {
 	.thread-comment__container {
 		margin-top: calc(var(--unit) * 1);
@@ -44,6 +54,7 @@
 		margin-bottom: 0;
 	}
 }
+*/
 
 .board-page__api-bug-note {
 	margin-top: calc(var(--unit) * 2);

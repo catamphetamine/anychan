@@ -11,7 +11,7 @@ import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
 import { getChan } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
-import updateAttachmentThumbnailMaxSize from '../utility/updateAttachmentThumbnailMaxSize'
+import { updateAttachmentThumbnailMaxSize } from '../utility/postThumbnail'
 
 import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
 import ThreadComment from '../components/ThreadComment'
@@ -65,7 +65,7 @@ function BoardPage() {
 					locale={locale}
 					isSearchBarShown={isSearchBarShown}
 					setSearchBarShown={setSearchBarShown}
-					className="board-or-thread-menu--above"/>
+					className="board-menu--above"/>
 			</div>
 			{getChan().id === '2ch' && board.id === 'd' &&
 				<p className="board-page__api-bug-note">
