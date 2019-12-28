@@ -133,10 +133,6 @@
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color--contentActive: #f2eaed;
 	--PostInlineSpoiler-color--censoredContentActive: #efdde3;
-
-	/* CommentTree. */
-	--CommentTree-color: var(--base-color-400);
-	--CommentTree-color--hover: var(--base-color-500);
 }
 
 /* Dark Mode. */
