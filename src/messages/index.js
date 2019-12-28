@@ -1,6 +1,8 @@
+import de from './de.json'
 import en from './en.json'
 import ru from './ru.json'
 
+import deBase from 'webapp-frontend/src/messages/de.json'
 import enBase from 'webapp-frontend/src/messages/en.json'
 import ruBase from 'webapp-frontend/src/messages/ru.json'
 
@@ -11,6 +13,7 @@ import ruCountries from 'webapp-frontend/src/messages/countries.ru.json'
 import Messages, { mergeMessages } from 'webapp-frontend/src/messages'
 
 const messages = new Messages({
+	de: mergeMessages(deBase, de),
 	en: mergeMessages(enBase, en),
 	ru: mergeMessages(ruBase, ru)
 }, 'en')

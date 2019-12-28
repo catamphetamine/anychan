@@ -1,0 +1,150 @@
+{
+	"boards": {
+		"title": "Boards",
+		"all": "Alle Boards",
+		"showAll": "Zeige alle Boards",
+		"showBoardsList": "Alle Boards anzeigen",
+		"byPopularity": "Beliebt",
+		"byCategory": "Nach Kategorie"
+	},
+	"trackedThreads": {
+		"title": "verfolgte Threads",
+		"trackedThread": "verfolgter Thread",
+		"trackThread": "Verfolge diesen Thread",
+		"untrackThread": "Verfolge diesen Thread nicht",
+		"empty": "Keine verfolgten Threads",
+		"showExpired": "Show abgelaufen"
+	},
+	"settings": {
+		"language": {
+			"translationGuide": "Anleitung zum Hinzufügen einer neuen Übersetzung"
+		},
+		"theme": {
+			"title": "Theme",
+			"add": {
+				"title": "Theme hinzufügen",
+				"name": "Name",
+				"url": "URL",
+				"code": "Code",
+				"pasteCodeInstead": "Fügen Sie stattdessen Code ein",
+				"invalidUrl": "ungültige URL",
+				"invalidExtension": "Keine \".css\" -Datei-URL",
+				"cssFileError": "Die Datei \".css\" konnte nicht geladen werden"
+			},
+			"guide": "Ein neues Thema erstellen",
+			"deleteCurrent": {
+				"title": "Aktuelles Theme löschen",
+				"warning": "Möchten Sie das Theme \"{0}\" wirklich löschen?"
+			},
+			"themes": {
+				"default": "Standard",
+				"neon-genesis-evangelion": "Neon Genesis Evangelion"
+			}
+		},
+		"darkMode": {
+			"title": "Dunkler Modus",
+			"auto": "Verwenden Sie die Systemeinstellung"
+		},
+		"censorship": {
+			"title": "Zensierte Wörter",
+			"showCensoredWordsList": "Liste der zensierten Wörter anzeigen",
+			"hideCensoredWordsList": "Zensierte Wörter ausblenden",
+			"test": {
+				"title": "Testen Sie die Zensurregeln",
+				"useCustomRule": "Verwenden Sie eine benutzerdefinierte Regel",
+				"rule": "Regel",
+				"text": "Text",
+				"result": "Ergebnis"
+			},
+			"docs": {
+				"titleStart": null,
+				"titleRegExps": "Reguläre Ausdrücke",
+				"titleEnd": " tipps",
+				"tips": {
+					"start": "Wortanfang",
+					"end": "Wortende",
+					"any": "Beliebiger Brief",
+					"anyOf": "Jeder einzelne Buchstabe",
+					"optional": "Optionaler Brief",
+					"anyCountOf": "Beliebige Anzahl von Buchstaben",
+					"oneOrMoreOf": "Ein oder mehrere Buchstaben",
+					"rangeCountOf": "Null bis zwei von jedem Buchstaben"
+				}
+			}
+		},
+		"data": {
+			"title": "Daten",
+			"description": "\"Benutzerdaten\" sind die Daten, die den Benutzer und nicht die App beschreiben: \"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, geliebte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesen Kommentar-IDs, ignorierte Benutzer-IDs.",
+			"resetSettings": {
+				"title": "Einstellungen zurücksetzen",
+				"warning": "Alle Ihre Einstellungen (einschließlich der Liste der zensierten Wörter und der hinzugefügten Themen) werden zurückgesetzt. Bist du sicher?",
+				"done": "Die Einstellungen wurden zurückgesetzt"
+			},
+			"clearUserData": {
+				"title": "Benutzerdaten löschen",
+				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, bevorzugte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
+				"done": "Die Benutzerdaten wurden gelöscht"
+			},
+			"clearYouTubeCache": {
+				"title": "YouTube-Cache leeren"
+			},
+			"export": {
+				"title": "Sichern Sie Einstellungen und Benutzerdaten"
+			},
+			"import": {
+				"title": "Stellen Sie Einstellungen und Benutzerdaten aus dem Backup wieder her",
+				"warning": "Alle Ihre aktuellen Einstellungen und Benutzerdaten werden überschrieben. Bist du sicher?",
+				"error": "Syntax-Fehler",
+				"done": "Die Einstellungen und Benutzerdaten wurden wiederhergestellt"
+			},
+			"merge": {
+				"title": "Fügen Sie Benutzerdaten aus dem Backup hinzu",
+				"description": "Verlieren Sie Ihren Verlauf nicht mehr, wenn Sie von der Arbeit nach Hause kommen - bringen Sie einfach ein «Backup der Einstellungen und Benutzerdaten» mit und fügen Sie es zu Hause hinzu: Auf diese Weise gehen keine historischen Daten verloren.",
+				"done": "Benutzerdaten wurden hinzugefügt"
+			}
+		}
+	},
+	"loadingBoardsError": "Couldn't load boards list",
+	"loadingThreadsError": "Couldn't load threads list",
+	"loadingCommentsError": "Couldn't load thread comments",
+	"comment": {
+		"default": "Kommentar",
+		"deleted": "Kommentar gelöscht",
+		"hidden": "Versteckter Kommentar",
+		"external": "Kommentar von einem anderen Thread"
+	},
+	"post": {
+		"rolling": "Rolling Thread",
+		"bumpLimitReached": "Der Faden hat seine Erhebungsgrenze erreicht und geht nach unten",
+		"threadAuthor": "Autor des Threads",
+		"attachmentsCount": "Anhänge",
+		"uniquePostersCount": "Eindeutige Poster-IP-Adressen",
+		"moreActions": {
+			"copyUrl": "Link kopieren",
+			"report": "Bericht",
+			"hide": "Ausblenden",
+			"ignoreAuthor": "Autor ignorieren"
+		}
+	},
+	"role": {
+		"board": {
+			"administrator": "Board administrator",
+			"moderator": "Board moderator"
+		}
+	},
+	"copyright": {
+		"captchan": "captchan",
+		"postCaptchan": " imageboard client",
+		"preAuthor": " by "
+	},
+	"country": {
+		"anonymous": "Anonym"
+	},
+	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
+	"backToPreviouslyViewedComment": "Rückkehr",
+	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
+	"noNewComments": "Keine neuen Kommentare",
+	"newComments": "Neue Kommentare",
+	"lastComment": "Letzter Kommentar",
+	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen."
+}

@@ -142,7 +142,7 @@
 	},
 	"notImplemented": "This feature hasn't been implemented yet",
 	"backToPreviouslyViewedComment": "Return",
-	"nMoreComments": "{count, plural, one {# more comment} other {# more comments}}",
+	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
 	"noNewComments": "No new comments",
 	"newComments": "New comments",
 	"lastComment": "Last comment",

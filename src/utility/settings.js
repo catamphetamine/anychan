@@ -1,5 +1,6 @@
-import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
+import IGNORED_WORDS_DE from 'webapp-frontend/src/messages/offensive.de.json'
 import IGNORED_WORDS_EN from 'webapp-frontend/src/messages/offensive.en.json'
+import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
 
 import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 import { applyDarkMode, autoDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
@@ -76,6 +77,8 @@ class Settings {
 
 export function getCensoredWordsByLanguage(language) {
 	switch (language) {
+		case 'de':
+			return IGNORED_WORDS_DE
 		case 'en':
 			return IGNORED_WORDS_EN
 		case 'ru':

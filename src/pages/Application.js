@@ -32,6 +32,7 @@ import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 
 import '@formatjs/intl-pluralrules/polyfill'
+import '@formatjs/intl-pluralrules/dist/locale-data/de'
 import '@formatjs/intl-pluralrules/dist/locale-data/en'
 import '@formatjs/intl-pluralrules/dist/locale-data/ru'
 
