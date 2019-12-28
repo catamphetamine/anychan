@@ -1,8 +1,17 @@
 @import "../styles/common";
 
+:root {
+	--BoardOrThreadMenu-marginTop: 0px;
+	@mixin upto-m {
+		--BoardOrThreadMenu-marginTop: calc(var(--unit) * 0.5);
+	}
+}
+
 .board-or-thread-menu {
 	display: flex;
 	justify-content: flex-end;
+	margin-top: var(--BoardOrThreadMenu-marginTop);
+	margin-bottom: var(--BoardOrThreadMenu-marginTop);
 	/*padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
 	/*padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
 	padding-left: calc(var(--PageContent-padding) + var(--Post-padding--horizontal));
@@ -11,8 +20,4 @@
 	--MenuIcon-width: calc(var(--unit) * 1.25);
 	--Menu-color--selected: var(--ThreadActions-color--selected);
 	--Menu-color--active: var(--ThreadActions-color--active);
-	@mixin upto-m {
-		margin-top: calc(var(--unit) * 0.5);
-		margin-bottom: calc(var(--unit) * 0.5);
-	}
 }

@@ -148,6 +148,9 @@
 		display: none;
 	}
 	.thread-page__header {
+		margin-bottom: calc(var(--BoardOrThreadMenu-marginTop) - var(--Comment-marginTop--boardPage));
+	}
+	.thread-page__header {
 		display: flex;
 		justify-content: space-between;
 		padding-left: var(--Post-padding--horizontal);
@@ -173,7 +176,7 @@
 		/* Something connected to margins on `.ShowPrevious`. */
 		margin-top: calc(var(--unit) * 0.25);
 		/* `margin-bottom` is set to be equal to `margin-top`. */
-		margin-bottom: calc(var(--unit) * 0.25);
+		margin-bottom: calc(var(--unit) * 0.25 - var(--Comment-marginTop));
 	}
 	.thread-page {
 		.ShowPrevious {
