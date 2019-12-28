@@ -11,7 +11,7 @@
 
 	--Header-height: calc(var(--unit) * 3);
 
-	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) * 2);
+	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) / 2);
 	/*--PageContent-padding: calc(var(--unit) * 2);*/
 	--PageContent-padding: var(--unit);
 

@@ -7,11 +7,6 @@
 
 .board-page__header {
 	display: block;
-	@mixin m-plus {
-		.page__heading {
-			display: none;
-		}
-	}
 	@mixin upto-s {
 		/* `position: relative` is for <ThreadMenu/> on small screens. */
 		position: relative;
@@ -22,22 +17,33 @@
 			margin: 0;
 			transform: translateY(-50%);
 		}
+		.page__heading {
+			margin-bottom: calc(var(--PageHeading-marginTop) - var(--Comment-marginTop--boardPage));
+		}
+	}
+	@mixin m-plus {
+		.page__heading {
+			display: none;
+		}
 	}
 }
 
 .board-page__threads {
 	@mixin l-plus {
-		/*margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);*/
+		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
 	}
 }
 
 /* This CSS class is also used for `.thread-page__stats`. */
-.board-menu--above {
+.board-menu {
+	@mixin upto-m {
+		margin-bottom: calc(-1 * var(--unit));
+	}
 	@mixin l-plus {
 		position: absolute;
 		right: 0;
 		/*top: calc(-1 * var(--BoardOrThreadPage-marginTop--largeScreen) + (var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);*/
-		top: calc((var(--Comment-marginTop--boardPage) - var(--MenuIcon-width)) / 2);
+		top: calc((var(--Comment-marginTop--boardPage) - var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
 	}
 }
 

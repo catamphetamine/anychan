@@ -65,7 +65,7 @@ function BoardPage() {
 					locale={locale}
 					isSearchBarShown={isSearchBarShown}
 					setSearchBarShown={setSearchBarShown}
-					className="board-menu--above"/>
+					className="board-menu"/>
 			</div>
 			{getChan().id === '2ch' && board.id === 'd' &&
 				<p className="board-page__api-bug-note">
