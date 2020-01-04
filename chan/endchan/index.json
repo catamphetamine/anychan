@@ -5,11 +5,11 @@
 	"links": [{
 		"type": "faq",
 		"text": "FAQ",
-		"url": "https://endchan.xyz/.static/faq.html"
+		"url": "https://endchan.net/.static/faq.html"
 	}, {
 		"type": "help",
 		"text": "Help",
-		"url": "https://endchan.xyz/.static/posting.html"
+		"url": "https://endchan.net/.static/posting.html"
 	}, {
 		"type": "irc",
 		"text": "IRC",
