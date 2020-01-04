@@ -118,7 +118,9 @@ export default function Header({ post, locale }) {
 						<span className={classNames('post__author-role', {
 							'post__author-role--supplementary': post.authorId || authorName
 						})}>
-							{authorRoleName.toLowerCase()}
+							{/* Not using `authorRoleName.toLowerCase()` here because
+								  in German nouns are supposed to start with a capital letter. */}
+							{authorRoleName}
 						</span>
 						{' '}
 					</React.Fragment>
@@ -287,7 +289,7 @@ function CountryFlag_({ country, name }) {
 		return (
 			<AnonymousCountryIcon
 				title={name}
-				className="country-flag--anonymous"/>
+				className="CountryFlag--anonymous"/>
 		)
 	}
 	return (
