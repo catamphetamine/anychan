@@ -101,8 +101,9 @@
 }
 
 .board-page__threads {
+	/* Thread cards are clickable, and comment margin shouldn't be. */
 	.thread-comment__margin {
-		height: var(--Comment-marginTop--boardPage);
+		margin-top: var(--Comment-marginTop--boardPage);
 	}
 }
 

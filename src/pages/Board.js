@@ -83,7 +83,7 @@ function BoardPage() {
 				items={threads}
 				itemComponent={CommentComponent}
 				itemComponentProps={itemComponentProps}
-				className="board-page__threads"/>
+				className="board-page__threads no-margin-collapse"/>
 		</section>
 	)
 }
