@@ -10,6 +10,8 @@ export default function setThreadInfo(thread, { mode, votes }) {
 	thread.comments[0].uniquePostersCount = thread.uniquePostersCount
 	// `isRootComment` is used for showing full-size attachment thumbnail
 	// on main thread posts on `4chan.org`.
+	// Also it used in `./ThreadCommentHeader` to not show "original poster" badge
+	// on the opening post of a thread.
 	thread.comments[0].isRootComment = true
 	// `isBumpLimitReached`, `isSticky` and others are used for post header badges.
 	thread.comments[0].isBumpLimitReached = thread.isBumpLimitReached

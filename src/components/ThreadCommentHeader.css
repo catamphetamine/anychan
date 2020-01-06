@@ -12,6 +12,10 @@
 	margin-bottom: 0.1em;
 }
 
+.post__author-icon-container--color {
+	margin-bottom: 0;
+}
+
 .post__author-icon {
 	width: 100%;
 	height: 100%;
@@ -43,6 +47,11 @@
 	font-weight: 300;
   /*display: flex;*/
   /*align-items: center;*/
+}
+
+.post__author-id {
+	font-weight: normal;
+	font-family: monospace;
 }
 
 .post__author-icon,

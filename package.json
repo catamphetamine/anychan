@@ -20,7 +20,7 @@
     "fast-memoize": "^2.5.1",
     "file-saver": "^2.0.2",
     "filesize": "^4.0.0",
-    "imageboard": "^0.4.5",
+    "imageboard": "^0.4.6",
     "intl-messageformat": "^7.7.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",

@@ -29,16 +29,14 @@ import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
 import './ThreadCommentHeader.css'
 
 export default function Header({ post, locale }) {
-	const isThreadAuthorId = post.threadHasAuthorIds && post.isThreadAuthor
-	const authorIconIsOriginalPoster = isThreadAuthorId
+	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.isThreadAuthor && !post.isRootComment
 	let authorName = post.authorName
-	if (isThreadAuthorId && !authorName) {
+	if (showThreadAuthorLabelAsAuthorId && !authorName) {
 		authorName = getMessages(locale).post.threadAuthor
 	}
 	// On `2ch.hk` original poster's posts don't have `authorId`.
-	const authorNameIsId = post.authorIdName || isThreadAuthorId
-	// On `2ch.hk` original poster's posts don't have `authorId`.
-	if (!hasAuthor(post) && !isThreadAuthorId) {
+	const authorNameIsId = post.authorNameIsId || showThreadAuthorLabelAsAuthorId
+	if (!hasAuthor(post) && !showThreadAuthorLabelAsAuthorId) {
 		return null
 	}
 	// Testing.
@@ -58,8 +56,10 @@ export default function Header({ post, locale }) {
 				// 	'post__author--generic': !post.authorRole
 				// }
 			)}>
-			<div className="post__author-icon-container">
-				{authorIconIsOriginalPoster &&
+			<div className={classNames('post__author-icon-container', {
+				'post__author-icon-container--color': !showThreadAuthorLabelAsAuthorId && shouldShowAuthorId(post)
+			})}>
+				{showThreadAuthorLabelAsAuthorId &&
 					<span title={getMessages(locale).post.threadAuthor}>
 						<AnonymousPersonIcon
 							className={classNames('post__author-icon', 'post__author-icon--outline', 'post__author-icon--thread-author', {
@@ -67,30 +67,46 @@ export default function Header({ post, locale }) {
 							})}/>
 					</span>
 				}
-				{!authorIconIsOriginalPoster &&
-					<PersonIcon
-						className={classNames('post__author-icon', {
-							'post__author-icon--outline': post.authorIdColor,
-							'post__author-icon--role': post.authorRole
-						})}/>
-				}
-				{!authorIconIsOriginalPoster && post.authorIdColor &&
-					<PersonIconBottomBorder
-						className={classNames('post__author-icon', {
-							'post__author-icon--outline': post.authorIdColor,
-							'post__author-icon--role': post.authorRole
-						})}/>
-				}
-				{!authorIconIsOriginalPoster && post.authorIdColor &&
-					<PersonFillIcon
-						className="post__author-icon"
-						style={{
-							color: post.authorIdColor
-						}}/>
+				{!showThreadAuthorLabelAsAuthorId &&
+					<React.Fragment>
+						{shouldShowAuthorId(post) &&
+							<div
+								className="post__author-icon post__author-icon--color"
+								style={{
+									backgroundColor: post.authorIdColor
+								}}/>
+						}
+						{!shouldShowAuthorId(post) &&
+							<PersonIcon
+								className={classNames('post__author-icon', {
+									// 'post__author-icon--outline': post.authorIdColor,
+									'post__author-icon--role': post.authorRole
+								})}/>
+						}
+							{/* Coloring the person icon turned out to not work well-enough:
+							    the icon is small and colors aren't discernible enough.
+							    Instead, a colored square is drawn instead of a colored person icon:
+							    this way it's bigger in side and colors are more discernible
+							    when scrolling through a thread. */}
+							{/*post.authorIdColor &&
+								<React.Fragment>
+									<PersonIconBottomBorder
+										className={classNames('post__author-icon', {
+											'post__author-icon--outline': post.authorIdColor,
+											'post__author-icon--role': post.authorRole
+										})}/>
+									<PersonFillIcon
+										className="post__author-icon"
+										style={{
+											color: post.authorIdColor
+										}}/>
+								</React.Fragment>
+							*/}
+					</React.Fragment>
 				}
 			</div>
 			<div className="post__author-info">
-				{post.authorId && !authorNameIsId &&
+				{shouldShowAuthorId(post) && !authorNameIsId &&
 					<span className="post__author-id">
 						{post.authorId}
 						{' '}
@@ -116,7 +132,7 @@ export default function Header({ post, locale }) {
 				{post.authorRole &&
 					<React.Fragment>
 						<span className={classNames('post__author-role', {
-							'post__author-role--supplementary': post.authorId || authorName
+							'post__author-role--supplementary': shouldShowAuthorId(post) || authorName
 						})}>
 							{/* Not using `authorRoleName.toLowerCase()` here because
 								  in German nouns are supposed to start with a capital letter. */}
@@ -204,7 +220,7 @@ export const HEADER_BADGES = [
 		title: (post, locale) => getMessages(locale).post.threadAuthor,
 		// If there are author IDs in the thread then "Original poster" is
 		// gonna be the post author name instead of being a badge.
-		condition: post => post.mode === 'thread' && post.isThreadAuthor && !post.threadHasAuthorIds
+		condition: post => post.mode === 'thread' && post.isThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
 	},
 	{
 		name: 'country',
@@ -341,5 +357,13 @@ function PersonIconBottomBorder(props) {
 }
 
 export function hasAuthor(post) {
-	return post.authorId || post.authorName || post.authorEmail || post.authorRole || post.authorTripCode
+	return shouldShowAuthorId(post) ||
+		post.authorName ||
+		post.authorEmail ||
+		post.authorRole ||
+		post.authorTripCode
+}
+
+function shouldShowAuthorId(post) {
+	return post.authorId && post.mode === 'thread'
 }
