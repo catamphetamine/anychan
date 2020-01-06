@@ -94,7 +94,7 @@
 		"Прочие"
 	],
 	"proxy": {
-		"aws": true
+		"aws": false
 	},
 	"errorPages": {
 		"404": {
