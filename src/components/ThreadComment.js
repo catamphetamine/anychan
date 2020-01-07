@@ -207,7 +207,12 @@ export default function ThreadComment({
 			})}/>
 	)
 
-	const id = parentComment ? undefined : comment.id
+	// `id` HTML attribute is intentionally "#comment-{commentId}"
+	// and not "#{commentId}" as in "post-link"s, because otherwise
+	// when navigating "post-link"s a web browser would scroll down
+	// to the comment, and besides that the floating header would
+	// obstruct the top of the comment.
+	const id = parentComment ? undefined : 'comment-' + comment.id
 
 	// Not using a `<Link/>` here because "<a> cannot appear as a descendant of <a>".
 	// if (!onClick_ && onClickUrl) {
@@ -256,7 +261,6 @@ export default function ThreadComment({
 
 ThreadComment.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']),
-	getUrl: PropTypes.func.isRequired,
 	onClick: PropTypes.func,
 	onClickUrl: PropTypes.string,
 	board: PropTypes.shape({
@@ -336,9 +340,7 @@ function Comment({
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
 				onClick: () => {
-					// Copy the original (non-captchan) comment URL for now.
-					// (until `captchan` has set of the basic features)
-					copyTextToClipboard(getCommentUrl(board, thread, comment))
+					copyTextToClipboard((getBasePath() || '') + getUrl(board, thread, comment))
 				}
 			},
 			{

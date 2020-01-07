@@ -48,7 +48,7 @@ export function addChanParameter(url) {
 	}
 	url = new URL(url)
 	url.searchParams.set('chan', getChanId())
-	url = url.href
+	url = decodeURI(url.href)
 	if (!isAbsoluteUrl) {
 		url = url.slice('http://example.com'.length)
 	}

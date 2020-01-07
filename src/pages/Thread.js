@@ -46,7 +46,9 @@ import SinkingBoatIcon from '../../assets/images/icons/sinking-boat.svg'
 
 import './Thread.css'
 
-function ThreadPage() {
+function ThreadPage({
+	match
+}) {
 	const board = useSelector(({ chan }) => chan.board)
 	const thread = useSelector(({ chan }) => chan.thread)
 	const locale = useSelector(({ settings }) => settings.settings.locale)
@@ -81,7 +83,7 @@ function ThreadPage() {
 	}, [thread, dispatch])
 	// Using `useMemo()` here to avoid reading from `localStorage` on each render.
 	// Maybe it's not required, but just in case.
-	const _initialFromIndex = useMemo(() => getFromIndex(board, thread), [board, thread])
+	const _initialFromIndex = useMemo(() => getFromIndex(board, thread, match.location), [board, thread, location])
 	const initialFromIndex = wasInstantNavigation() && restoredVirtualScrollerState ? restoredVirtualScrollerState.fromIndex : _initialFromIndex
 	// `setFromIndex()` shouldn't be called directly.
 	// Instead, it should be called via `onSetFromIndex()`.
@@ -419,6 +421,14 @@ function ThreadPage() {
 	)
 }
 
+ThreadPage.propTypes = {
+	match: PropTypes.shape({
+		location: PropTypes.shape({
+			hash: PropTypes.string
+		}).isRequired
+	}).isRequired
+}
+
 ThreadPage.meta = ({ chan: { board, thread }}) => ({
 	title: thread && thread.title || board && board.title,
 	description: thread && thread.comments[0].textPreview,
@@ -481,7 +491,16 @@ CommentComponent.propTypes = {
 	children: PropTypes.object.isRequired
 }
 
-function getFromIndex(board, thread) {
+function getFromIndex(board, thread, location) {
+	if (location.hash) {
+		const commentId = parseInt(location.hash.slice('#'.length))
+		if (!isNaN(commentId)) {
+			const commentIndex = thread.comments.findIndex(_ => _.id === commentId)
+			if (commentIndex >= 0) {
+				return commentIndex
+			}
+		}
+	}
 	const latestReadCommentInfo = UserData.getLatestReadComments(board.id, thread.id)
 	if (latestReadCommentInfo) {
 		const { id: latestReadCommentId } = latestReadCommentInfo
@@ -513,10 +532,17 @@ LeftArrowThick.propTypes = {
 // This is a workaround for cases when `found` doesn't remount
 // page component when navigating to the same route.
 // https://github.com/4Catalyzer/found/issues/639
-export default function ThreadPageWrapper() {
+export default function ThreadPageWrapper({ match }) {
 	const board = useSelector(({ chan }) => chan.board)
 	const thread = useSelector(({ chan }) => chan.thread)
-	return <ThreadPage key={`${board.id}/${thread.id}`}/>
+	return <ThreadPage key={`${board.id}/${thread.id}`} match={match}/>
 }
 ThreadPageWrapper.meta = ThreadPage.meta
 ThreadPageWrapper.load = ThreadPage.load
+ThreadPageWrapper.propTypes = {
+	match: PropTypes.shape({
+		location: PropTypes.shape({
+			hash: PropTypes.string
+		}).isRequired
+	}).isRequired
+}
