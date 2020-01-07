@@ -107,6 +107,7 @@
 	"loadingBoardsError": "Не удалось загрузить список досок",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
+	"thread": "Тред",
 	"comment": {
 		"default": "Комментарий",
 		"deleted": "Удалённый комментарий",

@@ -107,6 +107,7 @@
 	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
+	"thread": "Thread",
 	"comment": {
 		"default": "Comment",
 		"deleted": "Deleted comment",
