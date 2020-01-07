@@ -1,13 +1,13 @@
 @import "../styles/common";
 
-/* Removing `PostQuoteMarker` turned out to reduce the overall readability of page content. */
+/* Removing `PostQuoteBlockMarker` turned out to reduce the overall readability of page content. */
 /*
 :root {
-	--PostQuoteMarker-width: 1px;
-	--PostQuoteMarker-opacity: 1;
-	--PostQuoteMarker-opacity--generated: 1;
-	--PostQuoteMarker-color: var(--PostQuote-borderColor);
-	--PostQuoteMarker-color--generated: var(--PostQuote-borderColor--generated);
+	--PostQuoteBlockMarker-width: 1px;
+	--PostQuoteBlockMarker-opacity: 1;
+	--PostQuoteBlockMarker-opacity--generated: 1;
+	--PostQuoteBlockMarker-color: var(--PostQuoteBlock-borderColor);
+	--PostQuoteBlockMarker-color--generated: var(--PostQuoteBlock-borderColor--generated);
 }
 */
 
@@ -88,7 +88,7 @@
 
 @mixin m-plus {
 	:root {
-		--PostQuote-borderWidth--right: 1px;
+		--PostQuoteBlock-borderWidth--right: 1px;
 	}
 }
 
@@ -144,14 +144,14 @@
 	/*}*/
 
 	.thread-comment--thumbnail {
-		/* PostQuote. */
-		--PostQuote-paddingLeft: var(--PostQuote-paddingLeft--thumbnail);
-		--PostQuote-paddingRight: var(--PostQuote-paddingLeft);
-		--PostQuote-marginRight: var(--PostQuote-paddingLeft);
+		/* PostQuoteBlock. */
+		--PostQuoteBlock-paddingLeft: var(--PostQuoteBlock-paddingLeft--thumbnail);
+		--PostQuoteBlock-paddingRight: var(--PostQuoteBlock-paddingLeft);
+		--PostQuoteBlock-marginRight: var(--PostQuoteBlock-paddingLeft);
 		/* PostCode. */
-		--PostCode-paddingLeft: var(--PostQuote-paddingLeft);
-		--PostCode-paddingRight: var(--PostQuote-paddingRight);
-		--PostCode-marginRight: var(--PostQuote-marginRight);
+		--PostCode-paddingLeft: var(--PostQuoteBlock-paddingLeft);
+		--PostCode-paddingRight: var(--PostQuoteBlock-paddingRight);
+		--PostCode-marginRight: var(--PostQuoteBlock-marginRight);
 		display: flex;
 	}
 
@@ -183,7 +183,7 @@
 	}
 
 	.thread-comment--thread {
-		padding-left: calc(var(--Post-padding--horizontal) + var(--PostQuote-paddingLeft));
+		padding-left: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft));
 	}
 
 	/* On thread page:
@@ -194,8 +194,8 @@
 	*/
 	.thread-page__comments {
 		.thread-comment--has-no-thumbnail:not(.comment-tree__comment--nested):not(.comment-tree__comment--expanded) {
-			/*margin-left: calc(var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) - var(--PostQuote-paddingLeft));*/
-			/*margin-left: calc(var(--PostThumbnailContainer-width) - var(--PostQuote-paddingLeft));*/
+			/*margin-left: calc(var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) - var(--PostQuoteBlock-paddingLeft));*/
+			/*margin-left: calc(var(--PostThumbnailContainer-width) - var(--PostQuoteBlock-paddingLeft));*/
 			margin-left: calc(var(--PostThumbnailContainer-width));
 			/* Without `max-width` a comment could become overflown
 			   by a `<pre/>` code block. */
@@ -203,9 +203,9 @@
 			.thread-comment__thumbnail {
 				display: none;
 				/*
-				width: var(--PostQuote-paddingLeft);
-				max-width: var(--PostQuote-paddingLeft);
-				min-width: var(--PostQuote-paddingLeft);
+				width: var(--PostQuoteBlock-paddingLeft);
+				max-width: var(--PostQuoteBlock-paddingLeft);
+				min-width: var(--PostQuoteBlock-paddingLeft);
 				padding: 0;
 				*/
 			}
@@ -215,12 +215,12 @@
 		}
 
 		.thread-comment--has-thumbnail:not(.comment-tree__comment--nested):not(.comment-tree__comment--expanded) {
-			/*margin-left: calc(-1 * var(--PostQuote-paddingLeft) + (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width) - var(--PostQuote-paddingLeft)));*/
+			/*margin-left: calc(-1 * var(--PostQuoteBlock-paddingLeft) + (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width) - var(--PostQuoteBlock-paddingLeft)));*/
 			margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
 			.thread-comment__thumbnail {
-				/*margin-left: var(--PostQuote-paddingLeft);*/
-				/*width: calc(var(--PostQuote-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
-				/*min-width: calc(var(--PostQuote-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
+				/*margin-left: var(--PostQuoteBlock-paddingLeft);*/
+				/*width: calc(var(--PostQuoteBlock-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
+				/*min-width: calc(var(--PostQuoteBlock-paddingLeft) + var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));*/
 				/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
 				width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
 				min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
@@ -296,7 +296,7 @@
 
 	.comment-tree__comment--nested {
 		.post__quote-block {
-			--PostQuote-marginLeft: 0px;
+			--PostQuoteBlock-marginLeft: 0px;
 		}
 	}
 }
@@ -336,17 +336,17 @@
 /* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
     have regular quotes and "inverse" quotes. */
 /* `8ch.net` "inverse" quotes are red. */
-.post__inline-quote--inverse {
-	--PostQuote-marginTop: var(--PostQuote-marginTop--inverse);
-	--PostQuote-color: var(--PostQuote-color--inverse);
-	--PostQuote-backgroundColor: var(--PostQuote-backgroundColor--inverse);
-	--PostQuote-borderWidth: var(--PostQuote-borderWidth--inverse);
-	--PostQuote-borderColor: var(--PostQuote-borderColor--inverse);
+.post__quote-block--inverse {
+	--PostQuoteBlock-marginTop: var(--PostQuoteBlock-marginTop--inverse);
+	--PostQuoteBlock-color: var(--PostQuoteBlock-color--inverse);
+	--PostQuoteBlock-backgroundColor: var(--PostQuoteBlock-backgroundColor--inverse);
+	--PostQuoteBlock-borderWidth: var(--PostQuoteBlock-borderWidth--inverse);
+	--PostQuoteBlock-borderColor: var(--PostQuoteBlock-borderColor--inverse);
 	.post__quote-marker {
-		--PostQuoteMarker-color: var(--PostQuoteMarker-color--inverse);
-		--PostQuoteMarker-width: var(--PostQuoteMarker-width--inverse);
-		--PostQuoteMarker-padding: var(--PostQuoteMarker-padding--inverse);
-		--PostQuoteMarker-opacity: var(--PostQuoteMarker-opacity--inverse);
+		--PostQuoteBlockMarker-color: var(--PostQuoteBlockMarker-color--inverse);
+		--PostQuoteBlockMarker-width: var(--PostQuoteBlockMarker-width--inverse);
+		--PostQuoteBlockMarker-padding: var(--PostQuoteBlockMarker-padding--inverse);
+		--PostQuoteBlockMarker-opacity: var(--PostQuoteBlockMarker-opacity--inverse);
 	}
 }
 

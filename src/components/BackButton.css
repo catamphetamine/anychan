@@ -31,7 +31,7 @@
 		--BackButtonIcon-padding: var(--unit);
 		display: block;
 		position: relative;
-		width: calc(100% + var(--Post-padding--horizontal) - var(--unit) - var(--PostQuote-paddingLeft));
+		width: calc(100% + var(--Post-padding--horizontal) - var(--unit) - var(--PostQuoteBlock-paddingLeft));
 		min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));
 		height: 100%;
 		z-index: var(--Header-zIndex--below);

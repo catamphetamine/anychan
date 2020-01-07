@@ -46,7 +46,7 @@
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	/*--Sidebar-backgroundColor--collapsible: var(--Sidebar-backgroundColor);*/
 	--Sidebar-borderColor: var(--Header-borderColor);
-	--Sidebar-color--accent: var(--PostQuote-color);
+	--Sidebar-color--accent: var(--PostQuoteBlock-color);
 	/*--Sidebar-highlightColor-100--collapsible: var(--Sidebar-highlightColor-100);*/
 	/*--Sidebar-highlightColor-200--collapsible: var(--Sidebar-highlightColor-200);*/
 
@@ -102,27 +102,27 @@
 	/* PostThumbnail. */
 	/* Default thumnail size. Will be overridden on `<body/>` after parsing chan response. */
 	--PostThumbnail-maxWidth: 220px;
-	--PostQuote-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) / 2);
-	--PostThumbnail-marginRight: calc(var(--Post-padding--horizontal) + var(--PostQuote-paddingLeft--thumbnail));
+	--PostQuoteBlock-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) / 2);
+	--PostThumbnail-marginRight: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft--thumbnail));
 
-	/* PostQuote (inverse). */
-	--PostQuote-color--inverse: var(--PostQuote-color);
-	--PostQuote-backgroundColor--inverse: var(--PostQuote-backgroundColor);
-	--PostQuote-backgroundColor--inverse--hover: var(--PostQuote-backgroundColor--inverse);
-	--PostQuote-borderWidth--inverse: var(--PostQuote-borderWidth);
-	--PostQuote-marginTop--inverse: var(--PostQuote-marginTop);
+	/* PostQuoteBlock (inverse). */
+	--PostQuoteBlock-color--inverse: var(--PostQuoteBlock-color);
+	--PostQuoteBlock-backgroundColor--inverse: var(--PostQuoteBlock-backgroundColor);
+	--PostQuoteBlock-backgroundColor--inverse--hover: var(--PostQuoteBlock-backgroundColor--inverse);
+	--PostQuoteBlock-borderWidth--inverse: var(--PostQuoteBlock-borderWidth);
+	--PostQuoteBlock-marginTop--inverse: var(--PostQuoteBlock-marginTop);
 
 	@mixin upto-xs {
-		/* Thinner PostQuoteMarker on mobile devices. */
-		--PostQuoteMarker-width: 1px;
+		/* Thinner PostQuoteBlockMarker on mobile devices. */
+		--PostQuoteBlockMarker-width: 1px;
 	}
 
-	/* PostQuoteMarker (inverse). */
-	--PostQuoteMarker-color--inverse: var(--PostQuoteMarker-color);
-	--PostQuoteMarker-opacity--inverse: var(--PostQuoteMarker-opacity);
-	--PostQuoteMarker-width--inverse: var(--PostQuoteMarker-width);
-	--PostQuoteMarker-padding--inverse: var(--PostQuoteMarker-padding--standalone);
-	--PostQuoteMarker-color--inverse: currentColor;
+	/* PostQuoteBlockMarker (inverse). */
+	--PostQuoteBlockMarker-color--inverse: var(--PostQuoteBlockMarker-color);
+	--PostQuoteBlockMarker-opacity--inverse: var(--PostQuoteBlockMarker-opacity);
+	--PostQuoteBlockMarker-width--inverse: var(--PostQuoteBlockMarker-width);
+	--PostQuoteBlockMarker-padding--inverse: var(--PostQuoteBlockMarker-padding--standalone);
+	--PostQuoteBlockMarker-color--inverse: currentColor;
 
 	/* PostAuthor. */
 	--PostAuthor-color: var(--Content-color-600);
@@ -181,16 +181,16 @@
 	/* PostSubheading. */
 	--PostSubheading-color: #af0000;
 
-	/* PostQuote (inverse). */
+	/* PostQuoteBlock (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
-	--PostQuote-color--inverse: #950000;
-	--PostQuote-backgroundColor--inverse: #ffecec;
-	--PostQuote-borderWidth--inverse: 1px;
-	--PostQuote-borderColor--inverse: #ffd2d2;
+	--PostQuoteBlock-color--inverse: #950000;
+	--PostQuoteBlock-backgroundColor--inverse: #ffecec;
+	--PostQuoteBlock-borderWidth--inverse: 1px;
+	--PostQuoteBlock-borderColor--inverse: #ffd2d2;
 
-	/* PostQuoteMarker (inverse). */
-	--PostQuoteMarker-padding--inverse: 0px;
+	/* PostQuoteBlockMarker (inverse). */
+	--PostQuoteBlockMarker-padding--inverse: 0px;
 
 	/* CommentSeparator. */
 	/*--CommentSeparator-color: rgba(0,0,0,0.1);*/
@@ -252,10 +252,10 @@
 	--PostAuthor-color--administrator: #c44876;
 	--PostAuthor-color--moderator: #57add1;
 
-	/* PostQuote (inverse). */
+	/* PostQuoteBlock (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
-	--PostQuote-color--inverse: #dc5e5e;
+	--PostQuoteBlock-color--inverse: #dc5e5e;
 
 	/* PostSubheading. */
 	--PostSubheading-color: #cf5858;

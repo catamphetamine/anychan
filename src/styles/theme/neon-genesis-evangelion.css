@@ -93,7 +93,7 @@
 	/* HoverButton. */
 	--HoverButton-color: #8f799c;
 	--HoverButton-color--active: #815d0c;
-	--HoverButton-color--pushed: var(--PostQuote-color);
+	--HoverButton-color--pushed: var(--PostQuoteBlock-color);
 	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
 	--HoverButton-borderColor: var(--Boards-color--slash);
 	--HoverButton-borderColor--active: #d9a26d;
@@ -102,33 +102,33 @@
 	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--active);
 	--HoverButton-backgroundColor: var(--Sidebar-backgroundColor);
 	--HoverButton-backgroundColor--active: var(--base-color-300);
-	--HoverButton-backgroundColor--pushed: var(--PostQuote-backgroundColor);
+	--HoverButton-backgroundColor--pushed: var(--PostQuoteBlock-backgroundColor);
 
 	/* Post. */
 	--Post-color--secondary: var(--gray-color-700);
 	--Post-color--secondaryThread: var(--gray-color-600);
 
-	/* PostQuote. */
-	--PostQuote-color: #1f6900;
-	--PostQuote-backgroundColor: #dfffcb;
-	--PostQuote-borderWidth: 1px;
-	--PostQuote-borderColor: #c6f9a6;
-	--PostQuote-marginTop: 4px;
+	/* PostQuoteBlock. */
+	--PostQuoteBlock-color: #1f6900;
+	--PostQuoteBlock-backgroundColor: #dfffcb;
+	--PostQuoteBlock-borderWidth: 1px;
+	--PostQuoteBlock-borderColor: #c6f9a6;
+	--PostQuoteBlock-marginTop: 4px;
 
-	/* PostQuote (generated). */
-	--PostQuote-color--generated: #900000;
-	--PostQuote-backgroundColor--generated: #fff8fe;
-	--PostQuote-borderWidth--generated: 1px;
-	--PostQuote-borderColor--generated: #ffd9f1;
-	--PostQuote-marginTop--generated: 4px;
+	/* PostQuoteBlock (generated). */
+	--PostQuoteBlock-color--generated: #900000;
+	--PostQuoteBlock-backgroundColor--generated: #fff8fe;
+	--PostQuoteBlock-borderWidth--generated: 1px;
+	--PostQuoteBlock-borderColor--generated: #ffd9f1;
+	--PostQuoteBlock-marginTop--generated: 4px;
 
-	/* PostQuoteMarker. */
-	--PostQuoteMarker-color: currentColor;
-	--PostQuoteMarker-opacity: 0.25;
+	/* PostQuoteBlockMarker. */
+	--PostQuoteBlockMarker-color: currentColor;
+	--PostQuoteBlockMarker-opacity: 0.25;
 
-	/* PostQuoteMarker (generated). */
-	--PostQuoteMarker-color--generated: #e6b2b2;
-	--PostQuoteMarker-opacity--generated: 1;
+	/* PostQuoteBlockMarker (generated). */
+	--PostQuoteBlockMarker-color--generated: #e6b2b2;
+	--PostQuoteBlockMarker-opacity--generated: 1;
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color--contentActive: #f2eaed;
@@ -194,8 +194,8 @@
 	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
 	--HoverButton-borderColor--pushedFocus: var(--HoverButton-borderColor--active);
 
-	/* PostQuote. */
-	--PostQuote-color: #7ac263;
+	/* PostQuoteBlock. */
+	--PostQuoteBlock-color: #7ac263;
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color: #373965;
