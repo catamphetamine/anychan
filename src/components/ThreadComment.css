@@ -144,9 +144,14 @@
 	/*}*/
 
 	.thread-comment--thumbnail {
+		/* PostQuote. */
 		--PostQuote-paddingLeft: var(--PostQuote-paddingLeft--thumbnail);
 		--PostQuote-paddingRight: var(--PostQuote-paddingLeft);
 		--PostQuote-marginRight: var(--PostQuote-paddingLeft);
+		/* PostCode. */
+		--PostCode-paddingLeft: var(--PostQuote-paddingLeft);
+		--PostCode-paddingRight: var(--PostQuote-paddingRight);
+		--PostCode-marginRight: var(--PostQuote-marginRight);
 		display: flex;
 	}
 
@@ -192,6 +197,9 @@
 			/*margin-left: calc(var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) - var(--PostQuote-paddingLeft));*/
 			/*margin-left: calc(var(--PostThumbnailContainer-width) - var(--PostQuote-paddingLeft));*/
 			margin-left: calc(var(--PostThumbnailContainer-width));
+			/* Without `max-width` a comment could become overflown
+			   by a `<pre/>` code block. */
+			max-width: calc(100% - var(--PostThumbnailContainer-width));
 			.thread-comment__thumbnail {
 				display: none;
 				/*

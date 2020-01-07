@@ -109,8 +109,8 @@
 	--PostQuote-color--inverse: var(--PostQuote-color);
 	--PostQuote-backgroundColor--inverse: var(--PostQuote-backgroundColor);
 	--PostQuote-backgroundColor--inverse--hover: var(--PostQuote-backgroundColor--inverse);
-	--PostQuote-borderWidth--inverse: 0px;
-	--PostQuote-marginTop--inverse: 0px;
+	--PostQuote-borderWidth--inverse: var(--PostQuote-borderWidth);
+	--PostQuote-marginTop--inverse: var(--PostQuote-marginTop);
 
 	@mixin upto-xs {
 		/* Thinner PostQuoteMarker on mobile devices. */
