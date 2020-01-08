@@ -66,6 +66,10 @@
 	}
 }
 
+.BackButton--hidden {
+	visibility: hidden;
+}
+
 .BackButtonIcon {
 	width: var(--BackButtonIcon-width);
 	height: var(--BackButtonIcon-width);

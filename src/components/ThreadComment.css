@@ -182,7 +182,8 @@
 		margin-top: 0.2em;
 	}
 
-	.thread-comment--thread {
+	/* Both on board page and thread page. */
+	.thread-comment {
 		padding-left: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft));
 	}
 
