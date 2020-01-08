@@ -250,7 +250,7 @@ App.load = {
 			if (errorPageUrl) {
 				console.error(error)
 				window.location = addChanParameter(
-					`${getBasePath() || ''}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
+					`${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
 				)
 				// Don't render the page because it would throw.
 				// (the app assumes the list of boards is available).

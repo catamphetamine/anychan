@@ -8,24 +8,24 @@ Supported engines:
 
 * [4chan](https://github.com/4chan/4chan-API)
 
-	1. [4chan.org](https://www.4chan.org/) — [demo](https://catamphetamine.github.io/captchan/?chan=4chan)
+	1. [4chan.org](https://www.4chan.org/) — [demo](https://catamphetamine.github.io/captchan/4chan)
 
 * [vichan](https://github.com/vichan-devel/vichan)
 
-	1. [lainchan.org](https://lainchan.org/) — [demo](https://catamphetamine.github.io/captchan/?chan=lainchan)
+	1. [lainchan.org](https://lainchan.org/) — [demo](https://catamphetamine.github.io/captchan/lainchan)
 
 * [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity))
 
-	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://catamphetamine.github.io/captchan/?chan=8ch)
+	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://catamphetamine.github.io/captchan/8ch)
 
 * [lynxchan](https://gitgud.io/LynxChan/LynxChan)
 
-	1. [kohlchan.net](https://kohlchan.net) — [demo](https://catamphetamine.github.io/captchan/?chan=kohlchan)
-	2. [endchan.net](https://endchan.net) — [demo](https://catamphetamine.github.io/captchan/?chan=endchan)
+	1. [kohlchan.net](https://kohlchan.net) — [demo](https://catamphetamine.github.io/captchan/kohlchan)
+	2. [endchan.net](https://endchan.net) — [demo](https://catamphetamine.github.io/captchan/endchan)
 
 * [makaba](https://2ch.hk/api/)
 
-	1. [2ch.hk](https://2ch.hk/) — [demo](https://catamphetamine.github.io/captchan/?chan=2ch)
+	1. [2ch.hk](https://2ch.hk/) — [demo](https://catamphetamine.github.io/captchan/2ch)
 
 <!-- (too much DDoS protection [won't let it in](https://github.com/OpenIB/OpenIB/issues/302)) -->
 <!-- , [`arisuchan.jp` demo](https://catamphetamine.github.io/captchan/?chan=arisuchan). -->

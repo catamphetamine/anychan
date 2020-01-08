@@ -16,9 +16,15 @@ export function getChan(id = getChanId()) {
 	throw new Error('No chan configured')
 }
 
-function getChanId() {
-	return (typeof window !== 'undefined' && window._chan) ||
+export function getChanId() {
+	return getNonDefaultChanId() ||
 		(typeof configuration.chan === 'string' && configuration.chan)
+}
+
+export function getNonDefaultChanId() {
+	if (typeof window !== 'undefined') {
+		return window._chan
+	}
 }
 
 export function setChanId(chanId) {
@@ -27,8 +33,39 @@ export function setChanId(chanId) {
 	}
 }
 
+export function shouldIncludeChanInPath() {
+	if (configuration.includeChanInPath) {
+		return true
+	}
+	if (typeof window !== 'undefined') {
+		if (window.location.hostname === 'catamphetamine.github.io' ||
+				window.location.hostname === 'localhost') {
+			return true
+		}
+	}
+}
+
+export function getChanFromPath(path) {
+	const match = path.match(/^\/([^\/]+)/)
+	if (match) {
+		const possibleChanId = match[1]
+		const chan = CHANS.find(_ => _.id === possibleChanId)
+		if (chan) {
+			return possibleChanId
+		}
+	}
+}
+
+export function addChanToPath(path, chanId) {
+	return `/${chanId}${path}`
+}
+
 // Adds `chan` URL parameter for multi-chan `gh-pages` demo.
 export function addChanParameter(url) {
+	// Chan id can be a path part rather than a URL parameter.
+	if (shouldIncludeChanInPath()) {
+		return url
+	}
 	// Custom configured chans don't have a "built-in chan id".
 	if (!getChanId()) {
 		return url

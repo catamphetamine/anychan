@@ -195,6 +195,7 @@ export default function ThreadComment({
 			toggleShowHide={toggleShowHide}
 			locale={locale}
 			url={getUrl(board, thread, comment)}
+			urlBasePath={getBasePath()}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
 			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
@@ -233,7 +234,7 @@ export default function ThreadComment({
 				id={id}
 				filter={commentOnClickFilter}
 				onClick={onClick_ ? onClick : undefined}
-				url={(getBasePath() || '') + onClickUrl}
+				url={getBasePath() + onClickUrl}
 				onClickClassName="thread-comment__container--click"
 				className="thread-comment__container">
 				{commentElement}
@@ -340,7 +341,7 @@ function Comment({
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
 				onClick: () => {
-					copyTextToClipboard((getBasePath() || '') + getUrl(board, thread, comment))
+					copyTextToClipboard(getBasePath() + getUrl(board, thread, comment))
 				}
 			},
 			{

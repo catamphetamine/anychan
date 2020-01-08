@@ -1,6 +1,39 @@
 import configuration from '../configuration'
+import { shouldIncludeChanInPath, getNonDefaultChanId, addChanToPath } from '../chan'
 
+/**
+ * Returns "base" path of the application.
+ * For example, on `catamphetamine.github.io/captchan`
+ * the "base" path is "/captchan".
+ * @return {string}
+ */
 export default function getBasePath() {
+	const basePath = _getBasePath() || ''
+	if (shouldIncludeChanInPath() && getNonDefaultChanId()) {
+		return addBasePath(addChanToPath('', getNonDefaultChanId()))
+	}
+	return basePath
+}
+
+export function addBasePath(path) {
+	const basePath = _getBasePath()
+	if (basePath) {
+		return basePath + path
+	}
+	return path
+}
+
+export function removeBasePath(path) {
+	const basePath = _getBasePath()
+	if (basePath) {
+		if (path.indexOf(basePath) === 0) {
+			return path.slice(basePath.length)
+		}
+	}
+	return path
+}
+
+function _getBasePath() {
 	if (configuration.basePath) {
 		return configuration.basePath
 	}

@@ -1,4 +1,16 @@
-import { getChanIdByDomain, setChanId, getChan } from './chan'
+import {
+	getChanIdByDomain,
+	setChanId,
+	getChan,
+	shouldIncludeChanInPath,
+	getChanFromPath,
+	addChanToPath
+} from './chan'
+
+import {
+	addBasePath,
+	removeBasePath
+} from './utility/getBasePath'
 
 export default function() {
 	// Get the chan id.
@@ -13,7 +25,21 @@ export default function() {
 		const urlParams = new URL(window.location.href).searchParams
 		// `.searchParams` still may be `undefined` here in old versions of Chrome.
 		if (urlParams) {
-			chan = urlParams.get('chan')
+			const chanParam = urlParams.get('chan')
+			chan = chanParam
+			// If chan id should be part of URL path
+			// instead of a URL parameter, then redirect.
+			if (chanParam && shouldIncludeChanInPath()) {
+				const url = new URL(window.location.href)
+				url.searchParams.delete('chan')
+				url.pathname = addBasePath(addChanToPath(removeBasePath(url.pathname), chanParam))
+				window.location = decodeURI(url.href)
+			}
+		}
+	}
+	if (!chan) {
+		if (shouldIncludeChanInPath()) {
+			chan = getChanFromPath(removeBasePath(window.location.pathname))
 		}
 	}
 	if (!chan) {
