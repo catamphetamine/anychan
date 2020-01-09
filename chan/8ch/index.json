@@ -47,19 +47,29 @@
 			"url": "https://8kun.top/bans.html"
 		},
 		{
-			"type": "search",
-			"text": "Search",
-			"url": "https://8kun.top/search.php"
+			"type": "link",
+			"text": "Create a Board",
+			"url": "https://sys.8kun.top/create.php"
 		},
 		{
-			"type": "advertise",
-			"text": "Advertise on 8kun",
-			"url": "https://8kun.top/ads.html"
+			"type": "link",
+			"text": "Manage Board",
+			"url": "https://sys.8kun.top/mod.php"
 		},
 		{
 			"type": "link",
 			"text": "Claim a Board",
 			"url": "https://8kun.top/claim.html"
+		},
+		{
+			"type": "advertise",
+			"text": "Advertise on 8kun",
+			"url": "mailto:ads@isitwetyet.net"
+		},
+		{
+			"type": "contact",
+			"text": "Contact Admin",
+			"url": "mailto:admin@isitwetyet.net"
 		},
 		{
 			"type": "twitter",
