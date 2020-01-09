@@ -58,6 +58,7 @@ export default function BoardOrThreadMenu({
 			title: isThreadTracked ? messages.trackedThreads.untrackThread : messages.trackedThreads.trackThread,
 			onClick: () => setThreadTracked(!isThreadTracked),
 			isSelected: isThreadTracked,
+			pop: true,
 			icon: StarIconOutline,
 			iconActive: StarIcon
 		},
