@@ -121,7 +121,7 @@
 	--PostQuoteBlockMarker-color--inverse: var(--PostQuoteBlockMarker-color);
 	--PostQuoteBlockMarker-opacity--inverse: var(--PostQuoteBlockMarker-opacity);
 	--PostQuoteBlockMarker-width--inverse: var(--PostQuoteBlockMarker-width);
-	--PostQuoteBlockMarker-padding--inverse: var(--PostQuoteBlockMarker-padding--standalone);
+	--PostQuoteBlockMarker-padding--inverse: var(--PostQuoteMarker-padding--standalone);
 	--PostQuoteBlockMarker-color--inverse: currentColor;
 
 	/* PostAuthor. */

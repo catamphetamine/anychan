@@ -171,12 +171,22 @@ export default function ThreadComment({
 		}
 	}, [comment, dispatch])
 
-	const onPostLinkClick = useCallback((event, { boardId, threadId, postId }) => {
-		if (boardId === board.id && threadId === thread.id) {
-			event.preventDefault()
-			scrollToComment(postId, comment.id)
+	const onPostLinkClick = useCallback((event, {
+		postWasDeleted,
+		postIsExternal,
+		boardId,
+		threadId,
+		postId
+	}) => {
+		if (!postIsExternal) {
+			if (boardId === board.id && threadId === thread.id) {
+				event.preventDefault()
+				scrollToComment(postId, comment.id)
+			}
 		}
 	}, [board, thread, comment])
+
+	const isPostLinkClickable = useCallback(({ postWasDeleted }) => !postWasDeleted, [])
 
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
@@ -198,6 +208,7 @@ export default function ThreadComment({
 			urlBasePath={getBasePath()}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
+			isPostLinkClickable={isPostLinkClickable}
 			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
 			onVote={board.hasVoting ? onVote : undefined}
 			vote={vote}
