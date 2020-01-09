@@ -149,6 +149,12 @@ export default function ThreadComment({
 	}, [comment, locale])
 
 	const onAttachmentClick = useCallback((attachment, options = {}) => {
+		// Remove `spoiler: true` so that a once revealed spoiler isn't shown again
+		// when "Show previous" button is clicked and `<PostAttachment/>` is
+		// unmounted resulting in its `isRevealed: true` state property being reset.
+		if (attachment.spoiler) {
+			delete attachment.spoiler
+		}
 		// `<PostLink/>` doesn't provide `options` (and `thumbnailImage` as part of it).
 		const { thumbnailImage } = options
 		// The attachment clicked might be a `link` attachment
