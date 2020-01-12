@@ -223,4 +223,7 @@
 
 	/* PostAttachment. */
 	/*--PostAttachment-shadowColor--hover: rgba(70,70,100,0.22);*/
+
+	/* CommentSeparator. */
+	--CommentSeparator-color: #454273;
 }
