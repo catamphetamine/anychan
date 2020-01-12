@@ -10,7 +10,7 @@
 	@mixin upto-s {
 		/* `position: relative` is for <ThreadMenu/> on small screens. */
 		position: relative;
-		.board-or-thread-menu {
+		.BoardThreadMenu {
 			position: absolute;
 			right: 0;
 			top: 50%;

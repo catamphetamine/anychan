@@ -5,7 +5,7 @@ body {
 	--FooterMenu-height: 0px;
 }
 
-.footer {
+.Footer {
 	/* Override ".post__paragraph" margins.
 	  (those variables aren't defined). */
 	p {
@@ -15,7 +15,7 @@ body {
 }
 
 /* `margin: 0` remove the negative side margin. */
-/*.footer .application-menu {
+/*.Footer .application-menu {
 	position : fixed;
 	left     : 0;
 	right    : 0;
@@ -32,7 +32,7 @@ body {
 	z-index: var(--header-z-index);
 }*/
 
-.footer {
+.Footer {
 	margin-top: var(--Footer-marginTop);
 	margin-bottom: var(--FooterMenu-height);
 }

@@ -33,7 +33,7 @@ import getThumbnailSize from 'social-components/commonjs/utility/attachment/getT
 
 import ThreadCommentsList from '../components/ThreadCommentsList'
 import ShowPrevious from '../components/ShowPrevious'
-import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
+import BoardThreadMenu from '../components/BoardThreadMenu'
 import ThreadCommentTree from '../components/ThreadCommentTree'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
 import { preloadPictureSlide } from 'webapp-frontend/src/components/Slideshow.Picture'
@@ -266,7 +266,7 @@ function ThreadPage({
 	// 	}
 	// }, [backToPreviouslyViewedCommentButtonRight])
 	const threadMenu = (
-		<BoardOrThreadMenu
+		<BoardThreadMenu
 			mode="thread"
 			dispatch={dispatch}
 			locale={locale}

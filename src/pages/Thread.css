@@ -22,7 +22,7 @@
 	margin-top: 0;
 	margin-bottom: 0;
 	/* Using `padding-top` instead of `margin-top` here
-	   so that `<BoardOrThreadMenu/>` vertical position is preserved
+	   so that `<BoardThreadMenu/>` vertical position is preserved
 	   when clicking on "Show previous comments" button. */
 	padding-top: 12vh;
 	/* `margin-bottom` doesn't collapse with `<Footer/>`'s `margin-top` anyway. */
@@ -148,7 +148,7 @@
 		display: none;
 	}
 	.thread-page__header {
-		margin-bottom: calc(var(--BoardOrThreadMenu-marginTop) - var(--Comment-marginTop--boardPage));
+		margin-bottom: calc(var(--BoardThreadMenu-marginTop) - var(--Comment-marginTop--boardPage));
 	}
 	.thread-page__header {
 		display: flex;

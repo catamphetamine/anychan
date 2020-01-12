@@ -25,8 +25,8 @@ export default function Sidebar() {
 	const isShown = useSelector(({ app }) => app.isSidebarShown)
 	const mode = useSelector(({ app }) => app.sidebarMode)
 	return (
-		<section className={classNames('sidebar', {
-			'sidebar--show': isShown
+		<section className={classNames('Sidebar', {
+			'Sidebar--show': isShown
 		})}>
 			<SimpleBar className="sidebar__scrollable-list">
 				<SidebarSection title={getMessages(locale).menu} className="SidebarSection--menu">

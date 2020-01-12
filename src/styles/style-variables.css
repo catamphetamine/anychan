@@ -49,8 +49,16 @@
 	--Sidebar-color--accent: var(--PostQuoteBlock-color);
 	/*--Sidebar-highlightColor-100--collapsible: var(--Sidebar-highlightColor-100);*/
 	/*--Sidebar-highlightColor-200--collapsible: var(--Sidebar-highlightColor-200);*/
+	.Sidebar {
+		--List-backgroundColor--selected: var(--Boards-backgroundColor--selected);
+		--List-borderColor: var(--Boards-borderColor);
+		--List-borderColor--selected: var(--Boards-borderColor--selected);
+	}
 
 	/* Boards. */
+	/* These styles aren't just for `.Sidebar`,
+	   they're for the `/boards` page too,
+	   that's why they're not defined inside `.Sidebar {}`. */
 	--Boards-margin--slash: 0.1em;
 	--Boards-fontFamily--url: monospace;
 	--Boards-fontWeight--url: normal;
@@ -62,6 +70,8 @@
 	--Boards-backgroundColor--hover: var(--Sidebar-highlightColor-100);
 	--Boards-backgroundColor--active: var(--Sidebar-highlightColor-200);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
+	--Boards-borderColor: transparent;
+	--Boards-borderColor--selected: transparent;
 
 	/* Comment-marginTop. */
 	--Comment-marginTop: 2px;
@@ -141,8 +151,10 @@
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-200);
-	--Sidebar-highlightColor-100: #faf7f2;
-	--Sidebar-highlightColor-200: var(--base-color-100);
+	/*--Sidebar-highlightColor-100: #faf7f2;*/
+	/*--Sidebar-highlightColor-200: var(--base-color-100);*/
+	--Sidebar-highlightColor-100: var(--PostQuoteBlock-backgroundColor--generated);
+	--Sidebar-highlightColor-200: #fff3e5;
 	--Sidebar-baseColor-200: #eec8ad;
 	--Sidebar-baseColor-700: var(--Clickable-color--text);
 
@@ -158,6 +170,17 @@
 	--Boards-color--slashHover: var(--Boards-color--slashSelected);
 	--Boards-color--slashActive: #e9ccb8;
 	--Boards-color--slashSelected: #ead5c0;
+	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+
+	/* HoverButton. */
+	--HoverButton-color--active: #bd5700;
+	--HoverButton-color--pushed: var(--PostQuoteBlock-color--generated);
+	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
+	--HoverButton-borderColor--active: var(--HoverButton-borderColor--pushedFocus);
+	--HoverButton-borderColor--pushed: var(--PostQuoteBlock-borderColor--generated);
+	--HoverButton-borderColor--pushedFocus: #e4c5a1;
+	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--pushedFocus); /* #e6abb0; */
+	--HoverButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);
@@ -196,15 +219,15 @@
 	/*--CommentSeparator-color: rgba(0,0,0,0.1);*/
 
 	/* StarIcon. */
-	--StarIconOutline-color: var(--Content-color-900);
-	--StarIconFill-color: var(--Clickable-color--active);
+	--StarIcon-borderColor: var(--Content-color-900);
+	--StarIcon-backgroundColor: var(--Clickable-color--active);
 
-	/* ThreadActions. */
+	/* BoardThreadMenu. */
 	/* A slightly darker color of Board/Thread menu icons,
 	   because they're on a gray background. */
-	--ThreadActions-color: var(--Content-color-700);
-	--ThreadActions-color--active: var(--gray-color-650);
-	--ThreadActions-color--selected: var(--Content-color-700);
+	--BoardThreadMenu-color: var(--Content-color-700);
+	--BoardThreadMenu-color--active: var(--gray-color-650);
+	--BoardThreadMenu-color--selected: var(--Content-color-700);
 }
 
 /* Dark Mode. */
@@ -264,11 +287,11 @@
 	/*--CommentSeparator-color: rgba(255,255,255,0.1);*/
 
 	/* StarIcon. */
-	--StarIconOutline-color: var(--Clickable-color--textActive);
-	--StarIconFill-color: var(--Clickable-color--text);
+	--StarIcon-borderColor: var(--Clickable-color--textActive);
+	--StarIcon-backgroundColor: var(--Clickable-color--text);
 
-	/* ThreadActions. */
-	--ThreadActions-color: var(--Content-color-600);
-	--ThreadActions-color--active: var(--Content-color-900);
-	--ThreadActions-color--selected: var(--Content-color-800);
+	/* BoardThreadMenu. */
+	--BoardThreadMenu-color: var(--Content-color-600);
+	--BoardThreadMenu-color--active: var(--Content-color-900);
+	--BoardThreadMenu-color--selected: var(--Content-color-800);
 }

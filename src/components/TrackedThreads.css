@@ -21,6 +21,8 @@
 .tracked-threads__thread {
 	position: relative;
 	height: var(--List-lineHeight);
+	border-top: 1px solid var(--List-borderColor);
+	border-bottom: 1px solid var(--List-borderColor);
 }
 
 .tracked-threads__thread,
@@ -125,6 +127,8 @@
 	   `:not()` would have higher priority. */
 	&.tracked-threads__thread--selected {
 		background-color: var(--Boards-backgroundColor--selected);
+		border-top: 1px solid var(--List-borderColor--selected);
+		border-bottom: 1px solid var(--List-borderColor--selected);
 		.board-url {
 			&:before,
 			&:after {

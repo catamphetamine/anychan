@@ -1,6 +1,6 @@
 @import "../styles/common";
 
-.sidebar {
+.Sidebar {
 	overflow-y: auto;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
@@ -9,7 +9,7 @@
 	color: var(--Sidebar-color-900);
 }
 
-.sidebar {
+.Sidebar {
 	--Sidebar-fontSize: initial;
 	font-size: var(--Sidebar-fontSize);
 	.boards {
@@ -21,24 +21,24 @@
    because the sidebar itself is smaller for that size. */
 @mixin l {
 	.font-size--m {
-		.sidebar {
+		.Sidebar {
 			--Sidebar-fontSize: 90%;
 		}
 	}
 	.font-size--l {
-		.sidebar {
+		.Sidebar {
 			--Sidebar-fontSize: 85%;
 		}
 	}
 	.font-size--xl {
-		.sidebar {
+		.Sidebar {
 			--Sidebar-fontSize: 80%;
 		}
 	}
 }
 
 /* Styling scrollbar is not supported in Firefox, etc. */
-.sidebar {
+.Sidebar {
 	/* Width */
 	&::-webkit-scrollbar {
 		width: 4px;
@@ -51,7 +51,7 @@
 
 /* Styling scrollbar is not supported in Firefox, etc. */
 /* Scrollbar colors for a dark sidebar. */
-.sidebar {
+.Sidebar {
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
 		background-color: var(--gray-color-600);
@@ -64,7 +64,7 @@
 
 /* `simplebar` style (works in all browsers). */
 /* Colors for a dark sidebar. */
-.sidebar {
+.Sidebar {
 	.simplebar-scrollbar:before {
 		background-color: var(--Sidebar-color-500);
 	}

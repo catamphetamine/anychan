@@ -20,7 +20,7 @@ export default function Footer({ className }) {
 	const offline = useSelector(({ app }) => app.offline)
 	const route = useSelector(({ found }) => found.resolvedMatch)
 	return (
-		<footer className={classNames(className, 'footer', {
+		<footer className={classNames(className, 'Footer', {
 			'background-content': isContentSectionsContent(route) || isBoardsLocation(route)
 		})}>
 			<div className="content">

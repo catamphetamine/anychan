@@ -18,9 +18,17 @@
 	}
 }
 
+.boards-list__board-url,
+.boards-list__board-name {
+	height: var(--List-lineHeight);
+	line-height: calc(var(--List-lineHeight) - 2 * 1px);
+	border-top: 1px solid var(--Boards-borderColor);
+	border-bottom: 1px solid var(--Boards-borderColor);
+}
+
 .boards-list {
 	user-select: none;
-	line-height: var(--List-lineHeight);
+	/*line-height: var(--List-lineHeight);*/
 }
 
 .boards__view-switcher {
@@ -149,6 +157,7 @@
 .boards-list__board-url--selected,
 .boards-list__board-name--selected {
 	background-color: var(--Boards-backgroundColor--selected);
+	--Boards-borderColor: var(--Boards-borderColor--selected);
 }
 
 .boards-list__board-url--selected {

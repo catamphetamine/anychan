@@ -22,9 +22,9 @@ import SearchIconFill from 'webapp-frontend/assets/images/icons/menu/search-fill
 
 import { notify } from 'webapp-frontend/src/redux/notifications'
 
-import './BoardOrThreadMenu.css'
+import './BoardThreadMenu.css'
 
-export default function BoardOrThreadMenu({
+export default function BoardThreadMenu({
 	mode,
 	locale,
 	dispatch,
@@ -89,13 +89,13 @@ export default function BoardOrThreadMenu({
 	return (
 		<Menu
 			{...rest}
-			className={classNames('board-or-thread-menu', className)}>
+			className={classNames('BoardThreadMenu', className)}>
 			{menuItems}
 		</Menu>
 	)
 }
 
-BoardOrThreadMenu.propTypes = {
+BoardThreadMenu.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
 	locale: PropTypes.string.isRequired,
 	isThreadTracked: PropTypes.bool,

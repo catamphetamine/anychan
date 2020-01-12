@@ -170,7 +170,7 @@
 }
 
 @mixin upto-m {
-	.sidebar {
+	.Sidebar {
 		transform: translateX(100%);
 		/* `box-shadow` is animated at XS-M screen sizes. */
 		transition: transform 160ms ease-out, box-shadow 160ms ease-out;
@@ -186,7 +186,7 @@
 		--Sidebar-highlightColor-100: var(--Sidebar-highlightColor-100--collapsible);
 		--Sidebar-highlightColor-200: var(--Sidebar-highlightColor-200--collapsible);
 	}*/
-	.sidebar--show {
+	.Sidebar--show {
 		transform: none;
 	}
 	/* The extra specificity is to override .home-page__show-boards-list { display: none }. */
@@ -198,11 +198,11 @@
 }
 
 @mixin xs-m {
-	.sidebar {
+	.Sidebar {
 		left: auto;
 		width: $screen-xs-min;
 	}
-	.sidebar--show {
+	.Sidebar--show {
 		/* `box-shadow` adds some extra eligibility but at the same time
 		   it makes the left border stand out a bit more that in turn
 		   makes the move-in/move-out animation a bit more distracting.
@@ -236,7 +236,7 @@
 		--FooterMenu-height: 0px;
 	}
 
-	.sidebar {
+	.Sidebar {
 		position: sticky;
 		top: var(--Header-height);
 		min-height: calc(100vh - var(--Header-height));
@@ -262,7 +262,7 @@
 		margin-right: 0;
 	}
 
-	.footer .application-menu {
+	.Footer .application-menu {
 		display: none;
 	}
 
@@ -282,7 +282,7 @@
 	.webpage__padding-right {
 		flex-grow: var(--PaddingRight-flexGrow);
 	}
-	.sidebar {
+	.Sidebar {
 		flex-grow: var(--Sidebar-flexGrow);
 		flex-basis: var(--Sidebar-flexBasis);
 	}

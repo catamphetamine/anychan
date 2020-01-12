@@ -1,21 +1,5 @@
 /* Global. */
 :root {
-	/* https://refactoringui.com/previews/building-your-color-palette */
-	/* "Base" color (orange). */
-	--base-color-100: #fff2e0;
-	--base-color-200: #ffd195;
-	--base-color-300: #feb352;
-	--base-color-400: #ff981f;
-	--base-color-500: #ff8400;
-	--base-color-600: #e36b00;
-	--base-color-700: #b55100;
-	--base-color-800: #823b01;
-	--base-color-900: #613000;
-
-	/* Menu. */
-	--Menu-color--active: var(--base-color-400);
-	--Menu-color--selected: var(--base-color-400);
-
 	/* HeaderSeparator. */
 	--HeaderSeparator-opacity--left: 1;
 	--HeaderSeparator-opacity--right: 1;
@@ -23,26 +7,42 @@
 
 /* Light mode. */
 .light {
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/* "Base" color (purple). */
+	--base-color-100: #ffdaf2;
+	--base-color-200: #fa9dd9;
+	--base-color-300: #f17dc8;
+	--base-color-400: #d860ad;
+	--base-color-500: #c174a6;
+	--base-color-600: #b0508e;
+	--base-color-700: #9d3278;
+	--base-color-800: #8a1260;
+	--base-color-900: #640041;
+
 	/* Document. */
-	--Document-backgroundColor: #ece1f2;
+	/* --Document-backgroundColor: #e8e8e8; */ /* #ece1f2; */
 
 	/* BackButton. */
 	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
-	--BackButton-backgroundColor--hover: rgba(74, 0, 173, 0.04); /* #f8f5fc; */
-	--BackButton-borderColor--hover: rgba(74, 0, 173, 0.008); /* #f7f3fb; */
+	--BackButton-backgroundColor--hover: rgba(200, 80, 150, 0.04);
+	--BackButton-borderColor--hover: rgba(100, 40, 75, 0.04);
 
 	/* Header. */
-	--Header-color: #fce7ff;
-	--Header-color--textHover: var(--base-color-300);
-	--Header-color--textActive: var(--base-color-400);
-	--Header-backgroundColor: #a976c3;
+	--Header-color: #ffffff;
+	--Header-color--textHover: var(--Header-color);
+	--Header-color--textActive: var(--HoverButton-backgroundColor--active);
+	--Header-backgroundColor: var(--base-color-500);
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
-	--Header-borderWidth: 0;
+	--Header-borderWidth: 0px;
 
 	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(255,255,255,0.3);
+	--HeaderSeparator-color--left: rgba(255,255,255,0.4);
 	--HeaderSeparator-color--right: var(--HeaderSeparator-color--left);
+
+	/* Menu. */
+	--Menu-color--active: var(--Header-color--textActive);
+	--Menu-color--selected: var(--Menu-color--active);
 
 	/* NotificationBadge. */
 	--NotificationBadge-backgroundColor: #e88a00;
@@ -53,17 +53,17 @@
 	--Notification-color: var(--Header-color);
 
 	/* Clickable. */
-	--Clickable-color--text: #7a00b9;
-	--Clickable-color--textActive: #a024e0;
+	--Clickable-color--text: #ac045a;
+	--Clickable-color--textActive: #d60c69;
 
 	/* Content. */
-	--Content-backgroundColor--active: #fdf8ff;
+	--Content-backgroundColor--active: #fff7fa;
 
 	/* Selection. */
-	--Selection-backgroundColor: #f1e9f6;
+	--Selection-backgroundColor: #ffe4e4;
 
 	/* Critical. */
-	--Critical-backgroundColor: #df1e00;
+	/*--Critical-backgroundColor: #df1e00;*/
 
 	/* Picture. */
 	/*--Picture-borderColor--focus: #a976c3;*/
@@ -76,67 +76,81 @@
 	/*--Notification-borderColor: var(--Content-backgroundColor);*/
 
 	/* Sidebar. */
-	--Sidebar-color-200: #d8bcea;
-	--Sidebar-color-500: #ad93bd;
-	--Sidebar-color-600: #9f86af;
-	--Sidebar-color-900: #29420e;
-	--Sidebar-backgroundColor: #f1e9f6;
-	--Sidebar-baseColor-200: #c592e2;
-	--Sidebar-highlightColor-100: var(--Document-backgroundColor);
-	--Sidebar-highlightColor-200: #e9def0;
+	/*--Sidebar-color-200: #d8bcea;*/
+	/*--Sidebar-color-500: #ad93bd;*/
+	/*--Sidebar-color-600: #9f86af;*/
+	/*--Sidebar-color-900: #29420e;*/
+	/* --Sidebar-backgroundColor: var(--Content-backgroundColor); */ /* #f1e9f6; */
+	/*--Sidebar-baseColor-200: #c592e2;*/
+	/* --Sidebar-highlightColor-100: #f7f2f9; */ /* var(--Document-backgroundColor); */
+	/* --Sidebar-highlightColor-200: #f4eef9; */
+	--Sidebar-highlightColor-100: var(--PostQuoteBlock-backgroundColor--generated);
+	--Sidebar-highlightColor-200: #f9f1ed;
 
 	/* Boards. */
-	--Boards-color--slashHover: var(--Boards-color--slash);
-	--Boards-color--slashActive: var(--Boards-color--slash);
-	--Boards-color--slashSelected: var(--Boards-color--slash);
+	--Boards-color--slashHover: var(--Boards-color--slashSelected);
+	--Boards-color--slashActive: #e8bec0;
+	--Boards-color--slashSelected: #deb9bb;
+	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+
+	/* BoardThreadMenu. */
+	--BoardThreadMenu-color--active: #b9699c;
+	--BoardThreadMenu-color--selected: var(--base-color-500);
 
 	/* HoverButton. */
-	--HoverButton-color: #8f799c;
-	--HoverButton-color--active: #815d0c;
-	--HoverButton-color--pushed: var(--PostQuoteBlock-color);
+	--HoverButton-color--active: #c51657;
+	--HoverButton-color--pushed: var(--PostQuoteBlock-color--generated);
 	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
-	--HoverButton-borderColor: var(--Boards-color--slash);
-	--HoverButton-borderColor--active: #d9a26d;
-	--HoverButton-borderColor--pushed: var(--HoverButton-backgroundColor--pushed);
-	--HoverButton-borderColor--pushedFocus: #b6e5b3;
-	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--active);
-	--HoverButton-backgroundColor: var(--Sidebar-backgroundColor);
-	--HoverButton-backgroundColor--active: var(--base-color-300);
-	--HoverButton-backgroundColor--pushed: var(--PostQuoteBlock-backgroundColor);
-
-	/* Post. */
-	--Post-color--secondary: var(--gray-color-700);
-	--Post-color--secondaryThread: var(--gray-color-600);
+	--HoverButton-borderColor--active: var(--HoverButton-borderColor--pushedFocus);
+	--HoverButton-borderColor--pushed: var(--PostQuoteBlock-borderColor--generated);
+	--HoverButton-borderColor--pushedFocus: #e6bcbc;
+	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--pushedFocus); /* #e6abb0; */
+	--HoverButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
 
 	/* PostQuoteBlock. */
 	--PostQuoteBlock-color: #1f6900;
 	--PostQuoteBlock-backgroundColor: #dfffcb;
 	--PostQuoteBlock-borderWidth: 1px;
 	--PostQuoteBlock-borderColor: #c6f9a6;
-	--PostQuoteBlock-marginTop: 4px;
+	/*--PostQuoteBlock-marginTop: 4px;*/
 
 	/* PostQuoteBlock (generated). */
-	--PostQuoteBlock-color--generated: #900000;
-	--PostQuoteBlock-backgroundColor--generated: #fff8fe;
+	/*--PostQuoteBlock-color--generated: #900000;*/
+	/*--PostQuoteBlock-backgroundColor--generated: #faf8fb;*/
 	--PostQuoteBlock-borderWidth--generated: 1px;
-	--PostQuoteBlock-borderColor--generated: #ffd9f1;
-	--PostQuoteBlock-marginTop--generated: 4px;
+	/*--PostQuoteBlock-borderColor--generated: #ffd9f1;*/
+	/*--PostQuoteBlock-marginTop--generated: 4px;*/
+	--PostQuoteBlock-color--generated: #852e56;
+	--PostQuoteBlock-backgroundColor--generated: #f9f6f3;
+	--PostQuoteBlock-borderColor--generated: #f4dadd;
 
 	/* PostQuoteBlockMarker. */
-	--PostQuoteBlockMarker-color: currentColor;
-	--PostQuoteBlockMarker-opacity: 0.25;
+	/*--PostQuoteBlockMarker-color: currentColor;*/
+	/*--PostQuoteBlockMarker-opacity: 0.25;*/
 
 	/* PostQuoteBlockMarker (generated). */
-	--PostQuoteBlockMarker-color--generated: #e6b2b2;
-	--PostQuoteBlockMarker-opacity--generated: 1;
+	--PostQuoteBlockMarker-color--generated: #dcb8b8;
+	/*--PostQuoteBlockMarker-opacity--generated: 1;*/
 
 	/* PostInlineSpoiler. */
-	--PostInlineSpoiler-color--contentActive: #f2eaed;
-	--PostInlineSpoiler-color--censoredContentActive: #efdde3;
+	--PostInlineSpoiler-color--contentActive: #f4e8e8;
+	--PostInlineSpoiler-color--censoredContentActive: #f4e0e0;
 }
 
 /* Dark Mode. */
 .dark {
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/* "Base" color (orange). */
+	--base-color-100: #fff2e0;
+	--base-color-200: #ffd195;
+	--base-color-300: #feb352;
+	--base-color-400: #ff981f;
+	--base-color-500: #ff8400;
+	--base-color-600: #e36b00;
+	--base-color-700: #b55100;
+	--base-color-800: #823b01;
+	--base-color-900: #613000;
+
 	/* Slightly muted link/button colors in "Dark Mode". */
 	--base-color-300: #dc9363;
 	--base-color-400: #d96d1f;
@@ -171,6 +185,10 @@
 
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: transparent;
+
+	/* Menu. */
+	--Menu-color--active: var(--base-color-400);
+	--Menu-color--selected: var(--Menu-color--active);
 
 	/* Sidebar. */
 	--Sidebar-color-500: #8081ae;

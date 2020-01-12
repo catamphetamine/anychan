@@ -168,7 +168,7 @@
 	.thread-comment__thumbnail {
 		display: flex;
 		justify-content: flex-end;
-		/* In case of changing these also change `.sidebar`'s
+		/* In case of changing these also change `.Sidebar`'s
 		   `flex-basis` accordingly in `Application.css`. */
 		width: var(--PostThumbnailContainer-width);
 		min-width: var(--PostThumbnailContainer-width);

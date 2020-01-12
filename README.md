@@ -53,20 +53,19 @@ This project currently has only a subset of features. "To do":
 
 The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Light" mode and "Dark" mode.
 
-### Default theme
-
-#### Light
+#### Default theme (Light)
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-3605x1955.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
 
-#### Dark
+#### Default theme (Dark)
 
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-3605x1955.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
 
+<!--
 ### Neon Genesis Evangelion
 
 #### Light
@@ -88,6 +87,7 @@ The app comes pre-packaged with a couple of built-in themes and [allows any degr
 [View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
 
 <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
+-->
 
 ## Known issues
 

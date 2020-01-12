@@ -22,7 +22,7 @@
 	height: var(--ListButtonIcon-width);
 }
 
-.sidebar {
+.Sidebar {
 	.ListButton {
 		color: var(--Sidebar-color-600);
 		&:focus {

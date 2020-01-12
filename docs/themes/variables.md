@@ -279,3 +279,11 @@ Board selection list.
 * `--Boards-fontFamily--url: monospace` — Font family of boards list URLs.
 * `--Boards-fontWeight--url: normal` — Font weight of boards list URLs.
 * `--Boards-fontWeight: normal` — Font weight of boards list names.
+
+# BoardThreadMenu
+
+The menu at the top of a board or thread page.
+
+* `--BoardThreadMenu-color: black` — The color of icons in a board or thread page menu.
+* `--BoardThreadMenu-color--active: black` — The color of icons in a board or thread page menu when clicked. Menu icons usually change from outline to counterform when clicked.
+* `--BoardThreadMenu-color--selected: black` — The color of icons in a board or thread page menu when selected. Menu icons usually change from outline to counterform when selected.

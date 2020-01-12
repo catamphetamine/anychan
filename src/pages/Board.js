@@ -13,7 +13,7 @@ import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { updateAttachmentThumbnailMaxSize } from '../utility/postThumbnail'
 
-import BoardOrThreadMenu from '../components/BoardOrThreadMenu'
+import BoardThreadMenu from '../components/BoardThreadMenu'
 import ThreadComment from '../components/ThreadComment'
 import ThreadCommentsList from '../components/ThreadCommentsList'
 
@@ -59,7 +59,7 @@ function BoardPage() {
 				<h1 className="page__heading">
 					{board.title}
 				</h1>
-				<BoardOrThreadMenu
+				<BoardThreadMenu
 					mode="board"
 					dispatch={dispatch}
 					locale={locale}
