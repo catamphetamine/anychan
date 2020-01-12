@@ -98,7 +98,7 @@
 	--BoardThreadMenu-color--selected: var(--base-color-500);
 
 	/* HoverButton. */
-	--HoverButton-color--active: #c51657;
+	--HoverButton-color--active: #b51651;
 	--HoverButton-color--pushed: var(--PostQuoteBlock-color--generated);
 	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
 	--HoverButton-borderColor--active: var(--HoverButton-borderColor--pushedFocus);
