@@ -38,8 +38,8 @@ See [this article](https://refactoringui.com/previews/building-your-color-palett
 ## Header
 
 * `--Header-color: black` — Header text color.
-* `--Header-color--textHover: var(--Clickable-color--text)` — Header text color when hovered.
-* `--Header-color--textActive: var(--Clickable-color--textActive)` — Header text color when clicked.
+* `--Header-color--hover: var(--Clickable-color--text)` — Header text color when hovered.
+* `--Header-color--active: var(--Clickable-color--textActive)` — Header text color when clicked.
 * `--Header-backgroundColor: white` — Header background color.
 * `--Header-backgroundColor--title: var(--Header-backgroundColor)` — Header background color on the left side.
 * `--Header-backgroundColor--menu: var(--Header-backgroundColor)` — Header background color on the right side.

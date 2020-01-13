@@ -29,8 +29,8 @@
 
 	/* Header. */
 	--Header-color: #ffffff;
-	--Header-color--textHover: var(--Header-color);
-	--Header-color--textActive: var(--HoverButton-backgroundColor--active);
+	--Header-color--hover: var(--Header-color);
+	--Header-color--active: var(--HoverButton-backgroundColor--active);
 	--Header-backgroundColor: var(--base-color-500);
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor--title);
@@ -41,7 +41,7 @@
 	--HeaderSeparator-color--right: var(--HeaderSeparator-color--left);
 
 	/* Menu. */
-	--Menu-color--active: var(--Header-color--textActive);
+	--Menu-color--active: var(--Header-color--active);
 	--Menu-color--selected: var(--Menu-color--active);
 
 	/* NotificationBadge. */

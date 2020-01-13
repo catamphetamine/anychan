@@ -116,9 +116,9 @@
 .header__uncolored-link {
 	color: var(--Header-color);
 	&:hover {
-		color: var(--Header-color--textHover);
+		color: var(--Header-color--hover);
 	}
 	&:active {
-		color: var(--Header-color--textActive);
+		color: var(--Header-color--active);
 	}
 }
