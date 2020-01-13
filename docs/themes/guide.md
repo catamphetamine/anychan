@@ -6,7 +6,7 @@ Themes should mostly use the available [CSS Variables](https://github.com/catamp
 
 Each theme should provide both "Light" and "Dark" modes. "Light" mode styles are defined in `.light {}` CSS selector, and "Dark" mode styles are defined in `.dark {}` CSS selector. Common styles (both for "Light" and "Dark" modes) are defined in `:root {}` CSS selector.
 
-Comments can be added via `/* */`.
+Comments can be added via `/* */`. For example, there should be a comment block at the start of a `.css` file, with the author info (name, email, etc).
 
 Every theme is applied on top of the default style variable values defined in [webapp-frontend/style-variables.css](https://github.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) and [style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). This explains why the default theme's style ([default.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/theme/default.css)) is empty: because it doesn't overwrite any of the default styles. This also means that when creating a new theme, one could "start small", adding custom style variable values one-by-one, without a requirement to provide everything up-front, which eases the process.
 
