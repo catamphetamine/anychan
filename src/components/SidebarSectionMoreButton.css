@@ -30,6 +30,7 @@
 	--SidebarButton-backgroundColor--hover: var(--Sidebar-highlightColor-100);
 	--SidebarButton-color--active: var(--Sidebar-baseColor-700);
 	--SidebarButton-backgroundColor--active: var(--Sidebar-highlightColor-200);
+	--SidebarButton-borderColor--pushedActive: var(--Sidebar-baseColor-200);
 }
 
 /* `.rrui-button` style interferes with this one in development mode,
@@ -38,6 +39,9 @@
 	color: var(--SidebarButton-color);
 	background-color: var(--SidebarButton-backgroundColor);
 	box-shadow: inset 0 0 0 1px var(--SidebarButton-borderColor);
+}
+
+.SidebarButton {
 	&:focus {
 		--SidebarButton-borderColor: var(--SidebarButton-borderColor--focus);
 	}
@@ -63,4 +67,7 @@
 .SidebarButton--pushed {
 	--SidebarButton-color: var(--SidebarButton-color--active);
 	--SidebarButton-backgroundColor: var(--SidebarButton-backgroundColor--active);
+	&:active {
+		--SidebarButton-borderColor: var(--SidebarButton-borderColor--pushedActive);
+	}
 }
