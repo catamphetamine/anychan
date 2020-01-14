@@ -81,7 +81,7 @@
 	/*--Sidebar-color-600: #9f86af;*/
 	/*--Sidebar-color-900: #29420e;*/
 	/* --Sidebar-backgroundColor: var(--Content-backgroundColor); */ /* #f1e9f6; */
-	/*--Sidebar-baseColor-200: #c592e2;*/
+	--Sidebar-baseColor-200: #c592e2;
 	/* --Sidebar-highlightColor-100: #f7f2f9; */ /* var(--Document-backgroundColor); */
 	/* --Sidebar-highlightColor-200: #f4eef9; */
 	--Sidebar-highlightColor-100: var(--PostQuoteBlock-backgroundColor--generated);

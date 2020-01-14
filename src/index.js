@@ -7,7 +7,7 @@ require('regenerator-runtime/runtime')
 // "Make sure `react-hot-loader` is required before `react` and `react-dom`".
 require('react-hot-loader');
 
-// Maintain CSS styles order.
+// CSS styles.
 require('./styles/style.css')
 
 if (process.env.NODE_ENV !== 'production') {

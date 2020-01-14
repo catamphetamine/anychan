@@ -15,11 +15,15 @@ export default function FavoriteBoardsSidebarSection() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const dispatch = useDispatch()
 	const [editingFavoriteBoards, setEditingFavoriteBoards] = useState()
-	const onMore = useCallback(async (isEditMode) => {
+	// Not using `async` here to prevent the focus
+	// from being lost on unpush.
+	const onMore = useCallback((isEditMode) => {
+		const finish = () => setEditingFavoriteBoards(isEditMode)
 		if (isEditMode && !allBoards) {
-			await dispatch(getBoards({ all: true }))
+			return dispatch(getBoards({ all: true })).then(finish)
+		} else {
+			finish()
 		}
-		setEditingFavoriteBoards(isEditMode)
 	}, [dispatch, allBoards])
 	if (favoriteBoards.length === 0) {
 		return null

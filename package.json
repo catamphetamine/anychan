@@ -36,7 +36,7 @@
     "redux": "^4.0.4",
     "regenerator-runtime": "^0.13.3",
     "scroll-into-view-if-needed": "^2.2.20",
-    "simplebar-react": "^1.0.0",
+    "simplebar-react": "^2.1.0",
     "smooth-scroll-into-view-if-needed": "^1.1.23",
     "social-components": "^0.1.17",
     "virtual-scroller": "^1.0.24"

@@ -50,7 +50,8 @@
 	--rrui-input-field-border-color-focus: var(--Sidebar-baseColor-200);
 	--rrui-input-field-border-color-error: var(--rrui-input-field-border-color);
 	--rrui-input-field-border-color-error-focus: var(--rrui-input-field-border-color-focus);
-	--rrui-input-field-icon-margin-left: calc(var(--unit) / 2);
+	--rrui-input-field-icon-margin-left: calc(var(--unit) * 0.75);
+	--rrui-input-field-icon-margin-right: var(--rrui-input-field-icon-margin-left);
 	--rrui-options-list-negative-side-margin: 0px;
 	padding-left: var(--SidebarSection-paddingLeft);
 	padding-right: var(--SidebarSection-paddingLeft);

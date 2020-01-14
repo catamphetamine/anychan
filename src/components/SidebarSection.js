@@ -18,7 +18,9 @@ export default function SidebarSection({
 			<h1 className="sidebar-section__title">
 				{title}
 				{onMore &&
-					<SidebarSectionMoreButton title={moreLabel} onClick={onMore}/>
+					<SidebarSectionMoreButton
+						title={moreLabel}
+						onClick={onMore}/>
 				}
 			</h1>
 			{children}

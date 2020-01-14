@@ -24,7 +24,8 @@ export default function SidebarSectionMoreButton({ title, onClick }) {
 			onClick={onClick_}
 			aria-pressed={isPushed}
 			className={classNames('SidebarSectionMoreButton', 'SidebarButton', 'rrui__button-reset', {
-				'SidebarButton--pushed': isPushed
+				'SidebarButton--pushed': isPushed,
+				'SidebarButton--unpushed': !isPushed
 			})}>
 			<EllipsisIcon className="SidebarSectionMoreButton__Icon"/>
 		</Button>
