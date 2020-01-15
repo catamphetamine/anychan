@@ -4,6 +4,7 @@ import createByIdIndex from '../utility/createByIdIndex'
 import getMessages from './utility/getMessages'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
+import getCommentLengthLimit from '../utility/getCommentLengthLimit'
 
 import getPostText from 'social-components/commonjs/utility/post/getPostText'
 import trimText from 'social-components/commonjs/utility/post/trimText'
@@ -25,7 +26,7 @@ export default async function getThread({
 		parseContent: false,
 		// Add `.parseContent()` function to each `comment`.
 		addParseContent: true,
-		commentLengthLimit: configuration.commentLengthLimit
+		commentLengthLimit: getCommentLengthLimit('thread')
 	})
 	// The "opening" post of a thread is always parsed
 	// when showing thread page because it's always immediately visible

@@ -9,6 +9,7 @@ import {
 } from '../PropTypes'
 
 import { getMaxPostAttachmentThumbnailWidth } from '../utility/postThumbnail'
+import getCommentLengthLimit from '../utility/getCommentLengthLimit'
 
 import ArhivachIcon from '../../assets/images/icons/services/arhivach.svg'
 
@@ -438,7 +439,7 @@ function Comment({
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			contentMaxLength={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
+			contentMaxLength={getCommentLengthLimit(mode)}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
 			fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}

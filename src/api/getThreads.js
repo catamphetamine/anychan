@@ -3,6 +3,7 @@ import setThreadInfo from './utility/setThreadInfo'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
 import getMessages from './utility/getMessages'
+import getCommentLengthLimit from '../utility/getCommentLengthLimit'
 
 export default async function getThreads({
 	boardId,
@@ -19,7 +20,7 @@ export default async function getThreads({
 		parseContent: false,
 		// Add `.parseContent()` function to each `comment`.
 		addParseContent: true,
-		commentLengthLimit: configuration.commentLengthLimitForThreadPreview || configuration.commentLengthLimit
+		commentLengthLimit: getCommentLengthLimit('board')
 	})
 	const votes = UserData.getCommentVotes(boardId)
 	for (const thread of threads) {
