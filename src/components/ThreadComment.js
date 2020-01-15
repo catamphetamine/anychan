@@ -408,7 +408,7 @@ function Comment({
 			youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			commentLengthLimit={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
+			contentMaxLength={mode === 'thread' ? configuration.commentLengthLimit : configuration.commentLengthLimitForThreadPreview}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
 			fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
