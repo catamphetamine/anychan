@@ -22,6 +22,7 @@ import Post from 'webapp-frontend/src/components/Post'
 import OnClick from 'webapp-frontend/src/components/OnClick'
 import PostAttachment from 'webapp-frontend/src/components/PostAttachment'
 import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
+import PictureStack from 'webapp-frontend/src/components/PictureStack'
 
 import getNonEmbeddedAttachments from 'social-components/commonjs/utility/post/getNonEmbeddedAttachments'
 import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnail'
@@ -353,6 +354,11 @@ function Comment({
 			)
 		}
 	}, [postThumbnail])
+	const postThumbnailMoreAttachmentsCount = useMemo(() => {
+		if (postThumbnail && mode === 'board' && comment.attachments.length > 1) {
+			return getNonEmbeddedAttachments(comment).length - 1
+		}
+	}, [postThumbnail, mode, comment])
 	const moreActions = useMemo(() => {
 		return [
 			{
@@ -377,6 +383,29 @@ function Comment({
 	}, [dispatch, locale, board, thread, comment])
 	const commentClassName = 'thread-comment__comment'
 	const shouldFixAttachmentPictureSize = mode === 'board' && comment.attachments && comment.attachments.length === 1 && comment.attachments[0].isLynxChanCatalogAttachmentsBug
+	let postThumbnailElement
+	if (postThumbnail) {
+		postThumbnailElement = (
+			<PostAttachment
+				useSmallestThumbnail
+				attachment={postThumbnail}
+				spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
+				onClick={postThumbnailOnClick}
+				fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
+		)
+		if (postThumbnailMoreAttachmentsCount) {
+			// A container `<div/>` is used so that the `<PictureStack/>`
+			// isn't stretched to the full height of the comment,
+			// because `.thread-comment__thumbnail` is `display: flex`.
+			postThumbnailElement = (
+				<div>
+					<PictureStack count={postThumbnailMoreAttachmentsCount + 1}>
+						{postThumbnailElement}
+					</PictureStack>
+				</div>
+			)
+		}
+	}
 	// `postRef` is supplied by `<CommentTree/>`
 	// and is used to focus stuff on toggle reply form.
 	const postElement = hidden ? (
@@ -391,6 +420,7 @@ function Comment({
 			ref={postRef}
 			post={comment}
 			expandAttachments={expandAttachments}
+			hideRestAttachments={mode === 'board'}
 			compact={mode === 'thread' && !isFirstPostInThread}
 			stretch
 			header={Header}
@@ -443,14 +473,7 @@ function Comment({
 				})}>
 				<div
 					className="thread-comment__thumbnail">
-					{postThumbnail &&
-						<PostAttachment
-							useSmallestThumbnail
-							attachment={postThumbnail}
-							spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
-							onClick={postThumbnailOnClick}
-							fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
-					}
+					{postThumbnailElement}
 				</div>
 				{postElement}
 			</div>
