@@ -5,7 +5,12 @@ import configuration from '../configuration'
 // Should be equal to `$screen-m-min` in `webapp-frontend/src/styles/grid.mixins.css`.
 const WIDE_SCREEN_MIN_WIDTH = 883
 
-const commentLengthLimitFactor = typeof window === 'undefined' ? 1 : getCommentLengthLimitFactor(getViewportWidth())
+let commentLengthLimitFactor = 1
+if (typeof window !== 'undefined') {
+	const measure = () => commentLengthLimitFactor = getCommentLengthLimitFactor(getViewportWidth())
+	window.addEventListener('resize', debounce(measure, 1000))
+	measure()
+}
 
 function getCommentLengthLimitFactor(width) {
 	return Math.min(1, width / WIDE_SCREEN_MIN_WIDTH)
@@ -18,4 +23,18 @@ function getCommentLengthLimitFactor(width) {
  */
 export default function getCommentLengthLimit(mode) {
 	return Math.round((mode === 'board' ? configuration.commentLengthLimitForThreadPreview : configuration.commentLengthLimit) * commentLengthLimitFactor)
+}
+
+/**
+ * Same as `lodash`'s `debounce()` for functions with no arguments.
+ * @param  {function} func
+ * @param  {number} interval
+ * @return {function}
+ */
+function debounce(func, interval) {
+	let timeout
+	return function() {
+		clearTimeout(timeout)
+		timeout = setTimeout(func, interval)
+	}
 }
