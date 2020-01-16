@@ -20,7 +20,7 @@
     "fast-memoize": "^2.5.1",
     "file-saver": "^2.0.2",
     "filesize": "^4.0.0",
-    "imageboard": "^0.4.14",
+    "imageboard": "^0.4.15",
     "intl-messageformat": "^7.7.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.6",
@@ -38,7 +38,7 @@
     "scroll-into-view-if-needed": "^2.2.20",
     "simplebar-react": "^2.1.0",
     "smooth-scroll-into-view-if-needed": "^1.1.23",
-    "social-components": "^0.1.18",
+    "social-components": "^0.1.19",
     "virtual-scroller": "^1.0.24"
   },
   "devDependencies": {

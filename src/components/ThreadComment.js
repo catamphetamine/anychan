@@ -28,6 +28,7 @@ import PictureStack from 'webapp-frontend/src/components/PictureStack'
 import getNonEmbeddedAttachments from 'social-components/commonjs/utility/post/getNonEmbeddedAttachments'
 import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnail'
 import getSortedAttachments from 'social-components/commonjs/utility/post/getSortedAttachments'
+import getPicturesAndVideos from 'social-components/commonjs/utility/post/getPicturesAndVideos'
 
 import { vote as voteForComment } from '../redux/chan'
 import { notify } from 'webapp-frontend/src/redux/notifications'
@@ -348,16 +349,18 @@ function Comment({
 	}
 	const postThumbnailOnClick = useCallback((event) => {
 		if (onAttachmentClick) {
-			const attachments = getNonEmbeddedAttachments(comment)
 			onAttachmentClick(
 				postThumbnail,
 				{ thumbnailImage: event.target }
 			)
 		}
 	}, [postThumbnail])
+	// The count of all attachments (only pictures and videos)
+	// that aren't embedded in the post itself,
+	// minus one for the "post thumbnail" itself.
 	const postThumbnailMoreAttachmentsCount = useMemo(() => {
 		if (postThumbnail && mode === 'board' && comment.attachments.length > 1) {
-			return getNonEmbeddedAttachments(comment).length - 1
+			return getPicturesAndVideos(getNonEmbeddedAttachments(comment)).length - 1
 		}
 	}, [postThumbnail, mode, comment])
 	const moreActions = useMemo(() => {
