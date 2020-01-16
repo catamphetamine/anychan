@@ -159,6 +159,14 @@
 	   being shown as the comment thumbnail. */
 	.thread-comment--has-thumbnail {
 		.post__attachments {
+			/* `.post__attachment-thumbnail-wrapper--post-thumbnail-candidate` is for
+			   `<PictureStack/>` wrapping `.post__attachment-thumbnail--post-thumbnail-candidate`.
+			   `.post__attachment-thumbnail--post-thumbnail-candidate` is for cases
+			   when `<PictureStack/>` is not used as a wrapper around it.
+			   So the two CSS selectors are for different cases:
+			   the first one is for `<PictureStack/>` case,
+			   the second one is for non-`<PictureStack/>` case. */
+			.post__attachment-thumbnail-wrapper--post-thumbnail-candidate,
 			.post__attachment-thumbnail--post-thumbnail-candidate {
 				display: none;
 			}
