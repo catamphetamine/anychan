@@ -8,8 +8,6 @@ function ThreadCommentsList({
 	initialCustomState,
 	restoredState,
 	setState,
-	scrollPosition,
-	setScrollPosition,
 	getItem,
 	stateRef,
 	...rest
@@ -21,8 +19,8 @@ function ThreadCommentsList({
 		[]
 	)
 	const onVirtualScrollerMount = useCallback(() => {
-		if (wasInstantNavigation()) {
-			window.scrollTo(0, scrollPosition)
+		if (wasInstantNavigation() && restoredState) {
+			window.scrollTo(0, restoredState.scrollY)
 		}
 	}, [])
 	const onItemFirstRender = useCallback(
@@ -35,9 +33,6 @@ function ThreadCommentsList({
 			if (isInstantBackAbleNavigation()) {
 				// Save `virtual-scroller` state in Redux state.
 				dispatch(setState(virtualScrollerState.current))
-				// Using `window.pageYOffset` instead of `window.scrollY`
-				// because `window.scrollY` is not supported by Internet Explorer.
-				dispatch(setScrollPosition(window.pageYOffset))
 			}
 		}
 	}, [])
@@ -59,10 +54,10 @@ ThreadCommentsList = React.forwardRef(ThreadCommentsList)
 
 ThreadCommentsList.propTypes = {
 	initialCustomState: PropTypes.object,
-	restoredState: PropTypes.object,
+	restoredState: PropTypes.shape({
+		scrollY: PropTypes.number.isRequired
+	}),
 	setState: PropTypes.func,
-	scrollPosition: PropTypes.number,
-	setScrollPosition: PropTypes.func,
 	getItem: PropTypes.func.isRequired,
 	stateRef: PropTypes.object
 }

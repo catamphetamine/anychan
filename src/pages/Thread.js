@@ -14,7 +14,7 @@ import classNames from 'classnames'
 // import ReactTimeAgo from 'react-time-ago'
 import { Button } from 'react-responsive-ui'
 
-import { setVirtualScrollerState, setScrollPosition } from '../redux/thread'
+import { setVirtualScrollerState } from '../redux/thread'
 import { getThread } from '../redux/chan'
 import { trackThread, untrackThread, threadExpired } from '../redux/threadTracker'
 import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
@@ -54,7 +54,6 @@ function ThreadPage({
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const isThreadTracked = useSelector(({ threadTracker }) => threadTracker.trackedThreadsIndex[board.id] && threadTracker.trackedThreadsIndex[board.id].includes(thread.id))
 	const restoredVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
-	const scrollPosition = useSelector(({ thread }) => thread.scrollPosition)
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const [searchQuery, setSearchQuery] = useState()
@@ -400,8 +399,6 @@ function ThreadPage({
 						restoredState={restoredVirtualScrollerState}
 						setState={setVirtualScrollerState}
 						stateRef={virtualScrollerState}
-						scrollPosition={scrollPosition}
-						setScrollPosition={setScrollPosition}
 						items={shownComments}
 						itemComponent={CommentComponent}
 						itemComponentProps={itemComponentProps}

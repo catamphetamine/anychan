@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import { getThreads } from '../redux/chan'
 import { addFavoriteBoard } from '../redux/favoriteBoards'
-import { setVirtualScrollerState, setScrollPosition } from '../redux/board'
+import { setVirtualScrollerState } from '../redux/board'
 
 import { getChan } from '../chan'
 import getMessages from '../messages'
@@ -25,7 +25,6 @@ function BoardPage() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const censoredWords = useSelector(({ settings }) => settings.settings.censoredWords)
 	const restoredVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
-	const scrollPosition = useSelector(({ board }) => board.scrollPosition)
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const onThreadClick = useCallback(async (comment, thread, board) => {
@@ -78,8 +77,6 @@ function BoardPage() {
 				getItem={getItem}
 				restoredState={restoredVirtualScrollerState}
 				setState={setVirtualScrollerState}
-				scrollPosition={scrollPosition}
-				setScrollPosition={setScrollPosition}
 				items={threads}
 				itemComponent={CommentComponent}
 				itemComponentProps={itemComponentProps}
@@ -94,7 +91,6 @@ function BoardPage() {
 // 	locale: PropTypes.string.isRequired,
 // 	censoredWords: PropTypes.arrayOf(PropTypes.object),
 // 	virtualScrollerState: PropTypes.object,
-// 	scrollPosition: PropTypes.number,
 // 	dispatch: PropTypes.func.isRequired
 // }
 

@@ -8,10 +8,6 @@ export const setVirtualScrollerState = redux.simpleAction(
 	(state, virtualScrollerState) => ({ ...state, virtualScrollerState })
 )
 
-export const setScrollPosition = redux.simpleAction(
-	(state, scrollPosition) => ({ ...state, scrollPosition })
-)
-
 redux.on('CHAN', 'GET_THREAD_COMMENTS', (state, { thread, board }) => ({
   ...state,
 	thread,
