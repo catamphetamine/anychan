@@ -103,7 +103,7 @@ add_header Access-Control-Allow-Origin $allow_origin always;
 * Restart `nginx`: `sudo service nginx restart`. Could reload `nginx` instead: `sudo service nginx reload`, but it says "Job for nginx.service invalid." until restarted for the first time.
 * `nginx` should be working: opening the server's HTTP URL in a web browser should output a dummy webpage. Otherwise see `sudo tail /var/log/nginx/error.log`.
 
-* Next, an SSL certificate has to be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somewhere that will have a DNS `A` record pointing to the AWS server IP address. For example, on `dot.tk` website one can create a free `*.tk` domain name having a record with `Name` `WWW` of `Type` `A` with a `Target` of the AWS EC2 instance IPv4 address and the resulting "non-AWS" domain name will be `www.DOT-TK-DOMAIN-NAME.tk`.
+* Next, an SSL certificate has to be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somewhere that will have a DNS `A` record pointing to the AWS server IP address. For example, to create a 1-year free `*.tk` domain name, go to `dot.tk` website, sign up, in the top menu choose "Services" -> "Register a New Domain", enter some domain name (for example, "captchan"), see if it's available, click "Get It Now", click "Checkout", click "Use DNS", in the "IP Address" fields enter the AWS EC2 instance IPv4 address, click "Continue", click "Complete Order". The resulting "non-AWS" domain name will be `DOT-TK-DOMAIN-NAME.tk`.
 
 * Install `certbot` for issuing free "letsEncrypt" certificates:
 
@@ -148,9 +148,7 @@ server {
 * Check the dummy "ACME challenge" response for AWS domain name: `curl -L http://YOUR-INSTANCE-SUBNAME.YOUR-REGION.compute.amazonaws.com
 /.well-known/acme-challenge/example.html`
 
-* If it says "Success" then the "ACME challenge" has been set up correctly. Now check the non-AWS domain name you've created on `dot.tk` or some other free DNS service.
-
-* Check the dummy "ACME challenge" response for non-AWS domain name: `curl -L http://YOUR-NON-AWS-DOMAIN-NAME-HERE/.well-known/acme-challenge/example.html`
+* If it says "Success" then the "ACME challenge" has been set up correctly. Now check the non-AWS domain name you've created on `dot.tk` or some other free DNS service — check the dummy "ACME challenge" response for non-AWS domain name: `curl -L http://YOUR-NON-AWS-DOMAIN-NAME-HERE/.well-known/acme-challenge/example.html`
 
 * If it says "Success" then remove the dummy "ACME challenge" response file (`certbot` will create its own): `sudo rm /var/www/html/.well-known/acme-challenge/example.html`
 
@@ -184,7 +182,7 @@ server {
 # domains to retrieve certificate.
 # AWS domains are rejected by letsEncrypt.
 # One can use something like `dot.tk` for a temporary free domain.
-domains = www.example.tk # change to the cors proxy host name
+domains = example.tk # change to the cors proxy host name
 
 # increase key size
 rsa-key-size = 4096
