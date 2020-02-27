@@ -18,11 +18,6 @@ function ThreadCommentsList({
 		state => virtualScrollerState.current = state,
 		[]
 	)
-	const onVirtualScrollerMount = useCallback(() => {
-		if (wasInstantNavigation() && restoredState) {
-			window.scrollTo(0, restoredState.scrollY)
-		}
-	}, [])
 	const onItemFirstRender = useCallback(
 		(i) => getItem(i).parseContent(),
 		[getItem]
@@ -40,7 +35,6 @@ function ThreadCommentsList({
 		<VirtualScroller
 			{...rest}
 			ref={ref}
-			onMount={onVirtualScrollerMount}
 			initialCustomState={initialCustomState}
 			initialState={wasInstantNavigation() ? restoredState : undefined}
 			onStateChange={onVirtualScrollerStateChange}
