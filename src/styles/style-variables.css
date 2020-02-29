@@ -96,10 +96,12 @@
 
 	/* CommentSeparator. */
 	--CommentSeparator-width: 1px;
+	--CommentSeparator-width--outline: 0px;
 	--CommentSeparator-color: var(--Content-color-300);
 	@mixin m-plus {
 		/* `box-shadow` is used instead of `border-top`/`border-bottom`. */
 		--CommentSeparator-width: 0px;
+		--CommentSeparator-width--outline: 1px;
 	}
 
 	/* CommentTree. */
@@ -107,6 +109,12 @@
 	--CommentTree-color--hover: var(--Content-color-600);
 	@mixin m-plus {
 		--CommentTree-borderWidth: 2px;
+	}
+
+	/* Post. */
+	--Post-paddingLeft: var(--Post-padding--horizontal);
+	@mixin m-plus {
+		--Post-paddingLeft: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft));
 	}
 
 	/* PostThumbnail. */

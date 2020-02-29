@@ -31,6 +31,8 @@ import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
 import hasAttachmentPicture from 'social-components/commonjs/utility/attachment/hasPicture'
 import getThumbnailSize from 'social-components/commonjs/utility/attachment/getThumbnailSize'
 
+import BackToPreviousComment from '../components/BackToPreviousComment'
+import InReplyToModal, { InReplyToModalCloseTimeout, InReplyToModalScrollToTopAndFocus } from '../components/InReplyToModal'
 import ThreadCommentsList from '../components/ThreadCommentsList'
 import ShowPrevious from '../components/ShowPrevious'
 import BoardThreadMenu from '../components/BoardThreadMenu'
@@ -87,9 +89,9 @@ function ThreadPage({
 	// `setFromIndex()` shouldn't be called directly.
 	// Instead, it should be called via `onSetFromIndex()`.
 	const [fromIndex, setFromIndex] = useState(initialFromIndex)
-	// `fromIndexRef` is only used in `scrollToComment()`
+	// `fromIndexRef` is only used in `showComment()`
 	// to prevent changing `itemComponentProps` when `fromIndex` changes
-	// which would happen if `scrollToComment()` used `fromIndex` directly.
+	// which would happen if `showComment()` used `fromIndex` directly.
 	// This results in not re-rendering the whole comments list
 	// when clicking "Show previous" button.
 	const fromIndexRef = useRef(fromIndex)
@@ -154,9 +156,9 @@ function ThreadPage({
 		}
 	}, [board, thread, dispatch])
 	const [commentNavigationHistory, setCommentNavigationHistory] = useState([])
-	// `commentNavigationHistoryRef` is only used in `scrollToComment()`
+	// `commentNavigationHistoryRef` is only used in `showComment()`
 	// to prevent changing `itemComponentProps` when `commentNavigationHistory` changes
-	// which would happen if `scrollToComment()` used `commentNavigationHistory` directly.
+	// which would happen if `showComment()` used `commentNavigationHistory` directly.
 	// This results in not re-rendering the whole comments list
 	// when clicking "Show previous" button.
 	const commentNavigationHistoryRef = useRef(commentNavigationHistory)
@@ -164,52 +166,84 @@ function ThreadPage({
 		setCommentNavigationHistory(history)
 		commentNavigationHistoryRef.current = history
 	}, [])
-	const scrollToComment = useCallback((commentId, fromCommentId) => {
-		const index = thread.comments.findIndex(_ => _.id === commentId);
+	const resetCommentNavigationHistoryTimeout = useRef()
+	const [showCommentHistoryModal, setShowCommentHistoryModal] = useState()
+	const onShowCommentHistoryModal = useCallback(() => {
+		clearTimeout(resetCommentNavigationHistoryTimeout.current)
+		setShowCommentHistoryModal(true)
+	}, [setShowCommentHistoryModal, onSetCommentNavigationHistory])
+	const onHideCommentHistoryModal = useCallback(() => {
+		clearTimeout(resetCommentNavigationHistoryTimeout.current)
+		resetCommentNavigationHistoryTimeout.current = setTimeout(() => {
+			onSetCommentNavigationHistory([])
+		}, InReplyToModalCloseTimeout)
+		setShowCommentHistoryModal(false)
+	}, [setShowCommentHistoryModal, onSetCommentNavigationHistory])
+	const showComment = useCallback((commentId, fromCommentId) => {
+		const index = thread.comments.findIndex(_ => _.id === commentId)
 		if (index < 0) {
 			dispatch(notify(getMessages(locale).noSearchResults))
 			console.error(`Comment #${commentId} not found`)
 			return
 		}
-		// `fromIndexRef` is used instead of `fromIndex`
-		// to avoid having `fromIndex` in the list of dependencies
-		// which would result in re-rendering all comments
-		// when a user clicks "Show previous" button.
-		const fromIndex = fromIndexRef.current
-		if (index < fromIndex) {
-			dispatch(notify('Comment not rendered'))
-			return
-		}
-		const { top } = virtualScroller.current.getItemCoordinates(index - fromIndex)
-		const headerHeight = document.querySelector('.webpage__header').offsetHeight
-		window.scrollTo(0, top - headerHeight)
+		const comment = thread.comments[index]
+		// Displaying a modal with comment content is used
+		// instead of scrolling to the comment.
+		// // `fromIndexRef` is used instead of `fromIndex`
+		// // to avoid having `fromIndex` in the list of dependencies
+		// // which would result in re-rendering all comments
+		// // when a user clicks "Show previous" button.
+		// const fromIndex = fromIndexRef.current
+		// if (index < fromIndex) {
+		// 	dispatch(notify('Comment not rendered'))
+		// 	return
+		// }
+		// const { top } = virtualScroller.current.getItemCoordinates(index - fromIndex)
+		// const headerHeight = document.querySelector('.webpage__header').offsetHeight
+		// window.scrollTo(0, top - headerHeight)
+		onShowCommentHistoryModal(true)
 		if (fromCommentId) {
-			const history = commentNavigationHistoryRef.current
-			if (history.length > 0 && history[history.length - 1].commentId === fromCommentId) {
-				// Don't add sequential idential entries to the history
-				// when a user clicks on a `post-link` quote multiple times.
-			} else {
-				// This turned out to feel inconsistent, so this feature was disabled.
-				// // Don't add an entry to the history if the comment with the
-				// // `post-link` being clicked is still visible after scrolling
-				// // to the quoted comment (with some bottom margin).
-				// const fromCommentIndex = thread.comments.findIndex(_ => _.id === fromCommentId);
-				// const { top: fromCommentTop } = virtualScroller.current.getItemCoordinates(fromCommentIndex - fromIndex)
-				// if (fromCommentTop > top - headerHeight + getViewportHeight() * 0.9) {
-					onSetCommentNavigationHistory(history.concat({ commentId: fromCommentId }))
-				// }
-			}
+			let history = commentNavigationHistoryRef.current
+			// This turned out to feel inconsistent, so this feature was disabled.
+			// // Don't add an entry to the history if the comment with the
+			// // `post-link` being clicked is still visible after scrolling
+			// // to the quoted comment (with some bottom margin).
+			// const fromCommentIndex = thread.comments.findIndex(_ => _.id === fromCommentId);
+			// const { top: fromCommentTop } = virtualScroller.current.getItemCoordinates(fromCommentIndex - fromIndex)
+			// if (fromCommentTop > top - headerHeight + getViewportHeight() * 0.9) {
+				// onSetCommentNavigationHistory(history.concat({ commentId: fromCommentId }))
+				// Add the initial "from" history entry.
+				if (history.length === 0) {
+					history = history.concat(
+						thread.comments.find(_ => _.id === fromCommentId)
+					)
+				}
+				if (!comment.contentParsed) {
+					comment.parseContent()
+				}
+				onSetCommentNavigationHistory(history.concat(comment))
+				// Scroll comment history modal to top.
+				InReplyToModalScrollToTopAndFocus()
+			// }
 		}
 	},
 	// This dependencies list should be such that
 	// comments aren't re-rendered when they don't need to.
-	// (`itemComponentProps` depends on `scrollToComment`)
+	// (`itemComponentProps` depends on `showComment`)
 	[thread, dispatch, locale])
-	const onBackToPreviouslyViewedComment = useCallback(() => {
-		const latest = commentNavigationHistory.pop()
-		scrollToComment(latest.commentId)
-		onSetCommentNavigationHistory(commentNavigationHistory.slice())
-	}, [scrollToComment, commentNavigationHistory])
+	const onGoBackCommentHistoryModal = useCallback(() => {
+		const newCommentNavigationHistory = commentNavigationHistory.slice()
+		newCommentNavigationHistory.pop()
+		onSetCommentNavigationHistory(newCommentNavigationHistory)
+		// Scroll comment history modal to top.
+		InReplyToModalScrollToTopAndFocus()
+	}, [onSetCommentNavigationHistory, commentNavigationHistory])
+	// const onBackToPreviouslyViewedComment = useCallback(() => {
+	// 	const latest = commentNavigationHistory.pop()
+	// 	// showComment(latest.commentId)
+	// 	showComment(latest.id)
+	// 	onSetCommentNavigationHistory(commentNavigationHistory.slice())
+	// }, [showComment, commentNavigationHistory])
 	const itemComponentProps = useMemo(() => ({
 		// `onPostContentChange()` is passed to `<Post/>`.
 		// It's called whenever there's a parent comment who's `content` did change
@@ -228,10 +262,10 @@ function ThreadPage({
 		dispatch,
 		locale,
 		expandAttachments: areAttachmentsExpanded,
-		scrollToComment
+		showComment
 		// `itemComponentProps` dependencies list should be such
 		// that comments aren't re-rendered when they don't need to.
-	}), [thread, areAttachmentsExpanded, dispatch, scrollToComment])
+	}), [thread, areAttachmentsExpanded, dispatch, showComment])
 	const onBack = useCallback((event) => {
 		if (canGoBackInstantly()) {
 			dispatch(goBack())
@@ -367,25 +401,11 @@ function ThreadPage({
 				{React.cloneElement(threadMenu, { className: 'thread-page__menu--above-content' })}
 			</div>
 			<div className="thread-page__comments-container">
-				{!searchQuery && commentNavigationHistory.length > 0 &&
-					<React.Fragment>
-						<div className="thread-page__back-to-previous-comment-desktop">
-							<Button
-								onClick={onBackToPreviouslyViewedComment}
-								className="thread-page__back-to-previous-comment-desktop-button rrui__button--outline">
-								<LeftArrowThick strokeWidth={10} className="thread-page__back-to-previous-comment-desktop__arrow"/>
-								{getMessages(locale).backToPreviouslyViewedComment}
-							</Button>
-						</div>
-						<button
-							type="button"
-							onClick={onBackToPreviouslyViewedComment}
-							title={getMessages(locale).backToPreviouslyViewedComment}
-							className="rrui__button-reset thread-page__back-to-previous-comment-mobile">
-							<LeftArrowThick strokeWidth={4} className="thread-page__back-to-previous-comment-mobile__arrow"/>
-						</button>
-					</React.Fragment>
-				}
+				{/*!searchQuery && commentNavigationHistory.length > 0 &&
+					<BackToPreviousComment
+						locale={locale}
+						onClick={onBackToPreviouslyViewedComment}/>
+				*/}
 				{searchQuery &&
 					<ThreadCommentsList
 						key="searchResults"/>
@@ -414,6 +434,16 @@ function ThreadPage({
 					</p>
 				}
 			</div>
+			{commentNavigationHistory.length > 0 &&
+				<InReplyToModal
+					board={board}
+					thread={thread}
+					isOpen={showCommentHistoryModal}
+					onClose={onHideCommentHistoryModal}
+					onGoBack={onGoBackCommentHistoryModal}
+					history={commentNavigationHistory}
+					onShowComment={showComment}/>
+			}
 		</section>
 	)
 }
@@ -510,20 +540,6 @@ function getFromIndex(board, thread, location) {
 		return thread.comments.length
 	}
 	return 0
-}
-
-function LeftArrowThick({ className, strokeWidth }) {
-	return (
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className={className}>
-			<line stroke="currentColor" strokeWidth={strokeWidth} x1="74.5" y1="2.25" x2="25" y2="51.75"/>
-			<line stroke="currentColor" strokeWidth={strokeWidth} x1="74.5" y1="97.75" x2="25" y2="48.25"/>
-		</svg>
-	)
-}
-
-LeftArrowThick.propTypes = {
-	strokeWidth: PropTypes.number.isRequired,
-	className: PropTypes.string
 }
 
 // This is a workaround for cases when `found` doesn't remount

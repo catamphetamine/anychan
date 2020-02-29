@@ -282,77 +282,30 @@
 	margin-bottom: -0.25em;
 }
 
-.thread-page__back-to-previous-comment-mobile {
-	position: fixed;
-	/* Without `z-index: 1` the button would be under `post-link` quotes. */
-	z-index: 1;
-	/*top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) + (var(--SideNavMenuButton-width) - var(--BackToPreviousComment-height)) / 2);*/
-	top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) * 2 + var(--SideNavMenuButton-width));
-	right: calc(var(--Post-padding--horizontal) - var(--SideNavMenuButton-padding));
-	/* Don't interfere with the floating menu button. */
-	/*right: calc(var(--Post-padding--horizontal) + var(--SideNavMenuButton-padding) + var(--SideNavMenuButton-width) + var(--SideNavMenuButton-right));*/
-	&:focus {
-		/*color: var(--Clickable-color--text);*/
+.ReplyHistoryModal {
+	--CommentSeparator-width: 1px;
+	--CommentSeparator-width--outline: 0px;
+	position: relative;
+	width: 100%;
+	max-width: var(--Content-maxWidth);
+	.rrui__modal__content {
+		margin: 0;
+		/* Don't show the top border on the main comment. */
+		> .rrui__modal__content-itself {
+			> .comment-tree {
+				> .thread-comment__container {
+					> .thread-comment--thread {
+						border-top: none;
+					}
+				}
+			}
+		}
 	}
-	&:active {
-		/*color: var(--Clickable-color--textActive);*/
-		color: var(--Clickable-color--text);
+		/* Don't show bottom border on comments. */
+	.thread-comment--thread {
+		border-bottom: none;
 	}
-}
-
-.thread-page__back-to-previous-comment-desktop {
-	position: sticky;
-	/* Without `z-index: 1` the button would be under `post-link` quotes. */
-	z-index: 1;
-	top: calc(var(--Header-height) + (var(--ThreadComments-marginTop) - 1px) - 1px);
-	display: flex;
-	justify-content: flex-end;
-	height: 0;
-	margin-right: calc(var(--PostMoreActionsButton-paddingLeft) * 2 + var(--PostMoreActionsButton-width) + var(--Post-padding--horizontal));
-}
-
-.thread-page__back-to-previous-comment-desktop-button {
-	background-color: var(--Content-backgroundColor);
-	border-radius: 0;
-	border-color: var(--Header-borderColor);
-	height: var(--BackToPreviousComment-height);
-	/* Don't interfere with `.thread-page__menu--above-content`. */
-	margin-top: calc(-1 * (var(--ThreadComments-marginTop) - 1px));
-	/*
-	@mixin upto-xs {
-		padding-left: calc(var(--unit) / 2);
-		padding-right: calc(var(--unit) / 2);
-	}
-	@mixin s {
-		padding-left: calc(var(--unit) * 0.75);
-		padding-right: calc(var(--unit) * 0.75);
-	}
-	*/
-}
-
-.thread-page__back-to-previous-comment-desktop__arrow {
-	width: 0.8em;
-	height: 0.8em;
-	margin-right: 0.5em;
-	transform: rotate(-90deg);
-}
-
-.thread-page__back-to-previous-comment-mobile__arrow {
-	width: var(--SideNavMenuButton-width);
-	height: var(--SideNavMenuButton-width);
-	padding: var(--SideNavMenuButton-padding);
-	transform: rotate(-90deg);
-  box-sizing: content-box;
-}
-
-@mixin upto-m {
-	.thread-page__back-to-previous-comment-desktop {
-		display: none;
-	}
-}
-
-@mixin l-plus {
-	.thread-page__back-to-previous-comment-mobile {
-		display: none;
+	.comment-tree__branch-toggler {
+		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
 }

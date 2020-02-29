@@ -142,6 +142,7 @@
 		"anonymous": "Anonymous"
 	},
 	"notImplemented": "This feature hasn't been implemented yet",
+	"inReplyTo": "In reply to",
 	"backToPreviouslyViewedComment": "Return",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
 	"noNewComments": "No new comments",

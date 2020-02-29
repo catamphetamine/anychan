@@ -50,6 +50,7 @@ import './ThreadComment.css'
 // that could be used for calling `.renderItem(i)` manually.
 // (which is done when YouTube/Twitter/etc links are loaded)
 export default function ThreadComment({
+	id,
 	comment,
 	thread,
 	board,
@@ -63,7 +64,7 @@ export default function ThreadComment({
 	onContentDidChange,
 	dispatch,
 	postRef,
-	scrollToComment,
+	showComment,
 	className,
 	...rest
 }) {
@@ -190,7 +191,7 @@ export default function ThreadComment({
 		if (!postIsExternal) {
 			if (boardId === board.id && threadId === thread.id) {
 				event.preventDefault()
-				scrollToComment(postId, comment.id)
+				showComment(postId, comment.id)
 			}
 		}
 	}, [board, thread, comment])
@@ -233,7 +234,7 @@ export default function ThreadComment({
 	// when navigating "post-link"s a web browser would scroll down
 	// to the comment, and besides that the floating header would
 	// obstruct the top of the comment.
-	const id = parentComment ? undefined : 'comment-' + comment.id
+	id = id === undefined ? (parentComment ? undefined : 'comment-' + comment.id) : id
 
 	// Not using a `<Link/>` here because "<a> cannot appear as a descendant of <a>".
 	// if (!onClick_ && onClickUrl) {
@@ -281,15 +282,10 @@ export default function ThreadComment({
 }
 
 ThreadComment.propTypes = {
+	id: PropTypes.string,
 	mode: PropTypes.oneOf(['board', 'thread']),
 	onClick: PropTypes.func,
 	onClickUrl: PropTypes.string,
-	board: PropTypes.shape({
-		id: PropTypes.string.isRequired
-	}).isRequired,
-	thread: PropTypes.shape({
-		id: PropTypes.string.isRequired
-	}).isRequired,
 	comment: commentType.isRequired,
 	thread: threadType.isRequired,
 	board: boardType.isRequired,
@@ -299,7 +295,7 @@ ThreadComment.propTypes = {
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
 	onContentDidChange: PropTypes.func,
-	scrollToComment: PropTypes.func.isRequired
+	showComment: PropTypes.func.isRequired
 }
 
 function Comment({
@@ -325,6 +321,9 @@ function Comment({
 	className,
 	...rest
 }) {
+	if (compact === undefined) {
+		compact = mode === 'thread' && !isFirstPostInThread
+	}
 	const footerBadges = useMemo(() => getFooterBadges(comment, {
 		parentComment,
 		showingReplies,
@@ -425,7 +424,7 @@ function Comment({
 			post={comment}
 			expandAttachments={expandAttachments}
 			hideRestAttachments={mode === 'board'}
-			compact={mode === 'thread' && !isFirstPostInThread}
+			compact={compact}
 			stretch
 			header={Header}
 			locale={locale}
@@ -495,6 +494,7 @@ function Comment({
 }
 
 Comment.propTypes = {
+	compact: PropTypes.bool,
 	mode: PropTypes.oneOf(['board', 'thread']),
 	comment: commentType.isRequired,
 	thread: threadType.isRequired,

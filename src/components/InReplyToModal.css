@@ -1,0 +1,121 @@
+@import "../styles/common";
+
+.InReplyToModal {
+	--CommentSeparator-width: 1px;
+	--CommentSeparator-width--outline: 0px;
+	position: relative;
+	width: 100%;
+	max-width: var(--Content-maxWidth);
+	.rrui__modal__content {
+		margin: 0;
+	}
+	/* Don't show bottom border on comments. */
+	.thread-comment--thread {
+		border-bottom: none;
+	}
+	.comment-tree__branch-toggler {
+		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+}
+
+.InReplyToModalClose {
+	--InReplyToModalClose-width: calc(var(--unit) * 1);
+	--InReplyToModalClose-padding: calc(var(--unit) / 2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: calc(-1 * var(--InReplyToModalClose-padding));
+	padding: var(--InReplyToModalClose-padding);
+	&:focus {
+		/*background-color: var(--base-color-100);*/
+		color: var(--Clickable-color--text);
+	}
+	&:active {
+		color: var(--Clickable-color--active);
+	}
+	@mixin m-plus {
+		--InReplyToModalClose-padding: var(--unit);
+		/*--InReplyToModalClose-width: calc(var(--unit) * 1.5);*/
+	}
+}
+
+.InReplyToModalCloseIcon {
+	display: block;
+	width: var(--InReplyToModalClose-width);
+	height: var(--InReplyToModalClose-width);
+}
+
+.InReplyToModalHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	padding-left: var(--Post-padding--horizontal);
+	padding-right: var(--Post-padding--horizontal);
+	/*padding-top: var(--Post-padding--vertical);*/
+	padding-top: calc(var(--unit) * 1);
+	font-weight: lighter;
+	@mixin m-plus {
+		font-size: 1.2em;
+	}
+}
+
+.InReplyToModalHeaderTitleButton {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	&:hover {
+		color: var(--Clickable-color--text);
+	}
+	&:focus {
+		color: var(--Clickable-color--text);
+	}
+	&:active {
+		color: var(--Clickable-color--active);
+	}
+}
+
+.InReplyToModalHeaderArrowIcon {
+	width: 0.9em;
+	height: 0.9em;
+	margin-right: 0.2em;
+}
+
+.InReplyToModalHeaderArrowIcon--close {
+	width: 0.7em;
+	height: 0.7em;
+	margin-top: 0;
+	margin-right: 0.5em;
+}
+
+.InReplyToModalHeaderCounter {
+	margin-right: 0.25em;
+	&:before,
+	&:after {
+		display: inline-block;
+		padding-bottom: 0.1em;
+	}
+	&:before {
+		content: '(';
+	}
+	&:after {
+		content: ')';
+	}
+}
+
+/* Don't show the top border on the main comment. */
+.InReplyToModal {
+	.rrui__modal__content {
+		> .comment-tree {
+			> .thread-comment__container {
+				> .thread-comment--thread {
+					border-top: none;
+				}
+				.thread-comment__thumbnail,
+				.thread-comment__comment {
+					padding-top: calc(var(--unit) * 0.5);
+				}
+			}
+		}
+	}
+}

@@ -19,6 +19,8 @@
 	--ListButtonIcon-width: 0.6em;
 	--ListButton-padding: 0.2em;
 
+	--CommentsList-maxWidth: calc(3 * var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+
 	/*
 	--PageContent-padding--nonContentSection: 0px;
 	@mixin upto-m {

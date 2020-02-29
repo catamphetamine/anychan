@@ -18,6 +18,9 @@
 	padding-right: var(--Post-padding--horizontal);
 }
 
+/* This CSS rule duplicates `.post--compact` rule,
+   so that post thumbnails also had the relevant
+   `--Post-padding--vertical`. */
 .thread-comment--compact {
 	--Post-padding--vertical: var(--Post-padding--verticalCompact);
 }
@@ -72,7 +75,7 @@
 		*/
 	/*}*/
 	@mixin m-plus {
-		box-shadow: inset 0 0 0 1px var(--CommentSeparator-color);
+		box-shadow: inset 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
 	}
 }
 

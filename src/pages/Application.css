@@ -114,8 +114,13 @@
 }
 
 .webpage--board,
+.webpage--thread,
+.InReplyToModal {
+	--Content-maxWidth: var(--CommentsList-maxWidth);
+}
+
+.webpage--board,
 .webpage--thread {
-	--Content-maxWidth: calc(3 * var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
 	main {
 		width: 100%;
 		max-width: var(--Content-maxWidth);

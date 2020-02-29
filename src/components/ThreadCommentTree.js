@@ -33,7 +33,7 @@ export default function ThreadCommentTree({
 		<CommentTree
 			{...rest}
 			initialState={state}
-			onStateChange={onSubtreeStateChange}
+			onStateChange={onStateChange ? onSubtreeStateChange : undefined}
 			onDidToggleShowReplies={onHeightChange}
 			onShowReply={onShowReply}
 			component={ThreadComment}
@@ -44,9 +44,9 @@ export default function ThreadCommentTree({
 ThreadCommentTree.propTypes = {
 	state: PropTypes.object,
 	// `onHeightChange()` is supplied by `virtual-scroller`.
-	onHeightChange: PropTypes.func.isRequired,
+	onHeightChange: PropTypes.func,
 	// `onStateChange()` is supplied by `virtual-scroller`.
-	onStateChange: PropTypes.func.isRequired
+	onStateChange: PropTypes.func
 }
 
 function onShowReply(comment) {

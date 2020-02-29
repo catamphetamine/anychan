@@ -1,0 +1,68 @@
+/* "Back to previous comment" button is no longer used. */
+
+@import "../styles/common";
+
+.thread-page__back-to-previous-comment-mobile {
+	position: fixed;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	/*top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) + (var(--SideNavMenuButton-width) - var(--BackToPreviousComment-height)) / 2);*/
+	top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) * 2 + var(--SideNavMenuButton-width));
+	right: calc(var(--Post-padding--horizontal) - var(--SideNavMenuButton-padding));
+	/* Don't interfere with the floating menu button. */
+	/*right: calc(var(--Post-padding--horizontal) + var(--SideNavMenuButton-padding) + var(--SideNavMenuButton-width) + var(--SideNavMenuButton-right));*/
+	&:focus {
+		/*color: var(--Clickable-color--text);*/
+	}
+	&:active {
+		/*color: var(--Clickable-color--textActive);*/
+		color: var(--Clickable-color--text);
+	}
+}
+
+.thread-page__back-to-previous-comment-desktop {
+	position: sticky;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	top: calc(var(--Header-height) + (var(--ThreadComments-marginTop) - 1px) - 1px);
+	display: flex;
+	justify-content: flex-end;
+	height: 0;
+	margin-right: calc(var(--PostMoreActionsButton-paddingLeft) * 2 + var(--PostMoreActionsButton-width) + var(--Post-padding--horizontal));
+}
+
+.thread-page__back-to-previous-comment-desktop-button {
+	background-color: var(--Content-backgroundColor);
+	border-radius: 0;
+	border-color: var(--Header-borderColor);
+	height: var(--BackToPreviousComment-height);
+	/* Don't interfere with `.thread-page__menu--above-content`. */
+	margin-top: calc(-1 * (var(--ThreadComments-marginTop) - 1px));
+}
+
+.thread-page__back-to-previous-comment-desktop__arrow {
+	width: 0.8em;
+	height: 0.8em;
+	margin-right: 0.5em;
+	transform: rotate(-90deg);
+}
+
+.thread-page__back-to-previous-comment-mobile__arrow {
+	width: var(--SideNavMenuButton-width);
+	height: var(--SideNavMenuButton-width);
+	padding: var(--SideNavMenuButton-padding);
+	transform: rotate(-90deg);
+  box-sizing: content-box;
+}
+
+@mixin upto-m {
+	.thread-page__back-to-previous-comment-desktop {
+		display: none;
+	}
+}
+
+@mixin l-plus {
+	.thread-page__back-to-previous-comment-mobile {
+		display: none;
+	}
+}

@@ -142,6 +142,7 @@
 		"anonymous": "Аноним"
 	},
 	"notImplemented": "Ещё не сделано",
+	"inReplyTo": "В ответ на",
 	"backToPreviouslyViewedComment": "Вернуться",
 	"nMoreComments": "{count, plural, one {ещё <tag>#</tag> комментарий} few {ещё <tag>#</tag> комментария} many {ещё <tag>#</tag> комментариев} other {ещё <tag>#</tag> комментария}}",
 	"noNewComments": "Нет новых комментариев",
