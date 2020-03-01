@@ -82,7 +82,7 @@
     "universal-webpack": "^0.6.6",
     "url-loader": "^1.1.2",
     "web-service": "^0.5.7",
-    "webpack": "^4.36.1",
+    "webpack": "^4.41.6",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.10",
