@@ -42,26 +42,16 @@ export default function InReplyToModal({
 			isOpen={isOpen}
 			close={onClose}
 			shouldReturnFocusAfterClose={false}
+			aria-label={getMessages(locale).inReplyTo}
 			closeLabel={getMessages(locale).actions.close}
 			className="InReplyToModal"
 			overlayClassName={InReplyToModalOverlayClassName}>
-			<Modal.Title className="InReplyToModalHeader">
-				<InReplyToModalTitle
+			<Modal.Content>
+				<InReplyToModalBack
 					history={history}
 					locale={locale}
 					onClose={onClose}
 					onGoBack={onGoBack}/>
-				{/*
-				<button
-					type="button"
-					onClick={onClose}
-					title={getMessages(locale).actions.close}
-					className="rrui__button-reset InReplyToModalClose">
-					<CloseIcon className="InReplyToModalCloseIcon"/>
-				</button>
-				*/}
-			</Modal.Title>
-			<Modal.Content>
 				{/*
 				Don't preserve comment tree state when navigating to
 				the next quoted comment: `key` is used for that.
@@ -93,7 +83,7 @@ InReplyToModal.propTypes = {
 	onShowComment: PropTypes.func.isRequired
 }
 
-function InReplyToModalTitle({
+function InReplyToModalBack({
 	onClose,
 	onGoBack,
 	history,
@@ -111,22 +101,24 @@ function InReplyToModalTitle({
 		<button
 			type="button"
 			onClick={isInitial ? onClose : onGoBack}
-			className="rrui__button-reset InReplyToModalHeaderTitleButton">
+			className="rrui__button-reset InReplyToModalBack">
 			{/*isInitial &&
-				<CloseIcon className="InReplyToModalHeaderArrowIcon InReplyToModalHeaderArrowIcon--close"/>
+				<CloseIcon className="InReplyToModalHeaderBackArrowIcon InReplyToModalHeaderBackArrowIcon--close"/>
 			*/}
-			<LeftArrow className="InReplyToModalHeaderArrowIcon"/>
-			{!isInitial &&
-				<span className="InReplyToModalHeaderCounter">
-					{history.length - 1}
-				</span>
-			}
-			{getMessages(locale).inReplyTo}:
+			<LeftArrow className="InReplyToModalHeaderBackArrowIcon"/>
+			<span className="InReplyToModalBackText">
+				{!isInitial &&
+					<span className="InReplyToModalHeaderCounter">
+						{history.length - 1}
+					</span>
+				}
+				{getMessages(locale).actions.back}
+			</span>
 		</button>
 	)
 }
 
-InReplyToModalTitle.propTypes = {
+InReplyToModalBack.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onGoBack: PropTypes.func.isRequired,
 	history: PropTypes.arrayOf(commentType).isRequired,
@@ -139,6 +131,10 @@ export function InReplyToModalScrollToTopAndFocus() {
 	const modalScrollable = document.querySelector('.' + InReplyToModalOverlayClassName)
 	if (modalScrollable) {
 		modalScrollable.scrollTo(0, 0)
+		// Focus the modal body, because otherwise the focus would be lost
+		// and would move to `<body/>` because the link that has been clicked
+		// is no longer rendered.
+		// If the focus wasn't restored, closing the modal on Escape wouldn't work.
 		modalScrollable.firstChild.focus()
 	}
 }

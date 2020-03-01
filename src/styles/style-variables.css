@@ -112,10 +112,7 @@
 	}
 
 	/* Post. */
-	--Post-paddingLeft: var(--Post-padding--horizontal);
-	@mixin m-plus {
-		--Post-paddingLeft: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft));
-	}
+	--Post-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft--thumbnail));
 
 	/* PostThumbnail. */
 	/* Default thumnail size. Will be overridden on `<body/>` after parsing chan response. */

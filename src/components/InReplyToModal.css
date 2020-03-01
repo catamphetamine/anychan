@@ -3,6 +3,9 @@
 .InReplyToModal {
 	--CommentSeparator-width: 1px;
 	--CommentSeparator-width--outline: 0px;
+	/*--InReplyToModalHeader-paddingTop: var(--unit);*/
+	--InReplyToModalHeaderBackArrowIcon-width: 0.9em;
+	--InReplyToModalHeaderBackArrowIcon-marginRight: 0.2em;
 	position: relative;
 	width: 100%;
 	max-width: var(--Content-maxWidth);
@@ -18,7 +21,7 @@
 	}
 }
 
-.InReplyToModalClose {
+/*.InReplyToModalClose {
 	--InReplyToModalClose-width: calc(var(--unit) * 1);
 	--InReplyToModalClose-padding: calc(var(--unit) / 2);
 	display: flex;
@@ -27,7 +30,6 @@
 	margin-right: calc(-1 * var(--InReplyToModalClose-padding));
 	padding: var(--InReplyToModalClose-padding);
 	&:focus {
-		/*background-color: var(--base-color-100);*/
 		color: var(--Clickable-color--text);
 	}
 	&:active {
@@ -35,66 +37,76 @@
 	}
 	@mixin m-plus {
 		--InReplyToModalClose-padding: var(--unit);
-		/*--InReplyToModalClose-width: calc(var(--unit) * 1.5);*/
 	}
-}
+}*/
 
-.InReplyToModalCloseIcon {
+/*.InReplyToModalCloseIcon {
 	display: block;
 	width: var(--InReplyToModalClose-width);
 	height: var(--InReplyToModalClose-width);
-}
+}*/
 
-.InReplyToModalHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+/*.InReplyToModalHeader {
+	position: relative;
 	margin: 0;
-	padding-left: var(--Post-padding--horizontal);
+	padding-left: calc(var(--Post-paddingLeft--thumbnail) + var(--PostThumbnailContainer-width));
 	padding-right: var(--Post-padding--horizontal);
-	/*padding-top: var(--Post-padding--vertical);*/
-	padding-top: calc(var(--unit) * 1);
+	padding-top: var(--InReplyToModalHeader-paddingTop);
 	font-weight: lighter;
 	@mixin m-plus {
 		font-size: 1.2em;
 	}
-}
+}*/
 
-.InReplyToModalHeaderTitleButton {
+.InReplyToModalBack {
+	--InReplyToModalBack-marginTop: calc(var(--unit) / 2);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	&:hover {
-		color: var(--Clickable-color--text);
-	}
+	/* Without `z-index: 1` the "Back" button would be hidden under the post header. */
+	position: relative;
+	z-index: 1;
+	margin-left: var(--Post-padding--horizontal);
+	margin-top: var(--InReplyToModalBack-marginTop);
+	margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-padding--vertical));
+	font-weight: var(--Post-fontWeight--secondary);
+	color: var(--Clickable-color--text);
 	&:focus {
 		color: var(--Clickable-color--text);
+		.InReplyToModalBackText {
+			border-bottom: 1px solid currentColor;
+		}
 	}
 	&:active {
 		color: var(--Clickable-color--active);
 	}
+	@mixin m-plus {
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		/* The left arrow icon isn't aligned to the left side. The ~20% horizontal shift compensates that. */
+		margin-left: calc(var(--Post-paddingLeft--thumbnail) - var(--InReplyToModalHeaderBackArrowIcon-width) * 0.2);
+		margin-top: var(--Post-padding--vertical);
+		margin-bottom: 0;
+	}
 }
 
-.InReplyToModalHeaderArrowIcon {
-	width: 0.9em;
-	height: 0.9em;
-	margin-right: 0.2em;
+.InReplyToModalHeaderBackArrowIcon {
+	width: var(--InReplyToModalHeaderBackArrowIcon-width);
+	height: var(--InReplyToModalHeaderBackArrowIcon-width);
+	margin-right: var(--InReplyToModalHeaderBackArrowIcon-marginRight);
 }
 
-.InReplyToModalHeaderArrowIcon--close {
+/*.InReplyToModalHeaderBackArrowIcon--close {
 	width: 0.7em;
 	height: 0.7em;
 	margin-top: 0;
 	margin-right: 0.5em;
-}
+}*/
 
 .InReplyToModalHeaderCounter {
 	margin-right: 0.25em;
-	&:before,
-	&:after {
-		display: inline-block;
-		padding-bottom: 0.1em;
-	}
 	&:before {
 		content: '(';
 	}
@@ -111,10 +123,10 @@
 				> .thread-comment--thread {
 					border-top: none;
 				}
-				.thread-comment__thumbnail,
+				/*.thread-comment__thumbnail,
 				.thread-comment__comment {
 					padding-top: calc(var(--unit) * 0.5);
-				}
+				}*/
 			}
 		}
 	}

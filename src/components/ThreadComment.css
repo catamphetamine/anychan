@@ -47,8 +47,8 @@
 	/*box-shadow: none;*/
 	background-color: var(--Content-backgroundColor);
 	/*@mixin upto-s {*/
-		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	&.thread-comment--opening {
 		/* Thread cards on board page have top/bottom borders
 		   with color `var(--Content-color-200)` on small screens.
@@ -158,6 +158,11 @@
 		display: flex;
 	}
 
+	/* Both on board page and thread page. */
+	.thread-comment {
+		padding-left: var(--Post-paddingLeft--thumbnail);
+	}
+
 	/* Hide the first post attachment if it's already
 	   being shown as the comment thumbnail. */
 	.thread-comment--has-thumbnail {
@@ -191,11 +196,6 @@
 		/* This was relevant for the old design, not anymore though. */
 		padding-right: var(--PostThumbnail-marginRight);
 		margin-top: 0.2em;
-	}
-
-	/* Both on board page and thread page. */
-	.thread-comment {
-		padding-left: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft));
 	}
 
 	/* On thread page:
@@ -263,32 +263,30 @@
 
 	.thread-comment--thread {
 		.thread-comment__thumbnail {
-			margin-top: 1.35em;
+			margin-top: var(--PostThumbnail-marginTop);
 		}
-		&.thread-comment--opening {
-			.thread-comment__thumbnail {
-				margin-top: 1.9em;
-			}
+	}
+
+	.thread-comment {
+		--PostThumbnail-marginTop: 1.9em;
+	}
+	.thread-comment--compact {
+		--PostThumbnail-marginTop: 1.35em;
+	}
+	.thread-comment--titled {
+		--PostThumbnail-marginTop: 1.85em;
+	}
+	.thread-comment--titled {
+		&.thread-comment--compact {
+			--PostThumbnail-marginTop: 1.7em;
 		}
-		&.thread-comment--titled {
-			.thread-comment__thumbnail {
-				margin-top: 1.7em;
-			}
-			&.thread-comment--opening {
-				.thread-comment__thumbnail {
-					margin-top: 1.85em;
-				}
-			}
-		}
-		&.thread-comment--authored {
-			.thread-comment__thumbnail {
-				margin-top: 3.0em;
-			}
-			&.thread-comment--opening {
-				.thread-comment__thumbnail {
-					margin-top: 3.6em;
-				}
-			}
+	}
+	.thread-comment--authored {
+		--PostThumbnail-marginTop: 3.6em;
+	}
+	.thread-comment--authored {
+		&.thread-comment--compact {
+			--PostThumbnail-marginTop: 3.0em;
 		}
 	}
 
