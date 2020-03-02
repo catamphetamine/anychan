@@ -4,8 +4,10 @@
 	--CommentSeparator-width: 1px;
 	--CommentSeparator-width--outline: 0px;
 	/*--InReplyToModalHeader-paddingTop: var(--unit);*/
-	--InReplyToModalHeaderBackArrowIcon-width: 0.9em;
-	--InReplyToModalHeaderBackArrowIcon-marginRight: 0.2em;
+	--InReplyToModalBackIcon-width: 0.9em;
+	--InReplyToModalBackIcon-marginRight: 0.2em;
+	--InReplyToModalBack-marginTop: calc(var(--unit) / 2);
+	/* `.InReplyToModalHeader` is `position: abosolute` on large screens. */
 	position: relative;
 	width: 100%;
 	max-width: var(--Content-maxWidth);
@@ -21,91 +23,68 @@
 	}
 }
 
-/*.InReplyToModalClose {
-	--InReplyToModalClose-width: calc(var(--unit) * 1);
-	--InReplyToModalClose-padding: calc(var(--unit) / 2);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-right: calc(-1 * var(--InReplyToModalClose-padding));
-	padding: var(--InReplyToModalClose-padding);
-	&:focus {
-		color: var(--Clickable-color--text);
-	}
-	&:active {
-		color: var(--Clickable-color--active);
-	}
-	@mixin m-plus {
-		--InReplyToModalClose-padding: var(--unit);
-	}
-}*/
-
-/*.InReplyToModalCloseIcon {
-	display: block;
-	width: var(--InReplyToModalClose-width);
-	height: var(--InReplyToModalClose-width);
-}*/
-
-/*.InReplyToModalHeader {
-	position: relative;
-	margin: 0;
-	padding-left: calc(var(--Post-paddingLeft--thumbnail) + var(--PostThumbnailContainer-width));
-	padding-right: var(--Post-padding--horizontal);
-	padding-top: var(--InReplyToModalHeader-paddingTop);
-	font-weight: lighter;
-	@mixin m-plus {
-		font-size: 1.2em;
-	}
-}*/
-
-.InReplyToModalBack {
-	--InReplyToModalBack-marginTop: calc(var(--unit) / 2);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	/* Without `z-index: 1` the "Back" button would be hidden under the post header. */
+.InReplyToModalHeader {
+	/* Without `z-index: 1` the "Back" and "Close" buttons
+	   would be hidden under the post header. */
 	position: relative;
 	z-index: 1;
-	margin-left: var(--Post-padding--horizontal);
+	display: flex;
+	justify-content: flex-end;
 	margin-top: var(--InReplyToModalBack-marginTop);
 	margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-padding--vertical));
+	margin-left: var(--Post-padding--horizontal);
+	margin-right: var(--Post-padding--horizontal);
+	@mixin m-plus {
+		justify-content: flex-start;
+		/* It's not `width: 100%` so that it doesn't cover the post header links and buttons. */
+		position: absolute;
+		left: 0;
+		top: 0;
+		/* The left arrow icon isn't aligned to the left side. The ~20% horizontal shift compensates that. */
+		margin-left: calc(var(--Post-paddingLeft--thumbnail) - var(--InReplyToModalBackIcon-width) * 0.2);
+		margin-top: var(--Post-padding--vertical);
+		margin-bottom: 0;
+	}
+}
+
+.InReplyToModalBack,
+.InReplyToModalClose {
+	display: flex;
+	align-items: center;
 	font-weight: var(--Post-fontWeight--secondary);
-	color: var(--Clickable-color--text);
+}
+
+.InReplyToModalBackIcon {
+	width: var(--InReplyToModalBackIcon-width);
+	height: var(--InReplyToModalBackIcon-width);
+	margin-right: var(--InReplyToModalBackIcon-marginRight);
+}
+
+.InReplyToModalBack,
+.InReplyToModalClose {
+	/*color: var(--Clickable-color--text);*/
+	color: var(--Content-color-500);
 	&:focus {
 		color: var(--Clickable-color--text);
-		.InReplyToModalBackText {
+		.InReplyToModalBackText,
+		.InReplyToModalCloseText {
 			border-bottom: 1px solid currentColor;
 		}
 	}
 	&:active {
 		color: var(--Clickable-color--active);
 	}
-	@mixin m-plus {
-		position: absolute;
-		z-index: 1;
-		top: 0;
-		left: 0;
-		/* The left arrow icon isn't aligned to the left side. The ~20% horizontal shift compensates that. */
-		margin-left: calc(var(--Post-paddingLeft--thumbnail) - var(--InReplyToModalHeaderBackArrowIcon-width) * 0.2);
-		margin-top: var(--Post-padding--vertical);
-		margin-bottom: 0;
-	}
 }
 
-.InReplyToModalHeaderBackArrowIcon {
-	width: var(--InReplyToModalHeaderBackArrowIcon-width);
-	height: var(--InReplyToModalHeaderBackArrowIcon-width);
-	margin-right: var(--InReplyToModalHeaderBackArrowIcon-marginRight);
+.InReplyToModalCloseIcon {
+	--InReplyToModalClose-width: 0.8em;
+	display: block;
+	width: var(--InReplyToModalClose-width);
+	height: var(--InReplyToModalClose-width);
+	margin-right: 0.4em;
 }
 
-/*.InReplyToModalHeaderBackArrowIcon--close {
-	width: 0.7em;
-	height: 0.7em;
-	margin-top: 0;
-	margin-right: 0.5em;
-}*/
-
-.InReplyToModalHeaderCounter {
+.InReplyToModalBackCounter {
 	margin-right: 0.25em;
 	&:before {
 		content: '(';

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from 'react-responsive-ui'
+import classNames from 'classnames'
 
 import CloseIcon from 'webapp-frontend/assets/images/icons/close.svg'
 import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
@@ -34,24 +35,29 @@ export default function InReplyToModal({
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	// `overlayClassName` is used in `Thread.js`
 	// to get `document.querySelector('.InReplyToModalOverlay')`.
-	// `shouldReturnFocusAfterClose` is `false` because otherwise
-	// it would focus on the `post-link` after the modal is closed
-	// and that would result in scroll position jumping.
+	// // `shouldReturnFocusAfterClose` is `false` because otherwise
+	// // it would focus on the `post-link` after the modal is closed
+	// // and that could sometimes result in scroll position jumping.
 	return (
 		<Modal
 			isOpen={isOpen}
 			close={onClose}
-			shouldReturnFocusAfterClose={false}
 			aria-label={getMessages(locale).inReplyTo}
 			closeLabel={getMessages(locale).actions.close}
 			className="InReplyToModal"
 			overlayClassName={InReplyToModalOverlayClassName}>
 			<Modal.Content>
-				<InReplyToModalBack
-					history={history}
-					locale={locale}
-					onClose={onClose}
-					onGoBack={onGoBack}/>
+				<div className="InReplyToModalHeader">
+					<InReplyToModalBack
+						history={history}
+						locale={locale}
+						onClose={onClose}
+						onGoBack={onGoBack}/>
+					<InReplyToModalClose
+						history={history}
+						locale={locale}
+						onClose={onClose}/>
+				</div>
 				{/*
 				Don't preserve comment tree state when navigating to
 				the next quoted comment: `key` is used for that.
@@ -90,25 +96,18 @@ function InReplyToModalBack({
 	locale
 }) {
 	const isInitial = history.length === 2
-	// if (isInitial) {
-	// 	return (
-	// 		<span>
-	// 			{getMessages(locale).inReplyTo}:
-	// 		</span>
-	// 	)
-	// }
+	if (isInitial) {
+		return null
+	}
 	return (
 		<button
 			type="button"
 			onClick={isInitial ? onClose : onGoBack}
-			className="rrui__button-reset InReplyToModalBack">
-			{/*isInitial &&
-				<CloseIcon className="InReplyToModalHeaderBackArrowIcon InReplyToModalHeaderBackArrowIcon--close"/>
-			*/}
-			<LeftArrow className="InReplyToModalHeaderBackArrowIcon"/>
+			className={classNames('rrui__button-reset', 'InReplyToModalBack')}>
+			<LeftArrow className="InReplyToModalBackIcon"/>
 			<span className="InReplyToModalBackText">
 				{!isInitial &&
-					<span className="InReplyToModalHeaderCounter">
+					<span className="InReplyToModalBackCounter">
 						{history.length - 1}
 					</span>
 				}
@@ -121,6 +120,34 @@ function InReplyToModalBack({
 InReplyToModalBack.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onGoBack: PropTypes.func.isRequired,
+	history: PropTypes.arrayOf(commentType).isRequired,
+	locale: PropTypes.string.isRequired
+}
+
+function InReplyToModalClose({
+	onClose,
+	history,
+	locale
+}) {
+	const isInitial = history.length === 2
+	if (!isInitial) {
+		return null
+	}
+	return (
+		<button
+			type="button"
+			onClick={onClose}
+			className={classNames('rrui__button-reset', 'InReplyToModalClose')}>
+			<CloseIcon className="InReplyToModalCloseIcon"/>
+			<span className="InReplyToModalCloseText">
+				{getMessages(locale).actions.close}
+			</span>
+		</button>
+	)
+}
+
+InReplyToModalClose.propTypes = {
+	onClose: PropTypes.func.isRequired,
 	history: PropTypes.arrayOf(commentType).isRequired,
 	locale: PropTypes.string.isRequired
 }
