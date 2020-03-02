@@ -64,7 +64,7 @@ export default function ThreadComment({
 	onContentDidChange,
 	dispatch,
 	postRef,
-	showComment,
+	onShowComment,
 	className,
 	...rest
 }) {
@@ -191,7 +191,7 @@ export default function ThreadComment({
 		if (!postIsExternal) {
 			if (boardId === board.id && threadId === thread.id) {
 				event.preventDefault()
-				showComment(postId, comment.id)
+				onShowComment(postId, comment.id)
 			}
 		}
 	}, [board, thread, comment])
@@ -295,7 +295,7 @@ ThreadComment.propTypes = {
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
 	onContentDidChange: PropTypes.func,
-	showComment: PropTypes.func.isRequired
+	onShowComment: PropTypes.func.isRequired
 }
 
 function Comment({

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from 'react-responsive-ui'
@@ -28,11 +28,16 @@ export default function InReplyToModal({
 	isOpen,
 	onClose,
 	onShowComment,
+	onGoToComment,
 	onGoBack
 }) {
 	const comment = history[history.length - 1]
 	const dispatch = useDispatch()
 	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const onPostUrlClick = useCallback((event, post) => {
+		onGoToComment(post)
+		onClose()
+	}, [onClose])
 	// `overlayClassName` is used in `Thread.js`
 	// to get `document.querySelector('.InReplyToModalOverlay')`.
 	// // `shouldReturnFocusAfterClose` is `false` because otherwise
@@ -72,7 +77,8 @@ export default function InReplyToModal({
 					board={board}
 					locale={locale}
 					dispatch={dispatch}
-					showComment={onShowComment}
+					onShowComment={onShowComment}
+					onPostUrlClick={onPostUrlClick}
 					mode="thread"
 					compact={false}/>
 			</Modal.Content>
@@ -86,7 +92,8 @@ InReplyToModal.propTypes = {
 	history: PropTypes.arrayOf(commentType).isRequired,
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
-	onShowComment: PropTypes.func.isRequired
+	onShowComment: PropTypes.func.isRequired,
+	onGoToComment: PropTypes.func
 }
 
 function InReplyToModalBack({

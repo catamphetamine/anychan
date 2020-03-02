@@ -89,9 +89,9 @@ function ThreadPage({
 	// `setFromIndex()` shouldn't be called directly.
 	// Instead, it should be called via `onSetFromIndex()`.
 	const [fromIndex, setFromIndex] = useState(initialFromIndex)
-	// `fromIndexRef` is only used in `showComment()`
+	// `fromIndexRef` is only used in `onShowComment()`
 	// to prevent changing `itemComponentProps` when `fromIndex` changes
-	// which would happen if `showComment()` used `fromIndex` directly.
+	// which would happen if `onShowComment()` used `fromIndex` directly.
 	// This results in not re-rendering the whole comments list
 	// when clicking "Show previous" button.
 	const fromIndexRef = useRef(fromIndex)
@@ -101,7 +101,7 @@ function ThreadPage({
 		if (virtualScrollerState.current) {
 			virtualScrollerState.current.fromIndex = fromIndex
 		}
-	}, [])
+	}, [setFromIndex])
 	const initialVirtualScrollerCustomState = useMemo(() => ({
 		// expandAttachments: false,
 		fromIndex
@@ -156,9 +156,9 @@ function ThreadPage({
 		}
 	}, [board, thread, dispatch])
 	const [commentNavigationHistory, setCommentNavigationHistory] = useState([])
-	// `commentNavigationHistoryRef` is only used in `showComment()`
+	// `commentNavigationHistoryRef` is only used in `onShowComment()`
 	// to prevent changing `itemComponentProps` when `commentNavigationHistory` changes
-	// which would happen if `showComment()` used `commentNavigationHistory` directly.
+	// which would happen if `onShowComment()` used `commentNavigationHistory` directly.
 	// This results in not re-rendering the whole comments list
 	// when clicking "Show previous" button.
 	const commentNavigationHistoryRef = useRef(commentNavigationHistory)
@@ -167,19 +167,19 @@ function ThreadPage({
 		commentNavigationHistoryRef.current = history
 	}, [])
 	const resetCommentNavigationHistoryTimeout = useRef()
-	const [showCommentHistoryModal, setShowCommentHistoryModal] = useState()
+	const [inReplyToModalHistory, setInReplyToModalHistory] = useState()
 	const onShowCommentHistoryModal = useCallback(() => {
 		clearTimeout(resetCommentNavigationHistoryTimeout.current)
-		setShowCommentHistoryModal(true)
-	}, [setShowCommentHistoryModal, onSetCommentNavigationHistory])
+		setInReplyToModalHistory(true)
+	}, [setInReplyToModalHistory, onSetCommentNavigationHistory])
 	const onHideCommentHistoryModal = useCallback(() => {
 		clearTimeout(resetCommentNavigationHistoryTimeout.current)
 		resetCommentNavigationHistoryTimeout.current = setTimeout(() => {
 			onSetCommentNavigationHistory([])
 		}, InReplyToModalCloseTimeout)
-		setShowCommentHistoryModal(false)
-	}, [setShowCommentHistoryModal, onSetCommentNavigationHistory])
-	const showComment = useCallback((commentId, fromCommentId) => {
+		setInReplyToModalHistory(false)
+	}, [setInReplyToModalHistory, onSetCommentNavigationHistory])
+	const onShowComment = useCallback((commentId, fromCommentId) => {
 		const index = thread.comments.findIndex(_ => _.id === commentId)
 		if (index < 0) {
 			dispatch(notify(getMessages(locale).noSearchResults))
@@ -229,7 +229,7 @@ function ThreadPage({
 	},
 	// This dependencies list should be such that
 	// comments aren't re-rendered when they don't need to.
-	// (`itemComponentProps` depends on `showComment`)
+	// (`itemComponentProps` depends on `onShowComment`)
 	[thread, dispatch, locale])
 	const onGoBackCommentHistoryModal = useCallback(() => {
 		const newCommentNavigationHistory = commentNavigationHistory.slice()
@@ -240,10 +240,10 @@ function ThreadPage({
 	}, [onSetCommentNavigationHistory, commentNavigationHistory])
 	// const onBackToPreviouslyViewedComment = useCallback(() => {
 	// 	const latest = commentNavigationHistory.pop()
-	// 	// showComment(latest.commentId)
-	// 	showComment(latest.id)
+	// 	// onShowComment(latest.commentId)
+	// 	onShowComment(latest.id)
 	// 	onSetCommentNavigationHistory(commentNavigationHistory.slice())
-	// }, [showComment, commentNavigationHistory])
+	// }, [onShowComment, commentNavigationHistory])
 	const itemComponentProps = useMemo(() => ({
 		// `onPostContentChange()` is passed to `<Post/>`.
 		// It's called whenever there's a parent comment who's `content` did change
@@ -262,33 +262,78 @@ function ThreadPage({
 		dispatch,
 		locale,
 		expandAttachments: areAttachmentsExpanded,
-		showComment
+		onShowComment
 		// `itemComponentProps` dependencies list should be such
 		// that comments aren't re-rendered when they don't need to.
-	}), [thread, areAttachmentsExpanded, dispatch, showComment])
+	}), [thread, areAttachmentsExpanded, dispatch, onShowComment])
 	const onBack = useCallback((event) => {
 		if (canGoBackInstantly()) {
 			dispatch(goBack())
 			event.preventDefault()
 		}
 	}, [dispatch])
+	// `showAllInProgress` and `showAllWillFinish` are only used
+	// so that `VirtualScroller`'s `preserveScrollPositionOnPrependItems`
+	// feature is briefly deactivated when the user clicks "Show all comments" button.
 	const [showAllInProgress, setShowAllInProgress] = useState()
 	const [showAllWillFinish, setShowAllWillFinish] = useState()
 	const onShowAll = useCallback(() => {
 		setShowAllInProgress(true)
-	}, [])
+	}, [setShowAllInProgress])
 	useEffect(() => {
 		if (showAllInProgress) {
 			onSetFromIndex(0)
 			setShowAllWillFinish(true)
 		}
-	}, [showAllInProgress])
+	}, [
+		showAllInProgress,
+		onSetFromIndex,
+		setShowAllWillFinish
+	])
 	useEffect(() => {
 		if (showAllWillFinish) {
 			setShowAllInProgress(false)
 			setShowAllWillFinish(false)
 		}
-	}, [showAllWillFinish])
+	}, [
+		showAllWillFinish,
+		setShowAllInProgress,
+		setShowAllWillFinish
+	])
+	// `showSpecificCommentIndex` and `showSpecificCommentWillFinish` are only used
+	// so that `VirtualScroller`'s `preserveScrollPositionOnPrependItems`
+	// feature is briefly deactivated when the user clicks on a comment date
+	// inside an "In Reply To" modal.
+	const [showSpecificCommentIndex, setShowSpecificCommentIndex] = useState()
+	const [showSpecificCommentWillFinish, setShowSpecificCommentWillFinish] = useState()
+	const onGoToComment = useCallback((comment) => {
+		const index = thread.comments.indexOf(comment)
+		if (index < 0) {
+			throw new Error(`Comment ${comment.id} not found`)
+		}
+		setShowSpecificCommentIndex(index)
+	}, [thread, setShowSpecificCommentIndex])
+	useEffect(() => {
+		if (showSpecificCommentIndex !== undefined) {
+			onSetFromIndex(showSpecificCommentIndex)
+			setShowSpecificCommentWillFinish(true)
+		}
+	}, [
+		showSpecificCommentIndex,
+		onSetFromIndex,
+		setShowSpecificCommentWillFinish
+	])
+	useEffect(() => {
+		if (showSpecificCommentWillFinish) {
+			setShowSpecificCommentIndex(undefined)
+			setShowSpecificCommentWillFinish(false)
+		}
+	}, [
+		showSpecificCommentWillFinish,
+		setShowSpecificCommentIndex,
+		setShowSpecificCommentWillFinish
+	])
+	const preserveScrollPositionOnPrependItems = showAllInProgress || showSpecificCommentIndex ? false : true
 	// const backToPreviouslyViewedCommentButtonRight = document.querySelector('.thread-comment') && document.querySelector('.thread-comment').getBoundingClientRect().right
 	// const backToPreviouslyViewedCommentButtonStyle = useMemo(() => {
 	// 	if (backToPreviouslyViewedCommentButtonRight === null) {
@@ -422,7 +467,7 @@ function ThreadPage({
 						items={shownComments}
 						itemComponent={CommentComponent}
 						itemComponentProps={itemComponentProps}
-						preserveScrollPositionOnPrependItems={showAllInProgress ? false : true}
+						preserveScrollPositionOnPrependItems={preserveScrollPositionOnPrependItems}
 						preserveScrollPositionAtBottomOnMount={initialFromIndex === thread.comments.length}
 						className={classNames('thread-page__comments', {
 							'thread-page__comments--from-the-start': fromIndex === 0
@@ -438,11 +483,12 @@ function ThreadPage({
 				<InReplyToModal
 					board={board}
 					thread={thread}
-					isOpen={showCommentHistoryModal}
+					isOpen={inReplyToModalHistory}
 					onClose={onHideCommentHistoryModal}
 					onGoBack={onGoBackCommentHistoryModal}
 					history={commentNavigationHistory}
-					onShowComment={showComment}/>
+					onShowComment={onShowComment}
+					onGoToComment={onGoToComment}/>
 			}
 		</section>
 	)
