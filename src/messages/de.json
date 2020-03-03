@@ -1,7 +1,7 @@
 {
 	"boards": {
 		"title": "Boards",
-		"all": "Alle Boards",
+		"moreBoards": "Mehr Boards",
 		"showAll": "Zeige alle Boards",
 		"showBoardsList": "Alle Boards anzeigen",
 		"byPopularity": "Beliebt",

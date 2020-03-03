@@ -24,6 +24,7 @@ export default function Sidebar() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const isShown = useSelector(({ app }) => app.isSidebarShown)
 	const mode = useSelector(({ app }) => app.sidebarMode)
+	const favoriteBoards = useSelector(({ favoriteBoards }) => favoriteBoards.favoriteBoards)
 	return (
 		<section className={classNames('Sidebar', {
 			'Sidebar--show': isShown
@@ -34,7 +35,7 @@ export default function Sidebar() {
 				</SidebarSection>
 				<TrackedThreadsSidebarSection/>
 				<FavoriteBoardsSidebarSection/>
-				<SidebarSection title={getMessages(locale).boards.all}>
+				<SidebarSection title={favoriteBoards.length > 0 ? getMessages(locale).boards.moreBoards : getMessages(locale).boards.title}>
 					<Boards/>
 				</SidebarSection>
 			</SimpleBar>

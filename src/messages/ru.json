@@ -1,7 +1,7 @@
 {
 	"boards": {
 		"title": "Доски",
-		"all": "Все Доски",
+		"moreBoards": "Ещё Доски",
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",

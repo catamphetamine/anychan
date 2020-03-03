@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
@@ -18,9 +18,16 @@ import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.
 import './Boards.css'
 
 export default function BoardsInSidebar(props) {
+	const favoriteBoards = useSelector(({ favoriteBoards }) => favoriteBoards.favoriteBoards)
 	const boards = useSelector(({ chan }) => chan.boards)
 	const boardsByPopularity = useSelector(({ chan }) => chan.boardsByPopularity)
 	const boardsByCategory = useSelector(({ chan }) => chan.boardsByCategory)
+	const exceptFavoriteBoards = useCallback((boards) => {
+		return boards.filter(board => !favoriteBoards.find(_ => _.id === board.id))
+	}, [favoriteBoards])
+	const _boards = useMemo(() => exceptFavoriteBoards(boards), [boards, exceptFavoriteBoards])
+	const _boardsByPopularity = useMemo(() => exceptFavoriteBoards(boardsByPopularity), [boardsByPopularity, exceptFavoriteBoards])
+	const _boardsByCategory = useMemo(() => exceptFavoriteBoards(boardsByCategory), [boardsByCategory, exceptFavoriteBoards])
 	const hasMoreBoards = useSelector(({ chan }) => chan.hasMoreBoards)
 	const selectedBoard = useSelector(({ chan }) => chan.board)
 	const boardsView = useSelector(({ settings }) => settings.settings.boardsView)
@@ -28,9 +35,9 @@ export default function BoardsInSidebar(props) {
 		<Boards
 			highlightSelectedBoard
 			shouldSaveBoardsView
-			boards={boards}
-			boardsByPopularity={boardsByPopularity}
-			boardsByCategory={boardsByCategory}
+			boards={_boards}
+			boardsByPopularity={_boardsByPopularity}
+			boardsByCategory={_boardsByCategory}
 			hasMoreBoards={hasMoreBoards}
 			selectedBoard={selectedBoard}
 			boardsView={boardsView}
