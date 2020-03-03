@@ -1,7 +1,7 @@
 @import "../styles/common";
 
 :root {
-	--SideNavMenuButton-right: calc(var(--Post-padding--horizontal) - var(--unit) / 2);
+	--SideNavMenuButton-offset--horizontal: calc(var(--Post-padding--horizontal) - var(--unit) / 2);
 	--SideNavMenuButton-width: calc(var(--unit) * 2);
 	--SideNavMenuButton-padding: calc(var(--unit) / 2);
 	--SideNavMenuButton-animationDuration: 120ms;
@@ -24,7 +24,8 @@
 	   The initial `top: 100%` is just to hide the button until javascript is run. */
 	/*top: calc(35% - var(--unit) * 2 / 2);*/
 	top: 100%;
-	right: var(--SideNavMenuButton-right);
+	left: auto;
+	right: var(--SideNavMenuButton-offset--horizontal);
 	width: var(--SideNavMenuButton-width);
 	height: var(--SideNavMenuButton-width);
 	z-index: var(--SideNavMenuButton-zIndex);
@@ -37,6 +38,13 @@
 	&:active {
 		color: var(--base-color-700);
 		/*background-color: var(--base-color-200);*/
+	}
+}
+
+.left-handed {
+	.SideNavMenuButton {
+		left: var(--SideNavMenuButton-offset--horizontal);
+		right: auto;
 	}
 }
 

@@ -79,6 +79,15 @@ export const saveDarkMode = redux.simpleAction(
 	}
 )
 
+export const saveLeftHanded = redux.simpleAction(
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('leftHanded', value)
+		}
+	}
+)
+
 export const saveAutoDarkMode = redux.simpleAction(
 	(state, value) => {
 		// Reset manual "Dark Mode" setting.

@@ -7,6 +7,8 @@
 	--InReplyToModalBackIcon-width: 0.9em;
 	--InReplyToModalBackIcon-marginRight: 0.2em;
 	--InReplyToModalBack-marginTop: calc(var(--unit) / 2);
+	--InReplyToModalHeader-justifyContent--mobile: flex-end;
+	--InReplyToModalHeader-justifyContent--desktop: flex-start;
 	/* `.InReplyToModalHeader` is `position: abosolute` on large screens. */
 	position: relative;
 	width: 100%;
@@ -23,19 +25,25 @@
 	}
 }
 
+.left-handed {
+	.InReplyToModal {
+		--InReplyToModalHeader-justifyContent--mobile: flex-start;
+	}
+}
+
 .InReplyToModalHeader {
 	/* Without `z-index: 1` the "Back" and "Close" buttons
 	   would be hidden under the post header. */
 	position: relative;
 	z-index: 1;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: var(--InReplyToModalHeader-justifyContent--mobile);
 	margin-top: var(--InReplyToModalBack-marginTop);
 	margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-padding--vertical));
 	margin-left: var(--Post-padding--horizontal);
 	margin-right: var(--Post-padding--horizontal);
 	@mixin m-plus {
-		justify-content: flex-start;
+		justify-content: var(--InReplyToModalHeader-justifyContent--desktop);
 		/* It's not `width: 100%` so that it doesn't cover the post header links and buttons. */
 		position: absolute;
 		left: 0;

@@ -3,7 +3,7 @@ import IGNORED_WORDS_EN from 'webapp-frontend/src/messages/offensive.en.json'
 import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
 
 import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
-import { applyDarkMode, autoDarkMode, applyFontSize } from 'webapp-frontend/src/utility/style'
+import { applyDarkMode, autoDarkMode, applyFontSize, applyLeftHanded } from 'webapp-frontend/src/utility/style'
 
 import { defaultLanguage, getLanguageNames } from '../messages'
 import { getChan } from '../chan'
@@ -31,6 +31,7 @@ class Settings {
 			dispatch(setDarkMode(settings.darkMode))
 		}
 		applyFontSize(settings.fontSize)
+		applyLeftHanded(settings.leftHanded)
 		return settings
 	}
 

@@ -187,6 +187,11 @@
 		z-index: var(--sidebar-z-index);
 		/*background-color: var(--Sidebar-backgroundColor--collapsible);*/
 	}
+	.left-handed {
+		.Sidebar:not(.Sidebar--show) {
+			transform: translateX(-100%);
+		}
+	}
 	/*.light, .dark {
 		--Sidebar-highlightColor-100: var(--Sidebar-highlightColor-100--collapsible);
 		--Sidebar-highlightColor-200: var(--Sidebar-highlightColor-200--collapsible);
@@ -206,6 +211,12 @@
 	.Sidebar {
 		left: auto;
 		width: $screen-xs-min;
+	}
+	.left-handed {
+		.Sidebar {
+			right: auto;
+			left: 0;
+		}
 	}
 	.Sidebar--show {
 		/* `box-shadow` adds some extra eligibility but at the same time

@@ -5,6 +5,7 @@ import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 import LanguageSettings from 'webapp-frontend/src/components/settings/LanguageSettings'
 import FontSizeSettings from 'webapp-frontend/src/components/settings/FontSizeSettings'
 import DarkModeSettings from 'webapp-frontend/src/components/settings/DarkModeSettings'
+import LeftHandedSettings from 'webapp-frontend/src/components/settings/LeftHandedSettings'
 
 import ThemeSettings from '../components/settings/ThemeSettings'
 import DataSettings from '../components/settings/DataSettings'
@@ -12,7 +13,8 @@ import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
 import {
 	saveFontSize,
 	saveLocale,
-	saveAutoDarkMode
+	saveAutoDarkMode,
+	saveLeftHanded
 } from '../redux/settings'
 import { setDarkMode } from '../redux/app'
 
@@ -74,6 +76,7 @@ function Settings({
 	const onLocaleChange = useCallback(locale => dispatch(saveLocale(locale)), [dispatch])
 	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
 	const onAutoDarkModeChange = useCallback(darkMode => dispatch(saveAutoDarkMode(darkMode)), [dispatch])
+	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded(leftHanded)), [dispatch])
 	return (
 		<ContentSections>
 			{/* Language */}
@@ -99,6 +102,12 @@ function Settings({
 				dispatch={dispatch}
 				guideUrl="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"/>
 
+			{/* Font Size */}
+			<FontSizeSettings
+				messages={messages}
+				value={settings.fontSize}
+				onChange={onFontSizeChange}/>
+
 			{/* Dark Mode */}
 			<DarkModeSettings
 				messages={messages}
@@ -106,11 +115,11 @@ function Settings({
 				onAutoDarkModeChange={onAutoDarkModeChange}
 				onSetDarkMode={onSetDarkMode}/>
 
-			{/* Font Size */}
-			<FontSizeSettings
+			{/* Left Handed */}
+			<LeftHandedSettings
 				messages={messages}
-				value={settings.fontSize}
-				onChange={onFontSizeChange}/>
+				value={settings.leftHanded}
+				onChange={onLeftHandedChange}/>
 
 			{/* CORS Proxy URL */}
 			{/*

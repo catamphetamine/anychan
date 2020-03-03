@@ -13,7 +13,8 @@ import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 
 import {
 	ContentSection,
-	ContentSectionHeader
+	ContentSectionHeader,
+	ContentSectionDescription
 } from 'webapp-frontend/src/components/ContentSection'
 
 import {
@@ -113,9 +114,9 @@ export default function DataSettings({
 			<ContentSectionHeader lite>
 				{messages.settings.data.title}
 			</ContentSectionHeader>
-			<p className="content-section__description">
+			<ContentSectionDescription marginBottom="large">
 				{messages.settings.data.description}
-			</p>
+			</ContentSectionDescription>
 			<div className="form">
 				<div className="form__component form__component--button">
 					<Button

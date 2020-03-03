@@ -42,7 +42,6 @@
 			}
 		},
 		"darkMode": {
-			"title": "Dark Mode",
 			"auto": "Use system preference"
 		},
 		"censorship": {
