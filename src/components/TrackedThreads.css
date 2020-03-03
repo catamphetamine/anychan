@@ -1,3 +1,5 @@
+@import "../styles/common";
+
 .tracked-threads {
 	/*padding-top: calc(var(--unit) * 1);*/
 	/*padding-bottom: calc(var(--unit) * 1);*/
@@ -206,4 +208,12 @@
 
 .tracked-threads__show-more-less-container {
 	text-align: right;
+}
+
+@mixin upto-m {
+	.left-handed {
+		.tracked-threads__show-more-less-container {
+			text-align: left;
+		}
+	}
 }
