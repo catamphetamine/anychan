@@ -23,7 +23,7 @@ export default function BoardsInSidebar(props) {
 	const boardsByPopularity = useSelector(({ chan }) => chan.boardsByPopularity)
 	const boardsByCategory = useSelector(({ chan }) => chan.boardsByCategory)
 	const exceptFavoriteBoards = useCallback((boards) => {
-		return boards.filter(board => !favoriteBoards.find(_ => _.id === board.id))
+		return boards && boards.filter(board => !favoriteBoards.find(_ => _.id === board.id))
 	}, [favoriteBoards])
 	const _boards = useMemo(() => exceptFavoriteBoards(boards), [boards, exceptFavoriteBoards])
 	const _boardsByPopularity = useMemo(() => exceptFavoriteBoards(boardsByPopularity), [boardsByPopularity, exceptFavoriteBoards])
