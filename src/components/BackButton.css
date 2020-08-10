@@ -1,7 +1,17 @@
 @import "../styles/common";
 
-.BackButton {
+:root {
 	--BackButtonIcon-width: calc(0.75 * var(--unit) * 2);
+	@mixin l {
+		--BackButton-marginLeft: var(--unit);
+	}
+	@mixin xl-plus {
+		--BackButtonIcon-left: calc(var(--unit) / 2);
+		--BackButtonIcon-padding: var(--unit);
+	}
+}
+
+.BackButton {
 	display: none;
 	/* Setting percentage-based `top` position for `position: fixed`
 	   results in it jumping when mobile browser top/bottom bars appear/disappear.
@@ -19,7 +29,7 @@
 		bottom: 0;
 		left: 0;
 		z-index: var(--SideNavMenuButton-zIndex);
-		padding-left: var(--unit);
+		padding-left: var(--BackButton-marginLeft);
 		padding-right: calc(10vw - var(--unit) * 4);
 		padding-top: calc(var(--unit) * 1.7);
 		.BackButtonIcon {
@@ -27,11 +37,9 @@
 		}
 	}
 	@mixin xl-plus {
-		--BackButtonIcon-left: calc(var(--unit) / 2);
-		--BackButtonIcon-padding: var(--unit);
 		display: block;
 		position: relative;
-		width: calc(100% + var(--Post-padding--horizontal) - var(--unit) - var(--PostQuoteBlock-paddingLeft));
+		width: calc(100% - var(--Post-paddingLeft));
 		min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));
 		height: 100%;
 		z-index: var(--Header-zIndex--below);
@@ -55,7 +63,7 @@
 		/*color: var(--Clickable-color--text);*/
 		background-color: var(--BackButton-backgroundColor--hover);
 		border-right: 1px solid var(--BackButton-borderColor--hover);
-		.BackButtonLeftArrow {
+		.BackButtonIcon--leftArrow {
 			&:before {
 				transform: translateX(10%) translateY(20%) rotate(-35deg);
 			}
@@ -76,7 +84,7 @@
 	transition: transform 160ms;
 }
 
-.BackButtonLeftArrow {
+.BackButtonIcon--leftArrow {
 	position: relative;
 	&:before,
 	&:after {

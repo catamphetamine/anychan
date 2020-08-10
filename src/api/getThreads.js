@@ -1,5 +1,5 @@
 import Chan from './Chan'
-import setThreadInfo from './utility/setThreadInfo'
+import addCommentProps from './utility/addCommentProps'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
 import getMessages from './utility/getMessages'
@@ -24,9 +24,10 @@ export default async function getThreads({
 	})
 	const votes = UserData.getCommentVotes(boardId)
 	for (const thread of threads) {
-		setThreadInfo(thread, {
+		addCommentProps(thread, {
 			mode: 'board',
-			votes: votes[thread.id] || {}
+			votes: votes[thread.id] || {},
+			messages
 		})
 		const comment = thread.comments[0]
 		// Set `comment.boardId` for "is tracked thread" comment header badge.

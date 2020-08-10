@@ -1,7 +1,7 @@
 @import "../styles/common";
 
 :root {
-	--SideNavMenuButton-offset--horizontal: calc(var(--Post-padding--horizontal) - var(--unit) / 2);
+	--SideNavMenuButton-offset--horizontal: calc(var(--Post-paddingLeft) - var(--unit) / 2);
 	--SideNavMenuButton-width: calc(var(--unit) * 2);
 	--SideNavMenuButton-padding: calc(var(--unit) / 2);
 	--SideNavMenuButton-animationDuration: 120ms;
@@ -31,17 +31,19 @@
 	z-index: var(--SideNavMenuButton-zIndex);
 	box-sizing: content-box;
 	padding: var(--SideNavMenuButton-padding);
+	color: var(--SideNavMenuButton-color);
+	transition: color 60ms;
 	@mixin upto-m {
 		display: block;
 	}
 	/*&:focus,*/
 	&:active {
-		color: var(--base-color-700);
+		color: var(--SideNavMenuButton-color--active);
 		/*background-color: var(--base-color-200);*/
 	}
 }
 
-.left-handed {
+.Document--leftHanded {
 	.SideNavMenuButton {
 		left: var(--SideNavMenuButton-offset--horizontal);
 		right: auto;
@@ -56,7 +58,7 @@
 	height: 100%;
 }
 
-.SideNavMenuButtonIconBar {
+.SideNavMenuButtonIcon-bar {
 	position: absolute;
 	left: 0;
 	top: calc((100% - 6%) / 2);
@@ -65,84 +67,83 @@
 	background-color: currentColor;
 }
 
-.SideNavMenuButtonIcon--transition .SideNavMenuButtonIconBar {
+.SideNavMenuButtonIcon--transition .SideNavMenuButtonIcon-bar {
 	transition: transform var(--SideNavMenuButton-animationDuration), opacity var(--SideNavMenuButton-animationDuration);
 }
 
-.SideNavMenuButtonIconBar:nth-child(1),
-.SideNavMenuButtonIconBar:nth-child(2),
-.SideNavMenuButtonIconBar:nth-child(3) {
-	color: var(--Content-color-900);
+.SideNavMenuButtonIcon-bar:nth-child(1),
+.SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon-bar:nth-child(3) {
 	z-index: 1;
 }
 
-.SideNavMenuButtonIconBar:nth-child(4),
-.SideNavMenuButtonIconBar:nth-child(5),
-.SideNavMenuButtonIconBar:nth-child(6) {
-	color: var(--Content-backgroundColor);
+.SideNavMenuButtonIcon-bar:nth-child(4),
+.SideNavMenuButtonIcon-bar:nth-child(5),
+.SideNavMenuButtonIcon-bar:nth-child(6) {
+	color: var(--SideNavMenuButtonIcon-borderColor);
 	height: 12%;
 	top: calc((100% - 12%) / 2);
 }
 
-.SideNavMenuButtonIconBar:nth-child(1) {
+.SideNavMenuButtonIcon-bar:nth-child(1) {
 	transform: translateY(-450%);
 }
 
-.SideNavMenuButtonIconBar:nth-child(3) {
+.SideNavMenuButtonIcon-bar:nth-child(3) {
 	transform: translateY(450%);
 }
 
-.SideNavMenuButtonIconBar:nth-child(4) {
+.SideNavMenuButtonIcon-bar:nth-child(4) {
 	transform: translateY(-225%);
 }
 
-.SideNavMenuButtonIconBar:nth-child(6) {
+.SideNavMenuButtonIcon-bar:nth-child(6) {
 	transform: translateY(225%);
 }
 
 /*
-.SideNavMenuButtonIcon:hover .SideNavMenuButtonIconBar:nth-child(1) {
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(1) {
 	transform: translateY(-550%);
 }
-.SideNavMenuButtonIcon:hover .SideNavMenuButtonIconBar:nth-child(3) {
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(3) {
 	transform: translateY(550%);
 }
 */
 
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(2),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(5) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(5) {
 	opacity: 0;
 	transform: scale(0.9);
 }
 
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(1),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(4) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(1),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(4) {
 	transform: rotate(-45deg) scale(0.9);
 }
 
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(3),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIconBar:nth-child(6) {
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(3),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(6) {
 	transform: rotate(45deg) scale(0.9);
 }
 
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(2),
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(5) {
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(5) {
 	opacity: 0;
 	transform: scale(0.9);
 }
 
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(1) {
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(1) {
 	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-450%);
 }
 
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(3) {
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(3) {
 	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(450%);
 }
 
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(4) {
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(4) {
 	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-225%);
 }
 
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIconBar:nth-child(6) {
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(6) {
 	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(225%);
 }

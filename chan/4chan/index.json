@@ -2,7 +2,7 @@
 	"id": "4chan",
 	"title": "4chan",
 	"description": "4chan is a simple image-based bulletin board where anyone can post comments and share images. There are boards dedicated to a variety of topics, from Japanese animation and culture to videogames, music, and photography. Users do not need to register an account before participating in the community. Feel free to click on a board below that interests you and jump right in!",
-	"copyright": "Copyright © 2003-{0} 4chan community support LLC. All rights reserved.",
+	"copyright": "Copyright © 4chan community support LLC. All rights reserved.",
 	"links": [{
 		"type": "rules",
 		"text": "Rules",
@@ -50,7 +50,7 @@
 	}, {
 		"type": "api",
 		"text": "API",
-		"url": "https://github.com/catamphetamine/captchan#4chanorg"
+		"url": "https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/4chan.md"
 	}, {
 		"type": "mobile",
 		"text": "Mobile apps",
@@ -65,9 +65,6 @@
 		"Miscellaneous",
 		"Adult"
 	],
-	"proxy": {
-		"aws": false
-	},
 	"errorPages": {
 		"404": {
 			"images": [

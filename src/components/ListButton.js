@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import { Button } from 'webapp-frontend/src/components/Button'
+
 import RemoveIcon from 'webapp-frontend/assets/images/icons/close-thicker.svg'
 
 import './ListButton.css'
@@ -15,18 +17,17 @@ function ListButton({
 }, ref) {
 	const Icon = getIcon(icon)
 	return (
-		<button
+		<Button
 			ref={ref}
-			type="button"
 			onClick={onClick}
 			title={title}
-			className={classNames(className, 'rrui__button-reset', 'ListButton', {
+			className={classNames(className, 'ListButton', {
 				'ListButton--muted': muted
 			})}>
-			<div className="ListButton__background">
-				<Icon className="ListButton__icon"/>
+			<div className="ListButton-background">
+				<Icon className="ListButton-icon"/>
 			</div>
-		</button>
+		</Button>
 	)
 }
 

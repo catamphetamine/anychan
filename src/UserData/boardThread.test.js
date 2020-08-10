@@ -2,7 +2,7 @@ import { describe, it } from 'webapp-frontend/src/utility/mocha'
 import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
 import { UserData } from './UserData'
-import MemoryStorage from 'webapp-frontend/src/utility/MemoryStorage'
+import MemoryStorage from 'webapp-frontend/src/utility/storage/MemoryStorage'
 
 const storage = new MemoryStorage({
 	emulateSerialize: true

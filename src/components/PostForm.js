@@ -20,7 +20,7 @@ function PostForm({
 			autoFocus
 			requiredMessage={getMessages(locale).form.error.required}
 			onSubmit={onSubmit}
-			className="post-form">
+			className="PostForm">
 			<Field
 				required
 				name="content"
@@ -31,14 +31,14 @@ function PostForm({
 				{onCancel &&
 					<Button
 						onClick={onCancel}
-						className="post-form__action">
+						className="PostForm-action">
 						{getMessages(locale).actions.cancel}
 					</Button>
 				}
 				<Submit
 					component={Button}
 					type="submit"
-					className="post-form__action">
+					className="PostForm-action">
 					{getMessages(locale).actions.post}
 				</Submit>
 			</div>

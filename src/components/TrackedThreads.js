@@ -89,11 +89,11 @@ export default function TrackedThreads({ edit, maxListLength }) {
 		hasMounted.current = true
 	}, [])
 	return (
-		<section className={classNames('tracked-threads', {
-			'tracked-threads--empty': trackedThreads.length === 0
+		<section className={classNames('TrackedThreads', {
+			'TrackedThreads--empty': trackedThreads.length === 0
 		})}>
 			{trackedThreads.length === 0 &&
-				<div className="tracked-threads__empty">
+				<div className="TrackedThreads-empty">
 					{getMessages(locale).trackedThreads.empty}
 				</div>
 			}
@@ -112,21 +112,21 @@ export default function TrackedThreads({ edit, maxListLength }) {
 				))
 			}
 			{hasMoreThreads && (hasMoreLiveThreads || showMode === 'all') &&
-				<div className="tracked-threads__show-more-less-container">
+				<div className="TrackedThreads-showMoreLessContainer">
 					<Button
 						ref={showMoreLessButton}
 						onClick={showMode === 'top' ? onShowMoreThreads : onShowLessThreads}
-						className="tracked-threads__show-more-less rrui__button--text">
+						className="TrackedThreads-showMoreLess rrui__button--text">
 						{showMode === 'top' ? getMessages(locale).actions.showMore : getMessages(locale).actions.showLess}
 					</Button>
 				</div>
 			}
 			{hasExpiredThreads && (showMode === 'live' || (showMode === 'top' && !hasMoreLiveThreads)) &&
-				<div className="tracked-threads__show-more-less-container">
+				<div className="TrackedThreads-showMoreLessContainer">
 					<Button
 						ref={showExpiredThreadsButton}
 						onClick={onShowMoreThreads}
-						className="tracked-threads__show-expired rrui__button--text">
+						className="TrackedThreads-showExpired rrui__button--text">
 						{getMessages(locale).trackedThreads.showExpired}
 					</Button>
 				</div>
@@ -182,21 +182,21 @@ function TrackedThread({
 		}
 	}, [untracked])
 	const isDisabled = thread.expired || untracked
-	const isLink = !isDisabled
+	const isLink = true // !isDisabled
 	const Component = isLink ? Link : 'div'
 	return (
 		<div
 			title={thread.title}
-			className={classNames('tracked-threads__thread', {
-				'tracked-threads__thread--edit': edit,
-				'tracked-threads__thread--expired': thread.expired,
-				'tracked-threads__thread--untracked': untracked,
-				'tracked-threads__thread--selected': selected && !isDisabled
+			className={classNames('TrackedThread', {
+				'TrackedThread--edit': edit,
+				'TrackedThread--expired': thread.expired,
+				'TrackedThread--untracked': untracked,
+				'TrackedThread--selected': selected && !isDisabled
 			})}>
 			<Component
 				to={isLink ? getUrl(thread.board, thread) : undefined}
-				className={classNames('tracked-threads__thread-inner', {
-					'tracked-threads__thread__link': isLink
+				className={classNames('TrackedThread-inner', {
+					'TrackedThread-inner--link': isLink && !isDisabled
 				})}>
 				{thread.thumbnail &&
 					<Picture
@@ -206,23 +206,21 @@ function TrackedThread({
 						height={24}
 						fit="cover"
 						blur={thread.thumbnail.spoiler ? 0.1 : undefined}
-						className="tracked-threads__thread__thumbnail"/>
+						className="TrackedThread-thumbnail"/>
 				}
 				<BoardUrl
 					boardId={thread.board.id}
-					className="tracked-threads__thread__board"/>
-				<div className="tracked-threads__thread__title">
+					className="TrackedThread-board"/>
+				<div className="TrackedThread-title">
 					{thread.title}
 				</div>
 				{!thread.expired && thread.newRepliesCount &&
-					<div className="tracked-threads__thread__new-replies">
-						<span className="tracked-threads__thread__new-replies-count">
-							{thread.newRepliesCount}
-						</span>
+					<div className="TrackedThread-newReplies">
+						{thread.newRepliesCount}
 					</div>
 				}
 				{!thread.expired && thread.newCommentsCount &&
-					<div className="tracked-threads__thread__new-comments">
+					<div className="TrackedThread-newComments">
 						{thread.newCommentsCount}
 					</div>
 				}
@@ -240,7 +238,7 @@ function TrackedThread({
 					ref={undoUntrackButton}
 					title={getMessages(locale).trackedThreads.trackThread}
 					onClick={onTrackThread}
-					className="tracked-threads__undo-untrack rrui__button--text">
+					className="TrackedThreads-undo-untrack rrui__button--text">
 					{getMessages(locale).actions.undo}
 				</Button>
 			}

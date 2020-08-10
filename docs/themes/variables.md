@@ -1,9 +1,9 @@
 # Theme Variables
 
-This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://github.com/catamphetamine/captchan/issues) to discuss that.
+This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://gitlab.com/catamphetamine/captchan/issues) to discuss that.
 
 All variables listed here have their default values — see
-[style-variables.css](https://github.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in the [style-variables.css](https://github.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) of the parent project.
+[style-variables.css](https://gitlab.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in the [style-variables.css](https://gitlab.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) of the parent project.
 
 "Light" mode should be styled via `.light` CSS selector and "Dark" mode should be styled via `.dark` CSS selector. Both can be styled via `:root` CSS selector.
 
@@ -180,19 +180,18 @@ An example of a "Content Section" is a post.
 * `--Post-color--secondary: gray` — A color for "secondary" content of a post. "Secondary" content is everything besides the comment text (comment date, buttons color, icons color).
 * `--Post-color--secondaryThread: gray` — While `--Post-color--secondary` is used on board pages (example: `/a/`) `--Post-color--secondaryThread` is used on thread pages (example: `/a/123456`). The rationale is that when scrolling a thread "secondary" content has less informational value than when scrolling a list of threads.
 
-### PostBannedIcon
+### CommentAuthorBannedIcon
 
-* `--PostBannedIcon-color: red` — The color of the "User was banned for this post" icon.
+* `--CommentAuthorBannedIcon-color: red` — The color of the "User was banned for this post" icon.
 
-### PostAuthor
+### CommentAuthor
 
-A "post author section" is post author name and its surroundings like the "person" icon, an email or a "tripcode".
+A "comment author section" is comment author name and its surroundings like the "person" icon, an email or a "tripcode".
 
-* `--PostAuthor-color: black` — The color of a post author section.
-* `--PostAuthor-color--dark: black` — The color of a post author name when author IDs (IP address subnet hashes) are shown.
-* `--PostAuthor-color--accent: orange` — The color of a post author name.
-* `--PostAuthor-color--administrator: red` — The color of a post author name when the user is an administrator.
-* `--PostAuthor-color--moderator: blue` — The color of a post author name when the user is a moderator.
+* `--CommentAuthor-color: black` — The color of a comment author section.
+<!-- * `--CommentAuthor-color--accent: orange` — The color of a comment author email. -->
+* `--CommentAuthor-color--administrator: red` — The color of a comment author name when the user is an administrator.
+* `--CommentAuthor-color--moderator: blue` — The color of a comment author name when the user is a moderator.
 
 ### PostQuoteBlock
 
@@ -201,8 +200,9 @@ A "post author section" is post author name and its surroundings like the "perso
 * `--PostQuoteBlock-backgroundColor--hover: gray` — Post quote background color on mouse over.
 * `--PostQuoteBlock-borderColor: transparent` — Post quote border color.
 <!-- * `--PostQuoteBlock-borderColor--hover: gray` — Post quote border color on mouse over. -->
-<!-- * `--PostQuoteBlock-spacing: 0px` — The spacing between the "blocks" of a post quote. Each block is marked by a `PostQuoteBlockMarker` (a vertical line on the left side of a quote). -->
-* `--PostQuoteBlock-marginTop: 0px` — The vertical (top and bottom) margin of a post quote. When a post quote has a background then the content is usually more readable with some additional vertical margin, and also this way consequtive post quotes don't look like a single one.
+<!-- * `--PostQuoteBlock-spacing: 0px` — The spacing between the "blocks" of a post quote. Each block is marked by a `PostQuoteBlockBorderLeft` (a vertical line on the left side of a quote). -->
+* `--PostQuoteBlock-marginTop: 0px` — The top margin of a post quote. When a post quote has a background then the content is usually more readable with some additional vertical margin, and also this way consequtive post quotes don't look like a single one.
+* `--PostQuoteBlock-marginBottom: 0px` — The bottom margin of a post quote. Is equal to `--PostQuoteBlock-marginTop` by default.
 
 For autogenerated post links there're the same style variables but ending with a `--generated` postfix.
 
@@ -213,26 +213,27 @@ For autogenerated post links there're the same style variables but ending with a
 <!-- * `--PostQuoteBlock-borderColor--generated--hover` -->
 <!-- * `--PostQuoteBlock-spacing--generated` -->
 * `--PostQuoteBlock-marginTop--generated`
+* `--PostQuoteBlock-marginBottom--generated`
 
 `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`) have a notion of "inverse" quotes: the ones posted with a `<` prefix rather than the normal `>` quote prefix. There's no explanation on how "inverse" quotes are different from the normal ones and what's the purpose of their existence.
 
 For "inverse" quotes there're the same style variables but ending with a `--inverse` postfix.
 
-### PostQuoteBlockMarker
+### PostQuoteBlockBorderLeft
 
 "Post quote marker" is the vertical line on the left side of the quote.
 
-* `--PostQuoteBlockMarker-color: gray` — Post quote marker color.
-* `--PostQuoteBlockMarker-opacity: 1` — Post quote marker opacity.
-* `--PostQuoteBlockMarker-width: 2px` — Post quote marker width.
-* `--PostQuoteBlockMarker-padding: 0.2em` — Post quote marker top and bottom padding.
+* `--PostQuoteBlockBorderLeft-color: gray` — Post quote marker color.
+* `--PostQuoteBlockBorderLeft-opacity: 1` — Post quote marker opacity.
+* `--PostQuoteBlockBorderLeft-width: 2px` — Post quote marker width.
+* `--PostQuoteBlockBorderLeft-marginTop: 0.2em` — Post quote marker top and bottom padding.
 
-For autogenerated post links there're the same style variables for `PostQuoteBlockMarker` but ending with a `--generated` postfix.
+For autogenerated post links there're the same style variables for `PostQuoteBlockBorderLeft` but ending with a `--generated` postfix.
 
-* `--PostQuoteBlockMarker-color--generated`
-* `--PostQuoteBlockMarker-opacity--generated`
-* `--PostQuoteBlockMarker-width--generated`
-* `--PostQuoteBlockMarker-padding--generated`
+* `--PostQuoteBlockBorderLeft-color--generated`
+* `--PostQuoteBlockBorderLeft-opacity--generated`
+* `--PostQuoteBlockBorderLeft-width--generated`
+* `--PostQuoteBlockBorderLeft-marginTop--generated`
 
 For "inverse" quotes there're the same style variables but ending with a `--inverse` postfix.
 

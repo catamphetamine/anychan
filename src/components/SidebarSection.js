@@ -14,8 +14,8 @@ export default function SidebarSection({
 	children
 }) {
 	return (
-		<section className={classNames(className, 'sidebar-section')}>
-			<h1 className="sidebar-section__title">
+		<section className={classNames(className, 'SidebarSection')}>
+			<h1 className="SidebarSection-title">
 				{title}
 				{onMore &&
 					<SidebarSectionMoreButton

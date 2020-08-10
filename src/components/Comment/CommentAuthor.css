@@ -1,0 +1,125 @@
+.CommentAuthor {
+	display: flex;
+	align-items: center;
+	margin-top: var(--CommentAuthor-marginTop);
+	margin-bottom: var(--CommentAuthor-marginBottom);
+	font-size: var(--CommentAuthor-fontSize);
+	color: var(--CommentAuthor-color);
+}
+
+.CommentAuthorIcon {
+	position: relative;
+	width: 1em;
+	height: 1em;
+	margin-right: 0.35em;
+	margin-bottom: 0.1em;
+}
+
+.CommentAuthorIcon--color {
+	margin-bottom: 0;
+}
+
+.CommentAuthor-icon {
+	width: 100%;
+	height: 100%;
+}
+
+.CommentAuthor-icon--outline {
+	position: absolute;
+	opacity: 0.5;
+}
+
+.CommentAuthor-icon--generic,
+.CommentAuthor-icon--threadAuthor {
+	opacity: 0.85;
+}
+
+.CommentAuthor-verified {
+	/* Using `top` offset instead of `align-items: center` on the parent
+	   because otherwise whitespace before non-text content
+	   (like `<VerifiedIcon/>`) would disappear. */
+	position: relative;
+	top: 0.05em;
+	width: 0.75em;
+	height: 0.75em;
+	/*margin-left: 0.3em;*/
+	/*margin-right: 0.3em;*/
+	opacity: 0.5;
+}
+
+.CommentAuthor-info {
+	/*font-weight: 300;*/
+  /*display: flex;*/
+  /*align-items: center;*/
+}
+
+.CommentAuthor-id {
+	font-weight: normal;
+	font-family: monospace;
+}
+
+/*
+.CommentAuthor-tripCode {
+	color: var(--Post-color--secondary);
+}
+*/
+
+/*
+.CommentAuthor-icon,
+.CommentAuthor-icon--outline {
+	color: var(--CommentAuthor-color);
+}
+*/
+
+.CommentAuthor-icon--role,
+.CommentAuthor-name,
+.CommentAuthor-verified,
+.CommentAuthor-role,
+.CommentAuthor-email {
+	color: var(--CommentAuthor-color--colored);
+}
+
+.CommentAuthor--administrator {
+	--CommentAuthor-color--colored: var(--CommentAuthor-color--administrator);
+}
+
+.CommentAuthor--moderator {
+	--CommentAuthor-color--colored: var(--CommentAuthor-color--moderator);
+}
+
+.CommentAuthor-name--id {
+	color: var(--CommentAuthor-color);
+}
+
+/*
+.CommentAuthor-name--role {
+	font-weight: normal;
+}
+*/
+
+/*
+.CommentAuthor-role--supplementary {
+	font-weight: 300;
+	&:before,
+	&:after {
+		content: '/';
+	}
+}
+*/
+
+/*
+.CommentAuthor-email--separated {
+	&:before,
+	&:after {
+		content: '/';
+	}
+}
+*/
+
+.CommentAuthor-separator {
+	display: inline-block;
+	width: calc(var(--unit) * 1.5);
+	text-align: center;
+	/*font-size: 125%;*/
+	color: var(--Post-color--secondary);
+}

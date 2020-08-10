@@ -1,4 +1,4 @@
-export function addToBoardIdThreadIdCommentIdData(storage, key, boardId, threadId, commentId, data) {
+export function addToBoardIdThreadIdCommentIdData(storage, key, collection, boardId, threadId, commentId, data) {
 	const boardIdThreadIdCommentIdData = storage.get(key, {})
 	let threadIdCommentIdData = boardIdThreadIdCommentIdData[boardId]
 	if (!threadIdCommentIdData) {
@@ -10,11 +10,11 @@ export function addToBoardIdThreadIdCommentIdData(storage, key, boardId, threadI
 		threadIdCommentIdData[threadId] = commentIdData = {}
 	}
 	commentId = String(commentId)
-	commentIdData[commentId] = data
+	commentIdData[commentId] = encode(data, collection)
 	storage.set(key, boardIdThreadIdCommentIdData)
 }
 
-export function removeFromBoardIdThreadIdCommentIdData(storage, key, boardId, threadId, commentId) {
+export function removeFromBoardIdThreadIdCommentIdData(storage, key, collection, boardId, threadId, commentId) {
 	let boardIdThreadIdCommentIdData = storage.get(key)
 	if (!boardIdThreadIdCommentIdData) {
 		return
@@ -54,7 +54,7 @@ export function removeFromBoardIdThreadIdCommentIdData(storage, key, boardId, th
 	}
 }
 
-export function getFromBoardIdThreadIdCommentIdData(storage, key, boardId, threadId, commentId) {
+export function getFromBoardIdThreadIdCommentIdData(storage, key, collection, boardId, threadId, commentId) {
 	const boardIdThreadIdCommentIdData = storage.get(key, {})
 	if (boardId) {
 		const threadIdCommentIdData = boardIdThreadIdCommentIdData[boardId] || {}
@@ -63,16 +63,16 @@ export function getFromBoardIdThreadIdCommentIdData(storage, key, boardId, threa
 			const commentIdData = threadIdCommentIdData[threadId] || {}
 			if (commentId) {
 				commentId = String(commentId)
-				return commentIdData[commentId]
+				return decode(commentIdData[commentId], collection, 'comment')
 			}
-			return commentIdData
+			return decode(commentIdData, collection, 'thread')
 		}
-		return threadIdCommentIdData
+		return decode(threadIdCommentIdData, collection, 'board')
 	}
-	return boardIdThreadIdCommentIdData
+	return decode(boardIdThreadIdCommentIdData, collection, 'root')
 }
 
-export function mergeWithBoardIdThreadIdCommentIdData(storage, key, data) {
+export function mergeWithBoardIdThreadIdCommentIdData(storage, key, collection, data) {
 	const boardIdThreadIdCommentIdData = storage.get(key, {})
 	for (const boardId of Object.keys(data)) {
 		const threadIdCommentIdData = boardIdThreadIdCommentIdData[boardId]
@@ -85,9 +85,59 @@ export function mergeWithBoardIdThreadIdCommentIdData(storage, key, data) {
 				threadIdCommentIdData[threadId] = commentIdData = {}
 			}
 			for (const commentId of Object.keys(data[boardId][threadId])) {
-				commentIdData[commentId] = data[boardId][threadId][commentId]
+				commentIdData[commentId] = encode(data[boardId][threadId][commentId], collection)
 			}
 		}
 	}
 	return boardIdThreadIdCommentIdData
+}
+
+function encode(data, collection) {
+	if (collection.encode) {
+		data = collection.encode(data)
+	}
+	return data
+}
+
+function decodeCommentData(data, collection) {
+	return collection.decode(data)
+}
+
+function decodeThreadData(data, collection) {
+	for (const commentId of Object.keys(data)) {
+		data[commentId] = decodeCommentData(data[commentId], collection)
+	}
+	return data
+}
+
+function decodeBoardData(data, collection) {
+	for (const threadId of Object.keys(data)) {
+		decodeThreadData(data[threadId], collection)
+	}
+	return data
+}
+
+function decodeRootData(data, collection) {
+	for (const boardId of Object.keys(data)) {
+		decodeBoardData(data[boardId], collection)
+	}
+	return data
+}
+
+function decode(data, collection, level) {
+	if (data === undefined || !collection.decode) {
+		return data
+	}
+	switch (level) {
+		case 'comment':
+			return decodeCommentData(data, collection)
+		case 'thread':
+			return decodeThreadData(data, collection)
+		case 'board':
+			return decodeBoardData(data, collection)
+		case 'root':
+			return decodeRootData(data, collection)
+		default:
+			throw new Error(`Unsupported data tree level: ${level}`)
+	}
 }

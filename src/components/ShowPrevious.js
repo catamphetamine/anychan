@@ -24,11 +24,11 @@ export default function ShowPrevious({
 		return new IntlMessageFormat(getMessages(locale).nMoreComments, locale)
 	}, [locale])
 	const nMoreComments = useMemo(() => {
-		return commentsCountMessage.formatHTMLMessage({
+		return commentsCountMessage.format({
 			count: fromIndex,
-			tag: (text) => (
-				<span className="ShowPreviousCount">
-					{text}
+			tag: (children) => (
+				<span className="ShowPrevious-count">
+					{children}
 				</span>
 			)
 		})
@@ -65,7 +65,7 @@ export default function ShowPrevious({
 				<Button
 					type="button"
 					onClick={onShowAll}
-					className="rrui__button--text ShowPreviousShowAll">
+					className="rrui__button--text ShowPrevious-showAll">
 					{getMessages(locale).actions.showAll}
 				</Button>
 			}
@@ -75,17 +75,19 @@ export default function ShowPrevious({
 				onClick={onShowPreviousClick}
 				className="rrui__button--text">
 				<span>
-					<DoubleArrowUp className="ShowPreviousDoubleArrow"/>
+					<DoubleArrowUp className="ShowPrevious-doubleArrow"/>
 					{getFirstString(nMoreComments)}
 					{getFirstTag(nMoreComments)}
 					{getLastString(nMoreComments)}
 				</span>
 			</Button>
+			{/*
 			<ReactTimeAgo
 				date={items[fromIndex - 1].createdAt}
 				locale={locale}
 				tooltip={false}
-				className="ShowPreviousDate"/>
+				className="ShowPrevious-date"/>
+			*/}
 		</div>
 	)
 }

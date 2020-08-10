@@ -8,7 +8,7 @@ import SimpleBar from 'simplebar-react'
 import Boards from './Boards'
 import Notifications from './Notifications'
 import SidebarSection from './SidebarSection'
-import SidebarMenu from './SidebarMenu'
+import SidebarMenu, { HomePageLink, SettingsLink, DarkModeToggle } from './SidebarMenu'
 
 import FavoriteBoardsSidebarSection from './FavoriteBoardsSidebarSection'
 import TrackedThreadsSidebarSection from './TrackedThreadsSidebarSection'
@@ -29,7 +29,16 @@ export default function Sidebar() {
 		<section className={classNames('Sidebar', {
 			'Sidebar--show': isShown
 		})}>
-			<SimpleBar className="sidebar__scrollable-list">
+			<SimpleBar className="Sidebar-scrollableList">
+				<div className="Sidebar-topBar">
+					{/*<div>*/}
+					{/*</div>
+					<div className="Sidebar-topBarRight">*/}
+						<DarkModeToggle/>
+						<SettingsLink/>
+						{/*<HomePageLink/>*/}
+					{/*</div>*/}
+				</div>
 				<SidebarSection title={getMessages(locale).menu} className="SidebarSection--menu">
 					<SidebarMenu/>
 				</SidebarSection>

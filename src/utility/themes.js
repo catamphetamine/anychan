@@ -44,7 +44,11 @@ export function removeTheme(name) {
 	const index = themes.findIndex(_ => _.name === name)
 	if (index >= 0) {
 		themes.splice(index, 1)
-		UserSettings.set('themes', themes)
+		if (themes.length === 0) {
+			UserSettings.reset('themes')
+		} else {
+			UserSettings.set('themes', themes)
+		}
 	}
 }
 

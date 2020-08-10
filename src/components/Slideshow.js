@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import getMessages from '../messages'
@@ -13,13 +13,24 @@ export default function Slideshow_() {
 	const slideshowSlides = useSelector(({ slideshow }) => slideshow.slides)
 	const slideshowMode = useSelector(({ slideshow }) => slideshow.mode)
 	const thumbnailImage = useSelector(({ slideshow }) => slideshow.thumbnailImage)
+	const goToSource = useSelector(({ slideshow }) => slideshow.goToSource)
 	const dispatch = useDispatch()
 	const onCloseSlideshow = useCallback(() => {
 		dispatch(closeSlideshow())
 	}, [dispatch])
+	const messages = useMemo(() => {
+		const messages = getMessages(locale)
+		return {
+			...messages.slideshow,
+			actions: {
+				...messages.slideshow.actions,
+				goToSource: messages.goToComment
+			}
+		}
+	}, [locale])
 	// <Header ref={header}/>
 	// header={header.current}
-	// footer={document.querySelector('footer .application-menu')}
+	// footer={document.querySelector('.Footer .MainMenu')}
 	return (
 		<Slideshow
 			i={slideshowIndex}
@@ -28,8 +39,9 @@ export default function Slideshow_() {
 			showControls={slideshowMode === 'flow'}
 			showPagination
 			thumbnailImage={thumbnailImage}
+			goToSource={goToSource}
 			onClose={onCloseSlideshow}
-			messages={getMessages(locale).slideshow}
+			messages={messages}
 			closeOnSlideClick={slideshowMode !== 'flow'}
 			overlayOpacity={0}
 			overlayOpacityFlowMode={0.85}

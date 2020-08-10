@@ -1,14 +1,14 @@
-export function addToBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+export function addToBoardIdThreadIdData(storage, key, collection, boardId, threadId, data) {
 	const boardIdThreadIdData = storage.get(key, {})
 	if (!boardIdThreadIdData[boardId]) {
 		boardIdThreadIdData[boardId] = {}
 	}
 	threadId = String(threadId)
-	boardIdThreadIdData[boardId][threadId] = data
+	boardIdThreadIdData[boardId][threadId] = encode(data, collection)
 	storage.set(key, boardIdThreadIdData)
 }
 
-export function removeFromBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+export function removeFromBoardIdThreadIdData(storage, key, collection, boardId, threadId, data) {
 	const boardIdThreadIdData = storage.get(key, {})
 	if (threadId) {
 		const threadIdData = boardIdThreadIdData[boardId]
@@ -35,24 +35,25 @@ export function removeFromBoardIdThreadIdData(storage, key, boardId, threadId, d
 	}
 }
 
-export function getFromBoardIdThreadIdData(storage, key, boardId, threadId, data) {
+export function getFromBoardIdThreadIdData(storage, key, collection, boardId, threadId, data) {
 	const boardIdThreadIdData = storage.get(key, {})
 	if (boardId) {
 		const threadIdData = boardIdThreadIdData[boardId] || {}
 		if (threadId) {
 			threadId = String(threadId)
-			const _commentId = threadIdData[threadId]
+			let _data = threadIdData[threadId]
+			_data = decode(_data, collection, 'thread')
 			if (data) {
-				return _commentId === data
+				return _data === data
 			}
-			return _commentId
+			return _data
 		}
-		return threadIdData
+		return decode(threadIdData, collection, 'board')
 	}
-	return boardIdThreadIdData
+	return decode(boardIdThreadIdData, collection, 'root')
 }
 
-export function mergeWithBoardIdThreadIdData(storage, key, data) {
+export function mergeWithBoardIdThreadIdData(storage, key, collection, data) {
 	const boardIdThreadIdData = storage.get(key, {})
 	for (const boardId of Object.keys(data)) {
 		const threadIdData = boardIdThreadIdData[boardId]
@@ -60,7 +61,7 @@ export function mergeWithBoardIdThreadIdData(storage, key, data) {
 			boardIdThreadIdData[boardId] = threadIdData = {}
 		}
 		for (const threadId of Object.keys(data[boardId])) {
-			const newValue = data[boardId][threadId]
+			const newValue = encode(data[boardId][threadId], collection)
 			if (threadIdData[threadId] === newValue) {
 				continue
 			} else if (threadIdData[threadId] === undefined) {
@@ -83,4 +84,45 @@ export function mergeWithBoardIdThreadIdData(storage, key, data) {
 		}
 	}
 	return boardIdThreadIdData
+}
+
+function encode(data, collection) {
+	if (collection.encode) {
+		data = collection.encode(data)
+	}
+	return data
+}
+
+function decodeThreadData(data, collection) {
+	return collection.decode(data)
+}
+
+function decodeBoardData(data, collection) {
+	for (const threadId of Object.keys(data)) {
+		data[threadId] = decodeThreadData(data[threadId], collection)
+	}
+	return data
+}
+
+function decodeRootData(data, collection) {
+	for (const boardId of Object.keys(data)) {
+		decodeBoardData(data[boardId], collection)
+	}
+	return data
+}
+
+function decode(data, collection, level) {
+	if (data === undefined || !collection.decode) {
+		return data
+	}
+	switch (level) {
+		case 'thread':
+			return decodeThreadData(data, collection)
+		case 'board':
+			return decodeBoardData(data, collection)
+		case 'root':
+			return decodeRootData(data, collection)
+		default:
+			throw new Error(`Unsupported data tree level: ${level}`)
+	}
 }

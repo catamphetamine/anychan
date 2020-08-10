@@ -9,7 +9,7 @@ export default function BoardUrl({ boardId, className, ...rest }) {
 	// because a `<button/>` can't contain a `<div/>`
 	// and `<BoardUrl/>` is used in `optionComponent` of `<Autocomplete/>`.
 	return (
-		<span className={classNames('board-url', className)} {...rest}>
+		<span className={classNames('BoardUrl', className)} {...rest}>
 			{boardId}
 		</span>
 	)

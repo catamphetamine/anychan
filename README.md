@@ -1,43 +1,38 @@
-# <img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/assets/images/icon%40192x192.png" width="48" height="48"/> captchan
+# <img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/assets/images/icon%40192x192.png" width="48" height="48"/> captchan
 
 Modern GUI for imageboards (4chan.org, 8ch.net (8kun.top), 2ch.hk, kohlchan.net, etc).
 
-Based on [`imageboard`](https://github.com/catamphetamine/imageboard) library.
+Based on [`imageboard`](https://gitlab.com/catamphetamine/imageboard) library.
 
 Supported engines:
 
 * [4chan](https://github.com/4chan/4chan-API)
 
-	1. [4chan.org](https://www.4chan.org/) — [demo](https://catamphetamine.github.io/captchan/4chan)
+	1. [4chan.org](https://www.4chan.org/) — [demo](https://captchan.surge.sh/4chan)
 
 * [vichan](https://github.com/vichan-devel/vichan)
 
-	1. [lainchan.org](https://lainchan.org/) — [demo](https://catamphetamine.github.io/captchan/lainchan)
+	1. [lainchan.org](https://lainchan.org/) — [demo](https://captchan.surge.sh/lainchan)
 
 * [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity))
 
-	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://catamphetamine.github.io/captchan/8ch)
+	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://captchan.surge.sh/8ch)
 
 * [lynxchan](https://gitgud.io/LynxChan/LynxChan)
 
-	1. [kohlchan.net](https://kohlchan.net) — [demo](https://catamphetamine.github.io/captchan/kohlchan)
-	2. [endchan.net](https://endchan.net) — [demo](https://catamphetamine.github.io/captchan/endchan)
+	1. [kohlchan.net](https://kohlchan.net) — [demo](https://captchan.surge.sh/kohlchan)
+	2. [endchan.net](https://endchan.net) — [demo](https://captchan.surge.sh/endchan)
 
 * [makaba](https://2ch.hk/api/)
 
-	1. [2ch.hk](https://2ch.hk/) — [demo](https://catamphetamine.github.io/captchan/2ch)
+	1. [2ch.hk](https://2ch.hk/) — [demo](https://captchan.surge.sh/2ch)
 
 <!-- (too much DDoS protection [won't let it in](https://github.com/OpenIB/OpenIB/issues/302)) -->
-<!-- , [`arisuchan.jp` demo](https://catamphetamine.github.io/captchan/?chan=arisuchan). -->
+<!-- , [`arisuchan.jp` demo](https://captchan.surge.sh/?chan=arisuchan). -->
 
 Don't mind the seemingly slower speed of the demos: the only reason for that is the app can't use chan APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 
-This project currently has only a subset of features. "To do":
-
-  * Add message posting.
-  * Add thread watching.
-  * Add thread auto-update.
-  * Add support for "passes" (`4chan.org`, `2ch.hk`).
+This project currently has only a subset of features. ["To do"](https://trello.com/b/68XTgoLV/captchan).
 
 <!--
 	Miscellaneous:
@@ -51,55 +46,59 @@ This project currently has only a subset of features. "To do":
 
 ## Themes
 
-The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Light" mode and "Dark" mode.
+The app comes pre-packaged with a couple of built-in themes and [allows any degree of customization](https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md) via adding custom themes. Each theme has "Light" mode and "Dark" mode.
 
 #### Default theme (Light)
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-3605x1955.png)
+[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
+<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Default theme (Dark)
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-3605x1955.png)
+[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
+<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
 
 <!--
 ### Neon Genesis Evangelion
 
 #### Light
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-3605x1955.png)
+[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-light-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
+<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
 
 #### Dark
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png)
+[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
+<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
 
 ## Screenshots
 
 ### Media
 
-[View in full resolution](https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-3602x1952.png)
+[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/screenshot-slideshow-3602x1952.png)
 
-<img src="https://raw.githubusercontent.com/catamphetamine/captchan/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
+<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
 -->
 
 ## Known issues
 
-See [known issues](https://github.com/catamphetamine/imageboard#known-issues) of the `imageboard` library.
+See [known issues](https://gitlab.com/catamphetamine/imageboard#known-issues) of the `imageboard` library.
 
-The lists of threads/comments are implemented via a "[Virtual Scroller](https://github.com/catamphetamine/virtual-scroller)" which results in great performance boost but at the same time [doesn't support some native in-browser features](https://github.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
+The lists of threads/comments are implemented via a "[Virtual Scroller](https://gitlab.com/catamphetamine/virtual-scroller)" which results in great performance boost but at the same time [doesn't support some native in-browser features](https://gitlab.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
+
+## GitHub
+
+On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (and all my libraries) without any notice. I opened a support ticked but they didn't answer. Because of that, I had to move all my libraries to [GitLab](https://gitlab.com/catamphetamine).
 
 ## Develop
 
 ```
-git clone git@github.com:catamphetamine/webapp-frontend.git
-git clone git@github.com:catamphetamine/captchan.git
+git clone git@gitlab.com:catamphetamine/webapp-frontend.git
+git clone git@gitlab.com:catamphetamine/captchan.git
 cd captchan
 npm install
 npm run dev
@@ -112,8 +111,8 @@ One may also want to create a [custom configuration file](#configuration). Also 
 ## Build
 
 ```
-git clone git@github.com:catamphetamine/webapp-frontend.git
-git clone git@github.com:catamphetamine/captchan.git
+git clone git@gitlab.com:catamphetamine/webapp-frontend.git
+git clone git@gitlab.com:catamphetamine/captchan.git
 cd captchan
 npm install
 npm run build
@@ -135,11 +134,12 @@ It's recommended to create a custom configuration file for enabling features lik
 ```js
 {
 	// The default chan to use.
-	// Can be overridden via a `?chan=` URL parameter.
-	// For a built-in chan supply the chan id string.
-	// For a custom chan supply a chan info JSON object.
+	// For a built-in chan supply the chan id.
+	// For a custom chan, supply a chan config JSON:
+	// it should be a merge between an `imageboard` chan
+	// config JSON and a `captchan` chan config JSON.
 	// See the "chan" directory for the list of built-in chans
-	// and use their `index.json` files as an example.
+	// and their `index.json` configuration JSON.
 	"chan": "4chan",
 
 	// Google Analytics can be used for tracking page views.
@@ -159,16 +159,20 @@ It's recommended to create a custom configuration file for enabling features lik
 
 	// CORS Proxy settings (see the "Proxy" section of the readme).
 	// AWS EC2 is the easiest way to set up a free 1-year proxy.
-	"corsProxyUrlAws": "https://example.compute.amazonaws.com/{url}",
+	"proxyUrlAws": "https://example.compute.amazonaws.com/{url}",
 
 	// Chans behind CloudFlare CDN deny access for AWS IP addresses.
 	// Such chans can be proxied through Heroku, for example.
-	"corsProxyUrl": "https://example.herokuapp.com/{url}",
+	"proxyUrl": "https://example.herokuapp.com/{url}",
 
 	// `sentry.io` can be set up to report all client-side errors.
 	"sentry.io": {
 		"url": "https://1d8af64f618e9b01849237ccbc26e968@sentry.io/1413881"
 	},
+
+	// "Base path" can be set up to host the app not at the root level of the domain.
+	// By default, it assumes that the app is hosted at the root level.
+	"basePath": "/subpath",
 
 	// Sometimes chan administration needs to announce something
 	// to the users. Things like latest news, contests, etc.
@@ -241,7 +245,7 @@ Sometimes chan administration needs to announce something to the users. Things l
 
 ## Adding a new imageboard
 
-First [add the imageboard to `imageboard`](https://github.com/catamphetamine/imageboard#adding-a-new-imageboard) library. Then add the imageboard to `captchan` itself:
+First [add the imageboard to `imageboard`](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard) library. Then add the imageboard to `captchan` itself:
 
 * Create the imageboard's directory in `./chan`.
 * Create `index.json`, `logo.svg`/`logo.jpg`/`logo.png` and `icon.png` files in the chan's directory (see other chans as an example).
@@ -269,7 +273,7 @@ First [add the imageboard to `imageboard`](https://github.com/catamphetamine/ima
 	// (required)
 	// Chan description.
 	// Can be a `String` or `InlineContent` (text with hyperlinks):
-	// https://github.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
+	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Post/PostContent.md
 	"description": "4chan is the oldest English-speaking imageboard",
 
 	// (optional)
@@ -293,7 +297,7 @@ First [add the imageboard to `imageboard`](https://github.com/catamphetamine/ima
 	// (optional)
 	// Footer copyright.
 	// Can be a `String` or `InlineContent` (text with hyperlinks):
-	// https://github.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
+	// https://gitlab.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
 	"copyright": "Copyright © 2003-2019 4chan community support LLC. All rights reserved.",
 
 	// (required)
@@ -352,14 +356,10 @@ First [add the imageboard to `imageboard`](https://github.com/catamphetamine/ima
 	],
 
 	// (optional)
-	// CORS proxy settings.
-	"proxy": {
-		// (optional)
-		// Set to `true` if the chan doesn't block the AWS EC2 subnet.
-		// Will use Heroku proxy otherwise (which is slower).
-		// Is `false` by default.
-		"aws": true
-	},
+	// The fetched list of boards is cached in order to reduce
+	// the load on the server when a user opens multiple tabs.
+	// By default, it caches the list of boards for one day.
+	"boardsCacheTimeout": 86400000,
 
 	// (optional)
 	// Most chans use "relative" URLs for attachments.
@@ -397,6 +397,17 @@ First [add the imageboard to `imageboard`](https://github.com/catamphetamine/ima
 	}
 }
 ```
+<!--
+	// (optional)
+	// CORS proxy settings.
+	// By default, all imageboards require a "CORS Proxy" in order to
+	// be able to send HTTP requests to imageboard API (and get a response).
+	// Theoretically, some imageboard admins could allow "Cross-Origin" HTTP requests
+	// and in that case no proxying would be required when making HTTP requests from other domains,
+	// in which case set the `"proxy"` setting to `false`.
+	// By default it's set to `true` meaning "proxying is required".
+	"proxy": false,
+-->
 </details>
 
 ## Proxy
@@ -409,13 +420,13 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 
 [Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 
-* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://github.com/catamphetamine/captchan/tree/master/CORS-PROXY-AWS-NGINX.md).
+* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/captchan/tree/master/CORS-PROXY-AWS-NGINX.md).
 
-* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://github.com/catamphetamine/captchan/tree/master/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
+* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://gitlab.com/catamphetamine/captchan/tree/master/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
 
 ####
 
-In `./configuration/default.json` there's `corsProxyUrl` setting — this is the CORS-proxy that will be used for querying chan API. There's also a dedicated `corsProxyUrlAws` setting for chans that don't block AWS yet.
+In `./configuration/default.json` there's `proxyUrl` setting — this is the CORS-proxy that will be used for querying chan API. There's also a dedicated `proxyUrlAws` setting for chans that don't block AWS yet.
 
 ## Browser support
 

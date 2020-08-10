@@ -1,68 +1,76 @@
 @import "../styles/common";
 
-.board-page {
+.BoardPage {
 	/* `position: relative` is for <ThreadMenu/> on large screens. */
 	position: relative;
-}
-
-.board-page__header {
-	display: block;
-	@mixin upto-s {
-		/* `position: relative` is for <ThreadMenu/> on small screens. */
-		position: relative;
-		.BoardThreadMenu {
-			position: absolute;
-			right: 0;
-			top: 50%;
-			margin: 0;
-			transform: translateY(-50%);
-		}
-		.page__heading {
-			margin-bottom: calc(var(--PageHeading-marginTop) - var(--Comment-marginTop--boardPage));
-		}
-	}
-	@mixin m-plus {
-		.page__heading {
-			display: none;
-		}
-	}
-}
-
-.board-page__threads {
-	@mixin l-plus {
-		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
-	}
-}
-
-/* This CSS class is also used for `.thread-page__stats`. */
-.board-menu {
 	@mixin upto-m {
-		margin-bottom: calc(-1 * var(--unit));
+		--BoardThreadMenu-marginTop: calc(var(--unit) * 0.5);
+		--BoardThreadMenu-marginBottom: calc(var(--unit) * 0.5);
 	}
-	@mixin l-plus {
+}
+
+.BoardPage-header {
+	display: block;
+	/* `position: relative` is for <BoardMenu/> vertical centring. */
+	position: relative;
+	.BoardThreadMenu {
 		position: absolute;
 		right: 0;
-		/*top: calc(-1 * var(--BoardOrThreadPage-marginTop--largeScreen) + (var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);*/
-		top: calc((var(--Comment-marginTop--boardPage) - var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
+		top: 50%;
+		margin: 0;
+		transform: translateY(-50%);
+	}
+	.BoardPage-heading {
+		margin-top: var(--Heading-marginTop);
+		margin-bottom: var(--Heading-marginTop);
+		/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--boardPage));*/
+		padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
+		padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
+		text-align: center;
+		/*font-weight: 300;*/
+		font-weight: 400;
+		font-size: var(--PostTitle-fontSize);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		@mixin m-plus {
+			padding-bottom: calc(var(--unit) * 0.25);
+			/* Reset the default `line-height` set on `.page__heading`. */
+			line-height: initial;
+		}
+	}
+}
+
+.BoardPage-threads {
+	--Comment-marginTop: var(--Comment-marginTop--boardPage);
+	.Comment-container {
+		align-items: stretch;
 	}
 }
 
 /*
-.board-page__threads {
-	.thread-comment__container {
-		margin-top: calc(var(--unit) * 1);
-		margin-bottom: calc(var(--unit) * 1);
-	}
-	.thread-comment__container:first-child {
-		margin-top: 0;
-	}
-	.thread-comment__container:last-child {
-		margin-bottom: 0;
+.BoardPage-threads {
+	@mixin l-plus {
+		margin-top: var(--BoardOrThreadPage-marginTop--largeScreen);
 	}
 }
 */
 
-.board-page__api-bug-note {
+/* This CSS class is also used for `.ThreadPage-stats`. */
+.BoardPage-menu {
+	@mixin upto-m {
+		margin-bottom: calc(-1 * var(--unit));
+	}
+	/*
+	@mixin l-plus {
+		position: absolute;
+		right: 0;
+		top: calc((var(--Comment-marginTop--boardPage) - var(--BoardOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
+	}
+	*/
+}
+
+.BoardPage-apiBoardEmptyNoteTwoChannel {
 	margin-top: calc(var(--unit) * 2);
 	margin-bottom: calc(var(--unit) * 2);
 	text-align: center;

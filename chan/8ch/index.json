@@ -86,8 +86,5 @@
 			"text": "Mobile App",
 			"url": "https://8kun.top/faq.html#where-is-the-mobile-app"
 		}
-	],
-	"proxy": {
-		"aws": false
-	}
+	]
 }

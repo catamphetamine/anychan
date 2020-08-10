@@ -19,15 +19,15 @@ export const hideSidebar = redux.simpleAction(
 	})
 )
 
-export const setDarkMode = redux.simpleAction(
-	(state, darkMode) => {
-		applyDarkMode(darkMode)
-		return {
-			...state,
-			darkMode
-		}
-	}
+const _setDarkMode = redux.simpleAction(
+	(state, darkMode) => ({ ...state, darkMode })
 )
+export const setDarkMode = (darkMode) => {
+	// Apply `.dark`/`.light` CSS class to `<body/>` before Redux is initialized.
+	applyDarkMode(darkMode)
+	// Dispatch the Redux action. It will be processed after the page is loaded.
+	return _setDarkMode(darkMode)
+}
 
 export const setCookiesAccepted = redux.simpleAction(
 	(state) => ({ ...state, cookiesAccepted: true })

@@ -4,31 +4,27 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: var(--unit);
-	margin-bottom: var(--unit);
+}
+
+.ShowPrevious-showAll {
+	margin-bottom: calc(var(--unit) * 0.5);
 	@mixin upto-s {
-		margin-top: calc(var(--unit) * 0.5);
-		margin-bottom: calc(var(--unit) * 0.5);
+		margin-bottom: calc(var(--unit) * 0.25);
 	}
 }
 
-.ShowPreviousShowAll {
-	margin-bottom: var(--unit);
-}
-
-.ShowPreviousCount {
+.ShowPrevious-count {
 	font-size: 110%;
 }
 
-.ShowPreviousDate {
+/*
+.ShowPrevious-date {
 	color: var(--Content-color-700);
 	font-weight: 300;
-	/*color: var(--Content-color-500);*/
-	/*color: var(--Post-color--secondary);*/
-	/*font-weight: var(--Post-fontWeight--secondary);*/
 }
+*/
 
-.ShowPreviousDoubleArrow {
+.ShowPrevious-doubleArrow {
 	display: inline-block;
 	width: 1em;
 	height: 1em;

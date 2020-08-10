@@ -1,4 +1,5 @@
 @import "../../../webapp-frontend/src/styles/components.css";
+@import "../components/LoadingSpinner.css";
 
 .content-section__header {
 	/* Roboto font is used. */

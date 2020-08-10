@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
+import { Button } from 'webapp-frontend/src/components/Button'
 
 import ChanLogo, { hasLogo } from '../components/ChanLogo'
 
@@ -27,31 +28,31 @@ export default function Home() {
 		dispatch(setSidebarMode('boards'))
 	}, [dispatch])
 	return (
-		<section className="home-page">
-			<div className="content text-content">
-				<div className="home-page__brand">
+		<section className="HomePage">
+			<div className="Content Content--text">
+				<div className="HomePage-brand">
 					{hasLogo() &&
 						<a
 							target="_blank"
 							href={`https://${getChanDomain()}`}
-							className="home-page__logo-link">
-							<ChanLogo className="home-page__logo"/>
+							className="HomePage-logoLink">
+							<ChanLogo className="HomePage-logo"/>
 						</a>
 					}
-					<div className="home-page__title">
+					<div className="HomePage-title">
 						<a
 							target="_blank"
 							href={`https://${getChanDomain()}`}>
 							{title}
 						</a>
-						<div className="home-page__subtitle">
+						<div className="HomePage-subtitle">
 							{subtitle}
 						</div>
 					</div>
 				</div>
 
 				{description &&
-					<div className="home-page__description">
+					<div className="HomePage-description">
 						<PostBlock>
 							{description}
 						</PostBlock>
@@ -59,20 +60,18 @@ export default function Home() {
 				}
 
 				{announcement &&
-					<div className="home-page__announcement">
+					<div className="HomePage-announcement">
 						<PostBlock>
 							{announcement}
 						</PostBlock>
 					</div>
 				}
 
-				<p className="home-page__show-boards-list">
-					<button
-						type="button"
-						onClick={onShowBoardsList}
-						className="rrui__button-reset">
+				<p className="HomePage-showBoardsList">
+					<Button
+						onClick={onShowBoardsList}>
 						{getMessages(locale).boards.showBoardsList}
-					</button>
+					</Button>
 				</p>
 			</div>
 		</section>

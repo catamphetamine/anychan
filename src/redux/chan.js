@@ -2,7 +2,8 @@ import { ReduxModule } from 'react-pages'
 
 import getMessages from '../messages'
 
-import _getBoards from '../api/getBoards'
+// import _getBoards from '../api/getBoards'
+import _getBoardsCached from '../api/cached/getBoards'
 import _getThreads from '../api/getThreads'
 import _getThread from '../api/getThread'
 import _vote from '../api/vote'
@@ -11,8 +12,24 @@ import UserData from '../UserData/UserData'
 
 const redux = new ReduxModule('CHAN')
 
+// export const getBoards = redux.action(
+// 	(options = {}) => async http => await _getBoards({ http, all: options.all }),
+// 	(state, result) => ({
+// 		...state,
+// 		// `result` has `boards` and potentially other things
+// 		// like `boardsByCategory` and `boardsByPopularity`.
+// 		// Also contains `allBoards` object in case of `all: true`.
+// 		...result
+// 	})
+// )
+
 export const getBoards = redux.action(
-	(options = {}) => async http => await _getBoards({ http, all: options.all }),
+	(options = {}) => async http => await _getBoardsCached({
+		// In case of adding new options here,
+		// also add them in `./src/api/cached/getBoards.js`.
+		http,
+		all: options.all
+	}),
 	(state, result) => ({
 		...state,
 		// `result` has `boards` and potentially other things
@@ -39,12 +56,12 @@ export const getThreads = redux.action(
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
-		populateBoardInfoFromThreadData(board, threads[0])
-		for (const thread of threads) {
-			delete thread.board
-		}
-		for (const thread of threads) {
-			setThreadInfo(thread, board)
+		if (threads.length > 0) {
+			populateBoardInfoFromThreadData(board, threads[0])
+			for (const thread of threads) {
+				delete thread.board
+				setThreadInfo(thread, board)
+			}
 		}
 		return {
 			...state,
@@ -92,7 +109,7 @@ export const vote = redux.action(
 		// If the vote has been accepted then mark this comment as "voted" in user data.
 		// If the vote hasn't been accepted due to "already voted"
 		// then also mark this comment as "voted" in user data.
-		UserData.addCommentVotes(boardId, threadId, commentId, up)
+		UserData.addCommentVotes(boardId, threadId, commentId, up ? 1 : -1)
 		return voteAccepted
 	}
 )
@@ -131,6 +148,10 @@ function populateBoardInfoFromThreadData(board, thread) {
 	}
 }
 
+// Some comment properties are set here
+// rather than in `addCommentProps.js`
+// because here it requires access to board props
+// which aren't available in `addCommentProps.js`.
 function setThreadInfo(thread, board) {
 	// `2ch.hk` and `4chan.org` provide `bumpLimit` info.
 	// Mark all comments that have reached that "bump limit".
@@ -138,7 +159,7 @@ function setThreadInfo(thread, board) {
 		if (thread.comments.length >= board.bumpLimit) {
 			let i = board.bumpLimit - 1
 			while (i < thread.comments.length) {
-				// `isBumpLimitReached` is used in `<ThreadCommentHeader/>`
+				// `isBumpLimitReached` is used in `<CommentAuthor/>`
 				// to show a "sinking ship" badge.
 				thread.comments[i].isBumpLimitReached = true
 				i++

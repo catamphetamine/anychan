@@ -6,6 +6,8 @@ import classNames from 'classnames'
 import { useCanGoBackFromThreadToBoard } from '../utility/routes'
 import getMessages from '../messages'
 
+import { Button } from 'webapp-frontend/src/components/Button'
+
 // import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
 
 import './BackButton.css'
@@ -19,21 +21,20 @@ export default function BackButton() {
 	// 	return null
 	// }
 	return (
-		<button
-			type="button"
+		<Button
 			title={getMessages(locale).actions.back}
 			onClick={goBack}
-			className={classNames('rrui__button-reset', 'BackButton', {
+			className={classNames('BackButton', {
 				'BackButton--hidden': !canGoBack
 			})}>
 			<LeftArrow className="BackButtonIcon"/>
-		</button>
+		</Button>
 	)
 }
 
 function LeftArrow({ className }) {
 	return (
-		<div className={classNames(className, 'BackButtonLeftArrow')}/>
+		<div className={classNames(className, 'BackButtonIcon--leftArrow')}/>
 	)
 }
 

@@ -44,14 +44,14 @@ export default function EditFavoriteBoards() {
 		dispatch(setFavoriteBoards(favoriteBoards))
 	}, [dispatch])
 	return (
-		<section className="edit-favorite-boards">
+		<section className="EditFavoriteBoards">
 			<Autocomplete
 				autoFocus
 				autoComplete="off"
 				maxOptions={50}
 				optionComponent={BoardOptionComponent}
 				icon={SearchIcon}
-				className="edit-favorite-boards__search"
+				className="EditFavoriteBoards-search"
 				value={selectedBoard}
 				onChange={onSelectBoard}
 				options={allBoards
@@ -63,7 +63,7 @@ export default function EditFavoriteBoards() {
 					}))}/>
 			<SortableList
 				component="div"
-				className="edit-favorite-boards__list"
+				className="EditFavoriteBoards-list"
 				value={favoriteBoards}
 				onChange={onFavoriteBoardsOrderChange}
 				itemComponent={Board}
@@ -94,14 +94,12 @@ function Board({
 		dispatch(saveAutoSuggestFavoriteBoards(false))
 	}, [dispatch, board])
 	return (
-		<div style={style} className={classNames('edit-favorite-boards__board', {
-			'edit-favorite-boards__board--dragging': dragging,
-			'edit-favorite-boards__board--dragged': dragged
+		<div style={style} className={classNames('EditFavoriteBoards-board', {
+			'EditFavoriteBoards-board--dragging': dragging,
+			'EditFavoriteBoards-board--dragged': dragged
 		})}>
-			<BoardUrl
-				boardId={board.id}
-				className="boards-list__board-url"/>
-			<span className="boards-list__board-name">
+			<BoardUrl boardId={board.id}/>
+			<span className="EditFavoriteBoards-boardTitle">
 				{board.title}
 			</span>
 			<ListButton
@@ -109,7 +107,7 @@ function Board({
 				icon="remove"
 				onClick={onRemoveFavoriteBoard}
 				title={getMessages(locale).actions.remove}
-				className="edit-favorite-boards__remove"/>
+				className="EditFavoriteBoards-remove"/>
 		</div>
 	)
 }
@@ -128,7 +126,7 @@ function BoardOptionComponent({
 	focused
 }) {
 	return (
-		<span className="edit-favorite-boards__search__option">
+		<span className="EditFavoriteBoards-searchOption">
 			<BoardUrl boardId={value.id}/>
 			<span className="rrui__text-line">
 				{value.title}

@@ -1,53 +1,66 @@
 import {
 	getChanIdByDomain,
+	getDefaultChanId,
 	setChanId,
 	getChan,
 	shouldIncludeChanInPath,
 	getChanFromPath,
-	addChanToPath
+	addChanToPath,
+	getLegacyImplicitDefaultChan
 } from './chan'
 
-import {
+import getBasePath, {
 	addBasePath,
 	removeBasePath
 } from './utility/getBasePath'
 
+import configuration from './configuration'
+
 export default function() {
-	// Get the chan id.
-	// Chan id can be specified as "chan" URL parameter
-	// (`chan` URL parameter is used for multi-chan `gh-pages` demo)
-	// or it could be derived from the current domain.
-	// If not chan id is determined at this step then the
-	// "default chan" configured in `configuration.json` will be used.
+	// Get imageboard id.
 	let chan
+	// Previously, imageboard id could be specified as "chan" URL parameter
+	// (`chan` URL parameter was used for multi-imageboard `gh-pages` demo).
 	// `URL` is not available in IE11.
 	if (typeof URL !== 'undefined' && typeof URLSearchParams !== 'undefined') {
+		// Get imageboard id from `chan` URL parameter.
 		const urlParams = new URL(window.location.href).searchParams
 		// `.searchParams` still may be `undefined` here in old versions of Chrome.
 		if (urlParams) {
 			const chanParam = urlParams.get('chan')
 			chan = chanParam
-			// If chan id should be part of URL path
-			// instead of a URL parameter, then redirect.
+			// Transform `chan` URL parameter into imageboard id
+			// being part of URL path, and redirect to that URL.
 			if (chanParam && shouldIncludeChanInPath()) {
 				const url = new URL(window.location.href)
 				url.searchParams.delete('chan')
 				url.pathname = addBasePath(addChanToPath(removeBasePath(url.pathname), chanParam))
+				// Redirect.
 				window.location = decodeURI(url.href)
 			}
 		}
 	}
+	// Get chan id from path.
+	// Example: "/4chan/b/12345".
 	if (!chan) {
 		if (shouldIncludeChanInPath()) {
 			chan = getChanFromPath(removeBasePath(window.location.pathname))
 		}
 	}
+	// Get imageboard id by domain.
+	// (in case `captchan` is deployed on one of the chans' domains).
 	if (!chan) {
 		chan = getChanIdByDomain()
 	}
-	if (chan) {
-		setChanId(chan)
+	// If no imageboard id is determined at this step then the
+	// default "chan" configured in `configuration.json` will be used.
+	if (!chan) {
+		chan = getDefaultChanId()
 	}
+	if (!chan) {
+		return alert(`No imageboard ID has been set. Either set a default imageboard ID in configuration, or pass imageboard ID as part of the URL (example: "${location.origin}${getBasePath({ chan: '4chan' })}").`)
+	}
+	setChanId(chan)
 	// Apply chan site icon.
 	if (getChan().icon) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')

@@ -21,15 +21,15 @@ export default function ErrorPage({
 	const messages = getMessages(locale).errorPages[status]
 	const LinkComponent = offline ? ExternalLink : Link
 	return (
-		<section className={classNames('error-page', {
-			'error-page--image': custom && custom.images
+		<section className={classNames('ErrorPage', {
+			'ErrorPage--showImage': custom && custom.images
 		})}>
-			<div className="content text-content">
-				<h1 className="error-page__title">
+			<div className="Content Content--text">
+				<h1 className="ErrorPage-title">
 					{messages.title}
 				</h1>
 				{messages.description &&
-					<p className="error-page__description">
+					<p className="ErrorPage-description">
 						{messages.description}
 					</p>
 				}
@@ -37,10 +37,10 @@ export default function ErrorPage({
 					<img
 						aria-hidden
 						src={getRandomElement(custom.images)}
-						className="error-page__image"/>
+						className="ErrorPage-image"/>
 				}
 				{location.query.url &&
-					<LinkComponent to={location.query.url} className="error-page__requested-url">
+					<LinkComponent to={location.query.url} className="ErrorPage-requestedUrl">
 						{getMessages(locale).errorPages.requestedURL}
 					</LinkComponent>
 				}

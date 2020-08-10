@@ -1,0 +1,47 @@
+.ThreadPage-stats {
+	display: none;
+}
+
+.ThreadPage-stats {
+	/*color: var(--Post-color--secondary);*/
+	color: var(--Content-color-600);
+	font-weight: var(--Post-fontWeight--secondary);
+}
+
+.ThreadPage-stats-icon-container {
+	display: inline-block;
+}
+
+.ThreadPage-stats-icon {
+	color: var(--Content-color-500);
+}
+
+.ThreadPage-stats-comment-icon {
+	width: 1em;
+	height: 1em;
+	margin-bottom: -0.2em;
+	margin-right: 0.4em;
+}
+
+.ThreadPage-latest-comment-date {
+	margin-right: 0.4em;
+}
+
+.ThreadPage-latest-comment-date-separator {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	color: var(--Content-color-300);
+	pointer-events: none;
+}
+
+.ThreadPage-stats-down-right-arrow-icon {
+	width: 0.6em;
+	height: 0.6em;
+	margin-bottom: 0em;
+}
+
+.ThreadPage-stats-sinking-icon {
+	width: 1.15em;
+	height: 1.15em;
+	margin-bottom: -0.25em;
+}

@@ -46,9 +46,6 @@
 		"text": "Radio",
 		"url": "https://berndstroemt.tk/"
 	}],
-	"proxy": {
-		"aws": false
-	},
 	"errorPages": {
 		"404": {
 			"images": [

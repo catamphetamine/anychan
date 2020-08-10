@@ -1,11 +1,17 @@
 import Chan from './Chan'
-import { getChan } from '../chan'
+import { getChan, getChanId } from '../chan'
 
+/**
+ * Returns a list of boards.
+ * @param  {object} options.http — `react-pages` `http` utility.
+ * @param  {boolean} options.all — If set to `true`, then the "full" list of boards is returned. Some imageboars require creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
+ * @return {object} Returns `{ [boards], [boardsByPopularity], [boardsByCategory], [allBoards: { boards, [boardsByPopularity], [boardsByCategory] }], [hasMoreBoards] }`. If an imageboard doesn't differentiate between a "short" list of boards and a "long" list of boards then both `boards` and `allBoards` are returned and are the same. Otherwise, either `boards` and `hasMoreBoards: true` or `allBoards: { boards }` are returned. Along with `boards` (or `allBoards.boards`), `boardsByPopularity` and `boardsByCategory` could also be returned (if the imageboard provides those).
+ */
 export default async function getBoards({ http, all }) {
 	// // Development process optimization: use a cached list of `2ch.hk` boards.
 	// // (to aviod the delay caused by a CORS proxy)
-	// if (process.env.NODE_ENV !== 'production' && getBoardsExample(getChan().id)) {
-	// 	response = getBoardsExample(getChan().id)
+	// if (process.env.NODE_ENV !== 'production' && getBoardsExample(getChanId())) {
+	// 	response = getBoardsExample(getChanId())
 	// }
 	const chan = Chan({ http })
 	let boards = await (all ? chan.getAllBoards() : chan.getBoards())
@@ -14,7 +20,7 @@ export default async function getBoards({ http, all }) {
 		markHiddenBoards(boards)
 	}
 	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
-	if (getChan().id === '2ch') {
+	if (getChanId() === '2ch') {
 		boards = boards.filter(_ => _.id !== 'abu')
 	}
 	const result = getBoardsResult(boards)
@@ -25,7 +31,9 @@ export default async function getBoards({ http, all }) {
 		}
 	}
 	if (all) {
-		return { allBoards: result }
+		return {
+			allBoards: result
+		}
 	}
 	return {
 		...result,
@@ -43,6 +51,12 @@ export function getBoardsExample(chan) {
 	}
 }
 
+/**
+ * Returns the list(s) of boards.
+ * @param  {object} options.http — `react-pages` `http` utility.
+ * @param  {boolean} options.all — If set to `true`, then the "full" list of boards is returned. Some imageboars require creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
+ * @return {object} `{ boards, [boardsByPopularity], [boardsByCategory] }`. Along with `boards` (or `allBoards.boards`), `boardsByPopularity` and `boardsByCategory` could also be returned (if the imageboard provides those).
+ */
 export function getBoardsResult(boards) {
 	const result = {
 		boards
@@ -101,13 +115,12 @@ function groupBoardsByCategory(boards, categoriesOrder = []) {
 
 function markHiddenBoards(boards) {
 	const hideBoardCategories = getChan().hideBoardCategories
-	const chanId = getChan().id
 	if (hideBoardCategories) {
 		for (const board of boards) {
 			if (hideBoardCategories.indexOf(board.category) >= 0) {
 				// Special case for `2ch.hk`'s `/int/` board which happens to be
 				// in the ignored category but shouldn't be hidden.
-				if (chanId === '2ch' && board.id === 'int') {
+				if (getChanId() === '2ch' && board.id === 'int') {
 					continue
 				}
 				board.isHidden = true

@@ -1,9 +1,11 @@
 .SidebarSectionMoreButton {
-	--rrui-button-side-padding: var(--SidebarSectionMoreButton-paddingLeft);
-	--rrui-button-busy-indicator-bottom: 0px;
-	--rrui-button-busy-indicator-width: 1px;
+	/*--rrui-button-side-padding: var(--SidebarSectionMoreButton-paddingLeft);*/
+	/*--rrui-button-busy-indicator-bottom: 0px;*/
+	/*--rrui-button-busy-indicator-width: 1px;*/
 	--SidebarSectionMoreButton-width: var(--unit);
-	--SidebarSectionMoreButton-height: 100%;
+	/* The "more" button's top and bottom border would be
+	   hidden due to `overflow: hidden` if its `height` was `100%`. */
+	--SidebarSectionMoreButton-height: calc(100% - 2 * 1px);
 	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
 	--SidebarSectionMoreButtonIcon-opacity: 0.5;
 	display: flex;
@@ -14,9 +16,11 @@
 	position: absolute;
 	right: calc(var(--SidebarSection-paddingLeft) - var(--SidebarSectionMoreButton-paddingLeft));
 	top: calc((100% - var(--SidebarSectionMoreButton-height)) / 2);
+	padding-left: var(--SidebarSectionMoreButton-paddingLeft);
+	padding-right: var(--SidebarSectionMoreButton-paddingLeft);
 }
 
-.SidebarSectionMoreButton__Icon {
+.SidebarSectionMoreButton-icon {
 	width: 100%;
 	opacity: var(--SidebarSectionMoreButtonIcon-opacity);
 }
@@ -48,12 +52,14 @@
 }
 
 .SidebarButton--unpushed {
+	/*
 	&:focus {
 		opacity: var(--SidebarSectionMoreButtonIcon-opacity);
 		.SidebarSectionMoreButton__Icon {
 			opacity: 1;
 		}
 	}
+	*/
 	&:hover {
 		--SidebarButton-backgroundColor: var(--SidebarButton-backgroundColor--hover);
 		--SidebarButton-color: var(--SidebarButton-color--hover);

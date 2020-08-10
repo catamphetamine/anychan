@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { Loading } from 'react-pages'
+// import { Loading } from 'react-pages'
 import classNames from 'classnames'
 
 // Not importing `react-time-ago/Tooltip.css` because
@@ -21,6 +21,7 @@ import Sidebar from '../components/Sidebar'
 import SideNavMenuButton from '../components/SideNavMenuButton'
 import BackButton from '../components/BackButton'
 import Slideshow from '../components/Slideshow'
+import Loading from '../components/LoadingIndicator'
 import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
 import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/YouTubeVideo'
@@ -32,9 +33,9 @@ import 'webapp-frontend/src/components/TimeAgo.en'
 import 'webapp-frontend/src/components/TimeAgo.ru'
 
 import '@formatjs/intl-pluralrules/polyfill'
-import '@formatjs/intl-pluralrules/dist/locale-data/de'
-import '@formatjs/intl-pluralrules/dist/locale-data/en'
-import '@formatjs/intl-pluralrules/dist/locale-data/ru'
+import '@formatjs/intl-pluralrules/locale-data/de'
+import '@formatjs/intl-pluralrules/locale-data/en'
+import '@formatjs/intl-pluralrules/locale-data/ru'
 
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
@@ -46,7 +47,6 @@ import { getFavoriteBoards } from '../redux/favoriteBoards'
 import { getTrackedThreads } from '../redux/threadTracker'
 import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
 
-import { addChanParameter } from '../chan'
 import getMessages from '../messages'
 import UserData from '../UserData/UserData'
 import onUserDataChange from '../UserData/onUserDataChange'
@@ -144,30 +144,30 @@ export default function App({
 			{/* Picture/Video Slideshow */}
 			<Slideshow/>
 
-			<div className={classNames('webpage', {
-				'webpage--offline': offline,
-				'webpage--content-sections': isContentSectionsContent(route),
-				'webpage--boards': isBoardsLocation(route),
-				'webpage--board': isBoardLocation(route),
-				'webpage--thread': isThreadLocation(route),
-				'webpage--wide-sidebar': sidebarMode !== 'boards'
+			<div className={classNames('Webpage', {
+				'Webpage--offline': offline,
+				'Webpage--contentSections': isContentSectionsContent(route),
+				'Webpage--boards': isBoardsLocation(route),
+				'Webpage--board': isBoardLocation(route),
+				'Webpage--thread': isThreadLocation(route),
+				'Webpage--wideSidebar': sidebarMode !== 'boards'
 			})}>
-				{!offline &&
+				{/*!offline &&
 					<Header/>
-				}
+				*/}
 				{!offline &&
 					<SideNavMenuButton/>
 				}
 				{!offline &&
-					<div className="webpage__padding-left">
+					<div className="Webpage-paddingLeft">
 						<BackButton/>
 					</div>
 				}
-				<div className="webpage__content-container">
+				<div className="Webpage-contentContainer">
 					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
 					<main
 						tabIndex={-1}
-						className="webpage__content">
+						className="Webpage-content">
 						{!cookiesAccepted &&
 							<Announcement
 								onClick={onAcceptCookies}
@@ -193,7 +193,7 @@ export default function App({
 					<Footer/>
 				</div>
 				{!offline &&
-					<div className="webpage__padding-right"/>
+					<div className="Webpage-paddingRight"/>
 				}
 				{!offline && <Sidebar/>}
 			</div>
@@ -249,9 +249,7 @@ App.load = {
 			}
 			if (errorPageUrl) {
 				console.error(error)
-				window.location = addChanParameter(
-					`${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(location.pathname + location.search + location.hash)}`
-				)
+				window.location = `${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(getBasePath() + location.pathname + location.search + location.hash)}`
 				// Don't render the page because it would throw.
 				// (the app assumes the list of boards is available).
 				// (maybe javascript won't even execute this line,

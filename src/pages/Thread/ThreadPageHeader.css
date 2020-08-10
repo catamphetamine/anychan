@@ -1,0 +1,138 @@
+@import "../../styles/common";
+
+.ThreadPageHeader {
+	@mixin upto-s {
+		margin-left: var(--Post-paddingLeft);
+		margin-top: calc(var(--unit) * 0.5);
+	}
+	@mixin l {
+		/* `margin-left` is already being set in `Thread.css`. */
+		margin-left: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));
+	}
+	@mixin m-plus {
+		margin-top: calc(var(--unit) * 1.5);
+		/* <Comment/> itself has empty spacing on the top. */
+		margin-bottom: calc(var(--unit) * 1);
+	}
+}
+
+.ThreadPageHeader-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.ThreadPageHeader-titleOnNewLine {
+	display: flex;
+	align-items: center;
+	/* These `overflow` rules are required in order for
+	   thread title to show ellipsis on overflow. */
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ThreadPageHeader-backArrow {
+	width: calc(var(--unit) * 1);
+	height: calc(var(--unit) * 1);
+	/* Align the left side of the back arrow to the rest of the page content.
+	   The reason is that the back arrow icon itself isn't square. */
+	margin-left: calc(-1 * var(--unit) / 4);
+	margin-right: calc(var(--unit) / 8);
+	/* Prevent the back arrow icon from shrinking when board title overflows container. */
+	flex-shrink: 0;
+}
+
+.ThreadPageHeader-boardAndThreadTitle {
+	display: flex;
+	align-items: center;
+	/* `overflow: hidden` is for cases when, for example,
+	   board title is too long and has no whitespace. */
+	overflow: hidden;
+}
+
+.ThreadPageHeader-title {
+	/*font-size: 140%;*/
+	/*font-weight: 300;*/
+	font-weight: 400;
+	font-size: var(--PostTitle-fontSize);
+	/* `overflow: hidden` is for cases when, for example,
+	   thread title is too long and has no whitespace. */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* `white-space: nowrap` is for cases when thread title
+	   is too long and has whitespace resulting in it being multi-line. */
+	white-space: nowrap;
+}
+
+.ThreadPageHeader-titleSeparator {
+	height: 1.6em;
+	margin-left: 0.4em;
+	margin-right: 0.4em;
+	color: var(--Content-color-300);
+	/* So that it doesn't disappear when thread title overflows. */
+	flex: none;
+}
+
+.ThreadPageHeader-backLink {
+	flex: none;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+
+.ThreadPageHeader-backTitle {
+	/* `overflow: hidden` is for cases when, for example,
+	   board title is too long and has no whitespace. */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* `white-space: nowrap` is for cases when board title
+	   is too long and has whitespace resulting in it being multi-line. */
+	white-space: nowrap;
+}
+
+.ThreadPageHeader-activityIndicator {
+	--ThreadActivityIndicator-width: 0.65em;
+	/* `padding` is added on the indicator itself rather than
+	   on some "wrapper" around it because this way its tooltip
+	   activation area is larger. */
+	--ThreadActivityIndicator-padding: 0.45em;
+	flex: none;
+	align-self: center;
+	/*padding: calc(var(--Document-lineHeight) * 1em);*/
+	margin-left: 0.1em;
+	margin-top: 0.1em;
+	/* "Negative" `margin-right` would have caused the
+	   "--hot" circles animation to be clipped at the right side,
+	   because `.ThreadPageHeader` has `overflow: hidden`. */
+	/* (removed the "pulse-green" animation from `.ThreadActivityIndicator--hot`) */
+	/* "Negative" `margin-right` would have caused the
+	   fire icon to be clipped at the right side,
+	   because `.ThreadPageHeader` has `overflow: hidden`. */
+	/*margin-right: calc(-1 * 0.45em);*/
+	@mixin upto-s {
+		margin-top: 0.175em;
+	}
+}
+
+@mixin upto-s {
+	.ThreadPageHeader-boardAndThreadTitle {
+		.ThreadPageHeader-title,
+		.ThreadPageHeader-titleSeparator,
+		.ThreadPageHeader-activityIndicator {
+			display: none;
+		}
+	}
+	.ThreadPageHeader-titleOnNewLine {
+		padding-right: var(--Post-paddingRight);
+		margin-bottom: calc(var(--unit) * 1 - var(--Comment-marginTop--boardPage));
+	}
+}
+
+@mixin m-plus {
+	.ThreadPageHeader-titleOnNewLine {
+		display: none;
+	}
+	.ThreadPageHeader-backArrow {
+		display: none;
+	}
+}

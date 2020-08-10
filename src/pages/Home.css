@@ -1,24 +1,24 @@
 @import "../styles/common";
 
-.home-page {
+.HomePage {
 	display: flex;
 	justify-content: center;
 }
 
-.home-page__logo {
+.HomePage-logo {
 	height: 1.2em;
 	margin-right: 0.25em;
 }
 
-.home-page__logo-link {
+.HomePage-logoLink {
 	color: inherit;
 }
 
-.home-page__title a {
+.HomePage-title a {
 	color: inherit;
 }
 
-.home-page__brand {
+.HomePage-brand {
 	display: flex;
 	align-content: center;
 	justify-content: center;
@@ -27,34 +27,35 @@
 	color: inherit;
 }
 
-.home-page__subtitle {
+.HomePage-subtitle {
 	margin-top: 0.5em;
 	text-align: center;
 	font-size: 1rem;
 }
 
-.home-page__description {
+.HomePage-description {
 	margin-top: calc(var(--unit) * 6);
 	margin-bottom: 0;
 }
 
-.home-page__announcement,
-.home-page__show-boards-list {
+.HomePage-announcement,
+.HomePage-showBoardsList {
 	margin-top: calc(var(--unit) * 2);
 	margin-bottom: 0;
 }
 
 /*
-.home-page__description,
-.home-page__announcement {
+.HomePage-description,
+.HomePage-announcement {
 	line-height: 1.35em;
 }
  */
 
-.home-page__show-boards-list {
+.HomePage-showBoardsList {
 	display: none;
-	text-align: center;
-	button {
+	.Button {
+		margin-left: auto;
+		margin-right: auto;
 		color: var(--Clickable-color--text);
 	}
 }

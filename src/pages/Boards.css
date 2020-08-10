@@ -2,34 +2,34 @@
 	background-color: var(--Sidebar-backgroundColor);
 }
 
-.boards-page {
-	.boards-list__item {
+.BoardsPage {
+	.BoardsListBoard {
 		display: flex;
 	}
-	.boards-list__board-name {
+	.BoardsListBoard-title {
 		font-weight: normal;
 	}
-	.boards-list__item:not(:active) {
-		.boards-list__board-name {
+	.BoardsListBoard:not(:active) {
+		.BoardsListBoard-title {
 			color: var(--Sidebar-color-900);
 		}
 	}
-	.boards-list__item:active {
-		.boards-list__board-name {
+	.BoardsListBoard:active {
+		.BoardsListBoard-title {
 			color: var(--Boards-color--active);
 		}
 	}
-	.boards-list__item:hover {
+	.BoardsListBoard:hover {
 		background-color: var(--Boards-backgroundColor--hover);
-		.boards-list__board-url {
+		.BoardUrl {
 			&:before, &:after {
 				color: var(--Boards-color--slashHover);
 			}
 		}
 	}
-	.boards-list__item:active {
+	.BoardsListBoard:active {
 		background-color: var(--Boards-backgroundColor--active);
-		.boards-list__board-url {
+		.BoardUrl {
 			&:before, &:after {
 				color: var(--Boards-color--slashActive);
 			}

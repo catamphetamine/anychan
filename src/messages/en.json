@@ -41,6 +41,12 @@
 				"neon-genesis-evangelion": "Neon Genesis Evangelion"
 			}
 		},
+		"proxy": {
+			"title": "Proxy",
+			"description": "Web browsers restrict websites from reading other websites' data. To work around that, a special \"proxy server\" is used to access imageboard data.",
+			"url": "URL",
+			"invalidUrl": "Invalid URL"
+		},
 		"darkMode": {
 			"auto": "Use system preference"
 		},
@@ -84,6 +90,9 @@
 				"warning": "All your user data (\"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
 				"done": "The user data has been cleared"
 			},
+			"clearBoardsCache": {
+				"title": "Clear boards cache"
+			},
 			"clearYouTubeCache": {
 				"title": "Clear YouTube Cache"
 			},
@@ -121,6 +130,7 @@
 		"uniquePostersCount": "Unique poster IP addresses",
 		"moreActions": {
 			"copyUrl": "Copy link",
+			"copyId": "Copy number",
 			"report": "Report",
 			"hide": "Hide",
 			"ignoreAuthor": "Ignore author"
@@ -147,5 +157,8 @@
 	"noNewComments": "No new comments",
 	"newComments": "New comments",
 	"lastComment": "Last comment",
-	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it."
+	"goToComment": "Go to comment",
+	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
+	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>15 minutes</time>",
+	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>hour</time>"
 }

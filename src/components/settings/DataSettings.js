@@ -4,7 +4,8 @@ import { Button, TextInput, FileUploadButton } from 'react-responsive-ui'
 
 import saveFile from 'webapp-frontend/src/utility/saveFile'
 import readTextFile from 'webapp-frontend/src/utility/readTextFile'
-import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/YouTubeVideoCache'
+import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/cache/YouTubeVideoCache'
+import { clearBoardsCache } from '../../api/cached/getBoards'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 import { notify } from 'webapp-frontend/src/redux/notifications'
@@ -109,6 +110,16 @@ export default function DataSettings({
 		)
 	}
 
+	function onClearBoardsCache() {
+		clearBoardsCache()
+		dispatch(notify(messages.status.done))
+	}
+
+	function onClearYouTubeCache() {
+		clearYouTubeCache()
+		dispatch(notify(messages.status.done))
+	}
+
 	return (
 		<ContentSection>
 			<ContentSectionHeader lite>
@@ -134,7 +145,14 @@ export default function DataSettings({
 				</div>
 				<div className="form__component form__component--button">
 					<Button
-						onClick={clearYouTubeCache}
+						onClick={onClearBoardsCache}
+						className="rrui__button--text">
+						{messages.settings.data.clearBoardsCache.title}
+					</Button>
+				</div>
+				<div className="form__component form__component--button">
+					<Button
+						onClick={onClearYouTubeCache}
 						className="rrui__button--text">
 						{messages.settings.data.clearYouTubeCache.title}
 					</Button>

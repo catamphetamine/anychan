@@ -1,44 +1,37 @@
 @import "../styles/common";
 
-.boards {
+.Boards {
 	display: flex;
 	flex-direction: column;
 	align-content: center;
 }
 
-.boards-list--grid {
+.Boards-list--grid {
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-rows: auto;
-	.boards-list-section__pre-title,
-	.boards-list-section__title,
-	.boards-list__board-url,
-	.boards-list__board-name {
+	.BoardsListSectionHeader-urlPlaceholder,
+	.BoardsListSectionHeader-title,
+	.BoardsListBoard-url,
+	.BoardsListBoard-title {
 		grid-column: span 1;
 	}
 }
 
-.boards-list__board-url,
-.boards-list__board-name {
+.BoardsListBoard-url,
+.BoardsListBoard-title {
 	height: var(--List-lineHeight);
 	line-height: calc(var(--List-lineHeight) - 2 * 1px);
 	border-top: 1px solid var(--Boards-borderColor);
 	border-bottom: 1px solid var(--Boards-borderColor);
 }
 
-.boards-list {
+.Boards-list {
 	user-select: none;
 	/*line-height: var(--List-lineHeight);*/
 }
 
-.boards__view-switcher {
-	margin-top: 0;
-	margin-bottom: var(--unit);
-	margin-left: var(--unit);
-	margin-right: var(--unit);
-}
-
-.boards-list-section__title {
+.BoardsListSectionHeader-title {
 	margin-top: 0.9em;
 	margin-bottom: 0.2em;
 	padding-left: var(--unit);
@@ -48,25 +41,24 @@
 	text-overflow: ellipsis;
 }
 
-.boards-list-section__title--first {
+.BoardsListSectionHeader-title--first {
 	margin-top: 0;
 }
 
-.boards-list__board-url-link {
+.BoardsListBoard-url {
 	display: block;
 	text-align: right;
 	outline: none;
-}
-
-.boards-list__board-url {
 	padding-left: var(--unit);
-	&:before,
-	&:after {
-		color: var(--Boards-color--slash);
+	.BoardUrl {
+		&:before,
+		&:after {
+			color: var(--Boards-color--slash);
+		}
 	}
 }
 
-.boards-list__board-name {
+.BoardsListBoard-title {
 	display: block;
 	padding-left: var(--unit);
 	padding-right: var(--unit);
@@ -76,50 +68,22 @@
 	color: var(--Boards-color);
 }
 
-.boards__view-switcher {
+.BoardsViewSwitcher {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 0;
+	margin-bottom: var(--unit);
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	color: var(--Boards-color--viewSwitcher);
 }
 
-.boards__view-switch {
+.BoardsViewSwitcher-switch {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 	/* Resets `react-responsive-ui` `<Button/>` color transition. */
 	transition: none;
-}
-
-.boards__show-all {
-	display: inline-block;
-	padding-top: calc(var(--unit) * 0.5);
-	padding-bottom: calc(var(--unit) * 0.5);
-	padding-left: var(--unit);
-	padding-right: var(--unit);
-}
-
-.boards__show-all-wrapper {
-	margin-top: calc(var(--unit) * 1.5);
-	text-align: center;
-}
-
-.boards__search {
-	width: 100%;
-	max-width: 26em;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: calc(var(--unit) * 2);
-	margin-bottom: calc(var(--unit) * 2);
-	--rrui-input-field-background-color-focus: var(--Boards-backgroundColor);
-	--rrui-input-field-text-color: var(--Sidebar-color-900);
-}
-
-.boards__nothing-found {
-	margin-top: calc(var(--unit) * 2);
-	text-align: center;
-	color: var(--Sidebar-color-900);
-}
-
-.boards__view-switch {
 	color: currentColor;
 	&:hover {
 		background-color: transparent;
@@ -135,74 +99,99 @@
 	}
 }
 
-.boards-list__board-name {
-	font-weight: var(--Boards-fontWeight);
-}
-
-.boards-list-section__title {
-	text-overflow: ellipsis;
-}
-
-.boards__show-all {
+.Boards-showAll {
+	display: inline-block;
+	padding-top: calc(var(--unit) * 0.5);
+	padding-bottom: calc(var(--unit) * 0.5);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
 	color: var(--Boards-color--active);
 	&:active {
 		background-color: var(--Boards-backgroundColor--hover);
 	}
 }
 
-.boards-list__board-url {
+.Boards-showAllWrapper {
+	margin-top: calc(var(--unit) * 1.5);
+	text-align: center;
+}
+
+.Boards-search {
+	width: 100%;
+	max-width: 26em;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc(var(--unit) * 2);
+	margin-bottom: calc(var(--unit) * 2);
+	--rrui-input-field-background-color-focus: var(--Boards-backgroundColor);
+	--rrui-input-field-text-color: var(--Sidebar-color-900);
+}
+
+.Boards-nothingFound {
+	margin-top: calc(var(--unit) * 2);
+	text-align: center;
+	color: var(--Sidebar-color-900);
+}
+
+.BoardsListBoard-title {
+	font-weight: var(--Boards-fontWeight);
+}
+
+.BoardsListBoard-url {
 	color: var(--Boards-color--active);
 }
 
-.boards-list__board-url--selected,
-.boards-list__board-name--selected {
+.BoardsListBoard-url--selected,
+.BoardsListBoard-title--selected {
 	background-color: var(--Boards-backgroundColor--selected);
 	--Boards-borderColor: var(--Boards-borderColor--selected);
 }
 
-.boards-list__board-url--selected {
-	&:before, &:after {
-		color: var(--Boards-color--slashSelected);
+.BoardsListBoard-url--selected {
+	.BoardUrl {
+		&:before, &:after {
+			color: var(--Boards-color--slashSelected);
+		}
 	}
 }
 
-.boards-list__board-url--hover,
-.boards-list__board-name--hover {
+.BoardsListBoard-url--hover,
+.BoardsListBoard-title--hover {
 	background-color: var(--Boards-backgroundColor--hover);
 }
 
-.boards-list__board-url--hover {
-	&:before, &:after {
-		color: var(--Boards-color--slashHover);
+.BoardsListBoard-url--hover {
+	.BoardUrl {
+		&:before, &:after {
+			color: var(--Boards-color--slashHover);
+		}
 	}
 }
 
-.boards-list__board-url--active,
-.boards-list__board-name--active {
+.BoardsListBoard-url--active,
+.BoardsListBoard-title--active {
 	background-color: var(--Boards-backgroundColor--active);
 }
 
-.boards-list__board-url--active {
-	&:before, &:after {
-		color: var(--Boards-color--slashActive);
+.BoardsListBoard-url--active {
+	.BoardUrl {
+		&:before, &:after {
+			color: var(--Boards-color--slashActive);
+		}
 	}
 }
 
-.boards-list__board-name--active,
-/* `.boards-list__board-url:active` is for cases
+.BoardsListBoard-title--active,
+/* `.BoardsListBoard-url:active` is for cases
    when the "url" part of the link is clicked. */
 /* Using the `a.` prefix so that `<div/>`s aren't colored
    when clicked in `<EditFavoriteBoards/>`. */
-a.boards-list__board-url:active,
+a.BoardsListBoard-url:active,
 /* `:active` is for cases when the link is clicked and dragged. */
-a.boards-list__board-name:active {
+a.BoardsListBoard-title:active {
 	color: var(--Boards-color--active);
 }
 
-.boards__view-switcher {
-	color: var(--Boards-color--viewSwitcher);
-}
-
-.boards-list__board-name {
+.BoardsListBoard-title {
 	padding-right: calc(var(--unit) * 2);
 }

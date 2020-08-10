@@ -1,0 +1,56 @@
+.CommentFooter {
+	/* The height of the footer should stay the same in all cases:
+	   * Less than 1 minute has passed — comment date not shown.
+	   * More than 1 minute has passed — comment date is shown.
+	   * Comment status changes — new badges get added (for example, banned).
+	*/
+	min-height: var(--CommentFooter-height);
+	max-height: var(--CommentFooter-height);
+	margin-top: var(--CommentFooter-marginTop);
+	margin-bottom: var(--CommentFooter-marginBottom);
+	/*margin-bottom: calc(var(--Post-paddingBottom) + var(--CommentFooter-marginBottom));*/
+	/*padding-left: var(--Post-paddingLeft);*/
+	/*padding-right: var(--Post-paddingRight);*/
+	/* This sets some kind of a `min-width` for a thread comment. */
+	/*padding-left: calc(var(--Post-paddingLeft) * 10);*/
+	/*padding-bottom: var(--Post-paddingBottom);*/
+	color: var(--CommentFooter-color);
+	font-weight: lighter;
+	font-size: var(--CommentFooter-fontSize);
+	justify-content: space-between;
+}
+
+.CommentFooter,
+.CommentFooter-left,
+.CommentFooter-right {
+	display: flex;
+	align-items: center;
+}
+
+.CommentFooter-left {
+	margin-right: calc(var(--unit) * 1.5);
+}
+
+/*.CommentFooter-right {
+	.PostVotes {
+		margin-right: var(--unit);
+	}
+}*/
+
+.CommentFooter-separator {
+	width: calc(var(--unit) * 1.5);
+	text-align: center;
+	font-size: 125%;
+}
+
+.CommentFooterItem {
+	--Padding-paddingLeft: var(--PostButton-paddingLeft);
+	--Padding-paddingTop: var(--PostButton-paddingTop);
+	display: flex;
+}
+
+.CommentFooterItemIcon {
+	width: 0.9em;
+	height: 0.9em;
+	margin-right: 0.35em;
+}

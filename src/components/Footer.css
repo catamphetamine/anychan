@@ -6,7 +6,7 @@ body {
 }
 
 .Footer {
-	/* Override ".post__paragraph" margins.
+	/* Override ".PostParagraph" margins.
 	  (those variables aren't defined). */
 	p {
 		margin-top: 1em;
@@ -15,7 +15,7 @@ body {
 }
 
 /* `margin: 0` remove the negative side margin. */
-/*.Footer .application-menu {
+/*.Footer .MainMenu {
 	position : fixed;
 	left     : 0;
 	right    : 0;
@@ -37,14 +37,13 @@ body {
 	margin-bottom: var(--FooterMenu-height);
 }
 
-.footer__link {
+.Footer-link {
 	color: inherit;
 }
 
-.footer__copyright {
+.Footer-copyright {
 	margin-top: 1em;
 	margin-bottom: 1em;
-	opacity: 0.75;
 	text-align: center;
 	font-weight: 300;
 	font-size: 85%;
@@ -55,7 +54,7 @@ body {
 	}
 }
 
-.footer__copyright-captchan-logo {
+.Footer-captchanLogo {
 	width: 1em;
 	height: 1em;
 	margin-left: 0.05em;
@@ -63,7 +62,7 @@ body {
 	opacity: 0.75;
 }
 
-.footer__chan-links {
+.FooterChanLinks {
 	margin-top: 0;
 	margin-bottom: 0;
 	padding-left: 0;
@@ -71,7 +70,7 @@ body {
 	text-align: center;
 }
 
-.footer__chan-link-item {
+.FooterChanLinks-listItem {
 	display: inline;
 	line-height: 1.75em;
 	&:after {

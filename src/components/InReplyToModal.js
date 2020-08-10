@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from 'react-responsive-ui'
 import classNames from 'classnames'
 
+import { Button } from 'webapp-frontend/src/components/Button'
+
 import CloseIcon from 'webapp-frontend/assets/images/icons/close.svg'
 import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
 
-import ThreadCommentTree from '../components/ThreadCommentTree'
+import CommentTree from '../components/CommentTree'
 
 import {
 	comment as commentType,
@@ -69,7 +71,7 @@ export default function InReplyToModal({
 				Also, don't set HTML `id` attribute because such comment
 				may already be rendered on the page: `id={null}` is used for that.
 				*/}
-				<ThreadCommentTree
+				<CommentTree
 					key={comment.id}
 					id={null}
 					comment={comment}
@@ -79,6 +81,7 @@ export default function InReplyToModal({
 					dispatch={dispatch}
 					onShowComment={onShowComment}
 					onPostUrlClick={onPostUrlClick}
+					dialogueChainStyle="side"
 					mode="thread"
 					compact={false}/>
 			</Modal.Content>
@@ -107,10 +110,9 @@ function InReplyToModalBack({
 		return null
 	}
 	return (
-		<button
-			type="button"
+		<Button
 			onClick={isInitial ? onClose : onGoBack}
-			className={classNames('rrui__button-reset', 'InReplyToModalBack')}>
+			className="InReplyToModalBack">
 			<LeftArrow className="InReplyToModalBackIcon"/>
 			<span className="InReplyToModalBackText">
 				{!isInitial &&
@@ -120,7 +122,7 @@ function InReplyToModalBack({
 				}
 				{getMessages(locale).actions.back}
 			</span>
-		</button>
+		</Button>
 	)
 }
 
@@ -141,15 +143,14 @@ function InReplyToModalClose({
 		return null
 	}
 	return (
-		<button
-			type="button"
+		<Button
 			onClick={onClose}
-			className={classNames('rrui__button-reset', 'InReplyToModalClose')}>
+			className="InReplyToModalClose">
 			<CloseIcon className="InReplyToModalCloseIcon"/>
 			<span className="InReplyToModalCloseText">
 				{getMessages(locale).actions.close}
 			</span>
-		</button>
+		</Button>
 	)
 }
 

@@ -1,23 +1,16 @@
 @import "../styles/common";
 
-:root {
-	--BoardThreadMenu-marginTop: 0px;
-	@mixin upto-m {
-		--BoardThreadMenu-marginTop: calc(var(--unit) * 0.5);
-	}
-}
-
 .BoardThreadMenu {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: var(--BoardThreadMenu-marginTop);
 	margin-bottom: var(--BoardThreadMenu-marginTop);
-	/*padding-left: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
-	/*padding-right: calc(var(--PageContent-padding) + var(--PageContent-padding--nonContentSection));*/
-	padding-left: calc(var(--PageContent-padding) + var(--Post-padding--horizontal));
-	padding-right: calc(var(--PageContent-padding) + var(--Post-padding--horizontal));
+	/*padding-left: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
+	/*padding-right: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
+	padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+	padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
 	color: var(--BoardThreadMenu-color);
-	--MenuIcon-width: calc(var(--unit) * 1.25);
+	--MenuIcon-width: var(--BoardOrThreadMenuIcon-width);
 	--Menu-color--selected: var(--BoardThreadMenu-color--selected);
 	--Menu-color--active: var(--BoardThreadMenu-color--active);
 }

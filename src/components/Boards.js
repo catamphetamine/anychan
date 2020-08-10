@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { getChan, addChanParameter } from '../chan'
+import { getChan } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
@@ -147,27 +147,13 @@ export function Boards({
 	}
 	const List = listComponent
 	return (
-		<nav className="boards">
+		<nav className="Boards">
 			{boardsByPopularity && (boardsByCategory && List === BoardsList) &&
-				<div className="boards__view-switcher">
-					<Button
-						disabled={boardsView === 'list'}
-						onClick={onChangeViewAllBoards}
-						className={classNames('boards__view-switch', {
-							'boards__view-switch--disabled': boardsView === 'list'
-						})}>
-						{getMessages(locale).boards.byPopularity}
-					</Button>
-
-					<Button
-						disabled={boardsView === 'by-category'}
-						onClick={onChangeViewByCategory}
-						className={classNames('boards__view-switch', {
-							'boards__view-switch--disabled': boardsView === 'by-category'
-						})}>
-						{getMessages(locale).boards.byCategory}
-					</Button>
-				</div>
+				<BoardsViewSwitcher
+					view={boardsView}
+					onChangeViewAllBoards={onChangeViewAllBoards}
+					onChangeViewByCategory={onChangeViewByCategory}
+					locale={locale}/>
 			}
 
 			{showAllBoards && boardsView === 'list' &&
@@ -178,27 +164,27 @@ export function Boards({
 					placeholder={getMessages(locale).search}
 					value={searchQuery}
 					onChange={onSearchQueryChange}
-					className="boards__search"/>
+					className="Boards-search"/>
 			}
 
 			{showAllBoards && boardsView === 'list' && searchQuery && filteredBoards.length === 0 &&
-				<div className="boards__nothing-found">
+				<div className="Boards-nothingFound">
 					{getMessages(locale).noSearchResults}
 				</div>
 			}
 
 			<List
-				className={classNames('boards-list', {
-					'boards-list--grid': List === BoardsList,
-					// 'boards-list--list': boardsView === 'list',
-					'boards-list--by-category': boardsView === 'by-category'
+				className={classNames('Boards-list', {
+					'Boards-list--grid': List === BoardsList,
+					// 'Boards-list--list': boardsView === 'list',
+					'Boards-list--by-category': boardsView === 'by-category'
 				})}>
 				{getBoardsListItems()}
 			</List>
 
 			{!showAllBoards && showAllBoardsLink && (hasMoreBoards || getChan().hideBoardCategories) &&
-				<div className="boards__show-all-wrapper">
-					<Link to={addChanParameter('/boards')} className="boards__show-all">
+				<div className="Boards-showAllWrapper">
+					<Link to="/boards" className="Boards-showAll">
 						{getMessages(locale).boards.showAll}
 					</Link>
 				</div>
@@ -238,6 +224,42 @@ Boards.propTypes = {
 Boards.defaultProps = {
 	listComponent: BoardsList,
 	showAllBoardsLink: true
+}
+
+function BoardsViewSwitcher({
+	view,
+	onChangeViewAllBoards,
+	onChangeViewByCategory,
+	locale
+}) {
+	return (
+		<div className="BoardsViewSwitcher">
+			<Button
+				disabled={view === 'list'}
+				onClick={onChangeViewAllBoards}
+				className={classNames('BoardsViewSwitcher-switch', {
+					'BoardsViewSwitcher-switch--disabled': view === 'list'
+				})}>
+				{getMessages(locale).boards.byPopularity}
+			</Button>
+
+			<Button
+				disabled={view === 'by-category'}
+				onClick={onChangeViewByCategory}
+				className={classNames('BoardsViewSwitcher-switch', {
+					'BoardsViewSwitcher-switch--disabled': view === 'by-category'
+				})}>
+				{getMessages(locale).boards.byCategory}
+			</Button>
+		</div>
+	)
+}
+
+BoardsViewSwitcher.propTypes = {
+	view: PropTypes.oneOf(['list', 'by-category']).isRequired,
+	onChangeViewAllBoards: PropTypes.func.isRequired,
+	onChangeViewByCategory: PropTypes.func.isRequired,
+	locale: PropTypes.string.isRequired
 }
 
 // // Don't re-render `<Boards/>` on page navigation (on `route` change).
@@ -283,14 +305,12 @@ function Board({
 				onMouseUp={onPointerUp}
 				onMouseEnter={onPointerEnter}
 				onMouseLeave={onPointerOut}
-				className="boards-list__board-url-link">
-				<BoardUrl
-					boardId={board.id}
-					className={classNames('boards-list__board-url', {
-						'boards-list__board-url--selected': isSelected,
-						'boards-list__board-url--hover': isHovered,
-						'boards-list__board-url--active': isActive
-					})}/>
+				className={classNames('BoardsListBoard-url', {
+					'BoardsListBoard-url--selected': isSelected,
+					'BoardsListBoard-url--hover': isHovered,
+					'BoardsListBoard-url--active': isActive
+				})}>
+				<BoardUrl boardId={board.id}/>
 			</Link>
 			<Link
 				to={getUrl(board)}
@@ -300,10 +320,10 @@ function Board({
 				onMouseUp={onPointerUp}
 				onMouseEnter={onPointerEnter}
 				onMouseLeave={onPointerOut}
-				className={classNames('boards-list__board-name', {
-					'boards-list__board-name--selected': isSelected,
-					'boards-list__board-name--hover': isHovered,
-					'boards-list__board-name--active': isActive
+				className={classNames('BoardsListBoard-title', {
+					'BoardsListBoard-title--selected': isSelected,
+					'BoardsListBoard-title--hover': isHovered,
+					'BoardsListBoard-title--active': isActive
 				})}>
 				{board.title}
 			</Link>
@@ -338,7 +358,12 @@ BoardsList.propTypes = {
 	})).isRequired
 }
 
-function BoardsListItem({ category, board, selected, first }) {
+function BoardsListItem({
+	category,
+	board,
+	selected,
+	first
+}) {
 	if (board) {
 		return (
 			<Board
@@ -348,9 +373,9 @@ function BoardsListItem({ category, board, selected, first }) {
 	}
 	return (
 		<React.Fragment key={category || '—'}>
-			<div className="boards-list-section__pre-title"/>
-			<h2 className={classNames('boards-list-section__title', {
-				'boards-list-section__title--first': first
+			<div className="BoardsListSectionHeader-urlPlaceholder"/>
+			<h2 className={classNames('BoardsListSectionHeader-title', {
+				'BoardsListSectionHeader-title--first': first
 			})}>
 				{category}
 			</h2>

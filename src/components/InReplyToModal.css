@@ -4,28 +4,46 @@
 	--CommentSeparator-width: 1px;
 	--CommentSeparator-width--outline: 0px;
 	/*--InReplyToModalHeader-paddingTop: var(--unit);*/
-	--InReplyToModalBackIcon-width: 0.9em;
+	--InReplyToModalBackIcon-width: 0.75em;
 	--InReplyToModalBackIcon-marginRight: 0.2em;
 	--InReplyToModalBack-marginTop: calc(var(--unit) / 2);
 	--InReplyToModalHeader-justifyContent--mobile: flex-end;
-	--InReplyToModalHeader-justifyContent--desktop: flex-start;
+	--InReplyToModalHeader-justifyContent--desktop: flex-end;
+	--InReplyToModalCloseIcon-width: 0.65em;
 	/* `.InReplyToModalHeader` is `position: abosolute` on large screens. */
 	position: relative;
 	width: 100%;
+	/* `max-width` is also set on `.Comment` depending on whether
+	   the "main" comment has PostThumbnail and whether it's expanded. */
+	/*max-width: var(--Text-maxWidth);*/
+	/* `--Content-maxWidth` is redefined on thread and board page
+	   to also include PostThumbnail-related dimensions. */
 	max-width: var(--Content-maxWidth);
 	.rrui__modal__content {
 		margin: 0;
 	}
-	/* Don't show bottom border on comments. */
-	.thread-comment--thread {
-		border-bottom: none;
-	}
-	.comment-tree__branch-toggler {
+	/* `border-top` is added to `.CommentTree-toggler`
+		 for cases when deeply nested replies are expanded
+		 so that the higher-level expanded reply has an illusion
+		 of having a `border`. */
+	.CommentTree-toggler {
 		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+	.Comment {
+		/* `--Content-maxWidth` is redefined on thread and board page
+		   to also include PostThumbnail-related dimensions. */
+		/* `!important` overrides `max-width: none` rule set in
+		   `.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested)`. */
+		/*max-width: var(--Content-maxWidth) !important;*/
+		/* `!important` overrides `margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width))`. */
+		/*margin-left: 0 !important;*/
+		/*> .Comment-thumbnail {*/
+    	/*padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));*/
+    /*}*/
 	}
 }
 
-.left-handed {
+.Document--leftHanded {
 	.InReplyToModal {
 		--InReplyToModalHeader-justifyContent--mobile: flex-start;
 	}
@@ -39,19 +57,20 @@
 	display: flex;
 	justify-content: var(--InReplyToModalHeader-justifyContent--mobile);
 	margin-top: var(--InReplyToModalBack-marginTop);
-	margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-padding--vertical));
-	margin-left: var(--Post-padding--horizontal);
-	margin-right: var(--Post-padding--horizontal);
+	/*margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-paddingBottom));*/
+	margin-left: var(--Post-paddingLeft);
+	margin-right: var(--Post-paddingLeft);
 	@mixin m-plus {
 		justify-content: var(--InReplyToModalHeader-justifyContent--desktop);
 		/* It's not `width: 100%` so that it doesn't cover the post header links and buttons. */
-		position: absolute;
-		left: 0;
-		top: 0;
+		/*position: absolute;*/
+		/*left: 0;*/
+		/*top: 0;*/
 		/* The left arrow icon isn't aligned to the left side. The ~20% horizontal shift compensates that. */
-		margin-left: calc(var(--Post-paddingLeft--thumbnail) - var(--InReplyToModalBackIcon-width) * 0.2);
-		margin-top: var(--Post-padding--vertical);
-		margin-bottom: 0;
+		/*margin-left: calc(var(--Post-paddingLeft--has-thumbnail) - var(--InReplyToModalBackIcon-width) * 0.2);*/
+		margin-left: var(--Post-paddingTop);
+		margin-top: calc(var(--Post-paddingTop) + var(--CommentFooter-marginBottom));
+		/*margin-bottom: -0.3em;*/
 	}
 }
 
@@ -72,11 +91,16 @@
 .InReplyToModalClose {
 	/*color: var(--Clickable-color--text);*/
 	color: var(--Content-color-500);
+	.InReplyToModalBackText,
+	.InReplyToModalCloseText {
+		border-top: 1px solid transparent;
+		border-bottom: 1px solid transparent;
+	}
 	&:focus {
 		color: var(--Clickable-color--text);
 		.InReplyToModalBackText,
 		.InReplyToModalCloseText {
-			border-bottom: 1px solid currentColor;
+			border-bottom-color: currentColor;
 		}
 	}
 	&:active {
@@ -85,11 +109,15 @@
 }
 
 .InReplyToModalCloseIcon {
-	--InReplyToModalClose-width: 0.8em;
 	display: block;
-	width: var(--InReplyToModalClose-width);
-	height: var(--InReplyToModalClose-width);
+	width: var(--InReplyToModalCloseIcon-width);
+	height: var(--InReplyToModalCloseIcon-width);
 	margin-right: 0.4em;
+}
+
+.InReplyToModalCloseText,
+.InReplyToModalBackText {
+	font-size: 80%;
 }
 
 .InReplyToModalBackCounter {
@@ -102,18 +130,44 @@
 	}
 }
 
-/* Don't show the top border on the main comment. */
+/* Comments in an `InReplyToModal` are styled
+   a bit differently than on a thread page:
+   they don't have spacing, and therefore
+   they use borders instead of `box-shadow`. */
 .InReplyToModal {
+	/* Don't show bottom border on comments. */
+	.Comment {
+		border-bottom: none;
+	}
 	.rrui__modal__content {
-		> .comment-tree {
-			> .thread-comment__container {
-				> .thread-comment--thread {
+		> .CommentTree {
+			> .Comment-container {
+				> .Comment {
+					/* Don't show the top border on the main ("root", "first shown") comment. */
 					border-top: none;
+					&.Comment--hasThumbnail {
+						margin-left: 0;
+						.Comment-thumbnail {
+							padding-left: 0;
+						}
+					}
+					&.Comment--hasNoThumbnail {
+						&.CommentTree-comment--expanded {
+							--PostQuoteBlock-paddingLeft--adjustment: 0px;
+							--PostQuoteBlock-borderWidth--left: 0px;
+						}
+						&:not(.CommentTree-comment--expanded) {
+							margin-left: 0;
+							/* `--Content-maxWidth` is redefined on thread and board page
+							   to also include PostThumbnail-related dimensions,
+							   so `--Text-maxWidth` is used instead. */
+							max-width: var(--Text-maxWidth);
+						}
+						.Comment-thumbnailPlaceholder {
+							display: none;
+						}
+					}
 				}
-				/*.thread-comment__thumbnail,
-				.thread-comment__comment {
-					padding-top: calc(var(--unit) * 0.5);
-				}*/
 			}
 		}
 	}

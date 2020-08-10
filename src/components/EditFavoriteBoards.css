@@ -1,4 +1,4 @@
-.edit-favorite-boards__remove {
+.EditFavoriteBoards-remove {
 	position: absolute;
 	right: 0;
 	/* `overflow: hidden` doesn't work on `<td/>`s
@@ -7,39 +7,60 @@
 	background-color: var(--Sidebar-backgroundColor);
 }
 
-.edit-favorite-boards__list {
+.EditFavoriteBoards-list {
 	width: 100%;
 	/* `user-select: none` is for drag'n'drop. */
 	user-select: none;
 	cursor: grab;
 }
 
-.edit-favorite-boards__board {
+.EditFavoriteBoards-board {
 	display: flex;
 	height: var(--List-lineHeight);
 	line-height: var(--List-lineHeight);
-	.boards-list__board-name {
+	.BoardUrl {
+		margin-left: var(--SidebarSection-paddingLeft);
+		margin-right: var(--unit);
+		color: var(--Boards-color--active);
+		&:before,
+		&:after {
+			color: var(--Boards-color--slash);
+		}
+	}
+	.EditFavoriteBoards-boardTitle {
 		padding-right: calc(var(--unit) * 2.5);
+	}
+	.BoardUrl,
+	.EditFavoriteBoards-boardTitle {
+		height: var(--List-lineHeight);
+		line-height: var(--List-lineHeight);
 	}
 }
 
-.edit-favorite-boards__board--dragged {
+.EditFavoriteBoards-board--dragged {
 	background-color: var(--Sidebar-highlightColor-200);
 	cursor: grabbing;
+	.BoardUrl {
+		color: var(--Boards-color--active);
+		&:before,
+		&:after {
+			color: var(--Boards-color--slashActive);
+		}
+	}
 }
 
-.edit-favorite-boards__board--dragging {
-	.edit-favorite-boards__remove {
+.EditFavoriteBoards-board--dragging {
+	.EditFavoriteBoards-remove {
 		display: none;
 	}
 }
 
-.edit-favorite-boards__board {
+.EditFavoriteBoards-board {
 	/* `position: relative` is for the "Remove" button. */
 	position: relative;
 }
 
-.edit-favorite-boards__search {
+.EditFavoriteBoards-search {
 	--rrui-input-field-background-color: var(--Sidebar-highlightColor-100);
 	--rrui-input-field-background-color-focus: var(--rrui-input-field-background-color);
 	--rrui-input-field-background-color-error: var(--rrui-input-field-background-color);
@@ -58,18 +79,18 @@
 	margin-bottom: var(--unit);
 }
 
-.edit-favorite-boards__search__option {
+.EditFavoriteBoards-searchOption {
 	display: flex;
 	line-height: var(--rrui-list-item-height);
 	overflow: hidden;
-	.board-url {
+	.BoardUrl {
 		margin-right: var(--unit);
 	}
 }
 
-.edit-favorite-boards__search {
+.EditFavoriteBoards-search {
 	.rrui__list__item:not(:active) {
-		.board-url {
+		.BoardUrl {
 			color: var(--Sidebar-baseColor-700);
 			&:before,
 			&:after {

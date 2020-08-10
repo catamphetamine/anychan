@@ -1,6 +1,8 @@
 /* https://learnui.design/blog/mobile-desktop-website-font-size-guidelines.html */
 
+/* "Extra Small Font Size" setting. */
 .font-size--xs {
+	/* Font sizes depending on screen width. */
 	/*
 	Mobile font size must be at least 16px
 	to prevent automatic zoom on input focus.
@@ -11,7 +13,9 @@
 	--Document-fontSize--m: 16px;
 }
 
+/* "Small Font Size" setting. */
 .font-size--s {
+	/* Font sizes depending on screen width. */
 	/*
 	Mobile font size must be at least 16px
 	to prevent automatic zoom on input focus.
@@ -22,29 +26,27 @@
 	--Document-fontSize--m: 18px;
 }
 
+/* "Medium Font Size" setting. */
 .font-size--m {
-	/*
-	Mobile font size must be at least 16px
-	to prevent automatic zoom on input focus.
-	*/
+	/* Font sizes depending on screen width. */
 	--Document-fontSize--xxs: 16px;
 	--Document-fontSize--xs: 18px;
 	--Document-fontSize--s: 19px;
 	--Document-fontSize--m: 20px;
 }
 
+/* "Large Font Size" setting. */
 .font-size--l {
-	/*
-	Mobile font size must be at least 16px
-	to prevent automatic zoom on input focus.
-	*/
+	/* Font sizes depending on screen width. */
 	--Document-fontSize--xxs: 18px;
 	--Document-fontSize--xs: 20px;
 	--Document-fontSize--s: 21px;
 	--Document-fontSize--m: 22px;
 }
 
+/* "Extra Large Font Size" setting. */
 .font-size--xl {
+	/* Font sizes depending on screen width. */
 	--Document-fontSize--xxs: 19px;
 	--Document-fontSize--xs: 21px;
 	--Document-fontSize--s: 22px;

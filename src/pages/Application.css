@@ -1,6 +1,22 @@
 @import "../styles/common";
 
-.webpage {
+:root {
+	--Content-maxWidth: var(--Text-maxWidth);
+}
+
+.Webpage--board,
+.Webpage--thread,
+.InReplyToModal {
+	--Content-maxWidth: var(--CommentsList-maxWidth);
+}
+
+/* These two override `padding-left` and `padding-right` on `.Content`. */
+.ThreadPage,
+.BoardPage {
+	--PageContent-paddingLeft: 0px;
+}
+
+.Webpage {
 	display: flex;
 	/* For z-index ordering (relative to preloading screen). */
 	/* Otherwise preloading screen will always be above content (even when it's not shown). */
@@ -9,15 +25,15 @@
 }
 
 /* Content takes all free space */
-.webpage__content {
-	position : relative;
-	z-index  : 0;
+.Webpage-content {
+	position: relative;
+	z-index: 0;
 
 	margin-top: var(--Header-height);
 
-	flex-shrink : 0;
-	flex-grow   : 1;
-	flex-basis  : auto;
+	flex-shrink: 0;
+	flex-grow: 1;
+	flex-basis: auto;
 
 	/* Is focusable (for keyboard navigation: page up, page down). */
 	outline: none;
@@ -29,15 +45,15 @@
 	}
 }
 
-.webpage--offline {
+.Webpage--offline {
 	--Header-height: 0px;
-	.webpage__content-container {
+	.Webpage-contentContainer {
 		margin-left: auto;
 		margin-right: auto;
 	}
 }
 
-.webpage__content-container {
+.Webpage-contentContainer {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -48,79 +64,12 @@
 	max-width: 100%;
 }
 
-/*
-.thread-comment,
-.settings-page .content-section {
-	@mixin upto-s {
-		border-radius: 0;
-	}
-}
-*/
-
-.board-page__title {
-	margin-left: var(--unit);
-	margin-right: var(--unit);
-}
-
-.page__heading,
-.page__heading-text,
-.rrui__modal__title {
-	line-height: 1.35em;
-	font-size: 1.3rem;
-	font-weight: 400;
-
-	@mixin l-plus {
-		line-height: 1.4em;
-		font-size: 1.4rem;
-	}
-}
-
-.page__heading-text {
-	margin: 0;
-}
-
-.page__heading {
-	@mixin xxs {
-		--PageHeading-marginTop: calc(var(--unit) / 4);
-	}
-	@mixin xs {
-		--PageHeading-marginTop: calc(var(--unit) / 3);
-	}
-	@mixin s {
-		--PageHeading-marginTop: calc(var(--unit) / 2);
-	}
-	@mixin m-plus {
-		--PageHeading-marginTop: var(--unit);
-	}
-	margin-left: var(--unit);
-	margin-right: var(--unit);
-	margin-top: var(--PageHeading-marginTop);
-	margin-bottom: var(--PageHeading-marginTop);
-	/*min-height: calc(var(--unit) * 3);*/
-	text-align: center;
-}
-
-.text-content {
-	width: 100%;
-	max-width: var(--Text-maxWidth);
-}
-
-:root {
-	--Content-maxWidth: var(--Text-maxWidth);
-}
-
-.webpage__content-container {
+.Webpage-contentContainer {
 	flex-basis: var(--Content-maxWidth);
 }
 
-.webpage--board,
-.webpage--thread,
-.InReplyToModal {
-	--Content-maxWidth: var(--CommentsList-maxWidth);
-}
-
-.webpage--board,
-.webpage--thread {
+.Webpage--board,
+.Webpage--thread {
 	main {
 		width: 100%;
 		max-width: var(--Content-maxWidth);
@@ -130,23 +79,22 @@
 	}
 }
 
-.content {
-	padding-left: var(--PageContent-padding);
-	padding-right: var(--PageContent-padding);
+.Content {
+	padding-left: var(--PageContent-paddingLeft);
+	padding-right: var(--PageContent-paddingLeft);
 
 	/* Prevents horizontal overflow of a page. */
 	width: 100%;
 }
 
-/* These two override `padding-left` and `padding-right` on `.content`. */
-.thread-page,
-.board-page {
-	--PageContent-padding: 0px;
+.Content--text {
+	width: 100%;
+	max-width: var(--Text-maxWidth);
 }
 
 /*
-.webpage--content-sections {
-	.background-content {
+.Webpage--contentSections {
+	.BackgroundContent {
 		padding-left: 0;
 		padding-right: 0;
 	}
@@ -154,11 +102,11 @@
 */
 
 @mixin upto-m {
-	.webpage--content-sections {
-		.content {
-			--PageContent-padding: 0px;
+	.Webpage--contentSections {
+		.Content {
+			--PageContent-paddingLeft: 0px;
 		}
-		.background-content {
+		.BackgroundContent {
 			padding-left: var(--unit);
 			padding-right: var(--unit);
 		}
@@ -168,9 +116,11 @@
 		because it would be drawn at the very screen edge.
 		This CSS class can be used for styling such special case.
 		*/
-		.comment-tree {
+		/*
+		.CommentTree {
 			--comment-tree-root-level-replies-branch-width-factor: 0.75;
 		}
+		*/
 	}
 }
 
@@ -187,7 +137,7 @@
 		z-index: var(--sidebar-z-index);
 		/*background-color: var(--Sidebar-backgroundColor--collapsible);*/
 	}
-	.left-handed {
+	.Document--leftHanded {
 		.Sidebar:not(.Sidebar--show) {
 			transform: translateX(-100%);
 		}
@@ -199,9 +149,9 @@
 	.Sidebar--show {
 		transform: none;
 	}
-	/* The extra specificity is to override .home-page__show-boards-list { display: none }. */
-	.home-page {
-		.home-page__show-boards-list {
+	/* The extra specificity is to override .HomePage__show-boards-list { display: none }. */
+	.HomePage {
+		.HomePage-showBoardsList {
 			display: block !important;
 		}
 	}
@@ -212,7 +162,7 @@
 		left: auto;
 		width: $screen-xs-min;
 	}
-	.left-handed {
+	.Document--leftHanded {
 		.Sidebar {
 			right: auto;
 			left: 0;
@@ -234,19 +184,6 @@
 	}
 }
 
-@mixin m-plus {
-	.webpage__header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		z-index: var(--Header-zIndex);
-	}
-}
-
 @mixin l-plus {
 	:root {
 		--FooterMenu-height: 0px;
@@ -265,37 +202,32 @@
 		box-shadow: none;
 	}
 
-	.webpage--board,
-	.webpage--thread {
-		.text-content {
+	.Webpage--board,
+	.Webpage--thread {
+		.Content--text {
 		  width: 100%;
 			max-width: var(--Text-maxWidth);
 		}
 	}
 
-	.board-page__title {
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	.Footer .application-menu {
+	.Footer .MainMenu {
 		display: none;
 	}
 
-	/*.webpage__padding-left,
-	.webpage__padding-right {
+	/*.Webpage-paddingLeft,
+	.Webpage-paddingRight {
 		min-width: 0;
 	}*/
-	.webpage__content-container {
+	.Webpage-contentContainer {
 		flex-grow: 0;
 		/* Is shrinkable so that it leaves some space
 		   to the sidebar on smaller screens. */
 		/*flex-shrink: 1;*/
 	}
-	.webpage__padding-left {
+	.Webpage-paddingLeft {
 		flex-grow: var(--PaddingLeft-flexGrow);
 	}
-	.webpage__padding-right {
+	.Webpage-paddingRight {
 		flex-grow: var(--PaddingRight-flexGrow);
 	}
 	.Sidebar {
@@ -306,7 +238,6 @@
 		--PaddingRight-flexGrow--wide: 0.1;
 		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
 	}
-
 	/* Move notifications to the right side
 	   because they aren't that eligible when shown
 	   above the sidebar with the boards list. */
@@ -323,7 +254,7 @@
 	   no not widen the sidebar for "wide" content.
 	   This results in better UX because sidebar width doesn't "jump"
 	   when switching to "Tracked threads" / "Notifications". */
-	.webpage--wide-sidebar {
+	.Webpage--wideSidebar {
 		--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--wide);
 		--Sidebar-minWidth: var(--Sidebar-minWidth--wide);
 		--Sidebar-flexGrow: var(--Sidebar-flexGrow--wide);
@@ -368,9 +299,9 @@
 		--Sidebar-minWidth--wide: var(--Sidebar-minWidth);
 		/*--Sidebar-minWidth--wide: calc(var(--unit) * 40);*/
 	}
-	.webpage--board,
-	.webpage--thread {
-		&:not(.webpage--wide-sidebar) {
+	.Webpage--board,
+	.Webpage--thread {
+		&:not(.Webpage--wideSidebar) {
 			/* These rules must be equal to those in the "xxl-plus" mixin below. */
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
@@ -382,10 +313,10 @@
 }
 
 @mixin xxl-plus {
-	.webpage--board,
-	.webpage--thread {
-		/* Overrides the `&:not(.webpage--wide-sidebar)` selector above. */
-		&.webpage--wide-sidebar {
+	.Webpage--board,
+	.Webpage--thread {
+		/* Overrides the `&:not(.Webpage--wideSidebar)` selector above. */
+		&.Webpage--wideSidebar {
 			/* These rules must be equal to those in the "xl-plus" mixin above. */
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);

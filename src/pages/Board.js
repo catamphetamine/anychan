@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { goto } from 'react-pages'
+import { goto, wasInstantNavigation } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
@@ -8,14 +8,14 @@ import { getThreads } from '../redux/chan'
 import { addFavoriteBoard } from '../redux/favoriteBoards'
 import { setVirtualScrollerState } from '../redux/board'
 
-import { getChan } from '../chan'
+import { getChanId } from '../chan'
 import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { updateAttachmentThumbnailMaxSize } from '../utility/postThumbnail'
 
 import BoardThreadMenu from '../components/BoardThreadMenu'
-import ThreadComment from '../components/ThreadComment'
-import ThreadCommentsList from '../components/ThreadCommentsList'
+import Comment from '../components/Comment/CommentWrapped'
+import CommentsList from '../components/CommentsList'
 
 import './Board.css'
 
@@ -24,7 +24,8 @@ function BoardPage() {
 	const threads = useSelector(({ chan }) => chan.threads)
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const censoredWords = useSelector(({ settings }) => settings.settings.censoredWords)
-	const restoredVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
+	const _restoredVirtualScrollerState = useSelector(({ board }) => board.virtualScrollerState)
+	const restoredVirtualScrollerState = wasInstantNavigation() ? _restoredVirtualScrollerState : undefined
 	const dispatch = useDispatch()
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const onThreadClick = useCallback(async (comment, thread, board) => {
@@ -53,9 +54,9 @@ function BoardPage() {
 		locale
 	}), [board, threads, dispatch, locale, onThreadClick])
 	return (
-		<section className="board-page content">
-			<div className="board-page__header">
-				<h1 className="page__heading">
+		<section className="BoardPage Content">
+			<header className="BoardPage-header">
+				<h1 className="BoardPage-heading">
 					{board.title}
 				</h1>
 				<BoardThreadMenu
@@ -64,25 +65,27 @@ function BoardPage() {
 					locale={locale}
 					isSearchBarShown={isSearchBarShown}
 					setSearchBarShown={setSearchBarShown}
-					className="board-menu"/>
-			</div>
-			{getChan().id === '2ch' && board.id === 'd' &&
-				<p className="board-page__api-bug-note">
+					className="BoardPage-menu"/>
+			</header>
+			{getChanId() === '2ch' && board.id === 'd' &&
+				<p className="BoardPage-apiBoardEmptyNoteTwoChannel">
 					Данный раздел пуст из-за бага в <a href={`https://2ch.hk/${board.id}/catalog.json`} target="_blank">API Двача</a>.
 					<br/>
 					<a href={`https://2ch.hk/${board.id}`} target="_blank">Перейти на Двач</a>.
 				</p>
 			}
-			<ThreadCommentsList
+			<CommentsList
+				mode="board"
 				getItem={getItem}
 				restoredState={restoredVirtualScrollerState}
 				setState={setVirtualScrollerState}
 				items={threads}
 				itemComponent={CommentComponent}
 				itemComponentProps={itemComponentProps}
-				className="board-page__threads no-margin-collapse"/>
+				className="Comments BoardPage-threads"/>
 		</section>
 	)
+	// className="BoardPage-threads no-margin-collapse"
 }
 
 // BoardPage.propTypes = {
@@ -130,10 +133,10 @@ function CommentComponent({
 	}, [onStateChange])
 	const comment = thread.comments[0]
 	// Passing `initialExpandContent` and `onExpandContent` explicitly
-	// because it doesn't use `<ThreadCommentTree/>` that passes
+	// because it doesn't use `<CommentTree/>` that passes
 	// those properties automatically.
 	return (
-		<ThreadComment
+		<Comment
 			key={comment.id}
 			comment={comment}
 			board={board}

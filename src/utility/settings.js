@@ -22,7 +22,6 @@ class Settings {
 
 	async apply({ dispatch }) {
 		const settings = this.get()
-		await applyTheme(settings.theme)
 		autoDarkMode(
 			settings.autoDarkMode,
 			value => dispatch(setDarkMode(value))
@@ -32,6 +31,8 @@ class Settings {
 		}
 		applyFontSize(settings.fontSize)
 		applyLeftHanded(settings.leftHanded)
+		// The theme is applied last because it's asynchronous.
+		await applyTheme(settings.theme)
 		return settings
 	}
 

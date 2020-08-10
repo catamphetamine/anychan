@@ -1,13 +1,13 @@
 /* This component isn't currently used in the app. */
 
-.notifications {
+.Notifications {
 	padding-left: calc(var(--unit) * 1);
 	padding-right: calc(var(--unit) * 1);
 	padding-top: calc(var(--unit) * 1);
 	padding-bottom: calc(var(--unit) * 1);
 }
 
-.notifications--empty {
+.Notifications--empty {
 	/*
 	display: flex;
 	align-items: center;
@@ -16,7 +16,7 @@
 	color: var(--Sidebar-color-600);
 }
 
-.notifications__empty {
+.Notifications-empty {
 	margin-top: calc(var(--unit) * 5);
 	text-align: center;
 }

@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import Button from 'webapp-frontend/src/components/Button'
+import HoverButton from 'webapp-frontend/src/components/HoverButton'
+
 import EllipsisIcon from 'webapp-frontend/assets/images/icons/ellipsis.svg'
 
 import './SidebarSectionMoreButton.css'
@@ -19,16 +20,16 @@ export default function SidebarSectionMoreButton({ title, onClick }) {
 		}
 	}, [isPushed, onClick])
 	return (
-		<Button
+		<HoverButton
 			title={title}
 			onClick={onClick_}
 			aria-pressed={isPushed}
-			className={classNames('SidebarSectionMoreButton', 'SidebarButton', 'rrui__button-reset', {
+			className={classNames('SidebarSectionMoreButton', 'SidebarButton', {
 				'SidebarButton--pushed': isPushed,
 				'SidebarButton--unpushed': !isPushed
 			})}>
-			<EllipsisIcon className="SidebarSectionMoreButton__Icon"/>
-		</Button>
+			<EllipsisIcon className="SidebarSectionMoreButton-icon"/>
+		</HoverButton>
 	)
 }
 

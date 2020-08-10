@@ -2,7 +2,7 @@
 	--SidebarSection-paddingLeft: var(--unit);
 }
 
-.sidebar-section {
+.SidebarSection {
 	margin-top: calc(var(--unit) * 3);
 	&:first-child {
 		margin-top: calc(var(--unit) * 2);
@@ -12,11 +12,14 @@
 	}
 }
 
-.sidebar-section__title {
+.SidebarSection-title {
 	/* `position: relative` is for the "..." button. */
 	position: relative;
 	/* `overflow: visible` is for the "..." button. */
-	overflow: visible;
+	/*overflow: visible;*/
+	/* `overflow: hidden` is used to prevent long
+	   sidebar section titles from overflowing it. */
+	overflow: hidden;
 	margin-top: 0;
 	margin-bottom: var(--unit);
 	/* Using `padding-left` / `padding-right` instead of
@@ -25,7 +28,6 @@
 	padding-left: var(--SidebarSection-paddingLeft);
 	padding-right: var(--SidebarSection-paddingLeft);
 	white-space: nowrap;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	text-transform: uppercase;
 	text-align: center;

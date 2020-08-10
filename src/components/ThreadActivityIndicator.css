@@ -1,0 +1,107 @@
+:root {
+	--ThreadActivityIndicator-width: 1em;
+	--ThreadActivityIndicator-padding: 0px;
+	--ThreadActivityIndicator-borderColor--hot: white;
+}
+
+.ThreadActivityIndicator {
+	position: relative;
+	width: var(--ThreadActivityIndicator-width);
+	height: var(--ThreadActivityIndicator-width);
+	padding: var(--ThreadActivityIndicator-padding);
+	/* `box-sizing: content-box` is added here because `padding` is added. */
+	box-sizing: content-box;
+}
+
+.ThreadActivityIndicator:after {
+	display: block;
+	content: '';
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 1px solid var(--ThreadActivityIndicator-borderColor);
+	background-color: var(--ThreadActivityIndicator-color);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.ThreadActivityIndicator--hot {
+	&:after {
+		border: 1px solid var(--ThreadActivityIndicator-borderColor--hot);
+	}
+}
+
+/*
+.ThreadActivityIndicator--hot {
+	&:after {
+		transform: scale(1);
+		animation: pulse-green 2s infinite;
+	}
+}
+*/
+
+.ThreadActivityIndicator--active {
+	--ThreadActivityIndicator-color: var(--ThreadActivityIndicator-color--active);
+	--ThreadActivityIndicator-borderColor: var(--ThreadActivityIndicator-borderColor--active);
+}
+
+.ThreadActivityIndicator--idle {
+	--ThreadActivityIndicator-color: var(--ThreadActivityIndicator-color--idle);
+	--ThreadActivityIndicator-borderColor: var(--ThreadActivityIndicator-borderColor--idle);
+}
+
+.ThreadActivityIndicator--off {
+	display: none;
+	--ThreadActivityIndicator-color: var(--ThreadActivityIndicator-color--off);
+	--ThreadActivityIndicator-borderColor: var(--ThreadActivityIndicator-borderColor--off);
+}
+
+.ThreadActivityIndicator-hot {
+	--ThreadActivityIndicator-hot-width: calc(var(--ThreadActivityIndicator-width) * 2);
+	position: absolute;
+	width: var(--ThreadActivityIndicator-hot-width);
+	height: var(--ThreadActivityIndicator-hot-width);
+	top: calc(-0.91 * var(--ThreadActivityIndicator-width) + var(--ThreadActivityIndicator-padding));
+	left: calc(-0.525 * var(--ThreadActivityIndicator-width) + var(--ThreadActivityIndicator-padding));
+	z-index: -1;
+	[data-fill="true"] {
+		fill: var(--ThreadActivityIndicator-hot-color);
+	}
+}
+
+.ThreadActivityIndicatorTooltip {
+	/*padding-top: 0;*/
+	/*padding-bottom: 0;*/
+}
+
+.ThreadActivityIndicatorTooltipStats {
+	margin-top: calc(var(--unit) / 2);
+	margin-bottom: calc(var(--unit) / 2);
+}
+
+.ThreadActivityIndicatorTooltipStatsCount,
+.ThreadActivityIndicatorTooltipStatsPeriod {
+	font-weight: bolder;
+}
+
+.ThreadActivityIndicatorTooltipStatsCommentIcon {
+	width: 1em;
+	height: 1em;
+	position: relative;
+	top: 0.2em;
+	margin-right: 0.3em;
+}
+
+/*70% { transform: scale(1.05); }*/
+/*
+@keyframes pulse-green {
+	0% {
+		box-shadow: 0 0 0 0 rgba(70, 217, 70, 0.5);
+	}
+	70% {
+		box-shadow: 0 0 0 4px rgba(70, 217, 70, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(70, 217, 70, 0);
+	}
+}
+*/

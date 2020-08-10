@@ -1,0 +1,67 @@
+@import "../../styles/common";
+
+:root {
+	--Thread-comments-marginTop: 0px;
+	--NoNewComments-marginTop: calc(var(--unit) * 5);
+	--NoNewComments-marginBottom: var(--NoNewComments-marginTop);
+	@mixin l-plus {
+		--NoNewComments-marginTop: calc(var(--unit) * 7);
+	}
+}
+
+.ThreadPage {
+	/* `position: relative` is for <ThreadMenu/>. */
+	position: relative;
+}
+
+/* Using `.ThreadPage` instead of `.Comment--thread` here
+	 because `var(--Post-color--secondary)` is used in `ThreadPage-stats`. */
+.ThreadPage {
+	--Post-color--secondary: var(--Post-color--secondaryThread);
+}
+
+.ThreadPage-noNewComments {
+	margin-top: 0;
+	margin-bottom: 0;
+	/* Using `padding-top` instead of `margin-top` here
+	   so that `<BoardThreadMenu/>` vertical position is preserved
+	   when clicking on "Show previous comments" button. */
+	padding-top: var(--NoNewComments-marginTop);
+	/* `margin-bottom` doesn't collapse with `<Footer/>`'s `margin-top` anyway. */
+	margin-bottom: var(--NoNewComments-marginBottom);
+	text-align: center;
+	color: var(--Content-color-700);
+	font-size: 125%;
+}
+
+.ThreadPage {
+	.ShowPrevious {
+		@mixin upto-s {
+			margin-top: calc(var(--unit) * 0.5);
+			margin-bottom: calc(var(--unit) * 0.75);
+		}
+		@mixin m {
+			margin-top: calc(var(--unit) * 0.75);
+			margin-bottom: calc(var(--unit) * 0.75);
+		}
+		@mixin l-plus {
+			margin-top: var(--unit);
+			margin-bottom: var(--unit);
+		}
+	}
+}
+
+/* `.ThreadPage-commentsContainer` is used here
+   instead of `.ThreadPage-comments` because
+   otherwise this `margin-top` would conflict with
+   `.BackToPreviousComment-desktop`. */
+.ThreadPage-commentsContainer {
+	margin-top: var(--Thread-comments-marginTop);
+}
+
+.ThreadPage {
+	@mixin m-l {
+		padding-left: var(--Comment-marginTop);
+		padding-right: var(--Comment-marginTop);
+	}
+}

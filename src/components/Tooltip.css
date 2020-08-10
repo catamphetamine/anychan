@@ -1,0 +1,18 @@
+.Tooltip {
+	--rrui-tooltip-side-padding: calc(var(--unit) * 1);
+	--rrui-tooltip-height: auto;
+	--rrui-tooltip-background-color: var(--Content-backgroundColor);
+	--rrui-tooltip-text-color: var(--Content-color-900);
+	--rrui-tooltip-opacity: 1;
+	--rrui-tooltip-visible-distance: 0px;
+	--rrui-tooltip-hidden-distance: 0.3em;
+	display: block;
+	box-shadow: var(--Tooltip-boxShadow);
+	padding-top: calc(var(--unit) / 2);
+	padding-bottom: calc(var(--unit) / 2);
+}
+
+.Tooltip--large {
+	--rrui-tooltip-side-padding: calc(var(--unit) * 1.5);
+	--Tooltip-boxShadow: var(--Tooltip-boxShadow--large);
+}

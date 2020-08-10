@@ -10,7 +10,7 @@ import configuration from './webpack.config'
 import applicationConfiguration from '../configuration'
 
 // `gh-pages` will have `/captchan` base path.
-configuration.output.publicPath = '/captchan/'
+configuration.output.publicPath = (applicationConfiguration.basePath || '') + '/'
 
 configuration.devtool = 'source-map'
 

@@ -1,10 +1,10 @@
 @import "../styles/common";
 
-.post-form {
+.PostForm {
 
 }
 
-.post-form__action {
+.PostForm-action {
 	margin-right: var(--unit);
 	&:last-child {
 		margin-right: 0;

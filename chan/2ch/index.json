@@ -74,7 +74,7 @@
 	}, {
 		"type": "api",
 		"text": "API",
-		"url": "https://github.com/catamphetamine/captchan#2chhk"
+		"url": "https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/makaba.md"
 	}, {
 		"type": "mobile",
 		"text": "Скачать мобильные приложения",
@@ -93,9 +93,6 @@
 	"hideBoardCategories": [
 		"Прочие"
 	],
-	"proxy": {
-		"aws": false
-	},
 	"errorPages": {
 		"404": {
 			"images": [

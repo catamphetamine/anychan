@@ -45,7 +45,7 @@ export const saveTheme = redux.simpleAction(
 	(state, value) => {
 		return {
 			...state,
-			settings: saveSetting('theme', value)
+			settings: saveSetting('theme', value === 'default' ? undefined : value)
 		}
 	}
 )
@@ -55,6 +55,15 @@ export const saveFontSize = redux.simpleAction(
 		return {
 			...state,
 			settings: saveSetting('fontSize', value)
+		}
+	}
+)
+
+export const saveProxyUrl = redux.simpleAction(
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('proxyUrl', value)
 		}
 	}
 )

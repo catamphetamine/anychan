@@ -7,6 +7,8 @@ import { hideSidebar } from './redux/app'
 import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
 // import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
+import UserData from './UserData/UserData'
+
 export default async function() {
 	let isFirstRender = true
 	let currentRoute
@@ -39,6 +41,9 @@ export default async function() {
 					document.querySelector('main').focus()
 				}
 			}
+			// Flush cached `localStorage`.
+			// (writes cached `latestReadComments` and `latestSeenThreads`).
+			UserData.storage.flush()
 			// Set up Google Analytics.
 			// A simple Google Analytics setup with anonymized IP addresses
 			// and without any "Demographics" tracking features
@@ -79,6 +84,8 @@ export default async function() {
 		const { store, rerender } = result
 		// Webpack "Hot Module Replacement"
 		if (module.hot) {
+			// Because `./redux/app.js` is imported in this file,
+			// changing `./redux/app.js` won't hot reload.
 			module.hot.accept('./react-pages', () => {
 				store.hotReload(settings.reducers)
 				rerender()

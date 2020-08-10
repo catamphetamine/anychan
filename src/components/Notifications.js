@@ -11,8 +11,8 @@ import './Notifications.css'
 export default function Notifications() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	return (
-		<section className="notifications notifications--empty">
-			<div className="notifications__empty">
+		<section className="Notifications Notifications--empty">
+			<div className="Notifications-empty">
 				{getMessages(locale).notifications.empty}
 			</div>
 		</section>

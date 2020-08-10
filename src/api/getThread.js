@@ -1,5 +1,5 @@
 import Chan from './Chan'
-import setThreadInfo from './utility/setThreadInfo'
+import addCommentProps from './utility/addCommentProps'
 import createByIdIndex from '../utility/createByIdIndex'
 import getMessages from './utility/getMessages'
 import configuration from '../configuration'
@@ -34,9 +34,10 @@ export default async function getThread({
 	thread.comments[0].parseContent()
 	// Generate text preview which is used for `<meta description/>` on the thread page.
 	generateTextPreview(thread.comments[0], messages)
-	setThreadInfo(thread, {
+	addCommentProps(thread, {
 		mode: 'thread',
-		votes: UserData.getCommentVotes(boardId, threadId)
+		votes: UserData.getCommentVotes(boardId, threadId),
+		messages
 	})
 	return {
 		boardId,

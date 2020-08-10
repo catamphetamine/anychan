@@ -17,3 +17,10 @@ if (process.env.NODE_ENV === 'production') {
 		})
 	}
 }
+
+// Redirect to HTTPS from HTTP.
+// Otherwise, the CORS Proxy will error, because it only accepts HTTPS
+// due to the "allow credentials" setting (it's a web standard requirement).
+if (window.location.hostname !== 'localhost' && window.location.protocol === 'http:') {
+	window.location.href = window.location.href.replace('http:', 'https:')
+}

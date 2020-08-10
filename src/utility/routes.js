@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { goBack, canGoBackInstantly } from 'react-pages'
+import { goBack, canGoBackInstantly, goto } from 'react-pages'
 import { useDispatch, useSelector } from 'react-redux'
 
 export function isBoardLocation(route) {
@@ -21,9 +21,24 @@ export function isBoardsLocation(route) {
 }
 
 export function useCanGoBackFromThreadToBoard() {
+	const currentRoute = useSelector(({ found }) => found.resolvedMatch)
 	const _isThreadLocation = useSelector(({ found }) => isThreadLocation(found.resolvedMatch))
-	const canGoBack = _isThreadLocation && window._previousRoute && isBoardLocation(window._previousRoute) && canGoBackInstantly()
 	const dispatch = useDispatch()
-	const onGoBack = useCallback(() => dispatch(goBack()), [dispatch])
-	return [canGoBack, onGoBack]
+	const onGoBackInstantly = useCallback(() => dispatch(goBack()), [dispatch])
+	const onGoBackByNavigation = useCallback(() => {
+		const board = currentRoute.params.board
+		dispatch(goto(`/${board}`, { instantBack: true }))
+	}, [
+		dispatch,
+		currentRoute
+	])
+	if (_isThreadLocation) {
+		const previousRoute = window._previousRoute
+		const _canGoBackInstantly = _isThreadLocation && previousRoute && isBoardLocation(previousRoute) && canGoBackInstantly()
+		if (_canGoBackInstantly) {
+			return [true, onGoBackInstantly]
+		}
+		return [true, onGoBackByNavigation]
+	}
+	return [false]
 }

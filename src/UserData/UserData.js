@@ -1,7 +1,7 @@
 import isEqual from 'lodash/isEqual'
-import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
+import CachedLocalStorage from 'webapp-frontend/src/utility/storage/CachedLocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
-import { getChan } from '../chan'
+import { getPrefix } from '../utility/localStorage'
 import migrate from './UserData.migrate'
 
 import {
@@ -17,7 +17,7 @@ import {
 	removeFromBoardIdThreadIdCommentIds,
 	getFromBoardIdThreadIdCommentIds,
 	mergeWithBoardIdThreadIdCommentIds
-} from './boardThreadComment'
+} from './boardThreadComments'
 
 import {
 	addToBoardIdThreadIdCommentIdData,
@@ -90,7 +90,26 @@ export class UserData {
 		// Stores only the most recent "read" comment id for a thread.
 		// Example: { a: { 123: 125 } }.
 		latestReadComments: {
-			type: 'boards-threads-data'
+			cache: true,
+			type: 'boards-threads-data',
+			decode(data) {
+				// Before 09.05.2020 data wasn't being encoded.
+				if (data.threadUpdatedAt) {
+					return data
+				}
+				const threadUpdatedAt = data.t * 1000
+				// Could set to `undefined` but then tests wouldn't detect equality.
+				delete data.t
+				data.threadUpdatedAt = threadUpdatedAt
+				return data
+			},
+			encode(data) {
+				const threadUpdatedAt = data.threadUpdatedAt
+				// Could set to `undefined` but then tests wouldn't detect equality.
+				delete data.threadUpdatedAt
+				data.t = threadUpdatedAt / 1000
+				return data
+			}
 		},
 		// If a user has seen the opening post of a thread on a board
 		// while in "board" view then such thread is marked as "seen".
@@ -102,6 +121,7 @@ export class UserData {
 		// Stores only the most recent "seen" thread id.
 		// Example: { a: 123 }.
 		latestSeenThreads: {
+			cache: true,
 			type: 'boards-data'
 		},
 		// Users can "track" certain threads.
@@ -144,10 +164,12 @@ export class UserData {
 	}
 
 	constructor(storage, options = {}) {
+		// // Overriding `collections` is just for testing.
+		// if (options.collections) {
+		// 	this.collections = options.collections
+		// }
 		this.storage = storage
-		this.prefix = options.prefix === undefined ?
-			'captchan.' + (options.chanId ? options.chanId + '.' : '') + 'user.' :
-			options.prefix
+		this.prefix = getPrefix(options.prefix)
 		this.shouldMigrate = options.migrate
 		// Migrate user data.
 		if (this.shouldMigrate !== false) {
@@ -173,13 +195,20 @@ export class UserData {
 				mergeWith,
 				// setIn
 			} = getFunctions(collection.type)
+			if (collection.cache && this.storage.cacheKey) {
+				this.storage.cacheKey(this.prefix + key)
+			}
 			const preArgs = [this.storage, this.prefix + key]
 			const getArgs = (args) => {
 				let allArgs = preArgs
 				switch (collection.type) {
 					case 'list':
 					case 'threads':
+					case 'boards-data':
+					case 'boards-threads-data':
+					case 'boards-threads-comments-data':
 						allArgs = allArgs.concat(collection)
+						break
 				}
 				return allArgs.concat(args)
 			}
@@ -233,9 +262,9 @@ export class UserData {
 		}, {})
 	}
 
-	cache(cache) {
-		this.storage.cache(cache)
-	}
+	// cache(cache) {
+	// 	this.storage.cache(cache)
+	// }
 
 	/**
 	 * Clears expired threads from user data.
@@ -521,9 +550,7 @@ function getFunctions(type) {
 	}
 }
 
-export default new UserData(new LocalStorage(), {
-	chanId: getChan().id
-})
+export default new UserData(new CachedLocalStorage())
 
 function getCount(storage, key) {
 	const data = storage.get(key, {})

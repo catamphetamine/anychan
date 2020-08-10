@@ -18,7 +18,7 @@ export default function BoardsPage() {
 	const boardsByCategory = useSelector(({ chan }) => chan.allBoards.boardsByCategory)
 	const boardsByPopularity = useSelector(({ chan }) => chan.allBoards.boardsByPopularity)
 	return (
-		<section className="boards-page content text-content">
+		<section className="BoardsPage Content Content--text">
 			<Boards
 				locale={locale}
 				boards={boards}
@@ -42,7 +42,7 @@ function BoardsList({ className, children }) {
 	return (
 		<VirtualScroller
 			items={children}
-			itemComponent={BoardsListItem}
+			itemComponent={BoardsListBoard}
 			className={className}/>
 	)
 }
@@ -55,23 +55,25 @@ BoardsList.propTypes = {
 	})).isRequired
 }
 
-function BoardsListItem({ children: { board } }) {
+function BoardsListBoard({ children: { board } }) {
 	return (
 		<Link
 			to={getUrl(board)}
-			className="boards-list__item">
-			<BoardUrl boardId={board.id} className="boards-list__board-url"/>
-			<div className="boards-list__board-name">
+			className="BoardsListBoard">
+			<div className="BoardsListBoard-url">
+				<BoardUrl boardId={board.id}/>
+			</div>
+			<div className="BoardsListBoard-title">
 				{board.title}
 			</div>
 		</Link>
 	)
 }
 
-BoardsListItem.propTypes = {
+BoardsListBoard.propTypes = {
 	children: PropTypes.object.isRequired
 }
 
 // Using `React.memo()` so that `virtual-scroller`
 // doesn't re-render items as the user scrolls.
-BoardsListItem = React.memo(BoardsListItem)
+BoardsListBoard = React.memo(BoardsListBoard)

@@ -37,13 +37,33 @@ cors_proxy.createServer({
 })
 ```
 
-* Set up `originWhitelist` in `index.js` to only include the "origin" (`https://` plus the domain) on which the web application is hosted (in my case it's `https://catamphetamine.github.io`). For development, set up a dedicated CORS proxy, or use a public one like `https://cors-anywhere.herokuapp.com`: a production deployment should have only a single origin whitelisted for [security reasons](https://github.com/Rob--W/cors-anywhere/issues/55).
-* `heroku create <globally-unique-application-name>`.
-* `git add .`.
-* `git commit -m "Initial commit"`.
-* `git push heroku master`.
+* Set up `originWhitelist` in `index.js` to only include the "origin" (`https://` plus the domain) on which the web application is hosted (in my case it's `https://captchan.surge.sh`). For development, set up a dedicated CORS proxy, or use a public one like `https://cors-anywhere.herokuapp.com`: a production deployment should have only a single origin whitelisted for [security reasons](https://github.com/Rob--W/cors-anywhere/issues/55).
 
-To make any changes to the CORS proxy, edit the files and run `git push heroku master` again.
+* Also, in `lib/cors-anywhere.js`, comment out the cookie removal lines:
+
+```js
+// Strip cookies
+delete proxyRes.headers['set-cookie'];
+delete proxyRes.headers['set-cookie2'];
+```
+
+Those cookie removal lines were added for security: to prevent cookies set by one proxied website be visible to some other proxied website, but since the proxy is being set up to only serve a single website, these security measures aren't required, and removing them won't introduce a security breach.
+
+* Initialize Heroku application:
+
+```
+heroku create <globally-unique-application-name>
+```
+
+* Push the changes to Heroku:
+
+```
+git add .
+git commit -m "Initial commit"
+git push heroku master
+```
+
+In future, to apply any changes to the CORS proxy, re-push the changes to Heroku.
 
 ## Known issues
 

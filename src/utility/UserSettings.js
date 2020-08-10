@@ -1,5 +1,5 @@
-import LocalStorage from 'webapp-frontend/src/utility/LocalStorage'
-import { getChan } from '../chan'
+import LocalStorage from 'webapp-frontend/src/utility/storage/LocalStorage'
+import { getPrefix } from '../utility/localStorage'
 import migrate from './UserSettings.migrate'
 
 // Current version of user settings.
@@ -9,9 +9,7 @@ const VERSION = 1
 class UserSettings {
 	constructor(storage, options = {}) {
 		this.storage = storage
-		this.prefix = options.prefix === undefined ?
-			'captchan.' + (options.chanId ? options.chanId + '.' : '') :
-			options.prefix
+		this.prefix = getPrefix(options.prefix)
 		this.key = this.prefix + 'settings'
 		// Migrate settings.
 		const data = this.storage.get(this.key, {})
@@ -78,6 +76,4 @@ class UserSettings {
 	}
 }
 
-export default new UserSettings(new LocalStorage(), {
-	chanId: getChan().id
-})
+export default new UserSettings(new LocalStorage())

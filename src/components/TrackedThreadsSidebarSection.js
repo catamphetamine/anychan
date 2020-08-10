@@ -6,8 +6,6 @@ import SidebarSection from './SidebarSection'
 
 import getMessages from '../messages'
 
-import './TrackedThreadsSidebarSection.css'
-
 export default function TrackedThreadsSidebarSection() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const trackedThreads = useSelector(({ threadTracker }) => threadTracker.trackedThreads)

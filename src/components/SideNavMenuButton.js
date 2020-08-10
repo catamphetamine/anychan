@@ -10,6 +10,8 @@ import getMessages from '../messages'
 import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
 import onWindowResize from 'webapp-frontend/src/hooks/onWindowResize'
 
+import { Button } from 'webapp-frontend/src/components/Button'
+
 import './SideNavMenuButton.css'
 
 export default function SideNavMenuButton() {
@@ -38,15 +40,14 @@ export default function SideNavMenuButton() {
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
 	onWindowResize(updatePosition, { alsoOnMount: true })
 	return (
-		<button
+		<Button
 			ref={node}
-			type="button"
 			title={canGoBack ? getMessages(locale).actions.back : (isSidebarShown ? getMessages(locale).actions.close : getMessages(locale).menu)}
 			onClick={canGoBack ? goBack : toggleSidebar}
 			style={style}
-			className="rrui__button-reset SideNavMenuButton">
+			className="SideNavMenuButton">
 			<MenuIcon mode={canGoBack ? 'leftArrow' : (isSidebarShown ? 'cross' : 'menu')}/>
-		</button>
+		</Button>
 	)
 }
 
@@ -64,12 +65,12 @@ function MenuIcon({ mode, className }) {
 			'SideNavMenuButtonIcon--cross': mode === 'cross',
 			'SideNavMenuButtonIcon--transition': isMounted.current
 		})}>
-			<div className="SideNavMenuButtonIconBar"/>
-			<div className="SideNavMenuButtonIconBar"/>
-			<div className="SideNavMenuButtonIconBar"/>
-			<div className="SideNavMenuButtonIconBar"/>
-			<div className="SideNavMenuButtonIconBar"/>
-			<div className="SideNavMenuButtonIconBar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
+			<div className="SideNavMenuButtonIcon-bar"/>
 		</div>
 	)
 }

@@ -4,7 +4,7 @@ import { Modal, Button, Select, TextInput } from 'react-responsive-ui'
 
 import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
-import { validateUrl, validateRelativeUrl } from 'social-components/commonjs/utility/url'
+import { isValidUrl, isValidRelativeUrl } from 'social-components/commonjs/utility/url'
 import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
 
 import { saveTheme } from '../../redux/settings'
@@ -22,6 +22,8 @@ import {
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
 
+import { showError } from 'webapp-frontend/src/redux/notifications'
+
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
 export default function ThemeSettings({
@@ -30,20 +32,40 @@ export default function ThemeSettings({
 	dispatch,
 	guideUrl
 }) {
+	const [theme, setTheme] = useState(settings.theme)
 	const [showAddThemeModal, setShowAddThemeModal] = useState()
 
-	const value = settings.theme
-
-	async function onSaveTheme(name) {
-		await applyTheme(name)
+	async function onSelectTheme(name) {
+		setTheme(name)
+		try {
+			await applyTheme(name)
+		} catch (error) {
+			if (error.message === 'STYLESHEET_ERROR') {
+				dispatch(showError(messages.settings.theme.add.cssFileError))
+			} else {
+				dispatch(showError(messages.error))
+			}
+			throw error
+		}
 		dispatch(saveTheme(name))
 	}
 
-	async function deleteCurrentTheme() {
-		dispatch(okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', value)))
+	async function onAddTheme(name) {
+		try {
+			await applyTheme(name)
+		} catch (error) {
+			removeTheme(name)
+			throw error
+		}
+		dispatch(saveTheme(name))
+		setTheme(name)
+	}
+
+	async function onRemoveSelectedTheme() {
+		dispatch(okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)))
 		if (await OkCancelDialog.getPromise()) {
-			removeTheme(value)
-			await onSaveTheme(getThemes()[0].name)
+			removeTheme(theme)
+			await onSelectTheme('default')
 		}
 	}
 
@@ -60,9 +82,9 @@ export default function ThemeSettings({
 
 			<div className="form">
 				<Select
-					value={value}
+					value={theme}
 					options={options}
-					onChange={onSaveTheme}
+					onChange={onSelectTheme}
 					className="form__component"/>
 				<div className="form__component form__component--button">
 					<Button
@@ -80,10 +102,10 @@ export default function ThemeSettings({
 						</a>
 					</div>
 				}
-				{!isBuiltInTheme(value) &&
+				{!isBuiltInTheme(theme) &&
 					<div className="form__component form__component--button">
 						<Button
-							onClick={deleteCurrentTheme}
+							onClick={onRemoveSelectedTheme}
 							className="rrui__button--text">
 							{messages.settings.theme.deleteCurrent.title}
 						</Button>
@@ -101,7 +123,7 @@ export default function ThemeSettings({
 				<Modal.Content>
 					<AddTheme
 						messages={messages}
-						saveTheme={onSaveTheme}
+						onSaveTheme={onAddTheme}
 						close={() => setShowAddThemeModal(false)}/>
 				</Modal.Content>
 			</Modal>
@@ -118,7 +140,7 @@ ThemeSettings.propTypes = {
 
 function AddTheme({
 	messages,
-	saveTheme,
+	onSaveTheme,
 	close
 }) {
 	const addThemeForm = useRef()
@@ -132,11 +154,19 @@ function AddTheme({
 	}, [pasteCodeInstead])
 
 	function validateCssUrl(value) {
-		if (!validateUrl(value) && !validateRelativeUrl(value)) {
+		if (!isValidUrl(value) && !isValidRelativeUrl(value)) {
 			return messages.settings.theme.add.invalidUrl
 		}
 		if (!CSS_URL_REGEXP.test(value)) {
 			return messages.settings.theme.add.invalidExtension
+		}
+	}
+
+	function validateName(value) {
+		for (const theme of getThemes()) {
+			if (value === theme.name) {
+				return messages.settings.theme.add.alreadyExists
+			}
 		}
 	}
 
@@ -146,7 +176,7 @@ function AddTheme({
 				delete theme.url
 			}
 			addTheme(theme)
-			await saveTheme(theme.name, getThemes().concat(theme))
+			await onSaveTheme(theme.name, getThemes().concat(theme))
 			close()
 		} catch (error) {
 			console.error(error)
@@ -169,6 +199,7 @@ function AddTheme({
 				name="name"
 				label={messages.settings.theme.add.name}
 				component={TextInput}
+				validate={validateName}
 				className="form__component"/>
 			{!pasteCodeInstead &&
 				<Field
@@ -214,6 +245,6 @@ function AddTheme({
 
 AddTheme.propTypes = {
 	messages: PropTypes.object.isRequired,
-	saveTheme: PropTypes.func.isRequired,
+	onSaveTheme: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired
 }

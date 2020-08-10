@@ -33,8 +33,5 @@
 		"type": "donate",
 		"text": "Donate",
 		"url": "https://arisuchan.jp/infornography.php#faq"
-	}],
-  "proxy": {
-  	"aws": false
-  }
+	}]
 }

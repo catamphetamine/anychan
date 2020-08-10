@@ -4,6 +4,10 @@
 
 .SidebarMenuItem {
 	display: flex;
+	justify-content: flex-start;
+}
+
+.SidebarMenuItem--includeTitle {
 	align-items: center;
 	/* `<button/>` requires `width: 100%` in order to stretch to full width. */
 	width: 100%;
@@ -15,28 +19,63 @@
 	&:active {
 		background-color: var(--Boards-backgroundColor--active);
 		color: var(--Clickable-color--textActive);
-		.SidebarMenuItemTitle {
+		.SidebarMenuItem-title {
 			color: inherit;
 		}
 	}
 }
 
-.SidebarMenuItem--selected {
-	background-color: var(--Boards-backgroundColor--selected);
+.SidebarMenuItem--icon {
+	margin-right: calc(var(--unit) * 0.5);
+	color: var(--Sidebar-color-600);
+	&:last-child {
+		margin-right: 0;
+	}
+	&:active {
+		color: var(--Clickable-color--text);
+		.SidebarMenuItem-title {
+			color: inherit;
+		}
+	}
 }
 
-.SidebarMenuItemTitle {
+.SidebarMenuItem--includeTitle {
+	&.SidebarMenuItem--selected {
+		background-color: var(--Boards-backgroundColor--selected);
+	}
+}
+
+.SidebarMenuItem--logo {
+	&.SidebarMenuItem--selected {
+		.SidebarMenu-slashIconLine {
+			stroke-width: 1;
+		}
+	}
+}
+
+.SidebarMenuItem-title {
 	color: var(--Boards-color);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.SidebarMenuIcon {
-	width: calc(var(--unit) * 1.2);
-	height: calc(var(--unit) * 1.2);
-	margin-right: calc(var(--unit) * 1);
-	margin-left: calc(var(--unit) * 0.5);
-	/* Prevent the icon from shrinking when title text overflows. */
-	flex-shrink: 0;
+.SidebarMenuItem--icon {
+	.SidebarMenuItem-icon {
+		width: calc(var(--unit) * 1.25);
+		height: calc(var(--unit) * 1.25);
+		/* Prevent the icon from shrinking when title text overflows. */
+		flex-shrink: 0;
+	}
+}
+
+.SidebarMenuItem--includeTitle {
+	.SidebarMenuItem-icon {
+		width: calc(var(--unit) * 1.2);
+		height: calc(var(--unit) * 1.2);
+		margin-right: calc(var(--unit) * 1);
+		margin-left: calc(var(--unit) * 0.5);
+		/* Prevent the icon from shrinking when title text overflows. */
+		flex-shrink: 0;
+	}
 }

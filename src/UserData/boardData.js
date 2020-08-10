@@ -1,18 +1,19 @@
-export function addToBoardIdData(storage, key, boardId, data) {
+export function addToBoardIdData(storage, key, collection, boardId, data) {
 	const boardIdData = storage.get(key, {})
 	if (!boardIdData[boardId]) {
 		boardIdData[boardId] = {}
 	}
-	boardIdData[boardId] = data
+	boardIdData[boardId] = encode(data, collection)
 	storage.set(key, boardIdData)
 }
 
-export function removeFromBoardIdData(storage, key, boardId, data) {
+export function removeFromBoardIdData(storage, key, collection, boardId, data) {
 	const boardIdData = storage.get(key, {})
 	if (!boardIdData[boardId]) {
 		return
 	}
 	if (data) {
+		data = encode(data, collection, 'board')
 		if (boardIdData[boardId] !== data) {
 			return
 		}
@@ -25,22 +26,22 @@ export function removeFromBoardIdData(storage, key, boardId, data) {
 	}
 }
 
-export function getFromBoardIdData(storage, key, boardId, data) {
+export function getFromBoardIdData(storage, key, collection, boardId, data) {
 	const boardIdData = storage.get(key, {})
 	if (boardId) {
-		const _data = boardIdData[boardId]
+		const _data = decode(boardIdData[boardId], collection, 'board')
 		if (data) {
 			return _data === data
 		}
 		return _data
 	}
-	return boardIdData
+	return decode(boardIdData, collection, 'root')
 }
 
-export function mergeWithBoardIdData(storage, key, data) {
+export function mergeWithBoardIdData(storage, key, collection, data) {
 	const boardIdData = storage.get(key, {})
 	for (const boardId of Object.keys(data)) {
-		const newValue = data[boardId]
+		const newValue = encode(data[boardId], collection)
 		if (boardIdData[boardId] === newValue) {
 			continue
 		} else if (boardIdData[boardId] === undefined) {
@@ -62,4 +63,36 @@ export function mergeWithBoardIdData(storage, key, data) {
 		}
 	}
 	return boardIdData
+}
+
+function encode(data, collection) {
+	if (collection.encode) {
+		data = collection.encode(data)
+	}
+	return data
+}
+
+function decodeBoardData(data, collection) {
+	return collection.decode(data)
+}
+
+function decodeRootData(data, collection) {
+	for (const boardId of Object.keys(data)) {
+		data[boardId] = decodeBoardData(data[boardId], collection)
+	}
+	return data
+}
+
+function decode(data, collection, level) {
+	if (data === undefined || !collection.decode) {
+		return data
+	}
+	switch (level) {
+		case 'board':
+			return decodeBoardData(data, collection)
+		case 'root':
+			return decodeRootData(data, collection)
+		default:
+			throw new Error(`Unsupported data tree level: ${level}`)
+	}
 }

@@ -22,8 +22,5 @@
 		"type": "twitter",
 		"text": "Twitter",
 		"url": "https://twitter.com/endchanxyz"
-	}],
-	"proxy": {
-		"aws": false
-	}
+	}]
 }

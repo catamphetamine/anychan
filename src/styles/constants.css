@@ -9,22 +9,23 @@
 	--Slideshow-zIndex: 30;
 	--Notification-zIndex: 40;
 
-	--Header-height: calc(var(--unit) * 3);
+	/*--Header-height: calc(var(--unit) * 3);*/
+	--Header-height: 0px;
 
 	--BoardOrThreadPage-marginTop--largeScreen: calc(var(--unit) / 2);
-	/*--PageContent-padding: calc(var(--unit) * 2);*/
-	--PageContent-padding: var(--unit);
+	/*--PageContent-paddingLeft: calc(var(--unit) * 2);*/
+	--PageContent-paddingLeft: var(--unit);
 
 	--List-lineHeight: 1.7em;
 	--ListButtonIcon-width: 0.6em;
 	--ListButton-padding: 0.2em;
 
-	--CommentsList-maxWidth: calc(3 * var(--Post-padding--horizontal) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+	--CommentsList-maxWidth: calc(3 * var(--Post-paddingLeft) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
 
 	/*
-	--PageContent-padding--nonContentSection: 0px;
+	--PageContent-paddingLeft--nonContentSection: 0px;
 	@mixin upto-m {
-		--PageContent-padding--nonContentSection: var(--Post-padding--horizontal);
+		--PageContent-paddingLeft--nonContentSection: var(--Post-paddingLeft);
 	}
 	*/
 }

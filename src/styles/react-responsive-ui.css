@@ -2,8 +2,22 @@
 
 :root {
 	--rrui-modal-border-radius: 0px;
+	@mixin upto-s {
+		--rrui-expandable-menu-item-side-padding: calc(var(--rrui-unit) * 1);
+		--rrui-list-item-height: calc(var(--rrui-unit) * 2.5);
+	}
 }
 
 .rrui__snackbar__container {
 	z-index: var(--Notification-zIndex);
+}
+
+.rrui__modal__title {
+	line-height: var(--Heading-lineHeight);
+	font-size: var(--Heading-fontSize);
+	font-weight: var(--Heading-fontWeight);
+	@mixin l-plus {
+		line-height: var(--Heading-lineHeight--xl);
+		font-size: var(--Heading-fontSize--xl);
+	}
 }

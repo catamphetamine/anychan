@@ -1,47 +1,5 @@
 @import "../styles/common";
 
-.settings-page__filters {
-	margin: 0;
-	margin-top: var(--unit);
-}
-
-.settings-page__filters-docs {
-	margin-top: 0;
-	margin-bottom: var(--unit);
-	padding: var(--unit);
-	background-color: var(--Content-color-100);
-	border: 1px solid var(--Content-color-200);
-}
-
-.settings-page__filters-tips {
-	margin-top: var(--unit);
-	margin-bottom: 0;
-	padding-left: var(--unit);
-	list-style: none;
-
-	li {
-		line-height: var(--line-height);
-	}
-
-	/*
-	li:before {
-		position: relative;
-		top: 0;
-		padding-right: 0.45em;
-		content: "\2022";
-		font-size: 1em;
-	}
-	*/
-
-	code {
-		color: var(--Clickable-color--text);
-	}
-}
-
-.settings-page__filters-practice-link {
-	color: inherit;
-}
-
-.settings-page__cookies-required {
+.SettingsPage-cookiesRequired {
 	text-align: center;
 }

@@ -2,7 +2,7 @@ import { describe, it } from 'webapp-frontend/src/utility/mocha'
 import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
 import { UserData } from './UserData'
-import MemoryStorage from 'webapp-frontend/src/utility/MemoryStorage'
+import MemoryStorage from 'webapp-frontend/src/utility/storage/MemoryStorage'
 
 const storage = new MemoryStorage({
 	emulateSerialize: true
@@ -123,10 +123,10 @@ describe('UserData', () => {
 			title: 'Random',
 			board: { id: 'b' }
 		})
-		userData.addLatestReadComments('a', 123, 124)
-		userData.addLatestReadComments('a', 456, 456)
-		userData.addLatestReadComments('a', 456, 457)
-		userData.addLatestReadComments('b', 789, 790)
+		userData.addLatestReadComments('a', 123, { id: 124, threadUpdatedAt: 1000 })
+		userData.addLatestReadComments('a', 456, { id: 456, threadUpdatedAt: 2000 })
+		userData.addLatestReadComments('a', 456, { id: 457, threadUpdatedAt: 3000 })
+		userData.addLatestReadComments('b', 789, { id: 790, threadUpdatedAt: 4000 })
 		userData.addHiddenComments('a', 123, 124)
 		userData.addHiddenComments('a', 123, 125)
 		userData.addHiddenComments('a', 456, 456)
@@ -172,11 +172,20 @@ describe('UserData', () => {
 				],
 				latestReadComments: {
 					a: {
-						'123': 124,
-						'456': 457
+						'123': {
+							id: 124,
+							t: 1
+						},
+						'456': {
+							id: 457,
+							t: 3
+						}
 					},
 					b: {
-						'789': 790
+						'789': {
+							id: 790,
+							t: 4
+						}
 					}
 				},
 				hiddenComments: {
@@ -251,10 +260,16 @@ describe('UserData', () => {
 				],
 				latestReadComments: {
 					a: {
-						'456': 457
+						'456': {
+							id: 457,
+							t: 3
+						}
 					},
 					b: {
-						'789': 790
+						'789': {
+							id: 790,
+							t: 4
+						}
 					}
 				},
 				hiddenComments: {

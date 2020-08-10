@@ -26,4 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 require('./initialize-entry')
 require('./initialize-chan').default()
 require('./initialize').default()
-require('./render').default().catch(error => console.error(error))
+require('./render').default().catch((error) => {
+	console.error(error.stack || error)
+	alert('Error')
+})

@@ -8,11 +8,31 @@
 	--base-color-200: #FFD0AF;
 	--base-color-300: #FFA061;
 	--base-color-400: #ff7f24;
-	--base-color-500: #f76700;
+	--base-color-500: #ee6602;
 	--base-color-600: #d65800;
 	--base-color-700: #b84600;
 	--base-color-800: #8f3c00;
 	--base-color-900: #6D2D00;
+
+	/* LinearProgress. */
+	--LinearProgress-backgroundColor: transparent;
+	--LinearProgress-height: 3px;
+	/*--LinearProgress-animationDuration: 3s;*/
+	/*--LinearProgress-animationInterval: 1.7s;*/
+	@mixin s {
+		--LinearProgress-animationTimingFactor: 1.1;
+	}
+	@mixin m {
+		--LinearProgress-animationTimingFactor: 1.3;
+	}
+	@mixin l-plus {
+		--LinearProgress-animationTimingFactor: 1.5;
+	}
+
+	/* LoadingSpinner. */
+	--LoadingSpinner-color: var(--Content-color-300);
+	--LoadingSpinner-width: calc(var(--unit) * 4);
+	--LoadingSpinner-borderWidth: 2px;
 
 	/* Header. */
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
@@ -25,6 +45,25 @@
 	}
 	@mixin m {
 		--Footer-marginTop: calc(var(--unit) * 3);
+	}
+
+	/* Heading. */
+	--Heading-lineHeight: 1.35em;
+	--Heading-fontSize: 1.3rem;
+	--Heading-fontWeight: normal;
+	--Heading-lineHeight--xl: 1.4em;
+	--Heading-fontSize--xl: 1.4rem;
+	@mixin xxs {
+		--Heading-marginTop: calc(var(--unit) / 4);
+	}
+	@mixin xs {
+		--Heading-marginTop: calc(var(--unit) / 3);
+	}
+	@mixin s {
+		--Heading-marginTop: calc(var(--unit) / 2);
+	}
+	@mixin m-plus {
+		--Heading-marginTop: var(--unit);
 	}
 
 	/* NotificationBadge. */
@@ -55,6 +94,13 @@
 		--List-borderColor--selected: var(--Boards-borderColor--selected);
 	}
 
+	/* SideNavMenuButton. */
+	--SideNavMenuButton-color: var(--Content-color-400);
+	--SideNavMenuButton-color--active: var(--SideNavMenuButton-color);
+	/*--SideNavMenuButton-color--active: var(--Content-color-500);*/
+	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
+	--SideNavMenuButtonIcon-borderColor: var(--Content-backgroundColor);
+
 	/* Boards. */
 	/* These styles aren't just for `.Sidebar`,
 	   they're for the `/boards` page too,
@@ -73,36 +119,60 @@
 	--Boards-borderColor: transparent;
 	--Boards-borderColor--selected: transparent;
 
+	/* --Comment-marginTop--extra. */
+	--Comment-marginTop--extra: 0px;
+
 	/* Comment-marginTop. */
-	--Comment-marginTop: 2px;
+	--Comment-marginTop--base: 5px;
 	@mixin xs {
-		--Comment-marginTop: 6px;
+		--Comment-marginTop--base: 8px;
 	}
 	@mixin s {
-		--Comment-marginTop: 8px;
+		--Comment-marginTop--base: 10px;
 	}
 	@mixin m-plus {
-		--Comment-marginTop: 12px;
+		--Comment-marginTop--base: 12px;
 	}
+	--Comment-marginTop: calc(var(--Comment-marginTop--base) + var(--Comment-marginTop--extra));
 
 	/* Comment-marginTop--boardPage. */
-	--Comment-marginTop--boardPage: 10px;
-	@mixin xs-s {
-		--Comment-marginTop--boardPage: var(--unit);
+	--Comment-marginTop--boardPageBase: var(--unit);
+	@mixin xs {
+		--Comment-marginTop--boardPageBase: calc(var(--unit) * 1.25);
 	}
-	@mixin m-plus {
-		--Comment-marginTop--boardPage: calc(var(--unit) * 1.5);
+	@mixin s-plus {
+		--Comment-marginTop--boardPageBase: calc(var(--unit) * 1.5);
 	}
+	--Comment-marginTop--boardPage: calc(var(--Comment-marginTop--boardPageBase) + var(--Comment-marginTop--extra));
 
 	/* CommentSeparator. */
-	--CommentSeparator-width: 1px;
-	--CommentSeparator-width--outline: 0px;
-	--CommentSeparator-color: var(--Content-color-300);
+	--CommentSeparator-width: 0px;
+	--CommentSeparator-width--outline: 1px;
+	--CommentSeparator-color--board: var(--CommentSeparator-color);
 	@mixin m-plus {
+		--CommentSeparator-color: var(--Content-color-300);
+		/*--CommentSeparator-color--board: var(--Content-color-200);*/
 		/* `box-shadow` is used instead of `border-top`/`border-bottom`. */
-		--CommentSeparator-width: 0px;
-		--CommentSeparator-width--outline: 1px;
+		/*--CommentSeparator-width: 0px;*/
+		/*--CommentSeparator-width--outline: 1px;*/
 	}
+
+	/* CommentFooter. */
+	/* Comment footer top margin is adjusted in such a way that human eye
+	   could read the comment text and not proceed to reading comment date
+	   in the footer, so there's some extra spacing on top of comment footer
+	   compared to the spacing on the bottom of the footer: that's by design. */
+	--CommentFooter-marginTop: 1em;
+	--CommentFooter-marginBottom: -0.3em;
+	--CommentFooter-fontSize: 80%;
+	--CommentFooter-color: var(--Content-color-500);
+	--CommentFooter-color--previouslyRead: var(--Content-color-600);
+	/* The height of the footer should stay the same in all cases:
+	   * Less than 1 minute has passed — comment date not shown.
+	   * More than 1 minute has passed — comment date is shown.
+	   * Comment status changes — new badges get added (for example, banned).
+	*/
+	--CommentFooter-height: 1.2em; /* 19px */
 
 	/* CommentTree. */
 	--CommentTree-color: var(--Content-color-400);
@@ -111,14 +181,39 @@
 		--CommentTree-borderWidth: 2px;
 	}
 
+	/* CommentAuthor. */
+	--CommentAuthor-marginTop: 0px;
+	--CommentAuthor-marginBottom: var(--PostContent-marginTop);
+	--CommentAuthor-fontSize: 85%;
+	--CommentAuthor-color: var(--Content-color-800);
+	--CommentAuthor-color--colored: initial;
+
 	/* Post. */
-	--Post-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft--thumbnail));
+	--Post-paddingTop: calc(var(--unit) * 0.75);
+	--Post-paddingTop--compact: var(--Post-paddingTop);
+	--Post-paddingLeft: var(--unit);
+	@mixin m-plus {
+		--Post-paddingTop: calc(var(--unit) * 1.25);
+		--Post-paddingLeft: calc(var(--unit) * 1.5);
+		--Post-paddingLeft--has-thumbnail: var(--Post-paddingLeft);
+		--Post-minWidth: calc(var(--Text-maxWidth) / 2);
+	}
+
+	/* PostTitle. */
+	--PostTitle-marginTop: var(--Post-paddingTop);
 
 	/* PostThumbnail. */
 	/* Default thumnail size. Will be overridden on `<body/>` after parsing chan response. */
 	--PostThumbnail-maxWidth: 220px;
-	--PostQuoteBlock-paddingLeft--thumbnail: calc(var(--Post-padding--horizontal) / 2);
-	--PostThumbnail-marginRight: calc(var(--Post-padding--horizontal) + var(--PostQuoteBlock-paddingLeft--thumbnail));
+	--PostThumbnail-marginRight: var(--Post-paddingLeft);
+	/* Post thumbnail has some top spacing in order for
+	   its top edge to be at a similar height
+	   with the first line of text's top edge (non-capital letters). */
+	--PostThumbnail-marginTop--base: 0.1em;
+	--PostThumbnail-marginTop--extra: 0em;
+
+	/* PostQuoteBlock. */
+	--PostQuoteBlock-paddingLeft--adjustment: 0px;
 
 	/* PostQuoteBlock (inverse). */
 	--PostQuoteBlock-color--inverse: var(--PostQuoteBlock-color);
@@ -126,29 +221,47 @@
 	--PostQuoteBlock-backgroundColor--inverse--hover: var(--PostQuoteBlock-backgroundColor--inverse);
 	--PostQuoteBlock-borderWidth--inverse: var(--PostQuoteBlock-borderWidth);
 	--PostQuoteBlock-marginTop--inverse: var(--PostQuoteBlock-marginTop);
+	--PostQuoteBlock-marginBottom--inverse: var(--PostQuoteBlock-marginBottom);
 
-	@mixin upto-xs {
-		/* Thinner PostQuoteBlockMarker on mobile devices. */
-		--PostQuoteBlockMarker-width: 1px;
-	}
+	/*@mixin upto-xs {*/
+		/* Thinner PostQuoteBlockBorderLeft on mobile devices. */
+		/*--PostQuoteBlockBorderLeft-width: 1px;*/
+	/*}*/
 
-	/* PostQuoteBlockMarker (inverse). */
-	--PostQuoteBlockMarker-color--inverse: var(--PostQuoteBlockMarker-color);
-	--PostQuoteBlockMarker-opacity--inverse: var(--PostQuoteBlockMarker-opacity);
-	--PostQuoteBlockMarker-width--inverse: var(--PostQuoteBlockMarker-width);
-	--PostQuoteBlockMarker-padding--inverse: var(--PostQuoteMarker-padding--standalone);
-	--PostQuoteBlockMarker-color--inverse: currentColor;
+	/* PostQuoteBlockBorderLeft (inverse). */
+	--PostQuoteBlockBorderLeft-color--inverse: var(--PostQuoteBlockBorderLeft-color);
+	--PostQuoteBlockBorderLeft-opacity--inverse: var(--PostQuoteBlockBorderLeft-opacity);
+	--PostQuoteBlockBorderLeft-width--inverse: var(--PostQuoteBlockBorderLeft-width);
+	--PostQuoteBlockBorderLeft-marginTop--inverse: var(--PostQuoteBorderLeft-marginTop--standalone);
+	--PostQuoteBlockBorderLeft-color--inverse: currentColor;
 
-	/* PostAuthor. */
-	--PostAuthor-color: var(--Content-color-600);
-	--PostAuthor-color--dark: var(--Content-color-800);
+	/* PostCode. */
+	--PostCode-borderLeftWidth: 0px;
+	--PostCode-borderRightWidth: 0px;
 
-	/* PostBannedIcon. */
-	--PostBannedIcon-color: var(--Critical-color);
+	/* CommentAuthorBannedIcon. */
+	--CommentAuthorBannedIcon-color: var(--Critical-color);
+
+	/* CommentMoreActions. */
+	--CommentMoreActions-paddingLeft: 0.5em;
+	--CommentMoreActions-paddingTop: 0.6em;
+
+	/* BoardOrThreadMenu. */
+	--BoardThreadMenu-marginTop: 0px;
+	--BoardThreadMenu-marginBottom: 0px;
+	--BoardOrThreadMenuIcon-width: calc(var(--unit) * 1.25);
+
+	/* Tooltip. */
+	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
+	--Tooltip-boxShadow: 0 0 0.2em var(--Tooltip-boxShadowColor);
+	--Tooltip-boxShadow--large: 0 0.04em 0.3em var(--Tooltip-boxShadowColor);
 }
 
 /* Light mode. */
 .light {
+	/* LinearProgress. */
+	--LinearProgress-color: var(--base-color-300);
+
 	/* BackButton. */
 	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
 	--BackButton-backgroundColor--hover: rgba(255, 148, 0, 0.04); /* #fffcf5; */
@@ -196,10 +309,10 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-400);
 
-	/* PostAuthor. */
-	--PostAuthor-color--accent: var(--base-color-700);
-	--PostAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
-	--PostAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
+	/* CommentAuthor. */
+	/*--CommentAuthor-color--accent: var(--base-color-700);*/
+	--CommentAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
+	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
 
 	/* PostInlineSpoiler. */
 	/* Adds a warmer color to it. */
@@ -217,15 +330,29 @@
 	--PostQuoteBlock-borderWidth--inverse: 1px;
 	--PostQuoteBlock-borderColor--inverse: #ffd2d2;
 
-	/* PostQuoteBlockMarker (inverse). */
-	--PostQuoteBlockMarker-padding--inverse: 0px;
+	/* PostQuoteBlockBorderLeft (inverse). */
+	--PostQuoteBlockBorderLeft-width: 0px;
+	--PostQuoteBlockBorderLeft-marginTop--inverse: 0px;
 
 	/* CommentSeparator. */
-	/*--CommentSeparator-color: rgba(0,0,0,0.1);*/
+	--CommentSeparator-color: rgba(0,0,0,0.1);
+	--CommentSeparator-color--previouslyRead: rgba(0,0,0,0.12);
+	@mixin m-plus {
+		--CommentSeparator-color--board: var(--Content-color-200);
+	}
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Content-color-900);
 	--StarIcon-backgroundColor: var(--Clickable-color--active);
+
+	/* ThreadActivityIndicator. */
+	--ThreadActivityIndicator-color--active: #a0ec3c;
+	--ThreadActivityIndicator-borderColor--active: #9dce34;
+	--ThreadActivityIndicator-color--idle: #fdef51;
+	--ThreadActivityIndicator-borderColor--idle: #dad146;
+	--ThreadActivityIndicator-color--off: #c9c9c9;
+	--ThreadActivityIndicator-borderColor--off: #a9a9a9;
+	--ThreadActivityIndicator-hot-color: #ec7800;
 
 	/* BoardThreadMenu. */
 	/* A slightly darker color of Board/Thread menu icons,
@@ -233,19 +360,32 @@
 	--BoardThreadMenu-color: var(--Content-color-700);
 	--BoardThreadMenu-color--active: var(--gray-color-650);
 	--BoardThreadMenu-color--selected: var(--Content-color-700);
+
+	/* Tooltip. */
+	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
 }
 
 /* Dark Mode. */
 .dark {
-	/* Slightly muted link/button colors in "Dark Mode". */
-	--base-color-300: #dc9363;
-	--base-color-400: #d96d1f;
-	--base-color-500: #e75f00;
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/* "Base" color (orange). */
+	--base-color-100: #dccdba;
+	--base-color-200: #daac72;
+	--base-color-300: #d68e60;
+	--base-color-400: #d47d3e;
+	--base-color-500: #de7100;
+	--base-color-600: #c55d00;
+	--base-color-700: #b55100;
+	--base-color-800: #823b01;
+	--base-color-900: #613000;
+
+	/* LinearProgress. */
+	--LinearProgress-color: var(--base-color-600);
 
 	/* BackButton. */
 	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
-	--BackButton-backgroundColor--hover: rgba(103, 93, 62, 0.16); /* #403e38; */
-	--BackButton-borderColor--hover: rgba(103, 87, 34, 0.1); /* #444032; */
+	--BackButton-backgroundColor--hover: rgba(255, 255, 255, 0.03);
+	--BackButton-borderColor--hover: rgba(255, 255, 255, 0.015);
 
 	/* Sidebar. */
 	--Sidebar-color-200: var(--Content-color-300);
@@ -275,10 +415,10 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-500);
 
-	/* PostAuthor. */
-	--PostAuthor-color--accent: var(--base-color-300);
-	--PostAuthor-color--administrator: #c44876;
-	--PostAuthor-color--moderator: #57add1;
+	/* CommentAuthor. */
+	/*--CommentAuthor-color--accent: var(--base-color-300);*/
+	--CommentAuthor-color--administrator: #c44876;
+	--CommentAuthor-color--moderator: #57add1;
 
 	/* PostQuoteBlock (inverse). */
 	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
@@ -288,15 +428,31 @@
 	/* PostSubheading. */
 	--PostSubheading-color: #cf5858;
 
+	/* Comment-marginTop--extra. */
+	--Comment-marginTop--extra: 3px;
+
 	/* CommentSeparator. */
-	/*--CommentSeparator-color: rgba(255,255,255,0.1);*/
+	--CommentSeparator-color: rgba(255,255,255,0.15);
+	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Clickable-color--textActive);
 	--StarIcon-backgroundColor: var(--Clickable-color--text);
 
+	/* ThreadActivityIndicator. */
+	--ThreadActivityIndicator-color--active: #91c74b;
+	--ThreadActivityIndicator-borderColor--active: #8db33b;
+	--ThreadActivityIndicator-color--idle: #cdc460;
+	--ThreadActivityIndicator-borderColor--idle: #c9c252;
+	--ThreadActivityIndicator-color--off: #878787;
+	--ThreadActivityIndicator-borderColor--off: #797979;
+	--ThreadActivityIndicator-hot-color: #d66d00;
+
 	/* BoardThreadMenu. */
 	--BoardThreadMenu-color: var(--Content-color-600);
 	--BoardThreadMenu-color--active: var(--Content-color-900);
 	--BoardThreadMenu-color--selected: var(--Content-color-800);
+
+	/* Tooltip. */
+	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.5);
 }

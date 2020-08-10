@@ -1,27 +1,27 @@
-.error-page {
+.ErrorPage {
 	text-align: center;
 }
 
-.error-page__title {
+.ErrorPage-title {
 	margin-top: calc(var(--unit) * 8);
 	margin-bottom: calc(var(--unit) * 4);
 	font-weight: 300;
 	font-size: 1.8rem;
 }
 
-.error-page__description {
+.ErrorPage-description {
 	margin: 0;
 }
 
-.error-page--image .error-page__title {
+.ErrorPage--showImage .ErrorPage-title {
 	margin-top: calc(var(--unit) * 4);
 }
 
-.error-page__description + .error-page__image {
+.ErrorPage-description + .ErrorPage-image {
 	margin-top: calc(var(--unit) * 4);
 }
 
-.error-page__image {
+.ErrorPage-image {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -30,7 +30,7 @@
 	max-width: 100%;
 }
 
-.error-page__requested-url {
+.ErrorPage-requestedUrl {
 	display: inline-block;
 	margin-top: calc(var(--unit) * 2);
 }

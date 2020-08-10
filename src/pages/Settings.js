@@ -7,15 +7,20 @@ import FontSizeSettings from 'webapp-frontend/src/components/settings/FontSizeSe
 import DarkModeSettings from 'webapp-frontend/src/components/settings/DarkModeSettings'
 import LeftHandedSettings from 'webapp-frontend/src/components/settings/LeftHandedSettings'
 
+import Heading from '../components/Heading'
 import ThemeSettings from '../components/settings/ThemeSettings'
+import ProxySettings from '../components/settings/ProxySettings'
 import DataSettings from '../components/settings/DataSettings'
 import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
+
 import {
 	saveFontSize,
 	saveLocale,
 	saveAutoDarkMode,
-	saveLeftHanded
+	saveLeftHanded,
+	saveProxyUrl
 } from '../redux/settings'
+
 import { setDarkMode } from '../redux/app'
 
 import getMessages, {
@@ -26,7 +31,7 @@ import UserSettings, {
 	getCensoredWordsByLanguage
 } from '../utility/settings'
 
-// import { getProxyUrl } from '../chan'
+import { shouldUseProxy, getProxyUrl } from '../utility/proxy'
 
 import {
 	ContentSections,
@@ -45,16 +50,16 @@ export default function SettingsPage() {
 	const settings = useSelector(({ settings }) => settings.settings)
 	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
 	return (
-		<section className="settings-page content text-content">
+		<section className="SettingsPage Content Content--text">
 			{/* Settings */}
-			<h1 className="page__heading">
+			<Heading>
 				{getMessages(locale).settings.title}
-			</h1>
+			</Heading>
 			{cookiesAccepted &&
 				<Settings locale={locale} settings={settings}/>
 			}
 			{!cookiesAccepted &&
-				<p className="settings-page__cookies-required">
+				<p className="SettingsPage-cookiesRequired">
 					{getMessages(locale).cookies.required}
 				</p>
 			}
@@ -77,6 +82,7 @@ function Settings({
 	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
 	const onAutoDarkModeChange = useCallback(darkMode => dispatch(saveAutoDarkMode(darkMode)), [dispatch])
 	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded(leftHanded)), [dispatch])
+	const onProxyUrlChange = useCallback(value => dispatch(saveProxyUrl(value)), [dispatch])
 	return (
 		<ContentSections>
 			{/* Language */}
@@ -88,7 +94,7 @@ function Settings({
 				{/* "Adding a new language" guide. */}
 				<div className="form__component form__component--button">
 					<a
-						href="https://github.com/catamphetamine/captchan/blob/master/docs/translation/guide.md"
+						href="https://gitlab.com/catamphetamine/captchan/blob/master/docs/translation/guide.md"
 						target="_blank">
 						{messages.settings.language.translationGuide}
 					</a>
@@ -100,7 +106,7 @@ function Settings({
 				messages={messages}
 				settings={settings}
 				dispatch={dispatch}
-				guideUrl="https://github.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"/>
+				guideUrl="https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"/>
 
 			{/* Font Size */}
 			<FontSizeSettings
@@ -121,22 +127,6 @@ function Settings({
 				value={settings.leftHanded}
 				onChange={onLeftHandedChange}/>
 
-			{/* CORS Proxy URL */}
-			{/*
-			<ContentSection>
-				<ContentSectionHeader lite>
-					CORS Proxy URL
-				</ContentSectionHeader>
-				<Form onSubmit={saveCorsProxyUrl}>
-					<Field
-						readOnly
-						name="corsProxyUrl"
-						component={TextInput}
-						value={getProxyUrl()}/>
-				</Form>
-			</ContentSection>
-			*/}
-
 			{/* Censored Words */}
 			<CensoredWordsSettings
 				messages={messages}
@@ -147,6 +137,15 @@ function Settings({
 			<DataSettings
 				messages={messages}
 				dispatch={dispatch}/>
+
+			{/* CORS Proxy */}
+			{shouldUseProxy() &&
+				<ProxySettings
+					messages={messages}
+					value={settings.proxyUrl}
+					defaultValue={getProxyUrl()}
+					onChange={onProxyUrlChange}/>
+			}
 		</ContentSections>
 	)
 }

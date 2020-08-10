@@ -1,0 +1,562 @@
+@import "../../styles/common";
+
+/* Removing `PostQuoteBlockBorderLeft` turned out to reduce the overall readability of page content. */
+/*
+:root {
+	--PostQuoteBlockBorderLeft-width: 1px;
+	--PostQuoteBlockBorderLeft-opacity: 1;
+	--PostQuoteBlockBorderLeft-opacity--generated: 1;
+	--PostQuoteBlockBorderLeft-color: var(--PostQuoteBlock-borderColor);
+	--PostQuoteBlockBorderLeft-color--generated: var(--PostQuoteBlock-borderColor--generated);
+}
+*/
+
+/* This CSS rule duplicates `.post--compact` rule,
+	 so that post thumbnails also had the relevant
+	 `--Post-paddingTop` and `--Post-paddingBottom`. */
+.Comment--compact {
+	--Post-paddingTop: var(--Post-paddingTop--compact);
+	--Post-paddingBottom: var(--Post-paddingBottom--compact);
+}
+
+.Comment {
+	/*
+	.Post {
+		background-color: transparent;
+	}
+	*/
+	/* This `.Post` selector is required here
+	   because of the `.Post--compact` selector style
+	   in `webapp-frontend`. */
+	/*.Post {*/
+		/*--Post-paddingTop: calc(var(--unit) * 0.5);*/
+		/*--Post-paddingBottom: calc(var(--unit) * 0.5);*/
+		/*--Post-paddingTop: var(--Comment-paddingTop);*/
+		/*--Post-paddingBottom: var(--Comment-paddingBottom);*/
+		/* Redefining these `--compact` variables is required
+		   because of the `.Post--compact` selector style
+		   in `webapp-frontend`. */
+		/*--Post-paddingTop--compact: var(--Post-paddingTop);*/
+		/*--Post-paddingBottom--compact: var(--Post-paddingBottom);*/
+	/*}*/
+	/*
+	.Post--starts-with-quote {
+		--Post-paddingTop: 0px;
+		--PostQuoteLink-marginTop--minimizedFirst: var(--PostQuoteBlock-marginTop);
+		margin-top: calc(-1 * (var(--PostQuoteBlock-marginTop)));
+	}
+	*/
+	.PostQuoteBlock--first {
+		margin-top: calc(-1 * var(--PostQuoteBlock-borderWidth));
+	}
+	/*
+	.PostQuoteBlock--first {
+		border-top: 0px;
+		margin-bottom: calc(var(--Post-paddingBottom) - var(--PostQuoteBlock-marginBottom));
+	}
+	*/
+}
+
+/* Thread comment styles begin. */
+
+.Comment-thumbnail {
+	display: none;
+}
+
+.CommentTree-comment--nested {
+	border-left: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+}
+
+/*
+.Comment {
+	padding-top: 0;
+	padding-bottom: 0;
+	.Comment-thumbnail,
+	.Comment-comment {
+		padding-top: var(--Post-paddingTop);
+		padding-bottom: var(--Post-paddingBottom);
+	}
+}
+*/
+
+.Comment--showThumbnail {
+	padding-top: var(--Post-paddingTop);
+	padding-bottom: var(--Post-paddingBottom);
+	/*padding-top: calc(var(--Post-paddingTop) - var(--PostContent-marginTop));*/
+	/*padding-bottom: calc(var(--Post-paddingBottom) - var(--PostContent-marginTop));*/
+	padding-left: var(--Post-paddingLeft);
+	padding-right: var(--Post-paddingRight);
+	.Comment-comment {
+		padding: 0;
+	}
+}
+
+.Comment--showThumbnail {
+	background-color: var(--Post-backgroundColor);
+	transition: var(--Post-transition);
+}
+
+/*.Comment--thread {*/
+	/* Reset `box-shadow` set by `.content-section`. */
+	/*box-shadow: none;*/
+	/*@mixin upto-s {*/
+	/*&.Comment--opening {*/
+		/* Thread cards on board page have top/bottom borders
+			 with color `var(--Content-color-200)` on small screens.
+			 Having the same top border color on thread page
+			 helps the transition from board to thread to be
+			 visually a bit more seamless. */
+		/*border-top-color: var(--Content-color-200);*/
+	/*}*/
+	/*}*/
+	/*@mixin m-plus {*/
+		/* Adding a transparent border to post thumbnail so that
+			 the comment's height doesn't change when its replies are shown
+			 resulting in borders on `__thumbnail` and `__comment` being replaced
+			 with a border on `.Comment` itself.
+			 When using `virtual-scroller` it's better to not change
+			 item height, if not required. */
+		/*
+		.Comment-thumbnail {
+			border-bottom: var(--CommentSeparator-width) solid transparent;
+		}
+		.Comment-comment {
+			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		}
+		*/
+	/*}*/
+/*}*/
+
+.Comment {
+	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	/*@mixin m-plus {*/
+		/*&.Comment--showThumbnail {*/
+			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+		/*}*/
+		/*
+		&:not(.Comment--showThumbnail) {
+			> .Post {
+				box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+			}
+		}
+		*/
+	/*}*/
+}
+
+.Comment--board {
+	--CommentSeparator-color: var(--CommentSeparator-color--board);
+	/*@mixin m-plus {*/
+		/*&.Comment--showThumbnail {*/
+			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color), var(--ContentSection-shadow);
+		/*}*/
+	/*}*/
+}
+
+/*
+@mixin m-plus {
+	:root {
+		--PostQuoteBlock-borderWidth--right: 1px;
+	}
+}
+*/
+
+/* Using a dedicated element instead of `margin-top`
+	 because `VirtualScroller` requires not having gaps between list items. */
+.Comments {
+	margin-top: calc(-1 * var(--Comment-marginTop));
+	.Comment-spacer {
+		height: var(--Comment-marginTop);
+	}
+}
+
+/* Add some left padding to first-level comment tree branch.
+	If comments don't have any side padding
+	then the root replies branch line would be ineligible
+	because it would be drawn at the very screen edge (mobile devices).
+	This CSS variable can be used for styling such special case. */
+@mixin upto-s {
+	:root {
+		--CommentTreeBranch-paddingLeft--firstLevel: 0.25;
+	}
+	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
+		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
+		 because it's default value is defined on `:root`. */
+	body {
+		--PostThumbnailContainer-width: 0px;
+	}
+}
+
+/* Move the first attachment to the left side of the comment on large screens. */
+/* (classic imageboard message style) */
+@mixin m-plus {
+	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
+		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
+		 because it's default value is defined on `:root`. */
+	body {
+		--PostThumbnailContainer-maxWidth: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		--PostThumbnailContainer-width: calc(var(--PostThumbnail-width) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+	}
+
+	/*.Comment--thread {*/
+		/* Using `margin-right` instead of `padding-right` here
+			 so that the expanded replies don't have their bottom border
+			 extending further to the right than the "..." (more actions)
+			 button of a post. */
+		/*margin-right: var(--Post-paddingLeft);*/
+		/*padding-right: 0px;*/
+	/*}*/
+
+	.Comment-thumbnail {
+		margin-top: var(--PostThumbnail-marginTop);
+	}
+
+	.Comment {
+		/* PostQuoteBlock. */
+		--PostQuoteBlock-paddingLeft: var(--Post-paddingLeft);
+		--PostQuoteBlock-paddingLeft--adjusted: calc(var(--Post-paddingLeft) + var(--PostQuoteBlock-paddingLeft--adjustment));
+		--PostQuoteBlock-paddingRight: var(--Post-paddingRight);
+		/* PostSocial. */
+		--PostSocial-paddingLeft: calc(var(--Post-paddingLeft) + var(--PostSocial-paddingLeft--adjustment));
+		/* This one didn't work because `--PostQuoteBlock-paddingLeft` itself was already reduced by `--PostSocial-paddingLeft--adjustment` here. */
+		/*--PostSocial-paddingLeft: calc(var(--PostQuoteBlock-paddingLeft) + var(--PostSocial-paddingLeft--adjustment));*/
+		/* PostCode. */
+		--PostCode-paddingLeft: var(--PostQuoteBlock-paddingLeft);
+		--PostCode-paddingRight: var(--PostQuoteBlock-paddingRight);
+		--PostCode-marginRight: var(--PostQuoteBlock-marginRight);
+		display: flex;
+	}
+
+	.light {
+		.Comment {
+			/* PostQuoteBlock. */
+			/* Reduce `<PostQuoteBlock/>`'s `padding-left` so that it
+			   doesn't intersect with PostThumbnail. */
+			--PostQuoteBlock-paddingLeft: var(--PostQuoteBlock-paddingLeft--adjusted);
+		}
+	}
+
+	.Comment--hasThumbnail,
+	.CommentTree-comment--expanded:not(.CommentTree-comment--nested) {
+		--PostQuoteBlock-borderWidth--left: var(--PostQuoteBlock-borderWidth);
+		/* Reduce `<PostQuoteBlock/>`'s `padding-left` so that it
+		   doesn't intersect with PostThumbnail.
+		   Also do the same reduction of `padding-left`
+		   when replies are expanded for a comment without a thumbnail.
+		   This all is currently only done in "light" theme
+		   because it shows background on `<PostQuoteBlock/>`s
+		   while "dark" theme doesn't.
+		   At the same time, "dark" theme does show a background
+		   on `<PostSocial/>` elements (embedded tweets, etc). */
+		--PostQuoteBlock-paddingLeft--adjustment: calc(-1 * var(--PostQuoteBlock-paddingRight) / 2);
+		--PostSocial-paddingLeft--adjustment: var(--PostQuoteBlock-paddingLeft--adjustment);
+		--PostCode-borderLeftWidth: var(--PostQuoteBlock-borderWidth--left);
+		--PostCode-paddingLeft: var(--PostQuoteBlock-paddingLeft);
+		--PostSocial-borderLeftWidth: 1px;
+		/*--PostSocial-borderLeftWidth: var(--PostQuoteBlock-borderWidth--left);*/
+		/*--PostSocial-paddingLeft: var(--PostQuoteBlock-paddingLeft);*/
+	}
+
+	/* Both on board page and thread page. */
+	.Comment {
+		padding-left: var(--Post-paddingLeft--has-thumbnail);
+		/* Post thumbnail has some top spacing
+		   in order for its top border to be at similar height
+		   with the actual first line of text's top edge. */
+		--PostThumbnail-marginTop: calc(var(--PostThumbnail-marginTop--base) + var(--PostThumbnail-marginTop--extra));
+	}
+
+	/* Hide the first post attachment if it's already
+		 being shown as the comment thumbnail. */
+	.Comment--hasThumbnail {
+		.PostAttachments--onlyPostThumbnail {
+			display: none;
+		}
+		.PostAttachments {
+			/* `.PostAttachments-pictureStack--postThumbnail` is for
+				 `<PictureStack/>` wrapping `.PostAttachmentThumbnail--postThumbnail`.
+				 `.PostAttachmentThumbnail--postThumbnail` is for cases
+				 when `<PictureStack/>` is not used as a wrapper around it.
+				 So the two CSS selectors are for different cases:
+				 the first one is for `<PictureStack/>` case,
+				 the second one is for non-`<PictureStack/>` case. */
+			.PostAttachments-pictureStack--postThumbnail,
+			.PostAttachmentThumbnail--postThumbnail {
+				display: none;
+			}
+		}
+	}
+
+	.Comment-thumbnail {
+		display: flex;
+		/* Without `align-items`, an attachment of zero width and height
+		   would still be displayed as having some height. */
+    align-items: flex-start;
+		justify-content: flex-end;
+		/* In case of changing these also change `.Sidebar`'s
+			 `flex-basis` accordingly in `Application.css`. */
+		width: var(--PostThumbnailContainer-width);
+		min-width: var(--PostThumbnailContainer-width);
+		/* Using `margin-right` instead of `padding-right`
+			 so that it's not included in `width`. */
+		/*margin-right: var(--PostThumbnail-marginRight);*/
+		/* Using `padding-right` instead of `margin-right` here
+			 so that `border-bottom` is continuous. */
+		/* Using specifically `padding-right` instead of `margin-right`
+		   was relevant for the old design, not anymore though. */
+		padding-right: var(--PostThumbnail-marginRight);
+	}
+
+	.Comment-thumbnailPlaceholder {
+		display: none;
+	}
+
+	/* On thread page:
+		 1. If a comment has no attachments, then don't show the blank left part of it.
+		 2. If a comment is short, then don't expand it to full page width.
+		 That's only for comments that aren't part of an "expanded replies tree",
+		 because otherwise such tree wouldn't render correctly.
+	*/
+	/*.ThreadPage-comments,*/
+	/*.InReplyToModal {*/
+		.Comment--thread.Comment--hasNoThumbnail:not(.CommentTree-comment--nested) {
+			margin-left: calc(var(--PostThumbnailContainer-maxWidth));
+			/* Without `max-width` a comment could become overflown
+				 by a `<pre/>` code block. */
+			max-width: calc(100% - var(--PostThumbnailContainer-maxWidth));
+		}
+
+		.Comment--thread.Comment--hasThumbnail:not(.CommentTree-comment--nested) {
+			margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+			.Comment-thumbnail {
+				/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
+				width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+				min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+			}
+		}
+
+		.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested),
+		.Comment--board {
+			margin-left: 0;
+			width: 100%;
+			max-width: none;
+			.Comment-thumbnail {
+				padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+			}
+			.Comment-thumbnailPlaceholder {
+				display: block;
+				width: var(--PostThumbnailContainer-maxWidth);
+				min-width: var(--PostThumbnailContainer-maxWidth);
+			}
+		}
+
+		.Comment--fullWidth {
+			width: 100%;
+			max-width: none;
+			margin-left: 0;
+		}
+
+		/* ` !important` is just for "specificity".
+		   Otherwise, `:not()` selectors above would be more "specific". */
+		.Comment-thumbnail {
+			width: var(--PostThumbnailContainer-width);
+			min-width: var(--PostThumbnailContainer-width);
+		}
+
+		.Comment--thread {
+			/* Don't stretch short comments to full width. */
+			display: inline-flex;
+			&.CommentTree-comment--nested,
+			&.CommentTree-comment--expanded {
+				display: flex;
+				width: 100%;
+			}
+		}
+
+		.Comment-container {
+			/* `display: flex` is required to prevent `.Comment-container`
+				 from stretching to `100%` of page width. */
+			/* Also `display: flex` fixes weird extra vertical space at the bottom
+				 when `.Comment`'s `display` is set to `inline-flex`. */
+			display: flex;
+			/* `flex-direction: column` is because there's `.Comment-spacer`. */
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	/*}*/
+
+	/*.ThreadPage-comments {*/
+		/*
+		.Comment {
+			--PostThumbnail-marginTop--extra: 1.9em;
+		}
+		.Comment--compact {
+			--PostThumbnail-marginTop--extra: 1.35em;
+		}
+		*/
+		/*
+		.Comment--titled {
+			--PostThumbnail-marginTop--extra: calc(var(--Post-paddingTop) + var(--PostTitle-fontSize));
+		}
+		*/
+		/*.Comment--titled {
+			&.Comment--compact {
+				--PostThumbnail-marginTop--extra: 1.7em;
+			}
+		}*/
+		/*.Comment--authored {*/
+			/*--PostThumbnail-marginTop--extra: 3.6em;*/
+			/*--PostThumbnail-marginTop--extra: calc(var(--CommentAuthor-marginTop) + 1.15em);*/
+		/*}*/
+		/*
+		.Comment--authored {
+			&.Comment--compact {
+				--PostThumbnail-marginTop--extra: 3.0em;
+			}
+		}
+		*/
+	/*}*/
+
+	/* Vertical spacing is added to post thumbnail in "In Reply To" modal
+	   so that the "Close" button's position doesn't conflict with post thumbnail. */
+	/*.InReplyToModal .Comment {*/
+		/*--PostThumbnail-marginTop: 2.2em;*/
+	/*}*/
+
+	/*.Comment--hasNoThumbnail {*/
+		/*.Comment-thumbnail {*/
+			/* `!important` overrides `.Comment--titled .Comment-thumbnail`
+				 and  `.Comment--thread .Comment-thumbnail` selectors specificity. */
+			/*margin-top: 0 !important;*/
+		/*}*/
+	/*}*/
+
+	.Comment-comment {
+		flex: auto;
+	}
+
+	.CommentTree-comment--nested {
+		.PostQuoteBlock {
+			--PostQuoteBlock-marginLeft: 0px;
+		}
+	}
+}
+
+.Comment-exceptThumbnail {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	@mixin m-plus {
+		min-width: calc(var(--Post-minWidth) - var(--Post-paddingLeft) - var(--Post-paddingRight));
+	}
+}
+
+/* Comment tree comment borders. */
+.Comments {
+	/* The individual borders on `__thumbnail` and `__content`
+		 will be replaced with the border on `.Comment` itself. */
+	.CommentTree-comment--nested,
+	.CommentTree-comment--expanded {
+		> .Comment-thumbnail,
+		> .Comment-comment {
+			border-bottom: 0;
+		}
+	}
+
+	.CommentTree-comment--nested,
+	.CommentTree-comment--expanded {
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+
+	/*
+	.CommentTree-comment--nested {
+		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
+	}
+	*/
+}
+
+/* Thread comment styles end. */
+
+/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+		have regular quotes and "inverse" quotes. */
+/* `8ch.net` "inverse" quotes are red. */
+.PostQuoteBlock--inverse {
+	--PostQuoteBlock-marginTop: var(--PostQuoteBlock-marginTop--inverse);
+	--PostQuoteBlock-marginBottom: var(--PostQuoteBlock-marginBottom--inverse);
+	--PostQuoteBlock-color: var(--PostQuoteBlock-color--inverse);
+	--PostQuoteBlock-backgroundColor: var(--PostQuoteBlock-backgroundColor--inverse);
+	--PostQuoteBlock-borderWidth: var(--PostQuoteBlock-borderWidth--inverse);
+	--PostQuoteBlock-borderColor: var(--PostQuoteBlock-borderColor--inverse);
+	.PostQuoteBorderLeft {
+		--PostQuoteBlockBorderLeft-color: var(--PostQuoteBlockBorderLeft-color--inverse);
+		--PostQuoteBlockBorderLeft-width: var(--PostQuoteBlockBorderLeft-width--inverse);
+		--PostQuoteBlockBorderLeft-marginTop: var(--PostQuoteBlockBorderLeft-marginTop--inverse);
+		--PostQuoteBlockBorderLeft-opacity: var(--PostQuoteBlockBorderLeft-opacity--inverse);
+	}
+}
+
+/* `8ch.net` red heading. */
+.PostText--heading {
+	color: var(--PostSubheading-color);
+	font-weight: bolder;
+}
+
+.PostText--ascii-shift-jis-art {
+	display: block;
+	line-height: 1.1;
+	font-family: Mona, "MS PGothic", "ＭＳ Ｐゴシック", sans-serif;
+	white-space: pre-wrap;
+}
+
+.Comment--previouslyRead {
+	--Post-backgroundColor: transparent;
+	--PostLinkIcon-backgroundColor: var(--Document-backgroundColor);
+	/*--CommentSeparator-color: transparent;*/
+	--CommentSeparator-color: var(--CommentSeparator-color--previouslyRead);
+	--CommentFooter-color: var(--CommentFooter-color--previouslyRead);
+	--HoverButton-borderColor: var(--Content-color-200);
+	--PostQuoteBlock-backgroundColor: transparent;
+	--PostQuoteBlock-backgroundColor--generated: transparent;
+	--PostQuoteBlock-backgroundColor--inverse: transparent;
+	--PostQuoteBlock-borderColor: transparent;
+	--PostQuoteBlock-borderColor--generated: transparent;
+	--PostQuoteBlock-borderColor--inverse: transparent;
+	--PostQuoteBlock-backgroundColor--hover: transparent;
+	--PostQuoteBlock-backgroundColor--generated--hover: transparent;
+	--PostQuoteBlock-backgroundColor--inverse--hover: transparent;
+	--PostQuoteBlockBorderLeft-color: currentColor;
+	--PostQuoteBlockBorderLeft-color--generated: var(--PostQuoteBlockBorderLeft-color);
+	--PostQuoteBlockBorderLeft-color--inverse: var(--PostQuoteBlockBorderLeft-color);
+	--PostQuoteBlockBorderLeft-opacity: 0.5;
+	--PostQuoteBlockBorderLeft-opacity--generated: var(--PostQuoteBlockBorderLeft-opacity);
+	--PostQuoteBlockBorderLeft-opacity--inverse: var(--PostQuoteBlockBorderLeft-opacity);
+	/*--PostQuoteBlock-color: var(--Content-color-700);*/
+	/*--PostQuoteBlock-color--generated: var(--PostQuoteBlock-color);*/
+	/*--PostQuoteBlock-color--inverse: var(--PostQuoteBlock-color);*/
+	--PostQuoteLink-color--hidden: var(--Content-color-400);
+	--PostQuoteLink-backgroundColor--minimizedHover: transparent;
+	--PostQuoteLink-borderColor--minimizedHover: transparent;
+	--PostQuoteLink-color--minimizedHover: var(--PostQuoteBlock-color--generated);
+	--PostInlineSpoiler-color: currentColor;
+	--PostInlineSpoiler-color--censored: var(--PostInlineSpoiler-color);
+	--PostInlineSpoiler-opacity: 0.1;
+	--PostInlineSpoiler-opacity--censored: var(--PostInlineSpoiler-opacity);
+	/*--CommentAuthor-color--accent: var(--CommentAuthor-color);*/
+	--CommentAuthor-color--administrator: var(--CommentAuthor-color);
+	--CommentAuthor-color--moderator: var(--CommentAuthor-color);
+	--CommentAuthorBannedIcon-color: currentColor;
+	a {
+		color: inherit;
+	}
+	/*
+	.PostAttachments,
+	.PostVideo .rrui__video,
+	.PostPicture .rrui__picture {
+		opacity: 0.85;
+	}
+	*/
+	.ServiceIcon {
+		filter: grayscale(100%);
+		opacity: 0.8;
+	}
+}

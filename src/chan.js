@@ -3,46 +3,42 @@ import CHANS from './chans'
 import { getConfig } from 'imageboard'
 
 export function getChan(id = getChanId()) {
-	if (id) {
-		const chan = CHANS.find(_ => _.id === id)
-		if (!chan) {
-			throw new Error(`Unknown chan: ${id}`)
-		}
+	const chan = CHANS.find(_ => _.id === id)
+	if (chan) {
 		return chan
 	}
 	if (typeof configuration.chan === 'object') {
-		return configuration.chan
+		if (configuration.chan.id === id) {
+			return configuration.chan
+		}
 	}
-	throw new Error('No chan configured')
+	throw new Error(`Unknown imageboard: ${id}`)
 }
 
 export function getChanId() {
-	return getNonDefaultChanId() ||
-		(typeof configuration.chan === 'string' && configuration.chan)
-}
-
-export function getNonDefaultChanId() {
-	if (typeof window !== 'undefined') {
-		return window._chan
+	if (typeof window === 'undefined') {
+		throw new Error('Server-side code not written')
 	}
+	return window._chan
 }
 
 export function setChanId(chanId) {
-	if (typeof window !== 'undefined') {
-		window._chan = chanId
+	if (typeof window === 'undefined') {
+		throw new Error('Server-side code not written')
+	}
+	window._chan = chanId
+}
+
+export function getDefaultChanId() {
+	if (typeof configuration.chan === 'string') {
+		return configuration.chan
+	} else if (typeof configuration.chan === 'object') {
+		return configuration.chan.id
 	}
 }
 
 export function shouldIncludeChanInPath() {
-	if (configuration.includeChanInPath) {
-		return true
-	}
-	if (typeof window !== 'undefined') {
-		if (window.location.hostname === 'catamphetamine.github.io' ||
-				window.location.hostname === 'localhost') {
-			return true
-		}
-	}
+	return getDefaultChanId() ? false : true
 }
 
 export function getChanFromPath(path) {
@@ -58,38 +54,6 @@ export function getChanFromPath(path) {
 
 export function addChanToPath(path, chanId) {
 	return `/${chanId}${path}`
-}
-
-// Adds `chan` URL parameter for multi-chan `gh-pages` demo.
-export function addChanParameter(url) {
-	// Chan id can be a path part rather than a URL parameter.
-	if (shouldIncludeChanInPath()) {
-		return url
-	}
-	// Custom configured chans don't have a "built-in chan id".
-	if (!getChanId()) {
-		return url
-	}
-	// "Default chan" id doesn't need to be explicitly passed around.
-	if (getChanId() === configuration.chan) {
-		return url
-	}
-	const isAbsoluteUrl = /^[a-z]+:\/\//.test(url)
-	if (!isAbsoluteUrl) {
-		// Otherwise `new URL(url)` will throw "Invalid URL".
-		url = 'http://example.com' + url
-	}
-	// `URL` is not available in IE11.
-	if (typeof URL === 'undefined' || typeof URLSearchParams === 'undefined') {
-		return url
-	}
-	url = new URL(url)
-	url.searchParams.set('chan', getChanId())
-	url = decodeURI(url.href)
-	if (!isAbsoluteUrl) {
-		url = url.slice('http://example.com'.length)
-	}
-	return url
 }
 
 // Some chans may be deployed on regular HTTP for simplicity.
@@ -120,17 +84,6 @@ export function getChanIdByDomain() {
 	}
 }
 
-export function getProxyUrl() {
-	if (getChan().proxy.aws) {
-		if (configuration.corsProxyUrlAws) {
-			return configuration.corsProxyUrlAws
-		}
-	}
-	if (configuration.corsProxyUrl) {
-		return configuration.corsProxyUrl
-	}
-}
-
 /**
  * Adds HTTP origin to a possibly relative URL.
  * For example, if this application is deployed on 2ch.hk domain
@@ -148,19 +101,16 @@ export function getAbsoluteUrl(url) {
 	return url
 }
 
-export function getChanDomain(chanId = getChanId()) {
-	return getChanConfig(chanId).domain
+export function getImageboardConfig(chanId = getChanId()) {
+	return getConfig(chanId) || getChan(chanId)
 }
 
-export function getChanConfig(chanId = getChanId()) {
-	return getConfig(chanId) || {
-		id: chanId,
-		...getChan(chanId).engine
-	}
+export function getChanDomain(chanId = getChanId()) {
+	return getImageboardConfig(chanId).domain
 }
 
 export function getCommentUrl(board, thread, comment) {
-	const config = getChanConfig()
+	const config = getImageboardConfig()
 	return `https://${getDomainByBoard(board, config)}${config.commentUrl
 		.replace('{boardId}', board.id)
 		.replace('{threadId}', thread.id)

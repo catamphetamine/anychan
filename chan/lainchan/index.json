@@ -59,8 +59,5 @@
 		"type": "github",
 		"text": "GitHub",
 		"url": "https://twitter.com/_lainchan"
-	}],
-	"proxy": {
-		"aws": true
-	}
+	}]
 }

@@ -12,7 +12,7 @@
 .Sidebar {
 	--Sidebar-fontSize: initial;
 	font-size: var(--Sidebar-fontSize);
-	.boards {
+	.Boards {
 		overflow-x: hidden;
 	}
 }
@@ -70,7 +70,7 @@
 	}
 }
 
-.sidebar__scrollable-list {
+.Sidebar-scrollableList {
 	height: 100%;
 }
 
@@ -79,3 +79,58 @@
 		display: none;
 	}
 }
+
+.Sidebar {
+	.ListButton {
+		color: var(--Sidebar-color-600);
+		&:focus {
+			color: var(--Sidebar-color-600);
+		}
+		&:hover {
+			color: var(--Sidebar-color-600);
+			.ListButton-background {
+				background-color: var(--Sidebar-highlightColor-100);
+			}
+		}
+		&:active {
+			color: var(--Sidebar-baseColor-700);
+			.ListButton-background {
+				background-color: var(--Sidebar-highlightColor-200);
+			}
+		}
+	}
+	.ListButton--muted {
+		color: var(--Sidebar-color-200);
+	}
+}
+
+.Sidebar-topBar {
+	display: flex;
+	/*justify-content: space-between;*/
+	justify-content: flex-end;
+	/*margin-top: var(--unit);*/
+	margin-top: calc(var(--unit) * 1);
+	margin-bottom: calc(-2 * var(--unit));
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	padding-bottom: calc(var(--unit) * 0.5);
+	/*border-bottom: 1px solid var(--Boards-color--slash);*/
+	/*.SidebarMenuItem--logo {*/
+		/*[data-fill="true"] {*/
+			/*fill: transparent;*/
+			/*stroke: currentColor;*/
+			/* `vector-effect` fixes `stroke-width` to be in screen pixels. */
+			/* (instead of <svg/> `viewBox` units) */
+			/* `vector-effect` is not supported in Edge and IE but */
+			/* it's purely a presentational tweak and doesn't affect operation. */
+			/*vector-effect: non-scaling-stroke;*/
+		/*}*/
+	/*}*/
+	@mixin upto-s {
+		display: none;
+	}
+}
+
+/*.Sidebar-topBarRight {
+	display: flex;
+}*/

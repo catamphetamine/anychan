@@ -1,12 +1,12 @@
 @import "../styles/common";
 
-.tracked-threads {
+.TrackedThreads {
 	/*padding-top: calc(var(--unit) * 1);*/
 	/*padding-bottom: calc(var(--unit) * 1);*/
 	--Picture-borderColor: var(--Sidebar-color-600);
 }
 
-.tracked-threads--empty {
+.TrackedThreads--empty {
 	/*
 	display: flex;
 	align-items: center;
@@ -15,25 +15,25 @@
 	color: var(--Sidebar-color-600);
 }
 
-.tracked-threads__empty {
+.TrackedThreads-empty {
 	margin-top: calc(var(--unit) * 5);
 	text-align: center;
 }
 
-.tracked-threads__thread {
+.TrackedThread {
 	position: relative;
 	height: var(--List-lineHeight);
 	border-top: 1px solid var(--List-borderColor);
 	border-bottom: 1px solid var(--List-borderColor);
 }
 
-.tracked-threads__thread,
-.tracked-threads__thread-inner {
+.TrackedThread,
+.TrackedThread-inner {
 	display: flex;
 	align-items: center;
 }
 
-.tracked-threads__thread-inner {
+.TrackedThread-inner {
 	height: 100%;
 	/* `min-width: 0` fixes overflow. */
 	min-width: 0;
@@ -46,22 +46,22 @@
 	z-index: 1;
 }
 
-.tracked-threads__thread--expired,
-.tracked-threads__thread--edit {
-	.tracked-threads__thread-inner {
+.TrackedThread--expired,
+.TrackedThread--edit {
+	.TrackedThread-inner {
 		padding-right: 0.2em;
 		margin-right: -0.2em;
 	}
 }
 
 /*
-.tracked-threads__thread--untracked {
-	.tracked-threads__thread-inner {
+.TrackedThread--untracked {
+	.TrackedThread-inner {
 		position: relative;
 		padding-right: 0.4em;
 		margin-right: 0;
 	}
-	.tracked-threads__thread-inner:before {
+	.TrackedThread-inner:before {
 		display: block;
 		content: '';
 		position: absolute;
@@ -75,21 +75,22 @@
 }
 */
 
-.tracked-threads__thread--expired {
-	color: var(--Sidebar-color-600);
-	.tracked-threads__thread__board,
-	.tracked-threads__thread__title {
+.TrackedThread--expired {
+	--TrackedThread-color: var(--Sidebar-color-600);
+	color: var(--TrackedThread-color);
+	.TrackedThread-board,
+	.TrackedThread-title {
 		opacity: 0.75;
-		cursor: default;
-		color: inherit;
+		/*cursor: default;*/
+		color: var(--TrackedThread-color);
 	}
-	.tracked-threads__thread__board {
+	.TrackedThread-board {
 		&:before,
 		&:after {
 			opacity: 0.4;
 		}
 	}
-	.tracked-threads__thread__thumbnail {
+	.TrackedThread-thumbnail {
 		--Picture-borderColor: var(--Sidebar-color-200);
 		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
 		.rrui__picture__loading-error {
@@ -98,14 +99,14 @@
 	}
 }
 
-.tracked-threads__thread--untracked {
-	.tracked-threads__thread__board,
-	.tracked-threads__thread__title {
+.TrackedThread--untracked {
+	.TrackedThread-board,
+	.TrackedThread-title {
 		text-decoration: line-through;
 	}
 }
 
-.tracked-threads__thread__thumbnail {
+.TrackedThread-thumbnail {
 	margin-right: 0.5em;
 	/* Prevents the `<Picture/>` from being clickable.
 	   (for example, when the image wasn't found). */
@@ -116,8 +117,8 @@
 	}
 }
 
-.tracked-threads__thread:not(.tracked-threads__thread--expired) {
-	.tracked-threads__thread__board {
+.TrackedThread:not(.TrackedThread--expired) {
+	.TrackedThread-board {
 		color: var(--Boards-color--active);
 		&:before,
 		&:after {
@@ -127,11 +128,11 @@
 
 	/* Using this level of specificity because otherwise
 	   `:not()` would have higher priority. */
-	&.tracked-threads__thread--selected {
+	&.TrackedThread--selected {
 		background-color: var(--Boards-backgroundColor--selected);
 		border-top: 1px solid var(--List-borderColor--selected);
 		border-bottom: 1px solid var(--List-borderColor--selected);
-		.board-url {
+		.BoardUrl {
 			&:before,
 			&:after {
 				color: var(--Boards-color--slashSelected);
@@ -139,10 +140,10 @@
 		}
 	}
 
-	.tracked-threads__thread__link {
+	.TrackedThread-inner--link {
 		&:hover {
 			background-color: var(--Boards-backgroundColor--hover);
-			.tracked-threads__thread__board {
+			.TrackedThread-board {
 				&:before, &:after {
 					color: var(--Boards-color--slashHover);
 				}
@@ -150,19 +151,19 @@
 		}
 		&:active {
 			background-color: var(--Boards-backgroundColor--active);
-			.tracked-threads__thread__board {
+			.TrackedThread-board {
 				&:before, &:after {
 					color: var(--Boards-color--slashActive);
 				}
 			}
-			.tracked-threads__thread__title {
+			.TrackedThread-title {
 				color: var(--Boards-color--active);
 			}
 		}
 	}
 }
 
-.tracked-threads__thread__title {
+.TrackedThread-title {
 	/* `min-width: 0` fixes overflow. */
 	min-width: 0;
 	margin-left: 0.3em;
@@ -173,46 +174,43 @@
 	text-overflow: ellipsis;
 }
 
-.tracked-threads__thread__new-replies,
-.tracked-threads__thread__new-comments {
+.TrackedThread-newReplies,
+.TrackedThread-newComments {
 	margin-left: 0.4em;
 }
 
-.tracked-threads__thread__new-replies + .tracked-threads__thread__new-comments {
+.TrackedThread-newReplies + .TrackedThread-newComments {
 	margin-left: 0.25em;
 }
 
-.tracked-threads__thread__new-replies {
+.TrackedThread-newReplies {
 	padding-left: 0.15em;
 	padding-right: 0.15em;
 	border-radius: 0.2em;
 	/*color: var(--Sidebar-color--accent);*/
 	background-color: currentColor;
-}
-
-.tracked-threads__thread__new-replies-count {
 	color: var(--Sidebar-backgroundColor);
 }
 
-.tracked-threads__undo-untrack {
+.TrackedThreads-undo-untrack {
 	margin-right: calc((var(--List-lineHeight) - var(--ListButtonIcon-width)) / 2);
 }
 
-.tracked-threads__show-more-less,
-.tracked-threads__show-expired {
+.TrackedThreads-showMoreLess,
+.TrackedThreads-showExpired {
 	margin-left: var(--unit);
 	margin-right: var(--unit);
 	text-transform: lowercase;
 	line-height: var(--List-lineHeight);
 }
 
-.tracked-threads__show-more-less-container {
+.TrackedThreads-showMoreLessContainer {
 	text-align: right;
 }
 
 @mixin upto-m {
-	.left-handed {
-		.tracked-threads__show-more-less-container {
+	.Document--leftHanded {
+		.TrackedThreads-showMoreLessContainer {
 			text-align: left;
 		}
 	}

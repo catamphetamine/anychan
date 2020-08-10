@@ -41,6 +41,12 @@
 				"neon-genesis-evangelion": "Neon Genesis Evangelion"
 			}
 		},
+		"proxy": {
+			"title": "Proxy",
+			"description": "Webbrowser verhindern, dass Websites die Daten anderer Websites lesen. Um dies zu umgehen, wird ein spezieller \"Proxyserver\" verwendet, um auf Imageboard-Daten zuzugreifen.",
+			"url": "URL",
+			"invalidUrl": "ungültige URL"
+		},
 		"darkMode": {
 			"auto": "Verwenden Sie die Systemeinstellung"
 		},
@@ -84,8 +90,11 @@
 				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, bevorzugte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
 				"done": "Die Benutzerdaten wurden gelöscht"
 			},
+			"clearBoardsCache": {
+				"title": "Boards-Cache löschen"
+			},
 			"clearYouTubeCache": {
-				"title": "YouTube-Cache leeren"
+				"title": "YouTube-Cache löschen"
 			},
 			"export": {
 				"title": "Sichern Sie Einstellungen und Benutzerdaten"
@@ -121,6 +130,7 @@
 		"uniquePostersCount": "Eindeutige Poster-IP-Adressen",
 		"moreActions": {
 			"copyUrl": "Link kopieren",
+			"copyId": "Nummer kopieren",
 			"report": "Bericht",
 			"hide": "Ausblenden",
 			"ignoreAuthor": "Autor ignorieren"
@@ -147,5 +157,8 @@
 	"noNewComments": "Keine neuen Kommentare",
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
-	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen."
+	"goToComment": "Zum Kommentar gehen",
+	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
+	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in den letzten <time>15 Minuten</time>",
+	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in der letzten <time>Stunde</time>"
 }

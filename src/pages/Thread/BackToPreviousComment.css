@@ -1,0 +1,75 @@
+/* "Back to previous comment" button is no longer used. */
+
+@import "../styles/common";
+
+:root {
+	--BackToPreviousComment-height: calc(var(--unit) * 2);
+	@mixin s-plus {
+		--BackToPreviousComment-height: calc(var(--unit) * 2.5);
+	}
+}
+
+.BackToPreviousComment-mobile {
+	position: fixed;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	/*top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) + (var(--SideNavMenuButton-width) - var(--BackToPreviousComment-height)) / 2);*/
+	top: calc(var(--SideNavMenuButton-top--px) + var(--SideNavMenuButton-padding) * 2 + var(--SideNavMenuButton-width));
+	right: calc(var(--Post-paddingLeft) - var(--SideNavMenuButton-padding));
+	/* Don't interfere with the floating menu button. */
+	/*right: calc(var(--Post-paddingLeft) + var(--SideNavMenuButton-padding) + var(--SideNavMenuButton-width) + var(--SideNavMenuButton-right));*/
+	&:focus {
+		/*color: var(--Clickable-color--text);*/
+	}
+	&:active {
+		/*color: var(--Clickable-color--textActive);*/
+		color: var(--Clickable-color--text);
+	}
+}
+
+.BackToPreviousComment-desktop {
+	position: sticky;
+	/* Without `z-index: 1` the button would be under `post-link` quotes. */
+	z-index: 1;
+	top: calc(var(--Header-height) + (var(--Thread-comments-marginTop) - 1px) - 1px);
+	display: flex;
+	justify-content: flex-end;
+	height: 0;
+	margin-right: calc(var(--PostMoreActionsButton-paddingLeft) * 2 + var(--PostMoreActionsButton-width) + var(--Post-paddingLeft));
+}
+
+.BackToPreviousComment-desktop-button {
+	background-color: var(--Content-backgroundColor);
+	border-radius: 0;
+	border-color: var(--Header-borderColor);
+	height: var(--BackToPreviousComment-height);
+	/* Don't interfere with `.thread-page__menu--above-content`. */
+	margin-top: calc(-1 * (var(--Thread-comments-marginTop) - 1px));
+}
+
+.BackToPreviousComment-desktopArrow {
+	width: 0.8em;
+	height: 0.8em;
+	margin-right: 0.5em;
+	transform: rotate(-90deg);
+}
+
+.BackToPreviousComment-mobileArrow {
+	width: var(--SideNavMenuButton-width);
+	height: var(--SideNavMenuButton-width);
+	padding: var(--SideNavMenuButton-padding);
+	transform: rotate(-90deg);
+  box-sizing: content-box;
+}
+
+@mixin upto-m {
+	.BackToPreviousComment-desktop {
+		display: none;
+	}
+}
+
+@mixin l-plus {
+	.BackToPreviousComment-mobile {
+		display: none;
+	}
+}

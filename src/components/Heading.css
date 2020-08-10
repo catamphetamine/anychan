@@ -1,0 +1,17 @@
+@import "../styles/common";
+
+.Heading {
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	margin-top: var(--Heading-marginTop);
+	margin-bottom: var(--Heading-marginTop);
+	/*min-height: calc(var(--unit) * 3);*/
+	text-align: center;
+	line-height: 1.35em;
+	font-size: 1.3rem;
+	font-weight: 400;
+	@mixin l-plus {
+		line-height: 1.4em;
+		font-size: 1.4rem;
+	}
+}

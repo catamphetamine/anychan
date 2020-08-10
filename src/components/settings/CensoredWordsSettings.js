@@ -12,6 +12,8 @@ import compileWordPatterns from 'social-components/commonjs/utility/post/compile
 
 import PostBlock from 'webapp-frontend/src/components/PostBlock'
 
+import './CensoredWordsSettings.css'
+
 export default function CensoredWordsSettings({
 	messages,
 	language,
@@ -25,16 +27,16 @@ export default function CensoredWordsSettings({
 				{messages.settings.censorship.title}
 			</ContentSectionHeader>
 			{/* Censored Words syntax summary. */}
-			<div className="settings-page__filters-docs">
+			<div className="CensoredWordsFilters-docs">
 				{messages.settings.censorship.docs.titleStart}
 				<a
 					target="_blank"
 					href="https://www.regexpal.com/"
-					className="settings-page__filters-practice-link">
+					className="CensoredWordsFilters-practiceLink">
 					{messages.settings.censorship.docs.titleRegExps}
 				</a>
 				{messages.settings.censorship.docs.titleEnd}:
-				<ul className="settings-page__filters-tips">
+				<ul className="CensoredWordsFilters-tips">
 					<li>
 						<code>^</code> — {messages.settings.censorship.docs.tips.start}.
 					</li>
@@ -73,7 +75,7 @@ export default function CensoredWordsSettings({
 			}
 			{/* Censored words list. */}
 			{showCensoredWords &&
-				<pre className="settings-page__filters">
+				<pre className="CensoredWordsFilters-list">
 					{getCensoredWordsByLanguage(language).join('\n')}
 				</pre>
 			}

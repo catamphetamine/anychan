@@ -108,11 +108,12 @@
 	--HoverButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
 
 	/* PostQuoteBlock. */
-	--PostQuoteBlock-color: #1f6900;
-	--PostQuoteBlock-backgroundColor: #dfffcb;
+	--PostQuoteBlock-color: #007703;
+	--PostQuoteBlock-backgroundColor: #e7ffd9;
 	--PostQuoteBlock-borderWidth: 1px;
-	--PostQuoteBlock-borderColor: #c6f9a6;
+	--PostQuoteBlock-borderColor: #cfecc2;
 	/*--PostQuoteBlock-marginTop: 4px;*/
+	/*--PostQuoteBlock-marginBottom: 4px;*/
 
 	/* PostQuoteBlock (generated). */
 	/*--PostQuoteBlock-color--generated: #900000;*/
@@ -120,17 +121,18 @@
 	--PostQuoteBlock-borderWidth--generated: 1px;
 	/*--PostQuoteBlock-borderColor--generated: #ffd9f1;*/
 	/*--PostQuoteBlock-marginTop--generated: 4px;*/
+	/*--PostQuoteBlock-marginBottom--generated: 4px;*/
 	--PostQuoteBlock-color--generated: #852e56;
 	--PostQuoteBlock-backgroundColor--generated: #f9f6f3;
 	--PostQuoteBlock-borderColor--generated: #f4dadd;
 
-	/* PostQuoteBlockMarker. */
-	/*--PostQuoteBlockMarker-color: currentColor;*/
-	/*--PostQuoteBlockMarker-opacity: 0.25;*/
+	/* PostQuoteBlockBorderLeft. */
+	/*--PostQuoteBlockBorderLeft-color: currentColor;*/
+	/*--PostQuoteBlockBorderLeft-opacity: 0.25;*/
 
-	/* PostQuoteBlockMarker (generated). */
-	--PostQuoteBlockMarker-color--generated: #dcb8b8;
-	/*--PostQuoteBlockMarker-opacity--generated: 1;*/
+	/* PostQuoteBlockBorderLeft (generated). */
+	--PostQuoteBlockBorderLeft-color--generated: #dcb8b8;
+	/*--PostQuoteBlockBorderLeft-opacity--generated: 1;*/
 
 	/* PostInlineSpoiler. */
 	--PostInlineSpoiler-color--contentActive: #f4e8e8;
@@ -139,30 +141,13 @@
 
 /* Dark Mode. */
 .dark {
-	/* https://refactoringui.com/previews/building-your-color-palette */
-	/* "Base" color (orange). */
-	--base-color-100: #fff2e0;
-	--base-color-200: #ffd195;
-	--base-color-300: #feb352;
-	--base-color-400: #ff981f;
-	--base-color-500: #ff8400;
-	--base-color-600: #e36b00;
-	--base-color-700: #b55100;
-	--base-color-800: #823b01;
-	--base-color-900: #613000;
-
-	/* Slightly muted link/button colors in "Dark Mode". */
-	--base-color-300: #dc9363;
-	--base-color-400: #d96d1f;
-	--base-color-500: #e75f00;
-
 	/* Document. */
-	--Document-backgroundColor: #0c0e34;
+	--Document-backgroundColor: #040627;
 
 	/* BackButton. */
 	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
-	--BackButton-backgroundColor--hover: rgba(186, 28, 77, 0.076); /* #33284e; */
-	--BackButton-borderColor--hover: rgba(177, 23, 25, 0.024); /* #362748; */
+	--BackButton-backgroundColor--hover: rgba(186, 28, 77, 0.076);
+	--BackButton-borderColor--hover: rgba(177, 23, 25, 0.024);
 
 	/* Content. */
 	--Content-backgroundColor: #28294d;
@@ -175,7 +160,7 @@
 	--Content-color-600: #8687b0;
 	--Content-color-700: #9798bd;
 	--Content-color-800: #a9aacb;
-	--Content-color-900: #b9b9d4;
+	--Content-color-900: #b7b7d4;
 
 	/* Header. */
 	--Header-color: var(--gray-color-300);
@@ -225,5 +210,9 @@
 	/*--PostAttachment-shadowColor--hover: rgba(70,70,100,0.22);*/
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: #454273;
+	--CommentSeparator-color: rgba(200,200,255,0.225);
+	--CommentSeparator-color--previouslyRead: rgba(200,200,255,0.25);
+	@mixin m-plus {
+		--CommentSeparator-color--board: rgba(200,200,255,0.17);
+	}
 }

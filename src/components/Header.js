@@ -5,9 +5,9 @@ import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import ApplicationMenu from './ApplicationMenu'
 import ChanIcon from './ChanIcon'
 import ChanLogo from './ChanLogo'
+import MainMenu from './MainMenu'
 
 import getMessages from '../messages'
 import {
@@ -15,7 +15,7 @@ import {
 	isThreadLocation
 } from '../utility/routes'
 import getUrl from '../utility/getUrl'
-import { getChan, addChanParameter } from '../chan'
+import { getChan, getChanId } from '../chan'
 
 import './Header.css'
 
@@ -28,48 +28,50 @@ function Header({}, ref) {
 	const isBoardPage = (isBoardLocation(route) || isThreadLocation(route)) && board
 	const isThreadPage = isThreadLocation(route) && thread
 
+	const title = getChan().title
+
 	return (
-		<nav ref={ref} className="webpage__header rrui__fixed-full-width">
+		<nav ref={ref} className="Header rrui__fixed-full-width">
 			<Link
-				to={addChanParameter('/')}
+				to="/"
 				title={getChan().title}
-				className="header__logo-link">
-				{['lainchan', 'arisuchan'].includes(getChan().id) &&
-					<ChanLogo className="header__logo"/>
+				className="Header-logoLink">
+				{['lainchan', 'arisuchan'].includes(getChanId()) &&
+					<ChanLogo className="Header-logo"/>
 				}
-				{!['lainchan', 'arisuchan'].includes(getChan().id) &&
-					<ChanIcon className="header__logo"/>
+				{!['lainchan', 'arisuchan'].includes(getChanId()) &&
+					<ChanIcon className="Header-logo"/>
 				}
 			</Link>
 
 			{!isBoardPage && !isThreadPage &&
 				<Link
-					to={addChanParameter('/')}
-					className="webpage__header-title webpage__header-title--primary header__uncolored-link">
-					{getChan().title}
+					to="/"
+					className="Header-title Header-title--primary Header-link--nonColored">
+					{title}
 				</Link>
 			}
 			{isBoardPage && isThreadLocation(route) &&
 				<Link
 					instantBack
 					to={getUrl(board)}
-					className="webpage__header-title webpage__header-title--primary header__uncolored-link">
+					className="Header-title Header-title--primary Header-link--nonColored">
 					{board.title}
 				</Link>
 			}
 			{isBoardPage && !isThreadLocation(route) &&
-				<div className="webpage__header-title webpage__header-title--primary">
+				<div className="Header-title Header-title--primary">
 					{board.title}
 				</div>
 			}
 
 			<HeaderSeparator
 				line
-				className={classNames('header__separator', 'header__separator--left', {
-					'header__separator--thread': isThreadPage
+				className={classNames('Header-separator', 'Header-separator--left', {
+					'Header-separator--thread': isThreadPage
 				})}/>
 
-			<div className="webpage__header-title webpage__header-title--secondary">
+			<div className="Header-title Header-title--secondary">
 				{isThreadPage && (thread.titleCensored || thread.title)}
 			</div>
 
@@ -77,10 +79,10 @@ function Header({}, ref) {
 				inverse
 				line
 				className={classNames(
-					'header__separator',
-					'header__separator--right'
+					'Header-separator',
+					'Header-separator--right'
 				)}/>
-			<ApplicationMenu/>
+			<MainMenu/>
 		</nav>
 	)
 }
@@ -109,7 +111,7 @@ function HeaderSeparator({ inverse, line, ...rest }) {
 					y2="0"
 					stroke="currentColor"
 					strokeWidth="1"
-					className="header__separator-line" />
+					className="Header-separatorLine" />
 			}
 		</svg>
 	)

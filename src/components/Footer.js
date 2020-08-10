@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import ApplicationMenu from './ApplicationMenu'
+import MainMenu from './MainMenu'
 
 import getMessages from '../messages'
 import { getChan } from '../chan'
@@ -21,26 +21,13 @@ export default function Footer({ className }) {
 	const route = useSelector(({ found }) => found.resolvedMatch)
 	return (
 		<footer className={classNames(className, 'Footer', {
-			'background-content': isContentSectionsContent(route) || isBoardsLocation(route)
+			'BackgroundContent': isContentSectionsContent(route) || isBoardsLocation(route)
 		})}>
-			<div className="content">
+			<div className="Content">
 				{getChan().links &&
-					<nav>
-						<ul className="footer__chan-links">
-							{getChan().links.map((link, i) => (
-								<li key={i} className="footer__chan-link-item">
-									<a
-										target="_blank"
-										href={link.url}
-										className="footer__chan-link">
-										{link.text}
-									</a>
-								</li>
-							))}
-						</ul>
-					</nav>
+					<FooterChanLinks links={getChan().links}/>
 				}
-				<div className="footer__copyright">
+				<div className="Footer-copyright">
 					{typeof getChan().copyright === 'string' &&
 						<p>
 							{getChan().copyright}
@@ -51,25 +38,27 @@ export default function Footer({ className }) {
 							{getChan().copyright}
 						</PostBlock>
 					}
-					<p className="footer__copyright-captchan">
+					<p>
 						{getMessages(locale).copyright.preCaptchan}
 						<a
 							target="_blank"
-							href="https://github.com/catamphetamine/captchan">
-							<CaptchanLogo className="footer__copyright-captchan-logo"/>
+							href="https://gitlab.com/catamphetamine/captchan">
+							<CaptchanLogo className="Footer-captchanLogo"/>
 							captchan
 						</a>
 						{getMessages(locale).copyright.postCaptchan}
 						{getMessages(locale).copyright.preAuthor}
 						<a
 							target="_blank"
-							href="https://github.com/catamphetamine">
+							href="https://gitlab.com/catamphetamine">
 							@catamphetamine
 						</a>
 						.
 					</p>
 				</div>
-				{!offline && false && <ApplicationMenu footer/>}
+				{!offline && false &&
+					<MainMenu footer/>
+				}
 			</div>
 		</footer>
 	)
@@ -84,3 +73,28 @@ const COPYRIGHT_REPORT = {
 }
 
 // copyright.replace('{0}', (new Date()).getFullYear())
+
+function FooterChanLinks({ links }) {
+	return (
+		<nav>
+			<ul className="FooterChanLinks">
+				{links.map((link, i) => (
+					<li key={i} className="FooterChanLinks-listItem">
+						<a
+							target="_blank"
+							href={link.url}>
+							{link.text}
+						</a>
+					</li>
+				))}
+			</ul>
+		</nav>
+	)
+}
+
+FooterChanLinks.propTypes = {
+	links: PropTypes.shape({
+		url: PropTypes.string.isRequired,
+		text: PropTypes.string.isRequired
+	})
+}
