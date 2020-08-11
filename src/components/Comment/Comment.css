@@ -11,7 +11,7 @@
 }
 */
 
-/* This CSS rule duplicates `.post--compact` rule,
+/* This CSS rule duplicates `.Post--compact` rule,
 	 so that post thumbnails also had the relevant
 	 `--Post-paddingTop` and `--Post-paddingBottom`. */
 .Comment--compact {

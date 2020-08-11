@@ -54,3 +54,7 @@
 	height: 0.9em;
 	margin-right: 0.35em;
 }
+
+.CommentFooter-timeTooltip {
+	font-size: 85%;
+}

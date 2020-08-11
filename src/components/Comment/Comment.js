@@ -2,8 +2,10 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import Post from 'webapp-frontend/src/components/Post'
 import PostTitle from 'webapp-frontend/src/components/PostTitle'
+import PostContent from 'webapp-frontend/src/components/PostContent'
+import PostAttachments from 'webapp-frontend/src/components/PostAttachments'
+import PostStretchVertically from 'webapp-frontend/src/components/PostStretchVertically'
 
 import CommentAuthor, { hasAuthor } from './CommentAuthor'
 import CommentStatusBadges from './CommentStatusBadges'
@@ -130,43 +132,28 @@ export default function Comment({
 			<CommentAuthor
 				post={comment}
 				locale={locale}/>
-			<PostTitle post={comment}/>
-			<Post
-				{...rest}
-				ref={postRef}
-				post={comment}
-				showHeader={false}
-				expandAttachments={expandAttachments}
-				onlyShowFirstAttachmentThumbnail={mode === 'board'}
-				compact={compact}
-				stretch
-				header={CommentAuthor}
-				locale={locale}
-				messages={getMessages(locale).post}
-				resourceMessages={getResourceMessages(getMessages(locale))}
-				moreActions={undefined ? moreActions : undefined}
-				showingReplies={showingReplies}
-				onShowReplies={onShowReplies}
-				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
-				headerBadges={CommentStatusBadges}
-				useSmallestThumbnailsForAttachments
-				serviceIcons={SERVICE_ICONS}
-				youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
-				expandFirstPictureOrVideo={false}
-				maxAttachmentThumbnails={false}
-				contentMaxLength={getCommentLengthLimit(mode)}
-				onAttachmentClick={onAttachmentClick}
-				onPostLinkClick={onPostLinkClick}
-				isPostLinkClickable={isPostLinkClickable}
-				onReply={onReply}
-				url={url}
-				urlBasePath={urlBasePath}
-				vote={vote}
-				onVote={onVote}
-				onPostUrlClick={_onPostUrlClick}
-				fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
-				showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
-				className={commentClassName}/>
+			<div className={commentClassName}>
+				<CommentTitleContentAndAttachments
+					{...rest}
+					comment={comment}
+					expandAttachments={expandAttachments}
+					onlyShowFirstAttachmentThumbnail={mode === 'board'}
+					locale={locale}
+					messages={getMessages(locale).post}
+					resourceMessages={getResourceMessages(getMessages(locale))}
+					useSmallestThumbnailsForAttachments
+					serviceIcons={SERVICE_ICONS}
+					youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
+					expandFirstPictureOrVideo={false}
+					maxAttachmentThumbnails={false}
+					contentMaxLength={getCommentLengthLimit(mode)}
+					onAttachmentClick={onAttachmentClick}
+					onPostLinkClick={onPostLinkClick}
+					isPostLinkClickable={isPostLinkClickable}
+					url={url}
+					fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
+					showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}/>
+			</div>
 			<CommentFooter
 				comment={comment}
 				thread={thread}
@@ -189,6 +176,7 @@ export default function Comment({
 	)
 	return (
 		<CommentWithThumbnail
+			ref={postRef}
 			mode={mode}
 			comment={comment}
 			thread={thread}
@@ -247,4 +235,79 @@ const SERVICE_ICONS = {
 
 function hasReplies(comment, parentComment) {
 	return comment.replies && !(parentComment && isMiddleDialogueChainLink(comment, parentComment))
+}
+
+function CommentTitleContentAndAttachments({
+	comment,
+	initialExpandContent,
+	onExpandContent,
+	initialExpandPostLinkQuotes,
+	onContentDidChange,
+	youTubeApiKey,
+	onPostContentChange,
+	contentMaxLength,
+	resourceMessages,
+	fixAttachmentPictureSizes,
+	expandFirstPictureOrVideo,
+	expandAttachments,
+	attachmentThumbnailSize,
+	useSmallestThumbnailsForAttachments,
+	serviceIcons,
+	onAttachmentClick,
+	onPostLinkClick,
+	isPostLinkClickable,
+	expandPostLinkBlockQuotes,
+	postLinkQuoteMinimizedComponent,
+	postLinkQuoteExpandTimeout,
+	onPostLinkQuoteExpand,
+	url,
+	locale,
+	messages,
+	showPostThumbnailWhenThereAreMultipleAttachments,
+	maxAttachmentThumbnails,
+	onlyShowFirstAttachmentThumbnail
+}) {
+	return (
+		<React.Fragment>
+			<PostTitle post={comment}/>
+			<PostContent
+				post={comment}
+				initialExpandContent={initialExpandContent}
+				onExpandContent={onExpandContent}
+				initialExpandPostLinkQuotes={initialExpandPostLinkQuotes}
+				onContentDidChange={onContentDidChange}
+				youTubeApiKey={youTubeApiKey}
+				onPostContentChange={onPostContentChange}
+				contentMaxLength={contentMaxLength}
+				resourceMessages={resourceMessages}
+				fixAttachmentPictureSizes={fixAttachmentPictureSizes}
+				expandFirstPictureOrVideo={expandFirstPictureOrVideo}
+				expandAttachments={expandAttachments}
+				attachmentThumbnailSize={attachmentThumbnailSize}
+				useSmallestThumbnailsForAttachments={useSmallestThumbnailsForAttachments}
+				serviceIcons={serviceIcons}
+				onAttachmentClick={onAttachmentClick}
+				onPostLinkClick={onPostLinkClick}
+				isPostLinkClickable={isPostLinkClickable}
+				expandPostLinkBlockQuotes={expandPostLinkBlockQuotes}
+				postLinkQuoteMinimizedComponent={postLinkQuoteMinimizedComponent}
+				postLinkQuoteExpandTimeout={postLinkQuoteExpandTimeout}
+				onPostLinkQuoteExpand={onPostLinkQuoteExpand}
+				url={url}
+				locale={locale}
+				messages={messages}/>
+			<PostAttachments
+				post={comment}
+				showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
+				expandFirstPictureOrVideo={expandFirstPictureOrVideo}
+				useSmallestThumbnails={useSmallestThumbnailsForAttachments}
+				maxAttachmentThumbnails={maxAttachmentThumbnails}
+				attachmentThumbnailSize={attachmentThumbnailSize}
+				expandAttachments={expandAttachments}
+				onlyShowFirstAttachmentThumbnail={onlyShowFirstAttachmentThumbnail}
+				spoilerLabel={messages.spoiler}
+				onAttachmentClick={onAttachmentClick}/>
+			<PostStretchVertically/>
+		</React.Fragment>
+	)
 }

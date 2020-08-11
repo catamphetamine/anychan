@@ -12,7 +12,6 @@ import {
 import CommentStatusBadges from './CommentStatusBadges'
 
 import PostBadge from 'webapp-frontend/src/components/PostBadge'
-import PostSelfLink from 'webapp-frontend/src/components/PostSelfLink'
 import PostVotes from 'webapp-frontend/src/components/PostVotes'
 import HoverButton from 'webapp-frontend/src/components/HoverButton'
 
@@ -22,10 +21,10 @@ import CommentIcon from 'webapp-frontend/assets/images/icons/message-rounded-rec
 import MessageIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square-thicker.svg'
 
 import { CommentsCountBadge } from 'webapp-frontend/src/components/Post.badges'
-// RepliesCountBadge
 
 import CommentMoreActions from './CommentMoreActions'
-import ReactTimeAgoWithTooltip from './ReactTimeAgoWithTooltip'
+import CommentFooterDate from './CommentFooterDate'
+import CommentFooterSeparator from './CommentFooterSeparator'
 
 import getMessages from '../../messages'
 
@@ -126,15 +125,11 @@ export default function CommentFooter({
 		})
 	}
 	const hasAnythingBeforeTime = rightSideStuff.length > 0
-	const timeWrapperProps = useMemo(() => ({
-		hasAnythingBeforeTime,
-		postLinkProps: {
-			url: url,
-			baseUrl: urlBasePath,
-			onClick: onPostUrlClick
-		}
+	const postLinkProps = useMemo(() => ({
+		url: url,
+		baseUrl: urlBasePath,
+		onClick: onPostUrlClick
 	}), [
-		hasAnythingBeforeTime,
 		url,
 		urlBasePath,
 		onPostUrlClick
@@ -143,9 +138,9 @@ export default function CommentFooter({
 		rightSideStuff.push({
 			key: 'time',
 			element: (
-				<ReactTimeAgoWithTooltip
-					wrapperComponent={TimeWrapper}
-					wrapperProps={timeWrapperProps}
+				<CommentFooterDate
+					postLinkProps={postLinkProps}
+					hasAnythingBeforeTime={hasAnythingBeforeTime}
 					locale={locale}
 					timeStyle="twitter"
 					date={comment.createdAt}/>
@@ -242,37 +237,6 @@ CommentFooter.propTypes = {
 	url: PropTypes.string.isRequired,
 	vote: PropTypes.bool,
 	onVote: PropTypes.func
-}
-
-function CommentFooterSeparator() {
-	return (
-		<div className="CommentFooter-separator">
-			·
-		</div>
-	)
-}
-
-function TimeWrapper({
-	postLinkProps,
-	hasAnythingBeforeTime,
-	children
-}) {
-	return (
-		<React.Fragment>
-			{hasAnythingBeforeTime &&
-				<CommentFooterSeparator/>
-			}
-			<PostSelfLink {...postLinkProps}>
-				{children}
-			</PostSelfLink>
-		</React.Fragment>
-	)
-}
-
-TimeWrapper.propTypes = {
-	postLinkProps: PropTypes.object.isRequired,
-	hasAnythingBeforeTime: PropTypes.bool.isRequired,
-	children: PropTypes.node.isRequired
 }
 
 // function getFooterBadges(comment, {

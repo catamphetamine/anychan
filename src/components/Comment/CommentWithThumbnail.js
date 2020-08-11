@@ -16,7 +16,7 @@ import getMessages from '../../messages'
 window.SHOW_POST_THUMBNAIL = true
 window.SHOW_POST_STATS_ON_THE_LEFT_SIDE = false
 
-export default function CommentWithThumbnail({
+function CommentWithThumbnail({
 	mode,
 	comment,
 	hidden,
@@ -28,7 +28,7 @@ export default function CommentWithThumbnail({
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	className,
 	children
-}) {
+}, ref) {
 	const [
 		postThumbnail,
 		postThumbnailMoreAttachmentsCount,
@@ -67,7 +67,8 @@ export default function CommentWithThumbnail({
 	}
 	const showThumbnail = window.SHOW_POST_THUMBNAIL;
 	return (
-		<div
+		<article
+			ref={ref}
 			style={postThumbnailSizeStyle}
 			className={classNames(className, {
 				'Comment--showThumbnail': showThumbnail,
@@ -83,11 +84,13 @@ export default function CommentWithThumbnail({
 				<div className="Comment-thumbnailPlaceholder"/>
 			}
 			{children}
-		</div>
+		</article>
 	)
 	// commentCreatedAt={comment.createdAt}
 	// commentUpdatedAt={comment.updatedAt}
 }
+
+CommentWithThumbnail = React.forwardRef(CommentWithThumbnail)
 
 CommentWithThumbnail.propTypes = {
 	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
@@ -102,3 +105,5 @@ CommentWithThumbnail.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired
 }
+
+export default CommentWithThumbnail

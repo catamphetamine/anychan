@@ -104,7 +104,7 @@ npm install
 npm run dev
 ```
 
-Go to [`http://localhost:1234`](http://localhost:1234)
+Go to [`http://localhost:1234/4chan`](http://localhost:1234/4chan)
 
 One may also want to create a [custom configuration file](#configuration). Also check if the [proxy](#proxy) server still works.
 
