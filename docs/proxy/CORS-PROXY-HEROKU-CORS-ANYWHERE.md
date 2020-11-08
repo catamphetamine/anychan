@@ -82,3 +82,77 @@ To work around that:
 * `git add .`.
 * `git commit -m "Fixed cookies"`.
 * `git push heroku master`.
+
+<!--
+## Analytics
+
+To show the list of the latest proxied URLs on `/log` path, modify `./lib/cors-anywhere.js`:
+
+```js
+...
+// Request handler factory
+function getHandler(options, proxy) {
+  var latestRequests = []
+  var MAX_LATEST_REQUESTS = 5000
+  ...
+  return function(req, res) {
+    if (req.url === '/log') {
+      res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'})
+      res.end(randomizeIps(latestRequests).map(({ time, ip, location }) => {
+        return `${formatDate(new Date(time))} · ${ip} · ${location.host}${location.path}`
+      }).join('\n'))
+      return
+    }
+    ...
+    if (latestRequests.length === MAX_LATEST_REQUESTS) {
+      latestRequests.shift()
+    }
+    latestRequests.push({
+      // IP addresses could be hashed, but that wouldn't actually hide them,
+      // because a potential attacker could hash all possible IPs
+      // with the same hashing algorithm and then simply compare to identify them.
+      // Therefore, IP addresses are simply randomized on each render.
+      ip: req.connection.remoteAddress,
+      time: Date.now(),
+      location
+    })
+    var isRequestedOverHttps = ...
+    ...
+ 	}
+}
+
+...
+
+// http://jsfiddle.net/a_incarnati/kqo10jLb/4/
+function formatDate(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  return getTwoCharacterNumber(date.getDate()) + '.' +
+    getTwoCharacterNumber(date.getMonth() + 1) + '.' +
+    date.getFullYear() + ' ' +
+    getTwoCharacterNumber(hours) + ':' +
+    getTwoCharacterNumber(minutes);
+}
+
+function getTwoCharacterNumber(number) {
+  if (number < 10) {
+    return '0' + number
+  }
+  return number
+}
+
+function randomizeIps(requests) {
+  var IPS = {}
+  return requests.map((request) => ({
+    ...request,
+    ip: IPS[request.ip] || (IPS[request.ip] = getNewCharacter(IPS))
+  }))
+}
+
+// https://www.w3schools.com/charsets/ref_html_utf8.asp
+var MIN_CHAR_CODE = 8352
+function getNewCharacter(characters) {
+  return String.fromCharCode(MIN_CHAR_CODE + Object.keys(characters).length)
+}
+```
+-->

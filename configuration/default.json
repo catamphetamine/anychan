@@ -1,11 +1,6 @@
 {
 	"proxyUrl": "https://chan-chan.herokuapp.com/{url}",
 	"proxyUrl2": "https://cors-anywhere.herokuapp.com/{url}",
-	"webpack": {
-		"devserver": {
-			"port": 1234
-		}
-	},
 	"announcementUrl": "/announcement.json",
 	"announcementPollInterval": 3600000,
 	"boardsCacheTimeout": 86400000

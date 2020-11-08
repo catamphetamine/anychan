@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import OnClick from 'webapp-frontend/src/components/OnClick'
+import Clickable from 'webapp-frontend/src/components/Clickable'
 
 import { post } from '../../PropTypes'
 import getMessages from '../../messages'
@@ -20,12 +20,12 @@ export default function CommentHidden({
 		content += ` (${comment.hiddenRule})`
 	}
 	return (
-		<OnClick
+		<Clickable
 			{...rest}
 			onClick={onShow}
 			onClickClassName={undefined}>
 			{content}
-		</OnClick>
+		</Clickable>
 	)
 }
 

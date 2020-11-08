@@ -4,12 +4,25 @@ import classNames from 'classnames'
 
 import './BoardUrl.css'
 
-export default function BoardUrl({ boardId, className, ...rest }) {
+export default function BoardUrl({
+	boardId,
+	selected,
+	hovered,
+	active,
+	className,
+	...rest
+}) {
 	// Using `<span/>` instead of `<div/>`
 	// because a `<button/>` can't contain a `<div/>`
 	// and `<BoardUrl/>` is used in `optionComponent` of `<Autocomplete/>`.
 	return (
-		<span className={classNames('BoardUrl', className)} {...rest}>
+		<span
+			{...rest}
+			className={classNames(className, 'BoardUrl', {
+				'BoardUrl--selected': selected,
+				'BoardUrl--hovered': hovered,
+				'BoardUrl--active': active
+			})}>
 			{boardId}
 		</span>
 	)
@@ -17,5 +30,8 @@ export default function BoardUrl({ boardId, className, ...rest }) {
 
 BoardUrl.propTypes = {
 	boardId: PropTypes.string.isRequired,
+	selected: PropTypes.bool,
+	hovered: PropTypes.bool,
+	active: PropTypes.bool,
 	className: PropTypes.string
 }

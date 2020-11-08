@@ -2,12 +2,12 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { FavoriteBoards } from './Boards'
+import { FavoriteBoards } from '../Boards'
 import SidebarSection from './SidebarSection'
-import EditFavoriteBoards from './EditFavoriteBoards'
+import EditFavoriteBoards from '../EditFavoriteBoards'
 
-import getMessages from '../messages'
-import { getBoards } from '../redux/chan'
+import getMessages from '../../messages'
+import { getBoards } from '../../redux/chan'
 
 export default function FavoriteBoardsSidebarSection() {
 	const favoriteBoards = useSelector(({ favoriteBoards }) => favoriteBoards.favoriteBoards)

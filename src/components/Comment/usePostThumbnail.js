@@ -8,17 +8,20 @@ export default function usePostThumbnail({
 	comment,
 	mode,
 	showPostThumbnailWhenThereAreMultipleAttachments,
+	showPostThumbnailWhenThereIsNoContent,
 	expandAttachments,
 	hidden,
 	onAttachmentClick
 }) {
 	let postThumbnail = useMemo(() => {
 		return getPostThumbnailAttachment(comment, {
-			showPostThumbnailWhenThereAreMultipleAttachments
+			showPostThumbnailWhenThereAreMultipleAttachments,
+			showPostThumbnailWhenThereIsNoContent
 		})
 	}, [
 		comment,
-		showPostThumbnailWhenThereAreMultipleAttachments
+		showPostThumbnailWhenThereAreMultipleAttachments,
+		showPostThumbnailWhenThereIsNoContent
 	])
 	// React hooks don't allow `if`/`else`,
 	// so this is a workaround.
@@ -32,7 +35,7 @@ export default function usePostThumbnail({
 		if (onAttachmentClick) {
 			onAttachmentClick(
 				postThumbnail,
-				{ thumbnailImage: event.target }
+				{ imageElement: event.target }
 			)
 		}
 	}, [

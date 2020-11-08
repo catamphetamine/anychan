@@ -64,28 +64,34 @@ export default function addCommentProps(thread, { mode, votes, messages }) {
 			if (mode === 'thread') {
 				enumeratePostLinks(comment)
 			}
-			// Remove leading `post-link` quotes if they're
+			// Remove leading `post-link` quote if it's
 			// quoting the "opening" post of the thread.
-			if (!comment.removedLeadingOriginalPostQuotes) {
-				if (comment.content &&
-					Array.isArray(comment.content) &&
-					Array.isArray(comment.content[0]) &&
-					comment.content[0][0].type === 'post-link' &&
-					comment.content[0][0].boardId === thread.boardId &&
-					comment.content[0][0].threadId === thread.id &&
-					comment.content[0][0].postId === thread.id) {
-					// Remove the `post-link` quote and `<br/>` after it.
-					if (comment.content[0].length === 1) {
-						if (comment.content.length === 1) {
-							comment.content = undefined
-						} else {
-							comment.content.splice(0, 1)
-						}
-					} else {
-						comment.content[0].splice(0, 2)
-					}
+			// Only removes the first such OP quote,
+			// because sometimes people intentionally
+			// quote OP post multiple times in a row
+			// in their comment (for whatever reasons).
+			//
+			// `comment.parseContent()` can be called multiple times:
+			// for example, if `options.exhaustive` is `false`,
+			// `content.parse` is not set to an empty function at the end
+			// because the comment will (probably) be parsed again
+			// (this time, normally) at some future.
+			// Therefore, a special flag is added so that it only
+			// removes the leading OP quote once: this way it doesn't
+			// remove an OP quote the second time if the quote is present
+			// at the start of a comment multiple times in a row.
+			//
+			if (!comment._removedLeadingOriginalPostQuote) {
+				comment._removedLeadingOriginalPostQuote = true
+				const result = removeLeadingOriginalPostQuote(comment.content, thread)
+				if (result) {
+					// Also remove the first OP quote from comment's "preview".
+					removeLeadingOriginalPostQuote(comment.contentPreview, thread)
+				} else if (result === null) {
+					// Clear comment's content (and its "preview" then).
+					comment.content = undefined
+					comment.contentPreview = undefined
 				}
-				comment.removedLeadingOriginalPostQuotes = true
 			}
 		}
 	}
@@ -102,4 +108,46 @@ function enumeratePostLinks(comment) {
 		postLink._id = i
 		i++
 	}, comment.content)
+}
+
+/**
+ * Removes leading `post-link` quote if it's quoting the "opening" post
+ * of the thread. Only removes the first such OP quote, because sometimes
+ * people intentionally quote OP post multiple times in a row in their
+ * comment (for whatever reasons).
+ * @param {(string|any[])} content — Comment content.
+ * @param {object} thread — Thread info (thread id and board id).
+ * @return {(boolean|null)} [removed] — Returns `true` if a leading OP quote has been removed. Returns `null` if comment's content should be cleared.
+ */
+function removeLeadingOriginalPostQuote(content, thread) {
+	if (content && Array.isArray(content)) {
+		const firstBlock = content[0]
+		if (Array.isArray(firstBlock)) {
+			const firstInlineElement = firstBlock[0]
+			if (firstInlineElement.type === 'post-link') {
+				const postLink = firstInlineElement
+				if (postLink.boardId === thread.boardId &&
+						postLink.threadId === thread.id &&
+						postLink.postId === thread.id) {
+					// If the first paragraph only consists of an OP quote.
+					if (firstBlock.length === 1) {
+						// If there're no more paragraphs in this comment,
+						// then remove the the entire comment's content.
+						if (content.length === 1) {
+							return null
+						} else {
+							// Else, just remove the first paragraph of the comment.
+							content.splice(0, 1)
+							return true
+						}
+					} else {
+						// Remove the OP quote and `<br/>` after it
+						// from the first paragraph of the comment.
+						firstBlock.splice(0, 2)
+						return true
+					}
+				}
+			}
+		}
+	}
 }

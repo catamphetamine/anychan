@@ -33,8 +33,8 @@ export function removeBasePath(path) {
 }
 
 function _getBasePath() {
-	if (configuration.basePath) {
-		return configuration.basePath
+	if (configuration.path) {
+		return configuration.path
 	}
 	// if (typeof window !== 'undefined') {
 	// 	if (window.location.hostname === 'catamphetamine.github.io') {

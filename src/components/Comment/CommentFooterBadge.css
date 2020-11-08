@@ -4,7 +4,11 @@
 	justify-content: center;
 	color: var(--Content-color-600);
 	/* Don't show text cursor on stuff like "Thread comments count". */
-	cursor: default;
+	/*cursor: default;*/
+	/* Could be "cursor: default" instead but that would
+	   override `<Clickable/>`'s `cursor: pointer`
+	   when a comment is clickable on "Boards" page. */
+	pointer-events: none;
 }
 
 .CommentFooterBadge--left {

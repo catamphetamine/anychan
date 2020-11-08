@@ -22,10 +22,6 @@
 		margin-left: var(--SidebarSection-paddingLeft);
 		margin-right: var(--unit);
 		color: var(--Boards-color--active);
-		&:before,
-		&:after {
-			color: var(--Boards-color--slash);
-		}
 	}
 	.EditFavoriteBoards-boardTitle {
 		padding-right: calc(var(--unit) * 2.5);
@@ -40,13 +36,6 @@
 .EditFavoriteBoards-board--dragged {
 	background-color: var(--Sidebar-highlightColor-200);
 	cursor: grabbing;
-	.BoardUrl {
-		color: var(--Boards-color--active);
-		&:before,
-		&:after {
-			color: var(--Boards-color--slashActive);
-		}
-	}
 }
 
 .EditFavoriteBoards-board--dragging {
@@ -90,12 +79,7 @@
 
 .EditFavoriteBoards-search {
 	.rrui__list__item:not(:active) {
-		.BoardUrl {
-			color: var(--Sidebar-baseColor-700);
-			&:before,
-			&:after {
-				color: var(--Sidebar-color-200);
-			}
-		}
+		--BoardUrl-color: var(--Sidebar-baseColor-700);
+		--BoardUrl-slash-color: var(--Sidebar-color-200);
 	}
 }

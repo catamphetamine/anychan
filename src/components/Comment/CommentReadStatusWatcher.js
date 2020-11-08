@@ -28,13 +28,6 @@ export default function CommentReadStatusWatcher({
 			function onCommentRead(entries, observer) {
 				for (const entry of entries) {
 					if (entry.isIntersecting) {
-						// If some later comment has already been marked as read
-						// then don't overwrite it.
-						// Some later comment could have been marked as read,
-						// for example, if a user somehow managed to scroll to bottom
-						// without scrolling through previous comments.
-						// Or maybe the user already read some later comment
-						// in another tab.
 						const element = entry.target
 						const boardId = element.dataset.boardId
 						const threadId = parseInt(element.dataset.threadId)
@@ -44,6 +37,14 @@ export default function CommentReadStatusWatcher({
 						// const commentUpdatedAt = parseInt(element.dataset.commentUpdatedAt)
 						const threadUpdatedAt = element.dataset.threadUpdatedAt && parseInt(element.dataset.threadUpdatedAt)
 						const mode = element.dataset.mode
+						// If some later comment has already been marked as read
+						// then don't overwrite it in the "latest read comment id",
+						// hence the `!isCommentRead()` check.
+						// Some later comment could have been marked as read,
+						// for example, if a user somehow managed to scroll to bottom
+						// without scrolling through previous comments.
+						// Or maybe the user already read some later comment
+						// in another tab.
 						if (mode === 'thread' && !isCommentRead(boardId, threadId, commentId)) {
 							// Sets the latest read comment id.
 							UserData.addLatestReadComments(boardId, threadId, {
@@ -58,11 +59,15 @@ export default function CommentReadStatusWatcher({
 								onUserDataChange(UserData.prefix + 'latestReadComments', dispatch)
 							}
 						}
+						// The same extra `!isThreadSeen()` condition is added for threads here,
+						// so that the "latest seen thread id" is not overwritten if a later
+						// thread has already been "seen" somehow.
 						if (mode === 'board' && !isThreadSeen(boardId, threadId)) {
 							// Sets the latest seen thread id.
 							UserData.addLatestSeenThreads(boardId, threadId)
 						}
-						CommentReadObserver.unobserve(element)
+						// No longer track the visibility of this comment.
+						observer.unobserve(element)
 					}
 				}
 			}
@@ -70,11 +75,9 @@ export default function CommentReadStatusWatcher({
 			// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 			// https://caniuse.com/#search=IntersectionObserver
 			CommentReadObserver = new IntersectionObserver(onCommentRead, {
-				root: null,
 				// top, right, bottom, left.
 				// `1px` compensates the height of the "invisible line".
-				rootMargin: '0px 0px 1px 0px',
-				threshold: 0
+				rootMargin: '0px 0px 1px 0px'
 			})
 		}
 		// Sometimes `node.current` is `undefined`

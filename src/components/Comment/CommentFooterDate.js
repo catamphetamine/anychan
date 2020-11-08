@@ -28,7 +28,8 @@ export default function CommentFooterDate({
 			{...rest}
 			wrapperComponent={TooltipContainer}
 			wrapperProps={_wrapperProps}
-			tooltip={false}/>
+			tooltip={false}
+			timeStyle="twitter-first-minute"/>
 	)
 }
 

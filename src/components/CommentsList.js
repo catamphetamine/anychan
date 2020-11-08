@@ -9,7 +9,7 @@ function CommentsList({
 	initialCustomState,
 	restoredState,
 	setState,
-	getItem,
+	getComment,
 	stateRef,
 	...rest
 }, ref) {
@@ -19,9 +19,9 @@ function CommentsList({
 		state => virtualScrollerState.current = state,
 		[]
 	)
-	const onItemFirstRender = useCallback(
-		(i) => getItem(i).parseContent(),
-		[getItem]
+	const onItemInitialRender = useCallback(
+		item => getComment(item).parseContent(),
+		[getComment]
 	)
 	const dispatch = useDispatch()
 	useEffect(() => {
@@ -39,7 +39,7 @@ function CommentsList({
 			initialCustomState={initialCustomState}
 			initialState={restoredState}
 			onStateChange={onVirtualScrollerStateChange}
-			onItemFirstRender={onItemFirstRender}
+			onItemInitialRender={onItemInitialRender}
 			measureItemsBatchSize={12}
 			shouldUpdateLayoutOnWindowResize={shouldUpdateLayoutOnWindowResize}/>
 	)
@@ -54,7 +54,7 @@ CommentsList.propTypes = {
 		scrollY: PropTypes.number.isRequired
 	}),
 	setState: PropTypes.func,
-	getItem: PropTypes.func.isRequired,
+	getComment: PropTypes.func.isRequired,
 	stateRef: PropTypes.object
 }
 

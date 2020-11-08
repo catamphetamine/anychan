@@ -45,7 +45,7 @@ export default function CommentMoreActions({
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
 				onClick: () => {
-					copyTextToClipboard(urlBasePath + url)
+					copyTextToClipboard(window.location.origin + urlBasePath + url)
 				}
 			},
 			{

@@ -26,8 +26,10 @@ function CommentWithThumbnail({
 	onAttachmentClick,
 	shouldFixAttachmentPictureSize,
 	showPostThumbnailWhenThereAreMultipleAttachments,
+	showPostThumbnailWhenThereIsNoContent,
 	className,
-	children
+	children,
+	...rest
 }, ref) {
 	const [
 		postThumbnail,
@@ -38,6 +40,7 @@ function CommentWithThumbnail({
 		comment,
 		mode,
 		showPostThumbnailWhenThereAreMultipleAttachments,
+		showPostThumbnailWhenThereIsNoContent,
 		expandAttachments,
 		hidden,
 		onAttachmentClick
@@ -68,6 +71,7 @@ function CommentWithThumbnail({
 	const showThumbnail = window.SHOW_POST_THUMBNAIL;
 	return (
 		<article
+			{...rest}
 			ref={ref}
 			style={postThumbnailSizeStyle}
 			className={classNames(className, {
@@ -102,6 +106,7 @@ CommentWithThumbnail.propTypes = {
 	onAttachmentClick: PropTypes.func.isRequired,
 	shouldFixAttachmentPictureSize: PropTypes.bool,
 	showPostThumbnailWhenThereAreMultipleAttachments: PropTypes.bool,
+	showPostThumbnailWhenThereIsNoContent: PropTypes.bool,
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired
 }

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -6,6 +6,9 @@ import PostTitle from 'webapp-frontend/src/components/PostTitle'
 import PostContent from 'webapp-frontend/src/components/PostContent'
 import PostAttachments from 'webapp-frontend/src/components/PostAttachments'
 import PostStretchVertically from 'webapp-frontend/src/components/PostStretchVertically'
+
+import TextSelectionTooltip from 'webapp-frontend/src/components/TextSelectionTooltip'
+import Button from 'webapp-frontend/src/components/Button'
 
 import CommentAuthor, { hasAuthor } from './CommentAuthor'
 import CommentStatusBadges from './CommentStatusBadges'
@@ -15,6 +18,7 @@ import CommentWithThumbnail from './CommentWithThumbnail'
 
 import useVote from './useVote'
 import useSlideshow from './useSlideshow'
+import useSocial from './useSocial'
 import usePostLink from './usePostLink'
 
 import getMessages from '../../messages'
@@ -54,6 +58,19 @@ export default function Comment({
 	urlBasePath,
 	previouslyRead,
 	className,
+	// <OnLongPress/> stuff:
+	onTouchStart,
+	onTouchEnd,
+	onTouchMove,
+	onTouchCancel,
+	onDragStart,
+	onMouseDown,
+	onMouseUp,
+	onMouseMove,
+	onMouseLeave,
+	// "Reply on double click" stuff:
+	onDoubleClick,
+	// <CommentTitleContentAndAttachments/> props:
 	...rest
 }) {
 	const isFirstCommentInThread = comment.id === thread.id
@@ -90,6 +107,11 @@ export default function Comment({
 
 	const [onAttachmentClick] = useSlideshow({ comment })
 
+	const [
+		isSocialClickable,
+		onSocialClick
+	] = useSocial()
+
 	const [clickedPostUrl, setClickedPostUrl] = useState()
 	// `<Post/>` automatically passes a second argument `post` here,
 	// but because `<PostSelfLink/>` is used directly here,
@@ -116,6 +138,7 @@ export default function Comment({
 
 	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'board' ||
 		(mode === 'thread' && isFirstCommentInThread)
+	const showPostThumbnailWhenThereIsNoContent = mode === 'board'
 
 	const commentClassName = 'Comment-comment'
 
@@ -140,19 +163,23 @@ export default function Comment({
 					onlyShowFirstAttachmentThumbnail={mode === 'board'}
 					locale={locale}
 					messages={getMessages(locale).post}
+					onReply={onReply}
 					resourceMessages={getResourceMessages(getMessages(locale))}
 					useSmallestThumbnailsForAttachments
 					serviceIcons={SERVICE_ICONS}
-					youTubeApiKey={configuration.youtube && configuration.youtube.apiKey}
+					youTubeApiKey={configuration.youtubeApiKey}
 					expandFirstPictureOrVideo={false}
 					maxAttachmentThumbnails={false}
 					contentMaxLength={getCommentLengthLimit(mode)}
 					onAttachmentClick={onAttachmentClick}
 					onPostLinkClick={onPostLinkClick}
 					isPostLinkClickable={isPostLinkClickable}
+					isSocialClickable={isSocialClickable}
+					onSocialClick={onSocialClick}
 					url={url}
 					fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
-					showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}/>
+					showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
+					showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}/>
 			</div>
 			<CommentFooter
 				comment={comment}
@@ -177,6 +204,16 @@ export default function Comment({
 	return (
 		<CommentWithThumbnail
 			ref={postRef}
+			onTouchStart={onTouchStart}
+			onTouchEnd={onTouchEnd}
+			onTouchMove={onTouchMove}
+			onTouchCancel={onTouchCancel}
+			onDragStart={onDragStart}
+			onMouseDown={onMouseDown}
+			onMouseUp={onMouseUp}
+			onMouseMove={onMouseMove}
+			onMouseLeave={onMouseLeave}
+			onDoubleClick={onDoubleClick}
 			mode={mode}
 			comment={comment}
 			thread={thread}
@@ -187,6 +224,7 @@ export default function Comment({
 			onAttachmentClick={onAttachmentClick}
 			shouldFixAttachmentPictureSize={shouldFixAttachmentPictureSize}
 			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
+			showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}
 			className={classNames(className, 'Comment', `Comment--${mode}`, {
 				'Comment--compact': compact,
 				'Comment--hidden': hidden,
@@ -256,6 +294,8 @@ function CommentTitleContentAndAttachments({
 	onAttachmentClick,
 	onPostLinkClick,
 	isPostLinkClickable,
+	isSocialClickable,
+	onSocialClick,
 	expandPostLinkBlockQuotes,
 	postLinkQuoteMinimizedComponent,
 	postLinkQuoteExpandTimeout,
@@ -263,11 +303,20 @@ function CommentTitleContentAndAttachments({
 	url,
 	locale,
 	messages,
+	onReply,
 	showPostThumbnailWhenThereAreMultipleAttachments,
+	showPostThumbnailWhenThereIsNoContent,
 	maxAttachmentThumbnails,
 	onlyShowFirstAttachmentThumbnail
 }) {
-	return (
+	const tooltipProps = useMemo(() => ({
+		onReply,
+		children: messages.reply
+	}), [
+		onReply,
+		messages
+	])
+	let titleAndContent = (
 		<React.Fragment>
 			<PostTitle post={comment}/>
 			<PostContent
@@ -289,6 +338,8 @@ function CommentTitleContentAndAttachments({
 				onAttachmentClick={onAttachmentClick}
 				onPostLinkClick={onPostLinkClick}
 				isPostLinkClickable={isPostLinkClickable}
+				isSocialClickable={isSocialClickable}
+				onSocialClick={onSocialClick}
 				expandPostLinkBlockQuotes={expandPostLinkBlockQuotes}
 				postLinkQuoteMinimizedComponent={postLinkQuoteMinimizedComponent}
 				postLinkQuoteExpandTimeout={postLinkQuoteExpandTimeout}
@@ -296,9 +347,24 @@ function CommentTitleContentAndAttachments({
 				url={url}
 				locale={locale}
 				messages={messages}/>
+		</React.Fragment>
+	)
+	if (onReply) {
+		titleAndContent = (
+			<TextSelectionTooltip
+				TooltipComponent={TextSelectionTooltipComponent}
+				tooltipProps={tooltipProps}>
+				{titleAndContent}
+			</TextSelectionTooltip>
+		)
+	}
+	return (
+		<React.Fragment>
+			{titleAndContent}
 			<PostAttachments
 				post={comment}
 				showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
+				showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}
 				expandFirstPictureOrVideo={expandFirstPictureOrVideo}
 				useSmallestThumbnails={useSmallestThumbnailsForAttachments}
 				maxAttachmentThumbnails={maxAttachmentThumbnails}
@@ -310,4 +376,33 @@ function CommentTitleContentAndAttachments({
 			<PostStretchVertically/>
 		</React.Fragment>
 	)
+}
+
+function TextSelectionTooltipComponent({
+	selection,
+	onReply,
+	children,
+	...rest
+}, ref) {
+	const onClick = () => {
+		onReply(selection.getText())
+		selection.clear()
+	}
+	return (
+		<Button
+			ref={ref}
+			{...rest}
+			type="button"
+			onClick={onClick}
+			className="Comment-textSelectionTooltip">
+			{children}
+		</Button>
+	)
+}
+
+TextSelectionTooltipComponent = React.forwardRef(TextSelectionTooltipComponent)
+
+TextSelectionTooltipComponent.propTypes = {
+	selection: PropTypes.object.isRequired,
+	onReply: PropTypes.func.isRequired
 }

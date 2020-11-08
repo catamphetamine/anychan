@@ -17,7 +17,7 @@ import Announcement, { announcementPropType } from 'webapp-frontend/src/componen
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../components/Sidebar/Sidebar'
 import SideNavMenuButton from '../components/SideNavMenuButton'
 import BackButton from '../components/BackButton'
 import Slideshow from '../components/Slideshow'
@@ -39,6 +39,7 @@ import '@formatjs/intl-pluralrules/locale-data/ru'
 
 import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
+import TweetModal from '../components/TweetModal'
 
 import { getBoards } from '../redux/chan'
 import { getSettings } from '../redux/settings'
@@ -152,17 +153,11 @@ export default function App({
 				'Webpage--thread': isThreadLocation(route),
 				'Webpage--wideSidebar': sidebarMode !== 'boards'
 			})}>
-				{/*!offline &&
-					<Header/>
-				*/}
-				{!offline &&
-					<SideNavMenuButton/>
-				}
-				{!offline &&
-					<div className="Webpage-paddingLeft">
-						<BackButton/>
-					</div>
-				}
+				{/*<Header/>*/}
+				<SideNavMenuButton/>
+				<div className="Webpage-paddingLeft">
+					<BackButton/>
+				</div>
 				<div className="Webpage-contentContainer">
 					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
 					<main
@@ -192,10 +187,8 @@ export default function App({
 					</main>
 					<Footer/>
 				</div>
-				{!offline &&
-					<div className="Webpage-paddingRight"/>
-				}
-				{!offline && <Sidebar/>}
+				<div className="Webpage-paddingRight"/>
+				<Sidebar/>
 			</div>
 
 			<OkCancelDialog
@@ -203,6 +196,8 @@ export default function App({
 				cancelLabel={messages.actions.cancel}
 				yesLabel={messages.actions.yes}
 				noLabel={messages.actions.no}/>
+
+			<TweetModal/>
 		</div>
 	)
 }

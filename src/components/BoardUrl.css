@@ -1,10 +1,17 @@
+:root {
+	--BoardUrl-color: initial;
+	/*--BoardUrl-color--selected: initial;*/
+	/*--BoardUrl-color--hover: initial;*/
+	/*--BoardUrl-color--active: initial;*/
+}
+
 .BoardUrl {
 	/* Using `<span/>` instead of `<div/>`
 	   because a `<button/>` can't contain a `<div/>`
 	   and `<BoardUrl/>` is used in `optionComponent` of `<Autocomplete/>`. */
 	display: block;
-	font-family: var(--Boards-fontFamily--url);
-	font-weight: var(--Boards-fontWeight--url);
+	font-family: var(--BoardUrl-fontFamily);
+	font-weight: var(--BoardUrl-fontWeight);
 	/* Don't wrap the side slashes. */
 	white-space: nowrap;
 	&:before,
@@ -20,4 +27,26 @@
 	&:after {
 		margin-left: var(--Boards-margin--slash);
 	}
+}
+
+.BoardUrl {
+	color: var(--BoardUrl-color);
+	&:before, &:after {
+		color: var(--BoardUrl-slash-color);
+	}
+}
+
+.BoardUrl--selected {
+	/*--BoardUrl-color: var(--BoardUrl-color--selected);*/
+	--BoardUrl-slash-color: var(--BoardUrl-slash-color--selected);
+}
+
+.BoardUrl--hover {
+	/*--BoardUrl-color: var(--BoardUrl-color--hover);*/
+	--BoardUrl-slash-color: var(--BoardUrl-slash-color--hover);
+}
+
+.BoardUrl--active {
+	/*--BoardUrl-color: var(--BoardUrl-color--active);*/
+	--BoardUrl-slash-color: var(--BoardUrl-slash-color--active);
 }

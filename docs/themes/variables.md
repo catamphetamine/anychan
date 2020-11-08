@@ -270,16 +270,22 @@ Some chans allow upvoting/downvoting comments and threads on some boards (for ex
 
 Board selection list.
 
+* `--Boards-fontWeight: normal` — Font weight of boards list names.
 * `--Boards-color: white` — Text color of a boards list entry.
 * `--Boards-color--active: orange` — Text color of a boards list entry when it's clicked.
-* `--Boards-color--slash: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list.
-* `--Boards-color--slashHover: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on mouse over.
-* `--Boards-color--slashActive: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when clicked.
-* `--Boards-color--slashSelected: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when selected.
-* `--Boards-color--viewSwitcher: white` — Boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
-* `--Boards-fontFamily--url: monospace` — Font family of boards list URLs.
-* `--Boards-fontWeight--url: normal` — Font weight of boards list URLs.
-* `--Boards-fontWeight: normal` — Font weight of boards list names.
+
+### BoardsViewSwitcher
+
+* `--BoardsViewSwitcher-color: white` — Boards view switcher text color. Some chans (like `2ch.hk`) provide board activity rating. For such chans the board selection list will have an option of viewing the list of boards either sorted by their rating descending ("Popular") or categorized as usual ("By Category").
+
+### BoardUrl
+
+* `--BoardUrl-fontFamily: monospace` — Font family of boards list URLs.
+* `--BoardUrl-fontWeight: normal` — Font weight of boards list URLs.
+* `--BoardUrl-slash-color: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list.
+* `--BoardUrl-slash-color--hover: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list on mouse over.
+* `--BoardUrl-slash-color--active: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when clicked.
+* `--BoardUrl-slash-color--selected: gray` — The color of the "slash" (`/`) characters on both sides of board URLs in the boards list when selected.
 
 # BoardThreadMenu
 

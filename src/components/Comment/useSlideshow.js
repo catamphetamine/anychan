@@ -17,8 +17,8 @@ export default function useSlideshow({
 		if (attachment.spoiler) {
 			delete attachment.spoiler
 		}
-		// `<PostLink/>` doesn't provide `options` (and `thumbnailImage` as part of it).
-		const { thumbnailImage } = options
+		// `<PostLink/>` doesn't provide `options` (and `imageElement` as part of it).
+		const { imageElement } = options
 		// The attachment clicked might be a `link` attachment
 		// that's not part of `post.attachments` (that can be `undefined`).
 		let attachments
@@ -33,9 +33,9 @@ export default function useSlideshow({
 		// (for example, an inline-level YouTube video link)
 		// then it won't be included in `post.attachments`.
 		if (i >= 0) {
-			dispatch(openSlideshow(attachments, i, { thumbnailImage }))
+			dispatch(openSlideshow(attachments, i, { imageElement }))
 		} else {
-			dispatch(openSlideshow([attachment], 0, { thumbnailImage }))
+			dispatch(openSlideshow([attachment], 0, { imageElement }))
 		}
 	}, [
 		comment,

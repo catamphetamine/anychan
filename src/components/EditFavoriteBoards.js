@@ -98,7 +98,7 @@ function Board({
 			'EditFavoriteBoards-board--dragging': dragging,
 			'EditFavoriteBoards-board--dragged': dragged
 		})}>
-			<BoardUrl boardId={board.id}/>
+			<BoardUrl boardId={board.id} active={dragged}/>
 			<span className="EditFavoriteBoards-boardTitle">
 				{board.title}
 			</span>

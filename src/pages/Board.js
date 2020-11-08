@@ -34,10 +34,6 @@ function BoardPage() {
 		// "<a> cannot appear as a descendant of <a>".
 		dispatch(goto(getUrl(board, thread), { instantBack: true }))
 	}, [dispatch])
-	const getItem = useCallback(
-		(i) => threads[i].comments[0],
-		[threads]
-	)
 	// Runs only once before the initial render.
 	// Sets `--PostThumbnail-maxWidth` CSS variable.
 	// Not using `useEffect()` because it would run after render, not before it.
@@ -76,7 +72,7 @@ function BoardPage() {
 			}
 			<CommentsList
 				mode="board"
-				getItem={getItem}
+				getComment={getComment}
 				restoredState={restoredVirtualScrollerState}
 				setState={setVirtualScrollerState}
 				items={threads}
@@ -98,17 +94,16 @@ function BoardPage() {
 // }
 
 BoardPage.meta = ({ chan: { board }}) => ({
-	title: board && board.title,
+	title: board && ('/' + board.id + '/' + ' — ' + board.title),
 	description: board && board.description
 })
 
 BoardPage.load = async ({ getState, dispatch, params }) => {
 	const settings = getState().settings.settings
-	await dispatch(getThreads(
-		params.board,
-		settings.censoredWords,
-		settings.locale
-	))
+	await dispatch(getThreads(params.board, {
+		censoredWords: settings.censoredWords,
+		locale: settings.locale
+	}))
 	if (settings.autoSuggestFavoriteBoards !== false) {
 		const board = getState().chan.board
 		dispatch(addFavoriteBoard({
@@ -116,6 +111,10 @@ BoardPage.load = async ({ getState, dispatch, params }) => {
 			title: board.title
 		}))
 	}
+}
+
+function getComment(thread) {
+	return thread.comments[0]
 }
 
 function CommentComponent({
@@ -159,9 +158,12 @@ CommentComponent.propTypes = {
 // doesn't re-render items as the user scrolls.
 CommentComponent = React.memo(CommentComponent)
 
-// This is a workaround for cases when `found` doesn't remount
-// page component when navigating to the same route.
-// https://github.com/4Catalyzer/found/issues/639
+// This is a workaround for cases when navigating from one board
+// to another board in order to prevent page state inconsistencies
+// while the current board data is being updated in Redux
+// as the "next" page is being loaded.
+// https://github.com/4Catalyzer/found/issues/639#issuecomment-567650811
+// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
 export default function BoardPageWrapper() {
 	const board = useSelector(({ chan }) => chan.board)
 	return <BoardPage key={board.id}/>

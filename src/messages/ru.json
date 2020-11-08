@@ -5,7 +5,8 @@
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",
-		"byCategory": "По категориям"
+		"byCategory": "По категориям",
+		"error": "Не удалось загрузить список досок"
 	},
 	"trackedThreads": {
 		"title": "Отслеживаемые треды",
@@ -151,6 +152,12 @@
 	"country": {
 		"anonymous": "Аноним"
 	},
+	"autoUpdate": {
+		"scheduledBeforeTime": "Обновление ",
+		"inProgress": "Обновление…",
+		"soon": "Обновление скоро…",
+		"error": "Не удалось обновить тред."
+	},
 	"notImplemented": "Ещё не сделано",
 	"inReplyTo": "В ответ на",
 	"backToPreviouslyViewedComment": "Вернуться",
@@ -159,6 +166,8 @@
 	"newComments": "Новые комментарии",
 	"lastComment": "Последний комментарий",
 	"goToComment": "Перейти к комментарию",
+	"threadIsClosed": "Тред закрыт",
+	"threadExpired": "Тред затёрт",
 	"threadExpiresSoon": "Тред на {0} месте из {1}. Как только тред опустится ниже последнего места, он будет затёрт. Для того, чтобы поднять тред, оставьте в нём комментарий.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> комментарий} few {<count>#</count> комментария} many {<count>#</count> комментариев} other {<count>#</count> комментария}} за последние <time>15 минут</time>",
 	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> комментарий} few {<count>#</count> комментария} many {<count>#</count> комментариев} other {<count>#</count> комментария}} за последний <time>час</time>"

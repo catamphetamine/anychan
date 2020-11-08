@@ -24,6 +24,7 @@ import ShowPrevious from '../../components/ShowPrevious'
 import ThreadComment from './ThreadComment'
 import ThreadPageHeader from './ThreadPageHeader'
 // import BackToPreviousComment from './BackToPreviousComment'
+import AutoUpdate from './AutoUpdate'
 
 import useFromIndex from './useFromIndex'
 import useExpandAttachments from './useExpandAttachments'
@@ -34,7 +35,6 @@ import useSlideshow from './useSlideshow'
 import './Thread.css'
 
 function ThreadPage({
-	match,
 	commentsShownBeforeLatestReadCount
 }) {
 	const [isSearchBarShown, setSearchBarShown] = useState()
@@ -119,11 +119,6 @@ function ThreadPage({
 
 	const shownComments = useMemo(
 		() => thread.comments.slice(fromIndex),
-		[thread, fromIndex]
-	)
-
-	const getItem = useCallback(
-		(i) => thread.comments[fromIndex + i],
 		[thread, fromIndex]
 	)
 
@@ -238,7 +233,7 @@ function ThreadPage({
 						key="comments"
 						ref={virtualScroller}
 						mode="thread"
-						getItem={getItem}
+						getComment={getComment}
 						initialCustomState={initialVirtualScrollerCustomState}
 						restoredState={restoredVirtualScrollerState}
 						setState={setVirtualScrollerState}
@@ -247,7 +242,7 @@ function ThreadPage({
 						itemComponent={ThreadComment}
 						itemComponentProps={itemComponentProps}
 						preserveScrollPositionOnPrependItems={preserveScrollPositionOnPrependItems}
-						preserveScrollPositionAtBottomOnMount={initialFromIndex === thread.comments.length}
+						preserveScrollPositionOfTheBottomOfTheListOnMount={initialFromIndex === thread.comments.length}
 						className={classNames('Comments', 'ThreadPage-comments', {
 							// 'ThreadPage-comments--fromTheStart': fromIndex === 0
 						})}/>
@@ -258,6 +253,19 @@ function ThreadPage({
 					</p>
 				*/}
 			</div>
+			{!searchQuery && !thread.isClosed &&
+				<AutoUpdate/>
+			}
+			{!searchQuery && thread.isClosed &&
+				<p className="ThreadPage-closed">
+					{getMessages(locale).threadIsClosed}
+				</p>
+			}
+			{!searchQuery && thread.expired &&
+				<p className="ThreadPage-expired">
+					{getMessages(locale).threadExpired}
+				</p>
+			}
 			{threadNavigationHistory.length > 0 &&
 				<InReplyToModal
 					board={board}
@@ -274,11 +282,6 @@ function ThreadPage({
 }
 
 ThreadPage.propTypes = {
-	match: PropTypes.shape({
-		location: PropTypes.shape({
-			hash: PropTypes.string
-		}).isRequired
-	}).isRequired,
 	commentsShownBeforeLatestReadCount: PropTypes.number.isRequired
 }
 
@@ -287,7 +290,7 @@ ThreadPage.defaultProps = {
 }
 
 ThreadPage.meta = ({ chan: { board, thread }}) => ({
-	title: thread && thread.title || board && board.title,
+	title: thread && ('/' + board.id + '/' + ' — ' + thread.title),
 	description: thread && thread.comments[0].textPreview,
 	image: thread && getThreadImage(thread)
 })
@@ -295,13 +298,12 @@ ThreadPage.meta = ({ chan: { board, thread }}) => ({
 ThreadPage.load = async ({ getState, dispatch, params }) => {
 	const boardId = params.board
 	const threadId = parseInt(params.thread)
+	const settings = getState().settings.settings
 	try {
-		await dispatch(getThread(
-			boardId,
-			threadId,
-			getState().settings.settings.censoredWords,
-			getState().settings.settings.locale
-		))
+		await dispatch(getThread(boardId, threadId, {
+			censoredWords: settings.censoredWords,
+			locale: settings.locale
+		}))
 	} catch (error) {
 		if (error.status === 404) {
 			// Clear expired thread from user data.
@@ -325,22 +327,20 @@ function getThreadImage(thread) {
 	}
 }
 
+function getComment(comment) {
+	return comment
+}
 
-
-// This is a workaround for cases when `found` doesn't remount
-// page component when navigating to the same route.
-// https://github.com/4Catalyzer/found/issues/639
-export default function ThreadPageWrapper({ match }) {
+// This is a workaround for cases when navigating from one thread
+// to another thread in order to prevent page state inconsistencies
+// while the current thread data is being updated in Redux
+// as the "next" page is being loaded.
+// https://github.com/4Catalyzer/found/issues/639#issuecomment-567650811
+// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
+export default function ThreadPageWrapper() {
 	const board = useSelector(({ chan }) => chan.board)
 	const thread = useSelector(({ chan }) => chan.thread)
-	return <ThreadPage key={`${board.id}/${thread.id}`} match={match}/>
+	return <ThreadPage key={`${board.id}/${thread.id}`}/>
 }
 ThreadPageWrapper.meta = ThreadPage.meta
 ThreadPageWrapper.load = ThreadPage.load
-ThreadPageWrapper.propTypes = {
-	match: PropTypes.shape({
-		location: PropTypes.shape({
-			hash: PropTypes.string
-		}).isRequired
-	}).isRequired
-}

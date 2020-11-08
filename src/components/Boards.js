@@ -10,6 +10,7 @@ import getMessages from '../messages'
 import getUrl from '../utility/getUrl'
 import { isThreadLocation, isBoardLocation } from '../utility/routes'
 import { saveBoardsView } from '../redux/settings'
+import { getBoards } from '../redux/chan'
 
 import BoardUrl from './BoardUrl'
 
@@ -142,8 +143,20 @@ export function Boards({
 		isBoardSelected,
 		showAllBoards
 	])
+	const loadBoardsList = useCallback(async () => {
+		await dispatch(getBoards())
+	}, [dispatch])
 	if (!boards) {
-		return null
+		return (
+			<p className="Boards-error">
+				<div className="Boards-errorText">
+					{getMessages(locale).boards.error}
+				</div>
+				<Button className="Boards-errorRetry" onClick={loadBoardsList}>
+					{getMessages(locale).actions.retry}
+				</Button>
+			</p>
+		)
 	}
 	const List = listComponent
 	return (
@@ -310,7 +323,11 @@ function Board({
 					'BoardsListBoard-url--hover': isHovered,
 					'BoardsListBoard-url--active': isActive
 				})}>
-				<BoardUrl boardId={board.id}/>
+				<BoardUrl
+					boardId={board.id}
+					selected={isSelected}
+					hovered={isHovered}
+					active={isActive}/>
 			</Link>
 			<Link
 				to={getUrl(board)}

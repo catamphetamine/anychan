@@ -560,3 +560,45 @@
 		opacity: 0.8;
 	}
 }
+
+:root {
+	--Comment-textSelectionTooltip-color: var(--Content-backgroundColor);
+}
+
+.light {
+	--Comment-textSelectionTooltip-backgroundColor: var(--Content-color-800);
+	--Comment-textSelectionTooltip-backgroundColor--hover: var(--Comment-textSelectionTooltip-backgroundColor);
+	--Comment-textSelectionTooltip-backgroundColor--active: var(--Content-color-900);
+	--Comment-textSelectionTooltip-color--hover: var(--base-color-200);
+	--Comment-textSelectionTooltip-color--active: var(--base-color-300);
+	--Comment-textSelectionTooltip-boxShadowColor: rgba(0, 0, 0, 0.25);
+}
+
+.dark {
+	--Comment-textSelectionTooltip-backgroundColor: var(--Content-color-700);
+	--Comment-textSelectionTooltip-backgroundColor--hover: var(--Content-color-600);
+	/*--Comment-textSelectionTooltip-backgroundColor--hover: var(--Comment-textSelectionTooltip-backgroundColor);*/
+	--Comment-textSelectionTooltip-backgroundColor--active: var(--Content-color-500);
+	/*--Comment-textSelectionTooltip-color--hover: var(--base-color-200);*/
+	/*--Comment-textSelectionTooltip-color--active: var(--base-color-300);*/
+	--Comment-textSelectionTooltip-color--hover: var(--Comment-textSelectionTooltip-color);
+	--Comment-textSelectionTooltip-color--active: var(--Comment-textSelectionTooltip-color);
+	--Comment-textSelectionTooltip-boxShadowColor: rgba(0, 0, 0, 1);
+}
+
+.Comment-textSelectionTooltip {
+	height: calc(var(--unit) * 3);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	background-color: var(--Comment-textSelectionTooltip-backgroundColor);
+	color: var(--Comment-textSelectionTooltip-color);
+	box-shadow: 0 0 5px var(--Comment-textSelectionTooltip-boxShadowColor);
+	&:hover {
+		color: var(--Comment-textSelectionTooltip-color--hover);
+		background-color: var(--Comment-textSelectionTooltip-backgroundColor--hover);
+	}
+	&:active {
+		color: var(--Comment-textSelectionTooltip-color--active);
+		background-color: var(--Comment-textSelectionTooltip-backgroundColor--active);
+	}
+}

@@ -1,12 +1,26 @@
+:root {
+	/* SidebarButton. */
+	--SidebarButton-color: var(--Sidebar-color-500);
+	--SidebarButton-backgroundColor: transparent;
+	--SidebarButton-borderColor: transparent;
+	--SidebarButton-borderColor--focus: var(--Sidebar-color-200);
+	--SidebarButton-color--hover: var(--Sidebar-color-900);
+	--SidebarButton-backgroundColor--hover: var(--Sidebar-highlightColor-100);
+	--SidebarButton-color--active: var(--Sidebar-baseColor-700);
+	--SidebarButton-backgroundColor--active: var(--Sidebar-highlightColor-200);
+	--SidebarButton-borderColor--pushedActive: var(--Sidebar-baseColor-200);
+	/* SidebarSectionMoreButton. */
+	--SidebarSectionMoreButton-width: var(--unit);
+	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
+}
+
 .SidebarSectionMoreButton {
 	/*--rrui-button-side-padding: var(--SidebarSectionMoreButton-paddingLeft);*/
 	/*--rrui-button-busy-indicator-bottom: 0px;*/
 	/*--rrui-button-busy-indicator-width: 1px;*/
-	--SidebarSectionMoreButton-width: var(--unit);
 	/* The "more" button's top and bottom border would be
 	   hidden due to `overflow: hidden` if its `height` was `100%`. */
 	--SidebarSectionMoreButton-height: calc(100% - 2 * 1px);
-	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
 	--SidebarSectionMoreButtonIcon-opacity: 0.5;
 	display: flex;
 	align-items: center;
@@ -25,21 +39,9 @@
 	opacity: var(--SidebarSectionMoreButtonIcon-opacity);
 }
 
-:root {
-	--SidebarButton-color: var(--Sidebar-color-500);
-	--SidebarButton-backgroundColor: transparent;
-	--SidebarButton-borderColor: transparent;
-	--SidebarButton-borderColor--focus: var(--Sidebar-color-200);
-	--SidebarButton-color--hover: var(--Sidebar-color-900);
-	--SidebarButton-backgroundColor--hover: var(--Sidebar-highlightColor-100);
-	--SidebarButton-color--active: var(--Sidebar-baseColor-700);
-	--SidebarButton-backgroundColor--active: var(--Sidebar-highlightColor-200);
-	--SidebarButton-borderColor--pushedActive: var(--Sidebar-baseColor-200);
-}
-
 /* `.rrui-button` style interferes with this one in development mode,
    because Webpack doesn't maintain styles import order. */
-.SidebarButton.rrui__button {
+.SidebarButton {
 	color: var(--SidebarButton-color);
 	background-color: var(--SidebarButton-backgroundColor);
 	box-shadow: inset 0 0 0 1px var(--SidebarButton-borderColor);

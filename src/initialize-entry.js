@@ -9,10 +9,10 @@ window.SHOW_COOKIE_NOTICE = configuration.cookieNotice
 
 // Initialize `sentry.io`.
 if (process.env.NODE_ENV === 'production') {
-	if (configuration['sentry.io']) {
+	if (configuration.sentryUrl) {
 		onCookiesAccepted(() => {
 			Sentry.init({
-				dsn: configuration['sentry.io'].url
+				dsn: configuration.sentryUrl
 			})
 		})
 	}

@@ -1,4 +1,4 @@
-@import "../styles/common";
+@import "../../styles/common";
 
 .Sidebar {
 	overflow-y: auto;
@@ -74,12 +74,6 @@
 	height: 100%;
 }
 
-@mixin l-plus {
-	.SidebarSection--menu {
-		display: none;
-	}
-}
-
 .Sidebar {
 	.ListButton {
 		color: var(--Sidebar-color-600);
@@ -106,15 +100,15 @@
 
 .Sidebar-topBar {
 	display: flex;
-	/*justify-content: space-between;*/
 	justify-content: flex-end;
+	align-items: center;
 	/*margin-top: var(--unit);*/
 	margin-top: calc(var(--unit) * 1);
 	margin-bottom: calc(-2 * var(--unit));
 	padding-left: var(--unit);
 	padding-right: var(--unit);
 	padding-bottom: calc(var(--unit) * 0.5);
-	/*border-bottom: 1px solid var(--Boards-color--slash);*/
+	/*border-bottom: 1px solid var(--BoardUrl-slash-color);*/
 	/*.SidebarMenuItem--logo {*/
 		/*[data-fill="true"] {*/
 			/*fill: transparent;*/
@@ -131,6 +125,10 @@
 	}
 }
 
-/*.Sidebar-topBarRight {
+/*
+.Sidebar-topBarRight {
 	display: flex;
-}*/
+	justify-content: flex-end;
+	align-items: center;
+}
+*/

@@ -1,0 +1,19 @@
+.Sidebar .BoardOrThreadTitle {
+	flex: 1;
+	margin-right: var(--unit);
+}
+
+.BoardOrThreadTitle {
+	display: flex;
+	overflow: hidden;
+}
+
+.BoardOrThreadTitle-board {
+	margin-right: 0.3em;
+}
+
+.BoardOrThreadTitle-thread {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

@@ -12,7 +12,7 @@ export default function Slideshow_() {
 	const slideshowIsOpen = useSelector(({ slideshow }) => slideshow.isOpen)
 	const slideshowSlides = useSelector(({ slideshow }) => slideshow.slides)
 	const slideshowMode = useSelector(({ slideshow }) => slideshow.mode)
-	const thumbnailImage = useSelector(({ slideshow }) => slideshow.thumbnailImage)
+	const slideshowImageElement = useSelector(({ slideshow }) => slideshow.imageElement)
 	const goToSource = useSelector(({ slideshow }) => slideshow.goToSource)
 	const dispatch = useDispatch()
 	const onCloseSlideshow = useCallback(() => {
@@ -38,13 +38,14 @@ export default function Slideshow_() {
 			mode={slideshowMode}
 			showControls={slideshowMode === 'flow'}
 			showPagination
-			thumbnailImage={thumbnailImage}
+			imageElement={slideshowImageElement}
 			goToSource={goToSource}
 			onClose={onCloseSlideshow}
 			messages={messages}
 			closeOnSlideClick={slideshowMode !== 'flow'}
 			overlayOpacity={0}
 			overlayOpacityFlowMode={0.85}
+			overlayOpacityWhenPagingThrough={0.65}
 			overlayOpacitySmallScreen={0.1}
 			animateOpenCloseSmallScreen
 			animateOpenCloseScaleSmallScreen

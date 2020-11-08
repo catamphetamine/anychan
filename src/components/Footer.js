@@ -47,6 +47,7 @@ export default function Footer({ className }) {
 							captchan
 						</a>
 						{getMessages(locale).copyright.postCaptchan}
+						{' '}{VERSION}
 						{getMessages(locale).copyright.preAuthor}
 						<a
 							target="_blank"

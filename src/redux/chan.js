@@ -41,14 +41,15 @@ export const getBoards = redux.action(
 
 export const getThreads = redux.action(
 	'GET_THREADS',
-	(boardId, censoredWords, locale) => async http => {
-		// `boardId` and `threads` from `result` are also used in `threadTracker.js`.
-		return await _getThreads({
+	(boardId, { censoredWords, locale }) => async http => {
+		const threads = await _getThreads({
 			boardId,
 			censoredWords,
 			messages: getMessages(locale),
 			http
 		})
+		// `boardId` and `threads` are also used in `threadTracker.js`.
+		return { boardId, threads }
 	},
 	(state, { boardId, threads }) => {
 		// Get the current `board`.
@@ -73,7 +74,7 @@ export const getThreads = redux.action(
 
 export const getThread = redux.action(
 	'GET_THREAD_COMMENTS',
-	(boardId, threadId, censoredWords, locale) => async http => {
+	(boardId, threadId, { censoredWords, locale }) => async http => {
 		return await _getThread({
 			boardId,
 			threadId,
@@ -82,9 +83,9 @@ export const getThread = redux.action(
 			http
 		})
 	},
-	(state, { boardId, thread }) => {
+	(state, thread) => {
 		// Get the current `board`.
-		const board = getBoardById(state.boards, boardId, state.board)
+		const board = getBoardById(state.boards, thread.boardId, state.board)
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
@@ -93,9 +94,50 @@ export const getThread = redux.action(
 		return {
 			...state,
 			board,
-			thread
+			thread,
+			threadRefreshedAt: Date.now()
 		}
 	}
+)
+
+export const refreshThread = redux.action(
+	'REFRESH_THREAD',
+	(thread, { censoredWords, locale }) => async http => {
+		// Testing.
+		// await new Promise(_ => setTimeout(_, 5 * 1000))
+		// const updatedThread = { ...thread }
+		const updatedThread = await _getThread({
+			boardId: thread.boardId,
+			threadId: thread.id,
+			censoredWords,
+			messages: getMessages(locale),
+			http
+		})
+		mergeThreadComments(thread, updatedThread)
+		return updatedThread
+	},
+	(state, thread) => {
+		// Get the current `board`.
+		const board = getBoardById(state.boards, thread.boardId, state.board)
+		setThreadInfo(thread, board)
+		return {
+			...state,
+			thread,
+			threadRefreshedAt: Date.now()
+		}
+	}
+)
+
+export const currentThreadExpired = redux.simpleAction(
+	'CURRENT_THREAD_EXPIRED',
+	// `thread` Redux action argument is used in `threadTracker.js`.
+	(state) => ({
+		...state,
+		thread: {
+			...state.thread,
+			expired: true
+		}
+	})
 )
 
 export const vote = redux.action(
@@ -165,5 +207,37 @@ function setThreadInfo(thread, board) {
 				i++
 			}
 		}
+	}
+}
+
+/**
+ * Some comments might have been removed by moderators
+ * in-between thread updates. This function preserves
+ * such removed comments.
+ * @param  {Thread} thread — Thread before being updated.
+ * @param  {Thread} updatedThread — Thread after being updated. Its `comments` can be changed.
+ */
+function mergeThreadComments(thread, updatedThread) {
+	let i = 0
+	while (i < thread.comments.length) {
+		const comment = thread.comments[i]
+		const sameComment = updatedThread.comments[i]
+		if (comment.id === sameComment.id) {
+			// Migrate `comment.content` so that it doesn't need to be re-parsed.
+			if (sameComment.updatedAt === comment.updatedAt) {
+				sameComment.content = comment.content
+				sameComment.contentPreview = comment.contentPreview
+				sameComment.parseContent = comment.parseContent
+			} else {
+				// If `comment.content` has changed (for example, if the comment
+				// was edited by a moderator), then re-parse its `content`.
+				sameComment.parseContent()
+			}
+		} else {
+			// Restore the now-removed comment (and mark it as "removed").
+			comment.removed = true
+			updatedThread.comments.splice(i, 0, comment)
+		}
+		i++
 	}
 }

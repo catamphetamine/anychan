@@ -106,18 +106,22 @@
 	   they're for the `/boards` page too,
 	   that's why they're not defined inside `.Sidebar {}`. */
 	--Boards-margin--slash: 0.1em;
-	--Boards-fontFamily--url: monospace;
-	--Boards-fontWeight--url: normal;
 	--Boards-fontWeight: normal;
 	--Boards-color: var(--Sidebar-color-900);
 	--Boards-color--active: var(--Sidebar-baseColor-700);
-	--Boards-color--slash: var(--Sidebar-color-200);
-	--Boards-color--viewSwitcher: var(--Sidebar-color-600);
 	--Boards-backgroundColor--hover: var(--Sidebar-highlightColor-100);
 	--Boards-backgroundColor--active: var(--Sidebar-highlightColor-200);
 	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
 	--Boards-borderColor: transparent;
 	--Boards-borderColor--selected: transparent;
+
+	/* BoardUrl. */
+	--BoardUrl-fontFamily: monospace;
+	--BoardUrl-fontWeight: normal;
+	--BoardUrl-slash-color: var(--Sidebar-color-200);
+
+	/* BoardsViewSwitcher. */
+	--BoardsViewSwitcher-color: var(--Sidebar-color-600);
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -285,10 +289,12 @@
 	--HeaderSeparator-color--right: transparent;
 
 	/* Boards. */
-	--Boards-color--slashHover: var(--Boards-color--slashSelected);
-	--Boards-color--slashActive: #e9ccb8;
-	--Boards-color--slashSelected: #ead5c0;
 	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+
+	/* BoardUrl. */
+	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
+	--BoardUrl-slash-color--active: #e9ccb8;
+	--BoardUrl-slash-color--selected: #ead5c0;
 
 	/* HoverButton. */
 	--HoverButton-color--active: #bd5700;
@@ -401,10 +407,10 @@
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
-	/* Boards. */
-	--Boards-color--slashHover: var(--Boards-color--slashSelected);
-	--Boards-color--slashActive: var(--Boards-color--slash);
-	--Boards-color--slashSelected: var(--Boards-color--slash);
+	/* BoardUrl. */
+	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
+	--BoardUrl-slash-color--active: var(--BoardUrl-slash-color);
+	--BoardUrl-slash-color--selected: var(--BoardUrl-slash-color);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);

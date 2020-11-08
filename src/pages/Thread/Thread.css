@@ -65,3 +65,9 @@
 		padding-right: var(--Comment-marginTop);
 	}
 }
+
+.ThreadPage {
+	.AutoUpdate {
+		margin-top: calc(var(--unit) * 2);
+	}
+}

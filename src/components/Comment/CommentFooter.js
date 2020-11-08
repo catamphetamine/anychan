@@ -142,7 +142,6 @@ export default function CommentFooter({
 					postLinkProps={postLinkProps}
 					hasAnythingBeforeTime={hasAnythingBeforeTime}
 					locale={locale}
-					timeStyle="twitter"
 					date={comment.createdAt}/>
 			)
 		})

@@ -39,12 +39,7 @@ export default async function getThread({
 		votes: UserData.getCommentVotes(boardId, threadId),
 		messages
 	})
-	return {
-		boardId,
-		thread: {
-			...thread
-		}
-	}
+	return thread
 }
 
 /**

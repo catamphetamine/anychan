@@ -33,8 +33,5 @@ export default async function getThreads({
 		// Set `comment.boardId` for "is tracked thread" comment header badge.
 		comment.boardId = boardId
 	}
-	return {
-		boardId,
-		threads
-	}
+	return threads
 }

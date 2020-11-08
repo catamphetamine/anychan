@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import getMessages from '../messages'
-import { hideSidebar } from '../redux/app'
-import { getChan, getChanId } from '../chan'
+import getMessages from '../../messages'
+import { hideSidebar } from '../../redux/app'
+import { getChan, getChanId } from '../../chan'
 
-import ChanIcon from './ChanIcon'
-import ChanLogo from './ChanLogo'
-import { getSettingsMenuItem, getDarkModeMenuItem } from './MainMenu'
+import ChanIcon from '../ChanIcon'
+import ChanLogo from '../ChanLogo'
+import { getSettingsMenuItem, getDarkModeMenuItem } from '../MainMenu'
 
 import { Button } from 'webapp-frontend/src/components/Button'
 

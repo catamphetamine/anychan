@@ -32,7 +32,12 @@ export default function SideNavMenuButton() {
 		/* Setting percentage-based `top` position for `position: fixed`
 		   results in it jumping when mobile browser top/bottom bars appear/disappear.
 		   Instead, the `top` position is calculated and set in `px` via javascript. */
-		const topOffsetPercent = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--SideNavMenuButton-top'))
+		let topOffsetPercent = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--SideNavMenuButton-top'))
+		if (isNaN(topOffsetPercent)) {
+			// Happens when Webpack's `style-loader` is used in development mode.
+			console.error('"--SideNavMenuButton-top" CSS variable not initialized. This happens, for example, when Webpack\'s `style-loader` is used in development mode.')
+			topOffsetPercent = 35
+		}
 		const position = getViewportHeight() * topOffsetPercent / 100 - node.current.offsetHeight
 		setPosition(position)
 		document.documentElement.style.setProperty('--SideNavMenuButton-top--px', position + 'px')

@@ -1,51 +1,81 @@
-// react-website: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
+// `react-pages`: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
 
-// Мб сделать в `react-pages` что-нибудь, чтобы последний компонент route'а всегда re-mount-ился при смене location, даже если URL остался тем же: это решит те случаи, когда, например, на странице есть ссылка на саму себя. Но это редкие случаи.
+// Мб сделать в `react-pages` что-нибудь, чтобы последний компонент route'а всегда re-mount-ился при смене location, даже если URL остался тем же: это решит те случаи, когда, например, на странице есть ссылка на саму себя (но это редкие случаи). Например, можно добавлять в `key` все параметры `route`'а.
 
-`react-pages`: Не unmount-ит страницу текущего треда при переходе по ссылке другого треда. https://github.com/4Catalyzer/found/issues/639
-
-
+// `react-pages`: Не unmount-ит страницу текущего треда при переходе по ссылке другого треда. https://github.com/4Catalyzer/found/issues/639
 
 
 
+Если на десктопе увеличить слайд в режим drag & scale, и потом уменьшить, то может выходить из режима drag & scale? Мб просто центрировать наверху кнопку выхода из режима drag & scale.
 
 
 
-test clear youtube cache and youtube in comment
-
-On select text — show "Reply" button at bottom center.
+"The first "build" will be released in the near future. For now, to obtain a "build", perform a manual build process documented in the [Build](#build) section."
 
 
 
+<AutoUpdate/> сдвинуть вправо, чтобы был там же, где левая граница текста комментариев (на десктопе) (на мобильных тоже можно выровнять по тексту).
 
 
 
 
-<CommentWithThumbnail onDoubleClick={hidden ? undefined : onReply}/>
+check google analytics (dev, prod); check npm run production
 
-and onLongPress:
 
-Comment
-Comment-thumbnail
-Comment-thumbnailPlaceholder
-CommentAuthor
-PostTitle
-PostContent > PostParagraph
-PostContent > PostVideo
-PostContent > PostPicture
-PostContent > PostEmbeddedAttachmentTitle
-PostContent
-CommentFooter
-CommentFooter-left
-CommentFooter-right
+
+Начинать автообновление можно заранее, до того, как докрутил до самого низа.
+
+
+
+После автообновления, если страница просто открыта (мб даже свёрнута?), то сообщения сами прочитываются. На самом деле, помечать прочитанными только после user input'а.
 
 
 
 
 
 
+Remove testing code:
 
-Разрешить заходить в настройки (и менять адрес прокси-сервера), если не загрузились доски (писать можно в сайдбаре: "Не удалось загрузить список досок", или просто "Error").
+
+
+
+```js
+function getThreadUpdateInterval(idleTime) {
+	// Testing
+	return 5 * 1000
+}
+```
+
+
+
+		// Testing.
+		// await new Promise(_ => setTimeout(_, 5 * 1000))
+		// const updatedThread = { ...thread }
+
+
+
+
+
+
+
+Mark comments as removed if `.removed` is `true`.
+
+
+
+
+
+
+
+( ) Автообновление — анимация крутилки через stroke-dashArray.
+Clickable.
+Активировать за экран до докрутки до конца (so that it works when a user scrolls via Page Down).
+
+
+Если докрутить до конца треда, чтобы запустилось "автообновление", а потом прокрутить куда-нибудь в середину — не будет ли скакать скролл.
+
+
+
+
 
 
 
@@ -56,97 +86,14 @@ ThreadActivityIndicator — tick after currently viewed thread auto-update is en
 
 
 
-### virtual-scroller
-
-`getScrollableContainer` -> `scrollableContainer`
-
-Maybe support `scrollableContainerRef` in ReactVirtualScroller
-
-`virtual-scroller`: если scroll был через page up / page down, то не делать задержку перед подгрузкой следующей страницы item-ов.
-
-update `virtual-scroller`
-
-
-
-
-
-
-
-Рендеренный документ не всегда соответствует state-у у React'а, поэтому посмотреть, чтобы не использовало state из документа: посмотреть все ref= и ref:, offsetHeight, childNodes, etc
-
-Посмотреть, как используется onItemFirstRender, и не может ли быть там рассинхронизации с items.
-
-
-
-
-
-Можно затемнять слайдшоу при начале листания.
-
-Перестали работать overlayOpacityFlowMode и overlayOpacitySmallScreen.
-
-
-
-
-
-Если у поста нет текстового контента, то можно показывать minimized автосгенерированные цитаты.
-
-
-
-
-
-
-
-
-
-В exit drag and scale mode делать setState, и потом уже animation через CSS.
-
-На десктопе показывать кнопку "exit drag and scale mode" где-нибудь вверху экрана посередине (до правого верхнего угла тянуться далеко).
-
-При показе слайда — затенять thumbnail
-
-Если зумить аут на мобильном, то можно сразу закрывать слайдшоу в иконку на малых экранах.
-
-
-
-
-
-
 
 
 
 ### Ответ по long press / double click
 
-function onLongPress(element, callback) {
-  let timer;
++ add "pop" animation like in telegram: небольшая задержка (мб миллисекунд 150), затем небольшое затемнение и уменьшение, потом bounce обратно.
 
-  maybe compare event.changedTouches.id ... and cancel on multi-touch
-
-  element.addEventListener('touchstart', () => {
-    timer = setTimeout(() => {
-      timer = null;
-      callback();
-    }, 500);
-  });
-
-  function cancel() {
-    clearTimeout(timer);
-  }
-
-  element.addEventListener('touchend', cancel);
-  element.addEventListener('touchmove', cancel);
-}
-
-+ add "pop" animation like in telegram.
-
-maybe increase time to 1000 ms.
-
-maybe add mousemove tolerance (4px or so).
-
-по тачу: небольшая задержка (мб миллисекунд 150), затем небольшое затемнение и уменьшение, потом bounce обратно.
-
-Если double click прямо на `target` === `thread-comment` или `thread-comment__post-and-stats`, либо внутри `thread-comment__stats`, то можно входить в режим ответа. То же самое — force touch можно сделать с такими условиями срабатывания. При нажатии на "Ответить" из меню — переходить в режим ответа и показывать сверху от формы ответа мб notification: "Отвечать на комментарии можно также двойным нажатием на краю комментария, или через long press (touch или мышь)".
-
-Ответ на сообщение — мб через меню либо через двойной клик либо через долгое нажатие мб.
+При нажатии на "Ответить" из меню — переходить в режим ответа и показывать сверху от формы ответа notification: "Отвечать на комментарии можно также двойным нажатием на краю комментария, или через long press (touch или мышь)". При нажатии на "Got it", проставлять cookie, чтобы более не показывалась такая подсказка.
 
 
 
@@ -168,8 +115,44 @@ in updateThread(): refresh `ThreadActivityStatus`.
 
 
 
+Можно сохранять содержимое отслеживаемых тредов (мб также текущего открытого треда) куда-то каждый раз при обновлении (запросе на сервер): таким образом, можно будет видеть удалённые посты (помечать такие посты как удалённые).
+
+
+
+
+
+
+Вместо надписи "Обновление через ... секунд", показывать кнопку "( ) Автообновление", где "( )" — это часы, на которых отсчитывается время круговым прогресс-баром. В подсказке можно писать что-нибудь, а можно и не писать. По нажатию на этом всём — автообновление происходит досрочно (если ещё не идёт, потому что тогда будет disabled).
+
+Придумать какой-нибудь нормальный gradation (style), и сделать его по умолчанию в javascript-time-ago@2, javascript-time-ago, react-time-ago.
+
+{
+	'in less than a minute'
+}
+
+Remove `await new Promise(_ => setTimeout(_, 5 * 1000))` after code has been written.
+
+Test `.ThreadPage-closed` / `.ThreadPage-expired` design.
+
+Test thread expiring while autoupdating it: show "Thread Expired" message like "Thread is closed".
+
+Test `alert('on current thread expired')`
+
+`const [isUpdating, setUpdating] = useState()` — уже инициализировать, возможно, актуальным делеем.
+
+When `thread.expired === true` then don't show reply form and show "Thread expired" message when choosing "Reply" in the more actions menu (or when double-clicking/long-pressing a comment). Same for a closed thread.
+
+When a comment is posted to a thread and the error code is 404, then call `dispatch(threadExpired())` and show an appropriate error message and show "Thread Expired" message like "Thread is closed".
 
 ### Автообновление треда
+
+INTERVALS переместить в javascript-time-ago в scale или style, и оттуда импортировать как-то.
+
+Когда докрутил до конца — не всегда запускать автообновление. Лучше смотреть, какое время прошло с открытия страницы треда, и сравнивать его с интервалами обновления.
+
+previous auto-update timestamp писать где-нибудь: можно в thread-е.
+
+Новые комментарии подсвечивать немного акцентным цветом. Можно использовать цвета Clickable, но тогда проверить, что в ночных режимах там именно акцентом подсвечивает, а не просто светлее делает.
 
 Сделать автообновление треда при прочтении самого позднего на текущий момент времени сообщения в нём. Если вкладка visible, то обновлять можно чаще. Статус автообновления писать под комментариями треда: "Обновление через ... с" ("Refresh in ... s"). Или, чтобы не тикало, можно писать "Обновлено ... мин ранее".
 
@@ -203,6 +186,10 @@ in updateThread(): refresh `ThreadActivityStatus`.
 
 
 
+
+
+
+Может зарелизить `OnLongPress`.
 
 
 
@@ -250,65 +237,16 @@ in updateThread(): refresh `ThreadActivityStatus`.
 ### Обновление отслеживаемых тредов
 
 
-Время давности — время наиболее недавнего обновления минус время наиболее недавнего комментария (`trackedThread.latestComment.createdAt`). Время наиболее недавнего обновления — `trackedThread.refreshedAt || trackedThread.addedAt`.
-
-
-Если время давности до 5 минут, то интервал обновления — 30 секунд.
-Если время давности до 10 минут, то интервал обновления — 1 минута.
-Если время давности до 15 минут, то интервал обновления — 2 минуты.
-Если время давности до 30 минут, то интервал обновления — 3 минуты.
-Если время давности до часа, то интервал обновления — 5 минут.
-Если время давности до 3 часов, то интервал обновления — 10 минут.
-Если время давности до 6 часов, то интервал обновления — 20 минут.
-Если время давности до 12 часов, то интервал обновления — 25 минут.
-Если время давности до 24 часов, то интервал обновления — 30 минут.
-Если время давности до 7 дней, то интервал обновления — час.
-Если время давности до 14 дней, то интервал обновления — 3 часа.
-Если время давности до 30 дней, то интервал обновления — 12 часов.
-Если время давности более 30 дней, то интервал обновления — 24 часа.
-
-
-const REFRESH_INTERVALS = [{
-	interval: 30 * 1000
-}, {
-	threshold: 5 * 60 * 1000,
-	interval: 60 * 1000
-}, {
-	threshold: 10 * 60 * 1000,
-	interval: 2 * 60 * 1000
-}, {
-	threshold: 15 * 60 * 1000,
-	interval: 3 * 60 * 1000
-}, {
-	threshold: 30 * 60 * 1000,
-	interval: 5 * 60 * 1000
-}, {
-	threshold: 60 * 60 * 1000,
-	interval: 10 * 60 * 1000
-}, {
-	threshold: 3 * 60 * 60 * 1000,
-	interval: 20 * 60 * 1000
-}, {
-	threshold: 6 * 60 * 60 * 1000,
-	interval: 25 * 60 * 1000
-}, {
-	threshold: 12 * 60 * 60 * 1000,
-	interval: 30 * 60 * 1000
-}, {
-	threshold: 24 * 60 * 60 * 1000,
-	interval: 60 * 60 * 1000
-}, {
-	threshold: 7 * 24 * 60 * 60 * 1000,
-	interval: 3 * 60 * 60 * 1000
-}, {
-	threshold: 14 * 24 * 60 * 60 * 1000,
-	interval: 12 * 60 * 60 * 1000
-}, {
-	threshold: 30 * 24 * 60 * 60 * 1000,
-	interval: 24 * 60 * 60 * 1000
-}]
-
 Background refresh чтобы не конфликтовал с cached local storage (visibility change): если thread watched, то записывать прочитанность сразу, чтобы не было ситуаций, когда уже прочтено много, но ещё не отмечено, а браузер обновляет в фоне, и говорит, что столько-то непрочитанных. Также, при записи на диск обновлять счётчик непрочитанных в отслеживаемых тредах (таким образом устраняя race condition).
+
+
+
+
+
+При обновлении треда через AutoUpdate — проставлять refreshedAt в tracked threads.
+
+
+
 
 
 
@@ -373,6 +311,12 @@ Background refresh чтобы не конфликтовал с cached local stor
 Deploy gh pages with base path config.
 
 Comment read status watcher: read, if appears after scroll and was mounted before scroll; read, if appears on screen and then some user input happens (touch, click, keydown) and it's still visible for half a second, or a scroll happens.
+
+
+
+
+
+On desktops, when navigating a YouTube video by left/right arrow, the progress bar is not shown. It could show a custom progress bar that would disappear on mouse over.
 
 
 
@@ -518,6 +462,11 @@ Create translation thread on kohlchan.
 
 
 Если ответить из окна "В ответ на" — закрывать это окно.
+
+
+
+
+При заходе в тред (и при авто-обновлении треда) — кешировать его в кеше "N наиболее недавних загруженных тредов". Также кешировать отслеживаемые треды при каждой их загрузке и обновлении. Если такой тред истекает, то показывать страницу треда, как если бы он не истёк (миниатюры можно сохранять тоже, но оригиналы уже делать некликабельными, или показывающими крестик "картинка не может быть загружена"), и `position: fixed` красную плашку (с закрывашкой), говорящую о том, что тред истёк, и что он будет очищен из кеша через некоторое время, а пока его можно "Сохранить" (в виде .json файла с миниатюрами).
 
 
 
@@ -926,6 +875,8 @@ ignore words: validate rules on save and on compile.
 
 Можно добавить IntersectionObserver в компонент Picture (lazy load): загружать картинки только тогда, когда они будут видны через высоту экрана, например (Page Down).
 
+
+Если тред ушёл в бамп-лимит, то при раскрытии формы ответа писать плашку предупреждающую, что тред в бамп-лимите и не будет бампнут ответом в него.
 
 Мб как-то отличать страницу доски и страницу треда (сейчас не понятно, где находится пользователь, на мобильных).
 

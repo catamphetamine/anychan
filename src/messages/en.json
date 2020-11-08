@@ -5,7 +5,8 @@
 		"showAll": "Show all boards",
 		"showBoardsList": "Show boards list",
 		"byPopularity": "Popular",
-		"byCategory": "By Category"
+		"byCategory": "By Category",
+		"error": "Couldn't load the list of boards"
 	},
 	"trackedThreads": {
 		"title": "Tracked threads",
@@ -150,6 +151,12 @@
 	"country": {
 		"anonymous": "Anonymous"
 	},
+	"autoUpdate": {
+		"scheduledBeforeTime": "Autoupdate ",
+		"inProgress": "Updating…",
+		"soon": "Updating soon…",
+		"error": "Couldn't update the thread."
+	},
 	"notImplemented": "This feature hasn't been implemented yet",
 	"inReplyTo": "In reply to",
 	"backToPreviouslyViewedComment": "Return",
@@ -158,6 +165,8 @@
 	"newComments": "New comments",
 	"lastComment": "Last comment",
 	"goToComment": "Go to comment",
+	"threadIsClosed": "This thread is closed",
+	"threadExpired": "This thread has expired",
 	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>15 minutes</time>",
 	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>hour</time>"

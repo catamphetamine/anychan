@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import TrackedThreads from './TrackedThreads'
+import TrackedThreads from '../TrackedThreads/TrackedThreads'
 import SidebarSection from './SidebarSection'
 
-import getMessages from '../messages'
+import getMessages from '../../messages'
 
 export default function TrackedThreadsSidebarSection() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)

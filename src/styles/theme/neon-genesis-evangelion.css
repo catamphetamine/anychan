@@ -88,10 +88,12 @@
 	--Sidebar-highlightColor-200: #f9f1ed;
 
 	/* Boards. */
-	--Boards-color--slashHover: var(--Boards-color--slashSelected);
-	--Boards-color--slashActive: #e8bec0;
-	--Boards-color--slashSelected: #deb9bb;
 	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+
+	/* BoardUrl. */
+	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
+	--BoardUrl-slash-color--active: #e8bec0;
+	--BoardUrl-slash-color--selected: #deb9bb;
 
 	/* BoardThreadMenu. */
 	--BoardThreadMenu-color--active: #b9699c;
@@ -181,8 +183,8 @@
 	--Sidebar-highlightColor-100: #232447;
 	--Sidebar-highlightColor-200: #202042;
 
-	/* Boards. */
-	--Boards-color--slashActive: #655339;
+	/* BoardUrl. */
+	--BoardUrl-slash-color--active: #655339;
 
 	/* HoverButton. */
 	--HoverButton-backgroundColor: #2c2d62;

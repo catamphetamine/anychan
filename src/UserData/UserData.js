@@ -276,6 +276,11 @@ export class UserData {
 		this.onThreadsExpired(boardId, id => !getThreadById(id))
 	}
 
+	/**
+	 * This function is called from `threadTracker.js`.
+	 * @param  {string} boardId
+	 * @param  {number} threadId
+	 */
 	onThreadExpired(boardId, threadId) {
 		this.onThreadsExpired(boardId, id => id === threadId)
 	}

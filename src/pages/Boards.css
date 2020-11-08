@@ -9,30 +9,20 @@
 	.BoardsListBoard-title {
 		font-weight: normal;
 	}
-	.BoardsListBoard:not(:active) {
+	.BoardsListBoard {
 		.BoardsListBoard-title {
 			color: var(--Sidebar-color-900);
 		}
 	}
+	.BoardsListBoard:hover {
+		--BoardUrl-slash-color: var(--BoardUrl-slash-color--hover);
+		background-color: var(--Boards-backgroundColor--hover);
+	}
 	.BoardsListBoard:active {
+		--BoardUrl-slash-color: var(--BoardUrl-slash-color--active);
+		background-color: var(--Boards-backgroundColor--active);
 		.BoardsListBoard-title {
 			color: var(--Boards-color--active);
-		}
-	}
-	.BoardsListBoard:hover {
-		background-color: var(--Boards-backgroundColor--hover);
-		.BoardUrl {
-			&:before, &:after {
-				color: var(--Boards-color--slashHover);
-			}
-		}
-	}
-	.BoardsListBoard:active {
-		background-color: var(--Boards-backgroundColor--active);
-		.BoardUrl {
-			&:before, &:after {
-				color: var(--Boards-color--slashActive);
-			}
 		}
 	}
 }

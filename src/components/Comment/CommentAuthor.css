@@ -123,5 +123,9 @@
 	/*font-size: 125%;*/
 	color: var(--Post-color--secondary);
 	/* Don't show `cursor: text` on mouse over. */
-	cursor: default;
+	/*cursor: default;*/
+	/* Could be "cursor: default" instead but that would
+	   override `<Clickable/>`'s `cursor: pointer`
+	   when a comment is clickable on "Boards" page. */
+	pointer-events: none;
 }

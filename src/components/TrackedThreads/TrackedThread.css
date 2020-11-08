@@ -1,25 +1,3 @@
-@import "../styles/common";
-
-.TrackedThreads {
-	/*padding-top: calc(var(--unit) * 1);*/
-	/*padding-bottom: calc(var(--unit) * 1);*/
-	--Picture-borderColor: var(--Sidebar-color-600);
-}
-
-.TrackedThreads--empty {
-	/*
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	*/
-	color: var(--Sidebar-color-600);
-}
-
-.TrackedThreads-empty {
-	margin-top: calc(var(--unit) * 5);
-	text-align: center;
-}
-
 .TrackedThread {
 	position: relative;
 	height: var(--List-lineHeight);
@@ -118,13 +96,7 @@
 }
 
 .TrackedThread:not(.TrackedThread--expired) {
-	.TrackedThread-board {
-		color: var(--Boards-color--active);
-		&:before,
-		&:after {
-			color: var(--Boards-color--slash);
-		}
-	}
+	--BoardUrl-color: var(--Boards-color--active);
 
 	/* Using this level of specificity because otherwise
 	   `:not()` would have higher priority. */
@@ -132,30 +104,16 @@
 		background-color: var(--Boards-backgroundColor--selected);
 		border-top: 1px solid var(--List-borderColor--selected);
 		border-bottom: 1px solid var(--List-borderColor--selected);
-		.BoardUrl {
-			&:before,
-			&:after {
-				color: var(--Boards-color--slashSelected);
-			}
-		}
 	}
 
 	.TrackedThread-inner--link {
 		&:hover {
 			background-color: var(--Boards-backgroundColor--hover);
-			.TrackedThread-board {
-				&:before, &:after {
-					color: var(--Boards-color--slashHover);
-				}
-			}
+			--BoardUrl-slash-color: var(--BoardUrl-slash-color--hover);
 		}
 		&:active {
 			background-color: var(--Boards-backgroundColor--active);
-			.TrackedThread-board {
-				&:before, &:after {
-					color: var(--Boards-color--slashActive);
-				}
-			}
+			--BoardUrl-slash-color: var(--BoardUrl-slash-color--active);
 			.TrackedThread-title {
 				color: var(--Boards-color--active);
 			}
@@ -192,26 +150,6 @@
 	color: var(--Sidebar-backgroundColor);
 }
 
-.TrackedThreads-undo-untrack {
+.TrackedThread-undoUntrack {
 	margin-right: calc((var(--List-lineHeight) - var(--ListButtonIcon-width)) / 2);
-}
-
-.TrackedThreads-showMoreLess,
-.TrackedThreads-showExpired {
-	margin-left: var(--unit);
-	margin-right: var(--unit);
-	text-transform: lowercase;
-	line-height: var(--List-lineHeight);
-}
-
-.TrackedThreads-showMoreLessContainer {
-	text-align: right;
-}
-
-@mixin upto-m {
-	.Document--leftHanded {
-		.TrackedThreads-showMoreLessContainer {
-			text-align: left;
-		}
-	}
 }

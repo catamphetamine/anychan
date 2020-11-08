@@ -306,9 +306,9 @@
 			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
 			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
 		}
-		/* `flex-basis` must be equal to `.thread-comment__thumbnail` width + margins:
-		   this makes thread comment text be centered on screen. */
-		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		/* `flex-basis` must be equal to `.Comment-thumbnail` width + margins:
+		   this makes thread comment text centered on screen. */
+		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + 2 * var(--PostThumbnail-marginRight));
 	}
 }
 

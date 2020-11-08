@@ -1,0 +1,41 @@
+@import "../../styles/common";
+
+.TrackedThreads {
+	/*padding-top: calc(var(--unit) * 1);*/
+	/*padding-bottom: calc(var(--unit) * 1);*/
+	--Picture-borderColor: var(--Sidebar-color-600);
+}
+
+.TrackedThreads--empty {
+	/*
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	*/
+	color: var(--Sidebar-color-600);
+}
+
+.TrackedThreads-empty {
+	margin-top: calc(var(--unit) * 5);
+	text-align: center;
+}
+
+.TrackedThreads-showMoreLess,
+.TrackedThreads-showExpired {
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	text-transform: lowercase;
+	line-height: var(--List-lineHeight);
+}
+
+.TrackedThreads-showMoreLessContainer {
+	text-align: right;
+}
+
+@mixin upto-m {
+	.Document--leftHanded {
+		.TrackedThreads-showMoreLessContainer {
+			text-align: left;
+		}
+	}
+}

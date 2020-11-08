@@ -50,12 +50,6 @@
 	text-align: right;
 	outline: none;
 	padding-left: var(--unit);
-	.BoardUrl {
-		&:before,
-		&:after {
-			color: var(--Boards-color--slash);
-		}
-	}
 }
 
 .BoardsListBoard-title {
@@ -72,11 +66,14 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	/* When "large" font size is set, `flex-wrap: wrap` allows
+	   the board view switcher buttons to span multiple lines. */
+	flex-wrap: wrap;
 	margin-top: 0;
 	margin-bottom: var(--unit);
 	margin-left: var(--unit);
 	margin-right: var(--unit);
-	color: var(--Boards-color--viewSwitcher);
+	color: var(--BoardsViewSwitcher-color);
 }
 
 .BoardsViewSwitcher-switch {
@@ -147,38 +144,14 @@
 	--Boards-borderColor: var(--Boards-borderColor--selected);
 }
 
-.BoardsListBoard-url--selected {
-	.BoardUrl {
-		&:before, &:after {
-			color: var(--Boards-color--slashSelected);
-		}
-	}
-}
-
 .BoardsListBoard-url--hover,
 .BoardsListBoard-title--hover {
 	background-color: var(--Boards-backgroundColor--hover);
 }
 
-.BoardsListBoard-url--hover {
-	.BoardUrl {
-		&:before, &:after {
-			color: var(--Boards-color--slashHover);
-		}
-	}
-}
-
 .BoardsListBoard-url--active,
 .BoardsListBoard-title--active {
 	background-color: var(--Boards-backgroundColor--active);
-}
-
-.BoardsListBoard-url--active {
-	.BoardUrl {
-		&:before, &:after {
-			color: var(--Boards-color--slashActive);
-		}
-	}
 }
 
 .BoardsListBoard-title--active,
@@ -194,4 +167,21 @@ a.BoardsListBoard-title:active {
 
 .BoardsListBoard-title {
 	padding-right: calc(var(--unit) * 2);
+}
+
+.Boards-error {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	text-align: center;
+}
+
+.Boards-errorText {
+	color: var(--Content-color-600);
+}
+
+.Boards-errorRetry {
+	display: inline;
+	color: var(--Clickable-color--text);
 }

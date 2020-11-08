@@ -3,7 +3,7 @@
 import path from 'path'
 import webpack from 'webpack'
 
-import configuration from '../configuration'
+// import configuration from '../configuration'
 
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 
@@ -13,16 +13,16 @@ export default {
 
 	output: {
 		// Filesystem path for static files
-		path: path.resolve(PROJECT_ROOT, 'build/assets'),
+		path: path.resolve(PROJECT_ROOT, 'build'),
 
 		// Network path for static files
 		publicPath: '/',
 
 		// Specifies the name of each output entry file
-		filename: '[name].[hash].js',
+		filename: '[name].[contenthash].js',
 
 		// Specifies the name of each (non-entry) chunk file
-		chunkFilename: '[name].[hash].js'
+		chunkFilename: '[name].[contenthash].js'
 	},
 
 	module: {
@@ -105,9 +105,9 @@ export default {
     // new webpack.ProvidePlugin({
     //   STAGE_CONFIGURATION: [path.resolve(PROJECT_ROOT, 'configuration'), 'default']
     // })
-    new webpack.DefinePlugin({
-      STAGE_CONFIGURATION: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'configuration')))
-    })
+    // new webpack.DefinePlugin({
+    //   STAGE_CONFIGURATION: JSON.stringify(require(path.resolve(PROJECT_ROOT, 'configuration')))
+    // })
 	]
 
 	// I like `import configuration from './configuration'`

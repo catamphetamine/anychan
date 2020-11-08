@@ -8,7 +8,8 @@ import {
 	board as boardType
 } from '../../PropTypes'
 
-import OnClick from 'webapp-frontend/src/components/OnClick'
+import Clickable from 'webapp-frontend/src/components/Clickable'
+import OnLongPress from 'webapp-frontend/src/components/OnLongPress'
 
 import Comment from './Comment'
 import CommentReadStatusWatcher from './CommentReadStatusWatcher'
@@ -73,7 +74,17 @@ export default function CommentWrapped({
 		onClick_(comment, thread, board)
 	}, [onClick_, comment])
 
-	const onReply = useCallback(() => {
+	const onReply = useCallback((quoteText) => {
+		let text = '>>' + comment.id
+		if (comment.id === thread.id) {
+			text += ' (OP)'
+		}
+		text += '\n'
+		if (quoteText) {
+			text += '>' + quoteText
+			text += '\n'
+		}
+		console.log(text)
 		dispatch(notify(getMessages(locale).notImplemented))
 		openLinkInNewTab(getCommentUrl(board, thread, comment))
 		// if (showReplyForm) {
@@ -108,6 +119,18 @@ export default function CommentWrapped({
 		locale
 	])
 
+	const onLongPressOrDoubleClick = useCallback((event) => {
+		if (isElementApplicableForReplyOnLongPressOrDoubleClick(event.target)) {
+			onReply()
+		}
+	}, [
+		onReply
+	])
+
+	// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
+	// when a thread expired during auto-update.
+	const canReply = mode === 'thread' && !thread.isLocked && !thread.expired
+
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
 	// `postRef` is supplied by `<CommentTree/>`
@@ -122,7 +145,8 @@ export default function CommentWrapped({
 			board={board}
 			locale={locale}
 			urlBasePath={getBasePath()}
-			onReply={mode === 'thread' && !thread.isLocked ? onReply : undefined}
+			onReply={canReply ? onReply : undefined}
+			onDoubleClick={canReply ? onLongPressOrDoubleClick : undefined}
 			dispatch={dispatch}
 			parentComment={parentComment}/>
 	)
@@ -149,12 +173,19 @@ export default function CommentWrapped({
 
 	if (onClick_) {
 		commentElement = (
-			<OnClick
+			<Clickable
 				filter={commentOnClickFilter}
 				onClick={onClick}
 				url={getBasePath() + onClickUrl}>
 				{commentElement}
-			</OnClick>
+			</Clickable>
+		)
+	} else if (canReply) {
+		commentElement = (
+			<OnLongPress
+				onLongPress={onLongPressOrDoubleClick}>
+				{commentElement}
+			</OnLongPress>
 		)
 	}
 
@@ -221,3 +252,27 @@ function EllipsisVerticalIcon(props) {
 	)
 }
 */
+
+const ELEMENTS_APPLICABLE_FOR_REPLY_ON_LONG_PRESS_OR_DOUBLE_CLICK = [
+	'Comment',
+	'Comment-thumbnail',
+	'Comment-thumbnailPlaceholder',
+	'CommentAuthor',
+	'PostTitle',
+	'PostParagraph',
+	'PostVideo',
+	'PostPicture',
+	'PostEmbeddedAttachmentTitle',
+	'PostContent',
+	'CommentFooter',
+	'CommentFooter-left',
+	'CommentFooter-right'
+]
+
+function isElementApplicableForReplyOnLongPressOrDoubleClick(element) {
+	for (const className of ELEMENTS_APPLICABLE_FOR_REPLY_ON_LONG_PRESS_OR_DOUBLE_CLICK) {
+		if (element.classList.contains(className)) {
+			return true
+		}
+	}
+}

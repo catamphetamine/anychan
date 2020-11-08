@@ -6,7 +6,7 @@ import sortTrackedThreads from '../utility/sortTrackedThreads'
 const redux = new ReduxModule('THREAD_TRACKER')
 
 export const getTrackedThreads = redux.simpleAction(
-	addTrackedThreadsData
+	updateStateWithTrackedThreadsFromUserData
 )
 
 export const trackThread = redux.action(
@@ -29,39 +29,43 @@ export const trackThread = redux.action(
 		// Remove old expired tracked threads.
 		sortAndTrimTrackedThreads()
 	},
-	addTrackedThreadsData
+	updateStateWithTrackedThreadsFromUserData
 )
 
 export const untrackThread = redux.action(
 	(thread) => async () => {
 		UserData.removeTrackedThreadsList(thread)
 	},
-	addTrackedThreadsData
+	updateStateWithTrackedThreadsFromUserData
 )
 
 redux.on('CHAN', 'GET_THREADS', (state, { boardId, threads }) => {
 	// Clear expired threads from user data.
 	UserData.updateThreads(boardId, threads)
-	return addTrackedThreadsData(state)
+	return updateStateWithTrackedThreadsFromUserData(state)
+})
+
+redux.on('CHAN', 'CURRENT_THREAD_EXPIRED', (state, thread) => {
+	alert('on current thread expired')
+	// Clear the expired thread from user data.
+	UserData.onThreadExpired(thread.boardId, thread.id)
+	return updateStateWithTrackedThreadsFromUserData(state)
 })
 
 export const threadExpired = redux.simpleAction(
 	(state, { boardId, threadId }) => {
 		UserData.onThreadExpired(boardId, threadId)
-		return addTrackedThreadsData(state)
+		return updateStateWithTrackedThreadsFromUserData(state)
 	}
 )
 
 export default redux.reducer({
-	...(typeof window === 'undefined' ? {} : addTrackedThreadsData({}))
+	...(typeof window === 'undefined' ? {} : updateStateWithTrackedThreadsFromUserData({}))
 })
 
-function addTrackedThreadsData(state) {
+function updateStateWithTrackedThreadsFromUserData(state) {
 	return {
 		...state,
-		// Chrome seems to optimize `localStorage` access
-		// by returning the same "reference" when getting
-		// tracked threads list even after
 		trackedThreads: UserData.getTrackedThreadsList(),
 		trackedThreadsIndex: UserData.getTrackedThreads()
 	}
