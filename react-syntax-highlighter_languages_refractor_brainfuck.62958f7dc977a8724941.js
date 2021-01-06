@@ -1,0 +1,2 @@
+(self.webpackChunkcaptchan=self.webpackChunkcaptchan||[]).push([[5539],{61321:a=>{"use strict";function e(a){a.languages.brainfuck={pointer:{pattern:/<|>/,alias:"keyword"},increment:{pattern:/\+/,alias:"inserted"},decrement:{pattern:/-/,alias:"deleted"},branching:{pattern:/\[|\]/,alias:"important"},operator:/[.,]/,comment:/\S+/}}a.exports=e,e.displayName="brainfuck",e.aliases=[]}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_refractor_brainfuck.62958f7dc977a8724941.js.map

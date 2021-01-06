@@ -1,0 +1,2 @@
+(self.webpackChunkcaptchan=self.webpackChunkcaptchan||[]).push([[3140],{60561:a=>{"use strict";function e(a){a.languages.hsts={directive:{pattern:/\b(?:max-age=|includeSubDomains|preload)/,alias:"keyword"},safe:{pattern:/\b\d{8,}\b/,alias:"selector"},unsafe:{pattern:/\b\d{1,7}\b/,alias:"function"}}}a.exports=e,e.displayName="hsts",e.aliases=[]}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_refractor_hsts.213b7d6a3c51298f33a2.js.map
