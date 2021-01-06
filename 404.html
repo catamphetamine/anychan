@@ -30,10 +30,10 @@
 		<!-- Set the correct `configuration.path` if running a GitHub pages demo. -->
 		<script>
 			if (window.location.origin === 'https://catamphetamine.github.io') {
-				BASE_PATH = '/captchan'
+				BASE_PATH = CONFIG.path = '/captchan'
 			}
 		</script>
-		
+
 		<script>
 			(function () {
 				var scriptTagAttributes = {"defer":true,"src":"/main.3a210073344aaecf9531.js"}
@@ -54,7 +54,7 @@
 				document.head.appendChild(styleLink)
 			})()
 		</script>
-		
+
 		<!-- Set `__webpack_public_path__` -->
 		<script>
 			// `__webpack_public_path__` is configured dynamically at runtime.
@@ -62,7 +62,7 @@
 			__webpack_public_path__ = BASE_PATH + '/'
 		</script>
 		<!-- Google Analytics -->
-		
+
 		<script>
 			if (CONFIG.googleAnalyticsId) {
 				var script = document.createElement('script')
@@ -76,7 +76,7 @@
 				gtag('js', new Date());
 			}
 		</script>
-		
+
 		<script>
 			var PROVIDER_ICON_URLS = []
 			var PROVIDER_TITLES = []
