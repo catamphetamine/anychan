@@ -17,17 +17,17 @@ describe('UserData', () => {
 		userData.addTrackedThreadsList({
 			id: 123,
 			title: 'Anime 1',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		userData.addTrackedThreadsList({
 			id: 456,
 			title: 'Anime 2',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		userData.addTrackedThreadsList({
 			id: 789,
 			title: 'Random',
-			board: { id: 'b' }
+			channel: { id: 'b' }
 		})
 		expectToEqual(
 			storage.data,
@@ -45,21 +45,21 @@ describe('UserData', () => {
 					{
 						id: 123,
 						title: 'Anime 1',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 456,
 						title: 'Anime 2',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 789,
 						title: 'Random',
-						board: {
+						channel: {
 							id: 'b'
 						}
 					}
@@ -68,7 +68,7 @@ describe('UserData', () => {
 		)
 		userData.removeTrackedThreadsList({
 			id: 123,
-			board: {
+			channel: {
 				id: 'a'
 			}
 		})
@@ -87,14 +87,14 @@ describe('UserData', () => {
 					{
 						id: 456,
 						title: 'Anime 2',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 789,
 						title: 'Random',
-						board: {
+						channel: {
 							id: 'b'
 						}
 					}
@@ -111,17 +111,17 @@ describe('UserData', () => {
 		userData.addTrackedThreadsList({
 			id: 123,
 			title: 'Anime 1',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		userData.addTrackedThreadsList({
 			id: 456,
 			title: 'Anime 2',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		userData.addTrackedThreadsList({
 			id: 789,
 			title: 'Random',
-			board: { id: 'b' }
+			channel: { id: 'b' }
 		})
 		userData.addLatestReadComments('a', 123, { id: 124, threadUpdatedAt: 1000 })
 		userData.addLatestReadComments('a', 456, { id: 456, threadUpdatedAt: 2000 })
@@ -151,21 +151,21 @@ describe('UserData', () => {
 					{
 						id: 123,
 						title: 'Anime 1',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 456,
 						title: 'Anime 2',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 789,
 						title: 'Random',
-						board: {
+						channel: {
 							id: 'b'
 						}
 					}
@@ -222,7 +222,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.updateThreads('a', [{ id: 456 }])
+		userData.clearExpiredThreads('a', [{ id: 456 }])
 		expectToEqual(
 			storage.data,
 			{
@@ -238,7 +238,7 @@ describe('UserData', () => {
 					{
 						id: 123,
 						title: 'Anime 1',
-						board: {
+						channel: {
 							id: 'a'
 						},
 						expired: true
@@ -246,14 +246,14 @@ describe('UserData', () => {
 					{
 						id: 456,
 						title: 'Anime 2',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 789,
 						title: 'Random',
-						board: {
+						channel: {
 							id: 'b'
 						}
 					}
@@ -306,12 +306,12 @@ describe('UserData', () => {
 		userData.addTrackedThreadsList({
 			id: 123,
 			title: 'Anime 1',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		userData.addTrackedThreadsList({
 			id: 456,
 			title: 'Anime 2',
-			board: { id: 'a' }
+			channel: { id: 'a' }
 		})
 		// Create merged dataset.
 		const storage2 = new MemoryStorage({
@@ -323,7 +323,7 @@ describe('UserData', () => {
 		userData2.addTrackedThreadsList({
 			id: 789,
 			title: 'Random',
-			board: { id: 'b' }
+			channel: { id: 'b' }
 		})
 		userData.merge(userData2.get())
 		// Validate merge results.
@@ -343,21 +343,21 @@ describe('UserData', () => {
 					{
 						id: 123,
 						title: 'Anime 1',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 456,
 						title: 'Anime 2',
-						board: {
+						channel: {
 							id: 'a'
 						}
 					},
 					{
 						id: 789,
 						title: 'Random',
-						board: {
+						channel: {
 							id: 'b'
 						}
 					}

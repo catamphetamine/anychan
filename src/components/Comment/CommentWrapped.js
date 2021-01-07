@@ -4,8 +4,8 @@ import classNames from 'classnames'
 
 import {
 	comment as commentType,
-	thread as threadType,
-	board as boardType
+	threadId,
+	channelId
 } from '../../PropTypes'
 
 import Clickable from 'webapp-frontend/src/components/Clickable'
@@ -13,15 +13,17 @@ import OnLongPress from 'webapp-frontend/src/components/OnLongPress'
 
 import Comment from './Comment'
 import CommentReadStatusWatcher from './CommentReadStatusWatcher'
+import NewAutoUpdateCommentsStartLine from './NewAutoUpdateCommentsStartLine'
 import PostForm from '../PostForm'
 
+import useMount from 'webapp-frontend/src/hooks/useMount'
 import { notify } from 'webapp-frontend/src/redux/notifications'
-
 import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
-import { getCommentUrl } from '../../chan'
+import { getCommentUrl, getThreadUrl } from '../../provider'
 import getMessages from '../../messages'
 import getBasePath from '../../utility/getBasePath'
+import UnreadCommentWatcher from '../../utility/UnreadCommentWatcher'
 
 import './CommentWrapped.css'
 
@@ -32,69 +34,90 @@ import './CommentWrapped.css'
 export default function CommentWrapped({
 	id,
 	comment,
-	thread,
-	board,
+	threadId,
+	channelId,
+	channelIsNotSafeForWork,
 	mode,
 	locale,
 	parentComment,
+	showReplyAction,
+	threadIsLocked,
+	threadExpired,
 	onClick: onClick_,
 	onClickUrl,
 	initialShowReplyForm,
 	onToggleShowReplyForm,
-	onContentDidChange,
+	onRenderedContentDidChange,
 	dispatch,
-	postRef,
+	elementRef,
 	onPostUrlClick,
+	unreadCommentWatcher,
 	...rest
 }) {
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 	const replyForm = useRef()
-	const isMounted = useRef()
+	const [isMounted, onMount] = useMount()
 
 	useEffect(() => {
-		if (isMounted.current) {
+		if (isMounted()) {
 			// Update reply form expanded state in `virtual-scroller` state.
 			if (onToggleShowReplyForm) {
 				onToggleShowReplyForm(showReplyForm)
 			}
 			// Reply form has been toggled: update `virtual-scroller` item height.
-			if (onContentDidChange) {
-				onContentDidChange()
+			if (onRenderedContentDidChange) {
+				onRenderedContentDidChange()
 			}
 			if (!showReplyForm) {
-				console.log('.focus() the "Reply" button of `postRef.current` here.')
+				console.log('.focus() the "Reply" button of `elementRef.current` here.')
 			}
-		} else {
-			isMounted.current = true
 		}
 	}, [showReplyForm])
 
 	const onClick = useCallback((event) => {
 		event.preventDefault()
-		onClick_(comment, thread, board)
-	}, [onClick_, comment])
+		onClick_(comment, threadId, channelId)
+	}, [
+		onClick_,
+		comment,
+		threadId,
+		channelId
+	])
 
 	const onReply = useCallback((quoteText) => {
-		let text = '>>' + comment.id
-		if (comment.id === thread.id) {
-			text += ' (OP)'
+		if (threadIsLocked) {
+			return dispatch(notify(getMessages(locale).threadIsLocked))
 		}
-		text += '\n'
-		if (quoteText) {
-			text += '>' + quoteText
-			text += '\n'
+		if (threadExpired) {
+			return dispatch(notify(getMessages(locale).threadExpired))
 		}
+		const text = getReplyText({
+			commentId: comment.id,
+			threadId,
+			quoteText
+		})
 		console.log(text)
 		dispatch(notify(getMessages(locale).notImplemented))
-		openLinkInNewTab(getCommentUrl(board, thread, comment))
+		let url
+		if (comment.id === threadId) {
+			url = getThreadUrl(channelId, threadId, {
+				isNotSafeForWork: channelIsNotSafeForWork
+			})
+		} else {
+			url = getCommentUrl(channelId, threadId, comment.id, {
+				isNotSafeForWork: channelIsNotSafeForWork
+			})
+		}
+		openLinkInNewTab(url)
 		// if (showReplyForm) {
 		// 	replyForm.current.focus()
 		// } else {
 		// 	setShowReplyForm(true)
 		// }
 	}, [
-		board,
-		thread,
+		channelId,
+		channelIsNotSafeForWork,
+		threadId,
 		comment,
 		locale,
 		dispatch
@@ -113,7 +136,7 @@ export default function CommentWrapped({
 		// Show a spinner.
 		// Wait for the new comment to be fetched as part of thread auto-update.
 		// Hide the reply form.
-		// Focus the "Reply" button of `postRef.current` here.
+		// Focus the "Reply" button of `elementRef.current` here.
 	}, [
 		comment,
 		locale
@@ -127,26 +150,29 @@ export default function CommentWrapped({
 		onReply
 	])
 
-	// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
-	// when a thread expired during auto-update.
-	const canReply = mode === 'thread' && !thread.isLocked && !thread.expired
+	onMount()
 
 	// `4chan.org` displays attachment thumbnails as `125px`
 	// (half the size) when they're not "OP posts".
-	// `postRef` is supplied by `<CommentTree/>`
-	// and is used to focus stuff on toggle reply form.
+	//
+	// `elementRef` is supplied by `<CommentTree/>`
+	// and is used to to scroll to the parent post
+	// when the user hides its replies tree.
+	//
 	let commentElement = (
 		<Comment
 			{...rest}
-			postRef={postRef}
+			elementRef={elementRef}
 			mode={mode}
 			comment={comment}
-			thread={thread}
-			board={board}
+			threadId={threadId}
+			channelId={channelId}
+			channelIsNotSafeForWork={channelIsNotSafeForWork}
 			locale={locale}
 			urlBasePath={getBasePath()}
-			onReply={canReply ? onReply : undefined}
-			onDoubleClick={canReply ? onLongPressOrDoubleClick : undefined}
+			onReply={showReplyAction ? onReply : undefined}
+			onDoubleClick={showReplyAction ? onLongPressOrDoubleClick : undefined}
+			onRenderedContentDidChange={onRenderedContentDidChange}
 			dispatch={dispatch}
 			parentComment={parentComment}/>
 	)
@@ -180,9 +206,10 @@ export default function CommentWrapped({
 				{commentElement}
 			</Clickable>
 		)
-	} else if (canReply) {
+	} else if (showReplyAction) {
 		commentElement = (
 			<OnLongPress
+				touch
 				onLongPress={onLongPressOrDoubleClick}>
 				{commentElement}
 			</OnLongPress>
@@ -202,33 +229,45 @@ export default function CommentWrapped({
 			id={id}
 			className="Comment-container">
 			<div className="Comment-spacer"/>
+			{!parentComment &&
+				<NewAutoUpdateCommentsStartLine commentId={comment.id}/>
+			}
 			{commentElement}
-			<CommentReadStatusWatcher
-				mode={mode}
-				boardId={board.id}
-				threadId={thread.id}
-				commentId={comment.id}
-				commentIndex={thread.comments.indexOf(comment)}
-				threadUpdatedAt={thread.updatedAt}/>
-			{replyFormElement}
+			{!parentComment && !comment.removed &&
+				<CommentReadStatusWatcher
+					mode={mode}
+					channelId={channelId}
+					threadId={threadId}
+					commentId={comment.id}
+					commentIndex={comment.indexForLatestReadCommentDetection}
+					unreadCommentWatcher={unreadCommentWatcher}/>
+			}
+			{!comment.removed &&
+				replyFormElement
+			}
 		</div>
 	)
 }
 
 CommentWrapped.propTypes = {
 	id: PropTypes.string,
-	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
+	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onClick: PropTypes.func,
 	onClickUrl: PropTypes.string,
+	showReplyAction: PropTypes.bool,
+	threadIsLocked: PropTypes.bool,
+	threadExpired: PropTypes.bool,
 	comment: commentType.isRequired,
-	thread: threadType.isRequired,
-	board: boardType.isRequired,
+	threadId: threadId.isRequired,
+	channelId: channelId.isRequired,
+	channelIsNotSafeForWork: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	parentComment: commentType,
 	initialShowReplyForm: PropTypes.bool,
 	onToggleShowReplyForm: PropTypes.func,
-	onContentDidChange: PropTypes.func
+	onRenderedContentDidChange: PropTypes.func,
+	unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired
 }
 
 function commentOnClickFilter(element) {
@@ -275,4 +314,17 @@ function isElementApplicableForReplyOnLongPressOrDoubleClick(element) {
 			return true
 		}
 	}
+}
+
+function getReplyText({ commentId, threadId, quoteText }) {
+	let text = '>>' + commentId
+	if (commentId === threadId) {
+		text += ' (OP)'
+	}
+	text += '\n'
+	if (quoteText) {
+		text += '>' + quoteText
+		text += '\n'
+	}
+	return text
 }

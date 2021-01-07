@@ -1,15 +1,19 @@
 import { shape, arrayOf, number, string, bool, object, any, oneOf, oneOfType, instanceOf } from 'prop-types'
 import { id, date, postAttachment, postContent, censoredText } from 'webapp-frontend/src/PropTypes'
 
-export const board = shape({
-	id: string.isRequired,
+export const channelId = string
+
+export const channel = shape({
+	id: channelId.isRequired,
 	title: string.isRequired
 })
 
+export const threadId = number
+
 export const thread = shape({
-	id: string.isRequired,
-	board: shape({
-		id: number.isRequired,
+	id: threadId.isRequired,
+	channel: shape({
+		id: channelId.isRequired,
 		title: string
 	}),
 	title: string,
@@ -19,8 +23,10 @@ export const thread = shape({
 	comments: arrayOf(comment).isRequired
 })
 
+export const commentId = number
+
 export const comment = shape({
-	id: number.isRequired,
+	id: commentId.isRequired,
 	createdAt: date,
 	authorName: string,
 	authorEmail: string,
@@ -36,11 +42,11 @@ export const comment = shape({
 })
 
 export const trackedThread = shape({
-	id: number.isRequired,
+	id: threadId.isRequired,
 	title: string.isRequired,
 	addedAt: number.isRequired,
-	board: shape({
-		id: string.isRequired
+	channel: shape({
+		id: channelId.isRequired
 	}),
 	thumbnail: shape({
 		spoiler: bool,

@@ -3,6 +3,7 @@
 	<head>
 		<script>
 			// Set your config parameters here.
+			// https://gitlab.com/catamphetamine/captchan#configuration
 			var CONFIG = {}
 		</script>
 		<!-- Apply default configuration -->
@@ -11,6 +12,12 @@
 			CONFIG = Object.assign({}, DEFAULT_CONFIG, CONFIG)
 			var BASE_PATH = CONFIG.path || ''
 			var VERSION = '<%= version %>'
+		</script>
+		<!-- Set the correct `configuration.path` if running a GitHub pages demo. -->
+		<script>
+			if (window.location.origin === 'https://catamphetamine.github.io') {
+				BASE_PATH = CONFIG.path = '/captchan'
+			}
 		</script>
 		<% if (productionBuild) { %>
 		<script>
@@ -56,7 +63,16 @@
 			}
 		</script>
 		<% } %>
-		<title>captchan</title>
+		<script>
+			var PROVIDER_ICON_URLS = <%= providerIconUrls %>
+			var PROVIDER_TITLES = <%= providerTitles %>
+			var ICON_URL = (CONFIG.provider && PROVIDER_ICON_URLS[CONFIG.provider]) || "<%= defaultIconUrl %>"
+			var TITLE = (CONFIG.provider && PROVIDER_TITLES[CONFIG.provider]) || "<%= defaultTitle %>"
+		</script>
+		<title><%= defaultTitle %></title>
+		<script>
+			document.title = TITLE
+		</script>
 		<!-- Fixes 4chan.org "403 Forbidden" error when loading images. -->
 		<meta name="referrer" content="no-referrer"/>
 		<!-- UTF-8 setting is required to prevent weird character encoding. -->
@@ -66,7 +82,16 @@
 		<!-- Roboto font -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
 		<!-- Application icon -->
-		<link rel="shortcut icon" href="data:image/png;base64,<%= icon %>"/>
+		<!-- <link rel="shortcut icon" href="<%= defaultIconUrl %>"/> -->
+		<script>
+			(function() {
+				var linkElement = document.createElement('link')
+				linkElement.setAttribute('rel', 'shortcut icon')
+				linkElement.setAttribute('href', ICON_URL)
+				document.head.appendChild(linkElement)
+				// document.querySelector('link[rel="shortcut icon"]').setAttribute('href', ICON_URL)
+			})()
+		</script>
 	</head>
 	<body>
 	</body>

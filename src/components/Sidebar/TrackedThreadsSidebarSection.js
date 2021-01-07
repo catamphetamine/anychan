@@ -8,7 +8,7 @@ import getMessages from '../../messages'
 
 export default function TrackedThreadsSidebarSection() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const trackedThreads = useSelector(({ threadTracker }) => threadTracker.trackedThreads)
+	const trackedThreads = useSelector(({ trackedThreads }) => trackedThreads.trackedThreads)
 	const [editMode, setEditMode] = useState()
 	if (trackedThreads.length === 0) {
 		return null

@@ -1,0 +1,24 @@
+@import "../../styles/common";
+
+.AutoUpdate {
+	--AutoUpdate-borderBottomColor: transparent;
+
+	display: block;
+	margin-left: var(--Post-paddingLeft);
+	margin-right: var(--Post-paddingLeft);
+	border-bottom: 1px solid var(--AutoUpdate-borderBottomColor);
+
+	@mixin m-plus {
+		margin-left: calc(var(--PostThumbnailContainer-maxWidth) + var(--Post-paddingLeft));
+	}
+
+	&:focus,
+	&:hover:not([disabled]) {
+		--AutoUpdate-borderBottomColor: var(--Clickable-color--textActive);
+	}
+
+	&:active {
+		color: var(--Clickable-color--textActive);
+		--AutoUpdate-borderBottomColor: var(--Clickable-color--textActive);
+	}
+}

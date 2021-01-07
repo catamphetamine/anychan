@@ -1,16 +1,16 @@
 import configuration from '../configuration'
 import UserSettings from './UserSettings'
-import { isDeployedOnChanDomain } from '../chan'
+import { isDeployedOnProviderDomain } from '../provider'
 
 export function shouldUseProxy() {
-	return !isDeployedOnChanDomain()
+	return !isDeployedOnProviderDomain()
 }
 
 export function getProxyUrl() {
 	// AWS proxy is disabled for now, because "free tier" expires on AWS accounts,
 	// which would mean creating new dummy AWS accounts periodically,
-	// and most popular chans block incoming connections from AWS.
-	// if (getChan().proxy.aws) {
+	// and most popular imageboards block incoming connections from AWS.
+	// if (getProvider().proxy.aws) {
 	// 	if (configuration.proxyUrlAws) {
 	// 		return configuration.proxyUrlAws
 	// 	}

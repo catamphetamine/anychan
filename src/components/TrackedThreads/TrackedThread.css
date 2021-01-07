@@ -1,6 +1,7 @@
 .TrackedThread {
 	position: relative;
 	height: var(--List-lineHeight);
+	font-size: var(--List-fontSize);
 	border-top: 1px solid var(--List-borderColor);
 	border-bottom: 1px solid var(--List-borderColor);
 }
@@ -27,8 +28,8 @@
 .TrackedThread--expired,
 .TrackedThread--edit {
 	.TrackedThread-inner {
-		padding-right: 0.2em;
-		margin-right: -0.2em;
+		padding-right: var(--ListButton-padding);
+		margin-right: calc(-1 * var(--ListButton-padding));
 	}
 }
 
@@ -56,29 +57,23 @@
 .TrackedThread--expired {
 	--TrackedThread-color: var(--Sidebar-color-600);
 	color: var(--TrackedThread-color);
-	.TrackedThread-board,
+	.TrackedThread-channel,
 	.TrackedThread-title {
 		opacity: 0.75;
 		/*cursor: default;*/
 		color: var(--TrackedThread-color);
 	}
-	.TrackedThread-board {
-		&:before,
-		&:after {
-			opacity: 0.4;
-		}
-	}
 	.TrackedThread-thumbnail {
 		--Picture-borderColor: var(--Sidebar-color-200);
 		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
-		.rrui__picture__loading-error {
+		.Picture-loadingError {
 			color: var(--Sidebar-color-500);
 		}
 	}
 }
 
 .TrackedThread--untracked {
-	.TrackedThread-board,
+	.TrackedThread-channel,
 	.TrackedThread-title {
 		text-decoration: line-through;
 	}
@@ -89,33 +84,33 @@
 	/* Prevents the `<Picture/>` from being clickable.
 	   (for example, when the image wasn't found). */
 	pointer-events: none;
-	.rrui__picture__loading-error {
+	.Picture-loadingError {
 		width: 1em;
 		height: 1em;
 	}
 }
 
 .TrackedThread:not(.TrackedThread--expired) {
-	--BoardUrl-color: var(--Boards-color--active);
+	--ChannelUrl-color: var(--Channels-color--active);
 
 	/* Using this level of specificity because otherwise
 	   `:not()` would have higher priority. */
 	&.TrackedThread--selected {
-		background-color: var(--Boards-backgroundColor--selected);
+		background-color: var(--Channels-backgroundColor--selected);
 		border-top: 1px solid var(--List-borderColor--selected);
 		border-bottom: 1px solid var(--List-borderColor--selected);
 	}
 
 	.TrackedThread-inner--link {
 		&:hover {
-			background-color: var(--Boards-backgroundColor--hover);
-			--BoardUrl-slash-color: var(--BoardUrl-slash-color--hover);
+			background-color: var(--Channels-backgroundColor--hover);
+			--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--hover);
 		}
 		&:active {
-			background-color: var(--Boards-backgroundColor--active);
-			--BoardUrl-slash-color: var(--BoardUrl-slash-color--active);
+			background-color: var(--Channels-backgroundColor--active);
+			--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--active);
 			.TrackedThread-title {
-				color: var(--Boards-color--active);
+				color: var(--Channels-color--active);
 			}
 		}
 	}
@@ -125,7 +120,7 @@
 	/* `min-width: 0` fixes overflow. */
 	min-width: 0;
 	margin-left: 0.3em;
-	color: var(--Boards-color);
+	color: var(--Channels-color);
 	flex: 1;
 	white-space: nowrap;
 	overflow: hidden;
@@ -152,4 +147,5 @@
 
 .TrackedThread-undoUntrack {
 	margin-right: calc((var(--List-lineHeight) - var(--ListButtonIcon-width)) / 2);
+	margin-left: var(--ListButton-padding);
 }

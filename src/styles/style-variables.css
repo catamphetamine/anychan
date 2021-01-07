@@ -14,6 +14,9 @@
 	--base-color-800: #8f3c00;
 	--base-color-900: #6D2D00;
 
+	/* PageContent. */
+	--PageContent-paddingLeft: var(--unit);
+
 	/* LinearProgress. */
 	--LinearProgress-backgroundColor: transparent;
 	--LinearProgress-height: 3px;
@@ -37,6 +40,8 @@
 	/* Header. */
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor);
+	/*--Header-height: calc(var(--unit) * 3);*/
+	--Header-height: 0px;
 
 	/* Footer. */
 	--Footer-marginTop: calc(var(--unit) * 4);
@@ -46,6 +51,16 @@
 	@mixin m {
 		--Footer-marginTop: calc(var(--unit) * 3);
 	}
+
+	/* Announcement. */
+	--Announcement-marginTop: calc(var(--unit) * 1);
+	--Announcement-marginBottom: calc(var(--unit) * 1);
+	@mixin m-plus {
+		--Announcement-marginTop: calc(var(--unit) * 2);
+		--Announcement-marginBottom: 0px;
+	}
+	/*--Announcement-borderBottomWidth: var(--Header-borderWidth);*/
+	/*--Announcement-borderColor: var(--Header-borderColor);*/
 
 	/* Heading. */
 	--Heading-lineHeight: 1.35em;
@@ -70,13 +85,44 @@
 	--NotificationBadge-color: var(--white-color);
 	--NotificationBadge-backgroundColor: red;
 
-	/* Announcement. */
-	--Announcement-borderWidth: var(--Header-borderWidth);
-	--Announcement-borderColor: var(--Header-borderColor);
-
 	/* HeaderSeparator. */
 	--HeaderSeparator-opacity--left: 0;
 	--HeaderSeparator-opacity--right: 0;
+
+	/* List. */
+	--ListButtonIcon-width: 0.6em;
+	--ListButton-padding: 0.2em;
+	--List-fontSize: 100%;
+	--List-lineHeight: calc(var(--unit) * 2.5);
+	@mixin upto-m {
+		--List-lineHeight: calc(var(--unit) * 3);
+	}
+	@mixin xxs {
+		--List-fontSize: 120%;
+	}
+	@mixin xs {
+		--List-fontSize: 105%;
+	}
+
+	/* ChannelsList. */
+	--ChannelsListSectionHeader-title-fontSize: 1.2em;
+	--ChannelsListSectionHeader-title-marginTop: 0.9em;
+	--ChannelsListSectionHeader-title-marginBottom: 0.3em;
+	@mixin xxs {
+		--ChannelsListSectionHeader-title-fontSize: 1.6em;
+		--ChannelsListSectionHeader-title-marginTop: 1.5em;
+		--ChannelsListSectionHeader-title-marginBottom: 0.6em;
+	}
+	@mixin xs {
+		--ChannelsListSectionHeader-title-fontSize: 1.4em;
+	}
+	@mixin s {
+		--ChannelsListSectionHeader-title-fontSize: 1.3em;
+	}
+	@mixin xs-m {
+		--ChannelsListSectionHeader-title-marginTop: 1.3em;
+		--ChannelsListSectionHeader-title-marginBottom: 0.5em;
+	}
 
 	/* Sidebar. */
 	--Sidebar-color-500: var(--Content-color-500);
@@ -89,9 +135,18 @@
 	/*--Sidebar-highlightColor-100--collapsible: var(--Sidebar-highlightColor-100);*/
 	/*--Sidebar-highlightColor-200--collapsible: var(--Sidebar-highlightColor-200);*/
 	.Sidebar {
-		--List-backgroundColor--selected: var(--Boards-backgroundColor--selected);
-		--List-borderColor: var(--Boards-borderColor);
-		--List-borderColor--selected: var(--Boards-borderColor--selected);
+		--List-backgroundColor--selected: var(--Channels-backgroundColor--selected);
+		--List-borderColor: var(--Channels-borderColor);
+		--List-borderColor--selected: var(--Channels-borderColor--selected);
+	}
+
+	/* SidebarSection. */
+	--SidebarSection-title-fontSize: 85%;
+	@mixin upto-xs {
+		--SidebarSection-title-fontSize: 100%;
+	}
+	@mixin s-m {
+		--SidebarSection-title-fontSize: 90%;
 	}
 
 	/* SideNavMenuButton. */
@@ -101,27 +156,34 @@
 	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
 	--SideNavMenuButtonIcon-borderColor: var(--Content-backgroundColor);
 
-	/* Boards. */
+	/* Channels. */
 	/* These styles aren't just for `.Sidebar`,
 	   they're for the `/boards` page too,
 	   that's why they're not defined inside `.Sidebar {}`. */
-	--Boards-margin--slash: 0.1em;
-	--Boards-fontWeight: normal;
-	--Boards-color: var(--Sidebar-color-900);
-	--Boards-color--active: var(--Sidebar-baseColor-700);
-	--Boards-backgroundColor--hover: var(--Sidebar-highlightColor-100);
-	--Boards-backgroundColor--active: var(--Sidebar-highlightColor-200);
-	--Boards-backgroundColor--selected: var(--Boards-backgroundColor--hover);
-	--Boards-borderColor: transparent;
-	--Boards-borderColor--selected: transparent;
+	--Channels-margin--slash: 0.1em;
+	--Channels-fontWeight: normal;
+	--Channels-color: var(--Sidebar-color-900);
+	--Channels-color--active: var(--Sidebar-baseColor-700);
+	--Channels-backgroundColor--hover: var(--Sidebar-highlightColor-100);
+	--Channels-backgroundColor--active: var(--Sidebar-highlightColor-200);
+	--Channels-backgroundColor--selected: var(--Channels-backgroundColor--hover);
+	--Channels-borderColor: transparent;
+	--Channels-borderColor--selected: transparent;
 
-	/* BoardUrl. */
-	--BoardUrl-fontFamily: monospace;
-	--BoardUrl-fontWeight: normal;
-	--BoardUrl-slash-color: var(--Sidebar-color-200);
+	/* ChannelUrl. */
+	--ChannelUrl-fontFamily: monospace;
+	--ChannelUrl-fontWeight: normal;
+	--ChannelUrl-fontSize: initial;
+	@mixin upto-m {
+		--ChannelUrl-fontSize: 105%;
+	}
+	--ChannelUrl-slash-color: var(--Sidebar-color-200);
 
-	/* BoardsViewSwitcher. */
-	--BoardsViewSwitcher-color: var(--Sidebar-color-600);
+	/* ChannelsViewSwitcher. */
+	--ChannelsViewSwitcher-color: var(--Sidebar-color-600);
+
+	/* CommentsList. */
+	--CommentsList-maxWidth: calc(3 * var(--Post-paddingLeft) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -139,23 +201,32 @@
 	}
 	--Comment-marginTop: calc(var(--Comment-marginTop--base) + var(--Comment-marginTop--extra));
 
-	/* Comment-marginTop--boardPage. */
-	--Comment-marginTop--boardPageBase: var(--unit);
+	/* Comment-marginTop--channelPage. */
+	--Comment-marginTop--channelPageBase: var(--unit);
 	@mixin xs {
-		--Comment-marginTop--boardPageBase: calc(var(--unit) * 1.25);
+		--Comment-marginTop--channelPageBase: calc(var(--unit) * 1.25);
 	}
 	@mixin s-plus {
-		--Comment-marginTop--boardPageBase: calc(var(--unit) * 1.5);
+		--Comment-marginTop--channelPageBase: calc(var(--unit) * 1.5);
 	}
-	--Comment-marginTop--boardPage: calc(var(--Comment-marginTop--boardPageBase) + var(--Comment-marginTop--extra));
+	--Comment-marginTop--channelPage: calc(var(--Comment-marginTop--channelPageBase) + var(--Comment-marginTop--extra));
 
 	/* CommentSeparator. */
 	--CommentSeparator-width: 0px;
 	--CommentSeparator-width--outline: 1px;
-	--CommentSeparator-color--board: var(--CommentSeparator-color);
+	--CommentSeparator-color: var(--Content-color-300);
+	--CommentSeparator-color--largeScreen: var(--CommentSeparator-color);
+	--CommentSeparator-color--channelPage: var(--CommentSeparator-color);
+	--CommentSeparator-color--channelPageLargeScreen: var(--CommentSeparator-color--channelPage);
 	@mixin m-plus {
-		--CommentSeparator-color: var(--Content-color-300);
-		/*--CommentSeparator-color--board: var(--Content-color-200);*/
+		/* I assume, `body` selector here prevents an infinite recursion
+		   when otherwise calculating `--CommentSeparator-color` at `:root`:
+		   `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` ->
+		-> `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` -> ... */
+		body {
+			--CommentSeparator-color: var(--CommentSeparator-color--largeScreen);
+			--CommentSeparator-color--channelPage: var(--CommentSeparator-color--channelPageLargeScreen);
+		}
 		/* `box-shadow` is used instead of `border-top`/`border-bottom`. */
 		/*--CommentSeparator-width: 0px;*/
 		/*--CommentSeparator-width--outline: 1px;*/
@@ -207,7 +278,7 @@
 	--PostTitle-marginTop: var(--Post-paddingTop);
 
 	/* PostThumbnail. */
-	/* Default thumnail size. Will be overridden on `<body/>` after parsing chan response. */
+	/* Default thumnail size. Will be overridden on `<body/>` after parsing board/thread response. */
 	--PostThumbnail-maxWidth: 220px;
 	--PostThumbnail-marginRight: var(--Post-paddingLeft);
 	/* Post thumbnail has some top spacing in order for
@@ -250,10 +321,10 @@
 	--CommentMoreActions-paddingLeft: 0.4em;
 	--CommentMoreActions-paddingTop: 0.6em;
 
-	/* BoardOrThreadMenu. */
-	--BoardThreadMenu-marginTop: 0px;
-	--BoardThreadMenu-marginBottom: 0px;
-	--BoardOrThreadMenuIcon-width: calc(var(--unit) * 1.25);
+	/* Toolbar. */
+	--Toolbar-marginTop: 0px;
+	--Toolbar-marginBottom: 0px;
+	--ToolbarIcon-width: calc(var(--unit) * 1.25);
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
@@ -281,20 +352,23 @@
 	--Sidebar-baseColor-700: var(--Clickable-color--text);
 
 	/* Announcement. */
-	--Announcement-color: var(--Content-color-900);
-	--Announcement-backgroundColor: var(--base-color-200);
+	--Announcement-color: var(--Content-color-100);
+	--Announcement-backgroundColor: var(--Content-color-900);
+	--Announcement-link-color: var(--base-color-300);
+	--Announcement-link-color--active: var(--Clickable-color--active);
+	--Announcement-boxShadow: 0 0 10px rgba(0,0,0,0.2);
 
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
 	--HeaderSeparator-color--right: transparent;
 
-	/* Boards. */
-	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	/* Channels. */
+	--Channels-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
 
-	/* BoardUrl. */
-	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
-	--BoardUrl-slash-color--active: #e9ccb8;
-	--BoardUrl-slash-color--selected: #ead5c0;
+	/* ChannelUrl. */
+	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
+	--ChannelUrl-slash-color--active: #e9ccb8;
+	--ChannelUrl-slash-color--selected: #ead5c0;
 
 	/* HoverButton. */
 	--HoverButton-color--active: #bd5700;
@@ -315,11 +389,6 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-400);
 
-	/* CommentAuthor. */
-	/*--CommentAuthor-color--accent: var(--base-color-700);*/
-	--CommentAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
-	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
-
 	/* PostInlineSpoiler. */
 	/* Adds a warmer color to it. */
 	--PostInlineSpoiler-color: #F0EFEB;
@@ -329,7 +398,7 @@
 	--PostSubheading-color: #af0000;
 
 	/* PostQuoteBlock (inverse). */
-	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
 	--PostQuoteBlock-color--inverse: #950000;
 	--PostQuoteBlock-backgroundColor--inverse: #ffecec;
@@ -340,12 +409,19 @@
 	--PostQuoteBlockBorderLeft-width: 0px;
 	--PostQuoteBlockBorderLeft-marginTop--inverse: 0px;
 
+	/* Comment. */
+	/*--Comment-backgroundColor--new: #fff0de;*/
+
+	/* CommentAuthor. */
+	/*--CommentAuthor-color--accent: var(--base-color-700);*/
+	--CommentAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
+	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
+
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(0,0,0,0.1);
 	--CommentSeparator-color--previouslyRead: rgba(0,0,0,0.12);
-	@mixin m-plus {
-		--CommentSeparator-color--board: var(--Content-color-200);
-	}
+	--CommentSeparator-color--channelPageLargeScreen: var(--Content-color-200);
+	/*--CommentSeparator-color--new: #e2d6c0;*/
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Content-color-900);
@@ -360,12 +436,12 @@
 	--ThreadActivityIndicator-borderColor--off: #a9a9a9;
 	--ThreadActivityIndicator-hot-color: #ec7800;
 
-	/* BoardThreadMenu. */
-	/* A slightly darker color of Board/Thread menu icons,
+	/* Toolbar. */
+	/* A slightly darker color of Channel/Thread menu icons,
 	   because they're on a gray background. */
-	--BoardThreadMenu-color: var(--Content-color-700);
-	--BoardThreadMenu-color--active: var(--gray-color-650);
-	--BoardThreadMenu-color--selected: var(--Content-color-700);
+	--Toolbar-color: var(--Content-color-700);
+	--Toolbar-color--active: var(--gray-color-650);
+	--Toolbar-color--selected: var(--Content-color-700);
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
@@ -401,16 +477,22 @@
 	--Sidebar-baseColor-700: var(--base-color-300);
 
 	/* Announcement. */
-	--Announcement-color: var(--Content-color-900);
-	--Announcement-backgroundColor: var(--Content-color-200);
+	--Announcement-backgroundColor: var(--Content-backgroundColor);
+	--Announcement-color: var(--Clickable-color--text);
+	--Announcement-link-borderBottom: 1px dashed currentColor;
+	/*--Announcement-link-textDecoration: underline;*/
+	/*--Announcement-backgroundColor: var(--white-color);*/
+	/*--Announcement-color: var(--Content-backgroundColor);*/
+	/*--Announcement-link-color: var(--base-color-800);*/
+	--Announcement-boxShadow: 0 0 10px rgba(0,0,0,0.6);
 
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
-	/* BoardUrl. */
-	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
-	--BoardUrl-slash-color--active: var(--BoardUrl-slash-color);
-	--BoardUrl-slash-color--selected: var(--BoardUrl-slash-color);
+	/* ChannelUrl. */
+	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
+	--ChannelUrl-slash-color--active: var(--ChannelUrl-slash-color);
+	--ChannelUrl-slash-color--selected: var(--ChannelUrl-slash-color);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);
@@ -421,25 +503,29 @@
 	/* Post. */
 	--Post-color--secondaryThread: var(--Content-color-500);
 
-	/* CommentAuthor. */
-	/*--CommentAuthor-color--accent: var(--base-color-300);*/
-	--CommentAuthor-color--administrator: #c44876;
-	--CommentAuthor-color--moderator: #57add1;
-
 	/* PostQuoteBlock (inverse). */
-	/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
 	    have regular quotes and "inverse" quotes. */
 	--PostQuoteBlock-color--inverse: #dc5e5e;
 
 	/* PostSubheading. */
 	--PostSubheading-color: #cf5858;
 
+	/* Comment. */
+	/*--Comment-backgroundColor--new: #4a3e31;*/
+
 	/* Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 3px;
+
+	/* CommentAuthor. */
+	/*--CommentAuthor-color--accent: var(--base-color-300);*/
+	--CommentAuthor-color--administrator: #c44876;
+	--CommentAuthor-color--moderator: #57add1;
 
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(255,255,255,0.15);
 	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
+	/*--CommentSeparator-color--new: #503e27;*/
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Clickable-color--textActive);
@@ -454,10 +540,10 @@
 	--ThreadActivityIndicator-borderColor--off: #797979;
 	--ThreadActivityIndicator-hot-color: #d66d00;
 
-	/* BoardThreadMenu. */
-	--BoardThreadMenu-color: var(--Content-color-600);
-	--BoardThreadMenu-color--active: var(--Content-color-900);
-	--BoardThreadMenu-color--selected: var(--Content-color-800);
+	/* Toolbar. */
+	--Toolbar-color: var(--Content-color-600);
+	--Toolbar-color--active: var(--Content-color-900);
+	--Toolbar-color--selected: var(--Content-color-800);
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.5);

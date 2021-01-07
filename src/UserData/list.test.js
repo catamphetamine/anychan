@@ -15,97 +15,97 @@ userData.collections.trackedThreadsList.limit = 2
 describe('UserData', () => {
 	it('should trim collections on limit reach', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 123, title: 'Anime 1' })
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 124, title: 'Anime 2' })
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 125, title: 'Anime 3' })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 124, title: 'Anime 2' })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
 		expectToEqual(storage.data.trackedThreadsList.length, 2)
 		expectToEqual(storage.data.trackedThreadsList[0].title, 'Anime 2')
 	})
 
 	it('should trim expired items first', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 123, title: 'Anime 1' })
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 124, title: 'Anime 2', expired: true })
-		userData.addTrackedThreadsList({ board: { id: 'a' }, id: 125, title: 'Anime 3' })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 124, title: 'Anime 2', expired: true })
+		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
 		expectToEqual(storage.data.trackedThreadsList.length, 2)
 		expectToEqual(storage.data.trackedThreadsList[0].title, 'Anime 1')
 		expectToEqual(storage.data.trackedThreadsList[1].title, 'Anime 3')
 	})
 
-	it('should add/remove/get favorite boards', () => {
+	it('should add/remove/get favorite channels', () => {
 		storage.clear()
-		userData.addFavoriteBoards({ id: 'a' })
+		userData.addFavoriteChannels({ id: 'a' })
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'a' }
 				]
 			}
 		)
-		userData.addFavoriteBoards({ id: 'b' })
+		userData.addFavoriteChannels({ id: 'b' })
 		// Ignores duplicates.
-		userData.addFavoriteBoards({ id: 'b' })
+		userData.addFavoriteChannels({ id: 'b' })
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'a' },
 					{ id: 'b' }
 				]
 			}
 		)
 		expectToEqual(
-			userData.getFavoriteBoards(),
+			userData.getFavoriteChannels(),
 			[
 				{ id: 'a' },
 				{ id: 'b' }
 			]
 		)
 		expectToEqual(
-			userData.getFavoriteBoards({ id: 'a' }),
+			userData.getFavoriteChannels({ id: 'a' }),
 			{ id: 'a' }
 		)
 		expectToEqual(
-			userData.getFavoriteBoards({ id: 'c' }),
+			userData.getFavoriteChannels({ id: 'c' }),
 			undefined
 		)
-		userData.removeFavoriteBoards({ id: 'c' })
+		userData.removeFavoriteChannels({ id: 'c' })
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'a' },
 					{ id: 'b' }
 				]
 			}
 		)
-		userData.removeFavoriteBoards({ id: 'b' })
+		userData.removeFavoriteChannels({ id: 'b' })
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'a' }
 				]
 			}
 		)
-		userData.removeFavoriteBoards({ id: 'a' })
+		userData.removeFavoriteChannels({ id: 'a' })
 		expectToEqual(
 			storage.data,
 			{}
 		)
 	})
 
-	it('should merge favorite boards (intersection)', () => {
+	it('should merge favorite channels (intersection)', () => {
 		storage.clear()
 		storage.data = {
-			favoriteBoards: [
+			favoriteChannels: [
 				{ id: 'a' },
 				{ id: 'b' }
 			]
 		}
 		userData.merge({
-			favoriteBoards: [
+			favoriteChannels: [
 				{ id: 'b' },
 				{ id: 'c' }
 			]
@@ -113,7 +113,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'a' },
 					{ id: 'b' },
 					{ id: 'c' }
@@ -122,10 +122,10 @@ describe('UserData', () => {
 		)
 	})
 
-	it('should merge favorite boards (destination not exists)', () => {
+	it('should merge favorite channels (destination not exists)', () => {
 		storage.data = {}
 		userData.merge({
-			favoriteBoards: [
+			favoriteChannels: [
 				{ id: 'b' },
 				{ id: 'c' }
 			]
@@ -133,7 +133,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'b' },
 					{ id: 'c' }
 				]
@@ -141,10 +141,10 @@ describe('UserData', () => {
 		)
 	})
 
-	it('should merge favorite boards (source not exists)', () => {
+	it('should merge favorite channels (source not exists)', () => {
 		storage.clear()
 		storage.data = {
-			favoriteBoards: [
+			favoriteChannels: [
 				{ id: 'b' },
 				{ id: 'c' }
 			]
@@ -153,7 +153,7 @@ describe('UserData', () => {
 		expectToEqual(
 			storage.data,
 			{
-				favoriteBoards: [
+				favoriteChannels: [
 					{ id: 'b' },
 					{ id: 'c' }
 				]

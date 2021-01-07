@@ -6,15 +6,16 @@ import AnonymousCountryIcon from 'webapp-frontend/assets/images/icons/anonymous.
 import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
 
 import getMessages, { getCountryName } from '../../messages'
-import { getAbsoluteUrl } from '../../chan'
+import { getAbsoluteUrl } from '../../provider'
 
 import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
-import StopIcon from 'webapp-frontend/assets/images/icons/stop.svg'
-import AnonymousIcon from '../../../assets/images/icons/anonymous.svg'
+import DeceasedFaceIcon from 'webapp-frontend/assets/images/icons/deceased-face-rect.svg'
 import PinIcon from 'webapp-frontend/assets/images/icons/pin.svg'
 import InfinityIcon from 'webapp-frontend/assets/images/icons/infinity.svg'
 import LockIcon from 'webapp-frontend/assets/images/icons/lock.svg'
+import AnonymousIcon from '../../../assets/images/icons/anonymous.svg'
 import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
+import CommentRemovedIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square-removed.svg'
 
 export default [
 	{
@@ -25,14 +26,14 @@ export default [
 			return getMessages(locale).trackedThreads.trackedThread
 		},
 		getIconProps: ({ post, locale }) => ({
-			boardId: post.boardId,
+			channelId: post.channelId,
 			threadId: post.id
 		}),
-		condition: (post, { isTracked }) => post.mode === 'board' && isTracked
+		condition: (post, { isTracked }) => post.mode === 'channel' && isTracked
 	},
 	{
 		name: 'banned',
-		icon: StopIcon,
+		icon: DeceasedFaceIcon,
 		title: ({ post, locale }) => {
 			if (post.authorBanReason) {
 				return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{0}', post.authorBanReason)
@@ -40,6 +41,12 @@ export default [
 			return getMessages(locale).post.banned
 		},
 		condition: post => post.authorBan
+	},
+	{
+		name: 'removed',
+		icon: CommentRemovedIcon,
+		title: ({ post, locale }) => getMessages(locale).post.removed,
+		condition: post => post.removed
 	},
 	{
 		name: 'sage',
@@ -61,7 +68,7 @@ export default [
 			if (post.authorCountry) {
 				return CountryFlagBadge
 			}
-			return ChanFlagBadge
+			return ProviderSuppliedCountryFlagBadge
 		},
 		getIconProps: ({ post, locale }) => {
 			if (post.authorCountry) {
@@ -91,9 +98,9 @@ export default [
 	{
 		name: 'bump-limit',
 		icon: SinkingBoatIcon,
-		title: ({ post, locale }) => getMessages(locale).post.bumpLimitReached,
+		title: ({ post, locale }) => getMessages(locale).threadBumpLimitReached,
 		// On `2ch.hk` there can be "rolling" threads which aren't "sticky".
-		condition: (post) => post.mode === 'board' && post.isBumpLimitReached
+		condition: (post) => post.isBumpLimitReached || post.isOverBumpLimit
 	},
 	{
 		name: 'sticky',
@@ -115,10 +122,10 @@ export default [
 	}
 ]
 
-// function TrackedThreadStatusIcon({ boardId, threadId, ...rest }) {
-// 	const isTracked = useSelector(({ threadTracker }) => {
-// 		const trackedThreadsIndex = threadTracker.trackedThreadsIndex
-// 		return trackedThreadsIndex[boardId] && trackedThreadsIndex[boardId].includes(threadId)
+// function TrackedThreadStatusIcon({ channelId, threadId, ...rest }) {
+// 	const isTracked = useSelector(({ trackedThreads }) => {
+// 		const trackedThreadsIndex = trackedThreads.trackedThreadsIndex
+// 		return trackedThreadsIndex[channelId] && trackedThreadsIndex[channelId].includes(threadId)
 // 	})
 // 	if (isTracked) {
 // 		return (
@@ -151,19 +158,19 @@ function CountryFlag_({ country, name }) {
 	)
 }
 
-function ChanFlagBadge({ className, ...rest }) {
+function ProviderSuppliedCountryFlagBadge({ className, ...rest }) {
 	return (
 		<div className={className}>
-			<ChanFlag {...rest}/>
+			<ProviderSuppliedCountryFlag {...rest}/>
 		</div>
 	)
 }
 
-function ChanFlag({ name, url, ...rest }) {
-	// let url = getChan().countryFlagUrl
+function ProviderSuppliedCountryFlag({ name, url, ...rest }) {
+	// let url = getProvider().countryFlagUrl
 	// // Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
 	// // https://2ch.hk/icons/logos/krym.gif
-	// if (getChanId() === '2ch' && country === 'krym') {
+	// if (getProviderId() === '2ch' && country === 'krym') {
 	// 	url = url.replace(/\.png$/, '.gif')
 	// }
 	// Transform relative URL to an absolute one.

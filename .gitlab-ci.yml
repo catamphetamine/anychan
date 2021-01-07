@@ -1,0 +1,19 @@
+# A job called "release".
+release:
+  # Run at "build" stage.
+  stage: build
+  script:
+    # Build the project into the `/build` folder.
+    - npm run build
+    # Zip the contents of the `/build` folder into a `*.zip` file.
+    - npm run build:pack
+  # Describe the build file to upload after the job finishes.
+  artifacts:
+    paths:
+      # The build file will be called "captchan-<version>.zip".
+      - captchan-*.zip
+    # Don't delete the build file.
+    expire_in: never
+  # Only run this job when creating a git tag (a release tag).
+  only:
+    - tags

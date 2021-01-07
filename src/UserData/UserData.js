@@ -2,62 +2,78 @@ import isEqual from 'lodash/isEqual'
 import CachedLocalStorage from 'webapp-frontend/src/utility/storage/CachedLocalStorage'
 import createByIdIndex from '../utility/createByIdIndex'
 import { getPrefix } from '../utility/localStorage'
-import migrate from './UserData.migrate'
+import migrate, { migrateCollectionData } from './UserData.migrate'
+
+import {
+	// setValue,
+	removeValue,
+	getValue,
+	mergeValue
+} from './value'
 
 import {
 	addToList,
 	removeFromList,
 	getFromList,
 	mergeWithList,
-	// setInList
+	setInList
 } from './list'
 
 import {
-	addToBoardIdThreadIdCommentIds,
-	removeFromBoardIdThreadIdCommentIds,
-	getFromBoardIdThreadIdCommentIds,
-	mergeWithBoardIdThreadIdCommentIds
-} from './boardThreadComments'
+	addToChannelIdThreadIdCommentIds,
+	removeFromChannelIdThreadIdCommentIds,
+	getFromChannelIdThreadIdCommentIds,
+	mergeWithChannelIdThreadIdCommentIds
+} from './channelThreadComments'
 
 import {
-	addToBoardIdThreadIdCommentIdData,
-	removeFromBoardIdThreadIdCommentIdData,
-	getFromBoardIdThreadIdCommentIdData,
-	mergeWithBoardIdThreadIdCommentIdData
-} from './boardThreadCommentData'
+	addToChannelIdThreadIdCommentIdData,
+	removeFromChannelIdThreadIdCommentIdData,
+	getFromChannelIdThreadIdCommentIdData,
+	mergeWithChannelIdThreadIdCommentIdData
+} from './channelThreadCommentData'
 
 import {
-	addToBoardIdThreadIdData,
-	removeFromBoardIdThreadIdData,
-	getFromBoardIdThreadIdData,
-	mergeWithBoardIdThreadIdData
-} from './boardThreadData'
+	addToChannelIdThreadIdData,
+	removeFromChannelIdThreadIdData,
+	getFromChannelIdThreadIdData,
+	mergeWithChannelIdThreadIdData
+} from './channelThreadData'
 
 import {
-	addToBoardIdData,
-	removeFromBoardIdData,
-	getFromBoardIdData,
-	mergeWithBoardIdData
-} from './boardData'
+	addToChannelIdData,
+	removeFromChannelIdData,
+	getFromChannelIdData,
+	mergeWithChannelIdData
+} from './channelData'
 
 import {
-	addToBoardIdThreadIds,
-	removeFromBoardIdThreadIds,
-	getFromBoardIdThreadIds,
-	mergeWithBoardIdThreadIds
-} from './boardThread'
+	addToChannelIdThreadIds,
+	removeFromChannelIdThreadIds,
+	getFromChannelIdThreadIds,
+	mergeWithChannelIdThreadIds
+} from './channelThread'
 
-// Current version of user settings.
-// See `.migrate()` method comments for the changelog.
-const VERSION = 1
+// Current version of user data.
+// See `UserData.migrate.js` comments for the changelog.
+const VERSION = 3
+
+const OPERATIONS = {
+	add: 'add',
+	get: 'get',
+	remove: 'remove',
+	setIn: 'setIn'
+}
+
+export const TRACKED_THREADS_INDEX_COLLECTION_NAME = 'trackedThreads'
 
 export class UserData {
 	collections = {
-		// Users can add boards to the list of "Favorite boards"
+		// Users can add channels to the list of "Favorite channels"
 		// so that they don't have to scroll through the whole
-		// list of boards just to navigate to a board they visit often.
+		// list of channels just to navigate to a channel they visit often.
 		// Example: ['a', 'b'].
-		favoriteBoards: {
+		favoriteChannels: {
 			type: 'list',
 			isEqual: (one, two) => one.id === two.id
 		},
@@ -73,13 +89,13 @@ export class UserData {
 		// For example, if they're offensive.
 		// Example: { a: { 123: [125] } }.
 		hiddenComments: {
-			type: 'boards-threads-comments'
+			type: 'channels-threads-comments'
 		},
-		// Users can hide certain threads from being shown in "board" view.
+		// Users can hide certain threads from being shown on a channel page.
 		// For example, if their "opening comments" are offensive.
 		// Example: { a: [123] }.
 		hiddenThreads: {
-			type: 'boards-threads'
+			type: 'channels-threads'
 		},
 		// If a comment has been fully shown on screen
 		// it's marked as "read", so that next time the user
@@ -90,47 +106,82 @@ export class UserData {
 		// Stores only the most recent "read" comment id for a thread.
 		// Example: { a: { 123: 125 } }.
 		latestReadComments: {
+			// Cache the changes to this collection
+			// and don't flush them to disk immediately
+			// to prevent several disk writes per second.
+			// Chrome seems to cache writes to `localStorage` anyway.
 			cache: true,
-			type: 'boards-threads-data',
+			type: 'channels-threads-data',
 			decode(data) {
+				// Decode `threadUpdatedAt` property.
+				//
 				// Before 09.05.2020 data wasn't being encoded.
-				if (data.threadUpdatedAt) {
-					return data
+				// That "previous" data contained `threadUpdatedAt` timestamp
+				// as is, without being minimized to `t` seconds.
+				//
+				// `threadUpdatedAt` property was added at some point,
+				// but then it was discarded due to not being used.
+				// Maybe it could be re-added in some future,
+				// so not removing the code for now.
+				//
+				if (data.t !== undefined) {
+					data.threadUpdatedAt = data.t * 1000
+					// Could set to `undefined` but then the tests wouldn't detect equality.
+					delete data.t
 				}
-				const threadUpdatedAt = data.t * 1000
-				// Could set to `undefined` but then tests wouldn't detect equality.
-				delete data.t
-				data.threadUpdatedAt = threadUpdatedAt
+				// Result.
 				return data
 			},
 			encode(data) {
-				const threadUpdatedAt = data.threadUpdatedAt
-				// Could set to `undefined` but then tests wouldn't detect equality.
-				delete data.threadUpdatedAt
-				data.t = threadUpdatedAt / 1000
+				// Encode `threadUpdatedAt` property.
+				//
+				// `threadUpdatedAt` property was added at some point,
+				// but then it was discarded due to not being used.
+				// Maybe it could be re-added in some future,
+				// so not removing the code for now.
+				//
+				if (data.threadUpdatedAt !== undefined) {
+					data.t = data.threadUpdatedAt / 1000
+					// Could set to `undefined` but then the tests wouldn't detect equality.
+					delete data.threadUpdatedAt
+				}
+				// Result.
 				return data
+			},
+			alias: {
+				get: 'getLatestReadComment'
 			}
 		},
-		// If a user has seen the opening post of a thread on a board
-		// while in "board" view then such thread is marked as "seen".
+		// If a user has seen the opening post of a thread on a channel
+		// on a channel page then such thread is marked as "seen".
 		// It's called "seen", not "read", because the user didn't
 		// necessarily read the whole thread; they might even didn't
 		// click on it to go to the thread, but they've "seen" it.
-		// On a board page there's a switch: "Show all" / "Show new",
+		// On a channel page there's a switch: "Show all" / "Show new",
 		// "new" meaning newer than the latest "seen" one.
 		// Stores only the most recent "seen" thread id.
 		// Example: { a: 123 }.
 		latestSeenThreads: {
+			// Cache the changes to this collection
+			// and don't flush them to disk immediately
+			// to prevent several disk writes per second.
+			// Chrome seems to cache writes to `localStorage` anyway.
 			cache: true,
-			type: 'boards-data'
+			type: 'channels-data',
+			alias: {
+				get: 'getLatestSeenThread'
+			}
 		},
 		// Users can "track" certain threads.
 		// "Tracked" threads are shown as a list in sidebar,
 		// and they also get refreshed for new comments periodically.
 		// This is an index of "tracked" threads,
 		// containing just the ids of such threads.
-		trackedThreads: {
-			type: 'boards-threads'
+		[TRACKED_THREADS_INDEX_COLLECTION_NAME]: {
+			type: 'channels-threads',
+			alias: {
+				get: 'isTrackedThread'
+			}
 		},
 		// Users can "track" certain threads.
 		// "Tracked" threads are shown as a list in sidebar,
@@ -140,26 +191,63 @@ export class UserData {
 		trackedThreadsList: {
 			type: 'threads',
 			index: 'trackedThreads',
-			indexKey: thread => [thread.board.id, thread.id],
-			isEqual: (one, two) => one.id === two.id && one.board.id === two.board.id,
+			indexKey: thread => [thread.channel.id, thread.id],
+			isEqual: (one, two) => one.id === two.id && one.channel.id === two.channel.id,
+			// When a thread expires, don't remove it from `trackedThreadsList`.
+			// This way, a thread would still be present in the sidebar,
+			// only marked as expired.
 			expires: false,
-			limit: 100
+			limit: 100,
+			alias: {
+				get: {
+					name: 'getTrackedThread',
+					create: (get) => (...args) => {
+						if (typeof args[0] === 'string') {
+							const channelId = args.shift()
+							const threadId = args.shift()
+							args.unshift({
+								id: threadId,
+								channel: {
+									id: channelId
+								}
+							})
+						}
+						return get.apply(this, args)
+					}
+				},
+				setIn: 'updateTrackedThread',
+				add: 'addTrackedThread',
+				remove: 'removeTrackedThread'
+			}
 		},
 		// User's own threads are tracked.
-		// For example, so that they're highlighted in "board" view.
+		// For example, so that they're highlighted on a channel page.
 		ownThreads: {
-			type: 'boards-threads'
+			type: 'channels-threads'
 		},
 		// User's own comments are tracked.
 		// For example, so that they're highlighted in "thread" view.
 		ownComments: {
-			type: 'boards-threads-comments'
+			type: 'channels-threads-comments'
 		},
 		// User's votes index.
 		// Is used to indicate that the user "has already voted for this comment",
 		// and to show whether it was an upvote or a downvote.
 		commentVotes: {
-			type: 'boards-threads-comments-data'
+			type: 'channels-threads-comments-data'
+		},
+		// The latest announcement.
+		// When it's read, it's marked as `read: true`.
+		announcement: {
+			type: 'value'
+		},
+		// The latest announcement refresh timestamp.
+		announcementRefreshedAt: {
+			type: 'value'
+		},
+		// Announcement refresh lock timestamp.
+		announcementRefreshLockedUntil: {
+			type: 'value'
 		}
 	}
 
@@ -175,11 +263,30 @@ export class UserData {
 		if (this.shouldMigrate !== false) {
 			const version = this.storage.get(this.prefix + 'version')
 			if (version !== VERSION) {
+				const getCollectionData = (key) => {
+					return this.storage.get(this.prefix + key)
+				}
+				const setCollectionData = (key, collectionData) => {
+					this.storage.set(this.prefix + key, collectionData)
+				}
+				const removeCollection = (key) => {
+					this.storage.delete(this.prefix + key)
+				}
+				migrate({
+					getCollectionData,
+					setCollectionData,
+					removeCollection,
+					version
+				})
 				for (const key of Object.keys(this.collections)) {
-					const data = this.storage.get(this.prefix + key)
+					const data = getCollectionData(key)
 					if (data !== undefined) {
-						migrate(key, data, version)
-						this.storage.set(this.prefix + key, data)
+						migrateCollectionData({
+							key,
+							data,
+							version
+						})
+						setCollectionData(key, data)
 					}
 				}
 				this.storage.set(this.prefix + 'version', VERSION)
@@ -193,7 +300,7 @@ export class UserData {
 				removeFrom,
 				getFrom,
 				mergeWith,
-				// setIn
+				setIn
 			} = getFunctions(collection.type)
 			if (collection.cache && this.storage.cacheKey) {
 				this.storage.cacheKey(this.prefix + key)
@@ -204,37 +311,39 @@ export class UserData {
 				switch (collection.type) {
 					case 'list':
 					case 'threads':
-					case 'boards-data':
-					case 'boards-threads-data':
-					case 'boards-threads-comments-data':
+					case 'channels-data':
+					case 'channels-threads-data':
+					case 'channels-threads-comments-data':
 						allArgs = allArgs.concat(collection)
 						break
 				}
 				return allArgs.concat(args)
 			}
-			this[`add${capitalize(key)}`] = (...args) => {
-				addTo.apply(this, getArgs(args))
-				// Also add to "index" collection.
-				if (collection.index) {
-					const item = args[args.length - 1]
-					this[`add${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+			if (addTo) {
+				this[`${OPERATIONS.add}${capitalize(key)}`] = (...args) => {
+					addTo.apply(this, getArgs(args))
+					// Also add to "index" collection.
+					if (collection.index) {
+						const item = args[args.length - 1]
+						this[`${OPERATIONS.add}${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+					}
 				}
 			}
-			this[`remove${capitalize(key)}`] = (...args) => {
+			this[`${OPERATIONS.remove}${capitalize(key)}`] = (...args) => {
 				// Also remove from "index" collection.
 				if (collection.index) {
 					const item = getFrom.apply(this, getArgs(args))
 					if (!item) {
 						return console.error(`Item "${JSON.stringify(args)}" not found in "${collection.index}"`)
 					}
-					this[`remove${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+					this[`${OPERATIONS.remove}${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
 				}
 				removeFrom.apply(this, getArgs(args))
 			}
 			// this[`set${capitalize(key)}`] = (...args) => {
 			// 	setIn.apply(this, getArgs(args))
 			// }
-			this[`get${capitalize(key)}`] = (...args) => {
+			this[`${OPERATIONS.get}${capitalize(key)}`] = (...args) => {
 				return getFrom.apply(this, getArgs(args))
 			}
 			this[`merge${capitalize(key)}`] = (...args) => {
@@ -245,6 +354,22 @@ export class UserData {
 				const [storage, key] = preArgs
 				storage.set(key, args[0])
 				// Doesn't update "index" collection.
+			}
+			if (setIn) {
+				this[`${OPERATIONS.setIn}${capitalize(key)}`] = (...args) => {
+					return setIn.apply(this, getArgs(args))
+				}
+			}
+		}
+		// Add method aliases.
+		for (const key of Object.keys(this.collections)) {
+			const collection = this.collections[key]
+			if (collection.alias) {
+				for (const operation of Object.keys(OPERATIONS)) {
+					if (collection.alias[operation]) {
+						alias.call(this, operation, collection.alias[operation], key)
+					}
+				}
 			}
 		}
 	}
@@ -267,47 +392,59 @@ export class UserData {
 	// }
 
 	/**
-	 * Clears expired threads from user data.
-	 * @param  {string} boardId
+	 * Updates thread-related collections if they reference
+	 * some of the threads that have expired.
+	 * @param  {string} channelId
 	 * @param  {object[]} threads
+	 * @return {string[]} Returns updated collections' names.
 	 */
-	updateThreads(boardId, threads) {
+	clearExpiredThreads(channelId, threads) {
 		const getThreadById = createByIdIndex(threads)
-		this.onThreadsExpired(boardId, id => !getThreadById(id))
+		return this.onThreadsExpired(channelId, id => !getThreadById(id))
 	}
 
 	/**
-	 * This function is called from `threadTracker.js`.
-	 * @param  {string} boardId
+	 * Updates thread-related collections if they reference
+	 * some the thread that has expired.
+	 * @param  {string} channelId
 	 * @param  {number} threadId
+	 * @return {string[]} Returns updated collections' names.
 	 */
-	onThreadExpired(boardId, threadId) {
-		this.onThreadsExpired(boardId, id => id === threadId)
+	onThreadExpired(channelId, threadId) {
+		return this.onThreadsExpired(channelId, id => id === threadId)
 	}
 
-	onThreadsExpired(boardId, isThreadExpired) {
+	/**
+	 * Updates thread-related collections if they reference
+	 * some of the threads that have expired.
+	 * @param  {string} channelId
+	 * @param  {function} isThreadExpired — A function of thread id. Returns `true` if the thread has expired.
+	 * @return {string[]} Returns updated collections' names.
+	 */
+	onThreadsExpired(channelId, isThreadExpired) {
+		const updatedCollections = []
 		for (const key of Object.keys(this.collections)) {
 			const collection = this.collections[key]
 			// Babel doesn't know how to handle variables inside `case`.
-			let boardsData
+			let channelsData
 			let threads
 			const read = () => this.storage.get(this.prefix + key)
 			const update = (value) => this.storage.set(this.prefix + key, value)
 			switch (collection.type) {
-				case 'boards-threads-comments-data':
-				case 'boards-threads-comments':
-				case 'boards-threads-data':
-					boardsData = read()
-					if (boardsData) {
-						threads = boardsData[boardId]
+				case 'channels-threads-comments-data':
+				case 'channels-threads-comments':
+				case 'channels-threads-data':
+					channelsData = read()
+					if (channelsData) {
+						threads = channelsData[channelId]
 						if (threads) {
 							let changed = false
 							for (const threadId of Object.keys(threads)) {
 								if (isThreadExpired(threadId)) {
 									if (collection.expires === false) {
-										// Only handles `boards-threads-data` type.
+										// Only handles `channels-threads-data` type.
 										switch (collection.type) {
-											case 'boards-threads-comments-data':
+											case 'channels-threads-comments-data':
 												const comments = threads[threadId]
 												for (const commentId of Object.keys(comments)) {
 													if (typeof comments[commentId] === 'object') {
@@ -318,10 +455,10 @@ export class UserData {
 													}
 												}
 												break
-											case 'boards-threads-comments':
+											case 'channels-threads-comments':
 												// Ignore.
 												break
-											case 'boards-threads-data':
+											case 'channels-threads-data':
 												if (typeof threads[threadId] === 'object') {
 													threads[threadId].expired = true
 													threads[threadId].expiredAt = Date.now()
@@ -334,26 +471,35 @@ export class UserData {
 										}
 									} else {
 										delete threads[threadId]
+										if (Object.keys(threads).length === 0) {
+											delete channelsData[channelId]
+										}
 										changed = true
 									}
 								}
 							}
 							if (changed) {
-								update(boardsData)
+								update(channelsData)
+								updatedCollections.push(key)
 							}
 						}
 					}
 					break
-				case 'boards-threads':
-					boardsData = read()
-					if (boardsData) {
-						threads = boardsData[boardId]
+				case 'channels-threads':
+					channelsData = read()
+					if (channelsData) {
+						threads = channelsData[channelId]
 						if (threads) {
 							const formerThreadsCount = threads.length
 							const remainingThreadIds = threads.filter(_ => !isThreadExpired(_))
 							if (remainingThreadIds.length < formerThreadsCount) {
-								boardsData[boardId] = remainingThreadIds
-								update(boardsData)
+								if (remainingThreadIds.length === 0) {
+									delete channelsData[channelId]
+								} else {
+									channelsData[channelId] = remainingThreadIds
+								}
+								update(channelsData)
+								updatedCollections.push(key)
 							}
 						}
 					}
@@ -363,7 +509,7 @@ export class UserData {
 					if (threads) {
 						const formerThreadsCount = threads.length
 						const remainingThreads = threads.filter((thread) => {
-							return thread.board.id !== boardId || !isThreadExpired(thread.id)
+							return thread.channel.id !== channelId || !isThreadExpired(thread.id)
 						})
 						if (remainingThreads.length < formerThreadsCount) {
 							if (collection.expires === false) {
@@ -379,11 +525,13 @@ export class UserData {
 							} else {
 								update(remainingThreads)
 							}
+							updatedCollections.push(key)
 						}
 					}
 					break
 			}
 		}
+		return updatedCollections
 	}
 
 	clear = () => {
@@ -432,21 +580,29 @@ export class UserData {
 			}
 		}
 	}
-
-	migrate() {
-		const version = this.get('version', 0)
-		if (version === VERSION) {
-			return
-		}
-		this.storage.set('version', VERSION)
-	}
 }
 
 function migrateUserData(data) {
 	const version = data.version
 	if (version !== VERSION) {
+		migrate({
+			getCollectionData(key) {
+				return data[key]
+			},
+			setCollectionData(key, collectionData) {
+				data[key] = collectionData
+			},
+			removeCollection(key) {
+				delete data[key]
+			},
+			version
+		})
 		for (const key of Object.keys(data)) {
-			migrate(key, data[key], version)
+			migrateCollectionData({
+				key,
+				data: data[key],
+				version
+			})
 		}
 		data.version = VERSION
 	}
@@ -462,10 +618,16 @@ function getFunctions(type) {
 		//   'a0dbf7',
 		//   ...
 		// ]
-		// favoriteBoards: [
+		// favoriteChannels: [
 		//   'a',
 		//   'b'
 		// ]
+		case 'value':
+			return {
+				removeFrom: removeValue,
+				getFrom: getValue,
+				mergeWith: mergeValue
+			}
 		case 'list':
 		case 'threads':
 			return {
@@ -473,7 +635,7 @@ function getFunctions(type) {
 				removeFrom: removeFromList,
 				getFrom: getFromList,
 				mergeWith: mergeWithList,
-				// setIn: setInList
+				setIn: setInList
 			}
 		// hiddenThreads: {
 		//   a: [
@@ -482,12 +644,12 @@ function getFunctions(type) {
 		//   ],
 		//   ...
 		// }
-		case 'boards-threads':
+		case 'channels-threads':
 			return {
-				addTo: addToBoardIdThreadIds,
-				removeFrom: removeFromBoardIdThreadIds,
-				getFrom: getFromBoardIdThreadIds,
-				mergeWith: mergeWithBoardIdThreadIds
+				addTo: addToChannelIdThreadIds,
+				removeFrom: removeFromChannelIdThreadIds,
+				getFrom: getFromChannelIdThreadIds,
+				mergeWith: mergeWithChannelIdThreadIds
 			}
 		// hiddenComments: {
 		//   a: {
@@ -500,12 +662,12 @@ function getFunctions(type) {
 		//   },
 		//   ...
 		// }
-		case 'boards-threads-comments':
+		case 'channels-threads-comments':
 			return {
-				addTo: addToBoardIdThreadIdCommentIds,
-				removeFrom: removeFromBoardIdThreadIdCommentIds,
-				getFrom: getFromBoardIdThreadIdCommentIds,
-				mergeWith: mergeWithBoardIdThreadIdCommentIds
+				addTo: addToChannelIdThreadIdCommentIds,
+				removeFrom: removeFromChannelIdThreadIdCommentIds,
+				getFrom: getFromChannelIdThreadIdCommentIds,
+				mergeWith: mergeWithChannelIdThreadIdCommentIds
 			}
 		// commentVotes: {
 		//   a: {
@@ -518,12 +680,12 @@ function getFunctions(type) {
 		//   },
 		//   ...
 		// }
-		case 'boards-threads-comments-data':
+		case 'channels-threads-comments-data':
 			return {
-				addTo: addToBoardIdThreadIdCommentIdData,
-				removeFrom: removeFromBoardIdThreadIdCommentIdData,
-				getFrom: getFromBoardIdThreadIdCommentIdData,
-				mergeWith: mergeWithBoardIdThreadIdCommentIdData
+				addTo: addToChannelIdThreadIdCommentIdData,
+				removeFrom: removeFromChannelIdThreadIdCommentIdData,
+				getFrom: getFromChannelIdThreadIdCommentIdData,
+				mergeWith: mergeWithChannelIdThreadIdCommentIdData
 			}
 		// latestReadComments: {
 		//   a: {
@@ -533,24 +695,24 @@ function getFunctions(type) {
 		//   ],
 		//   ...
 		// }
-		case 'boards-threads-data':
+		case 'channels-threads-data':
 			return {
-				addTo: addToBoardIdThreadIdData,
-				removeFrom: removeFromBoardIdThreadIdData,
-				getFrom: getFromBoardIdThreadIdData,
-				mergeWith: mergeWithBoardIdThreadIdData
+				addTo: addToChannelIdThreadIdData,
+				removeFrom: removeFromChannelIdThreadIdData,
+				getFrom: getFromChannelIdThreadIdData,
+				mergeWith: mergeWithChannelIdThreadIdData
 			}
 		// {
 		// 	a: 123,
 		// 	b: 456,
 		// 	...
 		// }
-		case 'boards-data':
+		case 'channels-data':
 			return {
-				addTo: addToBoardIdData,
-				removeFrom: removeFromBoardIdData,
-				getFrom: getFromBoardIdData,
-				mergeWith: mergeWithBoardIdData
+				addTo: addToChannelIdData,
+				removeFrom: removeFromChannelIdData,
+				getFrom: getFromChannelIdData,
+				mergeWith: mergeWithChannelIdData
 			}
 	}
 }
@@ -566,4 +728,21 @@ function setCount(storage, key, count) {
 	const data = storage.get(key, {})
 	data.$$count = count
 	storage.set(key, data)
+}
+
+function alias(operation, alias, key) {
+	let aliasName
+	let func = this[OPERATIONS[operation] + capitalize(key)]
+	if (typeof alias === 'string') {
+		aliasName = alias
+	} else {
+		aliasName = alias.name
+		if (alias.create) {
+			func = alias.create(func)
+		}
+	}
+	if (this[aliasName]) {
+		throw new Error(`"${aliasName}" method already exists on UserData`)
+	}
+	this[aliasName] = func
 }

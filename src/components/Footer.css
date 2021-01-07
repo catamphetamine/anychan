@@ -41,17 +41,16 @@ body {
 	color: inherit;
 }
 
-.Footer-copyright {
+.Footer-notes {
+	/*
 	margin-top: 1em;
 	margin-bottom: 1em;
+	*/
+	margin-top: calc(2 * var(--unit));
+	margin-bottom: calc(2 * var(--unit));
 	text-align: center;
 	font-weight: 300;
 	font-size: 85%;
-
-	@mixin l-plus {
-		margin-top: 2em;
-		margin-bottom: 2em;
-	}
 }
 
 .Footer-captchanLogo {
@@ -62,7 +61,7 @@ body {
 	opacity: 0.75;
 }
 
-.FooterChanLinks {
+.Footer-links {
 	margin-top: 0;
 	margin-bottom: 0;
 	padding-left: 0;
@@ -70,7 +69,7 @@ body {
 	text-align: center;
 }
 
-.FooterChanLinks-listItem {
+.Footer-linkItem {
 	display: inline;
 	line-height: 1.75em;
 	&:after {
@@ -82,4 +81,10 @@ body {
 	&:last-child:after {
 		display: none;
 	}
+}
+
+.Footer-banner {
+	margin-bottom: calc(var(--unit) * 2);
+	margin-left: calc(-1 * var(--PageContent-paddingLeft));
+	margin-right: calc(-1 * var(--PageContent-paddingLeft));
 }

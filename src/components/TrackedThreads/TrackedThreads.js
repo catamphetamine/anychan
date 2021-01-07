@@ -4,21 +4,24 @@ import { Button } from 'react-responsive-ui'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
+import useMount from 'webapp-frontend/src/hooks/useMount'
+
 import useTrackedThreads from './useTrackedThreads'
 import useViewMode from './useViewMode'
 import TrackedThread from './TrackedThread'
 
 import getMessages from '../../messages'
 import { isThreadLocation } from '../../utility/routes'
-import { trackedThread, board, thread } from '../../PropTypes'
+import { trackedThread, channel, thread } from '../../PropTypes'
 
 import './TrackedThreads.css'
 
 export default function TrackedThreads({ edit, maxListLength }) {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const selectedBoard = useSelector(({ chan }) => chan.board)
-	const selectedThread = useSelector(({ chan }) => chan.thread)
+	const selectedChannel = useSelector(({ data }) => data.channel)
+	const selectedThread = useSelector(({ data }) => data.thread)
 	const isThreadPage = useSelector(({ found }) => isThreadLocation(found.resolvedMatch))
+	const [isMounted, onMount] = useMount()
 	const [
 		trackedThreads,
 		hasMoreThreads,
@@ -40,9 +43,11 @@ export default function TrackedThreads({ edit, maxListLength }) {
 		showMoreLessButton,
 		showExpiredThreadsButton
 	] = useViewMode({
+		isMounted,
 		hasMoreThreads,
 		hasMoreLiveThreads
 	})
+	onMount()
 	return (
 		<section className={classNames('TrackedThreads', {
 			'TrackedThreads--empty': trackedThreads.length === 0
@@ -55,14 +60,14 @@ export default function TrackedThreads({ edit, maxListLength }) {
 			{trackedThreads.length > 0 &&
 				getShownTrackedThreads(viewMode).map((thread) => (
 					<TrackedThread
-						key={`${thread.board.id}/${thread.id}`}
+						key={`${thread.channel.id}/${thread.id}`}
 						edit={edit}
 						thread={thread}
 						locale={locale}
-						selectedBoard={selectedBoard}
+						selectedChannel={selectedChannel}
 						selectedThread={selectedThread}
 						selected={isThreadPage &&
-							selectedBoard.id === thread.board.id &&
+							selectedChannel.id === thread.channel.id &&
 							selectedThread.id === thread.id}/>
 				))
 			}
@@ -96,7 +101,7 @@ TrackedThreads.propTypes = {
 	// isThreadLocation: PropTypes.bool,
 	// locale: PropTypes.string.isRequired,
 	// trackedThreads: PropTypes.arrayOf(trackedThread).isRequired,
-	// selectedBoard: board.isRequired,
+	// selectedChannel: channel.isRequired,
 	// selectedThread: thread.isRequired
 }
 

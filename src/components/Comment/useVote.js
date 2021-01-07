@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux'
 
 import getMessages from '../../messages'
 
-import { vote as voteForComment } from '../../redux/chan'
+import { vote as voteForComment } from '../../redux/data'
 
 import { notify } from 'webapp-frontend/src/redux/notifications'
 
 export default function useVote({
-	board,
-	thread,
+	channelId,
+	threadId,
 	comment,
 	locale
 }) {
@@ -18,8 +18,8 @@ export default function useVote({
 	const onVote = useCallback(async (up) => {
 		try {
 			const voteAccepted = await dispatch(voteForComment({
-				boardId: board.id,
-				threadId: thread.id,
+				channelId,
+				threadId,
 				commentId: comment.id,
 				up
 			}))
@@ -41,14 +41,14 @@ export default function useVote({
 			dispatch(notify(error.message, { type: 'error' }))
 		}
 	}, [
-		board,
-		thread,
+		channelId,
+		threadId,
 		comment,
 		locale,
 		dispatch
 	])
 	return [
 		vote,
-		board.hasVoting ? onVote : undefined
+		onVote
 	]
 }

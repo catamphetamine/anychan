@@ -1,14 +1,14 @@
 import { LETTER } from 'social-components/commonjs/utility/post/compileWordPatterns'
 
-import correctQuotes from './correctQuotes'
-
 /**
  * Corrects text grammar (naive implementation).
  * @param  {string} text
+ * @param  {string} [options.language]
  * @return {string}
  */
-export default function correctGrammar(text, options = {}) {
-	const { language } = options
+export default function correctGrammar(text, {
+	language
+}) {
 	const letter = language && LETTER[language] || LETTER.default
 	text = text
 		// ` -- ` -> ` — ` (converts double dash to long dash)
@@ -32,10 +32,17 @@ export default function correctGrammar(text, options = {}) {
 		// `one , two` -> `one, two`
 		.replace(/\s+,/g, ',')
 		// `one,two` -> `one, two`
-		.replace(/,(\S)/g, ', $1')
+		// .replace(/,(\S)/g, ', $1')
+		// Restrict the "next" part to a letter or a digit,
+		// rather than simply inserting a space after every comma,
+		// because there could be intentional spaceless cases
+		// like, for example, "abc,./:*".
+		.replace(new RegExp(`,([\\d${letter}])`, 'g'), ', $1')
 		// `one ?` -> `one?`
 		.replace(/\s+([\.!?])/g, '$1')
 
+	// If `LETTER[language]` is defined (not a broad "generic" one),
+	// then correct sentence end/start punctuation.
 	if (letter.indexOf('\\') < 0) {
 		const uppercaseLetter = letter.toUpperCase()
 		text = text
@@ -48,8 +55,5 @@ export default function correctGrammar(text, options = {}) {
 			// `...` -> `…`
 			.replace(new RegExp(`([${letter}${letter.toUpperCase()}])\\.\\.\\.`, 'g'), '$1…')
 	}
-
-	// `"one"` -> `«one»`
-	// (must not preceed other regexps having a quote)
-	return correctQuotes(text)
+	return text
 }

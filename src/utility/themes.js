@@ -2,35 +2,30 @@ import loadStylesheet from 'webapp-frontend/src/utility/loadStylesheet'
 
 import UserSettings from './UserSettings'
 
-import DefaultThemeUrl from '../styles/theme/default.css'
-import NeonGenesisEvangelionThemeUrl from '../styles/theme/neon-genesis-evangelion.css'
+import { DEFAULT_THEMES } from './settingsDefaults'
 
-export const THEMES = [
-	{
-		name: 'default',
-		url: DefaultThemeUrl
-	},
-	{
-		name: 'neon-genesis-evangelion',
-		url: NeonGenesisEvangelionThemeUrl
-	}
+import configuration from '../configuration'
+
+export const BUILT_IN_THEMES = [
+	...DEFAULT_THEMES,
+	...(configuration.themes || [])
 ]
 
 export function getThemes() {
-	return THEMES.concat(UserSettings.get('themes', []))
+	return BUILT_IN_THEMES.concat(UserSettings.get('themes', []))
 }
 
-export function getTheme(name) {
-	return getThemes().find(_ => _.name === name)
+export function getTheme(id) {
+	return getThemes().find(_ => _.id === id)
 }
 
-export function isBuiltInTheme(name) {
-	return THEMES.findIndex(_ => _.name === name) >= 0
+export function isBuiltInTheme(id) {
+	return BUILT_IN_THEMES.findIndex(_ => _.id === id) >= 0
 }
 
 export function addTheme(theme) {
 	const themes = UserSettings.get('themes', [])
-	const index = themes.findIndex(_ => _.name === theme.name)
+	const index = themes.findIndex(_ => _.id === theme.id)
 	if (index >= 0) {
 		themes[index] = theme
 	} else {
@@ -39,9 +34,9 @@ export function addTheme(theme) {
 	UserSettings.set('themes', themes)
 }
 
-export function removeTheme(name) {
+export function removeTheme(id) {
 	const themes = UserSettings.get('themes', [])
-	const index = themes.findIndex(_ => _.name === name)
+	const index = themes.findIndex(_ => _.id === id)
 	if (index >= 0) {
 		themes.splice(index, 1)
 		if (themes.length === 0) {
@@ -63,16 +58,16 @@ export async function applyTheme(theme) {
 	}
 	const themes = getThemes()
 	const previousThemeStyle = document.head.querySelector('[data-theme]')
-	const previousThemeName = previousThemeStyle && previousThemeStyle.dataset.theme
-	if (previousThemeName === theme.name) {
+	const previousThemeId = previousThemeStyle && previousThemeStyle.dataset.theme
+	if (previousThemeId === theme.id) {
 		return
 	}
 	function finishSwitchingTheme(style) {
-		style.setAttribute('data-theme', theme.name)
-		for (const { name } of themes) {
-			document.body.classList.remove(`theme--${name}`)
+		style.setAttribute('data-theme', theme.id)
+		for (const { id } of themes) {
+			document.body.classList.remove(`theme--${id}`)
 		}
-		document.body.classList.add(`theme--${theme.name}`)
+		document.body.classList.add(`theme--${theme.id}`)
 		if (previousThemeStyle) {
 			document.head.removeChild(previousThemeStyle)
 		}
@@ -82,7 +77,7 @@ export async function applyTheme(theme) {
 		finishSwitchingTheme(stylesheet)
 	} else {
 		const style = document.createElement('style')
-		style.appendChild(document.createTextNode(theme.code))
+		style.appendChild(document.createTextNode(theme.css))
 		document.head.appendChild(style)
 		finishSwitchingTheme(style)
 	}

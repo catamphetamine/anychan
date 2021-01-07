@@ -43,5 +43,5 @@ export const setSidebarMode = redux.simpleAction(
 
 export default redux.reducer({
 	cookiesAccepted: areCookiesAccepted(),
-	sidebarMode: 'boards'
+	sidebarMode: 'channels'
 })

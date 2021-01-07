@@ -24,13 +24,16 @@
 			"title": "Theme",
 			"add": {
 				"title": "Theme hinzufügen",
+				"id": "Code Name",
 				"name": "Name",
 				"url": "URL",
 				"code": "Code",
 				"pasteCodeInstead": "Fügen Sie stattdessen Code ein",
+				"invalidId": "ungültiger Code Name",
 				"invalidUrl": "ungültige URL",
 				"invalidExtension": "Keine \".css\" -Datei-URL",
-				"cssFileError": "Die Datei \".css\" konnte nicht geladen werden"
+				"cssFileError": "Die Datei \".css\" konnte nicht geladen werden",
+				"alreadyExists": "Bereits besetzt"
 			},
 			"guide": "Ein neues Thema erstellen",
 			"deleteCurrent": {
@@ -51,8 +54,14 @@
 		"darkMode": {
 			"auto": "Verwenden Sie die Systemeinstellung"
 		},
+		"grammarCorrection": {
+			"title": "Grammatikkorrektur",
+			"enable": "Aktivieren Sie die Autokorrektur der Grammatik",
+			"description": "Korrigiert automatisch einige grammatikalische Fehler in Kommentaren: setzt Leerzeichen nach Kommas und Punkten, ersetzt beabstandete Bindestriche durch „em Bindestriche“, verwendet die richtigen Anführungszeichen usw.",
+			"viewCode": "Code anzeigen"
+		},
 		"censorship": {
-			"title": "Zensierte Wörter",
+			"title": "Zensur",
 			"showCensoredWordsList": "Liste der zensierten Wörter anzeigen",
 			"hideCensoredWordsList": "Zensierte Wörter ausblenden",
 			"test": {
@@ -91,7 +100,7 @@
 				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, bevorzugte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
 				"done": "Die Benutzerdaten wurden gelöscht"
 			},
-			"clearBoardsCache": {
+			"clearChannelsCache": {
 				"title": "Boards-Cache löschen"
 			},
 			"clearYouTubeCache": {
@@ -113,7 +122,6 @@
 			}
 		}
 	},
-	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
 	"thread": "Thread",
@@ -125,7 +133,6 @@
 	},
 	"post": {
 		"rolling": "Rolling Thread",
-		"bumpLimitReached": "Der Faden hat seine Erhebungsgrenze erreicht und geht nach unten",
 		"threadAuthor": "Autor des Threads",
 		"attachmentsCount": "Anhänge",
 		"uniquePostersCount": "Eindeutige Poster-IP-Adressen",
@@ -134,7 +141,8 @@
 			"copyId": "Nummer kopieren",
 			"report": "Bericht",
 			"hide": "Ausblenden",
-			"ignoreAuthor": "Autor ignorieren"
+			"ignoreAuthor": "Autor ignorieren",
+			"showOriginalComment": "Originalkommentar anzeigen"
 		}
 	},
 	"role": {
@@ -143,8 +151,7 @@
 			"moderator": "Board moderator"
 		}
 	},
-	"copyright": {
-		"captchan": "captchan",
+	"footnotes": {
 		"postCaptchan": " imageboard client",
 		"preAuthor": " by "
 	},
@@ -154,8 +161,7 @@
 	"autoUpdate": {
 		"scheduledBeforeTime": "Аktualisieren ",
 		"inProgress": "Aktualisierung…",
-		"soon": "Bald aktualisiert…",
-		"error": "Der Thread konnte nicht aktualisiert werden."
+		"error": "Der Thread konnte nicht aktualisiert werden"
 	},
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
 	"inReplyTo": "als Antwort auf",
@@ -165,7 +171,8 @@
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
 	"goToComment": "Zum Kommentar gehen",
-	"threadIsClosed": "Dieser Thread ist geschlossen",
+	"threadBumpLimitReached": "Dieser Thread hat seine Stoßgrenze erreicht und geht nach unten",
+	"threadIsLocked": "Dieser Thread ist gesperrt",
 	"threadExpired": "Dieser Thread ist abgelaufen",
 	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in den letzten <time>15 Minuten</time>",

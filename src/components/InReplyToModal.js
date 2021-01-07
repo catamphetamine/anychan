@@ -14,7 +14,7 @@ import CommentTree from '../components/CommentTree'
 import {
 	comment as commentType,
 	thread as threadType,
-	board as boardType
+	channel as channelType
 } from '../PropTypes'
 
 import getMessages from '../messages'
@@ -24,7 +24,7 @@ import './InReplyToModal.css'
 const InReplyToModalOverlayClassName = 'InReplyToModalOverlay'
 
 export default function InReplyToModal({
-	board,
+	channel,
 	thread,
 	history,
 	isOpen,
@@ -75,8 +75,8 @@ export default function InReplyToModal({
 					key={comment.id}
 					id={null}
 					comment={comment}
-					thread={thread}
-					board={board}
+					threadId={thread.id}
+					channelId={channel.id}
 					locale={locale}
 					dispatch={dispatch}
 					onShowComment={onShowComment}
@@ -90,7 +90,7 @@ export default function InReplyToModal({
 }
 
 InReplyToModal.propTypes = {
-	board: boardType.isRequired,
+	channel: channelType.isRequired,
 	thread: threadType.isRequired,
 	history: PropTypes.arrayOf(commentType).isRequired,
 	isOpen: PropTypes.bool,

@@ -1,0 +1,17 @@
+@import "../../styles/common";
+
+.Comment-newAutoUpdateCommentsStartLine {
+	--Comment-newAutoUpdateCommentsStartLine-height: 2px;
+	--Comment-newAutoUpdateCommentsStartLine-color: var(--Clickable-color);
+	position: absolute;
+	top: calc((var(--Comment-marginTop) - var(--Comment-newAutoUpdateCommentsStartLine-height)) / 2);
+	width: 100%;
+	height: var(--Comment-newAutoUpdateCommentsStartLine-height);
+	background-color: var(--Comment-newAutoUpdateCommentsStartLine-color);
+
+	@mixin m-plus {
+		width: calc(100% - var(--PostThumbnailContainer-maxWidth) + 2 * var(--CommentSeparator-width--outline));
+		margin-left: calc(var(--PostThumbnailContainer-maxWidth) + -1 * var(--CommentSeparator-width--outline));
+		margin-right: calc(-1 * var(--CommentSeparator-width--outline));
+	}
+}

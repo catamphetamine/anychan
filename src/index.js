@@ -20,11 +20,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Run the application.
 // First initialize error handlers and stuff.
-// Then initialize the currently used chan
+// Then initialize the currently used provider
 // because it's used as a prefix in settings and user data.
-// Then initialize the app (applies user settings for the chan).
+// Then initialize the app (applies user settings for the provider).
 require('./initialize-entry')
-require('./initialize-chan').default()
+require('./initialize-provider').default()
 require('./initialize').default()
 require('./render').default().catch((error) => {
 	console.error(error.stack || error)

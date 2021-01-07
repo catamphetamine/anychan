@@ -49,6 +49,7 @@ function CommentWithThumbnail({
 	if (postThumbnail) {
 		postThumbnailElement = (
 			<PostAttachmentThumbnail
+				border
 				useSmallestThumbnail
 				attachment={postThumbnail}
 				spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
@@ -97,7 +98,7 @@ function CommentWithThumbnail({
 CommentWithThumbnail = React.forwardRef(CommentWithThumbnail)
 
 CommentWithThumbnail.propTypes = {
-	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
+	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: commentType.isRequired,
 	hidden: PropTypes.bool,
 	locale: PropTypes.string.isRequired,

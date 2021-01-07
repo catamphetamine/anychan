@@ -1,19 +1,9 @@
 @import "../styles/common";
 
 :root {
-	--Content-maxWidth: var(--Text-maxWidth);
-}
-
-.Webpage--board,
-.Webpage--thread,
-.InReplyToModal {
-	--Content-maxWidth: var(--CommentsList-maxWidth);
-}
-
-/* These two override `padding-left` and `padding-right` on `.Content`. */
-.ThreadPage,
-.BoardPage {
-	--PageContent-paddingLeft: 0px;
+	--PageContent-paddingLeft--background: 0px;
+	--HeaderBanner-marginBottom--smallScreen: var(--unit);
+	--HeaderBanner-marginBottom: calc(var(--unit) * 2);
 }
 
 .Webpage {
@@ -62,13 +52,13 @@
 	/* Prevents horizontal overflow. */
 	width: 100%;
 	max-width: 100%;
+	/* `min-width: 0` prevents the page from overflowing
+	   on thread page when there's a long thread title
+	   and is rendered with `white-space: nowrap`. */
+	min-width: 0;
 }
 
-.Webpage-contentContainer {
-	flex-basis: var(--Content-maxWidth);
-}
-
-.Webpage--board,
+.Webpage--channel,
 .Webpage--thread {
 	main {
 		width: 100%;
@@ -77,6 +67,12 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+}
+
+/* These two override `padding-left` and `padding-right` on `.Content`. */
+.ThreadPage,
+.ChannelPage {
+	--PageContent-paddingLeft: 0px;
 }
 
 .Content {
@@ -94,21 +90,21 @@
 
 /*
 .Webpage--contentSections {
-	.BackgroundContent {
-		padding-left: 0;
-		padding-right: 0;
+	.Content--background {
+		padding-left: var(--PageContent-paddingLeft--background);
+		padding-right: var(--PageContent-paddingLeft--background);
 	}
 }
 */
 
 @mixin upto-m {
+	:root {
+		--PageContent-paddingLeft--background: var(--unit);
+	}
 	.Webpage--contentSections {
-		.Content {
-			--PageContent-paddingLeft: 0px;
-		}
-		.BackgroundContent {
-			padding-left: var(--unit);
-			padding-right: var(--unit);
+		--PageContent-paddingLeft: 0px;
+		.Content--background {
+			--PageContent-paddingLeft:var(--PageContent-paddingLeft--background);
 		}
 		/*
 		If comments don't have any side padding
@@ -149,9 +145,9 @@
 	.Sidebar--show {
 		transform: none;
 	}
-	/* The extra specificity is to override .HomePage__show-boards-list { display: none }. */
+	/* The extra specificity is to override .HomePage__show-channels-list { display: none }. */
 	.HomePage {
-		.HomePage-showBoardsList {
+		.HomePage-showChannelsList {
 			display: block !important;
 		}
 	}
@@ -194,7 +190,6 @@
 		top: var(--Header-height);
 		min-height: calc(100vh - var(--Header-height));
 		max-height: calc(100vh - var(--Header-height));
-		min-width: var(--Sidebar-minWidth);
 		/* Resets any `transform`/`transition`/`box-shadow`
 		   potentially set on XS-S-size screens. */
 		transform: none;
@@ -202,7 +197,7 @@
 		box-shadow: none;
 	}
 
-	.Webpage--board,
+	.Webpage--channel,
 	.Webpage--thread {
 		.Content--text {
 		  width: 100%;
@@ -213,113 +208,16 @@
 	.Footer .MainMenu {
 		display: none;
 	}
-
-	/*.Webpage-paddingLeft,
-	.Webpage-paddingRight {
-		min-width: 0;
-	}*/
-	.Webpage-contentContainer {
-		flex-grow: 0;
-		/* Is shrinkable so that it leaves some space
-		   to the sidebar on smaller screens. */
-		/*flex-shrink: 1;*/
-	}
-	.Webpage-paddingLeft {
-		flex-grow: var(--PaddingLeft-flexGrow);
-	}
-	.Webpage-paddingRight {
-		flex-grow: var(--PaddingRight-flexGrow);
-	}
-	.Sidebar {
-		flex-grow: var(--Sidebar-flexGrow);
-		flex-basis: var(--Sidebar-flexBasis);
-	}
-	:root {
-		--PaddingRight-flexGrow--wide: 0.1;
-		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
-	}
-	/* Move notifications to the right side
-	   because they aren't that eligible when shown
-	   above the sidebar with the boards list. */
-	/* Update: Sidebar has been moved to the right side. */
-	/*
-	.rrui__snackbar__container {
-		justify-content: flex-end;
-	}
-	*/
 }
 
-@mixin l-xl {
-	/* On "xxl" screens (1440p and larger) the screen width is enough
-	   no not widen the sidebar for "wide" content.
-	   This results in better UX because sidebar width doesn't "jump"
-	   when switching to "Tracked threads" / "Notifications". */
-	.Webpage--wideSidebar {
-		--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--wide);
-		--Sidebar-minWidth: var(--Sidebar-minWidth--wide);
-		--Sidebar-flexGrow: var(--Sidebar-flexGrow--wide);
+.Webpage-headerBanner {
+	margin-bottom: var(--HeaderBanner-marginBottom--smallScreen);
+	@mixin upto-s {
+		--HeaderBanner-marginBottom: var(--HeaderBanner-marginBottom--smallScreen);
 	}
 }
 
-@mixin l {
-	/* Flexbox proportions. */
-	:root {
-		--PaddingLeft-flexGrow: 1;
-		--PaddingRight-flexGrow: 0.3;
-		--Sidebar-flexBasis: var(--Sidebar-minWidth);
-		--Sidebar-flexGrow: 0.4;
-		--Sidebar-minWidth: calc(var(--unit) * 23);
-		--Sidebar-minWidth--wide: calc(var(--unit) * 36);
-	}
-}
-
-@mixin xl-plus {
-	/* Flexbox proportions. */
-	:root {
-		--PaddingLeft-flexGrow: 1;
-		--PaddingRight-flexGrow: 0.25;
-		--PaddingRight-flexGrow--thread: var(--PaddingRight-flexGrow); /* 0.5; */
-		/* Setting sidebar `flex-basis` to `0` so that the layout is computed
-		   purely via `flex` shares of left padding, right padding and the sidebar
-		   resulting in page content always being centered. */
-		--Sidebar-flexBasis: 0;
-		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
-		--Sidebar-flexGrow--thread: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--thread));
-		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
-		   only based on their `flex-grow`: this makes it easy to place the central
-		   column in the center of the screen. */
-		/* Otherwise the layout would "jump" for some weird reason when
-		   switching "Tracked threads" / "Notifications" on `/b/` page
-		   where thumbnail width is small. */
-		--Sidebar-minWidth: 0px;
-		/*--Sidebar-minWidth: calc(var(--unit) * 25);*/
-		/* Setting `--Sidebar-minWidth--wide` to `--Sidebar-minWidth`
-		   so that flexbox doesn't resize non-right-side columns
-		   when clicking "Tracked threads" and "Notifications" menu buttons. */
-		--Sidebar-minWidth--wide: var(--Sidebar-minWidth);
-		/*--Sidebar-minWidth--wide: calc(var(--unit) * 40);*/
-	}
-	.Webpage--board,
-	.Webpage--thread {
-		&:not(.Webpage--wideSidebar) {
-			/* These rules must be equal to those in the "xxl-plus" mixin below. */
-			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
-			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
-		}
-		/* `flex-basis` must be equal to `.Comment-thumbnail` width + margins:
-		   this makes thread comment text centered on screen. */
-		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + 2 * var(--PostThumbnail-marginRight));
-	}
-}
-
-@mixin xxl-plus {
-	.Webpage--board,
-	.Webpage--thread {
-		/* Overrides the `&:not(.Webpage--wideSidebar)` selector above. */
-		&.Webpage--wideSidebar {
-			/* These rules must be equal to those in the "xl-plus" mixin above. */
-			--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--thread);
-			--Sidebar-flexGrow: var(--Sidebar-flexGrow--thread);
-		}
-	}
+.Webpage-element--fullWidth {
+	margin-left: calc(-1 * var(--Webpage-paddingLeft-width));
+	margin-right: calc(-1 * var(--Webpage-paddingRight-width));
 }

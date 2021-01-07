@@ -3,40 +3,39 @@ import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
 
 import _correctGrammar from './correctGrammar'
 
-function correctGrammar(text) {
+function correctGrammarEn(text) {
+	return _correctGrammar(text, { language: 'en' })
+}
+
+function correctGrammarRu(text) {
 	return _correctGrammar(text, { language: 'ru' })
 }
 
 describe('correctGrammar', () => {
 	it('should correct grammar', () => {
 		expectToEqual(
-			correctGrammar('a,b ,c , d, e -- f - g'),
+			correctGrammarEn('a,b ,c , d, e -- f - g'),
 			'a, b, c, d, e — f — g'
 		)
 
 		expectToEqual(
-			correctGrammar('раз.Два'),
+			correctGrammarRu('раз.Два'),
 			'раз. Два'
 		)
 
 		expectToEqual(
-			correctGrammar('раз(два)'),
+			correctGrammarRu('раз(два)'),
 			'раз (два)'
 		)
 
 		expectToEqual(
-			correctGrammar('раз?(два)'),
+			correctGrammarRu('раз?(два)'),
 			'раз? (два)'
 		)
 
 		expectToEqual(
-			correctGrammar('"раз"(два)'),
-			'«раз» (два)'
-		)
-
-		expectToEqual(
-			correctGrammar('" раз "'),
-			'«раз»'
+			correctGrammarRu('"раз"(два)'),
+			'"раз" (два)'
 		)
 	})
 })

@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react'
 
-import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnail'
+import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnailAttachment'
 import getPicturesAndVideos from 'social-components/commonjs/utility/post/getPicturesAndVideos'
 import getNonEmbeddedAttachments from 'social-components/commonjs/utility/post/getNonEmbeddedAttachments'
 
@@ -45,7 +45,7 @@ export default function usePostThumbnail({
 	// that aren't embedded in the post itself,
 	// minus one for the "post thumbnail" itself.
 	const postThumbnailMoreAttachmentsCount = useMemo(() => {
-		if (postThumbnail && mode === 'board' && comment.attachments.length > 1) {
+		if (postThumbnail && mode === 'channel' && comment.attachments.length > 1) {
 			return getPicturesAndVideos(getNonEmbeddedAttachments(comment)).length - 1
 		}
 	}, [

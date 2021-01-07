@@ -1,0 +1,90 @@
+{
+	"id": "8ch",
+	"title": "8kun",
+	"subtitle": "Embrace infamy",
+	"description": "Welcome to 8kun, the Darkest Reaches of the Internet. On 8kun, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8kun might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8kun, boards and posts are user-created and do not represent the opinions of the 8kun administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
+	"footnotes": [[
+		"All posts on 8kun  are the responsibility of the individual poster and not the administration of 8kun, pursuant to 47\u00a0U.S.C. §\u00a0230.",
+		"\n",
+		"We have not been served any secret court orders and are not under any gag orders.",
+		"\n",
+		"To file a DMCA takedown notice, please email ",
+		{
+			"type": "link",
+			"url": "mailto:compliance@isitwetyet.net",
+			"content": "compliance@isitwetyet.net"
+		},
+		". In the interest of transparency, notices of claimed infringement will be posted on ",
+		{
+			"type": "link",
+			"url": "https://8kun.top/delete/",
+			"content": ">>>/delete/"
+		},
+		".",
+		"\n",
+		"\n",
+		{
+			"type": "link",
+			"url": "https://github.com/OpenIB/OpenIB",
+			"content": "OpenIB"
+		},
+		" imageboard engine by ",
+		{
+			"type": "link",
+			"url": "https://twitter.com/codemonkeyz",
+			"content": "Code Monkey"
+		}
+	]],
+	"links": [
+		{
+			"type": "faq",
+			"text": "FAQ",
+			"url": "https://8kun.top/faq.html"
+		},
+		{
+			"type": "link",
+			"text": "Ban List",
+			"url": "https://8kun.top/bans.html"
+		},
+		{
+			"type": "link",
+			"text": "Create a Board",
+			"url": "https://sys.8kun.top/create.php"
+		},
+		{
+			"type": "link",
+			"text": "Manage Board",
+			"url": "https://sys.8kun.top/mod.php"
+		},
+		{
+			"type": "link",
+			"text": "Claim a Board",
+			"url": "https://8kun.top/claim.html"
+		},
+		{
+			"type": "advertise",
+			"text": "Advertise on 8kun",
+			"url": "mailto:ads@isitwetyet.net"
+		},
+		{
+			"type": "contact",
+			"text": "Contact Admin",
+			"url": "mailto:admin@isitwetyet.net"
+		},
+		{
+			"type": "twitter",
+			"text": "Twitter",
+			"url": "https://twitter.com/infinitechan"
+		},
+		{
+			"type": "reddit",
+			"text": "Reddit",
+			"url": "https://www.reddit.com/r/infinitechan"
+		},
+		{
+			"type": "mobile",
+			"text": "Mobile App",
+			"url": "https://8kun.top/faq.html#where-is-the-mobile-app"
+		}
+	]
+}

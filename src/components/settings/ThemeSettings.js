@@ -18,6 +18,10 @@ import {
 } from '../../utility/themes'
 
 import {
+	getDefaultThemeId
+} from '../../utility/settingsDefaults'
+
+import {
 	ContentSection,
 	ContentSectionHeader
 } from 'webapp-frontend/src/components/ContentSection'
@@ -35,10 +39,10 @@ export default function ThemeSettings({
 	const [theme, setTheme] = useState(settings.theme)
 	const [showAddThemeModal, setShowAddThemeModal] = useState()
 
-	async function onSelectTheme(name) {
-		setTheme(name)
+	async function onSelectTheme(id) {
+		setTheme(id)
 		try {
-			await applyTheme(name)
+			await applyTheme(id)
 		} catch (error) {
 			if (error.message === 'STYLESHEET_ERROR') {
 				dispatch(showError(messages.settings.theme.add.cssFileError))
@@ -47,31 +51,31 @@ export default function ThemeSettings({
 			}
 			throw error
 		}
-		dispatch(saveTheme(name))
+		dispatch(saveTheme(id))
 	}
 
-	async function onAddTheme(name) {
+	async function onAddTheme(id) {
 		try {
-			await applyTheme(name)
+			await applyTheme(id)
 		} catch (error) {
-			removeTheme(name)
+			removeTheme(id)
 			throw error
 		}
-		dispatch(saveTheme(name))
-		setTheme(name)
+		dispatch(saveTheme(id))
+		setTheme(id)
 	}
 
 	async function onRemoveSelectedTheme() {
 		dispatch(okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)))
 		if (await OkCancelDialog.getPromise()) {
 			removeTheme(theme)
-			await onSelectTheme('default')
+			await onSelectTheme(getDefaultThemeId())
 		}
 	}
 
 	const options = getThemes().map((theme) => ({
-		value: theme.name,
-		label: messages.settings.theme.themes[theme.name] || theme.name
+		value: theme.id,
+		label: messages.settings.theme.themes[theme.id] || theme.name || theme.id
 	}))
 
 	return (
@@ -138,6 +142,8 @@ ThemeSettings.propTypes = {
 	guideUrl: PropTypes.string
 }
 
+const THEME_ID_REG_EXP = /^[a-zA-Z-_\d]+$/
+
 function AddTheme({
 	messages,
 	onSaveTheme,
@@ -149,7 +155,7 @@ function AddTheme({
 	// Focus the "Code" input after "Paste CSS code instead" has been clicked.
 	useEffect(() => {
 		if (pasteCodeInstead) {
-			addThemeForm.current.focus('code')
+			addThemeForm.current.focus('css')
 		}
 	}, [pasteCodeInstead])
 
@@ -159,6 +165,17 @@ function AddTheme({
 		}
 		if (!CSS_URL_REGEXP.test(value)) {
 			return messages.settings.theme.add.invalidExtension
+		}
+	}
+
+	function validateId(value) {
+		if (!THEME_ID_REG_EXP.test(value)) {
+			return messages.settings.theme.add.invalidId
+		}
+		for (const theme of getThemes()) {
+			if (value === theme.id) {
+				return messages.settings.theme.add.alreadyExists
+			}
 		}
 	}
 
@@ -172,11 +189,11 @@ function AddTheme({
 
 	async function onAddTheme(theme) {
 		try {
-			if (theme.code) {
+			if (theme.css) {
 				delete theme.url
 			}
 			addTheme(theme)
-			await onSaveTheme(theme.name, getThemes().concat(theme))
+			await onSaveTheme(theme.id, getThemes().concat(theme))
 			close()
 		} catch (error) {
 			console.error(error)
@@ -194,6 +211,13 @@ function AddTheme({
 			requiredMessage={messages.form.error.required}
 			onSubmit={onAddTheme}
 			className="form">
+			<Field
+				required
+				name="id"
+				label={messages.settings.theme.add.id}
+				component={TextInput}
+				validate={validateId}
+				className="form__component"/>
 			<Field
 				required
 				name="name"
@@ -221,7 +245,7 @@ function AddTheme({
 				<Field
 					required
 					multiline
-					name="code"
+					name="css"
 					label={messages.settings.theme.add.code}
 					component={TextInput}
 					className="form__component rrui__input--monospace"/>

@@ -22,9 +22,15 @@
 
 .CommentFooter,
 .CommentFooter-left,
-.CommentFooter-right {
+.CommentFooter-right,
+.CommentFooter-rightExceptMoreActions {
 	display: flex;
 	align-items: center;
+}
+
+.CommentFooter-left,
+.CommentFooter-rightExceptMoreActions {
+	flex-wrap: wrap;
 }
 
 .CommentFooter-left {

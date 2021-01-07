@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import ExternalLink from 'webapp-frontend/src/components/ExternalLink'
 
-import { getChan } from '../chan'
+import { getProvider } from '../provider'
 import getMessages from '../messages'
 
 import './Error.css'
@@ -17,7 +17,7 @@ export default function ErrorPage({
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const location = useSelector(({ found }) => found.resolvedMatch.location)
 	const offline = useSelector(({ app }) => app.offline)
-	const custom = getChan().errorPages && getChan().errorPages[status]
+	const custom = getProvider() && getProvider().errorPages && getProvider().errorPages[status]
 	const messages = getMessages(locale).errorPages[status]
 	const LinkComponent = offline ? ExternalLink : Link
 	return (

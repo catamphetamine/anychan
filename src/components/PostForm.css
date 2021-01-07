@@ -1,16 +1,37 @@
 @import "../styles/common";
 
 .PostForm {
+	--rrui-multiline-text-height: auto;
+	display: flex;
 
+	@mixin m-plus {
+		margin-left: calc(var(--PostThumbnailContainer-maxWidth));
+	}
+	@mixin upto-s {
+		margin-left: var(--Post-paddingLeft);
+		margin-right: var(--Post-paddingRight);
+	}
 }
 
+.PostForm-textInput {
+	flex: 1;
+	margin-right: var(--unit);
+}
+
+.PostForm-actionIcon {
+	width: calc(var(--unit) * 2);
+	height: calc(var(--unit) * 2);
+}
+
+/*
 .PostForm-action {
 	margin-right: var(--unit);
 	&:last-child {
 		margin-right: 0;
 	}
-	@mixin upto-m {
+	@mixin upto-s {
 		width: 100%;
 		margin-right: 0;
 	}
 }
+*/

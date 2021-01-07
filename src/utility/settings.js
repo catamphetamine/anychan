@@ -1,23 +1,18 @@
-import IGNORED_WORDS_DE from 'webapp-frontend/src/messages/offensive.de.json'
-import IGNORED_WORDS_EN from 'webapp-frontend/src/messages/offensive.en.json'
-import IGNORED_WORDS_RU from 'webapp-frontend/src/messages/offensive.ru.json'
-
 import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 import { applyDarkMode, autoDarkMode, applyFontSize, applyLeftHanded } from 'webapp-frontend/src/utility/style'
 
-import { defaultLanguage, getLanguageNames } from '../messages'
-import { getChan } from '../chan'
+import configuration from '../configuration'
+import { getLanguageNames } from '../messages'
 import { setDarkMode } from '../redux/app'
-import { THEMES, applyTheme } from './themes'
+import { applyTheme } from './themes'
+import getDefaultSettings from './settingsDefaults'
 import UserSettings from './UserSettings'
+import getLanguageFromLocale from './getLanguageFromLocale'
+import getCensoredWordsByLanguage from './getCensoredWordsByLanguage'
 
 class Settings {
-	constructor(storage, {
-		languages,
-		themes
-	}) {
+	constructor(storage) {
 		this.storage = storage
-		this.languages = languages
 	}
 
 	async apply({ dispatch }) {
@@ -38,38 +33,15 @@ class Settings {
 
 	get() {
 		const settings = {
-			...this.getDefaultSettings(),
+			...getDefaultSettings(),
 			...this.getCustomSettings()
 		}
 		// Compile censored word patterns.
-		if (settings.censoredWords) {
-			settings.censoredWords = compileWordPatterns(settings.censoredWords, settings.language)
+		if (settings.censorWords) {
+			const censoredWords = settings.censoredWords || getCensoredWordsByLanguage(getLanguageFromLocale(settings.locale))
+			settings.censoredWords = compileWordPatterns(censoredWords, getLanguageFromLocale(settings.locale))
 		}
 		return settings
-	}
-
-	getDefaultSettings() {
-		return {
-			theme: 'default',
-			fontSize: 'm',
-			darkMode: false,
-			autoDarkMode: true,
-			locale: this.getDefaultLanguage(),
-			censoredWords: getCensoredWordsByLanguage(this.getDefaultLanguage())
-		}
-	}
-
-	isSupportedLanguage(language) {
-		return this.languages.includes(language)
-	}
-
-	getDefaultLanguage() {
-		if (typeof window !== 'undefined') {
-			if (this.isSupportedLanguage(navigator.language)) {
-				return navigator.language
-			}
-		}
-		return defaultLanguage
 	}
 
 	getCustomSettings() {
@@ -77,23 +49,6 @@ class Settings {
 	}
 }
 
-export function getCensoredWordsByLanguage(language) {
-	switch (language) {
-		case 'de':
-			return IGNORED_WORDS_DE
-		case 'en':
-			return IGNORED_WORDS_EN
-		case 'ru':
-			return IGNORED_WORDS_RU
-	}
-}
-
-const languages = Object.keys(getLanguageNames())
-
-const settings = new Settings(UserSettings, {
-	languages,
-	themes: THEMES,
-	getCensoredWordsByLanguage
-})
+const settings = new Settings(UserSettings)
 
 export default settings

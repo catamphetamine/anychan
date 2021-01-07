@@ -1,0 +1,157 @@
+@import "../styles/common";
+
+:root {
+	--SideNavMenuButton-offset--horizontal: calc(var(--Post-paddingLeft) - var(--unit) / 2);
+	--SideNavMenuButton-width: calc(var(--unit) * 2);
+	--SideNavMenuButton-padding: calc(var(--unit) / 2);
+	--SideNavMenuButton-marginBottom: calc(var(--unit) * 3);
+	--SideNavMenuButton-animationDuration: 120ms;
+	/* On tablets in horizontal position the top position is adjusted so that
+	   the right hand thumb could (presumably) reach it comfortably. */
+	--SideNavMenuButtons-top: 45%;
+	@mixin xxs {
+		/* On mobile phones the top position is adjusted so that
+		   the right hand thumb could (presumably) reach it comfortably. */
+		--SideNavMenuButtons-top: 35%;
+	}
+}
+
+.SideNavMenuButtons {
+	display: none;
+	position: fixed;
+	/* Setting percentage-based `top` position for `position: fixed`
+	   results in it jumping when mobile browser top/bottom bars appear/disappear.
+	   Instead, the `top` position is calculated and set in `px` via javascript.
+	   The initial `top: 100%` is just to hide the button until javascript is run. */
+	/*top: calc(35% - var(--unit) * 2 / 2);*/
+	top: 100%;
+	left: auto;
+	right: var(--SideNavMenuButton-offset--horizontal);
+	z-index: var(--SideNavMenuButton-zIndex);
+	@mixin upto-m {
+		display: block;
+	}
+}
+
+.SideNavMenuButton {
+	width: var(--SideNavMenuButton-width);
+	height: var(--SideNavMenuButton-width);
+	padding: var(--SideNavMenuButton-padding);
+	margin-bottom: var(--SideNavMenuButton-marginBottom);
+	color: var(--SideNavMenuButton-color);
+	transition: color 60ms;
+	box-sizing: content-box;
+	/*&:focus,*/
+	&:active {
+		color: var(--SideNavMenuButton-color--active);
+		/*background-color: var(--base-color-200);*/
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.Document--leftHanded {
+	.SideNavMenuButtons {
+		left: var(--SideNavMenuButton-offset--horizontal);
+		right: auto;
+	}
+}
+
+/* https://codepen.io/bennettfeely/pen/twbyA */
+
+.SideNavMenuButtonIcon {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.SideNavMenuButtonIcon-bar {
+	position: absolute;
+	left: 0;
+	top: calc((100% - 6%) / 2);
+	width: 100%;
+	height: 6%;
+	background-color: currentColor;
+}
+
+.SideNavMenuButtonIcon--transition .SideNavMenuButtonIcon-bar {
+	transition: transform var(--SideNavMenuButton-animationDuration), opacity var(--SideNavMenuButton-animationDuration);
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(1),
+.SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon-bar:nth-child(3) {
+	z-index: 1;
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(4),
+.SideNavMenuButtonIcon-bar:nth-child(5),
+.SideNavMenuButtonIcon-bar:nth-child(6) {
+	color: var(--SideNavMenuButtonIcon-borderColor);
+	height: 12%;
+	top: calc((100% - 12%) / 2);
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(1) {
+	transform: translateY(-450%);
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(3) {
+	transform: translateY(450%);
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(4) {
+	transform: translateY(-225%);
+}
+
+.SideNavMenuButtonIcon-bar:nth-child(6) {
+	transform: translateY(225%);
+}
+
+/*
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(1) {
+	transform: translateY(-550%);
+}
+.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(3) {
+	transform: translateY(550%);
+}
+*/
+
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(5) {
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(1),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(4) {
+	transform: rotate(-45deg) scale(0.9);
+}
+
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(3),
+.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(6) {
+	transform: rotate(45deg) scale(0.9);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(2),
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(5) {
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(1) {
+	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-450%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(3) {
+	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(450%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(4) {
+	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-225%);
+}
+
+.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(6) {
+	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(225%);
+}

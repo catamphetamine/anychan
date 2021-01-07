@@ -1,0 +1,24 @@
+.ChannelsPage {
+	.ChannelsListChannel {
+		display: flex;
+	}
+	.ChannelsListChannel-title {
+		font-weight: normal;
+	}
+	.ChannelsListChannel {
+		.ChannelsListChannel-title {
+			color: var(--Sidebar-color-900);
+		}
+	}
+	.ChannelsListChannel:hover {
+		--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--hover);
+		background-color: var(--Channels-backgroundColor--hover);
+	}
+	.ChannelsListChannel:active {
+		--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--active);
+		background-color: var(--Channels-backgroundColor--active);
+		.ChannelsListChannel-title {
+			color: var(--Channels-color--active);
+		}
+	}
+}

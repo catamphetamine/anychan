@@ -3,16 +3,18 @@ import { ReduxModule } from 'react-pages'
 const redux = new ReduxModule('TWITTER')
 
 export const showTweet = redux.simpleAction(
-	(state, tweetId) => ({
+	(state, { id, url }) => ({
 		...state,
-		tweetId
+		tweetId: id,
+		tweetUrl: url
 	})
 )
 
 export const hideTweet = redux.simpleAction(
 	(state) => ({
 		...state,
-		tweetId: undefined
+		tweetId: undefined,
+		tweetUrl: undefined
 	})
 )
 

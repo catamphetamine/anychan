@@ -1,5 +1,10 @@
 import configuration from '../configuration'
-import { shouldIncludeChanInPath, getChanId, addChanToPath } from '../chan'
+import {
+	shouldIncludeProviderInPath,
+	getProviderId,
+	getProviderAlias,
+	addProviderIdToPath
+} from '../provider'
 
 /**
  * Returns "base" path of the application.
@@ -7,9 +12,12 @@ import { shouldIncludeChanInPath, getChanId, addChanToPath } from '../chan'
  * the "base" path was "/captchan".
  * @return {string}
  */
-export default function getBasePath({ chan } = {}) {
-	if (shouldIncludeChanInPath()) {
-		return addBasePath(addChanToPath('', chan || getChanId()))
+export default function getBasePath({ providerId } = {}) {
+	if (shouldIncludeProviderInPath()) {
+		providerId = providerId || getProviderAlias() || getProviderId()
+		if (providerId) {
+			return addBasePath(addProviderIdToPath('', providerId))
+		}
 	}
 	return _getBasePath() || ''
 }

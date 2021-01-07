@@ -24,13 +24,16 @@
 			"title": "Theme",
 			"add": {
 				"title": "Add Theme",
+				"id": "Codename",
 				"name": "Name",
 				"url": "URL",
 				"code": "Code",
 				"pasteCodeInstead": "Paste code instead",
+				"invalidId": "Invalid codename",
 				"invalidUrl": "Invalid URL",
 				"invalidExtension": "Not a \".css\" file URL",
-				"cssFileError": "Couldn't load the \".css\" file"
+				"cssFileError": "Couldn't load the \".css\" file",
+				"alreadyExists": "Already occupied"
 			},
 			"guide": "\"Making a new theme\" guide",
 			"deleteCurrent": {
@@ -51,8 +54,14 @@
 		"darkMode": {
 			"auto": "Use system preference"
 		},
+		"grammarCorrection": {
+			"title": "Grammar Correction",
+			"enable": "Enable grammar autocorrection",
+			"description": "Automatically corrects some grammatical errors in comments: puts whitespace after commas and dots, replaces spaced dashes with “em dashes”, uses the correct quotation marks, etc.",
+			"viewCode": "View code"
+		},
 		"censorship": {
-			"title": "Censored Words",
+			"title": "Censorship",
 			"showCensoredWordsList": "Show Censored Words List",
 			"hideCensoredWordsList": "Hide Censored Words List",
 			"test": {
@@ -91,7 +100,7 @@
 				"warning": "All your user data (\"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
 				"done": "The user data has been cleared"
 			},
-			"clearBoardsCache": {
+			"clearChannelsCache": {
 				"title": "Clear boards cache"
 			},
 			"clearYouTubeCache": {
@@ -113,7 +122,6 @@
 			}
 		}
 	},
-	"loadingBoardsError": "Couldn't load boards list",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
 	"thread": "Thread",
@@ -125,7 +133,6 @@
 	},
 	"post": {
 		"rolling": "Rolling thread",
-		"bumpLimitReached": "The thread has reached its bump limit and is going down",
 		"threadAuthor": "Thread author",
 		"attachmentsCount": "Attachments",
 		"uniquePostersCount": "Unique poster IP addresses",
@@ -134,7 +141,11 @@
 			"copyId": "Copy number",
 			"report": "Report",
 			"hide": "Hide",
-			"ignoreAuthor": "Ignore author"
+			"ignoreAuthor": "Ignore author",
+			"showOriginalComment": "Show original comment"
+		},
+		"form": {
+			"inputText": "Schreibe einen Kommentar…"
 		}
 	},
 	"role": {
@@ -143,8 +154,7 @@
 			"moderator": "Board moderator"
 		}
 	},
-	"copyright": {
-		"captchan": "captchan",
+	"footnotes": {
 		"postCaptchan": " imageboard client",
 		"preAuthor": " by "
 	},
@@ -152,10 +162,9 @@
 		"anonymous": "Anonymous"
 	},
 	"autoUpdate": {
-		"scheduledBeforeTime": "Autoupdate ",
+		"scheduledBeforeTime": "Auto-update ",
 		"inProgress": "Updating…",
-		"soon": "Updating soon…",
-		"error": "Couldn't update the thread."
+		"error": "Couldn't update the thread"
 	},
 	"notImplemented": "This feature hasn't been implemented yet",
 	"inReplyTo": "In reply to",
@@ -165,7 +174,8 @@
 	"newComments": "New comments",
 	"lastComment": "Last comment",
 	"goToComment": "Go to comment",
-	"threadIsClosed": "This thread is closed",
+	"threadBumpLimitReached": "This thread has reached its bump limit and is going down",
+	"threadIsLocked": "This thread is locked",
 	"threadExpired": "This thread has expired",
 	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>15 minutes</time>",

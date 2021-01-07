@@ -14,10 +14,11 @@
 	padding-left: calc(var(--unit) * 1);
 	padding-right: calc(var(--unit) * 1);
 	height: var(--List-lineHeight);
+	font-size: var(--List-fontSize);
 	/* Styles `<Link/>`s and `<button/>`s. */
 	color: var(--Clickable-color--text);
 	&:active {
-		background-color: var(--Boards-backgroundColor--active);
+		background-color: var(--Channels-backgroundColor--active);
 		color: var(--Clickable-color--textActive);
 		.SidebarMenuItem-title {
 			color: inherit;
@@ -41,7 +42,7 @@
 
 .SidebarMenuItem--includeTitle {
 	&.SidebarMenuItem--selected {
-		background-color: var(--Boards-backgroundColor--selected);
+		background-color: var(--Channels-backgroundColor--selected);
 	}
 }
 
@@ -54,7 +55,7 @@
 }
 
 .SidebarMenuItem-title {
-	color: var(--Boards-color);
+	color: var(--Channels-color);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

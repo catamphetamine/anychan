@@ -3,7 +3,12 @@
 .ThreadPageHeader {
 	@mixin upto-s {
 		margin-left: var(--Post-paddingLeft);
+	}
+	@mixin upto-xs {
 		margin-top: calc(var(--unit) * 0.5);
+	}
+	@mixin s {
+		margin-top: calc(var(--unit) * 1);
 	}
 	@mixin l {
 		/* `margin-left` is already being set in `Thread.css`. */
@@ -25,10 +30,14 @@
 .ThreadPageHeader-titleOnNewLine {
 	display: flex;
 	align-items: center;
+	/* Don't trim thread title even when it's very long. */
 	/* These `overflow` rules are required in order for
 	   thread title to show ellipsis on overflow. */
-	overflow: hidden;
-	text-overflow: ellipsis;
+	/*overflow: hidden;*/
+	/*text-overflow: ellipsis;*/
+	.ThreadPageHeader-title {
+		line-height: 1.3em;
+	}
 }
 
 .ThreadPageHeader-backArrow {
@@ -38,16 +47,19 @@
 	   The reason is that the back arrow icon itself isn't square. */
 	margin-left: calc(-1 * var(--unit) / 4);
 	margin-right: calc(var(--unit) / 8);
-	/* Prevent the back arrow icon from shrinking when board title overflows container. */
+	/* Prevent the back arrow icon from shrinking when channel title overflows container. */
 	flex-shrink: 0;
 }
 
-.ThreadPageHeader-boardAndThreadTitle {
+.ThreadPageHeader-channelAndThreadTitle {
 	display: flex;
 	align-items: center;
 	/* `overflow: hidden` is for cases when, for example,
-	   board title is too long and has no whitespace. */
+	   channel title is too long and has no whitespace. */
 	overflow: hidden;
+	@mixin m-l {
+		padding-left: var(--Post-paddingLeft);
+	}
 }
 
 .ThreadPageHeader-title {
@@ -55,6 +67,9 @@
 	/*font-weight: 300;*/
 	font-weight: 400;
 	font-size: var(--PostTitle-fontSize);
+}
+
+.ThreadPageHeader-title--singleLine {
 	/* `overflow: hidden` is for cases when, for example,
 	   thread title is too long and has no whitespace. */
 	overflow: hidden;
@@ -74,20 +89,36 @@
 }
 
 .ThreadPageHeader-backLink {
-	flex: none;
-	display: flex;
-	align-items: center;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	@mixin m-plus {
+		flex-shrink: 0;
+		max-width: 50%;
+	}
 }
 
 .ThreadPageHeader-backTitle {
 	/* `overflow: hidden` is for cases when, for example,
-	   board title is too long and has no whitespace. */
+	   channel title is too long and has no whitespace. */
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/* `white-space: nowrap` is for cases when board title
+	/* `white-space: nowrap` is for cases when channel title
 	   is too long and has whitespace resulting in it being multi-line. */
 	white-space: nowrap;
+}
+
+.ThreadPageHeader-logoLink {
+	/* Provider SVG logos use "currentColor" in order to be visible
+	   both in "light mode" and "dark mode". */
+	&, &:active {
+		color: inherit;
+	}
+}
+
+.ThreadPageHeader-logo {
+	display: block;
+	height: 1em;
+	margin-right: 0.55em;
 }
 
 .ThreadPageHeader-activityIndicator {
@@ -115,7 +146,7 @@
 }
 
 @mixin upto-s {
-	.ThreadPageHeader-boardAndThreadTitle {
+	.ThreadPageHeader-channelAndThreadTitle {
 		.ThreadPageHeader-title,
 		.ThreadPageHeader-titleSeparator,
 		.ThreadPageHeader-activityIndicator {
@@ -124,7 +155,9 @@
 	}
 	.ThreadPageHeader-titleOnNewLine {
 		padding-right: var(--Post-paddingRight);
-		margin-bottom: calc(var(--unit) * 1 - var(--Comment-marginTop--boardPage));
+		margin-bottom: calc(var(--unit) * 1 - var(--Comment-marginTop--channelPage));
+    margin-top: calc(var(--unit) / 2);
+    margin-bottom: calc(var(--unit) / 2);
 	}
 }
 

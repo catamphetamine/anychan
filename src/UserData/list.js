@@ -13,14 +13,21 @@ export function addToList(storage, key, collection, item) {
 	storage.set(key, list)
 }
 
-// export function setInList(storage, key, collection, filter, item) {
-// 	const list = storage.get(key, [])
-// 	const index = list.findIndex(filter)
-// 	if (index >= 0) {
-// 		list[index] = item
-// 		storage.set(key, list)
-// 	}
-// }
+export function setInList(storage, key, collection, item) {
+	const list = storage.get(key, [])
+	let index
+	if (collection.isEqual) {
+		index = list.find(_ => collection.isEqual(_, item))
+	} else {
+		index = list.indexOf(item)
+	}
+	if (index < 0) {
+		return false
+	}
+	list[index] = item
+	storage.set(key, list)
+	return true
+}
 
 export function removeFromList(storage, key, collection, item) {
 	let list = storage.get(key)

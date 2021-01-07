@@ -9,7 +9,7 @@ import './StarIcon.css'
 
 export default function StarIcon({ className }) {
 	// Using `<span/>` instead of `<div/>` here so that `<StarIcon/>`
-	// could be used in `<BoardThreadMenu/>` inside a button.
+	// could be used in `<Toolbar/>` inside a button.
 	return (
 		<span className={classNames(className, 'StarIcon')}>
 			<StarFillIcon className="StarIconFill"/>

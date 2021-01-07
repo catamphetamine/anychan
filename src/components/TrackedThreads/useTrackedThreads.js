@@ -5,7 +5,7 @@ export default function useTrackedThreads({
 	maxListLength,
 	snapshot
 }) {
-	const _trackedThreads = useSelector(({ threadTracker }) => threadTracker.trackedThreads)
+	const _trackedThreads = useSelector(({ trackedThreads }) => trackedThreads.trackedThreads)
 	// Snapshot tracked threads list when entering edit mode,
 	// so that they're not rearranged while the user is editing the list,
 	// so that the user doesn't accidentally click the "delete" button

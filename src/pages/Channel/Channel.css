@@ -1,0 +1,121 @@
+@import "../../styles/common";
+
+:root {
+	--ChannelPage-headingLogo-width: 1em;
+	--ChannelPage-headingLogo-marginRight: 0.4em;
+	--ChannelPage-headingId-marginRight: 0.4em;
+	--ChannelPage-headingId-color: var(--Content-color-700);
+	--ChannelPage-headingId-slash-color: var(--Content-color-500);
+}
+
+.ChannelPage {
+	/* `position: relative` is for <Toolbar/> on large screens. */
+	position: relative;
+	@mixin upto-m {
+		--Toolbar-marginTop: calc(var(--unit) * 0.5);
+		--Toolbar-marginBottom: calc(var(--unit) * 0.5);
+	}
+}
+
+.ChannelPage-header {
+	display: block;
+	/* `position: relative` is for <ChannelMenu/> vertical centring. */
+	position: relative;
+	.Toolbar {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		margin: 0;
+		transform: translateY(-50%);
+	}
+}
+
+.ChannelPage-heading {
+	margin-top: var(--Heading-marginTop);
+	margin-bottom: var(--Heading-marginTop);
+	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--channelPage));*/
+	padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
+	padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
+	text-align: center;
+	/*font-weight: 300;*/
+	font-weight: 400;
+	font-size: var(--PostTitle-fontSize);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	@mixin upto-s {
+		padding-top: calc(var(--unit) * 0.5);
+		padding-bottom: calc(var(--unit) * 0.5);
+	}
+	@mixin m-plus {
+		padding-bottom: calc(var(--unit) * 0.25);
+		/* Reset the default `line-height` set on `.page__heading`. */
+		line-height: initial;
+	}
+}
+
+.ChannelPage-headingLogoLink {
+	/* Provider SVG logos use "currentColor" in order to be visible
+	   both in "light mode" and "dark mode". */
+	&, &:active {
+		color: inherit;
+	}
+}
+
+.ChannelPage-headingLogo {
+	position: relative;
+	top: calc((1.35em - var(--ChannelPage-headingLogo-width)) / 2);
+	/*width: var(--ChannelPage-headingLogo-width);*/
+	height: var(--ChannelPage-headingLogo-width);
+	margin-right: var(--ChannelPage-headingLogo-marginRight);
+}
+
+.ChannelPage-headingLogo--spaceEquivalent {
+	visibility: hidden;
+	margin-left: var(--ChannelPage-headingLogo-marginRight);
+	margin-right: 0;
+}
+
+.ChannelPage-headingId {
+	display: inline;
+	margin-right: var(--ChannelPage-headingId-marginRight);
+	font-family: inherit;
+	font-weight: 300;
+	color: var(--ChannelPage-headingId-color);
+	--ChannelUrl-slash-color: var(--ChannelPage-headingId-slash-color);
+}
+
+.ChannelPage-threads {
+	--Comment-marginTop: var(--Comment-marginTop--channelPage);
+	.Comment-container {
+		align-items: stretch;
+	}
+}
+
+/*
+.ChannelPage-threads {
+	@mixin l-plus {
+		margin-top: var(--ChannelOrThreadPage-marginTop--largeScreen);
+	}
+}
+*/
+
+/* This CSS class is also used for `.ThreadPage-stats`. */
+.ChannelPage-menu {
+	@mixin upto-m {
+		margin-bottom: calc(-1 * var(--unit));
+	}
+	/*
+	@mixin l-plus {
+		position: absolute;
+		right: 0;
+		top: calc((var(--Comment-marginTop--channelPage) - var(--ChannelOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
+	}
+	*/
+}
+
+.ChannelPage-apiChannelEmptyNoteTwoChannel {
+	margin-top: calc(var(--unit) * 2);
+	margin-bottom: calc(var(--unit) * 2);
+	text-align: center;
+}

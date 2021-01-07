@@ -113,13 +113,6 @@
 	}
 }
 
-/*.Header-board-title,
-.Header-thread-title {
-	text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}*/
-
 .Header-link--nonColored {
 	color: var(--Header-color);
 	&:hover {

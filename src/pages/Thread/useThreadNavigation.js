@@ -9,7 +9,7 @@ import { notify } from 'webapp-frontend/src/redux/notifications'
 // import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
 
 export default function useThreadNavigation({
-	thread,
+	getCommentById,
 	locale
 }) {
 	const dispatch = useDispatch()
@@ -47,14 +47,26 @@ export default function useThreadNavigation({
 		onSetThreadNavigationHistory,
 		resetThreadNavigationHistoryTimeout
 	])
+	// // `thread` object reference changes on every auto-update.
+	// // A `ref` is used instead of a dependency on `thread` itself
+	// // so that `onNavigateToComment()` itself doesn't change on
+	// // thread auto-update. Otherwise, `itemComponentProps` would change,
+	// // and then `<VirtualScroller/>` would re-render all comments on
+	// // thread auto-update (instead of updating just the comments that changed).
+	// const threadRef = useRef()
+	// threadRef.current = thread
+	// This function is called when a user is veiwing comment with ID
+	// `fromCommentId` and clicks a link to comment with ID `commentId`.
 	const onNavigateToComment = useCallback((commentId, fromCommentId) => {
-		const index = thread.comments.findIndex(_ => _.id === commentId)
-		if (index < 0) {
+		// const getCommentById = (id) => {
+		// 	return threadRef.current.comments.find(_ => _.id === id)
+		// }
+		const comment = getCommentById(commentId)
+		if (!comment) {
 			dispatch(notify(getMessages(locale).noSearchResults))
 			console.error(`Comment #${commentId} not found`)
 			return
 		}
-		const comment = thread.comments[index]
 		// Displaying a modal with comment content is used
 		// instead of scrolling to the comment.
 		// // `fromIndexRef` is used instead of `fromIndex`
@@ -70,36 +82,32 @@ export default function useThreadNavigation({
 		// const headerHeight = document.querySelector('.Header').offsetHeight
 		// window.scrollTo(0, top - headerHeight)
 		onShowThreadHistoryModal(true)
-		if (fromCommentId) {
-			let history = threadNavigationHistoryRef.current
-			// This turned out to feel inconsistent, so this feature was disabled.
-			// // Don't add an entry to the history if the comment with the
-			// // `post-link` being clicked is still visible after scrolling
-			// // to the quoted comment (with some bottom margin).
-			// const fromCommentIndex = thread.comments.findIndex(_ => _.id === fromCommentId);
-			// const { top: fromCommentTop } = virtualScroller.current.getItemCoordinates(fromCommentIndex - fromIndex)
-			// if (fromCommentTop > top - headerHeight + getViewportHeight() * 0.9) {
-				// onSetThreadNavigationHistory(history.concat({ commentId: fromCommentId }))
-				// Add the initial "from" history entry.
-				if (history.length === 0) {
-					history = history.concat(
-						thread.comments.find(_ => _.id === fromCommentId)
-					)
-				}
-				if (!comment.contentParsed) {
-					comment.parseContent()
-				}
-				onSetThreadNavigationHistory(history.concat(comment))
-				// Scroll comment history modal to top.
-				InReplyToModalScrollToTopAndFocus()
-			// }
-		}
+		let history = threadNavigationHistoryRef.current
+		// This turned out to feel inconsistent, so this feature was disabled.
+		// // Don't add an entry to the history if the comment with the
+		// // `post-link` being clicked is still visible after scrolling
+		// // to the quoted comment (with some bottom margin).
+		// const fromCommentIndex = thread.comments.findIndex(_ => _.id === fromCommentId);
+		// const { top: fromCommentTop } = virtualScroller.current.getItemCoordinates(fromCommentIndex - fromIndex)
+		// if (fromCommentTop > top - headerHeight + getViewportHeight() * 0.9) {
+			// onSetThreadNavigationHistory(history.concat({ commentId: fromCommentId }))
+			// Add the initial "from" history entry.
+			if (history.length === 0) {
+				history = history.concat(getCommentById(fromCommentId))
+			}
+			if (!comment.contentParsed) {
+				comment.parseContent({ getCommentById })
+			}
+			onSetThreadNavigationHistory(history.concat(comment))
+			// Scroll comment history modal to top.
+			InReplyToModalScrollToTopAndFocus()
+		// }
 	},
 	// This dependencies list should be such that
 	// comments aren't re-rendered when they don't need to.
 	// (`itemComponentProps` depends on `onNavigateToComment`)
 	[
-		thread,
+		getCommentById,
 		dispatch,
 		locale,
 		onShowThreadHistoryModal,

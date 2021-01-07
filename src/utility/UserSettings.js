@@ -1,10 +1,11 @@
 import LocalStorage from 'webapp-frontend/src/utility/storage/LocalStorage'
 import { getPrefix } from '../utility/localStorage'
+import getDefaultSettings from '../utility/settingsDefaults'
 import migrate from './UserSettings.migrate'
 
 // Current version of user settings.
 // See `UserSettings.migrate.js` comments for the changelog.
-const VERSION = 1
+const VERSION = 2
 
 class UserSettings {
 	constructor(storage, options = {}) {
@@ -49,6 +50,10 @@ class UserSettings {
 		let settings
 		if (typeof name === 'string') {
 			settings = this.get()
+			// Don't mention the default setting values explicitly.
+			if (value === getDefaultSettings()[name]) {
+				value = undefined
+			}
 			if (value === undefined) {
 				delete settings[name]
 			} else {

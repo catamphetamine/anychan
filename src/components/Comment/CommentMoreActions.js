@@ -5,20 +5,23 @@ import PostMoreActions from 'webapp-frontend/src/components/PostMoreActions'
 
 import { notify } from 'webapp-frontend/src/redux/notifications'
 import copyTextToClipboard from 'webapp-frontend/src/utility/clipboard'
+import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
 import {
 	comment as commentType,
-	thread as threadType,
-	board as boardType
+	channelId,
+	threadId
 } from '../../PropTypes'
 
 import getMessages from '../../messages'
+import { getThreadUrl, getCommentUrl } from '../../provider'
 
 import './CommentMoreActions.css'
 
 export default function CommentMoreActions({
-	board,
-	thread,
+	channelId,
+	channelIsNotSafeForWork,
+	threadId,
 	comment,
 	dispatch,
 	locale,
@@ -28,25 +31,21 @@ export default function CommentMoreActions({
 	url
 }) {
 	const moreActions = useMemo(() => {
-		const actions = []
+		let actions = []
 		if (mode === 'thread') {
 			actions.push({
 				label: getMessages(locale).post.reply,
-				onClick: onReply
+				onClick: () => onReply()
 			})
 			actions.push({
 				label: getMessages(locale).post.moreActions.copyId,
-				onClick: () => {
-					copyTextToClipboard(comment.id)
-				}
+				onClick: () => copyTextToClipboard(comment.id)
 			})
 		}
-		return actions.concat([
+		actions = actions.concat([
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
-				onClick: () => {
-					copyTextToClipboard(window.location.origin + urlBasePath + url)
-				}
+				onClick: () => copyTextToClipboard(window.location.origin + urlBasePath + url)
 			},
 			{
 				label: getMessages(locale).post.moreActions.report,
@@ -61,11 +60,31 @@ export default function CommentMoreActions({
 				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			}
 		])
+		if (mode === 'thread') {
+			actions.push({
+				label: getMessages(locale).post.moreActions.showOriginalComment,
+				onClick: () => {
+					let url
+					if (comment.id === threadId) {
+						url = getThreadUrl(channelId, threadId, {
+							isNotSafeForWork: channelIsNotSafeForWork
+						})
+					} else {
+						url = getCommentUrl(channelId, threadId, comment.id, {
+							isNotSafeForWork: channelIsNotSafeForWork
+						})
+					}
+					openLinkInNewTab(url)
+				}
+			})
+		}
+		return actions
 	}, [
 		dispatch,
 		locale,
-		board,
-		thread,
+		channelId,
+		channelIsNotSafeForWork,
+		threadId,
 		comment,
 		mode,
 		onReply,
@@ -85,12 +104,13 @@ export default function CommentMoreActions({
 }
 
 CommentMoreActions.propTypes = {
-	board: boardType.isRequired,
-	thread: threadType.isRequired,
+	channelId: channelId.isRequired,
+	channelIsNotSafeForWork: PropTypes.bool,
+	threadId: threadId.isRequired,
 	comment: commentType.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
-	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
+	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired

@@ -18,11 +18,11 @@ function getCommentLengthLimitFactor(width) {
 
 /**
  * Returns `commentLengthLimit` depending on `mode` and screen width.
- * @param  {string} mode — One of: "board", "thread".
+ * @param  {string} mode — One of: "channel", "thread".
  * @return {number}
  */
 export default function getCommentLengthLimit(mode) {
-	return Math.round((mode === 'board' ? configuration.commentLengthLimitForThreadPreview : configuration.commentLengthLimit) * commentLengthLimitFactor)
+	return Math.round((mode === 'channel' ? configuration.commentLengthLimitForThreadPreview : configuration.commentLengthLimit) * commentLengthLimitFactor)
 }
 
 /**

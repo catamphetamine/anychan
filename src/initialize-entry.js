@@ -5,7 +5,7 @@ import configuration from './configuration'
 
 // Initialize Cookie Policy.
 // Don't show Cookie Notice by default (better UX).
-window.SHOW_COOKIE_NOTICE = configuration.cookieNotice
+window.SHOW_COOKIE_NOTICE = configuration.showCookieNotice
 
 // Initialize `sentry.io`.
 if (process.env.NODE_ENV === 'production') {

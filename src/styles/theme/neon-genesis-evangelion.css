@@ -87,17 +87,17 @@
 	--Sidebar-highlightColor-100: var(--PostQuoteBlock-backgroundColor--generated);
 	--Sidebar-highlightColor-200: #f9f1ed;
 
-	/* Boards. */
-	--Boards-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	/* Channels. */
+	--Channels-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
 
-	/* BoardUrl. */
-	--BoardUrl-slash-color--hover: var(--BoardUrl-slash-color--selected);
-	--BoardUrl-slash-color--active: #e8bec0;
-	--BoardUrl-slash-color--selected: #deb9bb;
+	/* ChannelUrl. */
+	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
+	--ChannelUrl-slash-color--active: #e8bec0;
+	--ChannelUrl-slash-color--selected: #deb9bb;
 
-	/* BoardThreadMenu. */
-	--BoardThreadMenu-color--active: #b9699c;
-	--BoardThreadMenu-color--selected: var(--base-color-500);
+	/* Toolbar. */
+	--Toolbar-color--active: #b9699c;
+	--Toolbar-color--selected: var(--base-color-500);
 
 	/* HoverButton. */
 	--HoverButton-color--active: #b51651;
@@ -183,8 +183,8 @@
 	--Sidebar-highlightColor-100: #232447;
 	--Sidebar-highlightColor-200: #202042;
 
-	/* BoardUrl. */
-	--BoardUrl-slash-color--active: #655339;
+	/* ChannelUrl. */
+	--ChannelUrl-slash-color--active: #655339;
 
 	/* HoverButton. */
 	--HoverButton-backgroundColor: #2c2d62;
@@ -214,7 +214,5 @@
 	/* CommentSeparator. */
 	--CommentSeparator-color: rgba(200,200,255,0.225);
 	--CommentSeparator-color--previouslyRead: rgba(200,200,255,0.25);
-	@mixin m-plus {
-		--CommentSeparator-color--board: rgba(200,200,255,0.17);
-	}
+	--CommentSeparator-color--channelPageLargeScreen: rgba(200,200,255,0.17);
 }

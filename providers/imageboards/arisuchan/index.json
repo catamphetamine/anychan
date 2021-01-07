@@ -1,0 +1,33 @@
+{
+	"id": "arisuchan",
+	"title": "arisuchan",
+	"description": [
+    "From a young age Alice has been interested in technology, far beyond what most would consider healthy or normal, and quickly grew weary of hearing that she \"was not like other girls.\" Computers and online communities provided much needed socialization during a period in her life in which she shared almost nothing in common with her peers. While she cannot attribute it to any particular trauma, she has suffered from increasingly bizarre and disturbing dreams. Perhaps it is from years of recreational drug use, but she now favors more directed and introspective psychonautic exploration.",
+    "She studies computer science at university, but her classes aren't very challenging and has become increasingly disillusioned with academia—and perhaps disenchanted with life in general—and has considered dropping out and joining a greyhat cybersecurity firm. Being severely introverted, her partner is one of the few people she talks to in real life, but still yearns to feel understood. She has only recently discovered this website, but frequents it enough to consider it a second home, one of the only places where she feels comfortable sharing her personal experiences, exploring her more esoteric interests, and exchanging knowledge of arcane topics."
+  ],
+  "footnotes": [
+    "COPLAND OS COPYRIGHT © 1998 APPLE COMPUTER. シリアルエクスペリメンツレイン © 1998 GENEON ENT. TINYBOARD COPYRIGHT © 2010-2014 TINYBOARD DEVELOPMENT GROUP. VICHAN COPYRIGHT © 2012-2016 VICHAN-DEVEL. ARISUCHAN COPYRIGHT © 2017 ARISU-DEV.",
+    "ALL TRADEMARKS, COPYRIGHTS, COMMENTS, AND IMAGES ON THIS PAGE ARE OWNED BY AND ARE THE RESPONSIBILITY OF THEIR RESPECTIVE PARTIES."
+  ],
+	"links": [{
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://arisuchan.jp/infornography.php#faq"
+	}, {
+    "type": "rules",
+    "text": "Rules",
+    "url": "https://arisuchan.jp/infornography.php#rules"
+  }, {
+    "type": "other",
+    "text": "Guidelines",
+    "url": "https://arisuchan.jp/infornography.php#guidelines"
+  }, {
+		"type": "other",
+		"text": "Related Sites and Services",
+		"url": "https://arisuchan.jp/infornography.php#links"
+	}, {
+		"type": "donate",
+		"text": "Donate",
+		"url": "https://arisuchan.jp/infornography.php#faq"
+	}]
+}

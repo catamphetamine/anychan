@@ -1,5 +1,5 @@
 /* Not using `position: relative` here because it would screw
-   the `flex` container inside `<BoardThreadMenu/>` for some reason. */
+   the `flex` container inside `<Toolbar/>` for some reason. */
 .StarIcon {
 	/* Gets rid of the vertical whitespace. */
 	line-height: 0;

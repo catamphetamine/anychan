@@ -16,7 +16,7 @@
 	/* `max-width` is also set on `.Comment` depending on whether
 	   the "main" comment has PostThumbnail and whether it's expanded. */
 	/*max-width: var(--Text-maxWidth);*/
-	/* `--Content-maxWidth` is redefined on thread and board page
+	/* `--Content-maxWidth` is redefined on thread and channel page
 	   to also include PostThumbnail-related dimensions. */
 	max-width: var(--Content-maxWidth);
 	.rrui__modal__content {
@@ -30,7 +30,7 @@
 		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
 	.Comment {
-		/* `--Content-maxWidth` is redefined on thread and board page
+		/* `--Content-maxWidth` is redefined on thread and channel page
 		   to also include PostThumbnail-related dimensions. */
 		/* `!important` overrides `max-width: none` rule set in
 		   `.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested)`. */
@@ -158,7 +158,7 @@
 						}
 						&:not(.CommentTree-comment--expanded) {
 							margin-left: 0;
-							/* `--Content-maxWidth` is redefined on thread and board page
+							/* `--Content-maxWidth` is redefined on thread and channel page
 							   to also include PostThumbnail-related dimensions,
 							   so `--Text-maxWidth` is used instead. */
 							max-width: var(--Text-maxWidth);

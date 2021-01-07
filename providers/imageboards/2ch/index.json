@@ -1,0 +1,119 @@
+{
+	"id": "2ch",
+	"domains": [
+		"2ch.so",
+		"2ch.pm",
+		"2ch.yt",
+		"2ch.wf",
+		"2ch.re"
+	],
+	"title": "Два.ч",
+	"subtitle": "Добро пожаловать. Снова.",
+	"description": [
+		{
+			"type": "attachment",
+			"link": "https://2ch.hk",
+			"attachment": {
+				"type": "picture",
+				"picture": {
+					"type": "image/jpeg",
+					"width": 1280,
+					"height": 904,
+					"url": "https://2ch.hk/makaba/templates/img/anon.jpg"
+				}
+			}
+		},
+		"Два.ч — это система форумов, где можно общаться быстро и свободно, где любая точка зрения имеет право на жизнь. Здесь нет регистрации и подписываться не нужно, хотя это не избавляет вас от необходимости соблюдать правила. Все форумы (кроме /Б/реда), имеют собственную чётко ограниченную тематику. Словом, всё, что не запрещено правилами отдельно взятого форума и относится к его тематике, на этом форуме разрешено.",
+		[
+			"Подписывайся на официальный канал Двача в Телеграме и узнавай обо всех новостях и мемах первым! ",
+			{
+				"type": "link",
+				"url": "https://teleg.run/dvachannel",
+				"content": "@dvachannel"
+			},
+			" и на запасной канал 2ch/Random ",
+			{
+				"type": "link",
+				"url": "https://teleg.run/rand2ch",
+				"content": "@rand2ch"
+			}
+		]
+	],
+	"footnotes": [[
+		"Все права и копирайты на этой странице принадлежат правообладателям. За\u00a0любую размещенную информацию несет личную ответственность постер (лицо, загрузившее эту информацию). Все\u00a0комментарии принадлежат лицам, отправившим\u00a0их.",
+		"\n",
+		"Если вы обнаружили информацию, размещённую против правил, пожалуйста, ",
+		{
+			"type": "link",
+			"url": "mailto:admin@2ch.hk",
+			"content": "сообщите нам"
+		},
+		" об этом."
+	]],
+	"links": [{
+		"type": "rules",
+		"text": "Правила",
+		"url": "https://2ch.hk/rules.html"
+	}, {
+		"type": "premium",
+		"text": "Купить пасскод",
+		"url": "https://2ch.hk/market.html"
+	}, {
+		"type": "donate",
+		"text": "Пожертвования",
+		"url": "https://2ch.hk/donate.html"
+	}, {
+		"type": "advertise",
+		"text": "Реклама",
+		"url": "https://2ch.hk/price.html"
+	}, {
+		"type": "contact",
+		"text": "Контакты",
+		"url": "https://2ch.hk/contacts.html"
+	}, {
+		"type": "feedback",
+		"text": "Идеи и предложения",
+		"url": "https://2ch.hk/d/"
+	}, {
+		"type": "twitter",
+		"text": "Twitter",
+		"url": "https://twitter.com/abunyasha/"
+	}, {
+		"type": "vk",
+		"text": "ВКонтакте",
+		"url": "https://vk.com/ru2ch"
+	}, {
+		"type": "telegram",
+		"text": "Telegram",
+		"url": "https://teleg.run/dvachannel"
+	}, {
+		"type": "api",
+		"text": "API",
+		"url": "https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/makaba.md"
+	}, {
+		"type": "mobile",
+		"text": "Скачать мобильные приложения",
+		"url": "https://2ch.hk/m.html"
+	}],
+	"contentCategories": [
+		"Тематика",
+		"Творчество",
+		"Политика и новости",
+		"Техника и софт",
+		"Игры",
+		"Японская культура",
+		"Разное",
+		"Взрослым"
+	],
+	"contentCategoryUnspecified": "Прочие",
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://2ch.hk/images/1.png",
+				"https://2ch.hk/images/404_1.jpg",
+				"https://2ch.hk/images/404_3.jpg",
+				"https://2ch.hk/images/404_4.jpg"
+			]
+		}
+	}
+}

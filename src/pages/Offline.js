@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import { getChan } from '../chan'
 import getMessages from '../messages'
 
 import ErrorPage from './Error'

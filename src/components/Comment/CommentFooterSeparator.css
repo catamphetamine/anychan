@@ -6,6 +6,6 @@
 	/*cursor: default;*/
 	/* Could be "cursor: default" instead but that would
 	   override `<Clickable/>`'s `cursor: pointer`
-	   when a comment is clickable on "Boards" page. */
+	   when a comment is clickable on "Channels" page. */
 	pointer-events: none;
 }

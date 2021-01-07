@@ -1,77 +1,63 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 
 import { replacePageUrl } from 'webapp-frontend/src/utility/history'
 
-import UserData from '../../UserData/UserData'
+import getLatestReadCommentIndex from '../../utility/getLatestReadCommentIndex'
+import findCommentIndexByIdOrClosestPreviousOne from '../../utility/findCommentIndexByIdOrClosestPreviousOne'
 
 export default function useFromIndex({
-	board,
+	channel,
 	thread,
 	location,
-	commentsShownBeforeLatestReadCount,
+	howManyCommentsToShowBeforeLatestReadComment,
 	restoredVirtualScrollerState,
 	virtualScrollerState
 }) {
-	// Using `useMemo()` here to avoid reading from `localStorage` on each render.
-	// Maybe it's not required, but just in case.
-	const requestedCommentIndex = useMemo(() => {
-		return getRequestedCommentIndex(thread, location)
-	}, [
-		thread,
-		location
-	])
-	const latestReadCommentIndex = useMemo(() => {
-		if (restoredVirtualScrollerState) {
-			return restoredVirtualScrollerState.latestReadCommentIndex
-		}
-		return getLatestReadCommentIndex(thread, board)
-	}, [
-		thread,
-		board
-	])
-	const showFromRequestedComment = requestedCommentIndex !== undefined
-	const showFromLatestReadComment = !showFromRequestedComment && latestReadCommentIndex !== undefined
 	// Always show some of the previous comments
 	// just so that the user is a bit more confident
 	// that they didn't accidentally miss any.
 	const [isInitialFromIndex, setIsInitialFromIndex] = useState(true)
-	const noNewComments = showFromLatestReadComment && latestReadCommentIndex === thread.comments.length - 1 && isInitialFromIndex
-	const _initialFromIndex = useMemo(() => {
-		if (showFromRequestedComment) {
-			return requestedCommentIndex
-		}
-		if (showFromLatestReadComment) {
-			return Math.max(0, latestReadCommentIndex - commentsShownBeforeLatestReadCount)
-		}
-		return 0
-	}, [
-		showFromRequestedComment,
-		showFromLatestReadComment,
-		requestedCommentIndex,
-		latestReadCommentIndex,
-		commentsShownBeforeLatestReadCount
-	])
-	const initialFromIndex = restoredVirtualScrollerState ? restoredVirtualScrollerState.fromIndex : _initialFromIndex
+	// The lastest read comment index should be determined on the initial render,
+	// and then it shouldn't change, so that `isPreviouslyShown()` function
+	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
+	// so that comments don't get re-rendered when it's not needed.
+	const initialLatestReadCommentIndex = useMemo(() => {
+		return restoredVirtualScrollerState
+			? restoredVirtualScrollerState.initialLatestReadCommentIndex
+			: getLatestReadCommentIndex(thread)
+	}, [])
+	// The requested comment index should be determined on the initial render,
+	// and then it shouldn't change, so that `isPreviouslyShown()` function
+	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
+	// so that comments don't get re-rendered when it's not needed.
+	const requestedCommentIndex = useMemo(() => {
+		return getRequestedCommentIndex(thread, location)
+	}, [])
+	const initiallyShowCommentsFromTheLatestReadOne = requestedCommentIndex === undefined && initialLatestReadCommentIndex !== undefined
+	const initialFromIndex = useMemo(() => {
+		return getInitialFromIndex(
+			channel,
+			thread,
+			location,
+			restoredVirtualScrollerState,
+			initialLatestReadCommentIndex,
+			requestedCommentIndex,
+			initiallyShowCommentsFromTheLatestReadOne,
+			howManyCommentsToShowBeforeLatestReadComment
+		)
+	}, [])
 	// `setFromIndex()` shouldn't be called directly.
 	// Instead, it should be called via `onSetFromIndex()`.
 	const [fromIndex, setFromIndex] = useState(initialFromIndex)
-	// `fromIndexRef` is only used in `onShowComment()`
-	// to prevent changing `itemComponentProps` when `fromIndex` changes
-	// which would happen if `onShowComment()` used `fromIndex` directly.
-	// This results in not re-rendering the whole comments list
-	// when clicking "Show previous" button.
-	const fromIndexRef = useRef(fromIndex)
 	const onSetFromIndex = useCallback((fromIndex) => {
 		setIsInitialFromIndex(false)
 		setFromIndex(fromIndex)
-		fromIndexRef.current = fromIndex
 		if (virtualScrollerState.current) {
 			virtualScrollerState.current.fromIndex = fromIndex
 		}
 	}, [
 		setFromIndex,
 		setIsInitialFromIndex,
-		fromIndexRef,
 		virtualScrollerState
 	])
 	// `newFromIndex` and `newFromIndexHasBeenSet` are only used
@@ -110,8 +96,8 @@ export default function useFromIndex({
 		preserveScrollPositionOnPrependItems,
 		initialFromIndex,
 		isInitialFromIndex,
-		latestReadCommentIndex,
-		showFromLatestReadComment
+		initialLatestReadCommentIndex,
+		initiallyShowCommentsFromTheLatestReadOne
 	]
 }
 
@@ -130,7 +116,7 @@ function getRequestedCommentIndex(thread, location) {
 		if (isNaN(commentId)) {
 			replaceLocationHash()
 		} else {
-			const index = getCommentIndexByIdOrClosest(commentId, thread)
+			const index = findCommentIndexByIdOrClosestPreviousOne(thread, commentId)
 			if (index === undefined) {
 				replaceLocationHash()
 			} else {
@@ -144,36 +130,25 @@ function getRequestedCommentIndex(thread, location) {
 	}
 }
 
-/**
- * Get the index of the requested comment.
- * @param  {object} thread
- * @param  {object} board
- * @return {number} [i]
- */
-function getLatestReadCommentIndex(thread, board) {
-	// Show comments starting from the comment,
-	// that's immediately after the latest read one.
-	const latestReadCommentInfo = UserData.getLatestReadComments(board.id, thread.id)
-	if (latestReadCommentInfo) {
-		return getCommentIndexByIdOrClosest(latestReadCommentInfo.id, thread)
-	}
-}
 
-/**
- * Finds comment's index (or, if the comment has been deleted, return the index of the closest one).
- * @param  {number} id
- * @param  {object} thread
- * @return {number} [i] Returns `undefined` if no appropriate match found.
- */
-function getCommentIndexByIdOrClosest(id, thread) {
-	// Find latest read comment index.
-	let i = thread.comments.length - 1
-	while (i >= 0) {
-		// A comment might have been deleted,
-		// in which case find the closest previous one.
-		if (thread.comments[i].id <= id) {
-			return i
-		}
-		i--
+function getInitialFromIndex(
+	channel,
+	thread,
+	location,
+	restoredVirtualScrollerState,
+	initialLatestReadCommentIndex,
+	requestedCommentIndex,
+	initiallyShowCommentsFromTheLatestReadOne,
+	howManyCommentsToShowBeforeLatestReadComment
+) {
+	if (restoredVirtualScrollerState) {
+		return restoredVirtualScrollerState.fromIndex
 	}
+	if (requestedCommentIndex !== undefined) {
+		return requestedCommentIndex
+	}
+	if (initiallyShowCommentsFromTheLatestReadOne) {
+		return Math.max(0, initialLatestReadCommentIndex - howManyCommentsToShowBeforeLatestReadComment)
+	}
+	return 0
 }

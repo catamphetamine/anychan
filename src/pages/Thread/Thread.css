@@ -10,7 +10,7 @@
 }
 
 .ThreadPage {
-	/* `position: relative` is for <ThreadMenu/>. */
+	/* `position: relative` is for <Toolbar/>. */
 	position: relative;
 }
 
@@ -24,7 +24,7 @@
 	margin-top: 0;
 	margin-bottom: 0;
 	/* Using `padding-top` instead of `margin-top` here
-	   so that `<BoardThreadMenu/>` vertical position is preserved
+	   so that `<Toolbar/>` vertical position is preserved
 	   when clicking on "Show previous comments" button. */
 	padding-top: var(--NoNewComments-marginTop);
 	/* `margin-bottom` doesn't collapse with `<Footer/>`'s `margin-top` anyway. */
@@ -51,23 +51,22 @@
 	}
 }
 
-/* `.ThreadPage-commentsContainer` is used here
-   instead of `.ThreadPage-comments` because
-   otherwise this `margin-top` would conflict with
-   `.BackToPreviousComment-desktop`. */
 .ThreadPage-commentsContainer {
 	margin-top: var(--Thread-comments-marginTop);
 }
 
 .ThreadPage {
-	@mixin m-l {
-		padding-left: var(--Comment-marginTop);
-		padding-right: var(--Comment-marginTop);
+	.AutoUpdate {
+		margin-top: calc(var(--unit) * 2);
 	}
 }
 
 .ThreadPage {
-	.AutoUpdate {
-		margin-top: calc(var(--unit) * 2);
+	.InfoBanner,
+	.PostForm {
+		margin-top: calc(var(--unit) * 1);
+		@mixin m-plus {
+			margin-top: calc(var(--unit) * 3);
+		}
 	}
 }

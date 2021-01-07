@@ -1,18 +1,29 @@
+@import "../../styles/common";
+
 .CommentFooterBadge {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	color: var(--Content-color-600);
+}
+
+.CommentFooterBadge--ignoreCursor {
 	/* Don't show text cursor on stuff like "Thread comments count". */
 	/*cursor: default;*/
 	/* Could be "cursor: default" instead but that would
 	   override `<Clickable/>`'s `cursor: pointer`
-	   when a comment is clickable on "Boards" page. */
+	   when a comment is clickable on "Channels" page. */
 	pointer-events: none;
 }
 
 .CommentFooterBadge--left {
 	margin-right: calc(var(--unit) * 1.5);
+	@mixin xxs {
+		margin-right: var(--unit);
+	}
+	@mixin xs {
+		margin-right: calc(var(--unit) * 1.25);
+	}
 }
 
 .CommentFooterBadge--right {

@@ -1,16 +1,26 @@
-import Chan from './Chan'
+import Imageboard from './Imageboard'
 
 export default async function vote({
 	http,
 	up,
-	boardId,
+	channelId,
 	threadId,
 	commentId
 }) {
-	return await Chan({ http }).vote({
-		boardId,
-		threadId,
-		commentId,
-		up
-	})
+	const provider = getProvider()
+	if (provider.imageboard) {
+		return await Imageboard({ http }).vote({
+			boardId: channelId,
+			threadId,
+			commentId,
+			up
+		})
+	} else {
+		return await provider.api.vote({
+			channelId,
+			threadId,
+			commentId,
+			up
+		})
+	}
 }

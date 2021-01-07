@@ -36,7 +36,7 @@
 	text-overflow: ellipsis;
 	text-transform: uppercase;
 	text-align: center;
-	font-size: 85%;
+	font-size: var(--SidebarSection-title-fontSize);
 	font-weight: lighter;
 	letter-spacing: 1px;
 	color: var(--Sidebar-color-600);

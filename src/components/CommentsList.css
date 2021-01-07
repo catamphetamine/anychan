@@ -1,0 +1,32 @@
+/* Using a dedicated element instead of `margin-top`
+	 because `VirtualScroller` requires not having gaps between list items. */
+.CommentsList {
+	margin-top: calc(-1 * var(--Comment-marginTop));
+	.Comment-spacer {
+		height: var(--Comment-marginTop);
+	}
+}
+
+/* Comment tree comment borders. */
+.CommentsList {
+	/* The individual borders on `__thumbnail` and `__content`
+		 will be replaced with the border on `.Comment` itself. */
+	.CommentTree-comment--nested,
+	.CommentTree-comment--expanded {
+		> .Comment-thumbnail,
+		> .Comment-comment {
+			border-bottom: 0;
+		}
+	}
+
+	.CommentTree-comment--nested,
+	.CommentTree-comment--expanded {
+		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	}
+
+	/*
+	.CommentTree-comment--nested {
+		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
+	}
+	*/
+}

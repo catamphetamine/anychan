@@ -10,14 +10,15 @@ import {
 import censorWords from 'social-components/commonjs/utility/post/censorWords'
 import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
 
-import PostBlock from 'webapp-frontend/src/components/PostBlock'
+import { Content } from 'webapp-frontend/src/components/PostContent'
+
+import getCensoredWordsByLanguage from '../../utility/getCensoredWordsByLanguage'
 
 import './CensoredWordsSettings.css'
 
 export default function CensoredWordsSettings({
 	messages,
-	language,
-	getCensoredWordsByLanguage
+	language
 }) {
 	const [showCensoredWords, setShowCensoredWords] = useState()
 	const [showTestWordCensorshipRulesModal, setShowTestWordCensorshipRulesModal] = useState()
@@ -107,8 +108,7 @@ export default function CensoredWordsSettings({
 				<Modal.Content>
 					<TestCensoredWords
 						messages={messages}
-						language={language}
-						getCensoredWordsByLanguage={getCensoredWordsByLanguage}/>
+						language={language}/>
 				</Modal.Content>
 				<Modal.Actions>
 					<Button
@@ -124,16 +124,14 @@ export default function CensoredWordsSettings({
 
 CensoredWordsSettings.propTypes = {
 	messages: PropTypes.object.isRequired,
-	language: PropTypes.string.isRequired,
-	getCensoredWordsByLanguage: PropTypes.func.isRequired
+	language: PropTypes.string.isRequired
 }
 
 function TestCensoredWords({
 	isOpen,
 	close,
 	messages,
-	language,
-	getCensoredWordsByLanguage
+	language
 }) {
 	const [useCustomRule, setUseCustomRule] = useState()
 	const [rule, setRule] = useState()
@@ -141,8 +139,11 @@ function TestCensoredWords({
 	const [result, setResult] = useState()
 	const ruleInputRef = useRef()
 	function updateResult(text = '', useCustomRule, rule = '') {
+		const patterns = useCustomRule
+			? [rule]
+			: getCensoredWordsByLanguage(language)
 		// New line characters are ignored.
-		setResult(censorWords(text, compileWordPatterns(useCustomRule ? [rule] : getCensoredWordsByLanguage(language), language)))
+		setResult([censorWords(text, compileWordPatterns(patterns, language))])
 	}
 	function onUseCustomRuleChange(value) {
 		setUseCustomRule(value)
@@ -188,9 +189,11 @@ function TestCensoredWords({
 				<div className="form__label">
 					{messages.settings.censorship.test.result}
 				</div>
-				<PostBlock>
-					{result || ''}
-				</PostBlock>
+				{result &&
+					<Content>
+						{result}
+					</Content>
+				}
 			</div>
 		</React.Fragment>
 	)
@@ -198,6 +201,5 @@ function TestCensoredWords({
 
 TestCensoredWords.propTypes = {
 	messages: PropTypes.object.isRequired,
-	language: PropTypes.string.isRequired,
-	getCensoredWordsByLanguage: PropTypes.func.isRequired
+	language: PropTypes.string.isRequired
 }

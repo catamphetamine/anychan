@@ -10,31 +10,38 @@ export default function useSlideshow({
 	comment
 }) {
 	const dispatch = useDispatch()
-	const onAttachmentClick = useCallback((attachment, options = {}) => {
+	// `<PostLink/>` doesn't provide the `options` argument
+	// (and `imageElement` as part of it) when calling `onAttachmentClick()`.
+	const onAttachmentClick = useCallback((attachment, { imageElement, attachments } = {}) => {
 		// Remove `spoiler: true` so that a once revealed spoiler isn't shown again
 		// when "Show previous" button is clicked and `<PostAttachment/>` is
 		// unmounted resulting in its `isRevealed: true` state property being reset.
 		if (attachment.spoiler) {
 			delete attachment.spoiler
 		}
-		// `<PostLink/>` doesn't provide `options` (and `imageElement` as part of it).
-		const { imageElement } = options
+		// Determine the "show from" attachment index.
 		// The attachment clicked might be a `link` attachment
-		// that's not part of `post.attachments` (that can be `undefined`).
-		let attachments
+		// that is not part of `post.attachments`,
+		// in which case it will open slideshow in "exclusive" mode
+		// with just that single attachment.
+		if (!attachments) {
+			if (comment.attachments) {
+				attachments = getSortedAttachments(comment).filter(isSlideSupported)
+			}
+		}
 		let i = -1
-		if (comment.attachments) {
-			attachments = getSortedAttachments(comment).filter(isSlideSupported)
+		if (attachments) {
 			i = attachments.indexOf(attachment)
 		}
-		// If an attachment is either an uploaded one or an embedded one
-		// then it will be in `post.attachments`.
-		// If an attachment is only attached to a `link`
-		// (for example, an inline-level YouTube video link)
-		// then it won't be included in `post.attachments`.
+		// If an attachment is part of `post.attachments`,
+		// the open slideshow in the classic "slideshow" mode
+		// where a user can swipe through all attachments.
 		if (i >= 0) {
 			dispatch(openSlideshow(attachments, i, { imageElement }))
 		} else {
+			// If an attachment is not part of `post.attachments`
+			// (for example, an inline-level YouTube video link)
+			// then open slideshow in "exclusive" mode with just that attachment.
 			dispatch(openSlideshow([attachment], 0, { imageElement }))
 		}
 	}, [

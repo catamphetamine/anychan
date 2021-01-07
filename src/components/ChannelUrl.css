@@ -1,0 +1,53 @@
+:root {
+	--ChannelUrl-color: initial;
+	/*--ChannelUrl-color--selected: initial;*/
+	/*--ChannelUrl-color--hover: initial;*/
+	/*--ChannelUrl-color--active: initial;*/
+}
+
+.ChannelUrl {
+	/* Using `<span/>` instead of `<div/>`
+	   because a `<button/>` can't contain a `<div/>`
+	   and `<ChannelUrl/>` is used in `optionComponent` of `<Autocomplete/>`. */
+	display: block;
+	font-family: var(--ChannelUrl-fontFamily);
+	font-weight: var(--ChannelUrl-fontWeight);
+	font-size: var(--ChannelUrl-fontSize);
+	/* Don't wrap the side slashes. */
+	white-space: nowrap;
+	&:before,
+	&:after {
+		content: '/';
+		display: inline-block;
+		font-family: var(--Document-fontFamily);
+		font-weight: 300;
+	}
+	&:before {
+		margin-right: var(--Channels-margin--slash);
+	}
+	&:after {
+		margin-left: var(--Channels-margin--slash);
+	}
+}
+
+.ChannelUrl {
+	color: var(--ChannelUrl-color);
+	&:before, &:after {
+		color: var(--ChannelUrl-slash-color);
+	}
+}
+
+.ChannelUrl--selected {
+	/*--ChannelUrl-color: var(--ChannelUrl-color--selected);*/
+	--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--selected);
+}
+
+.ChannelUrl--hover {
+	/*--ChannelUrl-color: var(--ChannelUrl-color--hover);*/
+	--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--hover);
+}
+
+.ChannelUrl--active {
+	/*--ChannelUrl-color: var(--ChannelUrl-color--active);*/
+	--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--active);
+}

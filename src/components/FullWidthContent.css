@@ -1,0 +1,34 @@
+@import "../styles/common";
+
+/* This CSS class is used for displaying top and bottom banners. */
+.FullWidthContent {
+	display: flex;
+	position: absolute;
+	width: 100%;
+}
+
+@mixin l-plus {
+	.FullWidthContent-paddedContent {
+		flex-grow: calc(var(--PaddingLeft-flexGrow) + var(--PaddingRight-flexGrow));
+	}
+	.FullWidthContent-sidebar {
+		flex-grow: var(--Sidebar-flexGrow);
+		flex-basis: var(--Sidebar-flexBasis);
+		min-width: var(--Sidebar-minWidth);
+	}
+}
+
+.FullWidthContent-paddedContent {
+	min-width: 0;
+	/* `flex-grow` is also set in `@mixin l-plus`. */
+	@mixin upto-m {
+		flex-grow: 1;
+	}
+}
+
+.FullWidthContent-stretchContent {
+	max-width: var(--Content-maxWidth);
+	@mixin l-plus {
+		width: 100vw;
+	}
+}

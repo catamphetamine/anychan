@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
 import { Form, Field, Submit } from 'easy-react-form'
 
+import SendPlaneIcon from 'webapp-frontend/assets/images/icons/send-plane-fill.svg'
+
 import getMessages from '../messages'
 
 import './PostForm.css'
@@ -20,28 +22,30 @@ function PostForm({
 			autoFocus
 			requiredMessage={getMessages(locale).form.error.required}
 			onSubmit={onSubmit}
-			className="PostForm">
+			className="PostForm form">
 			<Field
 				required
 				name="content"
 				component={TextInput}
 				multiline
-				value={initialContent}/>
-			<div>
-				{onCancel &&
-					<Button
-						onClick={onCancel}
-						className="PostForm-action">
-						{getMessages(locale).actions.cancel}
-					</Button>
-				}
-				<Submit
-					component={Button}
-					type="submit"
+				rows={1}
+				placeholder={getMessages(locale).post.form.inputText}
+				value={initialContent}
+				className="form__component PostForm-textInput"/>
+			{onCancel &&
+				<Button
+					onClick={onCancel}
 					className="PostForm-action">
-					{getMessages(locale).actions.post}
-				</Submit>
-			</div>
+					{getMessages(locale).actions.cancel}
+				</Button>
+			}
+			<Submit
+				component={Button}
+				type="submit"
+				title={getMessages(locale).actions.post}
+				className="PostForm-action">
+				<SendPlaneIcon className="PostForm-actionIcon"/>
+			</Submit>
 		</Form>
 	)
 }

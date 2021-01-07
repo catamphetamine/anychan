@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { Modal } from 'react-responsive-ui'
 import { Button } from 'webapp-frontend/src/components/Button'
 import renderTweet from 'social-components/commonjs/services/Twitter/renderTweet'
+import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
 
 import CloseIcon from 'webapp-frontend/assets/images/icons/close.svg'
 
@@ -18,7 +19,7 @@ export default function TweetModal() {
 	const tweetContent = useRef()
 	const { locale } = useSelector(_ => _.settings.settings)
 	const { darkMode } = useSelector(_ => _.app)
-	const { tweetId } = useSelector(_ => _.twitter)
+	const { tweetId, tweetUrl } = useSelector(_ => _.twitter)
 	const [showTweet, setShowTweet] = useState(tweetId !== undefined)
 	const [isLoading, setLoading] = useState()
 	const onLoad = useCallback((container) => {
@@ -29,7 +30,8 @@ export default function TweetModal() {
 		console.error(error)
 		setShowTweet(false)
 		setLoading(false)
-	}, [])
+		openLinkInNewTab(tweetUrl)
+	}, [tweetUrl])
 	const dispatch = useDispatch()
 	const onHideTweet = useCallback(() => {
 		dispatch(hideTweet())
@@ -75,9 +77,11 @@ export default function TweetModal() {
 
 function TweetContent ({ children }) {
 	const container = useRef()
-	useEffect(() => {
+	useLayoutEffect(() => {
 		container.current.appendChild(children)
-		return () => container.current.removeChild(children)
+		return () => {
+			container.current.removeChild(children)
+		}
 	}, [])
 	return <div ref={container}/>
 }

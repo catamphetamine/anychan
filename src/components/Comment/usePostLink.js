@@ -1,27 +1,27 @@
 import { useCallback } from 'react'
 
 export default function usePostLink({
-	board,
-	thread,
+	channelId,
+	threadId,
 	comment,
 	onShowComment
 }) {
 	const onPostLinkClick = useCallback((event, {
 		postWasDeleted,
 		postIsExternal,
-		boardId,
-		threadId,
+		channelId: channelIdClicked,
+		threadId: threadIdClicked,
 		postId
 	}) => {
 		if (!postIsExternal) {
-			if (boardId === board.id && threadId === thread.id) {
+			if (channelIdClicked === channelId && threadIdClicked === threadId) {
 				event.preventDefault()
 				onShowComment(postId, comment.id)
 			}
 		}
 	}, [
-		board,
-		thread,
+		channelId,
+		threadId,
 		comment,
 		onShowComment
 	])

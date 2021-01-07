@@ -45,7 +45,7 @@ export const saveTheme = redux.simpleAction(
 	(state, value) => {
 		return {
 			...state,
-			settings: saveSetting('theme', value === 'default' ? undefined : value)
+			settings: saveSetting('theme', value)
 		}
 	}
 )
@@ -68,11 +68,11 @@ export const saveProxyUrl = redux.simpleAction(
 	}
 )
 
-export const saveAutoSuggestFavoriteBoards = redux.simpleAction(
+export const saveAutoSuggestFavoriteChannels = redux.simpleAction(
 	(state, value) => {
 		return {
 			...state,
-			settings: saveSetting('autoSuggestFavoriteBoards', value)
+			settings: saveSetting('autoSuggestFavoriteChannels', value)
 		}
 	}
 )
@@ -97,6 +97,15 @@ export const saveLeftHanded = redux.simpleAction(
 	}
 )
 
+export const saveGrammarCorrection = redux.simpleAction(
+	(state, value) => {
+		return {
+			...state,
+			settings: saveSetting('grammarCorrection', value)
+		}
+	}
+)
+
 export const saveAutoDarkMode = redux.simpleAction(
 	(state, value) => {
 		// Reset manual "Dark Mode" setting.
@@ -108,11 +117,11 @@ export const saveAutoDarkMode = redux.simpleAction(
 	}
 )
 
-export const saveBoardsView = redux.simpleAction(
+export const saveChannelsView = redux.simpleAction(
 	(state, value) => {
 		return {
 			...state,
-			settings: saveSetting('boardsView', value)
+			settings: saveSetting('channelsView', value)
 		}
 	}
 )

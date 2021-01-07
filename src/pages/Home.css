@@ -6,15 +6,12 @@
 }
 
 .HomePage-logo {
-	height: 1.2em;
+	height: 1em;
+	margin-top: 0.1em;
 	margin-right: 0.25em;
 }
 
 .HomePage-logoLink {
-	color: inherit;
-}
-
-.HomePage-title a {
 	color: inherit;
 }
 
@@ -23,7 +20,16 @@
 	align-content: center;
 	justify-content: center;
 	margin-top: calc(var(--unit) * 6);
-	font-size: 3.5rem;
+	font-size: 2.5rem;
+	color: inherit;
+	@mixin upto-s {
+		font-size: 2rem;
+		margin-top: calc(var(--unit) * 3);
+	}
+}
+
+.HomePage-title {
+	font-weight: 300;
 	color: inherit;
 }
 
@@ -36,10 +42,13 @@
 .HomePage-description {
 	margin-top: calc(var(--unit) * 6);
 	margin-bottom: 0;
+	@mixin upto-s {
+		margin-top: calc(var(--unit) * 3);
+	}
 }
 
-.HomePage-announcement,
-.HomePage-showBoardsList {
+/*.HomePage-announcement,*/
+.HomePage-showChannelsList {
 	margin-top: calc(var(--unit) * 2);
 	margin-bottom: 0;
 }
@@ -51,7 +60,7 @@
 }
  */
 
-.HomePage-showBoardsList {
+.HomePage-showChannelsList {
 	display: none;
 	.Button {
 		margin-left: auto;

@@ -1,0 +1,194 @@
+@import "../styles/common";
+
+.Channels {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+
+.Channels-list--grid {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto;
+	.ChannelsListSectionHeader-urlPlaceholder,
+	.ChannelsListSectionHeader-title,
+	.ChannelsListChannel-url,
+	.ChannelsListChannel-title {
+		grid-column: span 1;
+	}
+}
+
+.ChannelsListChannel-url,
+.ChannelsListChannel-title {
+	--ListItem-borderWidth: 1px;
+	height: var(--List-lineHeight);
+	line-height: calc(var(--List-lineHeight) - 2 * var(--ListItem-borderWidth));
+	border-top: var(--ListItem-borderWidth) solid var(--Channels-borderColor);
+	border-bottom: var(--ListItem-borderWidth) solid var(--Channels-borderColor);
+	font-size: var(--List-fontSize);
+}
+
+.Channels-list {
+	user-select: none;
+	/*line-height: var(--List-lineHeight);*/
+}
+
+.ChannelsListSectionHeader-title {
+	margin-top: var(--ChannelsListSectionHeader-title-marginTop);
+	margin-bottom: var(--ChannelsListSectionHeader-title-marginBottom);
+	padding-left: var(--unit);
+	font-size: var(--ChannelsListSectionHeader-title-fontSize);
+	font-weight: 300;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ChannelsListSectionHeader-title--first {
+	margin-top: 0;
+	@mixin upto-m {
+		margin-top: 0.8em;
+	}
+}
+
+.ChannelsListChannel-url {
+	display: block;
+	text-align: right;
+	outline: none;
+	padding-left: var(--unit);
+}
+
+.ChannelsListChannel-title {
+	display: block;
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--Channels-color);
+}
+
+.ChannelsViewSwitcher {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* When "large" font size is set, `flex-wrap: wrap` allows
+	   the channel view switcher buttons to span multiple lines. */
+	flex-wrap: wrap;
+	margin-top: 0;
+	margin-bottom: var(--unit);
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	font-size: var(--List-fontSize);
+	color: var(--ChannelsViewSwitcher-color);
+}
+
+.ChannelsViewSwitcher-switch {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	/* Resets `react-responsive-ui` `<Button/>` color transition. */
+	transition: none;
+	color: currentColor;
+	&:hover {
+		background-color: transparent;
+		box-shadow: inset 0 0 0 1px var(--Channels-backgroundColor--active);
+	}
+	&:focus {
+		background-color: transparent;
+		box-shadow: inset 0 0 0 1px var(--Channels-backgroundColor--active);
+	}
+	&:active {
+		color: currentColor;
+		background-color: var(--Channels-backgroundColor--active);
+	}
+}
+
+.Channels-showAll {
+	display: inline-block;
+	padding-top: calc(var(--unit) * 0.5);
+	padding-bottom: calc(var(--unit) * 0.5);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	font-size: var(--List-fontSize);
+	color: var(--Channels-color--active);
+	&:active {
+		background-color: var(--Channels-backgroundColor--hover);
+	}
+}
+
+.Channels-showAllWrapper {
+	margin-top: calc(var(--unit) * 1.5);
+	text-align: center;
+}
+
+.Channels-search {
+	width: 100%;
+	max-width: 26em;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: calc(var(--unit) * 2);
+	margin-bottom: calc(var(--unit) * 2);
+	--rrui-input-field-background-color-focus: var(--Channels-backgroundColor);
+	--rrui-input-field-text-color: var(--Sidebar-color-900);
+}
+
+.Channels-nothingFound {
+	margin-top: calc(var(--unit) * 2);
+	text-align: center;
+	color: var(--Sidebar-color-900);
+}
+
+.ChannelsListChannel-title {
+	font-weight: var(--Channels-fontWeight);
+}
+
+.ChannelsListChannel-url {
+	color: var(--Channels-color--active);
+}
+
+.ChannelsListChannel-url--selected,
+.ChannelsListChannel-title--selected {
+	background-color: var(--Channels-backgroundColor--selected);
+	--Channels-borderColor: var(--Channels-borderColor--selected);
+}
+
+.ChannelsListChannel-url--hover,
+.ChannelsListChannel-title--hover {
+	background-color: var(--Channels-backgroundColor--hover);
+}
+
+.ChannelsListChannel-url--active,
+.ChannelsListChannel-title--active {
+	background-color: var(--Channels-backgroundColor--active);
+}
+
+.ChannelsListChannel-title--active,
+/* `.ChannelsListChannel-url:active` is for cases
+   when the "url" part of the link is clicked. */
+/* Using the `a.` prefix so that `<div/>`s aren't colored
+   when clicked in `<EditFavoriteChannels/>`. */
+a.ChannelsListChannel-url:active,
+/* `:active` is for cases when the link is clicked and dragged. */
+a.ChannelsListChannel-title:active {
+	color: var(--Channels-color--active);
+}
+
+.ChannelsListChannel-title {
+	padding-right: calc(var(--unit) * 2);
+}
+
+.Channels-error {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	text-align: center;
+}
+
+.Channels-errorText {
+	color: var(--Content-color-600);
+}
+
+.Channels-errorRetry {
+	display: inline;
+	color: var(--Clickable-color--text);
+}

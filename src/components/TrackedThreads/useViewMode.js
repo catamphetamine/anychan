@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 
 export default function useViewMode({
+	isMounted,
 	hasMoreThreads,
 	hasMoreLiveThreads
 }) {
@@ -11,16 +12,15 @@ export default function useViewMode({
 		hasMoreLiveThreads
 	])
 	const [viewMode, setViewMode] = useState(getViewMode())
-	const hasMounted = useRef()
 	const showMoreLessButton = useRef()
 	const showExpiredThreadsButton = useRef()
 	useEffect(() => {
-		if (hasMounted.current) {
+		if (isMounted()) {
 			setViewMode(getViewMode())
 		}
 	}, [getViewMode])
 	useEffect(() => {
-		if (hasMounted.current) {
+		if (isMounted()) {
 			// After a user clicks "Show expired",
 			// move the focus to the "Show less" button.
 			if (viewMode === 'all') {
@@ -39,9 +39,6 @@ export default function useViewMode({
 			}
 		}
 	}, [viewMode])
-	useEffect(() => {
-		hasMounted.current = true
-	}, [])
 	const onShowMoreThreads = useCallback(() => {
 		if (viewMode === 'top') {
 			if (hasMoreLiveThreads) {

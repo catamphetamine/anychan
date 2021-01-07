@@ -101,10 +101,10 @@
 	/*box-shadow: none;*/
 	/*@mixin upto-s {*/
 	/*&.Comment--opening {*/
-		/* Thread cards on board page have top/bottom borders
+		/* Thread cards on channel page have top/bottom borders
 			 with color `var(--Content-color-200)` on small screens.
 			 Having the same top border color on thread page
-			 helps the transition from board to thread to be
+			 helps the transition from channel to thread to be
 			 visually a bit more seamless. */
 		/*border-top-color: var(--Content-color-200);*/
 	/*}*/
@@ -144,8 +144,8 @@
 	/*}*/
 }
 
-.Comment--board {
-	--CommentSeparator-color: var(--CommentSeparator-color--board);
+.Comment--channel {
+	--CommentSeparator-color: var(--CommentSeparator-color--channel);
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
 			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color), var(--ContentSection-shadow);
@@ -160,15 +160,6 @@
 	}
 }
 */
-
-/* Using a dedicated element instead of `margin-top`
-	 because `VirtualScroller` requires not having gaps between list items. */
-.Comments {
-	margin-top: calc(-1 * var(--Comment-marginTop));
-	.Comment-spacer {
-		height: var(--Comment-marginTop);
-	}
-}
 
 /* Add some left padding to first-level comment tree branch.
 	If comments don't have any side padding
@@ -257,7 +248,7 @@
 		/*--PostSocial-paddingLeft: var(--PostQuoteBlock-paddingLeft);*/
 	}
 
-	/* Both on board page and thread page. */
+	/* Both on channel page and thread page. */
 	.Comment {
 		padding-left: var(--Post-paddingLeft--has-thumbnail);
 		/* Post thumbnail has some top spacing
@@ -336,7 +327,7 @@
 		}
 
 		.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested),
-		.Comment--board {
+		.Comment--channel {
 			margin-left: 0;
 			width: 100%;
 			max-width: none;
@@ -451,33 +442,9 @@
 	}
 }
 
-/* Comment tree comment borders. */
-.Comments {
-	/* The individual borders on `__thumbnail` and `__content`
-		 will be replaced with the border on `.Comment` itself. */
-	.CommentTree-comment--nested,
-	.CommentTree-comment--expanded {
-		> .Comment-thumbnail,
-		> .Comment-comment {
-			border-bottom: 0;
-		}
-	}
-
-	.CommentTree-comment--nested,
-	.CommentTree-comment--expanded {
-		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-	}
-
-	/*
-	.CommentTree-comment--nested {
-		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
-	}
-	*/
-}
-
 /* Thread comment styles end. */
 
-/* `8ch.net` and chans running on `lynxchan` engine (such as `kohlchan.net`)
+/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
 		have regular quotes and "inverse" quotes. */
 /* `8ch.net` "inverse" quotes are red. */
 .PostQuoteBlock--inverse {
@@ -550,8 +517,8 @@
 	}
 	/*
 	.PostAttachments,
-	.PostVideo .rrui__video,
-	.PostPicture .rrui__picture {
+	.PostVideo .Video,
+	.PostPicture .Picture {
 		opacity: 0.85;
 	}
 	*/
@@ -602,3 +569,8 @@
 		background-color: var(--Comment-textSelectionTooltip-backgroundColor--active);
 	}
 }
+
+/*.Comment--new {
+	--Post-backgroundColor: var(--Comment-backgroundColor--new);
+	--CommentSeparator-color: var(--CommentSeparator-color--new);
+}*/

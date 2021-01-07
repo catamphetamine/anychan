@@ -29,6 +29,14 @@ configuration.optimization = {
 	moduleIds: 'named'
 }
 
+configuration.snapshot = {
+	...configuration.snapshot,
+	// Fixes webpack caching `node_modules` folder.
+	// https://github.com/webpack/webpack/issues/11952
+	// https://webpack.js.org/blog/2020-10-10-webpack-5-release/#persistent-caching
+	managedPaths: []
+}
+
 // `webpack-dev-server`.
 configuration.devServer = {
 	port: PORT,

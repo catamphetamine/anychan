@@ -6,14 +6,16 @@ import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import ListButton from '../ListButton'
-import BoardUrl from '../BoardUrl'
+import ChannelUrl from '../ChannelUrl'
 
 import Picture from 'webapp-frontend/src/components/Picture'
+
+import { trackedThread } from '../../PropTypes'
 
 import getMessages from '../../messages'
 import getUrl from '../../utility/getUrl'
 
-import { untrackThread, trackThread } from '../../redux/threadTracker'
+import { untrackThread, trackThread } from '../../redux/trackedThreads'
 
 import './TrackedThread.css'
 
@@ -60,7 +62,7 @@ function TrackedThread({
 				'TrackedThread--selected': isSelected
 			})}>
 			<Component
-				to={isLink ? getUrl(thread.board, thread) : undefined}
+				to={isLink ? getUrl(thread.channel.id, thread.id) : undefined}
 				className={classNames('TrackedThread-inner', {
 					'TrackedThread-inner--link': isLink && !isDisabled
 				})}>
@@ -74,10 +76,10 @@ function TrackedThread({
 						blur={thread.thumbnail.spoiler ? 0.1 : undefined}
 						className="TrackedThread-thumbnail"/>
 				}
-				<BoardUrl
-					boardId={thread.board.id}
+				<ChannelUrl
+					channelId={thread.channel.id}
 					selected={isSelected}
-					className="TrackedThread-board"/>
+					className="TrackedThread-channel"/>
 				<div className="TrackedThread-title">
 					{thread.title}
 				</div>
@@ -117,7 +119,7 @@ TrackedThread.propTypes = {
 	edit: PropTypes.bool,
 	selected: PropTypes.bool,
 	locale: PropTypes.string.isRequired,
-	thread: threadTracker.isRequired,
+	thread: trackedThread.isRequired,
 	untrackThread: PropTypes.func.isRequired
 }
 

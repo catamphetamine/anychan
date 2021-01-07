@@ -6,10 +6,10 @@ import classNames from 'classnames'
 
 import getMessages from '../../messages'
 import { hideSidebar } from '../../redux/app'
-import { getChan, getChanId } from '../../chan'
+import { getProvider, getProviderId } from '../../provider'
 
-import ChanIcon from '../ChanIcon'
-import ChanLogo from '../ChanLogo'
+import ProviderIcon from '../ProviderIcon'
+import ProviderLogo from '../ProviderLogo'
 import { getSettingsMenuItem, getDarkModeMenuItem } from '../MainMenu'
 
 import { Button } from 'webapp-frontend/src/components/Button'
@@ -19,7 +19,7 @@ import './SidebarMenu.css'
 export default function SidebarMenu() {
 	return (
 		<nav className="SidebarMenu">
-			<HomePageLink includeTitle/>
+			{/*<HomePageLink includeTitle/>*/}
 			<DarkModeToggle includeTitle/>
 			<SettingsLink includeTitle/>
 		</nav>
@@ -29,7 +29,7 @@ export default function SidebarMenu() {
 export function HomePageLink({ includeTitle }) {
 	const locationPathname = useSelector(({ found }) => found.resolvedMatch.location.pathname)
 	const isHomePage = locationPathname === '/'
-	const title = getChan().title
+	const title = getProvider().title
 	return (
 		<Link
 			to="/"
@@ -41,7 +41,7 @@ export function HomePageLink({ includeTitle }) {
 			})}>
 			{/*
 			<HomePageIcon
-				chanId={getChanId()}
+				providerId={getProviderId()}
 				className="SidebarMenuItem-icon"/>
 			*/}
 			<SlashIcon className="SidebarMenuItem-icon"/>
@@ -58,15 +58,15 @@ HomePageLink.propTypes = {
 	includeTitle: PropTypes.bool
 }
 
-function HomePageIcon({ chanId, ...rest }) {
-	if (chanId === 'lainchan' || chanId === 'arisuchan') {
-		return <ChanLogo {...rest}/>
+function HomePageIcon({ providerId, ...rest }) {
+	if (providerId === 'lainchan' || providerId === 'arisuchan') {
+		return <ProviderLogo {...rest}/>
 	}
-	return <ChanIcon {...rest}/>
+	return <ProviderIcon {...rest}/>
 }
 
 HomePageIcon.propTypes = {
-	chanId: PropTypes.string.isRequired
+	providerId: PropTypes.string.isRequired
 }
 
 // Using `0.1` instead of `0` and `2.9` instead of `3.0` here

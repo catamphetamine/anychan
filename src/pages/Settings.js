@@ -12,12 +12,16 @@ import ThemeSettings from '../components/settings/ThemeSettings'
 import ProxySettings from '../components/settings/ProxySettings'
 import DataSettings from '../components/settings/DataSettings'
 import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
+import GrammarCorrectionSettings from '../components/settings/GrammarCorrectionSettings'
+
+import getLanguageFromLocale from '../utility/getLanguageFromLocale'
 
 import {
 	saveFontSize,
 	saveLocale,
 	saveAutoDarkMode,
 	saveLeftHanded,
+	saveGrammarCorrection,
 	saveProxyUrl
 } from '../redux/settings'
 
@@ -27,9 +31,7 @@ import getMessages, {
 	getLanguageNames
 } from '../messages'
 
-import UserSettings, {
-	getCensoredWordsByLanguage
-} from '../utility/settings'
+import UserSettings from '../utility/settings'
 
 import { shouldUseProxy, getProxyUrl } from '../utility/proxy'
 
@@ -82,6 +84,7 @@ function Settings({
 	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
 	const onAutoDarkModeChange = useCallback(darkMode => dispatch(saveAutoDarkMode(darkMode)), [dispatch])
 	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded(leftHanded)), [dispatch])
+	const onGrammarCorrectionChange = useCallback(grammarCorrection => dispatch(saveGrammarCorrection(grammarCorrection)), [dispatch])
 	const onProxyUrlChange = useCallback(value => dispatch(saveProxyUrl(value)), [dispatch])
 	return (
 		<ContentSections>
@@ -127,11 +130,16 @@ function Settings({
 				value={settings.leftHanded}
 				onChange={onLeftHandedChange}/>
 
+			{/* Grammar Correction */}
+			<GrammarCorrectionSettings
+				messages={messages}
+				value={settings.grammarCorrection}
+				onChange={onGrammarCorrectionChange}/>
+
 			{/* Censored Words */}
 			<CensoredWordsSettings
 				messages={messages}
-				language={settings.locale}
-				getCensoredWordsByLanguage={getCensoredWordsByLanguage}/>
+				language={getLanguageFromLocale(settings.locale)}/>
 
 			{/* Data */}
 			<DataSettings

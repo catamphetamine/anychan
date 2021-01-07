@@ -12,44 +12,57 @@ export default function CommentTree({
 	onHeightChange,
 	// `onStateChange()` is supplied by `virtual-scroller`.
 	onStateChange,
+	getCommentById,
 	...rest
 }) {
-	const onSubtreeStateChange = useCallback((subtreeState) => {
-		// console.log('@ Subtree state changed\n', JSON.stringify(subtreeState, null, 2))
-		onStateChange(subtreeState)
-	}, [onStateChange])
-
-	const getCommentComponentProps = useCallback(({ getState, updateState }) => {
+	const getCommentComponentProps = useCallback(({ initialState, setState }) => {
 		return {
-			initialShowReplyForm: getState() && getState().showReplyForm,
-			onToggleShowReplyForm: (value) => updateState({ showReplyForm: value }),
-			initialExpandContent: getState() && getState().expandContent,
-			onExpandContent: () => updateState({ expandContent: true }),
-			initialExpandPostLinkQuotes: getState() && getState().expandPostLinkQuotes,
+			initialShowReplyForm: initialState.showReplyForm,
+			onToggleShowReplyForm: (value) => setState((state) => ({
+				...state,
+				showReplyForm: value
+			})),
+			initialExpandContent: initialState.expandContent,
+			onExpandContent: () => setState((state) => ({
+				...state,
+				expandContent: true
+			})),
+			initialExpandPostLinkQuotes: initialState.expandPostLinkQuotes,
 			// `postLink._id`s are set in `enumeratePostLinks()`
 			// in `./src/api/utility/addCommentProps.js`.
 			// They're used instead of simply `postLink.postId`
 			// because, for example, a comment could have several
 			// `post-link`s to the same post, consequtive or
 			// in different parts of its content.
-			onPostLinkQuoteExpand: (postLink) => updateState({
+			onPostLinkQuoteExpand: (postLink) => setState((state) => ({
+				...state,
 				expandPostLinkQuotes: {
-					...(getState() && getState().expandPostLinkQuotes),
+					...(state && state.expandPostLinkQuotes),
 					[postLink._id]: true
 				}
-			}),
-			onContentDidChange: onHeightChange
+			})),
+			onRenderedContentDidChange: () => {
+				if (onHeightChange) {
+					onHeightChange()
+				}
+			},
+			getCommentById
 		}
-	}, [onHeightChange])
+	}, [
+		onHeightChange,
+		getCommentById
+	])
 
-	const [showReplies, setShowReplies] = useState()
+	// This function is called when a replies tree for a comment is expanded.
+	const onShowReply = useCallback((comment) => {
+		comment.parseContent({ getCommentById })
+	}, [getCommentById])
 
 	return (
 		<CommentTree_
-			dialogueChainStyle="through"
 			{...rest}
 			initialState={state}
-			onStateChange={onStateChange ? onSubtreeStateChange : undefined}
+			onStateChange={onStateChange}
 			onDidToggleShowReplies={onHeightChange}
 			onShowReply={onShowReply}
 			component={Comment}
@@ -62,11 +75,12 @@ CommentTree.propTypes = {
 	// `onHeightChange()` is supplied by `virtual-scroller`.
 	onHeightChange: PropTypes.func,
 	// `onStateChange()` is supplied by `virtual-scroller`.
-	onStateChange: PropTypes.func
+	onStateChange: PropTypes.func,
+	getCommentById: PropTypes.func,
+	dialogueChainStyle: PropTypes.oneOf(['through', 'side'])
 }
 
-function onShowReply(comment) {
-	if (!comment.contentParsed) {
-		comment.parseContent()
-	}
+CommentTree.defaultProps = {
+	// `<InReplyToModal/>` passes `dialogueChainStyle="side"`.
+	dialogueChainStyle: 'through'
 }

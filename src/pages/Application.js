@@ -15,16 +15,20 @@ import 'react-pages/components/Loading.css'
 
 import Announcement, { announcementPropType } from 'webapp-frontend/src/components/Announcement'
 
+import ApplicationIcon from '../components/ApplicationIcon'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sidebar from '../components/Sidebar/Sidebar'
-import SideNavMenuButton from '../components/SideNavMenuButton'
+import SideNavMenuButtons from '../components/SideNavMenuButtons'
 import BackButton from '../components/BackButton'
+import Markup from '../components/Markup'
 import Slideshow from '../components/Slideshow'
 import Loading from '../components/LoadingIndicator'
 import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
 import Snackbar from 'webapp-frontend/src/components/Snackbar'
-import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/YouTubeVideo'
+import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/Video.YouTube'
+
+import useOnWindowResize from 'webapp-frontend/src/hooks/useOnWindowResize'
 
 // `react-time-ago` languages.
 // import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
@@ -41,12 +45,12 @@ import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
 import TweetModal from '../components/TweetModal'
 
-import { getBoards } from '../redux/chan'
+import { getChannels } from '../redux/data'
 import { getSettings } from '../redux/settings'
 import { setCookiesAccepted, setOfflineMode } from '../redux/app'
-import { getFavoriteBoards } from '../redux/favoriteBoards'
-import { getTrackedThreads } from '../redux/threadTracker'
-import { showAnnouncement, hideAnnouncement } from '../redux/announcement'
+import { getFavoriteChannels } from '../redux/favoriteChannels'
+import { getTrackedThreads } from '../redux/trackedThreads'
+import { setAnnouncement, markAnnouncementAsRead } from '../redux/announcement'
 
 import getMessages from '../messages'
 import UserData from '../UserData/UserData'
@@ -54,17 +58,21 @@ import onUserDataChange from '../UserData/onUserDataChange'
 import {
 	isContentSectionsContent,
 	isThreadLocation,
-	isBoardLocation,
-	isBoardsLocation
+	isChannelLocation,
+	isChannelsLocation
 } from '../utility/routes'
-import { pollAnnouncement } from '../utility/announcement'
-import getBasePath from '../utility/getBasePath'
+import {
+	startPollingAnnouncement,
+	markAnnouncementAsRead as _markAnnouncementAsRead
+} from '../utility/announcement'
+import getBasePath, { addBasePath } from '../utility/getBasePath'
 import onSettingsChange from '../utility/onSettingsChange'
 import UserSettings from '../utility/UserSettings'
 import { dispatchDelayedActions } from '../utility/dispatch'
 import configuration from '../configuration'
 
 import './Application.css'
+import './MainContentWithSidebarLayout.css'
 
 export default function App({
 	children
@@ -72,12 +80,41 @@ export default function App({
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const theme = useSelector(({ settings }) => settings.settings.theme)
 	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
-	const sidebarMode = useSelector(({ app }) => app.sidebarMode)
+	// const sidebarMode = useSelector(({ app }) => app.sidebarMode)
 	const offline = useSelector(({ app }) => app.offline)
 	const route = useSelector(({ found }) => found.resolvedMatch)
   const location = useSelector(({ found }) => found.resolvedMatch.location)
   const announcement = useSelector(({ announcement }) => announcement.announcement)
 	const dispatch = useDispatch()
+
+	useEffect(() => {
+		// Load YouTube video player API.
+		loadYouTubeVideoPlayerApi()
+	}, [])
+
+	useEffect(() => {
+		setBodyBackground(route)
+	}, [route])
+
+	const paddingLeft = useRef()
+	const paddingRight = useRef()
+	useOnWindowResize(() => {
+		// These CSS variables can be used to expand an element on a page
+		// to the full width of the page minus sidebar width.
+		// For example, a "branding" top banner (like on Twitter or Facebook).
+		document.body.style.setProperty('--Webpage-paddingLeft-width', paddingLeft.current.getBoundingClientRect().width + 'px')
+		document.body.style.setProperty('--Webpage-paddingRight-width', paddingRight.current.getBoundingClientRect().width + 'px')
+	}, { alsoOnMount: true })
+
+	const onHideAnnouncement = useCallback(() => {
+		_markAnnouncementAsRead()
+		dispatch(markAnnouncementAsRead())
+	}, [dispatch])
+
+	const onAcceptCookies = useCallback(() => {
+		acceptCookies()
+		dispatch(setCookiesAccepted())
+	}, [dispatch])
 
 	// UserData/UserSettings listeners.
 	useEffect(() => {
@@ -93,7 +130,7 @@ export default function App({
 		function localStorageListener(event) {
 			if (!event.key) {
 				updateUserSettings()
-				updateUserData(event.key)
+				updateUserData()
 			} else {
 				if (UserSettings.matchKey(event.key)) {
 					updateUserSettings()
@@ -111,28 +148,13 @@ export default function App({
 		}
 	}, [])
 
-	useEffect(() => {
-		// Load YouTube video player API.
-		loadYouTubeVideoPlayerApi()
-	}, [])
-
-	useEffect(() => {
-		setBodyBackground(route)
-	}, [route])
-
-	const onHideAnnouncement = useCallback(() => {
-		dispatch(hideAnnouncement())
-	}, [dispatch])
-
-	const onAcceptCookies = useCallback(() => {
-		acceptCookies()
-		dispatch(setCookiesAccepted())
-	}, [dispatch])
-
 	const messages = getMessages(locale)
 
 	return (
 		<div className={classNames(`theme--${theme}`)}>
+			{/* Changes the application icon when there're any notifications. */}
+			<ApplicationIcon/>
+
 			{/* Page loading indicator */}
 			<Loading/>
 
@@ -148,17 +170,26 @@ export default function App({
 			<div className={classNames('Webpage', {
 				'Webpage--offline': offline,
 				'Webpage--contentSections': isContentSectionsContent(route),
-				'Webpage--boards': isBoardsLocation(route),
-				'Webpage--board': isBoardLocation(route),
+				// 'Webpage--channels': isChannelsLocation(route),
+				'Webpage--channel': isChannelLocation(route),
 				'Webpage--thread': isThreadLocation(route),
-				'Webpage--wideSidebar': sidebarMode !== 'boards'
+				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
 			})}>
 				{/*<Header/>*/}
-				<SideNavMenuButton/>
-				<div className="Webpage-paddingLeft">
+				<SideNavMenuButtons/>
+				<div
+					ref={paddingLeft}
+					className="Webpage-paddingLeft">
 					<BackButton/>
 				</div>
 				<div className="Webpage-contentContainer">
+					{configuration.headerMarkup &&
+						<Markup
+							content={configuration.headerContent}
+							markup={configuration.headerMarkup}
+							fullWidth={configuration.headerMarkupFullWidth}
+							className="Webpage-headerBanner"/>
+					}
 					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
 					<main
 						tabIndex={-1}
@@ -177,7 +208,7 @@ export default function App({
 								}
 							</Announcement>
 						}
-						{announcement &&
+						{announcement && !announcement.read &&
 							<Announcement
 								announcement={announcement}
 								onClose={onHideAnnouncement}
@@ -187,8 +218,15 @@ export default function App({
 					</main>
 					<Footer/>
 				</div>
-				<div className="Webpage-paddingRight"/>
+				<div
+					ref={paddingRight}
+					className="Webpage-paddingRight"/>
 				<Sidebar/>
+				{/*
+				<FullWidthContent>
+					...
+				</FullWidthContent>
+				*/}
 			</div>
 
 			<OkCancelDialog
@@ -220,15 +258,15 @@ App.load = {
 		dispatchDelayedActions(dispatch)
 		// Fill in user's preferences.
 		dispatch(getSettings())
-		dispatch(getFavoriteBoards())
+		dispatch(getFavoriteChannels())
 		dispatch(getTrackedThreads())
 		// Detect offline mode.
 		if (location.query.offline) {
 			return dispatch(setOfflineMode(true))
 		}
-		// Get the list of boards.
+		// Get the list of channels.
 		try {
-			await dispatch(getBoards())
+			await dispatch(getChannels())
 		} catch (error) {
 			let errorPageUrl
 			// `503 Service Unavailable`
@@ -246,7 +284,7 @@ App.load = {
 				console.error(error)
 				window.location = `${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(getBasePath() + location.pathname + location.search + location.hash)}`
 				// Don't render the page because it would throw.
-				// (the app assumes the list of boards is available).
+				// (the app assumes the list of channels is available).
 				// (maybe javascript won't even execute this line,
 				//  because it's after a `window.location` redirect,
 				//  or maybe it will, so just in case).
@@ -256,10 +294,10 @@ App.load = {
 			}
 		}
 		// Show announcements.
-		if (process.env.NODE_ENV === 'production' && configuration.announcementUrl) {
-			pollAnnouncement(
-				configuration.announcementUrl,
-				announcement => dispatch(showAnnouncement(announcement)),
+		if (process.env.NODE_ENV === 'production') {
+			startPollingAnnouncement(
+				configuration.announcementUrl || addBasePath('/announcement.json'),
+				announcement => dispatch(setAnnouncement(announcement)),
 				configuration.announcementPollInterval
 			)
 		}
@@ -279,3 +317,4 @@ function setBodyBackground(route) {
 		document.body.classList.remove('document--background')
 	}
 }
+

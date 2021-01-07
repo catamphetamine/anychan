@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import MainMenu from './MainMenu'
+import Markup from './Markup'
 
+import configuration from '../configuration'
 import getMessages from '../messages'
-import { getChan } from '../chan'
-import { isContentSectionsContent, isBoardsLocation } from '../utility/routes'
+import { getProvider } from '../provider'
+import { isContentSectionsContent, isChannelsLocation } from '../utility/routes'
 
-import PostBlock from 'webapp-frontend/src/components/PostBlock'
+import { Content } from 'webapp-frontend/src/components/PostContent'
 
 import CaptchanLogo from '../../assets/images/icon.svg'
 
@@ -20,47 +22,47 @@ export default function Footer({ className }) {
 	const offline = useSelector(({ app }) => app.offline)
 	const route = useSelector(({ found }) => found.resolvedMatch)
 	return (
-		<footer className={classNames(className, 'Footer', {
-			'BackgroundContent': isContentSectionsContent(route) || isBoardsLocation(route)
+		<footer className={classNames(className, 'Footer', 'Content', {
+			'Content--background': isContentSectionsContent(route) || isChannelsLocation(route)
 		})}>
-			<div className="Content">
-				{getChan().links &&
-					<FooterChanLinks links={getChan().links}/>
+			{configuration.footerMarkup &&
+				<Markup
+					content={configuration.footerContent}
+					markup={configuration.footerMarkup}
+					fullWidth={configuration.footerMarkupFullWidth}
+					className="Footer-banner"/>
+			}
+			{getProvider() && getProvider().links &&
+				<FooterLinks links={getProvider().links}/>
+			}
+			<div className="Footer-notes">
+				{getProvider() && getProvider().footnotes &&
+					<Content>
+						{getProvider().footnotes}
+					</Content>
 				}
-				<div className="Footer-copyright">
-					{typeof getChan().copyright === 'string' &&
-						<p>
-							{getChan().copyright}
-						</p>
-					}
-					{Array.isArray(getChan().copyright) &&
-						<PostBlock>
-							{getChan().copyright}
-						</PostBlock>
-					}
-					<p>
-						{getMessages(locale).copyright.preCaptchan}
-						<a
-							target="_blank"
-							href="https://gitlab.com/catamphetamine/captchan">
-							<CaptchanLogo className="Footer-captchanLogo"/>
-							captchan
-						</a>
-						{getMessages(locale).copyright.postCaptchan}
-						{' '}{VERSION}
-						{getMessages(locale).copyright.preAuthor}
-						<a
-							target="_blank"
-							href="https://gitlab.com/catamphetamine">
-							@catamphetamine
-						</a>
-						.
-					</p>
-				</div>
-				{!offline && false &&
-					<MainMenu footer/>
-				}
+				<p>
+					{getMessages(locale).footnotes.preCaptchan}
+					<a
+						target="_blank"
+						href="https://gitlab.com/catamphetamine/captchan">
+						<CaptchanLogo className="Footer-captchanLogo"/>
+						captchan
+					</a>
+					{getMessages(locale).footnotes.postCaptchan}
+					{' '}{VERSION}
+					{getMessages(locale).footnotes.preAuthor}
+					<a
+						target="_blank"
+						href="https://gitlab.com/catamphetamine">
+						@catamphetamine
+					</a>
+					.
+				</p>
 			</div>
+			{!offline && false &&
+				<MainMenu footer/>
+			}
 		</footer>
 	)
 }
@@ -69,18 +71,18 @@ Footer.propTypes = {
 	className: PropTypes.string
 }
 
-const COPYRIGHT_REPORT = {
-	_html: getChan().copyrightReport
-}
+// const COPYRIGHT_REPORT = {
+// 	_html: getProvider().copyrightReport
+// }
 
-// copyright.replace('{0}', (new Date()).getFullYear())
+// footnotes.replace('{year}', (new Date()).getFullYear())
 
-function FooterChanLinks({ links }) {
+function FooterLinks({ links }) {
 	return (
 		<nav>
-			<ul className="FooterChanLinks">
+			<ul className="Footer-links">
 				{links.map((link, i) => (
-					<li key={i} className="FooterChanLinks-listItem">
+					<li key={i} className="Footer-linkItem">
 						<a
 							target="_blank"
 							href={link.url}>
@@ -93,7 +95,7 @@ function FooterChanLinks({ links }) {
 	)
 }
 
-FooterChanLinks.propTypes = {
+FooterLinks.propTypes = {
 	links: PropTypes.shape({
 		url: PropTypes.string.isRequired,
 		text: PropTypes.string.isRequired

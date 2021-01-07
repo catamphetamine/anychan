@@ -1,7 +1,7 @@
 import routes  from './routes'
 import * as reducers from './redux'
 
-import { getChan, getChanIconUrl } from './chan'
+import { getProvider, getProviderIconUrl } from './provider'
 import getBasePath from './utility/getBasePath'
 import { createConfig } from 'webapp-frontend/src/react-pages.common'
 
@@ -17,18 +17,21 @@ import { createConfig } from 'webapp-frontend/src/react-pages.common'
 // 	image       : 'https://upload.wikimedia.org/wikipedia/ru/5/5f/Original_Doge_meme.jpg'
 // }
 
+let meta
+if (getProvider()) {
+	meta = {
+		site_name   : getProvider().title,
+		title       : getProvider().title,
+		description : getProvider().description,
+		image       : getProvider().icon,
+		locale      : getProvider().language && getHTMLLocaleFromLanguage(getProvider().language)
+	}
+}
+
 export default createConfig({
 	routes,
 	reducers,
-
-	meta: {
-		site_name   : getChan().title,
-		title       : getChan().title,
-		description : getChan().description,
-		image       : getChan().icon,
-		locale      : getChan().language && getHTMLLocaleFromLanguage(getChan().language)
-	},
-
+	meta,
 	// `gh-pages` will have `/captchan` base path.
 	basename: getBasePath()
 })

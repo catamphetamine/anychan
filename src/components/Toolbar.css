@@ -1,0 +1,16 @@
+@import "../styles/common";
+
+.Toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: var(--Toolbar-marginTop);
+	margin-bottom: var(--Toolbar-marginTop);
+	/*padding-left: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
+	/*padding-right: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
+	padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+	padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+	color: var(--Toolbar-color);
+	--MenuIcon-width: var(--ToolbarIcon-width);
+	--Menu-color--selected: var(--Toolbar-color--selected);
+	--Menu-color--active: var(--Toolbar-color--active);
+}

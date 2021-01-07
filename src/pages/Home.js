@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
-import PostBlock from 'webapp-frontend/src/components/PostBlock'
+import { Content } from 'webapp-frontend/src/components/PostContent'
 import { Button } from 'webapp-frontend/src/components/Button'
 
-import ChanLogo, { hasLogo } from '../components/ChanLogo'
+import ProviderLogo, { hasLogo } from '../components/ProviderLogo'
 
-import { getChan, getChanDomain } from '../chan'
+import { getProvider } from '../provider'
 import getMessages from '../messages'
 import { showSidebar, setSidebarMode } from '../redux/app'
 
@@ -20,12 +20,12 @@ export default function Home() {
 		description,
 		announcement,
 		links
-	} = getChan()
+	} = getProvider()
 	const locale = useSelector(({ settings }) => settings.settings.locale)
 	const dispatch = useDispatch()
-	const onShowBoardsList = useCallback(() => {
+	const onShowChannelsList = useCallback(() => {
 		dispatch(showSidebar(true))
-		dispatch(setSidebarMode('boards'))
+		dispatch(setSidebarMode('channel'))
 	}, [dispatch])
 	return (
 		<section className="HomePage">
@@ -34,43 +34,38 @@ export default function Home() {
 					{hasLogo() &&
 						<a
 							target="_blank"
-							href={`https://${getChanDomain()}`}
+							href={`https://${getProvider().domain}`}
 							className="HomePage-logoLink">
-							<ChanLogo className="HomePage-logo"/>
+							<ProviderLogo className="HomePage-logo"/>
 						</a>
 					}
-					<div className="HomePage-title">
+					<div>
 						<a
 							target="_blank"
-							href={`https://${getChanDomain()}`}>
+							href={`https://${getProvider().domain}`}
+							className="HomePage-title">
 							{title}
 						</a>
-						<div className="HomePage-subtitle">
-							{subtitle}
-						</div>
+						{subtitle &&
+							<div className="HomePage-subtitle">
+								{subtitle}
+							</div>
+						}
 					</div>
 				</div>
 
 				{description &&
 					<div className="HomePage-description">
-						<PostBlock>
+						<Content>
 							{description}
-						</PostBlock>
+						</Content>
 					</div>
 				}
 
-				{announcement &&
-					<div className="HomePage-announcement">
-						<PostBlock>
-							{announcement}
-						</PostBlock>
-					</div>
-				}
-
-				<p className="HomePage-showBoardsList">
+				<p className="HomePage-showChannelsList">
 					<Button
-						onClick={onShowBoardsList}>
-						{getMessages(locale).boards.showBoardsList}
+						onClick={onShowChannelsList}>
+						{getMessages(locale).boards.showChannelsList}
 					</Button>
 				</p>
 			</div>

@@ -1,91 +1,42 @@
-import React, { useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import UserData from '../../UserData/UserData'
-import onUserDataChange from '../../UserData/onUserDataChange'
+import {
+	commentId,
+	threadId,
+	channelId
+} from '../../PropTypes'
 
+import UnreadCommentWatcher, {
+	isCommentRead,
+	isThreadSeen
+} from '../../utility/UnreadCommentWatcher'
+
+/**
+ * A comment is assumed "read" when its bottom edge is visible
+ * on the screen. It's not a "comment is fully visible" rule,
+ * because if a comment is higher than the screen's height,
+ * then it's never "fully visible".
+ */
 export default function CommentReadStatusWatcher({
 	mode,
-	boardId,
+	channelId,
 	threadId,
 	commentId,
 	commentIndex,
 	// commentCreatedAt,
 	// commentUpdatedAt,
-	threadUpdatedAt
+	// threadUpdatedAt,
+	unreadCommentWatcher
 }) {
-	const isActive = (mode === 'board' && !isThreadSeen(boardId, threadId)) ||
-		(mode === 'thread' && !isCommentRead(boardId, threadId, commentId))
+	// `isActive` is only used during the initial rendering.
+	const isActive =
+		(mode === 'channel' && !isThreadSeen(channelId, threadId)) ||
+		(mode === 'thread' && !isCommentRead(channelId, threadId, commentId))
 	const node = useRef()
-	const dispatch = useDispatch()
 	useEffect(() => {
-		if (!isActive) {
-			return
-		}
-		if (!CommentReadObserver) {
-			// Uses `dispatch`.
-			function onCommentRead(entries, observer) {
-				for (const entry of entries) {
-					if (entry.isIntersecting) {
-						const element = entry.target
-						const boardId = element.dataset.boardId
-						const threadId = parseInt(element.dataset.threadId)
-						const commentId = parseInt(element.dataset.commentId)
-						const commentIndex = parseInt(element.dataset.commentIndex)
-						// const commentCreatedAt = parseInt(element.dataset.commentCreatedAt)
-						// const commentUpdatedAt = parseInt(element.dataset.commentUpdatedAt)
-						const threadUpdatedAt = element.dataset.threadUpdatedAt && parseInt(element.dataset.threadUpdatedAt)
-						const mode = element.dataset.mode
-						// If some later comment has already been marked as read
-						// then don't overwrite it in the "latest read comment id",
-						// hence the `!isCommentRead()` check.
-						// Some later comment could have been marked as read,
-						// for example, if a user somehow managed to scroll to bottom
-						// without scrolling through previous comments.
-						// Or maybe the user already read some later comment
-						// in another tab.
-						if (mode === 'thread' && !isCommentRead(boardId, threadId, commentId)) {
-							// Sets the latest read comment id.
-							UserData.addLatestReadComments(boardId, threadId, {
-								id: commentId,
-								i: commentIndex,
-								// createdAt: commentCreatedAt,
-								// updatedAt: commentUpdatedAt,
-								threadUpdatedAt: threadUpdatedAt
-							})
-							// Update tracked threads list new comments counters in Sidebar.
-							if (UserData.getTrackedThreads(boardId, threadId)) {
-								onUserDataChange(UserData.prefix + 'latestReadComments', dispatch)
-							}
-						}
-						// The same extra `!isThreadSeen()` condition is added for threads here,
-						// so that the "latest seen thread id" is not overwritten if a later
-						// thread has already been "seen" somehow.
-						if (mode === 'board' && !isThreadSeen(boardId, threadId)) {
-							// Sets the latest seen thread id.
-							UserData.addLatestSeenThreads(boardId, threadId)
-						}
-						// No longer track the visibility of this comment.
-						observer.unobserve(element)
-					}
-				}
-			}
-			// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
-			// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-			// https://caniuse.com/#search=IntersectionObserver
-			CommentReadObserver = new IntersectionObserver(onCommentRead, {
-				// top, right, bottom, left.
-				// `1px` compensates the height of the "invisible line".
-				rootMargin: '0px 0px 1px 0px'
-			})
-		}
-		// Sometimes `node.current` is `undefined`
-		// in the returned function for some reason.
-		const element = node.current
-		CommentReadObserver.observe(element)
-		return () => {
-			CommentReadObserver.unobserve(element)
+		if (isActive) {
+			return unreadCommentWatcher.watch(node.current)
 		}
 	}, [])
 	if (!isActive) {
@@ -93,47 +44,37 @@ export default function CommentReadStatusWatcher({
 	}
 	// data-comment-created-at={commentCreatedAt.getTime()}
 	// data-comment-updated-at={commentUpdatedAt.getTime()}
+	// data-thread-updated-at={threadUpdatedAt && threadUpdatedAt.getTime()}
 	return (
 		<div
 			ref={node}
-			style={INVISIBLE_LINE_STYLE}
 			data-mode={mode}
-			data-board-id={boardId}
+			data-channel-id={channelId}
 			data-thread-id={threadId}
 			data-comment-id={commentId}
-			data-comment-index={commentIndex}
-			data-thread-updated-at={threadUpdatedAt && threadUpdatedAt.getTime()}/>
+			data-comment-index={commentIndex}/>
 	)
 }
 
 CommentReadStatusWatcher.propTypes = {
-	mode: PropTypes.oneOf(['board', 'thread']).isRequired,
-	boardId: PropTypes.string.isRequired,
-	threadId: PropTypes.number.isRequired,
-	commentId: PropTypes.number.isRequired,
+	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
+	channelId: channelId.isRequired,
+	threadId: threadId.isRequired,
+	commentId: commentId.isRequired,
 	commentIndex: PropTypes.number.isRequired,
 	// commentCreatedAt: PropTypes.instanceof(Date).isRequired,
 	// commentUpdatedAt: PropTypes.instanceof(Date),
-	threadUpdatedAt: PropTypes.instanceof(Date)
+	// threadUpdatedAt: PropTypes.instanceof(Date),
+	unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired
 }
 
-const INVISIBLE_LINE_STYLE = {
-	height: '1px',
-	// Used to be `marginBottom: -1px` but that returned
-	// incorrect item spacing of `-1px` in `VirtualScroller`.
-	marginTop: '-1px'
-}
-
-let CommentReadObserver
-
-function isCommentRead(boardId, threadId, commentId) {
-	const latestReadCommentInfo = UserData.getLatestReadComments(boardId, threadId)
-	if (latestReadCommentInfo) {
-		return latestReadCommentInfo.id >= commentId
-	}
-}
-
-function isThreadSeen(boardId, threadId) {
-	const latestSeenThreadId = UserData.getLatestSeenThreads(boardId)
-	return latestSeenThreadId && latestSeenThreadId >= threadId
-}
+// // `<CommentReadStatusWatcher/>` is implemented as an empty element
+// // of `0px` height. `IntersectionObserver` works with this approach,
+// // but a bit differently in different browsers: in Chrome, it would
+// // behave as if the empty element was `1px` in height, and passing
+// // `rootMargin: "0px 0px 1px 0px"` would remove that inconsistency
+// // by contracting the element's "hit box" by `1px` on the bottom.
+// // (margin values order: top, right, bottom, left).
+// // At the same time, in Firefox it works correctly, without any
+// // `rootMargin`.
+// export const ROOT_AREA_EXPANSION = '0px 0px 0px 0px'

@@ -1,24 +1,26 @@
 import { ReduxModule } from 'react-pages'
 
-import { hideAnnouncement as _hideAnnouncement } from '../utility/announcement'
+import { getAnnouncement } from '../utility/announcement'
 
 const redux = new ReduxModule()
 
-export const showAnnouncement = redux.simpleAction(
+export const setAnnouncement = redux.simpleAction(
 	(state, announcement) => ({
 		...state,
 		announcement
 	})
 )
 
-export const hideAnnouncement = redux.simpleAction(
-	(state) => {
-		_hideAnnouncement(state.announcement)
-		return {
-			...state,
-			announcement: undefined
+export const markAnnouncementAsRead = redux.simpleAction(
+	(state, announcement) => ({
+		...state,
+		announcement: {
+			...announcement,
+			read: true
 		}
-	}
+	})
 )
 
-export default redux.reducer()
+export default redux.reducer({
+	announcement: getAnnouncement()
+})

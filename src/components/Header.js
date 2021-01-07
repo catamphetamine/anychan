@@ -5,63 +5,65 @@ import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import ChanIcon from './ChanIcon'
-import ChanLogo from './ChanLogo'
+import ProviderIcon from './ProviderIcon'
+import ProviderLogo from './ProviderLogo'
 import MainMenu from './MainMenu'
 
-import getMessages from '../messages'
+import ThreadTitle from './ThreadTitle'
+
 import {
-	isBoardLocation,
+	isChannelLocation,
 	isThreadLocation
 } from '../utility/routes'
 import getUrl from '../utility/getUrl'
-import { getChan, getChanId } from '../chan'
+import { getProvider, getProviderId } from '../provider'
+import getMessages from '../messages'
 
 import './Header.css'
 
 function Header({}, ref) {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const board = useSelector(({ chan }) => chan.board)
-	const thread = useSelector(({ chan }) => chan.thread)
+	const channel = useSelector(({ data }) => data.channel)
+	const thread = useSelector(({ data }) => data.thread)
 	const route = useSelector(({ found }) => found.resolvedMatch)
 
-	const isBoardPage = (isBoardLocation(route) || isThreadLocation(route)) && board
+	const isChannelPage = (isChannelLocation(route) || isThreadLocation(route)) && channel
 	const isThreadPage = isThreadLocation(route) && thread
 
-	const title = getChan().title
+	const title = getProvider().title
 
 	return (
 		<nav ref={ref} className="Header rrui__fixed-full-width">
 			<Link
 				to="/"
-				title={getChan().title}
+				title={getProvider().title}
 				className="Header-logoLink">
-				{['lainchan', 'arisuchan'].includes(getChanId()) &&
-					<ChanLogo className="Header-logo"/>
+				{['lainchan', 'arisuchan'].includes(getProviderId()) &&
+					<ProviderLogo className="Header-logo"/>
 				}
-				{!['lainchan', 'arisuchan'].includes(getChanId()) &&
-					<ChanIcon className="Header-logo"/>
+				{!['lainchan', 'arisuchan'].includes(getProviderId()) &&
+					<ProviderIcon className="Header-logo"/>
 				}
 			</Link>
 
-			{!isBoardPage && !isThreadPage &&
+			{!isChannelPage && !isThreadPage &&
 				<Link
 					to="/"
 					className="Header-title Header-title--primary Header-link--nonColored">
 					{title}
 				</Link>
 			}
-			{isBoardPage && isThreadLocation(route) &&
+			{isChannelPage && isThreadLocation(route) &&
 				<Link
 					instantBack
-					to={getUrl(board)}
+					to={getUrl(channel.id)}
 					className="Header-title Header-title--primary Header-link--nonColored">
-					{board.title}
+					{channel.title}
 				</Link>
 			}
-			{isBoardPage && !isThreadLocation(route) &&
+			{isChannelPage && !isThreadLocation(route) &&
 				<div className="Header-title Header-title--primary">
-					{board.title}
+					{channel.title}
 				</div>
 			}
 
@@ -72,7 +74,9 @@ function Header({}, ref) {
 				})}/>
 
 			<div className="Header-title Header-title--secondary">
-				{isThreadPage && (thread.titleCensored || thread.title)}
+				{isThreadPage &&
+					<ThreadTitle thread={thread}/>
+				}
 			</div>
 
 			<HeaderSeparator

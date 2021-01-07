@@ -43,13 +43,11 @@ export default function Slideshow_() {
 			onClose={onCloseSlideshow}
 			messages={messages}
 			closeOnSlideClick={slideshowMode !== 'flow'}
-			overlayOpacity={0}
-			overlayOpacityFlowMode={0.85}
-			overlayOpacityWhenPagingThrough={0.65}
-			overlayOpacitySmallScreen={0.1}
-			animateOpenCloseSmallScreen
-			animateOpenCloseScaleSmallScreen
-			animateOpenCloseOnPanOut
+			overlayOpacity={0.65}
+			overlayOpacityInFlowMode={0.85}
+			overlayOpacityOnFloatOpenCloseAnimation={0.1}
+			animateOpenCloseOnSmallScreen="float"
+			openPictureInHoverMode
 			smallScreenMaxWidth={500}>
 			{slideshowSlides}
 		</Slideshow>

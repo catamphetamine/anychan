@@ -1,4 +1,4 @@
-import { render } from 'react-pages'
+import { render } from 'react-pages/client'
 
 import settings from './react-pages'
 import configuration from './configuration'
@@ -19,9 +19,9 @@ export default async function() {
 			dispatch(hideSidebar())
 		},
 		onNavigate(url, location, { dispatch, getState }) {
-			// `window._previousRoute` is used in `<SideNavMenuButton/>`.
-			// `window._previousRoute` could alternatively be stored somewhere in Redux state.
-			window._previousRoute = currentRoute
+			// `window._previouslyVisitedRoute` is used in `<SideNavMenuButton/>`.
+			// `window._previouslyVisitedRoute` could alternatively be stored somewhere in Redux state.
+			window._previouslyVisitedRoute = currentRoute
 			currentRoute = getState().found.match
 			// Close slideshow on "Back"/"Forward" navigation.
 			dispatch(closeSlideshow())

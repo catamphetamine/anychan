@@ -14,14 +14,17 @@ import './CommentFooterDate.css'
 export default function CommentFooterDate({
 	postLinkProps,
 	hasAnythingBeforeTime,
+	hasAnythingAfterTime,
 	...rest
 }) {
 	const _wrapperProps = useMemo(() => ({
 		postLinkProps,
-		hasAnythingBeforeTime
+		hasAnythingBeforeTime,
+		hasAnythingAfterTime
 	}), [
 		postLinkProps,
-		hasAnythingBeforeTime
+		hasAnythingBeforeTime,
+		hasAnythingAfterTime
 	])
 	return (
 		<ReactTimeAgo
@@ -35,12 +38,14 @@ export default function CommentFooterDate({
 
 CommentFooterDate.propTypes = {
 	postLinkProps: PropTypes.object.isRequired,
-	hasAnythingBeforeTime: PropTypes.bool.isRequired
+	hasAnythingBeforeTime: PropTypes.bool.isRequired,
+	hasAnythingAfterTime: PropTypes.bool.isRequired
 }
 
 function TooltipContainer({
 	postLinkProps,
 	hasAnythingBeforeTime,
+	hasAnythingAfterTime,
 	verboseDate,
 	children,
 	...rest
@@ -65,6 +70,9 @@ function TooltipContainer({
 					{children}
 				</PostSelfLink>
 			</Tooltip>
+			{hasAnythingAfterTime &&
+				<CommentFooterSeparator/>
+			}
 		</React.Fragment>
 	)
 }
@@ -72,6 +80,7 @@ function TooltipContainer({
 TooltipContainer.propTypes = {
 	postLinkProps: PropTypes.object.isRequired,
 	hasAnythingBeforeTime: PropTypes.bool.isRequired,
+	hasAnythingAfterTime: PropTypes.bool.isRequired,
 	verboseDate: PropTypes.string,
 	children: PropTypes.node.isRequired
 }

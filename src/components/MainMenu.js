@@ -33,8 +33,8 @@ import MoonIconFill from 'webapp-frontend/assets/images/icons/menu/moon-fill.svg
 // import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
 // import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
 
-// import BoardIconOutline from '../../assets/images/icons/menu/board-outline.svg'
-// import BoardIconFill from '../../assets/images/icons/menu/board-fill.svg'
+// import ChannelIconOutline from '../../assets/images/icons/menu/channel-outline.svg'
+// import ChannelIconFill from '../../assets/images/icons/menu/channel-fill.svg'
 
 import MenuIconOutline from 'webapp-frontend/assets/images/icons/menu/menu-outline.svg'
 import MenuIconFill from 'webapp-frontend/assets/images/icons/menu/menu-fill.svg'
@@ -52,7 +52,7 @@ export default function MainMenu({
 
 	function getMenuItems() {
 		const messages = getMessages(locale)
-		const areBoardsShown = sidebarMode === 'boards' && (footer ? isSidebarShown : true)
+		const areChannelsShown = sidebarMode === 'channels' && (footer ? isSidebarShown : true)
 		const areTrackedThreadsShown = sidebarMode === 'tracked-threads' && (footer ? isSidebarShown : true)
 		const areNotificationsShown = sidebarMode === 'notifications' && (footer ? isSidebarShown : true)
 		const settingsItem = getSettingsMenuItem()
@@ -71,21 +71,21 @@ export default function MainMenu({
 			icon: MenuIconOutline,
 			iconActive: MenuIconFill
 		}
-		// const boardsItem = {
+		// const channelsItem = {
 		// 	title: messages.boards.title,
 		// 	onClick() {
 		// 		if (footer) {
-		// 			if (areBoardsShown) {
+		// 			if (areChannelsShown) {
 		// 				dispatch(showSidebar(false))
 		// 			} else {
 		// 				dispatch(showSidebar(true))
-		// 				dispatch(setSidebarMode('boards'))
+		// 				dispatch(setSidebarMode('channels'))
 		// 			}
 		// 		}
 		// 	},
-		// 	isSelected: footer ? areBoardsShown : undefined,
-		// 	icon: BoardIconOutline,
-		// 	iconActive: BoardIconFill,
+		// 	isSelected: footer ? areChannelsShown : undefined,
+		// 	icon: ChannelIconOutline,
+		// 	iconActive: ChannelIconFill,
 		// 	size: 'xxl'
 		// }
 		// const trackedThreadsItem = {
@@ -99,7 +99,7 @@ export default function MainMenu({
 		// 				dispatch(setSidebarMode('tracked-threads'))
 		// 			}
 		// 		} else {
-		// 			dispatch(setSidebarMode(areTrackedThreadsShown ? 'boards' : 'tracked-threads'))
+		// 			dispatch(setSidebarMode(areTrackedThreadsShown ? 'channels' : 'tracked-threads'))
 		// 		}
 		// 	},
 		// 	isSelected: areTrackedThreadsShown,
@@ -117,7 +117,7 @@ export default function MainMenu({
 		// 				dispatch(setSidebarMode('notifications'))
 		// 			}
 		// 		} else {
-		// 			dispatch(setSidebarMode(areNotificationsShown ? 'boards' : 'notifications'))
+		// 			dispatch(setSidebarMode(areNotificationsShown ? 'channels' : 'notifications'))
 		// 		}
 		// 	},
 		// 	isSelected: areNotificationsShown,
@@ -130,7 +130,7 @@ export default function MainMenu({
 				darkModeItem,
 				menuItem,
 				settingsItem
-				// boardsItem,
+				// channelsItem,
 				// trackedThreadsItem,
 				// notificationsItem
 			]
@@ -140,7 +140,7 @@ export default function MainMenu({
 			darkModeItem,
 			// trackedThreadsItem,
 			// notificationsItem,
-			// boardsItem,
+			// channelsItem,
 			settingsItem
 		]
 	}

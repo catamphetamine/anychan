@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import { useCanGoBackFromThreadToBoard } from '../utility/routes'
+import useCanGoBackFromThreadToChannel from './useCanGoBackFromThreadToChannel'
 import getMessages from '../messages'
 
 import { Button } from 'webapp-frontend/src/components/Button'
@@ -14,7 +14,7 @@ import './BackButton.css'
 
 export default function BackButton() {
 	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const [canGoBack, goBack] = useCanGoBackFromThreadToBoard()
+	const [canGoBack, goBack] = useCanGoBackFromThreadToChannel()
 	// Not rendering the button on some pages resulted in different layout
 	// on different pages, that wouldn't be optimal in terms of UX.
 	// if (!canGoBack) {

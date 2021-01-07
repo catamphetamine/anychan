@@ -1,0 +1,86 @@
+.EditFavoriteChannels-remove {
+	position: absolute;
+	right: 0;
+	/* `overflow: hidden` doesn't work on `<td/>`s
+	   so using `background-color` for the "Remove" button
+	   so that it's not obstructed by a long channel title. */
+	background-color: var(--Sidebar-backgroundColor);
+}
+
+.EditFavoriteChannels-list {
+	width: 100%;
+	/* `user-select: none` is for drag'n'drop. */
+	user-select: none;
+	cursor: grab;
+}
+
+.EditFavoriteChannels-channel {
+	display: flex;
+	height: var(--List-lineHeight);
+	line-height: var(--List-lineHeight);
+	font-size: var(--List-fontSize);
+	.ChannelUrl {
+		margin-left: var(--SidebarSection-paddingLeft);
+		margin-right: var(--unit);
+		color: var(--Channels-color--active);
+	}
+	.EditFavoriteChannels-channelTitle {
+		padding-right: calc(var(--unit) * 2.5);
+	}
+	.ChannelUrl,
+	.EditFavoriteChannels-channelTitle {
+		height: var(--List-lineHeight);
+		line-height: var(--List-lineHeight);
+	}
+}
+
+.EditFavoriteChannels-channel--dragged {
+	background-color: var(--Sidebar-highlightColor-200);
+	cursor: grabbing;
+}
+
+.EditFavoriteChannels-channel--dragging {
+	.EditFavoriteChannels-remove {
+		display: none;
+	}
+}
+
+.EditFavoriteChannels-channel {
+	/* `position: relative` is for the "Remove" button. */
+	position: relative;
+}
+
+.EditFavoriteChannels-search {
+	--rrui-input-field-background-color: var(--Sidebar-highlightColor-100);
+	--rrui-input-field-background-color-focus: var(--rrui-input-field-background-color);
+	--rrui-input-field-background-color-error: var(--rrui-input-field-background-color);
+	--rrui-input-field-background-color-error-focus: var(--rrui-input-field-background-color-focus);
+	--rrui-input-field-border-bottom-width: 1px;
+	--rrui-input-field-border-width: 1px;
+	--rrui-input-field-border-color: var(--Sidebar-color-200);
+	--rrui-input-field-border-color-focus: var(--Sidebar-baseColor-200);
+	--rrui-input-field-border-color-error: var(--rrui-input-field-border-color);
+	--rrui-input-field-border-color-error-focus: var(--rrui-input-field-border-color-focus);
+	--rrui-input-field-icon-margin-left: calc(var(--unit) * 0.75);
+	--rrui-input-field-icon-margin-right: var(--rrui-input-field-icon-margin-left);
+	--rrui-options-list-negative-side-margin: 0px;
+	padding-left: var(--SidebarSection-paddingLeft);
+	padding-right: var(--SidebarSection-paddingLeft);
+	margin-bottom: var(--unit);
+}
+
+.EditFavoriteChannels-searchOption {
+	display: flex;
+	line-height: var(--rrui-list-item-height);
+	overflow: hidden;
+	.ChannelUrl {
+		margin-right: var(--unit);
+	}
+}
+
+.EditFavoriteChannels-search {
+	.rrui__list__item:not(:active) {
+		--ChannelUrl-color: var(--Sidebar-baseColor-700);
+		--ChannelUrl-slash-color: var(--Sidebar-color-200);
+	}
+}

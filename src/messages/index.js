@@ -18,6 +18,12 @@ const messages = new Messages({
 	ru: mergeMessages(ruBase, ru)
 }, 'en')
 
+if (typeof window !== 'undefined') {
+	// App hosters will be able to customize labels via the global LABELS variable.
+	// Example: LABELS.ru.settings.theme.title = "Тема"
+	window.LABELS = messages.messages
+}
+
 export const getLanguageNames = messages.getLanguageNames
 export const defaultLanguage = messages.defaultLanguage
 export default messages.getMessages
