@@ -2,18 +2,30 @@ import { getPostThumbnailSize } from 'social-components/commonjs/utility/post/ge
 
 const CSS_VARIABLE_NAME = '--PostThumbnail-maxWidth'
 
-export function updateAttachmentThumbnailMaxSize(posts) {
+/**
+ * Updates the current `attachmentThumbnailMaxWidth` from the new comments.
+ * @param  {Post[]} posts
+ * @param  {number} options.firstNewCommentIndex
+ * @param  {number} [options.attachmentThumbnailMaxWidth]
+ * @return {number} [attachmentThumbnailMaxWidth]
+ */
+export function updateAttachmentThumbnailMaxWidth(posts, {
+	firstNewCommentIndex = 0,
+	attachmentThumbnailMaxWidth
+} = {}) {
 	if (typeof window !== 'undefined') {
 		// Get attachment thumbnail size for setting
 		// `--PostThumbnail-maxWidth` CSS variable.
 		// There can be very small pictures attached
 		// so going through all attachments in all posts is required.
-		let attachmentThumbnailMaxWidth
-		for (const post of posts) {
+		let i = firstNewCommentIndex
+		while (i < posts.length) {
+			const post = posts[i]
 			attachmentThumbnailMaxWidth = getAttachmentThumbnailMaxWidth(
 				post,
 				attachmentThumbnailMaxWidth
 			)
+			i++
 		}
 		// Set `--PostThumbnail-maxWidth` CSS variable.
 		if (attachmentThumbnailMaxWidth) {
@@ -24,22 +36,23 @@ export function updateAttachmentThumbnailMaxSize(posts) {
 				// Sets it on `<body/>` because there's a default value set on `<html/>`.
 				document.body.style.setProperty(CSS_VARIABLE_NAME, attachmentThumbnailMaxWidth + 'px')
 			}
+			return attachmentThumbnailMaxWidth
 		}
 	}
 }
 
-function getAttachmentThumbnailMaxWidth(post, maxSizeSoFar) {
+function getAttachmentThumbnailMaxWidth(post, maxWidthSoFar) {
 	function update(size) {
-		if (maxSizeSoFar) {
-			// maxSizeSoFar = Math.max(
-			// 	maxSizeSoFar,
+		if (maxWidthSoFar) {
+			// maxWidthSoFar = Math.max(
+			// 	maxWidthSoFar,
 			// 	size.width,
 			// 	size.height
 			// )
-			maxSizeSoFar = Math.max(maxSizeSoFar, size.width)
+			maxWidthSoFar = Math.max(maxWidthSoFar, size.width)
 		} else {
-			maxSizeSoFar = size.width
-			// maxSizeSoFar = Math.max(
+			maxWidthSoFar = size.width
+			// maxWidthSoFar = Math.max(
 			// 	size.width,
 			// 	size.height
 			// )
@@ -53,5 +66,5 @@ function getAttachmentThumbnailMaxWidth(post, maxSizeSoFar) {
 			}
 		}
 	}
-	return maxSizeSoFar
+	return maxWidthSoFar
 }

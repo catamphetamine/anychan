@@ -8,280 +8,178 @@ const storage = new MemoryStorage({
 	emulateSerialize: true
 })
 const userData = new UserData(storage, {
-	prefix: ''
+	prefix: '',
+	migrate: false
 })
 
 describe('UserData', () => {
 	it('should add/remove/get own comments', () => {
 		storage.clear()
-		userData.addHiddenComments('a', 123, 124)
+		userData.setLatestReadComment('a', 123, { id: 124 })
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124
-						]
+						'123': {
+							id: 124
+						}
 					}
 				}
 			}
 		)
-		userData.addHiddenComments('a', 123, 125)
+		userData.setLatestReadComment('a', 123, { id: 125 })
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124,
-							125
-						]
+						'123': {
+							id: 125
+						}
 					}
 				}
 			}
 		)
-		userData.addHiddenComments('a', 456, 456)
+		userData.setLatestReadComment('a', 456, { id: 456 })
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124,
-							125
-						],
-						'456': [
-							456
-						]
+						'123': {
+							id: 125
+						},
+						'456': {
+							id: 456
+						}
 					}
 				}
 			}
 		)
-		userData.addHiddenComments('b', 789, 790)
+		userData.setLatestReadComment('b', 789, { id: 790 })
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124,
-							125
-						],
-						'456': [
-							456
-						]
+						'123': {
+							id: 125
+						},
+						'456': {
+							id: 456
+						}
 					},
 					b: {
-						'789': [
-							790
-						]
+						'789': {
+							id: 790
+						}
 					}
 				}
 			}
 		)
 		expectToEqual(
-			userData.getHiddenComments(),
-			{
-				a: {
-					'123': [
-						124,
-						125
-					],
-					'456': [
-						456
-					]
-				},
-				b: {
-					'789': [
-						790
-					]
-				}
-			}
+			userData.getLatestReadComment('b', 789),
+			{ id: 790 }
 		)
 		expectToEqual(
-			userData.getHiddenComments('b', 789, 790),
-			true
+			userData.getLatestReadComment('b', 790),
+			undefined
 		)
-		expectToEqual(
-			userData.getHiddenComments('b', 789, 791),
-			false
-		)
-		expectToEqual(
-			userData.getHiddenComments('b', 789),
-			[790]
-		)
-		expectToEqual(
-			userData.getHiddenComments('a'),
-			{
-				'123': [
-					124,
-					125
-				],
-				'456': [
-					456
-				]
-			}
-		)
-		expectToEqual(
-			userData.getHiddenComments('c'),
-			{}
-		)
-		expectToEqual(
-			userData.getHiddenComments('c', 111),
-			[]
-		)
-		expectToEqual(
-			userData.getHiddenComments('c', 111, 112),
-			false
-		)
-		userData.removeHiddenComments('b')
+		userData.removeLatestReadComment('b')
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124,
-							125
-						],
-						'456': [
-							456
-						]
+						'123': {
+							id: 125
+						},
+						'456': {
+							id: 456
+						}
 					}
 				}
 			}
 		)
-		userData.removeHiddenComments('a', 456)
+		userData.removeLatestReadComment('a', 456)
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							124,
-							125
-						]
+						'123': {
+							id: 125
+						}
 					}
 				}
 			}
 		)
-		userData.removeHiddenComments('a', 123, 124)
-		expectToEqual(
-			storage.data,
-			{
-				hiddenComments: {
-					a: {
-						'123': [
-							125
-						]
-					}
-				}
-			}
-		)
-		userData.removeHiddenComments('a', 123)
+		userData.removeLatestReadComment('a', 123)
 		expectToEqual(
 			storage.data,
 			{}
 		)
 	})
 
-	it('should merge own comments', () => {
+	it('should merge', () => {
 		storage.data = {
-			hiddenComments: {
+			latestReadComments: {
 				a: {
-					'123': [
-						124
-					]
+					'123': {
+						id: 124
+					}
+				},
+				c: {
+					'888': {
+						id: 889
+					}
 				}
 			}
 		}
 		userData.merge({
-			hiddenComments: {
+			latestReadComments: {
 				a: {
-					'123': [
-						123,
-						125
-					],
-					'456': [
-						457
-					]
+					'123': {
+						id: 125
+					},
+					'456': {
+						id: 457
+					}
 				},
 				b: {
-					'789': [
-						789
-					]
+					'789': {
+						id: 789
+					}
+				},
+				c: {
+					'888': {
+						id: 888
+					}
 				}
 			}
 		})
 		expectToEqual(
 			storage.data,
 			{
-				hiddenComments: {
+				latestReadComments: {
 					a: {
-						'123': [
-							123,
-							124,
-							125
-						],
-						'456': [
-							457
-						]
+						'123': {
+							id: 125
+						},
+						'456': {
+							id: 457
+						}
 					},
 					b: {
-						'789': [
-							789
-						]
-					}
-				}
-			}
-		)
-	})
-
-	it('should merge own comments (source not exists)', () => {
-		storage.data = {}
-		userData.merge({
-			hiddenComments: {
-				a: {
-					'123': [
-						124
-					]
-				}
-			}
-		})
-		expectToEqual(
-			storage.data,
-			{
-				hiddenComments: {
-					a: {
-						'123': [
-							124
-						]
-					}
-				}
-			}
-		)
-	})
-
-	it('should merge own comments (destination not exists)', () => {
-		storage.data = {
-			hiddenComments: {
-				a: {
-					'123': [
-						124
-					]
-				}
-			}
-		}
-		userData.merge({})
-		expectToEqual(
-			storage.data,
-			{
-				hiddenComments: {
-					a: {
-						'123': [
-							124
-						]
+						'789': {
+							id: 789
+						}
+					},
+					c: {
+						'888': {
+							id: 889
+						}
 					}
 				}
 			}

@@ -14,7 +14,7 @@ const userData = new UserData(storage, {
 describe('UserData', () => {
 	it('should add/remove/get comment votes', () => {
 		storage.clear()
-		userData.addCommentVotes('a', 123, 124, 1)
+		userData.setCommentVote('a', 123, 124, 1)
 		expectToEqual(
 			storage.data,
 			{
@@ -27,7 +27,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addCommentVotes('a', 123, 125, -1)
+		userData.setCommentVote('a', 123, 125, -1)
 		expectToEqual(
 			storage.data,
 			{
@@ -41,7 +41,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addCommentVotes('a', 456, 456, 1)
+		userData.setCommentVote('a', 456, 456, 1)
 		expectToEqual(
 			storage.data,
 			{
@@ -58,7 +58,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addCommentVotes('b', 789, 790, -1)
+		userData.setCommentVote('b', 789, 790, -1)
 		expectToEqual(
 			storage.data,
 			{
@@ -81,7 +81,7 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getCommentVotes(),
+			userData.getCommentVote(),
 			{
 				a: {
 					'123': {
@@ -100,21 +100,21 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getCommentVotes('b', 789, 790),
+			userData.getCommentVote('b', 789, 790),
 			-1
 		)
 		expectToEqual(
-			userData.getCommentVotes('b', 789, 791),
+			userData.getCommentVote('b', 789, 791),
 			undefined
 		)
 		expectToEqual(
-			userData.getCommentVotes('b', 789),
+			userData.getCommentVote('b', 789),
 			{
 				'790': -1
 			}
 		)
 		expectToEqual(
-			userData.getCommentVotes('a'),
+			userData.getCommentVote('a'),
 			{
 				'123': {
 					'124': 1,
@@ -126,18 +126,18 @@ describe('UserData', () => {
 			}
 		)
 		expectToEqual(
-			userData.getCommentVotes('c'),
+			userData.getCommentVote('c'),
 			{}
 		)
 		expectToEqual(
-			userData.getCommentVotes('c', 111),
+			userData.getCommentVote('c', 111),
 			{}
 		)
 		expectToEqual(
-			userData.getCommentVotes('c', 111, 112),
+			userData.getCommentVote('c', 111, 112),
 			undefined
 		)
-		userData.removeCommentVotes('b')
+		userData.removeCommentVote('b')
 		expectToEqual(
 			storage.data,
 			{
@@ -154,7 +154,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeCommentVotes('a', 456)
+		userData.removeCommentVote('a', 456)
 		expectToEqual(
 			storage.data,
 			{
@@ -168,7 +168,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.removeCommentVotes('a', 123)
+		userData.removeCommentVote('a', 123)
 		expectToEqual(
 			storage.data,
 			{}

@@ -1,8 +1,23 @@
+image: node:latest
+
 # A job called "release".
 release:
   # Run at "build" stage.
   stage: build
   script:
+    # Download `webapp-frontend` source codes.
+    # Using a "git" url results in an SSH error:
+    # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/3679
+    # - git clone git@gitlab.com:catamphetamine/webapp-frontend.git
+    - git clone https://gitlab.com/catamphetamine/webapp-frontend.git
+    # Correct the paths to `webapp-frontend`.
+    - find ./src/styles/ -type f -exec sed --in-place 's+../webapp-frontend+webapp-frontend+g' {} \;
+    - sed --in-place 's+../webapp-frontend+webapp-frontend+' webpack/webpack.config.js
+    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' babel.config.js
+    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' postcss.config.js
+    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' webapp-frontend/babel.config.js
+    # Install the dependencies.
+    - npm install
     # Build the project into the `/build` folder.
     - npm run build
     # Zip the contents of the `/build` folder into a `*.zip` file.

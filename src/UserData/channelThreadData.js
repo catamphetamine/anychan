@@ -1,4 +1,6 @@
-export function addToChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
+import isEqual from 'lodash/isEqual'
+
+export function setChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
 	const channelIdThreadIdData = storage.get(key, {})
 	if (!channelIdThreadIdData[channelId]) {
 		channelIdThreadIdData[channelId] = {}
@@ -8,7 +10,7 @@ export function addToChannelIdThreadIdData(storage, key, collection, channelId, 
 	storage.set(key, channelIdThreadIdData)
 }
 
-export function removeFromChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
+export function removeChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
 	const channelIdThreadIdData = storage.get(key, {})
 	if (threadId) {
 		const threadIdData = channelIdThreadIdData[channelId]
@@ -35,7 +37,7 @@ export function removeFromChannelIdThreadIdData(storage, key, collection, channe
 	}
 }
 
-export function getFromChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
+export function getChannelIdThreadIdData(storage, key, collection, channelId, threadId, data) {
 	const channelIdThreadIdData = storage.get(key, {})
 	if (channelId) {
 		const threadIdData = channelIdThreadIdData[channelId] || {}
@@ -44,7 +46,7 @@ export function getFromChannelIdThreadIdData(storage, key, collection, channelId
 			let _data = threadIdData[threadId]
 			_data = decode(_data, collection, 'thread')
 			if (data) {
-				return _data === data
+				return isEqual(_data, data)
 			}
 			return _data
 		}
@@ -53,7 +55,7 @@ export function getFromChannelIdThreadIdData(storage, key, collection, channelId
 	return decode(channelIdThreadIdData, collection, 'root')
 }
 
-export function mergeWithChannelIdThreadIdData(storage, key, collection, data) {
+export function mergeChannelIdThreadIdData(storage, key, collection, data) {
 	const channelIdThreadIdData = storage.get(key, {})
 	for (const channelId of Object.keys(data)) {
 		const threadIdData = channelIdThreadIdData[channelId]
@@ -75,6 +77,11 @@ export function mergeWithChannelIdThreadIdData(storage, key, collection, data) {
 				// should be performed so just skip those cases.
 				if (typeof newValue === 'number') {
 					if (newValue > threadIdData[threadId]) {
+						threadIdData[threadId] = newValue
+					}
+					continue
+				} else if (collection.compare) {
+					if (collection.compare(threadIdData[threadId], newValue) < 0) {
 						threadIdData[threadId] = newValue
 					}
 					continue

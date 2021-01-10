@@ -9,10 +9,9 @@ import './CommentsList.css'
 
 function CommentsList({
 	mode,
-	initialCustomState,
-	restoredState,
+	initialState,
 	setState,
-	restoredScrollPosition,
+	initialScrollPosition,
 	setScrollPosition,
 	getCommentById,
 	stateRef,
@@ -38,10 +37,14 @@ function CommentsList({
 	useEffect(() => {
 		return () => {
 			if (isInstantBackAbleNavigation()) {
-				// Save `virtual-scroller` state in Redux state.
-				dispatch(setState(virtualScrollerState.current))
-				// Save scroll position in Redux state.
-				dispatch(setScrollPosition(scrollPosition.current))
+				if (setState) {
+					// Save `virtual-scroller` state in Redux state.
+					dispatch(setState(virtualScrollerState.current))
+				}
+				if (setScrollPosition) {
+					// Save scroll position in Redux state.
+					dispatch(setScrollPosition(scrollPosition.current))
+				}
 			}
 		}
 	}, [])
@@ -49,11 +52,11 @@ function CommentsList({
 		<VirtualScroller
 			{...rest}
 			ref={ref}
+			bypass={typeof window === 'undefined'}
 			className={classNames(className, 'CommentsList')}
-			initialCustomState={initialCustomState}
-			initialState={restoredState}
+			initialState={initialState}
 			onStateChange={onVirtualScrollerStateChange}
-			initialScrollPosition={restoredScrollPosition}
+			initialScrollPosition={initialScrollPosition}
 			onScrollPositionChange={onScrollPositionChange}
 			onItemInitialRender={onItemInitialRender}
 			getItemId={getCommentId}
@@ -65,13 +68,12 @@ CommentsList = React.forwardRef(CommentsList)
 
 CommentsList.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
-	initialCustomState: PropTypes.object,
-	restoredState: PropTypes.shape({
+	initialState: PropTypes.shape({
 		scrollY: PropTypes.number.isRequired
 	}),
 	setState: PropTypes.func,
-	restoredScrollPosition: PropTypes.number,
-	setScrollPosition: PropTypes.func.isRequired,
+	initialScrollPosition: PropTypes.number,
+	setScrollPosition: PropTypes.func,
 	getCommentById: PropTypes.func,
 	stateRef: PropTypes.object,
 	className: PropTypes.string

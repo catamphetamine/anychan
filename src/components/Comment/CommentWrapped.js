@@ -41,6 +41,7 @@ export default function CommentWrapped({
 	locale,
 	parentComment,
 	showReplyAction,
+	threadIsRolling,
 	threadIsLocked,
 	threadExpired,
 	onClick: onClick_,
@@ -240,6 +241,7 @@ export default function CommentWrapped({
 					threadId={threadId}
 					commentId={comment.id}
 					commentIndex={comment.indexForLatestReadCommentDetection}
+					threadIsRolling={threadIsRolling}
 					unreadCommentWatcher={unreadCommentWatcher}/>
 			}
 			{!comment.removed &&
@@ -255,6 +257,7 @@ CommentWrapped.propTypes = {
 	onClick: PropTypes.func,
 	onClickUrl: PropTypes.string,
 	showReplyAction: PropTypes.bool,
+	threadIsRolling: PropTypes.bool,
 	threadIsLocked: PropTypes.bool,
 	threadExpired: PropTypes.bool,
 	comment: commentType.isRequired,
@@ -318,9 +321,9 @@ function isElementApplicableForReplyOnLongPressOrDoubleClick(element) {
 
 function getReplyText({ commentId, threadId, quoteText }) {
 	let text = '>>' + commentId
-	if (commentId === threadId) {
-		text += ' (OP)'
-	}
+	// if (commentId === threadId) {
+	// 	text += ' (OP)'
+	// }
 	text += '\n'
 	if (quoteText) {
 		text += '>' + quoteText

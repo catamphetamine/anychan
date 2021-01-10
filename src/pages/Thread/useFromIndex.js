@@ -1,31 +1,23 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { replacePageUrl } from 'webapp-frontend/src/utility/history'
+import getRequestedCommentIndex from './getRequestedCommentIndex'
 
-import getLatestReadCommentIndex from '../../utility/getLatestReadCommentIndex'
-import findCommentIndexByIdOrClosestPreviousOne from '../../utility/findCommentIndexByIdOrClosestPreviousOne'
+import { setFromIndex } from '../../redux/thread'
 
 export default function useFromIndex({
-	channel,
 	thread,
-	location,
-	howManyCommentsToShowBeforeLatestReadComment,
-	restoredVirtualScrollerState,
-	virtualScrollerState
+	location
 }) {
-	// Always show some of the previous comments
-	// just so that the user is a bit more confident
-	// that they didn't accidentally miss any.
-	const [isInitialFromIndex, setIsInitialFromIndex] = useState(true)
-	// The lastest read comment index should be determined on the initial render,
+	const dispatch = useDispatch()
+	// Create `isInitialFromIndex` state variable.
+	const isInitialFromIndex = useSelector(({ thread }) => thread.isInitialFromIndex)
+	// Get `initialLatestReadCommentIndex`.
+	// `initialLatestReadCommentIndex` should be determined on the initial render,
 	// and then it shouldn't change, so that `isPreviouslyShown()` function
 	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
 	// so that comments don't get re-rendered when it's not needed.
-	const initialLatestReadCommentIndex = useMemo(() => {
-		return restoredVirtualScrollerState
-			? restoredVirtualScrollerState.initialLatestReadCommentIndex
-			: getLatestReadCommentIndex(thread)
-	}, [])
+	const initialLatestReadCommentIndex = useSelector(({ thread }) => thread.initialLatestReadCommentIndex)
 	// The requested comment index should be determined on the initial render,
 	// and then it shouldn't change, so that `isPreviouslyShown()` function
 	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
@@ -33,32 +25,14 @@ export default function useFromIndex({
 	const requestedCommentIndex = useMemo(() => {
 		return getRequestedCommentIndex(thread, location)
 	}, [])
+	// This variable is also copy-pasted in `getInitialFromIndex.js`.
 	const initiallyShowCommentsFromTheLatestReadOne = requestedCommentIndex === undefined && initialLatestReadCommentIndex !== undefined
-	const initialFromIndex = useMemo(() => {
-		return getInitialFromIndex(
-			channel,
-			thread,
-			location,
-			restoredVirtualScrollerState,
-			initialLatestReadCommentIndex,
-			requestedCommentIndex,
-			initiallyShowCommentsFromTheLatestReadOne,
-			howManyCommentsToShowBeforeLatestReadComment
-		)
-	}, [])
-	// `setFromIndex()` shouldn't be called directly.
-	// Instead, it should be called via `onSetFromIndex()`.
-	const [fromIndex, setFromIndex] = useState(initialFromIndex)
+	// Create `fromIndex` state variable.
+	const fromIndex = useSelector(({ thread }) => thread.fromIndex)
 	const onSetFromIndex = useCallback((fromIndex) => {
-		setIsInitialFromIndex(false)
-		setFromIndex(fromIndex)
-		if (virtualScrollerState.current) {
-			virtualScrollerState.current.fromIndex = fromIndex
-		}
+		dispatch(setFromIndex(fromIndex))
 	}, [
-		setFromIndex,
-		setIsInitialFromIndex,
-		virtualScrollerState
+		setFromIndex
 	])
 	// `newFromIndex` and `newFromIndexHasBeenSet` are only used
 	// so that `VirtualScroller`'s `preserveScrollPositionOnPrependItems`
@@ -94,61 +68,8 @@ export default function useFromIndex({
 		setNewFromIndex,
 		setNewFromIndexPreservingScrollPosition,
 		preserveScrollPositionOnPrependItems,
-		initialFromIndex,
 		isInitialFromIndex,
 		initialLatestReadCommentIndex,
 		initiallyShowCommentsFromTheLatestReadOne
 	]
-}
-
-/**
- * Get the index of the requested comment.
- * @param  {object} thread
- * @param  {object} location
- * @return {number} [i]
- */
-function getRequestedCommentIndex(thread, location) {
-	// If specific comment id is specified in URL after "#",
-	// then show comments starting from that comment.
-	if (location.hash) {
-		const commentId = parseInt(location.hash.slice('#'.length))
-		const replaceLocationHash = (newHash = '') => replacePageUrl(location.href.replace(/#.*/, newHash))
-		if (isNaN(commentId)) {
-			replaceLocationHash()
-		} else {
-			const index = findCommentIndexByIdOrClosestPreviousOne(thread, commentId)
-			if (index === undefined) {
-				replaceLocationHash()
-			} else {
-				const showFromCommentId = thread.comments[index].id
-				if (showFromCommentId !== commentId) {
-					replaceLocationHash(showFromCommentId === thread.id ? undefined : '#' + showFromCommentId)
-				}
-				return index
-			}
-		}
-	}
-}
-
-
-function getInitialFromIndex(
-	channel,
-	thread,
-	location,
-	restoredVirtualScrollerState,
-	initialLatestReadCommentIndex,
-	requestedCommentIndex,
-	initiallyShowCommentsFromTheLatestReadOne,
-	howManyCommentsToShowBeforeLatestReadComment
-) {
-	if (restoredVirtualScrollerState) {
-		return restoredVirtualScrollerState.fromIndex
-	}
-	if (requestedCommentIndex !== undefined) {
-		return requestedCommentIndex
-	}
-	if (initiallyShowCommentsFromTheLatestReadOne) {
-		return Math.max(0, initialLatestReadCommentIndex - howManyCommentsToShowBeforeLatestReadComment)
-	}
-	return 0
 }

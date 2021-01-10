@@ -1,0 +1,19 @@
+@import "../../styles/common";
+
+.Sidebar-provider {
+	display: flex;
+	align-items: center;
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	margin-top: calc(3 * var(--unit));
+	padding-left: calc(var(--SidebarMenuItem-icon-width) + var(--SidebarMenuItem-marginRight) + var(--SidebarMenuItem-icon-width));
+
+	@mixin m-plus {
+		display: none;
+	}
+}
+
+.Sidebar-applicationMenu {
+	display: flex;
+	align-items: center;
+}

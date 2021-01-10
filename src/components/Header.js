@@ -15,6 +15,7 @@ import {
 	isChannelLocation,
 	isThreadLocation
 } from '../utility/routes'
+
 import getUrl from '../utility/getUrl'
 import { getProvider, getProviderId } from '../provider'
 import getMessages from '../messages'

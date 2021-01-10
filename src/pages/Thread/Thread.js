@@ -1,24 +1,14 @@
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-	isInstantBackAbleNavigation,
-	wasInstantNavigation,
-	goBack,
-	canGoBackInstantly
-} from 'react-pages'
-
-import { setVirtualScrollerState, setScrollPosition } from '../../redux/thread'
-import { getThread, resetNewAutoUpdateCommentIndexes } from '../../redux/data'
+	setVirtualScrollerState,
+	setScrollPosition
+} from '../../redux/thread'
 
 import getMessages from '../../messages'
-import { updateAttachmentThumbnailMaxSize } from '../../utility/postThumbnail'
-import onThreadFetched from '../../utility/onThreadFetched'
-import onThreadExpired from '../../utility/onThreadExpired'
-import UnreadCommentWatcher from '../../utility/UnreadCommentWatcher'
-import createByIdIndex from '../../utility/createByIdIndex'
 
 import InReplyToModal from '../../components/InReplyToModal'
 import CommentsList from '../../components/CommentsList'
@@ -36,6 +26,17 @@ import useTrackedThread from './useTrackedThread'
 import useThreadNavigation from './useThreadNavigation'
 import useSlideshow from './useSlideshow'
 import useShowCommentOnSameThreadUrlNavigation from './useShowCommentOnSameThreadUrlNavigation'
+import useGetCommentById from './useGetCommentById'
+import useDownloadThread from './useDownloadThread'
+import useUnreadCommentWatcher from './useUnreadCommentWatcher'
+import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth'
+import useRenderComment from './useRenderComment'
+import usePostComment from './usePostComment'
+import useGoToComment from './useGoToComment'
+import useGoBack from './useGoBack'
+
+import getThreadPageMeta from './getThreadPageMeta'
+import loadThreadPage from './loadThreadPage'
 
 import GhostIcon from 'webapp-frontend/assets/images/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import LockIcon from 'webapp-frontend/assets/images/icons/lock.svg'
@@ -43,9 +44,7 @@ import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 
 import './Thread.css'
 
-function ThreadPage({
-	howManyCommentsToShowBeforeLatestReadComment
-}) {
+function ThreadPage() {
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const [searchQuery, setSearchQuery] = useState()
 
@@ -56,44 +55,23 @@ function ThreadPage({
 
 	const dispatch = useDispatch()
 
-	const unreadCommentWatcher = useMemo(() => {
-		return new UnreadCommentWatcher({ dispatch })
-	}, [])
+	const unreadCommentWatcher = useUnreadCommentWatcher()
 
-	useEffect(() => {
-		return () => {
-			unreadCommentWatcher.stop()
-			dispatch(resetNewAutoUpdateCommentIndexes())
-		}
-	}, [])
+	const virtualScroller = useRef()
+	const initialVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
+	const initialScrollPosition = useSelector(({ thread }) => thread.scrollPosition)
 
-	// Runs only once before the initial render.
-	// Sets `--PostThumbnail-maxWidth` CSS variable.
-	useMemo(
-		() => updateAttachmentThumbnailMaxSize(thread.comments),
-		// Update on new comments.
-		// `thread.comments[]` changes on every auto-update,
-		// regardless of whether there're any new comments.
-		[thread.comments[thread.comments.length - 1].id]
-	)
+	// "Expand attachments".
+	const [areAttachmentsExpanded, setAttachmentsExpanded] = useExpandAttachments()
+
+	// Update max attachment thumbnail width.
+	useUpdateAttachmentThumbnailMaxWidth({
+		comments: thread.comments
+	})
 
 	const [isThreadTracked, setThreadTracked] = useTrackedThread({
 		channel,
 		thread
-	})
-
-	// `<VirtualScroller/>`
-	const virtualScroller = useRef()
-	const virtualScrollerState = useRef()
-	const _restoredVirtualScrollerState = useSelector(({ thread }) => thread.virtualScrollerState)
-	const restoredVirtualScrollerState = wasInstantNavigation() ? _restoredVirtualScrollerState : undefined
-	const _restoredScrollPosition = useSelector(({ thread }) => thread.scrollPosition)
-	const restoredScrollPosition = wasInstantNavigation() ? _restoredScrollPosition : undefined
-
-	// "Expand attachments".
-	const [areAttachmentsExpanded, setAttachmentsExpanded] = useExpandAttachments({
-		restoredVirtualScrollerState,
-		virtualScrollerState
 	})
 
 	// First shown comment index.
@@ -102,17 +80,12 @@ function ThreadPage({
 		setNewFromIndex,
 		setNewFromIndexPreservingScrollPosition,
 		preserveScrollPositionOnPrependItems,
-		initialFromIndex,
 		isInitialFromIndex,
 		initialLatestReadCommentIndex,
 		initiallyShowCommentsFromTheLatestReadOne
 	] = useFromIndex({
-		channel,
 		thread,
-		location,
-		howManyCommentsToShowBeforeLatestReadComment,
-		restoredVirtualScrollerState,
-		virtualScrollerState
+		location
 	})
 
 	const [
@@ -122,16 +95,6 @@ function ThreadPage({
 		fromIndex,
 		setNewFromIndex
 	})
-
-	// `<VirtualScroller/>`
-	const initialVirtualScrollerCustomState = useMemo(() => ({
-		// expandAttachments: false,
-		fromIndex,
-		initialLatestReadCommentIndex
-	}), [
-		fromIndex,
-		initialLatestReadCommentIndex
-	])
 
 	const shownComments = useMemo(
 		() => thread.comments.slice(fromIndex),
@@ -149,22 +112,14 @@ function ThreadPage({
 		}
 	})
 
-	// `getCommentById()` function parameter is only used when
-	// calling `comment.onContentChange()` function.
-	// Therefore, it's not a "rendering property" in a sense that
-	// it doesn't have any influence on how comments are rendered.
-	// Therefore, it can be removed from `itemComponentProps`
-	// memo dependencies list because the item component isn't
-	// required to be rerendered when `getCommentById()` function changes.
-	// Therefore, it can be passed as a `ref`: this way, it will
-	// always be up to date while also not being a dependency.
-	const getCommentByIdRef = useRef()
-	getCommentByIdRef.current = useMemo(() => {
-		return createByIdIndex(thread.comments)
-	}, [thread.comments])
-	const getCommentById = useCallback((id) => {
-		return getCommentByIdRef.current(id)
-	}, [])
+	const getCommentById  = useGetCommentById({
+		thread
+	})
+
+	const onDownloadThread = useDownloadThread({
+		thread,
+		getCommentById
+	})
 
 	const [
 		threadNavigationHistory,
@@ -186,27 +141,13 @@ function ThreadPage({
 	})
 
 	// `renderComment()` is called whenever there's a "parent" comment
-	// whose `content` did change (for example, when YouTube video links got loaded,
-	// or Twitter links got loaded, etc), and when there're any "replies" to that
-	// parent comment having "autogenerated" quotes generated from that parent comment's content.
-	// It also doesn't stop at that level, and goes arbitrarily deep into the replies tree,
-	// because there might be "deeper" replies to a reply having an "autogenerated" quote,
-	// and those "deeper" replies' "autogenerated" quotes might be autogenerated from that
-	// "autogenerated" quote, so the whole thing is recursive.
-	// So, when the parent comment's `content` changes (for example, as a result of
-	// loading "resource" links), all of the affected (descendant) "replies" should be
-	// re-rendered too.
-	const renderComment = useCallback((id) => {
-		// `loadResourceLinks()` calls `renderComment()` on every replying comment,
-		// regardless of whether such replying comment is rendered or not.
-		// Also, loading resource links is done "asynchronously", and that
-		// process may finish already after the comment tree itself is unmounted.
-		if (virtualScroller.current) {
-			// `VirtualScroller` will find the index of the item by its id,
-			// because `getItemId()` parameter will also be passed.
-			virtualScroller.current.renderItem({ id })
-		}
-	}, [])
+	// whose `content` did change (for example, when a YouTube video link got loaded),
+	// and so such "parent" comment update should trigger a "re-render" of all comments
+	// that quote this "parent" comment, because those quotes have been re-generated.
+	// `renderComment(commentId)` does that: re-renders a comment by its ID.
+	const renderComment = useRenderComment({
+		virtualScroller
+	})
 
 	// Returns `true` if the comment has been "previously read".
 	// "Previously read" means that it has been read on the previous
@@ -216,6 +157,11 @@ function ThreadPage({
 		// looking through "previous comments" via "Show previous comments":
 		// in that case, `isInitialFromIndex` will be `false`.
 		if (initiallyShowCommentsFromTheLatestReadOne && isInitialFromIndex) {
+			// Don't show the "original comment" as "previously read"
+			// because it doesn't look pleasing.
+			if (initialLatestReadCommentIndex === 0) {
+				return false
+			}
 			// Because removed comments are retained during thread auto-update,
 			// the initially loaded `thread` is fine for this function's logic,
 			// even after the thread has been auto-updated, and there's a new
@@ -227,7 +173,6 @@ function ThreadPage({
 	}, [
 		initiallyShowCommentsFromTheLatestReadOne,
 		isInitialFromIndex,
-		initialFromIndex,
 		initialLatestReadCommentIndex
 	])
 
@@ -243,6 +188,7 @@ function ThreadPage({
 		// when a thread expires during auto-update.
 		threadExpired: thread.expired,
 		threadIsLocked: thread.isLocked,
+		threadIsRolling: thread.isRolling,
 		threadId: thread.id,
 		dispatch,
 		locale,
@@ -250,53 +196,35 @@ function ThreadPage({
 		expandPostLinkBlockQuotes: false,
 		expandAttachments: areAttachmentsExpanded,
 		onShowComment: onNavigateToComment,
-		isPreviouslyRead
+		isPreviouslyRead,
+		onDownloadThread
 	}), [
 		// The dependencies list should be such that
 		// comments aren't re-rendered when they don't need to.
 		channel,
 		thread.expired,
 		thread.isLocked,
+		thread.isRolling,
 		thread.id,
 		areAttachmentsExpanded,
 		renderComment,
 		getCommentById,
 		isPreviouslyRead,
+		onDownloadThread,
 		dispatch,
 		locale,
 		unreadCommentWatcher,
 		onNavigateToComment
 	])
 
-	const onSubmitReply = useCallback(() => {
-		alert('Not implemented')
-		// Disable reply form.
-		// Show a spinner.
-		// Trigger an auto-update.
-		// Trigger an auto-update after a second.
-		// Trigger an auto-update after 5 seconds.
-		// Wait for the new comment to be fetched as part of thread auto-update.
-		// Clear the reply form.
-		// Focus the form.
-	})
+	const onPostComment = usePostComment()
 
-	const onBack = useCallback((event) => {
-		if (canGoBackInstantly()) {
-			dispatch(goBack())
-			event.preventDefault()
-		}
-	}, [dispatch])
+	const onGoBack = useGoBack()
 
-	const onGoToComment = useCallback((comment) => {
-		const index = thread.comments.indexOf(comment)
-		if (index < 0) {
-			throw new Error(`Comment ${comment.id} not found`)
-		}
-		setNewFromIndex(index)
-	}, [
+	const onGoToComment = useGoToComment({
 		thread,
 		setNewFromIndex
-	])
+	})
 
 	const onShowAll = useCallback(() => {
 		setNewFromIndex(0)
@@ -309,9 +237,10 @@ function ThreadPage({
 			<ThreadPageHeader
 				channel={channel}
 				thread={thread}
-				onBack={onBack}
+				onGoBack={onGoBack}
 				locale={locale}
 				openSlideshow={openSlideshow}
+				getCommentById={getCommentById}
 				isThreadTracked={isThreadTracked}
 				setThreadTracked={setThreadTracked}
 				isSearchBarShown={isSearchBarShown}
@@ -337,18 +266,16 @@ function ThreadPage({
 						key="comments"
 						ref={virtualScroller}
 						mode="thread"
-						initialCustomState={initialVirtualScrollerCustomState}
-						restoredState={restoredVirtualScrollerState}
+						initialState={initialVirtualScrollerState}
 						setState={setVirtualScrollerState}
-						stateRef={virtualScrollerState}
-						restoredScrollPosition={restoredScrollPosition}
+						initialScrollPosition={initialScrollPosition}
 						setScrollPosition={setScrollPosition}
 						items={shownComments}
 						itemComponent={ThreadComment}
 						itemComponentProps={itemComponentProps}
 						getCommentById={getCommentById}
 						preserveScrollPositionOnPrependItems={preserveScrollPositionOnPrependItems}
-						preserveScrollPositionOfTheBottomOfTheListOnMount={initialFromIndex === thread.comments.length}
+						preserveScrollPositionOfTheBottomOfTheListOnMount={isInitialFromIndex && fromIndex === thread.comments.length}
 						className={classNames('ThreadPage-comments', {
 							// 'ThreadPage-comments--fromTheStart': fromIndex === 0
 						})}/>
@@ -363,7 +290,7 @@ function ThreadPage({
 				<React.Fragment>
 					<AutoUpdate
 						autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}/>
-					{/*<PostForm onSubmit={onSubmitReply}/>*/}
+					{/*<PostForm onSubmit={onPostComment}/>*/}
 					{thread.isBumpLimitReached &&
 						<InfoBanner
 							Icon={SinkingBoatIcon}>
@@ -399,53 +326,8 @@ function ThreadPage({
 	)
 }
 
-ThreadPage.propTypes = {
-	howManyCommentsToShowBeforeLatestReadComment: PropTypes.number.isRequired
-}
-
-ThreadPage.defaultProps = {
-	howManyCommentsToShowBeforeLatestReadComment: 0
-}
-
-ThreadPage.meta = ({ data: { channel, thread }}) => ({
-	title: thread && ('/' + channel.id + '/' + ' — ' + (thread.titleCensored || thread.title)),
-	description: thread && thread.comments[0].textPreview,
-	image: thread && getThreadImage(thread)
-})
-
-ThreadPage.load = async ({ getState, dispatch, params }) => {
-	const channelId = params.channelId
-	const threadId = parseInt(params.threadId)
-	const settings = getState().settings.settings
-	try {
-		const thread = await dispatch(getThread(channelId, threadId, {
-			censoredWords: settings.censoredWords,
-			grammarCorrection: settings.grammarCorrection,
-			locale: settings.locale
-		}))
-		onThreadFetched(thread, { dispatch })
-	} catch (error) {
-		if (error.status === 404) {
-			// Clear expired thread from user data.
-			onThreadExpired(channelId, threadId, { dispatch })
-		}
-		throw error
-	}
-}
-
-function getThreadImage(thread) {
-	const comment = thread.comments[0]
-	if (comment.attachments && comment.attachments.length > 0) {
-		for (const attachment of comment.attachments) {
-			switch (attachment.type) {
-				case 'picture':
-					return attachment.picture.url
-				case 'video':
-					return attachment.video.picture.url
-			}
-		}
-	}
-}
+ThreadPage.meta = getThreadPageMeta
+ThreadPage.load = loadThreadPage
 
 // This is a workaround for cases when navigating from one thread
 // to another thread in order to prevent page state inconsistencies

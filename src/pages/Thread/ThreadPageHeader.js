@@ -26,9 +26,10 @@ import './ThreadPageHeader.css'
 export default function ThreadPageHeader({
 	channel,
 	thread,
-	onBack,
+	onGoBack,
 	locale,
 	openSlideshow,
+	getCommentById,
 	isThreadTracked,
 	setThreadTracked,
 	isSearchBarShown,
@@ -42,8 +43,10 @@ export default function ThreadPageHeader({
 	const threadMenu = (
 		<Toolbar
 			mode="thread"
+			thread={thread}
 			dispatch={dispatch}
 			locale={locale}
+			getCommentById={getCommentById}
 			openSlideshow={openSlideshow}
 			isThreadTracked={isThreadTracked}
 			setThreadTracked={setThreadTracked}
@@ -70,7 +73,7 @@ export default function ThreadPageHeader({
 					</Link>
 					<Link
 						to={getUrl(channel.id)}
-						onClick={onBack}
+						onClick={onGoBack}
 						className="ThreadPageHeader-backLink">
 						{/*<LeftArrow className="ThreadPageHeader-backArrow"/>*/}
 						<span className="ThreadPageHeader-backTitle">
@@ -94,9 +97,10 @@ export default function ThreadPageHeader({
 ThreadPageHeader.propTypes = {
 	channel: channelType.isRequired,
 	thread: threadType.isRequired,
-	onBack: PropTypes.func.isRequired,
+	onGoBack: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	openSlideshow: PropTypes.func.isRequired,
+	getCommentById: PropTypes.func.isRequired,
 	isThreadTracked: PropTypes.bool,
 	setThreadTracked: PropTypes.func.isRequired,
 	isSearchBarShown: PropTypes.bool,

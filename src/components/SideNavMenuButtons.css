@@ -14,6 +14,33 @@
 		   the right hand thumb could (presumably) reach it comfortably. */
 		--SideNavMenuButtons-top: 35%;
 	}
+	/*--SideNavMenuButtonIcon-bar-width: 6%;*/
+	--SideNavMenuButtonIcon-bar-width: 4%;
+	/* List icon. */
+	/*
+	--SideNavMenuButtonIcon-bar-translateY--list: 450%;
+	--SideNavMenuButtonIcon-bar-translateY--listOutline: 225%;
+	--SideNavMenuButtonIcon-bar-translateY--listHover: 550%;
+	--SideNavMenuButtonIcon-bar-translateY--listOutlineHover: 275%;
+	*/
+	--SideNavMenuButtonIcon-bar-translateY--list: 650%;
+	--SideNavMenuButtonIcon-bar-translateY--listOutline: 325%;
+	--SideNavMenuButtonIcon-bar-translateY--listHover: 750%;
+	--SideNavMenuButtonIcon-bar-translateY--listOutlineHover: 375%;
+	/* Left arrow icon. */
+	--SideNavMenuButtonIcon-scale--leftArrow: 0.75;
+	/*
+	--SideNavMenuButtonIcon-translateX--leftArrow: 20%;
+	--SideNavMenuButtonIcon-translateY--leftArrow: 450%;
+	--SideNavMenuButtonIcon-translateY--leftArrowOutline: 225%;
+	*/
+	--SideNavMenuButtonIcon-translateX--leftArrow: 25%;
+	--SideNavMenuButtonIcon-translateY--leftArrow: 600%;
+	--SideNavMenuButtonIcon-translateY--leftArrowOutline: 300%;
+	/* Cross icon. */
+	--SideNavMenuButtonIcon-bar-scale--cross: 0.9;
+	/* Rest icon. */
+	--SideNavMenuButtonIcon-bar-scale--hidden: 0.9;
 }
 
 .SideNavMenuButtons {
@@ -69,9 +96,9 @@
 .SideNavMenuButtonIcon-bar {
 	position: absolute;
 	left: 0;
-	top: calc((100% - 6%) / 2);
+	top: calc((100% - var(--SideNavMenuButtonIcon-bar-width)) / 2);
 	width: 100%;
-	height: 6%;
+	height: var(--SideNavMenuButtonIcon-bar-width);
 	background-color: currentColor;
 }
 
@@ -89,69 +116,99 @@
 .SideNavMenuButtonIcon-bar:nth-child(5),
 .SideNavMenuButtonIcon-bar:nth-child(6) {
 	color: var(--SideNavMenuButtonIcon-borderColor);
-	height: 12%;
-	top: calc((100% - 12%) / 2);
+	height: calc(2 * var(--SideNavMenuButtonIcon-bar-width));
+	top: calc((100% - 2 * var(--SideNavMenuButtonIcon-bar-width)) / 2);
 }
 
-.SideNavMenuButtonIcon-bar:nth-child(1) {
-	transform: translateY(-450%);
-}
-
-.SideNavMenuButtonIcon-bar:nth-child(3) {
-	transform: translateY(450%);
-}
-
-.SideNavMenuButtonIcon-bar:nth-child(4) {
-	transform: translateY(-225%);
-}
-
-.SideNavMenuButtonIcon-bar:nth-child(6) {
-	transform: translateY(225%);
+/* "List" menu icon. */
+.SideNavMenuButtonIcon--list {
+	.SideNavMenuButtonIcon-bar {
+		/* Top bar. */
+		&:nth-child(1) {
+			transform: translateY(calc(-1 * var(--SideNavMenuButtonIcon-bar-translateY--list)));
+		}
+		/* Bottom bar. */
+		&:nth-child(3) {
+			transform: translateY(var(--SideNavMenuButtonIcon-bar-translateY--list));
+		}
+		/* Top bar outline. */
+		&:nth-child(4) {
+			transform: translateY(calc(-1 * var(--SideNavMenuButtonIcon-bar-translateY--listOutline)));
+		}
+		/* Bottom bar outline. */
+		&:nth-child(6) {
+			transform: translateY(var(--SideNavMenuButtonIcon-bar-translateY--listOutline));
+		}
+	}
+	&:hover {
+		.SideNavMenuButtonIcon-bar {
+			/* Top bar. */
+			&:nth-child(1) {
+				transform: translateY(calc(-1 * var(--SideNavMenuButtonIcon-bar-translateY--listHover)));
+			}
+			/* Bottom bar. */
+			&:nth-child(3) {
+				transform: translateY(var(--SideNavMenuButtonIcon-bar-translateY--listHover));
+			}
+			/* Top bar outline. */
+			&:nth-child(4) {
+				transform: translateY(calc(-1 * var(--SideNavMenuButtonIcon-bar-translateY--listOutlineHover)));
+			}
+			/* Bottom bar outline. */
+			&:nth-child(6) {
+				transform: translateY(var(--SideNavMenuButtonIcon-bar-translateY--listOutlineHover));
+			}
+		}
+	}
 }
 
 /*
-.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(1) {
-	transform: translateY(-550%);
-}
-.SideNavMenuButtonIcon:hover .SideNavMenuButtonIcon-bar:nth-child(3) {
-	transform: translateY(550%);
-}
 */
 
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(2),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(5) {
-	opacity: 0;
-	transform: scale(0.9);
+.SideNavMenuButtonIcon--cross {
+	.SideNavMenuButtonIcon-bar {
+		/* Hidden bars. */
+		&:nth-child(2),
+		&:nth-child(5) {
+			opacity: 0;
+			transform: scale(var(--SideNavMenuButtonIcon-bar-scale--hidden));
+		}
+		/* Top bar and Top bar outline. */
+		&:nth-child(1),
+		&:nth-child(4) {
+			transform: rotate(-45deg) scale(var(--SideNavMenuButtonIcon-bar-scale--cross));
+		}
+		/* Bottom bar and Bottom bar outline. */
+		&:nth-child(3),
+		&:nth-child(6) {
+			transform: rotate(45deg) scale(var(--SideNavMenuButtonIcon-bar-scale--cross));
+		}
+	}
 }
 
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(1),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(4) {
-	transform: rotate(-45deg) scale(0.9);
-}
-
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(3),
-.SideNavMenuButtonIcon--cross .SideNavMenuButtonIcon-bar:nth-child(6) {
-	transform: rotate(45deg) scale(0.9);
-}
-
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(2),
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(5) {
-	opacity: 0;
-	transform: scale(0.9);
-}
-
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(1) {
-	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-450%);
-}
-
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(3) {
-	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(450%);
-}
-
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(4) {
-	transform: rotate(-45deg) scale(0.75) translateX(20%) translateY(-225%);
-}
-
-.SideNavMenuButtonIcon--leftArrow .SideNavMenuButtonIcon-bar:nth-child(6) {
-	transform: rotate(45deg) scale(0.75) translateX(20%) translateY(225%);
+.SideNavMenuButtonIcon--leftArrow {
+	.SideNavMenuButtonIcon-bar {
+		/* Hidden bars. */
+		&:nth-child(2),
+		&:nth-child(5) {
+			opacity: 0;
+			transform: scale(var(--SideNavMenuButtonIcon-bar-scale--hidden));
+		}
+		/* Top bar. */
+		&:nth-child(1) {
+			transform: rotate(-45deg) scale(var(--SideNavMenuButtonIcon-scale--leftArrow)) translateX(var(--SideNavMenuButtonIcon-translateX--leftArrow)) translateY(calc(-1 * var(--SideNavMenuButtonIcon-translateY--leftArrow)));
+		}
+		/* Bottom bar. */
+		&:nth-child(3) {
+			transform: rotate(45deg) scale(var(--SideNavMenuButtonIcon-scale--leftArrow)) translateX(var(--SideNavMenuButtonIcon-translateX--leftArrow)) translateY(var(--SideNavMenuButtonIcon-translateY--leftArrow));
+		}
+		/* Top bar outline. */
+		&:nth-child(4) {
+			transform: rotate(-45deg) scale(var(--SideNavMenuButtonIcon-scale--leftArrow)) translateX(var(--SideNavMenuButtonIcon-translateX--leftArrow)) translateY(calc(-1 * var(--SideNavMenuButtonIcon-translateY--leftArrowOutline)));
+		}
+		/* Bottom bar outline. */
+		&:nth-child(6) {
+			transform: rotate(45deg) scale(var(--SideNavMenuButtonIcon-scale--leftArrow)) translateX(var(--SideNavMenuButtonIcon-translateX--leftArrow)) translateY(var(--SideNavMenuButtonIcon-translateY--leftArrowOutline));
+		}
+	}
 }

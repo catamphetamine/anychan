@@ -1,4 +1,4 @@
-export function addToChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId, data) {
+export function setChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId, data) {
 	const channelIdThreadIdCommentIdData = storage.get(key, {})
 	let threadIdCommentIdData = channelIdThreadIdCommentIdData[channelId]
 	if (!threadIdCommentIdData) {
@@ -14,7 +14,7 @@ export function addToChannelIdThreadIdCommentIdData(storage, key, collection, ch
 	storage.set(key, channelIdThreadIdCommentIdData)
 }
 
-export function removeFromChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId) {
+export function removeChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId) {
 	let channelIdThreadIdCommentIdData = storage.get(key)
 	if (!channelIdThreadIdCommentIdData) {
 		return
@@ -54,7 +54,7 @@ export function removeFromChannelIdThreadIdCommentIdData(storage, key, collectio
 	}
 }
 
-export function getFromChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId) {
+export function getChannelIdThreadIdCommentIdData(storage, key, collection, channelId, threadId, commentId) {
 	const channelIdThreadIdCommentIdData = storage.get(key, {})
 	if (channelId) {
 		const threadIdCommentIdData = channelIdThreadIdCommentIdData[channelId] || {}
@@ -72,7 +72,7 @@ export function getFromChannelIdThreadIdCommentIdData(storage, key, collection, 
 	return decode(channelIdThreadIdCommentIdData, collection, 'root')
 }
 
-export function mergeWithChannelIdThreadIdCommentIdData(storage, key, collection, data) {
+export function mergeChannelIdThreadIdCommentIdData(storage, key, collection, data) {
 	const channelIdThreadIdCommentIdData = storage.get(key, {})
 	for (const channelId of Object.keys(data)) {
 		const threadIdCommentIdData = channelIdThreadIdCommentIdData[channelId]

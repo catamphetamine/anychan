@@ -7,6 +7,9 @@ import Comment from './Comment/CommentWrapped'
 import './CommentTree.css'
 
 export default function CommentTree({
+	// `state` is supplied by `virtual-scroller`.
+	// `<CommentTree/>` state is stored in `virtual-scroller` state
+	// because it's simpler that way.
 	state,
 	// `onHeightChange()` is supplied by `virtual-scroller`.
 	onHeightChange,
@@ -73,11 +76,11 @@ export default function CommentTree({
 CommentTree.propTypes = {
 	state: PropTypes.object,
 	// `onHeightChange()` is supplied by `virtual-scroller`.
-	onHeightChange: PropTypes.func,
+	onHeightChange: PropTypes.func.isRequired,
 	// `onStateChange()` is supplied by `virtual-scroller`.
-	onStateChange: PropTypes.func,
-	getCommentById: PropTypes.func,
-	dialogueChainStyle: PropTypes.oneOf(['through', 'side'])
+	onStateChange: PropTypes.func.isRequired,
+	getCommentById: PropTypes.func.isRequired,
+	dialogueChainStyle: PropTypes.oneOf(['through', 'side']).isRequired
 }
 
 CommentTree.defaultProps = {

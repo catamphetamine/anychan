@@ -1,16 +1,14 @@
-import { useState, useCallback } from 'react'
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-export default function useExpandAttachments({
-	restoredVirtualScrollerState,
-	virtualScrollerState
-}) {
-	const [areAttachmentsExpanded, setAttachmentsExpanded] = useState(restoredVirtualScrollerState && restoredVirtualScrollerState.expandAttachments)
+import { setExpandAttachments } from '../../redux/thread'
+
+export default function useExpandAttachments() {
+	const dispatch = useDispatch()
+	const areAttachmentsExpanded = useSelector(({ thread }) => thread.expandAttachments)
 	const onSetAttachmentsExpanded = useCallback((expandAttachments) => {
-		if (virtualScrollerState.current) {
-			virtualScrollerState.current.expandAttachments = expandAttachments
-		}
-		setAttachmentsExpanded(expandAttachments)
-	}, [setAttachmentsExpanded])
+		dispatch(setExpandAttachments(expandAttachments))
+	}, [])
 	return [
 		areAttachmentsExpanded,
 		onSetAttachmentsExpanded

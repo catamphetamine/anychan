@@ -47,7 +47,7 @@
 		},
 		"proxy": {
 			"title": "Proxy",
-			"description": "Webbrowser verhindern, dass Websites die Daten anderer Websites lesen. Um dies zu umgehen, wird ein spezieller \"Proxyserver\" verwendet, um auf Imageboard-Daten zuzugreifen.",
+			"description": "Webbrowser verhindern, dass Websites die Daten anderer Websites lesen. Um dies zu umgehen, wird ein spezieller \"Proxyserver\" verwendet, um die API aufzurufen.",
 			"url": "URL",
 			"invalidUrl": "ungültige URL"
 		},
@@ -147,13 +147,13 @@
 	},
 	"role": {
 		"board": {
-			"administrator": "Board administrator",
-			"moderator": "Board moderator"
+			"administrator": "Board-Administrator",
+			"moderator": "Board-Moderator"
 		}
 	},
 	"footnotes": {
-		"postCaptchan": " imageboard client",
-		"preAuthor": " by "
+		"postCaptchan": " Web-Client",
+		"preAuthor": " von "
 	},
 	"country": {
 		"anonymous": "Anonym"
@@ -163,6 +163,7 @@
 		"inProgress": "Aktualisierung…",
 		"error": "Der Thread konnte nicht aktualisiert werden"
 	},
+	"downloadThread": "Thread-Daten herunterladen",
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
 	"inReplyTo": "als Antwort auf",
 	"backToPreviouslyViewedComment": "Rückkehr",

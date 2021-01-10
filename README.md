@@ -92,7 +92,11 @@ A "build" contains an `index.html` file and a bunch of `.js`/`.css`/`.map`/image
 
 The contents of a "build" could be hosted with any "static" file hosting software (like NginX), including in the "cloud" (like Amazon S3).
 
-The first "build" will be released in the near future. For now, to obtain a "build", perform a manual build process documented in the [Build](#build) section.
+The released builds can be found on [GitLab Releases](https://gitlab.com/catamphetamine/captchan/-/releases) page.
+
+<!-- Latest release link: https://gitlab.com/catamphetamine/captchan/-/jobs/artifacts/master/download?job=build -->
+
+To obtain a "build" from source codes, perform a manual build process documented in the [Build](#build) section.
 
 ## Configuration
 
@@ -410,9 +414,17 @@ In `./configuration/default.json` there's `proxyUrl` setting — this is the COR
 
 ## Known issues
 
-See [known issues](https://gitlab.com/catamphetamine/imageboard#known-issues) of the `imageboard` library.
+#### Server-Side Rendering
+
+This application uses React, and can be rendered both on client side and server side. But, React is rumoured to be rather slow when it comes to server-side rendering, compared to the "classic" way of generating web pages from simple templates (like PHP). I didn't benchmark server-side rendering of this app, but I'd assume that, for a high-load website, it would make a difference to use a more performant solution (cost-wise). Maybe it could be some kind of a separate "static" "archive" version that would be very minimalistic, and would be easily indexed by search engines. Both Google and Bing still can index client-side websites that use javascript for the initial loading, but a separate "static" website would most likely get better "score".
+
+#### Virtualized Lists
 
 The lists of threads/comments are implemented via a "[Virtual Scroller](https://gitlab.com/catamphetamine/virtual-scroller)" which results in great performance boost but at the same time [doesn't support some native in-browser features](https://gitlab.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".
+
+#### Imageboards
+
+For known imageboard issues, see [known issues](https://gitlab.com/catamphetamine/imageboard#known-issues) of the `imageboard` library.
 
 ## Provider configuration
 
@@ -551,70 +563,110 @@ To add a new provider, create an `index.json` file with the provider's configura
 	// The API methods.
 	api: {
 		// (required)
+		//
 		// Returns the list of channels.
+		//
 		// If there're a lot of channels, can return just the most popular ones,
 		// in which case it should also return a `hasMoreChannels: true` flag.
+		//
+		// `Channel` type mimicks the `Board` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#board
+		//
 		async getChannels() {
 			return {
-				channels: [...],
+				channels: Channel[],
 				hasMoreChannels: boolean?
 			}
 		},
 
 		// (optional)
+		// (currently not used)
+		//
 		// Finds channels by a query.
+		//
 		// Can be used when `getChannels()` doesn't return the full list of channels.
+		//
+		// `Channel` type mimicks the `Board` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#board
+		//
 		async findChannels(query) {
 			return {
-				channels: [...]
+				channels: Channel[]
 			}
 		},
 
 		// (required)
+		//
 		// Returns a list of threads in a channel.
+		//
 		// Could support parameters like:
+		//
 		// * `sort: "new"/"hot"/...` for sorting threads.
+		//
 		// * `afterThreadId` for paging through `sort: "new"` threads.
 		//    In that case, `hasMoreThreads: boolean?` flag should also be returned.
+		//
 		// * `queryId: string` and `page: number` for paging through
 		//    the full list of thread IDs. In that case, `queryId` is
 		//    returned from the initial query. This variant supercedes
 		//    the `afterThreadId`/`hasMoreThreads` approach for `sort: "new"` threads.
+		//
+		// `Thread` type mimicks the `Thread` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#thread
+		// (with `boardId` renamed to `channelId`)
+		//
 		async getThreads({ channelId, sort, afterThreadId, queryId }) {
 			return {
-				threads: [...],
+				threads: Thread[],
 				queryId: string?,
 				hasMoreThreads: boolean?
 			}
 		},
 
 		// (optional)
+		// (currently not used)
+		//
 		// Finds threads by a query.
+		//
 		// `channelId: string` parameter can be optional
 		// if `supportsGlobalThreadSearch` flag is `true` (see below).
+		//
+		// `Thread` type mimicks the `Thread` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#thread
+		// (with `boardId` renamed to `channelId`)
+		//
 		async findThreads(query, { channelId, sort, afterThreadId, queryId }) {
 			return {
-				threads: [...],
+				threads: Thread[],
 				queryId: string?,
 				hasMoreThreads: boolean?
 			}
 		},
 
 		// (optional)
+		// (currently not used)
+		//
 		// Should be `true` if the provider supports "global" thread search
 		// by calling `.findThreads()` method without `channelId` parameter.
+		//
 		supportsGlobalThreadSearch: boolean?,
 
 		// (required)
+		//
 		// Returns full thread info, including some of the comments.
+		//
 		// If there're more comments, then `hasMoreComments: true` flag
 		// should be returned, and the rest of the comments can be fetched
 		// via `getThreadComments({ channelId, threadId, afterCommentId, queryId })`.
+		//
+		// `Comment` type mimicks the `Comment` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#comment
+		//
 		async getThread({ channelId, threadId }) {
 			return {
 				id: threadId,
 				title: 'Thread Title',
-				comments: [...],
+				comments: Comment[],
 				commentsCount: 12345,
 				hasMoreComments: boolean?,
 				...
@@ -622,22 +674,31 @@ To add a new provider, create an `index.json` file with the provider's configura
 		},
 
 		// (optional)
+		// (currently not used)
+		//
 		// Returns a list of comments in a thread.
+		//
 		// Can return just a portion of all available comments,
 		// in which case it should also return a `hasMoreComments: true` flag.
 		// `queryId` can be used in complex cases: for example,
 		// when fetching comments not sorted by date.
 		// (like tree-structured comments on `reddit.com`).
+		//
+		// The `Comment` type mimicks the `Comment` type of `imageboard`:
+		// https://gitlab.com/catamphetamine/imageboard#comment
+		//
 		async getThreadComments({ channelId, threadId, afterCommentId, queryId }) {
 			return {
-				comments: [...],
+				comments: Comment[],
 				hasMoreComments: boolean?
 			}
 		},
 
 		// (optional)
+		//
 		// Votes for a comment in a thread.
 		// Can be either an upvote or a downvote.
+		//
 		async vote({ channelId, threadId, commentId, up: boolean }) {
 			...
 		}

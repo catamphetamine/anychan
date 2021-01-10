@@ -93,9 +93,13 @@
 	--ListButtonIcon-width: 0.6em;
 	--ListButton-padding: 0.2em;
 	--List-fontSize: 100%;
-	--List-lineHeight: calc(var(--unit) * 2.5);
+	/* Using `em`s instead of `var(--unit)`s for `--List-lineHeight`
+	   (and related variables) because this way it works better
+	   with the `fontSize` user setting (for example, "Font Size: Large"). */
+	--List-lineHeight: 1.9em;
 	@mixin upto-m {
-		--List-lineHeight: calc(var(--unit) * 3);
+		/*--List-lineHeight: 2.2em;*/
+		--List-lineHeight: 2em;
 	}
 	@mixin xxs {
 		--List-fontSize: 120%;
@@ -247,7 +251,8 @@
 	   * More than 1 minute has passed — comment date is shown.
 	   * Comment status changes — new badges get added (for example, banned).
 	*/
-	--CommentFooter-height: 1.2em; /* 19px */
+	--CommentFooter-height: 1.2em;
+	--CommentFooter-lineHeight: 1.75em;
 
 	/* CommentTree. */
 	--CommentTree-color: var(--Content-color-400);

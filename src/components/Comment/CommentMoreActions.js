@@ -26,9 +26,10 @@ export default function CommentMoreActions({
 	dispatch,
 	locale,
 	mode,
-	onReply,
+	url,
 	urlBasePath,
-	url
+	onReply,
+	onDownloadThread
 }) {
 	const moreActions = useMemo(() => {
 		let actions = []
@@ -39,7 +40,7 @@ export default function CommentMoreActions({
 			})
 			actions.push({
 				label: getMessages(locale).post.moreActions.copyId,
-				onClick: () => copyTextToClipboard(comment.id)
+				onClick: () => copyTextToClipboard('>>' + comment.id)
 			})
 		}
 		actions = actions.concat([
@@ -78,6 +79,14 @@ export default function CommentMoreActions({
 				}
 			})
 		}
+		if (mode === 'thread') {
+			if (comment.id === threadId) {
+				actions.push({
+					label: getMessages(locale).downloadThread,
+					onClick: onDownloadThread
+				})
+			}
+		}
 		return actions
 	}, [
 		dispatch,
@@ -89,7 +98,8 @@ export default function CommentMoreActions({
 		mode,
 		onReply,
 		url,
-		urlBasePath
+		urlBasePath,
+		onDownloadThread
 	])
 	return (
 		<PostMoreActions
@@ -111,9 +121,10 @@ CommentMoreActions.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
-	onReply: PropTypes.func,
+	url: PropTypes.string.isRequired,
 	urlBasePath: PropTypes.string.isRequired,
-	url: PropTypes.string.isRequired
+	onReply: PropTypes.func,
+	onDownloadThread: PropTypes.func
 }
 
 function CommentMoreActionsIcon() {

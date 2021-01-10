@@ -1,0 +1,31 @@
+@import "../../styles/common";
+
+:root {
+	--Sidebar-ProviderLogo-width: 1em;
+	--Sidebar-ProviderLogo-marginRight: 0.4em;
+}
+
+.Sidebar-providerLogo {
+	display: flex;
+	justify-content: center;
+	flex: 1;
+	font-size: 1.5rem;
+	font-weight: 300;
+}
+
+.Sidebar-providerLink {
+	display: flex;
+	align-items: center;
+	color: inherit;
+}
+
+.Sidebar-providerLogoImage {
+	height: var(--Sidebar-ProviderLogo-width);
+	margin-right: var(--Sidebar-ProviderLogo-marginRight);
+}
+
+.Sidebar-providerLogoImage--spaceEquivalent {
+	visibility: hidden;
+	margin-left: var(--Sidebar-ProviderLogo-marginRight);
+	margin-right: 0;
+}

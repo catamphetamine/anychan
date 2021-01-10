@@ -47,7 +47,7 @@
 		},
 		"proxy": {
 			"title": "Proxy",
-			"description": "Web browsers restrict websites from reading other websites' data. To work around that, a special \"proxy server\" is used to access imageboard data.",
+			"description": "Web browsers restrict websites from reading other websites' data. To work around that, a special \"proxy server\" is used to call the API.",
 			"url": "URL",
 			"invalidUrl": "Invalid URL"
 		},
@@ -155,7 +155,7 @@
 		}
 	},
 	"footnotes": {
-		"postCaptchan": " imageboard client",
+		"postCaptchan": " web client",
 		"preAuthor": " by "
 	},
 	"country": {
@@ -166,6 +166,7 @@
 		"inProgress": "Updating…",
 		"error": "Couldn't update the thread"
 	},
+	"downloadThread": "Download thread data",
 	"notImplemented": "This feature hasn't been implemented yet",
 	"inReplyTo": "In reply to",
 	"backToPreviouslyViewedComment": "Return",

@@ -27,24 +27,24 @@ import {
 } from './channelThreadComments'
 
 import {
-	addToChannelIdThreadIdCommentIdData,
-	removeFromChannelIdThreadIdCommentIdData,
-	getFromChannelIdThreadIdCommentIdData,
-	mergeWithChannelIdThreadIdCommentIdData
+	setChannelIdThreadIdCommentIdData,
+	removeChannelIdThreadIdCommentIdData,
+	getChannelIdThreadIdCommentIdData,
+	mergeChannelIdThreadIdCommentIdData
 } from './channelThreadCommentData'
 
 import {
-	addToChannelIdThreadIdData,
-	removeFromChannelIdThreadIdData,
-	getFromChannelIdThreadIdData,
-	mergeWithChannelIdThreadIdData
+	setChannelIdThreadIdData,
+	removeChannelIdThreadIdData,
+	getChannelIdThreadIdData,
+	mergeChannelIdThreadIdData
 } from './channelThreadData'
 
 import {
-	addToChannelIdData,
-	removeFromChannelIdData,
-	getFromChannelIdData,
-	mergeWithChannelIdData
+	setChannelIdData,
+	removeChannelIdData,
+	getChannelIdData,
+	mergeChannelIdData
 } from './channelData'
 
 import {
@@ -59,10 +59,12 @@ import {
 const VERSION = 3
 
 const OPERATIONS = {
-	add: 'add',
 	get: 'get',
+	add: 'add',
+	set: 'set',
+	setIn: 'setIn',
 	remove: 'remove',
-	setIn: 'setIn'
+	merge: 'merge'
 }
 
 export const TRACKED_THREADS_INDEX_COLLECTION_NAME = 'trackedThreads'
@@ -75,7 +77,11 @@ export class UserData {
 		// Example: ['a', 'b'].
 		favoriteChannels: {
 			type: 'list',
-			isEqual: (one, two) => one.id === two.id
+			isEqual: (one, two) => one.id === two.id,
+			alias: {
+				add: 'addFavoriteChannel',
+				remove: 'removeFavoriteChannel'
+			}
 		},
 		// Users can "ignore" all comments left by authors
 		// sharing the same "author fingerprint":
@@ -112,6 +118,7 @@ export class UserData {
 			// Chrome seems to cache writes to `localStorage` anyway.
 			cache: true,
 			type: 'channels-threads-data',
+			compare: (a, b) => a.id > b.id ? 1 : (a.id === b.id ? 0 : -1),
 			decode(data) {
 				// Decode `threadUpdatedAt` property.
 				//
@@ -149,7 +156,9 @@ export class UserData {
 				return data
 			},
 			alias: {
-				get: 'getLatestReadComment'
+				get: 'getLatestReadComment',
+				set: 'setLatestReadComment',
+				remove: 'removeLatestReadComment'
 			}
 		},
 		// If a user has seen the opening post of a thread on a channel
@@ -169,7 +178,8 @@ export class UserData {
 			cache: true,
 			type: 'channels-data',
 			alias: {
-				get: 'getLatestSeenThread'
+				get: 'getLatestSeenThread',
+				set: 'setLatestSeenThread'
 			}
 		},
 		// Users can "track" certain threads.
@@ -234,7 +244,12 @@ export class UserData {
 		// Is used to indicate that the user "has already voted for this comment",
 		// and to show whether it was an upvote or a downvote.
 		commentVotes: {
-			type: 'channels-threads-comments-data'
+			type: 'channels-threads-comments-data',
+			alias: {
+				get: 'getCommentVote',
+				set: 'setCommentVote',
+				remove: 'removeCommentVote'
+			}
 		},
 		// The latest announcement.
 		// When it's read, it's marked as `read: true`.
@@ -296,11 +311,12 @@ export class UserData {
 		for (const key of Object.keys(this.collections)) {
 			const collection = this.collections[key]
 			const {
-				addTo,
-				removeFrom,
-				getFrom,
-				mergeWith,
-				setIn
+				get,
+				add,
+				set,
+				setIn,
+				remove,
+				merge
 			} = getFunctions(collection.type)
 			if (collection.cache && this.storage.cacheKey) {
 				this.storage.cacheKey(this.prefix + key)
@@ -319,9 +335,12 @@ export class UserData {
 				}
 				return allArgs.concat(args)
 			}
-			if (addTo) {
+			this[`${OPERATIONS.get}${capitalize(key)}`] = (...args) => {
+				return get.apply(this, getArgs(args))
+			}
+			if (add) {
 				this[`${OPERATIONS.add}${capitalize(key)}`] = (...args) => {
-					addTo.apply(this, getArgs(args))
+					add.apply(this, getArgs(args))
 					// Also add to "index" collection.
 					if (collection.index) {
 						const item = args[args.length - 1]
@@ -329,36 +348,41 @@ export class UserData {
 					}
 				}
 			}
-			this[`${OPERATIONS.remove}${capitalize(key)}`] = (...args) => {
-				// Also remove from "index" collection.
-				if (collection.index) {
-					const item = getFrom.apply(this, getArgs(args))
-					if (!item) {
-						return console.error(`Item "${JSON.stringify(args)}" not found in "${collection.index}"`)
-					}
-					this[`${OPERATIONS.remove}${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+			this[`${OPERATIONS.set}${capitalize(key)}`] = (...args) => {
+				if (args.length === 0) {
+					const value = args[0]
+					const [storage, key] = preArgs
+					storage.set(key, value)
+					// Doesn't update the related "index" collection.
+					// For example, if something like "trackedThreadsList" would be "set"
+					// "from scratch", then "trackedThreads" index collection wouldn't be updated.
+				} else if (set) {
+					set.apply(this, getArgs(args))
+					// Doesn't update the related "index" collection.
+					// For example, if something like "trackedThreadsList" would be "set"
+					// "from scratch", then "trackedThreads" index collection wouldn't be updated.
 				}
-				removeFrom.apply(this, getArgs(args))
-			}
-			// this[`set${capitalize(key)}`] = (...args) => {
-			// 	setIn.apply(this, getArgs(args))
-			// }
-			this[`${OPERATIONS.get}${capitalize(key)}`] = (...args) => {
-				return getFrom.apply(this, getArgs(args))
-			}
-			this[`merge${capitalize(key)}`] = (...args) => {
-				return mergeWith.apply(this, getArgs(args))
-				// Doesn't update "index" collection.
-			}
-			this[`set${capitalize(key)}`] = (...args) => {
-				const [storage, key] = preArgs
-				storage.set(key, args[0])
-				// Doesn't update "index" collection.
 			}
 			if (setIn) {
 				this[`${OPERATIONS.setIn}${capitalize(key)}`] = (...args) => {
-					return setIn.apply(this, getArgs(args))
+					setIn.apply(this, getArgs(args))
 				}
+			}
+			this[`${OPERATIONS.remove}${capitalize(key)}`] = (...args) => {
+				const item = get.apply(this, getArgs(args))
+				if (!item) {
+					// console.error(`Item "${JSON.stringify(args)}" not found in "${collection.index}"`)
+					return
+				}
+				// Also remove from the related "index" collection.
+				if (collection.index) {
+					this[`${OPERATIONS.remove}${capitalize(collection.index)}`].apply(this, collection.indexKey(item))
+				}
+				remove.apply(this, getArgs(args))
+			}
+			this[`${OPERATIONS.merge}${capitalize(key)}`] = (...args) => {
+				return merge.apply(this, getArgs(args))
+				// Doesn't update "index" collection.
 			}
 		}
 		// Add method aliases.
@@ -624,18 +648,18 @@ function getFunctions(type) {
 		// ]
 		case 'value':
 			return {
-				removeFrom: removeValue,
-				getFrom: getValue,
-				mergeWith: mergeValue
+				get: getValue,
+				remove: removeValue,
+				merge: mergeValue
 			}
 		case 'list':
 		case 'threads':
 			return {
-				addTo: addToList,
-				removeFrom: removeFromList,
-				getFrom: getFromList,
-				mergeWith: mergeWithList,
-				setIn: setInList
+				add: addToList,
+				get: getFromList,
+				setIn: setInList,
+				remove: removeFromList,
+				merge: mergeWithList
 			}
 		// hiddenThreads: {
 		//   a: [
@@ -646,10 +670,10 @@ function getFunctions(type) {
 		// }
 		case 'channels-threads':
 			return {
-				addTo: addToChannelIdThreadIds,
-				removeFrom: removeFromChannelIdThreadIds,
-				getFrom: getFromChannelIdThreadIds,
-				mergeWith: mergeWithChannelIdThreadIds
+				add: addToChannelIdThreadIds,
+				remove: removeFromChannelIdThreadIds,
+				get: getFromChannelIdThreadIds,
+				merge: mergeWithChannelIdThreadIds
 			}
 		// hiddenComments: {
 		//   a: {
@@ -664,10 +688,10 @@ function getFunctions(type) {
 		// }
 		case 'channels-threads-comments':
 			return {
-				addTo: addToChannelIdThreadIdCommentIds,
-				removeFrom: removeFromChannelIdThreadIdCommentIds,
-				getFrom: getFromChannelIdThreadIdCommentIds,
-				mergeWith: mergeWithChannelIdThreadIdCommentIds
+				add: addToChannelIdThreadIdCommentIds,
+				remove: removeFromChannelIdThreadIdCommentIds,
+				get: getFromChannelIdThreadIdCommentIds,
+				merge: mergeWithChannelIdThreadIdCommentIds
 			}
 		// commentVotes: {
 		//   a: {
@@ -682,10 +706,10 @@ function getFunctions(type) {
 		// }
 		case 'channels-threads-comments-data':
 			return {
-				addTo: addToChannelIdThreadIdCommentIdData,
-				removeFrom: removeFromChannelIdThreadIdCommentIdData,
-				getFrom: getFromChannelIdThreadIdCommentIdData,
-				mergeWith: mergeWithChannelIdThreadIdCommentIdData
+				set: setChannelIdThreadIdCommentIdData,
+				remove: removeChannelIdThreadIdCommentIdData,
+				get: getChannelIdThreadIdCommentIdData,
+				merge: mergeChannelIdThreadIdCommentIdData
 			}
 		// latestReadComments: {
 		//   a: {
@@ -697,10 +721,10 @@ function getFunctions(type) {
 		// }
 		case 'channels-threads-data':
 			return {
-				addTo: addToChannelIdThreadIdData,
-				removeFrom: removeFromChannelIdThreadIdData,
-				getFrom: getFromChannelIdThreadIdData,
-				mergeWith: mergeWithChannelIdThreadIdData
+				set: setChannelIdThreadIdData,
+				remove: removeChannelIdThreadIdData,
+				get: getChannelIdThreadIdData,
+				merge: mergeChannelIdThreadIdData
 			}
 		// {
 		// 	a: 123,
@@ -709,10 +733,10 @@ function getFunctions(type) {
 		// }
 		case 'channels-data':
 			return {
-				addTo: addToChannelIdData,
-				removeFrom: removeFromChannelIdData,
-				getFrom: getFromChannelIdData,
-				mergeWith: mergeWithChannelIdData
+				set: setChannelIdData,
+				remove: removeChannelIdData,
+				get: getChannelIdData,
+				merge: mergeChannelIdData
 			}
 	}
 }

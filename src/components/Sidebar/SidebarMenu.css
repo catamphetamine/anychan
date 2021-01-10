@@ -1,3 +1,8 @@
+:root {
+	--SidebarMenuItem-icon-width: calc(var(--unit) * 1.25);
+	--SidebarMenuItem-marginRight: calc(var(--unit) * 0.5);
+}
+
 .SidebarMenu {
 	margin-top: var(--unit);
 }
@@ -27,7 +32,7 @@
 }
 
 .SidebarMenuItem--icon {
-	margin-right: calc(var(--unit) * 0.5);
+	margin-right: var(--SidebarMenuItem-marginRight);
 	color: var(--Sidebar-color-600);
 	&:last-child {
 		margin-right: 0;
@@ -63,8 +68,8 @@
 
 .SidebarMenuItem--icon {
 	.SidebarMenuItem-icon {
-		width: calc(var(--unit) * 1.25);
-		height: calc(var(--unit) * 1.25);
+		width: var(--SidebarMenuItem-icon-width);
+		height: var(--SidebarMenuItem-icon-width);
 		/* Prevent the icon from shrinking when title text overflows. */
 		flex-shrink: 0;
 	}

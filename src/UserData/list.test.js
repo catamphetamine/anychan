@@ -15,18 +15,18 @@ userData.collections.trackedThreadsList.limit = 2
 describe('UserData', () => {
 	it('should trim collections on limit reach', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 124, title: 'Anime 2' })
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 124, title: 'Anime 2' })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
 		expectToEqual(storage.data.trackedThreadsList.length, 2)
 		expectToEqual(storage.data.trackedThreadsList[0].title, 'Anime 2')
 	})
 
 	it('should trim expired items first', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 124, title: 'Anime 2', expired: true })
-		userData.addTrackedThreadsList({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 123, title: 'Anime 1' })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 124, title: 'Anime 2', expired: true })
+		userData.addTrackedThread({ channel: { id: 'a' }, id: 125, title: 'Anime 3' })
 		expectToEqual(storage.data.trackedThreadsList.length, 2)
 		expectToEqual(storage.data.trackedThreadsList[0].title, 'Anime 1')
 		expectToEqual(storage.data.trackedThreadsList[1].title, 'Anime 3')
@@ -70,7 +70,7 @@ describe('UserData', () => {
 			userData.getFavoriteChannels({ id: 'c' }),
 			undefined
 		)
-		userData.removeFavoriteChannels({ id: 'c' })
+		userData.removeFavoriteChannel({ id: 'c' })
 		expectToEqual(
 			storage.data,
 			{
@@ -80,7 +80,7 @@ describe('UserData', () => {
 				]
 			}
 		)
-		userData.removeFavoriteChannels({ id: 'b' })
+		userData.removeFavoriteChannel({ id: 'b' })
 		expectToEqual(
 			storage.data,
 			{
@@ -89,7 +89,7 @@ describe('UserData', () => {
 				]
 			}
 		)
-		userData.removeFavoriteChannels({ id: 'a' })
+		userData.removeFavoriteChannel({ id: 'a' })
 		expectToEqual(
 			storage.data,
 			{}

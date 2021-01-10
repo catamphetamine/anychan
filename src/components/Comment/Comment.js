@@ -68,6 +68,7 @@ export default function Comment({
 	onPostUrlClick,
 	urlBasePath,
 	isPreviouslyRead,
+	onDownloadThread,
 	className,
 	// <OnLongPress/> stuff:
 	onTouchStart,
@@ -219,7 +220,8 @@ export default function Comment({
 					onPostUrlClick={_onPostUrlClick}
 					mode={mode}
 					onReply={onReply}
-					vote={vote}/>
+					vote={vote}
+					onDownloadThread={onDownloadThread}/>
 			</div>
 		)
 	}
@@ -277,6 +279,7 @@ Comment.propTypes = {
 	locale: PropTypes.string.isRequired,
 	parentComment: commentType,
 	isPreviouslyRead: PropTypes.func,
+	onDownloadThread: PropTypes.func,
 	showingReplies: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,

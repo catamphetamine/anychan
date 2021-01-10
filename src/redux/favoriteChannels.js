@@ -13,7 +13,7 @@ export const getFavoriteChannels = redux.simpleAction(
 
 export const addFavoriteChannel = redux.simpleAction(
 	(state, channel) => {
-		UserData.addFavoriteChannels(channel)
+		UserData.addFavoriteChannel(channel)
 		return {
 			...state,
 			favoriteChannels: _getFavoriteChannels()
@@ -33,7 +33,7 @@ export const setFavoriteChannels = redux.simpleAction(
 
 export const removeFavoriteChannel = redux.simpleAction(
 	(state, channel) => {
-		UserData.removeFavoriteChannels(channel)
+		UserData.removeFavoriteChannel(channel)
 		return {
 			...state,
 			favoriteChannels: _getFavoriteChannels()

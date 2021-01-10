@@ -44,6 +44,12 @@
 	cursor: default;
 }
 
+.SidebarSection-text {
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	text-align: center;
+}
+
 @mixin l-plus {
 	.SidebarSection--smallScreen {
 		display: none;

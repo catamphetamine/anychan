@@ -207,7 +207,7 @@ export const vote = redux.action(
 		// If the vote has been accepted then mark this comment as "voted" in user data.
 		// If the vote hasn't been accepted due to "already voted"
 		// then also mark this comment as "voted" in user data.
-		UserData.addCommentVotes(channelId, threadId, commentId, up ? 1 : -1)
+		UserData.setCommentVote(channelId, threadId, commentId, up ? 1 : -1)
 		return voteAccepted
 	}
 )

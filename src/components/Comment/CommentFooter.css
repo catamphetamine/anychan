@@ -5,9 +5,9 @@
 	   * Comment status changes — new badges get added (for example, banned).
 	*/
 	min-height: var(--CommentFooter-height);
-	max-height: var(--CommentFooter-height);
+	line-height: var(--CommentFooter-lineHeight);
 	margin-top: var(--CommentFooter-marginTop);
-	margin-bottom: var(--CommentFooter-marginBottom);
+	margin-bottom: calc(var(--CommentFooter-marginBottom) - (var(--CommentFooter-lineHeight) - var(--CommentFooter-height)) / 2);
 	/*margin-bottom: calc(var(--Post-paddingBottom) + var(--CommentFooter-marginBottom));*/
 	/*padding-left: var(--Post-paddingLeft);*/
 	/*padding-right: var(--Post-paddingRight);*/

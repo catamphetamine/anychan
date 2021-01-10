@@ -95,7 +95,10 @@ export default function useThreadNavigation({
 			if (history.length === 0) {
 				history = history.concat(getCommentById(fromCommentId))
 			}
-			if (!comment.contentParsed) {
+			// `.hasContentBeenParsed` flag is set by the `parseContent()`
+			// function that the `imageboard` library has created.
+			// Don't set this flag manually. Only read it.
+			if (!comment.hasContentBeenParsed) {
 				comment.parseContent({ getCommentById })
 			}
 			onSetThreadNavigationHistory(history.concat(comment))

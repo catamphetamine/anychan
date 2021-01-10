@@ -60,7 +60,7 @@ export default function SideNavMenuButtons() {
 				title={isSidebarShown ? getMessages(locale).actions.close : getMessages(locale).menu}
 				onClick={toggleSidebar}
 				className="SideNavMenuButton">
-				<MenuIcon mode={isSidebarShown ? 'cross' : 'menu'}/>
+				<MenuIcon mode={isSidebarShown ? 'cross' : 'list'}/>
 			</Button>
 			{canGoBack &&
 				<Button
@@ -82,6 +82,7 @@ function MenuIcon({ mode, className }) {
 	onMount()
 	return (
 		<div className={classNames(className, 'SideNavMenuButtonIcon', {
+			'SideNavMenuButtonIcon--list': mode === 'list',
 			'SideNavMenuButtonIcon--leftArrow': mode === 'leftArrow',
 			'SideNavMenuButtonIcon--cross': mode === 'cross',
 			'SideNavMenuButtonIcon--transition': isMounted()

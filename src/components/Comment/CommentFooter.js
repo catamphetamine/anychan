@@ -41,6 +41,7 @@ export default function CommentFooter({
 	showingReplies,
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
+	onDownloadThread,
 	locale,
 	dispatch,
 	url,
@@ -160,9 +161,10 @@ export default function CommentFooter({
 					dispatch={dispatch}
 					locale={locale}
 					mode={mode}
-					onReply={onReply}
+					url={url}
 					urlBasePath={urlBasePath}
-					url={url}/>
+					onReply={onReply}
+					onDownloadThread={onDownloadThread}/>
 			</div>
 		</div>
 	)
@@ -185,7 +187,8 @@ CommentFooter.propTypes = {
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	vote: PropTypes.bool,
-	onVote: PropTypes.func
+	onVote: PropTypes.func,
+	onDownloadThread: PropTypes.func
 }
 
 // function getFooterBadges(comment, {

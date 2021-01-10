@@ -2,20 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-pages'
 
 import SimpleBar from 'simplebar-react'
 
-import { HomePageLink, SettingsLink, DarkModeToggle } from './SidebarMenu'
+import HomePageLink from './HomePageLink'
+import SettingsLink from './SettingsLink'
+import DarkModeToggle from './DarkModeToggle'
 
+import SidebarProvider from './SidebarProvider'
 import SidebarMenuSection from './SidebarMenuSection'
 import ChannelsSidebarSection from './ChannelsSidebarSection'
 import FavoriteChannelsSidebarSection from './FavoriteChannelsSidebarSection'
 import TrackedThreadsSidebarSection from './TrackedThreadsSidebarSection'
 
-import ProviderLogo from '../ProviderLogo'
-
-import { getProvider } from '../../provider'
 import getMessages from '../../messages'
 
 import './Sidebar.css'
@@ -29,21 +28,7 @@ export default function Sidebar() {
 			'Sidebar--show': isShown
 		})}>
 			<SimpleBar className="Sidebar-scrollableList">
-				{getProvider() &&
-					<div className="Sidebar-provider">
-						<Link
-							to="/"
-							className="Sidebar-providerLink">
-							<ProviderLogo
-								aria-hidden
-								className="Sidebar-providerLogo"/>
-							{getProvider().title}
-							<ProviderLogo
-								aria-hidden
-								className="Sidebar-providerLogo Sidebar-providerLogo--spaceEquivalent"/>
-						</Link>
-					</div>
-				}
+				<SidebarProvider/>
 				<div className="Sidebar-topBar">
 					{/*<div className="Sidebar-topBarRight">*/}
 						<DarkModeToggle/>
@@ -51,7 +36,7 @@ export default function Sidebar() {
 						{/*<HomePageLink/>*/}
 					{/*</div>*/}
 				</div>
-				<SidebarMenuSection/>
+				{/*<SidebarMenuSection/>*/}
 				<TrackedThreadsSidebarSection/>
 				<FavoriteChannelsSidebarSection/>
 				<ChannelsSidebarSection/>

@@ -24,6 +24,7 @@ export default function CommentReadStatusWatcher({
 	threadId,
 	commentId,
 	commentIndex,
+	threadIsRolling,
 	// commentCreatedAt,
 	// commentUpdatedAt,
 	// threadUpdatedAt,
@@ -52,7 +53,8 @@ export default function CommentReadStatusWatcher({
 			data-channel-id={channelId}
 			data-thread-id={threadId}
 			data-comment-id={commentId}
-			data-comment-index={commentIndex}/>
+			data-comment-index={commentIndex}
+			data-thread-is-rolling={threadIsRolling}/>
 	)
 }
 
@@ -62,6 +64,7 @@ CommentReadStatusWatcher.propTypes = {
 	threadId: threadId.isRequired,
 	commentId: commentId.isRequired,
 	commentIndex: PropTypes.number.isRequired,
+	threadIsRolling: PropTypes.bool,
 	// commentCreatedAt: PropTypes.instanceof(Date).isRequired,
 	// commentUpdatedAt: PropTypes.instanceof(Date),
 	// threadUpdatedAt: PropTypes.instanceof(Date),

@@ -27,6 +27,7 @@ export default class UnreadCommentWatcher {
 					const threadId = parseInt(element.dataset.threadId)
 					const commentId = parseInt(element.dataset.commentId)
 					const commentIndex = parseInt(element.dataset.commentIndex)
+					const threadIsRolling = element.dataset.threadIsRolling === 'true'
 					// const commentCreatedAt = parseInt(element.dataset.commentCreatedAt)
 					// const commentUpdatedAt = parseInt(element.dataset.commentUpdatedAt)
 					// const threadUpdatedAt = element.dataset.threadUpdatedAt && parseInt(element.dataset.threadUpdatedAt)
@@ -36,6 +37,7 @@ export default class UnreadCommentWatcher {
 						threadId,
 						commentId,
 						commentIndex,
+						threadIsRolling,
 						dispatch
 					})
 					// No longer track the visibility of this comment.
@@ -51,6 +53,7 @@ export default class UnreadCommentWatcher {
 		threadId,
 		commentId,
 		commentIndex,
+		threadIsRolling,
 		dispatch
 	}) {
 		// If some later comment has already been marked as read
@@ -64,13 +67,16 @@ export default class UnreadCommentWatcher {
 		if (mode === 'thread') {
 			if (!isCommentRead(channelId, threadId, commentId)) {
 				// Sets the latest read comment id.
-				UserData.addLatestReadComments(channelId, threadId, {
+				const latestReadCommentRecord = {
 					id: commentId,
-					i: commentIndex,
 					// createdAt: commentCreatedAt,
 					// updatedAt: commentUpdatedAt,
 					// threadUpdatedAt: threadUpdatedAt
-				})
+				}
+				if (!threadIsRolling) {
+					latestReadCommentRecord.i = commentIndex
+				}
+				UserData.setLatestReadComment(channelId, threadId, latestReadCommentRecord)
 				// Since the user is already viewing this thread, the "new comments"
 				// counter for this thread won't be shown in the  Sidebar,
 				// because that would create unnecessary visual "noise".
@@ -97,7 +103,7 @@ export default class UnreadCommentWatcher {
 		if (mode === 'channel' || mode === 'thread') {
 			if (!isThreadSeen(channelId, threadId)) {
 				// Sets the latest seen thread id.
-				UserData.addLatestSeenThreads(channelId, threadId)
+				UserData.setLatestSeenThread(channelId, threadId)
 			}
 		}
 	}

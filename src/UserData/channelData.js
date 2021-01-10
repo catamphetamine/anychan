@@ -1,4 +1,4 @@
-export function addToChannelIdData(storage, key, collection, channelId, data) {
+export function setChannelIdData(storage, key, collection, channelId, data) {
 	const channelIdData = storage.get(key, {})
 	if (!channelIdData[channelId]) {
 		channelIdData[channelId] = {}
@@ -7,7 +7,7 @@ export function addToChannelIdData(storage, key, collection, channelId, data) {
 	storage.set(key, channelIdData)
 }
 
-export function removeFromChannelIdData(storage, key, collection, channelId, data) {
+export function removeChannelIdData(storage, key, collection, channelId, data) {
 	const channelIdData = storage.get(key, {})
 	if (!channelIdData[channelId]) {
 		return
@@ -26,7 +26,7 @@ export function removeFromChannelIdData(storage, key, collection, channelId, dat
 	}
 }
 
-export function getFromChannelIdData(storage, key, collection, channelId, data) {
+export function getChannelIdData(storage, key, collection, channelId, data) {
 	const channelIdData = storage.get(key, {})
 	if (channelId) {
 		const _data = decode(channelIdData[channelId], collection, 'channel')
@@ -38,7 +38,7 @@ export function getFromChannelIdData(storage, key, collection, channelId, data) 
 	return decode(channelIdData, collection, 'root')
 }
 
-export function mergeWithChannelIdData(storage, key, collection, data) {
+export function mergeChannelIdData(storage, key, collection, data) {
 	const channelIdData = storage.get(key, {})
 	for (const channelId of Object.keys(data)) {
 		const newValue = encode(data[channelId], collection)

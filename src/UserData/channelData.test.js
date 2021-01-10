@@ -14,7 +14,7 @@ const userData = new UserData(storage, {
 describe('UserData', () => {
 	it('should add/remove/get seen threads', () => {
 		storage.clear()
-		userData.addLatestSeenThreads('a', 123)
+		userData.setLatestSeenThread('a', 123)
 		expectToEqual(
 			storage.data,
 			{
@@ -23,7 +23,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addLatestSeenThreads('a', 456)
+		userData.setLatestSeenThread('a', 456)
 		expectToEqual(
 			storage.data,
 			{
@@ -32,7 +32,7 @@ describe('UserData', () => {
 				}
 			}
 		)
-		userData.addLatestSeenThreads('b', 789)
+		userData.setLatestSeenThread('b', 789)
 		expectToEqual(
 			storage.data,
 			{

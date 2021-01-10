@@ -1,6 +1,7 @@
 import Imageboard from './Imageboard'
 import { getProvider } from '../provider'
 import addCommentProps from './utility/addCommentProps'
+import addThreadProps from './utility/addThreadProps'
 import configuration from '../configuration'
 import UserData from '../UserData/UserData'
 import getMessages from './utility/getMessages'
@@ -38,10 +39,15 @@ export default async function getThreads({
 	// for threads that the user has already voted for.
 	const votesForThreads = UserData.getCommentVotes(channelId)
 	for (const thread of threads) {
+		addThreadProps(thread, {
+			locale,
+			grammarCorrection,
+			censoredWords
+		})
 		addCommentProps(thread, {
 			mode: 'channel',
 			votes: votesForThreads[thread.id] || {},
-			messages,
+			// messages,
 			locale,
 			grammarCorrection,
 			censoredWords

@@ -14,17 +14,17 @@ const userData = new UserData(storage, {
 describe('UserData', () => {
 	it('should add to / remove from index when adding to / removing from data collection', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 123,
 			title: 'Anime 1',
 			channel: { id: 'a' }
 		})
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 456,
 			title: 'Anime 2',
 			channel: { id: 'a' }
 		})
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 789,
 			title: 'Random',
 			channel: { id: 'b' }
@@ -108,33 +108,33 @@ describe('UserData', () => {
 		// userData.addTrackedThreads('a', 123, { title: 'Anime 1' })
 		// userData.addTrackedThreads('a', 456, { title: 'Anime 2' })
 		// userData.addTrackedThreads('b', 789, { title: 'Random' })
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 123,
 			title: 'Anime 1',
 			channel: { id: 'a' }
 		})
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 456,
 			title: 'Anime 2',
 			channel: { id: 'a' }
 		})
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 789,
 			title: 'Random',
 			channel: { id: 'b' }
 		})
-		userData.addLatestReadComments('a', 123, { id: 124, threadUpdatedAt: 1000 })
-		userData.addLatestReadComments('a', 456, { id: 456, threadUpdatedAt: 2000 })
-		userData.addLatestReadComments('a', 456, { id: 457, threadUpdatedAt: 3000 })
-		userData.addLatestReadComments('b', 789, { id: 790, threadUpdatedAt: 4000 })
+		userData.setLatestReadComment('a', 123, { id: 124, threadUpdatedAt: 1000 })
+		userData.setLatestReadComment('a', 456, { id: 456, threadUpdatedAt: 2000 })
+		userData.setLatestReadComment('a', 456, { id: 457, threadUpdatedAt: 3000 })
+		userData.setLatestReadComment('b', 789, { id: 790, threadUpdatedAt: 4000 })
 		userData.addHiddenComments('a', 123, 124)
 		userData.addHiddenComments('a', 123, 125)
 		userData.addHiddenComments('a', 456, 456)
 		userData.addHiddenComments('a', 456, 457)
 		userData.addHiddenComments('b', 789, 790)
-		userData.addCommentVotes('a', 123, 124, 1)
-		userData.addCommentVotes('a', 456, 456, 1)
-		userData.addCommentVotes('b', 789, 790, -1)
+		userData.setCommentVote('a', 123, 124, 1)
+		userData.setCommentVote('a', 456, 456, 1)
+		userData.setCommentVote('b', 789, 790, -1)
 		expectToEqual(
 			storage.data,
 			{
@@ -303,12 +303,12 @@ describe('UserData', () => {
 
 	it('should merge user data', () => {
 		storage.clear()
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 123,
 			title: 'Anime 1',
 			channel: { id: 'a' }
 		})
-		userData.addTrackedThreadsList({
+		userData.addTrackedThread({
 			id: 456,
 			title: 'Anime 2',
 			channel: { id: 'a' }
@@ -320,7 +320,7 @@ describe('UserData', () => {
 		const userData2 = new UserData(storage2, {
 			prefix: ''
 		})
-		userData2.addTrackedThreadsList({
+		userData2.addTrackedThread({
 			id: 789,
 			title: 'Random',
 			channel: { id: 'b' }

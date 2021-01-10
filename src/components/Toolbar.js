@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import { thread as threadType } from '../PropTypes'
 import getMessages from '../messages'
+import serializeThread from '../utility/serializeThread'
 
 import StarIcon from './StarIcon'
 
@@ -20,12 +22,16 @@ import SlideshowIconFill from 'webapp-frontend/assets/images/icons/slideshow-fil
 import SearchIconOutline from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
 import SearchIconFill from 'webapp-frontend/assets/images/icons/menu/search-fill.svg'
 
+// import DownloadIconOutline from 'webapp-frontend/assets/images/icons/download-cloud.svg'
+
 import { notify } from 'webapp-frontend/src/redux/notifications'
+import saveFile from 'webapp-frontend/src/utility/saveFile'
 
 import './Toolbar.css'
 
 export default function Toolbar({
 	mode,
+	thread,
 	locale,
 	dispatch,
 	isThreadTracked,
@@ -35,10 +41,16 @@ export default function Toolbar({
 	areAttachmentsExpanded,
 	setAttachmentsExpanded,
 	openSlideshow,
+	getCommentById,
 	className,
 	...rest
 }) {
 	const messages = getMessages(locale)
+
+	// const onDownloadThread = useDownloadThread({
+	// 	thread,
+	// 	getCommentById
+	// })
 
 	const menuItems = mode === 'channel' ?
 	[
@@ -77,6 +89,12 @@ export default function Toolbar({
 		}
 		// ,
 		// {
+		// 	title: messages.downloadThread,
+		// 	onClick: onDownloadThread,
+		// 	icon: DownloadIconOutline
+		// }
+		// ,
+		// {
 		// 	title: messages.actions.search,
 		// 	onClick: () => dispatch(notify(messages.notImplemented)),
 		// 	// onClick: () => setSearchBarShown(!isSearchBarShown),
@@ -98,13 +116,16 @@ export default function Toolbar({
 
 Toolbar.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
+	thread: threadType,
 	locale: PropTypes.string.isRequired,
+	dispatch: PropTypes.func.isRequired,
 	isThreadTracked: PropTypes.bool,
-	setThreadTracked: PropTypes.func.isRequired,
+	setThreadTracked: PropTypes.func,
 	isSearchBarShown: PropTypes.bool,
-	setSearchBarShown: PropTypes.func.isRequired,
+	setSearchBarShown: PropTypes.func,
 	areAttachmentsExpanded: PropTypes.bool,
-	setAttachmentsExpanded: PropTypes.func.isRequired,
-	openSlideshow: PropTypes.func.isRequired,
+	setAttachmentsExpanded: PropTypes.func,
+	openSlideshow: PropTypes.func,
+	getCommentById: PropTypes.func,
 	className: PropTypes.string
 }
