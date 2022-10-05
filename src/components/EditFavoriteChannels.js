@@ -5,44 +5,59 @@ import { Autocomplete } from 'react-responsive-ui'
 import SortableList from 'react-sortable-dnd-list'
 import classNames from 'classnames'
 
-import ListButton from './ListButton'
-import ChannelUrl from './ChannelUrl'
+import ListButton from './ListButton.js'
+import ChannelUrl from './ChannelUrl.js'
 
-import { channel } from '../PropTypes'
-import getMessages from '../messages'
+import { channel } from '../PropTypes.js'
+import useMessages from '../hooks/useMessages.js'
 
-import { saveAutoSuggestFavoriteChannels } from '../redux/settings'
+import { saveAutoSuggestFavoriteChannels } from '../redux/settings.js'
+
 import {
 	removeFavoriteChannel,
 	addFavoriteChannel,
 	setFavoriteChannels
-} from '../redux/favoriteChannels'
+} from '../redux/favoriteChannels.js'
 
-import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
+import SearchIcon from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
 
 import './Channels.css'
 import './EditFavoriteChannels.css'
 
 export default function EditFavoriteChannels() {
-	const favoriteChannels = useSelector(({ favoriteChannels }) => favoriteChannels.favoriteChannels)
-	const allChannels = useSelector(({ data }) => data.allChannels && data.allChannels.channels)
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
+	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
+
+	const messages = useMessages()
+
 	const dispatch = useDispatch()
+
 	const [selectedChannel, setSelectedChannel] = useState()
+
 	const onSelectChannel = useCallback((channel) => {
 		// Set a new "selected channel" with empty `value` and `label`
 		// so that the input field is empty again.
 		setSelectedChannel({})
 		// Add the channel to the list of "favorite channels".
-		dispatch(addFavoriteChannel(channel))
+		dispatch(addFavoriteChannel({
+			channel: {
+				id: channel.id,
+				title: channel.title
+			}
+		}))
 	}, [dispatch])
+
 	const itemComponentProps = useMemo(() => ({
-		locale,
+		messages,
 		dispatch
-	}), [locale, dispatch])
+	}), [messages, dispatch])
+
 	const onFavoriteChannelsOrderChange = useCallback((favoriteChannels) => {
-		dispatch(setFavoriteChannels(favoriteChannels))
+		dispatch(setFavoriteChannels({
+			channels: favoriteChannels
+		}))
 	}, [dispatch])
+
 	return (
 		<section className="EditFavoriteChannels">
 			<Autocomplete
@@ -60,14 +75,16 @@ export default function EditFavoriteChannels() {
 						value: channel,
 						// `channel.title` can be `undefined` on some `8ch.net` userchannels.
 						label: `/${channel.id}/ ${channel.title || ''}`
-					}))}/>
+					}))}
+			/>
 			<SortableList
 				component="div"
 				className="EditFavoriteChannels-list"
 				value={favoriteChannels}
 				onChange={onFavoriteChannelsOrderChange}
 				itemComponent={Channel}
-				itemComponentProps={itemComponentProps}/>
+				itemComponentProps={itemComponentProps}
+			/>
 		</section>
 	)
 }
@@ -75,24 +92,24 @@ export default function EditFavoriteChannels() {
 EditFavoriteChannels.propTypes = {
 	// favoriteChannels: PropTypes.arrayOf(channel).isRequired,
 	// allChannels: PropTypes.arrayOf(channel).isRequired,
-	// locale: PropTypes.string.isRequired,
 	// dispatch: PropTypes.func.isRequired
 }
 
 function Channel({
 	children: channel,
-	locale,
+	messages,
 	dispatch,
 	style,
 	dragging,
 	dragged
 }) {
 	const onRemoveFavoriteChannel = useCallback(async () => {
-		await dispatch(removeFavoriteChannel(channel))
+		await dispatch(removeFavoriteChannel({ channel }))
 		// Don't auto-add visited channels to the list of "favorite" channels
 		// once the user has deleted a single channel from this "auto" list.
 		dispatch(saveAutoSuggestFavoriteChannels(false))
 	}, [dispatch, channel])
+
 	return (
 		<div style={style} className={classNames('EditFavoriteChannels-channel', {
 			'EditFavoriteChannels-channel--dragging': dragging,
@@ -106,7 +123,7 @@ function Channel({
 				muted
 				icon="remove"
 				onClick={onRemoveFavoriteChannel}
-				title={getMessages(locale).actions.remove}
+				title={messages.actions.remove}
 				className="EditFavoriteChannels-remove"/>
 		</div>
 	)
@@ -114,7 +131,7 @@ function Channel({
 
 Channel.propTypes = {
 	children: channel.isRequired,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	style: PropTypes.object
 }
@@ -136,7 +153,10 @@ function ChannelOptionComponent({
 }
 
 ChannelOptionComponent.propTypes = {
-	value: PropTypes.string,
+	value: PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		title: PropTypes.string
+	}).isRequired,
 	label: PropTypes.string.isRequired,
 	selected: PropTypes.bool,
 	focused: PropTypes.bool

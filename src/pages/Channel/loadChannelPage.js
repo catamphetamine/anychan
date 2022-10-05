@@ -1,8 +1,9 @@
-import { getThreads } from '../../redux/data'
-import { resetState } from '../../redux/channel'
-import { addFavoriteChannel } from '../../redux/favoriteChannels'
+import { getThreads } from '../../redux/data.js'
+import { resetState, setInitialLatestSeenThreadId, setChannelView, getSubscribedThreadIdsForChannel } from '../../redux/channel.js'
+import { addFavoriteChannel } from '../../redux/favoriteChannels.js'
 
-import onThreadsFetched from '../../utility/onThreadsFetched'
+import onThreadsFetched from '../../utility/thread/onThreadsFetched.js'
+import getLatestSeenThreadId from '../../utility/thread/getLatestSeenThreadId.js'
 
 export default async function loadChannelPage({
 	getState,
@@ -26,10 +27,18 @@ export default async function loadChannelPage({
 	if (autoSuggestFavoriteChannels !== false) {
 		const { channel } = getState().data
 		dispatch(addFavoriteChannel({
-			id: channel.id,
-			title: channel.title
+			channel: {
+				id: channel.id,
+				title: channel.title
+			}
 		}))
 	}
 	// Reset a potentially previously set "instant back" state.
 	dispatch(resetState())
+	// Set initial state.
+	dispatch(setInitialLatestSeenThreadId(getLatestSeenThreadId(channelId, threads)))
+	// Set channel view.
+	dispatch(setChannelView(getState().settings.settings.channelView))
+	// Set subscribed thread IDs.
+	dispatch(getSubscribedThreadIdsForChannel({ channelId }))
 }

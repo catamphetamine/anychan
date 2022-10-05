@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getProvider } from '../provider'
+import { getProvider } from '../provider.js'
 
 export default function ProviderIcon(props) {
 	return (

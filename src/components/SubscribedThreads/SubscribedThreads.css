@@ -1,0 +1,27 @@
+@import "../../styles/common.css";
+
+.SubscribedThreads {
+	/*padding-top: calc(var(--unit) * 1);*/
+	/*padding-bottom: calc(var(--unit) * 1);*/
+	--Picture-borderColor: var(--Sidebar-color-600);
+}
+
+.SubscribedThreads-showMoreLess,
+.SubscribedThreads-showExpired {
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	text-transform: lowercase;
+	line-height: var(--List-lineHeight);
+}
+
+.SubscribedThreads-showMoreLessContainer {
+	text-align: right;
+}
+
+@mixin upto-m {
+	.Document--leftHanded {
+		.SubscribedThreads-showMoreLessContainer {
+			text-align: left;
+		}
+	}
+}

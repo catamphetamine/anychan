@@ -4,20 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { Button } from 'webapp-frontend/src/components/Button'
+import Button from 'frontend-lib/components/Button.js'
 
-import CloseIcon from 'webapp-frontend/assets/images/icons/close.svg'
-import LeftArrow from 'webapp-frontend/assets/images/icons/left-arrow-minimal.svg'
+import CloseIcon from 'frontend-lib/icons/close.svg'
+import LeftArrow from 'frontend-lib/icons/left-arrow-minimal.svg'
 
-import CommentTree from '../components/CommentTree'
+import CommentTree from '../components/CommentTree.js'
 
 import {
 	comment as commentType,
 	thread as threadType,
 	channel as channelType
-} from '../PropTypes'
+} from '../PropTypes.js'
 
-import getMessages from '../messages'
+import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
 
 import './InReplyToModal.css'
 
@@ -34,12 +35,16 @@ export default function InReplyToModal({
 	onGoBack
 }) {
 	const comment = history[history.length - 1]
+
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const messages = useMessages()
+	const locale = useLocale()
+
 	const onPostUrlClick = useCallback((event, post) => {
 		onGoToComment(post)
 		onClose()
 	}, [onClose])
+
 	// `overlayClassName` is used in `Thread.js`
 	// to get `document.querySelector('.InReplyToModalOverlay')`.
 	// // `shouldReturnFocusAfterClose` is `false` because otherwise
@@ -49,20 +54,19 @@ export default function InReplyToModal({
 		<Modal
 			isOpen={isOpen}
 			close={onClose}
-			aria-label={getMessages(locale).inReplyTo}
-			closeLabel={getMessages(locale).actions.close}
+			aria-label={messages.inReplyTo}
+			closeLabel={messages.actions.close}
+			closeTimeout={InReplyToModalCloseTimeout}
 			className="InReplyToModal"
 			overlayClassName={InReplyToModalOverlayClassName}>
 			<Modal.Content>
 				<div className="InReplyToModalHeader">
 					<InReplyToModalBack
 						history={history}
-						locale={locale}
 						onClose={onClose}
 						onGoBack={onGoBack}/>
 					<InReplyToModalClose
 						history={history}
-						locale={locale}
 						onClose={onClose}/>
 				</div>
 				{/*
@@ -102,13 +106,15 @@ InReplyToModal.propTypes = {
 function InReplyToModalBack({
 	onClose,
 	onGoBack,
-	history,
-	locale
+	history
 }) {
+	const messages = useMessages()
+
 	const isInitial = history.length === 2
 	if (isInitial) {
 		return null
 	}
+
 	return (
 		<Button
 			onClick={isInitial ? onClose : onGoBack}
@@ -120,7 +126,7 @@ function InReplyToModalBack({
 						{history.length - 1}
 					</span>
 				}
-				{getMessages(locale).actions.back}
+				{messages.actions.back}
 			</span>
 		</Button>
 	)
@@ -129,26 +135,27 @@ function InReplyToModalBack({
 InReplyToModalBack.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onGoBack: PropTypes.func.isRequired,
-	history: PropTypes.arrayOf(commentType).isRequired,
-	locale: PropTypes.string.isRequired
+	history: PropTypes.arrayOf(commentType).isRequired
 }
 
 function InReplyToModalClose({
 	onClose,
-	history,
-	locale
+	history
 }) {
+	const messages = useMessages()
+
 	const isInitial = history.length === 2
 	if (!isInitial) {
 		return null
 	}
+
 	return (
 		<Button
 			onClick={onClose}
 			className="InReplyToModalClose">
 			<CloseIcon className="InReplyToModalCloseIcon"/>
 			<span className="InReplyToModalCloseText">
-				{getMessages(locale).actions.close}
+				{messages.actions.close}
 			</span>
 		</Button>
 	)
@@ -156,11 +163,10 @@ function InReplyToModalClose({
 
 InReplyToModalClose.propTypes = {
 	onClose: PropTypes.func.isRequired,
-	history: PropTypes.arrayOf(commentType).isRequired,
-	locale: PropTypes.string.isRequired
+	history: PropTypes.arrayOf(commentType).isRequired
 }
 
-export const InReplyToModalCloseTimeout = Modal.defaultProps.closeTimeout
+export const InReplyToModalCloseTimeout = 150
 
 export function InReplyToModalScrollToTopAndFocus() {
 	const modalScrollable = document.querySelector('.' + InReplyToModalOverlayClassName)

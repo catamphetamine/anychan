@@ -6,7 +6,7 @@ import {
 	ContentSection,
 	ContentSectionHeader,
 	ContentSectionDescription
-} from 'webapp-frontend/src/components/ContentSection'
+} from 'frontend-lib/components/ContentSection.js'
 
 export default function GrammarCorrectionSettings({
 	messages,
@@ -29,7 +29,7 @@ export default function GrammarCorrectionSettings({
 			<ContentSectionDescription marginTop="medium">
 				{messages.settings.grammarCorrection.description}
 				{' '}
-				<a target="_blank" href="https://gitlab.com/catamphetamine/captchan/-/blob/master/src/api/utility/correctGrammar.js">
+				<a target="_blank" href="https://gitlab.com/catamphetamine/anychan/-/blob/master/src/api/utility/correctGrammar.js">
 					{messages.settings.grammarCorrection.viewCode}
 				</a>.
 			</ContentSectionDescription>

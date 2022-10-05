@@ -2,20 +2,20 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { FavoriteChannels } from '../Channels'
-import SidebarSection from './SidebarSection'
-import EditFavoriteChannels from '../EditFavoriteChannels'
+import { FavoriteChannels } from '../Channels.js'
+import SidebarSection from './SidebarSection.js'
+import EditFavoriteChannels from '../EditFavoriteChannels.js'
 
-import getMessages from '../../messages'
-import { getChannels } from '../../redux/data'
+import useMessages from '../../hooks/useMessages.js'
+import { getChannels } from '../../redux/data.js'
 
 export default function FavoriteChannelsSidebarSection() {
-	const favoriteChannels = useSelector(({ favoriteChannels }) => favoriteChannels.favoriteChannels)
-	const allChannels = useSelector(({ data }) => data.allChannels && data.allChannels.channels)
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const autoSuggestFavoriteChannels = useSelector(({ settings }) => settings.settings.autoSuggestFavoriteChannels)
-
 	const dispatch = useDispatch()
+	const messages = useMessages()
+
+	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
+	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
+	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
 
 	const [editingFavoriteChannels, setEditingFavoriteChannels] = useState()
 
@@ -43,7 +43,7 @@ export default function FavoriteChannelsSidebarSection() {
 			// flag is at the default behavior ("on").
 			if (autoSuggestFavoriteChannels === false) {
 				children = (
-					<div className="SidebarSection-text">
+					<div className="SidebarSection-text SidebarSection-text--alternative">
 						—
 					</div>
 				)
@@ -56,8 +56,8 @@ export default function FavoriteChannelsSidebarSection() {
 	if (children) {
 		return (
 			<SidebarSection
-				title={getMessages(locale).boards.title}
-				moreLabel={getMessages(locale).actions.edit}
+				title={messages.boards.title}
+				moreLabel={messages.actions.edit}
 				onMore={onMore}>
 				{children}
 			</SidebarSection>
@@ -69,6 +69,5 @@ export default function FavoriteChannelsSidebarSection() {
 
 FavoriteChannelsSidebarSection.propTypes = {
 	// channel: channel.isRequired,
-	// locale: PropTypes.string.isRequired,
 	// dispatch: PropTypes.func.isRequired
 }

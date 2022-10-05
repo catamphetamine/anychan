@@ -1,20 +1,21 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
 
-import LanguageSettings from 'webapp-frontend/src/components/settings/LanguageSettings'
-import FontSizeSettings from 'webapp-frontend/src/components/settings/FontSizeSettings'
-import DarkModeSettings from 'webapp-frontend/src/components/settings/DarkModeSettings'
-import LeftHandedSettings from 'webapp-frontend/src/components/settings/LeftHandedSettings'
+import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-import Heading from '../components/Heading'
-import ThemeSettings from '../components/settings/ThemeSettings'
-import ProxySettings from '../components/settings/ProxySettings'
-import DataSettings from '../components/settings/DataSettings'
-import CensoredWordsSettings from '../components/settings/CensoredWordsSettings'
-import GrammarCorrectionSettings from '../components/settings/GrammarCorrectionSettings'
+import Heading from '../components/Heading.js'
+import ThemeSettings from '../components/settings/ThemeSettings.js'
+import ProxySettings from '../components/settings/ProxySettings.js'
+import DataSettings from '../components/settings/DataSettings.js'
+import KeyboardShortcuts from '../components/settings/KeyboardShortcuts.js'
+import CensoredWordsSettings from '../components/settings/CensoredWordsSettings.js'
+import GrammarCorrectionSettings from '../components/settings/GrammarCorrectionSettings.js'
+import LanguageSettings from '../components/settings/LanguageSettings.js'
+import FontSizeSettings from '../components/settings/FontSizeSettings.js'
+import DarkModeSettings from '../components/settings/DarkModeSettings.js'
+import LeftHandedSettings from '../components/settings/LeftHandedSettings.js'
 
-import getLanguageFromLocale from '../utility/getLanguageFromLocale'
+import getLanguageFromLocale from '../utility/getLanguageFromLocale.js'
 
 import {
 	saveFontSize,
@@ -23,46 +24,45 @@ import {
 	saveLeftHanded,
 	saveGrammarCorrection,
 	saveProxyUrl
-} from '../redux/settings'
+} from '../redux/settings.js'
 
-import { setDarkMode } from '../redux/app'
+import { setDarkMode } from '../redux/app.js'
 
 import getMessages, {
 	getLanguageNames
-} from '../messages'
+} from '../messages/index.js'
 
-import UserSettings from '../utility/settings'
+import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
 
-import { shouldUseProxy, getProxyUrl } from '../utility/proxy'
+import { shouldUseProxy, getProxyUrl } from '../utility/proxy.js'
 
 import {
 	ContentSections,
 	ContentSection,
 	ContentSectionHeader
-} from 'webapp-frontend/src/components/ContentSection'
-
-import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
+} from 'frontend-lib/components/ContentSection.js'
 
 import './Settings.css'
 
 const LANGUAGE_NAMES = getLanguageNames()
 
 export default function SettingsPage() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const settings = useSelector(({ settings }) => settings.settings)
-	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
+	const messages = useMessages()
+	const settings = useSelector(state => state.settings.settings)
+	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
 	return (
 		<section className="SettingsPage Content Content--text">
 			{/* Settings */}
 			<Heading>
-				{getMessages(locale).settings.title}
+				{messages.settings.title}
 			</Heading>
 			{cookiesAccepted &&
-				<Settings locale={locale} settings={settings}/>
+				<Settings settings={settings}/>
 			}
 			{!cookiesAccepted &&
 				<p className="SettingsPage-cookiesRequired">
-					{getMessages(locale).cookies.required}
+					{messages.cookies.required}
 				</p>
 			}
 		</section>
@@ -74,11 +74,12 @@ SettingsPage.meta = ({ settings }) => ({
 })
 
 function Settings({
-	settings,
-	locale
+	settings
 }) {
 	const dispatch = useDispatch()
-	const messages = getMessages(locale)
+	const messages = useMessages()
+	const locale = useLocale()
+
 	const onSetDarkMode = useCallback(value => dispatch(setDarkMode(value)), [dispatch])
 	const onLocaleChange = useCallback(locale => dispatch(saveLocale(locale)), [dispatch])
 	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
@@ -86,6 +87,7 @@ function Settings({
 	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded(leftHanded)), [dispatch])
 	const onGrammarCorrectionChange = useCallback(grammarCorrection => dispatch(saveGrammarCorrection(grammarCorrection)), [dispatch])
 	const onProxyUrlChange = useCallback(value => dispatch(saveProxyUrl(value)), [dispatch])
+
 	return (
 		<ContentSections>
 			{/* Language */}
@@ -97,7 +99,7 @@ function Settings({
 				{/* "Adding a new language" guide. */}
 				<div className="form__component form__component--button">
 					<a
-						href="https://gitlab.com/catamphetamine/captchan/blob/master/docs/translation/guide.md"
+						href="https://gitlab.com/catamphetamine/anychan/blob/master/docs/translation/guide.md"
 						target="_blank">
 						{messages.settings.language.translationGuide}
 					</a>
@@ -109,7 +111,7 @@ function Settings({
 				messages={messages}
 				settings={settings}
 				dispatch={dispatch}
-				guideUrl="https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md"/>
+				guideUrl="https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md"/>
 
 			{/* Font Size */}
 			<FontSizeSettings
@@ -141,9 +143,14 @@ function Settings({
 				messages={messages}
 				language={getLanguageFromLocale(settings.locale)}/>
 
+			{/* Keyboard Shortcuts */}
+			<KeyboardShortcuts
+				messages={messages}/>
+
 			{/* Data */}
 			<DataSettings
 				messages={messages}
+				locale={settings.locale}
 				dispatch={dispatch}/>
 
 			{/* CORS Proxy */}

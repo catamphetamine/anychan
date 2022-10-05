@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import getMessages from '../messages'
+import getMessages from '../messages/index.js'
 
-import ErrorPage from './Error'
+import ErrorPage from './Error.js'
 
 // import './Offline.css'
 

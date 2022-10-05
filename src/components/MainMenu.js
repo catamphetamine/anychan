@@ -3,61 +3,66 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import Menu from 'webapp-frontend/src/components/Menu'
-import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
-import { notify } from 'webapp-frontend/src/redux/notifications'
-import { autoDarkMode } from 'webapp-frontend/src/utility/style'
+import Menu from 'frontend-lib/components/Menu.js'
+
+import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
+import { notify } from '../redux/notifications.js'
+import autoDarkMode from 'frontend-lib/utility/style/autoDarkMode.js'
+import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 import {
 	showSidebar,
 	setSidebarMode,
 	setDarkMode
-} from '../redux/app'
+} from '../redux/app.js'
 
-import { saveDarkMode } from '../redux/settings'
+import { saveDarkMode } from '../redux/settings.js'
 
-import getMessages from '../messages'
+import useMessages from '../hooks/useMessages.js'
 
-import FeedIconOutline from 'webapp-frontend/assets/images/icons/menu/feed-outline.svg'
-import FeedIconFill from 'webapp-frontend/assets/images/icons/menu/feed-fill.svg'
+import FeedIconOutline from 'frontend-lib/icons/fill-and-outline/feed-outline.svg'
+import FeedIconFill from 'frontend-lib/icons/fill-and-outline/feed-fill.svg'
 
-import SettingsIconOutline from 'webapp-frontend/assets/images/icons/menu/settings-outline.svg'
-import SettingsIconFill from 'webapp-frontend/assets/images/icons/menu/settings-fill.svg'
+import SettingsIconOutline from 'frontend-lib/icons/fill-and-outline/settings-outline.svg'
+import SettingsIconFill from 'frontend-lib/icons/fill-and-outline/settings-fill.svg'
 
-import MoonIconOutline from 'webapp-frontend/assets/images/icons/menu/moon-outline.svg'
-import MoonIconFill from 'webapp-frontend/assets/images/icons/menu/moon-fill.svg'
+import MoonIconOutline from 'frontend-lib/icons/fill-and-outline/moon-outline.svg'
+import MoonIconFill from 'frontend-lib/icons/fill-and-outline/moon-fill.svg'
 
-// import BellIconOutline from 'webapp-frontend/assets/images/icons/menu/bell-outline.svg'
-// import BellIconFill from 'webapp-frontend/assets/images/icons/menu/bell-fill.svg'
+// import BellIconOutline from 'frontend-lib/icons/fill-and-outline/bell-outline.svg'
+// import BellIconFill from 'frontend-lib/icons/fill-and-outline/bell-fill.svg'
 
-// import StarIconOutline from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
-// import StarIconFill from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
+// import StarIconOutline from 'frontend-lib/icons/fill-and-outline/star-outline.svg'
+// import StarIconFill from 'frontend-lib/icons/fill-and-outline/star-fill.svg'
 
-// import ChannelIconOutline from '../../assets/images/icons/menu/channel-outline.svg'
-// import ChannelIconFill from '../../assets/images/icons/menu/channel-fill.svg'
+// import ChannelIconOutline from '../../assets/images/icons/fill-and-outline/channel-outline.svg'
+// import ChannelIconFill from '../../assets/images/icons/fill-and-outline/channel-fill.svg'
 
-import MenuIconOutline from 'webapp-frontend/assets/images/icons/menu/menu-outline.svg'
-import MenuIconFill from 'webapp-frontend/assets/images/icons/menu/menu-fill.svg'
+import MenuIconOutline from 'frontend-lib/icons/fill-and-outline/menu-outline.svg'
+import MenuIconFill from 'frontend-lib/icons/fill-and-outline/menu-fill.svg'
 
 export default function MainMenu({
 	footer
 }) {
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const isSidebarShown = useSelector(({ app }) => app.isSidebarShown)
-	const sidebarMode = useSelector(({ app }) => app.sidebarMode)
-	const darkMode = useSelector(({ app }) => app.darkMode)
-	const areTrackedThreadsShown = useSelector(({ app }) => app.areTrackedThreadsShown)
-	const areNotificationsShown = useSelector(({ app }) => app.areNotificationsShown)
+	const messages = useMessages()
+
+	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
+	const sidebarMode = useSelector(state => state.app.sidebarMode)
+	const darkMode = useSelector(state => state.app.darkMode)
+	const areSubscribedThreadsShown = useSelector(state => state.app.areSubscribedThreadsShown)
+	const areNotificationsShown = useSelector(state => state.app.areNotificationsShown)
 
 	function getMenuItems() {
-		const messages = getMessages(locale)
 		const areChannelsShown = sidebarMode === 'channels' && (footer ? isSidebarShown : true)
-		const areTrackedThreadsShown = sidebarMode === 'tracked-threads' && (footer ? isSidebarShown : true)
+		const areSubscribedThreadsShown = sidebarMode === 'thread-subscriptions' && (footer ? isSidebarShown : true)
 		const areNotificationsShown = sidebarMode === 'notifications' && (footer ? isSidebarShown : true)
-		const settingsItem = getSettingsMenuItem()
+
+		const settingsItem = getSettingsMenuItem({ messages })
 		settingsItem.isSelected = !isSidebarShown
-		const darkModeItem = getDarkModeMenuItem({ locale, dispatch, darkMode })
+
+		const darkModeItem = getDarkModeMenuItem({ messages, dispatch, darkMode })
+
 		const menuItem = {
 			title: messages.menu,
 			onClick() {
@@ -71,6 +76,7 @@ export default function MainMenu({
 			icon: MenuIconOutline,
 			iconActive: MenuIconFill
 		}
+
 		// const channelsItem = {
 		// 	title: messages.boards.title,
 		// 	onClick() {
@@ -88,24 +94,26 @@ export default function MainMenu({
 		// 	iconActive: ChannelIconFill,
 		// 	size: 'xxl'
 		// }
-		// const trackedThreadsItem = {
-		// 	title: messages.trackedThreads.title,
+
+		// const subscribedThreadsItem = {
+		// 	title: messages.subscribedThreads.title,
 		// 	onClick() {
 		// 		if (footer) {
-		// 			if (areTrackedThreadsShown) {
+		// 			if (areSubscribedThreadsShown) {
 		// 				dispatch(showSidebar(false))
 		// 			} else {
 		// 				dispatch(showSidebar(true))
-		// 				dispatch(setSidebarMode('tracked-threads'))
+		// 				dispatch(setSidebarMode('thread-subscriptions'))
 		// 			}
 		// 		} else {
-		// 			dispatch(setSidebarMode(areTrackedThreadsShown ? 'channels' : 'tracked-threads'))
+		// 			dispatch(setSidebarMode(areSubscribedThreadsShown ? 'channels' : 'thread-subscriptions'))
 		// 		}
 		// 	},
-		// 	isSelected: areTrackedThreadsShown,
+		// 	isSelected: areSubscribedThreadsShown,
 		// 	icon: StarIconOutline,
 		// 	iconActive: StarIconFill
 		// }
+
 		// const notificationsItem = {
 		// 	title: messages.notifications.title,
 		// 	onClick() {
@@ -124,6 +132,7 @@ export default function MainMenu({
 		// 	icon: BellIconOutline,
 		// 	iconActive: BellIconFill
 		// }
+
 		// Mobile menu is optimized for holding the phone in the right hand.
 		if (footer) {
 			return [
@@ -131,14 +140,15 @@ export default function MainMenu({
 				menuItem,
 				settingsItem
 				// channelsItem,
-				// trackedThreadsItem,
+				// subscribedThreadsItem,
 				// notificationsItem
 			]
 		}
+
 		// Desktop menu is optimized for left-to-right mouse navigation.
 		return [
 			darkModeItem,
-			// trackedThreadsItem,
+			// subscribedThreadsItem,
 			// notificationsItem,
 			// channelsItem,
 			settingsItem
@@ -154,16 +164,14 @@ export default function MainMenu({
 
 MainMenu.propTypes = {
 	footer: PropTypes.bool,
-	// locale: PropTypes.string.isRequired,
 	// isSidebarShown: PropTypes.bool,
 	// darkMode: PropTypes.bool,
-	// areTrackedThreadsShown: PropTypes.bool,
+	// areSubscribedThreadsShown: PropTypes.bool,
 	// areNotificationsShown: PropTypes.bool,
 	// dispatch: PropTypes.func.isRequired
 }
 
-export function getDarkModeMenuItem({ locale, dispatch, darkMode }) {
-	const messages = getMessages(locale)
+export function getDarkModeMenuItem({ messages, dispatch, darkMode }) {
 	return {
 		title: messages.darkMode,
 		onClick: () => {
@@ -172,7 +180,9 @@ export function getDarkModeMenuItem({ locale, dispatch, darkMode }) {
 			}
 			dispatch(setDarkMode(!darkMode))
 			dispatch(saveDarkMode(!darkMode))
-			autoDarkMode(false)
+			autoDarkMode(false, {
+				setDarkMode: (value) => dispatch(applyDarkMode(value))
+			})
 		},
 		isSelected: darkMode,
 		icon: MoonIconOutline,
@@ -180,8 +190,9 @@ export function getDarkModeMenuItem({ locale, dispatch, darkMode }) {
 	}
 }
 
-export function getSettingsMenuItem() {
+export function getSettingsMenuItem({ messages }) {
 	return {
+		title: messages.settings.title,
 		pathname: '/settings',
 		url: '/settings',
 		icon: SettingsIconOutline,

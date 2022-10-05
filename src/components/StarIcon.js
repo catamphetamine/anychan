@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import StarFillIcon from 'webapp-frontend/assets/images/icons/menu/star-fill.svg'
-import StarOutlineIcon from 'webapp-frontend/assets/images/icons/menu/star-outline.svg'
+import StarFillIcon from 'frontend-lib/icons/fill-and-outline/star-fill.svg'
+import StarOutlineIcon from 'frontend-lib/icons/fill-and-outline/star-outline.svg'
 
 import './StarIcon.css'
 

@@ -4,33 +4,40 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import ExternalLink from 'webapp-frontend/src/components/ExternalLink'
+import ExternalLink from 'frontend-lib/components/ExternalLink.js'
 
-import { getProvider } from '../provider'
-import getMessages from '../messages'
+import { getProvider } from '../provider.js'
+import getMessages from '../messages/index.js'
+
+import useMessages from '../hooks/useMessages.js'
+import useRoute from '../hooks/useRoute.js'
 
 import './Error.css'
 
 export default function ErrorPage({
 	status
 }) {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const location = useSelector(({ found }) => found.resolvedMatch.location)
-	const offline = useSelector(({ app }) => app.offline)
+	const messages = useMessages()
+	const errorPageMessages = useMessages().errorPages[status]
+
+	const { location } = useRoute()
+	const offline = useSelector(state => state.app.offline)
+
 	const custom = getProvider() && getProvider().errorPages && getProvider().errorPages[status]
-	const messages = getMessages(locale).errorPages[status]
+
 	const LinkComponent = offline ? ExternalLink : Link
+
 	return (
 		<section className={classNames('ErrorPage', {
 			'ErrorPage--showImage': custom && custom.images
 		})}>
 			<div className="Content Content--text">
 				<h1 className="ErrorPage-title">
-					{messages.title}
+					{errorPageMessages.title}
 				</h1>
-				{messages.description &&
+				{errorPageMessages.description &&
 					<p className="ErrorPage-description">
-						{messages.description}
+						{errorPageMessages.description}
 					</p>
 				}
 				{custom && custom.images &&
@@ -41,7 +48,7 @@ export default function ErrorPage({
 				}
 				{location.query.url &&
 					<LinkComponent to={location.query.url} className="ErrorPage-requestedUrl">
-						{getMessages(locale).errorPages.requestedURL}
+						{messages.errorPages.requestedURL}
 					</LinkComponent>
 				}
 			</div>

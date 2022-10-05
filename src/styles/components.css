@@ -1,4 +1,4 @@
-@import "../../../webapp-frontend/src/styles/components.css";
+@import "frontend-lib/styles/components.css";
 @import "../components/LoadingSpinner.css";
 
 .content-section__header {

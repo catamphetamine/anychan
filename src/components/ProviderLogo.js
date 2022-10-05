@@ -1,9 +1,9 @@
 import React from 'react'
 
 // CSS `color: black`.
-// import DefaultLogo from '../../assets/images/icon.svg'
+// import DefaultLogo from '../../assets/images/icon/icon.svg'
 
-import { getProvider } from '../provider'
+import { getProvider } from '../provider.js'
 
 export default function ProviderLogo(props) {
 	const Logo = getProvider().logo

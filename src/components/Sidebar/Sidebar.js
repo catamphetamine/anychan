@@ -5,27 +5,28 @@ import { useSelector } from 'react-redux'
 
 import SimpleBar from 'simplebar-react'
 
-import HomePageLink from './HomePageLink'
-import SettingsLink from './SettingsLink'
-import DarkModeToggle from './DarkModeToggle'
+import HomePageLink from './HomePageLink.js'
+import SettingsLink from './SettingsLink.js'
+import DarkModeToggle from './DarkModeToggle.js'
 
-import SidebarProvider from './SidebarProvider'
-import SidebarMenuSection from './SidebarMenuSection'
-import ChannelsSidebarSection from './ChannelsSidebarSection'
-import FavoriteChannelsSidebarSection from './FavoriteChannelsSidebarSection'
-import TrackedThreadsSidebarSection from './TrackedThreadsSidebarSection'
+import SidebarProvider from './SidebarProvider.js'
+import SidebarMenuSection from './SidebarMenuSection.js'
+import ChannelsSidebarSection from './ChannelsSidebarSection.js'
+import FavoriteChannelsSidebarSection from './FavoriteChannelsSidebarSection.js'
+import SubscribedThreadsSidebarSection from './SubscribedThreadsSidebarSection.js'
 
-import getMessages from '../../messages'
+import useMessages from '../../hooks/useMessages.js'
 
 import './Sidebar.css'
 
 export default function Sidebar() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const isShown = useSelector(({ app }) => app.isSidebarShown)
-	// const mode = useSelector(({ app }) => app.sidebarMode)
+	const messages = useMessages()
+
+	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
+
 	return (
 		<section className={classNames('Sidebar', {
-			'Sidebar--show': isShown
+			'Sidebar--show': isSidebarShown
 		})}>
 			<SimpleBar className="Sidebar-scrollableList">
 				<SidebarProvider/>
@@ -37,7 +38,7 @@ export default function Sidebar() {
 					{/*</div>*/}
 				</div>
 				{/*<SidebarMenuSection/>*/}
-				<TrackedThreadsSidebarSection/>
+				<SubscribedThreadsSidebarSection/>
 				<FavoriteChannelsSidebarSection/>
 				<ChannelsSidebarSection/>
 			</SimpleBar>

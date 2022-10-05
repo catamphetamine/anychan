@@ -1,15 +1,16 @@
-import configuration from '../configuration'
+import configuration from '../configuration.js'
+
 import {
 	shouldIncludeProviderInPath,
 	getProviderId,
 	getProviderAlias,
 	addProviderIdToPath
-} from '../provider'
+} from '../provider.js'
 
 /**
  * Returns "base" path of the application.
- * For example, on `catamphetamine.github.io/captchan`
- * the "base" path was "/captchan".
+ * For example, on `catamphetamine.github.io/anychan`
+ * the "base" path was "/anychan".
  * @return {string}
  */
 export default function getBasePath({ providerId } = {}) {
@@ -44,12 +45,4 @@ function _getBasePath() {
 	if (configuration.path) {
 		return configuration.path
 	}
-	// if (typeof window !== 'undefined') {
-	// 	if (window.location.hostname === 'catamphetamine.github.io') {
-	// 		// A special case just so that there's no need to use
-	// 		// two different configuration files for `captchan.surge.sh`
-	// 		// and `catamphetamine.github.io/captchan` (legacy demo).
-	// 		return '/captchan'
-	// 	}
-	// }
 }

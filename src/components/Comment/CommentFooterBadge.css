@@ -1,10 +1,10 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .CommentFooterBadge {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--Content-color-600);
+	/*color: var(--Content-color-600);*/
 }
 
 .CommentFooterBadge--ignoreCursor {
@@ -40,8 +40,15 @@
 /*}*/
 
 .CommentFooterBadge-icon {
+	/* `display: flex` and `align-items: center` fixes the weird
+	   vertical spacing above the `<img/>`. */
+	display: flex;
+	align-items: center;
 	width: 1em;
 	height: 1em;
+	/* Fixes <svg/> icons being cut off in iOS Safari. */
+	/* https://stackoverflow.com/questions/24894921/svg-being-cut-off */
+	overflow: visible;
 }
 
 .CommentFooterBadge--left {

@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .Sidebar {
 	overflow-y: auto;
@@ -12,7 +12,7 @@
 .Sidebar {
 	--Sidebar-fontSize: initial;
 	font-size: var(--Sidebar-fontSize);
-	.Channels {
+	.Channels-list {
 		/* Only show the virtical scrollbar. */
 		overflow-x: hidden;
 	}

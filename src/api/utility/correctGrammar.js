@@ -1,4 +1,9 @@
-import { LETTER } from 'social-components/commonjs/utility/post/compileWordPatterns'
+import { LETTER } from 'social-components/utility/post/compileWordPatterns.js'
+
+// Doesn't support transforming: "Раз.Два" -> "Раз. Два".
+// // https://github.com/typograf/typograf
+// // https://typograf.github.io/
+// import Typograf from 'typograf'
 
 /**
  * Corrects text grammar (naive implementation).
@@ -9,6 +14,14 @@ import { LETTER } from 'social-components/commonjs/utility/post/compileWordPatte
 export default function correctGrammar(text, {
 	language
 }) {
+	// Doesn't support transforming: "Раз.Два" -> "Раз. Два".
+	// // https://github.com/typograf/typograf
+	// // https://typograf.github.io/
+	// if (language === 'ru') {
+	// 	const typograf = new Typograf({ locale: language })
+	// 	return typograf.execute(text)
+	// }
+
 	const letter = language && LETTER[language] || LETTER.default
 	text = text
 		// ` -- ` -> ` — ` (converts double dash to long dash)
@@ -21,19 +34,25 @@ export default function correctGrammar(text, {
 		// .replace(/^-\s+/g, '— ')
 		// `a- ` -> `a — ` (converts a dash to long dash and adds space)
 		.replace(new RegExp(`([${letter}])-\\s+`, 'g'), '$1 — ')
-		// `a(a` -> `a (a` (adds a space before an opening parenthesis,
+		// `a(a` -> `a (a`
+		// `( a` -> `(a`   (adds a space before an opening parenthesis,
 		//                  removes a space after an opening parenthesis)
 		.replace(new RegExp(`([${letter}]["\\.!?]?) ?\\( ?([\\d${letter}])`, 'g'), '$1 ($2')
-		// `a(a` -> `a (a` (adds a space after a closing parenthesis)
+		// `a)a` -> `a) a` (adds a space after a closing parenthesis)
 		.replace(new RegExp(`([\\d${letter}][\\."]?)\\)([${letter}])`, 'g'), '$1) $2')
+		// // `a ) ` -> `a) ` (removes a space before a closing parenthesis)
+		// .replace(new RegExp(`([${letter}]) \\) `, 'g'), '$1) ')
 		// `a:a` -> `a: a` (adds a space after a colon)
 		.replace(new RegExp(`([${letter}]):([\\d${letter}])`, 'g'), '$1: $2')
 		// `one ,two` -> `one,two`
 		// `one , two` -> `one, two`
 		.replace(/\s+,/g, ',')
+		// `one,  two` -> `one, two`
+		.replace(/,\s\s+/g, ', ')
+		// // `one,two` -> `one, two`
+		// .replace(new RegExp(`([${letter}]),([${letter}])`, 'g'), '$1, $2')
 		// `one,two` -> `one, two`
-		// .replace(/,(\S)/g, ', $1')
-		// Restrict the "next" part to a letter or a digit,
+		// Restricts the "next" part to a letter or a digit,
 		// rather than simply inserting a space after every comma,
 		// because there could be intentional spaceless cases
 		// like, for example, "abc,./:*".

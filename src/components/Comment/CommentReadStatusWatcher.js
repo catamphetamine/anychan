@@ -5,12 +5,14 @@ import {
 	commentId,
 	threadId,
 	channelId
-} from '../../PropTypes'
+} from '../../PropTypes.js'
 
 import UnreadCommentWatcher, {
 	isCommentRead,
 	isThreadSeen
-} from '../../utility/UnreadCommentWatcher'
+} from '../../utility/comment/UnreadCommentWatcher.js'
+
+import getUserData from '../../UserData.js'
 
 /**
  * A comment is assumed "read" when its bottom edge is visible
@@ -24,28 +26,38 @@ export default function CommentReadStatusWatcher({
 	threadId,
 	commentId,
 	commentIndex,
-	threadIsRolling,
+	// threadIsTrimming,
+	// threadIsArchived,
 	// commentCreatedAt,
 	// commentUpdatedAt,
 	// threadUpdatedAt,
-	unreadCommentWatcher
+	unreadCommentWatcher,
+	userData = getUserData()
 }) {
 	// `isActive` is only used during the initial rendering.
 	const isActive =
-		(mode === 'channel' && !isThreadSeen(channelId, threadId)) ||
-		(mode === 'thread' && !isCommentRead(channelId, threadId, commentId))
+		(mode === 'channel' && !isThreadSeen(channelId, threadId, { userData })) ||
+		(mode === 'thread' && !isCommentRead(channelId, threadId, commentId, { userData }))
+
 	const node = useRef()
+
 	useEffect(() => {
 		if (isActive) {
 			return unreadCommentWatcher.watch(node.current)
 		}
 	}, [])
+
 	if (!isActive) {
 		return null
 	}
+
+	// The `data-xxx` attributes are later read in `<UnreadCommentWatcher/>`
+	// as `element.dataset.xxx`.
+	//
 	// data-comment-created-at={commentCreatedAt.getTime()}
 	// data-comment-updated-at={commentUpdatedAt.getTime()}
 	// data-thread-updated-at={threadUpdatedAt && threadUpdatedAt.getTime()}
+	//
 	return (
 		<div
 			ref={node}
@@ -54,8 +66,9 @@ export default function CommentReadStatusWatcher({
 			data-thread-id={threadId}
 			data-comment-id={commentId}
 			data-comment-index={commentIndex}
-			data-thread-is-rolling={threadIsRolling}/>
+		/>
 	)
+	// data-thread-is-trimming={threadIsTrimming}
 }
 
 CommentReadStatusWatcher.propTypes = {
@@ -64,11 +77,14 @@ CommentReadStatusWatcher.propTypes = {
 	threadId: threadId.isRequired,
 	commentId: commentId.isRequired,
 	commentIndex: PropTypes.number.isRequired,
-	threadIsRolling: PropTypes.bool,
+	// threadIsTrimming: PropTypes.bool,
+	// threadIsArchived: PropTypes.bool,
 	// commentCreatedAt: PropTypes.instanceof(Date).isRequired,
 	// commentUpdatedAt: PropTypes.instanceof(Date),
 	// threadUpdatedAt: PropTypes.instanceof(Date),
-	unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired
+	unreadCommentWatcher: PropTypes.any.isRequired,
+	// // This produced a mismatch warning on hot reload.
+	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired
 }
 
 // // `<CommentReadStatusWatcher/>` is implemented as an empty element

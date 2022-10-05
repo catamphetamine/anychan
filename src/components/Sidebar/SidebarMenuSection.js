@@ -1,16 +1,16 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import SidebarSection from './SidebarSection'
-import SidebarMenu from './SidebarMenu'
+import SidebarSection from './SidebarSection.js'
+import SidebarMenu from './SidebarMenu.js'
 
-import getMessages from '../../messages'
+import useMessages from '../../hooks/useMessages.js'
 
 export default function SidebarMenuSection() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const messages = useMessages()
 	return (
 		<SidebarSection
-			title={getMessages(locale).menu}
+			title={messages.menu}
 			className="SidebarSection--smallScreen">
 			<SidebarMenu/>
 		</SidebarSection>

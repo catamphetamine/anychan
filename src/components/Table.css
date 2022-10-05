@@ -1,0 +1,30 @@
+.Table {
+	border-spacing: 0;
+
+	th {
+		text-align: left;
+		font-weight: 500;
+	}
+
+	th, td {
+		padding: 0;
+		padding-left: 0.75em;
+		padding-right: 0.75em;
+		padding-top: 0.5em;
+		padding-bottom: 0.5em;
+
+		/*&:first-child {
+			padding-left: 0;
+		}*/
+
+		/*&:last-child {
+			padding-right: 0;
+		}*/
+	}
+
+	tr:nth-child(even) {
+		th, td {
+			background-color: var(--Content-color-50);
+		}
+	}
+}

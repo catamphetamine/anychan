@@ -1,36 +1,35 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 
 import {
 	comment as commentType,
 	threadId,
 	channelId
-} from '../../PropTypes'
+} from '../../PropTypes.js'
 
-import CommentStatusBadges from './CommentStatusBadges'
+import CommentStatusBadges from './CommentStatusBadges.js'
 
-import PostBadge from 'webapp-frontend/src/components/PostBadge'
-import PostVotes from 'webapp-frontend/src/components/PostVotes'
-import HoverButton from 'webapp-frontend/src/components/HoverButton'
+import PostBadge from 'social-components-react/components/PostBadge.js'
+import PostVotes from 'social-components-react/components/PostVotes.js'
+import PressedStateButton from 'social-components-react/components/PressedStateButton.js'
+import Padding from 'social-components-react/components/Padding.js'
 
-import PictureIcon from 'webapp-frontend/assets/images/icons/picture-rect-square-outline-thicker.svg'
-import PersonIcon from 'webapp-frontend/assets/images/icons/person-outline.svg'
-import CommentIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square-thicker.svg'
-import MessageIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square-thicker.svg'
+import PictureIcon from 'frontend-lib/icons/picture-rect-square-outline-thicker.svg'
+import PersonIcon from 'frontend-lib/icons/person-outline.svg'
+import CommentIcon from 'frontend-lib/icons/message-rounded-rect-square-thicker.svg'
+import MessageIcon from 'frontend-lib/icons/message-rounded-rect-square-thicker.svg'
+// import ReplyIcon from 'frontend-lib/icons/reply.svg'
 
-import { CommentsCountBadge } from 'webapp-frontend/src/components/Post.badges'
+import CommentMoreActions from './CommentMoreActions.js'
+import CommentFooterDate from './CommentFooterDate.js'
+import CommentFooterSeparator from './CommentFooterSeparator.js'
 
-import CommentMoreActions from './CommentMoreActions'
-import CommentFooterDate from './CommentFooterDate'
-import CommentFooterSeparator from './CommentFooterSeparator'
-
-import getMessages from '../../messages'
+import getMessages from '../../messages/index.js'
 
 import './CommentFooter.css'
 import './CommentFooterBadge.css'
-import 'webapp-frontend/src/components/Padding.css'
 
 export default function CommentFooter({
 	comment,
@@ -50,25 +49,35 @@ export default function CommentFooter({
 	onVote,
 	onPostUrlClick,
 	mode,
-	onReply
+	onReply,
+	onHide
 }) {
-	const isTracked = useSelector(({ trackedThreads }) => {
-		const trackedThreadsIndex = trackedThreads.trackedThreadsIndex
-		return trackedThreadsIndex[channelId] && trackedThreadsIndex[channelId].includes(threadId)
-	})
+	const subscribedThreadIds = useSelector(state => state.channel.subscribedThreadIds)
+
+	const isSubscribedThreadInCatalog = useMemo(() => {
+		if (mode === 'channel') {
+			return subscribedThreadIds.includes(threadId)
+		}
+	}, [
+		subscribedThreadIds,
+		channelId,
+		threadId
+	])
+
 	const rightSideBadges = useMemo(() => {
 		let badges = CommentStatusBadges
 		// This type of filtering is done in `<Post/>` automatically,
 		// but since `leftSideBadges` are also used here outside `<Post/>`,
 		// they're filtered here manually.
-		badges = badges.filter(({ condition }) => condition(comment, { isTracked }))
+		badges = badges.filter(({ condition }) => condition(comment, { isSubscribedThreadInCatalog }))
 		if (badges.length > 0) {
 			return badges
 		}
 	}, [
 		comment,
-		isTracked
+		isSubscribedThreadInCatalog
 	])
+
 	const leftSideBadges = useMemo(() => {
 		// let badges = getFooterBadges(comment, {
 		// 	parentComment,
@@ -91,6 +100,7 @@ export default function CommentFooter({
 		// onToggleShowReplies,
 		// toggleShowRepliesButtonRef
 	])
+
 	const postLinkProps = useMemo(() => ({
 		url: url,
 		baseUrl: urlBasePath,
@@ -100,6 +110,7 @@ export default function CommentFooter({
 		urlBasePath,
 		onPostUrlClick
 	])
+
 	let rightSideStuff = []
 	if (onVote) {
 		rightSideStuff.push('vote')
@@ -130,6 +141,7 @@ export default function CommentFooter({
 			postLinkProps
 		})
 	}))
+
 	return (
 		<div className="CommentFooter">
 			<div className="CommentFooter-left">
@@ -164,6 +176,7 @@ export default function CommentFooter({
 					url={url}
 					urlBasePath={urlBasePath}
 					onReply={onReply}
+					onHide={onHide}
 					onDownloadThread={onDownloadThread}/>
 			</div>
 		</div>
@@ -184,6 +197,7 @@ CommentFooter.propTypes = {
 	locale: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
+	onHide: PropTypes.func,
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	vote: PropTypes.bool,
@@ -202,7 +216,7 @@ CommentFooter.propTypes = {
 // 	// if (hasReplies(comment, parentComment)) {
 // 	// 	leftSideBadges = leftSideBadges.concat({
 // 	// 		...RepliesCountBadge,
-// 	// 		isPushed: showingReplies,
+// 	// 		isPressed: showingReplies,
 // 	// 		onClick: onToggleShowReplies,
 // 	// 		ref: toggleShowRepliesButtonRef
 // 	// 	})
@@ -212,15 +226,29 @@ CommentFooter.propTypes = {
 
 const THREAD_STATS_BADGES = [
 	{
-		...CommentsCountBadge,
-		icon: CommentIcon
+		name: 'comments-count',
+		icon: CommentIcon,
+		title: ({ post, locale, messages }) => messages && messages.commentsCount,
+		// `.commentsCount` is set on the first comment of a thread
+		// as `thread.comments[0].commentsCount = thread.commentsCount`.
+		condition: (post) => post.commentsCount > 1,
+		content: ({ post }) => post.commentsCount - 1
 	},
+	// {
+	// 	name: 'replies-count',
+	// 	icon: ReplyIcon,
+	// 	title: ({ post, locale, messages }) => messages && messages.repliesCount,
+	// 	condition: (post) => post.replies && post.replies.length > 0,
+	// 	content: ({ post }) => post.replies.length
+	// },
 	{
 		name: 'attachments-count',
 		icon: PictureIcon,
 		title: ({ post, locale }) => getMessages(locale).post.attachmentsCount,
-		condition: (post) => post.attachmentsCount,
-		content: ({ post }) => post.attachmentsCount
+		// `.attachmentsCount` is set on the first comment of a thread
+		// as `thread.comments[0].attachmentsCount = thread.attachmentsCount`.
+		condition: (post) => post.attachmentsCount > (post.attachments ? post.attachments.length : 0),
+		content: ({ post }) => post.attachmentsCount - (post.attachments ? post.attachments.length : 0)
 	},
 	{
 		name: 'unique-posters-count',
@@ -311,15 +339,16 @@ const RIGHT_SIDE_STUFF = {
 		locale
 	}) => (
 		<div className="CommentFooterItem">
-			<HoverButton
-				ref={toggleShowRepliesButtonRef}
-				onClick={onToggleShowReplies}
-				title={getMessages(locale).post.repliesCount}
-				pushed={showingReplies}
-				className="Padding">
-				<MessageIcon className="CommentFooterItemIcon CommentFooterItemIcon--replies"/>
-				{comment.replies.length}
-			</HoverButton>
+			<Padding>
+				<PressedStateButton
+					ref={toggleShowRepliesButtonRef}
+					onClick={onToggleShowReplies}
+					title={getMessages(locale).post.repliesCount}
+					pressed={showingReplies}>
+					<MessageIcon className="CommentFooterItemIcon CommentFooterItemIcon--replies"/>
+					{comment.replies.length}
+				</PressedStateButton>
+			</Padding>
 		</div>
 	)
 }

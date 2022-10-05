@@ -8,7 +8,691 @@
 
 
 
+Thread / Board / Channel
 
+isXxx -> xxx, "sticky" -> "pinned", "rolling" -> "trim"
+
+
+
+
+Глючит reset picture slide scale: в конце мелькает увеличенное изображение.
+
+При заходе на страницу localhost:1234/2ch/b/273701928
+
+    // `routeIndices` might be `undefined` after a `<Redirect/>`
+    // is made and a user clicks the "Back" button in a web browser.
+    // https://github.com/4Catalyzer/found/issues/632
+    if (!routeIndices) {
+        throw new Error('"'.concat(event.type, '" Redux action misses "routeIndices" property. This usually means that the target URL path "').concat(location.pathname, "\" didn't match any route. ").concat(location.pathname[0] !== "/" ? 'The target URL path is missing a leading slash: correct your routes configuration to include a leading slash for "' + location.pathname + '" path. ' : "", "See the issue for more info: https://github.com/4Catalyzer/found/issues/632"));
+    }
+
+
+
+
+Можно сделать возможность обновить список досок, минуя кеш. Это может быть использовано при обновлении списка "иконок" или "тегов" на какой-нибудь доске.
+
+
+
+
+
+
+
+
+
+
+
+На новую версию сайта — не редиректы, а баннеры с краткой подсказкой нового сайти и способа миграции user data + settings
+
+
+
+
+
+Check new `react-pages`' server-side rendering on webapp-frontend
+
+
+
+
+Добавить возможность «Подписаться на ответы» к комментарию.
+
+
+
+
+
+
+
+При первом заходе на канал — генерировать градиент для него, еслитема — дефолт
+
+Для пользователей, у которых уже есть favorite channels — генерировать градиенты во время миграции
+
+Может делать отступы по краям на мобильных у элементов Post (margin left / right).
+
+
+
+
+
+Можно добавить https://8chan.moe/
+
+
+Check <CommentTree/> state saving:
+
+* Expand post link (...........)
+* Expand post content (Show more)
+* Expand post reply form
+
+Check expanding replies of replies of replies (do they get parsed correctly)
+
+Перегенерировать subscribedThreadStats в CommentReadStatusWatcher
+
+Если пришло обновление subscribedThreadStats из другой вкладки, если возникла ситуация merge, если они разные, то ...
+
+
+
+Remove: `console.log('[social-components-react] on touch')`
+
+
+
+
+Migrate links to https://allchans.github.io/:
+
+* anychan readme
+* imageboard readme
+* anychan github repo link
+* anychan gitlab repo link
+* imageboard github repo link
+* imageboard gitlab repo link
+* captchan.surge.sh — Add a banner on top
+* catamphetamine.github.io/anychan — Add a banner on top
+* edit telegram channel link
+
+
+
+flush cached local storage (user data collections) on read latest comment in a thread
+
+
+
+When local storage is not available, show a banner and use `MemoryStorage`.
+`import isLocalStorageAvailable from './utility/storage/isLocalStorageAvailable.js'`
+
+
+
+Test `OkCancelModal`.
+
+Test Slideshow: "flow" mode and non-"flow" mode, разные режимы типа drag & scale, перелистывания и не перелистывания, ... Video fullscreen, etc.
+
+
+
+
+
+
+Emit redux events on subscribed thread update progress (including external updates).
+
+Show individual refresh indicators for subscribed threads (should work both for same tab and other tabs).
+
+Initial subscribed thread update — fade in / fade out a two-arrow spinner (both in the sidebar section title and in the bottom right corner of the mobile menu button).
+
+Add instant loading of thread pages when previous page was catalog (same board, only when clicking a thread card link, not in subscribed threads — add ‘cache’ property on a link), or it’s a back/forward navigation. Insta-load catalog pages on back/forward navigation. The back button should always be functional on mobile and desktop. Save and restore: scroller state, scroll position, data.
+
+Красный кружок уведомлений о subscribed threads показывать на кнопке мобильного меню, если оно не открыто.
+
+На мобильных можно начинать с открытого меню.
+
+User data size: “view stats” button + modal.
+
+On latest read comment change in a subscribed thread — update indication in sidebar (`subscribedThreadsUpdateInProgress`).
+
+Update subscribed thread stats on latest comment read.
+
+Maybe check "In Reply To" modal.
+
+Remove `webpack.config.dev.babel.js` if `swc-loader` works.
+
+Remove or not remove comment: "There seems to be no style `<link/>` tag in development."
+
+`webapp-frontend` -> `social-components-react` + `type: module` (babel build React) + `type: module` in `anychan`.
+
+
+
+
+
+Background image сделать отдельным слоем `position: fixed` and `background-size: cover` and `background-repeat: no-repeat` and `background-position: center`.
+
+Background image: for dark mode and for light mode. Maybe add a checkbox: "[x] Dark [x] Light".
+
+Background image default settings: opacity 0.4, filter: grayscale(25%) blur(3px)
+
+У доски можно будет настроить тему, которая будет применяться поверх выбранной по умолчанию.
+
+Возможность назначать разные цвета для разных досок + avatar picture
+
+Setting: "[x] Use Channel Theme"
+
+Themes: document adding non-pattern background image and pattern background image (z-index: above non-pattern)
+
+Add "Edit Theme" button above "Add Theme"
+
+Background variations: Image, Gradient, Pattern.
+
+First goes image, then goes gradient, then goes pattern.
+
+Gradient example: `background: linear-gradient(blue, pink);`
+
+У каждого из этих слоёв — параметр Opacity (+ фильтры на изображения)
+
+Градиентную заливку для каждой доски можно настраивать в GUI: угол наклона и два цвета + прозрачность.
+
+Выбор угла наклона можно сделать как в Телеграме:
+https://telegram.org/file/464001940/3/78UcwEnPEuo.4799153.mp4/e4262626f9e88a0e4f
+
+Можно сделать predefined color palette ("приятные цвета", или даже их сочетания):
+https://telegram.org/blog/verifiable-apps-and-more
+
+Noon to Dusk: `linear-gradient(to right, rgb(255, 110, 127), rgb(191, 233, 255))`
+Hazel: `linear-gradient(to right, rgb(119, 161, 211), rgb(121, 203, 202), rgb(230, 132, 174))`
+
+https://uigradients.com
+
+Возможность упрощённого задания темы: выбор только оттенков (hue) для каждой доски: base color, accent color (тёмная и светлая темы).
+
+Захостить шаблоны SVG на том же сайте и потом предлагать их как стандартные на выбор.
+
+https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-5.svg
+https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-6.svg
+
+https://blog.1a23.com/2020/02/13/telegram-chat-backgrounds-patterns-extracted/
+
+Выбирается цвет фона и цвет шаблона.
+
+Background pattern size based on `aspect-ratio`:
+https://developer.mozilla.org/en-US/docs/Web/CSS/@media/aspect-ratio
+
+Можно попробовать фон: облака и градиент с красного нижнего на верхний серый.
+То же самое можно попробовать с градиентом с персикового нижнего на фиолетово-розовый верхний.
+
+Replace `var(--white-color)` with `var(--white-color, white)` in SVGs.
+
+<div style={{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 100%;
+    bottom: 100%;
+    background-image: linear-gradient(to left top, rgb(230, 92, 0), rgb(249, 212, 35));
+    /* isolation stops any further parent element from blending with a mix-blend-mode descendant. */
+    /* https://css-tricks.com/almanac/properties/i/isolation/ */
+    isolation: isolate;
+}}>
+    <div style={{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 100%;
+        bottom: 100%;
+        background-image: url(./background-pattern.svg);
+        background-size: 35%;
+        background-repeat: repeat;
+        opacity: 1; // Intensity
+        mix-blend-mode: soft-light; // soft-light, hard-light (for very light backgrounds), overlay (more contrasty). Maybe just overlay for all cases, and then adjust the intensity.
+        filter: invert(100%); // For white pattern: 100%. For black pattern: 0% / none.
+    }}>
+    </div>
+</div>
+
+Maybe remove `npm link` after test passes.
+
+Remove `babel.config`s if swc works (including hot reload of react and redux actions and styles).
+
+Remove `test.js` "self-test" files.
+
+
+Add `frontend-storage` install to readme + `frontend-utilities` + `frontend-timer`
+
+
+
+
+
+Run tests using proper mocha rather than a browser mock
+
+
+
+
+Test local storage `onQuotaExceeded()` error message.
+
+
+
+On open — open the first "favorite channel", if any.
+
+Add start/stop on UserData / UserSettings / Storage (StartStopStorage wrapper)
+
+Add provider switch in the top right corner (outline + accent color).
+
+На сайте anychan'а фоном тоже сделать шаблон + градиент.
+
+
+
+Test external change of latest read comment id in same thread.
+
+
+
+
+
+Use `-tail` API on `4chan` for thread auto-update and subscribed thread update.
+
+
+
+
+
+
+Check React fast refresh (components, Redux actions/store).
+If not works, change `swc-loader` to `babel-loader`.
+https://github.com/swc-project/swc/issues/588
+
+Maybe remove `.swcrc`
+https://github.com/swc-project/swc/issues/4431
+
+Maybe clean up `babel.config.js` in `webapp-frontend`
+
+
+
+Любая вкладка (сразу после открытия):
+
+
+
+            SubscribedThreadUpdate - mutually exclusive execution + debug
+
+
+Check that replies' parent comment quote text gets updated when the parent comment's YouTube video gets loaded (rewrote `virtualScroller.current.renderItem()` -> props).
+
+Что будет, если открыт subscribed thread, и пользователь его скроллит, а в другой вкладке запустился SubscribedThreadsUpdater, и у него ещё старый latestReadCommentId, на основе которого он вычислил counts, и записал их в storage, а потом эта вкладка увидела обновление и "подтянула" его, вместе с не верными counts.
+
+
+Проверить сценарий: один и тот же тред открыт с авто-апдейтом в двух вкладках. В одной из этих вкладок прочитываются все новые комментарии, чтобы убралась индикация. Тогда на второй вкладке, по идее, тоже убирается индикация.
+
+
+
+show channels list — Open the list of Channels + outline button
+
+
+
+
+Проверить — Иконка "новое" пропадает, если переключиться на вкладку, даже если там ещё есть непрочитанные, и потом не загорается.
+
+Обновлять иконку (`useApplicationIcon()`), если есть новые комментарии или ответы в subscribed threads.
+
+Обновлять `subscribedThreadsState` — `newCommentsCount`, `newRepliesCount` — as the user scrolls.
+
+
+
+
+Можно сделать скрипт, который, будучи добавленным на страницу, будет после `document` `load` показывать слой "loading" (spinner) `position: fixed; width: 100%; height: 100%`, затем читать данные треда или доски, добавлять новый слой `id="react"`, в котором рендерить новый UI, и затем всё старое делать `display: none`. Если ссылка была на комментарий, то будет мотать на комментарий.
+
+
+setSubscribedThreadNewComments({
+    newCommmentsCount: 123,
+    newRepliesCount: 0
+}) — { cache: true }
+
+else — { cache: false }
+
+
+Maybe remove properties from `subscribedThreads` collection items
+
+
+Archived thread test:
+http://localhost:1234/2ch/b/119034529
+
+
+check kohlchan, 4chan, 2ch in the UI after sort by popularity
+
+
+
+On hide OP comment: чтобы проставлял hiddenThread.
+
+
+
+
+Link in footer links to website. Add links to github repo and to twitter there via icons.
+
+
+
+anychan
+
+В шапке: собака плавает вверх-вниз немного, потом резко вверх-вниз два раа — типа "гав гав" — дальше печатается справа >woof woof. Когда собака гавкает — на ней ещё очки подпрыгивают.
+
+Universal online discussion platforms client
+
+FAQ.
+
+Q: Which imageboard engines are supported by `anychan`?
+A: Currently it supports:
+
+* `4chan.org`
+* `2ch.hk`
+* All `vichan` forks
+* `lynxchan`, although there're some minor [issues](https://gitlab.com/catamphetamine/imageboard/-/blob/master/docs/engines/lynxchan-issues.md)
+
+Q: What is the recommended imageboard engine for `anychan`?
+A: There haven't been a lot of them. Originally there was [`vichan`](https://github.com/vichan-devel/vichan) and it still seems to work fine (at least for non-highload scenarios) but is no longer being developed. The only one currently alive seems to be [`lynxchan`](https://gitgud.io/LynxChan/LynxChan), although it has some minor [issues](https://gitlab.com/catamphetamine/imageboard/-/blob/master/docs/engines/lynxchan-issues.md) that the author doesn't seem to be willing to fix. Still, it is functional. You could write your own imageboard engine too, and then request adding it to the [`imageboard`](https://gitlab.com/catamphetamine/imageboard) library providing clear API docs with examples.
+
+
+
+
+
+
+
+Test new comment animation slide up. Move webapp frontend repo to gitlab. Update imgboard, read ex file and ph numb inp on github
+
+Можно сделать неймспейс @anychan и подпакет reddit (reddit plugin).
+
+
+
+
+Поэкспериментировать с основным шрифтом:
+
+    font-family: "Helvetica Neue","Arial",sans-serif;
+    /* color: #425466; */
+    color: #414141;
+    font-size: 18px;
+    /* line-height: 28px; */
+    line-height: 1.55em;
+    /* letter-spacing: .2px; */ */
+    letter-spacing: .1px;
+
+
+Можно добавить открытие меню поста по клику правой кнопкой мыши на посте (на том же месте, где double click).
+
+Проверить, что touch-and-press увеличивает комментарий, и мб добавляет тень под ним.
+
+
+
+// The latest known list of live (non-archived, non-expired) threads in a channel.
+— what for?
+
+
+Cached local storage — check that latest read comments are cached.
+
+Cached local storage listen onChange key regexp.
+
+Индекс будет использоваться только при clean Up User Data / repair User Data — те, ключи, треды которых не в индексе, будут просто стираться.
+
+clean Up : будет проходить по всем ключам вида `captchan` (`captchan.chanId.*.boardId.threadId`).
+
+on thread expired — тереть все ключи вида `captchan` (типа `captchan.chanId.*.boardId.threadId`).
+
+Мигрировать (стирать) старые ключи вида `captchan.userData`. Этим можно воспользоваться, чтобы сбросить версию. А может и не сбрасывать.
+
+Посмотреть, каким будет экспорт UserData в файл.
+
+increment the version so that it only cleans up on 3 -> 4 update or something like that.
+
+Add “threads” ids list (per board), that will be refreshed on each catalog response. Also add "archivedThreads" index with archivedAt dates (with periodical auto-clear). When threads are removed from “threads”, they become archived or expired, including when localStorage "threads" change event is received from another tab.
+
+onThreadArchived / onThreadExpired — ничё не делать, если это был external event, потому что там уже всё сделано.
+
+
+Add a test on merge (import) User Data.
+Check that it doesn't alert the user that it will overwrite User Data on import because it merges.
+
+
+
+
+
+
+
+Над формой ответа показывать подсказку, что ответить на комментарий можно двойным кликом или длинным нажатием.
+
+
+
+
+"Активность" — touchdown mousedown pointerdown keydown scroll resize
+
+
+
+
+
+
+Add own comment / own thread as "latest read comment"
+
+
+
+    // What if thread not archived,
+    // then refreshed and archived in UserData,
+    // but Redux dispatch not yet run,
+    // and user reads next comment
+    // and that comment is written to UserData, not to UserData.archive.
+    // Maybe add a check in UserData: check if thread is archived before write.
+    // And what if thread has expired?
+    // Thread already expired and cleared from UserData,
+    // but is still rendered on screen,
+    // and the user still hasn't read the latest comments,
+    // and they scroll down and it writes new "latest read comment" to UserData
+    // while it shouldn't have written anything to UserData.
+
+
+
+Tracked threads new comments or replies indicator: use redux/thread latestReadCommentId and thread.id
+
+
+Cached local storage: should cache only when tab is visible. On thread fetched: user data on thread first comment -> trim things like own comments, votes, subscribed thread replies. Add replies to subscribed threads. Check that latest seen threads aren’t cleared on archival or expiry. Add user data argument to compare subscribed threads. Remove sort subscribed threads from non-user-data.
+
+
+При set in archive добавлять тред в archived threads. Migrate latestComment i -> number
+
+
+Во время get from user data смотреть архив. А что, если есть и там, и там?
+
+
+Cached storage listen keys. Get threads sortBy rating creationDate latestComment. Expired threads stay in archive for a week. Merge data on archive
+
+
+Дописать тесты update tsubscribed thread
+
+
+Add to comment: missing from threads stats if new or if just expired
+
+
+Сделать быструю функцию sort threads by rating
+
+
+Добавить кнопку очистить архив
+
+
+Remove:
+
+  if (!subscribedThread.replies) {
+    return 0
+  }
+
+
+
+
+
+
+
+
+
+add merge option to cached local storage + write a test.
+
+Sort subscribed threads on merge in a cached local storage.
+
+Check that it updates subscribed threads list in the UI on user data import / clear / merge.
+
+
+`sortSubscribedThreads()` — how to handle subscribed thread archived/non-archived status for reading latest read comment from archive or non-archive.
+
+Update `sortSubscribedThreads()` code with the latest ordering scheme.
+
+Test `sortSubscribedThreads()` and `getSubscribedThreadNewRepliesCount()`.
+
+Set `.replies[]` on each subscribed thread + migrate + PropTypes.
+
+
+Add a larger red dot when there're new replies in subscribed threads.
+
+show expired icon in thread header.
+
+console.log('------------------------------ on thread expired', threadId)
+
+On read comment: update subscribed thread new comments status icon.
+
+
+When not `withLatestReplies`, sort threads from newest to oldest.
+
+Move board view switch to its own position and make it larger.
+
+Move thread archive settings to `imageboard`.
+
+При переключении переключателя вида доски — рефрешить список тредов.
+
+Добавить в imageboard метод getPopularThreads(). Для двача будет использоваться метод getPopularThreads + merge from the default method. Для остальных провайдеров — default method:
+
+* To sort threads by "popularity", calculate an approximate "posts per minute" stats for each thread: `((thread.repliesCount + 1) / (currentTimestamp - thread.createdAtTimestamp)) / 60`. This is an average "posts per minute" stats for a thread across its entire lifespan. It's not completely accurate because it assumes that replies are evenly spread throughout the thread's lifetime.
+
+В режиме new comments не показывать "--- previously seen threads: ---" и показывать latest comment date перед thread creation date (через точку можно).
+
+Unread comments count: after slash ("10 / 5").
+
+Above the first shown "latest comment" it could write "N more new comments" (or just "N more comments", if all of them're new).
+
+Mark "previously read" comments in "new comments" view of a board.
+
+Maybe add "No new comments" indication subheading in "new comments" view of a board.
+
+Можно убирать архивные треды из показываемых, если пользователь в курсе, что они были закрыты или архивированы. Мб через сутки после их закрытия / архивирования.
+
+Increment version counter + add CHANGELOG + git tag
+
+
+
+
+
+
+можно добавить кнопку отмены сброса пользовательских данных / настроек.
+
+
+
+
+
+У каждого треда в архиве проставляется метка, когда он в этот архив был добавлен, и потом уже отдельный таймер раз в сутки занимается таким вот "garbage collection"-ом.
+
+The clean-up procedure will move all non-present threads to the `archive`.
+
+The `archive` will be cleaned also daily in similar a job (`UserData.archiveCleanUpStartedAt: ...`). Archived thread data lifetime could be a `MONTH`.
+
+Remove `const archivedThread = userData.archive.getArchivedThread(channelId, threadId)` from `onThreadsList()` when periodical archive clean-up has been added.
+
+
+
+
+
+
+
+Когда используется `-tail.json`, сохранять ответ сервера на предыдущий "полный" thread `*.json`, и потом просто добавлять к нему новые комментарии через какой-то `mergeXxx()`: таким образом ссылки на предыдущие комментарии будут распаршиваться нормально (не будет "comment not found").
+
+Делать такой `merge` непосредственно в `imageboard`, потому что так будет нормально считаться после этого `.commentsCount` и `.attachmentsCount` в случае с 8ch.net в `parseThread()`.
+
+
+
+`latest_replies` содержат ссылки на предыдущие комментарии, которые не загружены: в этом случае чтобы не писал "Удалённый комментарий", а просто ссылку на комментарий в треде делать, с instantBack.
+
+
+
+
+В getThread добавить параметр addUpdateThread, который будет добавлять треду функцию .refresh()
+
+
+
+
+
+subscribed threads - show threads with new comments even when archived, and hide archived; if all archived, then don't show "threads expired" label; как стилизовать треды, которые expired и при это has new comments; показывать замочек и коробку на архивных тредах
+
+
+
+
+
+
+Если зайти на http://localhost:1234/2ch/error?url=%2Fv, и потом перейти на /v/, то VirtualScroller выдаёт ошибки, как если бы он восстанавливал какой-то state.
+
+
+
+show a lock icon on closed threads in sidebar, and don't auto-refresh those (when tracked).
+
+
+
+Slideshow "Drag & Scale mode" on Esc: don't play bounce animation (on non-touch-devices).
+
+
+
+Add slideshow hotkeys to settings list.
+
+
+Add hide thread / comment hotkey: Delete
+
+
+
+
+
+In some future, maybe add support for LynxChan push notifications.
+
+
+
+
+Own comments markers:
+
+In own comments, overwrite author name with "You", and add color (Clickable-color), maybe colorize the person icon too.
+
+In replies to own comments, expand block post quote links to own comments, and add the same CommentAuthor block there (and in inline post link quotes too).
+
+
+
+
+
+
+Mark archived threads as archived
+
+Dont hide expired and archived threads in sidebar.
+
+Expired threads can have new comments.
+
+Dont refresh expired, archived and closed threads.
+
+Edit the sorting function accordingly.
+
+
+
+
+
+
+
+Добавить в side menu кнопку "Add to Favorites" (если тред уже добавлен в избранное — потолще рамку иконки делать, и цветом clickable color мб).
+
+Под ней — кнопку "две стрелки вниз" (перейти к самому позднему комментарию).
+
+На десктопе слева — такие же кнопки. При этом стрелку назад можно будет переместить куда-нибудь в середину экрана, или в верхнюю часть. Тогда можно будет добавить и стрелку вверх вверху (и в мобильном меню тоже — там смотреть, чтобы все иконки меню были в пределах видимости, мб через javascript).
+
+
+
+
+При наличии новых ответов — подсвечивать иконку немного другим цветом, чем когда просто есть новые комментарии. Например, вместо красного кружка делать красный кружок с синей обводкой (в итоге — того же размера).
+
+
+
+
+Меню на десктопе можно сделать как на мобильном: сразу слева от текстовой части постов, плавающем поверх.
+
+
+
+
+Mark archived (and closed) subscribed threads with "lock" icon.
+
+
+
+
+
+Добавить горячую клавишу "F".
+
+По нажатию F в каталоге — появляется рамка фокуса (цвета clickable color) вокруг карточек тредов, которую можно двигать стрелками вверх/вниз. По Enter-у — переход в тред. Добавить эту клавишу в настройках. Добавить изменение горячей клавиши. Добавить её в settings. Не срабатывать будет, если на input/textarea. Сделать Backspace тоже редактируемой клавишей. Во время переназначения — показывать animated <Ellipsis/>.
+
+При Tab-е — переходить на фокусировку элементов выделенного комментария, так что саму эту рамку можно сделать как tabIndex={-1}.
 
 
 
@@ -22,6 +706,17 @@ Latest Seen Thread — надо ли вообще.
 
 
 
+
+
+
+
+
+
+На мобильных:
+
+добавить в `react-pages` настройку `useSlideInTransition({ fromRoute, toRoute })`, которая может быть включена для каких-то `instant` navigation'ов (например, доска -> тред, и обратно). Во время такого transition'а будет выполняться функция Component.preload() (если она есть), потом уже обычный Component.load(), не блокирующий навигацию. При этом, в `.load()` будет передаваться функция `isCancelled()`, которую `.load()` сможет вызывать, чтобы прекращать выполнение. После загрузки страницы (выполнения Promise) контент её будет fade in. Если была ошибка при загрузке, то перенаправлять на `/error` безо всяких slide in / slide out (проверить, что работает). Предыдущая страница — показывается как обычно. Новая — создаётся в слое `position: fixed` с `overflow: scroll-y` (настраивается через CSS в самом приложении), который через `transform: translateX(100%)` надвигается. Всё это время — `<Loading/>` поверх всего. `<Loading/>` завершается, когда анимация надвигания закончилась, и у слоя новой страницы убирается `position: fixed` и `transform`, а предыдущая страница — перестаёт показываться. Анимацию slide-in можно использовать такую же, как для меню (или какую-нибудь ещё).
+
+// Опционально: Во время такой загрузки страницы треда, можно показывать либо основной комментарий треда, либо, если уже что-то прочитано, то запись из `.latestReadCommentsList`, который будет иметь максимальную длину (скажем, 100), в зависимости от того, каков размер будет одной такой запсис. Под этим — троеточие какое-нибудь анимированное, пока не загрузится тред.
 
 
 
@@ -266,7 +961,7 @@ On reply to a comment — first scroll up so that the <CommentsMoreActions/> but
 
 
 
-Randomize refresh time of tracked threads between different tabs (+ locks: see announcement refresh for an example).
+Randomize refresh time of subscribed threads between different tabs (+ locks: see announcement refresh for an example).
 
 
 
@@ -281,9 +976,9 @@ Background refresh чтобы не конфликтовал с cached local stor
 
 What's the `_areThereAnyNewComments()` function.
 
-Добавить в `<ApplicationIcon/>` количество новых непрочитанных комментариев из `state.trackedThreads`.
+Добавить в `<ApplicationIcon/>` количество новых непрочитанных комментариев из `state.subscribedThreads`.
 
-Также показывать красную точку на кнопке мобильного меню, когда есть новые непрочитанные комментарии в `state.trackedThreads`.
+Также показывать красную точку на кнопке мобильного меню, когда есть новые непрочитанные комментарии в `state.subscribedThreads`.
 
 
 
@@ -345,6 +1040,9 @@ Add dontTrackNewComments user data item.
 
 
 
+
+
+
 Стрелку "назад" на мобильных показывать отдельно от кнопки меню (кнопку меню показывать всегда), и только если можно назад. Тогда стрелку "наверх" можно показывать под ними на расстоянии мб (а может и без расстояния в случае трёх кнопок) (а может и с).
 
 Добавить кнопку "Go to top": на десктопах она будет слева под кнопкой "назад", а на мобильных — под кнопкой меню снизу (с той же стороны — слева для левшей).
@@ -366,7 +1064,7 @@ Add dontTrackNewComments user data item.
 
 
 
-Делать sortAndTrimTrackedThreads() при обновлении отслеживаемых тредов (background update).
+Делать sortAndTrimSubscribedThreads() при обновлении отслеживаемых тредов (background update).
 
 
 
@@ -409,6 +1107,70 @@ Add dontTrackNewComments user data item.
 
 
 
+
+
+
+Print Screen PNG -> JPG:
+
+```js
+// ==UserScript==
+// @name         Convert pasted image to jpg
+// @namespace    https://2ch.hk/
+// @version      0.1
+// @description  Converts pasted images from png to jpg
+// @author       Anon
+// @match        *://2ch.hk/*
+// @match        *://2ch.pm/*
+// @icon         https://www.google.com/s2/favicons?domain=tampermonkey.net
+// @grant        none
+// ==/UserScript==
+
+
+(function() {
+    'use strict';
+
+    const imageOpts = {
+        filename: 'image.jpg',
+        type: 'image/jpeg',
+        quality: 0.95,
+    };
+
+    function imageToFile(image, { type, filename, quality }, callback) {
+        var canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        canvas.getContext('2d').drawImage(image, 0, 0);
+        canvas.toBlob(blob => callback(new File([blob], filename, { type })), type, quality);
+    }
+
+    $('.makaba').off('paste').on('paste', function(e) {
+        var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        for (const item of items) {
+            if (item.kind !== 'file') {
+                continue;
+            }
+
+            var blob = item.getAsFile();
+            if (item.type !== 'image/png') {
+                window.FormFiles.addMultiFiles([blob]);
+                continue;
+            }
+
+            let img = new Image();
+            img.onload = function() {
+                imageToFile(img, imageOpts, file => window.FormFiles.addMultiFiles([file]));
+            };
+            img.src = (window.URL || window.webkitURL).createObjectURL(blob);
+        }
+    })
+})();
+```
+
+
+
+
+
+
 Можно добавить кастомизацию фона доски (как в реддите или твиттере) — Аватар в кружке, фон. — через "Настройки доски" (Board settings) (шестерёнка), boardSettings boardId-data collection.
 
 
@@ -426,10 +1188,11 @@ Add dontTrackNewComments user data item.
 
 
 
-check google analytics (dev, prod)
 
 
 
+Можно сжимать bitmap-print-screen-скриншоты в png при вставке их в форма ответа:
+https://stackoverflow.com/a/37579385
 
 
 
@@ -450,10 +1213,10 @@ check google analytics (dev, prod)
 
 on getThreads(), do `for (thread of threads) dispatch(updateThread(thread))`.
 on getThread(), do `dispatch(updateThread(thread)`.
-on refreshTrackedThread(), do `dispatch(updateThread(thread)`.
+on refreshSubscribedThread(), do `dispatch(updateThread(thread)`.
 in updateThread(): refresh `ThreadActivityStatus`.
 
-Показывать кружок статуса активности треда слева от счётчика комментариев в: catalog, thread, tracked threads.
+Показывать кружок статуса активности треда слева от счётчика комментариев в: catalog, thread, subscribed threads.
 
 
 
@@ -604,6 +1367,7 @@ https://security.stackexchange.com/questions/149324/why-bother-validating-the-ho
 
 
 
+
 Captcha links:
 
 Captcha in mobile apps
@@ -626,21 +1390,7 @@ https://github.com/acedened/TheChan.iOS/issues/472
 
 
 
-Имеется вот такая мобильная капча:
-https://2ch.hk/api/captcha/recaptcha/mobile
 
-При этом она выдаёт заголовок:
-X-Frame-Options: SAMEORIGIN
-
-Из-за этого, её не использовать в <iframe/>.
-Чем вызвана такая строгость по отношению именно к <iframe/>?
-
-Также, эта страница передаёт какой-то странный "callback": "callback: function(a) { window.external.notify(JSON.stringify(a)); }".
-Вместо этого, можно было бы делать: "callback: function(a) { parent.postMessage("g-captcha-response", JSON.stringify(a)); }".
-
-"window.external.notify" — это какой-то способ связи с C# приложениями. Зачем он здесь? Могли бы, как минимум, проверять, если ли вообще такая функция, и если она есть, то вызывать, а если её нет, то слать сообщение в parent фрейм.
-
-Иначе, нет никакой связи из фрейма в основную страницу, и, соответственно, основная страница не получит g-captcha-response.
 
 
 
@@ -691,6 +1441,10 @@ Create translation thread on kohlchan.
 
 При заходе в тред (и при авто-обновлении треда) — кешировать его в кеше "N наиболее недавних загруженных тредов". Также кешировать отслеживаемые треды при каждой их загрузке и обновлении. Если такой тред истекает, то показывать страницу треда, как если бы он не истёк (миниатюры можно сохранять тоже, но оригиналы уже делать некликабельными, или показывающими крестик "картинка не может быть загружена"), и `position: fixed` красную плашку (с закрывашкой), говорящую о том, что тред истёк, и что он будет очищен из кеша через некоторое время, а пока его можно "Сохранить" (в виде .json файла с миниатюрами).
 
+
+
+
+Maybe add user-configured word auto-replacement. Example: "girl" -> "catwife".
 
 
 
@@ -815,14 +1569,9 @@ Inline post links:
 
 Кнопку мобильного меню можно сделать пожирнее в нажатом состоянии, поместить её посередине, и меню сделать выезжающим справа.
 
-Можно переименовать isSticky -> sticky, isRolling -> rolling, isClosed -> closed, isNotSafeForWork -> notSafeForWork, isSageAllowed -> ..., areNamesAllowed -> ..., isBumpLimitReached -> bumpLimitReached, isAttachmentLimitReached -> attachmentLimitReached, areSubjectsAllowed -> ..., areAttachmentsAllowed -> ..., areTagsAllowed -> ..., hasVoting -> ..., isThreadAuthor -> threadAuthor (неа, другой смысл — как если бы это был ID автора треда), isSage -> sage.
-
-Дополнить imageboard/4chan/parseBoard:
-https://github.com/4chan/4chan-API/blob/master/pages/Boards.md
-
 Colored person icons are too small — make it a large colored block like on `4chan.org`. Color the hash with white color. The background colors should be saturated and not too light (and not too dark).
 
-Don’t show remove button on non-expired tracked threads.
+Don’t show remove button on non-expired subscribed threads.
 
 Вместо "Комментарий" можно писать "Комментарий из другого треда".
 
@@ -1007,6 +1756,70 @@ Load instagram posts through CORS proxy (if a proxy is configured).
 
 --------------------------------------------------------------------------------------------
 
+
+
+lynxchan get file SHA256 hash:
+
+```js
+
+  var reader = new FileReader();
+
+  reader.onloadend = async function() {
+
+
+    if (crypto.subtle) {
+
+      var hashBuffer = await
+      crypto.subtle.digest('SHA-256', reader.result);
+
+      var hashArray = Array.from(new Uint8Array(hashBuffer));
+
+      var hashHex = hashArray.map(function(b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+
+    } else {
+
+      var i8a = new Uint8Array(reader.result);
+      var a = [];
+
+      for (var i = 0; i < i8a.length; i += 4) {
+        a.push(i8a[i] << 24 | i8a[i + 1] << 16 | i8a[i + 2] << 8 | i8a[i + 3]);
+      }
+
+      var wordArray = CryptoJS.lib.WordArray.create(a, i8a.length);
+      var hashHex = CryptoJS.SHA256(wordArray).toString();
+    }
+
+    // ...
+  }
+
+  reader.readAsArrayBuffer(file);
+```
+
+```js
+postCommon.newCheckExistance(file, function checked(sha256, mime, found) {
+
+    var toPush = {
+      name : postCommon.selectedFiles[index].name,
+      spoiler : spoiled,
+      sha256 : sha256,
+      mime : mime
+    };
+
+    if (!found) {
+      toPush.content = file;
+    }
+
+    files.push(toPush);
+
+    postCommon.newGetFilesToUpload(callback, ++index, files);
+
+  });
+```
+
+
+
 Можно создать issue в `arisuchan` и `lainchan`, `4chan` и `8ch`. Также можно создать треды на их чанах.
 https://github.com/arisu-dev/arisuchan
 https://github.com/lainchan/lainchan
@@ -1029,6 +1842,8 @@ Alternatively, hypothetically, someone could change `howManyCommentsToShowBefore
 Можно добавить анимацию (как в Твиттере) иконке "Добавить тред в избранное".
 
 <!-- (caching won't work when auto-scrolling right to "new unread comments") Cache board and thread data: при заходе на доску показывать старый каталог (при заходе в тред показывать старые сообщения), и крутилку показывать, что обновляется. (можно где-нибудь в Header'е показывать). -->
+
+// Может быть всё-таки показывать "latest replies" у тредов в каталоге, потому что так "более живо" всё это смотрится: когда пользователь заходит без определённой цели, просто почитать, "что там нового", то любой комментарий равноценен (или часто бывает даже интереснее) "основного комментария" треда. Также, если пользователь по нескольку раз заходит в "каталог", то не будет ощущения, что "всё то же самое" и "ничего не меняется".
 
 Парсинг треда можно распараллелить: можно парсить его в `requestIdleCallback()`, или можно парсить в Web Worker-е (отдельный тред). Время это не сократит, но отзывчивость интерфейса может увеличить за счёт непросадок FPS, хотя кто там что делает во время загрузки треда — думаю, разницы не будет.
 
@@ -1056,7 +1871,7 @@ Alternatively, hypothetically, someone could change `howManyCommentsToShowBefore
 
 <!-- Можно сделать раздел меню "Профиль", где будут разделы "Мои треды" и "Мои сообщения" с индикацией статуса (удалено или ещё не удалено): так могут сохраняться посты и треды, даже если сами треды уже того. Вход в настройки можно сделать через "Профиль", как в Инстаграме. -->
 
-<!-- Ограничить ownComments и ownThreads длиной. trackedThreads — тоже. -->
+<!-- Ограничить ownComments и ownThreads длиной. subscribedThreads — тоже. -->
 
 <!-- Мб количество ответов не показывать в "Отслеживаемых тредах", а показывать их отдельно в "Уведомлениях". Сбрасывать статус нового в "Отслеживаемых тредах" и "Уведомлениях" при прочтении комментариев (при очередном обновлении, например; или если прочёл комментарии в этой же вкладке). -->
 
@@ -1159,11 +1974,11 @@ images/
 4chan post
 ==========
 
+https://github.com/4chan/4chan-JS/blob/8714d5fe9c138bdb0587c860a90a1289ffda65e3/extension.js
+
 ```
 https://www.google.com/recaptcha/api2/reload?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc
 https://www.google.com/recaptcha/api2/userverify?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc
-
-https://sys.4chan.org/b/post
 
 FormData
 
@@ -1186,92 +2001,34 @@ else {
 
 this.captchaDelay = 240
 
-
-sel = UA.getSelection()
-if (sel) {
-  q += '>' + sel.trim().replace(/[\r\n]+/g, '\n>') + '\n'
-}
-
-form = postForm.parentNode.cloneNode(false);
-form.setAttribute('name', 'qrPost');
-form.innerHTML =
-  '<input type="hidden" value="'
-  + $.byName('MAX_FILE_SIZE')[0].value + '" name="MAX_FILE_SIZE">'
-  + '<input type="hidden" value="regist" name="mode">'
-  + '<input id="qrResto" type="hidden" value="' + tid + '" name="resto">';
-
-https://github.com/4chan/4chan-JS/blob/8714d5fe9c138bdb0587c860a90a1289ffda65e3/extension.js
-
-id="captchaFormPart"
-
-row.innerHTML = '<img id="qrCaptcha" title="Reload" width="300" height="57" src="'
-  + $.id('recaptcha_image').firstChild.src + '" alt="reCAPTCHA challenge image">'
-  + '<input id="qrCapField" name="recaptcha_response_field" '
-  + 'placeholder="reCAPTCHA Challenge (Required)" '
-  + 'type="text" autocomplete="off" autocorrect="off" autocapitalize="off">'
-  + '<input id="qrChallenge" name="recaptcha_challenge_field" type="hidden" value="'
-  + $.id('recaptcha_challenge_field').value + '">';
-
-Maybe check banned status on error:
-
-QR.banXhr.open('GET', '//api.4chan.org/banned?' + Date.now())
-if (status == 403)
-
 // byteLength = encodeURIComponent(comment).split(/%..|./).length - 1;
-
-MAX_FILE_SIZE: 2097152 // Board's `max_filesize` from `https://a.4cdn.org/boards.json`.
-mode: regist // Whatever.
-resto: 792190180 // Thread ID.
-email: // (optional) Author email.
-com: Like 2ch.hk/b/ ? // Comment text.
-upfile: (binary) // (optional) An attachment (a picture or a webm video).
-g-recaptcha-response: 03AF6jDqXUEXD6OJXDFm9i8hA-eQxsVWxSXiPDSTvUklz1oaVKZdl7-TR-SIXyElx1zypXqsJWkVI9WH3YU8VytGzV1IoV0Psxwwxo8Q9xw7j17-vpJ8s5WZ-oPzoS2CLOaQTbEe01ay0g8CdGsk9KqA8WsH40x3ZawoEZYWeuJlF53EHny_sWBCcVgps8QI-a1OUCI-2yuf_l-5NWXiY_AvdNdpjaZzWvEDTDmGeeiooOhbotYA-IJA6b7WeLalsNWa-UsYxOuOOdrizWHFjXR0Mk2ChpHca7VeyiuaBYZAwVXGc8YZVz5bUvGZ-8ruMRuE9Le208HjFG // Google ReCaptcha "response".
-
-Access-Control-Request-Method: POST
-Origin: http://boards.4chan.org
-Referer: http://boards.4chan.org/
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
-
-Response:
-
-<!DOCTYPE html><head><meta http-equiv="refresh" content="1;URL=http://boards.4chan.org/bant/thread/7466194#p7466464"><link rel="shortcut icon" href="//s.4cdn.org/image/favicon.ico"><title>Post successful!</title><link rel="stylesheet" title="switch" href="//s.4cdn.org/css/yotsubanew.685.css"></head><body style="margin-top: 20%; text-align: center;"><h1 style="font-size:36pt;">Post successful!</h1><!-- thread:7466194,no:7466464 --></body></html>
-
-Check `<span id="errmsg" style="color: red;">Error: ...</span>`.
-
-    if (this.status == 200) {
-      if (resp = this.responseText.match(/"errmsg"[^>]*>(.*?)<\/span/)) {
-        QR.reloadCaptcha();
-        QR.showPostError(resp[1]);
-        return;
-      }
-    }
-
-Not exists:
-
-<hr class="abovePostForm"><table style="text-align: center; width: 100%; height: 300px;"><tr valign="middle"><td align="center" style="font-size: x-large; font-weight: bold;"><span id="errmsg" style="color: red;">Error: Specified thread does not exist.</span><br><br>[<a href=http://boards.4chan.org/b/>Return</a>]</td></tr></table><br><br><hr size=1><div id="absbot" class="absBotText">
-
-Spam:
-
-<hr class="abovePostForm"><table style="text-align: center; width: 100%; height: 300px;"><tr valign="middle"><td align="center" style="font-size: x-large; font-weight: bold;"><span id="errmsg" style="color: red;">Error: Our system thinks your post is spam. Please reformat and try again.</span><br><br>[<a href=http://boards.4chan.org/r9k/>Return</a>]</td></tr></table><br><br><hr size=1><div id="absbot" class="absBotText">
-
-access-control-allow-credentials: true
-access-control-allow-headers: If-Modified-Since
-access-control-allow-methods: GET, OPTIONS
-access-control-allow-origin: http://boards.4chan.org
-
-if (ids = this.responseText.match(/<!-- thread:([0-9]+),no:([0-9]+) -->/)) {
-  tid = ids[1];
-  pid = ids[2];
-
-  if (Main.tid) {
-    QR.lastReplyId = +pid;
-    Parser.trackedReplies['>>' + pid] = 1;
-    Parser.saveTrackedReplies(tid, Parser.trackedReplies);
-  }
-  else {
-    tracked = Parser.getTrackedReplies(tid) || {};
-    tracked['>>' + pid] = 1;
-    Parser.saveTrackedReplies(tid, tracked);
-  }
-}
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Имеется вот такая мобильная капча:
+https://2ch.hk/api/captcha/recaptcha/mobile
+
+При этом она выдаёт заголовок:
+X-Frame-Options: SAMEORIGIN
+
+Из-за этого, её не использовать в <iframe/>.
+Чем вызвана такая строгость по отношению именно к <iframe/>?
+
+Также, эта страница передаёт какой-то странный "callback": "callback: function(a) { window.external.notify(JSON.stringify(a)); }".
+Вместо этого, можно было бы делать: "callback: function(a) { parent.postMessage("g-captcha-response", JSON.stringify(a)); }".
+
+"window.external.notify" — это какой-то способ связи с C# приложениями. Зачем он здесь? Могли бы, как минимум, проверять, если ли вообще такая функция, и если она есть, то вызывать, а если её нет, то слать сообщение в parent фрейм.
+
+Иначе, нет никакой связи из фрейма в основную страницу, и, соответственно, основная страница не получит g-captcha-response.

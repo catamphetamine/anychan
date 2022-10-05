@@ -1,18 +1,17 @@
-import loadStylesheet from 'webapp-frontend/src/utility/loadStylesheet'
+import loadStylesheet from 'frontend-lib/utility/loadStylesheet.js'
 
-import UserSettings from './UserSettings'
+import getUserSettings from '../UserSettings.js'
 
-import { DEFAULT_THEMES } from './settingsDefaults'
+import { getDefaultThemes } from './settings/settingsDefaults.js'
 
-import configuration from '../configuration'
+import configuration from '../configuration.js'
 
-export const BUILT_IN_THEMES = [
-	...DEFAULT_THEMES,
-	...(configuration.themes || [])
-]
+function getBuiltInThemes() {
+	return getDefaultThemes().concat(configuration.themes || [])
+}
 
-export function getThemes() {
-	return BUILT_IN_THEMES.concat(UserSettings.get('themes', []))
+export function getThemes({ userSettings = getUserSettings() } = {}) {
+	return getBuiltInThemes().concat(userSettings.get('themes') || [])
 }
 
 export function getTheme(id) {
@@ -20,29 +19,29 @@ export function getTheme(id) {
 }
 
 export function isBuiltInTheme(id) {
-	return BUILT_IN_THEMES.findIndex(_ => _.id === id) >= 0
+	return getBuiltInThemes().findIndex(_ => _.id === id) >= 0
 }
 
-export function addTheme(theme) {
-	const themes = UserSettings.get('themes', [])
+export function addTheme(theme, { userSettings = getUserSettings() } = {}) {
+	const themes = userSettings.get('themes') || []
 	const index = themes.findIndex(_ => _.id === theme.id)
 	if (index >= 0) {
 		themes[index] = theme
 	} else {
 		themes.push(theme)
 	}
-	UserSettings.set('themes', themes)
+	userSettings.set('themes', themes)
 }
 
-export function removeTheme(id) {
-	const themes = UserSettings.get('themes', [])
+export function removeTheme(id, { userSettings = getUserSettings() } = {}) {
+	const themes = userSettings.get('themes') || []
 	const index = themes.findIndex(_ => _.id === id)
 	if (index >= 0) {
 		themes.splice(index, 1)
 		if (themes.length === 0) {
-			UserSettings.reset('themes')
+			userSettings.reset('themes')
 		} else {
-			UserSettings.set('themes', themes)
+			userSettings.set('themes', themes)
 		}
 	}
 }

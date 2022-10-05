@@ -1,20 +1,19 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import PostMoreActions from 'webapp-frontend/src/components/PostMoreActions'
+import PostMoreActions from 'social-components-react/components/PostMoreActions.js'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
-import copyTextToClipboard from 'webapp-frontend/src/utility/clipboard'
-import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+import { notify } from '../../redux/notifications.js'
+import { copyTextToClipboard, openLinkInNewTab } from 'web-browser-input'
 
 import {
 	comment as commentType,
 	channelId,
 	threadId
-} from '../../PropTypes'
+} from '../../PropTypes.js'
 
-import getMessages from '../../messages'
-import { getThreadUrl, getCommentUrl } from '../../provider'
+import getMessages from '../../messages/index.js'
+import { getThreadUrl, getCommentUrl } from '../../provider.js'
 
 import './CommentMoreActions.css'
 
@@ -33,6 +32,7 @@ export default function CommentMoreActions({
 }) {
 	const moreActions = useMemo(() => {
 		let actions = []
+
 		if (mode === 'thread') {
 			actions.push({
 				label: getMessages(locale).post.reply,
@@ -43,50 +43,75 @@ export default function CommentMoreActions({
 				onClick: () => copyTextToClipboard('>>' + comment.id)
 			})
 		}
+
 		actions = actions.concat([
+			// "Copy URL".
 			{
 				label: getMessages(locale).post.moreActions.copyUrl,
 				onClick: () => copyTextToClipboard(window.location.origin + urlBasePath + url)
 			},
+
+			// "Report".
 			{
 				label: getMessages(locale).post.moreActions.report,
-				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
+				onClick: () => {
+					// 4chan.org:
+					// const width = 400
+					// const height = 550
+					// const url = `https://sys.4chan.org/${boardId}/imgboard.php?mode=report&no=${commentId}`
+					// return window.open(
+					// 	url,
+					// 	undefined,
+					// 	`toolbar=0,scrollbars=1,location=0,status=1,menubar=0,resizable=1,width=${width},height=${height}`
+					// )
+					dispatch(notify(getMessages(locale).notImplemented))
+				}
 			},
+
+			// "Hide".
 			{
 				label: getMessages(locale).post.moreActions.hide,
 				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			},
+
+			// "Ignore Author".
 			{
 				label: getMessages(locale).post.moreActions.ignoreAuthor,
 				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
 			}
 		])
+
 		if (mode === 'thread') {
+			// "Show original comment".
+			// (redirects to the original provider website)
 			actions.push({
 				label: getMessages(locale).post.moreActions.showOriginalComment,
 				onClick: () => {
 					let url
 					if (comment.id === threadId) {
 						url = getThreadUrl(channelId, threadId, {
-							isNotSafeForWork: channelIsNotSafeForWork
+							notSafeForWork: channelIsNotSafeForWork
 						})
 					} else {
 						url = getCommentUrl(channelId, threadId, comment.id, {
-							isNotSafeForWork: channelIsNotSafeForWork
+							notSafeForWork: channelIsNotSafeForWork
 						})
 					}
 					openLinkInNewTab(url)
 				}
 			})
 		}
+
 		if (mode === 'thread') {
 			if (comment.id === threadId) {
+				// "Download thread".
 				actions.push({
 					label: getMessages(locale).downloadThread,
 					onClick: onDownloadThread
 				})
 			}
 		}
+
 		return actions
 	}, [
 		dispatch,
@@ -101,6 +126,7 @@ export default function CommentMoreActions({
 		urlBasePath,
 		onDownloadThread
 	])
+
 	return (
 		<PostMoreActions
 			alignment="right"

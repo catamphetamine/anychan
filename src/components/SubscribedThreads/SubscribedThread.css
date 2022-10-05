@@ -1,0 +1,182 @@
+.SubscribedThread {
+	position: relative;
+	height: var(--List-lineHeight);
+	font-size: var(--List-fontSize);
+	border-top: 1px solid var(--List-borderColor);
+	border-bottom: 1px solid var(--List-borderColor);
+}
+
+.SubscribedThread,
+.SubscribedThread-inner {
+	display: flex;
+	align-items: center;
+}
+
+.SubscribedThread-inner {
+	height: 100%;
+	/* `min-width: 0` fixes overflow. */
+	min-width: 0;
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	/*padding-right: var(--List-lineHeight);*/
+	flex: 1;
+	/* `z-index: 1` is used so that the `<Link/>`
+	   is above the "Remove" `<button/>` when hovered/clicked. */
+	z-index: 1;
+}
+
+.SubscribedThread--expired,
+.SubscribedThread--edit {
+	.SubscribedThread-inner {
+		padding-right: var(--ListButton-padding);
+		margin-right: calc(-1 * var(--ListButton-padding));
+	}
+}
+
+/*
+.SubscribedThread--unsubscribed {
+	.SubscribedThread-inner {
+		position: relative;
+		padding-right: 0.4em;
+		margin-right: 0;
+	}
+	.SubscribedThread-inner:before {
+		display: block;
+		content: '';
+		position: absolute;
+		width: calc(100% - var(--unit) - 0.4em + 0.2em);
+		height: 1px;
+		left: calc(var(--unit) - 0.2em);
+		top: 50%;
+		z-index: 1;
+		background-color: currentColor;
+	}
+}
+*/
+
+.SubscribedThread--expired {
+	--SubscribedThread-color: var(--Sidebar-color-600);
+	color: var(--SubscribedThread-color);
+	.SubscribedThread-channel,
+	.SubscribedThread-title {
+		opacity: 0.75;
+		/*cursor: default;*/
+		color: var(--SubscribedThread-color);
+	}
+	.SubscribedThread-thumbnail {
+		--Picture-borderColor: var(--Sidebar-color-200);
+		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
+		.Picture-loadingError {
+			color: var(--Sidebar-color-500);
+		}
+	}
+}
+
+.SubscribedThread--unsubscribed {
+	.SubscribedThread-channel,
+	.SubscribedThread-title {
+		text-decoration: line-through;
+	}
+}
+
+.SubscribedThread-thumbnail,
+.SubscribedThread-thumbnailPlaceholder {
+	margin-right: 0.5em;
+}
+
+.SubscribedThread-thumbnail {
+	/* Prevents the `<Picture/>` from being clickable.
+	   (for example, when the image wasn't found). */
+	pointer-events: none;
+	.Picture-loadingError {
+		width: 50%;
+		height: 50%;
+	}
+}
+
+.SubscribedThread-thumbnailPlaceholder {
+	color: var(--Sidebar-color-500);
+	opacity: 0.5;
+}
+
+.SubscribedThread:not(.SubscribedThread--expired) {
+	--ChannelUrl-color: var(--Channels-color--active);
+
+	/* Using this level of specificity because otherwise
+	   `:not()` would have higher priority. */
+	&.SubscribedThread--selected {
+		background-color: var(--Channels-backgroundColor--selected);
+		border-top: 1px solid var(--List-borderColor--selected);
+		border-bottom: 1px solid var(--List-borderColor--selected);
+	}
+
+	.SubscribedThread-inner--link {
+		&:hover {
+			background-color: var(--Channels-backgroundColor--hover);
+			--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--hover);
+		}
+		&:active {
+			background-color: var(--Channels-backgroundColor--active);
+			--ChannelUrl-slash-color: var(--ChannelUrl-slash-color--active);
+			.SubscribedThread-title {
+				color: var(--Channels-color--active);
+			}
+		}
+	}
+}
+
+.SubscribedThread-title {
+	/* `min-width: 0` fixes overflow. */
+	min-width: 0;
+	margin-left: 0.3em;
+	color: var(--Channels-color);
+	flex: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/*
+.SubscribedThread-newReplies,
+.SubscribedThread-newComments {
+	margin-left: 0.4em;
+}
+
+.SubscribedThread-newReplies + .SubscribedThread-newComments {
+	margin-left: 0.25em;
+}
+
+.SubscribedThread-newReplies {
+	padding-left: 0.15em;
+	padding-right: 0.15em;
+	border-radius: 0.2em;
+	background-color: currentColor;
+	color: var(--Sidebar-backgroundColor);
+}
+*/
+
+.SubscribedThread-newRepliesIcon,
+.SubscribedThread-newCommentsIcon {
+	margin-left: calc(var(--unit)/2);
+	width: 0.4rem;
+	height: 0.4rem;
+	border-radius: 50%;
+	background-color: var(--Clickable-color--active);
+	font-size: 0;
+}
+
+.SubscribedThread-newRepliesIcon {
+	background-color: var(--Critical-backgroundColor);
+}
+
+.SubscribedThread-undoUnsubscribe {
+	margin-right: calc((var(--List-lineHeight) - var(--ListButtonIcon-width)) / 2);
+	margin-left: var(--ListButton-padding);
+}
+
+.SubscribedThread-icon {
+	width: 1em;
+	height: 1em;
+	margin-left: calc(var(--unit) / 2);
+	color: var(--Sidebar-color-500);
+}

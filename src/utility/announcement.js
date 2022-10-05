@@ -1,62 +1,119 @@
-import UserData from '../UserData/UserData'
+import getUserData from '../UserData.js'
+import Lock from './Lock.js'
+
+import { Timer } from 'web-browser-timer'
 
 // Randomize announcement refresh delay between different tabs
 // so that multiple tabs don't start refreshing it simultaneously.
-const RANDOMIZE_REFRESH_INTERVAL = 5 * 60 * 1000
+const RETRY_DELAY_MAX = 10 * 60 * 1000
 
-const REFRESH_LOCK_TIMEOUT = 60 * 1000
+// The initial refresh delay will be randomized between different tabs
+// so that multiple tabs don't start refreshing it simultaneously.
+const START_DELAY_MAX = 2 * 1000
 
-export function startPollingAnnouncement(url, showAnnouncement, interval) {
-	function pollAnnouncement() {
-		// Schedule refresh of the announcement.
-		const latestRefreshedAt = UserData.getAnnouncementRefreshedAt()
-		let refreshDelay = 0
-		if (latestRefreshedAt) {
-			refreshDelay = Math.max(0, (latestRefreshedAt + interval) - Date.now())
-		}
-		if (refreshDelay > 0) {
-			// Randomize announcement refresh delay between different tabs
-			// so that multiple tabs don't start refreshing it simultaneously.
-			refreshDelay += Math.random() * RANDOMIZE_REFRESH_INTERVAL
-			return setTimeout(pollAnnouncement, refreshDelay)
-		}
-		// Refresh the announcement.
-		let delay = 0
-		const lockedUntil = UserData.getAnnouncementRefreshLockedUntil()
-		if (lockedUntil) {
-			delay = Math.max(0, Date.now() - lockedUntil)
-		}
-		if (delay > 0) {
-			// Randomize announcement refresh delay between different tabs
-			// so that multiple tabs don't start refreshing it simultaneously.
-			delay += Math.random() * RANDOMIZE_REFRESH_INTERVAL
-			return setTimeout(pollAnnouncement, delay)
-		}
-		// Set the "lock" on refreshing the announcement.
-		const announcementRefreshLockedUntil = Date.now() + REFRESH_LOCK_TIMEOUT
-		UserData.setAnnouncementRefreshLockedUntil(announcementRefreshLockedUntil)
-		fetchAnnouncement(url).then((announcement) => {
-			// Check if still holds the "lock".
-			if (UserData.getAnnouncementRefreshLockedUntil() === announcementRefreshLockedUntil) {
-				// Release the "lock".
-				UserData.removeAnnouncementRefreshLockedUntil()
-				if (announcement !== undefined) {
-					// Update "Refreshed At" timestamp.
-					UserData.setAnnouncementRefreshedAt(Date.now())
-					// `announcement` can be `null` meaning "no announcement".
-					if (announcement !== null) {
-						const prevAnnouncement = UserData.getAnnouncement()
-						if (!prevAnnouncement || prevAnnouncement.date !== announcement.date) {
-							UserData.setAnnouncement(announcement)
-							showAnnouncement(announcement)
-						}
-					}
-				}
-			}
-			setTimeout(pollAnnouncement, interval)
-		})
+// How long could a refresh process go on for.
+const TIMEOUT = 60 * 1000
+
+const debug = (...args) => console.log(['Announcement Refresh'].concat(args))
+
+const lock = new Lock('Announcement.Refresh.Lock', {
+	debug,
+	timeout: TIMEOUT
+})
+
+const timer = new Timer()
+
+export function startPollingAnnouncement(url, showAnnouncement, refreshInterval, {
+	userData = getUserData()
+} = {}) {
+	function retryAfter(delay) {
+		// Randomize announcement refresh delay between different tabs
+		// so that multiple tabs don't start refreshing it simultaneously.
+		delay += Math.random() * RETRY_DELAY_MAX
+		return timer.schedule(pollAnnouncement, delay)
 	}
-	pollAnnouncement()
+
+	async function pollAnnouncement() {
+		// Schedule refresh of the announcement.
+		const latestRefreshedAt = userData.getAnnouncementRefreshedAt()
+		let nextRefreshDelay = 0
+		if (latestRefreshedAt) {
+			nextRefreshDelay = Math.max(0, (latestRefreshedAt + refreshInterval) - timer.now())
+		}
+
+		// If the time to refresh the announcement hasn't come yet,
+		// then schedule a retry.
+		if (nextRefreshDelay > 0) {
+			return retryAfter(nextRefreshDelay)
+		}
+
+		// Acquire a lock.
+		const {
+			hasLockTimedOut,
+			getRetryDelayAfterLockTimedOut,
+			releaseLock,
+			retryAfter
+		} = await lock.acquire()
+
+		if (retryAfter) {
+			return retryAfter(retryAfter)
+		}
+
+		// Fetch the announcement.
+		const announcement = await fetchAnnouncement(url)
+
+		// Check if the "lock" has timed out.
+		if (hasLockTimedOut()) {
+			return retryAfter(getRetryDelayAfterLockTimedOut())
+		}
+
+		// `announcement` could be `undefined`, for example,
+		// in case of a "404 Not Found" error.
+		if (announcement === undefined) {
+			// Release the "lock".
+			releaseLock()
+			// Retry later.
+			return retryAfter(refreshInterval)
+		}
+
+		// Update "Refreshed At" timestamp.
+		userData.setAnnouncementRefreshedAt(timer.now())
+
+		// Release the "lock".
+		releaseLock()
+
+		// `announcement.json` content can be `null` meaning "no announcement".
+		// For example, if an admin of a web server doesn't want to see "404 Not Found"
+		// errors in the logs for `announcement.json`, they might create one with contents: `null`.
+		if (announcement !== null) {
+			// Because `announcement` data comes from an external source — `announcement.json` — 
+			// don't "trust" its contents. Copy over only the expected properties.
+			onAnnouncement({
+				date: announcement.date,
+				content: announcement.content
+			}, { userData })
+		}
+
+		// Schedule next refresh.
+		retryAfter(refreshInterval)
+	}
+
+	// Randomize announcement refresh delay between different tabs
+	// so that multiple tabs don't start refreshing it simultaneously.
+	setTimeout(pollAnnouncement, Math.random() * START_DELAY_MAX)
+}
+
+function onAnnouncement(announcement, { userData }) {
+	// If the announcement has changed, save and show the new announcement.
+	const prevAnnouncement = userData.getAnnouncement()
+	if (!prevAnnouncement || prevAnnouncement.date !== announcement.date) {
+		try {
+			userData.setAnnouncement(announcement)
+			showAnnouncement(announcement)
+		} catch (error) {
+			console.error(error)
+		}
+	}
 }
 
 /**
@@ -114,13 +171,9 @@ export async function fetchAnnouncement(url) {
 	}
 }
 
-export function getAnnouncement() {
-	return UserData.getAnnouncement()
-}
-
-export function markAnnouncementAsRead() {
-	UserData.setAnnouncement({
-		...UserData.getAnnouncement(),
+export function markAnnouncementAsRead({ userData = getUserData() } = {}) {
+	userData.setAnnouncement({
+		...userData.getAnnouncement(),
 		read: true
 	})
 }
@@ -137,4 +190,16 @@ function validateAnnouncement(json) {
 	if (typeof json.content !== 'string' && !Array.isArray(json.content)) {
 		throw new Error(`Announcement "content" must be of type PostContent. https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md`)
 	}
+}
+
+function getLockedUntil() {
+	return localStorage.get(LOCKED_UNTIL_STORAGE_KEY)
+}
+
+function setLockedUntil(timestamp) {
+	localStorage.set(LOCKED_UNTIL_STORAGE_KEY, timestamp)
+}
+
+function releaseTheLock() {
+	localStorage.delete(LOCKED_UNTIL_STORAGE_KEY)
 }

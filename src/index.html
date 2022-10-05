@@ -3,7 +3,7 @@
 	<head>
 		<script>
 			// Set your config parameters here.
-			// https://gitlab.com/catamphetamine/captchan#configuration
+			// https://gitlab.com/catamphetamine/anychan#configuration
 			var CONFIG = {}
 		</script>
 		<!-- Apply default configuration -->
@@ -16,28 +16,37 @@
 		<!-- Set the correct `configuration.path` if running a GitHub pages demo. -->
 		<script>
 			if (window.location.origin === 'https://catamphetamine.github.io') {
-				BASE_PATH = CONFIG.path = '/captchan'
+				BASE_PATH = CONFIG.path = '/anychan'
 			}
 		</script>
 		<% if (productionBuild) { %>
 		<script>
 			(function () {
+				// <script/> tag attributes.
 				var scriptTagAttributes = <%= JSON.stringify(htmlWebpackPlugin.tags.headTags.find(tag => tag.tagName === 'script').attributes) %>
-				var styleLinkTagAttributes = <%= JSON.stringify(htmlWebpackPlugin.tags.headTags.find(tag => tag.tagName === 'link').attributes) %>
-				scriptTagAttributes.src = BASE_PATH + scriptTagAttributes.src
-				styleLinkTagAttributes.href = BASE_PATH + styleLinkTagAttributes.href
+
+				// Style <link/> tag attributes.
+				// There seems to be no style `<link/>` tag in development.
+				// There is a style `<link/>` tag in production.
+				var styleLinkTagAttributes = <%= JSON.stringify((htmlWebpackPlugin.tags.headTags.find(tag => tag.tagName === 'link') || { attributes: null }).attributes) %>
+
 				// Add `<script/>` tag.
+				scriptTagAttributes.src = BASE_PATH + scriptTagAttributes.src
 				var script = document.createElement('script')
 				for (var attribute in scriptTagAttributes) {
 					script.setAttribute(attribute, scriptTagAttributes[attribute])
 				}
 				document.head.appendChild(script)
-				// Add `<link rel="stylesheet"/>` tag.
-				var styleLink = document.createElement('link')
-				for (var attribute in styleLinkTagAttributes) {
-					styleLink.setAttribute(attribute, styleLinkTagAttributes[attribute])
+
+				// Add style `<link rel="stylesheet"/>` tag.
+				if (styleLinkTagAttributes) {
+					styleLinkTagAttributes.href = BASE_PATH + styleLinkTagAttributes.href
+					var styleLink = document.createElement('link')
+					for (var attribute in styleLinkTagAttributes) {
+						styleLink.setAttribute(attribute, styleLinkTagAttributes[attribute])
+					}
+					document.head.appendChild(styleLink)
 				}
-				document.head.appendChild(styleLink)
 			})()
 		</script>
 		<% } %>
@@ -79,8 +88,13 @@
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<!-- Fix document width for mobile devices. -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Google Fonts. -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<!-- Roboto font -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+		<!-- Roboto Mono font -->
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 		<!-- Application icon -->
 		<!-- <link rel="shortcut icon" href="<%= defaultIconUrl %>"/> -->
 		<script>

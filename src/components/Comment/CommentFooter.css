@@ -1,3 +1,9 @@
+.Comment--compact {
+	.CommentFooter {
+		--CommentFooter-marginBottom: var(--CommentFooter-marginBottom--compact);
+	}
+}
+
 .CommentFooter {
 	/* The height of the footer should stay the same in all cases:
 	   * Less than 1 minute has passed — comment date not shown.
@@ -6,7 +12,7 @@
 	*/
 	min-height: var(--CommentFooter-height);
 	line-height: var(--CommentFooter-lineHeight);
-	margin-top: var(--CommentFooter-marginTop);
+	margin-top: calc(var(--CommentFooter-marginTop) - (var(--CommentFooter-lineHeight) - var(--CommentFooter-height)) / 2);
 	margin-bottom: calc(var(--CommentFooter-marginBottom) - (var(--CommentFooter-lineHeight) - var(--CommentFooter-height)) / 2);
 	/*margin-bottom: calc(var(--Post-paddingBottom) + var(--CommentFooter-marginBottom));*/
 	/*padding-left: var(--Post-paddingLeft);*/
@@ -35,6 +41,7 @@
 
 .CommentFooter-left {
 	margin-right: calc(var(--unit) * 1.5);
+	color: var(--CommentFooter-color--darker);
 }
 
 /*.CommentFooter-right {

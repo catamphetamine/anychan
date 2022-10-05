@@ -1,10 +1,8 @@
-import getChannels from '../getChannels'
-import { getPrefix } from '../../utility/localStorage'
-import configuration from '../../configuration'
+import getChannels from '../getChannels.js'
+import getPrefix from '../../utility/storage/getStoragePrefix.js'
+import configuration from '../../configuration.js'
 
-import LocalStorage from 'webapp-frontend/src/utility/storage/LocalStorage'
-
-const storage = new LocalStorage()
+import storage from '../../utility/storage/storage.js'
 
 /**
  * Caches `getChannels()` result for a day.

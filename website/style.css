@@ -1,0 +1,427 @@
+:root {
+  --Grid-height: 14vw;
+  --GridCell-width: 2.3vw;
+  --GridCell-height: 1.8vw;
+  --Grid-perspective: 70vw;
+  --Grid-color: #af0bad;
+  --Grid-backgroundColor: #371749;
+  --Grid-angle: 60deg;
+
+  --Document-color: #ffffff;
+  --Document-backgroundColor: #170f28;
+  --Document-fontSize: 16px;
+  --Document-fontFamily: Cairo, sans-serif;
+  --Document-fontFamily--monospace: 'JetBrains Mono', monospace;
+  --Document-lineHeight: 1.35em;
+
+  --HeroLogo-width: 20vw;
+  --HeroLogoText-width: 25vw;
+
+  --Glitch-distance: 0.0325em;
+  --Glitch-animationDuration: 7s;
+  --Glitch-fontSize: 3vw;
+
+  --Clickable-color: #ffa4fe;
+}
+
+body {
+  margin: 0;
+  color: var(--Document-color);
+  background-color: var(--Document-backgroundColor);
+  font-size: var(--Document-fontSize);
+  font-family: var(--Document-fontFamily);
+  line-height: var(--Document-lineHeight);
+}
+
+a {
+  color: var(--Clickable-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* For some weird reason it shows a horizontal scrollbar without this fix, */
+/* as if `100vw` included the vertical scrollbar width. */
+.Hero-overflowFix {
+  width: 100%;
+  overflow: hidden;
+}
+
+.Hero {
+  position: relative;
+  width: 100vw;
+  height: calc(100vw * 1788 / 3840);
+}
+
+.HeroBackground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.HeroLogo {
+  position: absolute;
+  width: var(--HeroLogo-width);
+  left: calc((100% - var(--HeroLogo-width)) / 2);
+  top: 32%;
+  animation: float 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.HeroLogoText {
+  position: absolute;
+  width: var(--HeroLogoText-width);
+  height: calc(var(--HeroLogoText-width) * 275 / 1077);
+  left: calc((100% - var(--HeroLogoText-width)) / 2);
+  top: 84%;
+  animation: float-2 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-delay: -0.1s;
+}
+
+.HeroLogoText-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.HeroMountain {
+  position: absolute;
+  width: 100%;
+  height: 33.3333%;
+  top: 65.5%;
+}
+
+/* https://codepen.io/catamphetamine/pen/jOLzyBz */
+.Grid {
+  position: relative;
+  perspective: var(--Grid-perspective);
+  height: var(--Grid-height);
+  overflow: hidden;
+  background-color: var(--Grid-backgroundColor);
+}
+
+.Grid:before,
+.Grid:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.Grid:after {
+  background-image: linear-gradient(to bottom, transparent, var(--Document-backgroundColor));
+}
+
+.Grid:before {
+  left: -3%;
+  width: 103%;
+  height: 170%;
+  background-image:
+    linear-gradient(to bottom, transparent 0, var(--Grid-color) 0, var(--Grid-color) 8%, transparent 16%, transparent 92%, var(--Grid-color)),
+    linear-gradient(to right, transparent 0, var(--Grid-color) 7%, var(--Grid-color) 8%, transparent 13%);
+  /*
+  background-image:
+    linear-gradient(to bottom, transparent 0, var(--Grid-color) 0, var(--Grid-color) $grid-weight, transparent 0),
+    linear-gradient(to right, transparent 0, var(--Grid-color) 0, var(--Grid-color) $grid-weight, transparent 0);
+  */
+  background-size: var(--GridCell-width) var(--GridCell-height), var(--GridCell-width) var(--GridCell-height);
+  transform: rotate3d(1, 0, 0, var(--Grid-angle));
+  transform-origin: top;
+  animation: Grid-animation 1s linear infinite;
+}
+
+@keyframes Grid-animation {
+  from {
+    transform: translate3d(var(--GridCell-width), 0, 0) rotate3d(1, 0, 0, var(--Grid-angle));
+  }
+}
+
+.Heading {
+  display: none;
+}
+
+@keyframes Grid-text-animation {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(-0.6vw);
+  }
+  50% {
+    transform: translateY(0.6vw);
+  }
+  100% {
+    transform: translateY(-0.6vw);
+  }
+}
+
+@keyframes float-2 {
+  0% {
+    transform: translateY(-0.35vw);
+  }
+  50% {
+    transform: translateY(0.35vw);
+  }
+  100% {
+    transform: translateY(-0.35vw);
+  }
+}
+
+.Section {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+}
+
+.Section-heading {
+  margin-top: 0;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  line-height: var(--Document-lineHeight);
+  font-weight: normal;
+  text-align: center;
+}
+
+.Section-text {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+/* https://codepen.io/catamphetamine/pen/zYdWpeZ */
+.Glitch {
+  animation-duration: var(--Glitch-animationDuration);
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  font-size: var(--Glitch-fontSize);
+}
+
+.Glitch--right {
+  margin-left: var(--Glitch-distance);
+  margin-top: calc(-1 * var(--Glitch-distance));
+  animation-name: Glitch-animation--right;
+}
+
+.Glitch--left {
+  margin-left: calc(-1 * var(--Glitch-distance));
+  margin-top: var(--Glitch-distance);
+  animation-name: Glitch-animation--left;
+}
+
+@keyframes Glitch-animation--right {
+  0% {
+    clip: rect(1.49em, 7em, 1.46em, 0.3em);
+  }
+  5% {
+    clip: rect(1.18em, 7em, 1.01em, 0.3em);
+  }
+  10% {
+    clip: rect(0.9em, 7em, 0.71em, 0.3em);
+  }
+  15% {
+    clip: rect(0.22em, 7em, 1.35em, 0.3em);
+  }
+  20% {
+    clip: rect(1.28em, 7em, 0.76em, 0.3em);
+  }
+  25% {
+    clip: rect(0.58em, 7em, 0.46em, 0.3em);
+  }
+  30% {
+    clip: rect(1.08em, 7em, 0.76em, 0.3em);
+  }
+  35% {
+    clip: rect(0.36em, 7em, 0.46em, 0.3em);
+  }
+  40% {
+    clip: rect(0.89em, 7em, 1.28em, 0.3em);
+  }
+  45% {
+    clip: rect(0.84em, 7em, 1.22em, 0.3em);
+  }
+  50% {
+    clip: rect(1.39em, 7em, 1.04em, 0.3em);
+  }
+  55% {
+    clip: rect(0.81em, 7em, 0.46em, 0.3em);
+  }
+  60% {
+    clip: rect(0.4em, 7em, 0.28em, 0.3em);
+  }
+  65% {
+    clip: rect(1.09em, 7em, 0.55em, 0.3em);
+  }
+  70% {
+    clip: rect(0.88em, 7em, 0.34em, 0.3em);
+  }
+  75% {
+    clip: rect(0.25em, 7em, 0.31em, 0.3em);
+  }
+  80% {
+    clip: rect(0.64em, 7em, 1.05em, 0.3em);
+  }
+  85% {
+    clip: rect(0.57em, 7em, 0.79em, 0.3em);
+  }
+  90% {
+    clip: rect(0.62em, 7em, 0.07em, 0.3em);
+  }
+  95% {
+    clip: rect(0.3em, 7em, 0.13em, 0.3em);
+  }
+  100% {
+    clip: rect(1.07em, 7em, 0.12em, 0.3em);
+  }
+}
+
+@keyframes Glitch-animation--left {
+  0% {
+    clip: rect(1.38em, 7em, 0.31em, 0.3em);
+  }
+  5% {
+    clip: rect(1.05em, 7em, 0.45em, 0.3em);
+  }
+  10% {
+    clip: rect(1.13em, 7em, 1.38em, 0.3em);
+  }
+  15% {
+    clip: rect(1.36em, 7em, 0.66em, 0.3em);
+  }
+  20% {
+    clip: rect(0.76em, 7em, 1.33em, 0.3em);
+  }
+  25% {
+    clip: rect(0.25em, 7em, 1.09em, 0.3em);
+  }
+  30% {
+    clip: rect(1.32em, 7em, 0.92em, 0.3em);
+  }
+  35% {
+    clip: rect(0.65em, 7em, 0.11em, 0.3em);
+  }
+  40% {
+    clip: rect(1.26em, 7em, 0.08em, 0.3em);
+  }
+  45% {
+    clip: rect(0.04em, 7em, 1.07em, 0.3em);
+  }
+  50% {
+    clip: rect(0.46em, 7em, 0.2em, 0.3em);
+  }
+  55% {
+    clip: rect(0.6em, 7em, 0.11em, 0.3em);
+  }
+  60% {
+    clip: rect(1.25em, 7em, 0.81em, 0.3em);
+  }
+  65% {
+    clip: rect(0.89em, 7em, 1.17em, 0.3em);
+  }
+  70% {
+    clip: rect(1.41em, 7em, 1.38em, 0.3em);
+  }
+  75% {
+    clip: rect(0.3em, 7em, 0.79em, 0.3em);
+  }
+  80% {
+    clip: rect(1.29em, 7em, 0.73em, 0.3em);
+  }
+  85% {
+    clip: rect(0.23em, 7em, 0.31em, 0.3em);
+  }
+  90% {
+    clip: rect(0.08em, 7em, 0.42em, 0.3em);
+  }
+  95% {
+    clip: rect(0.12em, 7em, 0.77em, 0.3em);
+  }
+  100% {
+    clip: rect(1.22em, 7em, 0.98em, 0.3em);
+  }
+}
+
+main {
+}
+
+.Footer {
+  /*padding-top: 2rem;*/
+  /*padding-bottom: 2rem;*/
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.Footer-separator {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  opacity: 0.5;
+}
+
+.ServiceIcon {
+  position: relative;
+  top: 0.15em;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.3em;
+}
+
+.Container {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.AnychanLabel {
+  letter-spacing: 0.025em;
+}
+
+.AnychanLabel--larger {
+  font-size: 125%;
+}
+
+.Demos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Demo {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  color: var(--Document-color);
+}
+
+.Demo-icon {
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.3em;
+}
+
+@media only screen and (max-width: 768px) {
+  .Section {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+  }
+
+  .Section-heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .Demo {
+    font-size: 1.25rem;
+  }
+}

@@ -1,35 +1,35 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 
-import StarIcon from '../StarIcon'
-import AnonymousCountryIcon from 'webapp-frontend/assets/images/icons/anonymous.svg'
-import CountryFlag from 'webapp-frontend/src/components/CountryFlag'
+import StarIcon from '../StarIcon.js'
+import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 
-import getMessages, { getCountryName } from '../../messages'
-import { getAbsoluteUrl } from '../../provider'
+import getMessages, { getCountryName } from '../../messages/index.js'
+import { getAbsoluteUrl } from '../../provider.js'
 
-import DislikeIcon from 'webapp-frontend/assets/images/icons/dislike.svg'
-import DeceasedFaceIcon from 'webapp-frontend/assets/images/icons/deceased-face-rect.svg'
-import PinIcon from 'webapp-frontend/assets/images/icons/pin.svg'
-import InfinityIcon from 'webapp-frontend/assets/images/icons/infinity.svg'
-import LockIcon from 'webapp-frontend/assets/images/icons/lock.svg'
+import AnonymousCountryIcon from 'frontend-lib/icons/anonymous.svg'
+import DislikeIcon from 'frontend-lib/icons/dislike.svg'
+import DeceasedFaceIcon from 'frontend-lib/icons/deceased-face-rect.svg'
+import PinIcon from 'frontend-lib/icons/pin.svg'
+import InfinityIcon from 'frontend-lib/icons/infinity.svg'
+import BoxIcon from 'frontend-lib/icons/box.svg'
+import LockIcon from 'frontend-lib/icons/lock.svg'
 import AnonymousIcon from '../../../assets/images/icons/anonymous.svg'
 import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
-import CommentRemovedIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square-removed.svg'
+import CommentRemovedIcon from 'frontend-lib/icons/message-rounded-rect-square-removed.svg'
 
 export default [
 	{
-		name: 'tracking',
-		// icon: TrackedThreadStatusIcon,
+		name: 'subscribed',
+		// icon: SubscribedThreadStatusIcon,
 		icon: StarIcon,
 		title: ({ post, locale }) => {
-			return getMessages(locale).trackedThreads.trackedThread
+			return getMessages(locale).subscribedThreads.subscribedThread
 		},
 		getIconProps: ({ post, locale }) => ({
 			channelId: post.channelId,
 			threadId: post.id
 		}),
-		condition: (post, { isTracked }) => post.mode === 'channel' && isTracked
+		condition: (post, { isSubscribedThreadInCatalog }) => isSubscribedThreadInCatalog
 	},
 	{
 		name: 'banned',
@@ -52,7 +52,7 @@ export default [
 		name: 'sage',
 		icon: DislikeIcon,
 		title: ({ post, locale }) => 'Sage',
-		condition: post => post.isSage
+		condition: post => post.sage
 	},
 	{
 		name: 'original-poster',
@@ -60,7 +60,7 @@ export default [
 		title: ({ post, locale }) => getMessages(locale).post.threadAuthor,
 		// If there are author IDs in the thread then "Original poster" is
 		// gonna be the post author name instead of being a badge.
-		condition: post => post.mode === 'thread' && post.isThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+		condition: post => post.mode === 'thread' && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
 	},
 	{
 		name: 'country',
@@ -99,35 +99,38 @@ export default [
 		name: 'bump-limit',
 		icon: SinkingBoatIcon,
 		title: ({ post, locale }) => getMessages(locale).threadBumpLimitReached,
-		// On `2ch.hk` there can be "rolling" threads which aren't "sticky".
-		condition: (post) => post.isBumpLimitReached || post.isOverBumpLimit
+		// On `2ch.hk` there can be "trimming" threads which aren't "sticky".
+		condition: (post) => (!post.archived && post.bumpLimitReached) || post.isOverBumpLimit
 	},
 	{
 		name: 'sticky',
 		icon: PinIcon,
 		title: ({ post, locale }) => getMessages(locale).post.sticky,
-		condition: (post) => post.isSticky
+		condition: (post) => post.onTop
 	},
 	{
-		name: 'rolling',
+		name: 'trimming',
 		icon: InfinityIcon,
-		title: ({ post, locale }) => getMessages(locale).post.rolling,
-		condition: (post) => post.isRolling
+		title: ({ post, locale }) => getMessages(locale).post.trimming,
+		condition: (post) => post.trimming
 	},
 	{
 		name: 'closed',
 		icon: LockIcon,
 		title: ({ post, locale }) => getMessages(locale).post.closed,
-		condition: (post) => post.isLocked
+		condition: (post) => post.locked
+	},
+	{
+		name: 'archived',
+		icon: BoxIcon,
+		title: ({ post, locale }) => getMessages(locale).post.archived,
+		condition: (post) => post.archived
 	}
 ]
 
-// function TrackedThreadStatusIcon({ channelId, threadId, ...rest }) {
-// 	const isTracked = useSelector(({ trackedThreads }) => {
-// 		const trackedThreadsIndex = trackedThreads.trackedThreadsIndex
-// 		return trackedThreadsIndex[channelId] && trackedThreadsIndex[channelId].includes(threadId)
-// 	})
-// 	if (isTracked) {
+// function SubscribedThreadStatusIcon({ channelId, threadId, ...rest }) {
+// 	const isSubscribedThreadInCatalog = ...
+// 	if (isSubscribedThreadInCatalog) {
 // 		return (
 // 			<StarIcon {...rest}/>
 // 		)

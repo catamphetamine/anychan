@@ -1,13 +1,15 @@
-@import "../styles/common";
+@import "../styles/common.css";
 
 :root {
 	--BackButtonIcon-width: calc(0.75 * var(--unit) * 2);
 	@mixin l {
 		--BackButton-marginLeft: var(--unit);
+		--BackButton-width: calc(6vw + var(--unit));
 	}
 	@mixin xl-plus {
 		--BackButtonIcon-left: calc(var(--unit) / 2);
 		--BackButtonIcon-padding: var(--unit);
+		--BackButton-minWidth: calc(var(--unit) * 10);
 	}
 }
 
@@ -23,6 +25,8 @@
 	@mixin l {
 		/* Show the button and align it to top. */
 		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
 		flex-direction: column;
 		position: fixed;
 		top: var(--Header-height);
@@ -30,7 +34,8 @@
 		left: 0;
 		z-index: var(--SideNavMenuButton-zIndex);
 		padding-left: var(--BackButton-marginLeft);
-		padding-right: calc(10vw - var(--unit) * 4);
+		/*padding-right: calc(10vw - var(--unit) * 4);*/
+		width: var(--BackButton-width);
 		padding-top: calc(var(--unit) * 1.7);
 		.BackButtonIcon {
 			opacity: 0.5;
@@ -38,9 +43,11 @@
 	}
 	@mixin xl-plus {
 		display: block;
-		position: relative;
-		width: calc(100% - var(--Post-paddingLeft));
-		min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));
+		/*position: relative;*/
+		position: absolute;
+		width: calc(100% - var(--unit));
+		/*min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));*/
+		min-width: var(--BackButton-minWidth);
 		height: 100%;
 		z-index: var(--Header-zIndex--below);
 		.BackButtonIcon {

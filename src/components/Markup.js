@@ -2,8 +2,8 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Content } from 'webapp-frontend/src/components/PostContent'
-import { postContent } from 'webapp-frontend/src/PropTypes'
+import { Content } from 'social-components-react/components/PostContent.js'
+import { postContent } from 'social-components-react/components/PropTypes.js'
 
 import './Markup.css'
 

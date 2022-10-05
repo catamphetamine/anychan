@@ -1,6 +1,10 @@
-# <img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/assets/images/icon%40192x192.png" width="48" height="48"/> captchan
+# <img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/assets/images/icons/icon-192.png" width="36" height="36"/> anychan
 
-A universal in-browser client for online discussion services like "forums" and "imageboards" ([4chan.org](https://www.4chan.org/), [8ch.net (8kun.top)](https://8kun.top/), [2ch.hk](https://2ch.hk/), [kohlchan.net](https://kohlchan.net/), etc).
+A universal web client for online discussion services like "forums" or ["imageboards"](https://tvtropes.org/pmwiki/pmwiki.php/Main/Imageboards).
+
+<!--
+: [4chan.org](https://www.4chan.org/), [8ch.net (8kun.top)](https://8kun.top/), [2ch.hk](https://2ch.hk/), [kohlchan.net](https://kohlchan.net/), etc.
+-->
 
 Imageboard support is provided by [`imageboard`](https://gitlab.com/catamphetamine/imageboard) library.
 
@@ -32,7 +36,7 @@ Supported imageboard engines:
 
 Don't mind the seemingly slower speed of the demos: the only reason for that is the app can't use imageboard APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 
-This project currently has only a subset of features. ["To do"](https://trello.com/b/68XTgoLV/captchan).
+<!-- This project currently has only a subset of features. ["To do"](https://trello.com/b/68XTgoLV/captchan). -->
 
 <!--
 	Miscellaneous:
@@ -44,45 +48,9 @@ This project currently has only a subset of features. ["To do"](https://trello.c
 	* Format MathML equations on `4chan.org/sci`. Block-level equations: [eqn]f(x_4) = a+2*b[/eqn]. Inline equations: [math]f(x)=\\frac{x^3-x}{(x^2+1)^2}[/math].
 -->
 
-## Themes
+## GitHub
 
-The app comes pre-packaged with a couple of built-in themes and allows [creating custom themes](https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). Each theme has "Light" mode and "Dark" mode.
-
-#### Default theme (Light)
-
-[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-light-mode-3605x1955.png)
-
-<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
-
-#### Default theme (Dark)
-
-[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-dark-mode-3605x1955.png)
-
-<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
-
-<!--
-### Neon Genesis Evangelion
-
-#### Light
-
-[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-light-mode-3605x1955.png)
-
-<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
-
-#### Dark
-
-[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png)
-
-<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
-
-## Screenshots
-
-### Media
-
-[View in full resolution](https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/screenshot-slideshow-3602x1952.png)
-
-<img src="https://gitlab.com/catamphetamine/captchan/-/raw/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
--->
+On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (erasing all my repos, issues and comments) without any notice or explanation. Because of that, all source codes had to be promptly moved to GitLab. The [GitHub repo](https://github.com/catamphetamine/anychan) is now only used as a backup (you can star the repo there too), and the primary repo is now the [GitLab one](https://gitlab.com/catamphetamine/anychan). Issues can be reported in any repo.
 
 ## Install
 
@@ -92,9 +60,9 @@ A "build" contains an `index.html` file and a bunch of `.js`/`.css`/`.map`/image
 
 The contents of a "build" could be hosted with any "static" file hosting software (like NginX), including in the "cloud" (like Amazon S3).
 
-The released builds can be found on [GitLab Releases](https://gitlab.com/catamphetamine/captchan/-/releases) page.
+The released builds can be found on [GitLab Releases](https://gitlab.com/catamphetamine/anychan/-/releases) page.
 
-<!-- Latest release link: https://gitlab.com/catamphetamine/captchan/-/jobs/artifacts/master/download?job=build -->
+<!-- Latest release link: https://gitlab.com/catamphetamine/anychan/-/jobs/artifacts/master/download?job=build -->
 
 To obtain a "build" from source codes, perform a manual build process documented in the [Build](#build) section.
 
@@ -199,7 +167,7 @@ Custom configuration can be specified at the top of the `index.html` file in the
 	// A "path" can be set up to host the app not at the root level
 	// of a domain, but at a "subpath" instead. By default, the app assumes
 	// that it is hosted at the root level of a domain.
-	"path": "/captchan",
+	"path": "/anychan",
 
 	// CORS Proxy settings (see the "Proxy" section of the readme).
 	// AWS EC2 is the easiest way to set up a free 1-year proxy,
@@ -304,11 +272,10 @@ When there's an announcement, a user is presented with an announcement bar on to
 
 ```js
 {
-	// Date in "ISO" format.
-	// Could be just a date:
-	// date: "2019-07-02"
-	// or a date with time:
-	"date": "2019-07-02T14:37",
+	// Announcement date, in UTC+0 time zone, in "ISO" format:
+	// "<year>-<month>-<day>T<hours>:<minutes>:<seconds>.<milliseconds>Z".
+	"date": "2012-12-21T00:00:00.000Z",
+
 	// Announcement content.
 	// https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
 	"content": [[
@@ -392,6 +359,47 @@ To translate a theme's name in different languages, add the entries in `LABELS`:
 
 </details>
 
+## Themes
+
+The app comes pre-packaged with a couple of built-in themes and allows [creating custom themes](https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md). Each theme has "Light" mode and "Dark" mode.
+
+<!--
+#### Default theme (Light)
+
+[View in full resolution](https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/default-theme-light-mode-3605x1955.png)
+
+<img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/default-theme-light-mode-1024x555.png" width="512" height="277"/>
+
+#### Default theme (Dark)
+
+[View in full resolution](https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/default-theme-dark-mode-3605x1955.png)
+
+<img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/default-theme-dark-mode-1024x555.png" width="512" height="277"/>
+-->
+<!--
+### Neon Genesis Evangelion
+
+#### Light
+
+[View in full resolution](https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/eva-theme-light-mode-3605x1955.png)
+
+<img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/eva-theme-light-mode-1024x555.png" width="512" height="277"/>
+
+#### Dark
+
+[View in full resolution](https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png)
+
+<img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/eva-theme-dark-mode-3605x1955.png" width="512" height="277"/>
+
+## Screenshots
+
+### Media
+
+[View in full resolution](https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/screenshot-slideshow-3602x1952.png)
+
+<img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/docs/images/screenshot-slideshow-1024x555.png" width="512" height="278"/>
+-->
+
 ## Proxy
 
 None of the imageboards (`4chan.org`, `8kun.top`, `2ch.hk`, etc) allow calling their API from other websites: they're all configured to block [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for a third party website to be able to query their API.
@@ -402,9 +410,9 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 
 [Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 
-* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/captchan/tree/master/docs/proxy/CORS-PROXY-AWS-NGINX.md).
+* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-NGINX.md).
 
-* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://gitlab.com/catamphetamine/captchan/tree/master/docs/proxy/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
+* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
 
 ####
 
@@ -428,7 +436,7 @@ For known imageboard issues, see [known issues](https://gitlab.com/catamphetamin
 
 ## Provider configuration
 
-The `captchan` client application supports any data provider as a datasource. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. There're currently several imageboards that're supported "out of the box".
+The `anychan` client application supports any data provider as a datasource. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. There're currently several imageboards that're supported "out of the box".
 
 To add a new provider, create an `index.json` file with the provider's configuration, along with some supplementary files like a 192x192 `icon.png` and a `logo.svg`.
 
@@ -442,6 +450,24 @@ To add a new provider, create an `index.json` file with the provider's configura
 	// (required)
 	// Provider's unique ID.
 	"id": "4chan",
+
+	// (required)
+	// Provider's unique single-character ID.
+	//
+	// This is currently only used on the demo site
+	// as a prefix for storing provider-specific data
+	// in a web browser's `localStorage`:
+	// longer prefixes occupy more space on the disk
+	// so a short single-character emoji is used instead.
+	//
+	// For example, storing "latest read comment" ID
+	// for each thread of `4chan` on the demo site
+	// is achieved by storing records with keys like
+	// `⌨️🍀/votes/a/12345` and values like `[{ 12367: -1 }]`.
+	// For every thread there would be a separate record
+	// so a shorter record key is preferred.
+	//
+	"shortId": "🍀",
 
 	// (required)
 	// Provider's domain name.
@@ -482,7 +508,7 @@ To add a new provider, create an `index.json` file with the provider's configura
 	// (optional)
 	// Footer notes.
 	// Can be a `String` or `InlineContent` (text with hyperlinks):
-	// https://gitlab.com/catamphetamine/webapp-frontend/blob/master/src/utility/post/PostContent.md
+	// https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
 	"footnotes": "Copyright © 2003-2019 4chan community support LLC. All rights reserved.",
 
 	// (optional)
@@ -513,7 +539,7 @@ To add a new provider, create an `index.json` file with the provider's configura
 	// Most providers use "relative" URLs for attachments.
 	// And some of them also have "backup" domains in case
 	// their primary domain name is blocked by the authorities.
-	// Because `captchan` can run on any domain name,
+	// Because `anychan` can run on any domain name,
 	// it requires a way to determine whether it is
 	// running on a "legitimate" provider domain name
 	// in order to decide whether it should leave those attachment
@@ -521,7 +547,7 @@ To add a new provider, create an `index.json` file with the provider's configura
 	// or convert those  attachment URLs from relative URLs to
 	// absolute URLs (like "https://website.net/images/abc.jpg"),
 	// otherwise those URLs wouldn't work (for obvious reasons).
-	// So, when `captchan` is hosted not on the "main" domain
+	// So, when `anychan` is hosted not on the "main" domain
 	// but rather on one of the "backup" domains, it should have
 	// a way of knowing that it's still a "legitimate" domain
 	// so that it could leave relative attachment URLs as they are.
@@ -547,6 +573,22 @@ To add a new provider, create an `index.json` file with the provider's configura
 			]
 		}
 	},
+
+	// (optional)
+	// Whether the provider archives threads
+	// that're pushed off the list of a channel's threads.
+	// For example, `4chan.org` archives threads for about 3 days
+	// before they're deleted.
+	threadArchive: true,
+
+	// (optional)
+	// How long a thread is still accessible before being deleted
+	// after it has been archived.
+	// For example, on `4chan.org` it's "3 days" (max),
+	// which equals to `3 * 24 * 60 * 60 * 1000` milliseconds.
+	// If `threadArchive` is `true` but `threadArchiveLifetime` is not set
+	// then it means that the provider archives threads indefinitely.
+	threadArchiveLifetime: 259200000,
 
 	// (required)
 	// (only for non-imageboards)
@@ -656,8 +698,8 @@ To add a new provider, create an `index.json` file with the provider's configura
 		// Returns full thread info, including some of the comments.
 		//
 		// If there're more comments, then `hasMoreComments: true` flag
-		// should be returned, and the rest of the comments can be fetched
-		// via `getThreadComments({ channelId, threadId, afterCommentId, queryId })`.
+		// should be returned, and the rest of the comments can be fetched via
+		// `getThreadComments({ channelId, threadId, afterCommentId, afterCommentsCount, queryId })`.
 		//
 		// `Comment` type mimicks the `Comment` type of `imageboard`:
 		// https://gitlab.com/catamphetamine/imageboard#comment
@@ -687,7 +729,13 @@ To add a new provider, create an `index.json` file with the provider's configura
 		// The `Comment` type mimicks the `Comment` type of `imageboard`:
 		// https://gitlab.com/catamphetamine/imageboard#comment
 		//
-		async getThreadComments({ channelId, threadId, afterCommentId, queryId }) {
+		async getThreadComments({
+			channelId,
+			threadId,
+			afterCommentId,
+			afterCommentsCount,
+			queryId
+		}) {
 			return {
 				comments: Comment[],
 				hasMoreComments: boolean?
@@ -699,7 +747,12 @@ To add a new provider, create an `index.json` file with the provider's configura
 		// Votes for a comment in a thread.
 		// Can be either an upvote or a downvote.
 		//
-		async vote({ channelId, threadId, commentId, up: boolean }) {
+		async vote({
+			channelId,
+			threadId,
+			commentId,
+			up: boolean
+		}) {
 			...
 		}
 	}
@@ -722,7 +775,7 @@ The files should be placed in the provider's directory created inside the `provi
 
 ## Adding a new imageboard
 
-First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `captchan` application:
+First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `anychan` application:
 
 * Create the imageboard's directory in `./providers/imageboards`.
 * In that directory, create `index.json` [configuration file](#provider-configuration). Create an `icon.png` (`192px x 192px`) and a `logo.svg` (or `logo.jpg`, or `logo.png`). See other imageboards' directories as an example.
@@ -752,11 +805,22 @@ This application uses [CSS Variables](https://caniuse.com/#feat=css-variables).
 To develop the application, clone the repos, install the dependencies, and run the app.
 
 ```
-git clone git@gitlab.com:catamphetamine/webapp-frontend.git
-git clone git@gitlab.com:catamphetamine/captchan.git
-cd captchan
-npm install
-npm run dev
+git clone https://gitlab.com/catamphetamine/frontend-lib.git
+cd frontend-lib
+yarn link
+cd ..
+
+git clone https://gitlab.com/catamphetamine/social-components-react.git
+cd social-components-react
+yarn link
+cd ..
+
+git clone https://gitlab.com/catamphetamine/anychan.git
+cd anychan
+yarn
+yarn link frontend-lib
+yarn link social-components-react
+yarn run dev
 ```
 
 Go to [`http://localhost:1234/4chan`](http://localhost:1234/4chan)
@@ -771,9 +835,19 @@ The build will be output to the `build` directory: `index.html` and a bunch of `
 
 To pack the `build` directory contents into a `*.zip` archive, run `npm run build:pack`.
 
-## GitHub
+## Test
 
-On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3) my account (erasing all my repos, issues and comments) without any notice or explanation. Because of that, all source codes had to be promptly moved to GitLab. The [GitHub repo](https://github.com/catamphetamine/captchan) is now only used as a backup (you can star the repo there too), and the primary repo is now the [GitLab one](https://gitlab.com/catamphetamine/captchan). Issues can be reported in any repo.
+There're some tests written for "utility" functions.
+
+<!--
+By default, those tests run in a web browser on page load when developing the website.
+
+To run the tests from console:
+-->
+
+```
+npm test
+```
 
 ## License
 

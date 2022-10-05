@@ -1,8 +1,8 @@
 import { useMemo, useCallback } from 'react'
 
-import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/commonjs/utility/post/getPostThumbnailAttachment'
-import getPicturesAndVideos from 'social-components/commonjs/utility/post/getPicturesAndVideos'
-import getNonEmbeddedAttachments from 'social-components/commonjs/utility/post/getNonEmbeddedAttachments'
+import getPostThumbnailAttachment, { getPostThumbnailSize } from 'social-components/utility/post/getPostThumbnailAttachment.js'
+import getPicturesAndVideos from 'social-components/utility/post/getPicturesAndVideos.js'
+import getNonEmbeddedAttachments from 'social-components/utility/post/getNonEmbeddedAttachments.js'
 
 export default function usePostThumbnail({
 	comment,

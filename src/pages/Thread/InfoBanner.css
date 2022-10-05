@@ -1,12 +1,22 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .InfoBanner {
 	display: flex;
 	align-items: center;
-	padding: var(--unit);
-	box-shadow: 0 0 0 1px var(--Content-color-300);
-	background-color: var(--Content-color-50);
 
+	/*padding: var(--unit);*/
+	/*box-shadow: 0 0 0 1px var(--Content-color-300);*/
+	/*background-color: var(--Content-color-50);*/
+
+	/*padding-top: var(--unit);*/
+	/*padding-bottom: var(--unit);*/
+	padding-left: var(--PostThumbnail-marginRight);
+	padding-right: var(--PostThumbnail-marginRight);
+
+	font-weight: var(--UppercaseLabel-fontWeight);
+	font-size: var(--UppercaseLabel-fontSize);
+	letter-spacing: var(--UppercaseLabel-letterSpacing);
+	text-transform: var(--UppercaseLabel-textTransform);
 	@mixin m-plus {
 		margin-left: calc(var(--PostThumbnailContainer-maxWidth));
 	}

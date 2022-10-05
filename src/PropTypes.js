@@ -1,26 +1,33 @@
-import { shape, arrayOf, number, string, bool, object, any, oneOf, oneOfType, instanceOf } from 'prop-types'
-import { id, date, postAttachment, postContent, censoredText } from 'webapp-frontend/src/PropTypes'
+import PropTypes from 'prop-types'
+
+import {
+	date
+} from 'frontend-lib/components/PropTypes.js'
+
+import {
+	postAttachment,
+	postContent,
+	censoredText
+} from 'social-components-react/components/PropTypes.js'
+
+const {
+	shape,
+	arrayOf,
+	number,
+	string,
+	bool,
+	object,
+	any,
+	oneOf,
+	oneOfType,
+	instanceOf
+} = PropTypes
 
 export const channelId = string
 
 export const channel = shape({
 	id: channelId.isRequired,
 	title: string.isRequired
-})
-
-export const threadId = number
-
-export const thread = shape({
-	id: threadId.isRequired,
-	channel: shape({
-		id: channelId.isRequired,
-		title: string
-	}),
-	title: string,
-	titleCensored: string,
-	createdAt: date,
-	updatedAt: date,
-	comments: arrayOf(comment).isRequired
 })
 
 export const commentId = number
@@ -41,12 +48,29 @@ export const comment = shape({
 	replies: arrayOf(object)
 })
 
-export const trackedThread = shape({
+export const threadId = number
+
+export const thread = shape({
+	id: threadId.isRequired,
+	channel: shape({
+		id: channelId.isRequired,
+		title: string
+	}),
+	title: string,
+	titleCensored: string,
+	createdAt: date,
+	updatedAt: date,
+	comments: arrayOf(comment).isRequired
+})
+
+export const subscribedThread = shape({
 	id: threadId.isRequired,
 	title: string.isRequired,
-	addedAt: number.isRequired,
+	addedAt: instanceOf(Date).isRequired,
+	updatedAt: instanceOf(Date),
 	channel: shape({
-		id: channelId.isRequired
+		id: channelId.isRequired,
+		title: string
 	}),
 	thumbnail: shape({
 		spoiler: bool,
@@ -57,8 +81,30 @@ export const trackedThread = shape({
 	}),
 	expired: bool,
 	// `expiredAt` has been added on Dec 9th, 2019.
-	expiredAt: number,
-	own: bool,
-	newCommentsCount: number,
-	newRepliesCount: number
+	expiredAt: instanceOf(Date),
+	// `archived` and `archivedAt` have been added in July 2021.
+	archived: bool,
+	archivedAt: instanceOf(Date),
+	// // `commentsCount` has been added in July 2021.
+	// // `commentsCount` is not set for "trimming" threads.
+	// // `commentsCount` has been removed in August 2022.
+	// commentsCount: number,
+	// `locked` and `lockedAt` have been added in July 2021.
+	locked: bool,
+	lockedAt: instanceOf(Date),
+	// `trimming` has been added in July 2021.
+	trimming: bool,
+	// newCommentsCount: number,
+	// newRepliesCount: number,
+	// `latestReplies` and `latestComments` have been added in July 2021.
+	// `latestReplies` and `latestComments` have been removed in August 2022.
+	// latestReplies: arrayOf(number).isRequired,
+	// latestComments: arrayOf(number).isRequired,
+	// `latestComment` has been removed in August 2022.
+	// latestComment: shape({
+	// 	id: commentId.isRequired,
+	// 	// `number` is not set for "trimming" threads.
+	// 	number: number,
+	// 	createdAt: instanceOf(Date).isRequired
+	// }).isRequired
 })

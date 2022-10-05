@@ -1,32 +1,55 @@
-// ES6 polyfill.
-require('core-js/stable')
-// `async/await` support.
-require('regenerator-runtime/runtime')
-
-// https://github.com/gaearon/react-hot-loader
-// "Make sure `react-hot-loader` is required before `react` and `react-dom`".
-require('react-hot-loader');
+// `core-js` and `regenerator-runtime` would've been imported here
+// in case of using `useBuiltIns: 'entry'` option of `@babel/preset-env`
+// https://stackoverflow.com/questions/52625979/confused-about-usebuiltins-option-of-babel-preset-env-using-browserslist-integ
+// https://babeljs.io/docs/en/babel-preset-env
+//
+// When using `useBuiltIns: 'auto'`, importing `core-js` and `regenerator-runtime`
+// explicitly is not required, and Babel adds those automatically.
+//
+// SWC mimicks this feature of Babel's `preset-env`:
+// https://swc.rs/docs/configuration/supported-browsers
+//
+// This project uses `mode: 'usage'` flag of SWC.
+// * In this repo's `.swcrc`
+// * In `frontend-lib` repo's `.swcrc`
+// * In `social-components-react` repo's `.swcrc`
+//
+// // ES6 polyfill.
+// import 'core-js/stable'
+// // `async/await` support.
+// import 'regenerator-runtime/runtime'
 
 // CSS styles.
-require('./styles/style.css')
+// Should be loaded before any `*.js` imports
+// because `*.js` files import `*.css` files too,
+// and those should be applied over the default styles
+// that're defined in `./styles/style.css`.
+import './styles/style.css'
 
-if (process.env.NODE_ENV !== 'production') {
-	// Self-test.
-	setTimeout(() => require('./test'))
-
-	// `webapp-frontend/src/utility` self-test.
-	setTimeout(() => require('webapp-frontend/src/utility/test'))
-}
+import initializeMiscellaneous from './initialize-miscellaneous.js'
+import initializeIntl from './initialize-intl.js'
+import initializeProvider from './initialize-provider.js'
+import initializeApp from './initialize-app.js'
+import renderApp from './render.js'
 
 // Run the application.
 // First initialize error handlers and stuff.
 // Then initialize the currently used provider
 // because it's used as a prefix in settings and user data.
 // Then initialize the app (applies user settings for the provider).
-require('./initialize-entry')
-require('./initialize-provider').default()
-require('./initialize').default()
-require('./render').default().catch((error) => {
+//
+// `require()` is used instead of `import` because the proveder
+// has to be initialized before the other code is included on a page,
+// otherwise that other code would include things like `UserData.js`
+// before the provider is initialized and hence with an incorrect `prefix`.
+//
+try {
+	initializeMiscellaneous()
+	initializeIntl()
+	initializeProvider()
+	await initializeApp()
+	await renderApp()
+} catch (error) {
 	console.error(error.stack || error)
-	alert('Error')
-})
+	alert(error.message)
+}

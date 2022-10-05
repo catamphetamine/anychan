@@ -1,4 +1,4 @@
-@import "../styles/common";
+@import "../styles/common.css";
 
 :root {
 	--PageContent-paddingLeft--background: 0px;
@@ -156,7 +156,9 @@
 @mixin xs-m {
 	.Sidebar {
 		left: auto;
-		width: $screen-xs-min;
+		/* The Sidebar should have the minimum width of `var(--Window-minWidth--xs)`,
+		   but, at the same time, it shouldn't expand to `width: 100%`. */
+		width: var(--Window-minWidth--xs);
 	}
 	.Document--leftHanded {
 		.Sidebar {

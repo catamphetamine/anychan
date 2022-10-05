@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import HomePageLink from './HomePageLink'
-import SettingsLink from './SettingsLink'
-import DarkModeToggle from './DarkModeToggle'
+import HomePageLink from './HomePageLink.js'
+import SettingsLink from './SettingsLink.js'
+import DarkModeToggle from './DarkModeToggle.js'
 
 import './SidebarMenu.css'
 

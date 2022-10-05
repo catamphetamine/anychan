@@ -20,8 +20,8 @@
 	Mobile font size must be at least 16px
 	to prevent automatic zoom on input focus.
 	*/
-	--Document-fontSize--xxs: 16px;
-	--Document-fontSize--xs: 16px;
+	--Document-fontSize--xxs: 17px;
+	--Document-fontSize--xs: 17px;
 	--Document-fontSize--s: 17px;
 	--Document-fontSize--m: 18px;
 }
@@ -29,7 +29,7 @@
 /* "Medium Font Size" setting. */
 .font-size--m {
 	/* Font sizes depending on screen width. */
-	--Document-fontSize--xxs: 16px;
+	--Document-fontSize--xxs: 18px;
 	--Document-fontSize--xs: 18px;
 	--Document-fontSize--s: 19px;
 	--Document-fontSize--m: 20px;
@@ -38,7 +38,7 @@
 /* "Large Font Size" setting. */
 .font-size--l {
 	/* Font sizes depending on screen width. */
-	--Document-fontSize--xxs: 18px;
+	--Document-fontSize--xxs: 19px;
 	--Document-fontSize--xs: 20px;
 	--Document-fontSize--s: 21px;
 	--Document-fontSize--m: 22px;
@@ -47,7 +47,7 @@
 /* "Extra Large Font Size" setting. */
 .font-size--xl {
 	/* Font sizes depending on screen width. */
-	--Document-fontSize--xxs: 19px;
+	--Document-fontSize--xxs: 20px;
 	--Document-fontSize--xs: 21px;
 	--Document-fontSize--s: 22px;
 	--Document-fontSize--m: 24px;

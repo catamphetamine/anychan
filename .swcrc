@@ -1,0 +1,20 @@
+{
+  "env": {
+    "targets": "> 0.25%, not dead",
+    "mode": "usage",
+    "coreJs": "3.22"
+  },
+  "jsc": {
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript",
+      "importAssertions": true
+    },
+    "transform": {
+      "react": {
+        "refresh": true,
+        "runtime": "automatic"
+      }
+    }
+  }
+}

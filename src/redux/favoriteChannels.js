@@ -1,50 +1,48 @@
 import { ReduxModule } from 'react-pages'
 
-import UserData from '../UserData/UserData'
+import getUserData from '../UserData.js'
 
-const redux = new ReduxModule()
+const redux = new ReduxModule('FAVORITE_CHANNELS')
 
 export const getFavoriteChannels = redux.simpleAction(
-	(state) => ({
+	'GET_FAVORITE_CHANNELS',
+	(state, { userData = getUserData() } = {}) => ({
 		...state,
-		favoriteChannels: _getFavoriteChannels()
+		favoriteChannels: userData.getFavoriteChannels()
 	})
 )
 
 export const addFavoriteChannel = redux.simpleAction(
-	(state, channel) => {
-		UserData.addFavoriteChannel(channel)
+	(state, { channel, userData = getUserData() }) => {
+		console.log('fasd')
+		userData.addFavoriteChannel(channel)
 		return {
 			...state,
-			favoriteChannels: _getFavoriteChannels()
+			favoriteChannels: userData.getFavoriteChannels()
 		}
 	}
 )
 
 export const setFavoriteChannels = redux.simpleAction(
-	(state, favoriteChannels) => {
-		UserData.setFavoriteChannels(favoriteChannels)
+	(state, { channels, userData = getUserData() }) => {
+		userData.setFavoriteChannels(channels)
 		return {
 			...state,
-			favoriteChannels: _getFavoriteChannels()
+			favoriteChannels: userData.getFavoriteChannels()
 		}
 	}
 )
 
 export const removeFavoriteChannel = redux.simpleAction(
-	(state, channel) => {
-		UserData.removeFavoriteChannel(channel)
+	(state, { channel, userData = getUserData() }) => {
+		userData.removeFavoriteChannel(channel)
 		return {
 			...state,
-			favoriteChannels: _getFavoriteChannels()
+			favoriteChannels: userData.getFavoriteChannels()
 		}
 	}
 )
 
 export default redux.reducer({
-	favoriteChannels: typeof window === 'undefined' ? [] : _getFavoriteChannels()
+	favoriteChannels: []
 })
-
-function _getFavoriteChannels() {
-	return UserData.getFavoriteChannels()
-}

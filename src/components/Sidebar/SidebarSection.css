@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 :root {
 	--SidebarSection-paddingLeft: var(--unit);
@@ -34,11 +34,11 @@
   padding-right: var(--SidebarSection-title-paddingLeft);
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	text-transform: uppercase;
 	text-align: center;
-	font-size: var(--SidebarSection-title-fontSize);
-	font-weight: lighter;
-	letter-spacing: 1px;
+	font-weight: var(--UppercaseLabel-fontWeight);
+	font-size: var(--UppercaseLabel-fontSize);
+	letter-spacing: var(--UppercaseLabel-letterSpacing);
+	text-transform: var(--UppercaseLabel-textTransform);
 	color: var(--Sidebar-color-600);
 	user-select: none;
 	cursor: default;
@@ -48,6 +48,13 @@
 	padding-left: var(--unit);
 	padding-right: var(--unit);
 	text-align: center;
+}
+
+.SidebarSection-text--alternative {
+	font-weight: 300;
+	font-weight: lighter;
+	letter-spacing: 0.6px;
+	color: var(--Sidebar-color-500);
 }
 
 @mixin l-plus {

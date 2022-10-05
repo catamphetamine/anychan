@@ -1,4 +1,5 @@
 const delayedDispatchActions = []
+
 let dispatch
 
 export function delayedDispatch(action) {
@@ -8,19 +9,23 @@ export function delayedDispatch(action) {
 	if (dispatch) {
 		return dispatch(action)
 	} else {
-		delayedDispatchActions.push(action)
+		return new Promise((resolve, reject) => {
+			delayedDispatchActions.push({ action, resolve })
+		})
 	}
 }
 
-export function dispatchDelayedActions(_dispatch) {
+export function onDispatchReady(_dispatch) {
 	if (typeof window === 'undefined') {
 		throw new Error('Client side only')
 	}
+
 	dispatch = _dispatch
-	const result = {
-		actions: delayedDispatchActions.slice(),
-		result: delayedDispatchActions.map(dispatch)
+
+	const actions = delayedDispatchActions.slice()
+	delayedDispatchActions.splice(0, actions.length)
+
+	for (const { action, resolve } of actions) {
+		resolve(dispatch(action))
 	}
-	delayedDispatchActions.splice(0, delayedDispatchActions.length)
-	return result
 }

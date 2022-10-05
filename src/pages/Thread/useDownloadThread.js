@@ -1,26 +1,24 @@
 import { useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
-import saveFile from 'webapp-frontend/src/utility/saveFile'
+import { notify } from '../../redux/notifications.js'
+import saveFile from 'frontend-lib/utility/saveFile.js'
 
-import serializeThread from '../../utility/serializeThread'
+import serializeThread from '../../utility/thread/serializeThread.js'
 
 export default function useDownloadThread({
 	thread,
 	getCommentById
 }) {
 	const dispatch = useDispatch()
-	// `onDownloadThread()` function parameter is only used when
-	// clicking the "Download thread data" menu item of the first comment.
-	// Therefore, it's not a "rendering property" in a sense that
-	// it doesn't have any influence on how comments are rendered.
-	// Therefore, it can be removed from `itemComponentProps`
-	// memo dependencies list because the item component isn't
-	// required to be rerendered when `onDownloadThread()` function changes.
-	// Therefore, it can be passed as a `ref`: this way, it will
-	// always be up to date while also not being a dependency.
+
+	// `onDownloadThread()` function is only used when clicking
+	// "Download thread data" menu item of the first comment in a thread.
+	// `onDownloadThread()` property doesn't change the way a comment is rendered,
+	// so it should stay the same and not trigger a re-render of the comment.
+	// Use a `ref` "hack" to keep its "reference" constant.
 	const onDownloadThreadRef = useRef()
+
 	onDownloadThreadRef.current = useCallback(async () => {
 		try {
 			const threadData = await serializeThread(thread, { getCommentById })
@@ -34,8 +32,10 @@ export default function useDownloadThread({
 		thread,
 		getCommentById
 	])
-	const onDownloadThread = useCallback((id) => {
-		return onDownloadThreadRef.current(id)
+
+	const onDownloadThread = useCallback(() => {
+		return onDownloadThreadRef.current()
 	}, [])
+
 	return onDownloadThread
 }

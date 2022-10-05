@@ -1,10 +1,11 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
-import getSortedAttachments from 'social-components/commonjs/utility/post/getSortedAttachments'
-import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
+import { isSlideSupported } from 'social-components-react/components/Slideshow.js'
 
-import { openSlideshow } from 'webapp-frontend/src/redux/slideshow'
+import { openSlideshow } from '../../redux/slideshow.js'
+
+import getSortedAttachments from 'social-components/utility/post/getSortedAttachments.js'
 
 export default function useSlideshow({
 	comment

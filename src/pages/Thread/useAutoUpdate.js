@@ -1,12 +1,14 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import useMount from 'webapp-frontend/src/hooks/useMount'
+import useMount from 'frontend-lib/hooks/useMount.js'
 
-import { refreshThread as refreshThreadAction, markCurrentThreadExpired } from '../../redux/data'
-import getTimeToNextThreadUpdate from '../../utility/getTimeToNextThreadUpdate'
-import onThreadFetched from '../../utility/onThreadFetched'
-import onThreadExpired from '../../utility/onThreadExpired'
+import useLocale from '../../hooks/useLocale.js'
+
+import { refreshThread as refreshThreadAction, markCurrentThreadExpired } from '../../redux/data.js'
+import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThread.js'
+import onThreadFetched from '../../utility/thread/onThreadFetched.js'
+import onThreadExpired from '../../utility/thread/onThreadExpired.js'
 
 export default function useAutoUpdate({
 	node,
@@ -19,31 +21,35 @@ export default function useAutoUpdate({
 	autoStart
 }) {
 	const [isMounted, onMount] = useMount()
+
 	const isStarted = useRef()
 	const isUpdating = useRef()
 	const scrolledToObserver = useRef()
 	const autoUpdateTimer = useRef()
 	const autoUpdateSecondsLeftTimer = useRef()
-	const thread = useSelector(({ data }) => data.thread)
-	const threadRefreshedAt = useSelector(({ data }) => data.threadRefreshedAt)
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const censoredWords = useSelector(({ settings }) => settings.settings.censoredWords)
-	const grammarCorrection = useSelector(({ settings }) => settings.settings.grammarCorrection)
+
+	const thread = useSelector(state => state.data.thread)
+	const threadRefreshedAt = useSelector(state => state.data.threadRefreshedAt)
+
+	const censoredWords = useSelector(state => state.settings.settings.censoredWords)
+	const grammarCorrection = useSelector(state => state.settings.settings.grammarCorrection)
+
 	const dispatch = useDispatch()
+	const locale = useLocale()
+
 	let refreshThread
-	const scheduleNextUpdate = (latestUpdateAt) => {
+	const scheduleNextUpdate = (prevUpdateAt) => {
 		log('refresh - schedule')
 		const latestComment = thread.comments[thread.comments.length - 1]
 		let beforeLatestComment
 		if (thread.comments.length > 1) {
 			beforeLatestComment = thread.comments[thread.comments.length - 2]
 		}
-		const nextUpdateIn = getTimeToNextThreadUpdate(
-			latestUpdateAt,
-			latestComment.createdAt,
-			beforeLatestComment && beforeLatestComment.createdAt
-		)
-		const nextUpdateAt = Date.now() + nextUpdateIn
+		const nextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, {
+			latestCommentDate: latestComment.createdAt,
+			beforeLatestCommentDate: beforeLatestComment && beforeLatestComment.createdAt
+		})
+		const nextUpdateIn = nextUpdateAt - Date.now()
 		setNextUpdateAt(nextUpdateAt)
 		function updateSecondsLeft() {
 			const secondsLeftResult = getSecondsLeft(nextUpdateAt - Date.now())
@@ -60,11 +66,13 @@ export default function useAutoUpdate({
 		updateSecondsLeft()
 		autoUpdateTimer.current = setTimeout(refreshThread, nextUpdateIn)
 	}
+
 	const activateTriggerElement = () => {
 		log('trigger element - activate')
 		// Will start thread auto update when the element becomes visible on screen.
 		scrolledToObserver.current.observe(node.current)
 	}
+
 	const deactivateTriggerElement = (element) => {
 		log('trigger element - deactivate')
 		// No longer track the visibility of the auto update "trigger element".
@@ -80,6 +88,7 @@ export default function useAutoUpdate({
 		// // would have to be replaced by an "element" attribute here.
 		// scrolledToObserver.current.disconnect()
 	}
+
 	// `thread` object reference changes every time the thread is refreshed.
 	// When there're new comments, the old `thread` object doesn't know about
 	// those because a new `thread` object is created with the new comments.
@@ -94,6 +103,7 @@ export default function useAutoUpdate({
 	// The workaround is using `useRef()` and then `scheduleNextUpdate.current()`.
 	const scheduleNextUpdateRef = useRef()
 	scheduleNextUpdateRef.current = () => scheduleNextUpdate(threadRefreshedAt)
+
 	// `startAutoUpdate()` dependencies list is empty
 	// because it's used in `useEffect()`, so it should be a constant.
 	const startAutoUpdate = useCallback(() => {
@@ -107,6 +117,7 @@ export default function useAutoUpdate({
 		// I guess, an "entry" is something like an "obervation event",
 		// in which case there could be more.
 	}, [])
+
 	// `stopAutoUpdate()` dependencies list is empty
 	// because it's used in `useEffect()`, so it should be a constant.
 	const stopAutoUpdate = useCallback(() => {
@@ -115,6 +126,22 @@ export default function useAutoUpdate({
 		clearTimeout(autoUpdateTimer.current)
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
 	}, [])
+
+	const onThreadHasExpired = useCallback(() => {
+		log('thread expired')
+		stopAutoUpdate()
+		if (isMounted()) {
+			// Clear the expired thread from user data.
+			setExpired(true)
+		}
+		dispatch(markCurrentThreadExpired())
+		onThreadExpired(
+			thread.channelId,
+			thread.id,
+			{ dispatch }
+		)
+	}, [])
+
 	refreshThread = async () => {
 		// If the user clicks the `<AutoUpdate/>` button
 		// several times in quick succession, this flag
@@ -144,10 +171,15 @@ export default function useAutoUpdate({
 				stopAutoUpdate()
 				return
 			}
-			if (updatedThread.isLocked) {
+			if (updatedThread.locked) {
 				log('thread is locked')
 				stopAutoUpdate()
 				setLocked(true)
+				return
+			}
+			if (updatedThread.archived) {
+				log('thread is archived')
+				onThreadHasExpired()
 				return
 			}
 			setError(false)
@@ -162,18 +194,7 @@ export default function useAutoUpdate({
 			}
 		} catch (error) {
 			if (error.status === 404) {
-				log('thread expired')
-				stopAutoUpdate()
-				if (isMounted()) {
-					// Clear the expired thread from user data.
-					setExpired(true)
-				}
-				dispatch(markCurrentThreadExpired())
-				onThreadExpired(
-					thread.channelId,
-					thread.id,
-					{ dispatch }
-				)
+				onThreadHasExpired()
 			} else {
 				log('error')
 				console.error(error)
@@ -191,6 +212,7 @@ export default function useAutoUpdate({
 			}
 		}
 	}
+
 	// `onMount()` call is placed above the code that creates an
 	// `IntersectionObserver`, just in case it runs its callback
 	// synchronously. It doesn't (tested in Chrome), but anyway.
@@ -236,6 +258,7 @@ export default function useAutoUpdate({
 			stopAutoUpdate()
 		}
 	}, [])
+
 	return [
 		refreshThread
 	]

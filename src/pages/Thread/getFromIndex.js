@@ -1,22 +1,15 @@
-import getRequestedCommentIndex from './getRequestedCommentIndex'
+import getRequestedCommentIndex from './getRequestedCommentIndex.js'
 
 export default function getFromIndex({
-	getState,
+	thread,
 	location,
 	latestReadCommentIndex: initialLatestReadCommentIndex
 }) {
-	const {
-		channel,
-		thread
-	} = getState()
 	const requestedCommentIndex = getRequestedCommentIndex(thread, location)
 	// This variable is also copy-pasted in `useFromIndex.js`.
 	const initiallyShowCommentsFromTheLatestReadOne = requestedCommentIndex === undefined && initialLatestReadCommentIndex !== undefined
 	const howManyCommentsToShowBeforeLatestReadComment = 0
 	return getInitialFromIndex(
-		channel,
-		thread,
-		location,
 		initialLatestReadCommentIndex,
 		requestedCommentIndex,
 		initiallyShowCommentsFromTheLatestReadOne,
@@ -25,9 +18,6 @@ export default function getFromIndex({
 }
 
 function getInitialFromIndex(
-	channel,
-	thread,
-	location,
 	initialLatestReadCommentIndex,
 	requestedCommentIndex,
 	initiallyShowCommentsFromTheLatestReadOne,

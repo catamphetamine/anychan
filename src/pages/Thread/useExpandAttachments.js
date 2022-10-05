@@ -1,11 +1,11 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setExpandAttachments } from '../../redux/thread'
+import { setExpandAttachments } from '../../redux/thread.js'
 
 export default function useExpandAttachments() {
 	const dispatch = useDispatch()
-	const areAttachmentsExpanded = useSelector(({ thread }) => thread.expandAttachments)
+	const areAttachmentsExpanded = useSelector(state => state.thread.expandAttachments)
 	const onSetAttachmentsExpanded = useCallback((expandAttachments) => {
 		dispatch(setExpandAttachments(expandAttachments))
 	}, [])

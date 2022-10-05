@@ -1,14 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CommentTree from '../../components/CommentTree'
-
-
-
-import isEqual from 'lodash/isEqual'
-
-
-
+import CommentTree from '../../components/CommentTree.js'
 
 // `ThreadComment` is required to be a `Component`
 // in order to be `ref`-able inside `virtual-scroller`
@@ -29,7 +22,8 @@ export default class ThreadComment extends React.PureComponent {
 			<CommentTree
 				key={comment.id}
 				comment={comment}
-				{...rest}/>
+				{...rest}
+			/>
 		)
 	}
 }

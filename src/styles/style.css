@@ -1,6 +1,6 @@
 @import "simplebar/dist/simplebar.css";
 
-@import "../../../webapp-frontend/src/styles/grid.css";
+@import "frontend-lib/styles/grid.css";
 
 @import "./constants";
 @import "./style-variables";

@@ -1,7 +1,7 @@
 // import ReactTimeAgo from 'react-time-ago'
-// import CommentIcon from 'webapp-frontend/assets/images/icons/message-rect-dots.svg'
-// import CommentIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square.svg'
-// import DownRightArrow from 'webapp-frontend/assets/images/icons/down-right-arrow.svg'
+// import CommentIcon from 'frontend-lib/icons/message-rect-dots.svg'
+// import CommentIcon from 'frontend-lib/icons/message-rounded-rect-square.svg'
+// import DownRightArrow from 'frontend-lib/icons/down-right-arrow.svg'
 // import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 // const threadStats = (
 // 	<div className="ThreadPage-stats">
@@ -32,14 +32,14 @@
 // 			</React.Fragment>
 // 		}
 // 		{/*
-// 		{!thread.isBumpLimitReached && thread.willExpireSoon &&
+// 		{!thread.bumpLimitReached && thread.willExpireSoon &&
 // 			<div
 // 				title={getMessages(locale).threadExpiresSoon.replace('{0}', 1).replace('{1}', 2)}
 // 				className="ThreadPage-stats-icon-container">
 // 				<DownRightArrow className="ThreadPage-stats-icon ThreadPage-stats-down-right-arrow-icon"/>
 // 			</div>
 // 		}
-// 		{thread.isBumpLimitReached &&
+// 		{thread.bumpLimitReached &&
 // 			<div
 // 				title={getMessages(locale).post.bumpLimitReached}
 // 				className="ThreadPage-stats-icon-container">

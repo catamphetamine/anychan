@@ -8,18 +8,27 @@ import {
 	getProviderIdFromPath,
 	addProviderIdToPath,
 	getLegacyImplicitDefaultProvider
-} from './provider'
+} from './provider.js'
+
+import { addProviderLogos } from './providerLogos.js'
 
 import getBasePath, {
 	addBasePath,
 	removeBasePath
-} from './utility/getBasePath'
+} from './utility/getBasePath.js'
 
-import configuration from './configuration'
+import configuration from './configuration.js'
 
 export default function() {
-	// Get provider id.
+	// Adding provider logos here instead of directly in `./providers.js`
+	// because `import`ing logo files is only supported in Webpack
+	// and it wouldn't work in console tests.
+	addProviderLogos()
+
+	// Get the provider id.
 	let provider
+	// Whether this website (app) supports multiple providers.
+	let multiProvider
 	// Deprecated.
 	// Previously, provider id could be specified as "chan" URL parameter
 	// (`chan` URL parameter was used for multi-provider `gh-pages` demo).
@@ -49,10 +58,11 @@ export default function() {
 	if (!provider) {
 		if (shouldIncludeProviderInPath()) {
 			provider = getProviderIdFromPath(removeBasePath(window.location.pathname))
+			multiProvider = true
 		}
 	}
 	// Get provider id by domain.
-	// (in case `captchan` is deployed on one of the providers' domains).
+	// (in case `anychan` is deployed on one of the providers' domains).
 	if (!provider) {
 		const providerId = getProviderIdByDomain()
 		if (providerId) {
@@ -67,20 +77,34 @@ export default function() {
 			const defaultProvider = getProviderById(defaultProviderId)
 			if (defaultProvider) {
 				provider = {
+					// Get the "canonical" provider ID.
+					// Some providers, like "8ch" have aliases like "8kun".
 					id: defaultProvider.id,
+					// How the application calls this provider.
+					// For example, `"8kun"` is an alias for `"8ch"` provider ID,
+					// so if the application specified `"8kun"` provider
+					// then `"8ch"` provider is chosen and the `alias` property
+					// is set to `"8kun"`.
 					alias: defaultProvider.id === defaultProviderId ? undefined : defaultProviderId
 				}
 			}
 		}
 	}
 	if (!provider) {
-		return alert(`No provider ID has been set. Either set a default provider ID in configuration, or pass provider ID as part of the URL (example: "${location.origin}${getBasePath({ providerId: '4chan' })}").`)
+		throw new Error(`No provider ID has been set. Either set a default provider ID in configuration, or pass provider ID as part of the URL (example: "${location.origin}${getBasePath({ providerId: '4chan' })}").`)
 	}
-	setProviderById(provider.id, { alias: provider.alias })
+	setProviderById(provider.id, { alias: provider.alias, multiProvider })
 	// Apply provider site icon.
 	if (getProvider().icon) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
-		siteIcon.href = getProvider().icon
+		// On some weird devices in some weird browsers, it throws:
+		// "TypeError: document.head.querySelector(...) is null".
+		// For example, on some "Generic Tablet" on "Android 7.0".
+		// Or, on "Mac OS X" in "Safari 14.0.1" it throws:
+		// "null is not an object (evaluating 'document.head.querySelector('[rel="shortcut icon"]').href=(0,o.VH)().icon')".
+		if (siteIcon) {
+			siteIcon.href = getProvider().icon
+		}
 	}
 	// Actually, don't set slide background color to a shade of blue
 	// because in "dark mode" it would be too bright.

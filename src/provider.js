@@ -1,14 +1,15 @@
-import configuration from './configuration'
-import PROVIDERS from './providers'
+import configuration from './configuration.js'
+import PROVIDERS from './providers.js'
+
+// Might not work correctly on server side
+// in case of multiple supported providers.
+let _provider = {}
 
 export function getProviderById(id) {
 	return PROVIDERS[id]
 }
 
-export function getProvider(id) {
-	if (!id) {
-		return window._provider
-	}
+function getCurrentProviderById(id) {
 	const provider = getProviderById(id)
 	if (provider) {
 		return provider
@@ -21,20 +22,35 @@ export function getProvider(id) {
 	throw new Error(`Unknown provider: ${id}`)
 }
 
-export function getProviderId() {
-	if (typeof window === 'undefined') {
-		throw new Error('Server-side code not written')
-	}
-	return window._providerId
+export function getProvider() {
+	return _provider.provider
 }
 
-export function setProviderById(providerId, { alias }) {
-	if (typeof window === 'undefined') {
-		throw new Error('Server-side code not written')
+export function getProviderId() {
+	return _provider.id
+}
+
+export function getProviderShortId() {
+	return _provider.shortId
+}
+
+export function getProviderAlias() {
+	return _provider.alias
+}
+
+export function isMultiProvider() {
+	return _provider.multiProvider
+}
+
+export function setProviderById(id, { alias, multiProvider }) {
+	const provider = getCurrentProviderById(id)
+	_provider = {
+		provider,
+		id,
+		shortId: provider.shortId,
+		multiProvider,
+		alias
 	}
-	window._providerId = providerId
-	window._providerAlias = alias
-	const provider = window._provider = getProvider(providerId)
 	// Apply customization from configuration.
 	const CUSTOMIZABLE_PROPERTIES = [
 		'icon',
@@ -49,10 +65,6 @@ export function setProviderById(providerId, { alias }) {
 			provider[property] = configuration[property]
 		}
 	}
-}
-
-export function getProviderAlias() {
-	return window._providerAlias
 }
 
 export function getDefaultProviderId() {
@@ -136,14 +148,14 @@ export function getAbsoluteUrl(url) {
 }
 
 export function getThreadUrl(channelId, threadId, {
-	isNotSafeForWork
+	notSafeForWork
 }) {
 	const provider = getProvider()
 	if (provider.getThreadUrl) {
 		return provider.getThreadUrl({
 			channelId,
 			threadId,
-			isNotSafeForWork
+			notSafeForWork
 		})
 	}
 	return provider.threadUrl
@@ -152,7 +164,7 @@ export function getThreadUrl(channelId, threadId, {
 }
 
 export function getCommentUrl(channelId, threadId, commentId, {
-	isNotSafeForWork
+	notSafeForWork
 }) {
 	const provider = getProvider()
 	if (provider.getCommentUrl) {
@@ -160,7 +172,7 @@ export function getCommentUrl(channelId, threadId, commentId, {
 			channelId,
 			threadId,
 			commentId,
-			isNotSafeForWork
+			notSafeForWork
 		})
 	}
 	return provider.commentUrl

@@ -3,27 +3,34 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import { Button } from 'webapp-frontend/src/components/Button'
+import Button from 'frontend-lib/components/Button.js'
 
-import { hideSidebar } from '../../redux/app'
 
-import { getDarkModeMenuItem } from '../MainMenu'
+import 'frontend-lib/components/Button.css'
+
+import { hideSidebar } from '../../redux/app.js'
+
+import { getDarkModeMenuItem } from '../MainMenu.js'
+import useMessages from '../../hooks/useMessages.js'
 
 export default function DarkModeToggle({ includeTitle }) {
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const darkMode = useSelector(({ app }) => app.darkMode)
+	const messages = useMessages()
+
+	const darkMode = useSelector(state => state.app.darkMode)
+
 	const darkModeMenuItem = useMemo(() => {
 		return getDarkModeMenuItem({
-			locale,
+			messages,
 			dispatch,
 			darkMode
 		})
 	}, [
-		locale,
+		messages,
 		dispatch,
 		darkMode
 	])
+
 	const onToggleDarkMode = useCallback(() => {
 		darkModeMenuItem.onClick()
 		// Hide sidebar pop up on navigation (only on small screens).
@@ -32,10 +39,13 @@ export default function DarkModeToggle({ includeTitle }) {
 		dispatch,
 		darkModeMenuItem
 	])
+
 	const DarkModeIcon = darkModeMenuItem.isSelected
 		? darkModeMenuItem.iconActive
 		: darkModeMenuItem.icon
+
 	const title = darkModeMenuItem.title
+
 	return (
 		<Button
 			onClick={onToggleDarkMode}

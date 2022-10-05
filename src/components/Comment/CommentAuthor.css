@@ -1,4 +1,11 @@
+.CommentAuthor--compact {
+	--PostContent-marginTop: var(--PostContent-marginTop--compact);
+}
+
 .CommentAuthor {
+	/* This CSS variable is placed here so that
+	   `--PostContent-marginTop--compact` has an effect. */
+	--CommentAuthor-marginBottom: var(--PostContent-marginTop);
 	display: flex;
 	align-items: center;
 	margin-top: var(--CommentAuthor-marginTop);
@@ -55,7 +62,7 @@
 
 .CommentAuthor-id {
 	font-weight: normal;
-	font-family: monospace;
+	font-family: var(--Document-fontFamily--monospace);
 }
 
 /*

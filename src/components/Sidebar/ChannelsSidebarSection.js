@@ -1,21 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import Channels from '../Channels'
-import SidebarSection from './SidebarSection'
+import Channels from '../Channels.js'
+import SidebarSection from './SidebarSection.js'
 
-import getMessages from '../../messages'
+import useMessages from '../../hooks/useMessages.js'
 
 export default function ChannelsSidebarSection() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const autoSuggestFavoriteChannels = useSelector(({ settings }) => settings.settings.autoSuggestFavoriteChannels)
-	const favoriteChannels = useSelector(({ favoriteChannels }) => favoriteChannels.favoriteChannels)
+	const messages = useMessages()
+
+	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
+	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 
 	let title
 	if (favoriteChannels.length > 0 || autoSuggestFavoriteChannels === false) {
-		title = getMessages(locale).boards.moreBoards
+		title = messages.boards.moreBoards
 	} else {
-		title = getMessages(locale).boards.title
+		title = messages.boards.title
 	}
 
 	return (

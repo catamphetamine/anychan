@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 :root {
 	--Thread-comments-marginTop: 0px;
@@ -64,7 +64,7 @@
 .ThreadPage {
 	.InfoBanner,
 	.PostForm {
-		margin-top: calc(var(--unit) * 1);
+		margin-top: calc(var(--unit) * 2);
 		@mixin m-plus {
 			margin-top: calc(var(--unit) * 3);
 		}

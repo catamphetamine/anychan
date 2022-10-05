@@ -5,28 +5,37 @@ release:
   # Run at "build" stage.
   stage: build
   script:
-    # Download `webapp-frontend` source codes.
+    # Download `frontend-lib` source codes.
     # Using a "git" url results in an SSH error:
     # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/3679
-    # - git clone git@gitlab.com:catamphetamine/webapp-frontend.git
-    - git clone https://gitlab.com/catamphetamine/webapp-frontend.git
-    # Correct the paths to `webapp-frontend`.
-    - find ./src/styles/ -type f -exec sed --in-place 's+../webapp-frontend+webapp-frontend+g' {} \;
-    - sed --in-place 's+../webapp-frontend+webapp-frontend+' webpack/webpack.config.js
-    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' babel.config.js
-    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' postcss.config.js
-    - sed --in-place 's+../webapp-frontend+./webapp-frontend+' webapp-frontend/babel.config.js
+    # - git clone git@gitlab.com:catamphetamine/frontend-lib.git
+    - git clone https://gitlab.com/catamphetamine/frontend-lib.git
+    - cd frontend-lib
+    - yarn link
+    - cd ..
+    - git clone https://gitlab.com/catamphetamine/social-components-react.git
+    - cd social-components-react
+    - yarn link
+    - cd ..
+    # Correct the paths to `frontend-lib`.
+    # - find ./src/styles/ -type f -exec sed --in-place 's+../frontend-lib+frontend-lib+g' {} \;
+    # - sed --in-place 's+../frontend-lib+frontend-lib+' webpack/webpack.config.babel.js
+    # - sed --in-place 's+../frontend-lib+./frontend-lib+' babel.config.js
+    # - sed --in-place 's+../frontend-lib+./frontend-lib+' .postcssrc.json
+    # - sed --in-place 's+../frontend-lib+./frontend-lib+' frontend-lib/babel.config.js
     # Install the dependencies.
-    - npm install
+    - yarn
+    - yarn link frontend-lib
+    - yarn link social-components-react
     # Build the project into the `/build` folder.
-    - npm run build
+    - yarn run build
     # Zip the contents of the `/build` folder into a `*.zip` file.
-    - npm run build:pack
+    - yarn run build:pack
   # Describe the build file to upload after the job finishes.
   artifacts:
     paths:
-      # The build file will be called "captchan-<version>.zip".
-      - captchan-*.zip
+      # The build file will be called "anychan-<version>.zip".
+      - anychan-*.zip
     # Don't delete the build file.
     expire_in: never
   # Only run this job when creating a git tag (a release tag).

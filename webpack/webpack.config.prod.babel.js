@@ -1,19 +1,16 @@
-import path from 'path'
-import CleanPlugin from 'clean-webpack-plugin'
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-import configuration from './webpack.config'
-// import applicationConfiguration from '../configuration'
-import HtmlPlugin from './html-plugin'
+import { createConfiguration } from './webpack.config.babel.js'
+// import applicationConfiguration from '../configuration.js'
+
+const configuration = createConfiguration({ development: false })
 
 // `__webpack_public_path__` is configured dynamically at runtime.
 // https://webpack.js.org/guides/public-path/#on-the-fly
-// // `gh-pages` will have `/captchan` base path.
 // configuration.output.publicPath = (applicationConfiguration.path || '') + '/'
-
-configuration.devtool = 'source-map'
 
 // Minimize CSS.
 // https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
@@ -22,17 +19,13 @@ configuration.optimization = {
     new TerserPlugin({
       parallel: true
     }),
-    new OptimizeCSSAssetsPlugin({})
+    new CssMinimizerPlugin()
   ]
 };
 
-configuration.plugins.push(
+configuration.plugins = configuration.plugins.concat([
   // Clears the output folder before building.
-  new CleanPlugin([
-    path.relative(configuration.context, configuration.output.path)
-  ], {
-    root: configuration.context
-  }),
+  new CleanWebpackPlugin(),
 
   // Extracts CSS into a separate file.
   new MiniCssExtractPlugin({
@@ -40,11 +33,8 @@ configuration.plugins.push(
     // both options are optional
     filename: "[name].[contenthash].css",
     chunkFilename: "[name].[contenthash].css"
-  }),
-
-  // Injects `js` and `css` bundles into `index.html`.
-  HtmlPlugin({ googleAnalytics: true })
-)
+  })
+])
 
 // Extracts CSS into a separate file.
 const cssLoaders = configuration.module.rules[1].use

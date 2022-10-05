@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import getBasePath from '../../utility/getBasePath'
+import getBasePath from '../../utility/getBasePath.js'
 
 // A user could be navigating browser history from a URL to a URL,
 // and both URLs could belong to the same thread but different comments.

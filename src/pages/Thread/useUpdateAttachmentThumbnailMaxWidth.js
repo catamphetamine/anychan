@@ -1,6 +1,6 @@
 import { useRef, useMemo } from 'react'
 
-import { updateAttachmentThumbnailMaxWidth } from '../../utility/postThumbnail'
+import updateAttachmentThumbnailMaxWidth from '../../utility/post/updateAttachmentThumbnailMaxWidth.js'
 
 export default function useUpdateAttachmentThumbnailMaxWidth({
 	comments

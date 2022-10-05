@@ -2,36 +2,46 @@ import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
-import { TextInput, Button } from 'react-responsive-ui'
+import { TextInput, Button, Select } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { getProvider } from '../provider'
-import getMessages from '../messages'
-import getUrl from '../utility/getUrl'
-import { isThreadLocation, isChannelLocation } from '../utility/routes'
-import { saveChannelsView } from '../redux/settings'
-import { getChannels } from '../redux/data'
+import { getProvider } from '../provider.js'
+import getUrl from '../utility/getUrl.js'
+import isThreadPage from '../utility/routes/isThreadPage.js'
+import isChannelPage from '../utility/routes/isChannelPage.js'
+import { saveChannelsView } from '../redux/settings.js'
+import { getChannels } from '../redux/data.js'
 
-import ChannelUrl from './ChannelUrl'
+import useMessages from '../hooks/useMessages.js'
 
-import SearchIcon from 'webapp-frontend/assets/images/icons/menu/search-outline.svg'
+import ChannelUrl from './ChannelUrl.js'
+
+import SearchIcon from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
 
 import './Channels.css'
 
 export default function ChannelsInSidebar(props) {
-	const favoriteChannels = useSelector(({ favoriteChannels }) => favoriteChannels.favoriteChannels)
-	const channels = useSelector(({ data }) => data.channels)
-	const channelsByPopularity = useSelector(({ data }) => data.channelsByPopularity)
-	const channelsByCategory = useSelector(({ data }) => data.channelsByCategory)
+	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
+
+	// Channels won't be loaded in "offline" mode.
+	const __channels = useSelector(state => state.data.channels)
+	const channels = __channels || []
+
+	const channelsByPopularity = useSelector(state => state.data.channelsByPopularity)
+	const channelsByCategory = useSelector(state => state.data.channelsByCategory)
+	const hasMoreChannels = useSelector(state => state.data.hasMoreChannels)
+	const selectedChannel = useSelector(state => state.data.channel)
+
 	const exceptFavoriteChannels = useCallback((channels) => {
 		return channels && channels.filter(channel => !favoriteChannels.find(_ => _.id === channel.id))
 	}, [favoriteChannels])
+
 	const _channels = useMemo(() => exceptFavoriteChannels(channels), [channels, exceptFavoriteChannels])
 	const _channelsByPopularity = useMemo(() => exceptFavoriteChannels(channelsByPopularity), [channelsByPopularity, exceptFavoriteChannels])
 	const _channelsByCategory = useMemo(() => exceptFavoriteChannels(channelsByCategory), [channelsByCategory, exceptFavoriteChannels])
-	const hasMoreChannels = useSelector(({ data }) => data.hasMoreChannels)
-	const selectedChannel = useSelector(({ data }) => data.channel)
-	const channelsView = useSelector(({ settings }) => settings.settings.channelsView)
+
+	const channelsView = useSelector(state => state.settings.settings.channelsView)
+
 	return (
 		<Channels
 			highlightSelectedChannel
@@ -47,7 +57,7 @@ export default function ChannelsInSidebar(props) {
 }
 
 export function FavoriteChannels(props) {
-	const selectedChannel = useSelector(({ data }) => data.channel)
+	const selectedChannel = useSelector(state => state.data.channel)
 	return (
 		<Channels
 			showAllChannelsLink={false}
@@ -73,27 +83,34 @@ export function Channels({
 	className
 }) {
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const isChannelOrThreadLocation = useSelector(({ found }) => {
-		return isChannelLocation(found.resolvedMatch) ||
-			isThreadLocation(found.resolvedMatch)
+	const messages = useMessages()
+
+	const isChannelOrThreadLocation = useSelector(state => {
+		return isChannelPage(state.found.resolvedMatch) ||
+			isThreadPage(state.found.resolvedMatch)
 	})
+
 	const [searchQuery, setSearchQuery] = useState()
 	const [filteredChannels, setFilteredChannels] = useState()
 	const [view, setView] = useState()
+
 	const defaultChannelsView = getChannelsView(channelsViewSetting, {
 		canViewByCategory: channelsByCategory && (listComponent === ChannelsList),
 		canViewByPopularity: channelsByPopularity
 	})
+
 	const channelsView = view || defaultChannelsView
+
 	const onSetView = useCallback((view) => {
 		setView(view)
 		if (shouldSaveChannelsView) {
 			dispatch(saveChannelsView(view))
 		}
 	}, [dispatch])
+
 	const onChangeViewAllChannels = useCallback(() => onSetView('list'), [])
 	const onChangeViewByCategory = useCallback(() => onSetView('by-category'), [])
+
 	const onSearchQueryChange = useCallback((query) => {
 		query = query.toLowerCase()
 		setSearchQuery(query)
@@ -103,11 +120,13 @@ export function Channels({
 				channel.id.toLowerCase().includes(query)
 		}))
 	}, [channels, channelsByPopularity])
+
 	const isChannelSelected = useCallback((channel) => {
 		return highlightSelectedChannel &&
 			isChannelOrThreadLocation &&
 			channel.id === selectedChannel.id
 	}, [highlightSelectedChannel, isChannelOrThreadLocation, selectedChannel])
+
 	const getChannelsListItems = useCallback(() => {
 		switch (channelsView) {
 			case 'by-category':
@@ -143,31 +162,34 @@ export function Channels({
 		isChannelSelected,
 		showAllChannels
 	])
+
 	const loadChannelsList = useCallback(async () => {
 		await dispatch(getChannels())
 	}, [dispatch])
+
 	if (!channels) {
 		return (
 			<p className="Channels-error">
 				<span className="Channels-errorText">
-					{getMessages(locale).boards.error}
+					{messages.boards.error}
 				</span>
 				<br/>
 				<Button className="Channels-errorRetry" onClick={loadChannelsList}>
-					{getMessages(locale).actions.retry}
+					{messages.actions.retry}
 				</Button>
 			</p>
 		)
 	}
+
 	const List = listComponent
+
 	return (
 		<nav className="Channels">
 			{channelsByPopularity && (channelsByCategory && List === ChannelsList) &&
 				<ChannelsViewSwitcher
 					view={channelsView}
 					onChangeViewAllChannels={onChangeViewAllChannels}
-					onChangeViewByCategory={onChangeViewByCategory}
-					locale={locale}/>
+					onChangeViewByCategory={onChangeViewByCategory}/>
 			}
 
 			{showAllChannels && channelsView === 'list' &&
@@ -175,7 +197,7 @@ export function Channels({
 					type="search"
 					autoFocus
 					icon={SearchIcon}
-					placeholder={getMessages(locale).search}
+					placeholder={messages.search}
 					value={searchQuery}
 					onChange={onSearchQueryChange}
 					className="Channels-search"/>
@@ -183,7 +205,7 @@ export function Channels({
 
 			{showAllChannels && channelsView === 'list' && searchQuery && filteredChannels.length === 0 &&
 				<div className="Channels-nothingFound">
-					{getMessages(locale).noSearchResults}
+					{messages.noSearchResults}
 				</div>
 			}
 
@@ -199,7 +221,7 @@ export function Channels({
 			{!showAllChannels && showAllChannelsLink && (hasMoreChannels || getProvider().contentCategoryUnspecified) &&
 				<div className="Channels-showAllWrapper">
 					<Link to="/channels" className="Channels-showAll">
-						{getMessages(locale).boards.showAll}
+						{messages.boards.showAll}
 					</Link>
 				</div>
 			}
@@ -209,8 +231,8 @@ export function Channels({
 
 const channelShape = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	description: PropTypes.string,
 	commentsPerHour: PropTypes.number
 }
 
@@ -229,7 +251,6 @@ Channels.propTypes = {
 	highlightSelectedChannel: PropTypes.bool,
 	// isChannelOrThreadLocation: PropTypes.bool,
 	hasMoreChannels: PropTypes.bool,
-	// locale: PropTypes.string.isRequired,
 	// dispatch: PropTypes.func,
 	listComponent: PropTypes.elementType.isRequired,
 	className: PropTypes.string
@@ -243,28 +264,38 @@ Channels.defaultProps = {
 function ChannelsViewSwitcher({
 	view,
 	onChangeViewAllChannels,
-	onChangeViewByCategory,
-	locale
+	onChangeViewByCategory
 }) {
+	const messages = useMessages()
+
+	const options = useMemo(() => {
+		return [{
+			value: 'list',
+			label: messages.boards.byPopularity
+		}, {
+			value: 'by-category',
+			label: messages.boards.byCategory
+		}]
+	}, [messages])
+
+	const onChange = useCallback((value) => {
+		switch (value) {
+			case 'list':
+				return onChangeViewAllChannels()
+			case 'by-category':
+				return onChangeViewByCategory()
+		}
+	}, [
+		onChangeViewAllChannels,
+		onChangeViewByCategory
+	])
+
 	return (
 		<div className="ChannelsViewSwitcher">
-			<Button
-				disabled={view === 'list'}
-				onClick={onChangeViewAllChannels}
-				className={classNames('ChannelsViewSwitcher-switch', {
-					'ChannelsViewSwitcher-switch--disabled': view === 'list'
-				})}>
-				{getMessages(locale).boards.byPopularity}
-			</Button>
-
-			<Button
-				disabled={view === 'by-category'}
-				onClick={onChangeViewByCategory}
-				className={classNames('ChannelsViewSwitcher-switch', {
-					'ChannelsViewSwitcher-switch--disabled': view === 'by-category'
-				})}>
-				{getMessages(locale).boards.byCategory}
-			</Button>
+			<Select
+				value={view}
+				onChange={onChange}
+				options={options}/>
 		</div>
 	)
 }
@@ -272,8 +303,7 @@ function ChannelsViewSwitcher({
 ChannelsViewSwitcher.propTypes = {
 	view: PropTypes.oneOf(['list', 'by-category']).isRequired,
 	onChangeViewAllChannels: PropTypes.func.isRequired,
-	onChangeViewByCategory: PropTypes.func.isRequired,
-	locale: PropTypes.string.isRequired
+	onChangeViewByCategory: PropTypes.func.isRequired
 }
 
 // // Don't re-render `<Channels/>` on page navigation (on `route` change).
@@ -367,8 +397,6 @@ function ChannelsList({ className, children }) {
 ChannelsList.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.arrayOf(PropTypes.shape({
-		// `key` is used in `pages/Channels.js`.
-		key: PropTypes.string.isRequired,
 		channel: PropTypes.object,
 		selected: PropTypes.bool,
 		first: PropTypes.bool,
@@ -402,8 +430,6 @@ function ChannelsListItem({
 }
 
 ChannelsListItem.propTypes = {
-	// `key` is used in `pages/Channels.js`.
-	key: PropTypes.string.isRequired,
 	channel: PropTypes.object,
 	category: PropTypes.string,
 	selected: PropTypes.bool,

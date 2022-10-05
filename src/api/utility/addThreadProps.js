@@ -1,7 +1,7 @@
-import censorWords from 'social-components/commonjs/utility/post/censorWords'
-import getInlineContentText from 'social-components/commonjs/utility/post/getInlineContentText'
+import censorWords from 'social-components/utility/post/censorWords.js'
+import getInlineContentText from 'social-components/utility/post/getInlineContentText.js'
 
-import transformText from './transformText'
+import transformText from './transformText.js'
 
 export default function addThreadProps(thread, {
 	locale,
@@ -14,6 +14,26 @@ export default function addThreadProps(thread, {
 		thread.channelId = thread.boardId
 		delete thread.boardId
 	}
+
+	// Set `hasAuthorIds` flag on the `thread`.
+	if (thread.comments[0].threadHasAuthorIds) {
+		thread.hasAuthorIds = true
+	}
+
+	// If the thread has a title, then transform it.
+	// Otherwise, autogenerate one.
+	addThreadTitle(thread, {
+		locale,
+		grammarCorrection,
+		censoredWords
+	})
+}
+
+function addThreadTitle(thread, {
+	locale,
+	grammarCorrection,
+	censoredWords
+}) {
 	// If the thread has no title, then use the title
 	// generated from the original comment's content.
 	if (!thread.title) {

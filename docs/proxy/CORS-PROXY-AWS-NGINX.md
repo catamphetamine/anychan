@@ -103,7 +103,7 @@ add_header Access-Control-Allow-Origin $allow_origin always;
 * Restart `nginx`: `sudo service nginx restart`. Could reload `nginx` instead: `sudo service nginx reload`, but it says "Job for nginx.service invalid." until restarted for the first time.
 * `nginx` should be working: opening the server's HTTP URL in a web browser should output a dummy webpage. Otherwise see `sudo tail /var/log/nginx/error.log`.
 
-* Next, an SSL certificate has to be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somewhere that will have a DNS `A` record pointing to the AWS server IP address. For example, to create a 1-year free `*.tk` domain name, go to `dot.tk` website, sign up, in the top menu choose "Services" -> "Register a New Domain", enter some domain name (for example, "captchan"), see if it's available, click "Get It Now", click "Checkout", click "Use DNS", in the "IP Address" fields enter the AWS EC2 instance IPv4 address, click "Continue", click "Complete Order". The resulting "non-AWS" domain name will be `DOT-TK-DOMAIN-NAME.tk`.
+* Next, an SSL certificate has to be generated. "letsEncrypt" rejects AWS domains, so set up a free domain somewhere that will have a DNS `A` record pointing to the AWS server IP address. For example, to create a 1-year free `*.tk` domain name, go to `dot.tk` website, sign up, in the top menu choose "Services" -> "Register a New Domain", enter some domain name (for example, "anychan"), see if it's available, click "Get It Now", click "Checkout", click "Use DNS", in the "IP Address" fields enter the AWS EC2 instance IPv4 address, click "Continue", click "Complete Order". The resulting "non-AWS" domain name will be `DOT-TK-DOMAIN-NAME.tk`.
 
 * Install `certbot` for issuing free "letsEncrypt" certificates:
 

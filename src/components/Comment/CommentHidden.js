@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import Clickable from 'webapp-frontend/src/components/Clickable'
+import Clickable from 'frontend-lib/components/Clickable.js'
 
-import { post } from '../../PropTypes'
-import getMessages from '../../messages'
+import { comment } from '../../PropTypes.js'
+import getMessages from '../../messages/index.js'
 
 import './CommentHidden.css'
 
@@ -30,7 +30,7 @@ export default function CommentHidden({
 }
 
 CommentHidden.propTypes = {
-	comment: post.isRequired,
+	comment: comment.isRequired,
 	locale: PropTypes.string.isRequired,
 	className: PropTypes.string
 }

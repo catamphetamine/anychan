@@ -4,92 +4,97 @@ import { useSelector, useDispatch } from 'react-redux'
 // import { Loading } from 'react-pages'
 import classNames from 'classnames'
 
-// Not importing `react-time-ago/Tooltip.css` because
-// it's already loaded as part of `react-responsive-ui/style.css`.
-// import 'react-time-ago/Tooltip.css'
+import Announcement, { announcementPropType } from 'frontend-lib/components/Announcement.js'
 
-import 'react-pages/components/Loading.css'
-// Not importing `LoadingIndicator.css` because
-// it's already loaded as part of `react-responsive-ui/style.css`.
-// import 'react-pages/components/LoadingIndicator.css'
+import Header from '../components/Header.js'
+import Footer from '../components/Footer.js'
+import Sidebar from '../components/Sidebar/Sidebar.js'
+import SideNavMenuButtons from '../components/SideNavMenuButtons.js'
+import BackButton from '../components/BackButton.js'
+import Markup from '../components/Markup.js'
+import Slideshow from '../components/Slideshow.js'
+import Loading from '../components/LoadingIndicator.js'
+import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
+import Snackbar from 'frontend-lib/components/Snackbar.js'
+import { loadYouTubeVideoPlayerApi } from 'social-components-react/components/Video.YouTube.js'
 
-import Announcement, { announcementPropType } from 'webapp-frontend/src/components/Announcement'
+import useApplicationIcon from '../hooks/useApplicationIcon.js'
 
-import ApplicationIcon from '../components/ApplicationIcon'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import Sidebar from '../components/Sidebar/Sidebar'
-import SideNavMenuButtons from '../components/SideNavMenuButtons'
-import BackButton from '../components/BackButton'
-import Markup from '../components/Markup'
-import Slideshow from '../components/Slideshow'
-import Loading from '../components/LoadingIndicator'
-import DeviceInfo from 'webapp-frontend/src/components/DeviceInfo'
-import Snackbar from 'webapp-frontend/src/components/Snackbar'
-import { loadYouTubeVideoPlayerApi } from 'webapp-frontend/src/components/Video.YouTube'
+import onApplicationStarted from '../utility/onApplicationStarted.js'
+import onBeforeNavigate from '../utility/onBeforeNavigate.js'
+import onNavigate from '../utility/onNavigate.js'
 
-import useOnWindowResize from 'webapp-frontend/src/hooks/useOnWindowResize'
+import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
+import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
+import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'frontend-lib/utility/cookiePolicy.js'
+import TweetModal from '../components/TweetModal.js'
 
-// `react-time-ago` languages.
-// import { setDefaultLocale } from 'webapp-frontend/src/components/TimeAgo'
-import 'webapp-frontend/src/components/TimeAgo.de'
-import 'webapp-frontend/src/components/TimeAgo.en'
-import 'webapp-frontend/src/components/TimeAgo.ru'
+import { getChannels } from '../redux/data.js'
+import { getSettings } from '../redux/settings.js'
+import { setCookiesAccepted, setOfflineMode } from '../redux/app.js'
+import { getFavoriteChannels } from '../redux/favoriteChannels.js'
+import { getSubscribedThreads } from '../redux/subscribedThreads.js'
+import { markAnnouncementAsRead } from '../redux/announcement.js'
+import { setAnnouncement } from '../redux/announcement.js'
 
-import '@formatjs/intl-pluralrules/polyfill'
-import '@formatjs/intl-pluralrules/locale-data/de'
-import '@formatjs/intl-pluralrules/locale-data/en'
-import '@formatjs/intl-pluralrules/locale-data/ru'
+import useMessages from '../hooks/useMessages.js'
+import useRoute from '../hooks/useRoute.js'
 
-import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
-import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'webapp-frontend/src/utility/cookiePolicy'
-import TweetModal from '../components/TweetModal'
+import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
+import isThreadPage from '../utility/routes/isThreadPage.js'
+import isChannelPage from '../utility/routes/isChannelPage.js'
+import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
-import { getChannels } from '../redux/data'
-import { getSettings } from '../redux/settings'
-import { setCookiesAccepted, setOfflineMode } from '../redux/app'
-import { getFavoriteChannels } from '../redux/favoriteChannels'
-import { getTrackedThreads } from '../redux/trackedThreads'
-import { setAnnouncement, markAnnouncementAsRead } from '../redux/announcement'
+import getUserData from '../UserData.js'
 
-import getMessages from '../messages'
-import UserData from '../UserData/UserData'
-import onUserDataChange from '../UserData/onUserDataChange'
-import {
-	isContentSectionsContent,
-	isThreadLocation,
-	isChannelLocation,
-	isChannelsLocation
-} from '../utility/routes'
 import {
 	startPollingAnnouncement,
 	markAnnouncementAsRead as _markAnnouncementAsRead
-} from '../utility/announcement'
-import getBasePath, { addBasePath } from '../utility/getBasePath'
-import onSettingsChange from '../utility/onSettingsChange'
-import UserSettings from '../utility/UserSettings'
-import { dispatchDelayedActions } from '../utility/dispatch'
-import configuration from '../configuration'
+} from '../utility/announcement.js'
+
+import getBasePath, { addBasePath } from '../utility/getBasePath.js'
+import { onDispatchReady } from '../utility/dispatch.js'
+import configuration from '../configuration.js'
 
 import './Application.css'
 import './MainContentWithSidebarLayout.css'
 
+// Not importing `react-time-ago/Tooltip.css` because
+// it's already loaded as part of `react-responsive-ui/style.css`.
+// import 'react-time-ago/Tooltip.css'
+
+import '../components/PageLoading.css'
+// Not importing `LoadingIndicator.css` because
+// it's already loaded as part of `react-responsive-ui/style.css`.
+// import 'react-pages/components/LoadingIndicator.css'
+
 export default function App({
 	children
 }) {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const theme = useSelector(({ settings }) => settings.settings.theme)
-	const cookiesAccepted = useSelector(({ app }) => app.cookiesAccepted)
-	// const sidebarMode = useSelector(({ app }) => app.sidebarMode)
-	const offline = useSelector(({ app }) => app.offline)
-	const route = useSelector(({ found }) => found.resolvedMatch)
-  const location = useSelector(({ found }) => found.resolvedMatch.location)
-  const announcement = useSelector(({ announcement }) => announcement.announcement)
 	const dispatch = useDispatch()
+	const messages = useMessages()
+
+	const [initialized, setInitialized] = useState()
+
+	const theme = useSelector(state => state.settings.settings.theme)
+
+	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
+	const offline = useSelector(state => state.app.offline)
+
+	const route = useRoute()
+  const { location } = route
+
+  const announcement = useSelector(state => state.announcement.announcement)
+  const isLoadingTweet = useSelector(state => state.twitter.isLoading)
+
+	// Detects touch capability and screen size.
+	useDeviceInfo()
 
 	useEffect(() => {
 		// Load YouTube video player API.
 		loadYouTubeVideoPlayerApi()
+
+		onApplicationStarted({ dispatch, setInitialized })
 	}, [])
 
 	useEffect(() => {
@@ -116,72 +121,38 @@ export default function App({
 		dispatch(setCookiesAccepted())
 	}, [dispatch])
 
-	// UserData/UserSettings listeners.
-	useEffect(() => {
-		function updateUserData(key) {
-			onUserDataChange(key, dispatch)
-		}
-		function updateUserSettings() {
-			onSettingsChange(dispatch)
-		}
-		// Listens for changes to `localStorage`.
-		// https://developer.mozilla.org/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#Responding_to_storage_changes_with_the_StorageEvent
-		// https://developer.mozilla.org/docs/Web/API/StorageEvent
-		function localStorageListener(event) {
-			if (!event.key) {
-				updateUserSettings()
-				updateUserData()
-			} else {
-				if (UserSettings.matchKey(event.key)) {
-					updateUserSettings()
-				}
-				if (UserData.matchKey(event.key)) {
-					updateUserData(event.key)
-				}
-			}
-		}
-		window.addEventListener('storage', localStorageListener)
-		// `localStorage` might have changed before this listener has been added
-		// therefore emulate a "change" event to apply any possible changes.
-		return () => {
-			window.removeEventListener('storage', localStorageListener)
-		}
-	}, [])
-
-	const messages = getMessages(locale)
+	/* Changes the application icon when there're any notifications. */
+	useApplicationIcon()
 
 	return (
 		<div className={classNames(`theme--${theme}`)}>
-			{/* Changes the application icon when there're any notifications. */}
-			<ApplicationIcon/>
-
 			{/* Page loading indicator */}
-			<Loading/>
+			<Loading show={isLoadingTweet || !initialized}/>
 
 			{/* Pop-up messages */}
 			<Snackbar/>
-
-			{/* Detects touch capability and screen size. */}
-			<DeviceInfo/>
 
 			{/* Picture/Video Slideshow */}
 			<Slideshow/>
 
 			<div className={classNames('Webpage', {
 				'Webpage--offline': offline,
-				'Webpage--contentSections': isContentSectionsContent(route),
-				// 'Webpage--channels': isChannelsLocation(route),
-				'Webpage--channel': isChannelLocation(route),
-				'Webpage--thread': isThreadLocation(route),
+				'Webpage--contentSections': isContentSectionsPage(route),
+				// 'Webpage--channels': isChannelsPage(route),
+				'Webpage--channel': isChannelPage(route),
+				'Webpage--thread': isThreadPage(route),
 				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
 			})}>
 				{/*<Header/>*/}
+
 				<SideNavMenuButtons/>
+
 				<div
 					ref={paddingLeft}
 					className="Webpage-paddingLeft">
 					<BackButton/>
 				</div>
+
 				<div className="Webpage-contentContainer">
 					{configuration.headerMarkup &&
 						<Markup
@@ -190,11 +161,12 @@ export default function App({
 							fullWidth={configuration.headerMarkupFullWidth}
 							className="Webpage-headerBanner"/>
 					}
+
 					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
 					<main
 						tabIndex={-1}
 						className="Webpage-content">
-						{!cookiesAccepted &&
+						{initialized && !cookiesAccepted &&
 							<Announcement
 								onClick={onAcceptCookies}
 								buttonLabel={messages.actions.accept}>
@@ -208,20 +180,26 @@ export default function App({
 								}
 							</Announcement>
 						}
+
 						{announcement && !announcement.read &&
 							<Announcement
 								announcement={announcement}
 								onClose={onHideAnnouncement}
-								closeLabel={messages.actions.close}/>
+								closeLabel={messages.actions.close}
+							/>
 						}
 						{children}
 					</main>
+
 					<Footer/>
 				</div>
+
 				<div
 					ref={paddingRight}
 					className="Webpage-paddingRight"/>
+
 				<Sidebar/>
+
 				{/*
 				<FullWidthContent>
 					...
@@ -229,11 +207,12 @@ export default function App({
 				*/}
 			</div>
 
-			<OkCancelDialog
+			<OkCancelModal
 				okLabel={messages.actions.ok}
 				cancelLabel={messages.actions.cancel}
 				yesLabel={messages.actions.yes}
-				noLabel={messages.actions.no}/>
+				noLabel={messages.actions.no}
+			/>
 
 			<TweetModal/>
 		</div>
@@ -241,25 +220,24 @@ export default function App({
 }
 
 App.propTypes = {
-	// locale: PropTypes.string.isRequired,
 	// theme: PropTypes.string.isRequired,
 	// route: PropTypes.object.isRequired,
 	// announcement: announcementPropType,
 	// cookiesAccepted: PropTypes.bool.isRequired,
 	// offline: PropTypes.bool,
 	// dispatch: PropTypes.func.isRequired,
-	children: PropTypes.node.isRequired
+	children: PropTypes.node
 }
 
 App.load = {
 	load: async ({ dispatch, getState, location }) => {
 		// Dispatch delayed actions.
 		// For example, `dispatch(autoDarkMode())`.
-		dispatchDelayedActions(dispatch)
+		onDispatchReady(dispatch)
 		// Fill in user's preferences.
 		dispatch(getSettings())
 		dispatch(getFavoriteChannels())
-		dispatch(getTrackedThreads())
+		dispatch(getSubscribedThreads())
 		// Detect offline mode.
 		if (location.query.offline) {
 			return dispatch(setOfflineMode(true))
@@ -310,11 +288,20 @@ function setBodyBackground(route) {
 	// which changes `<body/>` background color
 	// in order to show correct color when scrolling
 	// past top/bottom of the page on touch devices.
-	// if (isContentSectionsContent(route) && !isThreadLocation(route)) {
-	if (isContentSectionsContent(route)) {
+	// if (isContentSectionsPage(route) && !isThreadPage(route)) {
+	if (isContentSectionsPage(route)) {
 		document.body.classList.add('document--background')
 	} else {
 		document.body.classList.remove('document--background')
 	}
 }
 
+// This is hot-reloadable.
+window._onBeforeNavigate = ({ dispatch }) => {
+	onBeforeNavigate({ dispatch })
+}
+
+// This is hot-reloadable.
+window._onNavigate = ({ dispatch }) => {
+	onNavigate({ dispatch })
+}

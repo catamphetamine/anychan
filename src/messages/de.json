@@ -8,17 +8,32 @@
 		"byCategory": "Nach Kategorie",
 		"error": "Die Liste der Boards konnte nicht geladen werden"
 	},
-	"trackedThreads": {
-		"title": "verfolgte Threads",
-		"trackedThread": "verfolgter Thread",
-		"trackThread": "Verfolge diesen Thread",
-		"untrackThread": "Verfolge diesen Thread nicht",
-		"empty": "Keine verfolgten Threads",
+	"subscribedThreads": {
+		"title": "Faden-Abonnements",
+		"subscribedThread": "Faden abonniert",
+		"subscribeToThread": "Faden abonnieren",
+		"unsubscribeFromThread": "Faden abbestellen",
+		"empty": "Keine Faden-Abonnements",
+		"allExpired": "Faden abgelaufen",
 		"showExpired": "Show abgelaufen"
 	},
 	"settings": {
 		"language": {
+			"title": "Sprache",
 			"translationGuide": "Anleitung zum Hinzufügen einer neuen Übersetzung"
+		},
+		"leftHanded": {
+			"title": "Linkshändig",
+			"enable": "Ich bin Linkshänder",
+			"description": "Wenn Sie Linkshänder sind und diese Anwendung auf einem mobilen Gerät verwenden, können Sie den Linkshänder-Modus aktivieren, sodass einige Schaltflächen, die normalerweise auf der rechten Seite des Bildschirms angezeigt werden, um die Erreichbarkeit des rechten Daumens zu verbessern, nach links verschoben werden Seite des Bildschirms für eine bessere Erreichbarkeit des linken Daumens."
+		},
+		"fontSize": {
+			"title": "Schriftgröße",
+			"xs": "Klein",
+			"s": "Kleiner",
+			"m": "Mittel",
+			"l": "Größer",
+			"xl": "Groß"
 		},
 		"theme": {
 			"title": "Theme",
@@ -87,9 +102,32 @@
 				}
 			}
 		},
+		"keyboardShortcuts": {
+			"title": "Tastatürkürzel",
+			"keys": "Tastaturtasten",
+			"action": "Aktion",
+			"navigation": {
+				"title": "Navigation",
+				"goBackToTheListOfThreads": "Gehen Sie von einer Faden-Seite zurück zur Liste der Faden"
+			},
+			"videoPlayer": {
+				"title": "Videoplayer",
+				"volumeUp": "Lautstärke erhöhen",
+				"volumeDown": "Lautstärke runter",
+				"volumeMuteUnmute": "Lautstärke stumm / stumm schalten",
+				"playPause": "Spielpause",
+				"enterExitFullscreen": "Aktivieren / Verlassen des Vollbildmodus",
+				"jumpForwardSmall": "Vorwärts springen (5 Sek.)",
+				"jumpBackwardSmall": "Rückwärts springen (5 Sek.)",
+				"jumpForwardMedium": "Vorwärts springen (30 Sek.)",
+				"jumpBackwardMedium": "Rückwärts springen (30 Sek.)",
+				"jumpToStart": "Zum Start springen",
+				"jumpToEnd": "Zum Ende springen"
+			}
+		},
 		"data": {
 			"title": "Daten",
-			"description": "\"Benutzerdaten\" sind die Daten, die den Benutzer und nicht die App beschreiben: \"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, geliebte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesen Kommentar-IDs, ignorierte Benutzer-IDs.",
+			"description": "\"Benutzerdaten\" sind die Daten, die den Benutzer und nicht die App beschreiben: \"Favoriten\" -Boards-Liste, Liste der verfolgten Faden, geliebte / abgelehnte Faden- / Kommentar-IDs, versteckte Faden- / Kommentar-IDs, eigene Faden- / Kommentar-IDs, gelesen Kommentar-IDs, ignorierte Benutzer-IDs.",
 			"resetSettings": {
 				"title": "Einstellungen zurücksetzen",
 				"warning": "Alle Ihre Einstellungen (einschließlich der Liste der zensierten Wörter und der hinzugefügten Themen) werden zurückgesetzt. Bist du sicher?",
@@ -97,7 +135,7 @@
 			},
 			"clearUserData": {
 				"title": "Benutzerdaten löschen",
-				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, bevorzugte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
+				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Faden, bevorzugte / abgelehnte Faden- / Kommentar-IDs, versteckte Faden- / Kommentar-IDs, eigene Faden- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
 				"done": "Die Benutzerdaten wurden gelöscht"
 			},
 			"clearChannelsCache": {
@@ -106,6 +144,8 @@
 			"clearYouTubeCache": {
 				"title": "YouTube-Cache löschen"
 			},
+			"userDataSize": "Größe der Benutzerdaten",
+			"showUserDataSize": "Zeigen",
 			"export": {
 				"title": "Sichern Sie Einstellungen und Benutzerdaten"
 			},
@@ -122,18 +162,20 @@
 			}
 		}
 	},
-	"loadingThreadsError": "Couldn't load threads list",
-	"loadingCommentsError": "Couldn't load thread comments",
+	"storageCapacityExceeded": "Datenspeicherkapazität überschritten. Daten werden nicht gespeichert.",
+	"loadingThreadsError": "Threadliste konnte nicht geladen werden",
+	"loadingCommentsError": "Threadkommentare konnten nicht geladen werden",
 	"thread": "Thread",
 	"comment": {
 		"default": "Kommentar",
 		"deleted": "Kommentar gelöscht",
 		"hidden": "Versteckter Kommentar",
-		"external": "Kommentar von einem anderen Thread"
+		"external": "Kommentar von einem anderen Faden"
 	},
 	"post": {
-		"rolling": "Rolling Thread",
-		"threadAuthor": "Autor des Threads",
+		"archived": "Archivierter Faden",
+		"trimming": "Trimmen Faden",
+		"threadAuthor": "Autor des Faden",
 		"attachmentsCount": "Anhänge",
 		"uniquePostersCount": "Eindeutige Poster-IP-Adressen",
 		"moreActions": {
@@ -152,7 +194,7 @@
 		}
 	},
 	"footnotes": {
-		"postCaptchan": " Web-Client",
+		"postAnychan": " Web-Client",
 		"preAuthor": " von "
 	},
 	"country": {
@@ -160,22 +202,32 @@
 	},
 	"autoUpdate": {
 		"scheduledBeforeTime": "Аktualisieren ",
+		"scheduledAfterTime": null,
 		"inProgress": "Aktualisierung…",
-		"error": "Der Thread konnte nicht aktualisiert werden"
+		"error": "Der Faden konnte nicht aktualisiert werden"
 	},
-	"downloadThread": "Thread-Daten herunterladen",
+	"downloadThread": "Faden-Daten herunterladen",
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
 	"inReplyTo": "als Antwort auf",
 	"backToPreviouslyViewedComment": "Rückkehr",
+	"previouslySeenThreads": "Gesehen",
+	"channelViewMode": {
+		"newThreads": "Neue Faden",
+		"newComments": "Neue Kommentare",
+		"popular": "Beliebt"
+	},
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",
+	"hasNewComments": "Hat neue Kommentare",
+	"hasNewReplies": "Hat neue Antworten",
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
 	"goToComment": "Zum Kommentar gehen",
-	"threadBumpLimitReached": "Dieser Thread hat seine Stoßgrenze erreicht und geht nach unten",
-	"threadIsLocked": "Dieser Thread ist gesperrt",
-	"threadExpired": "Dieser Thread ist abgelaufen",
-	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
+	"threadBumpLimitReached": "Dieser Faden hat seine Stoßgrenze erreicht und geht nach unten",
+	"threadIsArchived": "Dieser Faden ist archiviert",
+	"threadIsLocked": "Dieser Faden ist gesperrt",
+	"threadExpired": "Dieser Faden ist abgelaufen",
+	"threadExpiresSoon": "Der Faden befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Faden an die erste Stelle zurückzusetzen.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in den letzten <time>15 Minuten</time>",
 	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in der letzten <time>Stunde</time>"
 }

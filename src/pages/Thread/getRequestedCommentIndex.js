@@ -1,6 +1,4 @@
-import { replacePageUrl } from 'webapp-frontend/src/utility/history'
-
-import findCommentIndexByIdOrClosestPreviousOne from '../../utility/findCommentIndexByIdOrClosestPreviousOne'
+import findIndexByIdOrClosestPreviousOne from '../../utility/findIndexByIdOrClosestPreviousOne.js'
 
 /**
  * Get the index of the requested comment.
@@ -17,7 +15,7 @@ export default function getRequestedCommentIndex(thread, location) {
 		if (isNaN(commentId)) {
 			replaceLocationHash()
 		} else {
-			const index = findCommentIndexByIdOrClosestPreviousOne(thread, commentId)
+			const index = findIndexByIdOrClosestPreviousOne(thread.comments, commentId)
 			if (index === undefined) {
 				replaceLocationHash()
 			} else {

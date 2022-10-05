@@ -1,4 +1,4 @@
-@import "../../../webapp-frontend/src/styles/grid.mixins.css";
+@import "frontend-lib/styles/grid.mixins.css";
 
 /* Global. */
 :root {
@@ -22,6 +22,9 @@
 	--LinearProgress-height: 3px;
 	/*--LinearProgress-animationDuration: 3s;*/
 	/*--LinearProgress-animationInterval: 1.7s;*/
+	@mixin upto-xs {
+		--LinearProgress-height: 5px;
+	}
 	@mixin s {
 		--LinearProgress-animationTimingFactor: 1.1;
 	}
@@ -101,10 +104,7 @@
 		/*--List-lineHeight: 2.2em;*/
 		--List-lineHeight: 2em;
 	}
-	@mixin xxs {
-		--List-fontSize: 120%;
-	}
-	@mixin xs {
+	@mixin upto-xs {
 		--List-fontSize: 105%;
 	}
 
@@ -144,17 +144,8 @@
 		--List-borderColor--selected: var(--Channels-borderColor--selected);
 	}
 
-	/* SidebarSection. */
-	--SidebarSection-title-fontSize: 85%;
-	@mixin upto-xs {
-		--SidebarSection-title-fontSize: 100%;
-	}
-	@mixin s-m {
-		--SidebarSection-title-fontSize: 90%;
-	}
-
 	/* SideNavMenuButton. */
-	--SideNavMenuButton-color: var(--Content-color-400);
+	--SideNavMenuButton-color: var(--Content-color-500);
 	--SideNavMenuButton-color--active: var(--SideNavMenuButton-color);
 	/*--SideNavMenuButton-color--active: var(--Content-color-500);*/
 	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
@@ -175,7 +166,7 @@
 	--Channels-borderColor--selected: transparent;
 
 	/* ChannelUrl. */
-	--ChannelUrl-fontFamily: monospace;
+	--ChannelUrl-fontFamily: 'Roboto Mono', monospace;
 	--ChannelUrl-fontWeight: normal;
 	--ChannelUrl-fontSize: initial;
 	@mixin upto-m {
@@ -215,6 +206,12 @@
 	}
 	--Comment-marginTop--channelPage: calc(var(--Comment-marginTop--channelPageBase) + var(--Comment-marginTop--extra));
 
+	/* --Comment-previouslySeenThreadsBanner. */
+	--Comment-previouslySeenThreadsBanner-color: var(--Content-color-600);
+	--Comment-previouslySeenThreadsBanner-fontSize: var(--UppercaseLabel-fontSize);
+	--Comment-previouslySeenThreadsBanner-letterSpacing: var(--UppercaseLabel-letterSpacing);
+	--Comment-previouslySeenThreadsBanner-borderColor: var(--Content-color-300);
+
 	/* CommentSeparator. */
 	--CommentSeparator-width: 0px;
 	--CommentSeparator-width--outline: 1px;
@@ -242,9 +239,20 @@
 	   in the footer, so there's some extra spacing on top of comment footer
 	   compared to the spacing on the bottom of the footer: that's by design. */
 	--CommentFooter-marginTop: 1em;
+	@mixin xxs {
+		--CommentFooter-marginTop: 0.75em;
+	}
 	--CommentFooter-marginBottom: -0.3em;
+	--CommentFooter-marginBottom--compact: var(--CommentFooter-marginBottom);
+	@mixin upto-s {
+		--CommentFooter-marginBottom: 0em;
+	}
+	@mixin xs-s {
+		--CommentFooter-marginBottom--compact: -0.1em;
+	}
 	--CommentFooter-fontSize: 80%;
 	--CommentFooter-color: var(--Content-color-500);
+	--CommentFooter-color--darker: var(--Content-color-600);
 	--CommentFooter-color--previouslyRead: var(--Content-color-600);
 	/* The height of the footer should stay the same in all cases:
 	   * Less than 1 minute has passed — comment date not shown.
@@ -263,7 +271,6 @@
 
 	/* CommentAuthor. */
 	--CommentAuthor-marginTop: 0px;
-	--CommentAuthor-marginBottom: var(--PostContent-marginTop);
 	--CommentAuthor-fontSize: 85%;
 	--CommentAuthor-color: var(--Content-color-800);
 	--CommentAuthor-color--colored: initial;
@@ -335,6 +342,18 @@
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
 	--Tooltip-boxShadow: 0 0 0.2em var(--Tooltip-boxShadowColor);
 	--Tooltip-boxShadow--large: 0 0.04em 0.3em var(--Tooltip-boxShadowColor);
+
+	/* UppercaseLabel. */
+	--UppercaseLabel-fontSize: 85%;
+	@mixin upto-xs {
+		--UppercaseLabel-fontSize: 100%;
+	}
+	@mixin s-m {
+		--UppercaseLabel-fontSize: 90%;
+	}
+	--UppercaseLabel-fontWeight: lighter;
+	--UppercaseLabel-letterSpacing: 0.075em;
+  --UppercaseLabel-textTransform: uppercase;
 }
 
 /* Light mode. */
@@ -375,15 +394,15 @@
 	--ChannelUrl-slash-color--active: #e9ccb8;
 	--ChannelUrl-slash-color--selected: #ead5c0;
 
-	/* HoverButton. */
-	--HoverButton-color--active: #bd5700;
-	--HoverButton-color--pushed: var(--PostQuoteBlock-color--generated);
-	--HoverButton-color--pushedActive: var(--HoverButton-color--active);
-	--HoverButton-borderColor--active: var(--HoverButton-borderColor--pushedFocus);
-	--HoverButton-borderColor--pushed: var(--PostQuoteBlock-borderColor--generated);
-	--HoverButton-borderColor--pushedFocus: #e4c5a1;
-	--HoverButton-borderColor--pushedActive: var(--HoverButton-borderColor--pushedFocus); /* #e6abb0; */
-	--HoverButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
+	/* PressedStateButton. */
+	--PressedStateButton-color--active: #bd5700;
+	--PressedStateButton-color--pressed: var(--PostQuoteBlock-color--generated);
+	--PressedStateButton-color--pressedActive: var(--PressedStateButton-color--active);
+	--PressedStateButton-borderColor--active: var(--PressedStateButton-borderColor--pressedFocus);
+	--PressedStateButton-borderColor--pressed: var(--PostQuoteBlock-borderColor--generated);
+	--PressedStateButton-borderColor--pressedFocus: #e4c5a1;
+	--PressedStateButton-borderColor--pressedActive: var(--PressedStateButton-borderColor--pressedFocus); /* #e6abb0; */
+	--PressedStateButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);

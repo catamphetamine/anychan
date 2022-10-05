@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .ThreadPageHeader {
 	@mixin upto-s {
@@ -10,10 +10,10 @@
 	@mixin s {
 		margin-top: calc(var(--unit) * 1);
 	}
-	@mixin l {
+	/*@mixin l {*/
 		/* `margin-left` is already being set in `Thread.css`. */
-		margin-left: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));
-	}
+		/*margin-left: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));*/
+	/*}*/
 	@mixin m-plus {
 		margin-top: calc(var(--unit) * 1.5);
 		/* <Comment/> itself has empty spacing on the top. */
@@ -121,17 +121,27 @@
 	margin-right: 0.55em;
 }
 
+.ThreadPageHeader-activityIndicator,
+.ThreadPageHeader-statusIcon {
+	flex: none;
+	align-self: center;
+}
+
+.ThreadPageHeader-statusIcon {
+	width: 1em;
+	height: 1em;
+	margin-left: 0.5em;
+}
+
 .ThreadPageHeader-activityIndicator {
-	--ThreadActivityIndicator-width: 0.65em;
+	--ThreadActivityIndicator-width: 0.55em;
+	--ThreadActivityIndicator-padding: 0.55em;
+	margin-left: 0.1em;
+	margin-top: 0.1em;
 	/* `padding` is added on the indicator itself rather than
 	   on some "wrapper" around it because this way its tooltip
 	   activation area is larger. */
-	--ThreadActivityIndicator-padding: 0.45em;
-	flex: none;
-	align-self: center;
 	/*padding: calc(var(--Document-lineHeight) * 1em);*/
-	margin-left: 0.1em;
-	margin-top: 0.1em;
 	/* "Negative" `margin-right` would have caused the
 	   "--hot" circles animation to be clipped at the right side,
 	   because `.ThreadPageHeader` has `overflow: hidden`. */
@@ -149,7 +159,8 @@
 	.ThreadPageHeader-channelAndThreadTitle {
 		.ThreadPageHeader-title,
 		.ThreadPageHeader-titleSeparator,
-		.ThreadPageHeader-activityIndicator {
+		.ThreadPageHeader-activityIndicator,
+		.ThreadPageHeader-statusIcon {
 			display: none;
 		}
 	}

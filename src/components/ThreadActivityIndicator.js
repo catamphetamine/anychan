@@ -5,11 +5,12 @@ import { Tooltip } from 'react-responsive-ui'
 import classNames from 'classnames'
 import IntlMessageFormat from 'intl-messageformat'
 
-import CommentIcon from 'webapp-frontend/assets/images/icons/message-rounded-rect-square.svg'
+import CommentIcon from 'frontend-lib/icons/message-rounded-rect-square.svg'
 // import FireIcon from '../../assets/images/icons/fire-outline.svg'
 import FireIcon from '../../assets/images/icons/fire.svg'
 
-import getMessages from '../messages'
+import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
 
 import './ThreadActivityIndicator.css'
 import './Tooltip.css'
@@ -30,7 +31,9 @@ export default function ThreadActivityIndicator({
 	...rest
 }) {
 	const mountedAt = useMemo(() => Date.now(), [])
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const messages = useMessages()
+	const locale = useLocale()
+
 	// Calculate counts.
 	let commentsInTheLatestFifteenMinutes = 0
 	let commentsInTheLatestHour = 0
@@ -38,7 +41,7 @@ export default function ThreadActivityIndicator({
 	const now = tick ? Date.now() : mountedAt
 	while (i >= 0) {
 		const createdAt = thread.comments[i].createdAt
-		const timePassed = now - createdAt
+		const timePassed = now - createdAt.getTime()
 		if (timePassed < HOUR) {
 			commentsInTheLatestHour++
 			if (timePassed < FIFTEEN_MINUTES) {
@@ -49,10 +52,12 @@ export default function ThreadActivityIndicator({
 		}
 		i--
 	}
+
 	// Autoupdate.
 	const [unusedState, setUnusedState] = useState()
 	const forceUpdate = useCallback(() => setUnusedState({}), [setUnusedState])
 	const autoUpdateTimer = useRef()
+
 	const scheduleNextTick = useCallback(() => {
 		// Register for the relative time autoupdate as the time goes by.
 		autoUpdateTimer.current = setTimeout(() => {
@@ -63,29 +68,34 @@ export default function ThreadActivityIndicator({
 		forceUpdate,
 		autoUpdateDelay
 	])
+
 	useEffect(() => {
 		scheduleNextTick()
 		return () => {
 			clearTimeout(autoUpdateTimer.current)
 		}
 	}, [])
+
 	// Render.
 	const {
 		threadActivityStatus15Min,
 		threadActivityStatusHour
-	} = getMessages(locale)
+	} = messages
+
 	const tooltip15Min = useMemo(() => {
 		return new IntlMessageFormat(threadActivityStatus15Min, locale)
 	}, [
 		threadActivityStatus15Min,
 		locale
 	])
+
 	const tooltipHour = useMemo(() => {
 		return new IntlMessageFormat(threadActivityStatusHour, locale)
 	}, [
 		threadActivityStatusHour,
 		locale
 	])
+
 	const tooltipContent = useMemo(() => (
 		<React.Fragment>
 			<TooltipStats
@@ -101,10 +111,13 @@ export default function ThreadActivityIndicator({
 		commentsInTheLatestFifteenMinutes,
 		commentsInTheLatestHour
 	])
+
 	const isHot = commentsInTheLatestFifteenMinutes > 10
+
 	if (commentsInTheLatestHour === 0) {
 		return null
 	}
+
 	return (
 		<Tooltip
 			{...rest}
@@ -132,7 +145,7 @@ ThreadActivityIndicator.propTypes = {
 	// tooltipHour: PropTypes.string.isRequired,
 	thread: PropTypes.shape({
 		comments: PropTypes.arrayOf(PropTypes.shape({
-			createdAt: PropTypes.number.isRequired
+			createdAt: PropTypes.instanceOf(Date).isRequired
 		}))
 	}),
 	tick: PropTypes.bool,

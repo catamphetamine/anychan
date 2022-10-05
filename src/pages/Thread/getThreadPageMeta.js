@@ -1,8 +1,10 @@
-export default ({ data: { channel, thread }}) => ({
-	title: thread && ('/' + channel.id + '/' + ' — ' + (thread.titleCensored || thread.title)),
-	description: thread && thread.comments[0].textPreview,
-	image: thread && getThreadImage(thread)
-})
+export default function getThreadPageMeta({ data: { channel, thread }}) {
+	return {
+		title: thread && ('/' + channel.id + '/' + ' — ' + (thread.titleCensored || thread.title)),
+		description: thread && thread.comments[0].textPreview,
+		image: thread && getThreadImage(thread)
+	}
+}
 
 function getThreadImage(thread) {
 	const comment = thread.comments[0]

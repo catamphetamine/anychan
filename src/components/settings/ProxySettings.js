@@ -1,15 +1,17 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Button, TextInput } from 'react-responsive-ui'
+import { Switch, TextInput } from 'react-responsive-ui'
 
-import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
-import { isValidUrl } from 'social-components/commonjs/utility/url'
+import TextButton from '../TextButton.js'
+import { Form, Field, Submit } from '../Form.js'
 
 import {
 	ContentSection,
 	ContentSectionHeader,
 	ContentSectionDescription
-} from 'webapp-frontend/src/components/ContentSection'
+} from 'frontend-lib/components/ContentSection.js'
+
+import { isValidUrl } from 'social-components/utility/url.js'
 
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
@@ -70,9 +72,9 @@ export default function ProxySettings({
 							validate={validateUrl}
 							className="form__component"/>
 						<Submit
-							submit
-							component={Button}
-							className="rrui__button--text form__action">
+							type="submit"
+							component={TextButton}
+							className="form__action">
 							{messages.actions.save}
 						</Submit>
 					</div>

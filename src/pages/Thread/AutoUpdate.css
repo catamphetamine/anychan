@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .AutoUpdate {
 	--AutoUpdate-borderBottomColor: transparent;

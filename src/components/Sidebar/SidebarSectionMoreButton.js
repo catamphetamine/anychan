@@ -2,34 +2,36 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import HoverButton from 'webapp-frontend/src/components/HoverButton'
+import PressedStateButton from 'social-components-react/components/PressedStateButton.js'
 
-import EllipsisIcon from 'webapp-frontend/assets/images/icons/ellipsis.svg'
+import EllipsisIcon from 'frontend-lib/icons/ellipsis.svg'
 
 import './SidebarSectionMoreButton.css'
 
 export default function SidebarSectionMoreButton({ title, onClick }) {
-	const [isPushed, setPushed] = useState()
+	const [isPressed, setPressed] = useState()
+
 	const onClick_ = useCallback(() => {
-		const setPushedState = () => setPushed(!isPushed)
-		const result = onClick(!isPushed)
+		const setPressedState = () => setPressed(!isPressed)
+		const result = onClick(!isPressed)
 		if (result && typeof result.then === 'function') {
-			return result.then(setPushedState)
+			return result.then(setPressedState)
 		} else {
-			setPushedState()
+			setPressedState()
 		}
-	}, [isPushed, onClick])
+	}, [isPressed, onClick])
+
 	return (
-		<HoverButton
+		<PressedStateButton
 			title={title}
 			onClick={onClick_}
-			aria-pressed={isPushed}
+			aria-pressed={isPressed}
 			className={classNames('SidebarSectionMoreButton', 'SidebarButton', {
-				'SidebarButton--pushed': isPushed,
-				'SidebarButton--unpushed': !isPushed
+				'SidebarButton--pressed': isPressed,
+				'SidebarButton--unpressed': !isPressed
 			})}>
 			<EllipsisIcon className="SidebarSectionMoreButton-icon"/>
-		</HoverButton>
+		</PressedStateButton>
 	)
 }
 

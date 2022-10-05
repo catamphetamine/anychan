@@ -1,13 +1,12 @@
-// An undocumented `getConfig()` export path.
-import getConfig from 'imageboard/commonjs/chan/getConfig'
+import { getConfig } from 'imageboard'
 
-import TwoChannel from './2ch'
-import FourChan from './4chan'
-import EightChan from './8ch'
-import EndChan from './endchan'
-import KohlChan from './kohlchan'
-import LainChan from './lainchan'
-import ArisuChan from './arisuchan'
+import TwoChannel from './2ch/index.json' assert { type: 'json' }
+import FourChan from './4chan/index.json' assert { type: 'json' }
+import EightChan from './8ch/index.json' assert { type: 'json' }
+import EndChan from './endchan/index.json' assert { type: 'json' }
+import KohlChan from './kohlchan/index.json' assert { type: 'json' }
+import LainChan from './lainchan/index.json' assert { type: 'json' }
+import ArisuChan from './arisuchan/index.json' assert { type: 'json' }
 
 const PROVIDERS = [
 	TwoChannel,
@@ -22,19 +21,21 @@ const PROVIDERS = [
 export default PROVIDERS
 
 for (const provider of PROVIDERS) {
+	// Get "core" imageboard config.
+	// (API URLs, board/thread/comment URLs, etc).
 	const imageboardConfig = getConfig(provider.id)
 	// provider.imageboard = imageboardConfig
 	provider.imageboard = provider.id
 	provider.domain = imageboardConfig.domain
-	provider.getThreadUrl = ({ channelId, threadId, isNotSafeForWork }) => {
-		return `https://${getDomainForBoard({ isNotSafeForWork }, imageboardConfig)}${
+	provider.getThreadUrl = ({ channelId, threadId, notSafeForWork }) => {
+		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
 			imageboardConfig.threadUrl
 				.replace('{boardId}', channelId)
 				.replace('{threadId}', threadId)
 		}`
 	}
-	provider.getCommentUrl = ({ channelId, threadId, commentId, isNotSafeForWork }) => {
-		return `https://${getDomainForBoard({ isNotSafeForWork }, imageboardConfig)}${
+	provider.getCommentUrl = ({ channelId, threadId, commentId, notSafeForWork }) => {
+		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
 			imageboardConfig.commentUrl
 				.replace('{boardId}', channelId)
 				.replace('{threadId}', threadId)

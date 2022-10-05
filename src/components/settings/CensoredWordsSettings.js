@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Button, Checkbox, TextInput } from 'react-responsive-ui'
+import { Modal, Checkbox, TextInput } from 'react-responsive-ui'
 
 import {
 	ContentSection,
 	ContentSectionHeader
-} from 'webapp-frontend/src/components/ContentSection'
+} from 'frontend-lib/components/ContentSection.js'
 
-import censorWords from 'social-components/commonjs/utility/post/censorWords'
-import compileWordPatterns from 'social-components/commonjs/utility/post/compileWordPatterns'
+import TextButton from '../TextButton.js'
 
-import { Content } from 'webapp-frontend/src/components/PostContent'
+import censorWords from 'social-components/utility/post/censorWords.js'
+import compileWordPatterns from 'social-components/utility/post/compileWordPatterns.js'
 
-import getCensoredWordsByLanguage from '../../utility/getCensoredWordsByLanguage'
+import { Content } from 'social-components-react/components/PostContent.js'
+
+import getCensoredWordsByLanguage from '../../utility/getCensoredWordsByLanguage.js'
 
 import './CensoredWordsSettings.css'
 
@@ -67,11 +69,10 @@ export default function CensoredWordsSettings({
 			{/* "Hide Censored Words" button. */}
 			{showCensoredWords &&
 				<div className="form__component form__component--button">
-					<Button
-						onClick={() => setShowCensoredWords(false)}
-						className="rrui__button--text">
+					<TextButton
+						onClick={() => setShowCensoredWords(false)}>
 						{messages.settings.censorship.hideCensoredWordsList}
-					</Button>
+					</TextButton>
 				</div>
 			}
 			{/* Censored words list. */}
@@ -83,20 +84,18 @@ export default function CensoredWordsSettings({
 			{/* "Show Censored Words" button. */}
 			{!showCensoredWords &&
 				<div className="form__component form__component--button">
-					<Button
-						onClick={() => setShowCensoredWords(true)}
-						className="rrui__button--text">
+					<TextButton
+						onClick={() => setShowCensoredWords(true)}>
 						{messages.settings.censorship.showCensoredWordsList}
-					</Button>
+					</TextButton>
 				</div>
 			}
 			{/* "Test Censored Word Rules" button. */}
 			<div className="form__component form__component--button">
-				<Button
-					onClick={() => setShowTestWordCensorshipRulesModal(true)}
-					className="rrui__button--text">
+				<TextButton
+					onClick={() => setShowTestWordCensorshipRulesModal(true)}>
 					{messages.settings.censorship.test.title}
-				</Button>
+				</TextButton>
 			</div>
 			{/* "Test Censored Word Rules" modal. */}
 			<Modal
@@ -111,11 +110,10 @@ export default function CensoredWordsSettings({
 						language={language}/>
 				</Modal.Content>
 				<Modal.Actions>
-					<Button
-						onClick={() => setShowTestWordCensorshipRulesModal(false)}
-						className="rrui__button--text">
+					<TextButton
+						onClick={() => setShowTestWordCensorshipRulesModal(false)}>
 						{messages.actions.close}
-					</Button>
+					</TextButton>
 				</Modal.Actions>
 			</Modal>
 		</ContentSection>

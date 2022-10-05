@@ -1,11 +1,10 @@
-import Imageboard from './Imageboard'
-import { getProvider } from '../provider'
-import addCommentProps from './utility/addCommentProps'
-import addThreadProps from './utility/addThreadProps'
-import configuration from '../configuration'
-import UserData from '../UserData/UserData'
-import getMessages from './utility/getMessages'
-import getCommentLengthLimit from '../utility/getCommentLengthLimit'
+import Imageboard from './Imageboard.js'
+import { getProvider } from '../provider.js'
+import addCommentProps from './utility/addCommentProps.js'
+import addThreadProps from './utility/addThreadProps.js'
+import configuration from '../configuration.js'
+import getUserData from '../UserData.js'
+import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
 
 export default async function getThreads({
 	channelId,
@@ -13,10 +12,12 @@ export default async function getThreads({
 	grammarCorrection,
 	messages,
 	locale,
-	http
+	http,
+	userData = getUserData()
 }) {
 	let threads
 	let hasMoreThreads
+
 	const provider = getProvider()
 	if (provider.imageboard) {
 		const imageboard = Imageboard({ messages, http })
@@ -28,16 +29,29 @@ export default async function getThreads({
 			parseContent: false,
 			// Add `.parseContent()` function to each `comment`.
 			addParseContent: true,
-			commentLengthLimit: getCommentLengthLimit('channel')
+			commentLengthLimit: getCommentLengthLimit('channel'),
+			maxLatestCommentsPages: 2,
+			withLatestComments: true
 		})
 	} else {
 		const result = await provider.api.getThreads({ channelId })
 		threads = result.threads
 		hasMoreChannels = result.hasMoreChannels
 	}
+
+	const threadVotes = userData.getThreadVotes(channelId)
+	const ownThreads = userData.getOwnThreads(channelId)
+	const hiddenThreads = userData.getHiddenThreads(channelId)
+
+	// Don't show hidden threads.
+	if (hiddenThreads) {
+		threads = threads.filter(thread => !hiddenThreads.includes(thread.id))
+	}
+
+	const ignoredAuthors = userData.getIgnoredAuthors()
+
 	// Check the user's votes to mark some threads as "already voted"
 	// for threads that the user has already voted for.
-	const votesForThreads = UserData.getCommentVotes(channelId)
 	for (const thread of threads) {
 		addThreadProps(thread, {
 			locale,
@@ -46,16 +60,20 @@ export default async function getThreads({
 		})
 		addCommentProps(thread, {
 			mode: 'channel',
-			votes: votesForThreads[thread.id] || {},
+			votes: threadVotes ? (threadVotes[String(thread.id)] || {}) : {},
+			own: ownThreads ? ownThreads.filter(id => id === threadId) : [],
+			hidden: [],
+			ignoredAuthors: ignoredAuthors || {},
 			// messages,
 			locale,
 			grammarCorrection,
 			censoredWords
 		})
 		const comment = thread.comments[0]
-		// Set `comment.channelId` for "is tracked thread" comment header badge.
+		// Set `comment.channelId` for "is subscribed thread" comment header badge.
 		comment.channelId = channelId
 	}
+
 	// Return the threads.
 	return threads
 }

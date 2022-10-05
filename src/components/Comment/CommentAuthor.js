@@ -2,18 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { post } from '../../PropTypes'
-import getMessages from '../../messages'
+import { comment } from '../../PropTypes.js'
+import getMessages from '../../messages/index.js'
 
 import AnonymousPersonIcon from '../../../assets/images/icons/person-outline-anonymous.svg'
-import PersonIcon from 'webapp-frontend/assets/images/icons/menu/person-outline.svg'
-// import PersonFillIcon from 'webapp-frontend/assets/images/icons/menu/person-fill.svg'
-import VerifiedIcon from 'webapp-frontend/assets/images/icons/verified.svg'
+import PersonIcon from 'frontend-lib/icons/fill-and-outline/person-outline.svg'
+// import PersonFillIcon from 'frontend-lib/icons/fill-and-outline/person-fill.svg'
+import VerifiedIcon from 'frontend-lib/icons/verified.svg'
 
 import './CommentAuthor.css'
 
-export default function CommentAuthor({ post, locale }) {
-	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.isThreadAuthor && !post.isRootComment
+export default function CommentAuthor({ post, compact, locale }) {
+	// A thread's author doesn't necessarily have an `authorId`.
+	// For example, that'd be the case when the thread's author
+	// is a moderator at `4chan.org`.
+	// Also, at `2ch.hk`, a thread author doesn't have an `authorId`
+	// on any comment they leave in their own thread.
+	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.authorIsThreadAuthor && !post.isRootComment
 	let authorName = post.authorName
 	if (showThreadAuthorLabelAsAuthorId && !authorName) {
 		authorName = getMessages(locale).post.threadAuthor
@@ -123,9 +128,10 @@ export default function CommentAuthor({ post, locale }) {
 			className={classNames(
 				'CommentAuthor',
 				post.authorRole && `CommentAuthor--${post.authorRole}`,
-				// {
-				// 	'CommentAuthor--generic': !post.authorRole
-				// }
+				{
+					// 'CommentAuthor--generic': !post.authorRole,
+					'CommentAuthor--compact': compact
+				}
 			)}>
 			<CommentAuthorIcon
 				post={post}
@@ -139,7 +145,8 @@ export default function CommentAuthor({ post, locale }) {
 }
 
 CommentAuthor.propTypes = {
-	post: post.isRequired,
+	post: comment.isRequired,
+	compact: PropTypes.bool,
 	locale: PropTypes.string.isRequired
 }
 
@@ -250,7 +257,7 @@ function CommentAuthorIcon({
 }
 
 CommentAuthorIcon.propTypes = {
-	post: post.isRequired,
+	post: comment.isRequired,
 	locale: PropTypes.string.isRequired,
 	showThreadAuthorLabelAsAuthorId: PropTypes.bool
 }

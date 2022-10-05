@@ -1,4 +1,4 @@
-@import "../../../webapp-frontend/src/styles/react-responsive-ui.css";
+@import "frontend-lib/styles/react-responsive-ui.css";
 
 :root {
 	--rrui-modal-border-radius: 0px;

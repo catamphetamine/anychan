@@ -1,25 +1,29 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import getMessages from '../messages'
+import useMessages from '../hooks/useMessages.js'
 
-import Slideshow from 'webapp-frontend/src/components/Slideshow'
-import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
+import Slideshow from 'social-components-react/components/Slideshow.js'
+import { closeSlideshow } from '../redux/slideshow.js'
 
 export default function Slideshow_() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const slideshowIndex = useSelector(({ slideshow }) => slideshow.index)
-	const slideshowIsOpen = useSelector(({ slideshow }) => slideshow.isOpen)
-	const slideshowSlides = useSelector(({ slideshow }) => slideshow.slides)
-	const slideshowMode = useSelector(({ slideshow }) => slideshow.mode)
-	const slideshowImageElement = useSelector(({ slideshow }) => slideshow.imageElement)
-	const goToSource = useSelector(({ slideshow }) => slideshow.goToSource)
+	const {
+		index,
+		isOpen,
+		slides,
+		mode,
+		imageElement,
+		goToSource
+	} = useSelector(state => state.slideshow)
+
 	const dispatch = useDispatch()
+
 	const onCloseSlideshow = useCallback(() => {
 		dispatch(closeSlideshow())
 	}, [dispatch])
-	const messages = useMemo(() => {
-		const messages = getMessages(locale)
+
+	const messages = useMessages()
+	const slideshowMessages = useMemo(() => {
 		return {
 			...messages.slideshow,
 			actions: {
@@ -27,29 +31,30 @@ export default function Slideshow_() {
 				goToSource: messages.goToComment
 			}
 		}
-	}, [locale])
+	}, [messages])
+
 	// <Header ref={header}/>
 	// header={header.current}
 	// footer={document.querySelector('.Footer .MainMenu')}
+
 	return (
 		<Slideshow
-			i={slideshowIndex}
-			isOpen={slideshowIsOpen}
-			mode={slideshowMode}
-			showControls={slideshowMode === 'flow'}
+			slides={slides}
+			initialSlideIndex={index}
+			isOpen={isOpen}
+			showControls={mode === 'flow'}
 			showPagination
-			imageElement={slideshowImageElement}
+			imageElement={imageElement}
 			goToSource={goToSource}
 			onClose={onCloseSlideshow}
-			messages={messages}
-			closeOnSlideClick={slideshowMode !== 'flow'}
-			overlayOpacity={0.65}
-			overlayOpacityInFlowMode={0.85}
+			messages={slideshowMessages}
+			autoPlay={mode === 'flow'}
+			closeOnSlideClick={mode !== 'flow'}
+			overlayOpacity={mode === 'flow' ? 0.85 : 0.65}
 			overlayOpacityOnFloatOpenCloseAnimation={0.1}
-			animateOpenCloseOnSmallScreen="float"
+			animateOpenCloseOnSmallScreen={mode === 'flow' ? undefined : 'float'}
 			openPictureInHoverMode
-			smallScreenMaxWidth={500}>
-			{slideshowSlides}
-		</Slideshow>
+			smallScreenMaxWidth={500}
+		/>
 	)
 }

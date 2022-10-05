@@ -2,20 +2,25 @@ import de from './de.json'
 import en from './en.json'
 import ru from './ru.json'
 
-import deBase from 'webapp-frontend/src/messages/de.json'
-import enBase from 'webapp-frontend/src/messages/en.json'
-import ruBase from 'webapp-frontend/src/messages/ru.json'
+import deBase from 'frontend-lib/messages/de.json'
+import enBase from 'frontend-lib/messages/en.json'
+import ruBase from 'frontend-lib/messages/ru.json'
 
-import deCountries from 'webapp-frontend/src/messages/countries.de.json'
-import enCountries from 'webapp-frontend/src/messages/countries.en.json'
-import ruCountries from 'webapp-frontend/src/messages/countries.ru.json'
+import deSocial from 'social-components-react/messages/de.json'
+import enSocial from 'social-components-react/messages/en.json'
+import ruSocial from 'social-components-react/messages/ru.json'
 
-import Messages, { mergeMessages } from 'webapp-frontend/src/messages'
+import deCountries from 'frontend-lib/messages/countries.de.json'
+import enCountries from 'frontend-lib/messages/countries.en.json'
+import ruCountries from 'frontend-lib/messages/countries.ru.json'
+
+import Messages from 'frontend-lib/messages/Messages.js'
+import mergeMessages from 'frontend-lib/messages/mergeMessages.js'
 
 const messages = new Messages({
-	de: mergeMessages(deBase, de),
-	en: mergeMessages(enBase, en),
-	ru: mergeMessages(ruBase, ru)
+	de: mergeMessages(de, deBase, deSocial),
+	en: mergeMessages(en, enBase, enSocial),
+	ru: mergeMessages(ru, ruBase, ruSocial)
 }, 'en')
 
 if (typeof window !== 'undefined') {

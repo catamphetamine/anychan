@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { isSlideSupported } from 'webapp-frontend/src/components/Slideshow'
-import { preloadPictureSlide } from 'webapp-frontend/src/components/Slideshow.Picture'
-import { openSlideshow, closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
+import { isSlideSupported } from 'social-components-react/components/Slideshow.js'
+import { preloadPictureSlide } from 'social-components-react/components/Slideshow.Picture.js'
+import { openSlideshow, closeSlideshow } from '../../redux/slideshow.js'
 
 export default function useSlideshow({
 	thread,

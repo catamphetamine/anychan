@@ -1,7 +1,4 @@
-import { describe, it } from 'webapp-frontend/src/utility/mocha'
-import expectToEqual from 'webapp-frontend/src/utility/expectToEqual'
-
-import replaceQuotes from './replaceQuotes'
+import replaceQuotes from './replaceQuotes.js'
 
 function replaceQuotesRu(text) {
 	return replaceQuotes(text, { language: 'ru' })

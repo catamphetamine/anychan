@@ -1,4 +1,4 @@
-@import "../styles/common";
+@import "../styles/common.css";
 
 .Channels {
 	display: flex;
@@ -70,9 +70,39 @@
 .ChannelsViewSwitcher {
 	display: flex;
 	justify-content: center;
+	margin-top: calc(var(--unit) * -0.5);
+	margin-bottom: var(--unit);
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+
+	.rrui__select__button {
+		padding-left: calc(var(--unit) * 2);
+	}
+
+	.rrui__select__button,
+	.rrui__list__item {
+		font-weight: var(--UppercaseLabel-fontWeight);
+		font-size: var(--UppercaseLabel-fontSize);
+		letter-spacing: var(--UppercaseLabel-letterSpacing);
+		text-transform: var(--UppercaseLabel-textTransform);
+		border-bottom: none;
+	}
+
+  .rrui__select__native:focus + .rrui__select__button,
+	.rrui__select__button:focus {
+  	color: var(--Clickable-color--text);
+		--rrui-select-arrow-color: var(--Clickable-color--text);
+		--rrui-select-arrow-opacity: 0.35;
+  }
+}
+
+/*
+.ChannelsViewSwitcher {
+	display: flex;
+	justify-content: center;
 	align-items: center;
-	/* When "large" font size is set, `flex-wrap: wrap` allows
-	   the channel view switcher buttons to span multiple lines. */
+	// When "large" font size is set, `flex-wrap: wrap` allows
+	// the channel view switcher buttons to span multiple lines.
 	flex-wrap: wrap;
 	margin-top: 0;
 	margin-bottom: var(--unit);
@@ -85,7 +115,7 @@
 .ChannelsViewSwitcher-switch {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
-	/* Resets `react-responsive-ui` `<Button/>` color transition. */
+	// Resets `react-responsive-ui` `<Button/>` color transition.
 	transition: none;
 	color: currentColor;
 	&:hover {
@@ -101,6 +131,7 @@
 		background-color: var(--Channels-backgroundColor--active);
 	}
 }
+*/
 
 .Channels-showAll {
 	display: inline-block;

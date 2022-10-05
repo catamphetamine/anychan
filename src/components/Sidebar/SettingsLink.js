@@ -4,19 +4,28 @@ import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import { getSettingsMenuItem } from '../MainMenu'
-import getMessages from '../../messages'
+import { getSettingsMenuItem } from '../MainMenu.js'
+
+import useMessages from '../../hooks/useMessages.js'
+import useRoute from '../../hooks/useRoute.js'
 
 export default function SettingsLink({ includeTitle }) {
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const settingsMenuItem = useMemo(() => getSettingsMenuItem(), [])
-	const locationPathname = useSelector(({ found }) => found.resolvedMatch.location.pathname)
+	const messages = useMessages()
+
+	const settingsMenuItem = useMemo(() => getSettingsMenuItem({ messages }), [messages])
+
+	const route = useRoute()
+	const locationPathname = route.location.pathname
+
 	const isSettingsPage = locationPathname === settingsMenuItem.pathname
+
 	const SettingsIcon = isSettingsPage
 		? settingsMenuItem.iconActive
 		: settingsMenuItem.icon
-	const title = getMessages(locale).settings.title
+
+	const title = messages.settings.title
+
 	return (
 		<Link
 			to={settingsMenuItem.url}

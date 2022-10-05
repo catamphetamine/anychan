@@ -1,17 +1,20 @@
 import React, { useRef, useState, useMemo } from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import ReactTimeAgo from 'react-time-ago'
 import RelativeTimeFormat from 'relative-time-format'
 
-import useAutoUpdate from './useAutoUpdate'
+import useAutoUpdate from './useAutoUpdate.js'
 
-import { thread as threadType } from '../../PropTypes'
+import { thread as threadType } from '../../PropTypes.js'
 
-import { getThread } from '../../redux/data'
-import getMessages from '../../messages'
-import getLanguageFromLocale from '../../utility/getLanguageFromLocale'
+import useMessages from '../../hooks/useMessages.js'
+import useLocale from '../../hooks/useLocale.js'
 
-import { Button } from 'webapp-frontend/src/components/Button'
+import { getThread } from '../../redux/data.js'
+import getLanguageFromLocale from '../../utility/getLanguageFromLocale.js'
+
+import Button from 'frontend-lib/components/Button.js'
 
 import './AutoUpdate.css'
 
@@ -22,8 +25,10 @@ export default function AutoUpdate({ autoStart }) {
 	const [error, setError] = useState()
 	const [nextUpdateAt, setNextUpdateAt] = useState()
 	const [secondsLeft, setSecondsLeft] = useState()
+
 	const node = useRef()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const messages = useMessages()
+
 	const [refreshThread] = useAutoUpdate({
 		node,
 		setNextUpdateAt,
@@ -34,9 +39,11 @@ export default function AutoUpdate({ autoStart }) {
 		setSecondsLeft,
 		autoStart
 	})
+
 	if (isExpired || isLocked) {
 		return null
 	}
+
 	// The `<Button/>` used here is a "simpler" one:
 	// it doesn't wait for the `onClick()` `Promise`
 	// and doesn't show a "wait" status indicator.
@@ -53,21 +60,20 @@ export default function AutoUpdate({ autoStart }) {
 			onClick={refreshThread}
 			className="AutoUpdate">
 			{isUpdating &&
-				getMessages(locale).autoUpdate.inProgress
+				messages.autoUpdate.inProgress
 			}
 			{!isUpdating &&
 				<React.Fragment>
 					{error &&
 						<React.Fragment>
-							{getMessages(locale).autoUpdate.error}
+							{messages.autoUpdate.error}
 							{'. '}
 						</React.Fragment>
 					}
 					{nextUpdateAt &&
 						<AutoUpdateTimer
 							secondsLeft={secondsLeft}
-							nextUpdateAt={nextUpdateAt}
-							locale={locale}/>
+							nextUpdateAt={nextUpdateAt}/>
 					}
 					{error && '.'}
 				</React.Fragment>
@@ -82,20 +88,24 @@ AutoUpdate.propTypes = {
 
 function AutoUpdateTimer({
 	secondsLeft,
-	nextUpdateAt,
-	locale
+	nextUpdateAt
 }) {
+	const messages = useMessages()
+	const locale = useLocale()
+
 	const relativeTimeFormat = useMemo(() => {
 		return new RelativeTimeFormat(getLanguageFromLocale(locale), {
 		  style: 'long'
 		})
 	}, [locale])
+
 	const nextUpdateAtISOString = useMemo(() => {
 		return new Date(nextUpdateAt).toISOString()
 	}, [nextUpdateAt])
+
 	return (
 		<React.Fragment>
-			{getMessages(locale).autoUpdate.scheduledBeforeTime}
+			{messages.autoUpdate.scheduledBeforeTime}
 			{secondsLeft &&
 				<time dateTime={nextUpdateAtISOString}>
 					{relativeTimeFormat.format(secondsLeft, 'second')}
@@ -109,13 +119,12 @@ function AutoUpdateTimer({
 					locale={locale}
 					timeStyle="round-minute"/>
 			}
-			{getMessages(locale).autoUpdate.scheduledAfterTime}
+			{messages.autoUpdate.scheduledAfterTime}
 		</React.Fragment>
 	)
 }
 
 AutoUpdateTimer.propTypes = {
 	secondsLeft: PropTypes.number,
-	nextUpdateAt: PropTypes.number.isRequired,
-	locale: PropTypes.string.isRequired
+	nextUpdateAt: PropTypes.number.isRequired
 }

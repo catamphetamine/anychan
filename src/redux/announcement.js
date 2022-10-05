@@ -1,10 +1,9 @@
 import { ReduxModule } from 'react-pages'
 
-import { getAnnouncement } from '../utility/announcement'
-
-const redux = new ReduxModule()
+const redux = new ReduxModule('ANNOUNCEMENT')
 
 export const setAnnouncement = redux.simpleAction(
+	'SET_ANNOUNCEMENT',
 	(state, announcement) => ({
 		...state,
 		announcement
@@ -21,6 +20,4 @@ export const markAnnouncementAsRead = redux.simpleAction(
 	})
 )
 
-export default redux.reducer({
-	announcement: getAnnouncement()
-})
+export default redux.reducer()

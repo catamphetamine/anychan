@@ -1,9 +1,9 @@
 # Theme Variables
 
-This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://gitlab.com/catamphetamine/captchan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://gitlab.com/catamphetamine/captchan/issues) to discuss that.
+This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://gitlab.com/catamphetamine/anychan/issues) to discuss that.
 
 All variables listed here have their default values — see
-[style-variables.css](https://gitlab.com/catamphetamine/captchan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in the [style-variables.css](https://gitlab.com/catamphetamine/webapp-frontend/blob/master/src/styles/style-variables.css) of the parent project.
+[style-variables.css](https://gitlab.com/catamphetamine/anychan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in [frontend-lib/styles/style-variables.css](https://gitlab.com/catamphetamine/frontend-lib/blob/master/styles/style-variables.css) or [social-components-react/style/variables.css](https://gitlab.com/catamphetamine/social-components-react/blob/master/style/variables.css).
 
 "Light" mode should be styled via `.light` CSS selector and "Dark" mode should be styled via `.dark` CSS selector. Both can be styled via `:root` CSS selector.
 
@@ -152,21 +152,19 @@ A clickable is a link or a button. Links and textual buttons are darker than but
 * `--Modal-borderColor: transparent` — Modal border color.
 * `--Modal-borderWidth: 0px` — Modal border width.
 
-## HoverButton
+## PressedStateButton
 
-A "hover button" is a button that doesn't look like a button unless it's hovered. The examples are the various post buttons: comment date link, "reply" button, "…" menu button, show replies button.
+A "pressed state" button: a button that stays "pressed" until "depressed". The examples are the various post buttons: "…" menu button, "show replies" button, "reply" button, comment date link (although this one doesn't ever get "pressed").
 
-Some buttons can be "pushed" meaning that they stay in the "pushed" state until "unpushed" via a click.
-
-* `--HoverButton-backgroundColor: gray` — Hover button background color on mouse over.
-* `--HoverButton-backgroundColor--active: yellow` — Hover button background color when clicked.
-* `--HoverButton-backgroundColor--pushed: var(--HoverButton-backgroundColor--active)` — Hover button background color when pushed.
-* `--HoverButton-color--active: orange` — Hover button text color when clicked.
-* `--HoverButton-color--pushed: orange` — Hover button text color when pushed.
-* `--HoverButton-color--pushedActive: var(--HoverButton-color--active)` — Hover button text color when clicked to unpush.
-* `--HoverButton-borderColor: gray` — Hover button border color on mouse over.
-* `--HoverButton-borderColor--active: var(--HoverButton-borderColor)` — Hover button border color on click.
-* `--HoverButton-borderColor--pushed: var(--HoverButton-borderColor--active)` — Hover button background color when pushed.
+* `--PressedStateButton-backgroundColor: gray` — Hover button background color on mouse over.
+* `--PressedStateButton-backgroundColor--active: yellow` — Hover button background color when clicked.
+* `--PressedStateButton-backgroundColor--pressed: var(--PressedStateButton-backgroundColor--active)` — Hover button background color when pressed.
+* `--PressedStateButton-color--active: orange` — Hover button text color when clicked.
+* `--PressedStateButton-color--pressed: orange` — Hover button text color when pressed.
+* `--PressedStateButton-color--pressedActive: var(--PressedStateButton-color--active)` — Hover button text color when clicked to unpush.
+* `--PressedStateButton-borderColor: gray` — Hover button border color on mouse over.
+* `--PressedStateButton-borderColor--active: var(--PressedStateButton-borderColor)` — Hover button border color on click.
+* `--PressedStateButton-borderColor--pressed: var(--PressedStateButton-borderColor--active)` — Hover button background color when pressed.
 
 ## Content
 

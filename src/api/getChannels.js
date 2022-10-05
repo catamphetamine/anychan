@@ -1,5 +1,5 @@
-import Imageboard from './Imageboard'
-import { getProvider } from '../provider'
+import Imageboard from './Imageboard.js'
+import { getProvider } from '../provider.js'
 
 /**
  * Returns a list of channels.

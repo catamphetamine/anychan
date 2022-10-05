@@ -3,27 +3,31 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import MainMenu from './MainMenu'
-import Markup from './Markup'
+import MainMenu from './MainMenu.js'
+import Markup from './Markup.js'
 
-import configuration from '../configuration'
-import getMessages from '../messages'
-import { getProvider } from '../provider'
-import { isContentSectionsContent, isChannelsLocation } from '../utility/routes'
+import configuration from '../configuration.js'
+import { getProvider } from '../provider.js'
+import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
+import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
-import { Content } from 'webapp-frontend/src/components/PostContent'
+import useMessages from '../hooks/useMessages.js'
+import useRoute from '../hooks/useRoute.js'
 
-import CaptchanLogo from '../../assets/images/icon.svg'
+import { Content } from 'social-components-react/components/PostContent.js'
+
+import AnychanLogo from '../../assets/images/icon/icon.svg'
 
 import './Footer.css'
 
 export default function Footer({ className }) {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const offline = useSelector(({ app }) => app.offline)
-	const route = useSelector(({ found }) => found.resolvedMatch)
+	const offline = useSelector(state => state.app.offline)
+	const messages = useMessages()
+	const route = useRoute()
+
 	return (
 		<footer className={classNames(className, 'Footer', 'Content', {
-			'Content--background': isContentSectionsContent(route) || isChannelsLocation(route)
+			'Content--background': isContentSectionsPage(route) || isChannelsPage(route)
 		})}>
 			{configuration.footerMarkup &&
 				<Markup
@@ -42,16 +46,16 @@ export default function Footer({ className }) {
 					</Content>
 				}
 				<p>
-					{getMessages(locale).footnotes.preCaptchan}
+					{messages.footnotes.preAnychan}
 					<a
 						target="_blank"
-						href="https://gitlab.com/catamphetamine/captchan">
-						<CaptchanLogo className="Footer-captchanLogo"/>
-						captchan
+						href="https://gitlab.com/catamphetamine/anychan">
+						<AnychanLogo className="Footer-anychanLogo"/>
+						anychan
 					</a>
-					{getMessages(locale).footnotes.postCaptchan}
+					{messages.footnotes.postAnychan}
 					{' '}{VERSION}
-					{getMessages(locale).footnotes.preAuthor}
+					{messages.footnotes.preAuthor}
 					<a
 						target="_blank"
 						href="https://gitlab.com/catamphetamine">
@@ -96,8 +100,8 @@ function FooterLinks({ links }) {
 }
 
 FooterLinks.propTypes = {
-	links: PropTypes.shape({
+	links: PropTypes.arrayOf(PropTypes.shape({
 		url: PropTypes.string.isRequired,
 		text: PropTypes.string.isRequired
-	})
+	})).isRequired
 }

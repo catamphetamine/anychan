@@ -5,31 +5,29 @@ import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import ProviderIcon from './ProviderIcon'
-import ProviderLogo from './ProviderLogo'
-import MainMenu from './MainMenu'
+import ProviderIcon from './ProviderIcon.js'
+import ProviderLogo from './ProviderLogo.js'
+import MainMenu from './MainMenu.js'
 
-import ThreadTitle from './ThreadTitle'
+import ThreadTitle from './ThreadTitle.js'
 
-import {
-	isChannelLocation,
-	isThreadLocation
-} from '../utility/routes'
+import isChannelPage from '../utility/routes/isChannelPage.js'
+import isThreadPage from '../utility/routes/isThreadPage.js'
 
-import getUrl from '../utility/getUrl'
-import { getProvider, getProviderId } from '../provider'
-import getMessages from '../messages'
+import getUrl from '../utility/getUrl.js'
+import { getProvider, getProviderId } from '../provider.js'
+import useRoute from '../hooks/useRoute.js'
 
 import './Header.css'
 
 function Header({}, ref) {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const channel = useSelector(({ data }) => data.channel)
-	const thread = useSelector(({ data }) => data.thread)
-	const route = useSelector(({ found }) => found.resolvedMatch)
+	const route = useRoute()
 
-	const isChannelPage = (isChannelLocation(route) || isThreadLocation(route)) && channel
-	const isThreadPage = isThreadLocation(route) && thread
+	const channel = useSelector(state => state.data.channel)
+	const thread = useSelector(state => state.data.thread)
+
+	const isChannelPage = (isChannelPage(route) || isThreadPage(route)) && channel
+	const isThreadPage = isThreadPage(route) && thread
 
 	const title = getProvider().title
 
@@ -54,7 +52,7 @@ function Header({}, ref) {
 					{title}
 				</Link>
 			}
-			{isChannelPage && isThreadLocation(route) &&
+			{isChannelPage && isThreadPage(route) &&
 				<Link
 					instantBack
 					to={getUrl(channel.id)}
@@ -62,7 +60,7 @@ function Header({}, ref) {
 					{channel.title}
 				</Link>
 			}
-			{isChannelPage && !isThreadLocation(route) &&
+			{isChannelPage && !isThreadPage(route) &&
 				<div className="Header-title Header-title--primary">
 					{channel.title}
 				</div>

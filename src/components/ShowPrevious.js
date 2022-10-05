@@ -1,12 +1,14 @@
 import React, { useRef, useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'react-responsive-ui'
 import ReactTimeAgo from 'react-time-ago'
 import IntlMessageFormat from 'intl-messageformat'
 
-import DoubleArrowUp from 'webapp-frontend/assets/images/icons/double-arrow-up-thin.svg'
+import TextButton from './TextButton.js'
 
-import getMessages from '../messages'
+import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
+
+import DoubleArrowUp from 'frontend-lib/icons/double-arrow-up-thin.svg'
 
 import './ShowPrevious.css'
 
@@ -16,13 +18,17 @@ export default function ShowPrevious({
 	items,
 	pageSize,
 	firstTimePageSize,
-	onShowAll,
-	locale
+	onShowAll
 }) {
+	const messages = useMessages()
+	const locale = useLocale()
+
 	const showPreviousButton = useRef()
+
 	const commentsCountMessage = useMemo(() => {
-		return new IntlMessageFormat(getMessages(locale).nMoreComments, locale)
+		return new IntlMessageFormat(messages.nMoreComments, locale)
 	}, [locale])
+
 	const nMoreComments = useMemo(() => {
 		return commentsCountMessage.format({
 			count: fromIndex,
@@ -33,7 +39,9 @@ export default function ShowPrevious({
 			)
 		})
 	}, [commentsCountMessage, fromIndex])
+
 	const [hasShownPrevious, setHasShownPrevious] = useState()
+
 	const onShowPrevious = useCallback((firstTime) => {
 		const _pageSize = firstTime ? firstTimePageSize : pageSize
 		setFromIndex(fromIndex > _pageSize * 1.4 ? fromIndex - _pageSize : 0)
@@ -43,7 +51,9 @@ export default function ShowPrevious({
 		pageSize,
 		firstTimePageSize
 	])
+
 	const showPreviousButtonPreviousY = useRef()
+
 	const onShowPreviousClick = useCallback(() => {
 		if (hasShownPrevious) {
 			onShowPrevious(false)
@@ -52,35 +62,34 @@ export default function ShowPrevious({
 			setHasShownPrevious(true)
 		}
 	}, [hasShownPrevious, onShowPrevious, setHasShownPrevious])
+
 	useLayoutEffect(() => {
 		if (hasShownPrevious) {
 			window.scrollTo(0, window.scrollY + (showPreviousButton.current.getBoundingClientRect().top - showPreviousButtonPreviousY.current))
 			onShowPrevious(true)
 		}
 	}, [hasShownPrevious])
+
 	// const onShowAll = useCallback(() => setFromIndex(0), [setFromIndex])
 	return (
 		<div className="ShowPrevious">
 			{hasShownPrevious &&
-				<Button
-					type="button"
+				<TextButton
 					onClick={onShowAll}
-					className="rrui__button--text ShowPrevious-showAll">
-					{getMessages(locale).actions.showAll}
-				</Button>
+					className="ShowPrevious-showAll">
+					{messages.actions.showAll}
+				</TextButton>
 			}
-			<Button
+			<TextButton
 				ref={showPreviousButton}
-				type="button"
-				onClick={onShowPreviousClick}
-				className="rrui__button--text">
+				onClick={onShowPreviousClick}>
 				<span>
 					<DoubleArrowUp className="ShowPrevious-doubleArrow"/>
 					{getFirstString(nMoreComments)}
 					{getFirstTag(nMoreComments)}
 					{getLastString(nMoreComments)}
 				</span>
-			</Button>
+			</TextButton>
 			{/*
 			<ReactTimeAgo
 				date={items[fromIndex - 1].createdAt}
@@ -100,8 +109,7 @@ ShowPrevious.propTypes = {
 	})).isRequired,
 	pageSize: PropTypes.number.isRequired,
 	firstTimePageSize: PropTypes.number.isRequired,
-	onShowAll: PropTypes.func.isRequired,
-	locale: PropTypes.string.isRequired
+	onShowAll: PropTypes.func.isRequired
 }
 
 ShowPrevious.defaultProps = {

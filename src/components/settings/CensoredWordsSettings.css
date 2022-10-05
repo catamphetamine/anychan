@@ -38,4 +38,8 @@
 
 .CensoredWordsFilters-practiceLink {
 	color: inherit;
+	border-bottom: 1px solid var(--Clickable-color--text);
+	&:active {
+		border-bottom-color: var(--Clickable-color);
+	}
 }

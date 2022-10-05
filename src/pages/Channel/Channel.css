@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 :root {
 	--ChannelPage-headingLogo-width: 1em;
@@ -9,8 +9,6 @@
 }
 
 .ChannelPage {
-	/* `position: relative` is for <Toolbar/> on large screens. */
-	position: relative;
 	@mixin upto-m {
 		--Toolbar-marginTop: calc(var(--unit) * 0.5);
 		--Toolbar-marginBottom: calc(var(--unit) * 0.5);
@@ -18,24 +16,23 @@
 }
 
 .ChannelPage-header {
-	display: block;
-	/* `position: relative` is for <ChannelMenu/> vertical centring. */
-	position: relative;
-	.Toolbar {
-		position: absolute;
-		right: 0;
-		top: 50%;
-		margin: 0;
-		transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+}
+
+.ChannelPage-headerToolbarSizePlaceholder {
+	visibility: hidden;
+
+	@mixin xxs {
+		display: none;
 	}
 }
 
 .ChannelPage-heading {
+	flex: 1;
 	margin-top: var(--Heading-marginTop);
 	margin-bottom: var(--Heading-marginTop);
 	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--channelPage));*/
-	padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
-	padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft) + var(--MenuIcon-width));
 	text-align: center;
 	/*font-weight: 300;*/
 	font-weight: 400;
@@ -43,10 +40,17 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+
+	@mixin xxs {
+		padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+		text-align: left;
+	}
+
 	@mixin upto-s {
 		padding-top: calc(var(--unit) * 0.5);
 		padding-bottom: calc(var(--unit) * 0.5);
 	}
+
 	@mixin m-plus {
 		padding-bottom: calc(var(--unit) * 0.25);
 		/* Reset the default `line-height` set on `.page__heading`. */
@@ -101,10 +105,10 @@
 */
 
 /* This CSS class is also used for `.ThreadPage-stats`. */
-.ChannelPage-menu {
+/*.ChannelPage-menu {
 	@mixin upto-m {
 		margin-bottom: calc(-1 * var(--unit));
-	}
+	}*/
 	/*
 	@mixin l-plus {
 		position: absolute;
@@ -112,7 +116,7 @@
 		top: calc((var(--Comment-marginTop--channelPage) - var(--ChannelOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
 	}
 	*/
-}
+/*}*/
 
 .ChannelPage-apiChannelEmptyNoteTwoChannel {
 	margin-top: calc(var(--unit) * 2);

@@ -2,14 +2,15 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Content } from 'webapp-frontend/src/components/PostContent'
-import { Button } from 'webapp-frontend/src/components/Button'
+import { Content } from 'social-components-react/components/PostContent.js'
+import Button from 'frontend-lib/components/Button.js'
 
-import ProviderLogo, { hasLogo } from '../components/ProviderLogo'
+import ProviderLogo, { hasLogo } from '../components/ProviderLogo.js'
 
-import { getProvider } from '../provider'
-import getMessages from '../messages'
-import { showSidebar, setSidebarMode } from '../redux/app'
+import useMessages from '../hooks/useMessages.js'
+
+import { getProvider } from '../provider.js'
+import { showSidebar, setSidebarMode } from '../redux/app.js'
 
 import './Home.css'
 
@@ -21,12 +22,15 @@ export default function Home() {
 		announcement,
 		links
 	} = getProvider()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+
+	const messages = useMessages()
 	const dispatch = useDispatch()
+
 	const onShowChannelsList = useCallback(() => {
 		dispatch(showSidebar(true))
 		dispatch(setSidebarMode('channel'))
 	}, [dispatch])
+
 	return (
 		<section className="HomePage">
 			<div className="Content Content--text">
@@ -65,7 +69,7 @@ export default function Home() {
 				<p className="HomePage-showChannelsList">
 					<Button
 						onClick={onShowChannelsList}>
-						{getMessages(locale).boards.showChannelsList}
+						{messages.boards.showChannelsList}
 					</Button>
 				</p>
 			</div>

@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 /* Removing `PostQuoteBlockBorderLeft` turned out to reduce the overall readability of page content. */
 /*
@@ -27,7 +27,7 @@
 	*/
 	/* This `.Post` selector is required here
 	   because of the `.Post--compact` selector style
-	   in `webapp-frontend`. */
+	   in `social-components-react`. */
 	/*.Post {*/
 		/*--Post-paddingTop: calc(var(--unit) * 0.5);*/
 		/*--Post-paddingBottom: calc(var(--unit) * 0.5);*/
@@ -35,7 +35,7 @@
 		/*--Post-paddingBottom: var(--Comment-paddingBottom);*/
 		/* Redefining these `--compact` variables is required
 		   because of the `.Post--compact` selector style
-		   in `webapp-frontend`. */
+		   in `social-components-react`. */
 		/*--Post-paddingTop--compact: var(--Post-paddingTop);*/
 		/*--Post-paddingBottom--compact: var(--Post-paddingBottom);*/
 	/*}*/
@@ -145,7 +145,7 @@
 }
 
 .Comment--channel {
-	--CommentSeparator-color: var(--CommentSeparator-color--channel);
+	--CommentSeparator-color: var(--CommentSeparator-color--channelPage);
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
 			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color), var(--ContentSection-shadow);
@@ -215,6 +215,10 @@
 		--PostCode-paddingLeft: var(--PostQuoteBlock-paddingLeft);
 		--PostCode-paddingRight: var(--PostQuoteBlock-paddingRight);
 		--PostCode-marginRight: var(--PostQuoteBlock-marginRight);
+		/* PostSocial. */
+		/* No "adjustment" is required when there's no thumbnail in a comment. */
+		--PostSocial-paddingLeft--adjustment: 0px;
+		/* Styles. */
 		display: flex;
 	}
 
@@ -481,7 +485,7 @@
 	/*--CommentSeparator-color: transparent;*/
 	--CommentSeparator-color: var(--CommentSeparator-color--previouslyRead);
 	--CommentFooter-color: var(--CommentFooter-color--previouslyRead);
-	--HoverButton-borderColor: var(--Content-color-200);
+	--PressedStateButton-borderColor: var(--Content-color-200);
 	--PostQuoteBlock-backgroundColor: transparent;
 	--PostQuoteBlock-backgroundColor--generated: transparent;
 	--PostQuoteBlock-backgroundColor--inverse: transparent;

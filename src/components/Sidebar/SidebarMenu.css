@@ -33,7 +33,7 @@
 
 .SidebarMenuItem--icon {
 	margin-right: var(--SidebarMenuItem-marginRight);
-	color: var(--Sidebar-color-600);
+	color: var(--Sidebar-color-500);
 	&:last-child {
 		margin-right: 0;
 	}
@@ -72,6 +72,9 @@
 		height: var(--SidebarMenuItem-icon-width);
 		/* Prevent the icon from shrinking when title text overflows. */
 		flex-shrink: 0;
+		/* Fixes <svg/> icons being cut off in iOS Safari. */
+		/* https://stackoverflow.com/questions/24894921/svg-being-cut-off */
+		overflow: visible;
 	}
 }
 

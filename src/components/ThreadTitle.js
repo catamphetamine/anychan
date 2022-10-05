@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostInlineContent from 'webapp-frontend/src/components/PostInlineContent'
+import PostInlineContent from 'social-components-react/components/PostInlineContent.js'
 
 import {
 	thread as threadType
-} from '../PropTypes'
+} from '../PropTypes.js'
 
 export default function ThreadTitle({ thread }) {
 	if (thread.titleCensoredContent) {

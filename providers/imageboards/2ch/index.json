@@ -1,5 +1,6 @@
 {
 	"id": "2ch",
+	"shortId": "⚡",
 	"domains": [
 		"2ch.so",
 		"2ch.pm",
@@ -19,7 +20,7 @@
 					"type": "image/jpeg",
 					"width": 1280,
 					"height": 904,
-					"url": "https://2ch.hk/makaba/templates/img/anon.jpg"
+					"url": "https://2ch.hk/static/img/anon.jpg"
 				}
 			}
 		},
@@ -109,11 +110,12 @@
 	"errorPages": {
 		"404": {
 			"images": [
-				"https://2ch.hk/images/1.png",
-				"https://2ch.hk/images/404_1.jpg",
-				"https://2ch.hk/images/404_3.jpg",
-				"https://2ch.hk/images/404_4.jpg"
+				"https://2ch.hk/static/img/nf/1.png",
+				"https://2ch.hk/static/img/nf/404_1.jpg",
+				"https://2ch.hk/static/img/nf/404_3.jpg",
+				"https://2ch.hk/static/img/nf/404_4.jpg"
 			]
 		}
-	}
+	},
+	"threadArchive": true
 }

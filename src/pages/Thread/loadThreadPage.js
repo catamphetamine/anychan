@@ -1,54 +1,52 @@
-import { getThread } from '../../redux/data'
-
 import {
 	resetState,
 	setInitialFromIndex,
 	setInitialLatestReadCommentIndex
-} from '../../redux/thread'
+} from '../../redux/thread.js'
 
-import onThreadFetched from '../../utility/onThreadFetched'
-import onThreadExpired from '../../utility/onThreadExpired'
-import getLatestReadCommentIndex from '../../utility/getLatestReadCommentIndex'
+import getThread from '../../utility/thread/getThread.js'
+import getLatestReadCommentIndex from '../../utility/thread/getLatestReadCommentIndex.js'
 
-import getFromIndex from './getFromIndex'
+import getFromIndex from './getFromIndex.js'
 
 export default async function loadThreadPage({
 	getState,
 	dispatch,
+	location,
 	params: {
 		channelId,
 		threadId
-	},
-	location
+	}
 }) {
-	threadId = parseInt(threadId)
+	threadId = Number(threadId)
+
 	const {
 		censoredWords,
 		grammarCorrection,
 		locale
 	} = getState().settings.settings
-	try {
-		const thread = await dispatch(getThread(channelId, threadId, {
-			censoredWords,
-			grammarCorrection,
-			locale
-		}))
-		onThreadFetched(thread, { dispatch })
-		// Reset a potentially previously set "instant back" state.
-		dispatch(resetState())
-		// Set initial state.
-		const latestReadCommentIndex = getLatestReadCommentIndex(thread)
-		dispatch(setInitialLatestReadCommentIndex(latestReadCommentIndex))
-		dispatch(setInitialFromIndex(getFromIndex({
-			getState,
-			location,
-			latestReadCommentIndex
-		})))
-	} catch (error) {
-		if (error.status === 404) {
-			// Clear expired thread from user data.
-			onThreadExpired(channelId, threadId, { dispatch })
-		}
-		throw error
-	}
+
+	const thread = await getThread(channelId, threadId, {
+		// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
+		// though it could potentially be used in some hypothetical future.
+		// It would enable fetching only the "incremental" update
+		// for the thread instead of fetching all of its comments.
+		// afterCommentId,
+		// afterCommentsCount,
+		censoredWords,
+		grammarCorrection,
+		locale
+	}, { dispatch })
+
+	// Reset a potentially previously set "instant back" state.
+	dispatch(resetState())
+
+	// Set initial state.
+	const latestReadCommentIndex = getLatestReadCommentIndex(thread)
+	dispatch(setInitialLatestReadCommentIndex(latestReadCommentIndex))
+	dispatch(setInitialFromIndex(getFromIndex({
+		thread,
+		location,
+		latestReadCommentIndex
+	})))
 }

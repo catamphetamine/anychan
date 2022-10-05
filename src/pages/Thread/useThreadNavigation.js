@@ -1,17 +1,17 @@
 import { useState, useCallback, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import getMessages from '../../messages'
+import useMessages from '../../hooks/useMessages.js'
 
-import { InReplyToModalCloseTimeout, InReplyToModalScrollToTopAndFocus } from '../../components/InReplyToModal'
+import { InReplyToModalCloseTimeout, InReplyToModalScrollToTopAndFocus } from '../../components/InReplyToModal.js'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
-// import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
+import { notify } from '../../redux/notifications.js'
+// import { getViewportHeight } from 'web-browser-window'
 
 export default function useThreadNavigation({
-	getCommentById,
-	locale
+	getCommentById
 }) {
+	const messages = useMessages()
 	const dispatch = useDispatch()
 	const [threadNavigationHistory, setThreadNavigationHistory] = useState([])
 	// `threadNavigationHistoryRef` is only used in `onNavigateToComment()`
@@ -63,7 +63,7 @@ export default function useThreadNavigation({
 		// }
 		const comment = getCommentById(commentId)
 		if (!comment) {
-			dispatch(notify(getMessages(locale).noSearchResults))
+			dispatch(notify(messages.noSearchResults))
 			console.error(`Comment #${commentId} not found`)
 			return
 		}
@@ -112,7 +112,7 @@ export default function useThreadNavigation({
 	[
 		getCommentById,
 		dispatch,
-		locale,
+		messages,
 		onShowThreadHistoryModal,
 		threadNavigationHistoryRef,
 		onSetThreadNavigationHistory

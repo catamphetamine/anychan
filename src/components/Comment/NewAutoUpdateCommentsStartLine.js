@@ -3,14 +3,13 @@ import { useSelector } from 'react-redux'
 
 import { FadeInOut } from 'react-responsive-ui'
 
-import { commentId } from '../../PropTypes'
+import { commentId } from '../../PropTypes.js'
 
 import './NewAutoUpdateCommentsStartLine.css'
 
 export default function NewAutoUpdateCommentsStartLine({ commentId }) {
-	const firstNewAutoUpdateCommentId = useSelector(({ data }) => {
-		return data.firstNewAutoUpdateCommentId
-	})
+	const firstNewAutoUpdateCommentId = useSelector(state => state.data.firstNewAutoUpdateCommentId)
+
 	return (
 		<FadeInOut
 			show={commentId === firstNewAutoUpdateCommentId}

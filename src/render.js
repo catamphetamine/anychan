@@ -1,30 +1,35 @@
 import { render } from 'react-pages/client'
 
-import settings from './react-pages'
-import configuration from './configuration'
+import getReactPagesConfig from './react-pages.js'
+import configuration from './configuration.js'
 
-import { hideSidebar } from './redux/app'
-import { closeSlideshow } from 'webapp-frontend/src/redux/slideshow'
-// import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
+// import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-import UserData from './UserData/UserData'
+import getUserData from './UserData.js'
 
-export default async function() {
+export default async function({
+	userData = getUserData()
+} = {}) {
 	let isFirstRender = true
 	let currentRoute
+
 	// Renders the webpage on the client side
-	const result = await render(settings, {
+	const result = await render(getReactPagesConfig(), {
 		onBeforeNavigate({ dispatch, location, params }) {
-			// Hide sidebar pop up on navigation (only on small screens).
-			dispatch(hideSidebar())
+			window._onBeforeNavigate({ dispatch })
+
+			// Set "is navigating" flag that's used in "Backspace" keydown handler
+			// when deciding whether should navigate "back".
+			window._isNavigationInProgress = true
 		},
 		onNavigate(url, location, { dispatch, getState }) {
 			// `window._previouslyVisitedRoute` is used in `<SideNavMenuButton/>`.
 			// `window._previouslyVisitedRoute` could alternatively be stored somewhere in Redux state.
 			window._previouslyVisitedRoute = currentRoute
 			currentRoute = getState().found.match
-			// Close slideshow on "Back"/"Forward" navigation.
-			dispatch(closeSlideshow())
+
+			window._onNavigate({ dispatch })
+
 			// Focus the page on subsequent renders.
 			// (for screen readers and accessibility).
 			if (isFirstRender) {
@@ -35,15 +40,19 @@ export default async function() {
 				// https://github.com/nvaccess/nvda/issues/6606
 				// `document.activeElement` is supported in all browsers, even very old ones.
 				// https://developer.mozilla.org/docs/Web/API/Document/activeElement
-				if (!document.activeElement ||
+				if (
+					!document.activeElement ||
 					document.activeElement === document.body ||
-					!document.querySelector('main').contains(document.activeElement)) {
+					!document.querySelector('main').contains(document.activeElement)
+				) {
 					document.querySelector('main').focus()
 				}
 			}
+
 			// Flush cached `localStorage`.
 			// (writes cached `latestReadComments` and `latestSeenThreads`).
-			UserData.storage.flush()
+			userData.storage.flush()
+
 			// Set up Google Analytics.
 			// A simple Google Analytics setup with anonymized IP addresses
 			// and without any "Demographics" tracking features
@@ -76,20 +85,27 @@ export default async function() {
 					'page_path': location.pathname
 				})
 			}
+
+			// Reset "is navigating" flag that's used in "Backspace" keydown handler
+			// when deciding whether should navigate "back".
+			window._isNavigationInProgress = false
 		}
 	})
+
 	// If there was an error during the initial rendering
 	// then `result` will be `undefined`.
 	if (result) {
-		const { store, rerender } = result
+		const { store } = result
 		// Webpack "Hot Module Replacement"
-		if (module.hot) {
-			// Because `./redux/app.js` is imported in this file,
-			// changing `./redux/app.js` won't hot reload.
-			module.hot.accept('./react-pages', () => {
-				store.hotReload(settings.reducers)
-				rerender()
-			})
+		if (import.meta.webpackHot) {
+			// Updates Redux "reducers" and actions.
+			window.hotReloadRedux = ({ reducers }) => {
+				store.hotReload(reducers)
+			}
+			// If if a hot reload has been requested before the page finished rendering.
+			if (window.hotReloadReduxOnLoad) {
+				window.hotReloadRedux(window.hotReloadReduxOnLoad)
+			}
 		}
 	}
 }

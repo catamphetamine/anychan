@@ -1,7 +1,6 @@
 import { ReduxModule } from 'react-pages'
 
-import { areCookiesAccepted } from 'webapp-frontend/src/utility/cookiePolicy'
-import { applyDarkMode } from 'webapp-frontend/src/utility/style'
+import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 const redux = new ReduxModule()
 
@@ -42,6 +41,5 @@ export const setSidebarMode = redux.simpleAction(
 )
 
 export default redux.reducer({
-	cookiesAccepted: areCookiesAccepted(),
 	sidebarMode: 'channels'
 })

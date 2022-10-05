@@ -4,13 +4,16 @@ import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import ProviderIcon from '../ProviderIcon'
-import ProviderLogo from '../ProviderLogo'
+import ProviderIcon from '../ProviderIcon.js'
+import ProviderLogo from '../ProviderLogo.js'
 
-import { getProvider } from '../../provider'
+import useRoute from '../../hooks/useRoute.js'
+
+import { getProvider } from '../../provider.js'
 
 export default function HomePageLink({ includeTitle }) {
-	const locationPathname = useSelector(({ found }) => found.resolvedMatch.location.pathname)
+	const route = useRoute()
+	const locationPathname = route.location.pathname
 	const isHomePage = locationPathname === '/'
 	const title = getProvider().title
 	return (

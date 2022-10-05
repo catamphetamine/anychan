@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Button, Select, TextInput } from 'react-responsive-ui'
+import { Modal, Select, TextInput } from 'react-responsive-ui'
 
-import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
-import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
-import { isValidUrl, isValidRelativeUrl } from 'social-components/commonjs/utility/url'
-import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
+import TextButton from '../TextButton.js'
+import FillButton from '../FillButton.js'
+import { Form, Field, Submit } from '../Form.js'
+import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 
-import { saveTheme } from '../../redux/settings'
+import { isValidUrl, isValidRelativeUrl } from 'social-components/utility/url.js'
+
+import { saveTheme } from '../../redux/settings.js'
 
 import {
 	getThemes,
@@ -15,18 +17,18 @@ import {
 	addTheme,
 	removeTheme,
 	applyTheme
-} from '../../utility/themes'
+} from '../../utility/themes.js'
 
 import {
 	getDefaultThemeId
-} from '../../utility/settingsDefaults'
+} from '../../utility/settings/settingsDefaults.js'
 
 import {
 	ContentSection,
 	ContentSectionHeader
-} from 'webapp-frontend/src/components/ContentSection'
+} from 'frontend-lib/components/ContentSection.js'
 
-import { showError } from 'webapp-frontend/src/redux/notifications'
+import { showError } from '../../redux/notifications.js'
 
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
@@ -66,8 +68,7 @@ export default function ThemeSettings({
 	}
 
 	async function onRemoveSelectedTheme() {
-		dispatch(okCancelDialog(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)))
-		if (await OkCancelDialog.getPromise()) {
+		if (await OkCancelModal.show(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme))) {
 			removeTheme(theme)
 			await onSelectTheme(getDefaultThemeId())
 		}
@@ -91,11 +92,10 @@ export default function ThemeSettings({
 					onChange={onSelectTheme}
 					className="form__component"/>
 				<div className="form__component form__component--button">
-					<Button
-						onClick={() => setShowAddThemeModal(true)}
-						className="rrui__button--text">
+					<TextButton
+						onClick={() => setShowAddThemeModal(true)}>
 						{messages.settings.theme.add.title}
-					</Button>
+					</TextButton>
 				</div>
 				{guideUrl &&
 					<div className="form__component form__component--button">
@@ -108,11 +108,10 @@ export default function ThemeSettings({
 				}
 				{!isBuiltInTheme(theme) &&
 					<div className="form__component form__component--button">
-						<Button
-							onClick={onRemoveSelectedTheme}
-							className="rrui__button--text">
+						<TextButton
+							onClick={onRemoveSelectedTheme}>
 							{messages.settings.theme.deleteCurrent.title}
-						</Button>
+						</TextButton>
 					</div>
 				}
 			</div>
@@ -137,7 +136,7 @@ export default function ThemeSettings({
 
 ThemeSettings.propTypes = {
 	messages: PropTypes.object.isRequired,
-	settings: PropTypes.string.isRequired,
+	settings: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	guideUrl: PropTypes.string
 }
@@ -235,11 +234,11 @@ function AddTheme({
 					className="form__component"/>
 			}
 			{!pasteCodeInstead &&
-				<Button
+				<TextButton
 					onClick={() => setPasteCodeInstead(true)}
-					className="rrui__button--text form__component">
+					className="form__component">
 					{messages.settings.theme.add.pasteCodeInstead}
-				</Button>
+				</TextButton>
 			}
 			{pasteCodeInstead &&
 				<Field
@@ -251,15 +250,14 @@ function AddTheme({
 					className="form__component rrui__input--monospace"/>
 			}
 			<div className="form__actions">
-				<Button
+				<TextButton
 					onClick={close}
-					className="rrui__button--text form__action">
+					className="form__action">
 					{messages.actions.cancel}
-				</Button>
+				</TextButton>
 				<Submit
-					submit
-					component={Button}
-					className="rrui__button--background form__action">
+					component={FillButton}
+					className="form__action">
 					{messages.actions.add}
 				</Submit>
 			</div>

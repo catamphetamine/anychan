@@ -18,4 +18,8 @@ export const hideTweet = redux.simpleAction(
 	})
 )
 
+export const setLoadingTweet = redux.simpleAction(
+	(state, isLoading) => ({ ...state, isLoading })
+)
+
 export default redux.reducer()

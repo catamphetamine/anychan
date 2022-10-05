@@ -1,7 +1,7 @@
-import getLanguageFromLocale from '../../utility/getLanguageFromLocale'
+import getLanguageFromLocale from '../../utility/getLanguageFromLocale.js'
 
-import correctGrammar from './correctGrammar'
-import _replaceQuotes from './replaceQuotes'
+import correctGrammar from './correctGrammar.js'
+import _replaceQuotes from './replaceQuotes.js'
 
 /**
  * Corrects text grammar (naive implementation), and (optionally)

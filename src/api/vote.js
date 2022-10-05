@@ -1,4 +1,5 @@
-import Imageboard from './Imageboard'
+import Imageboard from './Imageboard.js'
+import { getProvider } from '../provider.js'
 
 export default async function vote({
 	http,

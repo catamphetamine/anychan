@@ -1,7 +1,82 @@
-@import "../../../webapp-frontend/src/styles/constants.css";
-@import "../../../webapp-frontend/src/styles/grid.mixins.css";
+@import "frontend-lib/styles/style-variables.css";
+@import "social-components-react/style/variables.css";
+
+@import "frontend-lib/styles/constants.css";
+@import "frontend-lib/styles/grid.mixins.css";
 
 :root {
+	/* `social-components-react` */
+	--SocialComponents-fontFamily: var(--Document-fontFamily);
+	--SocialComponents-fontFamily--text: var(--Text-fontFamily);
+	--SocialComponents-lineHeight: var(--Document-lineHeight);
+
+	/* Color */
+	--SocialComponents-color-100: var(--Content-color-100);
+	--SocialComponents-color-200: var(--Content-color-200);
+	--SocialComponents-color-300: var(--Content-color-300);
+	--SocialComponents-color-400: var(--Content-color-400);
+	--SocialComponents-color-500: var(--Content-color-500);
+	--SocialComponents-color-600: var(--Content-color-600);
+	--SocialComponents-color-700: var(--Content-color-700);
+	--SocialComponents-color-800: var(--Content-color-800);
+	--SocialComponents-color-900: var(--Content-color-900);
+
+	/* Background Color */
+	--SocialComponents-backgroundColor: var(--Content-backgroundColor);
+
+	/* Clickable Color. */
+	--SocialComponentsClickable-color: var(--Clickable-color);
+	--SocialComponentsClickable-color--active: var(--Clickable-color--active);
+	/* "Clickable text" buttons are usually colored a bit darker. */
+	--SocialComponentsClickable-color--text: var(--Clickable-color--text);
+
+	/* CommentTree. */
+	@mixin upto-xs {
+		--CommentTreeBranch-marginTop--content: 1.9em;
+	}
+
+	/* Post */
+	--Post-paddingLeft: var(--ContentSection-padding--horizontal);
+	--Post-transition: none;
+	--Post-transition--onClick: background-color 60ms;
+	@mixin upto-m {
+		/* Don't reduce the spacing between text paragraphs on small screens,
+		   because `--PostContent-marginTop` is already small on such screens. */
+		--Post-textLineHeightBlankSpace: 0em;
+	}
+	@mixin xl-plus {
+		--Post-paddingLeft: calc(var(--unit) * 2);
+	}
+
+	/* PostContent */
+	@mixin upto-m {
+		--PostContent-marginTop--compact: 0.3em;
+	}
+
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-transition--onClick: var(--Post-transition--onClick);
+	--PostInlineSpoiler-transition: none;
+
+	/* PostList. */
+	@mixin upto-xs {
+		--PostList-marginLeft: var(--unit);
+	}
+
+	/* PostQuoteBorderLeft. */
+	@mixin upto-s {
+		--PostQuoteBorderLeft-left: calc(var(--PostQuoteBlock-paddingLeft) * 1/4);
+	}
+
+	/* Slideshow. */
+	@mixin xxs {
+		--Slideshow-Control-margin: calc(var(--unit) / 2);
+		--Slideshow-DragAndScaleModeButton-marginBottom: calc(var(--unit) / 2);
+	}
+	@mixin l-plus {
+		--Slideshow-Control-height: calc(var(--unit) * 3.5);
+	}
+
+	/* Z-indexes. */
 	--Sidebar-zIndex: 10;
 	--Header-zIndex--below: 19;
 	--Header-zIndex: 20;
@@ -15,4 +90,41 @@
 		--PageContent-paddingLeft--nonContentSection: var(--Post-paddingLeft);
 	}
 	*/
+}
+
+/* Light mode. */
+.light {
+	/* CommentTree. */
+	--CommentTree-color: var(--base-color-300);
+	--CommentTree-color--hover: var(--base-color-400);
+}
+
+/* Dark mode. */
+.dark {
+	/* CommentTree. */
+	--CommentTree-color: var(--base-color-800);
+	--CommentTree-color--hover: var(--base-color-700);
+
+	/* PressedStateButton. */
+	--PressedStateButton-color--active: var(--base-color-300);
+	--PressedStateButton-color--pressed: var(--base-color-400);
+}
+
+.Clickable {
+	--Post-transition: var(--Post-transition--onClick);
+	--PostInlineSpoiler-transition: var(--PostInlineSpoiler-transition--onClick);
+}
+
+.Clickable--active {
+	--Post-backgroundColor: var(--Content-backgroundColor--active);
+	--PostInlineSpoiler-color: var(--PostInlineSpoiler-color--contentActive);
+	--PostInlineSpoiler-color--censored: var(--PostInlineSpoiler-color--censoredContentActive);
+}
+
+.Post {
+	transition: var(--Post-transition);
+}
+
+.PostInlineSpoiler {
+	transition: var(--PostInlineSpoiler-transition);
 }

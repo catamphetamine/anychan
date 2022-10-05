@@ -8,17 +8,32 @@
 		"byCategory": "By Category",
 		"error": "Couldn't load the list of boards"
 	},
-	"trackedThreads": {
-		"title": "Tracked threads",
-		"trackedThread": "Tracked thread",
-		"trackThread": "Track this thread",
-		"untrackThread": "Don't track this thread",
-		"empty": "No tracked threads",
+	"subscribedThreads": {
+		"title": "Thread subscriptions",
+		"subscribedThread": "Subscribed to thread",
+		"subscribeToThread": "Subscribe to thread",
+		"unsubscribeFromThread": "Unsubscribe from thread",
+		"empty": "No thread subscriptions",
+		"allExpired": "threads expired",
 		"showExpired": "Show expired"
 	},
 	"settings": {
 		"language": {
+			"title": "Language",
 			"translationGuide": "\"Adding a new translation\" guide"
+		},
+		"leftHanded": {
+			"title": "Left-Handed",
+			"enable": "I'm left-handed",
+			"description": "If you're a left-handed person using this application on a mobile device, you may enable «left-handed» mode so that some buttons usually found on the right side of the screen for better right thumb reachability would be moved to the left side of the screen for better left thumb reachability."
+		},
+		"fontSize": {
+			"title": "Font Size",
+			"xs": "Small",
+			"s": "Smaller",
+			"m": "Medium",
+			"l": "Larger",
+			"xl": "Large"
 		},
 		"theme": {
 			"title": "Theme",
@@ -87,9 +102,32 @@
 				}
 			}
 		},
+		"keyboardShortcuts": {
+			"title": "Keyboard Shortcuts",
+			"keys": "Keys",
+			"action": "Action",
+			"navigation": {
+				"title": "Navigation",
+				"goBackToTheListOfThreads": "Go back to the list of threads from a thread page"
+			},
+			"videoPlayer": {
+				"title": "Video Player",
+				"volumeUp": "Volume Up",
+				"volumeDown": "Volume Down",
+				"volumeMuteUnmute": "Volume Mute/Unmute",
+				"playPause": "Play/Pause",
+				"enterExitFullscreen": "Enter/Exit Fullscreen Mode",
+				"jumpForwardSmall": "Jump Forward (5 sec.)",
+				"jumpBackwardSmall": "Jump Backward (5 sec.)",
+				"jumpForwardMedium": "Jump Forward (30 sec.)",
+				"jumpBackwardMedium": "Jump Backward (30 sec.)",
+				"jumpToStart": "Jump To Start",
+				"jumpToEnd": "Jump To End"
+			}
+		},
 		"data": {
 			"title": "Data",
-			"description": "\"User data\" are the data describing the user rather than the app: \"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs.",
+			"description": "\"User data\" are the data describing the user rather than the app: \"favorite\" boards list, subscribed threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs.",
 			"resetSettings": {
 				"title": "Reset Settings",
 				"warning": "All your settings (including censored words list, added themes) will be reset. Are you sure?",
@@ -97,7 +135,7 @@
 			},
 			"clearUserData": {
 				"title": "Clear User Data",
-				"warning": "All your user data (\"favorite\" boards list, tracked threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
+				"warning": "All your user data (\"favorite\" boards list, subscribed threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
 				"done": "The user data has been cleared"
 			},
 			"clearChannelsCache": {
@@ -106,6 +144,8 @@
 			"clearYouTubeCache": {
 				"title": "Clear YouTube Cache"
 			},
+			"userDataSize": "User Data size",
+			"showUserDataSize": "Show",
 			"export": {
 				"title": "Back up settings and user data"
 			},
@@ -122,6 +162,7 @@
 			}
 		}
 	},
+	"storageCapacityExceeded": "Data storage capacity exceeded. Data won't be saved.",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
 	"thread": "Thread",
@@ -132,7 +173,8 @@
 		"external": "Comment from another thread"
 	},
 	"post": {
-		"rolling": "Rolling thread",
+		"archived": "Archived thread",
+		"trimming": "Trimming thread",
 		"threadAuthor": "Thread author",
 		"attachmentsCount": "Attachments",
 		"uniquePostersCount": "Unique poster IP addresses",
@@ -155,7 +197,7 @@
 		}
 	},
 	"footnotes": {
-		"postCaptchan": " web client",
+		"postAnychan": " web client",
 		"preAuthor": " by "
 	},
 	"country": {
@@ -163,6 +205,7 @@
 	},
 	"autoUpdate": {
 		"scheduledBeforeTime": "Auto-update ",
+		"scheduledAfterTime": null,
 		"inProgress": "Updating…",
 		"error": "Couldn't update the thread"
 	},
@@ -170,12 +213,21 @@
 	"notImplemented": "This feature hasn't been implemented yet",
 	"inReplyTo": "In reply to",
 	"backToPreviouslyViewedComment": "Return",
+	"previouslySeenThreads": "Seen",
+	"channelViewMode": {
+		"newThreads": "New Threads",
+		"newComments": "New Comments",
+		"popular": "Popular"
+	},
 	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
 	"noNewComments": "No new comments",
+	"hasNewComments": "Has new comments",
+	"hasNewReplies": "Has new replies",
 	"newComments": "New comments",
 	"lastComment": "Last comment",
 	"goToComment": "Go to comment",
 	"threadBumpLimitReached": "This thread has reached its bump limit and is going down",
+	"threadIsArchived": "This thread is archived",
 	"threadIsLocked": "This thread is locked",
 	"threadExpired": "This thread has expired",
 	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",

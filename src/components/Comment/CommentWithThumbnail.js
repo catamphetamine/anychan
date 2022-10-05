@@ -2,16 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import PostAttachmentThumbnail from 'webapp-frontend/src/components/PostAttachmentThumbnail'
-import PictureStack from 'webapp-frontend/src/components/PictureStack'
+import PostAttachmentThumbnail from 'social-components-react/components/PostAttachmentThumbnail.js'
+import PictureStack from 'social-components-react/components/PictureStack.js'
 
 import {
 	comment as commentType
-} from '../../PropTypes'
+} from '../../PropTypes.js'
 
-import usePostThumbnail from './usePostThumbnail'
+import usePostThumbnail from './usePostThumbnail.js'
 
-import getMessages from '../../messages'
+import getMessages from '../../messages/index.js'
 
 window.SHOW_POST_THUMBNAIL = true
 window.SHOW_POST_STATS_ON_THE_LEFT_SIDE = false
@@ -104,7 +104,7 @@ CommentWithThumbnail.propTypes = {
 	locale: PropTypes.string.isRequired,
 	onReply: PropTypes.func,
 	expandAttachments: PropTypes.bool,
-	onAttachmentClick: PropTypes.func.isRequired,
+	onAttachmentClick: PropTypes.func,
 	shouldFixAttachmentPictureSize: PropTypes.bool,
 	showPostThumbnailWhenThereAreMultipleAttachments: PropTypes.bool,
 	showPostThumbnailWhenThereIsNoContent: PropTypes.bool,

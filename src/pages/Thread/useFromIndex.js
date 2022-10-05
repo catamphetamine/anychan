@@ -1,23 +1,26 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import getRequestedCommentIndex from './getRequestedCommentIndex'
+import getRequestedCommentIndex from './getRequestedCommentIndex.js'
 
-import { setFromIndex } from '../../redux/thread'
+import { setFromIndex } from '../../redux/thread.js'
 
 export default function useFromIndex({
 	thread,
 	location
 }) {
 	const dispatch = useDispatch()
+
 	// Create `isInitialFromIndex` state variable.
-	const isInitialFromIndex = useSelector(({ thread }) => thread.isInitialFromIndex)
+	const isInitialFromIndex = useSelector(state => state.thread.isInitialFromIndex)
+
 	// Get `initialLatestReadCommentIndex`.
 	// `initialLatestReadCommentIndex` should be determined on the initial render,
 	// and then it shouldn't change, so that `isPreviouslyShown()` function
 	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
 	// so that comments don't get re-rendered when it's not needed.
-	const initialLatestReadCommentIndex = useSelector(({ thread }) => thread.initialLatestReadCommentIndex)
+	const { initialLatestReadCommentIndex } = useSelector(state => state.thread)
+
 	// The requested comment index should be determined on the initial render,
 	// and then it shouldn't change, so that `isPreviouslyShown()` function
 	// in `src/pages/Thread/Thread.js` doesn't change on thread auto-update,
@@ -25,21 +28,26 @@ export default function useFromIndex({
 	const requestedCommentIndex = useMemo(() => {
 		return getRequestedCommentIndex(thread, location)
 	}, [])
+
 	// This variable is also copy-pasted in `getInitialFromIndex.js`.
 	const initiallyShowCommentsFromTheLatestReadOne = requestedCommentIndex === undefined && initialLatestReadCommentIndex !== undefined
+
 	// Create `fromIndex` state variable.
-	const fromIndex = useSelector(({ thread }) => thread.fromIndex)
+	const fromIndex = useSelector(state => state.thread.fromIndex)
+
 	const onSetFromIndex = useCallback((fromIndex) => {
 		dispatch(setFromIndex(fromIndex))
 	}, [
 		setFromIndex
 	])
+
 	// `newFromIndex` and `newFromIndexHasBeenSet` are only used
 	// so that `VirtualScroller`'s `preserveScrollPositionOnPrependItems`
 	// feature is briefly deactivated when the user clicks on a comment date
 	// inside an "In Reply To" modal.
 	const [newFromIndex, setNewFromIndex] = useState()
 	const [newFromIndexHasBeenSet, setNewFromIndexHasBeenSet] = useState()
+
 	useEffect(() => {
 		if (newFromIndex !== undefined) {
 			onSetFromIndex(newFromIndex)
@@ -50,6 +58,7 @@ export default function useFromIndex({
 		onSetFromIndex,
 		setNewFromIndexHasBeenSet
 	])
+
 	useEffect(() => {
 		if (newFromIndexHasBeenSet) {
 			setNewFromIndex(undefined)
@@ -61,8 +70,10 @@ export default function useFromIndex({
 		setNewFromIndex,
 		setNewFromIndexHasBeenSet
 	])
+
 	const preserveScrollPositionOnPrependItems = newFromIndex === undefined
 	const setNewFromIndexPreservingScrollPosition = onSetFromIndex
+
 	return [
 		fromIndex,
 		setNewFromIndex,

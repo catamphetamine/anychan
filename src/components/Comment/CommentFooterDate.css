@@ -1,3 +1,9 @@
 .CommentFooterDate-tooltip {
 	font-size: 85%;
 }
+
+.CommentFooterDate--hidden {
+	visibility: hidden;
+	max-width: 0;
+	overflow: hidden;
+}

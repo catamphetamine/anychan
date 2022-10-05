@@ -1,0 +1,68 @@
+.Button--text {
+	height: auto;
+	color: var(--Clickable-color--text);
+	border-bottom: 1px solid transparent;
+
+	&:focus {
+		border-bottom-color: currentColor;
+	}
+
+	&:active {
+		color: var(--Clickable-color--textActive);
+	}
+}
+
+.Button--fill {
+	color: var(--Content-backgroundColor);
+	background-color: var(--Clickable-color);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+
+	&:focus {
+		/*box-shadow: 0 0 0 4px inset var(--Clickable-color--active);*/
+		box-shadow: 0 0 2px var(--Clickable-color--active);
+	}
+
+	&:active {
+		color: var(--Content-backgroundColor);
+		background-color: var(--Clickable-color--active);
+	}
+}
+
+.Button--outline {
+	/*color: var(--Content-backgroundColor);*/
+	/*background-color: var(--Clickable-color);*/
+	color: var(--Clickable-color--text);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	border: 1px solid currentColor;
+	border-radius: 4px;
+
+	&:focus {
+		box-shadow: 0 0 2px var(--Clickable-color--active);
+	}
+
+	&:active {
+		color: var(--Content-backgroundColor);
+		background-color: var(--Clickable-color--text);
+		border-color: var(--Clickable-color--text);
+	}
+}
+
+.Button--float {
+	box-shadow: 0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
+		0px 0.4em 0.7em 0px rgba(0,0,0,0.07),
+		0px 0.07em 1.3em 0px rgba(0,0,0,0.06);
+
+	&:focus {
+		box-shadow: 0 0 2px var(--Clickable-color--active),
+			0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
+			0px 0.4em 0.7em 0px rgba(0,0,0,0.07),
+			0px 0.07em 1.3em 0px rgba(0,0,0,0.06);
+	}
+}
+
+.Button--multiline {
+	white-space: initial;
+	text-align: left;
+}

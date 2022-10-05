@@ -17,23 +17,30 @@ function CommentsList({
 	stateRef,
 	className,
 	...rest
-}, ref) {
+}) {
 	const _stateRef = useRef()
 	const virtualScrollerState = stateRef || _stateRef
 	const onVirtualScrollerStateChange = useCallback(
 		state => virtualScrollerState.current = state,
 		[]
 	)
+
 	const scrollPosition = useRef()
 	const onScrollPositionChange = useCallback(
 		scrollY => scrollPosition.current = scrollY,
 		[]
 	)
+
+	// `onItemInitialRender` property of `<VirtualScroller/>` shouldn't change
+	// because `<VirtualScroller/>` doesn't support handling changes of such properties.
+	// That means that `getCommentById()` shouldn't change too.
 	const onItemInitialRender = useCallback(
 		item => getComment(item, mode).parseContent({ getCommentById }),
 		[mode, getCommentById]
 	)
+
 	const dispatch = useDispatch()
+
 	useEffect(() => {
 		return () => {
 			if (isInstantBackAbleNavigation()) {
@@ -48,10 +55,10 @@ function CommentsList({
 			}
 		}
 	}, [])
+
 	return (
 		<VirtualScroller
 			{...rest}
-			ref={ref}
 			bypass={typeof window === 'undefined'}
 			className={classNames(className, 'CommentsList')}
 			initialState={initialState}
@@ -60,17 +67,14 @@ function CommentsList({
 			onScrollPositionChange={onScrollPositionChange}
 			onItemInitialRender={onItemInitialRender}
 			getItemId={getCommentId}
-			measureItemsBatchSize={12}/>
+			measureItemsBatchSize={12}
+		/>
 	)
 }
 
-CommentsList = React.forwardRef(CommentsList)
-
 CommentsList.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
-	initialState: PropTypes.shape({
-		scrollY: PropTypes.number.isRequired
-	}),
+	initialState: PropTypes.object,
 	setState: PropTypes.func,
 	initialScrollPosition: PropTypes.number,
 	setScrollPosition: PropTypes.func,

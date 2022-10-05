@@ -2,39 +2,42 @@ import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import PostTitle from 'webapp-frontend/src/components/PostTitle'
-import PostContent from 'webapp-frontend/src/components/PostContent'
-import PostAttachments from 'webapp-frontend/src/components/PostAttachments'
-import PostStretchVertically from 'webapp-frontend/src/components/PostStretchVertically'
+import PostTitle from 'social-components-react/components/PostTitle.js'
+import PostContent from 'social-components-react/components/PostContent.js'
+import PostAttachments from 'social-components-react/components/PostAttachments.js'
+import PostStretchVertically from 'social-components-react/components/PostStretchVertically.js'
+import { isMiddleDialogueChainLink } from 'social-components-react/components/CommentTree.js'
 
-import TextSelectionTooltip from 'webapp-frontend/src/components/TextSelectionTooltip'
-import Button from 'webapp-frontend/src/components/Button'
+import TextSelectionTooltip from 'frontend-lib/components/TextSelectionTooltip.js'
+import Button from 'frontend-lib/components/Button.js'
 
-import CommentAuthor, { hasAuthor } from './CommentAuthor'
-import CommentStatusBadges from './CommentStatusBadges'
-import CommentHidden from './CommentHidden'
-import CommentFooter from './CommentFooter'
-import CommentWithThumbnail from './CommentWithThumbnail'
+import CommentAuthor, { hasAuthor } from './CommentAuthor.js'
+import CommentStatusBadges from './CommentStatusBadges.js'
+import CommentHidden from './CommentHidden.js'
+import CommentFooter from './CommentFooter.js'
+import CommentWithThumbnail from './CommentWithThumbnail.js'
 
 import {
 	comment as commentType,
 	threadId,
 	channelId
-} from '../../PropTypes'
+} from '../../PropTypes.js'
 
-import useVote from './useVote'
-import useSlideshow from './useSlideshow'
-import useSocial from './useSocial'
-import usePostLink from './usePostLink'
+import useVote from './useVote.js'
+import useSlideshow from './useSlideshow.js'
+import useSocial from './useSocial.js'
+import usePostLink from './usePostLink.js'
+import useHide from './useHide.js'
 
-import getMessages from '../../messages'
-import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks'
-import getCommentLengthLimit from '../../utility/getCommentLengthLimit'
-import getUrl from '../../utility/getUrl'
-import setEmbeddedAttachmentsProps from '../../utility/setEmbeddedAttachmentsProps'
-import configuration from '../../configuration'
+import getMessages from '../../messages/index.js'
+import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks.js'
+import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
+import getUrl from '../../utility/getUrl.js'
+import resourceCache from '../../utility/resourceCache.js'
+import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
+import configuration from '../../configuration.js'
 
-import { isMiddleDialogueChainLink } from 'webapp-frontend/src/components/CommentTree'
+import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
 import ArhivachIcon from '../../../assets/images/icons/services/arhivach.svg'
 import TwoChannelIcon from '../../../providers/imageboards/2ch/logo.svg'
@@ -63,7 +66,6 @@ export default function Comment({
 	compact,
 	screenWidth,
 	expandAttachments,
-	messages,
 	onReply,
 	onPostUrlClick,
 	urlBasePath,
@@ -101,11 +103,15 @@ export default function Comment({
 		locale
 	})
 
-	const [hidden, setHidden] = useState(comment.hidden)
-	const toggleShowHide = useCallback(
-		() => setHidden(!hidden),
-		[hidden]
-	)
+	const {
+		hidden,
+		onHide,
+		onUnHide
+	} = useHide({
+		channelId,
+		threadId,
+		comment
+	})
 
 	const [
 		onPostLinkClick,
@@ -122,7 +128,7 @@ export default function Comment({
 	const [
 		isSocialClickable,
 		onSocialClick
-	] = useSocial(mode)
+	] = useSocial()
 
 	const [clickedPostUrl, setClickedPostUrl] = useState()
 	// `<Post/>` automatically passes a second argument `post` here,
@@ -145,8 +151,10 @@ export default function Comment({
 		comment.attachments &&
 		comment.attachments.length === 1 &&
 		comment.attachments[0].isLynxChanCatalogAttachmentsBug
+
 	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'channel' ||
 		(mode === 'thread' && isFirstCommentInThread)
+
 	const showPostThumbnailWhenThereIsNoContent = mode === 'channel'
 
 	const commentClassName = 'Comment-comment'
@@ -157,8 +165,9 @@ export default function Comment({
 			<CommentHidden
 				comment={comment}
 				locale={locale}
-				onShow={toggleShowHide}
-				className={commentClassName}/>
+				onShow={onUnHide}
+				className={commentClassName}
+			/>
 		)
 	} else {
 		let titleContentAndAttachments = (
@@ -199,6 +208,7 @@ export default function Comment({
 		commentElement = (
 			<div className="Comment-exceptThumbnail">
 				<CommentAuthor
+					compact
 					post={comment}
 					locale={locale}/>
 				<div className={commentClassName}>
@@ -220,7 +230,10 @@ export default function Comment({
 					onPostUrlClick={_onPostUrlClick}
 					mode={mode}
 					onReply={onReply}
+					onHide={onHide}
 					vote={vote}
+					onVote={hasVoting ? onVote : undefined}
+					hasVotes={hasVoting}
 					onDownloadThread={onDownloadThread}/>
 			</div>
 		)
@@ -288,10 +301,9 @@ Comment.propTypes = {
 	// when the user hides its replies tree.
 	elementRef: PropTypes.any,
 	onPostUrlClick: PropTypes.func,
-	onShowComment: PropTypes.func.isRequired,
+	onShowComment: PropTypes.func,
 	urlBasePath: PropTypes.string.isRequired,
 	onReply: PropTypes.func,
-	messages: PropTypes.object.isRequired,
 	dispatch: PropTypes.func,
 	className: PropTypes.string
 }
@@ -349,11 +361,11 @@ WithTextSelectionTooltip.propTypes = {
 function CommentTitleContentAndAttachments({
 	comment,
 	initialExpandContent,
-	onExpandContent,
+	onExpandContentChange,
 	initialExpandPostLinkQuotes,
 	onRenderedContentDidChange,
 	youTubeApiKey,
-	renderComment,
+	renderComments,
 	getCommentById,
 	contentMaxLength,
 	resourceMessages,
@@ -368,10 +380,10 @@ function CommentTitleContentAndAttachments({
 	isPostLinkClickable,
 	isSocialClickable,
 	onSocialClick,
-	expandPostLinkBlockQuotes,
+	expandGeneratedPostLinkBlockQuotes,
 	postLinkQuoteMinimizedComponent,
 	postLinkQuoteExpandTimeout,
-	onPostLinkQuoteExpand,
+	onPostLinkQuoteExpanded,
 	url,
 	locale,
 	messages,
@@ -391,7 +403,7 @@ function CommentTitleContentAndAttachments({
 		// Update autogenerated quotes in replies to this comment.
 		onCommentContentChange(comment, {
 			getCommentById,
-			renderComment
+			renderComments
 		})
 	}, [
 		// `comment.content` isn't supposed to change.
@@ -401,18 +413,20 @@ function CommentTitleContentAndAttachments({
 		// isn't added to the dependencies.
 		comment.content,
 		getCommentById,
-		renderComment
+		renderComments
 	])
+
 	return (
 		<React.Fragment>
 			<PostTitle
 				compact
-				post={comment}/>
+				post={comment}
+			/>
 			<PostContent
 				compact
 				post={comment}
 				initialExpandContent={initialExpandContent}
-				onExpandContent={onExpandContent}
+				onExpandContentChange={onExpandContentChange}
 				initialExpandPostLinkQuotes={initialExpandPostLinkQuotes}
 				onRenderedContentDidChange={onRenderedContentDidChange}
 				onPostContentChange={onPostContentChange}
@@ -430,13 +444,15 @@ function CommentTitleContentAndAttachments({
 				isPostLinkClickable={isPostLinkClickable}
 				isSocialClickable={isSocialClickable}
 				onSocialClick={onSocialClick}
-				expandPostLinkBlockQuotes={expandPostLinkBlockQuotes}
+				expandGeneratedPostLinkBlockQuotes={expandGeneratedPostLinkBlockQuotes}
 				postLinkQuoteMinimizedComponent={postLinkQuoteMinimizedComponent}
 				postLinkQuoteExpandTimeout={postLinkQuoteExpandTimeout}
-				onPostLinkQuoteExpand={onPostLinkQuoteExpand}
+				onPostLinkQuoteExpanded={onPostLinkQuoteExpanded}
+				resourceCache={areCookiesAccepted() ? resourceCache : undefined}
 				url={url}
 				locale={locale}
-				messages={messages}/>
+				messages={messages}
+			/>
 			<PostAttachments
 				compact
 				post={comment}
@@ -449,10 +465,15 @@ function CommentTitleContentAndAttachments({
 				expandAttachments={expandAttachments}
 				onlyShowFirstAttachmentThumbnail={onlyShowFirstAttachmentThumbnail}
 				spoilerLabel={messages.spoiler}
-				onAttachmentClick={onAttachmentClick}/>
+				onAttachmentClick={onAttachmentClick}
+			/>
 			<PostStretchVertically/>
 		</React.Fragment>
 	)
+}
+
+CommentTitleContentAndAttachments.propTypes = {
+	renderComments: PropTypes.func
 }
 
 function TextSelectionTooltipComponent({
@@ -465,11 +486,11 @@ function TextSelectionTooltipComponent({
 		onReply(selection.getText())
 		selection.clear()
 	}
+
 	return (
 		<Button
 			ref={ref}
 			{...rest}
-			type="button"
 			onClick={onClick}
 			className="Comment-textSelectionTooltip">
 			{children}

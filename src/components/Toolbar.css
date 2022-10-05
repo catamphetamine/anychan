@@ -1,4 +1,4 @@
-@import "../styles/common";
+@import "../styles/common.css";
 
 .Toolbar {
 	display: flex;
@@ -13,4 +13,35 @@
 	--MenuIcon-width: var(--ToolbarIcon-width);
 	--Menu-color--selected: var(--Toolbar-color--selected);
 	--Menu-color--active: var(--Toolbar-color--active);
+}
+
+.Toolbar-item--channelView {
+	width: calc(var(--MenuIcon-width) * 1.5);
+
+	.menu-item__icon {
+    width: 150%;
+    height: 150%;
+
+		g {
+			stroke-width: 5;
+		}
+	}
+}
+
+/*.Toolbar-item--channelViewRightmost {
+	margin-right: calc(-1 * var(--MenuIcon-width) * 0.25);
+}*/
+
+/*.Toolbar-item--channelViewNewThreads {
+	width: calc(var(--MenuIcon-width) * 1.5);
+}*/
+
+.Toolbar-item--channelView {
+	&.menu-item--selected {
+		.menu-item__icon {
+			g {
+				stroke-width: 10;
+			}
+		}
+	}
 }

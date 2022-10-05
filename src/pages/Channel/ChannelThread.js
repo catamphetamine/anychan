@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { channelId } from '../../PropTypes'
+import { channelId } from '../../PropTypes.js'
 
-import Comment from '../../components/Comment/CommentWrapped'
+import Comment from '../../components/Comment/CommentAndStuff.js'
 
-import getUrl from '../../utility/getUrl'
+import getUrl from '../../utility/getUrl.js'
 
 export default function ChannelThread({
 	state,
@@ -15,28 +15,31 @@ export default function ChannelThread({
 	children: thread,
 	...rest
 }) {
-	const onExpandContent = useCallback(() => {
+	const onExpandContentChange = useCallback((expandContent) => {
 		onStateChange({
-			expandContent: true
+			expandContent
 		})
 	}, [onStateChange])
+
 	const comment = thread.comments[0]
-	// Passing `initialExpandContent` and `onExpandContent` explicitly
-	// because it doesn't use `<CommentTree/>` that passes
-	// those properties automatically.
+
+	// Passing `initialExpandContent` and `onExpandContentChange` explicitly
+	// because it doesn't use `<CommentTree/>` which passes those properties automatically.
 	return (
 		<Comment
 			key={comment.id}
 			comment={comment}
 			channelId={channelId}
 			threadId={thread.id}
-			threadIsRolling={thread.isRolling}
+			threadIsTrimming={thread.trimming}
+			threadIsArchived={thread.archived}
 			onClickUrl={getUrl(channelId, thread.id)}
 			initialExpandContent={state && state.expandContent}
-			onExpandContent={onExpandContent}
+			onExpandContentChange={onExpandContentChange}
 			onStateChange={onStateChange}
 			onRenderedContentDidChange={onHeightChange}
-			{...rest}/>
+			{...rest}
+		/>
 	)
 }
 

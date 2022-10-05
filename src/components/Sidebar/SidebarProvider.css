@@ -1,4 +1,4 @@
-@import "../../styles/common";
+@import "../../styles/common.css";
 
 .Sidebar-provider {
 	display: flex;
@@ -16,4 +16,12 @@
 .Sidebar-applicationMenu {
 	display: flex;
 	align-items: center;
+}
+
+.Sidebar-provider {
+	/* These CSS variables value assignments are placed here
+	   rather than in `.Sidebar-applicationMenu` because
+	   they're also used in the left-side spacing of provider logo. */
+	--SidebarMenuItem-icon-width: 1.1em;
+	--SidebarMenuItem-marginRight: 0.6em;
 }

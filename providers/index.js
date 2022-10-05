@@ -1,9 +1,9 @@
-import IMAGEBOARDS from './imageboards'
+import IMAGEBOARDS from './imageboards/index.js'
 
-// import SomeProvider from './some-provider'
+// import SomeNonImageboardProviderLikeReddit from './some-none-imageboard-provider-like-reddit'
 
 const PROVIDERS = [
-	// SomeProvider
+	// SomeNonImageboardProviderLikeReddit
 ]
 
 export default PROVIDERS.concat(IMAGEBOARDS)

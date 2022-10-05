@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import CommentTree_ from 'webapp-frontend/src/components/CommentTree'
-import Comment from './Comment/CommentWrapped'
+import CommentTree_ from 'social-components-react/components/CommentTree.js'
+import Comment from './Comment/CommentAndStuff.js'
 
 import './CommentTree.css'
 
@@ -18,18 +18,22 @@ export default function CommentTree({
 	getCommentById,
 	...rest
 }) {
-	const getCommentComponentProps = useCallback(({ initialState, setState }) => {
+	const getCommentComponentProps = useCallback(({ initialState, onStateChange }) => {
 		return {
 			initialShowReplyForm: initialState.showReplyForm,
-			onToggleShowReplyForm: (value) => setState((state) => ({
-				...state,
-				showReplyForm: value
-			})),
+			onShowReplyFormChange: (value) => {
+				onStateChange((state) => ({
+					...state,
+					showReplyForm: value
+				}))
+			},
 			initialExpandContent: initialState.expandContent,
-			onExpandContent: () => setState((state) => ({
-				...state,
-				expandContent: true
-			})),
+			onExpandContentChange: (expandContent) => {
+				onStateChange((state) => ({
+					...state,
+					expandContent
+				}))
+			},
 			initialExpandPostLinkQuotes: initialState.expandPostLinkQuotes,
 			// `postLink._id`s are set in `enumeratePostLinks()`
 			// in `./src/api/utility/addCommentProps.js`.
@@ -37,13 +41,15 @@ export default function CommentTree({
 			// because, for example, a comment could have several
 			// `post-link`s to the same post, consequtive or
 			// in different parts of its content.
-			onPostLinkQuoteExpand: (postLink) => setState((state) => ({
-				...state,
-				expandPostLinkQuotes: {
-					...(state && state.expandPostLinkQuotes),
-					[postLink._id]: true
-				}
-			})),
+			onPostLinkQuoteExpanded: ({ postLink }) => {
+				onStateChange((state) => ({
+					...state,
+					expandPostLinkQuotes: {
+						...(state && state.expandPostLinkQuotes),
+						[postLink._id]: true
+					}
+				}))
+			},
 			onRenderedContentDidChange: () => {
 				if (onHeightChange) {
 					onHeightChange()
@@ -69,7 +75,8 @@ export default function CommentTree({
 			onDidToggleShowReplies={onHeightChange}
 			onShowReply={onShowReply}
 			component={Comment}
-			getComponentProps={getCommentComponentProps}/>
+			getComponentProps={getCommentComponentProps}
+		/>
 	)
 }
 

@@ -1,26 +1,30 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import VirtualScroller from 'virtual-scroller/react'
 
-import { Channels } from '../components/Channels'
-import ChannelUrl from '../components/ChannelUrl'
-import { getChannels } from '../redux/data'
-import getUrl from '../utility/getUrl'
+import { Channels } from '../components/Channels.js'
+import ChannelUrl from '../components/ChannelUrl.js'
 
-import getMessages from '../messages'
+import { channel as channelType } from '../PropTypes.js'
+import { getChannels } from '../redux/data.js'
+import getUrl from '../utility/getUrl.js'
+
+import getMessages from '../messages/index.js'
 
 import './Channels.css'
 
 export default function ChannelsPage() {
-	const locale = useSelector(({ settings }) => settings.settings.locale)
-	const channels = useSelector(({ data }) => data.allChannels.channels)
-	const channelsByCategory = useSelector(({ data }) => data.allChannels.channelsByCategory)
-	const channelsByPopularity = useSelector(({ data }) => data.allChannels.channelsByPopularity)
+	const {
+		channels,
+		channelsByCategory,
+		channelsByPopularity
+	} = useSelector(state => state.data.allChannels)
+
 	return (
 		<section className="ChannelsPage Content Content--text">
 			<Channels
-				locale={locale}
 				channels={channels}
 				channelsByPopularity={channelsByPopularity}
 				channelsByCategory={channelsByCategory}
@@ -51,7 +55,7 @@ ChannelsList.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.arrayOf(PropTypes.shape({
 		key: PropTypes.string.isRequired,
-		channel: PropTypes.object
+		channel: channelType
 	})).isRequired
 }
 

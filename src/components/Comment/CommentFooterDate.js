@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import ReactTimeAgo from 'react-time-ago'
 import { Tooltip } from 'react-responsive-ui'
 
-import PostSelfLink from 'webapp-frontend/src/components/PostSelfLink'
-import CommentFooterSeparator from './CommentFooterSeparator'
+import PostSelfLink from 'social-components-react/components/PostSelfLink.js'
+import CommentFooterSeparator from './CommentFooterSeparator.js'
 
 import './../Tooltip.css'
 import './CommentFooterDate.css'
@@ -53,7 +53,15 @@ function TooltipContainer({
 	// If `<time/>` is empty due to the interval being less than 1 minute,
 	// then don't render the whole time element.
 	if (!children.props.children) {
-		return null;
+		// return null;
+		// Won't return `null`, because that way the footer height
+		// would be different from how it would be when there was time.
+		// Therefore, render an invisible time placeholder instead.
+		return (
+			<PostSelfLink {...postLinkProps} className="CommentFooterDate--hidden">
+				.
+			</PostSelfLink>
+		);
 	}
 	return (
 		<React.Fragment>

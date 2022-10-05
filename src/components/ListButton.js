@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { Button } from 'webapp-frontend/src/components/Button'
+import Button from 'frontend-lib/components/Button.js'
 
-import RemoveIcon from 'webapp-frontend/assets/images/icons/close-thicker.svg'
+import RemoveIcon from 'frontend-lib/icons/close-thicker.svg'
 
 import './ListButton.css'
 
@@ -36,7 +36,7 @@ ListButton = React.forwardRef(ListButton)
 ListButton.propTypes = {
 	onClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
-	icon: PropTypes.oneOfType(['remove']).isRequired,
+	icon: PropTypes.oneOf(['remove']).isRequired,
 	muted: PropTypes.bool,
 	className: PropTypes.string
 }

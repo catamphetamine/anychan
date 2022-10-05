@@ -3,48 +3,57 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { Modal } from 'react-responsive-ui'
-import { Button } from 'webapp-frontend/src/components/Button'
-import renderTweet from 'social-components/commonjs/services/Twitter/renderTweet'
-import openLinkInNewTab from 'webapp-frontend/src/utility/openLinkInNewTab'
+import Button from 'frontend-lib/components/Button.js'
 
-import CloseIcon from 'webapp-frontend/assets/images/icons/close.svg'
+import renderTweet from 'social-components/services/Twitter/renderTweet.js'
+import { openLinkInNewTab } from 'web-browser-input'
 
-import { hideTweet } from '../redux/twitter'
+import CloseIcon from 'frontend-lib/icons/close.svg'
 
-import getMessages from '../messages'
+import { hideTweet, setLoadingTweet } from '../redux/twitter.js'
+
+import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
 
 import './TweetModal.css'
 
 export default function TweetModal() {
 	const tweetContent = useRef()
-	const { locale } = useSelector(_ => _.settings.settings)
-	const { darkMode } = useSelector(_ => _.app)
-	const { tweetId, tweetUrl } = useSelector(_ => _.twitter)
+	const dispatch = useDispatch()
+	const messages = useMessages()
+	const locale = useLocale()
+
+	const darkMode = useSelector(state => state.app.darkMode)
+	const { tweetId, tweetUrl, isLoading } = useSelector(state => state.twitter)
+
 	const [showTweet, setShowTweet] = useState(tweetId !== undefined)
-	const [isLoading, setLoading] = useState()
+
 	const onLoad = useCallback((container) => {
 		tweetContent.current = container
-		setLoading(false)
+		dispatch(setLoadingTweet(false))
 	}, [])
+
 	const onError = useCallback((error) => {
 		console.error(error)
 		setShowTweet(false)
-		setLoading(false)
+		dispatch(setLoadingTweet(false))
 		openLinkInNewTab(tweetUrl)
 	}, [tweetUrl])
-	const dispatch = useDispatch()
+
 	const onHideTweet = useCallback(() => {
 		dispatch(hideTweet())
 	}, [dispatch])
+
 	useEffect(() => {
 		if (tweetId) {
 			setShowTweet(true)
-			setLoading(true)
+			dispatch(setLoadingTweet(true))
 		} else {
 			setShowTweet(false)
-			setLoading(false)
+			dispatch(setLoadingTweet(false))
 		}
 	}, [tweetId])
+
 	return (
 		<React.Fragment>
 			{showTweet &&
@@ -60,11 +69,13 @@ export default function TweetModal() {
 				close={onHideTweet}
 				className="TweetModal">
 				<Modal.Content>
-					<TweetContent>
-						{tweetContent.current}
-					</TweetContent>
+					{tweetContent.current &&
+						<TweetContent>
+							{tweetContent.current}
+						</TweetContent>
+					}
 					<Button
-						title={getMessages(locale).actions.close}
+						title={messages.actions.close}
 						onClick={onHideTweet}
 						className="TweetModal-close">
 						<CloseIcon className="TweetModal-closeIcon"/>
@@ -77,12 +88,14 @@ export default function TweetModal() {
 
 function TweetContent ({ children }) {
 	const container = useRef()
+
 	useLayoutEffect(() => {
 		container.current.appendChild(children)
 		return () => {
 			container.current.removeChild(children)
 		}
 	}, [])
+
 	return <div ref={container}/>
 }
 

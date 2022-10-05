@@ -1,9 +1,9 @@
 import React from 'react'
 
-import SidebarProviderLogo from './SidebarProviderLogo'
+import SidebarProviderLogo from './SidebarProviderLogo.js'
 
-import SettingsLink from './SettingsLink'
-import DarkModeToggle from './DarkModeToggle'
+import SettingsLink from './SettingsLink.js'
+import DarkModeToggle from './DarkModeToggle.js'
 
 import './SidebarProvider.css'
 

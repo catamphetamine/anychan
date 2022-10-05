@@ -1,56 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Button, TextInput, FileUploadButton } from 'react-responsive-ui'
+import { TextInput, FileUploadButton } from 'react-responsive-ui'
+import filesize from 'filesize'
 
-import saveFile from 'webapp-frontend/src/utility/saveFile'
-import readTextFile from 'webapp-frontend/src/utility/readTextFile'
-import { clearCache as clearYouTubeCache } from 'webapp-frontend/src/utility/cache/YouTubeVideoCache'
-import { clearChannelsCache } from '../../api/cached/getChannels'
-import OkCancelDialog from 'webapp-frontend/src/components/OkCancelDialog'
-import { okCancelDialog } from 'webapp-frontend/src/redux/okCancelDialog'
-import { notify } from 'webapp-frontend/src/redux/notifications'
+import saveFile from 'frontend-lib/utility/saveFile.js'
+import readTextFile from 'frontend-lib/utility/readTextFile.js'
+import resourceCache from '../../utility/resourceCache.js'
+import { clearChannelsCache } from '../../api/cached/getChannels.js'
+import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
+import { notify, showError } from '../../redux/notifications.js'
 
-import { Form, Field, Submit } from 'webapp-frontend/src/components/Form'
+import TextButton from '../TextButton.js'
 
 import {
 	ContentSection,
 	ContentSectionHeader,
 	ContentSectionDescription
-} from 'webapp-frontend/src/components/ContentSection'
+} from 'frontend-lib/components/ContentSection.js'
 
 import {
 	resetSettings,
 	replaceSettings
-} from '../../redux/settings'
+} from '../../redux/settings.js'
 
-import Settings from '../../utility/settings'
-import UserData from '../../UserData/UserData'
-import onUserDataChange from '../../UserData/onUserDataChange'
+import applySettings from '../../utility/settings/applySettings.js'
+import getUserSettings from '../../UserSettings.js'
+import getUserData from '../../UserData.js'
 
 export default function DataSettings({
 	messages,
-	dispatch
+	locale,
+	dispatch,
+	userData = getUserData(),
+	userSettings = getUserSettings()
 }) {
+	const [userDataSize, setUserDataSize] = useState()
+
+	const onShowUserDataSize = useCallback(() => {
+		setUserDataSize(userData.getSize())
+	}, [])
+
 	async function onResetSettings() {
-		dispatch(okCancelDialog(messages.settings.data.resetSettings.warning))
-		if (await OkCancelDialog.getPromise()) {
+		if (await OkCancelModal.show(messages.settings.data.resetSettings.warning)) {
 			// Reset settings.
 			dispatch(resetSettings())
-			Settings.apply({ dispatch })
+			applySettings({ dispatch })
 			// Done.
 			dispatch(notify(messages.settings.data.resetSettings.done))
 		}
 	}
 
 	async function onClearUserData() {
-		dispatch(okCancelDialog(messages.settings.data.clearUserData.warning))
-		if (await OkCancelDialog.getPromise()) {
+		if (await OkCancelModal.show(messages.settings.data.clearUserData.warning)) {
 			// Reset user data.
 			// Could also be implented as `resetUserData()`
 			// similar to `resetSettings()`.
-			UserData.clear()
-			// Update tracked threads list in the UI.
-			onUserDataChange(null, dispatch)
+			userData.clear()
 			// Done.
 			dispatch(notify(messages.settings.data.clearUserData.done))
 		}
@@ -62,15 +67,21 @@ export default function DataSettings({
 		try {
 			json = JSON.parse(text)
 		} catch (error) {
-			return dispatch(notify(messages.settings.data.import.error, { type: 'error' }))
+			return dispatch(showError(messages.settings.data.import.error))
 		}
 		const { settings, userData } = json
 		// Add user data.
 		// Could also be implented as `mergeUserData()`
 		// similar to `replaceSettings()`.
-		UserData.merge(userData)
-		// Update tracked threads list in the UI.
-		onUserDataChange(null, dispatch)
+		userData.merge(userData)
+		// Sort subscribed threads.
+		// Doesn't update the subscribed threads "index" collection,
+		// but that collection is not required to be updated here
+		// because the list of subscribed threads doesn't change here:
+		// only the order of the subscribed threads does.
+		userData.setSubscribedThreads(
+			sortSubscribedThreads(userData.getSubscribedThreads())
+		)
 		// Done.
 		dispatch(notify(messages.settings.data.merge.done))
 	}
@@ -81,20 +92,17 @@ export default function DataSettings({
 		try {
 			json = JSON.parse(text)
 		} catch (error) {
-			return dispatch(notify(messages.settings.data.import.error, { type: 'error' }))
+			return dispatch(showError(messages.settings.data.import.error))
 		}
 		const { settings, userData } = json
-		dispatch(okCancelDialog(messages.settings.data.import.warning))
-		if (await OkCancelDialog.getPromise()) {
+		if (await OkCancelModal.show(messages.settings.data.import.warning)) {
 			// Replace settings.
 			dispatch(replaceSettings(settings))
-			Settings.apply({ dispatch })
+			applySettings({ dispatch })
 			// Replace user data.
 			// Could also be implented as `replaceUserData()`
 			// similar to `replaceSettings()`.
-			UserData.replace(userData)
-			// Update tracked threads list in the UI.
-			onUserDataChange(null, dispatch)
+			userData.replace(userData)
 			// Done.
 			dispatch(notify(messages.settings.data.import.done))
 		}
@@ -103,10 +111,10 @@ export default function DataSettings({
 	function onExport() {
 		saveFile(
 			JSON.stringify({
-				settings: Settings.getCustomSettings(),
-				userData: UserData.get()
+				settings: userSettings.get(),
+				userData: userData.get()
 			}, null, 2),
-			'captchan-settings.json'
+			'anychan-settings.json'
 		)
 	}
 
@@ -116,7 +124,7 @@ export default function DataSettings({
 	}
 
 	function onClearYouTubeCache() {
-		clearYouTubeCache()
+		resourceCache.clear('youtube')
 		dispatch(notify(messages.status.done))
 	}
 
@@ -128,49 +136,64 @@ export default function DataSettings({
 			<ContentSectionDescription marginBottom="large">
 				{messages.settings.data.description}
 			</ContentSectionDescription>
+			{userDataSize === undefined
+				? (
+					<TextButton
+						onClick={onShowUserDataSize}>
+						{messages.settings.data.showUserDataSize}
+					</TextButton>
+				)
+				: (
+					<>
+						{messages.settings.data.userDataSize}
+						{' — '}
+						<code>
+							{filesize(userDataSize)}
+						</code>
+						<br/>
+						<br/>
+					</>
+				)
+			}
 			<div className="form">
 				<div className="form__component form__component--button">
-					<Button
-						onClick={onResetSettings}
-						className="rrui__button--text">
+					<TextButton
+						onClick={onResetSettings}>
 						{messages.settings.data.resetSettings.title}
-					</Button>
+					</TextButton>
 				</div>
 				<div className="form__component form__component--button">
-					<Button
-						onClick={onClearUserData}
-						className="rrui__button--text">
+					<TextButton
+						onClick={onClearUserData}>
 						{messages.settings.data.clearUserData.title}
-					</Button>
+					</TextButton>
 				</div>
 				<div className="form__component form__component--button">
-					<Button
-						onClick={onClearChannelsCache}
-						className="rrui__button--text">
+					<TextButton
+						onClick={onClearChannelsCache}>
 						{messages.settings.data.clearChannelsCache.title}
-					</Button>
+					</TextButton>
 				</div>
 				<div className="form__component form__component--button">
-					<Button
-						onClick={onClearYouTubeCache}
-						className="rrui__button--text">
+					<TextButton
+						onClick={onClearYouTubeCache}>
 						{messages.settings.data.clearYouTubeCache.title}
-					</Button>
+					</TextButton>
 				</div>
 				<br/>
 				<div className="form__component form__component--button">
-					<Button
-						onClick={onExport}
-						className="rrui__button--text rrui__button--multiline">
+					<TextButton
+						multiline
+						onClick={onExport}>
 						{messages.settings.data.export.title}
-					</Button>
+					</TextButton>
 				</div>
 				<div className="form__component form__component--button">
 					<FileUploadButton
 						accept=".json"
-						component={Button}
-						onChange={onImport}
-						className="rrui__button--text rrui__button--multiline">
+						multiline
+						component={TextButton}
+						onChange={onImport}>
 						{messages.settings.data.import.title}
 					</FileUploadButton>
 				</div>
@@ -178,9 +201,9 @@ export default function DataSettings({
 				<div className="form__component form__component--button">
 					<FileUploadButton
 						accept=".json"
-						component={Button}
-						onChange={onAddUserData}
-						className="rrui__button--text rrui__button--multiline">
+						multiline
+						component={TextButton}
+						onChange={onAddUserData}>
 						{messages.settings.data.merge.title}
 					</FileUploadButton>
 				</div>
@@ -194,5 +217,6 @@ export default function DataSettings({
 
 DataSettings.propTypes = {
 	messages: PropTypes.object.isRequired,
+	locale: PropTypes.string.isRequired,
 	dispatch: PropTypes.func.isRequired
 }

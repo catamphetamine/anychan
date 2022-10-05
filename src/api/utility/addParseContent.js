@@ -1,26 +1,29 @@
-import generatePostPreview from 'social-components/commonjs/utility/post/generatePostPreview'
-import transformContent from 'social-components/commonjs/utility/post/transformContent'
-import visitPostParts from 'social-components/commonjs/utility/post/visitPostParts'
-import censorWords from 'social-components/commonjs/utility/post/censorWords'
-import trimInlineContent from 'social-components/commonjs/utility/post/trimInlineContent'
+import generatePostPreview from 'social-components/utility/post/generatePostPreview.js'
+import transformContent from 'social-components/utility/post/transformContent.js'
+import visitPostParts from 'social-components/utility/post/visitPostParts.js'
+import censorWords from 'social-components/utility/post/censorWords.js'
+import trimInlineContent from 'social-components/utility/post/trimInlineContent.js'
 
-import transformText from './transformText'
-import getCommentLengthLimit from '../../utility/getCommentLengthLimit'
-import setEmbeddedAttachmentsProps from '../../utility/setEmbeddedAttachmentsProps'
-// import { loadResourceLinksSync } from '../../utility/loadResourceLinks'
+import transformText from './transformText.js'
+import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
+import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
+import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
+// import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
 /**
  * Modifies the `comment`'s `.parseContent()` function a bit.
  * @param {Comment} comment
  * @param {string} mode — Either "channel" or "thread".
- * @param {Thread} thread.
+ * @param {string} channelId
+ * @param {number} threadId
  * @param {boolean} [options.grammarCorrection]
  * @param {WordFilter[]} [options.censoredWords] — See `social-components`'s `censorWords()` for more info.
  * @param {string} options.locale
  */
 export default function addParseContent(comment, {
 	mode,
-	thread,
+	channelId,
+	threadId,
 	grammarCorrection,
 	censoredWords,
 	locale,
@@ -128,13 +131,17 @@ export default function addParseContent(comment, {
 		//
 		if (!comment._removedLeadingOriginalPostQuote) {
 			comment._removedLeadingOriginalPostQuote = true
-			const result = removeLeadingOriginalPostQuote(comment.content, thread)
+			const result = removeLeadingOriginalPostQuote(comment.content, {
+				channelId,
+				threadId
+			})
 			if (result) {
 				// If removed a leading OP quote from the comment's content,
 				// then re-generate the preview (if it existed before).
 				if (comment.contentPreview) {
 					comment.contentPreview = generatePostPreview(comment, {
-						maxLength: getCommentLengthLimit(mode)
+						maxLength: getCommentLengthLimit(mode),
+						minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes()
 					})
 				}
 			} else if (result === null) {
@@ -172,19 +179,20 @@ function setPostLinkProps(comment) {
  * people intentionally quote OP post multiple times in a row in their
  * comment (for whatever reasons).
  * @param {(string|any[])} content — Comment content.
- * @param {object} thread — Thread info (thread id and channel id).
+ * @param {string} channelId
+ * @param {number} threadId
  * @return {(boolean|null)} [removed] — Returns `true` if a leading OP quote has been removed. Returns `null` if comment's content should be cleared.
  */
-function removeLeadingOriginalPostQuote(content, thread) {
+function removeLeadingOriginalPostQuote(content, { channelId, threadId }) {
 	if (content && Array.isArray(content)) {
 		const firstBlock = content[0]
 		if (Array.isArray(firstBlock)) {
 			const firstInlineElement = firstBlock[0]
 			if (firstInlineElement.type === 'post-link') {
 				const postLink = firstInlineElement
-				if (postLink.channelId === thread.channelId &&
-						postLink.threadId === thread.id &&
-						postLink.postId === thread.id) {
+				if (postLink.channelId === channelId &&
+						postLink.threadId === threadId &&
+						postLink.postId === threadId) {
 					if (Array.isArray(postLink.content) &&
 						postLink.content[0].type === 'quote' &&
 						postLink.content[0].generated) {

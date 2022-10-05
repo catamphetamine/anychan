@@ -3,24 +3,27 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import useCanGoBackFromThreadToChannel from './useCanGoBackFromThreadToChannel'
-import { showSidebar } from '../redux/app'
-import getMessages from '../messages'
+import useCanGoBackFromThreadToChannel from './useCanGoBackFromThreadToChannel.js'
+import { showSidebar } from '../redux/app.js'
+import useMessages from '../hooks/useMessages.js'
 
-import { getViewportHeight } from 'webapp-frontend/src/utility/dom'
-import useOnWindowResize from 'webapp-frontend/src/hooks/useOnWindowResize'
-import useMount from 'webapp-frontend/src/hooks/useMount'
+import { getViewportHeight } from 'web-browser-window'
+import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
+import useMount from 'frontend-lib/hooks/useMount.js'
 
-import { Button } from 'webapp-frontend/src/components/Button'
+import Button from 'frontend-lib/components/Button.js'
 
 import './SideNavMenuButtons.css'
 
 export default function SideNavMenuButtons() {
 	const node = useRef()
 	const dispatch = useDispatch()
-	const locale = useSelector(({ settings }) => settings.settings.locale)
+	const messages = useMessages()
+
 	const [canGoBack, goBack] = useCanGoBackFromThreadToChannel()
-	const isSidebarShown = useSelector(({ app }) => app.isSidebarShown)
+
+	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
+
 	const toggleSidebar = useCallback(() => {
 		if (isSidebarShown) {
 			dispatch(showSidebar(false))
@@ -28,7 +31,9 @@ export default function SideNavMenuButtons() {
 			dispatch(showSidebar(true))
 		}
 	}, [dispatch, isSidebarShown])
+
 	const [position, setPosition] = useState()
+
 	function updatePosition() {
 		const element = node.current
 		// If the component has been unmounted, then skip.
@@ -49,22 +54,25 @@ export default function SideNavMenuButtons() {
 		setPosition(position)
 		document.documentElement.style.setProperty('--SideNavMenuButtons-top--px', position + 'px')
 	}
+
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
+
 	useOnWindowResize(updatePosition, { alsoOnMount: true })
+
 	return (
 		<div
 			ref={node}
 			style={style}
 			className="SideNavMenuButtons">
 			<Button
-				title={isSidebarShown ? getMessages(locale).actions.close : getMessages(locale).menu}
+				title={isSidebarShown ? messages.actions.close : messages.menu}
 				onClick={toggleSidebar}
 				className="SideNavMenuButton">
 				<MenuIcon mode={isSidebarShown ? 'cross' : 'list'}/>
 			</Button>
 			{canGoBack &&
 				<Button
-					title={getMessages(locale).actions.back}
+					title={messages.actions.back}
 					onClick={goBack}
 					className="SideNavMenuButton">
 					<MenuIcon mode="leftArrow"/>
@@ -80,6 +88,7 @@ function MenuIcon({ mode, className }) {
 	// on page load (when styles are included on a page via javascript).
 	const [isMounted, onMount] = useMount()
 	onMount()
+
 	return (
 		<div className={classNames(className, 'SideNavMenuButtonIcon', {
 			'SideNavMenuButtonIcon--list': mode === 'list',
@@ -98,6 +107,10 @@ function MenuIcon({ mode, className }) {
 }
 
 MenuIcon.propTypes = {
-	mode: PropTypes.oneOf(['menu', 'cross', 'leftArrow']),
+	mode: PropTypes.oneOf([
+		'list',
+		'cross',
+		'leftArrow'
+	]).isRequired,
 	className: PropTypes.string
 }

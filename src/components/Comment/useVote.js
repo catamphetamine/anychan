@@ -1,11 +1,11 @@
 import { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
-import getMessages from '../../messages'
+import getMessages from '../../messages/index.js'
 
-import { vote as voteForComment } from '../../redux/data'
+import { vote as voteForComment } from '../../redux/data.js'
 
-import { notify } from 'webapp-frontend/src/redux/notifications'
+import { notify, showError } from '../../redux/notifications.js'
 
 export default function useVote({
 	channelId,
@@ -38,7 +38,7 @@ export default function useVote({
 			comment.vote = up
 			setVote(comment.vote)
 		} catch (error) {
-			dispatch(notify(error.message, { type: 'error' }))
+			dispatch(showError(error.message))
 		}
 	}, [
 		channelId,

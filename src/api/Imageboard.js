@@ -1,11 +1,14 @@
 import Imageboard, { getConfig } from 'imageboard'
+
 import {
 	getProvider,
 	isDeployedOnProviderDomain
-} from '../provider'
-import { shouldUseProxy, proxyUrl } from '../utility/proxy'
-import getMessages from './utility/getMessages'
-import configuration from '../configuration'
+} from '../provider.js'
+
+import { shouldUseProxy, proxyUrl } from '../utility/proxy.js'
+import getMessages from './utility/getMessages.js'
+import shouldMinimizeGeneratedPostLinkBlockQuotes from '../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
+import configuration from '../configuration.js'
 
 export default function Imageboard_({
 	messages,
@@ -16,6 +19,7 @@ export default function Imageboard_({
 		generatedQuoteMaxLength: configuration.generatedQuoteMaxLength,
 		generatedQuoteMinFitFactor: configuration.generatedQuoteMinFitFactor,
 		generatedQuoteMaxFitFactor: configuration.generatedQuoteMaxFitFactor,
+		minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes(),
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
@@ -49,13 +53,21 @@ export default function Imageboard_({
 					credentials: 'include'
 				})
 				if (response.ok) {
-					return response.text()
+					url = response.url
+					if (shouldUseProxy()) {
+						url = response.headers.get('X-Final-Url') || url
+					}
+					return response.text().then((response) => ({
+						url,
+						response
+					}))
 				}
 				const error = new Error(response.statusText)
 				error.status = response.status
 				throw error
 			} else {
 				// This is only for Safari 9.x and iOS Safari 9.x, because other browsers will use `fetch()`.
+				// `await http[method]()` will throw an error with a `.status` property in case of an error.
 				const response = await http[method.toLowerCase()](url, body, {
 					headers
 				})
