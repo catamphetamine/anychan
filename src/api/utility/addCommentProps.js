@@ -48,10 +48,9 @@ export default function addCommentProps(thread, {
 		// }
 	}
 
-	let i = 0
-	for (const comment of thread.comments) {
+	const _addCommentProps = (comment, { index, viewingMode = mode }) => {
 		// Set `comment.index`.
-		comment.index = fromIndex + i
+		comment.index = index
 
 		if (hasAuthorIds) {
 			// Set "thread shows author IDs" flag.
@@ -66,7 +65,8 @@ export default function addCommentProps(thread, {
 		}
 
 		// Set viewing mode ("channel", "thread").
-		comment.mode = mode
+		comment.viewingMode = viewingMode
+
 		// If the user has previously voted for this comment,
 		// set the vote value (`1` -> `true` or `-1` -> `false`)
 		// on the comment.
@@ -101,8 +101,25 @@ export default function addCommentProps(thread, {
 				locale
 			})
 		}
+	}
 
+	let i = 0
+	for (const comment of thread.comments) {
+		_addCommentProps(comment, {
+			index: fromIndex + i
+		})
 		i++
+	}
+
+	if (mode === 'channel' && thread.latestComments) {
+		for (const comment of thread.latestComments) {
+			_addCommentProps(comment, {
+				viewingMode: 'channel-latest-comments'
+			})
+		}
+
+		// This is just a "hack" to make "latest comments" be rendered as "replies" in a comment tree.
+		thread.comments[0].replies = thread.latestComments
 	}
 }
 

@@ -60,7 +60,7 @@ export default [
 		title: ({ post, locale }) => getMessages(locale).post.threadAuthor,
 		// If there are author IDs in the thread then "Original poster" is
 		// gonna be the post author name instead of being a badge.
-		condition: post => post.mode === 'thread' && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+		condition: post => (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
 	},
 	{
 		name: 'country',

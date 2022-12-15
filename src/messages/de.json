@@ -9,13 +9,13 @@
 		"error": "Die Liste der Boards konnte nicht geladen werden"
 	},
 	"subscribedThreads": {
-		"title": "Faden-Abonnements",
-		"subscribedThread": "Faden abonniert",
-		"subscribeToThread": "Faden abonnieren",
-		"unsubscribeFromThread": "Faden abbestellen",
-		"empty": "Keine Faden-Abonnements",
-		"allExpired": "Faden abgelaufen",
-		"showExpired": "Show abgelaufen"
+		"title": "Thread-Abonnements",
+		"subscribedThread": "Thread abonniert",
+		"subscribeToThread": "Thread abonnieren",
+		"unsubscribeFromThread": "Thread abbestellen",
+		"empty": "Keine Thread-Abonnements",
+		"allExpired": "Threads abgelaufen",
+		"showExpired": "Zeigen abgelaufen"
 	},
 	"settings": {
 		"language": {
@@ -64,7 +64,14 @@
 			"title": "Proxy",
 			"description": "Webbrowser verhindern, dass Websites die Daten anderer Websites lesen. Um dies zu umgehen, wird ein spezieller \"Proxyserver\" verwendet, um die API aufzurufen.",
 			"url": "URL",
-			"invalidUrl": "ungültige URL"
+			"invalidUrl": "ungültige URL",
+			"saved": "Proxy-URL gespeichert",
+			"test": "Testen",
+			"testResults": {
+				"ok": "Proxy funktioniert",
+				"error": "Proxy Error: {error}",
+				"undetermined": "vielleicht funktioniert der Proxy"
+			}
 		},
 		"darkMode": {
 			"auto": "Verwenden Sie die Systemeinstellung"
@@ -108,7 +115,7 @@
 			"action": "Aktion",
 			"navigation": {
 				"title": "Navigation",
-				"goBackToTheListOfThreads": "Gehen Sie von einer Faden-Seite zurück zur Liste der Faden"
+				"goBackToTheListOfThreads": "Gehen Sie von einer Thread-Seite zurück zur Liste der Threads"
 			},
 			"videoPlayer": {
 				"title": "Videoplayer",
@@ -127,7 +134,7 @@
 		},
 		"data": {
 			"title": "Daten",
-			"description": "\"Benutzerdaten\" sind die Daten, die den Benutzer und nicht die App beschreiben: \"Favoriten\" -Boards-Liste, Liste der verfolgten Faden, geliebte / abgelehnte Faden- / Kommentar-IDs, versteckte Faden- / Kommentar-IDs, eigene Faden- / Kommentar-IDs, gelesen Kommentar-IDs, ignorierte Benutzer-IDs.",
+			"description": "\"Benutzerdaten\" sind die Daten, die den Benutzer und nicht die App beschreiben: \"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, geliebte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesen Kommentar-IDs, ignorierte Benutzer-IDs.",
 			"resetSettings": {
 				"title": "Einstellungen zurücksetzen",
 				"warning": "Alle Ihre Einstellungen (einschließlich der Liste der zensierten Wörter und der hinzugefügten Themen) werden zurückgesetzt. Bist du sicher?",
@@ -135,7 +142,7 @@
 			},
 			"clearUserData": {
 				"title": "Benutzerdaten löschen",
-				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Faden, bevorzugte / abgelehnte Faden- / Kommentar-IDs, versteckte Faden- / Kommentar-IDs, eigene Faden- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
+				"warning": "Alle Benutzerdaten (\"Favoriten\" -Boards-Liste, Liste der verfolgten Threads, bevorzugte / abgelehnte Thread- / Kommentar-IDs, versteckte Thread- / Kommentar-IDs, eigene Thread- / Kommentar-IDs, gelesene Kommentar-IDs, ignorierte Benutzer-IDs) werden gelöscht. Bist du sicher?",
 				"done": "Die Benutzerdaten wurden gelöscht"
 			},
 			"clearChannelsCache": {
@@ -170,12 +177,12 @@
 		"default": "Kommentar",
 		"deleted": "Kommentar gelöscht",
 		"hidden": "Versteckter Kommentar",
-		"external": "Kommentar von einem anderen Faden"
+		"external": "Kommentar von einem anderen Threads"
 	},
 	"post": {
-		"archived": "Archivierter Faden",
-		"trimming": "Trimmen Faden",
-		"threadAuthor": "Autor des Faden",
+		"archived": "Archivierter Thread",
+		"trimming": "Trimmen Thread",
+		"threadAuthor": "Autor des Thread",
 		"attachmentsCount": "Anhänge",
 		"uniquePostersCount": "Eindeutige Poster-IP-Adressen",
 		"moreActions": {
@@ -204,15 +211,15 @@
 		"scheduledBeforeTime": "Аktualisieren ",
 		"scheduledAfterTime": null,
 		"inProgress": "Aktualisierung…",
-		"error": "Der Faden konnte nicht aktualisiert werden"
+		"error": "Der Thread konnte nicht aktualisiert werden"
 	},
-	"downloadThread": "Faden-Daten herunterladen",
+	"downloadThread": "Thread-Daten herunterladen",
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
 	"inReplyTo": "als Antwort auf",
 	"backToPreviouslyViewedComment": "Rückkehr",
 	"previouslySeenThreads": "Gesehen",
 	"channelViewMode": {
-		"newThreads": "Neue Faden",
+		"newThreads": "Neue Thread",
 		"newComments": "Neue Kommentare",
 		"popular": "Beliebt"
 	},
@@ -223,11 +230,11 @@
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
 	"goToComment": "Zum Kommentar gehen",
-	"threadBumpLimitReached": "Dieser Faden hat seine Stoßgrenze erreicht und geht nach unten",
-	"threadIsArchived": "Dieser Faden ist archiviert",
-	"threadIsLocked": "Dieser Faden ist gesperrt",
-	"threadExpired": "Dieser Faden ist abgelaufen",
-	"threadExpiresSoon": "Der Faden befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Faden an die erste Stelle zurückzusetzen.",
+	"threadBumpLimitReached": "Dieser Thread hat seine Stoßgrenze erreicht und geht nach unten",
+	"threadIsArchived": "Dieser Thread ist archiviert",
+	"threadIsLocked": "Dieser Thread ist gesperrt",
+	"threadExpired": "Dieser Thread ist abgelaufen",
+	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
 	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in den letzten <time>15 Minuten</time>",
 	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in der letzten <time>Stunde</time>"
 }

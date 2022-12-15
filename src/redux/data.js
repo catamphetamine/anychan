@@ -6,7 +6,7 @@ import mergePrevAndNewThreadComments from '../utility/thread/mergePrevAndNewThre
 import getNewCommentsCount from '../utility/thread/getNewCommentsCount.js'
 import getNewRepliesCount from '../utility/thread/getNewRepliesCount.js'
 
-// import _getChannels from '../api/getChannels'
+// import _getChannels from '../api/getChannels.js'
 import _getChannelsCached from '../api/cached/getChannels.js'
 import _getThreads from '../api/getThreads.js'
 import _getThread from '../api/getThread.js'
@@ -19,7 +19,8 @@ const redux = new ReduxModule('DATA')
 export const getChannels = redux.action(
 	({ all } = {}) => async http => await _getChannelsCached({
 		// In case of adding new options here,
-		// also add them in `./src/api/cached/getChannels.js`.
+		// also add them in `./src/api/cached/getChannels.js`
+		// and `./src/components/settings/ProxySettings.js`.
 		http,
 		all
 	}),
@@ -33,13 +34,21 @@ export const getChannels = redux.action(
 )
 
 export const getThreads = redux.action(
-	(channelId, { censoredWords, grammarCorrection, locale }) => async http => {
+	(channelId, {
+		censoredWords,
+		grammarCorrection,
+		locale,
+		withLatestComments,
+		sortByRating
+	}) => async http => {
 		const threads = await _getThreads({
 			channelId,
 			censoredWords,
 			grammarCorrection,
 			locale,
 			messages: getMessages(locale),
+			withLatestComments,
+			sortByRating,
 			http
 		})
 		return { channelId, threads }
@@ -182,7 +191,7 @@ export const onCommentRead = redux.simpleAction(
 		const { thread } = state
 		// If the comment has been read in a currently viewed thread.
 		// (which should be the case, unless there's some "race condition")
-		if (thread.channelId === channelId && thread.id === threadId) {
+		if (thread && thread.channelId === channelId && thread.id === threadId) {
 			// If this comment was the last "new" one in this thread,
 			// then reset "first new comment" and "last new comment" indexes
 			// of the ongoing auto-update process.
@@ -219,9 +228,9 @@ export const onCommentRead = redux.simpleAction(
 				// is called in response to an external `UserData` update (`latestReadComments` collection).
 				// In that case, `commentIndex` could be obtained only if it was stored
 				// along with the `commentId` in an entry of the collection.
-				// But, even if `commentIndex` was stored in the same record as `commentId`,
+				// But even if `commentIndex` was stored in the same record as `commentId`,
 				// it could still be out of bounds if the current tab, assuming it's a Thread page,
-				// hasn't fetched the latest comments yet.
+				// hasn't fetched the most-latest comments yet.
 				// Analogous, `commentIndex` could be incorrect if the current tab still retains
 				// some previous comment that has been deleted since then, and the external change
 				// was made after that previous comment was deleted.

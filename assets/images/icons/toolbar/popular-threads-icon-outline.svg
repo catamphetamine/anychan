@@ -9,6 +9,6 @@
 	<line x1="219.6" y1="56.4" x2="448.8" y2="56.4"/>
 	<line x1="219.6" y1="95.4" x2="448.8" y2="95.4"/>
 	<line x1="219.6" y1="134.4" x2="343.8" y2="134.4"/>
+	<polyline stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="73.9,404.3 169.5,404.3 232.2,313.4 273.4,479.5 336,396.6 437.5,396.6 "/>
 </g>
-<polyline fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="73.9,404.3 169.5,404.3 232.2,313.4 273.4,479.5 336,396.6 437.5,396.6 "/>
 </svg>

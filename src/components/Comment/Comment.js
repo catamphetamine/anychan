@@ -56,9 +56,10 @@ export default function Comment({
 	channelIsNotSafeForWork,
 	hasVoting,
 	showingReplies,
+	showRepliesCount,
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
-	onShowComment,
+	onRequestShowCommentFromSameThread,
 	parentComment,
 	elementRef,
 	dispatch,
@@ -69,6 +70,9 @@ export default function Comment({
 	onReply,
 	onPostUrlClick,
 	urlBasePath,
+	postDateLinkClickable,
+	postDateLinkUpdatePageUrlToPostUrlOnClick,
+	postDateLinkNavigateToPostUrlOnClick,
 	isPreviouslyRead,
 	onDownloadThread,
 	className,
@@ -89,8 +93,21 @@ export default function Comment({
 }) {
 	const isFirstCommentInThread = comment.id === threadId
 	const url = getUrl(channelId, threadId, comment.id)
+
+	// Set default `compact` property value of `<Post/>` element.
 	if (compact === undefined) {
-		compact = mode === 'thread' && !isFirstCommentInThread
+		if (mode === 'thread') {
+			compact = !isFirstCommentInThread
+		} else if (mode === 'channel') {
+			// "Main" comment.
+			if (isFirstCommentInThread) {
+				compact = false
+			}
+			// "Latest" comments.
+			else {
+				compact = true
+			}
+		}
 	}
 
 	const [
@@ -120,7 +137,7 @@ export default function Comment({
 		channelId,
 		threadId,
 		comment,
-		onShowComment
+		onRequestShowCommentFromSameThread
 	})
 
 	const [onAttachmentClick] = useSlideshow({ comment })
@@ -131,11 +148,13 @@ export default function Comment({
 	] = useSocial()
 
 	const [clickedPostUrl, setClickedPostUrl] = useState()
-	// `<Post/>` automatically passes a second argument `post` here,
-	// but because `<PostSelfLink/>` is used directly here,
-	// it doesn't add that second `post` argument "under the hood",
-	// so instead it's passed to `onPostUrlClick()` explicitly
-	// from the `comment` property.
+
+	// When rendering `<Post/>` component, it automatically passes a second argument
+	// called `post` to `onPostUrlClick()` function of `<PostDate/>` → `<PostSelfLink/>`.
+	// But this application doesn't render the `<Post/>` component directly.
+	// Instead, it manually renders a `<PostSelfLink/>` element in `<CommentFooter/>`.
+	// Therefore, it should manually pass the second argument called `comment`
+	// to `onPostUrlClick()` function, which it does here.
 	const _onPostUrlClick = useCallback((event) => {
 		if (onPostUrlClick) {
 			onPostUrlClick(event, comment)
@@ -148,14 +167,25 @@ export default function Comment({
 	])
 
 	const shouldFixAttachmentPictureSize = mode === 'channel' &&
+		isFirstCommentInThread &&
 		comment.attachments &&
 		comment.attachments.length === 1 &&
 		comment.attachments[0].isLynxChanCatalogAttachmentsBug
 
-	const showPostThumbnailWhenThereAreMultipleAttachments = mode === 'channel' ||
+	// `showPostThumbnailWhenThereAreMultipleAttachments` — Pass `true` to allow returning
+	// post thumbnail in cases when the `post` has multiple thumbnail-able attachments.
+	// By default, if the `post` has multiple thumbnail-able attachments, none of them will be returned.
+	const showPostThumbnailWhenThereAreMultipleAttachments =
+		(mode === 'channel' && isFirstCommentInThread) ||
 		(mode === 'thread' && isFirstCommentInThread)
 
-	const showPostThumbnailWhenThereIsNoContent = mode === 'channel'
+	// `showPostThumbnailWhenThereIsNoContent` — Pass `true` to allow returning post thumbnail
+	// in cases when the `post` has no `content`. By default, if the `post` has no `content`,
+	// no post thumbnail will be shown, and the post would be rendered with all of its attachments
+	// inside it's content part, without promoting the first one to a "post thumbnail".
+	const showPostThumbnailWhenThereIsNoContent = mode === 'channel' && isFirstCommentInThread
+
+	const showOnlyFirstAttachmentThumbnail = mode === 'channel' && isFirstCommentInThread
 
 	const commentClassName = 'Comment-comment'
 
@@ -175,7 +205,6 @@ export default function Comment({
 				{...rest}
 				comment={comment}
 				expandAttachments={expandAttachments}
-				onlyShowFirstAttachmentThumbnail={mode === 'channel'}
 				locale={locale}
 				onReply={onReply}
 				messages={getMessages(locale).post}
@@ -193,8 +222,10 @@ export default function Comment({
 				onSocialClick={onSocialClick}
 				url={url}
 				fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
+				showOnlyFirstAttachmentThumbnail={showOnlyFirstAttachmentThumbnail}
 				showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
-				showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}/>
+				showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}
+			/>
 		)
 		if (onReply) {
 			titleContentAndAttachments = (
@@ -221,20 +252,24 @@ export default function Comment({
 					channelIsNotSafeForWork={channelIsNotSafeForWork}
 					parentComment={parentComment}
 					showingReplies={showingReplies}
-					onToggleShowReplies={shouldShowRepliesButton(comment, parentComment) ? onToggleShowReplies : undefined}
+					showRepliesCount={showRepliesCount && shouldShowRepliesButton(comment, parentComment)}
+					onToggleShowReplies={onToggleShowReplies}
 					toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
 					locale={locale}
 					dispatch={dispatch}
 					url={url}
 					urlBasePath={urlBasePath}
-					onPostUrlClick={_onPostUrlClick}
+					onPostUrlClick={postDateLinkClickable ? _onPostUrlClick : undefined}
+					postDateLinkUpdatePageUrlToPostUrlOnClick={postDateLinkUpdatePageUrlToPostUrlOnClick}
+					postDateLinkNavigateToPostUrlOnClick={postDateLinkNavigateToPostUrlOnClick}
 					mode={mode}
 					onReply={onReply}
 					onHide={onHide}
 					vote={vote}
 					onVote={hasVoting ? onVote : undefined}
 					hasVotes={hasVoting}
-					onDownloadThread={onDownloadThread}/>
+					onDownloadThread={onDownloadThread}
+				/>
 			</div>
 		)
 	}
@@ -301,11 +336,18 @@ Comment.propTypes = {
 	// when the user hides its replies tree.
 	elementRef: PropTypes.any,
 	onPostUrlClick: PropTypes.func,
-	onShowComment: PropTypes.func,
+	onRequestShowCommentFromSameThread: PropTypes.func,
 	urlBasePath: PropTypes.string.isRequired,
+	postDateLinkClickable: PropTypes.bool,
+	postDateLinkUpdatePageUrlToPostUrlOnClick: PropTypes.bool,
+	postDateLinkNavigateToPostUrlOnClick: PropTypes.bool,
 	onReply: PropTypes.func,
 	dispatch: PropTypes.func,
 	className: PropTypes.string
+}
+
+Comment.defaultProps = {
+	postDateLinkClickable: true
 }
 
 const SERVICE_ICONS = {
@@ -390,8 +432,8 @@ function CommentTitleContentAndAttachments({
 	onReply,
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	showPostThumbnailWhenThereIsNoContent,
-	maxAttachmentThumbnails,
-	onlyShowFirstAttachmentThumbnail
+	showOnlyFirstAttachmentThumbnail,
+	maxAttachmentThumbnails
 }) {
 	const onPostContentChange = useCallback((comment) => {
 		// If comment content changed as a result of loading
@@ -463,7 +505,7 @@ function CommentTitleContentAndAttachments({
 				maxAttachmentThumbnails={maxAttachmentThumbnails}
 				attachmentThumbnailSize={attachmentThumbnailSize}
 				expandAttachments={expandAttachments}
-				onlyShowFirstAttachmentThumbnail={onlyShowFirstAttachmentThumbnail}
+				showOnlyFirstAttachmentThumbnail={showOnlyFirstAttachmentThumbnail}
 				spoilerLabel={messages.spoiler}
 				onAttachmentClick={onAttachmentClick}
 			/>

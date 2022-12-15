@@ -69,7 +69,7 @@ function SubscribedThread({
 	const Component = isLink ? Link : 'div'
 	const isSelected = selected && !isDisabled
 
-	const hasNewComments = doesSubscribedThreadHaveNewComments(thread)
+	const hasNewComments = unsubscribed ? false : doesSubscribedThreadHaveNewComments(thread)
 	const hasNewReplies = false
 
 	return (
@@ -92,7 +92,8 @@ function SubscribedThread({
 					<GhostIcon
 						title={messages.threadExpired}
 						style={THREAD_THUMBNAIL_WIDTH_STYLE}
-						className="SubscribedThread-thumbnailPlaceholder"/>
+						className="SubscribedThread-thumbnailPlaceholder"
+					/>
 				}
 				{!thread.expired &&
 					<>
@@ -104,19 +105,22 @@ function SubscribedThread({
 								height={THREAD_THUMBNAIL_WIDTH}
 								fit="cover"
 								blur={thread.thumbnail.spoiler ? 0.1 : undefined}
-								className="SubscribedThread-thumbnail"/>
+								className="SubscribedThread-thumbnail"
+							/>
 						}
 						{!thread.thumbnail &&
 							<div
 								style={THREAD_THUMBNAIL_WIDTH_STYLE}
-								className="SubscribedThread-thumbnailPlaceholder"/>
+								className="SubscribedThread-thumbnailPlaceholder"
+							/>
 						}
 					</>
 				}
 				<ChannelUrl
 					channelId={thread.channel.id}
 					selected={isSelected}
-					className="SubscribedThread-channel"/>
+					className="SubscribedThread-channel"
+				/>
 				<div className="SubscribedThread-title">
 					{thread.title}
 				</div>
@@ -135,12 +139,14 @@ function SubscribedThread({
 						{thread.archived &&
 							<BoxIcon
 								title={messages.threadIsArchived}
-								className="SubscribedThread-icon"/>
+								className="SubscribedThread-icon"
+							/>
 						}
 						{thread.locked && !thread.archived &&
 							<LockIcon
 								title={messages.threadIsLocked}
-								className="SubscribedThread-icon"/>
+								className="SubscribedThread-icon"
+							/>
 						}
 					</>
 				}
@@ -151,7 +157,8 @@ function SubscribedThread({
 					muted
 					icon="remove"
 					onClick={onUnsubscribeToThread}
-					title={messages.subscribedThreads.unsubscribeFromThread}/>
+					title={messages.subscribedThreads.unsubscribeFromThread}
+				/>
 			}
 			{edit && unsubscribed && !thread.expired &&
 				<TextButton

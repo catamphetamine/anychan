@@ -6,9 +6,9 @@ import getNonEmbeddedAttachments from 'social-components/utility/post/getNonEmbe
 
 export default function usePostThumbnail({
 	comment,
-	mode,
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	showPostThumbnailWhenThereIsNoContent,
+	showOnlyFirstAttachmentThumbnail,
 	expandAttachments,
 	hidden,
 	onAttachmentClick
@@ -23,6 +23,7 @@ export default function usePostThumbnail({
 		showPostThumbnailWhenThereAreMultipleAttachments,
 		showPostThumbnailWhenThereIsNoContent
 	])
+
 	// React hooks don't allow `if`/`else`,
 	// so this is a workaround.
 	if (expandAttachments) {
@@ -31,6 +32,7 @@ export default function usePostThumbnail({
 	if (hidden) {
 		postThumbnail = undefined;
 	}
+
 	const postThumbnailOnClick = useCallback((event) => {
 		if (onAttachmentClick) {
 			onAttachmentClick(
@@ -41,19 +43,22 @@ export default function usePostThumbnail({
 	}, [
 		postThumbnail
 	])
+
 	// The count of all attachments (only pictures and videos)
 	// that aren't embedded in the post itself,
 	// minus one for the "post thumbnail" itself.
 	const postThumbnailMoreAttachmentsCount = useMemo(() => {
-		if (postThumbnail && mode === 'channel' && comment.attachments.length > 1) {
+		if (postThumbnail && showOnlyFirstAttachmentThumbnail && comment.attachments.length > 1) {
 			return getPicturesAndVideos(getNonEmbeddedAttachments(comment)).length - 1
 		}
 	}, [
 		postThumbnail,
-		mode,
+		showOnlyFirstAttachmentThumbnail,
 		comment
 	])
+
 	const postThumbnailSize = postThumbnail && getPostThumbnailSize(postThumbnail)
+
 	const postThumbnailSizeStyle = useMemo(() => {
 		if (postThumbnailSize) {
 			return {
@@ -63,6 +68,7 @@ export default function usePostThumbnail({
 	}, [
 		postThumbnailSize
 	])
+
 	return [
 		postThumbnail,
 		postThumbnailMoreAttachmentsCount,

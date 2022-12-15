@@ -30,6 +30,9 @@
 	/* "Clickable text" buttons are usually colored a bit darker. */
 	--SocialComponentsClickable-color--text: var(--Clickable-color--text);
 
+	/* Comment. */
+	--Comment-marginLeft--latestComments: 1rem;
+
 	/* CommentTree. */
 	@mixin upto-xs {
 		--CommentTreeBranch-marginTop--content: 1.9em;

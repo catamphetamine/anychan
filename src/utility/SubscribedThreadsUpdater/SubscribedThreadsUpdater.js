@@ -430,7 +430,6 @@ export default class SubscribedThreadsUpdater {
 		let closestNextUpdateAt
 
 		for (const subscribedThread of subscribedThreads) {
-			console.log(subscribedThread)
 			if (subscribedThread.locked || subscribedThread.archived || subscribedThread.expired) {
 				continue
 			}

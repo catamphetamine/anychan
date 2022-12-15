@@ -13,6 +13,9 @@ import usePostThumbnail from './usePostThumbnail.js'
 
 import getMessages from '../../messages/index.js'
 
+// I don't know why are there constants defined in `window` object.
+// Maybe they were meant to be some "default" constants that
+// could be overwridden by a user via javascript or via the Console, or smth.
 window.SHOW_POST_THUMBNAIL = true
 window.SHOW_POST_STATS_ON_THE_LEFT_SIDE = false
 
@@ -27,6 +30,7 @@ function CommentWithThumbnail({
 	shouldFixAttachmentPictureSize,
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	showPostThumbnailWhenThereIsNoContent,
+	showOnlyFirstAttachmentThumbnail,
 	className,
 	children,
 	...rest
@@ -38,14 +42,16 @@ function CommentWithThumbnail({
 		postThumbnailSizeStyle
 	] = usePostThumbnail({
 		comment,
-		mode,
 		showPostThumbnailWhenThereAreMultipleAttachments,
 		showPostThumbnailWhenThereIsNoContent,
+		showOnlyFirstAttachmentThumbnail,
 		expandAttachments,
 		hidden,
 		onAttachmentClick
 	})
+
 	let postThumbnailElement
+
 	if (postThumbnail) {
 		postThumbnailElement = (
 			<PostAttachmentThumbnail
@@ -56,6 +62,7 @@ function CommentWithThumbnail({
 				onClick={postThumbnailOnClick}
 				fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
 		)
+
 		if (postThumbnailMoreAttachmentsCount) {
 			// A container `<div/>` is used so that the `<PictureStack/>`
 			// isn't stretched to the full height of the comment,
@@ -69,11 +76,17 @@ function CommentWithThumbnail({
 			)
 		}
 	}
+
+	// I don't know why does it read the value from `window`.
+	// Maybe it was meant to be a "default" constant that
+	// could be overwridden by a user via javascript or via the Console, or smth.
 	const showThumbnail = window.SHOW_POST_THUMBNAIL;
+
 	return (
 		<article
 			{...rest}
 			ref={ref}
+			data-comment-id={comment.id}
 			style={postThumbnailSizeStyle}
 			className={classNames(className, {
 				'Comment--showThumbnail': showThumbnail,
@@ -108,6 +121,7 @@ CommentWithThumbnail.propTypes = {
 	shouldFixAttachmentPictureSize: PropTypes.bool,
 	showPostThumbnailWhenThereAreMultipleAttachments: PropTypes.bool,
 	showPostThumbnailWhenThereIsNoContent: PropTypes.bool,
+	showOnlyFirstAttachmentThumbnail: PropTypes.bool,
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired
 }

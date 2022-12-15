@@ -23,7 +23,9 @@
     height: 150%;
 
 		g {
-			stroke-width: 5;
+			/* `!important` overrides the default `stroke-width`
+			   set via `style` on a `<g/>` element of the SVG image. */
+			stroke-width: 5 !important;
 		}
 	}
 }
@@ -40,7 +42,9 @@
 	&.menu-item--selected {
 		.menu-item__icon {
 			g {
-				stroke-width: 10;
+				/* `!important` overrides the `stroke-width` `!important`
+				   set on a non-selected `.menu-item` CSS class. */
+				stroke-width: 10 !important;
 			}
 		}
 	}

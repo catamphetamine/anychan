@@ -24,9 +24,13 @@ for (const provider of PROVIDERS) {
 	// Get "core" imageboard config.
 	// (API URLs, board/thread/comment URLs, etc).
 	const imageboardConfig = getConfig(provider.id)
+
 	// provider.imageboard = imageboardConfig
 	provider.imageboard = provider.id
 	provider.domain = imageboardConfig.domain
+
+	// Create `getThreadUrl()` function on `provider` object.
+	// This function is used in `src/provider.js` in `getThreadUrl()` function.
 	provider.getThreadUrl = ({ channelId, threadId, notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
 			imageboardConfig.threadUrl
@@ -34,6 +38,9 @@ for (const provider of PROVIDERS) {
 				.replace('{threadId}', threadId)
 		}`
 	}
+
+	// Create `getCommentUrl()` function on `provider` object.
+	// This function is used in `src/provider.js` in `getCommentUrl()` function.
 	provider.getCommentUrl = ({ channelId, threadId, commentId, notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
 			imageboardConfig.commentUrl

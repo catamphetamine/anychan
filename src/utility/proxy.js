@@ -24,6 +24,8 @@ export function getProxyUrl({ userSettings = getUserSettings() } = {}) {
 	}
 }
 
-export function proxyUrl(url) {
-	return getProxyUrl().replace('{url}', url)
+export function getProxiedUrl(url, { proxyUrl = getProxyUrl() } = {}) {
+	return proxyUrl
+		.replace('{url}', url)
+		.replace('{urlEncoded}', encodeURIComponent(url))
 }

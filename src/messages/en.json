@@ -64,7 +64,14 @@
 			"title": "Proxy",
 			"description": "Web browsers restrict websites from reading other websites' data. To work around that, a special \"proxy server\" is used to call the API.",
 			"url": "URL",
-			"invalidUrl": "Invalid URL"
+			"invalidUrl": "Invalid URL",
+			"saved": "Proxy URL saved",
+			"test": "Test",
+			"testResults": {
+				"ok": "Proxy works",
+				"error": "Proxy error: {error}",
+				"undetermined": "Maybe the proxy works"
+			}
 		},
 		"darkMode": {
 			"auto": "Use system preference"

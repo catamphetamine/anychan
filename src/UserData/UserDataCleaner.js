@@ -10,6 +10,8 @@ import { Timer } from 'web-browser-timer'
 
 const debug = (...args) => console.log(['UserDataCleaner'].concat(args))
 const debugLock = (...args) => console.log(['UserDataCleaner.Lock'].concat(args))
+// const debugTabStatusWatcher = (...args) => console.log(['UserDataCleaner.TabStatusWatcher'].concat(args))
+const debugTabStatusWatcher = () => {}
 
 const MINUTE = 60 * 1000
 const DAY = 24 * 60 * MINUTE
@@ -31,8 +33,10 @@ const TIMEOUT = 15 * MINUTE
 export default class UserDataCleaner {
 	constructor({
 		storage = storage_,
-		userData = getUserData(),
-		tabStatusWatcher = new TabStatusWatcher(),
+		userData = getUserData({ userDataCleaner: true }),
+		tabStatusWatcher = new TabStatusWatcher({
+			log: debugTabStatusWatcher
+		}),
 		unusedThreadDataLifeTime = UNUSED_THREAD_DATA_LIFETIME,
 		startDelayMax = START_DELAY_MAX,
 		timer = new Timer()
@@ -159,7 +163,7 @@ export default class UserDataCleaner {
 		} = await this.lock.acquire()
 
 		if (retryAfter) {
-			this.log('Couldn\'t acquire a lock. Wait')
+			this.log('Couldn\'t acquire a lock because it has already been acquired. Wait')
 			this.cancelled = true
 			this.schedule(retryAfter)
 			return
@@ -168,7 +172,8 @@ export default class UserDataCleaner {
 		// Check that some other tab hasn't finished a clean-up already.
 		const nextCleanUpDelay = this.getNextCleanUpDelay()
 		if (nextCleanUpDelay > 0) {
-			this.log('Couldn\'t acquire a lock. Wait')
+			this.log('Recent clean-up detected. Wait until it\'s time for the next clean-up.')
+			releaseLock()
 			this.schedule(nextCleanUpDelay)
 			return
 		}

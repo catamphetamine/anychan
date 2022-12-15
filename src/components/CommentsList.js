@@ -35,7 +35,24 @@ function CommentsList({
 	// because `<VirtualScroller/>` doesn't support handling changes of such properties.
 	// That means that `getCommentById()` shouldn't change too.
 	const onItemInitialRender = useCallback(
-		item => getComment(item, mode).parseContent({ getCommentById }),
+		(item) => {
+			const comment = getComment(item, mode)
+
+			// Parse comment content.
+			comment.parseContent({ getCommentById })
+
+			// Also parse the "latest comments" if the user is viewing a list of threads on a channel's page.
+			if (mode === 'channel') {
+				const thread = item
+				if (thread.latestComments) {
+					for (const latestComment of thread.latestComments) {
+						latestComment.parseContent({
+							getCommentById: createGetCommentByIdForLatestComments(thread)
+						})
+					}
+				}
+			}
+		},
 		[mode, getCommentById]
 	)
 
@@ -99,5 +116,21 @@ function getComment(item, mode) {
 			return item
 		default:
 			throw new Error(`Unknown <CommentsList/> "mode": ${mode}`)
+	}
+}
+
+function createGetCommentByIdForLatestComments(thread) {
+	return (commentId) => {
+		if (commentId === thread.comments[0].id) {
+			return thread.comments[0]
+		}
+		for (const otherLatestComment of thread.latestComments) {
+			if (otherLatestComment.id === commentId) {
+				return otherLatestComment
+			}
+		}
+		// A comment with ID `commentId` might not be present
+		// in the list of "latest comments" because that list
+		// is just a "peek".
 	}
 }

@@ -13,13 +13,16 @@ export default function useThreadNavigation({
 }) {
 	const messages = useMessages()
 	const dispatch = useDispatch()
+
 	const [threadNavigationHistory, setThreadNavigationHistory] = useState([])
+
 	// `threadNavigationHistoryRef` is only used in `onNavigateToComment()`
 	// to prevent changing `itemComponentProps` when `threadNavigationHistory` changes
 	// which would happen if `onNavigateToComment()` used `threadNavigationHistory` directly.
 	// This results in not re-rendering the whole comments list
 	// when clicking "Show previous" button.
 	const threadNavigationHistoryRef = useRef(threadNavigationHistory)
+
 	const onSetThreadNavigationHistory = useCallback((history) => {
 		setThreadNavigationHistory(history)
 		threadNavigationHistoryRef.current = history
@@ -27,8 +30,11 @@ export default function useThreadNavigation({
 		setThreadNavigationHistory,
 		threadNavigationHistoryRef
 	])
+
 	const resetThreadNavigationHistoryTimeout = useRef()
+
 	const [isThreadHistoryModalShown, setThreadHistoryModalShown] = useState()
+
 	const onShowThreadHistoryModal = useCallback(() => {
 		clearTimeout(resetThreadNavigationHistoryTimeout.current)
 		setThreadHistoryModalShown(true)
@@ -36,6 +42,7 @@ export default function useThreadNavigation({
 		setThreadHistoryModalShown,
 		resetThreadNavigationHistoryTimeout
 	])
+
 	const onHideThreadHistoryModal = useCallback(() => {
 		clearTimeout(resetThreadNavigationHistoryTimeout.current)
 		resetThreadNavigationHistoryTimeout.current = setTimeout(() => {
@@ -47,6 +54,7 @@ export default function useThreadNavigation({
 		onSetThreadNavigationHistory,
 		resetThreadNavigationHistoryTimeout
 	])
+
 	// // `thread` object reference changes on every auto-update.
 	// // A `ref` is used instead of a dependency on `thread` itself
 	// // so that `onNavigateToComment()` itself doesn't change on
@@ -58,15 +66,13 @@ export default function useThreadNavigation({
 	// This function is called when a user is veiwing comment with ID
 	// `fromCommentId` and clicks a link to comment with ID `commentId`.
 	const onNavigateToComment = useCallback((commentId, fromCommentId) => {
-		// const getCommentById = (id) => {
-		// 	return threadRef.current.comments.find(_ => _.id === id)
-		// }
 		const comment = getCommentById(commentId)
 		if (!comment) {
 			dispatch(notify(messages.noSearchResults))
 			console.error(`Comment #${commentId} not found`)
 			return
 		}
+
 		// Displaying a modal with comment content is used
 		// instead of scrolling to the comment.
 		// // `fromIndexRef` is used instead of `fromIndex`
@@ -81,8 +87,11 @@ export default function useThreadNavigation({
 		// const { top } = virtualScroller.current.getItemCoordinates(index - fromIndex)
 		// const headerHeight = document.querySelector('.Header').offsetHeight
 		// window.scrollTo(0, top - headerHeight)
+
 		onShowThreadHistoryModal(true)
+
 		let history = threadNavigationHistoryRef.current
+
 		// This turned out to feel inconsistent, so this feature was disabled.
 		// // Don't add an entry to the history if the comment with the
 		// // `post-link` being clicked is still visible after scrolling
@@ -93,7 +102,7 @@ export default function useThreadNavigation({
 			// onSetThreadNavigationHistory(history.concat({ commentId: fromCommentId }))
 			// Add the initial "from" history entry.
 			if (history.length === 0) {
-				history = history.concat(getCommentById(fromCommentId))
+				history = history.concat(createHistoryEntryForComment(getCommentById(fromCommentId)))
 			}
 			// `.hasContentBeenParsed` flag is set by the `parseContent()`
 			// function that the `imageboard` library has created.
@@ -101,7 +110,7 @@ export default function useThreadNavigation({
 			if (!comment.hasContentBeenParsed) {
 				comment.parseContent({ getCommentById })
 			}
-			onSetThreadNavigationHistory(history.concat(comment))
+			onSetThreadNavigationHistory(history.concat(createHistoryEntryForComment(comment)))
 			// Scroll comment history modal to top.
 			InReplyToModalScrollToTopAndFocus()
 		// }
@@ -117,19 +126,18 @@ export default function useThreadNavigation({
 		threadNavigationHistoryRef,
 		onSetThreadNavigationHistory
 	])
+
 	const onGoBackInThreadNavigationHistory = useCallback(() => {
 		const newThreadNavigationHistory = threadNavigationHistory.slice()
 		newThreadNavigationHistory.pop()
 		onSetThreadNavigationHistory(newThreadNavigationHistory)
 		// Scroll comment history modal to top.
 		InReplyToModalScrollToTopAndFocus()
-	}, [onSetThreadNavigationHistory, threadNavigationHistory])
-	// const onBackToPreviouslyViewedComment = useCallback(() => {
-	// 	const latest = threadNavigationHistory.pop()
-	// 	// onNavigateToComment(latest.commentId)
-	// 	onNavigateToComment(latest.id)
-	// 	onSetThreadNavigationHistory(threadNavigationHistory.slice())
-	// }, [onNavigateToComment, threadNavigationHistory])
+	}, [
+		onSetThreadNavigationHistory,
+		threadNavigationHistory
+	])
+
 	return [
 		threadNavigationHistory,
 		onNavigateToComment,
@@ -137,4 +145,8 @@ export default function useThreadNavigation({
 		isThreadHistoryModalShown,
 		onHideThreadHistoryModal
 	]
+}
+
+function createHistoryEntryForComment(comment) {
+	return { comment }
 }

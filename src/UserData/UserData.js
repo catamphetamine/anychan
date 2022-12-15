@@ -31,7 +31,8 @@ export default class UserData {
 	constructor(storage, {
 		prefix = '',
 		collections = COLLECTIONS,
-		log = debug
+		log = debug,
+		userDataCleaner
 	} = {}) {
 		// `collections` will be "mutated".
 		collections = { ...collections }
@@ -52,6 +53,7 @@ export default class UserData {
 		this.storage = storage
 		this.prefix = prefix
 		this.log = log
+		this.userDataCleaner = userDataCleaner
 
 		// Add data access methods.
 		createDataAccessMethods.call(this, {
@@ -355,24 +357,30 @@ export default class UserData {
 	}
 
 	_onDataAccess() {
-		if (getUserDataCleaner()) {
-			// If `UserData` is being accessed, postpone a clean-up.
-			// The reason is that if a clean-up was in progress during a sequence of
-			// `UserData` reads performed by some code, that code could end up with
-			// an inconsistent overall picture because somewhere in-between some of the
-			// old records got removed.
-			//
-			// For example, consider a code that first reads "own threads" collection,
-			// and then, for each "own thread", it reads "own comments" collection.
-			// "Own comments" collection data includes the "own" flag for the "root" comment
-			// of a thread, so if an "own thread" record exists for a thread, then it means
-			// that at least one "own comment" record also exists.
-			// But if that thread's data got cleaned up somewhere in-between those two reads,
-			// by the time the code starts reading "own comments" collection data, it might
-			// already be removed for that thread by User Data Cleaner, and the code might
-			// throw an error in that case.
-			//
-			getUserDataCleaner().cancel()
+		// `UserDataCleaner` itself uses `UserData` to access User Data
+		// while performing a clean-up, so make those `UserData` reads
+		// bypass the "data access" detection which would otherwise
+		// cancel the clean-up process.
+		if (!this.userDataCleaner) {
+			if (getUserDataCleaner()) {
+				// If `UserData` is being accessed, postpone a clean-up.
+				// The reason is that if a clean-up was in progress during a sequence of
+				// `UserData` reads performed by some code, that code could end up with
+				// an inconsistent overall picture because somewhere in-between some of the
+				// old records got removed.
+				//
+				// For example, consider a code that first reads "own threads" collection,
+				// and then, for each "own thread", it reads "own comments" collection.
+				// "Own comments" collection data includes the "own" flag for the "root" comment
+				// of a thread, so if an "own thread" record exists for a thread, then it means
+				// that at least one "own comment" record also exists.
+				// But if that thread's data got cleaned up somewhere in-between those two reads,
+				// by the time the code starts reading "own comments" collection data, it might
+				// already be removed for that thread by User Data Cleaner, and the code might
+				// throw an error in that case.
+				//
+				getUserDataCleaner().cancel()
+			}
 		}
 	}
 

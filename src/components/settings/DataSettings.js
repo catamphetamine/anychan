@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { TextInput, FileUploadButton } from 'react-responsive-ui'
-import filesize from 'filesize'
+import { filesize } from 'filesize'
 
 import saveFile from 'frontend-lib/utility/saveFile.js'
 import readTextFile from 'frontend-lib/utility/readTextFile.js'

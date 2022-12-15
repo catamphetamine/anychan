@@ -5,7 +5,12 @@ import useMount from 'frontend-lib/hooks/useMount.js'
 
 import useLocale from '../../hooks/useLocale.js'
 
-import { refreshThread as refreshThreadAction, markCurrentThreadExpired } from '../../redux/data.js'
+import {
+	refreshThread as refreshThreadAction,
+	markCurrentThreadExpired,
+	resetAutoUpdateNewCommentsIndication
+} from '../../redux/data.js'
+
 import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThread.js'
 import onThreadFetched from '../../utility/thread/onThreadFetched.js'
 import onThreadExpired from '../../utility/thread/onThreadExpired.js'
@@ -213,11 +218,12 @@ export default function useAutoUpdate({
 		}
 	}
 
-	// `onMount()` call is placed above the code that creates an
-	// `IntersectionObserver`, just in case it runs its callback
+	// `onMount()` call is placed above `useEffect()` that creates an
+	// `IntersectionObserver`, just in case the effect runs its callback
 	// synchronously. It doesn't (tested in Chrome), but anyway.
 	// One could say that it's conceptually more correct this way.
 	onMount()
+
 	useEffect(() => {
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
@@ -256,6 +262,12 @@ export default function useAutoUpdate({
 		return () => {
 			deactivateTriggerElement(element)
 			stopAutoUpdate()
+		}
+	}, [])
+
+	useEffect(() => {
+		return () => {
+			dispatch(resetAutoUpdateNewCommentsIndication())
 		}
 	}, [])
 

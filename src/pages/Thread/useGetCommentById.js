@@ -17,7 +17,11 @@ export default function useGetCommentById({
 	const getCommentByIdRef = useRef()
 
 	getCommentByIdRef.current = useMemo(() => {
-		return createByIdIndex(thread.comments)
+		return createByIdIndex(
+			thread.latestComments
+				? thread.latestComments.concat(thread.comments)
+				: thread.comments
+		)
 	}, [thread.comments])
 
 	// `getCommentById` reference shouldn't change, otherwise

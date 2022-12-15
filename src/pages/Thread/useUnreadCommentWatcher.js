@@ -1,8 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { resetAutoUpdateNewCommentsIndication } from '../../redux/data.js'
-
 import UnreadCommentWatcher from '../../utility/comment/UnreadCommentWatcher.js'
 
 export default function useUnreadCommentWatcher() {
@@ -15,7 +13,6 @@ export default function useUnreadCommentWatcher() {
 	useEffect(() => {
 		return () => {
 			unreadCommentWatcher.stop()
-			dispatch(resetAutoUpdateNewCommentsIndication())
 		}
 	}, [])
 

@@ -18,8 +18,6 @@ export default function KeyboardShortcuts({
 		messages.settings.keyboardShortcuts.keys,
 		messages.settings.keyboardShortcuts.action
 	]
-	console.log(headers)
-	console.log(messages.settings.keyboardShortcuts)
 
 	const rows = {
 		NAVIGATION: [

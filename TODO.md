@@ -5,31 +5,56 @@
 // `react-pages`: Не unmount-ит страницу текущего треда при переходе по ссылке другого треда. https://github.com/4Catalyzer/found/issues/639
 
 
+* В режиме with "latest comments" у зелёных цитат слева нет border-а.
 
+* Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
 
+* Fix errors in console on Channel page (with "latest comments"): Post #xxxxxxx not found
 
-Thread / Board / Channel
+* Проверить автообновление subscribed threads.
 
-isXxx -> xxx, "sticky" -> "pinned", "rolling" -> "trim"
+* Проверить автообновление subscribed threads когда открыт один из subscribed threads.
 
+* Глючит reset picture slide scale (показывает мельком в конце большое изображение)
 
+* Сделать фоны цветные.
 
+* Если `channelView` стал недоступен для движка, то сбрасывать его как в initial `loadChannelPage`, так и постфактом в `settings`.
 
-Глючит reset picture slide scale: в конце мелькает увеличенное изображение.
+* Проверить `virtual-scroller` в production и написать коммент: https://gitlab.com/catamphetamine/virtual-scroller/-/issues/25#note_1181936154
 
-При заходе на страницу localhost:1234/2ch/b/273701928
+* Проверить, работают ли остальные imageboards.
 
+* Запушить и обновить репо: imageboard, react-soc-comp, frontend-lib, anychan.
+
+* Задеплоить веб-сайт (пока без reddit).
+
+* Пофиксить баг с флажками и написать коммент: https://github.com/catamphetamine/anychan/issues/12
+
+* Попробовать постинг на `2ch.hk`.
+
+* Сделать баннер на старом сайте. Сделать баннер со ссылкой на канал в телеграме.
+
+* При заходе на страницу localhost:1234/2ch/b/273701928
+
+```
     // `routeIndices` might be `undefined` after a `<Redirect/>`
     // is made and a user clicks the "Back" button in a web browser.
     // https://github.com/4Catalyzer/found/issues/632
     if (!routeIndices) {
         throw new Error('"'.concat(event.type, '" Redux action misses "routeIndices" property. This usually means that the target URL path "').concat(location.pathname, "\" didn't match any route. ").concat(location.pathname[0] !== "/" ? 'The target URL path is missing a leading slash: correct your routes configuration to include a leading slash for "' + location.pathname + '" path. ' : "", "See the issue for more info: https://github.com/4Catalyzer/found/issues/632"));
     }
+```
 
 
 
 
-Можно сделать возможность обновить список досок, минуя кеш. Это может быть использовано при обновлении списка "иконок" или "тегов" на какой-нибудь доске.
+
+
+
+
+
+Можно сделать возможность обновить список досок, минуя кеш. Это может быть использовано при обновлении списка "иконок" или "тегов" на какой-нибудь доске: если появилась новая иконка и пользователь её не видит потому что она "не найдена" в закешированных данных досок.
 
 
 
@@ -69,17 +94,17 @@ Check new `react-pages`' server-side rendering on webapp-frontend
 
 
 
+['UserDataCleaner', 'Page inactive. Cancel clean-up'] — даже когда page active
 
-Можно добавить https://8chan.moe/
 
 
-Check <CommentTree/> state saving:
 
-* Expand post link (...........)
-* Expand post content (Show more)
-* Expand post reply form
 
-Check expanding replies of replies of replies (do they get parsed correctly)
+
+
+
+
+
 
 Перегенерировать subscribedThreadStats в CommentReadStatusWatcher
 
@@ -144,11 +169,7 @@ Update subscribed thread stats on latest comment read.
 
 Maybe check "In Reply To" modal.
 
-Remove `webpack.config.dev.babel.js` if `swc-loader` works.
-
 Remove or not remove comment: "There seems to be no style `<link/>` tag in development."
-
-`webapp-frontend` -> `social-components-react` + `type: module` (babel build React) + `type: module` in `anychan`.
 
 
 
@@ -374,6 +395,12 @@ Q: What is the recommended imageboard engine for `anychan`?
 A: There haven't been a lot of them. Originally there was [`vichan`](https://github.com/vichan-devel/vichan) and it still seems to work fine (at least for non-highload scenarios) but is no longer being developed. The only one currently alive seems to be [`lynxchan`](https://gitgud.io/LynxChan/LynxChan), although it has some minor [issues](https://gitlab.com/catamphetamine/imageboard/-/blob/master/docs/engines/lynxchan-issues.md) that the author doesn't seem to be willing to fix. Still, it is functional. You could write your own imageboard engine too, and then request adding it to the [`imageboard`](https://gitlab.com/catamphetamine/imageboard) library providing clear API docs with examples.
 
 
+
+
+
+
+
+Можно добавить https://8chan.moe/
 
 
 

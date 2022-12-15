@@ -8,7 +8,7 @@ import { TestTabStatusWatcher } from 'web-browser-tab/status-watcher'
 describe('UserDataCleaner', function() {
 	it('should clean User Data', async function() {
 		const storage = new MemoryStorage()
-		const userData = new UserData(storage)
+		const userData = new UserData(storage, { userDataCleaner: true })
 		const timer = new TestTimer()
 
 		// `threadsAccessedAt` "granularity" is "days",

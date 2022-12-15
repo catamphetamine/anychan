@@ -19,7 +19,7 @@ release:
     - cd ..
     # Correct the paths to `frontend-lib`.
     # - find ./src/styles/ -type f -exec sed --in-place 's+../frontend-lib+frontend-lib+g' {} \;
-    # - sed --in-place 's+../frontend-lib+frontend-lib+' webpack/webpack.config.babel.js
+    # - sed --in-place 's+../frontend-lib+frontend-lib+' webpack/webpack.config.js
     # - sed --in-place 's+../frontend-lib+./frontend-lib+' babel.config.js
     # - sed --in-place 's+../frontend-lib+./frontend-lib+' .postcssrc.json
     # - sed --in-place 's+../frontend-lib+./frontend-lib+' frontend-lib/babel.config.js

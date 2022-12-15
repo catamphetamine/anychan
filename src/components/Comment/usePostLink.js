@@ -4,7 +4,7 @@ export default function usePostLink({
 	channelId,
 	threadId,
 	comment,
-	onShowComment
+	onRequestShowCommentFromSameThread
 }) {
 	const onPostLinkClick = useCallback((event, {
 		postWasDeleted,
@@ -15,19 +15,26 @@ export default function usePostLink({
 	}) => {
 		if (!postIsExternal) {
 			if (channelIdClicked === channelId && threadIdClicked === threadId) {
-				event.preventDefault()
-				onShowComment(postId, comment.id)
+				if (onRequestShowCommentFromSameThread) {
+					event.preventDefault()
+					onRequestShowCommentFromSameThread({
+						commentId: postId,
+						fromCommentId: comment.id
+					})
+				}
 			}
 		}
 	}, [
 		channelId,
 		threadId,
 		comment,
-		onShowComment
+		onRequestShowCommentFromSameThread
 	])
+
 	const isPostLinkClickable = useCallback(({ postWasDeleted }) => {
 		return !postWasDeleted
 	}, [])
+
 	return [
 		onPostLinkClick,
 		isPostLinkClickable

@@ -36,7 +36,11 @@ export default function CommentReadStatusWatcher({
 }) {
 	// `isActive` is only used during the initial rendering.
 	const isActive =
-		(mode === 'channel' && !isThreadSeen(channelId, threadId, { userData })) ||
+		(mode === 'channel' && (
+			commentId === threadId
+				? !isThreadSeen(channelId, threadId, { userData })
+				: !isCommentRead(channelId, threadId, commentId, { userData })
+		)) ||
 		(mode === 'thread' && !isCommentRead(channelId, threadId, commentId, { userData }))
 
 	const node = useRef()
@@ -83,7 +87,7 @@ CommentReadStatusWatcher.propTypes = {
 	// commentUpdatedAt: PropTypes.instanceof(Date),
 	// threadUpdatedAt: PropTypes.instanceof(Date),
 	unreadCommentWatcher: PropTypes.any.isRequired,
-	// // This produced a mismatch warning on hot reload.
+	// // This property type definition produced a mismatch warning on hot reload.
 	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired
 }
 

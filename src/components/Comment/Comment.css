@@ -338,6 +338,11 @@
 			.Comment-thumbnail {
 				padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
 			}
+		}
+		/* Always show `.Comment-thumbnailPlaceholder` element for the main comment of a thread
+		   when viewing a list of threads on a channel page. This way, the list of threads looks
+		   uniform and aligned. */
+		.Comment--channel:not(.CommentTree-comment--nested) {
 			.Comment-thumbnailPlaceholder {
 				display: block;
 				width: var(--PostThumbnailContainer-maxWidth);

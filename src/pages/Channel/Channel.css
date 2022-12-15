@@ -123,3 +123,8 @@
 	margin-bottom: calc(var(--unit) * 2);
 	text-align: center;
 }
+
+.Comment--latestComments {
+	margin-left: var(--Comment-marginLeft--latestComments);
+	width: calc(100% - var(--Comment-marginLeft--latestComments));
+}

@@ -20,6 +20,8 @@ import {
 import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
 
+import useGetCommentById from '../pages/Thread/useGetCommentById.js'
+
 import './InReplyToModal.css'
 
 const InReplyToModalOverlayClassName = 'InReplyToModalOverlay'
@@ -30,11 +32,13 @@ export default function InReplyToModal({
 	history,
 	isOpen,
 	onClose,
-	onShowComment,
+	onRequestShowCommentFromSameThread,
 	onGoToComment,
 	onGoBack
 }) {
-	const comment = history[history.length - 1]
+	const historyEntry = history[history.length - 1]
+
+	const comment = getCommentFromHistoryEntry(historyEntry)
 
 	const dispatch = useDispatch()
 	const messages = useMessages()
@@ -44,6 +48,43 @@ export default function InReplyToModal({
 		onGoToComment(post)
 		onClose()
 	}, [onClose])
+
+	const { initialState, onStateChange } = useCommentTreeStateCache({
+		historyEntry
+	})
+
+	const getCommentById = useGetCommentById({ thread })
+
+	const channelId = channel.id
+
+	const getComponentProps = useCallback(() => {
+		return {
+			// Don't set HTML `id` attribute on the comment DOM Element
+			// because such comment element may already be rendered on the page
+			// outside of the modal. To avoid setting an `id` attribute on the
+			// comment DOM Element, `id={null}` property is passed.
+			id: null,
+			threadId: thread.id,
+			channelId,
+			locale,
+			dispatch,
+			onRequestShowCommentFromSameThread,
+			onPostUrlClick,
+			getCommentById,
+			mode: 'thread',
+			// Don't render `<Post/>` elements in "compact" mode.
+			// That means a bit larger margins/paddings.
+			compact: false
+		}
+	}, [
+		thread,
+		channelId,
+		locale,
+		dispatch,
+		onRequestShowCommentFromSameThread,
+		onPostUrlClick,
+		getCommentById
+	])
 
 	// `overlayClassName` is used in `Thread.js`
 	// to get `document.querySelector('.InReplyToModalOverlay')`.
@@ -64,42 +105,45 @@ export default function InReplyToModal({
 					<InReplyToModalBack
 						history={history}
 						onClose={onClose}
-						onGoBack={onGoBack}/>
+						onGoBack={onGoBack}
+					/>
 					<InReplyToModalClose
 						history={history}
-						onClose={onClose}/>
+						onClose={onClose}
+					/>
 				</div>
+
 				{/*
-				Don't preserve comment tree state when navigating to
-				the next quoted comment: `key` is used for that.
-				Also, don't set HTML `id` attribute because such comment
-				may already be rendered on the page: `id={null}` is used for that.
+				Added `key` property so that the `<CommentTree/>` resets any possible
+				internal state when the comment being shown changes.
 				*/}
 				<CommentTree
 					key={comment.id}
-					id={null}
 					comment={comment}
-					threadId={thread.id}
-					channelId={channel.id}
-					locale={locale}
-					dispatch={dispatch}
-					onShowComment={onShowComment}
-					onPostUrlClick={onPostUrlClick}
-					dialogueChainStyle="side"
-					mode="thread"
-					compact={false}/>
+					getComponentProps={getComponentProps}
+					initialState={initialState}
+					onStateChange={onStateChange}
+					dialogueTraceStyle="side"
+					postDateLinkUpdatePageUrlToPostUrlOnClick={true}
+					postDateLinkNavigateToPostUrlOnClick={false}
+				/>
 			</Modal.Content>
 		</Modal>
 	)
 }
 
+const historyEntryType = PropTypes.shape({
+	comment: commentType.isRequired,
+	state: PropTypes.object
+})
+
 InReplyToModal.propTypes = {
 	channel: channelType.isRequired,
 	thread: threadType.isRequired,
-	history: PropTypes.arrayOf(commentType).isRequired,
+	history: PropTypes.arrayOf(historyEntryType).isRequired,
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func.isRequired,
-	onShowComment: PropTypes.func.isRequired,
+	onRequestShowCommentFromSameThread: PropTypes.func.isRequired,
 	onGoToComment: PropTypes.func
 }
 
@@ -135,7 +179,7 @@ function InReplyToModalBack({
 InReplyToModalBack.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	onGoBack: PropTypes.func.isRequired,
-	history: PropTypes.arrayOf(commentType).isRequired
+	history: PropTypes.arrayOf(historyEntryType).isRequired
 }
 
 function InReplyToModalClose({
@@ -163,7 +207,7 @@ function InReplyToModalClose({
 
 InReplyToModalClose.propTypes = {
 	onClose: PropTypes.func.isRequired,
-	history: PropTypes.arrayOf(commentType).isRequired
+	history: PropTypes.arrayOf(historyEntryType).isRequired
 }
 
 export const InReplyToModalCloseTimeout = 150
@@ -178,4 +222,34 @@ export function InReplyToModalScrollToTopAndFocus() {
 		// If the focus wasn't restored, closing the modal on Escape wouldn't work.
 		modalScrollable.firstChild.focus()
 	}
+}
+
+function useCommentTreeStateCache({ historyEntry }) {
+	const onStateChange = useCallback((state) => {
+		updateCommentTreeStateInHistoryEntry(historyEntry, state)
+	}, [historyEntry])
+
+	const getState = useCallback(() => {
+		return getCommentTreeStateFromHistoryEntry(historyEntry)
+	}, [historyEntry])
+
+	const initialState = useMemo(() => getState(), [])
+
+	return {
+		// state: getState(),
+		initialState,
+		onStateChange
+	}
+}
+
+function getCommentFromHistoryEntry({ comment }) {
+	return comment
+}
+
+function getCommentTreeStateFromHistoryEntry({ state }) {
+	return state
+}
+
+function updateCommentTreeStateInHistoryEntry(entry, state) {
+	entry.state = state
 }

@@ -31,7 +31,15 @@ export default function mergePrevAndNewThreadComments(thread, updatedThread) {
 	// b) Comments that have been removed aren't present in `updatedComment.replies`.
 
 	const prevReplyIds = thread.comments.map(getReplyIds)
-	const getCommentById = createByIdIndex(updatedThread.comments)
+	// The scenario in which this function is used doesn't assume `thread.latestComments`
+	// be present, because it's assumed to be a thread page, not a channel page.
+	// Still, just for conceptual correctness, the "latest comments" case is handled here too,
+	// even though it shouldn't really happen.
+	const getCommentById = createByIdIndex(
+		updatedThread.latestComments
+			? updatedThread.comments.concat(updatedThread.latestComments)
+			: updatedThread.comments
+	)
 
 	// If some of the old comments have changed, their javascript object "reference" has also changed.
 	// But their old object "reference" is still present in some of the "parent" comments' `.inReplyTo[]`.

@@ -6,26 +6,29 @@ import onThreadsFetched from '../../utility/thread/onThreadsFetched.js'
 import getLatestSeenThreadId from '../../utility/thread/getLatestSeenThreadId.js'
 
 export default async function loadChannelPage({
-	getState,
+	channelId,
 	dispatch,
-	params: {
-		channelId
-	}
+	settings,
+	channelView
 }) {
 	const {
 		censoredWords,
 		grammarCorrection,
 		locale,
 		autoSuggestFavoriteChannels
-	} = getState().settings.settings
-	const { threads } = await dispatch(getThreads(channelId, {
+	} = settings
+
+	const { channel, threads } = await dispatch(getThreads(channelId, {
 		censoredWords,
 		grammarCorrection,
-		locale
+		locale,
+		withLatestComments: channelView === 'new-comments',
+		sortByRating: channelView === 'popular'
 	}))
+
 	onThreadsFetched(channelId, threads, { dispatch })
+
 	if (autoSuggestFavoriteChannels !== false) {
-		const { channel } = getState().data
 		dispatch(addFavoriteChannel({
 			channel: {
 				id: channel.id,
@@ -33,12 +36,13 @@ export default async function loadChannelPage({
 			}
 		}))
 	}
+
 	// Reset a potentially previously set "instant back" state.
 	dispatch(resetState())
 	// Set initial state.
 	dispatch(setInitialLatestSeenThreadId(getLatestSeenThreadId(channelId, threads)))
 	// Set channel view.
-	dispatch(setChannelView(getState().settings.settings.channelView))
+	dispatch(setChannelView(channelView))
 	// Set subscribed thread IDs.
 	dispatch(getSubscribedThreadIdsForChannel({ channelId }))
 }

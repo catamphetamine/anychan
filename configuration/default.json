@@ -1,6 +1,5 @@
 {
-	"proxyUrl": "https://chan-chan.herokuapp.com/{url}",
-	"proxyUrl2": "https://cors-anywhere.herokuapp.com/{url}",
+	"proxyUrl": "https://anychan-proxy.vercel.app?url={urlEncoded}",
 	"youtubeApiKey": "AIzaSyCvZRvuuHFVteEnl4E-TpJTfNUZeL3owO8",
 	"announcementPollInterval": 86400000,
 	"channelsCacheTimeout": 86400000,

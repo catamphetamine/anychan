@@ -68,7 +68,7 @@ export const restoreSubscribedThread = redux.action(
 export const unsubscribeFromThread = redux.action(
 	(subscribedThread, {
 		userData = getUserData()
-	}) => async () => {
+	} = {}) => async () => {
 		// Get subscribed thread stats record in order to return it later.
 		const subscribedThreadStats = userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
 

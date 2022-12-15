@@ -37,7 +37,10 @@ export default function CommentFooter({
 	channelId,
 	channelIsNotSafeForWork,
 	parentComment,
+	postDateLinkUpdatePageUrlToPostUrlOnClick,
+	postDateLinkNavigateToPostUrlOnClick,
 	showingReplies,
+	showRepliesCount,
 	onToggleShowReplies,
 	toggleShowRepliesButtonRef,
 	onDownloadThread,
@@ -104,11 +107,15 @@ export default function CommentFooter({
 	const postLinkProps = useMemo(() => ({
 		url: url,
 		baseUrl: urlBasePath,
-		onClick: onPostUrlClick
+		onClick: onPostUrlClick,
+		updatePageUrlToPostUrlOnClick: postDateLinkUpdatePageUrlToPostUrlOnClick,
+		navigateToPostUrlOnClick: postDateLinkNavigateToPostUrlOnClick
 	}), [
 		url,
 		urlBasePath,
-		onPostUrlClick
+		onPostUrlClick,
+		postDateLinkUpdatePageUrlToPostUrlOnClick,
+		postDateLinkNavigateToPostUrlOnClick
 	])
 
 	let rightSideStuff = []
@@ -121,7 +128,7 @@ export default function CommentFooter({
 	if (true) {
 		rightSideStuff.push('time')
 	}
-	if (onToggleShowReplies) {
+	if (showRepliesCount && comment.replies) {
 		rightSideStuff.push('replies')
 	}
 	const timeElementIndex = rightSideStuff.indexOf('time')
@@ -134,6 +141,7 @@ export default function CommentFooter({
 			locale,
 			rightSideBadges,
 			showingReplies,
+			showRepliesCount,
 			onToggleShowReplies,
 			toggleShowRepliesButtonRef,
 			hasAnythingBeforeTime: timeElementIndex > 0,
@@ -189,7 +197,10 @@ CommentFooter.propTypes = {
 	threadId: threadId.isRequired,
 	comment: commentType.isRequired,
 	parentComment: commentType,
+	postDateLinkUpdatePageUrlToPostUrlOnClick: PropTypes.bool,
+	postDateLinkNavigateToPostUrlOnClick: PropTypes.bool,
 	showingReplies: PropTypes.bool,
+	showRepliesCount: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
 	onPostUrlClick: PropTypes.func.isRequired,
@@ -203,6 +214,10 @@ CommentFooter.propTypes = {
 	vote: PropTypes.bool,
 	onVote: PropTypes.func,
 	onDownloadThread: PropTypes.func
+}
+
+CommentFooter.defaultProps = {
+	showRepliesCount: true
 }
 
 // function getFooterBadges(comment, {
@@ -228,7 +243,7 @@ const THREAD_STATS_BADGES = [
 	{
 		name: 'comments-count',
 		icon: CommentIcon,
-		title: ({ post, locale, messages }) => messages && messages.commentsCount,
+		title: ({ post, messages }) => messages && messages.commentsCount,
 		// `.commentsCount` is set on the first comment of a thread
 		// as `thread.comments[0].commentsCount = thread.commentsCount`.
 		condition: (post) => post.commentsCount > 1,
@@ -244,7 +259,7 @@ const THREAD_STATS_BADGES = [
 	{
 		name: 'attachments-count',
 		icon: PictureIcon,
-		title: ({ post, locale }) => getMessages(locale).post.attachmentsCount,
+		title: ({ post, messages }) => messages.attachmentsCount,
 		// `.attachmentsCount` is set on the first comment of a thread
 		// as `thread.comments[0].attachmentsCount = thread.attachmentsCount`.
 		condition: (post) => post.attachmentsCount > (post.attachments ? post.attachments.length : 0),
@@ -253,7 +268,7 @@ const THREAD_STATS_BADGES = [
 	{
 		name: 'unique-posters-count',
 		icon: PersonIcon,
-		title: ({ post, locale }) => getMessages(locale).post.uniquePostersCount,
+		title: ({ post, messages }) => messages.uniquePostersCount,
 		condition: (post) => post.uniquePostersCount,
 		content: ({ post }) => post.uniquePostersCount
 	}
@@ -334,6 +349,7 @@ const RIGHT_SIDE_STUFF = {
 	replies: ({
 		comment,
 		showingReplies,
+		showRepliesCount,
 		onToggleShowReplies,
 		toggleShowRepliesButtonRef,
 		locale

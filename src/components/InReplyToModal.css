@@ -153,6 +153,9 @@
 					}
 					&.Comment--hasNoThumbnail {
 						&.CommentTree-comment--expanded {
+							/* When an expanded "reply" comment doesn't have a post thumbnail,
+							   expand its `PostQuote`s all the way to the left because
+							   `.Comment-thumbnailPlaceholder` element won't be rendered. */
 							--PostQuoteBlock-paddingLeft--adjustment: 0px;
 							--PostQuoteBlock-borderWidth--left: 0px;
 						}

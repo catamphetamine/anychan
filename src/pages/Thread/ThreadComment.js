@@ -1,36 +1,35 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import CommentTree from '../../components/CommentTree.js'
 
-// `ThreadComment` is required to be a `Component`
-// in order to be `ref`-able inside `virtual-scroller`
-// in order for `.renderItem(i)` to be able to call its `.forceUpdate()`.
-// (`.renderItem(i)` is called in `renderComment()` function).
-//
-// Made `ThreadComment` a `PureComponent` to optimize
+// Made `ThreadComment` a `React.memo()` to optimize
 // `<VirtualScroller/>` re-rendering: when `comment` doesn't change,
 // it shouldn't re-render.
 //
-export default class ThreadComment extends React.PureComponent {
-	render() {
-		const {
-			children: comment,
-			...rest
-		} = this.props
-		return (
-			<CommentTree
-				key={comment.id}
-				comment={comment}
-				{...rest}
-			/>
-		)
-	}
-}
+const ThreadComment = React.memo(function({
+	item: comment,
+	state,
+	...rest
+}) {
+	const initialState = useMemo(() => state, [])
+
+	return (
+		<CommentTree
+			comment={comment}
+			initialState={initialState}
+			postDateLinkUpdatePageUrlToPostUrlOnClick={true}
+			postDateLinkNavigateToPostUrlOnClick={false}
+			{...rest}
+		/>
+	)
+})
 
 ThreadComment.propTypes = {
-	children: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired
 }
+
+export default ThreadComment
 
 // Debug.
 // function detectChangedProperties(props) {

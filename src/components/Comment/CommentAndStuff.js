@@ -29,10 +29,6 @@ import { subscribeToThread } from '../../redux/subscribedThreads.js'
 
 import './CommentAndStuff.css'
 
-// `Comment_` is a class because `virtual-scroller` requires
-// its `component` to be a React.Component in order to assign a `ref`
-// that could be used for calling `.renderItem(i)` manually.
-// (which is done when YouTube/Twitter/etc links are loaded)
 export default function CommentAndStuff({
 	id,
 	comment,
@@ -48,14 +44,13 @@ export default function CommentAndStuff({
 	threadIsLocked,
 	threadExpired,
 	onClick: onClick_,
-	onClickUrl,
+	getOnClickUrl,
 	initialShowReplyForm,
 	onShowReplyFormChange,
 	onRenderedContentDidChange,
 	onSubscribeToThread,
 	dispatch,
 	elementRef,
-	onPostUrlClick,
 	unreadCommentWatcher,
 	latestSeenThreadId,
 	...rest
@@ -200,22 +195,33 @@ export default function CommentAndStuff({
 			onDoubleClick={showReplyAction ? onLongPressOrDoubleClick : undefined}
 			onRenderedContentDidChange={onRenderedContentDidChange}
 			dispatch={dispatch}
-			parentComment={parentComment}/>
+			parentComment={parentComment}
+		/>
 	)
 
-	// `id` HTML attribute is intentionally "#comment-{commentId}"
-	// and not "#{commentId}" as in "post-link"s, because otherwise
-	// when navigating "post-link"s a web browser would scroll down
-	// to the comment, and besides that the floating header would
-	// obstruct the top of the comment.
-	id = id === undefined ? (parentComment ? undefined : 'comment-' + comment.id) : id
+	// Potentially set an HTML `id` attribute for the comment element.
+	if (id === undefined) {
+		// When `parentComment` property is defined, it means that the comment
+		// is being rendered as part of an expandable tree of replies.
+		// In that case, the `id` attribute shouldn't be set on that comment's HTML element
+		// because there potentially may be several such elements on a page.
+		if (!parentComment) {
+			// `id` HTML attribute is intentionally set as "#comment-{commentId}"
+			// and not as "#{commentId}", because otherwise, when navigating to a "post-link" URL,
+			// a web browser would scroll down to the comment's HTML element, and the floating header
+			// would obstruct the very top of the comment element.
+			// Instead, when navigating to a "post-link" URL, this application simply
+			// shows the comments starting from that one, removing the requirement for scrolling.
+			id = 'comment-' + comment.id
+		}
+	}
 
 	// Not using a `<Link/>` here because "<a> cannot appear as a descendant of <a>".
-	// if (!onClick_ && onClickUrl) {
+	// if (!onClick_ && getOnClickUrl) {
 	// 	return (
 	// 		<Link
 	// 			id={id}
-	// 			to={onClickUrl}
+	// 			to={getOnClickUrl(channelId, threadId, comment.id)}
 	// 			onClickClassName="Comment-container--click"
 	// 			className="Comment-container">
 	// 			{commentElement}
@@ -228,7 +234,7 @@ export default function CommentAndStuff({
 			<Clickable
 				filter={commentOnClickFilter}
 				onClick={onClick}
-				url={getBasePath() + onClickUrl}>
+				url={getBasePath() + getOnClickUrl(channelId, threadId, comment.id)}>
 				{commentElement}
 			</Clickable>
 		)
@@ -242,27 +248,19 @@ export default function CommentAndStuff({
 		)
 	}
 
-	const replyFormElement = showReplyForm ? (
-		<PostForm
-			ref={replyForm}
-			locale={locale}
-			onCancel={onCancelReply}
-			onSubmit={onSubmitReply}/>
-	) : null
-
 	return (
 		<div id={id} className="Comment-container">
-			{latestSeenThreadId && id === latestSeenThreadId &&
+			{mode === 'channel' && latestSeenThreadId && id === latestSeenThreadId &&
 				<div className="Comment-previouslySeenThreadsBanner">
 					{getMessages(locale).previouslySeenThreads}
 				</div>
 			}
 			<div className="Comment-spacer"/>
-			{!parentComment &&
+			{mode === 'thread' && !parentComment &&
 				<NewAutoUpdateCommentsStartLine commentId={comment.id}/>
 			}
 			{commentElement}
-			{!parentComment && !comment.removed && !threadExpired &&
+			{!parentComment && !comment.removed && !threadExpired && unreadCommentWatcher &&
 				<CommentReadStatusWatcher
 					mode={mode}
 					channelId={channelId}
@@ -272,8 +270,13 @@ export default function CommentAndStuff({
 					unreadCommentWatcher={unreadCommentWatcher}
 				/>
 			}
-			{!comment.removed &&
-				replyFormElement
+			{!comment.removed && showReplyForm &&
+				<PostForm
+					ref={replyForm}
+					locale={locale}
+					onCancel={onCancelReply}
+					onSubmit={onSubmitReply}
+				/>
 			}
 		</div>
 	)
@@ -285,7 +288,7 @@ CommentAndStuff.propTypes = {
 	id: PropTypes.string,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onClick: PropTypes.func,
-	onClickUrl: PropTypes.string,
+	getOnClickUrl: PropTypes.func,
 	showReplyAction: PropTypes.bool,
 	threadIsTrimming: PropTypes.bool,
 	threadIsArchived: PropTypes.bool,
@@ -302,9 +305,9 @@ CommentAndStuff.propTypes = {
 	onShowReplyFormChange: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	onSubscribeToThread: PropTypes.func,
-	unreadCommentWatcher: PropTypes.any.isRequired,
-	// // This produced a mismatch warning on hot reload.
-	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher).isRequired,
+	unreadCommentWatcher: PropTypes.any,
+	// // This property type definition produced a mismatch warning on hot reload.
+	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher),
 	latestSeenThreadId: threadId
 }
 

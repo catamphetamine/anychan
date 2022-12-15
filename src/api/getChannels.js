@@ -7,12 +7,12 @@ import { getProvider } from '../provider.js'
  * @param  {boolean} options.all — If set to `true`, then the "full" list of channels is returned. Some imageboards support creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
  * @return {object} Returns `{ [channels], [channelsByPopularity], [channelsByCategory], [allChannels: { channels, [channelsByPopularity], [channelsByCategory] }], [hasMoreChannels] }`. If a provider doesn't differentiate between a "short" list of channels and a "long" list of channels then both `channels` and `allChannels` are returned and are the same. Otherwise, either `channels` and `hasMoreChannels: true` or `allChannels: { channels }` are returned. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the provider provides those).
  */
-export default async function getChannels({ http, all }) {
+export default async function getChannels({ http, proxyUrl, all } = {}) {
 	let channels
 	let hasMoreChannels
 	const provider = getProvider()
 	if (provider.imageboard) {
-		const imageboard = Imageboard({ http })
+		const imageboard = Imageboard({ http, proxyUrl })
 		channels = await (all ? imageboard.getAllBoards() : imageboard.getBoards())
 		hasMoreChannels = imageboard.hasMoreBoards()
 	} else {

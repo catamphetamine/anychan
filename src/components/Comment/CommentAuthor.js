@@ -191,7 +191,7 @@ export function hasAuthor(post) {
 }
 
 function shouldShowAuthorId(post) {
-	return post.authorId && post.mode === 'thread'
+	return post.authorId && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments')
 }
 
 function CommentAuthorIcon({

@@ -169,7 +169,9 @@ Custom configuration can be specified at the top of the `index.html` file in the
 	// that it is hosted at the root level of a domain.
 	"path": "/anychan",
 
-	// CORS Proxy settings (see the "Proxy" section of the readme).
+	// CORS Proxy URL (see the "Proxy" section of the readme).
+	//
+	// To set up a free proxy,
 	// AWS EC2 is the easiest way to set up a free 1-year proxy,
 	// but AWS is blocked on most imageboards as a DDoS prevention measure,
 	// so Heroku is used instead.
@@ -177,7 +179,11 @@ Custom configuration can be specified at the top of the `index.html` file in the
 	// compared to the imageboard's domain.
 	// For example, CORS Proxy is required when running a demo
 	// somewhere on `surge.sh` and using "4chan" imageboard.
-	"proxyUrl": "https://example.herokuapp.com/{url}",
+	//
+	// `{url}` parameter is the target URL.
+	// `{urlEncoded}` parameter is the target URL encoded using `encodeURIComponent()`.
+	//
+	"proxyUrl": "https://anychan-proxy.vercel.app?url={urlEncoded}",
 
 	// Google Analytics can be used for tracking page views.
 	// Though most users block it in their web browsers.
@@ -412,7 +418,7 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 
 * [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-NGINX.md).
 
-* [An example of setting up a free CORS proxy on Heroku running "CORS Anywhere"](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-HEROKU-CORS-ANYWHERE.md).
+* [An example of setting up a free CORS proxy on Vercel running "CORS Anywhere"](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-VERCEL-CORS-ANYWHERE.md).
 
 ####
 
@@ -800,9 +806,9 @@ This application uses [CSS Variables](https://caniuse.com/#feat=css-variables).
 | —  | 16+  | 31+     | 49+    | 36+   | 9.1+   | 9.3+       | 5+              |
 -->
 
-## Develop
+## Development
 
-To develop the application, clone the repos, install the dependencies, and run the app.
+To develop the application, install Node.js >= 16, clone the repos, install the dependencies, and run the app.
 
 ```
 git clone https://gitlab.com/catamphetamine/frontend-lib.git

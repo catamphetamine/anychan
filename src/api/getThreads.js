@@ -6,6 +6,8 @@ import configuration from '../configuration.js'
 import getUserData from '../UserData.js'
 import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
 
+const MAX_LATEST_COMMENTS_PAGES_COUNT = 2
+
 export default async function getThreads({
 	channelId,
 	censoredWords,
@@ -13,6 +15,9 @@ export default async function getThreads({
 	messages,
 	locale,
 	http,
+	proxyUrl,
+	withLatestComments,
+	sortByRating,
 	userData = getUserData()
 }) {
 	let threads
@@ -20,7 +25,7 @@ export default async function getThreads({
 
 	const provider = getProvider()
 	if (provider.imageboard) {
-		const imageboard = Imageboard({ messages, http })
+		const imageboard = Imageboard({ messages, http, proxyUrl })
 		threads = await imageboard.getThreads({
 			boardId: channelId
 		}, {
@@ -30,9 +35,16 @@ export default async function getThreads({
 			// Add `.parseContent()` function to each `comment`.
 			addParseContent: true,
 			commentLengthLimit: getCommentLengthLimit('channel'),
-			maxLatestCommentsPages: 2,
-			withLatestComments: true
+			latestCommentLengthLimit: getCommentLengthLimit('thread'),
+			maxLatestCommentsPages: withLatestComments ? MAX_LATEST_COMMENTS_PAGES_COUNT : undefined,
+			withLatestComments,
+			sortByRating
 		})
+		if (withLatestComments) {
+			for (const thread of threads) {
+
+			}
+		}
 	} else {
 		const result = await provider.api.getThreads({ channelId })
 		threads = result.threads

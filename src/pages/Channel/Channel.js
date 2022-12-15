@@ -21,9 +21,9 @@ import ChannelUrl from '../../components/ChannelUrl.js'
 import ChannelThread from './ChannelThread.js'
 
 import useLocale from '../../hooks/useLocale.js'
-import useUnreadCommentWatcher from './useUnreadCommentWatcher.js'
+import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
-import useOnThreadClick from './useOnThreadClick.js'
+import useOnCommentClick from './useOnCommentClick.js'
 
 import { saveChannelView } from '../../redux/settings.js'
 
@@ -35,6 +35,7 @@ import './Channel.css'
 function ChannelPage() {
 	const channel = useSelector(state => state.data.channel)
 	const threads = useSelector(state => state.data.threads)
+	const settings = useSelector(state => state.settings.settings)
 
 	const locale = useLocale()
 	const censoredWords = useSelector(state => state.settings.settings.censoredWords)
@@ -42,46 +43,73 @@ function ChannelPage() {
 	const {
 		virtualScrollerState: initialVirtualScrollerState,
 		scrollPosition: initialScrollPosition,
+
 		// `latestSeenThreadId` should be determined on the initial render,
 		// and then it shouldn't change, so that `VirtualScroller` state stays the same
 		// during Back / Forward navigation.
 		initialLatestSeenThreadId,
-		// `channelView` should be determined on the initial render,
-		// so that `VirtualScroller` state stays the same during Back / Forward navigation.
-		// Otherwise, the user could switch it to another view in another tab.
+
+		// `channelView` should be cached at the initial render.
+		// Otherwise, if it was read from its latest value from `state.settings`,
+		// it could result in an incorrect behavior of `<VirtualScroller/>` when navigating "Back".
+		// In that case, the cached list item sizes would correspond to the old `channelView`
+		// while the user might have changed the `channelView` to some other value in some other tab
+		// since the channel page has initially been rendered.
+		// So after "Back" navigation, the page should be restored to as it was before navigating from it,
+		// and that would include the `channelView` setting value, and that's why it gets saved
+		// in `state.channel` for this particular page rather than just in `state.settings`.
 		channelView
 	} = useSelector(state => state.channel)
 
 	const dispatch = useDispatch()
 
-	const onSetChannelView = useCallback((view) => {
+	const onSetChannelView = useCallback(async (view) => {
+		// Set `channelView` on this particular page.
 		dispatch(setChannelView(view))
+
+		// Save `channelView` in user's settings.
 		dispatch(saveChannelView(view))
-	}, [])
+
+		// Refresh the page.
+		await loadChannelPage({
+			channelId: channel.id,
+			dispatch,
+			settings,
+			channelView: view
+		})
+	}, [
+		dispatch,
+		channel,
+		settings,
+		channelView
+	])
 
 	// Update max attachment thumbnail width.
 	useUpdateAttachmentThumbnailMaxWidth({ threads })
 
 	const [isSearchBarShown, setSearchBarShown] = useState()
 
-	const onThreadClick = useOnThreadClick()
+	const onCommentClick = useOnCommentClick()
 
 	const unreadCommentWatcher = useUnreadCommentWatcher()
 
 	const itemComponentProps = useMemo(() => ({
-		mode: 'channel',
-		hasVoting: channel.features.votes,
-		channelId: channel.id,
-		dispatch,
-		locale,
-		onClick: onThreadClick,
-		unreadCommentWatcher,
-		latestSeenThreadId: channelView === 'new-threads' ? initialLatestSeenThreadId : undefined
+		channelView,
+		commonProps: {
+			mode: 'channel',
+			hasVoting: channel.features.votes,
+			channelId: channel.id,
+			dispatch,
+			locale,
+			onClick: onCommentClick,
+			unreadCommentWatcher,
+			latestSeenThreadId: channelView === 'new-threads' ? initialLatestSeenThreadId : undefined
+		}
 	}), [
 		channel,
 		dispatch,
 		locale,
-		onThreadClick,
+		onCommentClick,
 		unreadCommentWatcher,
 		initialLatestSeenThreadId,
 		channelView
@@ -95,7 +123,8 @@ function ChannelPage() {
 			setSearchBarShown={setSearchBarShown}
 			channelView={channelView}
 			setChannelView={onSetChannelView}
-			className="ChannelPage-menu"/>
+			className="ChannelPage-menu"
+		/>
 	)
 
 	return (
@@ -110,18 +139,25 @@ function ChannelPage() {
 						title={getProvider().title}
 						className="ChannelPage-headingLogoLink">
 						<ProviderLogo
-							className="ChannelPage-headingLogo"/>
+							className="ChannelPage-headingLogo"
+						/>
 					</Link>
 					<ChannelUrl
 						channelId={channel.id}
-						className="ChannelPage-headingId"/>
+						className="ChannelPage-headingId"
+					/>
 					{channel.title}
 					<ProviderLogo
-						className="ChannelPage-headingLogo ChannelPage-headingLogo--spaceEquivalent"/>
+						className="ChannelPage-headingLogo ChannelPage-headingLogo--spaceEquivalent"
+					/>
 				</h1>
 				{toolbar}
 			</header>
+
+			{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
+			    when the user changes the current channel's viewing mode. */}
 			<CommentsList
+				key={channelView}
 				mode="channel"
 				initialState={initialVirtualScrollerState}
 				setState={setVirtualScrollerState}
@@ -130,7 +166,8 @@ function ChannelPage() {
 				items={threads}
 				itemComponent={ChannelThread}
 				itemComponentProps={itemComponentProps}
-				className="ChannelPage-threads"/>
+				className="ChannelPage-threads"
+			/>
 		</section>
 	)
 	// className="ChannelPage-threads no-margin-collapse"
@@ -146,7 +183,16 @@ function ChannelPage() {
 // }
 
 ChannelPage.meta = getChannelPageMeta
-ChannelPage.load = loadChannelPage
+
+ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
+	const settings = getState().settings.settings
+	return await loadChannelPage({
+		channelId,
+		dispatch,
+		settings,
+		channelView: settings.channelView
+	})
+}
 
 // This is a workaround for cases when navigating from one channel
 // to another channel in order to prevent page state inconsistencies

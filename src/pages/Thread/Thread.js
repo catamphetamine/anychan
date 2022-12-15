@@ -167,6 +167,13 @@ function ThreadPage() {
 		initialLatestReadCommentIndex
 	])
 
+	const onRequestShowCommentFromSameThread = useCallback(({
+		commentId,
+		fromCommentId
+	}) => {
+		onNavigateToComment(commentId, fromCommentId)
+	}, [onNavigateToComment])
+
 	const itemComponentProps = useMemo(() => ({
 		getCommentById,
 		mode: 'thread',
@@ -186,7 +193,7 @@ function ThreadPage() {
 		unreadCommentWatcher,
 		expandGeneratedPostLinkBlockQuotes: !shouldMinimizeGeneratedPostLinkBlockQuotes(),
 		expandAttachments: areAttachmentsExpanded,
-		onShowComment: onNavigateToComment,
+		onRequestShowCommentFromSameThread,
 		isPreviouslyRead,
 		onDownloadThread,
 		onSubscribeToThread
@@ -316,7 +323,7 @@ function ThreadPage() {
 					onClose={hideThreadHistoryModal}
 					onGoBack={onGoBackInThreadNavigationHistory}
 					history={threadNavigationHistory}
-					onShowComment={onNavigateToComment}
+					onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
 					onGoToComment={onGoToComment}/>
 			}
 		</section>

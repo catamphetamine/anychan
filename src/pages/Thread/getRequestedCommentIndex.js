@@ -28,3 +28,9 @@ export default function getRequestedCommentIndex(thread, location) {
 		}
 	}
 }
+
+// Replaces the current web browser page's URL without reloading the page.
+function replacePageUrl(newUrl) {
+	// https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page
+	window.history.replaceState(null, document.title, newUrl)
+}
