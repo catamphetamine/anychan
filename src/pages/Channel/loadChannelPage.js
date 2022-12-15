@@ -9,7 +9,8 @@ export default async function loadChannelPage({
 	channelId,
 	dispatch,
 	settings,
-	channelView
+	channelView,
+	wasCancelled
 }) {
 	const {
 		censoredWords,
@@ -25,6 +26,10 @@ export default async function loadChannelPage({
 		withLatestComments: channelView === 'new-comments',
 		sortByRating: channelView === 'popular'
 	}))
+
+	if (wasCancelled()) {
+		return
+	}
 
 	onThreadsFetched(channelId, threads, { dispatch })
 

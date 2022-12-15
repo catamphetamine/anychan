@@ -58,6 +58,7 @@ export default function Toolbar({
 	setAttachmentsExpanded,
 	channelView,
 	setChannelView,
+	isLoadingChannelView,
 	openSlideshow,
 	getCommentById,
 	className,
@@ -77,6 +78,7 @@ export default function Toolbar({
 			onClick: () => setChannelView('new-threads'),
 			isSelected: channelView === 'new-threads',
 			icon: ThreadsIconOutline,
+			wait: isLoadingChannelView,
 			className: 'Toolbar-item--channelView'
 			// className: classNames('Toolbar-item--channelView', 'Toolbar-item--channelViewNewThreads')
 		},
@@ -85,6 +87,7 @@ export default function Toolbar({
 			onClick: () => setChannelView('new-comments'),
 			isSelected: channelView === 'new-comments',
 			icon: ThreadWithCommentsIconOutline,
+			wait: isLoadingChannelView,
 			className: 'Toolbar-item--channelView'
 		},
 		{
@@ -94,6 +97,7 @@ export default function Toolbar({
 			icon: PopularThreadsIconOutline,
 			// icon: FireIconOutline,
 			// iconActive: FireIconFill,
+			wait: isLoadingChannelView,
 			className: 'Toolbar-item--channelView'
 			// className: classNames('Toolbar-item--channelView', 'Toolbar-item--channelViewRightmost')
 		},
@@ -172,6 +176,7 @@ Toolbar.propTypes = {
 	setAttachmentsExpanded: PropTypes.func,
 	channelView: PropTypes.oneOf(['new-threads', 'new-comments']),
 	setChannelView: PropTypes.func,
+	isLoadingChannelView: PropTypes.bool,
 	openSlideshow: PropTypes.func,
 	getCommentById: PropTypes.func,
 	className: PropTypes.string

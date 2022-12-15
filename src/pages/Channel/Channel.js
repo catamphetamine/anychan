@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
@@ -63,21 +63,57 @@ function ChannelPage() {
 
 	const dispatch = useDispatch()
 
+	// Added `isLoadingChannelView` flag to disable Toolbar channel view selection buttons
+	// while it's loading.
+	const [isLoadingChannelView, setLoadingChannelView] = useState()
+
+	// Cancel any potential running `loadChannelPage()` function
+	// when navigating away from this page.
+	const wasUnmounted = useRef()
+	useEffect(() => {
+		return () => {
+			wasUnmounted.current = true
+		}
+	}, [])
+
+	// This "hack" is used to keep rendering the `threads` list
+	// which was loaded for the previous `channelView` when switching
+	// channel view in the Toolbar.
+	const threadsForPreviousChannelView = useRef()
+
 	const onSetChannelView = useCallback(async (view) => {
-		// Set `channelView` on this particular page.
-		dispatch(setChannelView(view))
+		const wasCancelled = () => wasUnmounted.current
 
-		// Save `channelView` in user's settings.
-		dispatch(saveChannelView(view))
+		try {
+			threadsForPreviousChannelView.current = threads
 
-		// Refresh the page.
-		await loadChannelPage({
-			channelId: channel.id,
-			dispatch,
-			settings,
-			channelView: view
-		})
+			setLoadingChannelView(true)
+
+			// Refresh the page.
+			await loadChannelPage({
+				channelId: channel.id,
+				dispatch,
+				settings,
+				channelView: view,
+				wasCancelled
+			})
+
+			if (wasCancelled()) {
+				return
+			}
+
+			// Set `channelView` on this particular page.
+			dispatch(setChannelView(view))
+
+			// Save `channelView` in user's settings.
+			dispatch(saveChannelView(view))
+
+			threadsForPreviousChannelView.current = undefined
+		} finally {
+			setLoadingChannelView(false)
+		}
 	}, [
+		threads,
 		dispatch,
 		channel,
 		settings,
@@ -115,6 +151,10 @@ function ChannelPage() {
 		channelView
 	])
 
+	const threadsForCurrentChannelView = useMemo(() => {
+		return threads
+	}, [channelView])
+
 	const toolbar = (
 		<Toolbar
 			mode="channel"
@@ -123,6 +163,7 @@ function ChannelPage() {
 			setSearchBarShown={setSearchBarShown}
 			channelView={channelView}
 			setChannelView={onSetChannelView}
+			isLoadingChannelView={isLoadingChannelView}
 			className="ChannelPage-menu"
 		/>
 	)
@@ -163,7 +204,7 @@ function ChannelPage() {
 				setState={setVirtualScrollerState}
 				initialScrollPosition={initialScrollPosition}
 				setScrollPosition={setScrollPosition}
-				items={threads}
+				items={threadsForPreviousChannelView.current || threads}
 				itemComponent={ChannelThread}
 				itemComponentProps={itemComponentProps}
 				className="ChannelPage-threads"
@@ -190,7 +231,8 @@ ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
 		channelId,
 		dispatch,
 		settings,
-		channelView: settings.channelView
+		channelView: settings.channelView,
+		wasCancelled: () => false
 	})
 }
 
