@@ -29,7 +29,6 @@ import useDownloadThread from './useDownloadThread.js'
 import useSubscribeToThread from './useSubscribeToThread.js'
 import useUnreadCommentWatcher from './useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
-import usePostComment from './usePostComment.js'
 import useGoToComment from './useGoToComment.js'
 import useGoBackKeyboardControl from './useGoBackKeyboardControl.js'
 
@@ -84,9 +83,9 @@ function ThreadPage() {
 		location
 	})
 
-	const [
+	const {
 		openSlideshow
-	] = useSlideshow({
+	} = useSlideshow({
 		thread,
 		fromIndex,
 		setNewFromIndex
@@ -178,9 +177,11 @@ function ThreadPage() {
 		getCommentById,
 		mode: 'thread',
 		channelId: channel.id,
-		hasVoting: channel.features.votes,
+		// Old cached board objects don't have a `.features` sub-object.
+		// (Before early 2023).
+		hasVoting: channel.features && channel.features.votes,
 		channelIsNotSafeForWork: channel.notSafeForWork,
-		showReplyAction: true,
+		canReply: true,
 		// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
 		// when a thread expires during auto-update.
 		threadExpired: thread.expired,
@@ -216,8 +217,6 @@ function ThreadPage() {
 		unreadCommentWatcher,
 		onNavigateToComment
 	])
-
-	const onPostComment = usePostComment()
 
 	// Go "back" to thread page on "Backspace".
 	useGoBackKeyboardControl({ channelId: channel.id })
@@ -288,7 +287,7 @@ function ThreadPage() {
 				<React.Fragment>
 					<AutoUpdate
 						autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}/>
-					{/*<PostForm onSubmit={onPostComment}/>*/}
+					{/*<PostForm onSubmit={onSubmitReply}/>*/}
 					{thread.bumpLimitReached &&
 						<InfoBanner
 							Icon={SinkingBoatIcon}>

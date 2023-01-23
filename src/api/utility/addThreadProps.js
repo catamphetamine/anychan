@@ -8,13 +8,6 @@ export default function addThreadProps(thread, {
 	grammarCorrection,
 	censoredWords
 }) {
-	// Rename `thread.boardId` -> `thread.channelId`.
-	// `thread.boardId` is set by `imageboard` library.
-	if (thread.boardId) {
-		thread.channelId = thread.boardId
-		delete thread.boardId
-	}
-
 	// Set `hasAuthorIds` flag on the `thread`.
 	if (thread.comments[0].threadHasAuthorIds) {
 		thread.hasAuthorIds = true
@@ -51,6 +44,9 @@ function addThreadTitle(thread, {
 			if (titleCensored !== thread.title) {
 				thread.titleCensoredContent = titleCensored
 				thread.titleCensored = getInlineContentText(titleCensored)
+			} else {
+				thread.titleCensoredContent = thread.title
+				thread.titleCensored = thread.title
 			}
 		}
 	} else {

@@ -8,6 +8,7 @@ import getLatestSeenThreadId from '../../utility/thread/getLatestSeenThreadId.js
 export default async function loadChannelPage({
 	channelId,
 	dispatch,
+	getCurrentChannel,
 	settings,
 	channelView,
 	wasCancelled
@@ -19,13 +20,15 @@ export default async function loadChannelPage({
 		autoSuggestFavoriteChannels
 	} = settings
 
-	const { channel, threads } = await dispatch(getThreads(channelId, {
+	const { threads } = await dispatch(getThreads(channelId, {
 		censoredWords,
 		grammarCorrection,
 		locale,
 		withLatestComments: channelView === 'new-comments',
 		sortByRating: channelView === 'popular'
 	}))
+
+	const channel = getCurrentChannel()
 
 	if (wasCancelled()) {
 		return

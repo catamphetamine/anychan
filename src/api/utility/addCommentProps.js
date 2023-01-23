@@ -9,8 +9,8 @@ import transformText from './transformText.js'
  * @param {object} thread
  * @param {string} options.mode — Either "thread" (viewing thread page) or "channel" (viewing channel page).
  * @param {object} options.votes — Own votes in this thread, read from `localStorage`. An object of shape: `{ [commentId]: 1 or -1, ... }`.
- * @param {number[]} options.own — Comment/thread ownership status: included IDs are "owned".
- * @param {number[]} options.hidden — Comment/thread "hidden" status: included IDs are "hidden".
+ * @param {number[]} options.ownCommentIds — Comment/thread ownership status: included IDs are "owned".
+ * @param {number[]} options.hiddenCommentIds — Comment/thread "hidden" status: included IDs are "hidden".
  * @param {number[]} options.ignoredAuthors — The IDs of the "ignored" authors.
  */
 export default function addCommentProps(thread, {
@@ -24,8 +24,8 @@ export default function addCommentProps(thread, {
 	// thread comments list.
 	fromIndex = 0,
 	votes,
-	own,
-	hidden,
+	ownCommentIds,
+	hiddenCommentIds,
 	ignoredAuthors,
 	hasAuthorIds,
 	// onHasAuthorIds,
@@ -73,14 +73,17 @@ export default function addCommentProps(thread, {
 		addCommentVote(comment, votes)
 
 		// Set ownership status.
-		if (own.includes[comment.id]) {
-			comment.own = true
+		if (ownCommentIds.includes(comment.id)) {
+			comment.ownCommentIds = true
 		}
 
 		// Set hidden status.
-		if (hidden.includes[comment.id]) {
+		if (hiddenCommentIds.includes(comment.id)) {
 			comment.hidden = true
 		}
+
+		// Set `channelIdForCountryFlag` property.
+		comment.channelIdForCountryFlag = thread.channelId
 
 		// Modify the `comment`'s `.parseContent()` function a bit.
 		addParseContent(comment, {
@@ -183,6 +186,9 @@ function transformCommentTitle(comment, { censoredWords, grammarCorrection, loca
 		if (titleCensored !== comment.title) {
 			comment.titleCensoredContent = titleCensored
 			comment.titleCensored = getInlineContentText(titleCensored)
+		} else {
+			comment.titleCensoredContent = comment.title
+			comment.titleCensored = comment.title
 		}
 	}
 }

@@ -2,128 +2,238 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import PostAttachmentThumbnail from 'social-components-react/components/PostAttachmentThumbnail.js'
-import PictureStack from 'social-components-react/components/PictureStack.js'
+import WrapCommentWithThumbnail from './WrapCommentWithThumbnail.js'
+import CommentHidden from './CommentHidden.js'
+import Comment from './Comment.js'
+import { hasAuthor } from './CommentAuthor.js'
+import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickableWrapper.js'
+
+import useSlideshow from './useSlideshow.js'
+import useCompact from './useCompact.js'
+import usePreviouslyRead from './usePreviouslyRead.js'
+import usePostUrlClick from './usePostUrlClick.js'
+import useId from './useId.js'
 
 import {
-	comment as commentType
+	comment as commentType,
+	threadId,
+	channelId
 } from '../../PropTypes.js'
-
-import usePostThumbnail from './usePostThumbnail.js'
 
 import getMessages from '../../messages/index.js'
 
-// I don't know why are there constants defined in `window` object.
-// Maybe they were meant to be some "default" constants that
-// could be overwridden by a user via javascript or via the Console, or smth.
-window.SHOW_POST_THUMBNAIL = true
-window.SHOW_POST_STATS_ON_THE_LEFT_SIDE = false
+window.SHOW_POST_HEADER = false
+// window.POST_FULL_WIDTH = true
 
-function CommentWithThumbnail({
+export default function CommentWithThumbnail({
 	mode,
 	comment,
+	threadId,
+	channelId,
 	hidden,
+	onRenderedContentDidChange,
 	locale,
-	onReply,
 	expandAttachments,
-	onAttachmentClick,
-	shouldFixAttachmentPictureSize,
-	showPostThumbnailWhenThereAreMultipleAttachments,
-	showPostThumbnailWhenThereIsNoContent,
-	showOnlyFirstAttachmentThumbnail,
+	isPreviouslyRead,
+	showingReplies,
+	parentComment,
+	compact,
+	onPostUrlClick: onPostUrlClick_,
 	className,
-	children,
+
+	onClick,
+	onReply,
+
+	// <WrapCommentWithThumbnail/> props:
+
+	// `elementRef` is supplied by `<CommentTree/>`
+	// and is used to to scroll to the parent post
+	// when the user hides its tree of replies.
+	elementRef,
+
+	// These properties are passed by <OnLongPress/>:
+	onTouchStart,
+	onTouchEnd,
+	onTouchMove,
+	onTouchCancel,
+	onDragStart,
+	onMouseDown,
+	onMouseUp,
+	onMouseMove,
+	onMouseLeave,
+
+	// "Reply on double click":
+	onDoubleClick,
+
+	// <Comment/> props:
 	...rest
-}, ref) {
-	const [
-		postThumbnail,
-		postThumbnailMoreAttachmentsCount,
-		postThumbnailOnClick,
-		postThumbnailSizeStyle
-	] = usePostThumbnail({
+}) {
+	const { onAttachmentClick } = useSlideshow({ comment })
+
+	// Set default `compact` property.
+	compact = useCompact({
+		compact,
+		mode,
 		comment,
-		showPostThumbnailWhenThereAreMultipleAttachments,
-		showPostThumbnailWhenThereIsNoContent,
-		showOnlyFirstAttachmentThumbnail,
-		expandAttachments,
-		hidden,
-		onAttachmentClick
+		threadId
 	})
 
-	let postThumbnailElement
+	// Create post URL "on click" handler.
+	const {
+		clickedPostUrl,
+		onPostUrlClick
+	} = usePostUrlClick({
+		onPostUrlClick: onPostUrlClick_,
+		comment
+	})
 
-	if (postThumbnail) {
-		postThumbnailElement = (
-			<PostAttachmentThumbnail
-				border
-				useSmallestThumbnail
-				attachment={postThumbnail}
-				spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
-				onClick={postThumbnailOnClick}
-				fixAttachmentPictureSize={shouldFixAttachmentPictureSize}/>
+	// Get `previouslyRead` flag value.
+	const previouslyRead = usePreviouslyRead({
+		isPreviouslyRead,
+		showingReplies,
+		parentComment,
+		clickedPostUrl,
+		comment
+	})
+
+	const commentClassName = 'Comment-comment'
+
+	let commentElement
+	if (hidden) {
+		commentElement = (
+			<CommentHidden
+				mode={mode}
+				comment={comment}
+				messages={getMessages(locale)}
+				className={commentClassName}
+			/>
 		)
-
-		if (postThumbnailMoreAttachmentsCount) {
-			// A container `<div/>` is used so that the `<PictureStack/>`
-			// isn't stretched to the full height of the comment,
-			// because `.Comment-thumbnail` is `display: flex`.
-			postThumbnailElement = (
-				<div>
-					<PictureStack count={postThumbnailMoreAttachmentsCount + 1}>
-						{postThumbnailElement}
-					</PictureStack>
-				</div>
-			)
-		}
+	} else {
+		commentElement = (
+			<Comment
+				{...rest}
+				mode={mode}
+				comment={comment}
+				threadId={threadId}
+				channelId={channelId}
+				locale={locale}
+				onReply={onReply}
+				onRenderedContentDidChange={onRenderedContentDidChange}
+				expandAttachments={expandAttachments}
+				onAttachmentClick={onAttachmentClick}
+				showingReplies={showingReplies}
+				parentComment={parentComment}
+				onPostUrlClick={onPostUrlClick}
+				commentClassName={commentClassName}
+			/>
+		)
 	}
 
-	// I don't know why does it read the value from `window`.
-	// Maybe it was meant to be a "default" constant that
-	// could be overwridden by a user via javascript or via the Console, or smth.
-	const showThumbnail = window.SHOW_POST_THUMBNAIL;
+	const onLongPressProps = {
+		onTouchStart,
+		onTouchEnd,
+		onTouchMove,
+		onTouchCancel,
+		onDragStart,
+		onMouseDown,
+		onMouseUp,
+		onMouseMove,
+		onMouseLeave
+	}
 
-	return (
-		<article
-			{...rest}
-			ref={ref}
-			data-comment-id={comment.id}
-			style={postThumbnailSizeStyle}
-			className={classNames(className, {
-				'Comment--showThumbnail': showThumbnail,
-				'Comment--hasThumbnail': showThumbnail && postThumbnail,
-				'Comment--hasNoThumbnail': showThumbnail && !postThumbnail,
+	// onTouchStart={onTouchStart}
+	// onTouchEnd={onTouchEnd}
+	// onTouchMove={onTouchMove}
+	// onTouchCancel={onTouchCancel}
+	// onDragStart={onDragStart}
+	// onMouseDown={onMouseDown}
+	// onMouseUp={onMouseUp}
+	// onMouseMove={onMouseMove}
+	// onMouseLeave={onMouseLeave}
+
+	const id = useId({
+		comment,
+		parentComment
+	})
+
+	// `elementRef` is supplied by `<CommentTree/>`
+	// and is used to to scroll to the parent post
+	// when the user hides its tree of replies.
+	const commentWithThumbnailElement = (
+		<WrapCommentWithThumbnail
+			ref={elementRef}
+			as="article"
+			id={id}
+			{...onLongPressProps}
+			onDoubleClick={onDoubleClick}
+			mode={mode}
+			comment={comment}
+			threadId={threadId}
+			locale={locale}
+			expandAttachments={expandAttachments}
+			onAttachmentClick={onAttachmentClick}
+			showThumbnail={!hidden}
+			className={classNames(className, 'Comment', `Comment--${mode}`, {
+				'Comment--compact': compact,
+				// 'Comment--removed': comment.removed,
+				'Comment--titled': comment.title,
+				'Comment--authored': hasAuthor(comment),
+				'Comment--opening': mode === 'thread' && comment.id === threadId,
+				'Comment--showHeader': window.SHOW_POST_HEADER,
+				'Comment--fullWidth': window.POST_FULL_WIDTH,
+				'Comment--previouslyRead': previouslyRead
 			})}>
-			{showThumbnail && postThumbnailElement &&
-				<div className="Comment-thumbnail">
-					{postThumbnailElement}
-				</div>
-			}
-			{showThumbnail && !postThumbnailElement &&
-				<div className="Comment-thumbnailPlaceholder"/>
-			}
-			{children}
-		</article>
+			{commentElement}
+		</WrapCommentWithThumbnail>
 	)
-	// commentCreatedAt={comment.createdAt}
-	// commentUpdatedAt={comment.updatedAt}
-}
 
-CommentWithThumbnail = React.forwardRef(CommentWithThumbnail)
+	if (onClick || onReply) {
+		return (
+			<CommentWithThumbnailClickableWrapper
+				comment={comment}
+				threadId={threadId}
+				channelId={channelId}
+				onClick={onClick}
+				onReply={onReply}>
+				{commentWithThumbnailElement}
+			</CommentWithThumbnailClickableWrapper>
+		)
+	}
+
+	return commentWithThumbnailElement
+}
 
 CommentWithThumbnail.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: commentType.isRequired,
+	threadId: threadId.isRequired,
+	channelId: channelId.isRequired,
 	hidden: PropTypes.bool,
+	onRenderedContentDidChange: PropTypes.func,
 	locale: PropTypes.string.isRequired,
-	onReply: PropTypes.func,
 	expandAttachments: PropTypes.bool,
-	onAttachmentClick: PropTypes.func,
-	shouldFixAttachmentPictureSize: PropTypes.bool,
-	showPostThumbnailWhenThereAreMultipleAttachments: PropTypes.bool,
-	showPostThumbnailWhenThereIsNoContent: PropTypes.bool,
-	showOnlyFirstAttachmentThumbnail: PropTypes.bool,
+	isPreviouslyRead: PropTypes.func,
+	showingReplies: PropTypes.bool,
+	parentComment: commentType,
+	compact: PropTypes.bool,
+	onPostUrlClick: PropTypes.func,
 	className: PropTypes.string,
-	children: PropTypes.node.isRequired
-}
 
-export default CommentWithThumbnail
+	onClick: PropTypes.func,
+	onReply: PropTypes.func,
+
+	// `elementRef` is supplied by `<CommentTree/>`
+	// and is used to to scroll to the parent post
+	// when the user hides its replies tree.
+	elementRef: PropTypes.any,
+	onTouchStart: PropTypes.func,
+	onTouchEnd: PropTypes.func,
+	onTouchMove: PropTypes.func,
+	onTouchCancel: PropTypes.func,
+	onDragStart: PropTypes.func,
+	onMouseDown: PropTypes.func,
+	onMouseUp: PropTypes.func,
+	onMouseMove: PropTypes.func,
+	onMouseLeave: PropTypes.func,
+	onDoubleClick: PropTypes.func
+}

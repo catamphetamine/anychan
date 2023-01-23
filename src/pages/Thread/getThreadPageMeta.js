@@ -1,6 +1,6 @@
 export default function getThreadPageMeta({ data: { channel, thread }}) {
 	return {
-		title: thread && ('/' + channel.id + '/' + ' — ' + (thread.titleCensored || thread.title)),
+		title: thread && ('/' + channel.id + '/' + ' — ' + thread.titleCensored),
 		description: thread && thread.comments[0].textPreview,
 		image: thread && getThreadImage(thread)
 	}

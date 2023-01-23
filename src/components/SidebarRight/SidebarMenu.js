@@ -12,9 +12,9 @@ import './SidebarMenu.css'
 export default function SidebarMenu() {
 	return (
 		<nav className="SidebarMenu">
-			{/*<HomePageLink includeTitle/>*/}
-			<DarkModeToggle includeTitle/>
-			<SettingsLink includeTitle/>
+			{/*<HomePageLink withLabel/>*/}
+			<DarkModeToggle withLabel/>
+			<SettingsLink withLabel/>
 		</nav>
 	)
 }

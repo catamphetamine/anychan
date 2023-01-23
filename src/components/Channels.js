@@ -32,6 +32,7 @@ export default function ChannelsInSidebar(props) {
 	const hasMoreChannels = useSelector(state => state.data.hasMoreChannels)
 	const selectedChannel = useSelector(state => state.data.channel)
 
+	// Exclude `favoriteChannels` from the list of channels.
 	const exceptFavoriteChannels = useCallback((channels) => {
 		return channels && channels.filter(channel => !favoriteChannels.find(_ => _.id === channel.id))
 	}, [favoriteChannels])

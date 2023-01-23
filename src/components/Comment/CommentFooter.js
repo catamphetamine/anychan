@@ -178,14 +178,14 @@ export default function CommentFooter({
 					threadId={threadId}
 					channelId={channelId}
 					channelIsNotSafeForWork={channelIsNotSafeForWork}
-					dispatch={dispatch}
-					locale={locale}
+					messages={getMessages(locale)}
 					mode={mode}
 					url={url}
 					urlBasePath={urlBasePath}
 					onReply={onReply}
+					onDownloadThread={onDownloadThread}
 					onHide={onHide}
-					onDownloadThread={onDownloadThread}/>
+				/>
 			</div>
 		</div>
 	)
@@ -208,7 +208,7 @@ CommentFooter.propTypes = {
 	locale: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
-	onHide: PropTypes.func,
+	onHide: PropTypes.func.isRequired,
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 	vote: PropTypes.bool,

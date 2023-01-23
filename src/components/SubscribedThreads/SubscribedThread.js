@@ -7,8 +7,8 @@ import classNames from 'classnames'
 import ListButton from '../ListButton.js'
 import ChannelUrl from '../ChannelUrl.js'
 
-import Picture from 'social-components-react/components/Picture.js'
 import TextButton from '../TextButton.js'
+import ThreadThumbnail from '../ThreadThumbnail.js'
 
 import LockIcon from 'frontend-lib/icons/lock.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
@@ -96,25 +96,11 @@ function SubscribedThread({
 					/>
 				}
 				{!thread.expired &&
-					<>
-						{thread.thumbnail &&
-							<Picture
-								border
-								picture={thread.thumbnail}
-								width={THREAD_THUMBNAIL_WIDTH}
-								height={THREAD_THUMBNAIL_WIDTH}
-								fit="cover"
-								blur={thread.thumbnail.spoiler ? 0.1 : undefined}
-								className="SubscribedThread-thumbnail"
-							/>
-						}
-						{!thread.thumbnail &&
-							<div
-								style={THREAD_THUMBNAIL_WIDTH_STYLE}
-								className="SubscribedThread-thumbnailPlaceholder"
-							/>
-						}
-					</>
+					<ThreadThumbnail
+						picture={thread.thumbnail}
+						width={THREAD_THUMBNAIL_WIDTH}
+						className="SubscribedThread-thumbnail"
+					/>
 				}
 				<ChannelUrl
 					channelId={thread.channel.id}

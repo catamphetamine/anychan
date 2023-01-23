@@ -1,0 +1,49 @@
+.SidebarThread {
+	display: flex;
+	align-items: center;
+
+	position: relative;
+
+	padding-top: calc(var(--unit) * 1.5);
+	padding-bottom: calc(var(--unit) * 1.5);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+
+	background-color: var(--Post-backgroundColor);
+
+	border-bottom: 1px solid var(--SidebarThread-borderColor);
+
+	.CommentMoreActions  {
+		position: absolute;
+		right: calc(var(--unit) * 1.5);
+		top: calc(var(--unit) * 1.5);
+	}
+}
+
+.SidebarThread-thumbnail,
+.SidebarThread-thumbnailPlaceholder {
+	margin-right: var(--unit);
+	flex-shrink: 0;
+}
+
+.SidebarThread-title {
+	margin-top: 0;
+	margin-bottom: calc(var(--unit) / 2);
+	font-weight: 500;
+	font-size: 1rem;
+}
+
+.SidebarThread-text {
+	/* For some weird reason, it overflows unless `overflow: hidden` is added. */
+	overflow: hidden;
+}
+
+.SidebarThread--hidden {
+	padding-top: var(--unit);
+	padding-bottom: var(--unit);
+
+	.CommentHidden {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}

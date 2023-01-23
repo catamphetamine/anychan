@@ -1,17 +1,15 @@
-import Imageboard from './Imageboard.js'
 import { getProvider } from '../provider.js'
+import getThreadFromImageboard from './getThreadFromImageboard.js'
 import configuration from '../configuration.js'
 import getUserData from '../UserData.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
+import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 // import getOwnCommentsIncludingOriginalComment from '../UserData/bulkGetters/getOwnCommentsIncludingOriginalComment.js';
 // import getHiddenCommentsIncludingOriginalComment from '../UserData/bulkGetters/getHiddenCommentsIncludingOriginalComment.js';
 // import getCommentVotesIncludingOriginalComment from '../UserData/bulkGetters/getCommentVotesIncludingOriginalComment.js';
-
-import getPostText from 'social-components/utility/post/getPostText.js'
-import trimText from 'social-components/utility/post/trimText.js'
 
 export default async function getThread({
 	channelId,
@@ -34,6 +32,7 @@ export default async function getThread({
 	messages,
 	locale,
 	http,
+	proxyUrl,
 	userData = getUserData()
 }) {
 	// Automatically set `afterCommentId`/`afterCommentsCount` parameters
@@ -46,32 +45,26 @@ export default async function getThread({
 		}
 	}
 
-	let thread
-	let hasMoreComments
+	const provider = getProvider()
 
-	if (getProvider().imageboard) {
-		thread = await Imageboard({ messages, http }).getThread({
-			boardId: channelId,
-			threadId
-		}, {
-			// The parser parses thread comments up to 4x faster without parsing their content.
-			// Example: when parsing comments content — 650 ms, when not parsing comments content — 200 ms.
-			parseContent: false,
-			// Add `.parseContent()` function to each `comment`.
-			addParseContent: true,
-			commentLengthLimit: getCommentLengthLimit('thread'),
+	let result
+	if (provider.imageboard) {
+		result = await getThreadFromImageboard(channelId, threadId, {
 			archived,
-			// `afterCommentId`/`afterCommentsCount` feature is not currently used.
 			afterCommentId,
-			afterCommentsCount
+			afterCommentsCount,
+			messages,
+			http,
+			proxyUrl
 		})
 	} else {
-		thread = await getProvider().api.getThread({
+		result = await provider.api.getThread({
 			channelId,
 			threadId
 		})
-		hasMoreComments = thread.hasMoreComments
 	}
+
+	const { thread, hasMoreComments } = result
 
 	// (this feature is not currently used)
 	// `4chan.org` provides a "-tail" API for getting thread comments
@@ -95,11 +88,11 @@ export default async function getThread({
 		// Check the user's votes to mark some comments as "already voted"
 		// for comments that the user has already voted for.
 		// votes: getCommentVotesIncludingOriginalComment(channelId, threadId) || {},
-		// own: getOwnCommentsIncludingOriginalComment(channelId, threadId) || [],
-		// hidden: getHiddenCommentsIncludingOriginalComment(channelId, threadId) || [],
+		// ownCommentIds: getOwnCommentsIncludingOriginalComment(channelId, threadId) || [],
+		// hiddenCommentIds: getHiddenCommentsIncludingOriginalComment(channelId, threadId) || [],
 		votes: userData.getCommentVotes(channelId, threadId) || {},
-		own: userData.getOwnComments(channelId, threadId) || [],
-		hidden: userData.getHiddenComments(channelId, threadId) || [],
+		ownCommentIds: userData.getOwnComments(channelId, threadId) || [],
+		hiddenCommentIds: userData.getHiddenComments(channelId, threadId) || [],
 		ignoredAuthors: userData.getIgnoredAuthors() || [],
 		hasAuthorIds: threadBeforeRefresh && threadBeforeRefresh.hasAuthorIds,
 		// onHasAuthorIds,
@@ -124,7 +117,7 @@ export default async function getThread({
 		})
 
 		// Generate text preview which is used for `<meta description/>` on the thread page.
-		generateTextPreview(thread.comments[0], messages)
+		thread.comments[0].textPreview = getCommentTextPreview(thread.comments[0], { messages })
 
 		// Return the thread.
 		return thread
@@ -146,23 +139,6 @@ export default async function getThread({
 	return {
 		...threadBeforeRefresh,
 		...getThreadPropertiesFromIncrementalUpdate(thread)
-	}
-}
-
-/**
- * Generates a text preview of a comment.
- * Text preview is used for `<meta description/>`.
- * @param {object} comment
- * @return {string} [preview]
- */
-function generateTextPreview(comment, messages) {
-	const textPreview = getPostText(comment, {
-		ignoreAttachments: true,
-		softLimit: 150,
-		messages: messages.contentType
-	})
-	if (textPreview) {
-		comment.textPreview = trimText(textPreview, 150)
 	}
 }
 

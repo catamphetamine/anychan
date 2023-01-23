@@ -1,0 +1,32 @@
+@import "../../styles/common.css";
+
+.SidebarTopBar {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	/*margin-top: var(--unit);*/
+	margin-top: calc(var(--unit) * 1);
+	margin-bottom: calc(-2 * var(--unit));
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	padding-bottom: calc(var(--unit) * 0.5);
+	/*border-bottom: 1px solid var(--ChannelUrl-slash-color);*/
+
+	@mixin upto-s {
+		display: none;
+	}
+}
+
+/*.SidebarTopBar-left {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex: 1;
+	margin-right: var(--unit);
+}*/
+
+/*.SidebarTopBar-right {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}*/

@@ -8,7 +8,8 @@ import Announcement, { announcementPropType } from 'frontend-lib/components/Anno
 
 import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
-import Sidebar from '../components/Sidebar/Sidebar.js'
+import SidebarLeft from '../components/SidebarLeft/SidebarLeft.js'
+import SidebarRight from '../components/SidebarRight/SidebarRight.js'
 import SideNavMenuButtons from '../components/SideNavMenuButtons.js'
 import BackButton from '../components/BackButton.js'
 import Markup from '../components/Markup.js'
@@ -121,6 +122,10 @@ export default function App({
 		dispatch(setCookiesAccepted())
 	}, [dispatch])
 
+	const isCommentTextContentPage = isChannelPage(route) || isThreadPage(route)
+
+	const isThreadsListSidebarShown = true
+
 	/* Changes the application icon when there're any notifications. */
 	useApplicationIcon()
 
@@ -141,11 +146,17 @@ export default function App({
 				// 'Webpage--channels': isChannelsPage(route),
 				'Webpage--channel': isChannelPage(route),
 				'Webpage--thread': isThreadPage(route),
+				'Webpage--commentTextContent': isCommentTextContentPage,
+				'Webpage--showsThreadsListSidebar': isCommentTextContentPage && isThreadsListSidebarShown,
+				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isThreadsListSidebarShown,
+				'Webpage--centerPageContent': !isCommentTextContentPage
 				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
 			})}>
 				{/*<Header/>*/}
 
 				<SideNavMenuButtons/>
+
+				<SidebarLeft/>
 
 				<div
 					ref={paddingLeft}
@@ -196,9 +207,10 @@ export default function App({
 
 				<div
 					ref={paddingRight}
-					className="Webpage-paddingRight"/>
+					className="Webpage-paddingRight"
+				/>
 
-				<Sidebar/>
+				<SidebarRight/>
 
 				{/*
 				<FullWidthContent>

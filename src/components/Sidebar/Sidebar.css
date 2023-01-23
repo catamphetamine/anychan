@@ -12,10 +12,6 @@
 .Sidebar {
 	--Sidebar-fontSize: initial;
 	font-size: var(--Sidebar-fontSize);
-	.Channels-list {
-		/* Only show the virtical scrollbar. */
-		overflow-x: hidden;
-	}
 }
 
 /* Makes the sidebar text smaller for "L" size (< "XL")
@@ -98,44 +94,3 @@
 		color: var(--Sidebar-color-200);
 	}
 }
-
-.Sidebar-topBar {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	/*margin-top: var(--unit);*/
-	margin-top: calc(var(--unit) * 1);
-	margin-bottom: calc(-2 * var(--unit));
-	padding-left: var(--unit);
-	padding-right: var(--unit);
-	padding-bottom: calc(var(--unit) * 0.5);
-	/*border-bottom: 1px solid var(--ChannelUrl-slash-color);*/
-	/*.SidebarMenuItem--logo {*/
-		/*[data-fill="true"] {*/
-			/*fill: transparent;*/
-			/*stroke: currentColor;*/
-			/* `vector-effect` fixes `stroke-width` to be in screen pixels. */
-			/* (instead of <svg/> `viewBox` units) */
-			/* `vector-effect` is not supported in Edge and IE but */
-			/* it's purely a presentational tweak and doesn't affect operation. */
-			/*vector-effect: non-scaling-stroke;*/
-		/*}*/
-	/*}*/
-	@mixin upto-s {
-		display: none;
-	}
-}
-
-/*.Sidebar-topBarLeft {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	flex: 1;
-	margin-right: var(--unit);
-}*/
-
-/*.Sidebar-topBarRight {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}*/

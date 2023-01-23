@@ -5,9 +5,9 @@ import SidebarProviderLogo from './SidebarProviderLogo.js'
 import SettingsLink from './SettingsLink.js'
 import DarkModeToggle from './DarkModeToggle.js'
 
-import './SidebarProvider.css'
+import './SidebarProviderInfo.css'
 
-export default function SidebarProvider() {
+export default function SidebarProviderInfo() {
 	return (
 		<div className="Sidebar-provider">
 			<SidebarProviderLogo/>

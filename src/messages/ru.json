@@ -2,11 +2,18 @@
 	"boards": {
 		"title": "Доски",
 		"moreBoards": "Ещё Доски",
+		"showRestBoards": "Показать все доски",
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",
 		"byCategory": "По категориям",
 		"error": "Не удалось загрузить список досок"
+	},
+	"threads": {
+		"title": "Треды",
+		"showAllThreads": "Показать все треды",
+		"byPopularity": "Популярные",
+		"byDate": "Недавние"
 	},
 	"subscribedThreads": {
 		"title": "Подписки на треды",
@@ -172,7 +179,10 @@
 	"storageCapacityExceeded": "Хранилище данных переполнено. Данные не будут сохранены.",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
-	"thread": "Тред",
+	"thread": {
+		"default": "Тред",
+		"hidden": "Скрытый тред"
+	},
 	"comment": {
 		"default": "Комментарий",
 		"deleted": "Удалённый комментарий",

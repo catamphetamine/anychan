@@ -10,7 +10,6 @@ export default function usePostThumbnail({
 	showPostThumbnailWhenThereIsNoContent,
 	showOnlyFirstAttachmentThumbnail,
 	expandAttachments,
-	hidden,
 	onAttachmentClick
 }) {
 	let postThumbnail = useMemo(() => {
@@ -27,9 +26,6 @@ export default function usePostThumbnail({
 	// React hooks don't allow `if`/`else`,
 	// so this is a workaround.
 	if (expandAttachments) {
-		postThumbnail = undefined;
-	}
-	if (hidden) {
 		postThumbnail = undefined;
 	}
 

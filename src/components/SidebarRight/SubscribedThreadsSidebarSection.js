@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import SubscribedThreads from '../SubscribedThreads/SubscribedThreads.js'
-import SidebarSection from './SidebarSection.js'
+import SidebarSection from '../Sidebar/SidebarSection.js'
 
 import useMessages from '../../hooks/useMessages.js'
 

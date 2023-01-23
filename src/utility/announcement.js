@@ -52,11 +52,11 @@ export function startPollingAnnouncement(url, showAnnouncement, refreshInterval,
 			hasLockTimedOut,
 			getRetryDelayAfterLockTimedOut,
 			releaseLock,
-			retryAfter
+			retryAfter: retryDelay
 		} = await lock.acquire()
 
-		if (retryAfter) {
-			return retryAfter(retryAfter)
+		if (retryDelay) {
+			return retryAfter(retryDelay)
 		}
 
 		// Fetch the announcement.

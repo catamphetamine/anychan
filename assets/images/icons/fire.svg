@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<path fill="currentColor" stroke="currentColor" stroke-width="10" stroke-miterlimit="10" d="M140.8,172.9c0,0-1.1,38.8-22.1,82c-35.8,73.5-31.4,135.2,15,192.7c67.6,83.7,196.1,76.1,258.1-19.3
+<path data-fill="true" fill="currentColor" stroke="currentColor" stroke-width="10" stroke-miterlimit="10" d="M140.8,172.9c0,0-1.1,38.8-22.1,82c-35.8,73.5-31.4,135.2,15,192.7c67.6,83.7,196.1,76.1,258.1-19.3
 	c80.2-123.5-35-293.8-35-293.8c9.9,75.8-28,108.1-28,108.1c-22.5-137.6-118-222.7-118-222.7c16.7,103.4-19,215.2-52.3,274.1
 	C165.5,226.7,140.8,172.9,140.8,172.9z"/>
 </svg>

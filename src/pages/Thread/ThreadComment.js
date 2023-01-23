@@ -10,6 +10,7 @@ import CommentTree from '../../components/CommentTree.js'
 const ThreadComment = React.memo(function({
 	item: comment,
 	state,
+	setState,
 	...rest
 }) {
 	const initialState = useMemo(() => state, [])
@@ -18,6 +19,7 @@ const ThreadComment = React.memo(function({
 		<CommentTree
 			comment={comment}
 			initialState={initialState}
+			setState={setState}
 			postDateLinkUpdatePageUrlToPostUrlOnClick={true}
 			postDateLinkNavigateToPostUrlOnClick={false}
 			{...rest}
@@ -26,7 +28,9 @@ const ThreadComment = React.memo(function({
 })
 
 ThreadComment.propTypes = {
-	item: PropTypes.object.isRequired
+	item: PropTypes.object.isRequired,
+	state: PropTypes.object,
+	setState: PropTypes.func.isRequired
 }
 
 export default ThreadComment

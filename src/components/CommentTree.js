@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import CommentTree_ from 'social-components-react/components/CommentTree.js'
-import Comment from './Comment/CommentAndStuff.js'
+import CommentBlock from './Comment/CommentBlock.js'
 
 import './CommentTree.css'
 
@@ -13,10 +13,10 @@ export default function CommentTree({
 	// `<CommentTree/>` state is stored in `virtual-scroller` state because it's simpler that way.
 	initialState,
 
-	// `onStateChange()` is supplied by `virtual-scroller`.
-	// `onStateChange()` is also supplied by `InReplyToModal` component.
+	// `setState()` is supplied by `virtual-scroller`.
+	// `setState()` is also supplied by `InReplyToModal` component.
 	// It gets called with the new state as an argument whenever the state of the comment tree changes.
-	onStateChange,
+	setState,
 
 	// `onHeightChange()` is supplied by `virtual-scroller`.
 	// It should be called whenever a comment tree's height changes
@@ -35,27 +35,28 @@ export default function CommentTree({
 	const getCommentComponentProps = useCallback(({
 		// `initialState` property is passed here by `CommentTree` component.
 		// It represents the initial state of the comment tree.
+		// If the initial state is "empty" then it's gonna be an empty object `{}`.
 		initialState,
 
-		// `onStateChange` property is passed here by `CommentTree` component.
-		// `onStateChange` here is not the same as the `onStateChange` property of the main component.
-		// Instead, `onStateChange` here is a function of `transformState` function:
-		// when called as `onStateChange(transformState)`, it updates the state of the comment tree
-		// by applying a transformation to it.
-		onStateChange
+		// `updateState` property is passed here by `CommentTree` component.
+		// `updateState` here is not the same as the `setState` property of the main component.
+		// Instead, `updateState` here is a function of `transformState` function:
+		// when called as `updateState(transformState)`, it updates the state of the comment tree
+		// by applying a transformation to it: `updateState((state) => ({ ... }))`.
+		updateState
 	}) => {
 		return {
 			...(getComponentProps ? getComponentProps() : undefined),
 			initialShowReplyForm: initialState.showReplyForm,
 			onShowReplyFormChange: (showReplyForm) => {
-				onStateChange((state) => ({
+				updateState((state) => ({
 					...state,
 					showReplyForm
 				}))
 			},
 			initialExpandContent: initialState.expandContent,
 			onExpandContentChange: (expandContent) => {
-				onStateChange((state) => ({
+				updateState((state) => ({
 					...state,
 					expandContent
 				}))
@@ -68,7 +69,7 @@ export default function CommentTree({
 			// `post-link`s to the same post, consequtive or
 			// in different parts of its content.
 			onPostLinkQuoteExpanded: ({ postLink }) => {
-				onStateChange((state) => ({
+				updateState((state) => ({
 					...state,
 					expandPostLinkQuotes: {
 						...(state && state.expandPostLinkQuotes),
@@ -80,6 +81,13 @@ export default function CommentTree({
 				if (onHeightChange) {
 					onHeightChange()
 				}
+			},
+			initialHidden: initialState.hidden,
+			setHidden: (hidden) => {
+				updateState((state) => ({
+					...state,
+					hidden
+				}))
 			},
 			getCommentById
 		}
@@ -97,10 +105,10 @@ export default function CommentTree({
 		<CommentTree_
 			{...rest}
 			initialState={initialState}
-			onStateChange={onStateChange}
+			onStateChange={setState}
 			onDidToggleShowReplies={onHeightChange}
 			onShowReply={onShowReply}
-			component={Comment}
+			component={CommentBlock}
 			getComponentProps={getCommentComponentProps}
 		/>
 	)
@@ -118,15 +126,15 @@ CommentTree.propTypes = {
 	initialState: PropTypes.object,
 
 	// When `<CommentTree/>` is rendered on a thread page,
-	// `onStateChange()` property is supplied by `virtual-scroller`.
+	// `setState()` property is supplied by `virtual-scroller`.
 	// It updates the comment tree state in the `VirtualScroller` instance.
 	//
 	// When `<CommentTree/>` is rendered in `<InReplyToModal/>`,
-	// `onStateChange()` property is also supplied in order to
+	// `setState()` property is also supplied in order to
 	// keep the state of a comment tree when navigating between
 	// different comments in an in-reply-to history branch.
 	//
-	onStateChange: PropTypes.func.isRequired,
+	setState: PropTypes.func.isRequired,
 
 	// When `<CommentTree/>` is rendered on a thread page,
 	// `onHeightChange()` property is supplied by `virtual-scroller`.

@@ -3,16 +3,12 @@
 	--SidebarMenuItem-marginRight: calc(var(--unit) * 0.5);
 }
 
-.SidebarMenu {
-	margin-top: var(--unit);
-}
-
 .SidebarMenuItem {
 	display: flex;
 	justify-content: flex-start;
 }
 
-.SidebarMenuItem--includeTitle {
+.SidebarMenuItem--withLabel {
 	align-items: center;
 	/* `<button/>` requires `width: 100%` in order to stretch to full width. */
 	width: 100%;
@@ -25,7 +21,7 @@
 	&:active {
 		background-color: var(--Channels-backgroundColor--active);
 		color: var(--Clickable-color--textActive);
-		.SidebarMenuItem-title {
+		.SidebarMenuItem-label {
 			color: inherit;
 		}
 	}
@@ -39,27 +35,19 @@
 	}
 	&:active {
 		color: var(--Clickable-color--text);
-		.SidebarMenuItem-title {
+		.SidebarMenuItem-label {
 			color: inherit;
 		}
 	}
 }
 
-.SidebarMenuItem--includeTitle {
+.SidebarMenuItem--withLabel {
 	&.SidebarMenuItem--selected {
 		background-color: var(--Channels-backgroundColor--selected);
 	}
 }
 
-.SidebarMenuItem--logo {
-	&.SidebarMenuItem--selected {
-		.SidebarMenu-slashIconLine {
-			stroke-width: 1;
-		}
-	}
-}
-
-.SidebarMenuItem-title {
+.SidebarMenuItem-label {
 	color: var(--Channels-color);
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -78,7 +66,7 @@
 	}
 }
 
-.SidebarMenuItem--includeTitle {
+.SidebarMenuItem--withLabel {
 	.SidebarMenuItem-icon {
 		width: calc(var(--unit) * 1.2);
 		height: calc(var(--unit) * 1.2);

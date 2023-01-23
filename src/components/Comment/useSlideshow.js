@@ -11,6 +11,7 @@ export default function useSlideshow({
 	comment
 }) {
 	const dispatch = useDispatch()
+
 	// `<PostLink/>` doesn't provide the `options` argument
 	// (and `imageElement` as part of it) when calling `onAttachmentClick()`.
 	const onAttachmentClick = useCallback((attachment, { imageElement, attachments } = {}) => {
@@ -20,6 +21,7 @@ export default function useSlideshow({
 		if (attachment.spoiler) {
 			delete attachment.spoiler
 		}
+
 		// Determine the "show from" attachment index.
 		// The attachment clicked might be a `link` attachment
 		// that is not part of `post.attachments`,
@@ -30,10 +32,12 @@ export default function useSlideshow({
 				attachments = getSortedAttachments(comment).filter(isSlideSupported)
 			}
 		}
+
 		let i = -1
 		if (attachments) {
 			i = attachments.indexOf(attachment)
 		}
+
 		// If an attachment is part of `post.attachments`,
 		// the open slideshow in the classic "slideshow" mode
 		// where a user can swipe through all attachments.
@@ -49,7 +53,8 @@ export default function useSlideshow({
 		comment,
 		dispatch
 	])
-	return [
+
+	return {
 		onAttachmentClick
-	]
+	}
 }

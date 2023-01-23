@@ -12,9 +12,9 @@
 		flex-grow: calc(var(--PaddingLeft-flexGrow) + var(--PaddingRight-flexGrow));
 	}
 	.FullWidthContent-sidebar {
-		flex-grow: var(--Sidebar-flexGrow);
-		flex-basis: var(--Sidebar-flexBasis);
-		min-width: var(--Sidebar-minWidth);
+		flex-grow: var(--SidebarRight-flexGrow);
+		flex-basis: var(--SidebarRight-flexBasis);
+		min-width: var(--SidebarRight-minWidth);
 	}
 }
 

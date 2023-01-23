@@ -49,7 +49,7 @@ export default function InReplyToModal({
 		onClose()
 	}, [onClose])
 
-	const { initialState, onStateChange } = useCommentTreeStateCache({
+	const { initialState, setState } = useCommentTreeStateCache({
 		historyEntry
 	})
 
@@ -122,7 +122,7 @@ export default function InReplyToModal({
 					comment={comment}
 					getComponentProps={getComponentProps}
 					initialState={initialState}
-					onStateChange={onStateChange}
+					setState={setState}
 					dialogueTraceStyle="side"
 					postDateLinkUpdatePageUrlToPostUrlOnClick={true}
 					postDateLinkNavigateToPostUrlOnClick={false}
@@ -225,7 +225,7 @@ export function InReplyToModalScrollToTopAndFocus() {
 }
 
 function useCommentTreeStateCache({ historyEntry }) {
-	const onStateChange = useCallback((state) => {
+	const setState = useCallback((state) => {
 		updateCommentTreeStateInHistoryEntry(historyEntry, state)
 	}, [historyEntry])
 
@@ -238,7 +238,7 @@ function useCommentTreeStateCache({ historyEntry }) {
 	return {
 		// state: getState(),
 		initialState,
-		onStateChange
+		setState
 	}
 }
 

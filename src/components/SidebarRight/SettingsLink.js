@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import { getSettingsMenuItem } from '../MainMenu.js'
+import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useRoute from '../../hooks/useRoute.js'
 
-export default function SettingsLink({ includeTitle }) {
+export default function SettingsLink({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
@@ -27,25 +27,17 @@ export default function SettingsLink({ includeTitle }) {
 	const title = messages.settings.title
 
 	return (
-		<Link
-			to={settingsMenuItem.url}
-			title={includeTitle ? undefined : title}
-			className={classNames('SidebarMenuItem', {
-				'SidebarMenuItem--includeTitle': includeTitle,
-				'SidebarMenuItem--icon': !includeTitle,
-				'SidebarMenuItem--selected': isSettingsPage
-			})}>
-			<SettingsIcon className="SidebarMenuItem-icon"/>
-			{includeTitle &&
-				<span className="SidebarMenuItem-title">
-					{title}
-				</span>
-			}
-		</Link>
+		<SidebarMenuItem
+			link={settingsMenuItem.url}
+			label={title}
+			showLabel={withLabel}
+			selected={isSettingsPage}
+			IconComponent={SettingsIcon}
+		/>
 	)
 }
 
 SettingsLink.propTypes = {
-	includeTitle: PropTypes.bool
+	withLabel: PropTypes.bool
 }
 

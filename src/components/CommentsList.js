@@ -25,6 +25,12 @@ function CommentsList({
 		[]
 	)
 
+	const getInitialItemState = useCallback((item) => ({
+		hidden: mode === 'channel' ? item.comments[0].hidden : item.hidden
+	}), [
+		mode
+	])
+
 	const scrollPosition = useRef()
 	const onScrollPositionChange = useCallback(
 		scrollY => scrollPosition.current = scrollY,
@@ -76,9 +82,11 @@ function CommentsList({
 	return (
 		<VirtualScroller
 			{...rest}
+			key={mode}
 			bypass={typeof window === 'undefined'}
 			className={classNames(className, 'CommentsList')}
 			initialState={initialState}
+			getInitialItemState={getInitialItemState}
 			onStateChange={onVirtualScrollerStateChange}
 			initialScrollPosition={initialScrollPosition}
 			onScrollPositionChange={onScrollPositionChange}

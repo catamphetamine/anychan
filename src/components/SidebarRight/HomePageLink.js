@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
+
+import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
 import ProviderIcon from '../ProviderIcon.js'
 import ProviderLogo from '../ProviderLogo.js'
@@ -11,37 +12,27 @@ import useRoute from '../../hooks/useRoute.js'
 
 import { getProvider } from '../../provider.js'
 
-export default function HomePageLink({ includeTitle }) {
+import './HomePageLink.css'
+
+export default function HomePageLink({ withLabel }) {
 	const route = useRoute()
 	const locationPathname = route.location.pathname
 	const isHomePage = locationPathname === '/'
 	const title = getProvider().title
 	return (
-		<Link
-			to="/"
-			title={includeTitle ? undefined : title}
-			className={classNames('SidebarMenuItem', 'SidebarMenuItem--logo', {
-				'SidebarMenuItem--includeTitle': includeTitle,
-				'SidebarMenuItem--icon': !includeTitle,
-				'SidebarMenuItem--selected': isHomePage
-			})}>
-			{/*
-			<HomePageIcon
-				providerId={getProviderId()}
-				className="SidebarMenuItem-icon"/>
-			*/}
-			<SlashIcon className="SidebarMenuItem-icon"/>
-			{includeTitle &&
-				<span className="SidebarMenuItem-title">
-					{title}
-				</span>
-			}
-		</Link>
+		<SidebarMenuItem
+			link="/"
+			label={title}
+			showLabel={withLabel}
+			className="HomePageLink"
+			selected={isHomePage}
+			IconComponent={SlashIcon}
+		/>
 	)
 }
 
 HomePageLink.propTypes = {
-	includeTitle: PropTypes.bool
+	withLabel: PropTypes.bool
 }
 
 function HomePageIcon({ providerId, ...rest }) {

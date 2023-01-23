@@ -199,12 +199,15 @@
 		box-shadow: none;
 	}
 
-	.Webpage--channel,
-	.Webpage--thread {
+	.Webpage--commentTextContent {
 		.Content--text {
 		  width: 100%;
 			max-width: var(--Text-maxWidth);
 		}
+	}
+
+	.Webpage--showsThreadsListSidebar {
+		--Text-maxWidth: var(--Text-maxWidth--compact);
 	}
 
 	.Footer .MainMenu {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import SidebarSection from './SidebarSection.js'
+import SidebarSection from '../Sidebar/SidebarSection.js'
 import SidebarMenu from './SidebarMenu.js'
 
 import useMessages from '../../hooks/useMessages.js'

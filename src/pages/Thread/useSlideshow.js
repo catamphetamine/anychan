@@ -11,19 +11,23 @@ export default function useSlideshow({
 	setNewFromIndex
 }) {
 	const dispatch = useDispatch()
+
 	const openThreadWideSlideshow = useCallback(async () => {
 		const attachments = thread.comments.reduce(
 			(attachments, comment) => attachments.concat(comment.attachments || []),
 			[]
 		).filter(isSlideSupported)
+
 		const firstAttachmentComment = thread.comments.slice(fromIndex).find((comment) => {
 			return (comment.attachments || []).find(isSlideSupported)
 		})
+
 		let startFromIndex = 0
 		if (firstAttachmentComment) {
 			const firstAttachment = firstAttachmentComment.attachments.find(isSlideSupported)
 			startFromIndex = attachments.indexOf(firstAttachment)
 		}
+
 		if (attachments[startFromIndex].type === 'picture') {
 			try {
 				await preloadPictureSlide(attachments[startFromIndex])
@@ -31,6 +35,7 @@ export default function useSlideshow({
 				console.error(error)
 			}
 		}
+
 		dispatch(openSlideshow(attachments, startFromIndex, {
 			mode: 'flow',
 			goToSource: (slide) => {
@@ -44,7 +49,8 @@ export default function useSlideshow({
 		fromIndex,
 		setNewFromIndex
 	])
-	return [
+
+	return {
 		openThreadWideSlideshow
-	]
+	}
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import Channels from '../Channels.js'
-import SidebarSection from './SidebarSection.js'
+import SidebarSection from '../Sidebar/SidebarSection.js'
 
 import useMessages from '../../hooks/useMessages.js'
 

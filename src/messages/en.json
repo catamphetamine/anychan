@@ -2,11 +2,18 @@
 	"boards": {
 		"title": "Boards",
 		"moreBoards": "More Boards",
+		"showRestBoards": "Show all boards",
 		"showAll": "Show all boards",
 		"showBoardsList": "Show boards list",
 		"byPopularity": "Popular",
 		"byCategory": "By Category",
 		"error": "Couldn't load the list of boards"
+	},
+	"threads": {
+		"title": "Threads",
+		"showAllThreads": "Show all threads",
+		"byPopularity": "Popular",
+		"byDate": "Latest"
 	},
 	"subscribedThreads": {
 		"title": "Thread subscriptions",
@@ -172,7 +179,10 @@
 	"storageCapacityExceeded": "Data storage capacity exceeded. Data won't be saved.",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
-	"thread": "Thread",
+	"thread": {
+		"default": "Thread",
+		"hidden": "Hidden thread"
+	},
 	"comment": {
 		"default": "Comment",
 		"deleted": "Deleted comment",

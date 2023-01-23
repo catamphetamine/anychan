@@ -14,7 +14,6 @@ export const getFavoriteChannels = redux.simpleAction(
 
 export const addFavoriteChannel = redux.simpleAction(
 	(state, { channel, userData = getUserData() }) => {
-		console.log('fasd')
 		userData.addFavoriteChannel(channel)
 		return {
 			...state,

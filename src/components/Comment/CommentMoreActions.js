@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import PostMoreActions from 'social-components-react/components/PostMoreActions.js'
@@ -22,38 +23,46 @@ export default function CommentMoreActions({
 	channelIsNotSafeForWork,
 	threadId,
 	comment,
-	dispatch,
-	locale,
+	messages,
 	mode,
 	url,
 	urlBasePath,
 	onReply,
-	onDownloadThread
+	onDownloadThread,
+	onHide
 }) {
+	const dispatch = useDispatch()
+
 	const moreActions = useMemo(() => {
 		let actions = []
 
 		if (mode === 'thread') {
+			if (onReply) {
+				actions.push({
+					label: messages.post.reply,
+					onClick: () => onReply()
+				})
+			}
 			actions.push({
-				label: getMessages(locale).post.reply,
-				onClick: () => onReply()
-			})
-			actions.push({
-				label: getMessages(locale).post.moreActions.copyId,
+				label: messages.post.moreActions.copyId,
 				onClick: () => copyTextToClipboard('>>' + comment.id)
 			})
 		}
 
-		actions = actions.concat([
-			// "Copy URL".
-			{
-				label: getMessages(locale).post.moreActions.copyUrl,
-				onClick: () => copyTextToClipboard(window.location.origin + urlBasePath + url)
-			},
+		if (url && urlBasePath) {
+			actions.push(
+				// "Copy URL".
+				{
+					label: messages.post.moreActions.copyUrl,
+					onClick: () => copyTextToClipboard(window.location.origin + urlBasePath + url)
+				}
+			)
+		}
 
+		actions = actions.concat([
 			// "Report".
 			{
-				label: getMessages(locale).post.moreActions.report,
+				label: messages.post.moreActions.report,
 				onClick: () => {
 					// 4chan.org:
 					// const width = 400
@@ -64,20 +73,20 @@ export default function CommentMoreActions({
 					// 	undefined,
 					// 	`toolbar=0,scrollbars=1,location=0,status=1,menubar=0,resizable=1,width=${width},height=${height}`
 					// )
-					dispatch(notify(getMessages(locale).notImplemented))
+					dispatch(notify(messages.notImplemented))
 				}
 			},
 
 			// "Hide".
 			{
-				label: getMessages(locale).post.moreActions.hide,
-				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
+				label: messages.post.moreActions.hide,
+				onClick: () => onHide()
 			},
 
 			// "Ignore Author".
 			{
-				label: getMessages(locale).post.moreActions.ignoreAuthor,
-				onClick: () => dispatch(notify(getMessages(locale).notImplemented))
+				label: messages.post.moreActions.ignoreAuthor,
+				onClick: () => dispatch(notify(messages.notImplemented))
 			}
 		])
 
@@ -85,7 +94,7 @@ export default function CommentMoreActions({
 			// "Show original comment".
 			// (redirects to the original provider website)
 			actions.push({
-				label: getMessages(locale).post.moreActions.showOriginalComment,
+				label: messages.post.moreActions.showOriginalComment,
 				onClick: () => {
 					let url
 					if (comment.id === threadId) {
@@ -106,7 +115,7 @@ export default function CommentMoreActions({
 			if (comment.id === threadId) {
 				// "Download thread".
 				actions.push({
-					label: getMessages(locale).downloadThread,
+					label: messages.downloadThread,
 					onClick: onDownloadThread
 				})
 			}
@@ -115,7 +124,7 @@ export default function CommentMoreActions({
 		return actions
 	}, [
 		dispatch,
-		locale,
+		messages,
 		channelId,
 		channelIsNotSafeForWork,
 		threadId,
@@ -130,7 +139,7 @@ export default function CommentMoreActions({
 	return (
 		<PostMoreActions
 			alignment="right"
-			title={getMessages(locale).post.moreActions.title}
+			title={messages.post.moreActions.title}
 			toggleComponent={CommentMoreActionsIcon}
 			className="CommentMoreActions"
 			buttonClassName="CommentMoreActions-button">
@@ -144,13 +153,14 @@ CommentMoreActions.propTypes = {
 	channelIsNotSafeForWork: PropTypes.bool,
 	threadId: threadId.isRequired,
 	comment: commentType.isRequired,
-	dispatch: PropTypes.func.isRequired,
-	locale: PropTypes.string.isRequired,
-	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
-	url: PropTypes.string.isRequired,
-	urlBasePath: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
+	mode: PropTypes.oneOf(['channel', 'thread']),
+	// `url` and `urlBasePath` are used for "Copy original URL" action.
+	url: PropTypes.string,
+	urlBasePath: PropTypes.string,
 	onReply: PropTypes.func,
-	onDownloadThread: PropTypes.func
+	onDownloadThread: PropTypes.func,
+	onHide: PropTypes.func.isRequired
 }
 
 function CommentMoreActionsIcon() {

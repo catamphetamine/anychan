@@ -1,5 +1,6 @@
-import Imageboard from './Imageboard.js'
 import { getProvider } from '../provider.js'
+
+import getChannelsFromImageboard from './getChannelsFromImageboard.js'
 
 /**
  * Returns a list of channels.
@@ -8,26 +9,26 @@ import { getProvider } from '../provider.js'
  * @return {object} Returns `{ [channels], [channelsByPopularity], [channelsByCategory], [allChannels: { channels, [channelsByPopularity], [channelsByCategory] }], [hasMoreChannels] }`. If a provider doesn't differentiate between a "short" list of channels and a "long" list of channels then both `channels` and `allChannels` are returned and are the same. Otherwise, either `channels` and `hasMoreChannels: true` or `allChannels: { channels }` are returned. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the provider provides those).
  */
 export default async function getChannels({ http, proxyUrl, all } = {}) {
-	let channels
-	let hasMoreChannels
 	const provider = getProvider()
+
+	let channelsListResult
 	if (provider.imageboard) {
-		const imageboard = Imageboard({ http, proxyUrl })
-		channels = await (all ? imageboard.getAllBoards() : imageboard.getBoards())
-		hasMoreChannels = imageboard.hasMoreBoards()
+		channelsListResult = await getChannelsFromImageboard({
+			all,
+			http,
+			proxyUrl
+		})
 	} else {
-		const result = await provider.api.getChannels()
-		channels = result.channels
-		hasMoreChannels = result.hasMoreChannels
+		channelsListResult = await provider.api.getChannels()
 	}
+
+	const { channels, hasMoreChannels } = channelsListResult
+
 	// Mark hidden channels.
 	if (!all) {
 		markHiddenChannels(channels)
 	}
-	// "/abu/*" redirects to "/api" which breaks `/catalog.json` HTTP request.
-	if (provider.id === '2ch') {
-		channels = channels.filter(_ => _.id !== 'abu')
-	}
+
 	const result = getChannelsResult(channels)
 	if (!hasMoreChannels) {
 		return {
@@ -35,11 +36,13 @@ export default async function getChannels({ http, proxyUrl, all } = {}) {
 			allChannels: result
 		}
 	}
+
 	if (all) {
 		return {
 			allChannels: result
 		}
 	}
+
 	return {
 		...result,
 		hasMoreChannels: true

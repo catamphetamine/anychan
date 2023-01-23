@@ -35,8 +35,8 @@ export default function useOnCommentClick() {
 	const channelRouteRef = useRef()
 	channelRouteRef.current = channelRoute
 
-	return useCallback(async (comment, threadId, channelId) => {
-		const targetCommentId = comment.id === threadId ? undefined : comment.id
+	return useCallback(async (commentId, threadId, channelId) => {
+		const targetCommentId = commentId === threadId ? undefined : commentId
 
 		// See if can transition to the thread page skipping loading thread data.
 		//

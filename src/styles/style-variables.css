@@ -144,6 +144,9 @@
 		--List-borderColor--selected: var(--Channels-borderColor--selected);
 	}
 
+	/* SidebarThread. */
+	--SidebarThread-borderColor: var(--Content-color-200);
+
 	/* SideNavMenuButton. */
 	--SideNavMenuButton-color: var(--Content-color-500);
 	--SideNavMenuButton-color--active: var(--SideNavMenuButton-color);
@@ -178,7 +181,11 @@
 	--ChannelsViewSwitcher-color: var(--Sidebar-color-600);
 
 	/* CommentsList. */
-	--CommentsList-maxWidth: calc(3 * var(--Post-paddingLeft) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+	/* Added `.Webpage` selector so that `--Text-width` could be
+	   redefined later as `--Text-width--compact`. */
+	.Webpage {
+		--CommentsList-maxWidth: calc(3 * var(--Post-paddingLeft) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+	}
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -469,6 +476,9 @@
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
+
+	/* Text. */
+	--Text-maxWidth--compact: 33em;
 }
 
 /* Dark Mode. */

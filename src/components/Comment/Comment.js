@@ -8,14 +8,11 @@ import PostAttachments from 'social-components-react/components/PostAttachments.
 import PostStretchVertically from 'social-components-react/components/PostStretchVertically.js'
 import { isMiddleDialogueChainLink } from 'social-components-react/components/CommentTree.js'
 
-import TextSelectionTooltip from 'frontend-lib/components/TextSelectionTooltip.js'
-import Button from 'frontend-lib/components/Button.js'
-
-import CommentAuthor, { hasAuthor } from './CommentAuthor.js'
+import CommentAuthor from './CommentAuthor.js'
 import CommentStatusBadges from './CommentStatusBadges.js'
 import CommentHidden from './CommentHidden.js'
 import CommentFooter from './CommentFooter.js'
-import CommentWithThumbnail from './CommentWithThumbnail.js'
+import WithTextSelectionActions from './WithTextSelectionActions.js'
 
 import {
 	comment as commentType,
@@ -24,10 +21,9 @@ import {
 } from '../../PropTypes.js'
 
 import useVote from './useVote.js'
-import useSlideshow from './useSlideshow.js'
 import useSocial from './useSocial.js'
 import usePostLink from './usePostLink.js'
-import useHide from './useHide.js'
+import useAttachmentThumbnailFlags from './useAttachmentThumbnailFlags.js'
 
 import getMessages from '../../messages/index.js'
 import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks.js'
@@ -45,10 +41,8 @@ import FourChannelIcon from '../../../providers/imageboards/4chan/logo.svg'
 
 import './Comment.css'
 
-window.SHOW_POST_HEADER = false
-// window.POST_FULL_WIDTH = true
-
 export default function Comment({
+	as: Component,
 	mode,
 	comment,
 	threadId,
@@ -61,54 +55,27 @@ export default function Comment({
 	toggleShowRepliesButtonRef,
 	onRequestShowCommentFromSameThread,
 	parentComment,
-	elementRef,
 	dispatch,
 	locale,
-	compact,
 	screenWidth,
 	expandAttachments,
+	onAttachmentClick,
+	onHide,
 	onReply,
-	onPostUrlClick,
 	urlBasePath,
 	postDateLinkClickable,
 	postDateLinkUpdatePageUrlToPostUrlOnClick,
 	postDateLinkNavigateToPostUrlOnClick,
-	isPreviouslyRead,
 	onDownloadThread,
+	onRenderedContentDidChange,
+	onPostUrlClick,
 	className,
-	// <OnLongPress/> stuff:
-	onTouchStart,
-	onTouchEnd,
-	onTouchMove,
-	onTouchCancel,
-	onDragStart,
-	onMouseDown,
-	onMouseUp,
-	onMouseMove,
-	onMouseLeave,
-	// "Reply on double click" stuff:
-	onDoubleClick,
+	commentClassName,
 	// <CommentTitleContentAndAttachments/> props:
 	...rest
 }) {
 	const isFirstCommentInThread = comment.id === threadId
 	const url = getUrl(channelId, threadId, comment.id)
-
-	// Set default `compact` property value of `<Post/>` element.
-	if (compact === undefined) {
-		if (mode === 'thread') {
-			compact = !isFirstCommentInThread
-		} else if (mode === 'channel') {
-			// "Main" comment.
-			if (isFirstCommentInThread) {
-				compact = false
-			}
-			// "Latest" comments.
-			else {
-				compact = true
-			}
-		}
-	}
 
 	const [
 		vote,
@@ -118,16 +85,6 @@ export default function Comment({
 		threadId,
 		comment,
 		locale
-	})
-
-	const {
-		hidden,
-		onHide,
-		onUnHide
-	} = useHide({
-		channelId,
-		threadId,
-		comment
 	})
 
 	const [
@@ -140,183 +97,103 @@ export default function Comment({
 		onRequestShowCommentFromSameThread
 	})
 
-	const [onAttachmentClick] = useSlideshow({ comment })
+	// Get attachment thumbnail flags.
+	const {
+		showOnlyFirstAttachmentThumbnail,
+		shouldFixAttachmentPictureSize,
+		showPostThumbnailWhenThereAreMultipleAttachments,
+		showPostThumbnailWhenThereIsNoContent
+	} = useAttachmentThumbnailFlags({
+		mode,
+		comment,
+		threadId
+	})
 
 	const [
 		isSocialClickable,
 		onSocialClick
 	] = useSocial()
 
-	const [clickedPostUrl, setClickedPostUrl] = useState()
-
-	// When rendering `<Post/>` component, it automatically passes a second argument
-	// called `post` to `onPostUrlClick()` function of `<PostDate/>` → `<PostSelfLink/>`.
-	// But this application doesn't render the `<Post/>` component directly.
-	// Instead, it manually renders a `<PostSelfLink/>` element in `<CommentFooter/>`.
-	// Therefore, it should manually pass the second argument called `comment`
-	// to `onPostUrlClick()` function, which it does here.
-	const _onPostUrlClick = useCallback((event) => {
-		if (onPostUrlClick) {
-			onPostUrlClick(event, comment)
-		}
-		setClickedPostUrl(true)
-	}, [
-		comment,
-		onPostUrlClick,
-		setClickedPostUrl
-	])
-
-	const shouldFixAttachmentPictureSize = mode === 'channel' &&
-		isFirstCommentInThread &&
-		comment.attachments &&
-		comment.attachments.length === 1 &&
-		comment.attachments[0].isLynxChanCatalogAttachmentsBug
-
-	// `showPostThumbnailWhenThereAreMultipleAttachments` — Pass `true` to allow returning
-	// post thumbnail in cases when the `post` has multiple thumbnail-able attachments.
-	// By default, if the `post` has multiple thumbnail-able attachments, none of them will be returned.
-	const showPostThumbnailWhenThereAreMultipleAttachments =
-		(mode === 'channel' && isFirstCommentInThread) ||
-		(mode === 'thread' && isFirstCommentInThread)
-
-	// `showPostThumbnailWhenThereIsNoContent` — Pass `true` to allow returning post thumbnail
-	// in cases when the `post` has no `content`. By default, if the `post` has no `content`,
-	// no post thumbnail will be shown, and the post would be rendered with all of its attachments
-	// inside it's content part, without promoting the first one to a "post thumbnail".
-	const showPostThumbnailWhenThereIsNoContent = mode === 'channel' && isFirstCommentInThread
-
-	const showOnlyFirstAttachmentThumbnail = mode === 'channel' && isFirstCommentInThread
-
-	const commentClassName = 'Comment-comment'
-
-	let commentElement
-	if (hidden) {
-		commentElement = (
-			<CommentHidden
-				comment={comment}
-				locale={locale}
-				onShow={onUnHide}
-				className={commentClassName}
-			/>
-		)
-	} else {
-		let titleContentAndAttachments = (
-			<CommentTitleContentAndAttachments
-				{...rest}
-				comment={comment}
-				expandAttachments={expandAttachments}
-				locale={locale}
-				onReply={onReply}
-				messages={getMessages(locale).post}
-				resourceMessages={getResourceMessages(getMessages(locale))}
-				useSmallestThumbnailsForAttachments
-				serviceIcons={SERVICE_ICONS}
-				youTubeApiKey={configuration.youtubeApiKey}
-				expandFirstPictureOrVideo={false}
-				maxAttachmentThumbnails={false}
-				contentMaxLength={getCommentLengthLimit(mode)}
-				onAttachmentClick={onAttachmentClick}
-				onPostLinkClick={onPostLinkClick}
-				isPostLinkClickable={isPostLinkClickable}
-				isSocialClickable={isSocialClickable}
-				onSocialClick={onSocialClick}
-				url={url}
-				fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
-				showOnlyFirstAttachmentThumbnail={showOnlyFirstAttachmentThumbnail}
-				showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
-				showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}
-			/>
-		)
-		if (onReply) {
-			titleContentAndAttachments = (
-				<WithTextSelectionTooltip
-					onReply={onReply}
-					messages={getMessages(locale).post}>
-					{titleContentAndAttachments}
-				</WithTextSelectionTooltip>
-			)
-		}
-		commentElement = (
-			<div className="Comment-exceptThumbnail">
-				<CommentAuthor
-					compact
-					post={comment}
-					locale={locale}/>
-				<div className={commentClassName}>
-					{titleContentAndAttachments}
-				</div>
-				<CommentFooter
-					comment={comment}
-					threadId={threadId}
-					channelId={channelId}
-					channelIsNotSafeForWork={channelIsNotSafeForWork}
-					parentComment={parentComment}
-					showingReplies={showingReplies}
-					showRepliesCount={showRepliesCount && shouldShowRepliesButton(comment, parentComment)}
-					onToggleShowReplies={onToggleShowReplies}
-					toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
-					locale={locale}
-					dispatch={dispatch}
-					url={url}
-					urlBasePath={urlBasePath}
-					onPostUrlClick={postDateLinkClickable ? _onPostUrlClick : undefined}
-					postDateLinkUpdatePageUrlToPostUrlOnClick={postDateLinkUpdatePageUrlToPostUrlOnClick}
-					postDateLinkNavigateToPostUrlOnClick={postDateLinkNavigateToPostUrlOnClick}
-					mode={mode}
-					onReply={onReply}
-					onHide={onHide}
-					vote={vote}
-					onVote={hasVoting ? onVote : undefined}
-					hasVotes={hasVoting}
-					onDownloadThread={onDownloadThread}
-				/>
-			</div>
-		)
-	}
-	// `elementRef` is supplied by `<CommentTree/>`
-	// and is used to to scroll to the parent post
-	// when the user hides its replies tree.
-	return (
-		<CommentWithThumbnail
-			ref={elementRef}
-			onTouchStart={onTouchStart}
-			onTouchEnd={onTouchEnd}
-			onTouchMove={onTouchMove}
-			onTouchCancel={onTouchCancel}
-			onDragStart={onDragStart}
-			onMouseDown={onMouseDown}
-			onMouseUp={onMouseUp}
-			onMouseMove={onMouseMove}
-			onMouseLeave={onMouseLeave}
-			onDoubleClick={onDoubleClick}
-			mode={mode}
+	let titleContentAndAttachments = (
+		<CommentTitleContentAndAttachments
+			{...rest}
 			comment={comment}
-			hidden={hidden}
+			expandAttachments={expandAttachments}
 			locale={locale}
 			onReply={onReply}
-			expandAttachments={expandAttachments}
+			messages={getMessages(locale).post}
+			resourceMessages={getResourceMessages(getMessages(locale))}
+			useSmallestThumbnailsForAttachments
+			serviceIcons={SERVICE_ICONS}
+			youTubeApiKey={configuration.youtubeApiKey}
+			expandFirstPictureOrVideo={false}
+			maxAttachmentThumbnails={false}
+			contentMaxLength={getCommentLengthLimit(mode)}
 			onAttachmentClick={onAttachmentClick}
-			shouldFixAttachmentPictureSize={shouldFixAttachmentPictureSize}
+			onPostLinkClick={onPostLinkClick}
+			isPostLinkClickable={isPostLinkClickable}
+			isSocialClickable={isSocialClickable}
+			onSocialClick={onSocialClick}
+			url={url}
+			fixAttachmentPictureSizes={shouldFixAttachmentPictureSize}
+			showOnlyFirstAttachmentThumbnail={showOnlyFirstAttachmentThumbnail}
 			showPostThumbnailWhenThereAreMultipleAttachments={showPostThumbnailWhenThereAreMultipleAttachments}
 			showPostThumbnailWhenThereIsNoContent={showPostThumbnailWhenThereIsNoContent}
-			className={classNames(className, 'Comment', `Comment--${mode}`, {
-				'Comment--compact': compact,
-				'Comment--hidden': hidden,
-				// 'Comment--removed': comment.removed,
-				'Comment--titled': comment.title,
-				'Comment--authored': hasAuthor(comment),
-				'Comment--opening': mode === 'thread' && comment.id === threadId,
-				'Comment--showHeader': window.SHOW_POST_HEADER,
-				'Comment--fullWidth': window.POST_FULL_WIDTH,
-				'Comment--previouslyRead': isPreviouslyRead ? !showingReplies && !parentComment && !clickedPostUrl && isPreviouslyRead(comment.id) : undefined
-			})}>
-			{commentElement}
-		</CommentWithThumbnail>
+			onRenderedContentDidChange={onRenderedContentDidChange}
+		/>
+	)
+
+	if (onReply) {
+		titleContentAndAttachments = (
+			<WithTextSelectionActions
+				onReply={onReply}
+				messages={getMessages(locale).post}>
+				{titleContentAndAttachments}
+			</WithTextSelectionActions>
+		)
+	}
+
+	return (
+		<Component className="Comment-exceptThumbnail">
+			<CommentAuthor
+				compact
+				post={comment}
+				locale={locale}
+			/>
+			<div className={commentClassName}>
+				{titleContentAndAttachments}
+			</div>
+			<CommentFooter
+				comment={comment}
+				threadId={threadId}
+				channelId={channelId}
+				channelIsNotSafeForWork={channelIsNotSafeForWork}
+				parentComment={parentComment}
+				showingReplies={showingReplies}
+				showRepliesCount={showRepliesCount && shouldShowRepliesButton(comment, parentComment)}
+				onToggleShowReplies={onToggleShowReplies}
+				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
+				locale={locale}
+				dispatch={dispatch}
+				url={url}
+				urlBasePath={urlBasePath}
+				onPostUrlClick={postDateLinkClickable ? onPostUrlClick : undefined}
+				postDateLinkUpdatePageUrlToPostUrlOnClick={postDateLinkUpdatePageUrlToPostUrlOnClick}
+				postDateLinkNavigateToPostUrlOnClick={postDateLinkNavigateToPostUrlOnClick}
+				mode={mode}
+				onReply={onReply}
+				onHide={onHide}
+				vote={vote}
+				onVote={hasVoting ? onVote : undefined}
+				hasVotes={hasVoting}
+				onDownloadThread={onDownloadThread}
+			/>
+		</Component>
 	)
 }
 
 Comment.propTypes = {
-	compact: PropTypes.bool,
+	as: PropTypes.elementType.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
@@ -324,29 +201,29 @@ Comment.propTypes = {
 	channelIsNotSafeForWork: PropTypes.bool,
 	hasVoting: PropTypes.bool,
 	expandAttachments: PropTypes.bool,
+	onAttachmentClick: PropTypes.func.isRequired,
+	onHide: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	parentComment: commentType,
-	isPreviouslyRead: PropTypes.func,
 	onDownloadThread: PropTypes.func,
 	showingReplies: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
-	// `elementRef` is supplied by `<CommentTree/>`
-	// and is used to to scroll to the parent post
-	// when the user hides its replies tree.
-	elementRef: PropTypes.any,
-	onPostUrlClick: PropTypes.func,
 	onRequestShowCommentFromSameThread: PropTypes.func,
 	urlBasePath: PropTypes.string.isRequired,
 	postDateLinkClickable: PropTypes.bool,
 	postDateLinkUpdatePageUrlToPostUrlOnClick: PropTypes.bool,
 	postDateLinkNavigateToPostUrlOnClick: PropTypes.bool,
+	onHide: PropTypes.func.isRequired,
 	onReply: PropTypes.func,
 	dispatch: PropTypes.func,
+	onRenderedContentDidChange: PropTypes.func,
+	onPostUrlClick: PropTypes.func.isRequired,
 	className: PropTypes.string
 }
 
 Comment.defaultProps = {
+	as: 'div',
 	postDateLinkClickable: true
 }
 
@@ -373,33 +250,6 @@ function isBeingShownAsPartOfAnExpandedRepliesTreeOfTheParentComment(comment, pa
 	return parentComment && isMiddleDialogueChainLink(comment, parentComment)
 }
 
-function WithTextSelectionTooltip({
-	onReply,
-	messages,
-	children
-}) {
-	const tooltipProps = useMemo(() => ({
-		onReply,
-		children: messages.reply
-	}), [
-		onReply,
-		messages
-	])
-	return (
-		<TextSelectionTooltip
-			TooltipComponent={TextSelectionTooltipComponent}
-			tooltipProps={tooltipProps}>
-			{children}
-		</TextSelectionTooltip>
-	)
-}
-
-WithTextSelectionTooltip.propTypes = {
-	onReply: PropTypes.func.isRequired,
-	messages: PropTypes.object.isRequired,
-	children: PropTypes.node.isRequired
-}
-
 function CommentTitleContentAndAttachments({
 	comment,
 	initialExpandContent,
@@ -414,6 +264,9 @@ function CommentTitleContentAndAttachments({
 	fixAttachmentPictureSizes,
 	expandFirstPictureOrVideo,
 	expandAttachments,
+	// (not used anywhere)
+	// `4chan.org` displays attachment thumbnails as `125px`
+	// (half the size) when they're not "OP posts".
 	attachmentThumbnailSize,
 	useSmallestThumbnailsForAttachments,
 	serviceIcons,
@@ -515,34 +368,7 @@ function CommentTitleContentAndAttachments({
 }
 
 CommentTitleContentAndAttachments.propTypes = {
-	renderComments: PropTypes.func
-}
-
-function TextSelectionTooltipComponent({
-	selection,
-	onReply,
-	children,
-	...rest
-}, ref) {
-	const onClick = () => {
-		onReply(selection.getText())
-		selection.clear()
-	}
-
-	return (
-		<Button
-			ref={ref}
-			{...rest}
-			onClick={onClick}
-			className="Comment-textSelectionTooltip">
-			{children}
-		</Button>
-	)
-}
-
-TextSelectionTooltipComponent = React.forwardRef(TextSelectionTooltipComponent)
-
-TextSelectionTooltipComponent.propTypes = {
-	selection: PropTypes.object.isRequired,
-	onReply: PropTypes.func.isRequired
+	renderComments: PropTypes.func,
+	onRenderedContentDidChange: PropTypes.func,
+	showOnlyFirstAttachmentThumbnail: PropTypes.bool
 }

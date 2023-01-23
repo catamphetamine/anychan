@@ -93,6 +93,7 @@ function ChannelPage() {
 			await loadChannelPage({
 				channelId: channel.id,
 				dispatch,
+				getCurrentChannel: () => channel,
 				settings,
 				channelView: view,
 				wasCancelled
@@ -133,7 +134,9 @@ function ChannelPage() {
 		channelView,
 		commonProps: {
 			mode: 'channel',
-			hasVoting: channel.features.votes,
+			// Old cached board objects don't have a `.features` sub-object.
+			// (Before early 2023).
+			hasVoting: channel.features && channel.features.votes,
 			channelId: channel.id,
 			dispatch,
 			locale,
@@ -230,6 +233,7 @@ ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
 	return await loadChannelPage({
 		channelId,
 		dispatch,
+		getCurrentChannel: () => getState().data.channel,
 		settings,
 		channelView: settings.channelView,
 		wasCancelled: () => false

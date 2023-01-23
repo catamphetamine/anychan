@@ -3,17 +3,14 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import Button from 'frontend-lib/components/Button.js'
-
-
-import 'frontend-lib/components/Button.css'
+import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
 import { hideSidebar } from '../../redux/app.js'
 
 import { getDarkModeMenuItem } from '../MainMenu.js'
 import useMessages from '../../hooks/useMessages.js'
 
-export default function DarkModeToggle({ includeTitle }) {
+export default function DarkModeToggle({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
@@ -47,23 +44,15 @@ export default function DarkModeToggle({ includeTitle }) {
 	const title = darkModeMenuItem.title
 
 	return (
-		<Button
+		<SidebarMenuItem
 			onClick={onToggleDarkMode}
-			title={includeTitle ? undefined : title}
-			className={classNames('SidebarMenuItem', {
-				'SidebarMenuItem--includeTitle': includeTitle,
-				'SidebarMenuItem--icon': !includeTitle
-			})}>
-			<DarkModeIcon className="SidebarMenuItem-icon"/>
-			{includeTitle &&
-				<span className="SidebarMenuItem-title">
-					{title}
-				</span>
-			}
-		</Button>
+			label={title}
+			showLabel={withLabel}
+			IconComponent={DarkModeIcon}
+		/>
 	)
 }
 
 DarkModeToggle.propTypes = {
-	includeTitle: PropTypes.bool
+	withLabel: PropTypes.bool
 }

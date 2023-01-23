@@ -1,7 +1,6 @@
 :root {
 	--ThreadActivityIndicator-width: 1em;
 	--ThreadActivityIndicator-padding: 0px;
-	--ThreadActivityIndicator-borderColor--hot: white;
 }
 
 .ThreadActivityIndicator {
@@ -25,8 +24,13 @@
 }
 
 .ThreadActivityIndicator--hot {
+	color: var(--ThreadActivityIndicator-hot-color);
 	&:after {
-		border: 1px solid var(--ThreadActivityIndicator-borderColor--hot);
+		/* For some weird reason, it can't find the color variable
+		   when used in `border` style definition. */
+		/* border 1px solid var(--ThreadActivityIndicator-hot-color); */
+		/* That's why `currentColor` is used instead. */
+		border: 1px solid currentColor;
 	}
 }
 

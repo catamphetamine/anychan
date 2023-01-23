@@ -11,10 +11,11 @@ export default function SidebarSection({
 	moreLabel,
 	onMore,
 	className,
-	children
+	children,
+	...rest
 }) {
 	return (
-		<section className={classNames(className, 'SidebarSection')}>
+		<section {...rest} className={classNames(className, 'SidebarSection')}>
 			<h1 className="SidebarSection-title">
 				{title}
 				{onMore &&

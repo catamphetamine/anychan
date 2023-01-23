@@ -4,7 +4,7 @@ import StarIcon from '../StarIcon.js'
 import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 
 import getMessages, { getCountryName } from '../../messages/index.js'
-import { getAbsoluteUrl } from '../../provider.js'
+import { getAbsoluteUrl, getProviderId } from '../../provider.js'
 
 import AnonymousCountryIcon from 'frontend-lib/icons/anonymous.svg'
 import DislikeIcon from 'frontend-lib/icons/dislike.svg'
@@ -76,7 +76,9 @@ export default [
 					country: post.authorCountry,
 					name: post.authorCountry === 'ZZ' ?
 						getMessages(locale).country.anonymous :
-						getCountryName(post.authorCountry, locale)
+						getCountryName(post.authorCountry, locale),
+					providerId: getProviderId(),
+					channelId: post.channelIdForCountryFlag
 				}
 			}
 			return {
@@ -146,18 +148,66 @@ function CountryFlagBadge({ className, ...rest }) {
 	)
 }
 
-function CountryFlag_({ country, name }) {
+// There has been a request to show additional country flags on `4chan`.
+// https://github.com/catamphetamine/anychan/issues/12
+//
+// * `GB-eng` — `XE` country at `4chan`'s `/sp/`
+// * `GB-wls` — `XW` country at `4chan`'s `/sp/`
+// * `GB-sct` — `XS` country at `4chan`'s `/sp/`
+//
+const ADDTIONAL_FLAGS_ON_4CHAN = [
+	{
+		code: 'XE',
+		title: 'England',
+		url: 'http://purecatamphetamine.github.io/country-flag-icons-other/3x2/GB-eng.svg'
+	},
+	{
+		code: 'XW',
+		title: 'Wales',
+		url: 'http://purecatamphetamine.github.io/country-flag-icons-other/3x2/GB-wls.svg'
+	},
+	{
+		code: 'XS',
+		title: 'Scotland',
+		url: 'http://purecatamphetamine.github.io/country-flag-icons-other/3x2/GB-sct.svg'
+	}
+]
+
+function CountryFlag_({
+	country,
+	name,
+	providerId,
+	channelId
+}) {
 	if (country === 'ZZ') {
 		return (
 			<AnonymousCountryIcon
 				title={name}
-				className="CountryFlag--anonymous"/>
+				className="CountryFlag--anonymous"
+			/>
 		)
+	}
+	if (providerId === '4chan' && channelId === 'sp') {
+		for (const additionalFlag of ADDTIONAL_FLAGS_ON_4CHAN) {
+			if (additionalFlag.code === country) {
+				// Copied the markup from `frontend-lib/components/CountryFlag.js`.
+				// Screen readers will pronounce `alt` but will skip `title` on images.
+				return (
+					<img
+						alt={additionalFlag.title}
+						title={additionalFlag.title}
+						className="CountryFlag"
+						src={additionalFlag.url}
+					/>
+				)
+			}
+		}
 	}
 	return (
 		<CountryFlag
 			country={country}
-			name={name}/>
+			name={name}
+		/>
 	)
 }
 

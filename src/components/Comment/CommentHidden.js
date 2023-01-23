@@ -5,32 +5,36 @@ import classNames from 'classnames'
 import Clickable from 'frontend-lib/components/Clickable.js'
 
 import { comment } from '../../PropTypes.js'
-import getMessages from '../../messages/index.js'
 
 import './CommentHidden.css'
 
 export default function CommentHidden({
-	onShow,
+	mode,
 	comment,
-	locale,
+	messages,
+	className,
 	...rest
 }) {
-	let content = getMessages(locale).comment.hidden
+	let content = mode === 'channel'
+		? messages.thread.hidden
+		: messages.comment.hidden
+
 	if (comment.hiddenRule) {
 		content += ` (${comment.hiddenRule})`
 	}
+
 	return (
-		<Clickable
+		<div
 			{...rest}
-			onClick={onShow}
-			onClickClassName={undefined}>
+			className={classNames(className, 'CommentHidden')}>
 			{content}
-		</Clickable>
+		</div>
 	)
 }
 
 CommentHidden.propTypes = {
+	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: comment.isRequired,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	className: PropTypes.string
 }

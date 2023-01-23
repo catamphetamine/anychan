@@ -1,0 +1,10 @@
+.ThreadThumbnail {
+	/* Prevents the `<Picture/>` from being clickable.
+	   (for example, when the image wasn't found). */
+	pointer-events: none;
+
+	.Picture-loadingError {
+		width: 50%;
+		height: 50%;
+	}
+}

@@ -25,8 +25,8 @@
 	/*
 	.Webpage--wideSidebar {
 		--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--wide);
-		--Sidebar-minWidth: var(--Sidebar-minWidth--wide);
-		--Sidebar-flexGrow: var(--Sidebar-flexGrow--wide);
+		--SidebarRight-minWidth: var(--SidebarRight-minWidth--wide);
+		--SidebarRight-flexGrow: var(--SidebarRight-flexGrow--wide);
 	}
 	*/
 /*}*/
@@ -35,7 +35,7 @@
 	/*
 	:root {
 		--PaddingRight-flexGrow--wide: 0.1;
-		--Sidebar-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--Sidebar-flexGrow) - var(--PaddingRight-flexGrow--wide));
+		--SidebarRight-flexGrow--wide: calc(var(--PaddingRight-flexGrow) + var(--SidebarRight-flexGrow) - var(--PaddingRight-flexGrow--wide));
 	}
 	*/
 	.Webpage-contentContainer {
@@ -45,14 +45,21 @@
 		/* `position: relative` is for the <BackButton/>'s `width: 100%`. */
 		position: relative;
 		flex-grow: var(--PaddingLeft-flexGrow);
+		min-width: var(--PaddingLeft-minWidth);
 	}
 	.Webpage-paddingRight {
 		flex-grow: var(--PaddingRight-flexGrow);
+		min-width: var(--PaddingRight-minWidth);
 	}
-	.Sidebar {
-		flex-grow: var(--Sidebar-flexGrow);
-		flex-basis: var(--Sidebar-flexBasis);
-		min-width: var(--Sidebar-minWidth);
+	.SidebarLeft {
+		flex-grow: var(--SidebarLeft-flexGrow);
+		flex-basis: var(--SidebarLeft-flexBasis);
+		min-width: var(--SidebarLeft-minWidth);
+	}
+	.SidebarRight {
+		flex-grow: var(--SidebarRight-flexGrow);
+		flex-basis: var(--SidebarRight-flexBasis);
+		min-width: var(--SidebarRight-minWidth);
 	}
 }
 
@@ -62,18 +69,49 @@
 	:root {
 		--PaddingLeft-flexGrow: 1;
 		--PaddingRight-flexGrow: 0.3;
-		--Sidebar-flexBasis: var(--Sidebar-minWidth);
-		--Sidebar-flexGrow: 0.4;
-		--Sidebar-minWidth: calc(var(--unit) * 23);
-		/*--Sidebar-minWidth--wide: calc(var(--unit) * 36);*/
+		--SidebarRight-flexBasis: var(--SidebarRight-minWidth);
+		--SidebarRight-flexGrow: 0.4;
+		--SidebarRight-minWidth: calc(var(--unit) * 23);
+		/*--SidebarRight-minWidth--wide: calc(var(--unit) * 36);*/
 	}
 }
 
 @mixin xl-plus {
 	/* Flexbox proportions. */
-	:root {
+	.Webpage--centerPageContent,
+	.Webpage--centerCommentTextContent {
+		/* `SidebarLeft` isn't shown at all in this case. */
+		--SidebarLeft-flexGrow: 0;
+		/* `flex-basis` is set to `0` here so that the left sidebar's content width
+		   isn't taken into account when `SidebarLeft` width is calculated by the browser
+		   when deciding which parts of the `display: flex` parent should be occupied by which children. */
+		--SidebarLeft-flexBasis: 0px;
+		/* Setting `min-width` to `0` so that flexbox layout doesn't take into account
+		   the width of `SidebarLeft` content at all. */
+		--SidebarLeft-minWidth: 0px;
+
 		--PaddingLeft-flexGrow: 1;
+		--PaddingLeft-minWidth: 0px;
+
 		--PaddingRight-flexGrow: 0.25;
+		--PaddingRight-minWidth: 0px;
+
+		--SidebarRight-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
+		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
+		   only based on their `flex-grow`: this makes it easy to place the central
+		   column in the center of the screen. */
+		/* Otherwise the layout would "jump" for some weird reason when
+		   switching "Thread Subscriptions" / "Notifications" on `/b/` page
+		   where thumbnail width is small. */
+		--SidebarRight-minWidth: 0px;
+		/*--SidebarRight-minWidth: calc(var(--unit) * 25);*/
+		/* Setting `--SidebarRight-minWidth--wide` to `--SidebarRight-minWidth`
+		   so that flexbox doesn't resize non-right-side columns
+		   when clicking "Thread Subscriptions" and "Notifications" menu buttons. */
+		/*--SidebarRight-minWidth--wide: var(--SidebarRight-minWidth);*/
+	}
+
+	.Webpage--centerPageContent {
 		/* `flex-basis` is set to `0` here so that the sidebar's content width
 		   isn't taken into account when Sidebar width is calculated by the browser.
 		   In that case, Sidebar width will be calculated based on just the `flex` shares
@@ -82,21 +120,9 @@
 		   the "left padding" element and the "right padding" element,
 		   which results in the page content being centered on screen.
 		   This type of Sidebar width is used on "regular" pages ("Home", "Settings", etc). */
-		--Sidebar-flexBasis: 0;
-		--Sidebar-flexGrow: calc(var(--PaddingLeft-flexGrow) - var(--PaddingRight-flexGrow));
-		/* Setting `min-width` to `0` so that flexbox resizes non-central columns
-		   only based on their `flex-grow`: this makes it easy to place the central
-		   column in the center of the screen. */
-		/* Otherwise the layout would "jump" for some weird reason when
-		   switching "Thread Subscriptions" / "Notifications" on `/b/` page
-		   where thumbnail width is small. */
-		--Sidebar-minWidth: 0px;
-		/*--Sidebar-minWidth: calc(var(--unit) * 25);*/
-		/* Setting `--Sidebar-minWidth--wide` to `--Sidebar-minWidth`
-		   so that flexbox doesn't resize non-right-side columns
-		   when clicking "Thread Subscriptions" and "Notifications" menu buttons. */
-		/*--Sidebar-minWidth--wide: var(--Sidebar-minWidth);*/
+		--SidebarRight-flexBasis: 0;
 	}
+
 	/* Channel and thread pages use a slightly different Sidebar width calculation formula:
 	   on those pages, instead of simply making Sidebar width equal to the sum of the widths
 	   of the "left padding" element and the "right padding" element, because on those pages
@@ -105,21 +131,44 @@
 	   (on large screens, which it is).
 	   So, on channel and thread pages, Sidebar's `flex-basis` is set in such a way
 	   that it results in comment's text being centered on screen. */
-	.Webpage--channel,
-	.Webpage--thread {
-		/*&:not(.Webpage--wideSidebar) {*/
-			/* These rules must be equal to those in the "xxl-plus" mixin below. */
-			/*--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--threadPage);*/
-			/*--Sidebar-flexGrow: var(--Sidebar-flexGrow--threadPage);*/
-		/*}*/
+	.Webpage--centerCommentTextContent {
 		/* In order for a thread comment text to be centered on screen,
 		   `flex-basis` must be equal to thumbnail's width, plus its side margins and borders.
 		   This results in page content being offset to the left, resulting in the actual
 		   comment's text being centered on screen. */
-		--Sidebar-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + 2 * var(--PostThumbnail-marginRight));
+		--SidebarRight-flexBasis: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + 2 * var(--PostThumbnail-marginRight));
+
+		/* Something that was written for a special layout for "ultrawide" screens: */
+		/*&:not(.Webpage--wideSidebar) {*/
+			/* These rules must be equal to those in the "xxl-plus" mixin below. */
+			/*--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--threadPage);*/
+			/*--SidebarRight-flexGrow: var(--SidebarRight-flexGrow--threadPage);*/
+		/*}*/
+	}
+
+	.Webpage--showsThreadsListSidebar {
+		--SidebarLeft-flexGrow: 1.5;
+		/* `flex-basis` is set to `0` here so that the left sidebar's content width
+		   isn't taken into account when `SidebarLeft` width is calculated by the browser
+		   when deciding which parts of the `display: flex` parent should be occupied by which children. */
+		--SidebarLeft-flexBasis: 0px;
+		/* Setting `min-width` to `0` so that flexbox layout doesn't take into account
+		   the width of `SidebarLeft` content at all. */
+		--SidebarLeft-minWidth: 0px;
+
+		--PaddingLeft-flexGrow: 0;
+		--PaddingLeft-minWidth: var(--Comment-marginTop);
+
+		--PaddingRight-flexGrow: 0;
+		--PaddingRight-minWidth: var(--Comment-marginTop);
+
+		--SidebarRight-flexGrow: 1;
+		--SidebarRight-flexBasis: 0;
+		--SidebarRight-minWidth: 0px;
 	}
 }
 
+/* Something that was written for a special layout for "ultrawide" screens: */
 /*@mixin xxl-plus {*/
 	/*.Webpage--channel,*/
 	/*.Webpage--thread {*/
@@ -127,7 +176,7 @@
 		/*&.Webpage--wideSidebar {*/
 			/* These rules must be equal to those in the "xl-plus" mixin above. */
 			/*--PaddingRight-flexGrow: var(--PaddingRight-flexGrow--threadPage);*/
-			/*--Sidebar-flexGrow: var(--Sidebar-flexGrow--threadPage);*/
+			/*--SidebarRight-flexGrow: var(--SidebarRight-flexGrow--threadPage);*/
 		/*}*/
 	/*}*/
 /*}*/
