@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -70,6 +70,12 @@ export default function CommentWithThumbnail({
 }) {
 	const { onAttachmentClick } = useSlideshow({ comment })
 
+	const [attachmentsChangeTrigger, setAttachmentsChangeTrigger] = useState()
+
+	const onAttachmentsDidChange = useCallback(() => {
+		setAttachmentsChangeTrigger({})
+	}, [])
+
 	// Set default `compact` property.
 	compact = useCompact({
 		compact,
@@ -124,6 +130,7 @@ export default function CommentWithThumbnail({
 				showingReplies={showingReplies}
 				parentComment={parentComment}
 				onPostUrlClick={onPostUrlClick}
+				onAttachmentsDidChange={onAttachmentsDidChange}
 				commentClassName={commentClassName}
 			/>
 		)

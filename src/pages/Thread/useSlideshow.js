@@ -51,6 +51,6 @@ export default function useSlideshow({
 	])
 
 	return {
-		openThreadWideSlideshow
+		openSlideshow: openThreadWideSlideshow
 	}
 }

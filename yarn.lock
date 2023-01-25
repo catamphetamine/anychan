@@ -7990,6 +7990,11 @@ web-browser-storage@^0.1.11, web-browser-storage@^0.1.6:
     web-browser-tab "^0.1.4"
     web-browser-timer "^0.1.0"
 
+web-browser-style@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/web-browser-style/-/web-browser-style-0.1.1.tgz#4c7fb099ee0442c075b094be90b2735d46693b93"
+  integrity sha512-kqWivaZauEBFXUYPuw8IKyzQK6OzB5KEaKCPJWn9C+D6ufKDSDweDXCH4Gssf2euw21I9MrCrBu5xOv+iG9ZSQ==
+
 web-browser-tab@^0.1.10, web-browser-tab@^0.1.3, web-browser-tab@^0.1.4:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/web-browser-tab/-/web-browser-tab-0.1.13.tgz#15573a249d3bb51df382108590d73ba45ff2a5e3"
@@ -8006,10 +8011,10 @@ web-browser-timer@^0.1.0, web-browser-timer@^0.1.5, web-browser-timer@^0.1.6:
   dependencies:
     web-browser-tab "^0.1.3"
 
-web-browser-window@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/web-browser-window/-/web-browser-window-0.1.1.tgz#7f860f9faf6540d2b8dded1c299c40c690459d67"
-  integrity sha512-bg+R3999cG3fdijG+dUzyEv/5WhiUcxLffklURvxvONOCgQJbjTM+bXZy8Wp80m3BQgMjhSRBLx+PkOkd9MRsg==
+web-browser-window@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/web-browser-window/-/web-browser-window-0.2.0.tgz#5a52ab1d03bf54f52c2b9690a72d55a31d3b1c4d"
+  integrity sha512-3kjg2vXgW+mJjnUN1/VJ1dPBY3eMTp0nXWkTcCgRmriBve/faXlS8oIuLx2cnj10/SP3Ub78AwVinbM52R7ISQ==
   dependencies:
     scroll-into-view-if-needed "^2.2.29"
     smooth-scroll-into-view-if-needed "^1.1.33"

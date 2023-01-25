@@ -50,9 +50,10 @@
     "virtual-scroller": "^1.11.0",
     "web-browser-input": "^0.2.0",
     "web-browser-storage": "^0.1.11",
+    "web-browser-style": "^0.1.1",
     "web-browser-tab": "^0.1.10",
     "web-browser-timer": "^0.1.6",
-    "web-browser-window": "^0.1.1"
+    "web-browser-window": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",

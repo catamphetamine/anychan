@@ -111,16 +111,18 @@ export function createConfiguration({ development }) {
 		},
 
 		snapshot: {
-			// Tell Webpack to hot-reload changes to certain `node_modules`.
-			// By default, it caches the whole `node_modules` folder and doesn't hot-reload it.
+			// Tell Webpack to not cache certain `node_modules` in order to observe
+			// the changes in their code, either via hot-reload or by refreshing the page.
+			// By default, Webpack caches the whole `node_modules` folder and doesn't hot-reload it.
 			// https://webpack.js.org/configuration/other-options/#managedpaths
     	managedPaths: [
-				// Hot-reload packages:
+				// Don't cache packages:
 				// * `frontend-lib` — Is not an `npm` package. Is a `yarn link`-ed folder.
+				// * `social-components` — Is an `npm` package.
 				// * `social-components-react` — Is not an `npm` package. Is a `yarn link`-ed folder.
 				// * `imageboard` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `react-pages` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
-				/(node_modules[\/\\](?!(frontend-lib|social-components-react|imageboard|react-pages)[\/\\]))/
+				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-react|imageboard|react-pages)[\/\\]))/
     	]
 		},
 
