@@ -55,7 +55,7 @@ export default function usePostThumbnail({
 
 	const postThumbnailSize = postThumbnail && getPostThumbnailSize(postThumbnail)
 
-	const postThumbnailSizeStyle = useMemo(() => {
+	const postThumbnailSizeVarStyle = useMemo(() => {
 		if (postThumbnailSize) {
 			return {
 				'--PostThumbnail-width': postThumbnailSize.width + 'px'
@@ -65,10 +65,10 @@ export default function usePostThumbnail({
 		postThumbnailSize
 	])
 
-	return [
+	return {
 		postThumbnail,
 		postThumbnailMoreAttachmentsCount,
 		postThumbnailOnClick,
-		postThumbnailSizeStyle
-	]
+		postThumbnailSizeVarStyle
+	}
 }

@@ -41,7 +41,6 @@ export default function CommentWithThumbnail({
 	onPostUrlClick: onPostUrlClick_,
 	className,
 
-	onClick,
 	onReply,
 
 	// <WrapCommentWithThumbnail/> props:
@@ -166,7 +165,7 @@ export default function CommentWithThumbnail({
 	// `elementRef` is supplied by `<CommentTree/>`
 	// and is used to to scroll to the parent post
 	// when the user hides its tree of replies.
-	const commentWithThumbnailElement = (
+	return (
 		<WrapCommentWithThumbnail
 			ref={elementRef}
 			as="article"
@@ -193,21 +192,6 @@ export default function CommentWithThumbnail({
 			{commentElement}
 		</WrapCommentWithThumbnail>
 	)
-
-	if (onClick || onReply) {
-		return (
-			<CommentWithThumbnailClickableWrapper
-				comment={comment}
-				threadId={threadId}
-				channelId={channelId}
-				onClick={onClick}
-				onReply={onReply}>
-				{commentWithThumbnailElement}
-			</CommentWithThumbnailClickableWrapper>
-		)
-	}
-
-	return commentWithThumbnailElement
 }
 
 CommentWithThumbnail.propTypes = {
@@ -226,7 +210,6 @@ CommentWithThumbnail.propTypes = {
 	onPostUrlClick: PropTypes.func,
 	className: PropTypes.string,
 
-	onClick: PropTypes.func,
 	onReply: PropTypes.func,
 
 	// `elementRef` is supplied by `<CommentTree/>`

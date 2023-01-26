@@ -26,6 +26,13 @@
 	flex-shrink: 0;
 }
 
+.SidebarThread-thumbnail {
+	.PostAttachmentThumbnail {
+		margin-left: auto;
+		margin-right: 0;
+	}
+}
+
 .SidebarThread-title {
 	margin-top: 0;
 	margin-bottom: calc(var(--unit) / 2);
