@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import useMessages from '../hooks/useMessages.js'
@@ -49,7 +50,6 @@ import './Toolbar.css'
 export default function Toolbar({
 	mode,
 	thread,
-	dispatch,
 	isThreadSubscribed,
 	setThreadSubscribed,
 	isSearchBarShown,
@@ -58,12 +58,14 @@ export default function Toolbar({
 	setAttachmentsExpanded,
 	channelView,
 	setChannelView,
-	isLoadingChannelView,
+	isSettingChannelView,
 	openSlideshow,
 	getCommentById,
 	className,
 	...rest
 }) {
+	const dispatch = useDispatch()
+
 	const messages = useMessages()
 
 	// const onDownloadThread = useDownloadThread({
@@ -78,7 +80,7 @@ export default function Toolbar({
 			onClick: () => setChannelView('new-threads'),
 			isSelected: channelView === 'new-threads',
 			icon: ThreadsIconOutline,
-			wait: isLoadingChannelView,
+			wait: isSettingChannelView,
 			className: 'Toolbar-item--channelView'
 			// className: classNames('Toolbar-item--channelView', 'Toolbar-item--channelViewNewThreads')
 		},
@@ -87,7 +89,7 @@ export default function Toolbar({
 			onClick: () => setChannelView('new-comments'),
 			isSelected: channelView === 'new-comments',
 			icon: ThreadWithCommentsIconOutline,
-			wait: isLoadingChannelView,
+			wait: isSettingChannelView,
 			className: 'Toolbar-item--channelView'
 		},
 		{
@@ -97,7 +99,7 @@ export default function Toolbar({
 			icon: PopularThreadsIconOutline,
 			// icon: FireIconOutline,
 			// iconActive: FireIconFill,
-			wait: isLoadingChannelView,
+			wait: isSettingChannelView,
 			className: 'Toolbar-item--channelView'
 			// className: classNames('Toolbar-item--channelView', 'Toolbar-item--channelViewRightmost')
 		},
@@ -167,7 +169,6 @@ export default function Toolbar({
 Toolbar.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	thread: threadType,
-	dispatch: PropTypes.func.isRequired,
 	isThreadSubscribed: PropTypes.bool,
 	setThreadSubscribed: PropTypes.func,
 	isSearchBarShown: PropTypes.bool,
@@ -176,7 +177,7 @@ Toolbar.propTypes = {
 	setAttachmentsExpanded: PropTypes.func,
 	channelView: PropTypes.oneOf(['new-threads', 'new-comments']),
 	setChannelView: PropTypes.func,
-	isLoadingChannelView: PropTypes.bool,
+	isSettingChannelView: PropTypes.bool,
 	openSlideshow: PropTypes.func,
 	getCommentById: PropTypes.func,
 	className: PropTypes.string

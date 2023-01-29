@@ -16,6 +16,7 @@ export default function ChannelThreadsSidebarSection() {
 
 	// const channel = useSelector(state => state.data.channel)
 	const threads = useSelector(state => state.data.threads)
+	const { channelView } = useSelector(state => state.channel)
 
 	const getInitialItemState = useCallback((thread) => ({
 		hidden: thread.comments[0].hidden
@@ -42,9 +43,12 @@ export default function ChannelThreadsSidebarSection() {
 		return
 	}
 
+	// <SidebarSection title={messages.threads.title}>
+
 	return (
-		<SidebarSection title={messages.threads.title}>
+		<SidebarSection>
 			<VirtualScroller
+				key={channelView}
 				bypass={typeof window === 'undefined'}
 				className="SidebarThreads"
 				getInitialItemState={getInitialItemState}

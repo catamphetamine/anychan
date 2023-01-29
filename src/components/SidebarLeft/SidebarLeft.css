@@ -1,0 +1,9 @@
+.SidebarLeft {
+	.ChannelHeader {
+		flex: 1;
+
+		.Toolbar {
+			padding-right: 0;
+		}
+	}
+}

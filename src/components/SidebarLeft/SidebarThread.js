@@ -130,7 +130,7 @@ export default function SidebarThread({
 					/>
 				}
 
-				<div className="SidebarThread-text">
+				<div className="SidebarThread-titleAndContent">
 					<h3 className="SidebarThread-title">
 						{thread.titleCensored}
 					</h3>

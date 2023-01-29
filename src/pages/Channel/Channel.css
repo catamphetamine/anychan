@@ -1,92 +1,10 @@
 @import "../../styles/common.css";
 
-:root {
-	--ChannelPage-headingLogo-width: 1em;
-	--ChannelPage-headingLogo-marginRight: 0.4em;
-	--ChannelPage-headingId-marginRight: 0.4em;
-	--ChannelPage-headingId-color: var(--Content-color-700);
-	--ChannelPage-headingId-slash-color: var(--Content-color-500);
-}
-
 .ChannelPage {
 	@mixin upto-m {
 		--Toolbar-marginTop: calc(var(--unit) * 0.5);
 		--Toolbar-marginBottom: calc(var(--unit) * 0.5);
 	}
-}
-
-.ChannelPage-header {
-	display: flex;
-	align-items: center;
-}
-
-.ChannelPage-headerToolbarSizePlaceholder {
-	visibility: hidden;
-
-	@mixin xxs {
-		display: none;
-	}
-}
-
-.ChannelPage-heading {
-	flex: 1;
-	margin-top: var(--Heading-marginTop);
-	margin-bottom: var(--Heading-marginTop);
-	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--channelPage));*/
-	text-align: center;
-	/*font-weight: 300;*/
-	font-weight: 400;
-	font-size: var(--PostTitle-fontSize);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-
-	@mixin xxs {
-		padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
-		text-align: left;
-	}
-
-	@mixin upto-s {
-		padding-top: calc(var(--unit) * 0.5);
-		padding-bottom: calc(var(--unit) * 0.5);
-	}
-
-	@mixin m-plus {
-		padding-bottom: calc(var(--unit) * 0.25);
-		/* Reset the default `line-height` set on `.page__heading`. */
-		line-height: initial;
-	}
-}
-
-.ChannelPage-headingLogoLink {
-	/* Provider SVG logos use "currentColor" in order to be visible
-	   both in "light mode" and "dark mode". */
-	&, &:active {
-		color: inherit;
-	}
-}
-
-.ChannelPage-headingLogo {
-	position: relative;
-	top: calc((1.35em - var(--ChannelPage-headingLogo-width)) / 2);
-	/*width: var(--ChannelPage-headingLogo-width);*/
-	height: var(--ChannelPage-headingLogo-width);
-	margin-right: var(--ChannelPage-headingLogo-marginRight);
-}
-
-.ChannelPage-headingLogo--spaceEquivalent {
-	visibility: hidden;
-	margin-left: var(--ChannelPage-headingLogo-marginRight);
-	margin-right: 0;
-}
-
-.ChannelPage-headingId {
-	display: inline;
-	margin-right: var(--ChannelPage-headingId-marginRight);
-	font-family: inherit;
-	font-weight: 300;
-	color: var(--ChannelPage-headingId-color);
-	--ChannelUrl-slash-color: var(--ChannelPage-headingId-slash-color);
 }
 
 .ChannelPage-threads {
@@ -105,7 +23,7 @@
 */
 
 /* This CSS class is also used for `.ThreadPage-stats`. */
-/*.ChannelPage-menu {
+/*.ChannelHeader-toolbar {
 	@mixin upto-m {
 		margin-bottom: calc(-1 * var(--unit));
 	}*/

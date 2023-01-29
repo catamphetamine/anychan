@@ -40,9 +40,13 @@
 	font-size: 1rem;
 }
 
-.SidebarThread-text {
+.SidebarThread-titleAndContent {
 	/* For some weird reason, it overflows unless `overflow: hidden` is added. */
 	overflow: hidden;
+}
+
+.SidebarThread-content {
+	white-space: pre-wrap;
 }
 
 .SidebarThread--hidden {

@@ -1,0 +1,85 @@
+@import "../../styles/common.css";
+
+:root {
+	--ChannelHeader-providerLogo-width: 1em;
+	--ChannelHeader-providerLogo-marginRight: 0.4em;
+	--ChannelHeader-channelId-marginRight: 0.4em;
+	--ChannelHeader-channelId-color: var(--Content-color-700);
+	--ChannelHeader-channelId-slash-color: var(--Content-color-500);
+}
+
+.ChannelHeader {
+	display: flex;
+	align-items: center;
+}
+
+.ChannelHeader-toolbarSizePlaceholder {
+	visibility: hidden;
+
+	@mixin xxs {
+		display: none;
+	}
+}
+
+.ChannelHeader-heading {
+	flex: 1;
+	margin-top: var(--Heading-marginTop);
+	margin-bottom: var(--Heading-marginTop);
+	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--channelPage));*/
+	/*font-weight: 300;*/
+	font-weight: 400;
+	font-size: var(--PostTitle-fontSize);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	@mixin xxs {
+		padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+		text-align: left;
+	}
+
+	@mixin upto-s {
+		padding-top: calc(var(--unit) * 0.5);
+		padding-bottom: calc(var(--unit) * 0.5);
+	}
+
+	@mixin m-plus {
+		/* Reset the default `line-height` set on `.page__heading`. */
+		line-height: initial;
+	}
+}
+
+.ChannelHeader-heading--alignContentCenter {
+	text-align: center;
+}
+
+.ChannelHeader-providerLogoLink {
+	/* Provider SVG logos use "currentColor" in order to be visible
+	   both in "light mode" and "dark mode". */
+	&, &:active {
+		color: inherit;
+	}
+}
+
+.ChannelHeader-providerLogo {
+	position: relative;
+	top: calc((1.35em - var(--ChannelHeader-providerLogo-width)) / 2);
+	/*width: var(--ChannelHeader-providerLogo-width);*/
+	height: var(--ChannelHeader-providerLogo-width);
+	margin-right: var(--ChannelHeader-providerLogo-marginRight);
+}
+
+.ChannelHeader-providerLogo--spaceEquivalent {
+	visibility: hidden;
+	margin-left: var(--ChannelHeader-providerLogo-marginRight);
+	margin-right: 0;
+}
+
+.ChannelHeader-channelId {
+	display: inline;
+	margin-right: var(--ChannelHeader-channelId-marginRight);
+	font-family: inherit;
+	font-weight: 300;
+	color: var(--ChannelHeader-channelId-color);
+	--ChannelUrl-slash-color: var(--ChannelHeader-channelId-slash-color);
+}

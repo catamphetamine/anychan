@@ -1,22 +1,17 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
+import React, { useMemo, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-pages'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import {
 	setVirtualScrollerState,
-	setScrollPosition,
-	setChannelView
+	setScrollPosition
 } from '../../redux/channel.js'
 
-import { getProviderId, getProvider } from '../../provider.js'
 import getMessages from '../../messages/index.js'
 
-import Toolbar from '../../components/Toolbar.js'
 import CommentsList from '../../components/CommentsList.js'
-import ProviderLogo from '../../components/ProviderLogo.js'
-import ChannelUrl from '../../components/ChannelUrl.js'
+import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 
 import ChannelThread from './ChannelThread.js'
 
@@ -24,8 +19,6 @@ import useLocale from '../../hooks/useLocale.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useOnCommentClick from './useOnCommentClick.js'
-
-import { saveChannelView } from '../../redux/settings.js'
 
 import getChannelPageMeta from './getChannelPageMeta.js'
 import loadChannelPage from './loadChannelPage.js'
@@ -35,10 +28,8 @@ import './Channel.css'
 function ChannelPage() {
 	const channel = useSelector(state => state.data.channel)
 	const threads = useSelector(state => state.data.threads)
-	const settings = useSelector(state => state.settings.settings)
 
 	const locale = useLocale()
-	const censoredWords = useSelector(state => state.settings.settings.censoredWords)
 
 	const {
 		virtualScrollerState: initialVirtualScrollerState,
@@ -63,68 +54,13 @@ function ChannelPage() {
 
 	const dispatch = useDispatch()
 
-	// Added `isLoadingChannelView` flag to disable Toolbar channel view selection buttons
-	// while it's loading.
-	const [isLoadingChannelView, setLoadingChannelView] = useState()
-
-	// Cancel any potential running `loadChannelPage()` function
-	// when navigating away from this page.
-	const wasUnmounted = useRef()
-	useEffect(() => {
-		return () => {
-			wasUnmounted.current = true
-		}
-	}, [])
-
 	// This "hack" is used to keep rendering the `threads` list
 	// which was loaded for the previous `channelView` when switching
 	// channel view in the Toolbar.
 	const threadsForPreviousChannelView = useRef()
 
-	const onSetChannelView = useCallback(async (view) => {
-		const wasCancelled = () => wasUnmounted.current
-
-		try {
-			threadsForPreviousChannelView.current = threads
-
-			setLoadingChannelView(true)
-
-			// Refresh the page.
-			await loadChannelPage({
-				channelId: channel.id,
-				dispatch,
-				getCurrentChannel: () => channel,
-				settings,
-				channelView: view,
-				wasCancelled
-			})
-
-			if (wasCancelled()) {
-				return
-			}
-
-			// Set `channelView` on this particular page.
-			dispatch(setChannelView(view))
-
-			// Save `channelView` in user's settings.
-			dispatch(saveChannelView(view))
-
-			threadsForPreviousChannelView.current = undefined
-		} finally {
-			setLoadingChannelView(false)
-		}
-	}, [
-		threads,
-		dispatch,
-		channel,
-		settings,
-		channelView
-	])
-
 	// Update max attachment thumbnail width.
 	useUpdateAttachmentThumbnailMaxWidth({ threads })
-
-	const [isSearchBarShown, setSearchBarShown] = useState()
 
 	const onCommentClick = useOnCommentClick()
 
@@ -158,45 +94,22 @@ function ChannelPage() {
 		return threads
 	}, [channelView])
 
-	const toolbar = (
-		<Toolbar
-			mode="channel"
-			dispatch={dispatch}
-			isSearchBarShown={isSearchBarShown}
-			setSearchBarShown={setSearchBarShown}
-			channelView={channelView}
-			setChannelView={onSetChannelView}
-			isLoadingChannelView={isLoadingChannelView}
-			className="ChannelPage-menu"
-		/>
-	)
+	const onChannelViewWillChange = useCallback(() => {
+		threadsForPreviousChannelView.current = threads
+	}, [])
+
+	const onChannelViewDidChange = useCallback(() => {
+		threadsForPreviousChannelView.current = undefined
+	}, [])
 
 	return (
 		<section className="ChannelPage Content">
-			<header className="ChannelPage-header">
-				{React.cloneElement(toolbar, {
-					className: 'ChannelPage-headerToolbarSizePlaceholder'
-				})}
-				<h1 className="ChannelPage-heading">
-					<Link
-						to="/"
-						title={getProvider().title}
-						className="ChannelPage-headingLogoLink">
-						<ProviderLogo
-							className="ChannelPage-headingLogo"
-						/>
-					</Link>
-					<ChannelUrl
-						channelId={channel.id}
-						className="ChannelPage-headingId"
-					/>
-					{channel.title}
-					<ProviderLogo
-						className="ChannelPage-headingLogo ChannelPage-headingLogo--spaceEquivalent"
-					/>
-				</h1>
-				{toolbar}
-			</header>
+			<ChannelHeader
+				alignTitle="center"
+				channelView={channelView}
+				onChannelViewWillChange={onChannelViewWillChange}
+				onChannelViewDidChange={onChannelViewDidChange}
+			/>
 
 			{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
 			    when the user changes the current channel's viewing mode. */}
@@ -214,17 +127,7 @@ function ChannelPage() {
 			/>
 		</section>
 	)
-	// className="ChannelPage-threads no-margin-collapse"
 }
-
-// ChannelPage.propTypes = {
-// 	channel: PropTypes.string.isRequired,
-// 	threads: PropTypes.arrayOf(PropTypes.object).isRequired,
-// 	locale: PropTypes.string.isRequired,
-// 	censoredWords: PropTypes.arrayOf(PropTypes.object),
-// 	virtualScrollerState: PropTypes.object,
-// 	dispatch: PropTypes.func.isRequired
-// }
 
 ChannelPage.meta = getChannelPageMeta
 

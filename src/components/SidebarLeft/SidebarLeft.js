@@ -6,11 +6,15 @@ import { useSelector } from 'react-redux'
 import Sidebar from '../Sidebar/Sidebar.js'
 import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
 
+import ChannelHeader from '../ChannelHeader/ChannelHeader.js'
+
 import ChannelThreadsSidebarSection from './ChannelThreadsSidebarSection.js'
 
-// import './SidebarLeft.css'
+import './SidebarLeft.css'
 
 export default function SidebarLeft() {
+	const { channelView } = useSelector(state => state.channel)
+
 	// const isSidebarShown = useSelector(state => state.app.isSidebarShown)
 	const isSidebarShown = true
 
@@ -19,7 +23,10 @@ export default function SidebarLeft() {
 			'SidebarLeft--show': isSidebarShown
 		})}>
 			<SidebarTopBar>
-				.
+				<ChannelHeader
+					alignTitle="start"
+					channelView={channelView}
+				/>
 			</SidebarTopBar>
 			<ChannelThreadsSidebarSection/>
 		</Sidebar>

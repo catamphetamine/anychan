@@ -2,11 +2,9 @@
 
 .SidebarTopBar {
 	display: flex;
-	justify-content: flex-end;
 	align-items: center;
-	/*margin-top: var(--unit);*/
 	margin-top: calc(var(--unit) * 1);
-	margin-bottom: calc(-2 * var(--unit));
+	/*margin-bottom: calc(var(--unit) * 1);*/
 	padding-left: var(--unit);
 	padding-right: var(--unit);
 	padding-bottom: calc(var(--unit) * 0.5);
@@ -15,6 +13,10 @@
 	@mixin upto-s {
 		display: none;
 	}
+}
+
+.SidebarTopBar--alignContentEnd {
+	justify-content: flex-end;
 }
 
 /*.SidebarTopBar-left {

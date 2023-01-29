@@ -26,7 +26,7 @@ export default function SidebarRight() {
 			'Sidebar--show': isSidebarShown
 		})}>
 			<SidebarProviderInfo/>
-			<SidebarTopBar>
+			<SidebarTopBar alignContent="end">
 				{/*<div className="SidebarTopBar-right">*/}
 					<DarkModeToggle/>
 					<SettingsLink/>

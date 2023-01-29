@@ -2,16 +2,28 @@
 
 :root {
 	--SidebarSection-paddingLeft: var(--unit);
+	--SidebarSection-marginTop: calc(var(--unit) * 2);
+	--SidebarSection-marginTop--withTitle: calc(var(--unit) * 3);
+	--SidebarSection-marginBottom: calc(var(--unit) * 2);
 }
 
 .SidebarSection {
-	margin-top: calc(var(--unit) * 3);
-	&:first-child {
-		margin-top: calc(var(--unit) * 2);
-	}
+	margin-top: var(--SidebarSection-marginTop);
 	&:last-child {
-		margin-bottom: calc(var(--unit) * 2);
+		margin-bottom: var(--SidebarSection-marginBottom);
 	}
+}
+
+.SidebarSection--withTitle {
+	margin-top: var(--SidebarSection-marginTop--withTitle);
+}
+
+.SidebarTopBar + .SidebarSection {
+	margin-top: calc(var(--SidebarSection-marginTop) - var(--unit) * 2);
+}
+
+.SidebarTopBar + .SidebarSection--withTitle {
+	margin-top: calc(var(--SidebarSection-marginTop--withTitle) - var(--unit) * 2);
 }
 
 .SidebarSection-title {

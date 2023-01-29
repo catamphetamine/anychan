@@ -15,22 +15,26 @@ export default function SidebarSection({
 	...rest
 }) {
 	return (
-		<section {...rest} className={classNames(className, 'SidebarSection')}>
-			<h1 className="SidebarSection-title">
-				{title}
-				{onMore &&
-					<SidebarSectionMoreButton
-						title={moreLabel}
-						onClick={onMore}/>
-				}
-			</h1>
+		<section {...rest} className={classNames(className, 'SidebarSection', {
+			'SidebarSection--withTitle': title
+		})}>
+			{title &&
+				<h1 className="SidebarSection-title">
+					{title}
+					{onMore &&
+						<SidebarSectionMoreButton
+							title={moreLabel}
+							onClick={onMore}/>
+					}
+				</h1>
+			}
 			{children}
 		</section>
 	)
 }
 
 SidebarSection.propTypes = {
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	moreLabel: PropTypes.string,
 	onMore: PropTypes.func,
 	children: PropTypes.node.isRequired
