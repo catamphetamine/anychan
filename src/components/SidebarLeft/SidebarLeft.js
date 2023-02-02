@@ -13,7 +13,7 @@ import ChannelThreadsSidebarSection from './ChannelThreadsSidebarSection.js'
 import './SidebarLeft.css'
 
 export default function SidebarLeft() {
-	const { channelView } = useSelector(state => state.channel)
+	const { channelView } = useSelector(state => state.settings.settings)
 
 	// const isSidebarShown = useSelector(state => state.app.isSidebarShown)
 	const isSidebarShown = true

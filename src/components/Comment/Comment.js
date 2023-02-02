@@ -69,6 +69,7 @@ export default function Comment({
 	onDownloadThread,
 	onRenderedContentDidChange,
 	onPostUrlClick,
+	moreActionsButtonRef,
 	className,
 	commentClassName,
 	// <CommentTitleContentAndAttachments/> props:
@@ -187,6 +188,7 @@ export default function Comment({
 				onVote={hasVoting ? onVote : undefined}
 				hasVotes={hasVoting}
 				onDownloadThread={onDownloadThread}
+				moreActionsButtonRef={moreActionsButtonRef}
 			/>
 		</Component>
 	)
@@ -219,6 +221,7 @@ Comment.propTypes = {
 	dispatch: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	onPostUrlClick: PropTypes.func.isRequired,
+	moreActionsButtonRef: PropTypes.object,
 	className: PropTypes.string
 }
 

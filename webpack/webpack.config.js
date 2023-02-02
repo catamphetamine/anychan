@@ -122,7 +122,8 @@ export function createConfiguration({ development }) {
 				// * `social-components-react` — Is not an `npm` package. Is a `yarn link`-ed folder.
 				// * `imageboard` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `react-pages` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
-				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-react|imageboard|react-pages)[\/\\]))/
+				// * `react-responsive-ui` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-react|imageboard|react-pages|react-responsive-ui)[\/\\]))/
     	]
 		},
 

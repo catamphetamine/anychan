@@ -147,36 +147,57 @@ export function getAbsoluteUrl(url) {
 	return url
 }
 
+export function getChannelUrlPattern({ notSafeForWork }) {
+	let channelUrl
+	const provider = getProvider()
+	if (provider.getChannelUrlPattern) {
+		return provider.getChannelUrlPattern({ notSafeForWork })
+	}
+	return getProviderAbsoluteUrl(provider.channelUrl)
+}
+
+export function getChannelUrl(channelId, {
+	notSafeForWork
+}) {
+	return getChannelUrlPattern({ notSafeForWork })
+		.replace('{channelId}', channelId)
+}
+
+export function getThreadUrlPattern({ notSafeForWork }) {
+	const provider = getProvider()
+	if (provider.getThreadUrlPattern) {
+		return provider.getThreadUrlPattern({ notSafeForWork })
+	}
+	return getProviderAbsoluteUrl(provider.threadUrl)
+}
+
 export function getThreadUrl(channelId, threadId, {
 	notSafeForWork
 }) {
-	const provider = getProvider()
-	if (provider.getThreadUrl) {
-		return provider.getThreadUrl({
-			channelId,
-			threadId,
-			notSafeForWork
-		})
-	}
-	return provider.threadUrl
+	return getThreadUrlPattern({ notSafeForWork })
 		.replace('{channelId}', channelId)
 		.replace('{threadId}', threadId)
+}
+
+export function getCommentUrlPattern({ notSafeForWork }) {
+	const provider = getProvider()
+	if (provider.getCommentUrl) {
+		return provider.getCommentUrl({ notSafeForWork })
+	}
+	return getProviderAbsoluteUrl(provider.commentUrl)
 }
 
 export function getCommentUrl(channelId, threadId, commentId, {
 	notSafeForWork
 }) {
-	const provider = getProvider()
-	if (provider.getCommentUrl) {
-		return provider.getCommentUrl({
-			channelId,
-			threadId,
-			commentId,
-			notSafeForWork
-		})
-	}
-	return provider.commentUrl
-		.replace('{channelId}', channelId)
-		.replace('{threadId}', threadId)
-		.replace('{commentId}', commentId)
+	return getProviderAbsoluteUrl(
+		getCommentUrlPattern({ notSafeForWork })
+			.replace('{channelId}', channelId)
+			.replace('{threadId}', threadId)
+			.replace('{commentId}', commentId)
+	)
+}
+
+function getProviderAbsoluteUrl(relativeUrl) {
+	'https://' + getProvider().domain + relativeUrl
 }

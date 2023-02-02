@@ -597,14 +597,19 @@ To add a new provider, create an `index.json` file with the provider's configura
 	threadArchiveLifetime: 259200000,
 
 	// (required)
-	// (only for non-imageboards)
-	// Thread URL template.
-	threadUrl: 'https://www.reddit.com/r/{channelId}/comments/{threadId}',
+	// (required only for non-imageboards)
+	// Channel URL template.
+	channelUrl: '/r/{channelId}',
 
 	// (required)
-	// (only for non-imageboards)
+	// (required only for non-imageboards)
+	// Thread URL template.
+	threadUrl: '/r/{channelId}/comments/{threadId}',
+
+	// (required)
+	// (required only for non-imageboards)
 	// Comment URL template.
-	commentUrl: 'https://www.reddit.com/r/{channelId}/comments/{threadId}/thread-title-peek/{commentId}',
+	commentUrl: '/r/{channelId}/comments/{threadId}/thread-title-peek/{commentId}',
 
 	// (required)
 	// (only for non-imageboards)

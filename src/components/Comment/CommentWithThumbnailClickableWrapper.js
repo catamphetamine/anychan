@@ -30,7 +30,7 @@ export default function CommentWithThumbnailClickableWrapper({
 				commentId={comment.id}
 				threadId={threadId}
 				channelId={channelId}>
-				{children}
+				{children({})}
 			</CommentClickableWrapper>
 		)
 	}
@@ -38,14 +38,17 @@ export default function CommentWithThumbnailClickableWrapper({
 	if (onLongPressOrDoubleClick) {
 		return (
 			<OnLongPress
-				touch
+				touchOnly
 				onLongPress={onLongPressOrDoubleClick}>
-				{children}
+				{(props) => children({
+					...props,
+					onDoubleClick: onLongPressOrDoubleClick
+				})}
 			</OnLongPress>
 		)
 	}
 
-	return children
+	return children({})
 }
 
 CommentWithThumbnailClickableWrapper.propTypes = {
@@ -53,5 +56,6 @@ CommentWithThumbnailClickableWrapper.propTypes = {
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,
 	onClick: PropTypes.func,
-	onReply: PropTypes.func
+	onReply: PropTypes.func,
+	children: PropTypes.func.isRequired
 }

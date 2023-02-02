@@ -1,13 +1,19 @@
+:root {
+	--SidebarThread-paddingTop: 1.5rem;
+	--SidebarThread-paddingLeft: var(--Sidebar-paddingLeft);
+	--SidebarThread-thumbnail-marginRight: 1rem;
+}
+
 .SidebarThread {
 	display: flex;
 	align-items: center;
 
 	position: relative;
 
-	padding-top: calc(var(--unit) * 1.5);
-	padding-bottom: calc(var(--unit) * 1.5);
-	padding-left: var(--unit);
-	padding-right: var(--unit);
+	padding-top: var(--SidebarThread-paddingTop);
+	padding-bottom: var(--SidebarThread-paddingTop);
+	padding-left: var(--SidebarThread-paddingLeft);
+	padding-right: var(--SidebarThread-paddingLeft);
 
 	background-color: var(--Post-backgroundColor);
 
@@ -22,7 +28,7 @@
 
 .SidebarThread-thumbnail,
 .SidebarThread-thumbnailPlaceholder {
-	margin-right: var(--unit);
+	margin-right: var(--SidebarThread-thumbnail-marginRight);
 	flex-shrink: 0;
 }
 
@@ -35,14 +41,25 @@
 
 .SidebarThread-title {
 	margin-top: 0;
-	margin-bottom: calc(var(--unit) / 2);
+	margin-bottom: 0;
 	font-weight: 500;
 	font-size: 1rem;
+	line-height: var(--Document-lineHeight);
 }
 
 .SidebarThread-titleAndContent {
 	/* For some weird reason, it overflows unless `overflow: hidden` is added. */
 	overflow: hidden;
+}
+
+.SidebarThread-content {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.SidebarThread-title + .SidebarThread-content {
+	/*margin-top: var(--unit);*/
+	margin-top: 1em;
 }
 
 .SidebarThread-content {

@@ -20,6 +20,8 @@ import {
 	channelId
 } from '../../PropTypes.js'
 
+import { clickableElementPropsType } from 'frontend-lib/components/OnLongPress.js'
+
 import getMessages from '../../messages/index.js'
 
 window.SHOW_POST_HEADER = false
@@ -38,32 +40,14 @@ export default function CommentWithThumbnail({
 	showingReplies,
 	parentComment,
 	compact,
-	onPostUrlClick: onPostUrlClick_,
-	className,
-
-	onReply,
-
-	// <WrapCommentWithThumbnail/> props:
-
-	// `elementRef` is supplied by `<CommentTree/>`
-	// and is used to to scroll to the parent post
-	// when the user hides its tree of replies.
+	// `elementRef` property is supplied by `<CommentTree/>` and is used later
+	// to scroll to the parent post when the user hides its tree of replies.
 	elementRef,
-
-	// These properties are passed by <OnLongPress/>:
-	onTouchStart,
-	onTouchEnd,
-	onTouchMove,
-	onTouchCancel,
-	onDragStart,
-	onMouseDown,
-	onMouseUp,
-	onMouseMove,
-	onMouseLeave,
-
+	onPostUrlClick: onPostUrlClick_,
+	onReply,
 	// "Reply on double click":
-	onDoubleClick,
-
+	clickableElementProps,
+	className,
 	// <Comment/> props:
 	...rest
 }) {
@@ -135,28 +119,6 @@ export default function CommentWithThumbnail({
 		)
 	}
 
-	const onLongPressProps = {
-		onTouchStart,
-		onTouchEnd,
-		onTouchMove,
-		onTouchCancel,
-		onDragStart,
-		onMouseDown,
-		onMouseUp,
-		onMouseMove,
-		onMouseLeave
-	}
-
-	// onTouchStart={onTouchStart}
-	// onTouchEnd={onTouchEnd}
-	// onTouchMove={onTouchMove}
-	// onTouchCancel={onTouchCancel}
-	// onDragStart={onDragStart}
-	// onMouseDown={onMouseDown}
-	// onMouseUp={onMouseUp}
-	// onMouseMove={onMouseMove}
-	// onMouseLeave={onMouseLeave}
-
 	const id = useId({
 		comment,
 		parentComment
@@ -170,8 +132,7 @@ export default function CommentWithThumbnail({
 			ref={elementRef}
 			as="article"
 			id={id}
-			{...onLongPressProps}
-			onDoubleClick={onDoubleClick}
+			{...clickableElementProps}
 			mode={mode}
 			comment={comment}
 			threadId={threadId}
@@ -207,23 +168,9 @@ CommentWithThumbnail.propTypes = {
 	showingReplies: PropTypes.bool,
 	parentComment: commentType,
 	compact: PropTypes.bool,
+	elementRef: PropTypes.object,
 	onPostUrlClick: PropTypes.func,
-	className: PropTypes.string,
-
 	onReply: PropTypes.func,
-
-	// `elementRef` is supplied by `<CommentTree/>`
-	// and is used to to scroll to the parent post
-	// when the user hides its replies tree.
-	elementRef: PropTypes.any,
-	onTouchStart: PropTypes.func,
-	onTouchEnd: PropTypes.func,
-	onTouchMove: PropTypes.func,
-	onTouchCancel: PropTypes.func,
-	onDragStart: PropTypes.func,
-	onMouseDown: PropTypes.func,
-	onMouseUp: PropTypes.func,
-	onMouseMove: PropTypes.func,
-	onMouseLeave: PropTypes.func,
-	onDoubleClick: PropTypes.func
+	clickableElementProps: clickableElementPropsType,
+	className: PropTypes.string
 }

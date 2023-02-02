@@ -287,7 +287,7 @@ function ThreadPage() {
 				<React.Fragment>
 					<AutoUpdate
 						autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}/>
-					{/*<PostForm onSubmit={onSubmitReply}/>*/}
+					{/*<PostForm autoFocus onSubmit={onSubmitReply}/>*/}
 					{thread.bumpLimitReached &&
 						<InfoBanner
 							Icon={SinkingBoatIcon}>

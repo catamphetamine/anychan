@@ -13,7 +13,18 @@ export default function getCommentTextPreview(comment, { messages } = {}) {
 	const textPreview = getPostText(comment, {
 		ignoreAttachments: true,
 		softLimit: 150,
-		messages: messages.contentType
+		messages: {
+			contentType: {
+				...messages.contentType,
+				linkTo: '{domain}' // messages.post.textContent.linkTo
+			}
+		},
+		formatUntitledLink: (link) => {
+			if (link.service === 'youtube') {
+				// return messages.contentType.video
+			}
+		},
+		spaceOutParagraphs: false
 	})
 	if (textPreview) {
 		return trimText(textPreview, 150)

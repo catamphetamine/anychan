@@ -53,7 +53,8 @@ export default function CommentFooter({
 	onPostUrlClick,
 	mode,
 	onReply,
-	onHide
+	onHide,
+	moreActionsButtonRef
 }) {
 	const subscribedThreadIds = useSelector(state => state.channel.subscribedThreadIds)
 
@@ -174,6 +175,7 @@ export default function CommentFooter({
 					})}
 				</div>
 				<CommentMoreActions
+					buttonRef={moreActionsButtonRef}
 					comment={comment}
 					threadId={threadId}
 					channelId={channelId}
@@ -213,7 +215,8 @@ CommentFooter.propTypes = {
 	url: PropTypes.string.isRequired,
 	vote: PropTypes.bool,
 	onVote: PropTypes.func,
-	onDownloadThread: PropTypes.func
+	onDownloadThread: PropTypes.func,
+	moreActionsButtonRef: PropTypes.object
 }
 
 CommentFooter.defaultProps = {

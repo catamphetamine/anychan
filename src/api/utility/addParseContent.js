@@ -10,6 +10,10 @@ import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmen
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 // import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
+import transformProviderUrl from '../../utility/transformProviderUrl.js'
+
+import { getProviderId } from '../../provider.js'
+
 /**
  * Modifies the `comment`'s `.parseContent()` function a bit.
  * @param {Comment} comment
@@ -29,7 +33,8 @@ export default function addParseContent(comment, {
 	locale,
 	// messages
 }) {
-	const parseContent = comment.parseContent
+	const parseCommentContent = comment.parseContent
+
 	comment.parseContent = ({ getCommentById } = {}) => {
 		// The `comment` object reference might have changed
 		// during thread auto-update since this function has been
@@ -38,14 +43,18 @@ export default function addParseContent(comment, {
 		if (getCommentById) {
 			comment = getCommentById(comment.id)
 		}
-		// `.hasContentBeenParsed` flag is set by the `parseContent()`
-		// function that the `imageboard` library has created.
-		// Don't set this flag manually. Only read it.
-		if (comment.hasContentBeenParsed) {
+
+		// `.hasContentBeenParsed()` function is provided by the `imageboard` library.
+		// It will return `true` if the comment's content has been parsed.
+		if (comment.hasContentBeenParsed()) {
 			return
 		}
-		parseContent({ getCommentById })
-		// Transform and censor comment content.
+
+		parseCommentContent({ getCommentById })
+
+		// Transform comment content:
+		// * Censor "offensive" words.
+		// * Correct grammar (commas and spaces, long dashes, quotes, etc).
 		if (comment.content) {
 			const _transformContent = (content) => {
 				let unpairedQuoteEncountered
@@ -78,6 +87,16 @@ export default function addParseContent(comment, {
 					if (part.type === 'code') {
 						return false
 					}
+					// Transform `link`s having the same `service` as the current service provider
+					// from external hyperlinks to internal application links.
+					// For example, if the application uses `4chan` as a service provider
+					// and then encounters a link to `4chan.org` then it would transform that link
+					// from an external "absolute URL" hyperlink to an in-app link.
+					if (part.type === 'link') {
+						if (part.service === getProviderId()) {
+							part.url = transformProviderUrl(part.url)
+						}
+					}
 					// Don't change "link" parts:
 					// don't autocorrect website URLs "grammar errors".
 					// Example: don't change "дом.рф" into "дом. Рф"
@@ -92,6 +111,7 @@ export default function addParseContent(comment, {
 				_transformContent(comment.contentPreview)
 			}
 		}
+
 		// Eventually, it was decided that perhaps `loadResourceLinksSync()`
 		// function isn't that useful and can be removed.
 		// // `loadResourceLinksSync()` is a simple "synchronous"
@@ -107,11 +127,19 @@ export default function addParseContent(comment, {
 		// // looking through "previous" comments by clicking
 		// // "Show previous comments" button and then scrolling from bottom to top.
 		// loadResourceLinksSync(comment, { mode, messages, getCommentById: ... thread.getCommentById ... })
+
 		// Align attachments to the left.
 		setEmbeddedAttachmentsProps(comment)
+
+		// Set `channelId`/`threadId` on `post-link`s.
+		// That info can be used when viewing a list of comments in a thread:
+		// when a user clicks a link to a comment from the same thread,
+		// there'd be no need to navigate to another page and the user
+		// could just be scrolled to the relevant comment, or something like that.
 		if (mode === 'thread') {
 			setPostLinkProps(comment)
 		}
+
 		// Remove leading `post-link` quote if it's
 		// quoting the "opening" post of the thread.
 		// Only removes the first such OP quote,

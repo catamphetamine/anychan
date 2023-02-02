@@ -49,7 +49,7 @@ function WrapCommentWithThumbnail({
 					data-comment-id={comment.id}
 					style={showThumbnail ? thumbnailSizeVarStyle : undefined}
 					className={classNames(className, {
-						'Comment--showThumbnail': showThumbnail,
+						'Comment--showThumbnail': window.SHOW_POST_THUMBNAIL,
 						'Comment--hasThumbnail': showThumbnail && thumbnailElement,
 						'Comment--hasNoThumbnail': showThumbnail && !thumbnailElement,
 					})}>

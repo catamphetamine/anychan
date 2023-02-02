@@ -24,11 +24,13 @@ export default function useReply({
 	initialShowReplyForm,
 	onShowReplyFormChange,
 	onAfterShowOrHideReplyForm,
+	moreActionsButtonRef,
 	locale
 }) {
 	const dispatch = useDispatch()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
+
 	const replyForm = useRef()
 
 	useEffectSkipMount(() => {
@@ -40,8 +42,14 @@ export default function useReply({
 		if (onAfterShowOrHideReplyForm) {
 			onAfterShowOrHideReplyForm()
 		}
-		if (!showReplyForm) {
-			console.log('.focus() the "Reply" button of `elementRef.current` here.')
+		if (showReplyForm) {
+			replyForm.current.focus()
+		} else {
+			if (moreActionsButtonRef) {
+				if (moreActionsButtonRef.current) {
+					moreActionsButtonRef.current.focus()
+				}
+			}
 		}
 	}, [showReplyForm])
 
@@ -52,7 +60,6 @@ export default function useReply({
 
 	const onReply = useCallback(() => {
 		setShowReplyForm(true)
-		replyForm.current.focus()
 	}, [])
 
 	const onSubmitReply = useCallback(({ content, quoteText }) => {

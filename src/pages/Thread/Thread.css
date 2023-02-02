@@ -70,3 +70,17 @@
 		}
 	}
 }
+
+.ThreadPage {
+	.PostForm {
+		@mixin m-plus {
+			margin-left: calc(var(--PostThumbnailContainer-maxWidth));
+			width: calc(100% - var(--PostThumbnailContainer-maxWidth));
+		}
+		@mixin upto-s {
+			margin-left: var(--Post-paddingLeft);
+			margin-right: var(--Post-paddingRight);
+			width: calc(100% - var(--Post-paddingLeft) - var(--Post-paddingRight));
+		}
+	}
+}

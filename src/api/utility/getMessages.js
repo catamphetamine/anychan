@@ -4,7 +4,7 @@ export default function getMessages(messages) {
 		comment: messages.comment,
 		contentType: {
 			...messages.contentType,
-			linkTo: messages.post.linkTo
+			linkTo: messages.post.textContent.linkTo
 		}
 	}
 }

@@ -3,11 +3,10 @@
 .SidebarTopBar {
 	display: flex;
 	align-items: center;
-	margin-top: calc(var(--unit) * 1);
-	/*margin-bottom: calc(var(--unit) * 1);*/
-	padding-left: var(--unit);
-	padding-right: var(--unit);
-	padding-bottom: calc(var(--unit) * 0.5);
+
+	padding-left: var(--Sidebar-paddingLeft);
+	padding-right: var(--Sidebar-paddingLeft);
+
 	/*border-bottom: 1px solid var(--ChannelUrl-slash-color);*/
 
 	@mixin upto-s {

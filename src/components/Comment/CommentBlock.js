@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -47,6 +47,11 @@ export default function CommentBlock({
 	setHidden,
 	...rest
 }) {
+	const moreActionsButtonRef = useRef()
+
+	const initialReplyFormState = null
+	const onReplyFormStateChange = (newState) => {}
+
 	const {
 		replyForm,
 		showReplyForm,
@@ -66,6 +71,7 @@ export default function CommentBlock({
 		initialShowReplyForm,
 		onShowReplyFormChange,
 		onAfterShowOrHideReplyForm: onRenderedContentDidChange,
+		moreActionsButtonRef,
 		locale
 	})
 
@@ -102,22 +108,25 @@ export default function CommentBlock({
 				channelId={channelId}
 				onClick={hidden ? onUnHide : onClick}
 				onReply={onReply}>
-
-				<CommentWithThumbnail
-					{...rest}
-					comment={comment}
-					threadId={threadId}
-					channelId={channelId}
-					parentComment={parentComment}
-					mode={mode}
-					locale={locale}
-					hidden={hidden}
-					onHide={onHide}
-					onReply={onReply}
-					urlBasePath={getBasePath()}
-					onRenderedContentDidChange={onRenderedContentDidChange}
-					channelIsNotSafeForWork={channelIsNotSafeForWork}
-				/>
+				{(clickableElementProps) => (
+					<CommentWithThumbnail
+						{...rest}
+						comment={comment}
+						threadId={threadId}
+						channelId={channelId}
+						parentComment={parentComment}
+						mode={mode}
+						locale={locale}
+						hidden={hidden}
+						onHide={onHide}
+						onReply={onReply}
+						urlBasePath={getBasePath()}
+						onRenderedContentDidChange={onRenderedContentDidChange}
+						channelIsNotSafeForWork={channelIsNotSafeForWork}
+						moreActionsButtonRef={moreActionsButtonRef}
+						clickableElementProps={clickableElementProps}
+					/>
+				)}
 			</CommentWithThumbnailClickableWrapper>
 
 			{!parentComment && !comment.removed && !threadExpired && unreadCommentWatcher &&
@@ -135,6 +144,8 @@ export default function CommentBlock({
 				<PostForm
 					ref={replyForm}
 					locale={locale}
+					initialState={initialReplyFormState}
+					onStateChange={onReplyFormStateChange}
 					onCancel={onCancelReply}
 					onSubmit={onSubmitReply}
 				/>

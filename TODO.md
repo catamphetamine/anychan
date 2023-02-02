@@ -51,6 +51,29 @@ Scroll threads list in left sidebar to top when navigating to a new channel in t
 
 
 
+
+
+`react-responsive-ui` — Add `initialHeight` and `onHeightChange` on `<TextInput/>`.
+
+Replace Cancel / Reply buttons with an "X" and an "enter" square (maybe google "send button").
+
+Sidebar Threads sticky header
+
+`easy-react-form` + virtual-scroller: `initialState` and `onStateChange` (test saving and restoring state while scrolling).
+
+Publish react-responsive-uui + push
+
+Reply form — скачет при пере-показывании при скролле (virtual-scroller)
+
+Input field error — делать не position absolute.
+
+Не показывать ошибку `required`, пока не submitted.
+
+
+
+
+
+
 Add top border on SidebarThread
 
 Check hidden threads in Sidebar

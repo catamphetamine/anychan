@@ -1,4 +1,11 @@
 .SidebarRight {
+	border-left: 1px solid var(--Sidebar-borderColor);
+
+	.SidebarTopBar {
+		padding-top: calc(var(--unit) * 1);
+		padding-bottom: calc(var(--unit) * 0.5);
+	}
+
 	.Channels-list {
 		/* Only show the virtical scrollbar. */
 		overflow-x: hidden;

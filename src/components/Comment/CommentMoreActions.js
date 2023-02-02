@@ -29,7 +29,8 @@ export default function CommentMoreActions({
 	urlBasePath,
 	onReply,
 	onDownloadThread,
-	onHide
+	onHide,
+	buttonRef
 }) {
 	const dispatch = useDispatch()
 
@@ -142,6 +143,7 @@ export default function CommentMoreActions({
 			title={messages.post.moreActions.title}
 			toggleComponent={CommentMoreActionsIcon}
 			className="CommentMoreActions"
+			buttonRef={buttonRef}
 			buttonClassName="CommentMoreActions-button">
 			{moreActions}
 		</PostMoreActions>
@@ -160,7 +162,8 @@ CommentMoreActions.propTypes = {
 	urlBasePath: PropTypes.string,
 	onReply: PropTypes.func,
 	onDownloadThread: PropTypes.func,
-	onHide: PropTypes.func.isRequired
+	onHide: PropTypes.func.isRequired,
+	buttonRef: PropTypes.object
 }
 
 function CommentMoreActionsIcon() {

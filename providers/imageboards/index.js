@@ -29,24 +29,31 @@ for (const provider of PROVIDERS) {
 	provider.imageboard = provider.id
 	provider.domain = imageboardConfig.domain
 
-	// Create `getThreadUrl()` function on `provider` object.
-	// This function is used in `src/provider.js` in `getThreadUrl()` function.
-	provider.getThreadUrl = ({ channelId, threadId, notSafeForWork }) => {
+	provider.channelUrl = imageboardConfig.boardUrl.replace('{boardId}', '{channelId}')
+	provider.threadUrl = imageboardConfig.threadUrl.replace('{boardId}', '{channelId}')
+	provider.commentUrl = imageboardConfig.commentUrl.replace('{boardId}', '{channelId}')
+
+	// Create `getChannelUrlPattern()` function on `provider` object.
+	// This function is used in `src/provider.js` in `getChannelUrl()` function.
+	provider.getChannelUrlPattern = ({ notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			imageboardConfig.threadUrl
-				.replace('{boardId}', channelId)
-				.replace('{threadId}', threadId)
+			imageboardConfig.channelUrl
 		}`
 	}
 
-	// Create `getCommentUrl()` function on `provider` object.
+	// Create `getThreadUrlPattern()` function on `provider` object.
+	// This function is used in `src/provider.js` in `getThreadUrl()` function.
+	provider.getThreadUrlPattern = ({ notSafeForWork }) => {
+		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
+			imageboardConfig.threadUrl
+		}`
+	}
+
+	// Create `getCommentUrlPattern()` function on `provider` object.
 	// This function is used in `src/provider.js` in `getCommentUrl()` function.
-	provider.getCommentUrl = ({ channelId, threadId, commentId, notSafeForWork }) => {
+	provider.getCommentUrlPattern = ({ notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
 			imageboardConfig.commentUrl
-				.replace('{boardId}', channelId)
-				.replace('{threadId}', threadId)
-				.replace('{commentId}', commentId)
 		}`
 	}
 }

@@ -1,10 +1,13 @@
 @import "../../styles/common.css";
 
+:root {
+	--Sidebar-paddingLeft: var(--unit);
+}
+
 .Sidebar {
 	overflow-y: auto;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
-	border-left: 1px solid var(--Sidebar-borderColor);
 	background-color: var(--Sidebar-backgroundColor);
 	color: var(--Sidebar-color-900);
 }

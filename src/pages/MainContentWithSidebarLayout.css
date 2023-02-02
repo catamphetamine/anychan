@@ -157,10 +157,10 @@
 		--SidebarLeft-minWidth: 0px;
 
 		--PaddingLeft-flexGrow: 0;
-		--PaddingLeft-minWidth: var(--Comment-marginTop);
+		--PaddingLeft-minWidth: calc(var(--Comment-marginTop) * 2);
 
 		--PaddingRight-flexGrow: 0;
-		--PaddingRight-minWidth: var(--Comment-marginTop);
+		--PaddingRight-minWidth: calc(var(--Comment-marginTop) * 2);
 
 		--SidebarRight-flexGrow: 1;
 		--SidebarRight-flexBasis: 0;

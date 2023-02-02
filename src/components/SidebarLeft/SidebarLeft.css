@@ -1,4 +1,6 @@
 .SidebarLeft {
+	border-right: 1px solid var(--Sidebar-borderColor);
+
 	.ChannelHeader {
 		flex: 1;
 

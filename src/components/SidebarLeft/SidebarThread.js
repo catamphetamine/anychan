@@ -131,9 +131,11 @@ export default function SidebarThread({
 				}
 
 				<div className="SidebarThread-titleAndContent">
-					<h3 className="SidebarThread-title">
-						{thread.titleCensored}
-					</h3>
+					{thread.titleCensored &&
+						<h3 className="SidebarThread-title">
+							{thread.titleCensored}
+						</h3>
+					}
 					{thread.comments[0].textPreview &&
 						<p className="SidebarThread-content">
 							{thread.comments[0].textPreview}
