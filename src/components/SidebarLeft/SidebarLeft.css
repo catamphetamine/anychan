@@ -3,6 +3,7 @@
 
 	.ChannelHeader {
 		flex: 1;
+		max-width: 100%;
 
 		.Toolbar {
 			padding-right: 0;
