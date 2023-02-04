@@ -111,5 +111,39 @@
 		</script>
 	</head>
 	<body>
+		<div id="NewSiteAnnouncement" style="
+		    display: none;
+		    position: fixed;
+		    left: 0;
+		    right: 0;
+		    top: 0;
+		    padding-top: 0.5rem;
+		    padding-bottom: 0.5rem;
+		    padding-left: 1rem;
+		    padding-right: 1rem;
+		    background-color: var(--Content-backgroundColor);
+		    color: var(--Content-color-900);
+		    z-index: 1;
+		    border-bottom: 1px solid var(--Content-color-200);
+		    text-align: center;
+		">You're browsing an older version of the app. A <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">newer alpha version</a> is available for testing. <a href="#" id="NewSiteAnnouncement-hide">Hide</a></div>
+		<script>
+		  function maybeShowNewSiteAnnouncement() {
+		    var showNewSiteAnnouncementFlag = localStorage.getItem('ShowNewSiteAnnouncement');
+		    if (showNewSiteAnnouncementFlag !== '0') {
+		      function hideNewSiteAnnouncement() {
+		        document.getElementById('NewSiteAnnouncement').style.display = 'none';
+		        localStorage.setItem('ShowNewSiteAnnouncement', '0');
+		      }
+		      document.getElementById('NewSiteAnnouncement').style.display = 'block';
+		      var announcementHideButton = document.getElementById('NewSiteAnnouncement-hide');
+		      announcementHideButton.addEventListener('click', hideNewSiteAnnouncement);
+
+		      var currentlyUsedImageboardId = window.location.pathname.slice('/'.length).split('/')[0] || '4chan';
+		      document.getElementById('NewSiteAnnouncementLink').href = 'https://anychans.github.io/' + currentlyUsedImageboardId;
+		    }
+		  }
+		  maybeShowNewSiteAnnouncement()
+		</script>
 	</body>
 </html>
