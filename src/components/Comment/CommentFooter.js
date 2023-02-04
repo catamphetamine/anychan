@@ -205,7 +205,7 @@ CommentFooter.propTypes = {
 	showRepliesCount: PropTypes.bool,
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
-	onPostUrlClick: PropTypes.func.isRequired,
+	onPostUrlClick: PropTypes.func,
 	dispatch: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,

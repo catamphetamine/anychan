@@ -1,4 +1,4 @@
-# <img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/assets/images/icons/icon-192.png" width="36" height="36"/> anychan
+# <img src="https://gitlab.com/catamphetamine/anychan/-/raw/master/assets/images/icon/icon-192.png" width="36" height="36"/> anychan
 
 A universal web client for online discussion services like "forums" or ["imageboards"](https://tvtropes.org/pmwiki/pmwiki.php/Main/Imageboards).
 

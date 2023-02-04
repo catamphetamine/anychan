@@ -14,6 +14,7 @@ import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 
 import ChannelThread from './ChannelThread.js'
+import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
 import useLocale from '../../hooks/useLocale.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
@@ -102,6 +103,19 @@ function ChannelPage() {
 		threadsForPreviousChannelView.current = undefined
 	}, [])
 
+	const transformInitialItemState = useCallback((itemState, item) => {
+		if (channelView === 'new-comments') {
+			// If the thread is not hidden then show its latest comments.
+			if (!itemState.hidden) {
+				return {
+					...itemState,
+					...getShowRepliesState(item.comments[0])
+				}
+			}
+		}
+		return itemState
+	}, [channelView])
+
 	return (
 		<section className="ChannelPage Content">
 			<ChannelHeader
@@ -116,6 +130,7 @@ function ChannelPage() {
 			<CommentsList
 				key={channelView}
 				mode="channel"
+				transformInitialItemState={transformInitialItemState}
 				initialState={initialVirtualScrollerState}
 				setState={setVirtualScrollerState}
 				initialScrollPosition={initialScrollPosition}

@@ -14,6 +14,7 @@ function CommentsList({
 	initialScrollPosition,
 	setScrollPosition,
 	getCommentById,
+	transformInitialItemState,
 	stateRef,
 	className,
 	...rest
@@ -25,9 +26,15 @@ function CommentsList({
 		[]
 	)
 
-	const getInitialItemState = useCallback((item) => ({
-		hidden: mode === 'channel' ? item.comments[0].hidden : item.hidden
-	}), [
+	const getInitialItemState = useCallback((item) => {
+		let itemState = {
+			hidden: mode === 'channel' ? item.comments[0].hidden : item.hidden
+		}
+		if (transformInitialItemState) {
+			itemState = transformInitialItemState(itemState, item)
+		}
+		return itemState
+	}, [
 		mode
 	])
 
@@ -104,6 +111,7 @@ CommentsList.propTypes = {
 	initialScrollPosition: PropTypes.number,
 	setScrollPosition: PropTypes.func,
 	getCommentById: PropTypes.func,
+	transformInitialItemState: PropTypes.func,
 	stateRef: PropTypes.object,
 	className: PropTypes.string
 }

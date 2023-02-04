@@ -66,7 +66,7 @@ export default function({ dev }) {
 		template: 'src/index.html',
 		minify: false,
 		inject: dev ? true : false,
-		// favicon: 'assets/images/icons/icon-192.png',
+		// favicon: 'assets/images/icon/icon-192.png',
 		// Seems to use "lodash" templates.
 		templateParameters: {
 			defaultIconUrl: BASE_64_URL_PREFIX + ICON,

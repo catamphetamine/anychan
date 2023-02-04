@@ -220,7 +220,7 @@ Comment.propTypes = {
 	onReply: PropTypes.func,
 	dispatch: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
-	onPostUrlClick: PropTypes.func.isRequired,
+	onPostUrlClick: PropTypes.func,
 	moreActionsButtonRef: PropTypes.object,
 	className: PropTypes.string
 }

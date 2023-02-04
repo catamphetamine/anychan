@@ -12,7 +12,7 @@ import ApplicationWrapper from './components/ApplicationWrapper.js'
 // Uncomment for "server-side-rendering" build.
 // // "Favicon" must be imported on the client side too
 // // since no assets are emitted on the server side
-// export { default as icon } from '../assets/images/icons/icon-192.png'
+// export { default as icon } from '../assets/images/icon/icon-192.png'
 
 // const DEFAULT_META = {
 // 	site_name   : 'anychan',

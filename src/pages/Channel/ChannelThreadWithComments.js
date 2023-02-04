@@ -31,7 +31,6 @@ export default function ChannelThreadWithComments({
 		return {
 			...commonProps,
 			threadId: thread.id,
-			getCommentById,
 			showRepliesCount: false,
 			postDateLinkClickable: false,
 			postDateLinkUpdatePageUrlToPostUrlOnClick: false,
@@ -40,18 +39,23 @@ export default function ChannelThreadWithComments({
 		}
 	}, [
 		commonProps,
-		thread.id,
-		getCommentById
+		thread.id
 	])
+
+	// `initialShowReplies` property is not used here
+	// because there is always some `initialState`.
+	// Example: `{ hidden: true/false }`.
+	// Instead, `getShowRepliesState(comment)` function is used
+	// when constructing that initial state.
 
 	return (
 		<CommentTree
 			comment={thread.comments[0]}
 			initialState={initialState}
-			initialShowReplies
 			setState={setState}
 			onHeightChange={onHeightChange}
 			getComponentProps={getComponentProps}
+			getCommentById={getCommentById}
 		/>
 	)
 }
