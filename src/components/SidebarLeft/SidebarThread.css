@@ -27,7 +27,8 @@
 }
 
 .SidebarThread--current {
-	/*background-color: var(--base-color-100);*/
+	box-shadow: 0 0 5rem inset var(--Content-color-50);
+	/*box-shadow: 0 0 5rem inset var(--Document-backgroundColor);*/
 }
 
 .SidebarThread-thumbnail,
