@@ -39,6 +39,24 @@
 	flex-wrap: wrap;
 }
 
+/* This trick turned out to not work as expected because it had a side-effect (glitch):
+   when there're two comments, one above another, and the one that's above
+   gets its `.CommentMoreActions` menu expanded, the date of the other comment
+   that sits below gets rendered above the expanded `.CommentMoreActions` menu.
+*/
+/* `.CommentMoreActions` is `.rrui__menu` which means that it's `position: relative`.
+   Since it's "clickable" perceived width is wider than its actual width,
+   it might obstruct the adjacent DOM Elements like the comment's date.
+   In order to prevent that, the adjacent DOM Elements are styled to be "above"
+   `.CommentMoreActions` in terms of `z-index`.
+*/
+/*
+.CommentFooter-rightExceptMoreActions {
+  position: relative;
+  z-index: 1;
+}
+*/
+
 .CommentFooter-left {
 	margin-right: calc(var(--unit) * 1.5);
 	color: var(--CommentFooter-color--darker);

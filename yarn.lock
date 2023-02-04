@@ -3750,10 +3750,10 @@ duplexer@^0.1.2:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
-easy-react-form@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.0.tgz#545e2efe9ead75297892aae36b2024fbf15de41d"
-  integrity sha512-qp8j2y7Pdd2GFM7fuiIaxGiwskyZ3PP/6vFtcoT2UJ7K+09gnV9dOvvlTegMVTa6S7akv5FxPTWZ6KUJyv0smA==
+easy-react-form@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.4.tgz#ac74604964b42ac384cb2c7e0474dca9397fc6df"
+  integrity sha512-9ApUZZFiboaQ6+eVEosYfr2MBIGAXJ8rAXPiRcZvfgtnD9wmSW08dKYgCrOw33e3KgqdFeZR2V8mdhLgzIuf/A==
   dependencies:
     prop-types "^15.7.2"
     scroll-into-view-if-needed "^2.2.24"
@@ -6659,10 +6659,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-responsive-ui@^0.15.35:
-  version "0.15.35"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.35.tgz#4f92d5f3441737cefb2f19ae1d9f3765de8d952e"
-  integrity sha512-SSZ1pXoJJJJMWGly79IZ/RaFYnLZyKLTCCGppbfOGDTMdrPUUWNG7XbKXH9PM+rnd50zmsfzPU5rfLxOkOTkSA==
+react-responsive-ui@^0.15.39:
+  version "0.15.39"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.39.tgz#c0c9fbfd8106433124bc14f8aa1d3620d9988cf3"
+  integrity sha512-xUjI45FtiQc3IeRNfBanTHta7CGzrraPCgtvTMzfNU+z14MGryKJvOzEmBZKitkhwsGGMdr7BBw1n6e4zRceDQ==
   dependencies:
     "@babel/node" "^7.18.10"
     classnames "^2.3.1"
@@ -7876,10 +7876,10 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-virtual-scroller@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.11.0.tgz#82d61c824b9bb0f91a368f8a4bdd33d66c30873c"
-  integrity sha512-4tsVDDw4Rmk/2A4wPCajNRsu9NrykUwalpKNRNhvBsISIxTtN6OsnROOXd3x4/sghATNRUaVtXeC6O4Q6jivpw==
+virtual-scroller@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.11.2.tgz#b2947954d737d5f0dd517ffc94b8299347d0b730"
+  integrity sha512-A5l7xbD115b71HzrR/MQJ6RVd0eFmedU++HKaUBJwi0V6eQ995fbFOMwoT+uqU31egBqVRJ/DALGS8ck+mrNNA==
   dependencies:
     request-animation-frame-timeout "^1.0.0"
 
@@ -7905,10 +7905,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-browser-input@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/web-browser-input/-/web-browser-input-0.2.0.tgz#e996c3cf506657fbac806423a6229353dc9035db"
-  integrity sha512-iojGgA76MZ6JOmqDqHFV8vGI6+ZM2Jzh6D1WhxtFSGSQMSLTw5lpnb1uH/1osburR0YOPftBFQ1tIFoEnpMkcw==
+web-browser-input@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/web-browser-input/-/web-browser-input-0.2.1.tgz#34dca560894de347deeba2e30d9877c3155f29ea"
+  integrity sha512-Z6bFJ00thH27tSY87lO7xnX45si733hxkOimjVnJXzkfB97zbJ+I0dZRO7c9NjCU7cDd5EzhQ78+8rmT4FCZnA==
 
 web-browser-storage@^0.1.11, web-browser-storage@^0.1.6:
   version "0.1.11"

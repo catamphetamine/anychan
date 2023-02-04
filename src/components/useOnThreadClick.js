@@ -4,13 +4,13 @@ import { goto } from 'react-pages'
 
 import getGoBackToThreadFromChannel from './getGoBackToThreadFromChannel.js'
 
-import useRoute from '../../hooks/useRoute.js'
+import useRoute from '../hooks/useRoute.js'
 
-import isChannelPage from '../../utility/routes/isChannelPage.js'
-import getUrl from '../../utility/getUrl.js'
+import isChannelPage from '../utility/routes/isChannelPage.js'
+import getUrl from '../utility/getUrl.js'
 
 // Skips loading the thread page if the thread has been viewed before.
-export default function useOnCommentClick() {
+export default function useOnThreadClick() {
 	const dispatch = useDispatch()
 
 	// Looks like, due to how the whole thing works, `found.resolvedMatch`

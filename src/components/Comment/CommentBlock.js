@@ -45,19 +45,28 @@ export default function CommentBlock({
 	onClick,
 	initialHidden,
 	setHidden,
+	initialReplyFormInputHeight,
+	onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+	// initialReplyFormInputValue,
+	// onReplyFormInputValueChange,
+	initialReplyFormError,
+	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
+	initialReplyFormState,
+	onReplyFormStateDidChange,
 	...rest
 }) {
+	// This button gets focused when the user clicks the "Cancel" button
+	// on the reply form under this comment.
 	const moreActionsButtonRef = useRef()
-
-	const initialReplyFormState = null
-	const onReplyFormStateChange = (newState) => {}
 
 	const {
 		replyForm,
 		showReplyForm,
 		onReply,
 		onCancelReply,
-		onSubmitReply
+		onSubmitReply,
+		onReplyFormErrorDidChange,
+		onReplyFormInputHeightChange
 	} = useReply({
 		comment,
 		threadId,
@@ -70,7 +79,9 @@ export default function CommentBlock({
 		canReply,
 		initialShowReplyForm,
 		onShowReplyFormChange,
-		onAfterShowOrHideReplyForm: onRenderedContentDidChange,
+		onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+		onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
+		onRenderedContentDidChange,
 		moreActionsButtonRef,
 		locale
 	})
@@ -140,15 +151,29 @@ export default function CommentBlock({
 				/>
 			}
 
+			{/*
+			initialInputValue={initialReplyFormInputValue}
+			onInputValueChange={onReplyFormInputValueChange}
+			*/}
+
 			{!comment.removed && showReplyForm &&
-				<PostForm
-					ref={replyForm}
-					locale={locale}
-					initialState={initialReplyFormState}
-					onStateChange={onReplyFormStateChange}
-					onCancel={onCancelReply}
-					onSubmit={onSubmitReply}
-				/>
+				<>
+					<div className="Comment-spacer"/>
+
+					<PostForm
+						ref={replyForm}
+						placement="comment"
+						locale={locale}
+						initialState={initialReplyFormState}
+						onStateDidChange={onReplyFormStateDidChange}
+						initialError={initialReplyFormError}
+						onErrorDidChange={onReplyFormErrorDidChange}
+						initialInputHeight={initialReplyFormInputHeight}
+						onInputHeightChange={onReplyFormInputHeightChange}
+						onCancel={onCancelReply}
+						onSubmit={onSubmitReply}
+					/>
+				</>
 			}
 		</div>
 	)
@@ -180,7 +205,13 @@ CommentBlock.propTypes = {
 	canReply: PropTypes.bool,
 	onClick: PropTypes.func,
 	initialHidden: PropTypes.bool,
-	setHidden: PropTypes.func.isRequired
+	setHidden: PropTypes.func.isRequired,
+	initialReplyFormError: PropTypes.string,
+	onReplyFormErrorDidChange: PropTypes.func,
+	initialReplyFormInputHeight: PropTypes.number,
+	onReplyFormInputHeightChange: PropTypes.func,
+	initialReplyFormState: PropTypes.object,
+	onReplyFormStateDidChange: PropTypes.func
 }
 
 /*

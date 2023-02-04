@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Select } from 'react-responsive-ui'
+
+import Select from '../Select.js'
 
 import {
 	ContentSection,
@@ -29,7 +30,8 @@ export default function LanguageSettings({
 			<Select
 				value={value}
 				options={options}
-				onChange={onChange}/>
+				onChange={onChange}
+			/>
 			{children}
 		</ContentSection>
 	)

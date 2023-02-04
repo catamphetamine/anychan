@@ -55,6 +55,14 @@
 	margin-top: var(--Thread-comments-marginTop);
 }
 
+.ThreadPage-belowComments {
+	/* Using `padding-top: 1px` here instead of `margin`s on children because
+	   `pointer-events: none` property is set on `.Webpage-content` making pointer events
+	   "fall through" the top margin (but not when using top padding).
+	*/
+	padding-top: 1px;
+}
+
 .ThreadPage {
 	.AutoUpdate {
 		margin-top: calc(var(--unit) * 2);
@@ -63,7 +71,7 @@
 
 .ThreadPage {
 	.InfoBanner,
-	.PostForm {
+	.PostForm--page {
 		margin-top: calc(var(--unit) * 2);
 		@mixin m-plus {
 			margin-top: calc(var(--unit) * 3);
@@ -72,7 +80,7 @@
 }
 
 .ThreadPage {
-	.PostForm {
+	.PostForm--comment {
 		@mixin m-plus {
 			margin-left: calc(var(--PostThumbnailContainer-maxWidth));
 			width: calc(100% - var(--PostThumbnailContainer-maxWidth));

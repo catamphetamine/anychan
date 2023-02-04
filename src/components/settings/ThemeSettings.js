@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Select, TextInput } from 'react-responsive-ui'
+import { Modal, TextInput } from 'react-responsive-ui'
 
+import Select from '../Select.js'
 import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
 import { Form, Field, Submit } from '../Form.js'
@@ -90,7 +91,8 @@ export default function ThemeSettings({
 					value={theme}
 					options={options}
 					onChange={onSelectTheme}
-					className="form__component"/>
+					className="form__component"
+				/>
 				<div className="form__component form__component--button">
 					<TextButton
 						onClick={() => setShowAddThemeModal(true)}>

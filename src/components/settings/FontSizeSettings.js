@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Select } from 'react-responsive-ui'
+
+import Select from '../Select.js'
 
 import applyFontSize, { FONT_SIZES } from 'frontend-lib/utility/style/applyFontSize.js'
 
@@ -34,7 +35,8 @@ export default function FontSizeSettings({
 			<Select
 				value={value}
 				options={options}
-				onChange={saveFontSize}/>
+				onChange={saveFontSize}
+			/>
 		</ContentSection>
 	)
 }

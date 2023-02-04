@@ -54,23 +54,23 @@
 	"links": [{
 		"type": "rules",
 		"text": "Правила",
-		"url": "https://2ch.hk/rules.html"
+		"url": "https://2ch.hk/static/rules.html"
 	}, {
 		"type": "premium",
 		"text": "Купить пасскод",
-		"url": "https://2ch.hk/market.html"
+		"url": "https://2ch.hk/static/market.html"
 	}, {
 		"type": "donate",
 		"text": "Пожертвования",
-		"url": "https://2ch.hk/donate.html"
+		"url": "https://2ch.hk/static/donate.html"
 	}, {
 		"type": "advertise",
 		"text": "Реклама",
-		"url": "https://2ch.hk/price.html"
+		"url": "https://2ch.hk/static/price.html"
 	}, {
 		"type": "contact",
 		"text": "Контакты",
-		"url": "https://2ch.hk/contacts.html"
+		"url": "https://2ch.hk/static/contacts.html"
 	}, {
 		"type": "feedback",
 		"text": "Идеи и предложения",
@@ -94,7 +94,7 @@
 	}, {
 		"type": "mobile",
 		"text": "Скачать мобильные приложения",
-		"url": "https://2ch.hk/m.html"
+		"url": "https://2ch.hk/static/m.html"
 	}],
 	"contentCategories": [
 		"Тематика",

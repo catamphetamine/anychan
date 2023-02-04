@@ -246,24 +246,29 @@ function ThreadPage() {
 
 	return (
 		<section className={classNames('ThreadPage', 'Content')}>
-			<ThreadPageHeader
-				channel={channel}
-				thread={thread}
-				openSlideshow={openSlideshow}
-				getCommentById={getCommentById}
-				isThreadSubscribed={isThreadSubscribed}
-				setThreadSubscribed={setThreadSubscribed}
-				isSearchBarShown={isSearchBarShown}
-				setSearchBarShown={setSearchBarShown}
-				areAttachmentsExpanded={areAttachmentsExpanded}
-				setAttachmentsExpanded={setAttachmentsExpanded}/>
-			{fromIndex > 0 &&
-				<ShowPrevious
-					fromIndex={fromIndex}
-					setFromIndex={setNewFromIndexPreservingScrollPosition}
-					items={thread.comments}
-					onShowAll={onShowAll}/>
-			}
+			{/* `.ThreadPage-aboveComments` is used to restore the default
+			    `pointer-events: auto` behavior. */}
+			<div className="ThreadPage-aboveComments">
+				<ThreadPageHeader
+					channel={channel}
+					thread={thread}
+					openSlideshow={openSlideshow}
+					getCommentById={getCommentById}
+					isThreadSubscribed={isThreadSubscribed}
+					setThreadSubscribed={setThreadSubscribed}
+					isSearchBarShown={isSearchBarShown}
+					setSearchBarShown={setSearchBarShown}
+					areAttachmentsExpanded={areAttachmentsExpanded}
+					setAttachmentsExpanded={setAttachmentsExpanded}
+				/>
+				{fromIndex > 0 &&
+					<ShowPrevious
+						fromIndex={fromIndex}
+						setFromIndex={setNewFromIndexPreservingScrollPosition}
+						items={thread.comments}
+						onShowAll={onShowAll}/>
+				}
+			</div>
 			<div className="ThreadPage-commentsContainer">
 				<CommentsList
 					searchQuery={searchQuery}
@@ -283,48 +288,54 @@ function ThreadPage() {
 					</p>
 				*/}
 			</div>
-			{!searchQuery && !(thread.locked || thread.expired) &&
-				<React.Fragment>
-					<AutoUpdate
-						autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}/>
-					{/*<PostForm autoFocus onSubmit={onSubmitReply}/>*/}
-					{thread.bumpLimitReached &&
-						<InfoBanner
-							Icon={SinkingBoatIcon}>
-							{messages.threadBumpLimitReached}
-						</InfoBanner>
-					}
-				</React.Fragment>
-			}
-			{!searchQuery && thread.archived &&
-				<InfoBanner
-					Icon={BoxIcon}>
-					{messages.threadIsArchived}
-				</InfoBanner>
-			}
-			{!searchQuery && !thread.archived && thread.locked &&
-				<InfoBanner
-					Icon={LockIcon}>
-					{messages.threadIsLocked}
-				</InfoBanner>
-			}
-			{!searchQuery && thread.expired &&
-				<InfoBanner
-					Icon={GhostIcon}>
-					{messages.threadExpired}
-				</InfoBanner>
-			}
-			{threadNavigationHistory.length > 0 &&
-				<InReplyToModal
-					channel={channel}
-					thread={thread}
-					isOpen={isThreadHistoryModalShown}
-					onClose={hideThreadHistoryModal}
-					onGoBack={onGoBackInThreadNavigationHistory}
-					history={threadNavigationHistory}
-					onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
-					onGoToComment={onGoToComment}/>
-			}
+
+			{/* `.ThreadPage-belowComments` is used to restore the default
+			    `pointer-events: auto` behavior. */}
+			<div className="ThreadPage-belowComments">
+				{!searchQuery && !(thread.locked || thread.expired) &&
+					<React.Fragment>
+						<AutoUpdate
+							autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
+						/>
+						{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
+						{thread.bumpLimitReached &&
+							<InfoBanner
+								Icon={SinkingBoatIcon}>
+								{messages.threadBumpLimitReached}
+							</InfoBanner>
+						}
+					</React.Fragment>
+				}
+				{!searchQuery && thread.archived &&
+					<InfoBanner
+						Icon={BoxIcon}>
+						{messages.threadIsArchived}
+					</InfoBanner>
+				}
+				{!searchQuery && !thread.archived && thread.locked &&
+					<InfoBanner
+						Icon={LockIcon}>
+						{messages.threadIsLocked}
+					</InfoBanner>
+				}
+				{!searchQuery && thread.expired &&
+					<InfoBanner
+						Icon={GhostIcon}>
+						{messages.threadExpired}
+					</InfoBanner>
+				}
+				{threadNavigationHistory.length > 0 &&
+					<InReplyToModal
+						channel={channel}
+						thread={thread}
+						isOpen={isThreadHistoryModalShown}
+						onClose={hideThreadHistoryModal}
+						onGoBack={onGoBackInThreadNavigationHistory}
+						history={threadNavigationHistory}
+						onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
+						onGoToComment={onGoToComment}/>
+				}
+			</div>
 		</section>
 	)
 }

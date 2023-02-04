@@ -14,7 +14,9 @@
 }
 
 .BackButton {
+	/* Don't show the button on small screens. */
 	display: none;
+
 	/* Setting percentage-based `top` position for `position: fixed`
 	   results in it jumping when mobile browser top/bottom bars appear/disappear.
 	   Instead, the `top` position is calculated and set in `px` via javascript.
@@ -22,42 +24,7 @@
 	/*top: calc(35% - var(--unit) * 2 / 2);*/
 	border-right: 1px solid transparent;
 	transition: all 60ms;
-	@mixin l {
-		/* Show the button and align it to top. */
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-start;
-		flex-direction: column;
-		position: fixed;
-		top: var(--Header-height);
-		bottom: 0;
-		left: 0;
-		z-index: var(--SideNavMenuButton-zIndex);
-		padding-left: var(--BackButton-marginLeft);
-		/*padding-right: calc(10vw - var(--unit) * 4);*/
-		width: var(--BackButton-width);
-		padding-top: calc(var(--unit) * 1.7);
-		.BackButtonIcon {
-			opacity: 0.5;
-		}
-	}
-	@mixin xl-plus {
-		display: block;
-		/*position: relative;*/
-		position: absolute;
-		width: calc(100% - var(--unit));
-		/*min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));*/
-		min-width: var(--BackButton-minWidth);
-		height: 100%;
-		z-index: var(--Header-zIndex--below);
-		.BackButtonIcon {
-			position: fixed;
-			top: calc(var(--Header-height) + var(--unit) * 1.1);
-			left: var(--BackButtonIcon-left);
-			margin: var(--BackButtonIcon-padding);
-			opacity: 0.75;
-		}
-	}
+
 	/*&:focus,*/
 	&:active {
 		color: var(--Clickable-color--text);
@@ -66,6 +33,7 @@
 			/*transform: scale(0.9);*/
 		}
 	}
+
 	&:hover {
 		/*color: var(--Clickable-color--text);*/
 		background-color: var(--BackButton-backgroundColor--hover);
@@ -76,6 +44,101 @@
 			}
 			&:after {
 				transform: translateX(10%) translateY(-20%) rotate(35deg);
+			}
+		}
+	}
+}
+
+.Webpage--showsThreadsListSidebar {
+	@mixin xl-plus {
+		.BackButton--content {
+			display: block;
+
+			position: absolute;
+			left: 0; /* calc(-1 * var(--PaddingLeft-minWidth)); */
+			top: 0;
+			width: calc(var(--Post-paddingLeft--has-thumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--CommentSeparator-width--outline)); /* + var(--PaddingLeft-minWidth) */
+			height: 100%;
+
+			/*--BackButton-borderColor: transparent;*/
+			--BackButton-borderColor--hover: transparent;
+
+			/*--BackButton-backgroundColor: transparent;*/
+			--BackButton-backgroundColor--hover: transparent;
+
+			/* `BackButton` is rendered "below" the comment elements
+			   so that "hover" events are triggered on comment elements
+			   and only in the "empty" places are "hover" events triggered
+			   on the `BackButton`.
+			*/
+			z-index: 0;
+
+			.BackButtonIcon {
+				display: none;
+
+				/*
+				position: fixed;
+				bottom: calc(var(--unit) * 1.1);
+				left: var(--BackButtonIcon-left);
+				margin: var(--BackButtonIcon-padding);
+				opacity: 0.75;
+				*/
+			}
+		}
+	}
+
+	&.Webpage--thread {
+		.Webpage-content {
+			pointer-events: none;
+		}
+		.ThreadPage-aboveComments,
+		.ThreadPage-belowComments,
+		.Comment,
+		.PostForm--comment {
+			pointer-events: auto;
+		}
+	}
+}
+
+.Webpage--centerCommentTextContent {
+	.BackButton--paddingLeft {
+		@mixin l {
+			/* Show the button and align it to top. */
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			flex-direction: column;
+			position: fixed;
+			top: var(--Header-height);
+			bottom: 0;
+			left: 0;
+			z-index: var(--SideNavMenuButton-zIndex);
+			padding-left: var(--BackButton-marginLeft);
+			/*padding-right: calc(10vw - var(--unit) * 4);*/
+			width: var(--BackButton-width);
+			padding-top: calc(var(--unit) * 1.7);
+
+			.BackButtonIcon {
+				opacity: 0.5;
+			}
+		}
+
+		@mixin xl-plus {
+			display: block;
+			/*position: relative;*/
+			position: absolute;
+			width: calc(100% - var(--unit));
+			/*min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));*/
+			min-width: var(--BackButton-minWidth);
+			height: 100%;
+			z-index: var(--Header-zIndex--below);
+
+			.BackButtonIcon {
+				position: fixed;
+				top: calc(var(--Header-height) + var(--unit) * 1.1);
+				left: var(--BackButtonIcon-left);
+				margin: var(--BackButtonIcon-padding);
+				opacity: 0.75;
 			}
 		}
 	}

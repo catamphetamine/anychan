@@ -10,6 +10,13 @@
 	-webkit-overflow-scrolling: touch;
 	background-color: var(--Sidebar-backgroundColor);
 	color: var(--Sidebar-color-900);
+
+	/* `.SidebarLeft` shows the list of threads (in the form of their "main" comments)
+	   in a channel, hence the max width.
+	   `.SidebarRight` `max-width` is set to the same value just so it looks symmetrical
+	   on really wide screens.
+	*/
+	max-width: calc(var(--SidebarThread-paddingLeft) + var(--SidebarThreadThumbnail-width) + var(--SidebarThread-thumbnail-marginRight) + var(--CommentText-maxWidth--sidebar) + var(--SidebarThread-paddingLeft));
 }
 
 .Sidebar {

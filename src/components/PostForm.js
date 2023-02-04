@@ -1,24 +1,70 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
-import { Form, Field, Submit } from 'easy-react-form'
+import classNames from 'classnames'
 
-// import SendPlaneIcon from 'frontend-lib/icons/send-plane-fill.svg'
+import { isKeyCombination } from 'web-browser-input'
+
+import { Form, Field, Submit } from './Form.js'
+
+import LinearProgress from 'frontend-lib/components/LinearProgress.js'
+import { FadeInOut } from 'react-responsive-ui'
+
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
+
+// import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
+import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 
 import useMessages from '../hooks/useMessages.js'
 
 import './PostForm.css'
 
 function PostForm({
+	placement,
 	autoFocus,
-	initialContent,
 	initialState,
-	onStateChange,
+	onStateDidChange,
+	initialInputValue,
+	onInputValueChange,
+	initialError,
+	onErrorDidChange,
+	initialInputHeight,
+	onInputHeightChange,
 	onCancel,
-	onSubmit
+	onSubmit: onSubmit_
 }, ref) {
 	const messages = useMessages()
+
+	const [error, setError] = useState(initialError)
+	const [loading, setLoading] = useState()
+
+	useEffectSkipMount(() => {
+		if (onErrorDidChange) {
+			onErrorDidChange(error)
+		}
+	}, [error])
+
+	const onSubmit = useCallback(async (values) => {
+		try {
+			setLoading(true)
+			await onSubmit_(values)
+		} catch (error) {
+			console.error(error)
+			setError(error.message)
+		} finally {
+			setLoading(false)
+		}
+	})
+
+	const onInputKeyDown = useCallback((event) => {
+		if (isKeyCombination(event, ['Esc'])) {
+			event.preventDefault()
+			onCancel()
+		}
+	}, [])
+
+	const loadingIndicatorFadeOutDuration = 160 // ms
 
 	// Doesn't use `autoFocus={true}` property here by default.
 	// The reason that if `autoFocus={true}` property is set
@@ -38,32 +84,49 @@ function PostForm({
 			autoFocus={autoFocus}
 			requiredMessage={messages.form.error.required}
 			onSubmit={onSubmit}
-			className="PostForm form">
+			initialState={initialState}
+			onStateDidChange={onStateDidChange}
+			className={classNames('form', 'PostForm', {
+				'PostForm--page': placement === 'page',
+				'PostForm--comment': placement === 'comment'
+			})}>
 			<Field
 				required
 				name="content"
-				component={TextInput}
+				type="text"
 				multiline
 				rows={1}
+				value={initialInputValue}
+				onChange={onInputValueChange}
+				initialHeight={initialInputHeight}
+				onHeightChange={onInputHeightChange}
+				onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
 				placeholder={messages.post.form.inputText}
-				value={initialContent}
 				className="form__component PostForm-textInput"
 			/>
-			{onCancel &&
+			{/*onCancel &&
 				<Button
 					onClick={onCancel}
 					className="PostForm-action">
 					{messages.actions.cancel}
 				</Button>
-			}
+			*/}
 			<Submit
 				component={Button}
 				type="submit"
 				title={messages.actions.post}
 				className="PostForm-action">
-				{messages.actions.post}
-				{/*<SendPlaneIcon className="PostForm-actionIcon"/>*/}
+				{/*messages.actions.post*/}
+				<SendIcon className="PostForm-actionIcon"/>
 			</Submit>
+			{error &&
+				<div className="PostForm-error">
+					{error}
+				</div>
+			}
+			<FadeInOut show={loading} fadeOutDuration={loadingIndicatorFadeOutDuration}>
+				<LinearProgress className="PostForm-loading"/>
+			</FadeInOut>
 		</Form>
 	)
 }
@@ -71,10 +134,18 @@ function PostForm({
 PostForm = React.forwardRef(PostForm)
 
 PostForm.propTypes = {
+	placement: PropTypes.oneOf(['page', 'comment']).isRequired,
 	autoFocus: PropTypes.bool,
 	onCancel: PropTypes.func,
 	onSubmit: PropTypes.func.isRequired,
-	initialContent: PropTypes.string
+	initialState: PropTypes.object,
+	onStateDidChange: PropTypes.func,
+	initialError: PropTypes.string,
+	onErrorDidChange: PropTypes.func,
+	initialInputValue: PropTypes.string,
+	onInputValueChange: PropTypes.func,
+	initialInputHeight: PropTypes.number,
+	onInputHeightChange: PropTypes.func
 }
 
 export default PostForm

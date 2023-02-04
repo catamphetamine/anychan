@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import ThreadPageHeaderTitleSeparator from './ThreadPageHeaderTitleSeparator.js'
-import useGoBackFromThreadToChannel from '../../components/useGoBackFromThreadToChannel.js'
+import useOnChannelLinkClick from '../../components/useOnChannelLinkClick.js'
 
 import ThreadTitle from '../../components/ThreadTitle.js'
 import Toolbar from '../../components/Toolbar.js'
@@ -44,12 +44,9 @@ export default function ThreadPageHeader({
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
-	const goBack = useGoBackFromThreadToChannel({ channelId: channel.id })
-
-	const onChannelLinkClick = useCallback((event) => {
-		event.preventDefault()
-		goBack()
-	}, [])
+	const onChannelLinkClick = useOnChannelLinkClick({
+		channelId: channel.id
+	})
 
 	// isSearchBarShown={isSearchBarShown}
 	// setSearchBarShown={setSearchBarShown}
@@ -97,7 +94,8 @@ export default function ThreadPageHeader({
 							thread={thread}
 							tooltipOffsetTop={4}
 							tooltipAnchor="bottom"
-							className="ThreadPageHeader-activityIndicator"/>
+							className="ThreadPageHeader-activityIndicator"
+						/>
 					}
 				</>
 			}

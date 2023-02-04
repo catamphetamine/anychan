@@ -15,7 +15,7 @@
 	width: 100%;
 	/* `max-width` is also set on `.Comment` depending on whether
 	   the "main" comment has PostThumbnail and whether it's expanded. */
-	/*max-width: var(--Text-maxWidth);*/
+	/*max-width: var(--CommentText-maxWidth);*/
 	/* `--Content-maxWidth` is redefined on thread and channel page
 	   to also include PostThumbnail-related dimensions. */
 	max-width: var(--Content-maxWidth);
@@ -163,8 +163,8 @@
 							margin-left: 0;
 							/* `--Content-maxWidth` is redefined on thread and channel page
 							   to also include PostThumbnail-related dimensions,
-							   so `--Text-maxWidth` is used instead. */
-							max-width: var(--Text-maxWidth);
+							   so `--CommentText-maxWidth` is used here instead. */
+							max-width: var(--CommentText-maxWidth);
 						}
 						.Comment-thumbnailPlaceholder {
 							display: none;

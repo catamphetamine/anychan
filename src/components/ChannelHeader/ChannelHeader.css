@@ -49,6 +49,13 @@
 	}
 }
 
+.ChannelHeader-channelLink {
+	&,
+	&:hover {
+		color: initial;
+	}
+}
+
 .ChannelHeader-heading--alignContentCenter {
 	text-align: center;
 }

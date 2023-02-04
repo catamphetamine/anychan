@@ -6,6 +6,7 @@
 	--SideNavMenuButton-padding: calc(var(--unit) / 2);
 	--SideNavMenuButton-marginBottom: calc(var(--unit) * 3);
 	--SideNavMenuButton-animationDuration: 120ms;
+
 	/* On tablets in horizontal position the top position is adjusted so that
 	   the right hand thumb could (presumably) reach it comfortably. */
 	--SideNavMenuButtons-top: 45%;
@@ -41,6 +42,9 @@
 	--SideNavMenuButtonIcon-bar-scale--cross: 0.9;
 	/* Rest icon. */
 	--SideNavMenuButtonIcon-bar-scale--hidden: 0.9;
+
+	/* These CSS variables are set after mount. */
+	--SideNavMenuButtons-top--px: 0px;
 }
 
 .SideNavMenuButtons {

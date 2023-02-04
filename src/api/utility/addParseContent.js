@@ -10,7 +10,7 @@ import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmen
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 // import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
-import transformProviderUrl from '../../utility/transformProviderUrl.js'
+import transformProviderLink from '../../utility/transformProviderLink.js'
 
 import { getProviderId } from '../../provider.js'
 
@@ -94,7 +94,12 @@ export default function addParseContent(comment, {
 					// from an external "absolute URL" hyperlink to an in-app link.
 					if (part.type === 'link') {
 						if (part.service === getProviderId()) {
-							part.url = transformProviderUrl(part.url)
+							const { url, content } = transformProviderLink({
+								url: part.url,
+								content: part.content
+							})
+							part.url = url
+							part.content = content
 						}
 					}
 					// Don't change "link" parts:

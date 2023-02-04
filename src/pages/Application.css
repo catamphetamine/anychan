@@ -4,6 +4,14 @@
 	--PageContent-paddingLeft--background: 0px;
 	--HeaderBanner-marginBottom--smallScreen: var(--unit);
 	--HeaderBanner-marginBottom: calc(var(--unit) * 2);
+
+	--CommentText-maxWidth: var(--Text-maxWidth);
+	--CommentText-maxWidth--sidebar: 25em;
+
+	/* These CSS variables are set after mount in `Application.js`. */
+	--Webpage-paddingLeft-width: 0px;
+	--Webpage-paddingRight-width: 0px;
+	--SidebarThreadThumbnail-width: 0px;
 }
 
 .Webpage {
@@ -17,7 +25,9 @@
 /* Content takes all free space */
 .Webpage-content {
 	position: relative;
-	z-index: 0;
+	/* `z-index: 0` resulted in a bug: `.CommentMoreActions` expandable menu
+	   of the last comment was rendered "below" the footer content in terms of `z-index`. */
+	/* z-index: 0; */
 
 	margin-top: var(--Header-height);
 
@@ -56,10 +66,17 @@
 	   on thread page when there's a long thread title
 	   and is rendered with `white-space: nowrap`. */
 	min-width: 0;
+
+	/* `<BackButton/>` is rendered in `.Webpage-contentContainer` when Threads Sidebar is shown.
+	   That `<BackButton/>` is `position: absolute`. */
+	position: relative;
 }
 
+/*
 .Webpage--channel,
 .Webpage--thread {
+*/
+.Webpage {
 	main {
 		width: 100%;
 		max-width: var(--Content-maxWidth);
@@ -199,15 +216,12 @@
 		box-shadow: none;
 	}
 
-	.Webpage--commentTextContent {
-		.Content--text {
-		  width: 100%;
-			max-width: var(--Text-maxWidth);
-		}
-	}
-
 	.Webpage--showsThreadsListSidebar {
-		--Text-maxWidth: var(--Text-maxWidth--compact);
+		--CommentText-maxWidth: var(--Text-maxWidth--compact);
+
+		@mixin xxl-plus {
+			--CommentText-maxWidth: var(--Text-maxWidth);
+		}
 	}
 
 	.Footer .MainMenu {

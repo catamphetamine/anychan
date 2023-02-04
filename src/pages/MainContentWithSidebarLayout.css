@@ -4,13 +4,21 @@
 	--Content-maxWidth: var(--Text-maxWidth);
 }
 
+/*
 .Webpage--channel,
 .Webpage--thread,
 .InReplyToModal {
 	--Content-maxWidth: var(--CommentsList-maxWidth);
 }
+*/
+
+.Webpage {
+	--Content-maxWidth: var(--CommentsList-maxWidth);
+}
 
 .Webpage-contentContainer {
+	/* `flex-basis` has to be set here because `flex-grow` is set to `0`. */
+	/* This ensures that the content width stays the same on any page. */
 	flex-basis: var(--Content-maxWidth);
 }
 
@@ -147,7 +155,7 @@
 	}
 
 	.Webpage--showsThreadsListSidebar {
-		--SidebarLeft-flexGrow: 1.5;
+		--SidebarLeft-flexGrow: 150000000;
 		/* `flex-basis` is set to `0` here so that the left sidebar's content width
 		   isn't taken into account when `SidebarLeft` width is calculated by the browser
 		   when deciding which parts of the `display: flex` parent should be occupied by which children. */
@@ -156,13 +164,19 @@
 		   the width of `SidebarLeft` content at all. */
 		--SidebarLeft-minWidth: 0px;
 
-		--PaddingLeft-flexGrow: 0;
+		/* `flex-grow` for `PaddingLeft` is set to a relatively extremely small value
+		   just so that it doesn't influence the layout under normal circumstances at all
+		   but at the same time starts playing role past a certain screen width threshold. */
+		--PaddingLeft-flexGrow: 1;
 		--PaddingLeft-minWidth: calc(var(--Comment-marginTop) * 2);
 
-		--PaddingRight-flexGrow: 0;
+		/* `flex-grow` for `PaddingRight` is set to a relatively extremely small value
+		   just so that it doesn't influence the layout under normal circumstances at all
+		   but at the same time starts playing role past a certain screen width threshold. */
+		--PaddingRight-flexGrow: 1;
 		--PaddingRight-minWidth: calc(var(--Comment-marginTop) * 2);
 
-		--SidebarRight-flexGrow: 1;
+		--SidebarRight-flexGrow: 100000000;
 		--SidebarRight-flexBasis: 0;
 		--SidebarRight-minWidth: 0px;
 	}

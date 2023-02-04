@@ -33,8 +33,21 @@ body {
 }*/
 
 .Footer {
-	margin-top: var(--Footer-marginTop);
-	margin-bottom: var(--FooterMenu-height);
+	/* Setting `position: relative` here so that the `.Footer` is rendered "above"
+	   the `.BackButton` which is `position: absolute`.
+	   Otherwise, the `.BackButton` would be rendered "above" the `.Footer`
+	   and would capture all hover/click events.
+	*/
+	position: relative;
+
+	/* Using `padding` instead of `margin` here because `pointer-events: none` property
+	   is set on `.Webpage-content` making pointer events "fall through" margins (but not paddings).
+	*/
+	padding-top: var(--Footer-marginTop);
+	padding-bottom: var(--FooterMenu-height);
+
+	/*margin-top: var(--Footer-marginTop);*/
+	/*margin-bottom: var(--FooterMenu-height);*/
 }
 
 .Footer-link {

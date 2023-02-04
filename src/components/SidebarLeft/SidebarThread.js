@@ -14,7 +14,7 @@ import CommentClickableWrapper from '../Comment/CommentClickableWrapper.js'
 import CommentThumbnail from '../Comment/CommentThumbnail.js'
 import useSlideshow from '../Comment/useSlideshow.js'
 
-import useOnCommentClick from '../../pages/Channel/useOnCommentClick.js'
+import useOnThreadClick from '../useOnThreadClick.js'
 
 import { thread } from '../../PropTypes.js'
 
@@ -34,11 +34,7 @@ export default function SidebarThread({
 	const locale = useLocale()
 	const messages = useMessages()
 
-	const onCommentClick = useOnCommentClick()
-
-	// const thumbnail = useMemo(() => {
-	// 	return getThreadThumbnail(thread)
-	// }, [thread])
+	const onThreadClick = useOnThreadClick()
 
 	const {
 		hidden,
@@ -61,12 +57,12 @@ export default function SidebarThread({
 	}, [thread])
 
 	const threadThumbnailContainerStyle = useMemo(() => ({
-		minWidth: THREAD_THUMBNAIL_WIDTH + 2 * THREAD_THUMBNAIL_BORDER_WIDTH + 'px'
-	}), [THREAD_THUMBNAIL_WIDTH, THREAD_THUMBNAIL_BORDER_WIDTH])
+		minWidth: SIDEBAR_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
+	}), [SIDEBAR_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
 
 	const threadThumbnailPlaceholderStyle = useMemo(() => ({
-		width: THREAD_THUMBNAIL_WIDTH + 2 * THREAD_THUMBNAIL_BORDER_WIDTH + 'px'
-	}), [THREAD_THUMBNAIL_WIDTH, THREAD_THUMBNAIL_BORDER_WIDTH])
+		width: SIDEBAR_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
+	}), [SIDEBAR_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
 
 	const { onAttachmentClick } = useSlideshow({
 		comment: thread.comments[0]
@@ -77,7 +73,7 @@ export default function SidebarThread({
 			mode="channel"
 			comment={thread.comments[0]}
 			threadId={thread.id}
-			maxWidth={THREAD_THUMBNAIL_WIDTH}
+			maxWidth={SIDEBAR_THREAD_THUMBNAIL_WIDTH}
 			onAttachmentClick={onAttachmentClick}
 			locale={locale}
 		/>
@@ -106,13 +102,13 @@ export default function SidebarThread({
 			channelId={thread.channelId}
 			threadId={thread.id}
 			commentId={thread.comments[0].id}
-			onClick={onCommentClick}
+			onClick={onThreadClick}
 		>
 			<section data-thread-id={thread.id} className="SidebarThread">
 				{/*thumbnail &&
 					<ThreadThumbnail
 						picture={thumbnail}
-						width={THREAD_THUMBNAIL_WIDTH}
+						width={SIDEBAR_THREAD_THUMBNAIL_WIDTH}
 						className="SidebarThread-thumbnail"
 					/>
 				*/}
@@ -160,5 +156,5 @@ SidebarThread.propTypes = {
 	item: thread.isRequired
 }
 
-const THREAD_THUMBNAIL_WIDTH = 128
-const THREAD_THUMBNAIL_BORDER_WIDTH = 1
+export const SIDEBAR_THREAD_THUMBNAIL_WIDTH = 128
+const SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH = 1

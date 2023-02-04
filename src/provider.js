@@ -190,14 +190,12 @@ export function getCommentUrlPattern({ notSafeForWork }) {
 export function getCommentUrl(channelId, threadId, commentId, {
 	notSafeForWork
 }) {
-	return getProviderAbsoluteUrl(
-		getCommentUrlPattern({ notSafeForWork })
-			.replace('{channelId}', channelId)
-			.replace('{threadId}', threadId)
-			.replace('{commentId}', commentId)
-	)
+	return getCommentUrlPattern({ notSafeForWork })
+		.replace('{channelId}', channelId)
+		.replace('{threadId}', threadId)
+		.replace('{commentId}', commentId)
 }
 
 function getProviderAbsoluteUrl(relativeUrl) {
-	'https://' + getProvider().domain + relativeUrl
+	return 'https://' + getProvider().domain + relativeUrl
 }

@@ -18,7 +18,7 @@ import ChannelThread from './ChannelThread.js'
 import useLocale from '../../hooks/useLocale.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
-import useOnCommentClick from './useOnCommentClick.js'
+import useOnThreadClick from '../../components/useOnThreadClick.js'
 
 import getChannelPageMeta from './getChannelPageMeta.js'
 import loadChannelPage from './loadChannelPage.js'
@@ -62,7 +62,7 @@ function ChannelPage() {
 	// Update max attachment thumbnail width.
 	useUpdateAttachmentThumbnailMaxWidth({ threads })
 
-	const onCommentClick = useOnCommentClick()
+	const onThreadClick = useOnThreadClick()
 
 	const unreadCommentWatcher = useUnreadCommentWatcher()
 
@@ -76,7 +76,7 @@ function ChannelPage() {
 			channelId: channel.id,
 			dispatch,
 			locale,
-			onClick: onCommentClick,
+			onClick: onThreadClick,
 			unreadCommentWatcher,
 			latestSeenThreadId: channelView === 'new-threads' ? initialLatestSeenThreadId : undefined
 		}
@@ -84,7 +84,7 @@ function ChannelPage() {
 		channel,
 		dispatch,
 		locale,
-		onCommentClick,
+		onThreadClick,
 		unreadCommentWatcher,
 		initialLatestSeenThreadId,
 		channelView

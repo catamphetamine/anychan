@@ -4,6 +4,17 @@
 	--rrui-multiline-text-height: auto;
 	display: flex;
 
+	/* Loading indicator is `position: absolute`. */
+	position: relative;
+
+  background-color: var(--Post-backgroundColor);
+  box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+
+	padding-top: var(--Post-paddingTop);
+  padding-bottom: var(--Post-paddingBottom);
+  padding-left: var(--Post-paddingLeft);
+  padding-right: var(--Post-paddingRight);
+
 	@mixin upto-s {
 		flex-direction: column;
 	}
@@ -17,18 +28,41 @@
 }
 
 .PostForm-actionIcon {
-	width: calc(var(--unit) * 2);
-	height: calc(var(--unit) * 2);
+	width: calc(var(--unit) * 2.2);
+	height: calc(var(--unit) * 2.2);
 }
 
 .PostForm-action {
+	width: calc(var(--unit) * 2.2);
+	height: calc(var(--unit) * 3.5);
+
+	color: var(--Clickable-color--textActive);
+
+	&:active {
+		color: var(--Clickable-color);
+	}
+
+	/*
 	@mixin m-plus {
 		margin-right: var(--unit);
 		&:last-child {
 			margin-right: 0;
 		}
 	}
-	@mixin upto-s {
-		/*width: 100%;*/
+	*/
+
+	.rrui__button__busy {
+		display: none;
 	}
+}
+
+.PostForm-error {
+	color: var(--Critical-color);
+}
+
+.PostForm-loading {
+	position: absolute;
+	width: calc(100% - var(--Post-paddingLeft) - var(--Post-paddingRight));
+	left: var(--Post-paddingLeft);
+	bottom: calc(var(--unit));
 }

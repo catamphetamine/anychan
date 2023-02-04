@@ -57,7 +57,7 @@ export default function SideNavMenuButtons() {
 
 	const style = useMemo(() => ({ top: position + 'px' }), [position])
 
-	useOnWindowResize(updatePosition, { alsoOnMount: true })
+	useOnWindowResize(updatePosition, { alsoAfterMount: true })
 
 	return (
 		<div

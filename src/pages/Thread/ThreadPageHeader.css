@@ -1,23 +1,41 @@
 @import "../../styles/common.css";
 
 .ThreadPageHeader {
+	--ThreadPageHeader-marginTop: 0px;
+	--ThreadPageHeader-marginBottom: 0px;
+	--ThreadPageHeader-marginLeft: 0px;
+	--ThreadPageHeader-marginRight: 0px;
+
+	/* Using `padding` instead of `margin` here because `pointer-events: none` property
+	   is set on `.Webpage-content` making pointer events "fall through" margins (but not paddings).
+	*/
+	padding-top: var(--ThreadPageHeader-marginTop);
+	padding-bottom: var(--ThreadPageHeader-marginBottom);
+	padding-left: var(--ThreadPageHeader-marginLeft);
+	padding-right: var(--ThreadPageHeader-marginRight);
+
+	/*margin-top: var(--ThreadPageHeader-marginTop);*/
+	/*margin-bottom: var(--ThreadPageHeader-marginBottom);*/
+	/*margin-left: var(--ThreadPageHeader-marginLeft);*/
+	/*margin-right: var(--ThreadPageHeader-marginRight);*/
+
 	@mixin upto-s {
-		margin-left: var(--Post-paddingLeft);
+		--ThreadPageHeader-marginLeft: var(--Post-paddingLeft);
 	}
 	@mixin upto-xs {
-		margin-top: calc(var(--unit) * 0.5);
+		--ThreadPageHeader-marginTop: calc(var(--unit) * 0.5);
 	}
 	@mixin s {
-		margin-top: calc(var(--unit) * 1);
+		--ThreadPageHeader-marginTop: calc(var(--unit) * 1);
 	}
 	/*@mixin l {*/
 		/* `margin-left` is already being set in `Thread.css`. */
-		/*margin-left: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));*/
+		/*--ThreadPageHeader-marginLeft: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));*/
 	/*}*/
 	@mixin m-plus {
-		margin-top: calc(var(--unit) * 1.5);
-		/* <Comment/> itself has empty spacing on the top. */
-		margin-bottom: calc(var(--unit) * 1);
+		--ThreadPageHeader-marginTop: calc(var(--unit) * 1.5);
+		/* <Comment/> itself has empty spacing on the top (which works as `padding-top`). */
+		--ThreadPageHeader-marginBottom: calc(var(--unit) * 1);
 	}
 }
 

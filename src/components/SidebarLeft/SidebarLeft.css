@@ -10,3 +10,7 @@
 		}
 	}
 }
+
+.SidebarLeft--hide {
+	visibility: hidden;
+}

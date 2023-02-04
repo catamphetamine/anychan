@@ -15,6 +15,7 @@ import BackButton from '../components/BackButton.js'
 import Markup from '../components/Markup.js'
 import Slideshow from '../components/Slideshow.js'
 import Loading from '../components/LoadingIndicator.js'
+import { SIDEBAR_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarLeft/SidebarThread.js'
 import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
 import Snackbar from 'frontend-lib/components/Snackbar.js'
 import { loadYouTubeVideoPlayerApi } from 'social-components-react/components/Video.YouTube.js'
@@ -100,6 +101,8 @@ export default function App({
 
 	useEffect(() => {
 		setBodyBackground(route)
+
+		document.body.style.setProperty('--SidebarThreadThumbnail-width', SIDEBAR_THREAD_THUMBNAIL_WIDTH + 'px')
 	}, [route])
 
 	const paddingLeft = useRef()
@@ -110,7 +113,7 @@ export default function App({
 		// For example, a "branding" top banner (like on Twitter or Facebook).
 		document.body.style.setProperty('--Webpage-paddingLeft-width', paddingLeft.current.getBoundingClientRect().width + 'px')
 		document.body.style.setProperty('--Webpage-paddingRight-width', paddingRight.current.getBoundingClientRect().width + 'px')
-	}, { alsoOnMount: true })
+	}, { alsoAfterMount: true })
 
 	const onHideAnnouncement = useCallback(() => {
 		_markAnnouncementAsRead()
@@ -125,6 +128,8 @@ export default function App({
 	const isCommentTextContentPage = isChannelPage(route) || isThreadPage(route)
 
 	const isThreadsListSidebarShown = true
+	// const isThreadsListSidebarShownOnThisPage = isCommentTextContentPage
+	const isThreadsListSidebarShownOnThisPage = true
 
 	/* Changes the application icon when there're any notifications. */
 	useApplicationIcon()
@@ -135,7 +140,7 @@ export default function App({
 			<Loading show={isLoadingTweet || !initialized}/>
 
 			{/* Pop-up messages */}
-			<Snackbar/>
+			<Snackbar placement="bottom"/>
 
 			{/* Picture/Video Slideshow */}
 			<Slideshow/>
@@ -147,9 +152,9 @@ export default function App({
 				'Webpage--channel': isChannelPage(route),
 				'Webpage--thread': isThreadPage(route),
 				'Webpage--commentTextContent': isCommentTextContentPage,
-				'Webpage--showsThreadsListSidebar': isCommentTextContentPage && isThreadsListSidebarShown,
-				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isThreadsListSidebarShown,
-				'Webpage--centerPageContent': !isCommentTextContentPage
+				'Webpage--showsThreadsListSidebar': isThreadsListSidebarShownOnThisPage,
+				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isThreadsListSidebarShownOnThisPage,
+				'Webpage--centerPageContent': !isCommentTextContentPage && !isThreadsListSidebarShownOnThisPage
 				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
 			})}>
 				{/*<Header/>*/}
@@ -161,10 +166,12 @@ export default function App({
 				<div
 					ref={paddingLeft}
 					className="Webpage-paddingLeft">
-					<BackButton/>
+					<BackButton placement="paddingLeft"/>
 				</div>
 
 				<div className="Webpage-contentContainer">
+					<BackButton placement="content"/>
+
 					{configuration.headerMarkup &&
 						<Markup
 							content={configuration.headerContent}

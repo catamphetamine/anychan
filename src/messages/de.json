@@ -36,11 +36,13 @@
 		},
 		"fontSize": {
 			"title": "Schriftgröße",
+			"xxs": "Kleinsten",
 			"xs": "Klein",
 			"s": "Kleiner",
 			"m": "Mittel",
 			"l": "Größer",
-			"xl": "Groß"
+			"xl": "Groß",
+			"xxl": "Größten"
 		},
 		"theme": {
 			"title": "Theme",

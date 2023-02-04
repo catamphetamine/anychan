@@ -184,7 +184,7 @@
 	/* Added `.Webpage` selector so that `--Text-width` could be
 	   redefined later as `--Text-width--compact`. */
 	.Webpage {
-		--CommentsList-maxWidth: calc(3 * var(--Post-paddingLeft) + var(--PostThumbnail-maxWidth) + var(--Text-maxWidth));
+		--CommentsList-maxWidth: calc(var(--Post-paddingLeft) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) + var(--PostThumbnail-marginRight) + var(--CommentText-maxWidth) + var(--Post-paddingLeft));
 	}
 
 	/* --Comment-marginTop--extra. */
@@ -290,7 +290,12 @@
 		--Post-paddingTop: calc(var(--unit) * 1.25);
 		--Post-paddingLeft: calc(var(--unit) * 1.5);
 		--Post-paddingLeft--has-thumbnail: var(--Post-paddingLeft);
-		--Post-minWidth: calc(var(--Text-maxWidth) / 2);
+		/* `--CommentText-maxWidth` is always equal to `--Text-maxWidth` at the `:root` level. */
+		/* It doesn't get overridden by `.Webpage--showsThreadsListSidebar` at the `:root` level. */
+		/* Hence using the additional `.Webpage` selector. */
+		.Webpage {
+			--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
+		}
 	}
 
 	/* PostTitle. */
@@ -337,8 +342,8 @@
 	--CommentAuthorBannedIcon-color: var(--Critical-color);
 
 	/* CommentMoreActions. */
-	--CommentMoreActions-paddingLeft: 0.4em;
-	--CommentMoreActions-paddingTop: 0.6em;
+	--CommentMoreActions-paddingLeft: 0.9rem;
+	--CommentMoreActions-paddingTop: 0.8rem;
 
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;

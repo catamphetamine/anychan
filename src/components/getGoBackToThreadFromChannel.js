@@ -1,6 +1,6 @@
 import { goForward, wasInstantNavigation } from 'react-pages'
 
-import isThreadPage from '../../utility/routes/isThreadPage.js'
+import isThreadPage from '../utility/routes/isThreadPage.js'
 
 /**
  * Returns a "go to" function if can go back to thread page

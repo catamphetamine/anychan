@@ -11,6 +11,9 @@ import ProviderLogo from '../../components/ProviderLogo.js'
 import ChannelUrl from '../../components/ChannelUrl.js'
 
 import useChannelView from './useChannelView.js'
+import useOnChannelLinkClick from '../useOnChannelLinkClick.js'
+
+import getUrl from '../../utility/getUrl.js'
 
 import './ChannelHeader.css'
 
@@ -57,6 +60,10 @@ export default function ChannelHeader({
 		onChannelViewDidChange
 	})
 
+	const onChannelLinkClick = useOnChannelLinkClick({
+		channelId: channel.id
+	})
+
 	const toolbar = (
 		<Toolbar
 			mode="channel"
@@ -86,11 +93,16 @@ export default function ChannelHeader({
 						className="ChannelHeader-providerLogo"
 					/>
 				</Link>
-				<ChannelUrl
-					channelId={channel.id}
-					className="ChannelHeader-channelId"
-				/>
-				{channel.title}
+				<Link
+					to={getUrl(channel.id)}
+					onClick={onChannelLinkClick}
+					className="ChannelHeader-channelLink">
+					<ChannelUrl
+						channelId={channel.id}
+						className="ChannelHeader-channelId"
+					/>
+					{channel.title}
+				</Link>
 				<ProviderLogo
 					className="ChannelHeader-providerLogo ChannelHeader-providerLogo--spaceEquivalent"
 				/>

@@ -45,29 +45,29 @@ Scroll threads list in left sidebar to top when navigating to a new channel in t
 
 
 
-```
---Text-maxWidth--compact: 36em;
-```
 
 
-
-
-
-`react-responsive-ui` — Add `initialHeight` and `onHeightChange` on `<TextInput/>`.
-
-Replace Cancel / Reply buttons with an "X" and an "enter" square (maybe google "send button").
 
 Sidebar Threads sticky header
 
-`easy-react-form` + virtual-scroller: `initialState` and `onStateChange` (test saving and restoring state while scrolling).
+Replace Cancel / Reply buttons with an "X" and an "enter" square (maybe google "send button").
 
-Publish react-responsive-uui + push
 
-Reply form — скачет при пере-показывании при скролле (virtual-scroller)
 
-Input field error — делать не position absolute.
 
-Не показывать ошибку `required`, пока не submitted.
+
+Если зашёл сразу на страницу треда, потом случайно нажал BackButton, потом снова нажал на этот тред — делать быструю навигацию.
+
+При заходе на страницу треда сразу — показывать item этого треда слева, и под ним кнопку "Show all threads", при нажатии на которую будут подгружаться треды (с progress indicator) и текущий тред будет выделен цветом, но не прокручен до, потому что он может быть на любой позиции.
+
+
+
+
+Check design on all screens.
+Check design of misc pages on all screens.
+Check the design of the InReplyToModal on all screens.
+Check the design of announcements on all screens.
+Check all imageboards.
 
 
 

@@ -15,19 +15,21 @@ import './SidebarLeft.css'
 export default function SidebarLeft() {
 	const { channelView } = useSelector(state => state.settings.settings)
 
-	// const isSidebarShown = useSelector(state => state.app.isSidebarShown)
-	const isSidebarShown = true
+	const threads = useSelector(state => state.data.threads)
+	const isSidebarShown = Boolean(threads)
 
 	return (
 		<Sidebar id="SidebarLeft" className={classNames('SidebarLeft', {
-			'SidebarLeft--show': isSidebarShown
+			'SidebarLeft--hide': !isSidebarShown
 		})}>
-			<SidebarTopBar>
-				<ChannelHeader
-					alignTitle="start"
-					channelView={channelView}
-				/>
-			</SidebarTopBar>
+			{threads &&
+				<SidebarTopBar>
+					<ChannelHeader
+						alignTitle="start"
+						channelView={channelView}
+					/>
+				</SidebarTopBar>
+			}
 			<ChannelThreadsSidebarSection/>
 		</Sidebar>
 	)

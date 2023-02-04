@@ -23,7 +23,9 @@ export default function useReply({
 	canReply,
 	initialShowReplyForm,
 	onShowReplyFormChange,
-	onAfterShowOrHideReplyForm,
+	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
+	onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+	onRenderedContentDidChange,
 	moreActionsButtonRef,
 	locale
 }) {
@@ -39,8 +41,8 @@ export default function useReply({
 			onShowReplyFormChange(showReplyForm)
 		}
 		// Reply form has been toggled: update `virtual-scroller` item height.
-		if (onAfterShowOrHideReplyForm) {
-			onAfterShowOrHideReplyForm()
+		if (onReplyFormInputHeightChange) {
+			onReplyFormInputHeightChange()
 		}
 		if (showReplyForm) {
 			replyForm.current.focus()
@@ -59,10 +61,14 @@ export default function useReply({
 	}, [])
 
 	const onReply = useCallback(() => {
-		setShowReplyForm(true)
+		if (replyForm.current) {
+			replyForm.current.focus()
+		} else {
+			setShowReplyForm(true)
+		}
 	}, [])
 
-	const onSubmitReply = useCallback(({ content, quoteText }) => {
+	const onSubmitReply = useCallback(async ({ content, quoteText }) => {
 		if (threadIsArchived) {
 			return dispatch(notify(getMessages(locale).threadIsArchived))
 		}
@@ -123,15 +129,19 @@ export default function useReply({
 		// 	return notifyError(error)
 		// }
 
-		openLinkInNewTab(url)
-
 		// if (showReplyForm) {
 		// 	replyForm.current.focus()
 		// } else {
 		// 	setShowReplyForm(true)
 		// }
 
+		await new Promise(resolve => setTimeout(resolve, 1000))
+
 		dispatch(notify(getMessages(locale).notImplemented))
+
+		setTimeout(() => {
+			openLinkInNewTab(url)
+		}, 800)
 	}, [
 		channelId,
 		channelIsNotSafeForWork,
@@ -139,6 +149,32 @@ export default function useReply({
 		comment,
 		locale,
 		dispatch
+	])
+
+	const onReplyFormInputHeightChange = useCallback((height) => {
+		if (onReplyFormInputHeightChange_) {
+			onReplyFormInputHeightChange_(height)
+		}
+		if (onRenderedContentDidChange) {
+			onRenderedContentDidChange()
+		}
+	}, [
+		onReplyFormInputHeightChange_,
+		onRenderedContentDidChange
+	])
+
+	const onReplyFormErrorDidChange = useCallback((error) => {
+		if (onReplyFormErrorDidChange_) {
+			onReplyFormErrorDidChange_(error)
+		}
+		// Hiding or showing an error message could result in
+		// hiding or showing an error element.
+		if (onRenderedContentDidChange) {
+			onRenderedContentDidChange()
+		}
+	}, [
+		onReplyFormErrorDidChange_,
+		onRenderedContentDidChange
 	])
 
 	if (!canReply) {
@@ -150,7 +186,9 @@ export default function useReply({
 		showReplyForm,
 		onReply,
 		onCancelReply,
-		onSubmitReply
+		onSubmitReply,
+		onReplyFormErrorDidChange,
+		onReplyFormInputHeightChange
 	}
 }
 

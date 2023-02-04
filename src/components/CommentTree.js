@@ -51,7 +51,10 @@ export default function CommentTree({
 			onShowReplyFormChange: (showReplyForm) => {
 				updateState((state) => ({
 					...state,
-					showReplyForm
+					showReplyForm,
+					// Reset reply form state.
+					replyForm: undefined,
+					replyFormInputHeight: undefined
 				}))
 			},
 			initialExpandContent: initialState.expandContent,
@@ -87,6 +90,34 @@ export default function CommentTree({
 				updateState((state) => ({
 					...state,
 					hidden
+				}))
+			},
+			initialReplyFormState: initialState.replyForm,
+			onReplyFormStateDidChange: (replyFormState) => {
+				updateState((state) => ({
+					...state,
+					replyForm: replyFormState
+				}))
+			},
+			// initialReplyFormInputValue: initialState.replyFormInputValue,
+			// onReplyFormInputValueChange: (value) => {
+			// 	updateState((state) => ({
+			// 		...state,
+			// 		replyFormInputValue: value
+			// 	}))
+			// },
+			initialReplyFormError: initialState.replyFormError,
+			onReplyFormErrorDidChange: (error) => {
+				updateState((state) => ({
+					...state,
+					replyFormError: error
+				}))
+			},
+			initialReplyFormInputHeight: initialState.replyFormInputHeight,
+			onReplyFormInputHeightChange: (height) => {
+				updateState((state) => ({
+					...state,
+					replyFormInputHeight: height
 				}))
 			},
 			getCommentById
