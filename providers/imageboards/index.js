@@ -37,7 +37,7 @@ for (const provider of PROVIDERS) {
 	// This function is used in `src/provider.js` in `getChannelUrl()` function.
 	provider.getChannelUrlPattern = ({ notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			imageboardConfig.channelUrl
+			provider.channelUrl
 		}`
 	}
 
@@ -45,7 +45,7 @@ for (const provider of PROVIDERS) {
 	// This function is used in `src/provider.js` in `getThreadUrl()` function.
 	provider.getThreadUrlPattern = ({ notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			imageboardConfig.threadUrl
+			provider.threadUrl
 		}`
 	}
 
@@ -53,7 +53,7 @@ for (const provider of PROVIDERS) {
 	// This function is used in `src/provider.js` in `getCommentUrl()` function.
 	provider.getCommentUrlPattern = ({ notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			imageboardConfig.commentUrl
+			provider.commentUrl
 		}`
 	}
 }

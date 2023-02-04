@@ -350,8 +350,15 @@ ThreadPage.load = loadThreadPage
 // https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
 // https://gitlab.com/catamphetamine/react-pages#same-route-navigation
 export default function ThreadPageWrapper() {
-	const channelId = useSelector(state => state.data.channel.id)
-	const threadId = useSelector(state => state.data.thread.id)
+	const channelId = useSelector(state => state.data.channel && state.data.channel.id)
+	const threadId = useSelector(state => state.data.thread && state.data.thread.id)
+	// `channelId` is `undefined` when the channel wasn't found
+	// when navigating directly to a thread page URL.
+	// `threadId` is `undefined` when the channel wasn't found
+	// when navigating directly to a thread page URL.
+	if (!channelId || !threadId) {
+		return null
+	}
 	return <ThreadPage key={`${channelId}/${threadId}`}/>
 }
 ThreadPageWrapper.meta = ThreadPage.meta

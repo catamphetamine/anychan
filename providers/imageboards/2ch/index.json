@@ -60,17 +60,13 @@
 		"text": "Купить пасскод",
 		"url": "https://2ch.hk/static/market.html"
 	}, {
-		"type": "donate",
-		"text": "Пожертвования",
-		"url": "https://2ch.hk/static/donate.html"
-	}, {
 		"type": "advertise",
 		"text": "Реклама",
 		"url": "https://2ch.hk/static/price.html"
 	}, {
 		"type": "contact",
-		"text": "Контакты",
-		"url": "https://2ch.hk/static/contacts.html"
+		"text": "Почта",
+		"url": "mailto:admin@2ch.hk"
 	}, {
 		"type": "feedback",
 		"text": "Идеи и предложения",

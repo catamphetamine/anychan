@@ -11,13 +11,13 @@
 	"title": "KOHLCHAN",
 	"description": "Kohlchan is a young German imageboard. It is generally considered to be the successor to Krautchan, which was killed by cancer and its lazy administration which decided to delete fucking everything because they couldn't even be bothered to contact their hoster. The name \"Kohlchan\" was used because Kohl and Kraut can both mean \"cabbage\", and it also pays homage to former German chancellor Helmut Kohl. At the beginning of the imageboard the default name was set to \"Helmut\", but since some users could not live with that, the name was changed back to Bernd.",
 	"links": [{
-		"type": "faq",
-		"text": "FAQ",
-		"url": "https://kohlchan.net/faq.html"
+		"type": "info",
+		"text": "Info",
+		"url": "https://kohlchan.net/info.html"
 	}, {
 		"type": "rules",
 		"text": "Rules",
-		"url": "https://kohlchan.net/rules.html"
+		"url": "https://kohlchan.net/globalRules.html"
 	}, {
 		"type": "legal",
 		"text": "Disclaimer",
@@ -31,9 +31,9 @@
 		"text": "Donate",
 		"url": "https://kohlchan.net/funding.html"
 	}, {
-		"type": "news",
-		"text": "News",
-		"url": "https://kohlchan.net/news.html"
+		"type": "links",
+		"text": "Links",
+		"url": "https://kohlchan.net/links.html"
 	}, {
 		"type": "irc",
 		"text": "IRC",
@@ -42,10 +42,6 @@
 		"type": "other",
 		"text": "Availability Status",
 		"url": "https://loadaverage.org/kohlchan"
-	}, {
-		"type": "radio",
-		"text": "Radio",
-		"url": "https://berndstroemt.tk/"
 	}],
 	"errorPages": {
 		"404": {

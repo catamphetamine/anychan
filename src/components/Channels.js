@@ -127,6 +127,7 @@ export function Channels({
 	const isChannelSelected = useCallback((channel) => {
 		return highlightSelectedChannel &&
 			isChannelOrThreadLocation &&
+			selectedChannel &&
 			channel.id === selectedChannel.id
 	}, [highlightSelectedChannel, isChannelOrThreadLocation, selectedChannel])
 
