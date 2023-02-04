@@ -10,21 +10,28 @@ export default function SidebarSection({
 	title,
 	moreLabel,
 	onMore,
+	moreButtonRef,
+	marginTop,
+	marginBottom,
 	className,
 	children,
 	...rest
 }) {
 	return (
 		<section {...rest} className={classNames(className, 'SidebarSection', {
-			'SidebarSection--withTitle': title
+			'SidebarSection--withTitle': title,
+			'SidebarSection--noMarginTop': marginTop === false,
+			'SidebarSection--noMarginBottom': marginBottom === false
 		})}>
 			{title &&
 				<h1 className="SidebarSection-title">
 					{title}
 					{onMore &&
 						<SidebarSectionMoreButton
+							ref={moreButtonRef}
 							title={moreLabel}
-							onClick={onMore}/>
+							onClick={onMore}
+						/>
 					}
 				</h1>
 			}
@@ -37,5 +44,9 @@ SidebarSection.propTypes = {
 	title: PropTypes.string,
 	moreLabel: PropTypes.string,
 	onMore: PropTypes.func,
+	moreButtonRef: PropTypes.object,
+	marginTop: PropTypes.bool,
+	marginBottom: PropTypes.bool,
+	className: PropTypes.string,
 	children: PropTypes.node.isRequired
 }

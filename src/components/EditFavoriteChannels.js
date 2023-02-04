@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Autocomplete } from 'react-responsive-ui'
 import SortableList from 'react-sortable-dnd-list'
+import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
 import ListButton from './ListButton.js'
@@ -24,7 +25,9 @@ import SearchIcon from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
 import './Channels.css'
 import './EditFavoriteChannels.css'
 
-export default function EditFavoriteChannels() {
+export default function EditFavoriteChannels({
+	onExitEditMode
+}) {
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
 
@@ -34,7 +37,18 @@ export default function EditFavoriteChannels() {
 
 	const [selectedChannel, setSelectedChannel] = useState()
 
+	const onInputKeyDown = useCallback((event) => {
+		if (isKeyCombination(event, ['Esc']) || isKeyCombination(event, ['Enter'])) {
+			event.preventDefault()
+			onExitEditMode()
+		}
+	}, [])
+
 	const onSelectChannel = useCallback((channel) => {
+		console.log(channel)
+		if (!channel) {
+			return onExitEditMode()
+		}
 		// Set a new "selected channel" with empty `value` and `label`
 		// so that the input field is empty again.
 		setSelectedChannel({})
@@ -69,6 +83,7 @@ export default function EditFavoriteChannels() {
 				className="EditFavoriteChannels-search"
 				value={selectedChannel}
 				onChange={onSelectChannel}
+				onKeyDown={onInputKeyDown}
 				options={allChannels
 					.filter(_ => !favoriteChannels.find(channel => channel.id === _.id))
 					.map((channel) => ({
@@ -90,9 +105,7 @@ export default function EditFavoriteChannels() {
 }
 
 EditFavoriteChannels.propTypes = {
-	// favoriteChannels: PropTypes.arrayOf(channel).isRequired,
-	// allChannels: PropTypes.arrayOf(channel).isRequired,
-	// dispatch: PropTypes.func.isRequired
+	onExitEditMode: PropTypes.func.isRequired
 }
 
 function Channel({

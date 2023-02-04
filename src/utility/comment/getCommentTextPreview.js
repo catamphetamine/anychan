@@ -12,7 +12,7 @@ import trimText from 'social-components/utility/post/trimText.js'
 export default function getCommentTextPreview(comment, { messages } = {}) {
 	const textPreview = getPostText(comment, {
 		ignoreAttachments: true,
-		softLimit: 150,
+		softLimit: 160,
 		messages: {
 			contentType: {
 				...messages.contentType,

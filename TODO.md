@@ -10,25 +10,11 @@
 
 Add channel view mode: List or Grid.
 
-See if `virtual-scroller` works in production mode.
-
 Add toggle "Show"/"Hide" Threads List in sidebar button.
 
-Add "Показать" button when it says "Скрытый тред".
 
-Don't show `SidebarLeft` on L screens (smaller than FULL HD)
 
-Fix: `--PaddingLeft-minWidth: var(--Comment-marginTop);`
 
-Подсвечивать открытый тред в сайдбаре тредов.
-
-`getCommentLengthLimit(mode)` depends on screen size: the calculation formula should be different for threads list in sidebar.
-
-Fix HTML tags in `contentPreview` of threads in sidebar.
-
-Hide "Back" button on thread pages if threads sidebar is shown.
-
-Don't show sidebar threads list when navigated to thread page and hit "Refresh" browser button.
 
 "Единый поиска игор тред" — почему-то в конце списка показывается, а следует его показывать вначале (`thread.onTop` and `thread.onTopOrder`).
 
@@ -48,9 +34,16 @@ Scroll threads list in left sidebar to top when navigating to a new channel in t
 
 
 
-Sidebar Threads sticky header
-
 Replace Cancel / Reply buttons with an "X" and an "enter" square (maybe google "send button").
+
+Показывать в списке тредов количество комментариев.
+
+Как-нибудь подвыделять открытый тред в сайдбаре тредов.
+
+* Пофиксить баг с флажками и написать коммент: https://github.com/catamphetamine/anychan/issues/12
+
+* Сделать баннер на старом сайте — participate in beta.
+
 
 
 
@@ -74,30 +67,12 @@ Check all imageboards.
 
 
 
-Add top border on SidebarThread
-
-Check hidden threads in Sidebar
-
-
-
-
-Make SidebarThread clickable.
-
-
-Добавить троеточие и возможность скрывать тред в сайдбаре.
-
 
 `boards.showRestBoards`
 
 Под пунктом "Доски" сайдбара сделать кнопку "Показать все доски", которая будет показывать раздел "Ещё доски" в сайдбаре. По умолчанию этот раздел будет скрыт. Он будет показан, пока не добавлено как минимум одной favorite board, или если пользователь не находится на странице доски или треда. Если пользователь находится на странице доски или треда, то показывать текущую доску в сайдбаре выделенной внизу списка (до кнопки "показать ещё", если список частично скрыт) вне зависимости от того, добавлял ли пользователь эту доску в список "избранных" досок. Можно сделать кнопку "скрыть прочие доски", которая может скрывать список "Ещё доски".
 
 У списка тредов сделать переключалку: Latest (Недавние) / Popular (Популярные).
-
-Может быть добавлять текст первого комментария в списке тредов.
-
-Показывать в списке тредов количество комментариев.
-
-Выделать thread title более жирным шрифтом и цветным цветом.
 
 * В режиме with "latest comments" у зелёных цитат слева нет border-а.
 
@@ -109,21 +84,13 @@ Make SidebarThread clickable.
 
 * Проверить автообновление subscribed threads когда открыт один из subscribed threads.
 
-* Глючит reset picture slide scale (показывает мельком в конце большое изображение)
-
 * Сделать фоны цветные.
 
 * Если `channelView` стал недоступен для движка, то сбрасывать его как в initial `loadChannelPage`, так и постфактом в `settings`.
 
-* Проверить `virtual-scroller` в production и написать коммент: https://gitlab.com/catamphetamine/virtual-scroller/-/issues/25#note_1181936154
-
 * Проверить, работают ли остальные imageboards.
 
-* Запушить и обновить репо: imageboard, react-soc-comp, frontend-lib, anychan.
-
 * Задеплоить веб-сайт (пока без reddit).
-
-* Пофиксить баг с флажками и написать коммент: https://github.com/catamphetamine/anychan/issues/12
 
 * Попробовать постинг на `2ch.hk`.
 

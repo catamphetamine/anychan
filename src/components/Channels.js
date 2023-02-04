@@ -13,6 +13,7 @@ import { saveChannelsView } from '../redux/settings.js'
 import { getChannels } from '../redux/data.js'
 
 import useMessages from '../hooks/useMessages.js'
+import useRoute from '../hooks/useRoute.js'
 
 import ChannelUrl from './ChannelUrl.js'
 
@@ -86,9 +87,10 @@ export function Channels({
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
+	const route = useRoute()
+
 	const isChannelOrThreadLocation = useSelector(state => {
-		return isChannelPage(state.found.resolvedMatch) ||
-			isThreadPage(state.found.resolvedMatch)
+		return isChannelPage(route) || isThreadPage(route)
 	})
 
 	const [searchQuery, setSearchQuery] = useState()

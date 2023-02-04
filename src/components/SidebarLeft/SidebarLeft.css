@@ -1,6 +1,13 @@
 .SidebarLeft {
 	border-right: 1px solid var(--Sidebar-borderColor);
 
+	display: flex;
+	flex-direction: column;
+
+	.SidebarTopBar {
+		border-bottom: 1px solid var(--SidebarThread-borderColor);
+	}
+
 	.ChannelHeader {
 		flex: 1;
 		max-width: 100%;
@@ -8,6 +15,13 @@
 		.Toolbar {
 			padding-right: 0;
 		}
+	}
+
+	.Sidebar-scrollableList {
+		max-height: auto;
+		flex-grow: 1;
+    flex-basis: 0;
+    min-height: 0;
 	}
 }
 

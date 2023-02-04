@@ -1,6 +1,19 @@
 @import "../styles/common.css";
 
 .PostForm {
+	--PostForm-paddingLeft: var(--Post-paddingLeft);
+	--PostForm-paddingBottom: var(--Post-paddingBottom);
+
+	--PostFormActionIcon-width: calc(var(--unit) * 2.2);
+
+	--PostFormAction-paddingLeft: var(--unit);
+	--PostFormAction-paddingTop: calc(var(--unit) * 0.75);
+
+	--PostFormClose-padding: calc(var(--unit) * 1);
+	--PostFormCloseIcon-width: calc(var(--unit) * 1);
+
+	--PostFormTextInput-marginRight: var(--unit);
+
 	--rrui-multiline-text-height: auto;
 	display: flex;
 
@@ -10,31 +23,37 @@
   background-color: var(--Post-backgroundColor);
   box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
 
-	padding-top: var(--Post-paddingTop);
-  padding-bottom: var(--Post-paddingBottom);
-  padding-left: var(--Post-paddingLeft);
-  padding-right: var(--Post-paddingRight);
-
-	@mixin upto-s {
-		flex-direction: column;
-	}
+	padding-top: var(--PostForm-paddingBottom);
+  padding-bottom: var(--PostForm-paddingBottom);
+  padding-left: var(--PostForm-paddingLeft);
+  padding-right: var(--PostForm-paddingLeft);
 }
 
 .PostForm-textInput {
-	@mixin m-plus {
-		flex: 1;
-		margin-right: var(--unit);
-	}
+	flex: 1;
+	margin-right: var(--PostFormTextInput-marginRight);
 }
 
 .PostForm-actionIcon {
-	width: calc(var(--unit) * 2.2);
-	height: calc(var(--unit) * 2.2);
+	width: var(--PostFormActionIcon-width);
+	height: var(--PostFormActionIcon-width);
 }
 
 .PostForm-action {
-	width: calc(var(--unit) * 2.2);
-	height: calc(var(--unit) * 3.5);
+	width: calc(var(--PostFormActionIcon-width) + 2 * var(--PostFormAction-paddingLeft));
+	height: calc(var(--PostFormActionIcon-width) + 2 * var(--PostFormAction-paddingTop));
+
+	margin-left: calc(-1 * var(--PostFormAction-paddingLeft));
+	margin-right: calc(-1 * var(--PostFormAction-paddingLeft));
+	margin-top: calc(-1 * var(--PostFormAction-paddingTop));
+	margin-bottom: calc(-1 * var(--PostFormAction-paddingTop));
+
+	padding-left: var(--PostFormAction-paddingLeft);
+	padding-right: var(--PostFormAction-paddingLeft);
+	padding-top: var(--PostFormAction-paddingTop);
+	padding-bottom: var(--PostFormAction-paddingTop);
+
+	align-self: flex-end;
 
 	color: var(--Clickable-color--textActive);
 
@@ -56,13 +75,34 @@
 	}
 }
 
+.PostForm-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	width: calc(var(--PostFormCloseIcon-width) + 2 * var(--PostFormClose-padding));
+	height: calc(var(--PostFormCloseIcon-width) + 2 * var(--PostFormClose-padding));
+
+	color: var(--Content-color-300);
+
+	&:active {
+		color: var(--Clickable-color);
+		opacity: 0.5;
+	}
+}
+
+.PostForm-closeIcon {
+	width: var(--PostFormCloseIcon-width);
+	height: var(--PostFormCloseIcon-width);
+}
+
 .PostForm-error {
 	color: var(--Critical-color);
 }
 
 .PostForm-loading {
 	position: absolute;
-	width: calc(100% - var(--Post-paddingLeft) - var(--Post-paddingRight));
+	width: calc(100% - var(--Post-paddingLeft) - var(--PostFormTextInput-marginRight) - var(--PostFormActionIcon-width) - var(--Post-paddingRight));
 	left: var(--Post-paddingLeft);
-	bottom: calc(var(--unit));
+	bottom: var(--PostForm-paddingBottom);
 }

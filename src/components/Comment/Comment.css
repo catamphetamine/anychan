@@ -446,6 +446,7 @@
 	display: flex;
 	flex-direction: column;
 	flex: auto;
+
 	@mixin m-plus {
 		min-width: calc(var(--Post-minWidth) - var(--Post-paddingLeft) - var(--Post-paddingRight));
 	}

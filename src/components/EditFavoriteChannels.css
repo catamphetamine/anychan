@@ -19,13 +19,19 @@
 	height: var(--List-lineHeight);
 	line-height: var(--List-lineHeight);
 	font-size: var(--List-fontSize);
+
 	.ChannelUrl {
 		margin-left: var(--SidebarSection-paddingLeft);
 		margin-right: var(--unit);
 		color: var(--Channels-color--active);
 	}
+
 	.EditFavoriteChannels-channelTitle {
 		padding-right: calc(var(--unit) * 2.5);
+		/* Overflow with an ellipsis. */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 	}
 	.ChannelUrl,
 	.EditFavoriteChannels-channelTitle {

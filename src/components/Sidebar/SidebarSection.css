@@ -9,8 +9,22 @@
 
 .SidebarSection {
 	margin-top: var(--SidebarSection-marginTop);
+
 	&:last-child {
 		margin-bottom: var(--SidebarSection-marginBottom);
+	}
+}
+
+.SidebarSection--noMarginTop {
+	margin-top: 0;
+}
+
+.SidebarSection--noMarginBottom {
+	margin-bottom: 0;
+
+	/* Overrides the `&:last-child` selector on `.SidebarSection`. */
+	&:last-child {
+		margin-bottom: 0;
 	}
 }
 

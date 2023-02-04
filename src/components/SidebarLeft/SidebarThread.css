@@ -26,6 +26,10 @@
 	}
 }
 
+.SidebarThread--current {
+	/*background-color: var(--base-color-100);*/
+}
+
 .SidebarThread-thumbnail,
 .SidebarThread-thumbnailPlaceholder {
 	margin-right: var(--SidebarThread-thumbnail-marginRight);

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -12,6 +12,8 @@ import { getChannels } from '../../redux/data.js'
 export default function FavoriteChannelsSidebarSection() {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+
+	const moreButtonRef = useRef()
 
 	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
@@ -32,7 +34,14 @@ export default function FavoriteChannelsSidebarSection() {
 
 	let children
 	if (editingFavoriteChannels) {
-		children = <EditFavoriteChannels/>
+		children = (
+			<EditFavoriteChannels
+				onExitEditMode={() => {
+					moreButtonRef.current.focus()
+					moreButtonRef.current.click()
+				}}
+			/>
+		)
 	} else {
 		if (favoriteChannels.length === 0) {
 			// If a user has disabled "auto-suggest favorite channels" feature,
@@ -49,7 +58,9 @@ export default function FavoriteChannelsSidebarSection() {
 				)
 			}
 		} else {
-			children = <FavoriteChannels channels={favoriteChannels}/>
+			children = (
+				<FavoriteChannels channels={favoriteChannels}/>
+			)
 		}
 	}
 
@@ -58,6 +69,7 @@ export default function FavoriteChannelsSidebarSection() {
 			<SidebarSection
 				title={messages.boards.title}
 				moreLabel={messages.actions.edit}
+				moreButtonRef={moreButtonRef}
 				onMore={onMore}>
 				{children}
 			</SidebarSection>

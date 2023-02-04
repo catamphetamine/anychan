@@ -2,9 +2,8 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { TextInput, Button } from 'react-responsive-ui'
-import classNames from 'classnames'
-
 import { isKeyCombination } from 'web-browser-input'
+import classNames from 'classnames'
 
 import { Form, Field, Submit } from './Form.js'
 
@@ -15,6 +14,7 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
+import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 
 import useMessages from '../hooks/useMessages.js'
 
@@ -95,7 +95,7 @@ function PostForm({
 				name="content"
 				type="text"
 				multiline
-				rows={1}
+				rows={2}
 				value={initialInputValue}
 				onChange={onInputValueChange}
 				initialHeight={initialInputHeight}
@@ -104,13 +104,14 @@ function PostForm({
 				placeholder={messages.post.form.inputText}
 				className="form__component PostForm-textInput"
 			/>
-			{/*onCancel &&
+			{onCancel &&
 				<Button
 					onClick={onCancel}
-					className="PostForm-action">
-					{messages.actions.cancel}
+					title={messages.actions.close}
+					className="PostForm-close">
+					<CancelIcon className="PostForm-closeIcon"/>
 				</Button>
-			*/}
+			}
 			<Submit
 				component={Button}
 				type="submit"

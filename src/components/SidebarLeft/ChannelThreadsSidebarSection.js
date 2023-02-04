@@ -46,11 +46,11 @@ export default function ChannelThreadsSidebarSection() {
 	// <SidebarSection title={messages.threads.title}>
 
 	return (
-		<SidebarSection>
+		<SidebarSection marginTop={false} marginBottom={false}>
 			<VirtualScroller
 				key={channelView}
 				bypass={typeof window === 'undefined'}
-				className="SidebarThreads"
+				className="ChannelThreadsSidebarSection"
 				getInitialItemState={getInitialItemState}
 				onItemInitialRender={onItemInitialRender}
 				getItemId={getItemId}

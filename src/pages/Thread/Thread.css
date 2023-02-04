@@ -82,13 +82,15 @@
 .ThreadPage {
 	.PostForm--comment {
 		@mixin m-plus {
-			margin-left: calc(var(--PostThumbnailContainer-maxWidth));
-			width: calc(100% - var(--PostThumbnailContainer-maxWidth));
+			--PostForm-marginLeft--comment: var(--PostThumbnailContainer-maxWidth);
+			margin-left: calc(var(--PostForm-marginLeft--comment));
+			width: calc(100% - var(--PostForm-marginLeft--comment));
 		}
 		@mixin upto-s {
-			margin-left: var(--Post-paddingLeft);
-			margin-right: var(--Post-paddingRight);
-			width: calc(100% - var(--Post-paddingLeft) - var(--Post-paddingRight));
+			--PostForm-marginLeft--comment: var(--Comment-marginTop);
+			margin-left: var(--PostForm-marginLeft--comment);
+			margin-right: var(--PostForm-marginLeft--comment);
+			width: calc(100% - var(--PostForm-marginLeft--comment) - var(--PostForm-marginLeft--comment));
 		}
 	}
 }

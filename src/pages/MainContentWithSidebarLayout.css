@@ -77,9 +77,16 @@
 	:root {
 		--PaddingLeft-flexGrow: 1;
 		--PaddingRight-flexGrow: 0.3;
+
+		/* Doesn't show `.SidebarLeft` on L-size screens. */
+		--SidebarLeft-flexBasis: 0px;
+		--SidebarLeft-flexGrow: 0;
+		--SidebarLeft-minWidth: 0px;
+
 		--SidebarRight-flexBasis: var(--SidebarRight-minWidth);
 		--SidebarRight-flexGrow: 0.4;
 		--SidebarRight-minWidth: calc(var(--unit) * 23);
+
 		/*--SidebarRight-minWidth--wide: calc(var(--unit) * 36);*/
 	}
 }

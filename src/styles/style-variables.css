@@ -286,14 +286,30 @@
 	--Post-paddingTop: calc(var(--unit) * 0.75);
 	--Post-paddingTop--compact: var(--Post-paddingTop);
 	--Post-paddingLeft: var(--unit);
+
+
+	@mixin upto-s {
+		--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
+	}
+
 	@mixin m-plus {
 		--Post-paddingTop: calc(var(--unit) * 1.25);
 		--Post-paddingLeft: calc(var(--unit) * 1.5);
 		--Post-paddingLeft--has-thumbnail: var(--Post-paddingLeft);
+
+		/* `--Post-minWidth` variable should be declared at the `:root` level
+		   in order for `<InReplyToModal/>` to "see" it, because it's rendered
+		   outside of `.Webpage` element. */
+		--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
+
 		/* `--CommentText-maxWidth` is always equal to `--Text-maxWidth` at the `:root` level. */
 		/* It doesn't get overridden by `.Webpage--showsThreadsListSidebar` at the `:root` level. */
-		/* Hence using the additional `.Webpage` selector. */
+		/* Hence using the additional `.Webpage` selector to override the `--Post-minWidth`
+		   defined at the `:root` level above. */
 		.Webpage {
+			/* `--Post-minWidth` variable should be declared at the `:root` level
+			   in order for `<InReplyToModal/>` to "see" it, because it's rendered
+			   outside of `.Webpage` element. */
 			--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
 		}
 	}
@@ -342,7 +358,9 @@
 	--CommentAuthorBannedIcon-color: var(--Critical-color);
 
 	/* CommentMoreActions. */
-	--CommentMoreActions-paddingLeft: 0.9rem;
+	/* If `--paddingLeft` is too big, it will cause page overflow on the right side
+	   resulting in a weird horizontal scrollbar appearing on small screens. */
+	--CommentMoreActions-paddingLeft: 0.7rem;
 	--CommentMoreActions-paddingTop: 0.8rem;
 
 	/* Toolbar. */

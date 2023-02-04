@@ -8,7 +8,10 @@ import EllipsisIcon from 'frontend-lib/icons/ellipsis.svg'
 
 import './SidebarSectionMoreButton.css'
 
-export default function SidebarSectionMoreButton({ title, onClick }) {
+const SidebarSectionMoreButton = React.forwardRef(({
+	title,
+	onClick
+}, ref) => {
 	const [isPressed, setPressed] = useState()
 
 	const onClick_ = useCallback(() => {
@@ -23,6 +26,7 @@ export default function SidebarSectionMoreButton({ title, onClick }) {
 
 	return (
 		<PressedStateButton
+			ref={ref}
 			title={title}
 			onClick={onClick_}
 			aria-pressed={isPressed}
@@ -33,9 +37,11 @@ export default function SidebarSectionMoreButton({ title, onClick }) {
 			<EllipsisIcon className="SidebarSectionMoreButton-icon"/>
 		</PressedStateButton>
 	)
-}
+})
 
 SidebarSectionMoreButton.propTypes = {
 	title: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired
 }
+
+export default SidebarSectionMoreButton

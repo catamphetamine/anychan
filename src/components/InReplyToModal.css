@@ -175,3 +175,10 @@
 		}
 	}
 }
+
+.InReplyToModal {
+	@mixin upto-s {
+		min-width: calc(100vw - 2 * var(--unit));
+		max-width: calc(100vw - 2 * var(--unit));
+	}
+}

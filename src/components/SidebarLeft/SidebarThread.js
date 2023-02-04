@@ -1,12 +1,17 @@
 import React, { useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 
 import ThreadThumbnail from '../ThreadThumbnail.js'
 import CommentMoreActions from '../Comment/CommentMoreActions.js'
 import CommentHidden from '../Comment/CommentHidden.js'
 import useHide from '../Comment/useHide.js'
 
+import isThreadPage from '../../utility/routes/isThreadPage.js'
 import getBasePath from '../../utility/getBasePath.js'
 import getUrl from '../../utility/getUrl.js'
+
+import useRoute from '../../hooks/useRoute.js'
 
 import Clickable from 'frontend-lib/components/Clickable.js'
 
@@ -33,6 +38,8 @@ export default function SidebarThread({
 }) {
 	const locale = useLocale()
 	const messages = useMessages()
+
+	const currentThread = useSelector(state => state.data.thread)
 
 	const onThreadClick = useOnThreadClick()
 
@@ -67,6 +74,8 @@ export default function SidebarThread({
 	const { onAttachmentClick } = useSlideshow({
 		comment: thread.comments[0]
 	})
+
+	const route = useRoute()
 
 	const thumbnailElement = (
 		<CommentThumbnail
@@ -104,7 +113,11 @@ export default function SidebarThread({
 			commentId={thread.comments[0].id}
 			onClick={onThreadClick}
 		>
-			<section data-thread-id={thread.id} className="SidebarThread">
+			<section
+				data-thread-id={thread.id}
+				className={classNames('SidebarThread', {
+					'SidebarThread--current': isThreadPage(route) && currentThread && currentThread.id === thread.id
+				})}>
 				{/*thumbnail &&
 					<ThreadThumbnail
 						picture={thumbnail}
