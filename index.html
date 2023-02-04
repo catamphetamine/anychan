@@ -112,35 +112,45 @@
 	</head>
 	<body>
 
-		<style>  #NewSiteAnnouncement {
-		    display: none;
-		    position: fixed;
-		    left: 0;
-		    right: 0;
-		    top: 0;
-		    padding-top: 0.5rem;
-		    padding-bottom: 0.5rem;
-		    padding-left: 1rem;
-		    padding-right: 1rem;
-		    background-color: var(--Content-backgroundColor);
-		    color: var(--Content-color-900);
-		    z-index: 1;
-		    border-bottom: 1px solid var(--Content-color-200);
-		    text-align: center;
-		    transition: transform 600ms;
-		    transform: translateY(-100%);
-		  }
-		</style><div id="NewSiteAnnouncement">You're browsing an older version of the app. A <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">newer alpha version</a> is in development and available for testing. <a href="#" id="NewSiteAnnouncement-hide">Hide</a></div>
+		<style>
+			#NewSiteAnnouncement {
+				display: none;
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				padding-top: 0.5rem;
+				padding-bottom: 0.5rem;
+				padding-left: 1rem;
+				padding-right: 1rem;
+				background-color: var(--Content-backgroundColor);
+				color: var(--Content-color-900);
+				z-index: 1;
+				border-bottom: 1px solid var(--Content-color-200);
+				text-align: center;
+				transition: transform 600ms;
+				transform: translateY(-100%);
+			}
+		</style>
+		<div id="NewSiteAnnouncement">
+			You're browsing an older version of the app. A <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">newer alpha version</a> is in development and available for testing. <a href="#" id="NewSiteAnnouncement-hide">Hide</a>
+		</div>
 		<script>
 		  function maybeShowNewSiteAnnouncement() {
 		    var showNewSiteAnnouncementFlag = localStorage.getItem('ShowNewSiteAnnouncement');
 		    if (showNewSiteAnnouncementFlag !== '0') {
 		      function hideNewSiteAnnouncement() {
-		        document.getElementById('NewSiteAnnouncement').style.display = 'none';
+		      	document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(-100%)';
+						setTimeout(function() {
+		        	document.getElementById('NewSiteAnnouncement').style.display = 'none';
+						}, 1000)
 		        localStorage.setItem('ShowNewSiteAnnouncement', '0');
 		      }
 		      document.getElementById('NewSiteAnnouncement').style.display = 'block';
-		      document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(0)';
+					setTimeout(function() {
+		      	document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(0)';
+					}, 100)
+
 		      var announcementHideButton = document.getElementById('NewSiteAnnouncement-hide');
 		      announcementHideButton.addEventListener('click', hideNewSiteAnnouncement);
 
