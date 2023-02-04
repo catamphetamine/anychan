@@ -7,21 +7,28 @@
 	}
 }
 
-.CommentMoreActions-button {
-	/*display: flex;*/
-	width: 0.9em;
-	height: auto;
-	margin-top: calc(-1 * var(--CommentMoreActions-paddingTop));
-	margin-bottom: calc(-0.15em - var(--CommentMoreActions-paddingTop));
-	margin-left: calc(0.7em - var(--CommentMoreActions-paddingLeft));
-	margin-right: calc(-1 * var(--CommentMoreActions-paddingLeft));
-	padding-left: var(--CommentMoreActions-paddingLeft);
-	padding-right: var(--CommentMoreActions-paddingLeft);
-	padding-top: var(--CommentMoreActions-paddingTop);
-	padding-bottom: var(--CommentMoreActions-paddingTop);
-	box-sizing: content-box;
-	.CommentMoreActionsIcon {
-		opacity: 0.7;
+/* Added `.CommentMoreActions` parent selector so that `.PostMoreActions-toggler` styles
+   don't overwrite `.CommentMoreActions-button` styles in production mode
+   when Webpack decides to put all CSS in a single file
+   with `.PostMoreActions-toggler` styles being placed after `.menu-item` styles. */
+.CommentMoreActions {
+	.CommentMoreActions-button {
+		/*display: flex;*/
+		width: 0.9em;
+		height: auto;
+		margin-top: calc(-1 * var(--CommentMoreActions-paddingTop));
+		margin-bottom: calc(-0.15em - var(--CommentMoreActions-paddingTop));
+		margin-left: calc(0.7em - var(--CommentMoreActions-paddingLeft));
+		margin-right: calc(-1 * var(--CommentMoreActions-paddingLeft));
+		padding-left: var(--CommentMoreActions-paddingLeft);
+		padding-right: var(--CommentMoreActions-paddingLeft);
+		padding-top: var(--CommentMoreActions-paddingTop);
+		padding-bottom: var(--CommentMoreActions-paddingTop);
+		box-sizing: content-box;
+
+		.CommentMoreActionsIcon {
+			opacity: 0.7;
+		}
 	}
 }
 

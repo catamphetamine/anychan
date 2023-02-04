@@ -10,6 +10,8 @@ import DEFAULT_CONFIGURATION from '../configuration/default.json' assert { type:
 
 const BASE_64_URL_PREFIX = 'data:image/png;base64,'
 
+let defaultConfiguration = DEFAULT_CONFIGURATION
+
 if (process.env.CONFIG_PATH) {
 	let customConfigPath = process.env.CONFIG_PATH
 	if (customConfigPath[0] === '.') {
@@ -73,7 +75,7 @@ export default function({ dev }) {
 			providerTitles: JSON.stringify(PROVIDER_TITLES, null, '\t'),
 			defaultConfiguration: JSON.stringify({
 				...(dev ? CUSTOM_DEV_CONFIG : undefined),
-				...DEFAULT_CONFIGURATION
+				...defaultConfiguration
 			}, null, '\t'),
 			googleAnalytics: dev ? false : true,
 			productionBuild: dev ? false : true,

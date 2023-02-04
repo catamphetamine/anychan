@@ -98,7 +98,7 @@ map $http_origin $allow_origin {
 add_header Access-Control-Allow-Origin $allow_origin always;
 -->
 
-* Set up `Access-Control-Allow-Origin` in `/etc/nginx/nginx.conf` to only be the "origin" (`https://` plus the domain) on which the web application is hosted (in my case it's `https://captchan.surge.sh`) by replacing `add_header Access-Control-Allow-Origin $http_origin` with `add_header Access-Control-Allow-Origin 'INSERT_THE_ORIGIN_OF_YOUR_APP_HERE'`. For development, set up a dedicated CORS proxy, or use a public one like `https://cors-anywhere.herokuapp.com`: a production deployment should have only a single origin whitelisted for [security reasons](https://github.com/Rob--W/cors-anywhere/issues/55).
+* Set up `Access-Control-Allow-Origin` in `/etc/nginx/nginx.conf` to only be the "origin" (`https://` plus the domain) on which the web application is hosted (in my case it's `https://anychans.github.io`) by replacing `add_header Access-Control-Allow-Origin $http_origin` with `add_header Access-Control-Allow-Origin 'INSERT_THE_ORIGIN_OF_YOUR_APP_HERE'`. For development, set up a dedicated CORS proxy, or use a public one like `https://cors-anywhere.herokuapp.com`: a production deployment should have only a single origin whitelisted for [security reasons](https://github.com/Rob--W/cors-anywhere/issues/55).
 
 * Restart `nginx`: `sudo service nginx restart`. Could reload `nginx` instead: `sudo service nginx reload`, but it says "Job for nginx.service invalid." until restarted for the first time.
 * `nginx` should be working: opening the server's HTTP URL in a web browser should output a dummy webpage. Otherwise see `sudo tail /var/log/nginx/error.log`.

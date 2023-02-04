@@ -12,27 +12,27 @@ Supported imageboard engines:
 
 * [4chan](https://github.com/4chan/4chan-API)
 
-	1. [4chan.org](https://www.4chan.org/) — [demo](https://captchan.surge.sh/4chan)
+	1. [4chan.org](https://www.4chan.org/) — [demo](https://anychans.github.io/4chan)
 
 * [vichan](https://github.com/vichan-devel/vichan)
 
-	1. [lainchan.org](https://lainchan.org/) — [demo](https://captchan.surge.sh/lainchan)
+	1. [lainchan.org](https://lainchan.org/) — [demo](https://anychans.github.io/lainchan)
 
 * [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity))
 
-	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://captchan.surge.sh/8ch)
+	1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://anychans.github.io/8ch)
 
 * [lynxchan](https://gitgud.io/LynxChan/LynxChan)
 
-	1. [kohlchan.net](https://kohlchan.net) — [demo](https://captchan.surge.sh/kohlchan)
-	2. [endchan.net](https://endchan.net) — [demo](https://captchan.surge.sh/endchan)
+	1. [kohlchan.net](https://kohlchan.net) — [demo](https://anychans.github.io/kohlchan)
+	2. [endchan.net](https://endchan.net) — [demo](https://anychans.github.io/endchan)
 
 * [makaba](https://2ch.hk/api/)
 
-	1. [2ch.hk](https://2ch.hk/) — [demo](https://captchan.surge.sh/2ch)
+	1. [2ch.hk](https://2ch.hk/) — [demo](https://anychans.github.io/2ch)
 
 <!-- (too much DDoS protection [won't let it in](https://github.com/OpenIB/OpenIB/issues/302)) -->
-<!-- , [`arisuchan.jp` demo](https://captchan.surge.sh/arisuchan). -->
+<!-- , [`arisuchan.jp` demo](https://anychans.github.io/arisuchan). -->
 
 Don't mind the seemingly slower speed of the demos: the only reason for that is the app can't use imageboard APIs directly (they don't allow it) and needs to send all HTTP requests through a free public "CORS Proxy" which introduces a delay.
 

@@ -20,6 +20,11 @@ Add toggle "Show"/"Hide" Threads List in sidebar button.
 
 Scroll threads list in left sidebar to top when navigating to a new channel in the right sidebar (or some other way).
 
+При переключении в режим "with comments":
+
+* Warning: Failed prop type: The prop `getCommentById` is marked as required in `CommentTree`, but its value is `undefined`.
+
+* Warning: Failed prop type: The prop `onPostUrlClick` is marked as required in `CommentFooter`, but its value is `undefined`.
 
 
 
