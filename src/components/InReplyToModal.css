@@ -33,7 +33,7 @@
 		/* `--Content-maxWidth` is redefined on thread and channel page
 		   to also include PostThumbnail-related dimensions. */
 		/* `!important` overrides `max-width: none` rule set in
-		   `.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested)`. */
+		   `.Comment--thread.CommentTree-comment--expanded.CommentTree-comment--topLevel`. */
 		/*max-width: var(--Content-maxWidth) !important;*/
 		/* `!important` overrides `margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width))`. */
 		/*margin-left: 0 !important;*/

@@ -3,6 +3,7 @@
 .Comment-newAutoUpdateCommentsStartLine {
 	--Comment-newAutoUpdateCommentsStartLine-height: 2px;
 	--Comment-newAutoUpdateCommentsStartLine-color: var(--Clickable-color);
+
 	position: absolute;
 	top: calc((var(--Comment-marginTop) - var(--Comment-newAutoUpdateCommentsStartLine-height)) / 2);
 	width: 100%;
@@ -42,4 +43,19 @@
 	&:after {
 		margin-left: var(--Comment-marginTop);
 	}
+}
+
+.Comment-spacer {
+	height: var(--Comment-marginTop);
+}
+
+.Comment-spacerLine {
+	margin: 0;
+	border: none;
+	/*border-bottom: 1px solid var(--CommentSeparator-color);*/
+	border-bottom: 1px solid var(--Content-color-300);
+}
+
+.Comment-spacerLine--first {
+	border-bottom-color: transparent;
 }

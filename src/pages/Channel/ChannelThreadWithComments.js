@@ -9,7 +9,7 @@ export default function ChannelThreadWithComments({
 	thread,
 	state,
 	setState,
-	onHeightChange,
+	onHeightDidChange,
 	commonProps
 }) {
 	const getCommentById = useCallback((commentId) => {
@@ -31,11 +31,13 @@ export default function ChannelThreadWithComments({
 		return {
 			...commonProps,
 			threadId: thread.id,
+			isFirstItemInTheList: thread.isFirstThreadInTheList,
 			showRepliesCount: false,
 			postDateLinkClickable: false,
 			postDateLinkUpdatePageUrlToPostUrlOnClick: false,
 			postDateLinkNavigateToPostUrlOnClick: false,
-			toggleShowRepliesOnTreeBranchesClick: false
+			toggleShowRepliesOnTreeBranchesClick: false,
+			showSeparatorLineBetweenTopLevelComments: true
 		}
 	}, [
 		commonProps,
@@ -53,7 +55,7 @@ export default function ChannelThreadWithComments({
 			comment={thread.comments[0]}
 			initialState={initialState}
 			setState={setState}
-			onHeightChange={onHeightChange}
+			onHeightDidChange={onHeightDidChange}
 			getComponentProps={getComponentProps}
 			getCommentById={getCommentById}
 		/>
@@ -68,8 +70,8 @@ ChannelThreadWithComments.propTypes = {
 	// `setState()` property is provided by `virtual-scroller`.
 	setState: PropTypes.func.isRequired,
 
-	// `onHeightChange()` property is provided by `virtual-scroller`.
-	onHeightChange: PropTypes.func.isRequired,
+	// `onHeightDidChange()` property is provided by `virtual-scroller`.
+	onHeightDidChange: PropTypes.func.isRequired,
 
 	commonProps: PropTypes.object
 }

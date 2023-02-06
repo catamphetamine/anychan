@@ -201,6 +201,20 @@ function setReplies(updatedThread) {
 		if (comment.inReplyTo) {
 			for (const inReplyToComment of comment.inReplyTo) {
 				inReplyToComment.replies = inReplyToComment.replies || []
+				// Modifying the list of `.replies[]` of an older comment here
+				// would result in a "jump of content" when such older comments'
+				// replies list is expanded and those comments have already been
+				// rendered by `virtual-scroller`, because the hight of the list of
+				// their replies would change after a subsequent re-render.
+				// `onItemHeightDidChange()` wouldn't solve the issue because
+				// such expanded older comments could even be not rendered
+				// at the time of the auto-update.
+				// There seems to be no workaround for the issue so far.
+				// Even though `onItemHeightDidChange()` wouldn't resolve the issue
+				// in 100% of the cases, it could still resolve it in the cases
+				// when such expanded older comments would currently be rendered,
+				// so it would make sense to call it here, if anyone wants to do that
+				// in some future.
 				inReplyToComment.replies.push(comment)
 			}
 		}

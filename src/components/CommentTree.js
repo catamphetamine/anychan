@@ -18,10 +18,10 @@ export default function CommentTree({
 	// It gets called with the new state as an argument whenever the state of the comment tree changes.
 	setState,
 
-	// `onHeightChange()` is supplied by `virtual-scroller`.
+	// `onHeightDidChange()` is supplied by `virtual-scroller`.
 	// It should be called whenever a comment tree's height changes
 	// so that `virtual-scroller` could update the tree's height in its height cache.
-	onHeightChange,
+	onHeightDidChange,
 
 	// (optional)
 	// Returns the props for rendering the comment component.
@@ -81,8 +81,8 @@ export default function CommentTree({
 				}))
 			},
 			onRenderedContentDidChange: () => {
-				if (onHeightChange) {
-					onHeightChange()
+				if (onHeightDidChange) {
+					onHeightDidChange()
 				}
 			},
 			initialHidden: initialState.hidden,
@@ -123,7 +123,7 @@ export default function CommentTree({
 			getCommentById
 		}
 	}, [
-		onHeightChange,
+		onHeightDidChange,
 		getCommentById
 	])
 
@@ -137,7 +137,7 @@ export default function CommentTree({
 			{...rest}
 			initialState={initialState}
 			onStateChange={setState}
-			onDidToggleShowReplies={onHeightChange}
+			onDidToggleShowReplies={onHeightDidChange}
 			onShowReply={onShowReply}
 			component={CommentBlock}
 			getComponentProps={getCommentComponentProps}
@@ -168,14 +168,14 @@ CommentTree.propTypes = {
 	setState: PropTypes.func.isRequired,
 
 	// When `<CommentTree/>` is rendered on a thread page,
-	// `onHeightChange()` property is supplied by `virtual-scroller`.
+	// `onHeightDidChange()` property is supplied by `virtual-scroller`.
 	// It triggers `VirtualScroller` to re-measure the item element's height.
 	//
 	// When `<CommentTree/>` is rendered in `<InReplyToModal/>`,
-	// `onHeightChange()` property is not supplied because
+	// `onHeightDidChange()` property is not supplied because
 	// it doesn't use a `virtual-scroller` to render the content.
 	//
-	onHeightChange: PropTypes.func,
+	onHeightDidChange: PropTypes.func,
 
 	// Returns the props for rendering the comment component.
 	getComponentProps: PropTypes.func,

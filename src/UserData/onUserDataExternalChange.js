@@ -82,7 +82,7 @@ export default function onUserDataExternalChange({
 	// * On thread cards on a catalog page
 	//
 	// If some comment or thread gets hidden then it should also call
-	// `onHeightChange()` for those comments so that there's no "jump of content"
+	// `onHeightDidChange()` for those comments so that there's no "jump of content"
 	// in the `virtual-scroller` when the user scrolls up.
 
 	// Could also handle changes to:

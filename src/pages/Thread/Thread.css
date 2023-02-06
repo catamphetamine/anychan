@@ -87,7 +87,7 @@
 			width: calc(100% - var(--PostForm-marginLeft--comment));
 		}
 		@mixin upto-s {
-			--PostForm-marginLeft--comment: var(--Comment-marginTop);
+			--PostForm-marginLeft--comment: var(--Comment-marginTop--nested);
 			margin-left: var(--PostForm-marginLeft--comment);
 			margin-right: var(--PostForm-marginLeft--comment);
 			width: calc(100% - var(--PostForm-marginLeft--comment) - var(--PostForm-marginLeft--comment));

@@ -7,8 +7,9 @@
 	}
 }
 
-.ChannelPage-threads {
-	--Comment-marginTop: var(--Comment-marginTop--channelPage);
+.Webpage--channel {
+	--Comment-marginTop--topLevel: var(--Comment-marginTop--topLevelChannelPage);
+
 	.Comment-container {
 		align-items: stretch;
 	}
@@ -31,7 +32,7 @@
 	@mixin l-plus {
 		position: absolute;
 		right: 0;
-		top: calc((var(--Comment-marginTop--channelPage) - var(--ChannelOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
+		top: calc((var(--Comment-marginTop--topLevel) - var(--ChannelOrThreadPage-marginTop--largeScreen) - var(--MenuIcon-width)) / 2);
 	}
 	*/
 /*}*/
@@ -45,4 +46,16 @@
 .Comment--latestComments {
 	margin-left: var(--Comment-marginLeft--latestComments);
 	width: calc(100% - var(--Comment-marginLeft--latestComments));
+}
+
+.ChannelPage--latestComments {
+	--Comment-marginTop--topLevel: calc(var(--Comment-marginTop--nested) * 2);
+}
+
+.ChannelPage--latestComments {
+	.CommentTree--topLevel {
+		> .CommentTree-replies {
+			margin-left: var(--CommentTree-padding);
+		}
+	}
 }

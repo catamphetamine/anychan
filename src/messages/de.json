@@ -204,6 +204,9 @@
 			"hide": "Ausblenden",
 			"ignoreAuthor": "Autor ignorieren",
 			"showOriginalComment": "Originalkommentar anzeigen"
+		},
+		"form": {
+			"inputText": "Schreibe einen Kommentar…"
 		}
 	},
 	"role": {

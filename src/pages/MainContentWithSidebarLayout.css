@@ -175,13 +175,13 @@
 		   just so that it doesn't influence the layout under normal circumstances at all
 		   but at the same time starts playing role past a certain screen width threshold. */
 		--PaddingLeft-flexGrow: 1;
-		--PaddingLeft-minWidth: calc(var(--Comment-marginTop) * 2);
+		--PaddingLeft-minWidth: calc(var(--Comment-marginTop--nested) * 2);
 
 		/* `flex-grow` for `PaddingRight` is set to a relatively extremely small value
 		   just so that it doesn't influence the layout under normal circumstances at all
 		   but at the same time starts playing role past a certain screen width threshold. */
 		--PaddingRight-flexGrow: 1;
-		--PaddingRight-minWidth: calc(var(--Comment-marginTop) * 2);
+		--PaddingRight-minWidth: calc(var(--Comment-marginTop--nested) * 2);
 
 		--SidebarRight-flexGrow: 100000000;
 		--SidebarRight-flexBasis: 0;

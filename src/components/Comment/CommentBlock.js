@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import {
 	comment as commentType,
@@ -53,6 +54,8 @@ export default function CommentBlock({
 	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 	initialReplyFormState,
 	onReplyFormStateDidChange,
+	showSeparatorLineBetweenTopLevelComments,
+	isFirstItemInTheList,
 	...rest
 }) {
 	// This button gets focused when the user clicks the "Cancel" button
@@ -108,6 +111,20 @@ export default function CommentBlock({
 			}
 
 			<div className="Comment-spacer"/>
+
+			{!parentComment && showSeparatorLineBetweenTopLevelComments &&
+				<>
+					{/* When using `virtual-scroller`, all items must have the same
+					    paddings/margins/borders, so the spacer line above the first comment
+					    can't just be marked as `display: none`. Instead, it should be
+					    visually hidden, for example, by making it transparent.
+					*/}
+					<hr className={classNames('Comment-spacerLine', {
+						'Comment-spacerLine--first': isFirstItemInTheList
+					})}/>
+					<div className="Comment-spacer"/>
+				</>
+			}
 
 			{mode === 'thread' && !parentComment &&
 				<NewAutoUpdateCommentsStartLine commentId={comment.id}/>
@@ -211,7 +228,9 @@ CommentBlock.propTypes = {
 	initialReplyFormInputHeight: PropTypes.number,
 	onReplyFormInputHeightChange: PropTypes.func,
 	initialReplyFormState: PropTypes.object,
-	onReplyFormStateDidChange: PropTypes.func
+	onReplyFormStateDidChange: PropTypes.func,
+	showSeparatorLineBetweenTopLevelComments: PropTypes.bool,
+	isFirstItemInTheList: PropTypes.bool
 }
 
 /*

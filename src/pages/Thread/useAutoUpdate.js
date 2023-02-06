@@ -7,7 +7,7 @@ import useLocale from '../../hooks/useLocale.js'
 
 import {
 	refreshThread as refreshThreadAction,
-	markCurrentThreadExpired,
+	markCurrentThreadAsExpired,
 	resetAutoUpdateNewCommentsIndication
 } from '../../redux/data.js'
 
@@ -15,6 +15,16 @@ import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThr
 import onThreadFetched from '../../utility/thread/onThreadFetched.js'
 import onThreadExpired from '../../utility/thread/onThreadExpired.js'
 
+// Thread page "auto-update" feature:
+//
+// * Replaces `thread` object on every refresh.
+//   That's just to trigger a re-render of the thread page
+//
+// * Replaces `comment` objects when those get new replies.
+//   That's just to trigger a re-render of the relevant comment elements
+//   to update their replies count number, and, in case their replies are
+//   currently expanded, to re-render the tree of their replies.
+//
 export default function useAutoUpdate({
 	node,
 	setNextUpdateAt,
@@ -139,7 +149,7 @@ export default function useAutoUpdate({
 			// Clear the expired thread from user data.
 			setExpired(true)
 		}
-		dispatch(markCurrentThreadExpired())
+		dispatch(markCurrentThreadAsExpired())
 		onThreadExpired(
 			thread.channelId,
 			thread.id,

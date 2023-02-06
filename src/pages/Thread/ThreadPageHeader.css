@@ -184,7 +184,7 @@
 	}
 	.ThreadPageHeader-titleOnNewLine {
 		padding-right: var(--Post-paddingRight);
-		margin-bottom: calc(var(--unit) * 1 - var(--Comment-marginTop--channelPage));
+		margin-bottom: calc(var(--unit) * 1 - var(--Comment-marginTop--topLevel));
     margin-top: calc(var(--unit) / 2);
     margin-bottom: calc(var(--unit) / 2);
 	}

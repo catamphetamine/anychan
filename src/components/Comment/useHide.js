@@ -45,7 +45,34 @@ export default function useHide({
 	const commentId = comment.id
 
 	useLayoutEffectSkipMount(() => {
+		// Update the comment's `hidden` flag.
+		comment.hidden = hiddenInternal
+
+		// Replies of this comment don't get re-generated.
+		// There're two reasons for that:
+		//
+		// * A quote of a hidden comment no longer says: ">Hidden comment".
+		// * A user could hide a given comment at any point in time
+		//   while viewing a thread page, which would mean that any
+		//   comment's height could change while that comment is not rendered,
+		//   which would result in a warning produced by `virtual-scroller`.
+		//   `onItemHeightDidChange()` function can't be used in that case
+		//   because such comments wouldn't even be rendered.
+		//
+		//   If at some point the re-generation of replies on `parentComment`'s
+		//  `.hide` flag change was to be enabled in some future,
+		//   then `onItemHeightDidChange()` should still be called:
+		//   even if it didn't resolve the issue in 100% cases, it would still
+		//   work in some of them.
+		//
+		// // Re-generate the comment's replies
+		// // because those could include quotes of this comment
+		// // and in that case those quotes should be replaced with
+		// // "Hidden comment" text.
+		// comment.onContentChange({ getCommentById })
+
 		setHidden(hiddenInternal)
+
 		if (onAfterHiddenChange) {
 			onAfterHiddenChange()
 		}

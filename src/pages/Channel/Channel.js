@@ -117,7 +117,9 @@ function ChannelPage() {
 	}, [channelView])
 
 	return (
-		<section className="ChannelPage Content">
+		<section className={classNames('Content', 'ChannelPage', {
+			'ChannelPage--latestComments': channelView === 'new-comments'
+		})}>
 			<ChannelHeader
 				alignTitle="center"
 				channelView={channelView}

@@ -10,7 +10,7 @@ const ChannelThread = ({
 	item: thread,
 	state,
 	setState,
-	onHeightChange,
+	onHeightDidChange,
 	channelView,
 	commonProps
 }) => {
@@ -23,7 +23,7 @@ const ChannelThread = ({
 			thread={thread}
 			state={state}
 			setState={setState}
-			onHeightChange={onHeightChange}
+			onHeightDidChange={onHeightDidChange}
 			commonProps={commonProps}
 		/>
 	)
@@ -37,8 +37,8 @@ ChannelThread.propTypes = {
 	// `setState()` property is provided by `virtual-scroller`.
 	setState: PropTypes.func.isRequired,
 
-	// `onHeightChange()` property is provided by `virtual-scroller`.
-	onHeightChange: PropTypes.func.isRequired,
+	// `onHeightDidChange()` property is provided by `virtual-scroller`.
+	onHeightDidChange: PropTypes.func.isRequired,
 
 	channelView: PropTypes.string,
 

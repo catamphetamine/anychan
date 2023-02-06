@@ -33,13 +33,26 @@ export default function addParseContent(comment, {
 	locale,
 	// messages
 }) {
-	const parseCommentContent = comment.parseContent
+	const originalParseContent = comment.parseContent
 
 	comment.parseContent = ({ getCommentById } = {}) => {
-		// The `comment` object reference might have changed
-		// during thread auto-update since this function has been
-		// initially created. Therefore, get the latest `comment`
-		// object reference.
+		// Thread page "auto-update" feature:
+		//
+		// * Replaces `thread` object on every refresh.
+		//   That's just to trigger a re-render of the thread page
+		//
+		// * Replaces `comment` objects when those get new replies.
+		//   That's just to trigger a re-render of the relevant comment elements
+		//   to update their replies count number, and, in case their replies are
+		//   currently expanded, to re-render the tree of their replies.
+		//
+		// So the `comment` object reference might change in some future.
+		// Hence the use of a custom `getCommentById()` parameter function.
+		//
+		// Since the `comment` object reference inside `thread.comments` list
+		// might have changed during a recent thread auto-update, get the latest
+		// `comment` object reference first.
+		//
 		if (getCommentById) {
 			comment = getCommentById(comment.id)
 		}
@@ -50,7 +63,7 @@ export default function addParseContent(comment, {
 			return
 		}
 
-		parseCommentContent({ getCommentById })
+		originalParseContent({ getCommentById })
 
 		// Transform comment content:
 		// * Censor "offensive" words.

@@ -9,7 +9,7 @@ export default function ChannelThreadWithoutComments({
 	thread,
 	state,
 	setState,
-	onHeightChange,
+	onHeightDidChange,
 	commonProps
 }) {
 	const onExpandContentChange = useCallback((expandContent) => {
@@ -43,7 +43,7 @@ export default function ChannelThreadWithoutComments({
 			{...commonProps}
 			comment={thread.comments[0]}
 			threadId={thread.id}
-			onRenderedContentDidChange={onHeightChange}
+			onRenderedContentDidChange={onHeightDidChange}
 			initialExpandContent={state && state.expandContent}
 			onExpandContentChange={onExpandContentChange}
 			initialHidden={state && state.hidden}
@@ -60,8 +60,8 @@ ChannelThreadWithoutComments.propTypes = {
 	// `setState()` property is provided by `virtual-scroller`.
 	setState: PropTypes.func.isRequired,
 
-	// `onHeightChange()` property is provided by `virtual-scroller`.
-	onHeightChange: PropTypes.func.isRequired,
+	// `onHeightDidChange()` property is provided by `virtual-scroller`.
+	onHeightDidChange: PropTypes.func.isRequired,
 
 	commonProps: PropTypes.object
 }

@@ -168,7 +168,7 @@
 	This CSS variable can be used for styling such special case. */
 @mixin upto-s {
 	:root {
-		--CommentTreeBranch-paddingLeft--firstLevel: 0.25;
+		--CommentTreeBranch-leftOffsetRatio--firstLevelOfNesting: 0.25;
 	}
 	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
 		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
@@ -232,7 +232,7 @@
 	}
 
 	.Comment--hasThumbnail,
-	.CommentTree-comment--expanded:not(.CommentTree-comment--nested) {
+	.CommentTree-comment--expanded.CommentTree-comment--topLevel {
 		--PostQuoteBlock-borderWidth--left: var(--PostQuoteBlock-borderWidth);
 		/* Reduce `<PostQuoteBlock/>`'s `padding-left` so that it
 		   doesn't intersect with PostThumbnail.
@@ -314,35 +314,41 @@
 	*/
 	/*.ThreadPage-comments,*/
 	/*.InReplyToModal {*/
-		.Comment--thread.Comment--hasNoThumbnail:not(.CommentTree-comment--nested) {
-			margin-left: calc(var(--PostThumbnailContainer-maxWidth));
-			/* Without `max-width` a comment could become overflown
-				 by a `<pre/>` code block. */
-			max-width: calc(100% - var(--PostThumbnailContainer-maxWidth));
-		}
+		.CommentTree-comment--topLevel {
+			&.Comment--thread,
+			&.Comment--channelLatestComments {
+				&.Comment--hasNoThumbnail {
+					margin-left: calc(var(--PostThumbnailContainer-maxWidth));
+					/* Without `max-width` a comment could become overflown
+						 by a `<pre/>` code block. */
+					max-width: calc(100% - var(--PostThumbnailContainer-maxWidth));
+				}
 
-		.Comment--thread.Comment--hasThumbnail:not(.CommentTree-comment--nested) {
-			margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
-			.Comment-thumbnail {
-				/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
-				width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
-				min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+				&.Comment--hasThumbnail {
+					margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+					.Comment-thumbnail {
+						/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
+						width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+						min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+					}
+				}
+			}
+
+			&.Comment--thread.CommentTree-comment--expanded,
+			&.Comment--channel {
+				margin-left: 0;
+				width: 100%;
+				max-width: none;
+				.Comment-thumbnail {
+					padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+				}
 			}
 		}
 
-		.Comment--thread.CommentTree-comment--expanded:not(.CommentTree-comment--nested),
-		.Comment--channel {
-			margin-left: 0;
-			width: 100%;
-			max-width: none;
-			.Comment-thumbnail {
-				padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
-			}
-		}
 		/* Always show `.Comment-thumbnailPlaceholder` element for the main comment of a thread
 		   when viewing a list of threads on a channel page. This way, the list of threads looks
 		   uniform and aligned. */
-		.Comment--channel:not(.CommentTree-comment--nested) {
+		.Comment--channel.CommentTree-comment--topLevel {
 			.Comment-thumbnailPlaceholder {
 				display: block;
 				width: var(--PostThumbnailContainer-maxWidth);
@@ -366,11 +372,16 @@
 		.Comment--thread {
 			/* Don't stretch short comments to full width. */
 			display: inline-flex;
-			&.CommentTree-comment--nested,
+
 			&.CommentTree-comment--expanded {
 				display: flex;
 				width: 100%;
 			}
+		}
+
+		.Comment--channel.CommentTree-comment--nested {
+			/* Don't stretch short comments to full width. */
+			display: inline-flex;
 		}
 
 		.Comment-container {
@@ -382,6 +393,12 @@
 			/* `flex-direction: column` is because there's `.Comment-spacer`. */
 			flex-direction: column;
 			align-items: flex-start;
+
+			/* Don't expand `.Clickable` to the full width of the container element. */
+			/* The container element has `align-children: stretch` property. */
+			.Clickable {
+				align-self: flex-start;
+			}
 		}
 	/*}*/
 

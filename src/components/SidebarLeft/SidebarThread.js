@@ -34,7 +34,7 @@ export default function SidebarThread({
 	item: thread,
 	state,
 	setState,
-	onHeightChange
+	onHeightDidChange
 }) {
 	const locale = useLocale()
 	const messages = useMessages()
@@ -56,7 +56,7 @@ export default function SidebarThread({
 			...state,
 			hidden
 		}),
-		onHiddenChange: onHeightChange
+		onHiddenChange: onHeightDidChange
 	})
 
 	useMemo(() => {

@@ -172,7 +172,7 @@ export const refreshThread = redux.action(
 // 	}
 // )
 
-export const markCurrentThreadExpired = redux.simpleAction(
+export const markCurrentThreadAsExpired = redux.simpleAction(
 	(state) => ({
 		...state,
 		thread: {

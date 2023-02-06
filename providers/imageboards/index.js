@@ -33,28 +33,8 @@ for (const provider of PROVIDERS) {
 	provider.threadUrl = imageboardConfig.threadUrl.replace('{boardId}', '{channelId}')
 	provider.commentUrl = imageboardConfig.commentUrl.replace('{boardId}', '{channelId}')
 
-	// Create `getChannelUrlPattern()` function on `provider` object.
-	// This function is used in `src/provider.js` in `getChannelUrl()` function.
-	provider.getChannelUrlPattern = ({ notSafeForWork }) => {
-		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			provider.channelUrl
-		}`
-	}
-
-	// Create `getThreadUrlPattern()` function on `provider` object.
-	// This function is used in `src/provider.js` in `getThreadUrl()` function.
-	provider.getThreadUrlPattern = ({ notSafeForWork }) => {
-		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			provider.threadUrl
-		}`
-	}
-
-	// Create `getCommentUrlPattern()` function on `provider` object.
-	// This function is used in `src/provider.js` in `getCommentUrl()` function.
-	provider.getCommentUrlPattern = ({ notSafeForWork }) => {
-		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${
-			provider.commentUrl
-		}`
+	provider.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
+		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${relativeUrl}`
 	}
 }
 

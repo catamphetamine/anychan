@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import VirtualScroller from 'virtual-scroller/react'
-import { isInstantBackAbleNavigation } from 'react-pages'
+import { useNavigationEffect, isInstantBackAbleNavigation } from 'react-pages'
 
 import './CommentsList.css'
 
@@ -71,20 +71,19 @@ function CommentsList({
 
 	const dispatch = useDispatch()
 
-	useEffect(() => {
-		return () => {
-			if (isInstantBackAbleNavigation()) {
-				if (setState) {
-					// Save `virtual-scroller` state in Redux state.
-					dispatch(setState(virtualScrollerState.current))
-				}
-				if (setScrollPosition) {
-					// Save scroll position in Redux state.
-					dispatch(setScrollPosition(scrollPosition.current))
-				}
+	useNavigationEffect(() => {
+		// console.log(`* On navigate from ${mode} page`)
+		if (isInstantBackAbleNavigation()) {
+			if (setState) {
+				// Save `virtual-scroller` state in Redux state.
+				dispatch(setState(virtualScrollerState.current))
+			}
+			if (setScrollPosition) {
+				// Save scroll position in Redux state.
+				dispatch(setScrollPosition(scrollPosition.current))
 			}
 		}
-	}, [])
+	})
 
 	return (
 		<VirtualScroller

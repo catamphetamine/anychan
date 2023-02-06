@@ -25,7 +25,7 @@
 	flex: 1;
 	margin-top: var(--Heading-marginTop);
 	margin-bottom: var(--Heading-marginTop);
-	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--channelPage));*/
+	/*margin-bottom: calc(var(--Heading-marginTop) - var(--Comment-marginTop--topLevel));*/
 	/*font-weight: 300;*/
 	font-weight: 400;
 	font-size: var(--PostTitle-fontSize);

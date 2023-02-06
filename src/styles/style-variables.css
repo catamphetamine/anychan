@@ -201,9 +201,10 @@
 	@mixin m-plus {
 		--Comment-marginTop--base: 12px;
 	}
-	--Comment-marginTop: calc(var(--Comment-marginTop--base) + var(--Comment-marginTop--extra));
+	--Comment-marginTop--nested: calc(var(--Comment-marginTop--base) + var(--Comment-marginTop--extra));
+	--Comment-marginTop--topLevel: var(--Comment-marginTop--nested);
 
-	/* Comment-marginTop--channelPage. */
+	/* Comment-marginTop--topLevelChannelPage. */
 	--Comment-marginTop--channelPageBase: var(--unit);
 	@mixin xs {
 		--Comment-marginTop--channelPageBase: calc(var(--unit) * 1.25);
@@ -211,7 +212,7 @@
 	@mixin s-plus {
 		--Comment-marginTop--channelPageBase: calc(var(--unit) * 1.5);
 	}
-	--Comment-marginTop--channelPage: calc(var(--Comment-marginTop--channelPageBase) + var(--Comment-marginTop--extra));
+	--Comment-marginTop--topLevelChannelPage: calc(var(--Comment-marginTop--channelPageBase) + var(--Comment-marginTop--extra));
 
 	/* --Comment-previouslySeenThreadsBanner. */
 	--Comment-previouslySeenThreadsBanner-color: var(--Content-color-600);

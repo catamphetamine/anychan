@@ -12,7 +12,7 @@ import useLocale from '../../hooks/useLocale.js'
 import InReplyToModal from '../../components/InReplyToModal.js'
 import ShowPrevious from '../../components/ShowPrevious.js'
 
-import CommentsList from './CommentsList.js'
+import ThreadCommentsList from './ThreadCommentsList.js'
 import ThreadPageHeader from './ThreadPageHeader.js'
 import AutoUpdate from './AutoUpdate.js'
 import InfoBanner from './InfoBanner.js'
@@ -266,13 +266,14 @@ function ThreadPage() {
 						fromIndex={fromIndex}
 						setFromIndex={setNewFromIndexPreservingScrollPosition}
 						items={thread.comments}
-						onShowAll={onShowAll}/>
+						onShowAll={onShowAll}
+					/>
 				}
 			</div>
 			<div className="ThreadPage-commentsContainer">
-				<CommentsList
-					searchQuery={searchQuery}
+				<ThreadCommentsList
 					thread={thread}
+					searchQuery={searchQuery}
 					shownComments={shownComments}
 					itemComponentProps={itemComponentProps}
 					getCommentById={getCommentById}
@@ -333,7 +334,8 @@ function ThreadPage() {
 						onGoBack={onGoBackInThreadNavigationHistory}
 						history={threadNavigationHistory}
 						onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
-						onGoToComment={onGoToComment}/>
+						onGoToComment={onGoToComment}
+					/>
 				}
 			</div>
 		</section>
