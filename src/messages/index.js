@@ -6,9 +6,13 @@ import deBase from 'frontend-lib/messages/de.json'
 import enBase from 'frontend-lib/messages/en.json'
 import ruBase from 'frontend-lib/messages/ru.json'
 
-import deSocial from 'social-components-react/messages/de.json'
-import enSocial from 'social-components-react/messages/en.json'
-import ruSocial from 'social-components-react/messages/ru.json'
+import deSocial from 'social-components/messages/de.json'
+import enSocial from 'social-components/messages/en.json'
+import ruSocial from 'social-components/messages/ru.json'
+
+import deSocialReact from 'social-components-react/messages/de.json'
+import enSocialReact from 'social-components-react/messages/en.json'
+import ruSocialReact from 'social-components-react/messages/ru.json'
 
 import deCountries from 'frontend-lib/messages/countries.de.json'
 import enCountries from 'frontend-lib/messages/countries.en.json'
@@ -18,9 +22,9 @@ import Messages from 'frontend-lib/messages/Messages.js'
 import mergeMessages from 'frontend-lib/messages/mergeMessages.js'
 
 const messages = new Messages({
-	de: mergeMessages(de, deBase, deSocial),
-	en: mergeMessages(en, enBase, enSocial),
-	ru: mergeMessages(ru, ruBase, ruSocial)
+	de: mergeMessages(de, deBase, deSocial, deSocialReact),
+	en: mergeMessages(en, enBase, enSocial, enSocialReact),
+	ru: mergeMessages(ru, ruBase, ruSocial, ruSocialReact)
 }, 'en')
 
 if (typeof window !== 'undefined') {

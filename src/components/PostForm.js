@@ -31,6 +31,7 @@ function PostForm({
 	onErrorDidChange,
 	initialInputHeight,
 	onInputHeightChange,
+	inputFieldName,
 	onCancel,
 	onSubmit: onSubmit_
 }, ref) {
@@ -92,7 +93,7 @@ function PostForm({
 			})}>
 			<Field
 				required
-				name="content"
+				name={inputFieldName}
 				type="text"
 				multiline
 				rows={2}
@@ -146,7 +147,8 @@ PostForm.propTypes = {
 	initialInputValue: PropTypes.string,
 	onInputValueChange: PropTypes.func,
 	initialInputHeight: PropTypes.number,
-	onInputHeightChange: PropTypes.func
+	onInputHeightChange: PropTypes.func,
+	inputFieldName: PropTypes.string.isRequired
 }
 
 export default PostForm

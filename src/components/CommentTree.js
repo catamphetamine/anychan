@@ -6,6 +6,8 @@ import CommentBlock from './Comment/CommentBlock.js'
 
 import './CommentTree.css'
 
+const REPLY_FORM_INPUT_FIELD_NAME = 'content'
+
 export default function CommentTree({
 	// `state` property is supplied by `virtual-scroller`.
 	// It represents the current value of the state of comment tree.
@@ -93,11 +95,22 @@ export default function CommentTree({
 				}))
 			},
 			initialReplyFormState: initialState.replyForm,
-			onReplyFormStateDidChange: (replyFormState) => {
-				updateState((state) => ({
-					...state,
-					replyForm: replyFormState
-				}))
+			onReplyFormStateDidChange: (replyFormState, _unused, helpers) => {
+				updateState((state) => {
+					// Call `onHeightDidChange()` if reply form input error changed.
+					// `helpers` object is passed by `easy-react-form`.
+					const { getValidationError } = helpers
+					const replyFormInputError = getValidationError(REPLY_FORM_INPUT_FIELD_NAME)
+					if (state.replyFormInputError !== replyFormInputError) {
+						onHeightDidChange()
+					}
+					// Return new state.
+					return {
+						...state,
+						replyForm: replyFormState,
+						replyFormInputError
+					}
+				})
 			},
 			// initialReplyFormInputValue: initialState.replyFormInputValue,
 			// onReplyFormInputValueChange: (value) => {
@@ -120,7 +133,8 @@ export default function CommentTree({
 					replyFormInputHeight: height
 				}))
 			},
-			getCommentById
+			getCommentById,
+			replyFormInputFieldName: REPLY_FORM_INPUT_FIELD_NAME
 		}
 	}, [
 		onHeightDidChange,

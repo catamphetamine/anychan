@@ -333,15 +333,18 @@
 					}
 				}
 			}
+		}
 
-			&.Comment--thread.CommentTree-comment--expanded,
-			&.Comment--channel {
-				margin-left: 0;
-				width: 100%;
-				max-width: none;
-				.Comment-thumbnail {
-					padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
-				}
+		.Comment--thread.CommentTree-comment--topLevel.CommentTree-comment--expanded,
+		/* On a channel page, thread cards won't have `.CommentTree-comment--topLevel` CSS class
+		   when viewed in default mode.
+		   The CSS class will only be present when `channelView` is "new-comments". */
+		.Comment--channel:not(.CommentTree-comment--nested) {
+			margin-left: 0;
+			width: 100%;
+			max-width: none;
+			.Comment-thumbnail {
+				padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
 			}
 		}
 

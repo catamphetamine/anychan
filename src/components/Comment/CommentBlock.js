@@ -56,6 +56,7 @@ export default function CommentBlock({
 	onReplyFormStateDidChange,
 	showSeparatorLineBetweenTopLevelComments,
 	isFirstItemInTheList,
+	replyFormInputFieldName,
 	...rest
 }) {
 	// This button gets focused when the user clicks the "Cancel" button
@@ -189,6 +190,7 @@ export default function CommentBlock({
 						onInputHeightChange={onReplyFormInputHeightChange}
 						onCancel={onCancelReply}
 						onSubmit={onSubmitReply}
+						inputFieldName={replyFormInputFieldName}
 					/>
 				</>
 			}
@@ -230,7 +232,8 @@ CommentBlock.propTypes = {
 	initialReplyFormState: PropTypes.object,
 	onReplyFormStateDidChange: PropTypes.func,
 	showSeparatorLineBetweenTopLevelComments: PropTypes.bool,
-	isFirstItemInTheList: PropTypes.bool
+	isFirstItemInTheList: PropTypes.bool,
+	replyFormInputFieldName: PropTypes.string.isRequired
 }
 
 /*

@@ -3750,10 +3750,10 @@ duplexer@^0.1.2:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
-easy-react-form@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.4.tgz#ac74604964b42ac384cb2c7e0474dca9397fc6df"
-  integrity sha512-9ApUZZFiboaQ6+eVEosYfr2MBIGAXJ8rAXPiRcZvfgtnD9wmSW08dKYgCrOw33e3KgqdFeZR2V8mdhLgzIuf/A==
+easy-react-form@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.5.tgz#ebd404785d0d7bae8964b2338ba9b0691e5c066a"
+  integrity sha512-3CCsyKJ523+Ouy4PIJMxHxR/QzFcE4SsprXa3n6WYSJOWVSieV860Yr+WoPQzU/R3c3pkh7P+MfApzYjf58ezw==
   dependencies:
     prop-types "^15.7.2"
     scroll-into-view-if-needed "^2.2.24"
@@ -4681,14 +4681,14 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.14:
-  version "0.6.14"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.14.tgz#d65802a7afe900cca84d754648653f23bd69ece2"
-  integrity sha512-P9pYO1oe0vOmdyNgc6v/7Quk/sQGBzVsCsv8ty6c5kQdMVnNBDjEY5OrosDZhyzX7zr3wVsGxvOdPHIuxYG5og==
+imageboard@^0.6.16:
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.16.tgz#ba7dec06e4968bc2a62f650f0dd02fde1d06ae52"
+  integrity sha512-VD7u0gqD7Y56LUuKpm39NvMoblXkMGh9vTwkr8oNqrb4zVJE3zeyRg08g6VjjevZwbQHFpiiy8t02tNpa1WXaA==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
-    social-components "^0.2.0"
-    social-components-parser "^0.1.0"
+    social-components "^0.3.2"
+    social-components-parser "^0.2.1"
 
 immediate@~3.0.5:
   version "3.0.6"
@@ -7289,25 +7289,26 @@ smooth-scroll-into-view-if-needed@^1.1.27, smooth-scroll-into-view-if-needed@^1.
   dependencies:
     scroll-into-view-if-needed "^2.2.28"
 
-social-components-parser@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/social-components-parser/-/social-components-parser-0.1.0.tgz#1fd9fe754713b1d07dd31a5928ecf24932ed50c3"
-  integrity sha512-6Rtc1hEbJ4GPQ3GA+39ZDvcrw0iAy61bPUnvM/ieG6G5XlYYmfgcpIdmvfeh7pnx8SJyGnejPPwanNXl0gHGZg==
+social-components-parser@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/social-components-parser/-/social-components-parser-0.2.1.tgz#a697f3abf697e31eed5a982639db37b1cb0692b8"
+  integrity sha512-sUnrPYLtWJUp741RlOAWmmpyj/d4fPOQ4U9xXuUSBtd4K1jVzA/AbHI46jo2LYspDVhcAV95ceuW7E0Oxrx1cg==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
+    social-components "^0.3.2"
 
-social-components@^0.2.0:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.2.4.tgz#8388eb39dff6d6d475ce5011323d14ddd4292c91"
-  integrity sha512-AIU6Sv8d9FqBgm/i6L8Zavs9qdSTSMd0yzQ7+KdiGfIXBE98xLtewROe8CgaiFJsZmhXPTyfNMjYSE4o9hm08A==
+social-components@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.2.tgz#e08623eb83afd4c86610ac78f93cf936efb2f53b"
+  integrity sha512-lgjHHXHrW68b0zarKL+YHcmodznpcPYkhYMX2l4tyDR3lXe38iK8h48IHVOnb3WuV71QZX6cKkOBVRFzCNuC0w==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
-social-components@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.2.5.tgz#ee45f9de4268a072b3dad7c78c7d19d27777008a"
-  integrity sha512-1W+/LmVMrMRvLCfv4j+Mae8cGPa5/jw2lXN/GEYRuzLAuS63/fuoIPi9UcdgQ8Q6CaQYZOu2qLn8EmhDehiUNg==
+social-components@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.3.tgz#0c456cbfe0b5a1e8f45b9a2ad8ef49efa6cab9e5"
+  integrity sha512-jc9JvcmLXwfvPRrf2qVziW8qXzxvXK1M1sRKIGubDEd0hxmMU+fuBJ2FKSXWlMJxDXpzVg1+o3VW3GHHuaF/aw==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

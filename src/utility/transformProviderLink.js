@@ -58,7 +58,7 @@ function getChannelLink({ channelUrlPattern, pathname }) {
 	if (match) {
 		const channelId = match[1]
 		return {
-			url: getBasePath() + getUrl(channelId),
+			url: getUrl(channelId),
 			content: `/${channelId}/`
 		}
 	}

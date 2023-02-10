@@ -7,6 +7,19 @@
 
 
 
+
+* Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
+
+
+Почему-то когда делает текстовое превью, делает limit прямо посреди слова.
+
+И почему-то поехала ширина картинки в каталоге — делать "добивку" слева, чтобы был один уровень.
+
+
+
+
+
+
 Show comments count on threads in left sidebar.
 
 Add channel view mode: List or Grid.
@@ -25,10 +38,6 @@ Maybe split `comment.onContentChange()` function in `imageboard` into itself and
 
 Refresh postlinkproperties on `onContentChange()`. Split `onContentChange` into it and `.updateReplies()`.
 
-`easy-react-form`: If the form will be unmounted then don't unregister its field when they're being unmounted because the form would be unmounted anyway.
-
-Call `onItemHeightChange()` when `<PostForm/>`'s input validation error changes: add a function in `easy-react-form` called `getFieldValidationError(name)`, maybe in `onStateChange()` second argument.
-
 Можно сделать поле поиска по доскам в правом сайдбаре.
 
 
@@ -42,34 +51,12 @@ Call `onItemHeightChange()` when `<PostForm/>`'s input validation error changes:
 
 Scroll threads list in left sidebar to top when navigating to a new channel in the right sidebar (or some other way).
 
-При переключении в режим "with comments":
-
-* Warning: Failed prop type: The prop `getCommentById` is marked as required in `CommentTree`, but its value is `undefined`.
-
-* Warning: Failed prop type: The prop `onPostUrlClick` is marked as required in `CommentFooter`, but its value is `undefined`.
-
 
 
 
 
 * Сделать список тредов доски под разделом "Доски" в сайдбаре. Если пользователь находится на доске или на треде на доске. Ограничивать список тредов кнопкой "показать все" (show all). Например, можно показывать штук 20 самых "популярных", или "онлайновых", причём онлайновые можно выделять зелёной точкой. Популярность считать как-нибудь (по статусу недавнего комментария, и т.п. — как subscribed threads). Если пользователь находится на странице треда, то выделять этот тред в списке. Если доска ещё не загружалась (каталог), то не показывать "Треды". Также показывать значок закрытого треда. В общем, дизайн — как у tracked threads.
 
-
-
-
-
-
-
-
-Replace Cancel / Reply buttons with an "X" and an "enter" square (maybe google "send button").
-
-Показывать в списке тредов количество комментариев.
-
-Как-нибудь подвыделять открытый тред в сайдбаре тредов.
-
-* Пофиксить баг с флажками и написать коммент: https://github.com/catamphetamine/anychan/issues/12
-
-* Сделать баннер на старом сайте — participate in beta.
 
 
 
@@ -103,10 +90,6 @@ Check all imageboards.
 
 * В режиме with "latest comments" у зелёных цитат слева нет border-а.
 
-* Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
-
-* Fix errors in console on Channel page (with "latest comments"): Post #xxxxxxx not found
-
 * Проверить автообновление subscribed threads.
 
 * Проверить автообновление subscribed threads когда открыт один из subscribed threads.
@@ -121,18 +104,7 @@ Check all imageboards.
 
 * Попробовать постинг на `2ch.hk`.
 
-* Сделать баннер на старом сайте. Сделать баннер со ссылкой на канал в телеграме.
-
-* При заходе на страницу localhost:1234/2ch/b/273701928
-
-```
-    // `routeIndices` might be `undefined` after a `<Redirect/>`
-    // is made and a user clicks the "Back" button in a web browser.
-    // https://github.com/4Catalyzer/found/issues/632
-    if (!routeIndices) {
-        throw new Error('"'.concat(event.type, '" Redux action misses "routeIndices" property. This usually means that the target URL path "').concat(location.pathname, "\" didn't match any route. ").concat(location.pathname[0] !== "/" ? 'The target URL path is missing a leading slash: correct your routes configuration to include a leading slash for "' + location.pathname + '" path. ' : "", "See the issue for more info: https://github.com/4Catalyzer/found/issues/632"));
-    }
-```
+* Сделать баннер со ссылкой на канал в телеграме.
 
 
 
@@ -591,6 +563,13 @@ Add own comment / own thread as "latest read comment"
     // and the user still hasn't read the latest comments,
     // and they scroll down and it writes new "latest read comment" to UserData
     // while it shouldn't have written anything to UserData.
+
+
+
+
+
+Sound notification: Play a sound when somebody replies to your post.
+
 
 
 

@@ -8,7 +8,8 @@ import FillButton from '../FillButton.js'
 import { Form, Field, Submit } from '../Form.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 
-import { isValidUrl, isValidRelativeUrl } from 'social-components/utility/url.js'
+import isValidUrl from '../../utility/isValidUrl.js'
+import isValidRelativeUrl from '../../utility/isValidRelativeUrl.js'
 
 import { saveTheme } from '../../redux/settings.js'
 

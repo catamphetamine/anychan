@@ -54,16 +54,16 @@ export default async function getThreads({
 		// in this code to derive the `withLatestComments` flag value from it,
 		// so it should either exist on all `thread`s or not exist on all `thread`s.
 		if (withLatestComments) {
-			for (const thread of threads) {
-				if (!thread.latestComments) {
-					thread.latestComments = []
-				}
+			if (!thread.latestComments) {
+				thread.latestComments = []
 			}
 
-			// Add `isFirstThreadInTheList` property on the first thread.
-			// The property is used later to hide the separator line (via CSS)
-			// above the first thread item in the list.
-			threads[0].isFirstThreadInTheList = true
+			if (thread === threads[0]) {
+				// Add `isFirstThreadInTheList` property on the first thread.
+				// The property is used later to hide the separator line (via CSS)
+				// above the first thread item in the list.
+				threads[0].isFirstThreadInTheList = true
+			}
 		}
 
 		// Check the user's votes to mark some threads as "already voted"

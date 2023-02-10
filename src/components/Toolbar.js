@@ -175,7 +175,7 @@ Toolbar.propTypes = {
 	setSearchBarShown: PropTypes.func,
 	areAttachmentsExpanded: PropTypes.bool,
 	setAttachmentsExpanded: PropTypes.func,
-	channelView: PropTypes.oneOf(['new-threads', 'new-comments']),
+	channelView: PropTypes.oneOf(['new-threads', 'new-comments', 'popular']),
 	setChannelView: PropTypes.func,
 	isSettingChannelView: PropTypes.bool,
 	openSlideshow: PropTypes.func,

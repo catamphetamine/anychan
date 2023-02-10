@@ -18,7 +18,7 @@ import {
 	ContentSectionDescription
 } from 'frontend-lib/components/ContentSection.js'
 
-import { isValidUrl } from 'social-components/utility/url.js'
+import isValidUrl from '../../utility/isValidUrl.js'
 
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 

@@ -25,8 +25,7 @@
 
 export function getResourceMessages(messages) {
 	return {
-		videoNotFound: messages && messages.post && messages.post.videoNotFound,
-		contentType: messages && messages.contentType
+		videoNotFound: messages && messages.post && messages.post.videoNotFound
 	}
 }
 

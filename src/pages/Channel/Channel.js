@@ -167,12 +167,7 @@ ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
 // https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
 // https://gitlab.com/catamphetamine/react-pages#same-route-navigation
 export default function ChannelPageWrapper() {
-	const channelId = useSelector(state => state.data.channel && state.data.channel.id)
-	// `channelId` is `undefined` when the channel wasn't found
-	// when navigating directly to a channel page URL.
-	if (!channelId) {
-		return null
-	}
+	const channelId = useSelector(state => state.data.channel.id)
 	return <ChannelPage key={channelId}/>
 }
 ChannelPageWrapper.meta = ChannelPage.meta

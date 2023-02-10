@@ -37,11 +37,13 @@ export function createConfiguration({ development }) {
 					test: /\.js$/,
 					// Compile javascript for the app and some of its packages using SWC compiler:
 					// * `frontend-lib` — Is not an `npm` package. Is a `yarn link`-ed folder.
+					// * `social-components-parser` — Is not an `npm` package. Is a `yarn link`-ed folder.
 					// * `social-components-react` — Is not an `npm` package. Is a `yarn link`-ed folder.
+					// * `social-components` — Is not an `npm` package. Is a `yarn link`-ed folder.
 					// * `imageboard` — Is an `npm` package. Is not compiled when published.
 					// * `react-pages` — Is an `npm` package. Is not compiled when published.
 					// * `flexible-json-schema` — Is an `npm` package. Is not compiled when published.
-					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-react|imageboard|react-pages|flexible-json-schema)[\/\\])/,
+					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-parser|social-components-react|social-components|imageboard|react-pages|flexible-json-schema)[\/\\])/,
 					use: [{
 						// https://blog.logrocket.com/migrating-swc-webpack-babel-overview/
 						loader: 'swc-loader'
@@ -119,13 +121,14 @@ export function createConfiguration({ development }) {
 				// Don't cache packages:
 				// * `frontend-lib` — Is not an `npm` package. Is a `yarn link`-ed folder.
 				// * `social-components` — Is an `npm` package.
+				// * `social-components-parser` — Is an `npm` package.
 				// * `social-components-react` — Is not an `npm` package. Is a `yarn link`-ed folder.
 				// * `imageboard` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `react-pages` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `react-responsive-ui` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `virtual-scroller` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `easy-react-form` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
-				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-react|imageboard|react-pages|react-responsive-ui|virtual-scroller|easy-react-form)[\/\\]))/
+				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-parser|social-components-react|imageboard|react-pages|react-responsive-ui|virtual-scroller|easy-react-form)[\/\\]))/
     	]
 		},
 
