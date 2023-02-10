@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import CommentTree_ from 'social-components-react/components/CommentTree.js'
 import CommentBlock from './Comment/CommentBlock.js'
 
-import './CommentTree.css'
+import { POST_FORM_INPUT_FIELD_NAME } from './PostForm.js'
 
-const REPLY_FORM_INPUT_FIELD_NAME = 'content'
+import './CommentTree.css'
 
 export default function CommentTree({
 	// `state` property is supplied by `virtual-scroller`.
@@ -95,12 +95,11 @@ export default function CommentTree({
 				}))
 			},
 			initialReplyFormState: initialState.replyForm,
-			onReplyFormStateDidChange: (replyFormState, _unused, helpers) => {
+			onReplyFormStateDidChange: (replyFormState) => {
 				updateState((state) => {
 					// Call `onHeightDidChange()` if reply form input error changed.
 					// `helpers` object is passed by `easy-react-form`.
-					const { getValidationError } = helpers
-					const replyFormInputError = getValidationError(REPLY_FORM_INPUT_FIELD_NAME)
+					const replyFormInputError = replyFormState.errors[POST_FORM_INPUT_FIELD_NAME]
 					if (state.replyFormInputError !== replyFormInputError) {
 						onHeightDidChange()
 					}
@@ -133,8 +132,7 @@ export default function CommentTree({
 					replyFormInputHeight: height
 				}))
 			},
-			getCommentById,
-			replyFormInputFieldName: REPLY_FORM_INPUT_FIELD_NAME
+			getCommentById
 		}
 	}, [
 		onHeightDidChange,

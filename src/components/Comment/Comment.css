@@ -336,9 +336,11 @@
 		}
 
 		.Comment--thread.CommentTree-comment--topLevel.CommentTree-comment--expanded,
-		/* On a channel page, thread cards won't have `.CommentTree-comment--topLevel` CSS class
-		   when viewed in default mode.
-		   The CSS class will only be present when `channelView` is "new-comments". */
+		/* On a channel page, thread cards won't have `.CommentTree-comment--topLevel`
+		   CSS class when viewed in default mode.
+		   The CSS class will only be present when `channelView` is "new-comments".
+		   Therefore, the CSS selector is `:not(.CommentTree-comment--nested)`
+		   rather than `.CommentTree-comment--topLevel`. */
 		.Comment--channel:not(.CommentTree-comment--nested) {
 			margin-left: 0;
 			width: 100%;

@@ -21,7 +21,8 @@ const Field = React.forwardRef(({
 			component = Select
 			break
 		default:
-			throw new Error(`Unsupported <Field/> type: "${type}"`)
+			// throw new Error(`Unsupported <Field/> type: "${type}"`)
+			break
 	}
 
 	return (
@@ -37,7 +38,7 @@ Field.propTypes = {
 	type: PropTypes.oneOf([
 		'text',
 		'select'
-	]).isRequired,
+	]),
 	options: PropTypes.arrayOf(PropTypes.shape({
 		value: PropTypes.any,
 		label: PropTypes.string.isRequired

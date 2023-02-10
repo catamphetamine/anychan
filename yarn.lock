@@ -3750,10 +3750,10 @@ duplexer@^0.1.2:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
-easy-react-form@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.5.tgz#ebd404785d0d7bae8964b2338ba9b0691e5c066a"
-  integrity sha512-3CCsyKJ523+Ouy4PIJMxHxR/QzFcE4SsprXa3n6WYSJOWVSieV860Yr+WoPQzU/R3c3pkh7P+MfApzYjf58ezw==
+easy-react-form@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.6.tgz#82228e126684c427ef663245f00fc583e2910712"
+  integrity sha512-EM0kI9KPhckeShHFi+k5QI4LB4ymedCDOiZf2Bmc9BkHBmgZPC8A2dImNUgMOT3mJGCbrgTQZ38I+bEFdFY4Zw==
   dependencies:
     prop-types "^15.7.2"
     scroll-into-view-if-needed "^2.2.24"
@@ -4681,13 +4681,13 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.16:
-  version "0.6.16"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.16.tgz#ba7dec06e4968bc2a62f650f0dd02fde1d06ae52"
-  integrity sha512-VD7u0gqD7Y56LUuKpm39NvMoblXkMGh9vTwkr8oNqrb4zVJE3zeyRg08g6VjjevZwbQHFpiiy8t02tNpa1WXaA==
+imageboard@^0.6.18:
+  version "0.6.18"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.18.tgz#aa5a246044c61a0c75ce090748378b77100d9ac9"
+  integrity sha512-4TPubw4OnZAEBbohGK6vOwbNCc8Tu6ntKojvpjGDzGKskTpmEnM/s0k9ZOBXiRC9n4nxenvggz3FK+pflofu5Q==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
-    social-components "^0.3.2"
+    social-components "^0.3.5"
     social-components-parser "^0.2.1"
 
 immediate@~3.0.5:
@@ -6660,10 +6660,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-responsive-ui@^0.15.40:
-  version "0.15.40"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.40.tgz#72937b6c1b63090bebf06499dbd38f68da453875"
-  integrity sha512-zfhjwtpOAt+SqKsQF9Q+F69azDFECxjHFYihOI/C1TQYYOzOy9xKPoWwabmDXRSZ1KqQKBKRzJv3Pable1AYUw==
+react-responsive-ui@^0.15.41:
+  version "0.15.41"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.41.tgz#e8ae3d461b8451d1696660de568fbece684f336a"
+  integrity sha512-1KodENmVqfSbgESsAgdczntEWc87xqhdcKaqONMPJs/pKSn0adk7y86dsAaGF+sYxuUwcA+O26xVaxMimfiglA==
   dependencies:
     "@babel/node" "^7.18.10"
     classnames "^2.3.1"
@@ -7290,25 +7290,17 @@ smooth-scroll-into-view-if-needed@^1.1.27, smooth-scroll-into-view-if-needed@^1.
     scroll-into-view-if-needed "^2.2.28"
 
 social-components-parser@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/social-components-parser/-/social-components-parser-0.2.1.tgz#a697f3abf697e31eed5a982639db37b1cb0692b8"
-  integrity sha512-sUnrPYLtWJUp741RlOAWmmpyj/d4fPOQ4U9xXuUSBtd4K1jVzA/AbHI46jo2LYspDVhcAV95ceuW7E0Oxrx1cg==
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/social-components-parser/-/social-components-parser-0.2.2.tgz#712f170c576b68fe810c03a97878902216296e69"
+  integrity sha512-ldGT89Wd3uE8vsVXPRVZHAlH7kWX3sMRgyBfGHebTvpo04ZXG3ao/fNTU+pyBBhEB3Xeb5DdJfkHmksvvrWxrA==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     social-components "^0.3.2"
 
-social-components@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.2.tgz#e08623eb83afd4c86610ac78f93cf936efb2f53b"
-  integrity sha512-lgjHHXHrW68b0zarKL+YHcmodznpcPYkhYMX2l4tyDR3lXe38iK8h48IHVOnb3WuV71QZX6cKkOBVRFzCNuC0w==
-  dependencies:
-    fetch-jsonp "^1.2.1"
-    lodash "^4.17.15"
-
-social-components@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.3.tgz#0c456cbfe0b5a1e8f45b9a2ad8ef49efa6cab9e5"
-  integrity sha512-jc9JvcmLXwfvPRrf2qVziW8qXzxvXK1M1sRKIGubDEd0hxmMU+fuBJ2FKSXWlMJxDXpzVg1+o3VW3GHHuaF/aw==
+social-components@^0.3.2, social-components@^0.3.5, social-components@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.6.tgz#e89383fc5717f87d33789017caca63e9da1a9c6e"
+  integrity sha512-I+g3jSWuEQgf10O5ykh7REneqtPBuRV312GNyobMWsKYTekyK4S1P23ISvz0+XUbc2LueBh7tkaHOm8SpsiIWw==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

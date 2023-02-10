@@ -6,7 +6,7 @@
 	--HeaderBanner-marginBottom: calc(var(--unit) * 2);
 
 	--CommentText-maxWidth: var(--Text-maxWidth);
-	--CommentText-maxWidth--sidebar: 25em;
+	--CommentText-maxWidth--sidebar: 24em;
 
 	/* These CSS variables are set after mount in `Application.js`. */
 	--Webpage-paddingLeft-width: 0px;

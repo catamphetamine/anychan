@@ -10,10 +10,13 @@
 
 * Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
 
+ Вероятно она возникает потому что `channelView` ещё не проставлен в Redux state (ещё "старый"), а треды загруженные — уже обновились в Redux state (уже "новые").
 
-Почему-то когда делает текстовое превью, делает limit прямо посреди слова.
+ Мб делать не `loadChannelPage()` а только часть её кода. Мб заменить `dispatch()` на просто `fetch()` + `setInState(threads)`.
 
-И почему-то поехала ширина картинки в каталоге — делать "добивку" слева, чтобы был один уровень.
+ Maybe add some kind of a debug log for each call of `onHeightDidChange()`/`onRenderedContentDidChange()` in order to possibly find out what calls are those.
+
+
 
 
 
