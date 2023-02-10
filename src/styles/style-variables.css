@@ -364,6 +364,9 @@
 	--CommentMoreActions-paddingLeft: 0.7rem;
 	--CommentMoreActions-paddingTop: 0.8rem;
 
+	/* Text. */
+	--Text-maxWidth--compact: 33em;
+
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;
 	--Toolbar-marginBottom: 0px;
@@ -500,9 +503,6 @@
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
-
-	/* Text. */
-	--Text-maxWidth--compact: 33em;
 }
 
 /* Dark Mode. */

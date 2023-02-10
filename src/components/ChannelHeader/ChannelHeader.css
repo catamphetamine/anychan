@@ -52,7 +52,7 @@
 .ChannelHeader-channelLink {
 	&,
 	&:hover {
-		color: initial;
+		color: var(--Content-color-900);
 	}
 }
 
