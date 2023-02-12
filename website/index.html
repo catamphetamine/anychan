@@ -204,6 +204,7 @@
 						lainchan
 					</a>
 
+					<!--
 					<a target="_blank" href="/reddit" class="Demo">
 						<svg class="Demo-icon" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
 							<path data-stroke="true" fill="#FF4500" d="M500,1000L500,1000C223.9,1000,0,776.1,0,500v0C0,223.9,223.9,0,500,0h0c276.1,0,500,223.9,500,500v0   C1000,776.1,776.1,1000,500,1000z"/><path data-fill="true" fill="#FFFFFF" d="M614.6,604.2c-28.7,0-52.1-23.4-52.1-52.1c0-28.7,23.4-52.1,52.1-52.1s52.1,23.4,52.1,52.1   C666.7,580.8,643.3,604.2,614.6,604.2 M623.8,689.7C588.2,725.2,520.1,728,500.1,728c-20,0-88.2-2.8-123.7-38.3   c-5.3-5.3-5.3-13.8,0-19.1c5.3-5.3,13.8-5.3,19.1,0C417.9,693,465.8,701,500.1,701c34.2,0,82.2-8,104.6-30.4   c5.3-5.3,13.8-5.3,19.1,0C629,675.9,629,684.4,623.8,689.7 M333.3,552.1c0-28.7,23.4-52.1,52.1-52.1c28.7,0,52.1,23.4,52.1,52.1   c0,28.7-23.4,52.1-52.1,52.1C356.7,604.2,333.3,580.8,333.3,552.1 M833.3,500c0-40.3-32.6-72.9-72.9-72.9   c-19.7,0-37.5,7.8-50.6,20.5c-49.8-36-118.5-59.2-195-61.9L548,229.4l108.5,23.1c1.3,27.6,23.9,49.6,51.8,49.6   c28.8,0,52.1-23.3,52.1-52.1c0-28.8-23.3-52.1-52.1-52.1c-20.5,0-38,11.9-46.5,29.1l-121.2-25.8c-3.4-0.7-6.9-0.1-9.8,1.8   c-2.9,1.9-4.9,4.8-5.6,8.2l-36.4,171.5c-0.2,1,0,1.9,0,2.9c-77.9,2-147.9,25.3-198.5,61.8c-13.1-12.6-30.8-20.3-50.4-20.3   c-40.3,0-72.9,32.7-72.9,72.9c0,29.6,17.7,55.1,43.1,66.5c-1.1,7.2-1.7,14.6-1.7,22.1c0,112.2,130.6,203.1,291.7,203.1   c161.1,0,291.7-90.9,291.7-203.1c0-7.4-0.6-14.7-1.7-21.9C815.4,555.3,833.3,529.8,833.3,500"/>
@@ -217,6 +218,7 @@
 						</svg>
 						twitter
 					</a>
+					-->
 				</div>
 			</section>
 
@@ -249,13 +251,14 @@
 					Why
 				</h1>
 				<p class="Section-text">
-					When I first discovered the "<a target="_blank" href="https://en.wikipedia.org/wiki/Imageboard">imageboards</a>" subculture in 2015, I was fascinated by it. Then I also discovered that "imageboards" have been losing popularity over the years to non-anonymous thematically-focused history-preserving services like <a target="_blank" href="https://twitter.com">Twitter</a> or <a target="_blank" href="https://reddit.com">Reddit</a>. I thought that maybe it's because the user interface is so clunky and old-fashioned, so in 2018 I set off to rewrite it from scratch. Later it turned out that the issues lie elsewhere, but anyway, since I already wrote this thing halfway through, it had to be finished.
+					When I first discovered the "<a target="_blank" href="https://en.wikipedia.org/wiki/Imageboard">imageboards</a>" subculture in 2015, I was fascinated by it. Then I also discovered that "imageboards" have been continuously losing popularity over the years to non-anonymous thematically-focused history-preserving services like <a target="_blank" href="https://twitter.com">Twitter</a> or <a target="_blank" href="https://reddit.com">Reddit</a> or <a target="_blank" href="https://telegram.org">Telegram</a> "channels" or <a target="_blank" href="https://discord.com">Discord</a> "servers".
 				</p>
-				<!--
 				<p class="Section-text">
-					And maybe being mainstream popular is actually the opposite of good, so maybe "imageboards" are better off as a niche thing, providing shelter for the "socially anxious" or otherwise "deviant" ones. After all, you never know what remarkable things might come out of that hole once again.
+					I first thought that maybe it's because the user interface of the existing imageboards is so clunky and old-fashioned. More recently I came to an understanding that it's not the actual reason, but then, in 2018, I set off to rewrite the imageboards' UI from scratch. By mid-2020, I've already finished the first working prototype, so even when the realization came, I still felt like getting a closure anyway, even if it was potentially pointless.
 				</p>
-				-->
+				<p class="Section-text">
+					I also decided to maybe adopt this software for use with non-imageboard data sources — like Reddit or Telegram — in some hypothetical future. This client then could be used as a quick and simple UI solution for someone attempting to build their own experimental open-source social network backend.
+				</p>
 			</section>
 
 			<section class="Section Container">
@@ -269,25 +272,8 @@
 					Humanity has discovered that even making a seemingly simple messaging service like <a target="_blank" href="https://www.youtube.com/watch?v=gicrbc4_3yU">Telegram</a> involves so much complexity under the hood — if you really want to do it perfect — that even companies having billion-dollar budgets struggle with the engineering complexity, let alone the open-source community consisting of seasoned part-timers and temporarily-enthusiastic undergraduates.
 				</p>
 				<p class="Section-text">
-					So the aim of this project is providing a basic, yet convenient, client for some abstract backend implementation. Imageboards are just the simplest most convenient and realistic-enough ground on which this client could be engineered upon. Therefore, this project is not limited excluseively to imageboards. It could support anything that fits a vague definition of a simplistic text-focused social network.
+					So the aim of this project is providing a basic, yet convenient, open-source "client" for using it with some abstract backend implementation written by someone else. Imageboards are just the simplest most-convenient and realistic-enough ground on which this client could be field-tested. Therefore, this project is not limited excluseively to imageboards. It could support anything that fits a vague definition of a simplistic text-focused social network.
 				</p>
-				<p class="Section-text">
-					This client could also introduce customizations and plugin-based architecture to serve as a "proof-of-concept" user interface for some new "micro social network" project.
-				</p>
-				<!--
-				<p class="Section-text">
-					The internet nowadays is governed by large multi-billion-dollar monopolies like Google, Facebook, Twitter, etc. Hungry for more power, these corporations conspired with the international bankers and the wannabe "World Government" to shatter the very foundation of the human society and plunge it into chaos in order to get the opportunity to dethrone the kings and establish the new age of digital tyranny and transhuman totalitarianism. The crooked censorship policies in mass media and social networks throttle the rational thought and nourish corruption and decadence.
-				</p>
-				<p class="Section-text">
-					The Open Source comminity has to save the world once again. It has to come up with a set of common social networking protocols so that the developers could start independently building the part for this new free ecosystem. There have been steps towards that goal in the form of the <a target="_blank" href="https://en.wikipedia.org/wiki/Fediverse">Fediverse</a>, and more will undoubtedly come.
-				</p>
-				<p class="Section-text">
-					While those solutions are definitely valuable, the world has shown us that nowadays simpler is better, to the point of being the governing principle in the modern days of overbearing information noise and extremely short attention span. No one uses Facebook anymore because it's too complex. TikTok is the pinnacle of the social network simplification process.
-				</p>
-				<p class="Section-text">
-					So it means that we have to go simple. And we also have to go <a target="_blank" href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix-way</a>. So here's my take on it. Not limited to just imageboards, <strong class="AnychanLabel">anychan</strong> could support anything that fits a definition of a simplistic discussion-focused social network, such as <a target="_blank" href="https://reddit.com">Reddit</a> or <a target="_blank" href="https://twitter.com">Twitter</a>. Maybe you're a qualified backend developer who wants to create a simplistic communication-focused mini social network, but you don't know any frontend stuff. And you don't know beforehand whether it even takes off, so you wouldn't like wasting any more time than necessary for a "minimum viable prototype". In that case, this project could be a set of some basic common "social network" concepts and building blocks that could be quickly glued together — perhaps by introducing plugin-based architecture — to produce a minimum functioning user interface.
-				</p>
-				-->
 			</section>
 		</main>
 
