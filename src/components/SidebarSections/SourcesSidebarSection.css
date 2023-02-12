@@ -3,8 +3,8 @@
 	align-items: center;
 	justify-content: center;
 
-	padding-top: 0.25em;
-	padding-bottom: 0.25em;
+	padding-top: 0.4em;
+	padding-bottom: 0.4em;
 	padding-left: var(--Sidebar-paddingLeft);
 	padding-right: var(--Sidebar-paddingLeft);
 }
@@ -13,7 +13,7 @@
 	width: 1em;
 	height: 1em;
 
-	margin-right: 0.25em;
+	margin-right: 0.35em;
 
 	color: var(--Sidebar-color-900);
 }
