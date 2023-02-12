@@ -4,7 +4,7 @@ import { Link } from 'react-pages'
 import { useSelector } from 'react-redux'
 import VirtualScroller from 'virtual-scroller/react'
 
-import { Channels } from '../components/Channels.js'
+import Channels from '../components/Channels.js'
 import ChannelUrl from '../components/ChannelUrl.js'
 
 import { channel as channelType } from '../PropTypes.js'

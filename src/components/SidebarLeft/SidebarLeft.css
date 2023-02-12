@@ -5,7 +5,7 @@
 	flex-direction: column;
 
 	.SidebarTopBar {
-		border-bottom: 1px solid var(--SidebarThread-borderColor);
+		border-bottom: 1px solid var(--ChannelThreadsSidebarSectionThread-borderColor);
 	}
 
 	.ChannelHeader {
@@ -23,8 +23,4 @@
     flex-basis: 0;
     min-height: 0;
 	}
-}
-
-.SidebarLeft--hide {
-	visibility: hidden;
 }

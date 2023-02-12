@@ -6,37 +6,25 @@ import { useSelector } from 'react-redux'
 import Sidebar from '../Sidebar/Sidebar.js'
 import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
 
-import HomePageLink from './HomePageLink.js'
-import SettingsLink from './SettingsLink.js'
-import DarkModeToggle from './DarkModeToggle.js'
-
-import SidebarProviderInfo from './SidebarProviderInfo.js'
-// import SidebarMenuSection from './SidebarMenuSection.js'
-import ChannelsSidebarSection from './ChannelsSidebarSection.js'
-import FavoriteChannelsSidebarSection from './FavoriteChannelsSidebarSection.js'
-import SubscribedThreadsSidebarSection from './SubscribedThreadsSidebarSection.js'
+import AvailableChannelsSidebarSection from '../SidebarSections/AvailableChannelsSidebarSection.js'
+import FavoriteChannelsSidebarSection from '../SidebarSections/FavoriteChannelsSidebarSection.js'
+import SubscribedThreadsSidebarSection from '../SidebarSections/SubscribedThreadsSidebarSection.js'
+import ProviderLogoAndToolbarSidebarSection from '../SidebarSections/ProviderLogoAndToolbarSidebarSection.js'
 
 import './SidebarRight.css'
 
 export default function SidebarRight() {
+	// On small screens, users are able to toggle show/hide of the expandable sidebar.
 	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
 
 	return (
 		<Sidebar className={classNames('SidebarRight', {
 			'Sidebar--show': isSidebarShown
 		})}>
-			<SidebarProviderInfo/>
-			<SidebarTopBar alignContent="end">
-				{/*<div className="SidebarTopBar-right">*/}
-					<DarkModeToggle/>
-					<SettingsLink/>
-					{/*<HomePageLink/>*/}
-				{/*</div>*/}
-			</SidebarTopBar>
-			{/*<SidebarMenuSection/>*/}
+			<ProviderLogoAndToolbarSidebarSection/>
 			<SubscribedThreadsSidebarSection/>
 			<FavoriteChannelsSidebarSection/>
-			<ChannelsSidebarSection/>
+			<AvailableChannelsSidebarSection/>
 		</Sidebar>
 	)
 }

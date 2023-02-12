@@ -49,7 +49,7 @@
 	}
 }
 
-.Webpage--showsThreadsListSidebar {
+.Webpage--withLeftSidebar {
 	@mixin xl-plus {
 		.BackButton--content {
 			display: block;

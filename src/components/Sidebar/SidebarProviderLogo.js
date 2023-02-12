@@ -11,18 +11,21 @@ export default function SidebarProviderLogo() {
 	if (!getProvider()) {
 		return null
 	}
+
 	return (
-		<div className="Sidebar-providerLogo">
+		<div className="SidebarProviderLogo">
 			<Link
 				to="/"
-				className="Sidebar-providerLink">
+				className="SidebarProviderLogo-link">
 				<ProviderLogo
 					aria-hidden
-					className="Sidebar-providerLogoImage"/>
+					className="SidebarProviderLogo-image"
+				/>
 				{getProvider().title}
 				<ProviderLogo
 					aria-hidden
-					className="Sidebar-providerLogoImage Sidebar-providerLogoImage--spaceEquivalent"/>
+					className="SidebarProviderLogo-image SidebarProviderLogo-image--placeholder"
+				/>
 			</Link>
 		</div>
 	)

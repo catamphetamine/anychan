@@ -16,7 +16,7 @@
 	   `.SidebarRight` `max-width` is set to the same value just so it looks symmetrical
 	   on really wide screens.
 	*/
-	max-width: calc(var(--SidebarThread-paddingLeft) + var(--SidebarThreadThumbnail-width) + var(--SidebarThread-thumbnail-marginRight) + var(--CommentText-maxWidth--sidebar) + var(--SidebarThread-paddingLeft));
+	max-width: calc(var(--ChannelThreadsSidebarSectionThread-paddingLeft) + var(--ChannelThreadsSidebarSectionThreadThumbnail-width) + var(--ChannelThreadsSidebarSectionThread-thumbnail-marginRight) + var(--CommentText-maxWidth--sidebar) + var(--ChannelThreadsSidebarSectionThread-paddingLeft));
 }
 
 .Sidebar {

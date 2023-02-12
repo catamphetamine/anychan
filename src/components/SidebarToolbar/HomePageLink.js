@@ -14,11 +14,14 @@ import { getProvider } from '../../provider.js'
 
 import './HomePageLink.css'
 
+// This component is not used.
 export default function HomePageLink({ withLabel }) {
 	const route = useRoute()
 	const locationPathname = route.location.pathname
 	const isHomePage = locationPathname === '/'
+
 	const title = getProvider().title
+
 	return (
 		<SidebarMenuItem
 			link="/"
@@ -56,15 +59,17 @@ function SlashIcon(props) {
 			<polyline
 				stroke="none"
 				fill="currentColor"
-				points={SLASH_ICON_POINTS}/>
-				<line
-					x1="0.1"
-					y1="10"
-					x2="4.9"
-					y2="0"
-					stroke="currentColor"
-					strokeWidth="0.4"
-					className="SidebarMenu-slashIconLine" />
+				points={SLASH_ICON_POINTS}
+			/>
+			<line
+				x1="0.1"
+				y1="10"
+				x2="4.9"
+				y2="0"
+				stroke="currentColor"
+				strokeWidth="0.4"
+				className="SidebarMenu-slashIconLine"
+			/>
 		</svg>
 	)
 }

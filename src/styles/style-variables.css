@@ -144,8 +144,8 @@
 		--List-borderColor--selected: var(--Channels-borderColor--selected);
 	}
 
-	/* SidebarThread. */
-	--SidebarThread-borderColor: var(--Content-color-200);
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderColor: var(--Content-color-200);
 
 	/* SideNavMenuButton. */
 	--SideNavMenuButton-color: var(--Content-color-500);
@@ -304,7 +304,7 @@
 		--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
 
 		/* `--CommentText-maxWidth` is always equal to `--Text-maxWidth` at the `:root` level. */
-		/* It doesn't get overridden by `.Webpage--showsThreadsListSidebar` at the `:root` level. */
+		/* It doesn't get overridden by `.Webpage--withLeftSidebar` at the `:root` level. */
 		/* Hence using the additional `.Webpage` selector to override the `--Post-minWidth`
 		   defined at the `:root` level above. */
 		.Webpage {

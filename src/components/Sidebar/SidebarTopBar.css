@@ -8,10 +8,6 @@
 	padding-right: var(--Sidebar-paddingLeft);
 
 	/*border-bottom: 1px solid var(--ChannelUrl-slash-color);*/
-
-	@mixin upto-s {
-		display: none;
-	}
 }
 
 .SidebarTopBar--alignContentEnd {

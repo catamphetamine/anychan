@@ -173,7 +173,7 @@ export default function CommentBlock({
 			onInputValueChange={onReplyFormInputValueChange}
 			*/}
 
-			{!comment.removed && showReplyForm &&
+			{showReplyForm &&
 				<>
 					<div className="Comment-spacer"/>
 

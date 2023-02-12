@@ -8,6 +8,21 @@
 
 
 
+useProvider()
+useSettings()
+useUserData()
+
+* favoriteChannels → channels
+
+use `showErrorMessage={false}` + setError()
+
+
+When refreshing `/a/` page:
+> Item index 0 height changed unexpectedly: it was 309.4375 before, but now it is 251.328125 .
+
+The first thread is: Посоветуй аниме тред
+
+
 * Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
 
  Вероятно она возникает потому что `channelView` ещё не проставлен в Redux state (ещё "старый"), а треды загруженные — уже обновились в Redux state (уже "новые").
@@ -17,6 +32,7 @@
  Maybe add some kind of a debug log for each call of `onHeightDidChange()`/`onRenderedContentDidChange()` in order to possibly find out what calls are those.
 
 
+Если теперь есть два сайдбара, то как их показывать на малых экранах? Всё в одном?
 
 
 
@@ -403,6 +419,12 @@ show channels list — Open the list of Channels + outline button
 Обновлять иконку (`useApplicationIcon()`), если есть новые комментарии или ответы в subscribed threads.
 
 Обновлять `subscribedThreadsState` — `newCommentsCount`, `newRepliesCount` — as the user scrolls.
+
+
+
+
+Pinned Threads could be shown not as full-height comments but rather as a sticky banner on top similar to Telegram.
+
 
 
 

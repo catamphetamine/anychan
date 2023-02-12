@@ -9,10 +9,11 @@ import DarkModeToggle from './DarkModeToggle.js'
 
 import './SidebarMenu.css'
 
+// This component is not used.
+
 export default function SidebarMenu() {
 	return (
 		<nav className="SidebarMenu">
-			{/*<HomePageLink withLabel/>*/}
 			<DarkModeToggle withLabel/>
 			<SettingsLink withLabel/>
 		</nav>

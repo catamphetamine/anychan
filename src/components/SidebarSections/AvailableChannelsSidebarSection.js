@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import Channels from '../Channels.js'
+import AvailableChannels from '../AvailableChannels.js'
 import SidebarSection from '../Sidebar/SidebarSection.js'
 
 import useMessages from '../../hooks/useMessages.js'
 
-export default function ChannelsSidebarSection() {
+export default function AvailableChannelsSidebarSection() {
 	const messages = useMessages()
 
 	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
@@ -21,7 +21,7 @@ export default function ChannelsSidebarSection() {
 
 	return (
 		<SidebarSection title={title}>
-			<Channels/>
+			<AvailableChannels/>
 		</SidebarSection>
 	)
 }

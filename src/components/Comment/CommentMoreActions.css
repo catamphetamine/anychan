@@ -1,3 +1,7 @@
+:root {
+	--CommentMoreActions-opacity: 0.7;
+}
+
 .CommentMoreActions {
 	font-size: var(--Document-fontSize);
 	font-weight: var(--Document-fontWeight);
@@ -27,7 +31,7 @@
 		box-sizing: content-box;
 
 		.CommentMoreActionsIcon {
-			opacity: 0.7;
+			opacity: var(--CommentMoreActions-opacity);
 		}
 	}
 }

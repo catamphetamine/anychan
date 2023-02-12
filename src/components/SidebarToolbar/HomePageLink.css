@@ -1,0 +1,7 @@
+.HomePageLink {
+	&.SidebarMenuItem--selected {
+		.SidebarMenu-slashIconLine {
+			stroke-width: 1;
+		}
+	}
+}

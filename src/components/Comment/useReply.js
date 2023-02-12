@@ -60,25 +60,53 @@ export default function useReply({
 		// Reset the draft in `localStorage` here.
 	}, [])
 
-	const onReply = useCallback(() => {
-		if (replyForm.current) {
-			replyForm.current.focus()
-		} else {
-			setShowReplyForm(true)
-		}
-	}, [])
-
-	const onSubmitReply = useCallback(async ({ content, quoteText }) => {
+	const checkCanReply = useCallback(() => {
 		if (threadIsArchived) {
-			return dispatch(notify(getMessages(locale).threadIsArchived))
+			dispatch(notify(getMessages(locale).threadIsArchived))
+			return false
 		}
 
 		if (threadIsLocked) {
-			return dispatch(notify(getMessages(locale).threadIsLocked))
+			dispatch(notify(getMessages(locale).threadIsLocked))
+			return false
 		}
 
 		if (threadExpired) {
-			return dispatch(notify(getMessages(locale).threadExpired))
+			dispatch(notify(getMessages(locale).threadExpired))
+			return false
+		}
+
+		return true
+	}, [
+		threadIsArchived,
+		threadIsLocked,
+		threadExpired,
+		dispatch,
+		locale
+	])
+
+	const onReply = useCallback(() => {
+		if (!checkCanReply()) {
+			return
+		}
+
+		// If the reply form is already open, re-focus it.
+		if (replyForm.current) {
+			return replyForm.current.focus()
+		}
+
+		// Show the reply form.
+		setShowReplyForm(true)
+	}, [
+		checkCanReply
+	])
+
+	const onSubmitReply = useCallback(async ({ content, quoteText }) => {
+		// Suppose a user opens a reply form and then the thread
+		// changes its state to "locked". The reply form is still visible
+		// but the user shouldn't be able to submit a reply.
+		if (!checkCanReply()) {
+			return
 		}
 
 		const text = getReplyText({
@@ -144,11 +172,12 @@ export default function useReply({
 		}, 800)
 	}, [
 		channelId,
-		channelIsNotSafeForWork,
 		threadId,
 		comment,
+		channelIsNotSafeForWork,
+		dispatch,
 		locale,
-		dispatch
+		checkCanReply
 	])
 
 	const onReplyFormInputHeightChange = useCallback((height) => {

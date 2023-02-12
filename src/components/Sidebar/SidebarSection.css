@@ -32,14 +32,6 @@
 	margin-top: var(--SidebarSection-marginTop--withTitle);
 }
 
-.SidebarTopBar + .SidebarSection {
-	margin-top: calc(var(--SidebarSection-marginTop) - var(--unit) * 2);
-}
-
-.SidebarTopBar + .SidebarSection--withTitle {
-	margin-top: calc(var(--SidebarSection-marginTop--withTitle) - var(--unit) * 2);
-}
-
 .SidebarSection-title {
 	/* `position: relative` is for the "..." button. */
 	position: relative;
@@ -81,10 +73,4 @@
 	font-weight: lighter;
 	letter-spacing: 0.6px;
 	color: var(--Sidebar-color-500);
-}
-
-@mixin l-plus {
-	.SidebarSection--smallScreen {
-		display: none;
-	}
 }

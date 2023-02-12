@@ -1,0 +1,18 @@
+@import "../../styles/common.css";
+
+.ProviderLogoAndToolbarSidebarSection {
+	/* Only show `.SidebarProviderLogoAndToolbar` on small screens. */
+	.SidebarProviderLogoAndToolbar {
+		@mixin m-plus {
+			display: none;
+		}
+	}
+
+	/* Only show `.SidebarTopBar` on small screens. */
+	.SidebarTopBar {
+		@mixin upto-s {
+			display: none;
+		}
+	}
+}
+

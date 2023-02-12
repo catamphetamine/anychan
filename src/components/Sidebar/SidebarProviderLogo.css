@@ -5,7 +5,7 @@
 	--Sidebar-ProviderLogo-marginRight: 0.4em;
 }
 
-.Sidebar-providerLogo {
+.SidebarProviderLogo {
 	display: flex;
 	justify-content: center;
 	flex: 1;
@@ -13,18 +13,18 @@
 	font-weight: 300;
 }
 
-.Sidebar-providerLink {
+.SidebarProviderLogo-link {
 	display: flex;
 	align-items: center;
 	color: inherit;
 }
 
-.Sidebar-providerLogoImage {
+.SidebarProviderLogo-image {
 	height: var(--Sidebar-ProviderLogo-width);
 	margin-right: var(--Sidebar-ProviderLogo-marginRight);
 }
 
-.Sidebar-providerLogoImage--spaceEquivalent {
+.SidebarProviderLogo-image--placeholder {
 	visibility: hidden;
 	margin-left: var(--Sidebar-ProviderLogo-marginRight);
 	margin-right: 0;

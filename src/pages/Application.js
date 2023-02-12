@@ -15,7 +15,7 @@ import BackButton from '../components/BackButton.js'
 import Markup from '../components/Markup.js'
 import Slideshow from '../components/Slideshow.js'
 import Loading from '../components/LoadingIndicator.js'
-import { SIDEBAR_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarLeft/SidebarThread.js'
+import { CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarSections/ChannelThreadsSidebarSectionThread.js'
 import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
 import Snackbar from 'frontend-lib/components/Snackbar.js'
 import { loadYouTubeVideoPlayerApi } from 'social-components-react/components/Video.YouTube.js'
@@ -102,7 +102,7 @@ export default function App({
 	useEffect(() => {
 		setBodyBackground(route)
 
-		document.body.style.setProperty('--SidebarThreadThumbnail-width', SIDEBAR_THREAD_THUMBNAIL_WIDTH + 'px')
+		document.body.style.setProperty('--ChannelThreadsSidebarSectionThreadThumbnail-width', CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 'px')
 	}, [route])
 
 	const paddingLeft = useRef()
@@ -126,10 +126,8 @@ export default function App({
 	}, [dispatch])
 
 	const isCommentTextContentPage = isChannelPage(route) || isThreadPage(route)
-
-	const isThreadsListSidebarShown = true
-	// const isThreadsListSidebarShownOnThisPage = isCommentTextContentPage
-	const isThreadsListSidebarShownOnThisPage = true
+	// const isLeftSidebarShown = isChannelPage(route) || isThreadPage(route)
+	const isLeftSidebarIncluded = true
 
 	/* Changes the application icon when there're any notifications. */
 	useApplicationIcon()
@@ -152,9 +150,10 @@ export default function App({
 				'Webpage--channel': isChannelPage(route),
 				'Webpage--thread': isThreadPage(route),
 				'Webpage--commentTextContent': isCommentTextContentPage,
-				'Webpage--showsThreadsListSidebar': isThreadsListSidebarShownOnThisPage,
-				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isThreadsListSidebarShownOnThisPage,
-				'Webpage--centerPageContent': !isCommentTextContentPage && !isThreadsListSidebarShownOnThisPage
+				'Webpage--withLeftSidebar': isLeftSidebarIncluded,
+				// 'Webpage--hideLeftSidebar': !isLeftSidebarShown,
+				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isLeftSidebarIncluded,
+				'Webpage--centerPageContent': !isCommentTextContentPage && !isLeftSidebarIncluded
 				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
 			})}>
 				{/*<Header/>*/}

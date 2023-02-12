@@ -11,7 +11,7 @@
 	/* These CSS variables are set after mount in `Application.js`. */
 	--Webpage-paddingLeft-width: 0px;
 	--Webpage-paddingRight-width: 0px;
-	--SidebarThreadThumbnail-width: 0px;
+	--ChannelThreadsSidebarSectionThreadThumbnail-width: 0px;
 }
 
 .Webpage {
@@ -216,7 +216,7 @@
 		box-shadow: none;
 	}
 
-	.Webpage--showsThreadsListSidebar {
+	.Webpage--withLeftSidebar {
 		--CommentText-maxWidth: var(--Text-maxWidth--compact);
 
 		@mixin xxl-plus {

@@ -28,9 +28,9 @@ import { thread } from '../../PropTypes.js'
 import useLocale from '../../hooks/useLocale.js'
 import useMessages from '../../hooks/useMessages.js'
 
-import './SidebarThread.css'
+import './ChannelThreadsSidebarSectionThread.css'
 
-export default function SidebarThread({
+export default function ChannelThreadsSidebarSectionThread({
 	item: thread,
 	state,
 	setState,
@@ -64,12 +64,12 @@ export default function SidebarThread({
 	}, [thread])
 
 	const threadThumbnailContainerStyle = useMemo(() => ({
-		minWidth: SIDEBAR_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
-	}), [SIDEBAR_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
+		minWidth: CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
+	}), [CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
 
 	const threadThumbnailPlaceholderStyle = useMemo(() => ({
-		width: SIDEBAR_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
-	}), [SIDEBAR_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
+		width: CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
+	}), [CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
 
 	const { onAttachmentClick } = useSlideshow({
 		comment: thread.comments[0]
@@ -82,7 +82,7 @@ export default function SidebarThread({
 			mode="channel"
 			comment={thread.comments[0]}
 			threadId={thread.id}
-			maxWidth={SIDEBAR_THREAD_THUMBNAIL_WIDTH}
+			maxWidth={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
 			onAttachmentClick={onAttachmentClick}
 			locale={locale}
 		/>
@@ -91,10 +91,10 @@ export default function SidebarThread({
 	if (hidden) {
 		return (
 			<Clickable onClick={onUnHide}>
-				<section data-thread-id={thread.id} className="SidebarThread SidebarThread--hidden">
+				<section data-thread-id={thread.id} className="ChannelThreadsSidebarSectionThread ChannelThreadsSidebarSectionThread--hidden">
 					<div
 						style={threadThumbnailPlaceholderStyle}
-						className="SidebarThread-thumbnailPlaceholder"
+						className="ChannelThreadsSidebarSectionThread-thumbnailPlaceholder"
 					/>
 					<CommentHidden
 						mode="channel"
@@ -115,19 +115,19 @@ export default function SidebarThread({
 		>
 			<section
 				data-thread-id={thread.id}
-				className={classNames('SidebarThread', {
-					'SidebarThread--current': isThreadPage(route) && currentThread && currentThread.id === thread.id
+				className={classNames('ChannelThreadsSidebarSectionThread', {
+					'ChannelThreadsSidebarSectionThread--current': isThreadPage(route) && currentThread && currentThread.id === thread.id
 				})}>
 				{/*thumbnail &&
 					<ThreadThumbnail
 						picture={thumbnail}
-						width={SIDEBAR_THREAD_THUMBNAIL_WIDTH}
-						className="SidebarThread-thumbnail"
+						width={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
+						className="ChannelThreadsSidebarSectionThread-thumbnail"
 					/>
 				*/}
 
 				{thumbnailElement &&
-					<div style={threadThumbnailContainerStyle} className="SidebarThread-thumbnail">
+					<div style={threadThumbnailContainerStyle} className="ChannelThreadsSidebarSectionThread-thumbnail">
 						{thumbnailElement}
 					</div>
 				}
@@ -135,18 +135,18 @@ export default function SidebarThread({
 				{!thumbnailElement &&
 					<div
 						style={threadThumbnailPlaceholderStyle}
-						className="SidebarThread-thumbnailPlaceholder"
+						className="ChannelThreadsSidebarSectionThread-thumbnailPlaceholder"
 					/>
 				}
 
-				<div className="SidebarThread-titleAndContent">
+				<div className="ChannelThreadsSidebarSectionThread-titleAndContent">
 					{thread.titleCensored &&
-						<h3 className="SidebarThread-title">
+						<h3 className="ChannelThreadsSidebarSectionThread-title">
 							{thread.titleCensored}
 						</h3>
 					}
 					{thread.comments[0].textPreview &&
-						<p className="SidebarThread-content">
+						<p className="ChannelThreadsSidebarSectionThread-content">
 							{thread.comments[0].textPreview}
 						</p>
 					}
@@ -165,9 +165,9 @@ export default function SidebarThread({
 	)
 }
 
-SidebarThread.propTypes = {
+ChannelThreadsSidebarSectionThread.propTypes = {
 	item: thread.isRequired
 }
 
-export const SIDEBAR_THREAD_THUMBNAIL_WIDTH = 128
+export const CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH = 128
 const SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH = 1

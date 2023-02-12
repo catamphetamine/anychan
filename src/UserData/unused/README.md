@@ -1,1 +1,0 @@
-These were some early attempts on splitting `UserData` into an "archived" one and a non-"archived" one. Both those `UserData`s would be stored as monolithic JSON objects. Since then, the approach has changed: now, instead of storing all `UserData` as a monolithic JSON object, it's instead stored in "chunks" corresponding to each individual channel, thread or comment.

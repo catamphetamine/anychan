@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { FavoriteChannels } from '../Channels.js'
+import FavoriteChannels from '../FavoriteChannels.js'
 import SidebarSection from '../Sidebar/SidebarSection.js'
 import EditFavoriteChannels from '../EditFavoriteChannels.js'
 

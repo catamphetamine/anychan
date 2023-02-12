@@ -161,7 +161,7 @@
 		/*}*/
 	}
 
-	.Webpage--showsThreadsListSidebar {
+	.Webpage--withLeftSidebar {
 		--SidebarLeft-flexGrow: 150000000;
 		/* `flex-basis` is set to `0` here so that the left sidebar's content width
 		   isn't taken into account when `SidebarLeft` width is calculated by the browser
