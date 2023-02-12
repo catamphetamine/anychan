@@ -24,6 +24,12 @@
   --Clickable-color: #ffa4fe;
 }
 
+@media only screen and (min-width: 1024px) {
+  :root {
+    --Document-fontSize: 18px;
+  }
+}
+
 body {
   margin: 0;
   color: var(--Document-color);
