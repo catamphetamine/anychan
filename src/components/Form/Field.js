@@ -10,9 +10,9 @@ const Field = React.forwardRef(({
 	wait,
 	type,
 	options,
+	component,
 	...rest
 }, ref) => {
-	let component
 	switch (type) {
 		case 'text':
 			component = TextInput
@@ -42,7 +42,8 @@ Field.propTypes = {
 	options: PropTypes.arrayOf(PropTypes.shape({
 		value: PropTypes.any,
 		label: PropTypes.string.isRequired
-	}))
+	})),
+	component: PropTypes.elementType
 }
 
 export default Field

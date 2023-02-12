@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, TextInput } from 'react-responsive-ui'
+import { Switch } from 'react-responsive-ui'
 import { useDispatch } from 'react-redux'
 import { getHttpClient } from 'react-pages'
 
@@ -127,9 +127,9 @@ export default function ProxySettings({
 							<div className="form__component-and-button">
 								<Field
 									required
+									type="text"
 									name="proxyUrl"
 									label={messages.settings.proxy.url}
-									component={TextInput}
 									value={savedValue}
 									validate={validateUrl}
 									className="form__component"

@@ -3750,10 +3750,10 @@ duplexer@^0.1.2:
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
   integrity sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==
 
-easy-react-form@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.6.tgz#82228e126684c427ef663245f00fc583e2910712"
-  integrity sha512-EM0kI9KPhckeShHFi+k5QI4LB4ymedCDOiZf2Bmc9BkHBmgZPC8A2dImNUgMOT3mJGCbrgTQZ38I+bEFdFY4Zw==
+easy-react-form@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.0.7.tgz#5ffbcce299b7ee8430ebc7618e6260f6f42bd486"
+  integrity sha512-kAe1xbqm9AGT+zId5q/6oeDnhdra3R7uORbHXx84dJkrSWalgR19QubPKJgX/wUo7deUmpkD8J5uBKOdoF9Gjw==
   dependencies:
     prop-types "^15.7.2"
     scroll-into-view-if-needed "^2.2.24"

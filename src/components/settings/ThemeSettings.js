@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Modal, TextInput } from 'react-responsive-ui'
+import { Modal } from 'react-responsive-ui'
 
 import Select from '../Select.js'
 import TextButton from '../TextButton.js'
@@ -70,7 +70,9 @@ export default function ThemeSettings({
 	}
 
 	async function onRemoveSelectedTheme() {
-		if (await OkCancelModal.show(messages.settings.theme.deleteCurrent.warning.replace('{0}', theme))) {
+		if (await OkCancelModal.show({
+			content: messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)
+		})) {
 			removeTheme(theme)
 			await onSelectTheme(getDefaultThemeId())
 		}
@@ -215,26 +217,29 @@ function AddTheme({
 			className="form">
 			<Field
 				required
+				type="text"
 				name="id"
 				label={messages.settings.theme.add.id}
-				component={TextInput}
 				validate={validateId}
-				className="form__component"/>
+				className="form__component"
+			/>
 			<Field
 				required
+				type="text"
 				name="name"
 				label={messages.settings.theme.add.name}
-				component={TextInput}
 				validate={validateName}
-				className="form__component"/>
+				className="form__component"
+			/>
 			{!pasteCodeInstead &&
 				<Field
 					required
+					type="text"
 					name="url"
 					label={messages.settings.theme.add.url}
 					validate={validateCssUrl}
-					component={TextInput}
-					className="form__component"/>
+					className="form__component"
+				/>
 			}
 			{!pasteCodeInstead &&
 				<TextButton
@@ -246,11 +251,12 @@ function AddTheme({
 			{pasteCodeInstead &&
 				<Field
 					required
+					type="text"
 					multiline
 					name="css"
 					label={messages.settings.theme.add.code}
-					component={TextInput}
-					className="form__component rrui__input--monospace"/>
+					className="form__component rrui__input--monospace"
+				/>
 			}
 			<div className="form__actions">
 				<TextButton
