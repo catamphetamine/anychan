@@ -9,7 +9,6 @@ import PostStretchVertically from 'social-components-react/components/PostStretc
 import { isMiddleDialogueChainLink } from 'social-components-react/components/CommentTree.js'
 
 import CommentAuthor from './CommentAuthor.js'
-import CommentStatusBadges from './CommentStatusBadges.js'
 import CommentHidden from './CommentHidden.js'
 import CommentFooter from './CommentFooter.js'
 import WithTextSelectionActions from './WithTextSelectionActions.js'

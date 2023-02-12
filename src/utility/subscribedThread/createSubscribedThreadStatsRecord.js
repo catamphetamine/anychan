@@ -15,7 +15,7 @@ export default function createSubscribedThreadStatsRecord(thread, {
 		throw new Error('Can\'t create a subscribed thread stats record from an "incremental" thread update data')
 	}
 
-	// Create `subscribedThreadsState` record.
+	// Create `subscribedThreadsStats` record.
 	let newCommentsCount = 0
 	let newRepliesCount = 0
 

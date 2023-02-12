@@ -54,7 +54,7 @@ function ThreadPage() {
 	const locale = useLocale()
 	const messages = useMessages()
 
-	const unreadCommentWatcher = useUnreadCommentWatcher()
+	const unreadCommentWatcher = useUnreadCommentWatcher({ channel, thread })
 
 	// "Expand attachments".
 	const [areAttachmentsExpanded, setAttachmentsExpanded] = useExpandAttachments()

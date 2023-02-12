@@ -70,7 +70,6 @@ export default function InReplyToModal({
 			dispatch,
 			onRequestShowCommentFromSameThread,
 			onPostUrlClick,
-			getCommentById,
 			mode: 'thread',
 			// Don't render `<Post/>` elements in "compact" mode.
 			// That means a bit larger margins/paddings.
@@ -82,8 +81,7 @@ export default function InReplyToModal({
 		locale,
 		dispatch,
 		onRequestShowCommentFromSameThread,
-		onPostUrlClick,
-		getCommentById
+		onPostUrlClick
 	])
 
 	// `overlayClassName` is used in `Thread.js`
@@ -100,6 +98,7 @@ export default function InReplyToModal({
 			closeTimeout={InReplyToModalCloseTimeout}
 			className="InReplyToModal"
 			overlayClassName={InReplyToModalOverlayClassName}>
+
 			<Modal.Content>
 				<div className="InReplyToModalHeader">
 					<InReplyToModalBack
@@ -126,6 +125,7 @@ export default function InReplyToModal({
 					dialogueTraceStyle="side"
 					postDateLinkUpdatePageUrlToPostUrlOnClick={true}
 					postDateLinkNavigateToPostUrlOnClick={false}
+					getCommentById={getCommentById}
 				/>
 			</Modal.Content>
 		</Modal>

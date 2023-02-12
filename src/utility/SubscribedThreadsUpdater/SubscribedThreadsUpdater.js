@@ -38,7 +38,9 @@ export default class SubscribedThreadsUpdater {
 		userData = getUserData(),
 		storage = storage_,
 		dispatch,
+		// `createGetThreadAction` parameter is currently only used in tests.
 		createGetThreadAction,
+		// `createGetThreadParameters` parameter is set in `./src/utility/onApplicationStarted.js`.
 		createGetThreadParameters = () => ({}),
 		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL
 	}) {

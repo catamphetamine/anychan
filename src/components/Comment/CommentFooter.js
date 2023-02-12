@@ -9,7 +9,7 @@ import {
 	channelId
 } from '../../PropTypes.js'
 
-import CommentStatusBadges from './CommentStatusBadges.js'
+import CommentFooterBadges from './CommentFooterBadges.js'
 
 import PostBadge from 'social-components-react/components/PostBadge.js'
 import PostVotes from 'social-components-react/components/PostVotes.js'
@@ -69,7 +69,7 @@ export default function CommentFooter({
 	])
 
 	const rightSideBadges = useMemo(() => {
-		let badges = CommentStatusBadges
+		let badges = CommentFooterBadges
 		// This type of filtering is done in `<Post/>` automatically,
 		// but since `leftSideBadges` are also used here outside `<Post/>`,
 		// they're filtered here manually.

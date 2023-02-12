@@ -23,7 +23,7 @@ export default function addSubscribedThread(thread, {
 	userData.addSubscribedThread(subscribedThread)
 	userData.addSubscribedThreadIdForChannel(thread.channelId, thread.id)
 
-	// Add `subscribedThreadsState` record to User Data.
+	// Add `subscribedThreadsStats` record to User Data.
 	userData.setSubscribedThreadStats(
 		thread.channelId,
 		thread.id,

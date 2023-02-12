@@ -46,7 +46,7 @@ export const restoreSubscribedThread = redux.action(
 		userData.addSubscribedThread(subscribedThread)
 		userData.addSubscribedThreadIdForChannel(subscribedThread.channel.id, subscribedThread.id)
 
-		// Add `subscribedThreadsState` record to User Data.
+		// Add `subscribedThreadsStats` record to User Data.
 		userData.setSubscribedThreadStats(
 			subscribedThread.channel.id,
 			subscribedThread.id,

@@ -24,6 +24,9 @@
 		"allExpired": "threads expired",
 		"showExpired": "Show expired"
 	},
+	"sources": {
+		"title": "Sources"
+	},
 	"settings": {
 		"language": {
 			"title": "Language",

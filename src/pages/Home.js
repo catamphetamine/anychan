@@ -35,7 +35,7 @@ export default function Home() {
 		<section className="HomePage">
 			<div className="Content Content--text">
 				<div className="HomePage-brand">
-					{hasLogo() &&
+					{hasLogo(getProvider()) &&
 						<a
 							target="_blank"
 							href={`https://${getProvider().domain}`}

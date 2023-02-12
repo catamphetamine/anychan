@@ -179,7 +179,7 @@ describe('UserDataCleaner', function() {
 			userData.getSubscribedThread('b', 456).id,
 			456
 		)
-		// Doesn't clean up `subscribedThreadsState` collection,
+		// Doesn't clean up `subscribedThreadsStats` collection,
 		// even when it's "unused" (old) threads data.
 		expectToEqual(
 			userData.getSubscribedThreadStats('b', 456).commentsCount,
@@ -200,7 +200,7 @@ describe('UserDataCleaner', function() {
 			userData.getSubscribedThread('c', 789).id,
 			789
 		)
-		// Doesn't clean up `subscribedThreadsState` collection,
+		// Doesn't clean up `subscribedThreadsStats` collection,
 		// even when it's "unused" (old) threads data.
 		expectToEqual(
 			userData.getSubscribedThreadStats('c', 789).commentsCount,

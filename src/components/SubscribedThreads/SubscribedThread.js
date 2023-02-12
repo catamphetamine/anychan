@@ -112,16 +112,6 @@ function SubscribedThread({
 				</div>
 				{!thread.expired &&
 					<>
-						{hasNewReplies &&
-							<div className="SubscribedThread-newRepliesIcon">
-								{messages.hasNewComments}
-							</div>
-						}
-						{!hasNewReplies && hasNewComments &&
-							<div className="SubscribedThread-newCommentsIcon">
-								{messages.hasNewReplies}
-							</div>
-						}
 						{thread.archived &&
 							<BoxIcon
 								title={messages.threadIsArchived}
@@ -133,6 +123,16 @@ function SubscribedThread({
 								title={messages.threadIsLocked}
 								className="SubscribedThread-icon"
 							/>
+						}
+						{hasNewReplies &&
+							<div className="SubscribedThread-newRepliesIcon">
+								{messages.hasNewComments}
+							</div>
+						}
+						{!hasNewReplies && hasNewComments &&
+							<div className="SubscribedThread-newCommentsIcon">
+								{messages.hasNewReplies}
+							</div>
 						}
 					</>
 				}

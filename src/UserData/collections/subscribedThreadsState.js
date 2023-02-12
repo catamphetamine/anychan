@@ -77,7 +77,7 @@ export default {
 	// `a` anb `b` are encoded.
 	merge: (a, b) => a.latestComment.id > b.latestComment.id ? a : b,
 
-	// When a thread expires, don't remove it from `subscribedThreadsState` collection.
-	// This way, `subscribedThreads` and `subscribedThreadsState` collections would stay in sync.
+	// When a thread expires, don't remove it from `subscribedThreadsStats` collection.
+	// This way, `subscribedThreads` and `subscribedThreadsStats` collections would stay in sync.
 	clearOnExpire: false
 }

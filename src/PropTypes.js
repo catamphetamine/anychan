@@ -13,6 +13,7 @@ import {
 const {
 	shape,
 	arrayOf,
+	objectOf,
 	number,
 	string,
 	bool,
@@ -107,4 +108,44 @@ export const subscribedThread = shape({
 	// 	number: number,
 	// 	createdAt: instanceOf(Date).isRequired
 	// }).isRequired
+})
+
+export const provider = shape({
+	id: string.isRequired,
+	shortId: string.isRequired,
+	title: string.isRequired,
+	subtitle: string,
+	description: postContent.isRequired,
+	links: arrayOf(shape({
+		type: string,
+		text: string.isRequired,
+		url: string.isRequired
+	})),
+	logo: oneOfType([
+		string,
+		PropTypes.elementType
+	]),
+	contentCategories: arrayOf(string),
+	contentCategoryUnspecified: string,
+	domains: arrayOf(string),
+	domain: string.isRequired,
+	errorPages: objectOf(objectOf(arrayOf(string))),
+	threadArchive: bool,
+	threadArchiveLifetime: number,
+	footnotes: postContent,
+	imageboard: string,
+	channelUrl: string.isRequired,
+	threadUrl: string.isRequired,
+	commentUrl: string.isRequired,
+	getAbsoluteUrl: PropTypes.func,
+	api: shape({
+		getChannels: PropTypes.func.isRequired,
+		findChannels: PropTypes.func,
+		getThreads: PropTypes.func.isRequired,
+		findThreads: PropTypes.func,
+		supportsGlobalThreadSearch: bool,
+		getThread: PropTypes.func.isRequired,
+		getThreadComments: PropTypes.func,
+		vote: PropTypes.func
+	})
 })

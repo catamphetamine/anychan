@@ -39,7 +39,8 @@ export const getThreads = redux.action(
 		grammarCorrection,
 		locale,
 		withLatestComments,
-		sortByRating
+		sortByRating,
+		userData = getUserData()
 	}) => async http => {
 		const threads = await _getThreads({
 			channelId,
@@ -49,7 +50,8 @@ export const getThreads = redux.action(
 			messages: getMessages(locale),
 			withLatestComments,
 			sortByRating,
-			http
+			http,
+			userData
 		})
 		return { channelId, threads }
 	},
@@ -78,18 +80,23 @@ export const getThread = redux.action(
 		archived,
 		censoredWords,
 		grammarCorrection,
-		locale
+		locale,
+		userData = getUserData()
 	}) => async http => {
-		return await _getThread({
+		return await callGetThreadApi(
 			channelId,
 			threadId,
-			archived,
-			censoredWords,
-			grammarCorrection,
-			locale,
-			messages: getMessages(locale),
-			http
-		})
+			{
+				archived,
+				censoredWords,
+				grammarCorrection,
+				locale
+			},
+			{
+				http,
+				userData
+			}
+		)
 	},
 	(state, thread) => {
 		// Get the current `channel`.
@@ -117,22 +124,31 @@ export const resetAutoUpdateNewCommentsIndication = redux.simpleAction(
 )
 
 export const refreshThread = redux.action(
-	(thread, { censoredWords, grammarCorrection, locale }) => async http => {
-		const updatedThread = await _getThread({
-			channelId: thread.channelId,
-			threadId: thread.id,
-			// `threadBeforeRefresh` feature is not currently used, but `imageboard` library
-			// still supports using the "-tail" data URL when fetching thread comments
-			// on `4chan.org` to reduce the traffic a bit. See `4chan.org` API docs
-			// of the `imageboard` library for more details on how "-tail" data URL works.
-			// This feature hasn't been tested and is not currently used.
-			// threadBeforeRefresh: thread,
-			censoredWords,
-			grammarCorrection,
-			locale,
-			messages: getMessages(locale),
-			http
-		})
+	(thread, {
+		censoredWords,
+		grammarCorrection,
+		locale,
+		userData = getUserData()
+	}) => async http => {
+		const updatedThread = await callGetThreadApi(
+			thread.channelId,
+			thread.id,
+			{
+				// `threadBeforeRefresh` feature is not currently used, but `imageboard` library
+				// still supports using the "-tail" data URL when fetching thread comments
+				// on `4chan.org` to reduce the traffic a bit. See `4chan.org` API docs
+				// of the `imageboard` library for more details on how "-tail" data URL works.
+				// This feature hasn't been tested and is not currently used.
+				// threadBeforeRefresh: thread,
+				censoredWords,
+				grammarCorrection,
+				locale
+			},
+			{
+				http,
+				userData
+			}
+		)
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
 			thread: updatedThread,
@@ -493,4 +509,18 @@ function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}
 		autoUpdateUnreadCommentsCount,
 		autoUpdateUnreadRepliesCount
 	}
+}
+
+export async function callGetThreadApi(channelId, threadId, parameters, {
+	http,
+	userData
+}) {
+	return await _getThread({
+		channelId,
+		threadId,
+		http,
+		userData,
+		messages: getMessages(parameters.locale),
+		...parameters
+	})
 }

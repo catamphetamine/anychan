@@ -5,7 +5,6 @@ import {
 } from '../provider.js'
 
 import parseLocationUrl from './parseLocationUrl.js'
-import getBasePath from './getBasePath.js'
 import getUrl from './getUrl.js'
 
 // Replaces links to the provider's website with in-app links.
@@ -77,7 +76,7 @@ function getThreadLink({ threadUrlPattern, pathname }) {
 		const channelId = match[1]
 		const threadId = match[2]
 		return {
-			url: getBasePath() + getUrl(channelId, threadId),
+			url: getUrl(channelId, threadId),
 			content: `/${channelId}/${threadId}`
 		}
 	}
@@ -98,7 +97,7 @@ function getCommentLink({ commentUrlPattern, pathname }) {
 		const threadId = match[2]
 		const commentId = match[3]
 		return {
-			url: getBasePath() + getUrl(channelId, threadId, commentId),
+			url: getUrl(channelId, threadId, commentId),
 			content: `/${channelId}/${threadId}#${commentId}`
 		}
 	}

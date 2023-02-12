@@ -7,6 +7,8 @@ import {
 import getThread from '../../utility/thread/getThread.js'
 import getLatestReadCommentIndex from '../../utility/thread/getLatestReadCommentIndex.js'
 
+import getUserData from '../../UserData.js'
+
 import getFromIndex from './getFromIndex.js'
 
 export default async function loadThreadPage({
@@ -36,7 +38,11 @@ export default async function loadThreadPage({
 		censoredWords,
 		grammarCorrection,
 		locale
-	}, { dispatch })
+	}, {
+		dispatch,
+		userData: getUserData(),
+		updateThreadInState: true
+	})
 
 	// Reset a potentially previously set "instant back" state.
 	dispatch(resetState())

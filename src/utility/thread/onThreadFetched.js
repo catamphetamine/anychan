@@ -14,7 +14,9 @@ export default function onThreadFetched(thread, {
 
 	// If this thread is subscribed to, then update its stats.
 	if (userData.getSubscribedThread(thread.channelId, thread.id)) {
+		// If there're any changes to the subscribed thread data since the last time.
 		if (onSubscribedThreadFetched(thread, { userData, timer })) {
+			// Re-render the list of subscribed threads.
 			dispatch(getSubscribedThreads({ userData }))
 		}
 	}

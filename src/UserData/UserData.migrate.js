@@ -54,7 +54,7 @@ export default function migrate({
 			writeData('subscribedThreads', trackedThreadsList)
 			removeData('trackedThreadsList')
 
-			// Create `subscribedThreadsState` collection.
+			// Create `subscribedThreadsStats` collection.
 			// Can use "short names" and "chunked" structure here.
 			for (const subscribedThread of trackedThreadsList) {
 				// `subscribedThread.channel` property was called `subscribedThread.board`

@@ -4,12 +4,20 @@ import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 import getUserData from '../../UserData.js'
 import { latestReadComments } from '../../UserData/collections/index.js'
 
+import createSubscribedThreadStatsRecord from '../../utility/subscribedThread/createSubscribedThreadStatsRecord.js'
+
 export default class UnreadCommentWatcher {
-	constructor({ dispatch, userData = getUserData(), hitBoxContraction }) {
+	constructor({
+		dispatch,
+		getThread,
+		channel,
+		userData = getUserData(),
+		hitBoxContraction
+	}) {
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 		// https://caniuse.com/#search=IntersectionObserver
-		this.observer = new IntersectionObserver(this.createIntersectionHandler({ dispatch, userData }), {
+		this.observer = new IntersectionObserver(this.createIntersectionHandler({ dispatch, getThread, channel, userData }), {
 			// "rootMargin" option is incorrectly named.
 			// In reality, it's "root area expansion".
 			// Values order: top, right, bottom, left.
@@ -17,7 +25,7 @@ export default class UnreadCommentWatcher {
 		})
 	}
 
-	createIntersectionHandler({ dispatch, userData }) {
+	createIntersectionHandler({ dispatch, getThread, channel, userData }) {
 		// Uses `dispatch`.
 		return (entries, observer) => {
 			for (const entry of entries) {
@@ -42,6 +50,8 @@ export default class UnreadCommentWatcher {
 						// threadIsTrimming,
 						// threadIsArchived,
 						dispatch,
+						getThread,
+						channel,
 						userData
 					})
 					// No longer track the visibility of this comment.
@@ -60,6 +70,8 @@ export default class UnreadCommentWatcher {
 		// threadIsTrimming,
 		// threadIsArchived,
 		dispatch,
+		getThread,
+		channel,
 		userData
 	}) {
 		// An extra `!isCommentRead()` check is added here,
@@ -75,8 +87,21 @@ export default class UnreadCommentWatcher {
 
 				// If this thread is subscribed to, then update "new comments" counter
 				// for this thread in "thread subscriptions" list in the Sidebar.
-				if (userData.getSubscribedThread(channelId, threadId)) {
-					dispatch(getSubscribedThreads({ userData }))
+				if (getThread()) {
+					const subscribedThreadStats = userData.getSubscribedThreadStats(channelId, threadId)
+					if (subscribedThreadStats) {
+						// Update `subscribedThreadsStats` record in User Data.
+						userData.setSubscribedThreadStats(
+							channelId,
+							threadId,
+							{
+								...createSubscribedThreadStatsRecord(getThread(), { channel, userData }),
+								refreshedAt: subscribedThreadStats.refreshedAt
+							}
+						)
+						// Re-render the list of subscribed threads.
+						dispatch(getSubscribedThreads({ userData }))
+					}
 				}
 
 				// console.log('Comment read:', commentId, 'from', '/' + channelId + '/' + threadId)

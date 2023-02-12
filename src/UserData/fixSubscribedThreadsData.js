@@ -24,7 +24,7 @@ export default function fixSubscribedThreadsData({ userData = getUserData(), log
 	// Fix `subscribedThreadsIndex` collection.
 	const fixSubscribedThreadsIndexOperation = fixSubscribedThreadsIndex({ userData, log, subscribedThreadIdsByChannel })
 
-	// Fix `subscribedThreadsState` collection.
+	// Fix `subscribedThreadsStats` collection.
 	const fixSubscribedThreadsStatsOperation = fixSubscribedThreadsStats({ userData, log, subscribedThreadIdsByChannel, getSubscribedThread })
 
 	// Return a "write" operation.
@@ -100,7 +100,7 @@ function fixSubscribedThreadsIndex({ userData, log, subscribedThreadIdsByChannel
 	}
 }
 
-// Fix `subscribedThreadsState` collection.
+// Fix `subscribedThreadsStats` collection.
 function fixSubscribedThreadsStats({ userData, log, subscribedThreadIdsByChannel, getSubscribedThread }) {
 	log('Stats: Analyze: Start')
 

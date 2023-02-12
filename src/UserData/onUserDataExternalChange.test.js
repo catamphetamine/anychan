@@ -160,8 +160,8 @@ describe('UserData/onUserDataExternalChange', function() {
 				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
 				value: undefined
 			},
-			// `subscribedThreadsState` collection got updated in `userData2`:
-			// a new `subscribedThreadsState` entry was added.
+			// `subscribedThreadsStats` collection got updated in `userData2`:
+			// a new `subscribedThreadsStats` entry was added.
 			{
 				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
 				value: undefined

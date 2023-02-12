@@ -161,15 +161,23 @@
 }
 */
 
-/* Add some left padding to first-level comment tree branch.
-	If comments don't have any side padding
-	then the root replies branch line would be ineligible
-	because it would be drawn at the very screen edge (mobile devices).
-	This CSS variable can be used for styling such special case. */
-@mixin upto-s {
-	:root {
+:root {
+	/* Add some left padding to first-level comment tree branch.
+		If comments don't have any side padding
+		then the root replies branch line would be ineligible
+		because it would be drawn at the very screen edge (mobile devices).
+		This CSS variable can be used for styling such special case. */
+	@mixin upto-s {
 		--CommentTreeBranch-leftOffsetRatio--firstLevelOfNesting: 0.25;
 	}
+	/* Add the same left padding to first-level comment tree branch
+	   in `InReplyToModal` because it doesn't have any side padding. */
+	.InReplyToModal {
+		--CommentTreeBranch-leftOffsetRatio--firstLevelOfNesting: 0.25;
+	}
+}
+
+@mixin upto-s {
 	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
 		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
 		 because it's default value is defined on `:root`. */
@@ -375,11 +383,11 @@
 		}
 
 		.Comment--thread {
-			/* Don't stretch short comments to full width. */
-			display: inline-flex;
-
+			/* Don't stretch short comments to full width on thread page. */
+			/* Only stretch them to full width when their replies are expanded. */
+			/* Also stretch them to full width in `InReplyToModal` because there's no
+			   spacing between adjacent comments. */
 			&.CommentTree-comment--expanded {
-				display: flex;
 				width: 100%;
 			}
 		}

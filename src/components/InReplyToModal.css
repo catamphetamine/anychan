@@ -10,18 +10,22 @@
 	--InReplyToModalHeader-justifyContent--mobile: flex-end;
 	--InReplyToModalHeader-justifyContent--desktop: flex-end;
 	--InReplyToModalCloseIcon-width: 0.65em;
+
 	/* `.InReplyToModalHeader` is `position: abosolute` on large screens. */
 	position: relative;
 	width: 100%;
+
 	/* `max-width` is also set on `.Comment` depending on whether
 	   the "main" comment has PostThumbnail and whether it's expanded. */
 	/*max-width: var(--CommentText-maxWidth);*/
 	/* `--Content-maxWidth` is redefined on thread and channel page
 	   to also include PostThumbnail-related dimensions. */
 	max-width: var(--Content-maxWidth);
+
 	.rrui__modal__content {
 		margin: 0;
 	}
+
 	/* `border-top` is added to `.CommentTree-toggler`
 		 for cases when deeply nested replies are expanded
 		 so that the higher-level expanded reply has an illusion
@@ -29,17 +33,11 @@
 	.CommentTree-toggler {
 		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	}
+
 	.Comment {
-		/* `--Content-maxWidth` is redefined on thread and channel page
-		   to also include PostThumbnail-related dimensions. */
-		/* `!important` overrides `max-width: none` rule set in
-		   `.Comment--thread.CommentTree-comment--expanded.CommentTree-comment--topLevel`. */
-		/*max-width: var(--Content-maxWidth) !important;*/
-		/* `!important` overrides `margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width))`. */
-		/*margin-left: 0 !important;*/
-		/*> .Comment-thumbnail {*/
-    	/*padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));*/
-    /*}*/
+		/* Stretch comments to full width in `InReplyToModal`
+		   because there's no spacing between adjacent comments. */
+		width: 100%;
 	}
 }
 
@@ -60,6 +58,7 @@
 	/*margin-bottom: calc(var(--InReplyToModalBack-marginTop) - var(--Post-paddingBottom));*/
 	margin-left: var(--Post-paddingLeft);
 	margin-right: var(--Post-paddingLeft);
+
 	@mixin m-plus {
 		justify-content: var(--InReplyToModalHeader-justifyContent--desktop);
 		/* It's not `width: 100%` so that it doesn't cover the post header links and buttons. */

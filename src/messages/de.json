@@ -24,6 +24,9 @@
 		"allExpired": "Threads abgelaufen",
 		"showExpired": "Zeigen abgelaufen"
 	},
+	"sources": {
+		"title": "Quellen"
+	},
 	"settings": {
 		"language": {
 			"title": "Sprache",

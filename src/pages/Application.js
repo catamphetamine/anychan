@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 // import { Loading } from 'react-pages'
@@ -48,15 +48,21 @@ import isChannelPage from '../utility/routes/isChannelPage.js'
 import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
 import getUserData from '../UserData.js'
+import getUserSettings from '../UserSettings.js'
 
 import {
 	startPollingAnnouncement,
 	markAnnouncementAsRead as _markAnnouncementAsRead
 } from '../utility/announcement.js'
 
+import { getProvider } from '../provider.js'
 import getBasePath, { addBasePath } from '../utility/getBasePath.js'
 import { onDispatchReady } from '../utility/dispatch.js'
 import configuration from '../configuration.js'
+
+import { SourceContext } from '../hooks/useSource.js'
+import { SettingsContext } from '../hooks/useSettings.js'
+import { UserDataContext } from '../hooks/useUserData.js'
 
 import './Application.css'
 import './MainContentWithSidebarLayout.css'
@@ -70,7 +76,91 @@ import '../components/PageLoading.css'
 // it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-pages/components/LoadingIndicator.css'
 
-export default function App({
+export default function Application({ children }) {
+	const userData = useMemo(() => {
+		return getUserData()
+	}, [])
+
+	const settings = useMemo(() => {
+		return getUserSettings()
+	}, [])
+
+	const source = useMemo(() => {
+		return getProvider()
+	}, [])
+
+	return (
+		<SourceContext.Provider value={source}>
+			<UserDataContext.Provider value={userData}>
+				<SettingsContext.Provider value={settings}>
+					<App>
+						{children}
+					</App>
+				</SettingsContext.Provider>
+			</UserDataContext.Provider>
+		</SourceContext.Provider>
+	)
+}
+
+Application.propTypes = {
+	children: PropTypes.node
+}
+
+Application.load = {
+	load: async ({ dispatch, getState, location }) => {
+		// Dispatch delayed actions.
+		// For example, `dispatch(autoDarkMode())`.
+		onDispatchReady(dispatch)
+		// Fill in user's preferences.
+		dispatch(getSettings())
+		dispatch(getFavoriteChannels())
+		dispatch(getSubscribedThreads())
+		// Detect offline mode.
+		if (location.query.offline) {
+			return dispatch(setOfflineMode(true))
+		}
+		// Get the list of channels.
+		try {
+			await dispatch(getChannels())
+		} catch (error) {
+			let errorPageUrl
+			// `503 Service Unavailable`
+			// `502 Bad Gateway`
+			// "Request has been terminated" error is thrown by a web browser
+			// when it can't connect to the server (doesn't have a `status`).
+			if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
+				errorPageUrl = '/offline'
+			} else if (error.status === 404) {
+				errorPageUrl = '/not-found'
+			} else {
+				errorPageUrl = '/error'
+			}
+			if (errorPageUrl) {
+				console.error(error)
+				window.location = `${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(getBasePath() + location.pathname + location.search + location.hash)}`
+				// Don't render the page because it would throw.
+				// (the app assumes the list of channels is available).
+				// (maybe javascript won't even execute this line,
+				//  because it's after a `window.location` redirect,
+				//  or maybe it will, so just in case).
+				await new Promise(resolve => {})
+			} else {
+				throw error
+			}
+		}
+		// Show announcements.
+		if (process.env.NODE_ENV === 'production') {
+			startPollingAnnouncement(
+				configuration.announcementUrl || addBasePath('/announcement.json'),
+				announcement => dispatch(setAnnouncement(announcement)),
+				configuration.announcementPollInterval
+			)
+		}
+	},
+	blocking: true
+}
+
+function App({
 	children
 }) {
 	const dispatch = useDispatch()
@@ -238,67 +328,7 @@ export default function App({
 }
 
 App.propTypes = {
-	// theme: PropTypes.string.isRequired,
-	// route: PropTypes.object.isRequired,
-	// announcement: announcementPropType,
-	// cookiesAccepted: PropTypes.bool.isRequired,
-	// offline: PropTypes.bool,
-	// dispatch: PropTypes.func.isRequired,
 	children: PropTypes.node
-}
-
-App.load = {
-	load: async ({ dispatch, getState, location }) => {
-		// Dispatch delayed actions.
-		// For example, `dispatch(autoDarkMode())`.
-		onDispatchReady(dispatch)
-		// Fill in user's preferences.
-		dispatch(getSettings())
-		dispatch(getFavoriteChannels())
-		dispatch(getSubscribedThreads())
-		// Detect offline mode.
-		if (location.query.offline) {
-			return dispatch(setOfflineMode(true))
-		}
-		// Get the list of channels.
-		try {
-			await dispatch(getChannels())
-		} catch (error) {
-			let errorPageUrl
-			// `503 Service Unavailable`
-			// `502 Bad Gateway`
-			// "Request has been terminated" error is thrown by a web browser
-			// when it can't connect to the server (doesn't have a `status`).
-			if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
-				errorPageUrl = '/offline'
-			} else if (error.status === 404) {
-				errorPageUrl = '/not-found'
-			} else {
-				errorPageUrl = '/error'
-			}
-			if (errorPageUrl) {
-				console.error(error)
-				window.location = `${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(getBasePath() + location.pathname + location.search + location.hash)}`
-				// Don't render the page because it would throw.
-				// (the app assumes the list of channels is available).
-				// (maybe javascript won't even execute this line,
-				//  because it's after a `window.location` redirect,
-				//  or maybe it will, so just in case).
-				await new Promise(resolve => {})
-			} else {
-				throw error
-			}
-		}
-		// Show announcements.
-		if (process.env.NODE_ENV === 'production') {
-			startPollingAnnouncement(
-				configuration.announcementUrl || addBasePath('/announcement.json'),
-				announcement => dispatch(setAnnouncement(announcement)),
-				configuration.announcementPollInterval
-			)
-		}
-	},
-	blocking: true
 }
 
 function setBodyBackground(route) {

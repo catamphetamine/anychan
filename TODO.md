@@ -8,7 +8,20 @@
 
 
 
-useProvider()
+Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads.
+
+"auto-update" при появлении новых комментариев, цитаты в них, которые ссылаются на "previous comments", не распаршены: <a href ... >...</a>
+
+Мб вернуть иконку "птичку" back button.
+
+
+
+
+
+
+Provider -> Source
+
+useSource()
 useSettings()
 useUserData()
 
@@ -17,10 +30,11 @@ useUserData()
 use `showErrorMessage={false}` + setError()
 
 
+
 When refreshing `/a/` page:
 > Item index 0 height changed unexpectedly: it was 309.4375 before, but now it is 251.328125 .
 
-The first thread is: Посоветуй аниме тред
+(when the first thread is: Посоветуй аниме тред)
 
 
 * Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.

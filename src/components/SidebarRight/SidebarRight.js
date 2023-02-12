@@ -10,6 +10,7 @@ import AvailableChannelsSidebarSection from '../SidebarSections/AvailableChannel
 import FavoriteChannelsSidebarSection from '../SidebarSections/FavoriteChannelsSidebarSection.js'
 import SubscribedThreadsSidebarSection from '../SidebarSections/SubscribedThreadsSidebarSection.js'
 import ProviderLogoAndToolbarSidebarSection from '../SidebarSections/ProviderLogoAndToolbarSidebarSection.js'
+import SourcesSidebarSection from '../SidebarSections/SourcesSidebarSection.js'
 
 import './SidebarRight.css'
 
@@ -25,6 +26,7 @@ export default function SidebarRight() {
 			<SubscribedThreadsSidebarSection/>
 			<FavoriteChannelsSidebarSection/>
 			<AvailableChannelsSidebarSection/>
+			<SourcesSidebarSection/>
 		</Sidebar>
 	)
 }

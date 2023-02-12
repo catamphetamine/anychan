@@ -24,6 +24,9 @@
 		"allExpired": "все треды истекли",
 		"showExpired": "Показать истёкшие"
 	},
+	"sources": {
+		"title": "Источники"
+	},
 	"settings": {
 		"language": {
 			"title": "Язык",
