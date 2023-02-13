@@ -197,12 +197,20 @@ function App({
 
 	const paddingLeft = useRef()
 	const paddingRight = useRef()
+	const sidebarLeft = useRef()
+
 	useOnWindowResize(() => {
 		// These CSS variables can be used to expand an element on a page
 		// to the full width of the page minus sidebar width.
 		// For example, a "branding" top banner (like on Twitter or Facebook).
 		document.body.style.setProperty('--Webpage-paddingLeft-width', paddingLeft.current.getBoundingClientRect().width + 'px')
 		document.body.style.setProperty('--Webpage-paddingRight-width', paddingRight.current.getBoundingClientRect().width + 'px')
+
+		/* `--PostThumbnail-maxWidth` CSS variable is updated via javascript on a thread page. */
+		/* That change does not trigger a re-run of this hook because there's no window resize event. */
+		/* Because of that, `--SidebarLeft-width` CSS variable is also updated on a thread page when
+		   `--PostThumbnail-maxWidth` CSS variable is updated. */
+		document.body.style.setProperty('--SidebarLeft-width', sidebarLeft.current.getBoundingClientRect().width + 'px')
 	}, { alsoAfterMount: true })
 
 	const onHideAnnouncement = useCallback(() => {
@@ -250,7 +258,7 @@ function App({
 
 				<SideNavMenuButtons/>
 
-				<SidebarLeft/>
+				<SidebarLeft ref={sidebarLeft}/>
 
 				<div
 					ref={paddingLeft}

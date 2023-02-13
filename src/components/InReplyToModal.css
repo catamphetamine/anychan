@@ -3,6 +3,7 @@
 .InReplyToModal {
 	--CommentSeparator-width: 1px;
 	--CommentSeparator-width--outline: 0px;
+
 	/*--InReplyToModalHeader-paddingTop: var(--unit);*/
 	--InReplyToModalBackIcon-width: 0.75em;
 	--InReplyToModalBackIcon-marginRight: 0.2em;
@@ -77,7 +78,7 @@
 .InReplyToModalClose {
 	display: flex;
 	align-items: center;
-	font-weight: var(--Post-fontWeight--secondary);
+	/*font-weight: var(--Post-fontWeight--secondary);*/
 }
 
 .InReplyToModalBackIcon {
@@ -88,8 +89,8 @@
 
 .InReplyToModalBack,
 .InReplyToModalClose {
-	/*color: var(--Clickable-color--text);*/
-	color: var(--Content-color-500);
+	color: var(--Clickable-color--text);
+	/*color: var(--Content-color-500);*/
 	.InReplyToModalBackText,
 	.InReplyToModalCloseText {
 		border-top: 1px solid transparent;
@@ -114,10 +115,12 @@
 	margin-right: 0.4em;
 }
 
+/*
 .InReplyToModalCloseText,
 .InReplyToModalBackText {
 	font-size: 80%;
 }
+*/
 
 .InReplyToModalBackCounter {
 	margin-right: 0.25em;
@@ -180,4 +183,18 @@
 		min-width: calc(100vw - 2 * var(--unit));
 		max-width: calc(100vw - 2 * var(--unit));
 	}
+}
+
+.InReplyToModal-actions {
+	display: flex;
+	justify-content: flex-end;
+
+	padding-left: var(--Post-paddingRight);
+	padding-right: var(--Post-paddingRight);
+	padding-top: var(--Post-paddingBottom);
+	padding-bottom: var(--Post-paddingBottom);
+}
+
+.InReplyToModalBack {
+	margin-right: var(--Post-paddingRight);
 }

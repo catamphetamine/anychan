@@ -4681,10 +4681,10 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.18:
-  version "0.6.18"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.18.tgz#aa5a246044c61a0c75ce090748378b77100d9ac9"
-  integrity sha512-4TPubw4OnZAEBbohGK6vOwbNCc8Tu6ntKojvpjGDzGKskTpmEnM/s0k9ZOBXiRC9n4nxenvggz3FK+pflofu5Q==
+imageboard@^0.6.19:
+  version "0.6.19"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.19.tgz#15028ad14f4c4024370782a29530120acf21e40a"
+  integrity sha512-SQkcCZJEoLanzajWxuMW6gwQsrddu3pcr1X/5vquLoX+GpFZeQwmnOJYw8fUhqe7Uuk3+KySEYR0odpc6XdFCA==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     social-components "^0.3.5"

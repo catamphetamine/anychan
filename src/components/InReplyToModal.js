@@ -100,6 +100,7 @@ export default function InReplyToModal({
 			overlayClassName={InReplyToModalOverlayClassName}>
 
 			<Modal.Content>
+				{/*
 				<div className="InReplyToModalHeader">
 					<InReplyToModalBack
 						history={history}
@@ -111,6 +112,7 @@ export default function InReplyToModal({
 						onClose={onClose}
 					/>
 				</div>
+				*/}
 
 				{/*
 				Added `key` property so that the `<CommentTree/>` resets any possible
@@ -127,6 +129,22 @@ export default function InReplyToModal({
 					postDateLinkNavigateToPostUrlOnClick={false}
 					getCommentById={getCommentById}
 				/>
+
+				<div className="InReplyToModal-actions">
+					<InReplyToModalBack
+						history={history}
+						onClose={onClose}
+						onGoBack={onGoBack}
+					/>
+
+					<Button
+						className="InReplyToModalClose"
+						onClick={onClose}>
+						<span className="InReplyToModalCloseText">
+							{messages.actions.close}
+						</span>
+					</Button>
+				</div>
 			</Modal.Content>
 		</Modal>
 	)
@@ -165,9 +183,9 @@ function InReplyToModalBack({
 			className="InReplyToModalBack">
 			<LeftArrow className="InReplyToModalBackIcon"/>
 			<span className="InReplyToModalBackText">
-				{!isInitial &&
+				{!isInitial && history.length > 3 &&
 					<span className="InReplyToModalBackCounter">
-						{history.length - 1}
+						{history.length - 2}
 					</span>
 				}
 				{messages.actions.back}

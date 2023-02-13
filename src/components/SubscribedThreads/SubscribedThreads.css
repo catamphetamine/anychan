@@ -10,8 +10,9 @@
 .SubscribedThreads-showExpired {
 	margin-left: var(--unit);
 	margin-right: var(--unit);
-	text-transform: lowercase;
-	line-height: var(--List-lineHeight);
+	/*text-transform: lowercase;*/
+	/*line-height: var(--List-lineHeight);*/
+	min-height: var(--List-lineHeight);
 }
 
 .SubscribedThreads-showMoreLessContainer {

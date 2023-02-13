@@ -6,14 +6,17 @@ import SimpleBar from 'simplebar-react'
 
 import './Sidebar.css'
 
-export default function Sidebar({
+const Sidebar = React.forwardRef(({
 	StickyHeader,
 	className,
 	children,
 	...rest
-}) {
+}, ref) => {
 	return (
-		<section {...rest} className={classNames('Sidebar', className)}>
+		<section
+			ref={ref}
+			{...rest}
+			className={classNames('Sidebar', className)}>
 			{StickyHeader &&
 				<StickyHeader/>
 			}
@@ -22,10 +25,12 @@ export default function Sidebar({
 			</SimpleBar>
 		</section>
 	)
-}
+})
 
 Sidebar.propTypes = {
 	className: PropTypes.string,
 	StickyHeader: PropTypes.elementType,
 	children: PropTypes.node.isRequired
 }
+
+export default Sidebar

@@ -9,12 +9,15 @@ import ChannelThreadsSidebarSection from '../SidebarSections/ChannelThreadsSideb
 
 import './SidebarLeft.css'
 
-export default function SidebarLeft() {
+const SidebarLeft = React.forwardRef((props, ref) => {
 	return (
 		<Sidebar
+			ref={ref}
 			StickyHeader={ChannelThreadsSidebarStickyHeader}
 			className="SidebarLeft">
 			<ChannelThreadsSidebarSection/>
 		</Sidebar>
 	)
-}
+})
+
+export default SidebarLeft

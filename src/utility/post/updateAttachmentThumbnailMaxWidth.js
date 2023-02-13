@@ -1,6 +1,6 @@
 import { getPostThumbnailSize } from 'social-components/utility/post/getPostThumbnailAttachment.js'
 
-const CSS_VARIABLE_NAME = '--PostThumbnail-maxWidth'
+const POST_THUMBNAIL_MAX_WIDTH_CSS_VARIABLE_NAME = '--PostThumbnail-maxWidth'
 
 /**
  * Updates the current `attachmentThumbnailMaxWidth` from the new comments.
@@ -31,10 +31,16 @@ export default function updateAttachmentThumbnailMaxWidth(posts, {
 		if (attachmentThumbnailMaxWidth) {
 			// Only update `--PostThumbnail-maxWidth` CSS variable if it hasn't been set
 			// or if the new value is bigger than the current one.
-			const prevAttachmentThumbnailMaxWidth = parseInt(document.body.style.getPropertyValue(CSS_VARIABLE_NAME))
+			const prevAttachmentThumbnailMaxWidth = parseInt(document.body.style.getPropertyValue(POST_THUMBNAIL_MAX_WIDTH_CSS_VARIABLE_NAME))
 			if (isNaN(prevAttachmentThumbnailMaxWidth) || prevAttachmentThumbnailMaxWidth < attachmentThumbnailMaxWidth) {
 				// Sets it on `<body/>` because there's a default value set on `<html/>`.
-				document.body.style.setProperty(CSS_VARIABLE_NAME, attachmentThumbnailMaxWidth + 'px')
+				document.body.style.setProperty(POST_THUMBNAIL_MAX_WIDTH_CSS_VARIABLE_NAME, attachmentThumbnailMaxWidth + 'px')
+				/* `--PostThumbnail-maxWidth` CSS variable influences the main "flex" layout proportions. */
+				/* Because of that, `--SidebarLeft-width` CSS variable is also updated here. */
+				const sidebarLeftElement = document.querySelector('.SidebarLeft')
+				if (sidebarLeftElement) {
+					document.body.style.setProperty('--SidebarLeft-width', sidebarLeftElement.getBoundingClientRect().width + 'px')
+				}
 			}
 			return attachmentThumbnailMaxWidth
 		}

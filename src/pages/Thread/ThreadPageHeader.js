@@ -22,7 +22,7 @@ import {
 	channel as channelType
 } from '../../PropTypes.js'
 
-import LeftArrow from 'frontend-lib/icons/left-arrow-minimal.svg'
+import LeftArrow from 'frontend-lib/icons/left-arrow-minimal-thin.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'

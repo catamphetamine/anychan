@@ -74,15 +74,12 @@
 			z-index: 0;
 
 			.BackButtonIcon {
-				display: none;
-
-				/*
+				/*display: none;*/
 				position: fixed;
 				bottom: calc(var(--unit) * 1.1);
-				left: var(--BackButtonIcon-left);
+				left: calc(var(--SidebarLeft-width) + var(--BackButtonIcon-left));
 				margin: var(--BackButtonIcon-padding);
 				opacity: 0.75;
-				*/
 			}
 		}
 	}

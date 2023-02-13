@@ -90,7 +90,7 @@ export default function SubscribedThreads({ edit, maxListLength }) {
 						ref={showMoreLessButton}
 						onClick={viewMode === 'top' ? onShowMoreThreads : onShowLessThreads}
 						className="SubscribedThreads-showMoreLess">
-						{viewMode === 'top' ? messages.actions.showMore : messages.actions.showLess}
+						{viewMode === 'top' ? messages.subscribedThreads.showMore : messages.subscribedThreads.showLess}
 					</TextButton>
 				</div>
 			}

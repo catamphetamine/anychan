@@ -22,7 +22,9 @@
 		"unsubscribeFromThread": "Unsubscribe from thread",
 		"empty": "No thread subscriptions",
 		"allExpired": "threads expired",
-		"showExpired": "Show expired"
+		"showExpired": "show expired",
+		"showMore": "show more",
+		"showLess": "show less"
 	},
 	"sources": {
 		"title": "Sources"

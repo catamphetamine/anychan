@@ -22,7 +22,9 @@
 		"unsubscribeFromThread": "Отписаться от треда",
 		"empty": "Нет подписок на треды",
 		"allExpired": "все треды истекли",
-		"showExpired": "Показать истёкшие"
+		"showExpired": "показать истёкшие",
+		"showMore": "показать ещё",
+		"showLess": "свернуть"
 	},
 	"sources": {
 		"title": "Источники"

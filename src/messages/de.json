@@ -22,7 +22,9 @@
 		"unsubscribeFromThread": "Thread abbestellen",
 		"empty": "Keine Thread-Abonnements",
 		"allExpired": "Threads abgelaufen",
-		"showExpired": "Zeigen abgelaufen"
+		"showExpired": "zeigen abgelaufen",
+		"showMore": "zeig mehr",
+		"showLess": "zeige weniger"
 	},
 	"sources": {
 		"title": "Quellen"

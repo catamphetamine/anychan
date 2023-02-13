@@ -410,6 +410,10 @@ main {
   color: var(--Document-color);
 }
 
+.Demo:first-child {
+  margin-top: 0;
+}
+
 .Demo-icon {
   width: 0.9em;
   height: 0.9em;

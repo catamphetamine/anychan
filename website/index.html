@@ -100,8 +100,14 @@
 					</strong>
 					is an
 					<a target="_blank" href="https://github.com/catamphetamine/anychan">open-source</a>
-					web client for popular imageboards, and alike.
+					web client for online discussion platforms like imageboards.
 				</p>
+			</section>
+
+			<section class="Section Container">
+				<h1 class="Section-heading">
+					Demos
+				</h1>
 
 				<div class="Demos">
 					<a target="_blank" href="/4chan" class="Demo">
@@ -227,13 +233,13 @@
 					Operation
 				</h2>
 				<p class="Section-text">
-					<strong class="AnychanLabel">anychan</strong> is purely a frontend application and is <a target="_blank" href="https://gitlab.com/catamphetamine/anychan/-/releases">distributed</a> in the form of a zip archive, the contents of which should be hosted somewhere. <a target="_blank" href="https://gitlab.com/catamphetamine/anychan/tree/master/providers">Each</a> supported social platform is configured with a list of domain names, so <strong class="AnychanLabel">anychan</strong> automatically detects when it's hosted on the original social platform domain under a <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#configuration">configurable</a> path, and from there no additional setup is required.
+					<strong class="AnychanLabel">anychan</strong> is purely a frontend application and runs in a web browser.
 				</p>
 				<p class="Section-text">
-					<strong class="AnychanLabel">anychan</strong> could also be run on any other domain, in which case it would be running in "demo" mode, like on this website, and would require a <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#proxy">proxy</a> in order to function.
+					Since it runs in a web browser, it's subject to <a target="_blank" href="developer.mozilla.org/docs/Web/HTTP/CORS">CORS</a> restrictions when hosted at a 3rd-party domain, so it requires a <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#proxy">proxy</a> in order to function when hosted at this demo website. A default proxy is provided for demo purposes.
 				</p>
 				<p class="Section-text">
-					In some future, <strong class="AnychanLabel">anychan</strong> could also be distributed as a standalone mobile/desktop application built using <a target="_blank" href="https://www.electronjs.org/">Electron</a>.
+					In some future, <strong class="AnychanLabel">anychan</strong> could also be distributed as a standalone mobile/desktop application built from a web application using <a target="_blank" href="https://www.electronjs.org/">Electron</a>.
 				</p>
 			</section>
 
@@ -242,7 +248,25 @@
 					Feature Requests / Bug Reports
 				</h2>
 				<p class="Section-text">
-					Feature requests and bug reports can go in the <a target="_blank" href="https://github.com/catamphetamine/anychan/issues">Issues</a> of the GitHub repo. The main repo for the project is still on <a target="_blank" href="https://gitlab.com/catamphetamine/anychan">GitLab</a> because GitHub is known to be a notoriously opressive ultra-liberal organization owned by Microsoft. They've <a target="_blank" href="https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3">banned</a> my user account before, erasing all my repos from their website, so they can't be trusted.
+					Feature requests and bug reports can be reported in the <a target="_blank" href="https://github.com/catamphetamine/anychan/issues">Issues</a> of the GitHub repo. The main repo for the project is still hosted on <a target="_blank" href="https://gitlab.com/catamphetamine/anychan">GitLab</a> because GitHub is known to be a notoriously opressive ultra-liberal organization owned by Microsoft. They've <a target="_blank" href="https://medium.com/@catamphetamine/how-github-blocked-me-and-all-my-libraries-c32c61f061d3">banned</a> my user account before, erasing all my repos from their website, so they can't be trusted.
+				</p>
+				<p class="Section-text">
+					Feature requests and bug reports can also be reported in <a target="_blank" href="https://t.me/anychan">Telegram</a>.
+				</p>
+			</section>
+
+			<section class="Section Container">
+				<h1 class="Section-heading">
+					Hosting
+				</h2>
+				<p class="Section-text">
+					<strong class="AnychanLabel">anychan</strong> is <a target="_blank" href="https://gitlab.com/catamphetamine/anychan/-/releases">distributed</a> in the form of a zip archive, the contents of which should be "statically" <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#hosting">hosted</a> somewhere.
+				</p>
+				<p class="Section-text">
+					It could also be hosted at the original social platform domain itself: such cases are detected automatically using a known list of domain names for <a target="_blank" href="https://gitlab.com/catamphetamine/anychan/tree/master/providers">each</a> supported social platform.
+				</p>
+				<p class="Section-text">
+					When hosted at the original social platform domain, it doesn't require neither setting up the default "provider", nor setting up a <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#proxy">proxy</a>. When hosted at any other domain, it does require setting up the default "provider", as well as setting up a <a target="_blank" href="https://gitlab.com/catamphetamine/anychan#proxy">proxy</a> in order to function.
 				</p>
 			</section>
 
@@ -302,6 +326,7 @@
 					·
 				</span>
 
+				<!--
 				<a target="_blank" href="https://twitter.com/AnychanOfficial">
 					<svg class="ServiceIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 					  <path color="#00AAEC" fill="currentColor" data-stroke="true" fill-rule="evenodd" clip-rule="evenodd" d="M128 23.294a51.28 51.28 0 0 1-15.079 4.237c5.424-3.328 9.587-8.606 11.548-14.892a51.718 51.718 0 0 1-16.687 6.526c-4.778-5.231-11.608-8.498-19.166-8.498-14.493 0-26.251 12.057-26.251 26.927 0 2.111.225 4.16.676 6.133-21.824-1.126-41.17-11.835-54.131-28.145a27.422 27.422 0 0 0-3.554 13.552c0 9.338 4.636 17.581 11.683 22.412-4.297-.131-8.355-1.356-11.901-3.359v.331c0 13.051 9.053 23.937 21.074 26.403-2.201.632-4.523.948-6.92.948-1.69 0-3.343-.162-4.944-.478 3.343 10.694 13.035 18.483 24.53 18.691-8.986 7.227-20.315 11.533-32.614 11.533-2.119 0-4.215-.123-6.266-.37 11.623 7.627 25.432 12.088 40.255 12.088 48.309 0 74.717-41.026 74.717-76.612a89.39 89.39 0 0 0-.068-3.49A53.862 53.862 0 0 0 128 23.294"/>
@@ -310,6 +335,7 @@
 				<span class="Footer-separator">
 					·
 				</span>
+				-->
 
 				<a target="_blank" href="https://t.me/anychan">
 					<svg class="ServiceIcon" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
