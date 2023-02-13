@@ -14,7 +14,7 @@
 
 	/* `.InReplyToModalHeader` is `position: abosolute` on large screens. */
 	position: relative;
-	width: 100%;
+	width: var(--Content-maxWidth);
 
 	/* `max-width` is also set on `.Comment` depending on whether
 	   the "main" comment has PostThumbnail and whether it's expanded. */
