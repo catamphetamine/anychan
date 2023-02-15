@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<style>
+			:root {
+				--Document-backgroundColor: white;
+
+				--BackgroundPattern-url: url('./background-pattern.svg');
+				--BackgroundPattern-size: 35%;
+				--BackgroundPattern-blendMode: overlay;
+				--BackgroundPattern-filter: initial;
+
+				/* https://uigradients.com/#PaleWood */
+				--BackgroundGradient-1: hsl(34deg 53% 66%);
+				--BackgroundGradient-2: hsl(35deg 49% 72%);
+				--BackgroundPattern-opacity: 0.35;
+
+				/* https://uigradients.com/#Copper */
+				--BackgroundGradient-1: hsl(11deg 21% 64%);
+				--BackgroundGradient-2: hsl(9deg 16% 50%);
+				--BackgroundPattern-opacity: 0.35;
+
+				/* https://uigradients.com/#Ed'sSunsetGradient */
+				--BackgroundGradient-1: hsl(12deg 96% 74%);
+				--BackgroundGradient-2: hsl(26deg 98% 74%);
+				--BackgroundPattern-opacity: 0.36;
+
+				--BackgroundGradient-blendMode: initial;
+			}
+
+			body {
+				background-color: var(--Document-backgroundColor);
+				margin: 0;
+			}
+
+			#gradient {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: linear-gradient(to right, var(--BackgroundGradient-1), var(--BackgroundGradient-2));
+				mix-blend-mode: var(--BackgroundGradient-blendMode);
+			}
+
+			#pattern {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: var(--BackgroundPattern-url);
+				background-repeat: repeat;
+				background-size: var(--BackgroundPattern-size), cover;
+				mix-blend-mode: var(--BackgroundPattern-blendMode);
+				opacity: var(--BackgroundPattern-opacity);
+				filter: var(--BackgroundPattern-filter);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="gradient">
+		</div>
+		<div id="pattern">
+		</div>
+	</body>
+</html>

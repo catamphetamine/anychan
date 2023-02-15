@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<style>
+			:root {
+				--Document-backgroundColor: black;
+
+				--BackgroundPattern-url: url('./background-pattern.svg');
+				--BackgroundPattern-size: 35%;
+				--BackgroundPattern-blendMode: initial;
+				--BackgroundPattern-filter: invert(100%);
+
+				/* https://uigradients.com/#Flare */
+				--BackgroundGradient-1: hsl(6deg 70% 50%);
+				--BackgroundGradient-2: hsl(41deg 82% 43%);
+				--BackgroundPattern-opacity: 0.33;
+
+				/* https://uigradients.com/#BurningOrange */
+				--BackgroundGradient-1: hsl(346deg 100% 63%);
+				--BackgroundGradient-2: hsl(9deg 100% 58%);
+				--BackgroundPattern-opacity: 0.3;
+
+				/* Orange to Purple */
+				--BackgroundGradient-1: hsl(19deg 57% 17%);
+				--BackgroundGradient-2: hsl(284deg 46% 21%);
+				--BackgroundPattern-opacity: 1;
+
+
+				--BackgroundGradient-blendMode: multiply;
+			}
+
+			body {
+				background-color: var(--Document-backgroundColor);
+				margin: 0;
+			}
+
+			#gradient {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: linear-gradient(to right, var(--BackgroundGradient-1), var(--BackgroundGradient-2));
+				mix-blend-mode: var(--BackgroundGradient-blendMode);
+			}
+
+			#pattern {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: -1;
+				background-image: url('./background-pattern.svg');
+				background-repeat: repeat;
+				background-size: var(--BackgroundPattern-size), cover;
+				mix-blend-mode: var(--BackgroundPattern-blendMode);
+				opacity: var(--BackgroundPattern-opacity);
+				filter: var(--BackgroundPattern-filter);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="gradient">
+		</div>
+		<div id="pattern">
+		</div>
+	</body>
+</html>

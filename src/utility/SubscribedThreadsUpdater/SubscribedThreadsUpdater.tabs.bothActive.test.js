@@ -158,14 +158,14 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			dispatch: dispatch1,
 			timer,
 			nextUpdateRandomizeInterval: 0,
-			createGetThreadAction: (channelId, threadId) => {
-				return {
+			getThreadStub: (channelId, threadId) => {
+				return dispatch({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
-				}
+				})
 			}
 		})
 
@@ -176,14 +176,14 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			dispatch: dispatch2,
 			timer,
 			nextUpdateRandomizeInterval: 0,
-			createGetThreadAction: (channelId, threadId) => {
-				return {
+			getThreadStub: (channelId, threadId) => {
+				return dispatch({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
-				}
+				})
 			}
 		})
 

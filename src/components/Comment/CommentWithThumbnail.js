@@ -55,7 +55,7 @@ export default function CommentWithThumbnail({
 
 	const [attachmentsChangeTrigger, setAttachmentsChangeTrigger] = useState()
 
-	const onAttachmentsDidChange = useCallback(() => {
+	const reRenderAttachments = useCallback(() => {
 		setAttachmentsChangeTrigger({})
 	}, [])
 
@@ -113,7 +113,7 @@ export default function CommentWithThumbnail({
 				showingReplies={showingReplies}
 				parentComment={parentComment}
 				onPostUrlClick={onPostUrlClick}
-				onAttachmentsDidChange={onAttachmentsDidChange}
+				reRenderAttachments={reRenderAttachments}
 				commentClassName={commentClassName}
 			/>
 		)

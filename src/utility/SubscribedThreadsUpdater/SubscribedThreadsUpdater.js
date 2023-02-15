@@ -38,8 +38,8 @@ export default class SubscribedThreadsUpdater {
 		userData = getUserData(),
 		storage = storage_,
 		dispatch,
-		// `createGetThreadAction` parameter is currently only used in tests.
-		createGetThreadAction,
+		// `getThreadStub` parameter is currently only used in tests.
+		getThreadStub,
 		// `createGetThreadParameters` parameter is set in `./src/utility/onApplicationStarted.js`.
 		createGetThreadParameters = () => ({}),
 		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL
@@ -52,7 +52,7 @@ export default class SubscribedThreadsUpdater {
 		this.timer = timer
 		this.userData = userData
 		this.dispatch = dispatch
-		this.createGetThreadAction = createGetThreadAction
+		this.getThreadStub = getThreadStub
 		this.createGetThreadParameters = createGetThreadParameters
 		this.nextUpdateRandomizeInterval = nextUpdateRandomizeInterval
 
@@ -482,7 +482,10 @@ export default class SubscribedThreadsUpdater {
 		// Calls `onSubscribedThreadFetched()` internally after the thread's data
 		// has been fetched.
 		// const subscribedThreadStats = this.userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
-		await getThread(subscribedThread.channel.id, subscribedThread.id, {
+		await getThread({
+			channelId: subscribedThread.channel.id,
+			threadId: subscribedThread.id
+		}, {
 			// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
 			// though it could potentially be used in some hypothetical future.
 			// It would enable fetching only the "incremental" update
@@ -492,9 +495,10 @@ export default class SubscribedThreadsUpdater {
 			...this.createGetThreadParameters()
 		}, {
 			dispatch: this.dispatch,
-			createGetThreadAction: this.createGetThreadAction,
 			userData: this.userData,
-			timer: this.timer
+			timer: this.timer,
+			action: this.getThreadStub ? 'getThreadStub' : 'getThread',
+			getThread: this.getThreadStub
 		})
 	}
 }

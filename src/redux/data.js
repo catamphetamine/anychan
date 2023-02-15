@@ -81,22 +81,21 @@ export const getThread = redux.action(
 		censoredWords,
 		grammarCorrection,
 		locale,
-		userData = getUserData()
+		userData
 	}) => async http => {
-		return await callGetThreadApi(
+		return await _getThread({
 			channelId,
 			threadId,
-			{
+			...{
 				archived,
 				censoredWords,
 				grammarCorrection,
 				locale
 			},
-			{
-				http,
-				userData
-			}
-		)
+			messages: getMessages(locale),
+			http,
+			userData
+		})
 	},
 	(state, thread) => {
 		// Get the current `channel`.
@@ -128,12 +127,12 @@ export const refreshThread = redux.action(
 		censoredWords,
 		grammarCorrection,
 		locale,
-		userData = getUserData()
+		userData
 	}) => async http => {
-		const updatedThread = await callGetThreadApi(
-			thread.channelId,
-			thread.id,
-			{
+		const updatedThread = await _getThread({
+			channelId: thread.channelId,
+			threadId: thread.id,
+			...{
 				// `threadBeforeRefresh` feature is not currently used, but `imageboard` library
 				// still supports using the "-tail" data URL when fetching thread comments
 				// on `4chan.org` to reduce the traffic a bit. See `4chan.org` API docs
@@ -144,11 +143,10 @@ export const refreshThread = redux.action(
 				grammarCorrection,
 				locale
 			},
-			{
-				http,
-				userData
-			}
-		)
+			messages: getMessages(locale),
+			http,
+			userData
+		})
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
 			thread: updatedThread,
@@ -509,18 +507,4 @@ function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}
 		autoUpdateUnreadCommentsCount,
 		autoUpdateUnreadRepliesCount
 	}
-}
-
-export async function callGetThreadApi(channelId, threadId, parameters, {
-	http,
-	userData
-}) {
-	return await _getThread({
-		channelId,
-		threadId,
-		http,
-		userData,
-		messages: getMessages(parameters.locale),
-		...parameters
-	})
 }

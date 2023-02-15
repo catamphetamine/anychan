@@ -902,6 +902,10 @@ This application uses [CSS Variables](https://caniuse.com/#feat=css-variables).
 | —  | 16+  | 31+     | 49+    | 36+   | 9.1+   | 9.3+       | 5+              |
 -->
 
+## Miscellaneous
+
+* [`anychan` art](https://gitlab.com/catamphetamine/anychan-art)
+
 ## License
 
 [MIT](LICENSE)

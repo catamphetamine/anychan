@@ -281,7 +281,7 @@ function CommentTitleContentAndAttachments({
 	postLinkQuoteMinimizedComponent,
 	postLinkQuoteExpandTimeout,
 	onPostLinkQuoteExpanded,
-	onAttachmentsDidChange,
+	reRenderAttachments,
 	url,
 	locale,
 	messages,
@@ -309,11 +309,14 @@ function CommentTitleContentAndAttachments({
 		// attachments' thumbnail sizes have been fixed
 		// then re-render the comment thumbnail which is
 		// rendered outside of `<PostContent/>`.
+		// The re-rendering of the comment thumbnail
+		// should be done because it now has the correct
+		// `width` and `height` properties of the picture.
 		if (comment.attachments) {
 			for (const attachment of comment.attachments) {
 				if (attachment.isLynxChanCatalogAttachmentsBug) {
-					if (onAttachmentsDidChange) {
-						onAttachmentsDidChange()
+					if (reRenderAttachments) {
+						reRenderAttachments()
 					}
 					break
 				}
@@ -328,7 +331,7 @@ function CommentTitleContentAndAttachments({
 		comment.content,
 		getCommentById,
 		renderComments,
-		onAttachmentsDidChange
+		reRenderAttachments
 	])
 
 	return (
@@ -391,5 +394,5 @@ CommentTitleContentAndAttachments.propTypes = {
 	renderComments: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	showOnlyFirstAttachmentThumbnail: PropTypes.bool,
-	onAttachmentsDidChange: PropTypes.func
+	reRenderAttachments: PropTypes.func
 }

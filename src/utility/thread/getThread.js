@@ -1,8 +1,11 @@
 import { getHttpClient } from 'react-pages'
 
-import { getThread as getThreadAction, callGetThreadApi } from '../../redux/data.js'
+import {
+	getThread as createGetThreadAction,
+	refreshThread as createRefreshThreadAction
+} from '../../redux/data.js'
 
-// import _getThread from '../../api/getThread.js'
+import _getThread from '../../api/getThread.js'
 
 import getMessages from '../../messages/index.js'
 
@@ -10,43 +13,64 @@ import onThreadFetched from './onThreadFetched.js'
 import onThreadExpired from './onThreadExpired.js'
 
 export default async function getThread(
-	channelId,
-	threadId,
-	parametersForGetThreadAction,
 	{
+		channelId,
+		threadId,
+		thread: existingThread
+	},
+	parameters,
+	{
+		action,
 		dispatch,
-		createGetThreadAction = getThreadAction,
+		getThreadStub,
+		updateThreadInState,
 		userData,
 		timer,
-		updateThreadInState
+		http
 	}
 ) {
 	try {
-		const parameters = parametersForGetThreadAction
-
 		let thread
-		if (updateThreadInState) {
-			thread = await dispatch(createGetThreadAction(
-				channelId,
-				threadId,
-				{
+		switch (action) {
+			case 'getThreadInState':
+				thread = await dispatch(createGetThreadAction(
+					channelId,
+					threadId,
+					{
+						...parameters,
+						userData
+					}
+				))
+				break
+			case 'refreshThreadInState':
+				thread = (await dispatch(createRefreshThreadAction(
+					existingThread,
+					{
+						...parameters,
+						userData
+					}
+				))).thread
+				break
+			case 'getThread':
+				thread = await _getThread({
+					channelId,
+					threadId,
 					...parameters,
-					userData
-				}
-			))
-		} else {
-			thread = await callGetThreadApi(
-				channelId,
-				threadId,
-				parameters,
-				{
+					messages: getMessages(parameters.locale),
 					http: getHttpClient(),
 					userData
-				}
-			)
+				})
+				break
+			case 'getThreadStub':
+				getThreadStub()
+				break
+			default:
+				throw new Error(`Unknown "action" parameter received in "getThread()" function: "${action}"`)
 		}
 
-		onThreadFetched(thread, { dispatch, userData, timer })
+		if (action !== 'getThreadStub') {
+			onThreadFetched(thread, { dispatch, userData, timer })
+		}
 
 		return thread
 	} catch (error) {

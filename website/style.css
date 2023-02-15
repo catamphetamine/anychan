@@ -22,12 +22,50 @@
   --Glitch-fontSize: 3vw;
 
   --Clickable-color: #ffa4fe;
+
+  --BackgroundPattern-url: url('./images/background-pattern.svg');
+  --BackgroundPattern-size: 50%;
+  --BackgroundPattern-blendMode: initial;
+  --BackgroundPattern-filter: invert(100%);
+
+  /* Orange to Purple */
+  --BackgroundGradient-1: hsl(19deg 57% 17%);
+  --BackgroundGradient-2: hsl(284deg 46% 21%);
+  --BackgroundPattern-opacity: 0.25;
+
+  --BackgroundGradient-blendMode: darken;
 }
 
 @media only screen and (min-width: 1024px) {
   :root {
-    --Document-fontSize: 18px;
+    --BackgroundPattern-size: 30%;
   }
+}
+
+#gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: linear-gradient(to right, var(--BackgroundGradient-1), var(--BackgroundGradient-2));
+  mix-blend-mode: var(--BackgroundGradient-blendMode);
+}
+
+#pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-image: var(--BackgroundPattern-url);
+  background-repeat: repeat;
+  background-size: var(--BackgroundPattern-size), cover;
+  mix-blend-mode: var(--BackgroundPattern-blendMode);
+  opacity: var(--BackgroundPattern-opacity);
+  filter: var(--BackgroundPattern-filter);
 }
 
 body {
@@ -73,6 +111,10 @@ a:hover {
   left: calc((100% - var(--HeroLogo-width)) / 2);
   top: 32%;
   animation: float 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.HeroLogoLink {
+  display: block;
 }
 
 .HeroLogoText {
@@ -143,6 +185,11 @@ a:hover {
   from {
     transform: translate3d(var(--GridCell-width), 0, 0) rotate3d(1, 0, 0, var(--Grid-angle));
   }
+}
+
+.GridMarginBottom {
+  height: calc(var(--GridCell-height) * 3);
+  background-image: linear-gradient(to bottom, var(--Document-backgroundColor) 0%, rgba(0,0,0,0));
 }
 
 .Heading {

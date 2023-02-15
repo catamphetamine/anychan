@@ -8,7 +8,7 @@
 
 
 
-Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads.
+Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads. Вместо этого ставить флаг `useSmallestSize`, а также обновлять "селективно" только конкретный subscribed thread в Redux state, а также добавить `cached` на коллекцию `subscribedThreadStats`.
 
 "auto-update" при появлении новых комментариев, цитаты в них, которые ссылаются на "previous comments", не распаршены: <a href ... >...</a>
 
@@ -36,27 +36,17 @@ useUserData()
 
 * favoriteChannels → channels
 
-use `showErrorMessage={false}` + setError()
+Post Form: `showErrorMessage={false}` + setError()
 
 
 
-When refreshing `/a/` page:
-> Item index 0 height changed unexpectedly: it was 309.4375 before, but now it is 251.328125 .
 
-(when the first thread is: Посоветуй аниме тред)
+При переключении режимов: `channelView` ещё не проставлен в Redux state (ещё "старый"), а треды загруженные — уже обновились в Redux state (уже "новые"). Делать так, чтобы там обновлялись эти две штуки одновременно.
 
 
-* Была ошибка при переключении режимов: при нажатии на режим "with latest comments" после режима "popular": [virtual-scroller] "onItemHeightChange()" has been called for item 0, but that item hasn't been rendered before. Ещё была с item: 2, 3, 4.
-
- Вероятно она возникает потому что `channelView` ещё не проставлен в Redux state (ещё "старый"), а треды загруженные — уже обновились в Redux state (уже "новые").
-
- Мб делать не `loadChannelPage()` а только часть её кода. Мб заменить `dispatch()` на просто `fetch()` + `setInState(threads)`.
-
- Maybe add some kind of a debug log for each call of `onHeightDidChange()`/`onRenderedContentDidChange()` in order to possibly find out what calls are those.
 
 
-Если теперь есть два сайдбара, то как их показывать на малых экранах? Всё в одном?
-
+При переключении "показать истёкшие"/"скрыть" в списке тредов в сайдбаре справа, скачет скролл, если список достаточно длинный.
 
 
 
@@ -118,6 +108,11 @@ Check the design of the InReplyToModal on all screens.
 Check the design of announcements on all screens.
 Check all imageboards.
 
+
+
+
+
+В настройках можно добавить настройку источника: чтобы прямо можно было запустить приложение без какого-то default provider, и настроить провайдера непосредственно в настройках, а потом уже обновить страницу. В таком случае может быть список настроенных провайдеров, и селектор выбора между ними как в настройках, так и в правом сайдбаре иконкой. Если провайдер не задан, то на "домашнем экране" можно показывать сообщение: "Вы не выбрали источник данных. [ссылка]Настроить[/ссылка]".
 
 
 
@@ -233,6 +228,10 @@ Migrate links to https://allchans.github.io/:
 
 
 
+When a subscribed thread is removed and then un-removed, it's position in the list changes because it gets re-appended to the list. Maybe somehow retain its position relative to its neighbor items, unless those got removed.
+
+
+
 flush cached local storage (user data collections) on read latest comment in a thread
 
 
@@ -312,6 +311,9 @@ https://telegram.org/blog/verifiable-apps-and-more
 Noon to Dusk: `linear-gradient(to right, rgb(255, 110, 127), rgb(191, 233, 255))`
 Hazel: `linear-gradient(to right, rgb(119, 161, 211), rgb(121, 203, 202), rgb(230, 132, 174))`
 
+Ed's Sunset: https://uigradients.com/#Ed'sSunsetGradient
+
+Список "приятных" градиентов:
 https://uigradients.com
 
 Возможность упрощённого задания темы: выбор только оттенков (hue) для каждой доски: base color, accent color (тёмная и светлая темы).

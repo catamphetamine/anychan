@@ -150,14 +150,14 @@ describe('SubscribedThreadsUpdater', function() {
 			storage,
 			dispatch,
 			nextUpdateRandomizeInterval: 0,
-			createGetThreadAction: (channelId, threadId) => {
-				return {
+			getThreadStub: (channelId, threadId) => {
+				return dispatch({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
-				}
+				})
 			}
 		})
 

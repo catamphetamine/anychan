@@ -71,7 +71,10 @@ function compareSubscribedThreadsByRating(a, b, { userData }) {
 		// 	return -1
 		// }
 		// Later "expired at" dates have higher rating.
-		return compareDates(a.expiredAt, b.expiredAt)
+		if (a.expiredAt && b.expiredAt) {
+			return compareDates(a.expiredAt, b.expiredAt)
+		}
+		return compareSubscribedThreadsFinal(a, b)
 	} else if (a.expired && !b.expired) {
 		return -1
 	} else if (!a.expired && b.expired) {

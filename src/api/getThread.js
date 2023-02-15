@@ -49,7 +49,9 @@ export default async function getThread({
 
 	let result
 	if (provider.imageboard) {
-		result = await getThreadFromImageboard(channelId, threadId, {
+		result = await getThreadFromImageboard({
+			channelId,
+			threadId,
 			archived,
 			afterCommentId,
 			afterCommentsCount,

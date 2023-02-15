@@ -11,7 +11,6 @@ import { thread as threadType } from '../../PropTypes.js'
 import useMessages from '../../hooks/useMessages.js'
 import useLocale from '../../hooks/useLocale.js'
 
-import { getThread } from '../../redux/data.js'
 import getLanguageFromLocale from '../../utility/getLanguageFromLocale.js'
 
 import Button from 'frontend-lib/components/Button.js'

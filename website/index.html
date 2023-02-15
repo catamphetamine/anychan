@@ -36,12 +36,17 @@
 		<link rel="apple-touch-icon" href="./images/icon/apple-touch-icon.png">
 	</head>
 
-	<body>
+		<div id="gradient">
+		</div>
+
+		<div id="pattern">
+		</div>
+
 		<header>
 			<div class="Hero-overflowFix">
 				<div class="Hero">
 					<img class="HeroBackground" src="./images/sky-and-mountains.jpg" aria-hidden/>
-					<img class="HeroLogo" src="./images/hero-logo-with-outer-glow-and-shadow.png" aria-hidden/>
+					<a class="HeroLogoLink" target="_blank" href="https://github.com/catamphetamine/anychan-art"><img class="HeroLogo" src="./images/hero-logo-with-outer-glow-and-shadow.png" aria-hidden/></a>
 					<img class="HeroMountain" src="./images/mountain-on-top.png" aria-hidden/>
 					<div class="HeroLogoText">
 						<img class="HeroLogoText-image" src="./images/text-logo-shadow.png" aria-hidden/>
@@ -55,6 +60,8 @@
 			</div>
 
 			<div class="Grid"></div>
+
+			<div class="GridMarginBottom"></div>
 		</header>
 
 		<main>
@@ -361,7 +368,7 @@
 				new Audio('./sounds/bark.ogg').play()
 			}
 
-			document.querySelector('.HeroLogo').addEventListener('click', bark)
+			document.querySelector('.HeroLogoLink').addEventListener('click', bark)
 
 			// fetch('https://gateway.reddit.com/desktopapi/v1/subreddits/all?rtj=only&redditWebClient=web2x&app=web2x-client-production&allow_over18=1&include=structuredStyles%2CprefsSubreddit&sort=hot&layout=card')
 		</script>

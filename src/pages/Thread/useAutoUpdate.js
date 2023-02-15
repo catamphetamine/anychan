@@ -5,8 +5,9 @@ import useMount from 'frontend-lib/hooks/useMount.js'
 
 import useLocale from '../../hooks/useLocale.js'
 
+import getThread from '../../utility/thread/getThread.js'
+
 import {
-	refreshThread as refreshThreadAction,
 	markCurrentThreadAsExpired,
 	resetAutoUpdateNewCommentsIndication
 } from '../../redux/data.js'
@@ -14,6 +15,8 @@ import {
 import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThread.js'
 import onThreadFetched from '../../utility/thread/onThreadFetched.js'
 import onThreadExpired from '../../utility/thread/onThreadExpired.js'
+
+import getUserData from '../../UserData.js'
 
 // Thread page "auto-update" feature:
 //
@@ -172,11 +175,15 @@ export default function useAutoUpdate({
 		try {
 			log('refreshing thread')
 			const previousLatestComment = thread.comments[thread.comments.length - 1]
-			const { thread: updatedThread } = await dispatch(refreshThreadAction(thread, {
+			const updatedThread = await getThread({ thread }, {
 				censoredWords,
 				grammarCorrection,
 				locale
-			}))
+			}, {
+				dispatch,
+				userData: getUserData(),
+				action: 'refreshThreadInState'
+			})
 			onThreadFetched(updatedThread, { dispatch })
 			if (!isStarted.current) {
 				log('has already been stopped - exit')

@@ -28,7 +28,7 @@ export default async function loadThreadPage({
 		locale
 	} = getState().settings.settings
 
-	const thread = await getThread(channelId, threadId, {
+	const thread = await getThread({ channelId, threadId }, {
 		// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
 		// though it could potentially be used in some hypothetical future.
 		// It would enable fetching only the "incremental" update
@@ -41,7 +41,7 @@ export default async function loadThreadPage({
 	}, {
 		dispatch,
 		userData: getUserData(),
-		updateThreadInState: true
+		action: 'getThreadInState'
 	})
 
 	// Reset a potentially previously set "instant back" state.

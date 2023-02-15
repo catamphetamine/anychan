@@ -76,6 +76,15 @@ import '../components/PageLoading.css'
 // it's already loaded as part of `react-responsive-ui/style.css`.
 // import 'react-pages/components/LoadingIndicator.css'
 
+// Turn this flag to `true` to debug `virtual-scroller`.
+//
+// There might be several `<VirtualScroller/>`s on a page —
+// for example, threads list in the left sidebar and then
+// threads list on a channel page — so comment out all other
+// `<VirtualScroller/>`s when debugging one of them.
+//
+// window.VirtualScrollerDebug = true
+
 export default function Application({ children }) {
 	const userData = useMemo(() => {
 		return getUserData()
