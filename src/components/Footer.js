@@ -49,7 +49,7 @@ export default function Footer({ className }) {
 					{messages.footnotes.preAnychan}
 					<a
 						target="_blank"
-						href="https://gitlab.com/catamphetamine/anychan">
+						href="https://anychans.github.io">
 						<AnychanLogo className="Footer-anychanLogo"/>
 						anychan
 					</a>

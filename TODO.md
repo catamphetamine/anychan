@@ -8,9 +8,63 @@
 
 
 
+Maybe selective subscribed thread update:
+
+* `dispatch(subscribeToThread())`
+* `dispatch(restoreSubscribedThread())`
+* `dispatch(unsubscribeFromThread())`
+* `utility\thread\onThreadExpired.js`
+* `utility\thread\onThreadFetched.js`
+* `utility\thread\onThreadsFetched.js`
+
+
+Maybe refactor `onSubscribedThreadsChanged()` because it's potentially too multi-functional.
+
+
+Refresh subscribed threads on page load regardless of the previous update time. That's only if there have been no previously opened tabs for a while.
+
+
+
+Add show/hide left sidebar setting.
+
+Add background setting.
+
+Create text preview for every comment (`.contentText`) during `parseContent()`. Benchmark how it affects the total parsing time (maybe negligibly).
+
+Change search button icon into an input and add search comments/threads toolbar action.
+
+Во время обновления subscribed threads — показывать обновление auto update, и наоборот.
+
+Remove sidebar left / sidebar right styles from the respective .css files so that those two sidebars are kind of interchangeable.
+
+On provider change: stop user data, stop thread auto update, stop subscribed thread watcher, stop clean up.
+
+Cache tracked thread stats collection and add a comment why is it cached (because it could be updated very frequently as the user scrolls a subscribed thread). Add `updateTrackedThread()` redux action instead of `getSubscribedThreads()`.
+
+`useSmallestSize` in thread thumbnails in subscribed threads list, so that the thumbnails don't blink (presumably).
+
+
+Мб увеличить минимальный интервал обновления subscribed threads на демо-сайте.
+
+Add screenshots on the website.
+
+Highlight current provider in sidebar sources. Check how it looks in dark mode.
+
+
+[virtual-scroller] "onItemHeightDidChange()" has been called for item index 0 but the item hasn't been rendered before. — при переключении с "by-popularity" на "with-latest-comments" на странице доски.
+
+
+Update subscribed thread selectively in utility/thread/getThread.js → onThreadFetched() instead of refreshing the whole list of subscribed threads.
+
+
 Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads. Вместо этого ставить флаг `useSmallestSize`, а также обновлять "селективно" только конкретный subscribed thread в Redux state, а также добавить `cached` на коллекцию `subscribedThreadStats`.
 
 "auto-update" при появлении новых комментариев, цитаты в них, которые ссылаются на "previous comments", не распаршены: <a href ... >...</a>
+
+
+
+
+
 
 
 
@@ -115,6 +169,9 @@ Check all imageboards.
 В настройках можно добавить настройку источника: чтобы прямо можно было запустить приложение без какого-то default provider, и настроить провайдера непосредственно в настройках, а потом уже обновить страницу. В таком случае может быть список настроенных провайдеров, и селектор выбора между ними как в настройках, так и в правом сайдбаре иконкой. Если провайдер не задан, то на "домашнем экране" можно показывать сообщение: "Вы не выбрали источник данных. [ссылка]Настроить[/ссылка]".
 
 
+
+
+Можно сделать архив релиза 0.2.0 в мае мб.
 
 
 

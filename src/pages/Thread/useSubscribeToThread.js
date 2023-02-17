@@ -3,9 +3,12 @@ import { useDispatch } from 'react-redux'
 
 import { subscribeToThread } from '../../redux/subscribedThreads.js'
 
+import getUserData from '../../UserData.js'
+
 export default function useSubscribeToThread({
 	thread,
-	channel
+	channel,
+	userData = getUserData()
 }) {
 	const dispatch = useDispatch()
 
@@ -16,7 +19,7 @@ export default function useSubscribeToThread({
 	const onSubscribeToThreadRef = useRef()
 
 	onSubscribeToThreadRef.current = useCallback(async () => {
-		await dispatch(subscribeToThread(thread, { channel }))
+		await dispatch(subscribeToThread(thread, { channel, userData }))
 	}, [
 		thread,
 		channel

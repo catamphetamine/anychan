@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import getSubscribedThreadNewRepliesCount from './getSubscribedThreadNewRepliesCount.js'
 import doesSubscribedThreadHaveNewComments from './doesSubscribedThreadHaveNewComments.js'
 
@@ -38,9 +36,12 @@ import doesSubscribedThreadHaveNewComments from './doesSubscribedThreadHaveNewCo
  * because that way the list would be constantly re-shuffled as new comments
  * are added in the subscribed threads.
  *
+ * Mutates the original `subscribedThreads` argument,
+ * because that's how `Array.sort()` works in javascript.
+ *
  * @param  {SubscribedThreadRecord[]} subscribedThreads
  */
-export default function sortSubscribedThreads(subscribedThreads, { userData = getUserData() } = {}) {
+export default function sortSubscribedThreads(subscribedThreads, { userData }) {
 	return subscribedThreads.sort((a, b) => compareSubscribedThreads(a, b, { userData }))
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-pages'
@@ -13,6 +13,9 @@ import ThreadThumbnail from '../ThreadThumbnail.js'
 import LockIcon from 'frontend-lib/icons/lock.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
+
+import getUserData from '../../UserData.js'
+import { getSubscribedThreadsUpdater } from '../../utility/globals.js'
 
 import { subscribedThread } from '../../PropTypes.js'
 
@@ -41,14 +44,16 @@ function SubscribedThread({
 	const subscribedThreadStatsBeforeRemoval = useRef()
 
 	const onUnsubscribeToThread = useCallback(async () => {
-		const { subscribedThreadStats } = await dispatch(unsubscribeFromThread(thread))
+		const { subscribedThreadStats } = await dispatch(unsubscribeFromThread(thread, { userData: getUserData() }))
 		subscribedThreadStatsBeforeRemoval.current = subscribedThreadStats
 		setUnsubscribed(true)
 	}, [thread])
 
 	const onRestoreSubscribedThread = useCallback(async () => {
 		await dispatch(restoreSubscribedThread(thread, {
-			subscribedThreadStats: subscribedThreadStatsBeforeRemoval.current
+			subscribedThreadStats: subscribedThreadStatsBeforeRemoval.current,
+			userData: getUserData(),
+			subscribedThreadsUpdater: getSubscribedThreadsUpdater()
 		}))
 		setUnsubscribed(false)
 	}, [thread])
@@ -69,7 +74,13 @@ function SubscribedThread({
 	const Component = isLink ? Link : 'div'
 	const isSelected = selected && !isDisabled
 
-	const hasNewComments = unsubscribed ? false : doesSubscribedThreadHaveNewComments(thread)
+	const hasNewComments = useMemo(() => {
+		if (unsubscribed) {
+			return false
+		}
+		return doesSubscribedThreadHaveNewComments(thread)
+	}, [thread])
+
 	const hasNewReplies = false
 
 	return (

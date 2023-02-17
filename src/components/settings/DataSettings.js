@@ -80,7 +80,7 @@ export default function DataSettings({
 		// because the list of subscribed threads doesn't change here:
 		// only the order of the subscribed threads does.
 		userData.setSubscribedThreads(
-			sortSubscribedThreads(userData.getSubscribedThreads())
+			sortSubscribedThreads(userData.getSubscribedThreads(), { userData })
 		)
 		// Done.
 		dispatch(notify(messages.settings.data.merge.done))

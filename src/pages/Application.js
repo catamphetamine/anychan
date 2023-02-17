@@ -123,7 +123,7 @@ Application.load = {
 		// Fill in user's preferences.
 		dispatch(getSettings())
 		dispatch(getFavoriteChannels())
-		dispatch(getSubscribedThreads())
+		dispatch(getSubscribedThreads({ userData: getUserData() }))
 		// Detect offline mode.
 		if (location.query.offline) {
 			return dispatch(setOfflineMode(true))

@@ -1,5 +1,5 @@
 import { onCommentRead } from '../../redux/data.js'
-import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
+import { updateSubscribedThreadStats } from '../../redux/subscribedThreads.js'
 
 import getUserData from '../../UserData.js'
 import { latestReadComments } from '../../UserData/collections/index.js'
@@ -90,17 +90,18 @@ export default class UnreadCommentWatcher {
 				if (getThread()) {
 					const subscribedThreadStats = userData.getSubscribedThreadStats(channelId, threadId)
 					if (subscribedThreadStats) {
-						// Update `subscribedThreadsStats` record in User Data.
-						userData.setSubscribedThreadStats(
+						dispatch(updateSubscribedThreadStats(
 							channelId,
 							threadId,
+							subscribedThreadStats,
 							{
 								...createSubscribedThreadStatsRecord(getThread(), { channel, userData }),
+								// Retain the `refreshedAt` timestamp because the thread hasn't been updated,
+								// it's just that some previously-unread comment in it has been read.
 								refreshedAt: subscribedThreadStats.refreshedAt
-							}
-						)
-						// Re-render the list of subscribed threads.
-						dispatch(getSubscribedThreads({ userData }))
+							},
+							{ userData }
+						))
 					}
 				}
 

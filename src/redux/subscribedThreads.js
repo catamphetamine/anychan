@@ -1,18 +1,18 @@
 import { ReduxModule } from 'react-pages'
 
-import getUserData from '../UserData.js'
-import { getSubscribedThreadsUpdater } from '../utility/globals.js'
 import addSubscribedThread from '../utility/subscribedThread/addSubscribedThread.js'
+import sortSubscribedThreads from '../utility/subscribedThread/sortSubscribedThreads.js'
+import onSubscribedThreadsChanged from '../utility/subscribedThread/onSubscribedThreadsChanged.js'
 
 const redux = new ReduxModule('SUBSCRIBED_THREADS')
 
 export const getSubscribedThreads = redux.simpleAction(
 	'GET_SUBSCRIBED_THREADS',
-	(state, { userData = getUserData() } = {}) => {
-		const subscribedThreads = userData.getSubscribedThreads()
+	(state, { userData }) => {
 		return {
 			...state,
-			subscribedThreads
+			// Subscribed threads list is stored in User Data being already sorted.
+			subscribedThreads: userData.getSubscribedThreads()
 		}
 	}
 )
@@ -20,7 +20,7 @@ export const getSubscribedThreads = redux.simpleAction(
 export const subscribeToThread = redux.action(
 	(thread, {
 		channel,
-		userData = getUserData(),
+		userData,
 		timer,
 		subscribedThreadsUpdater
 	}) => async () => {
@@ -33,14 +33,70 @@ export const subscribeToThread = redux.action(
 	})
 )
 
+export const updateSubscribedThreadStats = redux.action(
+	(channelId, threadId, prevSubscribedThreadStats, newSubscribedThreadStats, { userData }) => async () => {
+		// Update `subscribedThreadsStats` record in User Data.
+		userData.setSubscribedThreadStats(
+			channelId,
+			threadId,
+			newSubscribedThreadStats
+		)
+
+		// See if the order of subscribed threads has changed
+		// as a result of this subscribed thread no longer having
+		// new comments / new replies.
+		// If the order of subscribed threads has changed,
+		// update subscribed threads in User Data and in Redux state,
+		// so that they get re-rendered.
+		const previousSubscribedThreads = userData.getSubscribedThreads()
+		const newSubscribedThreads = sortSubscribedThreads(previousSubscribedThreads.slice(), { userData })
+
+		const newSubscribedThreads = onSubscribedThreadsChanged({
+			previousSubscribedThreads,
+			newSubscribedThreads,
+			userData
+		})
+
+		return {
+			channelId,
+			threadId,
+			subscribedThreads: newSubscribedThreads
+		}
+	},
+	(state, { channelId, threadId, subscribedThreads: newSubscribedThreads }) => {
+		const subscribedThreads = newSubscribedThreads || state.subscribedThreads
+
+		// Update the subscribed thread record's "object reference"
+		// so that `<SubscribedThread/>` React component re-renders itself
+		// for this specific subscribed thread.
+		if (!newSubscribedThreads) {
+			let i = 0
+			while (i < subscribedThreads.length) {
+				const thread = subscribedThreads[i]
+				if (thread.id === threadId && thread.channel.id === channelId) {
+					subscribedThreads[i] = { ...thread }
+					break
+				}
+				i++
+			}
+		}
+
+		// Return the updated list of subscribed threads.
+		return {
+			...state,
+			subscribedThreads
+		}
+	}
+)
+
 // `restoreSubscribedThread()` function is called in cases when a user accidentally
 // unsubscribes from a thread by clicking the "x" button, and then clicks "Undo",
 // which restores the subscribed thread record.
 export const restoreSubscribedThread = redux.action(
 	(subscribedThread, {
 		subscribedThreadStats,
-		userData = getUserData(),
-		subscribedThreadsUpdater = getSubscribedThreadsUpdater()
+		userData,
+		subscribedThreadsUpdater
 	}) => async () => {
 		// Add subscribed thread record to User Data.
 		userData.addSubscribedThread(subscribedThread)
@@ -52,6 +108,11 @@ export const restoreSubscribedThread = redux.action(
 			subscribedThread.id,
 			subscribedThreadStats
 		)
+
+		// Sort subscribed threads.
+		const subscribedThreads = userData.getSubscribedThreads()
+		sortSubscribedThreads(subscribedThreads, { userData })
+		userData.setSubscribedThreads(subscribedThreads)
 
 		// Notify Subscribed Threads Updater
 		// that it should re-calculate the time of next update.
@@ -66,9 +127,7 @@ export const restoreSubscribedThread = redux.action(
 )
 
 export const unsubscribeFromThread = redux.action(
-	(subscribedThread, {
-		userData = getUserData()
-	} = {}) => async () => {
+	(subscribedThread, { userData }) => async () => {
 		// Get subscribed thread stats record in order to return it later.
 		const subscribedThreadStats = userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
 

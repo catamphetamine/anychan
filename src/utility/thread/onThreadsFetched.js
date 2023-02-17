@@ -2,6 +2,7 @@ import { getProvider } from '../../provider.js'
 import getUserData from '../../UserData.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 import onSubscribedThreadFetched from '../subscribedThread/onSubscribedThreadFetched.js'
+import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
 import createByIdIndex from '../createByIdIndex.js'
 
 export default function onThreadsFetched(channelId, threads, {
@@ -48,7 +49,7 @@ export default function onThreadsFetched(channelId, threads, {
 		// Re-render the list of subscribed threads.
 		// For example, if some of them have expired,
 		// then re-render them as such.
-		dispatch(getSubscribedThreads({ userData }))
+		onSubscribedThreadsChanged({ dispatch, userData, sort: true })
 	}
 }
 

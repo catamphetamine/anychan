@@ -7,5 +7,6 @@
 	"commentLengthLimitForThreadPreview": 500,
 	"generatedQuoteMaxLength": 120,
 	"generatedQuoteMinFitFactor": 0.5,
-	"generatedQuoteMaxFitFactor": 1.4
+	"generatedQuoteMaxFitFactor": 1.4,
+	"dataPollingRate": "slow"
 }

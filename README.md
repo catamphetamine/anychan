@@ -248,6 +248,20 @@ The default configuration can be found in `./configuration/default.json` file. A
   // Is `500` "points" by default.
   "commentLengthLimitForThreadPreview": 500,
 
+  // How often should the application "poll" the data source for new data.
+  // Contrary to "push" updates, "polling" is a technique for continuously
+  // re-fetching the data from the source to see if there're any updates.
+  // Older engines, like classic imageboards, don't support "push" updates
+  // via WebSockets, so the only way to get updates is by manually "polling"
+  // for new data in a loop. The higher the "polling" rate, the more load
+  // the server gets.
+  //
+  // Possible values:
+  // * "slow" (default)
+  // * "normal"
+  //
+  "dataPollingRate": "slow",
+
   // The fetched list of channels is cached in order to reduce
   // the load on the server.
   // By default, it caches the list of channels for one day.

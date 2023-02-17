@@ -31,8 +31,8 @@ export default function SubscribedThreads({ edit, maxListLength }) {
 	const [
 		subscribedThreads,
 		hasMoreThreads,
-		hasLiveThreads,
-		hasMoreLiveThreads,
+		hasAliveThreads,
+		hasMoreAliveThreads,
 		hasExpiredThreads,
 		getShownSubscribedThreads
 	] = useSubscribedThreads({
@@ -52,7 +52,7 @@ export default function SubscribedThreads({ edit, maxListLength }) {
 		showExpiredThreadsButton
 	] = useViewMode({
 		hasMoreThreads,
-		hasMoreLiveThreads
+		hasMoreAliveThreads
 	})
 
 	return (
@@ -64,12 +64,12 @@ export default function SubscribedThreads({ edit, maxListLength }) {
 					{messages.subscribedThreads.empty}
 				</div>
 			}
-			{subscribedThreads.length > 0 && !hasLiveThreads &&
+			{subscribedThreads.length > 0 && !hasAliveThreads &&
 				<div className="SidebarSection-text SidebarSection-text--alternative">
 					{messages.subscribedThreads.allExpired}
 				</div>
 			}
-			{subscribedThreads.length > 0 && hasLiveThreads &&
+			{subscribedThreads.length > 0 && hasAliveThreads &&
 				getShownSubscribedThreads(viewMode).map((thread) => (
 					<SubscribedThread
 						key={`${thread.channel.id}/${thread.id}`}
@@ -84,17 +84,17 @@ export default function SubscribedThreads({ edit, maxListLength }) {
 					/>
 				))
 			}
-			{hasMoreThreads && (hasMoreLiveThreads || viewMode === 'all') &&
+			{hasMoreThreads && (hasMoreAliveThreads || viewMode === 'all') &&
 				<div className="SubscribedThreads-showMoreLessContainer">
 					<TextButton
 						ref={showMoreLessButton}
-						onClick={viewMode === 'top' ? onShowMoreThreads : onShowLessThreads}
+						onClick={viewMode === 'alive-top' ? onShowMoreThreads : onShowLessThreads}
 						className="SubscribedThreads-showMoreLess">
-						{viewMode === 'top' ? messages.subscribedThreads.showMore : messages.subscribedThreads.showLess}
+						{viewMode === 'alive-top' ? messages.subscribedThreads.showMore : messages.subscribedThreads.showLess}
 					</TextButton>
 				</div>
 			}
-			{hasExpiredThreads && (viewMode === 'live' || (viewMode === 'top' && !hasMoreLiveThreads)) &&
+			{hasExpiredThreads && (viewMode === 'alive' || (viewMode === 'alive-top' && !hasMoreAliveThreads)) &&
 				<div className="SubscribedThreads-showMoreLessContainer">
 					<TextButton
 						ref={showExpiredThreadsButton}

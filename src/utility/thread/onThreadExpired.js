@@ -1,5 +1,6 @@
 import getUserData from '../../UserData.js'
 import { onStartExpired } from '../subscribedThread/subscribedThreadRecordStatusUpdaters.js'
+import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 
 // A thread is thought to be "expired" when a request for this thread's data
@@ -17,6 +18,6 @@ export default function onThreadExpired(channelId, threadId, { dispatch, userDat
 		onStartExpired(subscribedThread)
 		userData.updateSubscribedThread(subscribedThread)
 		// Re-render the list of subscribed threads in the sidebar.
-		dispatch(getSubscribedThreads({ userData }))
+		onSubscribedThreadsChanged({ dispatch, userData, sort: true })
 	}
 }

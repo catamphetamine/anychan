@@ -1,7 +1,8 @@
 import { onCommentRead } from '../redux/data.js'
-import { getSubscribedThreads } from '../redux/subscribedThreads.js'
 import { getFavoriteChannels } from '../redux/favoriteChannels.js'
 import { setAnnouncement } from '../redux/announcement.js'
+
+import onSubscribedThreadsChanged from '../utility/subscribedThread/onSubscribedThreadsChanged.js'
 
 import { getSubscribedThreadsUpdater } from '../utility/globals.js'
 
@@ -40,7 +41,7 @@ export default function onUserDataExternalChange({
 		collection === subscribedThreadsState
 	) {
 		// Update the subscribed threads list in the sidebar.
-		dispatch(getSubscribedThreads({ userData }))
+		onSubscribedThreadsChanged({ dispatch, userData })
 
 		// Notify Subscribed Threads Updater
 		// that it should re-calculate the time of next update.

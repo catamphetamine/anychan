@@ -29,7 +29,7 @@ export default function useThreadSubscribed({
 
 	const setThreadSubscribed = useCallback((isSubscribed) => {
 		if (isSubscribed) {
-			dispatch(subscribeToThread(thread, { channel }))
+			dispatch(subscribeToThread(thread, { channel, userData }))
 		} else {
 			dispatch(unsubscribeFromThread({
 				id: thread.id,

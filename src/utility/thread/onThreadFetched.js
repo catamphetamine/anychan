@@ -2,6 +2,7 @@ import { Timer } from 'web-browser-timer'
 
 import getUserData from '../../UserData.js'
 import onSubscribedThreadFetched from '../subscribedThread/onSubscribedThreadFetched.js'
+import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 
 export default function onThreadFetched(thread, {
@@ -17,7 +18,7 @@ export default function onThreadFetched(thread, {
 		// If there're any changes to the subscribed thread data since the last time.
 		if (onSubscribedThreadFetched(thread, { userData, timer })) {
 			// Re-render the list of subscribed threads.
-			dispatch(getSubscribedThreads({ userData }))
+			onSubscribedThreadsChanged({ dispatch, userData, sort: true })
 		}
 	}
 }

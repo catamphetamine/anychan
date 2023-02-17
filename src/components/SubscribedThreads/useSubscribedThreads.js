@@ -14,31 +14,34 @@ export default function useSubscribedThreads({
 	const subscribedThreadsSnapshot = useMemo(() => _subscribedThreads, [snapshot])
 
 	const subscribedThreads = snapshot ? subscribedThreadsSnapshot : _subscribedThreads
+	const aliveThreads = subscribedThreads.filter(_ => !_.expired)
 
-	const hasMoreThreads = subscribedThreads.length > maxListLength
-	const liveThreads = subscribedThreads.filter(_ => !_.expired)
-	const hasLiveThreads = liveThreads.length > 0
-	const hasMoreLiveThreads = liveThreads.length > maxListLength
 	const allThreadsCount = subscribedThreads.length
-	const liveThreadsCount = liveThreads.length
-	const hasExpiredThreads = allThreadsCount - liveThreadsCount > 0
+	const aliveThreadsCount = aliveThreads.length
+
+	const hasMoreThreads = allThreadsCount > maxListLength
+	const hasAliveThreads = aliveThreadsCount > 0
+	const hasMoreAliveThreads = aliveThreadsCount > maxListLength
+	const hasExpiredThreads = allThreadsCount > aliveThreadsCount
 
 	function getShownSubscribedThreads(viewMode) {
-		if (viewMode !== 'all') {
-			if (viewMode === 'top') {
-				return liveThreads.slice(0, maxListLength)
-			} else if (viewMode === 'live') {
-				return liveThreads
-			}
+		switch (viewMode) {
+			case 'alive-top':
+				return aliveThreads.slice(0, maxListLength)
+			case 'alive':
+				return aliveThreads
+			case 'all':
+				return subscribedThreads
+			default:
+				throw new Error(`Unknown subscribed threads view mode: "${viewMode}"`)
 		}
-		return subscribedThreads
 	}
 
 	return [
 		subscribedThreads,
 		hasMoreThreads,
-		hasLiveThreads,
-		hasMoreLiveThreads,
+		hasAliveThreads,
+		hasMoreAliveThreads,
 		hasExpiredThreads,
 		getShownSubscribedThreads
 	]
