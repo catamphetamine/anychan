@@ -260,13 +260,15 @@ const THREAD_STATS_BADGES = [
 	// 	content: ({ post }) => post.replies.length
 	// },
 	{
-		name: 'attachments-count',
+		name: 'attachments-count-in-comments',
 		icon: PictureIcon,
-		title: ({ post, messages }) => messages.attachmentsCount,
-		// `.attachmentsCount` is set on the first comment of a thread
-		// as `thread.comments[0].attachmentsCount = thread.attachmentsCount`.
-		condition: (post) => post.attachmentsCount > (post.attachments ? post.attachments.length : 0),
-		content: ({ post }) => post.attachmentsCount - (post.attachments ? post.attachments.length : 0)
+		title: ({ post, messages }) => messages.commentAttachmentsCount,
+		// `.commentAttachmentsCount` is set on the first comment of a thread in `addCommentProps.js`:
+		// `thread.comments[0].commentAttachmentsCount = thread.commentAttachmentsCount`.
+		// condition: (post) => post.attachmentsCount > (post.attachments ? post.attachments.length : 0),
+		// content: ({ post }) => post.attachmentsCount - (post.attachments ? post.attachments.length : 0)
+		condition: (post) => post.commentAttachmentsCount > 0,
+		content: ({ post }) => post.commentAttachmentsCount
 	},
 	{
 		name: 'unique-posters-count',

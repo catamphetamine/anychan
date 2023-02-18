@@ -1,10 +1,6 @@
-import { onCommentRead } from '../../redux/data.js'
-import { updateSubscribedThreadStats } from '../../redux/subscribedThreads.js'
-
 import getUserData from '../../UserData.js'
 import { latestReadComments } from '../../UserData/collections/index.js'
-
-import createSubscribedThreadStatsRecord from '../../utility/subscribedThread/createSubscribedThreadStatsRecord.js'
+import onCommentRead from '../../utility/comment/onCommentRead.js'
 
 export default class UnreadCommentWatcher {
 	constructor({
@@ -74,46 +70,25 @@ export default class UnreadCommentWatcher {
 		channel,
 		userData
 	}) {
-		// An extra `!isCommentRead()` check is added here,
-		// so that it doesn't accidentally overwrite a later
-		// "latest read comment id" if it's already written there.
-		// (in case of some hypothetical "race condition", etc)
-		// Because this function is triggered by an `IntersectionObserver`,
-		// it's not clear whether those event callbacks are executed in any
-		// particular order.
 		if (mode === 'thread') {
+			// An extra `!isCommentRead()` check is added here,
+			// so that it doesn't accidentally overwrite a later
+			// "latest read comment id" if it's already written there.
+			// (in case of some hypothetical "race condition", etc)
+			// Because this function is triggered by an `IntersectionObserver`,
+			// it's not clear whether those event callbacks are executed in any
+			// particular order.
 			if (!isCommentRead(channelId, threadId, commentId, { userData })) {
-				userData.setLatestReadCommentId(channelId, threadId, commentId)
-
-				// If this thread is subscribed to, then update "new comments" counter
-				// for this thread in "thread subscriptions" list in the Sidebar.
-				if (getThread()) {
-					const subscribedThreadStats = userData.getSubscribedThreadStats(channelId, threadId)
-					if (subscribedThreadStats) {
-						dispatch(updateSubscribedThreadStats(
-							channelId,
-							threadId,
-							subscribedThreadStats,
-							{
-								...createSubscribedThreadStatsRecord(getThread(), { channel, userData }),
-								// Retain the `refreshedAt` timestamp because the thread hasn't been updated,
-								// it's just that some previously-unread comment in it has been read.
-								refreshedAt: subscribedThreadStats.refreshedAt
-							},
-							{ userData }
-						))
-					}
-				}
-
-				// console.log('Comment read:', commentId, 'from', '/' + channelId + '/' + threadId)
-
-				// Update thread auto-update "new comments" state after this comment has been "read".
-				dispatch(onCommentRead({
+				onCommentRead({
 					channelId,
 					threadId,
 					commentId,
-					commentIndex
-				}))
+					commentIndex,
+					channel,
+					thread: getThread(),
+					userData,
+					dispatch
+				})
 			}
 		}
 

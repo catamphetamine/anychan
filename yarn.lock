@@ -4688,14 +4688,15 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.19:
-  version "0.6.19"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.19.tgz#15028ad14f4c4024370782a29530120acf21e40a"
-  integrity sha512-SQkcCZJEoLanzajWxuMW6gwQsrddu3pcr1X/5vquLoX+GpFZeQwmnOJYw8fUhqe7Uuk3+KySEYR0odpc6XdFCA==
+imageboard@^0.6.24:
+  version "0.6.24"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.24.tgz#e118318408e042b57b0ae8220492e2ac4c072273"
+  integrity sha512-h10BoWTQp3vg3M89lDpoEepia6tz0FsAVp93xiwJ2flvq31e7u4vJr2v/JQfWcVHMU6SUplv4XGLvT7j+C0+UA==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
+    entities "^4.4.0"
     social-components "^0.3.5"
-    social-components-parser "^0.2.1"
+    social-components-parser "^0.2.3"
 
 immediate@~3.0.5:
   version "3.0.6"
@@ -6619,10 +6620,10 @@ react-modal@^3.15.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.6.29:
-  version "0.6.29"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.6.29.tgz#50e9b3a8d95fdf698ae00dac9dd0580ee3dc76f3"
-  integrity sha512-15uo47wQjuwZGUf4dtMDGBrxAvVASciNC6T0RvA0pVKWXtXOwwKOD+wF2MV2WxH9vg9Q4KrP4iB/gdKYBL6J6w==
+react-pages@^0.6.30:
+  version "0.6.30"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.6.30.tgz#a7191838df13bc44f3a27e75bf449a63d5ae53f0"
+  integrity sha512-uKVG6CISs28pZd4VDf3LWjOyChmEgRqnAYza+zrFl/2kPDfvdydQj6FOTOZtAariLxuTLkbFAbAV98+a+sCnDw==
   dependencies:
     "@catamphetamine/found" "^1.1.2"
     "@catamphetamine/found-scroll" "^1.1.0"
@@ -7296,7 +7297,7 @@ smooth-scroll-into-view-if-needed@^1.1.27, smooth-scroll-into-view-if-needed@^1.
   dependencies:
     scroll-into-view-if-needed "^2.2.28"
 
-social-components-parser@^0.2.1:
+social-components-parser@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/social-components-parser/-/social-components-parser-0.2.3.tgz#aba32650f86ad2fee991ff731962dd86c03219d9"
   integrity sha512-+lcXWEFufpCN1pHfp5H/xvLvO+NTkR6hJukiMs84dGaKorQBoX+fUm6G0Dm2q9rlUXc6YaoeWIn4r7bn/d4MJw==

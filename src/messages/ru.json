@@ -202,6 +202,7 @@
 		"threadAuthor": "Автор треда",
 		"commentsCount": "Комментариев",
 		"attachmentsCount": "Вложений",
+		"commentAttachmentsCount": "Вложений в комментариях",
 		"uniquePostersCount": "Уникальных IP-адресов комментаторов (включая автора)",
 		"moreActions": {
 			"copyUrl": "Скопировать ссылку",

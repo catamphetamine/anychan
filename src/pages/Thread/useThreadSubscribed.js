@@ -36,6 +36,8 @@ export default function useThreadSubscribed({
 				channel: {
 					id: channel.id
 				}
+			}, {
+				userData
 			}))
 		}
 	}, [

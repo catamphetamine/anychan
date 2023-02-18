@@ -97,7 +97,10 @@ function getItemId(thread) {
 
 function onItemInitialRender(thread) {
 	// Parse thread main comment content and create text preview.
-	thread.comments[0].createTextPreview()
+	thread.comments[0].createTextPreview({
+		charactersInLine: 35,
+		maxLines: 5
+	})
 }
 
 // function getScrollableContainer() {

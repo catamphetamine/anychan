@@ -48,12 +48,8 @@ export const updateSubscribedThreadStats = redux.action(
 		// If the order of subscribed threads has changed,
 		// update subscribed threads in User Data and in Redux state,
 		// so that they get re-rendered.
-		const previousSubscribedThreads = userData.getSubscribedThreads()
-		const newSubscribedThreads = sortSubscribedThreads(previousSubscribedThreads.slice(), { userData })
-
 		const newSubscribedThreads = onSubscribedThreadsChanged({
-			previousSubscribedThreads,
-			newSubscribedThreads,
+			sort: true,
 			userData
 		})
 

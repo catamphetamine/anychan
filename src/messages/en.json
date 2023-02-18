@@ -201,6 +201,7 @@
 		"trimming": "Trimming thread",
 		"threadAuthor": "Thread author",
 		"attachmentsCount": "Attachments",
+		"commentAttachmentsCount": "Attachments in comments",
 		"uniquePostersCount": "Unique poster IP addresses",
 		"moreActions": {
 			"copyUrl": "Copy link",

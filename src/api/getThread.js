@@ -119,7 +119,10 @@ export default async function getThread({
 		})
 
 		// Generate text preview which is used for `<meta description/>` on the thread page.
-		thread.comments[0].textPreview = getCommentTextPreview(thread.comments[0], { messages })
+		thread.comments[0].textPreviewForPageDescription = getCommentTextPreview(thread.comments[0], {
+			messages,
+			characterLimit: 160
+		})
 
 		// Return the thread.
 		return thread
@@ -158,6 +161,10 @@ const INCREMENTAL_THREAD_UPDATE_PROPERTIES = [
 
 	// Total attachments count in the thread.
 	'attachmentsCount',
+
+	// The attachments count in comments of the thread.
+	// Doesn't include the attachments in the Original Post of the thread.
+	'commentAttachmentsCount',
 
 	// Unique poster IPs count.
 	'uniquePostersCount',

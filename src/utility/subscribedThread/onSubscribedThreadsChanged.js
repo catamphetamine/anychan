@@ -4,32 +4,29 @@ import sortSubscribedThreads from './sortSubscribedThreads.js'
 export default function onSubscribedThreadsChanged({
 	userData,
 	dispatch,
-	previousSubscribedThreads,
-	newSubscribedThreads,
 	sort
 }) {
-	if (newSubscribedThreads) {
-		sortSubscribedThreads(newSubscribedThreads, { userData })
+	let alteredSubscribedThreads
 
-		if (previousSubscribedThreads) {
-			const areEqual = areSubscribedThreadsListsEqual(previousSubscribedThreads, newSubscribedThreads)
-			if (areEqual) {
-				return
-			}
+	if (sort) {
+		const previousSubscribedThreads = userData.getSubscribedThreads()
+		const newSubscribedThreads = previousSubscribedThreads.slice()
+		sortSubscribedThreads(newSubscribedThreads, { userData })
+		const isSameOrder = isSubscribedThreadsListsOrderEqual(previousSubscribedThreads, newSubscribedThreads)
+		if (!isSameOrder) {
 			userData.setSubscribedThreads(newSubscribedThreads)
-			return newSubscribedThreads
+			alteredSubscribedThreads = newSubscribedThreads
 		}
-	} else {
-		if (sort) {
-			const subscribedThreads = userData.getSubscribedThreads()
-			sortSubscribedThreads(subscribedThreads, { userData })
-			userData.setSubscribedThreads(subscribedThreads)
-		}
+	}
+
+	if (dispatch) {
 		dispatch(getSubscribedThreads({ userData }))
+	} else {
+		return alteredSubscribedThreads
 	}
 }
 
-function areSubscribedThreadsListsEqual(prevSubscribedThreads, newSubscribedThreads) {
+function isSubscribedThreadsListsOrderEqual(prevSubscribedThreads, newSubscribedThreads) {
 	if (prevSubscribedThreads.length !== newSubscribedThreads.length) {
 		return false
 	}

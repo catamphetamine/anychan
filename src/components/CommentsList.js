@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import VirtualScroller from 'virtual-scroller/react'
-import { useNavigationEffect, isInstantBackAbleNavigation } from 'react-pages'
+import { useNavigationStartEffect, isInstantBackAbleNavigation } from 'react-pages'
 
 import './CommentsList.css'
 
@@ -71,7 +71,7 @@ function CommentsList({
 
 	const dispatch = useDispatch()
 
-	useNavigationEffect(() => {
+	useNavigationStartEffect(() => {
 		// console.log(`* On navigate from ${mode} page`)
 		if (isInstantBackAbleNavigation()) {
 			if (setState) {

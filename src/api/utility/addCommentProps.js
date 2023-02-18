@@ -144,6 +144,7 @@ export const ROOT_COMMENT_PROPERTIES_OF_A_THREAD = [
 	// those are shown on the fist comment.
 	'commentsCount',
 	'attachmentsCount',
+	'commentAttachmentsCount',
 	'uniquePostersCount',
 	// Header badges.
 	'onTop',

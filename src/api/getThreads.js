@@ -84,14 +84,28 @@ export default async function getThreads({
 
 		// Add a function to generate text preview which is used in the Sidebar
 		// to render thread preview.
-		comment.createTextPreview = (function() {
+		comment.createTextPreview = (function({
+			charactersInLine,
+			maxLines
+		}) {
 			// For some weird reason, using `comment` variable from outside this function
 			// didn't work: it was always the comment of the last `thread` in the loop.
 			// Perhaps it has something to do with the "closure" thing in Javascript.
 			const comment = this
 			if (!comment.textPreviewCreated) {
 				comment.parseContent()
-				comment.textPreview = getCommentTextPreview(comment, { messages })
+				let decreaseCharacterLimitBy = 0
+				if (comment.titleCensored) {
+					// There's an empty line between the thread's title and thread's text preview.
+					maxLines--
+					decreaseCharacterLimitBy = comment.titleCensored.length
+				}
+				comment.textPreview = getCommentTextPreview(comment, {
+					messages,
+					decreaseCharacterLimitBy,
+					charactersInLine,
+					maxLines
+				})
 				comment.textPreviewCreated = true
 			}
 		}).bind(comment)

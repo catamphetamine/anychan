@@ -8,14 +8,32 @@ import trimText from 'social-components/utility/post/trimText.js'
  * @param {object} comment
  * @param {object} [options.messages] — An object containing localized labels. See the readme of `social-components` for more info.
  * @param {number} [options.characterLimit] — Max characters count.
+ * @param {number} [options.decreaseCharacterLimitBy] — Max characters count (pre-defined or calculated) will be decreased by this value, if specified.
+ * @param {number} [options.charactersInLine] — Line width in characters.
+ * @param {number} [options.maxLines] — Max lines of text.
  * @return {string} [preview]
  */
-export default function getCommentTextPreview(comment, { messages, characterLimit } = {}) {
-	const charactersInLine = 35
-	const maxLines = 5
+export default function getCommentTextPreview(comment, {
+	messages,
+	characterLimit,
+	decreaseCharacterLimitBy,
+	charactersInLine,
+	maxLines
+} = {}) {
 	if (!characterLimit) {
-		characterLimit = maxLines * charactersInLine
+		if (maxLines && charactersInLine) {
+			characterLimit = maxLines * charactersInLine
+		}
 	}
+
+	if (!characterLimit) {
+		throw new Error('Character limit not set')
+	}
+
+	if (decreaseCharacterLimitBy) {
+		characterLimit -= decreaseCharacterLimitBy
+	}
+
 	const textPreview = getPostText(comment, {
 		ignoreAttachments: true,
 		softLimit: characterLimit,
@@ -39,6 +57,7 @@ export default function getCommentTextPreview(comment, { messages, characterLimi
 		},
 		spaceOutParagraphs: false
 	})
+
 	if (textPreview) {
 		return trimText(textPreview, characterLimit, {
 			minFitFactor: 0.5,

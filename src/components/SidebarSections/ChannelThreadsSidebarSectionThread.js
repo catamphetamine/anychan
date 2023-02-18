@@ -59,10 +59,6 @@ export default function ChannelThreadsSidebarSectionThread({
 		onHiddenChange: onHeightDidChange
 	})
 
-	useMemo(() => {
-		thread.comments[0].createTextPreview()
-	}, [thread])
-
 	const threadThumbnailContainerStyle = useMemo(() => ({
 		minWidth: CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 2 * SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH + 'px'
 	}), [CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH, SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH])
@@ -82,7 +78,9 @@ export default function ChannelThreadsSidebarSectionThread({
 			mode="channel"
 			comment={thread.comments[0]}
 			threadId={thread.id}
-			maxWidth={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
+			fit="cover"
+			width={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
+			height={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
 			onAttachmentClick={onAttachmentClick}
 			locale={locale}
 		/>

@@ -20,6 +20,9 @@ export default function CommentThumbnail({
 	threadId,
 	maxWidth,
 	maxHeight,
+	width,
+	height,
+	fit,
 	expandAttachments,
 	onAttachmentClick,
 	locale,
@@ -58,6 +61,9 @@ export default function CommentThumbnail({
 			<PostAttachmentThumbnail
 				border
 				useSmallestThumbnail
+				fit={fit}
+				width={width}
+				height={height}
 				maxWidth={maxWidth}
 				maxHeight={maxHeight}
 				attachment={postThumbnail}
@@ -96,6 +102,9 @@ CommentThumbnail.propTypes = {
 	threadId: threadId.isRequired,
 	maxWidth: PropTypes.number,
 	maxHeight: PropTypes.number,
+	width: PropTypes.number,
+	height: PropTypes.number,
+	fit: PropTypes.string,
 	locale: PropTypes.string.isRequired,
 	expandAttachments: PropTypes.bool,
 	onAttachmentClick: PropTypes.func,
