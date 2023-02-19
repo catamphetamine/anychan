@@ -1,10 +1,13 @@
 import { useEffect, useCallback, useMemo, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
+import useUserData from '../../hooks/useUserData.js'
+
 import UnreadCommentWatcher from '../../utility/comment/UnreadCommentWatcher.js'
 
 export default function useUnreadCommentWatcher({ channel, thread } = {}) {
 	const dispatch = useDispatch()
+	const userData = useUserData()
 
 	const currentThread = useRef()
 
@@ -18,6 +21,7 @@ export default function useUnreadCommentWatcher({ channel, thread } = {}) {
 	const unreadCommentWatcher = useMemo(() => {
 		return new UnreadCommentWatcher({
 			dispatch,
+			userData,
 			channel,
 			getThread
 		})

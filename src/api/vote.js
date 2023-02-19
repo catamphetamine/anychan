@@ -6,11 +6,13 @@ export default async function vote({
 	up,
 	channelId,
 	threadId,
-	commentId
+	commentId,
+	proxyUrl,
+	userSettings
 }) {
 	const provider = getProvider()
 	if (provider.imageboard) {
-		return await Imageboard({ http }).vote({
+		return await Imageboard({ http, proxyUrl, userSettings }).vote({
 			boardId: channelId,
 			threadId,
 			commentId,

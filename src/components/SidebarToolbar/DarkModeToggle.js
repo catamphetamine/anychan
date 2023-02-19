@@ -8,11 +8,14 @@ import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 import { hideSidebar } from '../../redux/app.js'
 
 import { getDarkModeMenuItem } from '../MainMenu.js'
+
 import useMessages from '../../hooks/useMessages.js'
+import useSettings from '../../hooks/useSettings.js'
 
 export default function DarkModeToggle({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+	const userSettings = useSettings()
 
 	const darkMode = useSelector(state => state.app.darkMode)
 
@@ -20,12 +23,14 @@ export default function DarkModeToggle({ withLabel }) {
 		return getDarkModeMenuItem({
 			messages,
 			dispatch,
-			darkMode
+			darkMode,
+			userSettings
 		})
 	}, [
 		messages,
 		dispatch,
-		darkMode
+		darkMode,
+		userSettings
 	])
 
 	const onToggleDarkMode = useCallback(() => {

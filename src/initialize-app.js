@@ -31,11 +31,11 @@ export default async function() {
 	userData.start()
 
 	// Apply user settings.
-	applySettings({ dispatch })
+	applySettings({ dispatch, userSettings })
 
 	// Listen to settings changes coming from other browser tabs.
 	userSettings.onExternalChange(() => {
-		onSettingsExternalChange({ dispatch })
+		onSettingsExternalChange({ dispatch, userSettings })
 	})
 
 	// Migrate `localStorage` data.
@@ -66,4 +66,6 @@ export default async function() {
 		timeout: 60 * 1000,
 		condition: () => userSettings.requiresMigration()
 	})
+
+	return { userData }
 }

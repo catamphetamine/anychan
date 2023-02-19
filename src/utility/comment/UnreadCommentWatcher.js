@@ -1,4 +1,3 @@
-import getUserData from '../../UserData.js'
 import { latestReadComments } from '../../UserData/collections/index.js'
 import onCommentRead from '../../utility/comment/onCommentRead.js'
 
@@ -7,7 +6,7 @@ export default class UnreadCommentWatcher {
 		dispatch,
 		getThread,
 		channel,
-		userData = getUserData(),
+		userData,
 		hitBoxContraction
 	}) {
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.

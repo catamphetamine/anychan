@@ -6,6 +6,7 @@ import { filesize } from 'filesize'
 import saveFile from 'frontend-lib/utility/saveFile.js'
 import readTextFile from 'frontend-lib/utility/readTextFile.js'
 import resourceCache from '../../utility/resourceCache.js'
+import sortSubscribedThreads from '../../utility/subscribedThread/sortSubscribedThreads.js'
 import { clearChannelsCache } from '../../api/cached/getChannels.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 import { notify, showError } from '../../redux/notifications.js'
@@ -24,16 +25,18 @@ import {
 } from '../../redux/settings.js'
 
 import applySettings from '../../utility/settings/applySettings.js'
-import getUserSettings from '../../UserSettings.js'
-import getUserData from '../../UserData.js'
+
+import useSettings from '../../hooks/useSettings.js'
+import useUserData from '../../hooks/useUserData.js'
 
 export default function DataSettings({
 	messages,
 	locale,
-	dispatch,
-	userData = getUserData(),
-	userSettings = getUserSettings()
+	dispatch
 }) {
+	const userData = useUserData()
+	const userSettings = useSettings()
+
 	const [userDataSize, setUserDataSize] = useState()
 
 	const onShowUserDataSize = useCallback(() => {
@@ -41,17 +44,21 @@ export default function DataSettings({
 	}, [])
 
 	async function onResetSettings() {
-		if (await OkCancelModal.show(messages.settings.data.resetSettings.warning)) {
+		if (await OkCancelModal.show({
+			content: messages.settings.data.resetSettings.warning
+		})) {
 			// Reset settings.
-			dispatch(resetSettings())
-			applySettings({ dispatch })
+			dispatch(resetSettings({ userSettings }))
+			applySettings({ dispatch, userSettings })
 			// Done.
 			dispatch(notify(messages.settings.data.resetSettings.done))
 		}
 	}
 
 	async function onClearUserData() {
-		if (await OkCancelModal.show(messages.settings.data.clearUserData.warning)) {
+		if (await OkCancelModal.show({
+			content: messages.settings.data.clearUserData.warning
+		})) {
 			// Reset user data.
 			// Could also be implented as `resetUserData()`
 			// similar to `resetSettings()`.
@@ -69,11 +76,11 @@ export default function DataSettings({
 		} catch (error) {
 			return dispatch(showError(messages.settings.data.import.error))
 		}
-		const { settings, userData } = json
+		const { settings, userData: userDataData } = json
 		// Add user data.
 		// Could also be implented as `mergeUserData()`
 		// similar to `replaceSettings()`.
-		userData.merge(userData)
+		userData.merge(userDataData)
 		// Sort subscribed threads.
 		// Doesn't update the subscribed threads "index" collection,
 		// but that collection is not required to be updated here
@@ -94,15 +101,17 @@ export default function DataSettings({
 		} catch (error) {
 			return dispatch(showError(messages.settings.data.import.error))
 		}
-		const { settings, userData } = json
-		if (await OkCancelModal.show(messages.settings.data.import.warning)) {
+		const { settings, userData: userDataData } = json
+		if (await OkCancelModal.show({
+			content: messages.settings.data.import.warning
+		})) {
 			// Replace settings.
-			dispatch(replaceSettings(settings))
-			applySettings({ dispatch })
+			dispatch(replaceSettings({ settings, userSettings }))
+			applySettings({ dispatch, userSettings })
 			// Replace user data.
 			// Could also be implented as `replaceUserData()`
 			// similar to `replaceSettings()`.
-			userData.replace(userData)
+			userData.replace(userDataData)
 			// Done.
 			dispatch(notify(messages.settings.data.import.done))
 		}
@@ -138,10 +147,13 @@ export default function DataSettings({
 			</ContentSectionDescription>
 			{userDataSize === undefined
 				? (
-					<TextButton
-						onClick={onShowUserDataSize}>
-						{messages.settings.data.showUserDataSize}
-					</TextButton>
+					<>
+						<TextButton
+							onClick={onShowUserDataSize}>
+							{messages.settings.data.showUserDataSize}
+						</TextButton>
+						<br/>
+					</>
 				)
 				: (
 					<>

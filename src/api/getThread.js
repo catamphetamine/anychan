@@ -1,7 +1,6 @@
 import { getProvider } from '../provider.js'
 import getThreadFromImageboard from './getThreadFromImageboard.js'
 import configuration from '../configuration.js'
-import getUserData from '../UserData.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
@@ -33,7 +32,8 @@ export default async function getThread({
 	locale,
 	http,
 	proxyUrl,
-	userData = getUserData()
+	userData,
+	userSettings
 }) {
 	// Automatically set `afterCommentId`/`afterCommentsCount` parameters
 	// if `threadBeforeRefresh` parameter was passed.
@@ -57,7 +57,8 @@ export default async function getThread({
 			afterCommentsCount,
 			messages,
 			http,
-			proxyUrl
+			proxyUrl,
+			userSettings
 		})
 	} else {
 		result = await provider.api.getThread({

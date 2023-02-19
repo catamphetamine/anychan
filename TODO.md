@@ -8,6 +8,16 @@
 
 
 
+На страницах доски и треда можно делать sticky header не высокий.
+
+
+See how loading images indicator works in slideshow.
+
+
+На странице доски в режиме latest-replies:
+У `Comment--hasNoThumbnail` делать max ширину меньше, чем у `Comment-hasThumbnail`.
+
+
 Maybe selective subscribed thread update:
 
 * `dispatch(subscribeToThread())`

@@ -1,5 +1,4 @@
 import { getProvider } from '../../provider.js'
-import getUserData from '../../UserData.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 import onSubscribedThreadFetched from '../subscribedThread/onSubscribedThreadFetched.js'
 import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
@@ -7,8 +6,8 @@ import createByIdIndex from '../createByIdIndex.js'
 
 export default function onThreadsFetched(channelId, threads, {
 	dispatch,
-	timer,
-	userData = getUserData()
+	userData,
+	timer
 }) {
 	const subscribedThreadIdsForThisChannel = userData.getSubscribedThreadIdsForChannel(channelId) || []
 
@@ -66,7 +65,7 @@ export default function onThreadsFetched(channelId, threads, {
 // // if some threads are missing from the `threads` list
 // // then it would mean that those ones have expired.
 // const { subscribedThreadsArchivedOrExpired } = onThreadsList(channelId, threads, {
-// 	userData: getUserData(),
+// 	userData,
 // 	threadArchive,
 // 	threadArchiveLifetime,
 // 	threadArchiveLifetimeInfinite

@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
+import classNames from 'classnames'
 
 import SidebarSection from '../Sidebar/SidebarSection.js'
 import ProviderLogo from '../ProviderLogo.js'
 
 import useMessages from '../../hooks/useMessages.js'
+import useSource from '../../hooks/useSource.js'
 
 import getBasePath from '../../utility/getBasePath.js'
 
@@ -13,6 +15,8 @@ import './SourcesSidebarSection.css'
 
 export default function SourcesSidebarSection() {
 	const messages = useMessages()
+
+	const currentSource = useSource()
 
 	const sources = useMemo(() => {
 		// `arisuchan.jp` website has been taken down.
@@ -25,16 +29,18 @@ export default function SourcesSidebarSection() {
 
 	return (
 		<SidebarSection title={messages.sources.title}>
-			{sources.map((provider) => (
+			{sources.map((source) => (
 				<a
-					key={provider.id}
-					href={getBasePath({ providerId: provider.id })}
-					className="SourcesSidebarSection-source">
+					key={source.id}
+					href={getBasePath({ providerId: source.id })}
+					className={classNames('SourcesSidebarSection-source', {
+						'SourcesSidebarSection-source--selected': source.id === currentSource.id
+					})}>
 					<ProviderLogo
-						provider={provider}
+						provider={source}
 						className="SourcesSidebarSection-sourceLogo"
 					/>
-					{provider.title}
+					{source.title}
 				</a>
 			))}
 		</SidebarSection>

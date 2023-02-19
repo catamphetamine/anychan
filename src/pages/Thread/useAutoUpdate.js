@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import useMount from 'frontend-lib/hooks/useMount.js'
 
 import useLocale from '../../hooks/useLocale.js'
+import useUserData from '../../hooks/useUserData.js'
+import useSettings from '../../hooks/useSettings.js'
 
 import getThread from '../../utility/thread/getThread.js'
 
@@ -15,8 +17,6 @@ import {
 import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThread.js'
 import onThreadFetched from '../../utility/thread/onThreadFetched.js'
 import onThreadExpired from '../../utility/thread/onThreadExpired.js'
-
-import getUserData from '../../UserData.js'
 
 // Thread page "auto-update" feature:
 //
@@ -52,6 +52,8 @@ export default function useAutoUpdate({
 	const censoredWords = useSelector(state => state.settings.settings.censoredWords)
 	const grammarCorrection = useSelector(state => state.settings.settings.grammarCorrection)
 
+	const userData = useUserData()
+	const userSettings = useSettings()
 	const dispatch = useDispatch()
 	const locale = useLocale()
 
@@ -156,9 +158,14 @@ export default function useAutoUpdate({
 		onThreadExpired(
 			thread.channelId,
 			thread.id,
-			{ dispatch }
+			{ dispatch, userData }
 		)
-	}, [])
+	}, [
+		dispatch,
+		userData,
+		stopAutoUpdate,
+		thread
+	])
 
 	refreshThread = async () => {
 		// If the user clicks the `<AutoUpdate/>` button
@@ -181,10 +188,11 @@ export default function useAutoUpdate({
 				locale
 			}, {
 				dispatch,
-				userData: getUserData(),
+				userData,
+				userSettings,
 				action: 'refreshThreadInState'
 			})
-			onThreadFetched(updatedThread, { dispatch })
+			onThreadFetched(updatedThread, { dispatch, userData })
 			if (!isStarted.current) {
 				log('has already been stopped - exit')
 				return

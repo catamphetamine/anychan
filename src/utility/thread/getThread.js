@@ -25,6 +25,7 @@ export default async function getThread(
 		getThreadStub,
 		updateThreadInState,
 		userData,
+		userSettings,
 		timer,
 		http
 	}
@@ -38,7 +39,8 @@ export default async function getThread(
 					threadId,
 					{
 						...parameters,
-						userData
+						userData,
+						userSettings
 					}
 				))
 				break
@@ -47,7 +49,8 @@ export default async function getThread(
 					existingThread,
 					{
 						...parameters,
-						userData
+						userData,
+						userSettings
 					}
 				))).thread
 				break
@@ -58,7 +61,8 @@ export default async function getThread(
 					...parameters,
 					messages: getMessages(parameters.locale),
 					http: getHttpClient(),
-					userData
+					userData,
+					userSettings
 				})
 				break
 			case 'getThreadStub':

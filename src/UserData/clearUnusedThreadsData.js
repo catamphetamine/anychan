@@ -1,5 +1,4 @@
 import { threads } from './collections/index.js'
-import getUserData from '../UserData.js'
 import { isCollectionTypeSplitByChannelAndThread, isCollectionTypeSplitByChannel } from './collection.utility.js'
 
 /**
@@ -17,7 +16,7 @@ import { isCollectionTypeSplitByChannelAndThread, isCollectionTypeSplitByChannel
  * @return {function} A function that clears unused threads data.
  */
 export default function clearUnusedThreadsData({
-	userData = getUserData(),
+	userData,
 	unusedThreadDataLifeTime,
 	timer,
 	log = () => {}

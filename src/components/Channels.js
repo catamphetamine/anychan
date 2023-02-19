@@ -14,6 +14,7 @@ import { getChannels } from '../redux/data.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
+import useSettings from '../hooks/useSettings.js'
 
 import ChannelUrl from './ChannelUrl.js'
 
@@ -38,6 +39,7 @@ export default function Channels({
 }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+	const userSettings = useSettings()
 
 	const route = useRoute()
 
@@ -59,7 +61,7 @@ export default function Channels({
 	const onSetView = useCallback((view) => {
 		setView(view)
 		if (shouldSaveChannelsView) {
-			dispatch(saveChannelsView(view))
+			dispatch(saveChannelsView({ channelsView: view, userSettings }))
 		}
 	}, [dispatch])
 
@@ -120,8 +122,8 @@ export default function Channels({
 	])
 
 	const loadChannelsList = useCallback(async () => {
-		await dispatch(getChannels())
-	}, [dispatch])
+		await dispatch(getChannels({ userSettings }))
+	}, [dispatch, userSettings])
 
 	if (!channels) {
 		return (

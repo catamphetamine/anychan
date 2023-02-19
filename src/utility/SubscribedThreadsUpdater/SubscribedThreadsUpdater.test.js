@@ -1,6 +1,9 @@
 import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
+
 import UserData from '../../UserData/UserData.js'
+import UserSettings from '../../UserSettings/UserSettings.js'
+
 import { BASE_PREFIX } from '../storage/getStoragePrefix.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -11,6 +14,7 @@ describe('SubscribedThreadsUpdater', function() {
 	it('should update subscribed threads', async function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
+		const userSettings = new UserSettings(storage)
 		const timer = new TestTimer()
 
 		const tab = new TestTab({
@@ -147,6 +151,7 @@ describe('SubscribedThreadsUpdater', function() {
 			tab,
 			timer,
 			userData,
+			userSettings,
 			storage,
 			dispatch,
 			nextUpdateRandomizeInterval: 0,

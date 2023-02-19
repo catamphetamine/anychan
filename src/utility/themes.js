@@ -1,7 +1,5 @@
 import loadStylesheet from 'frontend-lib/utility/loadStylesheet.js'
 
-import getUserSettings from '../UserSettings.js'
-
 import { getDefaultThemes } from './settings/settingsDefaults.js'
 
 import configuration from '../configuration.js'
@@ -10,19 +8,19 @@ function getBuiltInThemes() {
 	return getDefaultThemes().concat(configuration.themes || [])
 }
 
-export function getThemes({ userSettings = getUserSettings() } = {}) {
+export function getThemes({ userSettings }) {
 	return getBuiltInThemes().concat(userSettings.get('themes') || [])
 }
 
-export function getTheme(id) {
-	return getThemes().find(_ => _.id === id)
+export function getTheme(id, { userSettings }) {
+	return getThemes({ userSettings }).find(_ => _.id === id)
 }
 
 export function isBuiltInTheme(id) {
 	return getBuiltInThemes().findIndex(_ => _.id === id) >= 0
 }
 
-export function addTheme(theme, { userSettings = getUserSettings() } = {}) {
+export function addTheme(theme, { userSettings }) {
 	const themes = userSettings.get('themes') || []
 	const index = themes.findIndex(_ => _.id === theme.id)
 	if (index >= 0) {
@@ -33,7 +31,7 @@ export function addTheme(theme, { userSettings = getUserSettings() } = {}) {
 	userSettings.set('themes', themes)
 }
 
-export function removeTheme(id, { userSettings = getUserSettings() } = {}) {
+export function removeTheme(id, { userSettings }) {
 	const themes = userSettings.get('themes') || []
 	const index = themes.findIndex(_ => _.id === id)
 	if (index >= 0) {
@@ -51,16 +49,19 @@ export function removeTheme(id, { userSettings = getUserSettings() } = {}) {
  * @param  {(string|object)} theme
  * @param {object[]} [themes]
  */
-export async function applyTheme(theme) {
+export async function applyTheme(theme, { userSettings }) {
 	if (typeof theme === 'string') {
-		theme = getTheme(theme)
+		theme = getTheme(theme, { userSettings })
 	}
-	const themes = getThemes()
+
+	const themes = getThemes({ userSettings })
 	const previousThemeStyle = document.head.querySelector('[data-theme]')
 	const previousThemeId = previousThemeStyle && previousThemeStyle.dataset.theme
+
 	if (previousThemeId === theme.id) {
 		return
 	}
+
 	function finishSwitchingTheme(style) {
 		style.setAttribute('data-theme', theme.id)
 		for (const { id } of themes) {
@@ -71,6 +72,7 @@ export async function applyTheme(theme) {
 			document.head.removeChild(previousThemeStyle)
 		}
 	}
+
 	if (theme.url) {
 		const stylesheet = await loadStylesheet(theme.url)
 		finishSwitchingTheme(stylesheet)

@@ -12,17 +12,16 @@ import _getThreads from '../api/getThreads.js'
 import _getThread from '../api/getThread.js'
 import _vote from '../api/vote.js'
 
-import getUserData from '../UserData.js'
-
 const redux = new ReduxModule('DATA')
 
 export const getChannels = redux.action(
-	({ all } = {}) => async http => await _getChannelsCached({
+	({ all, userSettings }) => async http => await _getChannelsCached({
 		// In case of adding new options here,
 		// also add them in `./src/api/cached/getChannels.js`
 		// and `./src/components/settings/ProxySettings.js`.
 		http,
-		all
+		all,
+		userSettings
 	}),
 	(state, result) => ({
 		...state,
@@ -40,7 +39,8 @@ export const getThreads = redux.action(
 		locale,
 		withLatestComments,
 		sortByRating,
-		userData = getUserData()
+		userData,
+		userSettings
 	}) => async http => {
 		const threads = await _getThreads({
 			channelId,
@@ -51,7 +51,8 @@ export const getThreads = redux.action(
 			withLatestComments,
 			sortByRating,
 			http,
-			userData
+			userData,
+			userSettings
 		})
 		return { channelId, threads }
 	},
@@ -81,7 +82,8 @@ export const getThread = redux.action(
 		censoredWords,
 		grammarCorrection,
 		locale,
-		userData
+		userData,
+		userSettings
 	}) => async http => {
 		return await _getThread({
 			channelId,
@@ -94,7 +96,8 @@ export const getThread = redux.action(
 			},
 			messages: getMessages(locale),
 			http,
-			userData
+			userData,
+			userSettings
 		})
 	},
 	(state, thread) => {
@@ -127,7 +130,8 @@ export const refreshThread = redux.action(
 		censoredWords,
 		grammarCorrection,
 		locale,
-		userData
+		userData,
+		userSettings
 	}) => async http => {
 		const updatedThread = await _getThread({
 			channelId: thread.channelId,
@@ -145,21 +149,23 @@ export const refreshThread = redux.action(
 			},
 			messages: getMessages(locale),
 			http,
-			userData
+			userData,
+			userSettings
 		})
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
 			thread: updatedThread,
-			prevCommentsCount: thread.comments.length
+			userData
 		}
 	},
-	(state, { thread, prevCommentsCount }) => {
+	(state, { thread, userData }) => {
 		// Get the current `channel`.
 		const channel = getChannelObject(state, thread.channelId)
 		setThreadInfo(thread, channel)
+		const prevCommentsCount = thread.comments.length
 		return {
 			...state,
-			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount }),
+			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }),
 			thread,
 			threadRefreshedAt: Date.now()
 		}
@@ -170,7 +176,7 @@ export const refreshThread = redux.action(
 // `onCommentRead()` action is used instead.
 //
 // export const refreshAutoUpdateNewCommentsState = redux.simpleAction(
-// 	(state, { channelId, threadId }) => {
+// 	(state, { channelId, threadId, userData }) => {
 // 		// Use the previously fetched thread data, if any,
 // 		// to re-calculate the "new" ("unread") comments' indexes.
 // 		const { thread } = state
@@ -178,7 +184,7 @@ export const refreshThread = redux.action(
 // 			if (thread.id === threadId && thread.channelId === channelId) {
 // 				return {
 // 					...state,
-// 					...getAutoUpdateNewCommentsState(state, thread)
+// 					...getAutoUpdateNewCommentsState(state, thread, { userData })
 // 				}
 // 			}
 // 		}
@@ -201,7 +207,7 @@ export const markCurrentThreadAsExpired = redux.simpleAction(
 // whether those follow any event callback execution order or something.
 export const onCommentRead = redux.simpleAction(
 	'ON_COMMENT_READ',
-	(state, { channelId, threadId, commentId, commentIndex }) => {
+	(state, { channelId, threadId, commentId, commentIndex, userData }) => {
 		const { thread } = state
 		// If the comment has been read in a currently viewed thread.
 		// (which should be the case, unless there's some "race condition")
@@ -257,7 +263,7 @@ export const onCommentRead = redux.simpleAction(
 				if (commentIndex === undefined) {
 					return {
 						...state,
-						...getAutoUpdateNewCommentsState(state, thread)
+						...getAutoUpdateNewCommentsState(state, thread, { userData })
 					}
 				}
 
@@ -284,10 +290,12 @@ export const onCommentRead = redux.simpleAction(
 						...state,
 						// autoUpdateUnreadCommentsCount: newAutoUpdateUnreadCommentsCount,
 						autoUpdateUnreadCommentsCount: getNewCommentsCount(thread, {
-							fromCommentIndex: commentIndex + 1
+							fromCommentIndex: commentIndex + 1,
+							userData
 						}),
 						autoUpdateUnreadRepliesCount: getNewRepliesCount(thread, {
-							fromCommentIndex: commentIndex + 1
+							fromCommentIndex: commentIndex + 1,
+							userData
 						})
 					}
 				}
@@ -299,12 +307,13 @@ export const onCommentRead = redux.simpleAction(
 )
 
 export const vote = redux.action(
-	({ up, channelId, threadId, commentId, userData = getUserData() }) => async http => {
+	({ up, channelId, threadId, commentId, userData, userSettings }) => async http => {
 		const voteAccepted = await _vote({
 			up,
 			channelId,
 			commentId,
-			http
+			http,
+			userSettings
 		})
 		// If the vote has been accepted then mark this comment as "voted" in user data.
 		// If the vote hasn't been accepted due to "already voted"
@@ -385,7 +394,7 @@ const AUTO_UPDATE_NO_NEW_COMMENTS_STATE = {
 }
 
 // `prevCommentsCount` parameter is only passed when called after a thread refresh.
-function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}) {
+function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }) {
 	let {
 		// If adding new properties here, also add those properties
 		// to `AUTO_UPDATE_NO_NEW_COMMENTS_STATE`.
@@ -416,7 +425,7 @@ function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}
 	//
 	if (autoUpdateFirstNewCommentIndex === undefined) {
 		if (prevCommentsCount !== undefined) {
-			const latestReadCommentIndex = getLatestReadCommentIndex(thread)
+			const latestReadCommentIndex = getLatestReadCommentIndex(thread, { userData })
 			if (latestReadCommentIndex !== undefined) {
 				// If there already were any unread comments before the auto-update.
 				if (latestReadCommentIndex < prevCommentsCount - 1) {
@@ -477,7 +486,7 @@ function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}
 	// 	}
 	// }
 	//
-	const newCommentsCount = getNewCommentsCount(thread)
+	const newCommentsCount = getNewCommentsCount(thread, { userData })
 
 	if (newCommentsCount === 0) {
 		return AUTO_UPDATE_NO_NEW_COMMENTS_STATE
@@ -494,7 +503,8 @@ function getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount } = {}
 	autoUpdateUnreadCommentsCount = newCommentsCount
 
 	autoUpdateUnreadRepliesCount = getNewRepliesCount(thread, {
-		fromCommentIndex: autoUpdateFirstNewCommentIndex
+		fromCommentIndex: autoUpdateFirstNewCommentIndex,
+		userData
 	})
 
 	return {

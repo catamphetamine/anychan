@@ -1,19 +1,17 @@
 import { ReduxModule } from 'react-pages'
 
-import getUserData from '../UserData.js'
-
 const redux = new ReduxModule('FAVORITE_CHANNELS')
 
 export const getFavoriteChannels = redux.simpleAction(
 	'GET_FAVORITE_CHANNELS',
-	(state, { userData = getUserData() } = {}) => ({
+	(state, { userData }) => ({
 		...state,
 		favoriteChannels: userData.getFavoriteChannels()
 	})
 )
 
 export const addFavoriteChannel = redux.simpleAction(
-	(state, { channel, userData = getUserData() }) => {
+	(state, { channel, userData }) => {
 		userData.addFavoriteChannel(channel)
 		return {
 			...state,
@@ -23,7 +21,7 @@ export const addFavoriteChannel = redux.simpleAction(
 )
 
 export const setFavoriteChannels = redux.simpleAction(
-	(state, { channels, userData = getUserData() }) => {
+	(state, { channels, userData }) => {
 		userData.setFavoriteChannels(channels)
 		return {
 			...state,
@@ -33,7 +31,7 @@ export const setFavoriteChannels = redux.simpleAction(
 )
 
 export const removeFavoriteChannel = redux.simpleAction(
-	(state, { channel, userData = getUserData() }) => {
+	(state, { channel, userData }) => {
 		userData.removeFavoriteChannel(channel)
 		return {
 			...state,

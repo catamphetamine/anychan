@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, useCallback } from 'react'
 
-import getUserData from '../../UserData.js'
+import useUserData from '../../hooks/useUserData.js'
 
 import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
 
@@ -14,8 +14,7 @@ export default function useHide({
 	// setState,
 	initialHidden,
 	setHidden,
-	onAfterHiddenChange,
-	userData = getUserData()
+	onAfterHiddenChange
 }) {
 	// const getHidden = useCallback(() => {
 	// 	return state.hidden
@@ -43,6 +42,8 @@ export default function useHide({
 	// const setHidden = setHidden_ || setHiddenInternal_
 
 	const commentId = comment.id
+
+	const userData = useUserData()
 
 	useLayoutEffectSkipMount(() => {
 		// Update the comment's `hidden` flag.

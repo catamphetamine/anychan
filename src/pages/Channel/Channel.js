@@ -8,6 +8,9 @@ import {
 	setScrollPosition
 } from '../../redux/channel.js'
 
+import getUserData from '../../UserData.js'
+import getUserSettings from '../../UserSettings.js'
+
 import getMessages from '../../messages/index.js'
 
 import CommentsList from '../../components/CommentsList.js'
@@ -17,6 +20,7 @@ import ChannelThread from './ChannelThread.js'
 import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
 import useLocale from '../../hooks/useLocale.js'
+import useUserData from '../../hooks/useUserData.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useOnThreadClick from '../../components/useOnThreadClick.js'
@@ -153,6 +157,8 @@ ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
 	return await loadChannelPage({
 		channelId,
 		dispatch,
+		userData: getUserData(),
+		userSettings: getUserSettings(),
 		getCurrentChannel: () => getState().data.channel,
 		settings,
 		channelView: settings.channelView,

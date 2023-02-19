@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import getThreadThumbnail from '../thread/getThreadThumbnail.js'
 import getLatestReadCommentIndex from '../thread/getLatestReadCommentIndex.js'
 
@@ -10,7 +8,7 @@ import {
 	onStartTrimming
 } from './subscribedThreadRecordStatusUpdaters.js'
 
-export default function createSubscribedThreadRecord(thread, { channel, userData = getUserData() } = {}) {
+export default function createSubscribedThreadRecord(thread, { channel, userData }) {
 	// const latestComment = thread.comments[thread.comments.length - 1]
 
 	const subscribedThread = {

@@ -47,8 +47,8 @@ try {
 	initializeMiscellaneous()
 	initializeIntl()
 	initializeProvider()
-	await initializeApp()
-	await renderApp()
+	const { userData } = await initializeApp()
+	await renderApp({ userData })
 } catch (error) {
 	console.error(error.stack || error)
 	alert(error.message)

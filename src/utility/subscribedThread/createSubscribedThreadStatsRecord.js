@@ -1,4 +1,3 @@
-import getUserData from '../../UserData.js'
 import { encodeDate } from '../../UserData/compression.js'
 
 import getFirstNewCommentIndex from '../thread/getFirstNewCommentIndex.js'
@@ -7,7 +6,7 @@ import getNewRepliesCount from '../thread/getNewRepliesCount.js'
 
 export default function createSubscribedThreadStatsRecord(thread, {
 	refreshedAt,
-	userData = getUserData()
+	userData
 }) {
 	// In case of an "incremental" thread update.
 	// This feature is not currently used.

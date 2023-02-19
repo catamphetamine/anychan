@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import { getSubscribedThreadsUpdater } from '../globals.js'
 import sortSubscribedThreads from './sortSubscribedThreads.js'
 import createSubscribedThreadRecord from './createSubscribedThreadRecord.js'
@@ -9,7 +7,7 @@ import { Timer } from 'web-browser-timer'
 
 export default function addSubscribedThread(thread, {
 	channel,
-	userData = getUserData(),
+	userData,
 	subscribedThreadsUpdater = getSubscribedThreadsUpdater(),
 	timer = new Timer()
 }) {

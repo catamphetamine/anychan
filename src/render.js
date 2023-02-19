@@ -5,11 +5,7 @@ import configuration from './configuration.js'
 
 // import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-import getUserData from './UserData.js'
-
-export default async function({
-	userData = getUserData()
-} = {}) {
+export default async function({ userData }) {
 	let isFirstRender = true
 	let currentRoute
 

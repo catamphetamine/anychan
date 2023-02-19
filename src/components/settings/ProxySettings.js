@@ -7,6 +7,9 @@ import { getHttpClient } from 'react-pages'
 import TextButton from '../TextButton.js'
 import { Form, Field, Submit } from '../Form.js'
 
+import useUserData from '../../hooks/useUserData.js'
+import useSettings from '../../hooks/useSettings.js'
+
 import { notify, showError } from '../../redux/notifications.js'
 
 import _getChannels from '../../api/getChannels.js'
@@ -51,12 +54,15 @@ export default function ProxySettings({
 	}, [onChange])
 
 	const dispatch = useDispatch()
+	const userData = useUserData()
+	const userSettings = useSettings()
 
 	const onTestProxyServer = useCallback(async (proxyUrl) => {
 		const getProxyTestResult = async () => {
 			const { channels } = await _getChannels({
 				http: getHttpClient(),
-				proxyUrl
+				proxyUrl,
+				userSettings
 			})
 
 			if (channels.length === 0) {
@@ -66,7 +72,9 @@ export default function ProxySettings({
 			const threads = await _getThreads({
 				channelId: channels[0].id,
 				http: getHttpClient(),
-				proxyUrl
+				proxyUrl,
+				userData,
+				userSettings
 			})
 
 			if (threads.length === 0) {

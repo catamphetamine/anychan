@@ -1,4 +1,3 @@
-import getUserData from '../UserData.js'
 import UserDataCleaner from '../UserData/UserDataCleaner.js'
 import { setUserDataCleaner, setSubscribedThreadsUpdater } from './globals.js'
 import getSettings from './settings/getSettings.js'
@@ -11,9 +10,15 @@ import { setCookiesAccepted } from '../redux/app.js'
 
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-export default function onApplicationStarted({ dispatch, setInitialized }) {
+export default function onApplicationStarted({
+	dispatch,
+	setInitialized,
+	userData,
+	userDataForUserDataCleaner,
+	userSettings
+}) {
 	// Start User Data cleaner.
-	const userDataCleaner = new UserDataCleaner()
+	const userDataCleaner = new UserDataCleaner({ userData: userDataForUserDataCleaner })
 	setUserDataCleaner(userDataCleaner)
 
 	userDataCleaner.start()
@@ -21,12 +26,14 @@ export default function onApplicationStarted({ dispatch, setInitialized }) {
 	// Start subscribed thread updater.
 	const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
 		dispatch,
+		userData,
+		userSettings,
 		createGetThreadParameters() {
 			const {
 				censoredWords,
 				grammarCorrection,
 				locale
-			} = getSettings()
+			} = getSettings({ userSettings })
 			return {
 				censoredWords,
 				grammarCorrection,
@@ -38,8 +45,6 @@ export default function onApplicationStarted({ dispatch, setInitialized }) {
 	setSubscribedThreadsUpdater(subscribedThreadsUpdater)
 
 	subscribedThreadsUpdater.start()
-
-	const userData = getUserData()
 
 	// Initialize announcement.
 	dispatch(setAnnouncement(userData.getAnnouncement()))

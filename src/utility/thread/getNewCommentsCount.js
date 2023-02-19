@@ -1,12 +1,10 @@
-import getUserData from '../../UserData.js'
-
 import getLatestReadCommentIndex from './getLatestReadCommentIndex.js'
 import getFirstNewCommentIndex from './getFirstNewCommentIndex.js'
 
 export default function getNewCommentsCount(thread, {
 	fromCommentIndex,
-	userData = getUserData()
-} = {}) {
+	userData
+}) {
 	if (fromCommentIndex === undefined) {
 		fromCommentIndex = getFirstNewCommentIndex(thread, { userData })
 		if (fromCommentIndex === undefined) {

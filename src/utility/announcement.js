@@ -1,4 +1,3 @@
-import getUserData from '../UserData.js'
 import Lock from './Lock.js'
 
 import { Timer } from 'web-browser-timer'
@@ -23,9 +22,7 @@ const lock = new Lock('Announcement.Refresh.Lock', {
 
 const timer = new Timer()
 
-export function startPollingAnnouncement(url, showAnnouncement, refreshInterval, {
-	userData = getUserData()
-} = {}) {
+export function startPollingAnnouncement(url, showAnnouncement, refreshInterval, { userData }) {
 	function retryAfter(delay) {
 		// Randomize announcement refresh delay between different tabs
 		// so that multiple tabs don't start refreshing it simultaneously.
@@ -171,7 +168,7 @@ export async function fetchAnnouncement(url) {
 	}
 }
 
-export function markAnnouncementAsRead({ userData = getUserData() } = {}) {
+export function markAnnouncementAsRead({ userData }) {
 	userData.setAnnouncement({
 		...userData.getAnnouncement(),
 		read: true

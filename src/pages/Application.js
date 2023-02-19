@@ -31,13 +31,8 @@ import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'frontend-lib/utility/cookiePolicy.js'
 import TweetModal from '../components/TweetModal.js'
 
-import { getChannels } from '../redux/data.js'
-import { getSettings } from '../redux/settings.js'
-import { setCookiesAccepted, setOfflineMode } from '../redux/app.js'
-import { getFavoriteChannels } from '../redux/favoriteChannels.js'
-import { getSubscribedThreads } from '../redux/subscribedThreads.js'
+import { setCookiesAccepted } from '../redux/app.js'
 import { markAnnouncementAsRead } from '../redux/announcement.js'
-import { setAnnouncement } from '../redux/announcement.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
@@ -50,19 +45,17 @@ import isChannelsPage from '../utility/routes/isChannelsPage.js'
 import getUserData from '../UserData.js'
 import getUserSettings from '../UserSettings.js'
 
-import {
-	startPollingAnnouncement,
-	markAnnouncementAsRead as _markAnnouncementAsRead
-} from '../utility/announcement.js'
+import loadApplication from './Application.load.js'
+
+import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/announcement.js'
 
 import { getProvider } from '../provider.js'
-import getBasePath, { addBasePath } from '../utility/getBasePath.js'
-import { onDispatchReady } from '../utility/dispatch.js'
 import configuration from '../configuration.js'
 
 import { SourceContext } from '../hooks/useSource.js'
-import { SettingsContext } from '../hooks/useSettings.js'
-import { UserDataContext } from '../hooks/useUserData.js'
+import useSettings, { SettingsContext } from '../hooks/useSettings.js'
+import useUserData, { UserDataContext } from '../hooks/useUserData.js'
+import useUserDataForUserDataCleaner, { UserDataForUserDataCleanerContext } from '../hooks/useUserDataForUserDataCleaner.js'
 
 import './Application.css'
 import './MainContentWithSidebarLayout.css'
@@ -90,6 +83,10 @@ export default function Application({ children }) {
 		return getUserData()
 	}, [])
 
+	const userDataForUserDataCleaner = useMemo(() => {
+		return getUserData({ userDataCleaner: true })
+	}, [])
+
 	const settings = useMemo(() => {
 		return getUserSettings()
 	}, [])
@@ -101,11 +98,13 @@ export default function Application({ children }) {
 	return (
 		<SourceContext.Provider value={source}>
 			<UserDataContext.Provider value={userData}>
-				<SettingsContext.Provider value={settings}>
-					<App>
-						{children}
-					</App>
-				</SettingsContext.Provider>
+				<UserDataForUserDataCleanerContext.Provider value={userDataForUserDataCleaner}>
+					<SettingsContext.Provider value={settings}>
+						<App>
+							{children}
+						</App>
+					</SettingsContext.Provider>
+				</UserDataForUserDataCleanerContext.Provider>
 			</UserDataContext.Provider>
 		</SourceContext.Provider>
 	)
@@ -117,54 +116,13 @@ Application.propTypes = {
 
 Application.load = {
 	load: async ({ dispatch, getState, location }) => {
-		// Dispatch delayed actions.
-		// For example, `dispatch(autoDarkMode())`.
-		onDispatchReady(dispatch)
-		// Fill in user's preferences.
-		dispatch(getSettings())
-		dispatch(getFavoriteChannels())
-		dispatch(getSubscribedThreads({ userData: getUserData() }))
-		// Detect offline mode.
-		if (location.query.offline) {
-			return dispatch(setOfflineMode(true))
-		}
-		// Get the list of channels.
-		try {
-			await dispatch(getChannels())
-		} catch (error) {
-			let errorPageUrl
-			// `503 Service Unavailable`
-			// `502 Bad Gateway`
-			// "Request has been terminated" error is thrown by a web browser
-			// when it can't connect to the server (doesn't have a `status`).
-			if (error.message.indexOf('Request has been terminated') === 0 || error.status === 503 || error.status === 502) {
-				errorPageUrl = '/offline'
-			} else if (error.status === 404) {
-				errorPageUrl = '/not-found'
-			} else {
-				errorPageUrl = '/error'
-			}
-			if (errorPageUrl) {
-				console.error(error)
-				window.location = `${getBasePath()}${errorPageUrl}?offline=✓&url=${encodeURIComponent(getBasePath() + location.pathname + location.search + location.hash)}`
-				// Don't render the page because it would throw.
-				// (the app assumes the list of channels is available).
-				// (maybe javascript won't even execute this line,
-				//  because it's after a `window.location` redirect,
-				//  or maybe it will, so just in case).
-				await new Promise(resolve => {})
-			} else {
-				throw error
-			}
-		}
-		// Show announcements.
-		if (process.env.NODE_ENV === 'production') {
-			startPollingAnnouncement(
-				configuration.announcementUrl || addBasePath('/announcement.json'),
-				announcement => dispatch(setAnnouncement(announcement)),
-				configuration.announcementPollInterval
-			)
-		}
+		await loadApplication({
+			dispatch,
+			getState,
+			location,
+			userData: getUserData(),
+			userSettings: getUserSettings()
+		})
 	},
 	blocking: true
 }
@@ -174,6 +132,10 @@ function App({
 }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+
+	const userData = useUserData()
+	const userDataForUserDataCleaner = useUserDataForUserDataCleaner()
+	const userSettings = useSettings()
 
 	const [initialized, setInitialized] = useState()
 
@@ -195,7 +157,13 @@ function App({
 		// Load YouTube video player API.
 		loadYouTubeVideoPlayerApi()
 
-		onApplicationStarted({ dispatch, setInitialized })
+		onApplicationStarted({
+			dispatch,
+			userData,
+			userDataForUserDataCleaner,
+			userSettings,
+			setInitialized
+		})
 	}, [])
 
 	useEffect(() => {
@@ -223,9 +191,9 @@ function App({
 	}, { alsoAfterMount: true })
 
 	const onHideAnnouncement = useCallback(() => {
-		_markAnnouncementAsRead()
+		_markAnnouncementAsRead({ userData })
 		dispatch(markAnnouncementAsRead())
-	}, [dispatch])
+	}, [dispatch, userData])
 
 	const onAcceptCookies = useCallback(() => {
 		acceptCookies()

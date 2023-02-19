@@ -1,12 +1,10 @@
-import getUserData from '../../UserData.js'
-
 /**
  * Tells if there're any new (unread) comments in a subscribed thread.
  * @param  {object} subscribedThread — Subscribed thread record from `UserData`.
  * @param  {object} [options.userData] — Custom `UserData` instance (is used in tests).
  * @return {boolean} Returns `false` if it's unknown whether there're any new comments. Could
  */
-export default function doesSubscribedThreadHaveNewComments(subscribedThread, { userData = getUserData() } = {}) {
+export default function doesSubscribedThreadHaveNewComments(subscribedThread, { userData }) {
 	// If a thread has expired then don't show a "has new comments" icon.
 	// The rationale is that the user won't be able to read those new comments anyway.
 	if (subscribedThread.expired) {
@@ -23,7 +21,7 @@ export default function doesSubscribedThreadHaveNewComments(subscribedThread, { 
 	return subscribedThreadStats.newCommentsCount > 0
 }
 
-// export default function doesSubscribedThreadHaveNewComments(subscribedThread, { userData = getUserData() } = {}) {
+// export default function doesSubscribedThreadHaveNewComments(subscribedThread, { userData }) {
 // 	// If a thread has expired then don't show a "has new comments" icon.
 // 	// The rationale is that the user won't be able to read those new comments anyway.
 // 	if (subscribedThread.expired) {

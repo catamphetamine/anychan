@@ -1,13 +1,11 @@
 import { ReduxModule } from 'react-pages'
 
 import getSettings_ from '../utility/settings/getSettings.js'
-import getUserSettings from '../UserSettings.js'
 
 const redux = new ReduxModule()
 
 export const getSettings = redux.simpleAction(
-	(state) => {
-		const userSettings = getUserSettings()
+	(state, { userSettings }) => {
 		return {
 			...state,
 			settings: getSettings_({ userSettings })
@@ -16,8 +14,7 @@ export const getSettings = redux.simpleAction(
 )
 
 export const resetSettings = redux.simpleAction(
-	(state) => {
-		const userSettings = getUserSettings()
+	(state, { userSettings }) => {
 		userSettings.reset()
 		return {
 			...state,
@@ -27,8 +24,7 @@ export const resetSettings = redux.simpleAction(
 )
 
 export const replaceSettings = redux.simpleAction(
-	(state, newSettings) => {
-		const userSettings = getUserSettings()
+	(state, { settings: newSettings, userSettings }) => {
 		userSettings.replace(newSettings)
 		return {
 			...state,
@@ -38,115 +34,104 @@ export const replaceSettings = redux.simpleAction(
 )
 
 export const saveLocale = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { locale, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('locale', value, { userSettings })
+			settings: saveSetting('locale', locale, { userSettings })
 		}
 	}
 )
 
 export const saveTheme = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { theme, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('theme', value, { userSettings })
+			settings: saveSetting('theme', theme, { userSettings })
 		}
 	}
 )
 
 export const saveFontSize = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { fontSize, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('fontSize', value, { userSettings })
+			settings: saveSetting('fontSize', fontSize, { userSettings })
 		}
 	}
 )
 
 export const saveProxyUrl = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { proxyUrl, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('proxyUrl', value, { userSettings })
+			settings: saveSetting('proxyUrl', proxyUrl, { userSettings })
 		}
 	}
 )
 
 export const saveAutoSuggestFavoriteChannels = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { autoSuggestFavoriteChannels, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('autoSuggestFavoriteChannels', value, { userSettings })
+			settings: saveSetting('autoSuggestFavoriteChannels', autoSuggestFavoriteChannels, { userSettings })
 		}
 	}
 )
 
 export const saveDarkMode = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { darkMode, userSettings }) => {
 		// Disable "Auto Dark Mode" feature.
 		saveSetting('autoDarkMode', false, { userSettings })
 		return {
 			...state,
-			settings: saveSetting('darkMode', value, { userSettings })
+			settings: saveSetting('darkMode', darkMode, { userSettings })
 		}
 	}
 )
 
 export const saveLeftHanded = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { leftHanded, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('leftHanded', value, { userSettings })
+			settings: saveSetting('leftHanded', leftHanded, { userSettings })
 		}
 	}
 )
 
 export const saveGrammarCorrection = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { grammarCorrection, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('grammarCorrection', value, { userSettings })
+			settings: saveSetting('grammarCorrection', grammarCorrection, { userSettings })
 		}
 	}
 )
 
 export const saveAutoDarkMode = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { autoDarkMode, userSettings }) => {
 		// Reset manual "Dark Mode" setting.
 		saveSetting('darkMode', undefined, { userSettings })
 		return {
 			...state,
-			settings: saveSetting('autoDarkMode', value, { userSettings })
+			settings: saveSetting('autoDarkMode', autoDarkMode, { userSettings })
 		}
 	}
 )
 
 export const saveChannelsView = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { channelsView, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('channelsView', value, { userSettings })
+			settings: saveSetting('channelsView', channelsView, { userSettings })
 		}
 	}
 )
 
 export const saveChannelView = redux.simpleAction(
-	(state, value) => {
-		const userSettings = getUserSettings()
+	(state, { channelView, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('channelView', value, { userSettings })
+			settings: saveSetting('channelView', channelView, { userSettings })
 		}
 	}
 )

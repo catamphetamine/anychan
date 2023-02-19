@@ -4,9 +4,7 @@ import getLanguageFromLocale from '../getLanguageFromLocale.js'
 import getCensoredWordsByLanguage from '../getCensoredWordsByLanguage.js'
 import getDefaultSettings from './settingsDefaults.js'
 
-import getUserSettings from '../../UserSettings.js'
-
-export default function getSettings({ userSettings = getUserSettings() } = {}) {
+export default function getSettings({ userSettings }) {
 	const settings = {
 		...getDefaultSettings(),
 		...userSettings.get()

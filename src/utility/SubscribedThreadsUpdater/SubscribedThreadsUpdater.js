@@ -1,7 +1,6 @@
 import { Tab } from 'web-browser-tab'
 import { Timer } from 'web-browser-timer'
 
-import getUserData from '../../UserData.js'
 import getThread from '../thread/getThread.js'
 import getNextUpdateAtForThread from '../thread/getNextUpdateAtForThread.js'
 import reportError from '../reportError.js'
@@ -35,7 +34,8 @@ export default class SubscribedThreadsUpdater {
 	constructor({
 		tab,
 		timer = new Timer(),
-		userData = getUserData(),
+		userData,
+		userSettings,
 		storage = storage_,
 		dispatch,
 		// `getThreadStub` parameter is currently only used in tests.
@@ -51,6 +51,7 @@ export default class SubscribedThreadsUpdater {
 		this.tab = tab
 		this.timer = timer
 		this.userData = userData
+		this.userSettings = userSettings
 		this.dispatch = dispatch
 		this.getThreadStub = getThreadStub
 		this.createGetThreadParameters = createGetThreadParameters
@@ -496,6 +497,7 @@ export default class SubscribedThreadsUpdater {
 		}, {
 			dispatch: this.dispatch,
 			userData: this.userData,
+			userSettings: this.userSettings,
 			timer: this.timer,
 			action: this.getThreadStub ? 'getThreadStub' : 'getThread',
 			getThread: this.getThreadStub

@@ -1,7 +1,5 @@
 import { ReduxModule } from 'react-pages'
 
-import getUserData from '../UserData.js'
-
 const redux = new ReduxModule('CHANNEL')
 
 export const setVirtualScrollerState = redux.simpleAction(
@@ -25,7 +23,7 @@ export const resetState = redux.simpleAction(
 )
 
 export const getSubscribedThreadIdsForChannel = redux.simpleAction(
-	(state, { channelId, userData = getUserData() }) => ({
+	(state, { channelId, userData }) => ({
 		...state,
 		subscribedThreadIds: userData.getSubscribedThreadIdsForChannel(channelId)
 	})

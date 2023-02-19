@@ -1,6 +1,9 @@
 import { useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
+import useUserData from '../../hooks/useUserData.js'
+import useSettings from '../../hooks/useSettings.js'
+
 import getMessages from '../../messages/index.js'
 
 import { vote as voteForComment } from '../../redux/data.js'
@@ -14,14 +17,20 @@ export default function useVote({
 	locale
 }) {
 	const dispatch = useDispatch()
+	const userData = useUserData()
+	const userSettings = useSettings()
+
 	const [vote, setVote] = useState(comment.vote)
+
 	const onVote = useCallback(async (up) => {
 		try {
 			const voteAccepted = await dispatch(voteForComment({
 				channelId,
 				threadId,
 				commentId: comment.id,
-				up
+				up,
+				userData,
+				userSettings
 			}))
 			if (voteAccepted) {
 				if (up) {
@@ -47,6 +56,7 @@ export default function useVote({
 		locale,
 		dispatch
 	])
+
 	return [
 		vote,
 		onVote

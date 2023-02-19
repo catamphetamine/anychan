@@ -7,6 +7,15 @@
 	padding-bottom: 0.4em;
 	padding-left: var(--Sidebar-paddingLeft);
 	padding-right: var(--Sidebar-paddingLeft);
+
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+}
+
+.SourcesSidebarSection-source--selected {
+	background-color: var(--Channels-backgroundColor--selected);
+	border-top-color: var(--Channels-borderColor--selected);
+	border-bottom-color: var(--Channels-borderColor--selected);
 }
 
 .SourcesSidebarSection-sourceLogo {

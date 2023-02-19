@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setChannelView } from '../../redux/channel.js'
 import { saveChannelView } from '../../redux/settings.js'
 
+import useUserData from '../../hooks/useUserData.js'
+import useSettings from '../../hooks/useSettings.js'
+
 import loadChannelPage from '../../pages/Channel/loadChannelPage.js'
 
 export default function useChannelView({
@@ -23,6 +26,8 @@ export default function useChannelView({
 	}, [])
 
 	const dispatch = useDispatch()
+	const userData = useUserData()
+	const userSettings = useSettings()
 
 	// Added `isSettingChannelView` flag to disable Toolbar channel view selection buttons
 	// while it's loading.
@@ -42,6 +47,8 @@ export default function useChannelView({
 			await loadChannelPage({
 				channelId: channel.id,
 				dispatch,
+				userData,
+				userSettings,
 				getCurrentChannel: () => channel,
 				settings,
 				channelView: view,
@@ -56,7 +63,7 @@ export default function useChannelView({
 			dispatch(setChannelView(view))
 
 			// Save `channelView` in user's settings.
-			dispatch(saveChannelView(view))
+			dispatch(saveChannelView({ channelView: view, userSettings }))
 
 			if (onChannelViewDidChange) {
 				onChannelViewDidChange(view)
@@ -66,6 +73,8 @@ export default function useChannelView({
 		}
 	}, [
 		dispatch,
+		userData,
+		userSettings,
 		channel,
 		settings
 	])

@@ -3,7 +3,6 @@ import getThreadsFromImageboard from './getThreadsFromImageboard.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import configuration from '../configuration.js'
-import getUserData from '../UserData.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 export default async function getThreads({
@@ -16,7 +15,8 @@ export default async function getThreads({
 	proxyUrl,
 	withLatestComments,
 	sortByRating,
-	userData = getUserData()
+	userData,
+	userSettings
 }) {
 	const provider = getProvider()
 
@@ -27,7 +27,8 @@ export default async function getThreads({
 			sortByRating,
 			messages,
 			http,
-			proxyUrl
+			proxyUrl,
+			userSettings
 		})
 	} else {
 		result = await provider.api.getThreads({ channelId })

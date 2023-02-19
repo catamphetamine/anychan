@@ -34,6 +34,7 @@ import getMessages, {
 
 import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
+import useSettings from '../hooks/useSettings.js'
 
 import { shouldUseProxy, getProxyUrl } from '../utility/proxy.js'
 
@@ -77,16 +78,17 @@ function Settings({
 	settings
 }) {
 	const dispatch = useDispatch()
+	const userSettings = useSettings()
 	const messages = useMessages()
 	const locale = useLocale()
 
 	const onSetDarkMode = useCallback(value => dispatch(setDarkMode(value)), [dispatch])
-	const onLocaleChange = useCallback(locale => dispatch(saveLocale(locale)), [dispatch])
-	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize(fontSize)), [dispatch])
-	const onAutoDarkModeChange = useCallback(darkMode => dispatch(saveAutoDarkMode(darkMode)), [dispatch])
-	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded(leftHanded)), [dispatch])
-	const onGrammarCorrectionChange = useCallback(grammarCorrection => dispatch(saveGrammarCorrection(grammarCorrection)), [dispatch])
-	const onProxyUrlChange = useCallback(value => dispatch(saveProxyUrl(value)), [dispatch])
+	const onLocaleChange = useCallback(locale => dispatch(saveLocale({ locale, userSettings })), [dispatch, userSettings])
+	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize({ fontSize, userSettings })), [dispatch, userSettings])
+	const onAutoDarkModeChange = useCallback(autoDarkMode => dispatch(saveAutoDarkMode({ autoDarkMode, userSettings })), [dispatch, userSettings])
+	const onLeftHandedChange = useCallback(leftHanded => dispatch(saveLeftHanded({ leftHanded, userSettings })), [dispatch, userSettings])
+	const onGrammarCorrectionChange = useCallback(grammarCorrection => dispatch(saveGrammarCorrection({ grammarCorrection, userSettings })), [dispatch, userSettings])
+	const onProxyUrlChange = useCallback(proxyUrl => dispatch(saveProxyUrl({ proxyUrl, userSettings })), [dispatch, userSettings])
 
 	return (
 		<ContentSections>
@@ -151,15 +153,17 @@ function Settings({
 			<DataSettings
 				messages={messages}
 				locale={settings.locale}
-				dispatch={dispatch}/>
+				dispatch={dispatch}
+			/>
 
 			{/* CORS Proxy */}
 			{shouldUseProxy() &&
 				<ProxySettings
 					messages={messages}
 					value={settings.proxyUrl}
-					defaultValue={getProxyUrl()}
-					onChange={onProxyUrlChange}/>
+					defaultValue={getProxyUrl({ userSettings })}
+					onChange={onProxyUrlChange}
+				/>
 			}
 		</ContentSections>
 	)

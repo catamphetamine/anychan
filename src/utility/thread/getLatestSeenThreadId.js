@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPreviousOne.js'
 
 /**
@@ -9,7 +7,7 @@ import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPrevious
  * @param  {Thread[]} threads
  * @return {number} [id] Returns `undefined` if a suitable thread wasn't found.
  */
-export default function getLatestSeenThreadId(channelId, threads, { userData = getUserData() } = {}) {
+export default function getLatestSeenThreadId(channelId, threads, { userData }) {
 	// Show comments starting from the comment,
 	// that's immediately after the latest read one.
 	const latestSeenThreadId = userData.getLatestSeenThreadId(channelId)

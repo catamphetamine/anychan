@@ -10,7 +10,10 @@ import ListButton from './ListButton.js'
 import ChannelUrl from './ChannelUrl.js'
 
 import { channel } from '../PropTypes.js'
+
 import useMessages from '../hooks/useMessages.js'
+import useUserData from '../hooks/useUserData.js'
+import useSettings from '../hooks/useSettings.js'
 
 import { saveAutoSuggestFavoriteChannels } from '../redux/settings.js'
 
@@ -32,7 +35,8 @@ export default function EditFavoriteChannels({
 	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
 
 	const messages = useMessages()
-
+	const userData = useUserData()
+	const userSettings = useSettings()
 	const dispatch = useDispatch()
 
 	const [selectedChannel, setSelectedChannel] = useState()
@@ -57,20 +61,29 @@ export default function EditFavoriteChannels({
 			channel: {
 				id: channel.id,
 				title: channel.title
-			}
+			},
+			userData
 		}))
-	}, [dispatch])
+	}, [dispatch, userData])
 
 	const itemComponentProps = useMemo(() => ({
 		messages,
-		dispatch
-	}), [messages, dispatch])
+		dispatch,
+		userData,
+		userSettings
+	}), [
+		messages,
+		dispatch,
+		userData,
+		userSettings
+	])
 
 	const onFavoriteChannelsOrderChange = useCallback((favoriteChannels) => {
 		dispatch(setFavoriteChannels({
-			channels: favoriteChannels
+			channels: favoriteChannels,
+			userData
 		}))
-	}, [dispatch])
+	}, [dispatch, userData])
 
 	return (
 		<section className="EditFavoriteChannels">
@@ -112,16 +125,24 @@ function Channel({
 	children: channel,
 	messages,
 	dispatch,
+	userData,
+	userSettings,
 	style,
 	dragging,
 	dragged
 }) {
 	const onRemoveFavoriteChannel = useCallback(async () => {
-		await dispatch(removeFavoriteChannel({ channel }))
+		await dispatch(removeFavoriteChannel({ channel, userData }))
 		// Don't auto-add visited channels to the list of "favorite" channels
 		// once the user has deleted a single channel from this "auto" list.
-		dispatch(saveAutoSuggestFavoriteChannels(false))
-	}, [dispatch, channel])
+		dispatch(saveAutoSuggestFavoriteChannels({
+			autoSuggestFavoriteChannels: false,
+			userSettings
+		}))
+	}, [
+		dispatch,
+		channel
+	])
 
 	return (
 		<div style={style} className={classNames('EditFavoriteChannels-channel', {
@@ -146,6 +167,8 @@ Channel.propTypes = {
 	children: channel.isRequired,
 	messages: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
+	userData: PropTypes.object.isRequired,
+	userSettings: PropTypes.object.isRequired,
 	style: PropTypes.object
 }
 

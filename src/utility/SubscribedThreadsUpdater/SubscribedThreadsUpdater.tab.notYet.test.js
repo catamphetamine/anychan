@@ -1,6 +1,8 @@
 import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
+
 import UserData from '../../UserData/UserData.js'
+import UserSettings from '../../UserSettings/UserSettings.js'
 
 import { MemoryStorage } from 'web-browser-storage'
 import { TestTab } from 'web-browser-tab'
@@ -10,6 +12,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 	it('should work for a single active tab (not the time to update yet)', async function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
+		const userSettings = new UserSettings(storage)
 
 		const timer = new TestTimer()
 
@@ -96,6 +99,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			tab,
 			timer,
 			userData,
+			userSettings,
 			storage,
 			dispatch,
 			nextUpdateRandomizeInterval: 0,

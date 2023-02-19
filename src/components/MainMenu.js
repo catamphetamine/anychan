@@ -19,6 +19,7 @@ import {
 import { saveDarkMode } from '../redux/settings.js'
 
 import useMessages from '../hooks/useMessages.js'
+import useSettings from '../hooks/useSettings.js'
 
 import FeedIconOutline from 'frontend-lib/icons/fill-and-outline/feed-outline.svg'
 import FeedIconFill from 'frontend-lib/icons/fill-and-outline/feed-fill.svg'
@@ -46,6 +47,7 @@ export default function MainMenu({
 }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+	const userSettings = useSettings()
 
 	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
 	const sidebarMode = useSelector(state => state.app.sidebarMode)
@@ -61,7 +63,7 @@ export default function MainMenu({
 		const settingsItem = getSettingsMenuItem({ messages })
 		settingsItem.isSelected = !isSidebarShown
 
-		const darkModeItem = getDarkModeMenuItem({ messages, dispatch, darkMode })
+		const darkModeItem = getDarkModeMenuItem({ messages, dispatch, darkMode, userSettings })
 
 		const menuItem = {
 			title: messages.menu,
@@ -171,7 +173,7 @@ MainMenu.propTypes = {
 	// dispatch: PropTypes.func.isRequired
 }
 
-export function getDarkModeMenuItem({ messages, dispatch, darkMode }) {
+export function getDarkModeMenuItem({ messages, dispatch, darkMode, userSettings }) {
 	return {
 		title: messages.darkMode,
 		onClick: () => {
@@ -179,7 +181,7 @@ export function getDarkModeMenuItem({ messages, dispatch, darkMode }) {
 				return dispatch(notify(messages.cookies.required))
 			}
 			dispatch(setDarkMode(!darkMode))
-			dispatch(saveDarkMode(!darkMode))
+			dispatch(saveDarkMode({ darkMode: !darkMode, userSettings }))
 			autoDarkMode(false, {
 				setDarkMode: (value) => dispatch(applyDarkMode(value))
 			})

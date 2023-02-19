@@ -7,14 +7,14 @@ import {
 import getThread from '../../utility/thread/getThread.js'
 import getLatestReadCommentIndex from '../../utility/thread/getLatestReadCommentIndex.js'
 
-import getUserData from '../../UserData.js'
-
 import getFromIndex from './getFromIndex.js'
 
 export default async function loadThreadPage({
 	getState,
 	dispatch,
 	location,
+	userData,
+	userSettings,
 	params: {
 		channelId,
 		threadId
@@ -40,7 +40,8 @@ export default async function loadThreadPage({
 		locale
 	}, {
 		dispatch,
-		userData: getUserData(),
+		userData,
+		userSettings,
 		action: 'getThreadInState'
 	})
 
@@ -48,7 +49,7 @@ export default async function loadThreadPage({
 	dispatch(resetState())
 
 	// Set initial state.
-	const latestReadCommentIndex = getLatestReadCommentIndex(thread)
+	const latestReadCommentIndex = getLatestReadCommentIndex(thread, { userData })
 	dispatch(setInitialLatestReadCommentIndex(latestReadCommentIndex))
 	dispatch(setInitialFromIndex(getFromIndex({
 		thread,

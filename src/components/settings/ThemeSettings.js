@@ -32,6 +32,8 @@ import {
 
 import { showError } from '../../redux/notifications.js'
 
+import useSettings from '../../hooks/useSettings.js'
+
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
 export default function ThemeSettings({
@@ -40,13 +42,15 @@ export default function ThemeSettings({
 	dispatch,
 	guideUrl
 }) {
+	const userSettings = useSettings()
+
 	const [theme, setTheme] = useState(settings.theme)
 	const [showAddThemeModal, setShowAddThemeModal] = useState()
 
 	async function onSelectTheme(id) {
 		setTheme(id)
 		try {
-			await applyTheme(id)
+			await applyTheme(id, { userSettings })
 		} catch (error) {
 			if (error.message === 'STYLESHEET_ERROR') {
 				dispatch(showError(messages.settings.theme.add.cssFileError))
@@ -55,17 +59,17 @@ export default function ThemeSettings({
 			}
 			throw error
 		}
-		dispatch(saveTheme(id))
+		dispatch(saveTheme({ theme: id, userSettings }))
 	}
 
 	async function onAddTheme(id) {
 		try {
-			await applyTheme(id)
+			await applyTheme(id, { userSettings })
 		} catch (error) {
-			removeTheme(id)
+			removeTheme(id, { userSettings })
 			throw error
 		}
-		dispatch(saveTheme(id))
+		dispatch(saveTheme({ theme: id, userSettings }))
 		setTheme(id)
 	}
 
@@ -73,12 +77,12 @@ export default function ThemeSettings({
 		if (await OkCancelModal.show({
 			content: messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)
 		})) {
-			removeTheme(theme)
+			removeTheme(theme, { userSettings })
 			await onSelectTheme(getDefaultThemeId())
 		}
 	}
 
-	const options = getThemes().map((theme) => ({
+	const options = getThemes({ userSettings }).map((theme) => ({
 		value: theme.id,
 		label: messages.settings.theme.themes[theme.id] || theme.name || theme.id
 	}))
@@ -156,6 +160,8 @@ function AddTheme({
 	const addThemeForm = useRef()
 	const [pasteCodeInstead, setPasteCodeInstead] = useState()
 
+	const userSettings = useSettings()
+
 	// Focus the "Code" input after "Paste CSS code instead" has been clicked.
 	useEffect(() => {
 		if (pasteCodeInstead) {
@@ -176,7 +182,7 @@ function AddTheme({
 		if (!THEME_ID_REG_EXP.test(value)) {
 			return messages.settings.theme.add.invalidId
 		}
-		for (const theme of getThemes()) {
+		for (const theme of getThemes({ userSettings })) {
 			if (value === theme.id) {
 				return messages.settings.theme.add.alreadyExists
 			}
@@ -184,7 +190,7 @@ function AddTheme({
 	}
 
 	function validateName(value) {
-		for (const theme of getThemes()) {
+		for (const theme of getThemes({ userSettings })) {
 			if (value === theme.name) {
 				return messages.settings.theme.add.alreadyExists
 			}
@@ -196,8 +202,8 @@ function AddTheme({
 			if (theme.css) {
 				delete theme.url
 			}
-			addTheme(theme)
-			await onSaveTheme(theme.id, getThemes().concat(theme))
+			addTheme(theme, { userSettings })
+			await onSaveTheme(theme.id, getThemes({ userSettings }).concat(theme))
 			close()
 		} catch (error) {
 			console.error(error)

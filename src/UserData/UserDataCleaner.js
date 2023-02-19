@@ -1,7 +1,6 @@
 import clearUnusedThreadsData from './clearUnusedThreadsData.js'
 import fixSubscribedThreadsData from './fixSubscribedThreadsData.js'
 import fixThreadCommentData from './fixThreadCommentData.js'
-import getUserData from '../UserData.js'
 import Lock from '../utility/Lock.js'
 import storage_ from '../utility/storage/storage.js'
 
@@ -32,15 +31,15 @@ const TIMEOUT = 15 * MINUTE
 
 export default class UserDataCleaner {
 	constructor({
+		userData,
 		storage = storage_,
-		userData = getUserData({ userDataCleaner: true }),
 		tabStatusWatcher = new TabStatusWatcher({
 			log: debugTabStatusWatcher
 		}),
 		unusedThreadDataLifeTime = UNUSED_THREAD_DATA_LIFETIME,
 		startDelayMax = START_DELAY_MAX,
 		timer = new Timer()
-	} = {}) {
+	}) {
 		this.userData = userData
 		this.lock = new Lock('Clean-Up.Lock', {
 			storage,

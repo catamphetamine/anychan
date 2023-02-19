@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux'
 
 import { subscribeToThread } from '../../redux/subscribedThreads.js'
 
-import getUserData from '../../UserData.js'
+import useUserData from '../../hooks/useUserData.js'
 
 export default function useSubscribeToThread({
 	thread,
-	channel,
-	userData = getUserData()
+	channel
 }) {
 	const dispatch = useDispatch()
+	const userData = useUserData()
 
 	// `onSubscribeToThread()` function is only used when replying in a thread.
 	// `onSubscribeToThread()` property doesn't change the way a comment is rendered,

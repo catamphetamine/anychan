@@ -13,7 +13,8 @@ import configuration from '../configuration.js'
 export default function Imageboard_({
 	messages,
 	http,
-	proxyUrl
+	proxyUrl,
+	userSettings
 }) {
 	return Imageboard(getProvider().imageboard, {
 		messages: messages && getMessages(messages),
@@ -28,7 +29,7 @@ export default function Imageboard_({
 		request: async (method, url, { body, headers }) => {
 			// Proxy the URL (if required).
 			if (shouldUseProxy()) {
-				url = getProxiedUrl(url, { proxyUrl })
+				url = getProxiedUrl(url, { proxyUrl, userSettings })
 			}
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
 			// https://caniuse.com/#feat=fetch

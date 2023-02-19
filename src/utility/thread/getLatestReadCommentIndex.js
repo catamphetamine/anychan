@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPreviousOne.js'
 
 /**
@@ -8,7 +6,7 @@ import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPrevious
  * @param  {Thread} thread
  * @return {number} [i] Returns `undefined` if a suitable comment wasn't found.
  */
-export default function getLatestReadCommentIndex(thread, { userData = getUserData() } = {}) {
+export default function getLatestReadCommentIndex(thread, { userData }) {
 	// Show comments starting from the comment,
 	// that's immediately after the latest read one.
 	const latestReadCommentId = userData.getLatestReadCommentId(

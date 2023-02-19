@@ -11,6 +11,8 @@ import { channel as channelType } from '../PropTypes.js'
 import { getChannels } from '../redux/data.js'
 import getUrl from '../utility/getUrl.js'
 
+import getUserSettings from '../UserSettings.js'
+
 import getMessages from '../messages/index.js'
 
 import './Channels.css'
@@ -38,7 +40,12 @@ ChannelsPage.meta = ({ settings }) => ({
 	title: getMessages(settings.settings.locale).boards.title
 })
 
-ChannelsPage.load = ({ dispatch }) => dispatch(getChannels({ all: true }))
+ChannelsPage.load = async ({ dispatch }) => {
+	await dispatch(getChannels({
+		all: true,
+		userSettings: getUserSettings()
+	}))
+}
 
 function ChannelsList({ className, children }) {
 	// On `8ch.net` there're about 20 000 user-created boards.

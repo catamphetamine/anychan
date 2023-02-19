@@ -1,5 +1,3 @@
-import getUserData from '../../UserData.js'
-
 import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPreviousOne.js'
 
 /**
@@ -8,7 +6,7 @@ import findIndexByIdOrClosestPreviousOne from '../findIndexByIdOrClosestPrevious
  * @param  {object} [options.userData] — Custom `UserData` instance (is used in tests).
  * @return {number}
  */
-export default function getSubscribedThreadNewRepliesCount(subscribedThread, { userData = getUserData() } = {}) {
+export default function getSubscribedThreadNewRepliesCount(subscribedThread, { userData }) {
 	// If a thread has expired then don't show a "has new comments" icon.
 	// The rationale is that the user won't be able to read those new comments anyway.
 	if (subscribedThread.expired) {
@@ -25,7 +23,7 @@ export default function getSubscribedThreadNewRepliesCount(subscribedThread, { u
 	return subscribedThreadStats.newRepliesCount
 }
 
-// export default function getSubscribedThreadNewRepliesCount(subscribedThread, { userData = UserData } = {}) {
+// export default function getSubscribedThreadNewRepliesCount(subscribedThread, { userData }) {
 // 	// If a thread has expired then don't show a "has new comments" icon.
 // 	// The rationale is that the user won't be able to read those new comments anyway.
 // 	if (subscribedThread.expired) {

@@ -9,12 +9,11 @@ import storage from '../../utility/storage/storage.js'
  * This is to avoid re-fetching `/boards.json` needlessly
  * every time a user opens a page in a new tab.
  * @param {boolean} [all] — The `all` option of `getChannels()`.
- * @param {object} http — `react-pages` `http` utility.
  * @return {object} `getChannels()` result.
  */
 export default async function getChannelsCached({
 	all,
-	http
+	...rest
 }) {
 	const prefix = getPrefix()
 	const key = prefix + (all ? 'getAllChannels' : 'getChannels')
@@ -25,7 +24,7 @@ export default async function getChannelsCached({
 	// Fetch the list of channels and cache it with the current timestamp.
 	const result = await getChannels({
 		all,
-		http
+		...rest
 	})
 	storage.set(key, {
 		timestamp: Date.now(),

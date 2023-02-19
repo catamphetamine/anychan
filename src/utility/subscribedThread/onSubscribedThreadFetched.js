@@ -1,7 +1,6 @@
 import { Timer } from 'web-browser-timer'
 import { isEqual } from 'lodash-es'
 
-import getUserData from '../../UserData.js'
 import reportError from '../reportError.js'
 
 import {
@@ -30,7 +29,7 @@ import getLatestReadCommentIndex from '../thread/getLatestReadCommentIndex.js'
  */
 export default function onSubscribedThreadFetched(thread, {
 	min,
-	userData = getUserData(),
+	userData,
 	timer = new Timer()
 } = {}) {
 	const subscribedThread = userData.getSubscribedThread(thread.channelId, thread.id)

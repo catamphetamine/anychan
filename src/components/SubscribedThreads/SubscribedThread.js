@@ -14,10 +14,11 @@ import LockIcon from 'frontend-lib/icons/lock.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 
-import getUserData from '../../UserData.js'
 import { getSubscribedThreadsUpdater } from '../../utility/globals.js'
 
 import { subscribedThread } from '../../PropTypes.js'
+
+import useUserData from '../../hooks/useUserData.js'
 
 import getUrl from '../../utility/getUrl.js'
 import doesSubscribedThreadHaveNewComments from '../../utility/subscribedThread/doesSubscribedThreadHaveNewComments.js'
@@ -35,7 +36,9 @@ function SubscribedThread({
 	const unsubscribeButton = useRef()
 	const undoUnsubscribeButton = useRef()
 
+	const userData = useUserData()
 	const dispatch = useDispatch()
+
 	const [unsubscribed, setUnsubscribed] = useState()
 
 	// If the user accidentally removes this thread from the list of
@@ -44,19 +47,19 @@ function SubscribedThread({
 	const subscribedThreadStatsBeforeRemoval = useRef()
 
 	const onUnsubscribeToThread = useCallback(async () => {
-		const { subscribedThreadStats } = await dispatch(unsubscribeFromThread(thread, { userData: getUserData() }))
+		const { subscribedThreadStats } = await dispatch(unsubscribeFromThread(thread, { userData }))
 		subscribedThreadStatsBeforeRemoval.current = subscribedThreadStats
 		setUnsubscribed(true)
-	}, [thread])
+	}, [thread, userData])
 
 	const onRestoreSubscribedThread = useCallback(async () => {
 		await dispatch(restoreSubscribedThread(thread, {
 			subscribedThreadStats: subscribedThreadStatsBeforeRemoval.current,
-			userData: getUserData(),
+			userData,
 			subscribedThreadsUpdater: getSubscribedThreadsUpdater()
 		}))
 		setUnsubscribed(false)
-	}, [thread])
+	}, [thread, userData])
 
 	useEffect(() => {
 		if (unsubscribed) {
@@ -78,8 +81,8 @@ function SubscribedThread({
 		if (unsubscribed) {
 			return false
 		}
-		return doesSubscribedThreadHaveNewComments(thread)
-	}, [thread])
+		return doesSubscribedThreadHaveNewComments(thread, { userData })
+	}, [thread, userData])
 
 	const hasNewReplies = false
 

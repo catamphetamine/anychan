@@ -1,4 +1,3 @@
-import getUserData from '../../UserData.js'
 import { onStartExpired } from '../subscribedThread/subscribedThreadRecordStatusUpdaters.js'
 import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
@@ -11,7 +10,7 @@ import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 // Instead, `UserDataCleaner` periodically clears "stale" thread data.
 // (data for threads that haven't been accessed for a long time and are
 //  either archived or expired).
-export default function onThreadExpired(channelId, threadId, { dispatch, userData = getUserData() }) {
+export default function onThreadExpired(channelId, threadId, { dispatch, userData }) {
 	// If this thread is subscribed to, then update its `expired` flag.
 	const subscribedThread = userData.getSubscribedThread(channelId, threadId)
 	if (subscribedThread && !subscribedThread.expired) {

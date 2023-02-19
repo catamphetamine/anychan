@@ -1,13 +1,13 @@
 import { Timer } from 'web-browser-timer'
 
-import getUserData from '../../UserData.js'
 import onSubscribedThreadFetched from '../subscribedThread/onSubscribedThreadFetched.js'
 import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
+
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 
 export default function onThreadFetched(thread, {
 	dispatch,
-	userData = getUserData(),
+	userData,
 	timer = new Timer()
 }) {
 	// Update "latest accessed at" timestamp of the thread.

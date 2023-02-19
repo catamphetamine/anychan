@@ -9,9 +9,10 @@ export default async function getThreadsFromImageboard(channelId, {
 	sortByRating,
 	messages,
 	http,
-	proxyUrl
+	proxyUrl,
+	userSettings
 }) {
-	const imageboard = Imageboard({ messages, http, proxyUrl })
+	const imageboard = Imageboard({ messages, http, proxyUrl, userSettings })
 
 	const threads = await imageboard.getThreads({
 		boardId: channelId

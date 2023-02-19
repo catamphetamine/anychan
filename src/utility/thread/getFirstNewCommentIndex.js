@@ -1,8 +1,6 @@
-import getUserData from '../../UserData.js'
-
 import getLatestReadCommentIndex from './getLatestReadCommentIndex.js'
 
-export default function getFirstNewCommentIndex(thread, { userData = getUserData() } = {}) {
+export default function getFirstNewCommentIndex(thread, { userData }) {
 	const latestReadCommentIndex = getLatestReadCommentIndex(thread, { userData })
 	if (latestReadCommentIndex === undefined) {
 		return 0

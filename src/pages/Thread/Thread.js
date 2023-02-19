@@ -35,6 +35,9 @@ import useGoBackKeyboardControl from './useGoBackKeyboardControl.js'
 import getThreadPageMeta from './getThreadPageMeta.js'
 import loadThreadPage from './loadThreadPage.js'
 
+import getUserData from '../../UserData.js'
+import getUserSettings from '../../UserSettings.js'
+
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
@@ -343,7 +346,23 @@ function ThreadPage() {
 }
 
 ThreadPage.meta = getThreadPageMeta
-ThreadPage.load = loadThreadPage
+
+ThreadPage.load = async ({
+	getState,
+	dispatch,
+	location,
+	userData,
+	params
+}) => {
+	await loadThreadPage({
+		getState,
+		dispatch,
+		location,
+		params,
+		userData: getUserData(),
+		userSettings: getUserSettings()
+	})
+}
 
 // This is a workaround for cases when navigating from one thread
 // to another thread in order to prevent page state inconsistencies

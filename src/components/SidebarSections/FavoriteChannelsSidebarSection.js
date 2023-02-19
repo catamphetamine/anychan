@@ -7,11 +7,14 @@ import SidebarSection from '../Sidebar/SidebarSection.js'
 import EditFavoriteChannels from '../EditFavoriteChannels.js'
 
 import useMessages from '../../hooks/useMessages.js'
+import useSettings from '../../hooks/useSettings.js'
+
 import { getChannels } from '../../redux/data.js'
 
 export default function FavoriteChannelsSidebarSection() {
 	const dispatch = useDispatch()
 	const messages = useMessages()
+	const userSettings = useSettings()
 
 	const moreButtonRef = useRef()
 
@@ -26,11 +29,11 @@ export default function FavoriteChannelsSidebarSection() {
 	const onMore = useCallback((isEditMode) => {
 		const finish = () => setEditingFavoriteChannels(isEditMode)
 		if (isEditMode && !allChannels) {
-			return dispatch(getChannels({ all: true })).then(finish)
+			return dispatch(getChannels({ all: true, userSettings })).then(finish)
 		} else {
 			finish()
 		}
-	}, [dispatch, allChannels])
+	}, [dispatch, userSettings, allChannels])
 
 	let children
 	if (editingFavoriteChannels) {

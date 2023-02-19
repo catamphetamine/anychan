@@ -7,12 +7,12 @@ import {
 	channelId
 } from '../../PropTypes.js'
 
+import useUserData from '../../hooks/useUserData.js'
+
 import UnreadCommentWatcher, {
 	isCommentRead,
 	isThreadSeen
 } from '../../utility/comment/UnreadCommentWatcher.js'
-
-import getUserData from '../../UserData.js'
 
 /**
  * A comment is assumed "read" when its bottom edge is visible
@@ -31,9 +31,10 @@ export default function CommentReadStatusWatcher({
 	// commentCreatedAt,
 	// commentUpdatedAt,
 	// threadUpdatedAt,
-	unreadCommentWatcher,
-	userData = getUserData()
+	unreadCommentWatcher
 }) {
+	const userData = useUserData()
+
 	// `isActive` is only used during the initial rendering.
 	const isActive =
 		(mode === 'channel' && (

@@ -62,7 +62,8 @@ export default function onUserDataExternalChange({
 			threadId,
 			commentId: value,
 			// `onCommentRead()` allows passing `commentIndex: undefined`.
-			commentIndex: undefined
+			commentIndex: undefined,
+			userData
 		}))
 		// Or, could re-calculate thread auto-update state from scratch.
 		// dispatch(refreshAutoUpdateNewCommentsState())

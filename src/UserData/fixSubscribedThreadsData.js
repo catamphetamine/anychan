@@ -1,11 +1,9 @@
 import { isEqual } from 'lodash-es'
 
-import getUserData from '../UserData.js'
-
 import { createSubscribedThreadStatsRecordStubEncoded } from '../utility/subscribedThread/createSubscribedThreadStatsRecord.js'
 import { subscribedThreadsIndex, subscribedThreadsState } from './collections/index.js'
 
-export default function fixSubscribedThreadsData({ userData = getUserData(), log = () => {} }) {
+export default function fixSubscribedThreadsData({ userData, log = () => {} }) {
 	const _log = log
 	log = (...args) => _log.apply(this, ['Fix subscribed threads'].concat(args))
 

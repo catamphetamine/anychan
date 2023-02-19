@@ -1,9 +1,7 @@
-import getUserData from '../../UserData.js'
-
 export default function getNewRepliesCount(thread, {
 	fromCommentIndex,
-	userData = getUserData()
-} = {}) {
+	userData
+}) {
 	if (fromCommentIndex === undefined) {
 		fromCommentIndex = getFirstNewCommentIndex(thread, { userData })
 		if (fromCommentIndex === undefined) {
