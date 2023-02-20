@@ -111,7 +111,6 @@
 		</script>
 	</head>
 	<body>
-
 		<style>
 			#NewSiteAnnouncement {
 				display: none;
@@ -136,41 +135,46 @@
 			You're browsing an older version of the app. A <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">newer alpha version</a> is in development and available for testing. <a href="#" id="NewSiteAnnouncement-hide">Hide</a>
 		</div>
 		<script>
-		  function maybeShowNewSiteAnnouncement() {
-		    var showNewSiteAnnouncementFlag = localStorage.getItem('ShowNewSiteAnnouncement');
-		    if (showNewSiteAnnouncementFlag !== '0') {
-		      function hideNewSiteAnnouncement() {
-		      	document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(-100%)';
+			// var ANYCHAN_ANNOUNCEMENT_ID = '20-02-2023'
+			// var ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME = 'anychan/announcement/' + ANYCHAN_ANNOUNCEMENT_ID + '/read';
+			// var ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE = '✓'
+			var ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME = 'ShowNewSiteAnnouncement';
+			var ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE = '0';
+			function maybeShowNewSiteAnnouncement() {
+				var showNewSiteAnnouncementFlag = localStorage.getItem(ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME);
+				if (showNewSiteAnnouncementFlag !== ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE) {
+					function hideNewSiteAnnouncement() {
+						document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(-100%)';
 						setTimeout(function() {
-		        	document.getElementById('NewSiteAnnouncement').style.display = 'none';
+							document.getElementById('NewSiteAnnouncement').style.display = 'none';
 						}, 1000)
-		        localStorage.setItem('ShowNewSiteAnnouncement', '0');
-		      }
-		      document.getElementById('NewSiteAnnouncement').style.display = 'block';
+						localStorage.setItem(ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME, ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE);
+					}
+					document.getElementById('NewSiteAnnouncement').style.display = 'block';
 					setTimeout(function() {
-		      	document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(0)';
+						document.getElementById('NewSiteAnnouncement').style.transform = 'translateY(0)';
 					}, 100)
 
-		      var announcementHideButton = document.getElementById('NewSiteAnnouncement-hide');
-		      announcementHideButton.addEventListener('click', hideNewSiteAnnouncement);
+					var announcementHideButton = document.getElementById('NewSiteAnnouncement-hide');
+					announcementHideButton.addEventListener('click', hideNewSiteAnnouncement);
 
-		      var currentlyUsedImageboardId = window.location.pathname.slice('/'.length).split('/')[0] || '4chan';
-		      document.getElementById('NewSiteAnnouncementLink').href = 'https://anychans.github.io/' + currentlyUsedImageboardId;
-		    }
-		  }
+					var hasBasePath = window.location.hostname.indexOf('.github.io') >= 0;
+					var currentlyUsedImageboardId = window.location.pathname.slice('/'.length).split('/')[hasBasePath ? 1 : 0] || '4chan';
+					document.getElementById('NewSiteAnnouncementLink').href = 'https://anychans.github.io/' + currentlyUsedImageboardId;
+				}
+			}
 
-		  function onDocumentReady(fn) {
-		    if (document.readyState === 'loading') {
-		      document.addEventListener('DOMContentLoaded', fn);
-		    } else {
-		      fn();
-		    }
-		  }
+			function onDocumentReady(fn) {
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', fn);
+				} else {
+					fn();
+				}
+			}
 
-		  onDocumentReady(function() {
-		    setTimeout(maybeShowNewSiteAnnouncement, 3000)
-		  })
+			onDocumentReady(function() {
+				setTimeout(maybeShowNewSiteAnnouncement, 3000)
+			})
 		</script>
-
 	</body>
 </html>
