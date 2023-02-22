@@ -149,7 +149,7 @@
 	/*margin-top: var(--ThreadActivityIndicator-marginLeft);*/
 
 	position: relative;
-	top: var(--ThreadActivityIndicator-marginLeft);
+	top: var(--ThreadActivityIndicator-marginTop);
 
 	/* `padding` is added on the indicator itself rather than
 	   on some "wrapper" around it because this way its tooltip
