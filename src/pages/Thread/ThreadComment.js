@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import CommentTree from '../../components/CommentTree.js'
 
@@ -11,6 +12,8 @@ const ThreadComment = React.memo(function({
 	item: comment,
 	state,
 	setState,
+	expandAttachments,
+	className,
 	...rest
 }) {
 	const initialState = useMemo(() => state, [])
@@ -22,6 +25,10 @@ const ThreadComment = React.memo(function({
 			setState={setState}
 			postDateLinkUpdatePageUrlToPostUrlOnClick={true}
 			postDateLinkNavigateToPostUrlOnClick={false}
+			expandAttachments={expandAttachments}
+			className={classNames(className, {
+				'Comment--expandAttachments': expandAttachments
+			})}
 			{...rest}
 		/>
 	)

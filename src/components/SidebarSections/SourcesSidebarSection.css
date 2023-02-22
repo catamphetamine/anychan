@@ -8,14 +8,41 @@
 	padding-left: var(--Sidebar-paddingLeft);
 	padding-right: var(--Sidebar-paddingLeft);
 
-	border-top: 1px solid transparent;
-	border-bottom: 1px solid transparent;
+	color: var(--SidebarLink-color);
+
+	border-top: var(--SidebarLink-borderWidth) solid var(--SidebarLink-borderColor);
+	border-bottom: var(--SidebarLink-borderWidth) solid var(--SidebarLink-borderColor);
+
+	&:hover {
+		color: var(--SidebarLink-color--hover);
+		background-color: var(--SidebarLink-backgroundColor--hover);
+		border-top-color: var(--SidebarLink-borderColor--hover);
+		border-bottom-color: var(--SidebarLink-borderColor--hover);
+	}
+
+	&:active {
+		color: var(--SidebarLink-color--active);
+		background-color: var(--SidebarLink-backgroundColor--active);
+		border-top-color: var(--SidebarLink-borderColor--active);
+		border-bottom-color: var(--SidebarLink-borderColor--active);
+	}
 }
 
 .SourcesSidebarSection-source--selected {
-	background-color: var(--Channels-backgroundColor--selected);
-	border-top-color: var(--Channels-borderColor--selected);
-	border-bottom-color: var(--Channels-borderColor--selected);
+	color: var(--SidebarLink-color--selected);
+	background-color: var(--SidebarLink-backgroundColor--selected);
+	border-top-color: var(--SidebarLink-borderColor--selected);
+	border-bottom-color: var(--SidebarLink-borderColor--selected);
+
+	&:hover {
+		border-top-color: var(--SidebarLink-borderColor--selectedActive);
+		border-bottom-color: var(--SidebarLink-borderColor--selectedActive);
+	}
+
+	&:active {
+		border-top-color: var(--SidebarLink-borderColor--selectedActive);
+		border-bottom-color: var(--SidebarLink-borderColor--selectedActive);
+	}
 }
 
 .SourcesSidebarSection-sourceLogo {

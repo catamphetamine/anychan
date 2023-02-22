@@ -9,6 +9,8 @@ import useRoute from '../../hooks/useRoute.js'
 import isThreadPage from '../../utility/routes/isThreadPage.js'
 import isChannelPage from '../../utility/routes/isChannelPage.js'
 
+import './ChannelThreadsSidebarStickyHeader.css'
+
 export default function ChannelThreadsSidebarStickyHeader() {
 	const threads = useSelector(state => state.data.threads)
 	const { channelView } = useSelector(state => state.settings.settings)
@@ -32,6 +34,7 @@ export default function ChannelThreadsSidebarStickyHeader() {
 			<ChannelHeader
 				alignTitle="start"
 				channelView={channelView}
+				className="ChannelThreadsSidebarStickyHeader"
 			/>
 		</SidebarTopBar>
 	)

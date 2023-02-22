@@ -169,7 +169,8 @@ function App({
 	useEffect(() => {
 		setBodyBackground(route)
 
-		document.body.style.setProperty('--ChannelThreadsSidebarSectionThreadThumbnail-width', CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 'px')
+		// Define `--ChannelThreadsSidebarSectionThreadThumbnail-width` CSS variable.
+		document.documentElement.style.setProperty('--ChannelThreadsSidebarSectionThreadThumbnail-width', CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH + 'px')
 	}, [route])
 
 	const paddingLeft = useRef()
@@ -180,14 +181,18 @@ function App({
 		// These CSS variables can be used to expand an element on a page
 		// to the full width of the page minus sidebar width.
 		// For example, a "branding" top banner (like on Twitter or Facebook).
-		document.body.style.setProperty('--Webpage-paddingLeft-width', paddingLeft.current.getBoundingClientRect().width + 'px')
-		document.body.style.setProperty('--Webpage-paddingRight-width', paddingRight.current.getBoundingClientRect().width + 'px')
+		document.documentElement.style.setProperty('--Webpage-paddingLeft-width', paddingLeft.current.getBoundingClientRect().width + 'px')
+		document.documentElement.style.setProperty('--Webpage-paddingRight-width', paddingRight.current.getBoundingClientRect().width + 'px')
 
 		/* `--PostThumbnail-maxWidth` CSS variable is updated via javascript on a thread page. */
 		/* That change does not trigger a re-run of this hook because there's no window resize event. */
 		/* Because of that, `--SidebarLeft-width` CSS variable is also updated on a thread page when
 		   `--PostThumbnail-maxWidth` CSS variable is updated. */
-		document.body.style.setProperty('--SidebarLeft-width', sidebarLeft.current.getBoundingClientRect().width + 'px')
+		document.documentElement.style.setProperty('--SidebarLeft-width', sidebarLeft.current.getBoundingClientRect().width + 'px')
+
+		/* Measure scrollbar width. */
+		/* https://destroytoday.com/blog/100vw-and-the-horizontal-overflow-you-probably-didnt-know-about */
+		document.documentElement.style.setProperty('--Scrollbar-width', (window.innerWidth - document.body.clientWidth) + 'px')
 	}, { alsoAfterMount: true })
 
 	const onHideAnnouncement = useCallback(() => {

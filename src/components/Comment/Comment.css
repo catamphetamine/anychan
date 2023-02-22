@@ -11,6 +11,10 @@
 }
 */
 
+:root {
+	--Comment-marginLeft: 0px;
+}
+
 /* This CSS rule duplicates `.Post--compact` rule,
 	 so that post thumbnails also had the relevant
 	 `--Post-paddingTop` and `--Post-paddingBottom`. */
@@ -20,6 +24,14 @@
 }
 
 .Comment {
+	margin-left: var(--Comment-marginLeft);
+
+	/* Without `max-width`, a comment could become "overflown"
+		 by a `<pre/>` code block. */
+	/* Also, limit the maximum width of a comment when it has
+	   "expanded" attachments that could "overflow" its width. */
+	max-width: calc(100% - var(--Comment-marginLeft));
+
 	/*
 	.Post {
 		background-color: transparent;
@@ -178,10 +190,7 @@
 }
 
 @mixin upto-s {
-	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
-		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
-		 because it's default value is defined on `:root`. */
-	body {
+	:root {
 		--PostThumbnailContainer-width: 0px;
 	}
 }
@@ -189,10 +198,7 @@
 /* Move the first attachment to the left side of the comment on large screens. */
 /* (classic imageboard message style) */
 @mixin m-plus {
-	/* Setting `--PostThumbnailContainer-width` CSS variable on `<body/>`
-		 because `--PostThumbnail-maxWidth` is defined on `<body/>`
-		 because it's default value is defined on `:root`. */
-	body {
+	:root {
 		--PostThumbnailContainer-maxWidth: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
 		--PostThumbnailContainer-width: calc(var(--PostThumbnail-width) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
 	}
@@ -325,11 +331,8 @@
 		.CommentTree-comment--topLevel {
 			&.Comment--thread,
 			&.Comment--channelLatestComments {
-				&.Comment--hasNoThumbnail {
-					margin-left: calc(var(--PostThumbnailContainer-maxWidth));
-					/* Without `max-width` a comment could become overflown
-						 by a `<pre/>` code block. */
-					max-width: calc(100% - var(--PostThumbnailContainer-maxWidth));
+				&.Comment--hasNoThumbnail:not(.Comment--expandAttachments); {
+					--Comment-marginLeft: var(--PostThumbnailContainer-maxWidth);
 				}
 
 				&.Comment--hasThumbnail {

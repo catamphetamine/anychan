@@ -88,7 +88,7 @@
 	--Sidebar-highlightColor-200: hsl(20, 50%, 95%);
 
 	/* Channels. */
-	--Channels-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	--Channels-borderColor--selected: var(--SidebarLink-borderColor--selected);
 
 	/* ChannelUrl. */
 	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
@@ -104,7 +104,7 @@
 	--PressedStateButton-color--pressed: var(--PostQuoteBlock-color--generated);
 	--PressedStateButton-color--pressedActive: var(--PressedStateButton-color--active);
 	--PressedStateButton-borderColor--active: var(--PressedStateButton-borderColor--pressedFocus);
-	--PressedStateButton-borderColor--pressed: var(--PostQuoteBlock-borderColor--generated);
+	--PressedStateButton-borderColor--pressed: var(--SidebarLink-borderColor--selected);
 	--PressedStateButton-borderColor--pressedFocus: hsl(0, 46%, 82%);
 	--PressedStateButton-borderColor--pressedActive: var(--PressedStateButton-borderColor--pressedFocus); /* #e6abb0; */
 	--PressedStateButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
@@ -125,7 +125,7 @@
 	/*--PostQuoteBlock-marginTop--generated: 4px;*/
 	/*--PostQuoteBlock-marginBottom--generated: 4px;*/
 	--PostQuoteBlock-color--generated: hsl(332, 49%, 35%);
-	--PostQuoteBlock-backgroundColor--generated: hsl(30, 33%, 96%);
+	--PostQuoteBlock-backgroundColor--generated: hsl(26, 33%, 96%);
 	--PostQuoteBlock-borderColor--generated: hsl(353, 54%, 91%);
 
 	/* PostQuoteBlockBorderLeft. */

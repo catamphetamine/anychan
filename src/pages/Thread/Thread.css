@@ -1,7 +1,6 @@
 @import "../../styles/common.css";
 
 :root {
-	--Thread-comments-marginTop: 0px;
 	--NoNewComments-marginTop: calc(var(--unit) * 5);
 	--NoNewComments-marginBottom: var(--NoNewComments-marginTop);
 	@mixin l-plus {
@@ -20,6 +19,27 @@
 	--Post-color--secondary: var(--Post-color--secondaryThread);
 }
 
+.ThreadPage {
+	--ThreadPageHeader-height: var(--ChannelThreadHeader-height);
+	--ThreadPageHeader-paddingLeft: var(--ChannelThreadHeader-paddingLeft);
+	--ThreadPageHeader-fontSize: var(--ChannelThreadHeader-fontSize);
+	--ThreadPageHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
+	--ThreadPageHeader-textAlign: var(--ChannelThreadHeader-textAlign);
+
+	.ThreadPageHeader {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		height: calc(var(--ChannelThreadHeader-height) + var(--ChannelThreadHeader-borderWidth));
+		width: var(--ChannelThreadHeader-width);
+		margin-left: var(--ChannelThreadHeader-marginLeft);
+		margin-right: var(--ChannelThreadHeader-marginRight);
+		padding-left: var(--ChannelThreadHeader-paddingLeft);
+		border-bottom: var(--ChannelThreadHeader-borderWidth) solid var(--ChannelThreadHeader-borderColor);
+		background-color: var(--ChannelThreadHeader-backgroundColor);
+	}
+}
+
 .ThreadPage-noNewComments {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -36,22 +56,20 @@
 
 .ThreadPage {
 	.ShowPrevious {
-		@mixin upto-s {
-			margin-top: calc(var(--unit) * 0.5);
-			margin-bottom: calc(var(--unit) * 0.75);
-		}
-		@mixin m {
-			margin-top: calc(var(--unit) * 0.75);
-			margin-bottom: calc(var(--unit) * 0.75);
-		}
-		@mixin l-plus {
-			margin-top: var(--unit);
-			margin-bottom: var(--unit);
-		}
+		margin-top: var(--ThreadPageShowPrevious-marginTop);
+		margin-bottom: var(--ThreadPageShowPrevious-marginTop);
 	}
 }
 
 .ThreadPage-commentsContainer {
+	--Thread-comments-marginTop: 0px;
+	@mixin m-plus {
+		/* `--Comment-marginTop` is not defined at `:root` level. */
+		--Thread-comments-marginTop: var(--Comment-marginTop);
+	}
+
+	/* `.CommentsList` element already has a "negative" `margin-top`,
+	   so `margin-top` is set on `.ThreadPage-commentsContainer` element instead. */
 	margin-top: var(--Thread-comments-marginTop);
 }
 

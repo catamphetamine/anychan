@@ -4688,10 +4688,10 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.24:
-  version "0.6.24"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.24.tgz#e118318408e042b57b0ae8220492e2ac4c072273"
-  integrity sha512-h10BoWTQp3vg3M89lDpoEepia6tz0FsAVp93xiwJ2flvq31e7u4vJr2v/JQfWcVHMU6SUplv4XGLvT7j+C0+UA==
+imageboard@^0.6.25:
+  version "0.6.25"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.25.tgz#05f8024b93661759081401d54adfa1a01d7241b5"
+  integrity sha512-pDY2fw3E6dp1ChNXSPi5GUcYomh/e8ydpzl/NjFMg4dWfiUuyAXxq2+8poGHZkdITqTVloZxqhupuItRPj0osw==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
@@ -7305,10 +7305,18 @@ social-components-parser@^0.2.3:
     html-document-parser "^1.1.1"
     social-components "^0.3.2"
 
-social-components@^0.3.2, social-components@^0.3.5, social-components@^0.3.6:
+social-components@^0.3.2, social-components@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.6.tgz#e89383fc5717f87d33789017caca63e9da1a9c6e"
   integrity sha512-I+g3jSWuEQgf10O5ykh7REneqtPBuRV312GNyobMWsKYTekyK4S1P23ISvz0+XUbc2LueBh7tkaHOm8SpsiIWw==
+  dependencies:
+    fetch-jsonp "^1.2.1"
+    lodash "^4.17.15"
+
+social-components@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.7.tgz#11a176ff8f9d77ccf61cbaf3a1a5a23ffe99b48b"
+  integrity sha512-55z9PySSivlHLOCo7nx2fSDAtjhb9krY2qhPEgWvAdYdkggeREQA8lNELFf4W1WmiUJv5QawDs8cApXpRmG/GQ==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

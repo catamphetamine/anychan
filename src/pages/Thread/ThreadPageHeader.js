@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-pages'
 import classNames from 'classnames'
 
 import ThreadPageHeaderTitleSeparator from './ThreadPageHeaderTitleSeparator.js'
@@ -11,9 +10,8 @@ import ThreadTitle from '../../components/ThreadTitle.js'
 import Toolbar from '../../components/Toolbar.js'
 import ThreadActivityIndicator from '../../components/ThreadActivityIndicator.js'
 import ProviderLogo from '../../components/ProviderLogo.js'
-
-import { getProvider } from '../../provider.js'
-import getUrl from '../../utility/getUrl.js'
+import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
+import ChannelThreadHeaderSource from '../../components/ChannelThreadHeaderSource.js'
 
 import useMessages from '../../hooks/useMessages.js'
 
@@ -60,7 +58,8 @@ export default function ThreadPageHeader({
 			isThreadSubscribed={isThreadSubscribed}
 			setThreadSubscribed={setThreadSubscribed}
 			areAttachmentsExpanded={areAttachmentsExpanded}
-			setAttachmentsExpanded={setAttachmentsExpanded}/>
+			setAttachmentsExpanded={setAttachmentsExpanded}
+		/>
 	)
 
 	const threadStatusIcon = (
@@ -104,34 +103,19 @@ export default function ThreadPageHeader({
 
 	return (
 		<header className="ThreadPageHeader">
-			<div className="ThreadPageHeader-top">
-				<div className="ThreadPageHeader-channelAndThreadTitle">
-					<Link
-						to="/"
-						title={getProvider().title}
-						className="ThreadPageHeader-logoLink">
-						<ProviderLogo
-							className="ThreadPageHeader-logo"/>
-					</Link>
-					<Link
-						to={getUrl(channel.id)}
-						onClick={onChannelLinkClick}
-						className="ThreadPageHeader-backLink">
-						{/*<LeftArrow className="ThreadPageHeader-backArrow"/>*/}
-						<span className="ThreadPageHeader-backTitle">
-							{channel.title}
-						</span>
-					</Link>
-					<ThreadPageHeaderTitleSeparator className="ThreadPageHeader-titleSeparator"/>
+			<div className="ThreadPageHeader-heading">
+				<ChannelThreadHeaderSource/>
+				<ChannelThreadHeaderChannel
+					channel={channel}
+					onClick={onChannelLinkClick}
+				/>
+				{/*<ThreadPageHeaderTitleSeparator className="ThreadPageHeader-titleSeparator"/>*/}
+				<div className="ThreadPageHeader-titleAndStatusIcon">
 					<ThreadTitleInHeader thread={thread} singleLine/>
 					{threadStatusIcon}
 				</div>
-				{threadMenu}
 			</div>
-			<div className="ThreadPageHeader-titleOnNewLine">
-				<ThreadTitleInHeader thread={thread}/>
-				{threadStatusIcon}
-			</div>
+			{threadMenu}
 		</header>
 	)
 }

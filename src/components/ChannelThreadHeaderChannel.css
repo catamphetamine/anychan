@@ -1,0 +1,22 @@
+:root {
+	--ChannelThreadHeader-channelId-marginRight: 0.4em;
+	--ChannelThreadHeader-channelId-color: var(--Content-color-700);
+	--ChannelThreadHeader-channelId-slash-color: var(--Content-color-500);
+}
+
+.ChannelThreadHeader-channelId {
+	display: inline;
+	margin-right: var(--ChannelThreadHeader-channelId-marginRight);
+	font-family: inherit;
+	font-weight: 300;
+	color: var(--ChannelThreadHeader-channelId-color);
+
+	--ChannelUrl-slash-color: var(--ChannelThreadHeader-channelId-slash-color);
+}
+
+.ChannelThreadHeader-channelLink {
+	&,
+	&:hover {
+		color: var(--Content-color-900);
+	}
+}

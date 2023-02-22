@@ -1,8 +1,10 @@
+:root {
+	--Comment-marginTop: var(--Comment-marginTop--topLevel);
+}
+
 /* Using a dedicated element instead of `margin-top`
 	 because `VirtualScroller` requires not having gaps between list items. */
 .CommentsList {
-	--Comment-marginTop: var(--Comment-marginTop--topLevel);
-
 	margin-top: calc(-1 * var(--Comment-marginTop));
 
 	.CommentTree--nested {

@@ -1,0 +1,6 @@
+.ChannelThreadsSidebarStickyHeader {
+	--ChannelHeader-height: var(--ChannelThreadHeader-height);
+	--ChannelHeader-fontSize: var(--ChannelThreadHeader-fontSize);
+	--ChannelHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
+	--ChannelHeader-textAlign: left;
+}

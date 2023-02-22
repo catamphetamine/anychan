@@ -1,19 +1,15 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-pages'
 import classNames from 'classnames'
-
-import { getProviderId, getProvider } from '../../provider.js'
 
 import Toolbar from '../../components/Toolbar.js'
 import ProviderLogo from '../../components/ProviderLogo.js'
-import ChannelUrl from '../../components/ChannelUrl.js'
+import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
+import ChannelThreadHeaderSource, { ChannelThreadHeaderSourcePlaceholder } from '../../components/ChannelThreadHeaderSource.js'
 
 import useChannelView from './useChannelView.js'
 import useOnChannelLinkClick from '../useOnChannelLinkClick.js'
-
-import getUrl from '../../utility/getUrl.js'
 
 import './ChannelHeader.css'
 
@@ -45,7 +41,9 @@ export default function ChannelHeader({
 	channelView,
 
 	onChannelViewWillChange,
-	onChannelViewDidChange
+	onChannelViewDidChange,
+
+	className
 }) {
 	const channel = useSelector(state => state.data.channel)
 
@@ -76,7 +74,7 @@ export default function ChannelHeader({
 	)
 
 	return (
-		<header className="ChannelHeader">
+		<header className={classNames('ChannelHeader', className)}>
 			{alignTitle === 'center' &&
 				React.cloneElement(toolbar, {
 					className: 'ChannelHeader-toolbarSizePlaceholder'
@@ -85,27 +83,13 @@ export default function ChannelHeader({
 			<h1 className={classNames('ChannelHeader-heading', {
 				'ChannelHeader-heading--alignContentCenter': alignTitle === 'center'
 			})}>
-				<Link
-					to="/"
-					title={getProvider().title}
-					className="ChannelHeader-providerLogoLink">
-					<ProviderLogo
-						className="ChannelHeader-providerLogo"
-					/>
-				</Link>
-				<Link
-					to={getUrl(channel.id)}
+				<ChannelThreadHeaderSource/>
+				<ChannelThreadHeaderChannel
+					channel={channel}
+					showTitle
 					onClick={onChannelLinkClick}
-					className="ChannelHeader-channelLink">
-					<ChannelUrl
-						channelId={channel.id}
-						className="ChannelHeader-channelId"
-					/>
-					{channel.title}
-				</Link>
-				<ProviderLogo
-					className="ChannelHeader-providerLogo ChannelHeader-providerLogo--spaceEquivalent"
 				/>
+				<ChannelThreadHeaderSourcePlaceholder/>
 			</h1>
 			{toolbar}
 		</header>
@@ -117,4 +101,5 @@ ChannelHeader.propTypes = {
 	channelView: PropTypes.oneOf(['new-threads', 'new-comments', 'popular']).isRequired,
 	onChannelViewWillChange: PropTypes.func,
 	onChannelViewDidChange: PropTypes.func,
+	className: PropTypes.string
 }

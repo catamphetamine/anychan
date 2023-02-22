@@ -7,7 +7,8 @@ import {
 import {
 	postAttachment,
 	postContent,
-	censoredText
+	censoredText,
+	picture
 } from 'social-components-react/components/PropTypes.js'
 
 const {
@@ -28,7 +29,8 @@ export const channelId = string
 
 export const channel = shape({
 	id: channelId.isRequired,
-	title: string.isRequired
+	title: string.isRequired,
+	picture: picture
 })
 
 export const commentId = number

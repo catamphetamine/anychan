@@ -3,6 +3,7 @@
 .InfoBanner {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 
 	/*padding: var(--unit);*/
 	/*box-shadow: 0 0 0 1px var(--Content-color-300);*/
@@ -31,6 +32,6 @@
 
 .InfoBanner-text {
 	margin: 0;
-	/* `flex: 1` prevents the text from hiding the icon on overflow. */
-	flex: 1;
+	/* `flex-shrink: 1` prevents the text from hiding the icon on overflow. */
+	flex-shrink: 1;
 }

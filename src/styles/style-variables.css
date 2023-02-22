@@ -144,8 +144,22 @@
 		--List-borderColor--selected: var(--Channels-borderColor--selected);
 	}
 
-	/* ChannelThreadsSidebarSectionThread. */
-	--ChannelThreadsSidebarSectionThread-borderColor: var(--Content-color-200);
+	/* SidebarLink. */
+	--SidebarLink-color: var(--Sidebar-color-900);
+	--SidebarLink-color--hover: var(--SidebarLink-color);
+	--SidebarLink-color--active: var(--Sidebar-baseColor-700);
+	--SidebarLink-color--selected: var(--SidebarLink-color);
+	--SidebarLink-backgroundColor: transparent;
+	--SidebarLink-backgroundColor--hover: var(--Sidebar-highlightColor-100);
+	--SidebarLink-backgroundColor--active: var(--Sidebar-highlightColor-200);
+	--SidebarLink-backgroundColor--selected: var(--SidebarLink-backgroundColor--hover);
+	--SidebarLink-borderWidth: 1px;
+	--SidebarLink-borderColor: transparent;
+	--SidebarLink-borderColor--hover: var(--SidebarLink-borderColor);
+	--SidebarLink-borderColor--active: var(--SidebarLink-borderColor--hover);
+	--SidebarLink-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	--SidebarLink-borderColor--selectedHover: var(--SidebarLink-borderColor--selected);
+	--SidebarLink-borderColor--selectedActive: var(--SidebarLink-borderColor--selected);
 
 	/* SideNavMenuButton. */
 	--SideNavMenuButton-color: var(--Content-color-500);
@@ -154,19 +168,22 @@
 	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
 	--SideNavMenuButtonIcon-borderColor: var(--Content-backgroundColor);
 
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderColor: var(--Content-color-200);
+
 	/* Channels. */
 	/* These styles aren't just for `.Sidebar`,
 	   they're for the `/boards` page too,
 	   that's why they're not defined inside `.Sidebar {}`. */
 	--Channels-margin--slash: 0.1em;
 	--Channels-fontWeight: normal;
-	--Channels-color: var(--Sidebar-color-900);
-	--Channels-color--active: var(--Sidebar-baseColor-700);
-	--Channels-backgroundColor--hover: var(--Sidebar-highlightColor-100);
-	--Channels-backgroundColor--active: var(--Sidebar-highlightColor-200);
-	--Channels-backgroundColor--selected: var(--Channels-backgroundColor--hover);
-	--Channels-borderColor: transparent;
-	--Channels-borderColor--selected: transparent;
+	--Channels-color: var(--SidebarLink-color);
+	--Channels-color--active: var(--SidebarLink-color--active);
+	--Channels-backgroundColor--hover: var(--SidebarLink-backgroundColor--hover);
+	--Channels-backgroundColor--active: var(--SidebarLink-backgroundColor--active);
+	--Channels-backgroundColor--selected: var(--SidebarLink-backgroundColor--selected);
+	--Channels-borderColor: var(--SidebarLink-borderColor);
+	--Channels-borderColor--selected: var(--SidebarLink-borderColor--selected);
 
 	/* ChannelUrl. */
 	--ChannelUrl-fontFamily: 'Roboto Mono', monospace;
@@ -228,8 +245,10 @@
 	--CommentSeparator-color--channelPage: var(--CommentSeparator-color);
 	--CommentSeparator-color--channelPageLargeScreen: var(--CommentSeparator-color--channelPage);
 	@mixin m-plus {
-		/* I assume, `body` selector here prevents an infinite recursion
-		   when otherwise calculating `--CommentSeparator-color` at `:root`:
+		/* The `body` selector here prevents an infinite recursion
+		   while calculating `--CommentSeparator-color` CSS variable value
+		   if it was defined as `--CommentSeparator-color: var(--CommentSeparator-color--largeScreen)`
+		   at `:root` level:
 		   `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` ->
 		-> `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` -> ... */
 		body {
@@ -319,8 +338,12 @@
 	--PostTitle-marginTop: var(--Post-paddingTop);
 
 	/* PostThumbnail. */
-	/* Default thumnail size. Will be overridden on `<body/>` after parsing board/thread response. */
-	--PostThumbnail-maxWidth: 220px;
+	/* Default max thumnail size. */
+	--PostThumbnail-maxWidth--default: 220px;
+	/* Actually observed max thumnail size will be set in
+	   `src/utility/post/updateAttachmentThumbnailMaxWidth.js`
+	   as `--PostThumbnail-maxWidth--actual` CSS variable. */
+	--PostThumbnail-maxWidth: var(--PostThumbnail-maxWidth--actual, var(--PostThumbnail-maxWidth--default));
 	--PostThumbnail-marginRight: var(--Post-paddingLeft);
 	/* Post thumbnail has some top spacing in order for
 	   its top edge to be at a similar height
@@ -366,6 +389,12 @@
 
 	/* Text. */
 	--Text-maxWidth--compact: 33em;
+
+	/* ThreadPageShowPrevious. */
+	--ThreadPageShowPrevious-marginTop: calc(var(--unit) * 0.75);
+	@mixin l-plus {
+		--ThreadPageShowPrevious-marginTop: var(--unit);
+	}
 
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;
@@ -420,8 +449,84 @@
 	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
 	--HeaderSeparator-color--right: transparent;
 
+	/* ChannelThreadHeader. */
+	--ChannelThreadHeader-width: auto;
+	--ChannelThreadHeader-height: 2.5rem;
+	--ChannelThreadHeader-marginLeft: 0px;
+	--ChannelThreadHeader-marginRight: 0px;
+	--ChannelThreadHeader-backgroundColor: var(--Content-backgroundColor);
+	--ChannelThreadHeader-borderWidth: 1px;
+	--ChannelThreadHeader-borderColor: var(--Content-color-300);
+	/*--ChannelThreadHeader-heading-fontSize: var(--PostTitle-fontSize);*/
+	--ChannelThreadHeader-fontSize: 1.1rem;
+	--ChannelThreadHeader-fontWeight: 400;
+	--ChannelThreadHeader-textAlign: center;
+	--ChannelThreadHeader-paddingLeft: 0px;
+	@mixin upto-s {
+		--ChannelThreadHeader-paddingLeft: var(--PageContent-paddingLeft);
+		--ChannelThreadHeader-textAlign: left;
+	}
+	@mixin m {
+		--ChannelThreadHeader-paddingLeft: var(--Post-paddingLeft);
+		--ChannelThreadHeader-textAlign: left;
+	}
+	@mixin m {
+		/* At `m` screen size, `ChannelHeader`'s width is limited to `--Content-maxWidth`:
+		   `.Webpage main { max-width: var(--Content-maxWidth) }`. */
+		/* To work around that, `100vw` is used to expand `ChannelHeader` to full page width. */
+		--ChannelThreadHeader-width: calc(100vw - var(--Scrollbar-width));
+		--ChannelThreadHeader-marginLeft: calc(-1 * ((100vw - var(--Scrollbar-width)) - 100%) / 2);
+		--ChannelThreadHeader-marginRight: var(--ChannelThreadHeader-marginLeft);
+	}
+	@mixin m-plus {
+		--ChannelThreadHeader-fontSize: 1.05rem;
+	}
+	@mixin l-plus {
+		--ChannelThreadHeader-marginLeft: calc(-1 * var(--Webpage-paddingLeft-width));
+		--ChannelThreadHeader-marginRight: calc(-1 * var(--Webpage-paddingRight-width));
+	}
+	@mixin l {
+		--ChannelThreadHeader-textAlign: left;
+		--ChannelThreadHeader-paddingLeft: var(--Webpage-paddingLeft-width);
+	}
+	@mixin xl-plus {
+		--ChannelThreadHeader-textAlign: left;
+		--ChannelThreadHeader-paddingLeft: var(--Webpage-paddingLeft-width);
+	}
+
+	/* ChannelHeader. */
+	--ChannelHeader-height: auto;
+	--ChannelHeader-paddingLeft: 0px;
+	--ChannelHeader-fontSize: initial;
+	--ChannelHeader-fontWeight: intial;
+	--ChannelHeader-textAlign: initial;
+
+	/* ThreadPageHeader. */
+	--ThreadPageHeader-marginTop: 0px;
+	--ThreadPageHeader-marginBottom: 0px;
+	--ThreadPageHeader-marginLeft: 0px;
+	--ThreadPageHeader-marginRight: 0px;
+	@mixin upto-s {
+		--ThreadPageHeader-marginLeft: var(--Post-paddingLeft);
+	}
+	@mixin upto-xs {
+		/*--ThreadPageHeader-marginTop: calc(var(--unit) * 0.5);*/
+	}
+	@mixin s {
+		/*--ThreadPageHeader-marginTop: calc(var(--unit) * 1);*/
+	}
+	/*@mixin l {*/
+		/* `margin-left` is already being set in `Thread.css`. */
+		/*--ThreadPageHeader-marginLeft: calc(var(--BackButton-marginLeft) + var(--BackButtonIcon-width));*/
+	/*}*/
+	@mixin m-plus {
+		/*--ThreadPageHeader-marginTop: calc(var(--unit) * 1.5);*/
+		/* <Comment/> itself has empty spacing on the top (which works as `padding-top`). */
+		/*--ThreadPageHeader-marginBottom: calc(var(--unit) * 1);*/
+	}
+
 	/* Channels. */
-	--Channels-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	--Channels-borderColor--selected: var(--SidebarLink-borderColor--selected);
 
 	/* ChannelUrl. */
 	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
@@ -433,7 +538,7 @@
 	--PressedStateButton-color--pressed: var(--PostQuoteBlock-color--generated);
 	--PressedStateButton-color--pressedActive: var(--PressedStateButton-color--active);
 	--PressedStateButton-borderColor--active: var(--PressedStateButton-borderColor--pressedFocus);
-	--PressedStateButton-borderColor--pressed: var(--PostQuoteBlock-borderColor--generated);
+	--PressedStateButton-borderColor--pressed: var(--SidebarLink-borderColor--selected);
 	--PressedStateButton-borderColor--pressedFocus: #e4c5a1;
 	--PressedStateButton-borderColor--pressedActive: var(--PressedStateButton-borderColor--pressedFocus); /* #e6abb0; */
 	--PressedStateButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);

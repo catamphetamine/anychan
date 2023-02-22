@@ -7,6 +7,8 @@
   --Grid-backgroundColor: #371749;
   --Grid-angle: 60deg;
 
+  --Container-maxWidth: 36rem;
+
   --Document-color: #ffffff;
   --Document-backgroundColor: #170f28;
   --Document-fontSize: 16px;
@@ -34,11 +36,40 @@
   --BackgroundPattern-opacity: 0.25;
 
   --BackgroundGradient-blendMode: darken;
+
+  --HeroLogoTextBubble-borderColor: rgb(255,198,69);
+  --HeroLogoTextBubble-paddingTop: 0.25rem;
+  --HeroLogoTextBubble-paddingLeft: 0.5rem;
+  --HeroLogoTextBubble-fontSize: 100%;
+}
+
+@media only screen and (min-width: 640px) {
+  :root {
+    --HeroLogoTextBubble-paddingTop: 0.75rem;
+    --HeroLogoTextBubble-paddingLeft: 1rem;
+    --HeroLogoTextBubble-fontSize: 140%;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
   :root {
+    --Container-maxWidth: 38rem;
     --BackgroundPattern-size: 30%;
+    --Document-fontSize: 18px;
+
+    --HeroLogoTextBubble-paddingTop: 0.75rem;
+    --HeroLogoTextBubble-paddingLeft: 1.5rem;
+    --HeroLogoTextBubble-fontSize: 150%;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  :root {
+    --Document-fontSize: 20px;
+    --Container-maxWidth: 42rem;
+    --HeroLogoTextBubble-paddingTop: 1.25rem;
+    --HeroLogoTextBubble-paddingLeft: 2rem;
+    --HeroLogoTextBubble-fontSize: 175%;
   }
 }
 
@@ -106,6 +137,22 @@ a:hover {
 }
 
 .HeroLogo {
+  width: 100%;
+}
+
+.HeroLogoButton {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: grab;
+}
+
+.HeroLogoButton:focus {
+  outline: none;
+}
+
+.HeroLogoContainer {
   position: absolute;
   width: var(--HeroLogo-width);
   left: calc((100% - var(--HeroLogo-width)) / 2);
@@ -113,8 +160,30 @@ a:hover {
   animation: float 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 
-.HeroLogoLink {
-  display: block;
+.HeroLogoTextBubbleContainer {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  display: none;
+}
+
+.HeroLogoTextBubble {
+  display: inline-block;
+  padding-top: var(--HeroLogoTextBubble-paddingTop);
+  padding-bottom: var(--HeroLogoTextBubble-paddingTop);
+  padding-left: var(--HeroLogoTextBubble-paddingLeft);
+  padding-right: var(--HeroLogoTextBubble-paddingLeft);
+  color: #56007d;
+  background-color: rgb(255, 206, 43);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.25rem inset var(--HeroLogoTextBubble-borderColor), 0 0 0.25rem var(--HeroLogoTextBubble-borderColor), 0 0 0.75rem rgba(0,0,0,0.9);
+  font-size: var(--HeroLogoTextBubble-fontSize);
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.HeroLogoTextBubble--animate {
+  animation: popIn 0.4s;
 }
 
 .HeroLogoText {
@@ -226,6 +295,18 @@ a:hover {
   }
   100% {
     transform: translateY(-0.35vw);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(1);
+  }
+  33% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
@@ -428,7 +509,7 @@ main {
 }
 
 .Container {
-  max-width: 36rem;
+  max-width: var(--Container-maxWidth);
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;

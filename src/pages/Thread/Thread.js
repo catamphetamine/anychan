@@ -249,21 +249,22 @@ function ThreadPage() {
 
 	return (
 		<section className={classNames('ThreadPage', 'Content')}>
+			<ThreadPageHeader
+				channel={channel}
+				thread={thread}
+				openSlideshow={openSlideshow}
+				getCommentById={getCommentById}
+				isThreadSubscribed={isThreadSubscribed}
+				setThreadSubscribed={setThreadSubscribed}
+				isSearchBarShown={isSearchBarShown}
+				setSearchBarShown={setSearchBarShown}
+				areAttachmentsExpanded={areAttachmentsExpanded}
+				setAttachmentsExpanded={setAttachmentsExpanded}
+			/>
+
 			{/* `.ThreadPage-aboveComments` is used to restore the default
 			    `pointer-events: auto` behavior. */}
 			<div className="ThreadPage-aboveComments">
-				<ThreadPageHeader
-					channel={channel}
-					thread={thread}
-					openSlideshow={openSlideshow}
-					getCommentById={getCommentById}
-					isThreadSubscribed={isThreadSubscribed}
-					setThreadSubscribed={setThreadSubscribed}
-					isSearchBarShown={isSearchBarShown}
-					setSearchBarShown={setSearchBarShown}
-					areAttachmentsExpanded={areAttachmentsExpanded}
-					setAttachmentsExpanded={setAttachmentsExpanded}
-				/>
 				{fromIndex > 0 &&
 					<ShowPrevious
 						fromIndex={fromIndex}

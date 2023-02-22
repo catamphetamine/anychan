@@ -46,7 +46,16 @@
 			<div class="Hero-overflowFix">
 				<div class="Hero">
 					<img class="HeroBackground" src="./images/sky-and-mountains.jpg" aria-hidden/>
-					<a class="HeroLogoLink" target="_blank" href="https://github.com/catamphetamine/anychan-art"><img class="HeroLogo" src="./images/hero-logo-with-outer-glow-and-shadow.png" aria-hidden/></a>
+					<div class="HeroLogoContainer">
+						<button class="HeroLogoButton" target="_blank" href="https://github.com/catamphetamine/anychan-art">
+							<img class="HeroLogo" src="./images/hero-logo-with-outer-glow-and-shadow.png" aria-hidden/>
+						</button>
+						<div class="HeroLogoTextBubbleContainer">
+							<a class="HeroLogoTextBubble" target="_blank" href="https://github.com/catamphetamine/anychan-art">
+								woof!
+							</a>
+						</div>
+					</div>
 					<img class="HeroMountain" src="./images/mountain-on-top.png" aria-hidden/>
 					<div class="HeroLogoText">
 						<img class="HeroLogoText-image" src="./images/text-logo-shadow.png" aria-hidden/>
@@ -364,11 +373,24 @@
 
 		<script>
 			// https://www.epidemicsound.com/music/search/?term=dog
-			function bark() {
+			function onLogoClick() {
 				new Audio('./sounds/bark.ogg').play()
+
+				var container = document.querySelector('.HeroLogoTextBubbleContainer')
+				container.style.display = 'block'
+
+				var bubble = document.querySelector('.HeroLogoTextBubble')
+
+				// https://stackoverflow.com/a/58353279/970769
+				// Reset animation.
+				bubble.classList.remove('HeroLogoTextBubble--animate')
+				// Trigger Web browser reflow.
+				void bubble.offsetWidth;
+				// Start animation.
+				bubble.classList.add('HeroLogoTextBubble--animate')
 			}
 
-			document.querySelector('.HeroLogoLink').addEventListener('click', bark)
+			document.querySelector('.HeroLogoButton').addEventListener('click', onLogoClick)
 
 			// fetch('https://gateway.reddit.com/desktopapi/v1/subreddits/all?rtj=only&redditWebClient=web2x&app=web2x-client-production&allow_over18=1&include=structuredStyles%2CprefsSubreddit&sort=hot&layout=card')
 		</script>

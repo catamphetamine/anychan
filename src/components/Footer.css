@@ -1,6 +1,6 @@
 @import "../styles/common.css";
 
-body {
+:root {
 	/*--FooterMenu-height: calc(var(--unit) * 3);*/
 	--FooterMenu-height: 0px;
 }

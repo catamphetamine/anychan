@@ -5,6 +5,33 @@
 		--Toolbar-marginTop: calc(var(--unit) * 0.5);
 		--Toolbar-marginBottom: calc(var(--unit) * 0.5);
 	}
+
+	--ChannelHeader-height: var(--ChannelThreadHeader-height);
+	--ChannelHeader-paddingLeft: var(--ChannelThreadHeader-paddingLeft);
+	--ChannelHeader-fontSize: var(--ChannelThreadHeader-fontSize);
+	--ChannelHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
+	--ChannelHeader-textAlign: var(--ChannelThreadHeader-textAlign);
+
+	.ChannelHeader {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		height: calc(var(--ChannelThreadHeader-height) + var(--ChannelThreadHeader-borderWidth));
+		width: var(--ChannelThreadHeader-width);
+		margin-left: var(--ChannelThreadHeader-marginLeft);
+		margin-right: var(--ChannelThreadHeader-marginRight);
+		padding-left: var(--ChannelThreadHeader-paddingLeft);
+		border-bottom: var(--ChannelThreadHeader-borderWidth) solid var(--ChannelThreadHeader-borderColor);
+		background-color: var(--ChannelThreadHeader-backgroundColor);
+	}
+
+	.ChannelHeader-heading {
+		text-align: var(--ChannelThreadHeader-textAlign);
+	}
+
+	.CommentsList {
+		margin-top: 1px; /* var(--Comment-marginTop); */
+	}
 }
 
 .Webpage--channel {

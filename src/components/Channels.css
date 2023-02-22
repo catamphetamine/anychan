@@ -31,6 +31,11 @@
 .Channels-list {
 	user-select: none;
 	/*line-height: var(--List-lineHeight);*/
+
+	.ChannelUrl {
+		position: relative;
+		top: -0.05em;
+	}
 }
 
 .ChannelsListSectionHeader-title {

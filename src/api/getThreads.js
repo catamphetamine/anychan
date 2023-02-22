@@ -99,7 +99,7 @@ export default async function getThreads({
 				if (comment.titleCensored) {
 					// There's an empty line between the thread's title and thread's text preview.
 					maxLines--
-					decreaseCharacterLimitBy = comment.titleCensored.length
+					decreaseCharacterLimitBy = Math.ceil(comment.titleCensored.length / charactersInLine) * charactersInLine
 				}
 				comment.textPreview = getCommentTextPreview(comment, {
 					messages,

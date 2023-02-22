@@ -8,10 +8,12 @@
 
 
 
-На страницах доски и треда можно делать sticky header не высокий.
 
 
-See how loading images indicator works in slideshow.
+
+Add hide left sidebar setting.
+
+See how loading images indicator works in slideshow (if it's visible enough there or not).
 
 
 На странице доски в режиме latest-replies:
@@ -615,6 +617,18 @@ Test new comment animation slide up. Move webapp frontend repo to gitlab. Update
 Можно добавить открытие меню поста по клику правой кнопкой мыши на посте (на том же месте, где double click).
 
 Проверить, что touch-and-press увеличивает комментарий, и мб добавляет тень под ним.
+
+
+
+
+Reverse image search:
+* google
+* yandex
+* tineye
+* sausenao
+* imgops
+* iqdb
+
 
 
 
