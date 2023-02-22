@@ -11,11 +11,13 @@ import { getDarkModeMenuItem } from '../MainMenu.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSettings from '../../hooks/useSettings.js'
+import useMeasure from '../../hooks/useMeasure.js'
 
 export default function DarkModeToggle({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 	const userSettings = useSettings()
+	const measure = useMeasure()
 
 	const darkMode = useSelector(state => state.app.darkMode)
 
@@ -23,6 +25,7 @@ export default function DarkModeToggle({ withLabel }) {
 		return getDarkModeMenuItem({
 			messages,
 			dispatch,
+			measure,
 			darkMode,
 			userSettings
 		})

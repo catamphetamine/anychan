@@ -2,10 +2,23 @@
 
 This document describes the [CSS Variables](https://developer.mozilla.org/docs/Web/CSS/Using_CSS_custom_properties) available for customization in [themes](https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md). If you have suggestions for new CSS Variables then contact the repo author through [issues](https://gitlab.com/catamphetamine/anychan/issues) to discuss that.
 
-All variables listed here have their default values — see
-[style-variables.css](https://gitlab.com/catamphetamine/anychan/blob/master/src/styles/style-variables.css). If a variable isn't there then it's in [frontend-lib/styles/style-variables.css](https://gitlab.com/catamphetamine/frontend-lib/blob/master/styles/style-variables.css) or [social-components-react/style/variables.css](https://gitlab.com/catamphetamine/social-components-react/blob/master/style/variables.css).
+All variables listed here have their default values:
+* [variables.css](https://gitlab.com/catamphetamine/anychan/blob/master/src/styles/variables.css)
+* [variables.light.css](https://gitlab.com/catamphetamine/anychan/blob/master/src/styles/variables.light.css)
+* [variables.dark.css](https://gitlab.com/catamphetamine/anychan/blob/master/src/styles/variables.dark.css)
 
-"Light" mode should be styled via `.light` CSS selector and "Dark" mode should be styled via `.dark` CSS selector. Both can be styled via `:root` CSS selector.
+If a variable isn't there then it could be found in `social-components-react` or `frontend-lib`:
+* [social-components-react/style/variables.css](https://gitlab.com/catamphetamine/social-components-react/blob/master/style/variables.css)
+* [social-components-react/style/variables.light.css](https://gitlab.com/catamphetamine/social-components-react/blob/master/style/variables.light.css)
+* [social-components-react/style/variables.dark.css](https://gitlab.com/catamphetamine/social-components-react/blob/master/style/variables.dark.css)
+* [frontend-lib/styles/variables.css](https://gitlab.com/catamphetamine/frontend-lib/blob/master/styles/variables.css)
+* [frontend-lib/styles/variables.light.css](https://gitlab.com/catamphetamine/frontend-lib/blob/master/styles/variables.light.css)
+* [frontend-lib/styles/variables.dark.css](https://gitlab.com/catamphetamine/frontend-lib/blob/master/styles/variables.dark.css)
+
+Variables could be defined either as common ones or as "light"/"dark" mode specific ones:
+* Common variables should be defined in `:root` CSS selector.
+* "Light" mode variables should be defined in `.light` CSS selector.
+* "Dark" mode variables should be defined in `.dark` CSS selector.
 
 ## Colors
 

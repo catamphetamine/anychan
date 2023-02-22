@@ -387,68 +387,6 @@
 	--CommentMoreActions-paddingLeft: 0.7rem;
 	--CommentMoreActions-paddingTop: 0.8rem;
 
-	/* Text. */
-	--Text-maxWidth--compact: 33em;
-
-	/* ThreadPageShowPrevious. */
-	--ThreadPageShowPrevious-marginTop: calc(var(--unit) * 0.75);
-	@mixin l-plus {
-		--ThreadPageShowPrevious-marginTop: var(--unit);
-	}
-
-	/* Toolbar. */
-	--Toolbar-marginTop: 0px;
-	--Toolbar-marginBottom: 0px;
-	--ToolbarIcon-width: calc(var(--unit) * 1.25);
-
-	/* Tooltip. */
-	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
-	--Tooltip-boxShadow: 0 0 0.2em var(--Tooltip-boxShadowColor);
-	--Tooltip-boxShadow--large: 0 0.04em 0.3em var(--Tooltip-boxShadowColor);
-
-	/* UppercaseLabel. */
-	--UppercaseLabel-fontSize: 85%;
-	@mixin upto-xs {
-		--UppercaseLabel-fontSize: 100%;
-	}
-	@mixin s-m {
-		--UppercaseLabel-fontSize: 90%;
-	}
-	--UppercaseLabel-fontWeight: lighter;
-	--UppercaseLabel-letterSpacing: 0.075em;
-  --UppercaseLabel-textTransform: uppercase;
-}
-
-/* Light mode. */
-.light {
-	/* LinearProgress. */
-	--LinearProgress-color: var(--base-color-300);
-
-	/* BackButton. */
-	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
-	--BackButton-backgroundColor--hover: rgba(255, 148, 0, 0.04); /* #fffcf5; */
-	--BackButton-borderColor--hover: rgba(172, 146, 0, 0.08); /* #f9f3e4; */
-
-	/* Sidebar. */
-	--Sidebar-color-200: var(--Content-color-200);
-	/*--Sidebar-highlightColor-100: #faf7f2;*/
-	/*--Sidebar-highlightColor-200: var(--base-color-100);*/
-	--Sidebar-highlightColor-100: var(--PostQuoteBlock-backgroundColor--generated);
-	--Sidebar-highlightColor-200: #fff3e5;
-	--Sidebar-baseColor-200: #eec8ad;
-	--Sidebar-baseColor-700: var(--Clickable-color--text);
-
-	/* Announcement. */
-	--Announcement-color: var(--Content-color-100);
-	--Announcement-backgroundColor: var(--Content-color-900);
-	--Announcement-link-color: var(--base-color-300);
-	--Announcement-link-color--active: var(--Clickable-color--active);
-	--Announcement-boxShadow: 0 0 10px rgba(0,0,0,0.2);
-
-	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(0,0,0,0.17);
-	--HeaderSeparator-color--right: transparent;
-
 	/* ChannelThreadHeader. */
 	--ChannelThreadHeader-width: auto;
 	--ChannelThreadHeader-height: 2.5rem;
@@ -456,7 +394,6 @@
 	--ChannelThreadHeader-marginRight: 0px;
 	--ChannelThreadHeader-backgroundColor: var(--Content-backgroundColor);
 	--ChannelThreadHeader-borderWidth: 1px;
-	--ChannelThreadHeader-borderColor: var(--Content-color-300);
 	/*--ChannelThreadHeader-heading-fontSize: var(--PostTitle-fontSize);*/
 	--ChannelThreadHeader-fontSize: 1.1rem;
 	--ChannelThreadHeader-fontWeight: 400;
@@ -525,189 +462,34 @@
 		/*--ThreadPageHeader-marginBottom: calc(var(--unit) * 1);*/
 	}
 
-	/* Channels. */
-	--Channels-borderColor--selected: var(--SidebarLink-borderColor--selected);
+	/* Text. */
+	--Text-maxWidth--compact: 33em;
 
-	/* ChannelUrl. */
-	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
-	--ChannelUrl-slash-color--active: #e9ccb8;
-	--ChannelUrl-slash-color--selected: #ead5c0;
-
-	/* PressedStateButton. */
-	--PressedStateButton-color--active: #bd5700;
-	--PressedStateButton-color--pressed: var(--PostQuoteBlock-color--generated);
-	--PressedStateButton-color--pressedActive: var(--PressedStateButton-color--active);
-	--PressedStateButton-borderColor--active: var(--PressedStateButton-borderColor--pressedFocus);
-	--PressedStateButton-borderColor--pressed: var(--SidebarLink-borderColor--selected);
-	--PressedStateButton-borderColor--pressedFocus: #e4c5a1;
-	--PressedStateButton-borderColor--pressedActive: var(--PressedStateButton-borderColor--pressedFocus); /* #e6abb0; */
-	--PressedStateButton-backgroundColor--active: var(--PostQuoteBlock-backgroundColor--generated);
-
-	/* Notification. */
-	--Notification-color: var(--base-color-300);
-
-	/* Content. */
-	--Content-backgroundColor--active: hsl(36, 70%, 96%);
-
-	/* Post. */
-	--Post-color--secondaryThread: var(--Content-color-400);
-
-	/* PostInlineSpoiler. */
-	/* Adds a warmer color to it. */
-	--PostInlineSpoiler-color: #F0EFEB;
-	--PostInlineSpoiler-color--contentActive: hsl(36, 30%, 92%);
-
-	/* PostSubheading. */
-	--PostSubheading-color: #af0000;
-
-	/* PostQuoteBlock (inverse). */
-	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
-	    have regular quotes and "inverse" quotes. */
-	--PostQuoteBlock-color--inverse: #950000;
-	--PostQuoteBlock-backgroundColor--inverse: #ffecec;
-	--PostQuoteBlock-borderWidth--inverse: 1px;
-	--PostQuoteBlock-borderColor--inverse: #ffd2d2;
-
-	/* PostQuoteBlockBorderLeft (inverse). */
-	--PostQuoteBlockBorderLeft-width: 0px;
-	--PostQuoteBlockBorderLeft-marginTop--inverse: 0px;
-
-	/* Comment. */
-	/*--Comment-backgroundColor--new: #fff0de;*/
-
-	/* CommentAuthor. */
-	/*--CommentAuthor-color--accent: var(--base-color-700);*/
-	--CommentAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
-	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
-
-	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(0,0,0,0.1);
-	--CommentSeparator-color--previouslyRead: rgba(0,0,0,0.12);
-	--CommentSeparator-color--channelPageLargeScreen: var(--Content-color-200);
-	/*--CommentSeparator-color--new: #e2d6c0;*/
-
-	/* StarIcon. */
-	--StarIcon-borderColor: var(--Content-color-900);
-	--StarIcon-backgroundColor: var(--Clickable-color--active);
-
-	/* ThreadActivityIndicator. */
-	--ThreadActivityIndicator-color--active: #a0ec3c;
-	--ThreadActivityIndicator-borderColor--active: #9dce34;
-	--ThreadActivityIndicator-color--idle: #fdef51;
-	--ThreadActivityIndicator-borderColor--idle: #dad146;
-	--ThreadActivityIndicator-color--off: #c9c9c9;
-	--ThreadActivityIndicator-borderColor--off: #a9a9a9;
-	--ThreadActivityIndicator-hot-color: #ec7800;
+	/* ThreadPageShowPrevious. */
+	--ThreadPageShowPrevious-marginTop: calc(var(--unit) * 0.75);
+	@mixin l-plus {
+		--ThreadPageShowPrevious-marginTop: var(--unit);
+	}
 
 	/* Toolbar. */
-	/* A slightly darker color of Channel/Thread menu icons,
-	   because they're on a gray background. */
-	--Toolbar-color: var(--Content-color-700);
-	--Toolbar-color--active: var(--gray-color-650);
-	--Toolbar-color--selected: var(--Content-color-700);
+	--Toolbar-marginTop: 0px;
+	--Toolbar-marginBottom: 0px;
+	--ToolbarIcon-width: calc(var(--unit) * 1.25);
 
 	/* Tooltip. */
 	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.3);
-}
+	--Tooltip-boxShadow: 0 0 0.2em var(--Tooltip-boxShadowColor);
+	--Tooltip-boxShadow--large: 0 0.04em 0.3em var(--Tooltip-boxShadowColor);
 
-/* Dark Mode. */
-.dark {
-	/* https://refactoringui.com/previews/building-your-color-palette */
-	/* "Base" color (orange). */
-	--base-color-100: #dccdba;
-	--base-color-200: #daac72;
-	--base-color-300: #d68e60;
-	--base-color-400: #d47d3e;
-	--base-color-500: #de7100;
-	--base-color-600: #c55d00;
-	--base-color-700: #b55100;
-	--base-color-800: #823b01;
-	--base-color-900: #613000;
-
-	/* LinearProgress. */
-	--LinearProgress-color: var(--base-color-600);
-
-	/* BackButton. */
-	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
-	--BackButton-backgroundColor--hover: rgba(255, 255, 255, 0.03);
-	--BackButton-borderColor--hover: rgba(255, 255, 255, 0.015);
-
-	/* Sidebar. */
-	--Sidebar-color-200: var(--Content-color-300);
-	--Sidebar-highlightColor-100: #303030;
-	--Sidebar-highlightColor-200: #2c2c2c;
-	--Sidebar-baseColor-200: #6c4d38;
-	--Sidebar-baseColor-700: var(--base-color-300);
-
-	/* Announcement. */
-	--Announcement-backgroundColor: var(--Content-backgroundColor);
-	--Announcement-color: var(--Clickable-color--text);
-	--Announcement-link-borderBottom: 1px dashed currentColor;
-	/*--Announcement-link-textDecoration: underline;*/
-	/*--Announcement-backgroundColor: var(--white-color);*/
-	/*--Announcement-color: var(--Content-backgroundColor);*/
-	/*--Announcement-link-color: var(--base-color-800);*/
-	--Announcement-boxShadow: 0 0 10px rgba(0,0,0,0.6);
-
-	/* HeaderSeparator. */
-	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
-
-	/* ChannelUrl. */
-	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
-	--ChannelUrl-slash-color--active: var(--ChannelUrl-slash-color);
-	--ChannelUrl-slash-color--selected: var(--ChannelUrl-slash-color);
-
-	/* Notification. */
-	--Notification-color: var(--base-color-300);
-
-	/* Content. */
-	--Content-backgroundColor--active: #333331;
-
-	/* Post. */
-	--Post-color--secondaryThread: var(--Content-color-500);
-
-	/* PostQuoteBlock (inverse). */
-	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
-	    have regular quotes and "inverse" quotes. */
-	--PostQuoteBlock-color--inverse: #dc5e5e;
-
-	/* PostSubheading. */
-	--PostSubheading-color: #cf5858;
-
-	/* Comment. */
-	/*--Comment-backgroundColor--new: #4a3e31;*/
-
-	/* Comment-marginTop--extra. */
-	--Comment-marginTop--extra: 3px;
-
-	/* CommentAuthor. */
-	/*--CommentAuthor-color--accent: var(--base-color-300);*/
-	--CommentAuthor-color--administrator: #c44876;
-	--CommentAuthor-color--moderator: #57add1;
-
-	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(255,255,255,0.15);
-	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
-	/*--CommentSeparator-color--new: #503e27;*/
-
-	/* StarIcon. */
-	--StarIcon-borderColor: var(--Clickable-color--textActive);
-	--StarIcon-backgroundColor: var(--Clickable-color--text);
-
-	/* ThreadActivityIndicator. */
-	--ThreadActivityIndicator-color--active: #91c74b;
-	--ThreadActivityIndicator-borderColor--active: #8db33b;
-	--ThreadActivityIndicator-color--idle: #cdc460;
-	--ThreadActivityIndicator-borderColor--idle: #c9c252;
-	--ThreadActivityIndicator-color--off: #878787;
-	--ThreadActivityIndicator-borderColor--off: #797979;
-	--ThreadActivityIndicator-hot-color: #d66d00;
-
-	/* Toolbar. */
-	--Toolbar-color: var(--Content-color-600);
-	--Toolbar-color--active: var(--Content-color-900);
-	--Toolbar-color--selected: var(--Content-color-800);
-
-	/* Tooltip. */
-	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.5);
+	/* UppercaseLabel. */
+	--UppercaseLabel-fontSize: 85%;
+	@mixin upto-xs {
+		--UppercaseLabel-fontSize: 100%;
+	}
+	@mixin s-m {
+		--UppercaseLabel-fontSize: 90%;
+	}
+	--UppercaseLabel-fontWeight: lighter;
+	--UppercaseLabel-letterSpacing: 0.075em;
+  --UppercaseLabel-textTransform: uppercase;
 }

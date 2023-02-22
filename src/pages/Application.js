@@ -52,6 +52,7 @@ import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/an
 import { getProvider } from '../provider.js'
 import configuration from '../configuration.js'
 
+import { MeasureContext } from '../hooks/useMeasure.js'
 import { SourceContext } from '../hooks/useSource.js'
 import useSettings, { SettingsContext } from '../hooks/useSettings.js'
 import useUserData, { UserDataContext } from '../hooks/useUserData.js'
@@ -177,7 +178,7 @@ function App({
 	const paddingRight = useRef()
 	const sidebarLeft = useRef()
 
-	useOnWindowResize(() => {
+	const measure = useCallback(() => {
 		// These CSS variables can be used to expand an element on a page
 		// to the full width of the page minus sidebar width.
 		// For example, a "branding" top banner (like on Twitter or Facebook).
@@ -193,7 +194,9 @@ function App({
 		/* Measure scrollbar width. */
 		/* https://destroytoday.com/blog/100vw-and-the-horizontal-overflow-you-probably-didnt-know-about */
 		document.documentElement.style.setProperty('--Scrollbar-width', (window.innerWidth - document.body.clientWidth) + 'px')
-	}, { alsoAfterMount: true })
+	}, [])
+
+	useOnWindowResize(measure, { alsoAfterMount: true })
 
 	const onHideAnnouncement = useCallback(() => {
 		_markAnnouncementAsRead({ userData })
@@ -213,107 +216,109 @@ function App({
 	useApplicationIcon()
 
 	return (
-		<div className={classNames(`theme--${theme}`)}>
-			{/* Page loading indicator */}
-			<Loading show={isLoadingTweet || !initialized}/>
+		<MeasureContext.Provider value={measure}>
+			<div className={classNames(`theme--${theme}`)}>
+				{/* Page loading indicator */}
+				<Loading show={isLoadingTweet || !initialized}/>
 
-			{/* Pop-up messages */}
-			<Snackbar placement="bottom"/>
+				{/* Pop-up messages */}
+				<Snackbar placement="bottom"/>
 
-			{/* Picture/Video Slideshow */}
-			<Slideshow/>
+				{/* Picture/Video Slideshow */}
+				<Slideshow/>
 
-			<div className={classNames('Webpage', {
-				'Webpage--offline': offline,
-				'Webpage--contentSections': isContentSectionsPage(route),
-				// 'Webpage--channels': isChannelsPage(route),
-				'Webpage--channel': isChannelPage(route),
-				'Webpage--thread': isThreadPage(route),
-				'Webpage--commentTextContent': isCommentTextContentPage,
-				'Webpage--withLeftSidebar': isLeftSidebarIncluded,
-				// 'Webpage--hideLeftSidebar': !isLeftSidebarShown,
-				'Webpage--centerCommentTextContent': isCommentTextContentPage && !isLeftSidebarIncluded,
-				'Webpage--centerPageContent': !isCommentTextContentPage && !isLeftSidebarIncluded
-				// 'Webpage--wideSidebar': sidebarMode !== 'channels'
-			})}>
-				{/*<Header/>*/}
+				<div className={classNames('Webpage', {
+					'Webpage--offline': offline,
+					'Webpage--contentSections': isContentSectionsPage(route),
+					// 'Webpage--channels': isChannelsPage(route),
+					'Webpage--channel': isChannelPage(route),
+					'Webpage--thread': isThreadPage(route),
+					'Webpage--commentTextContent': isCommentTextContentPage,
+					'Webpage--withLeftSidebar': isLeftSidebarIncluded,
+					// 'Webpage--hideLeftSidebar': !isLeftSidebarShown,
+					'Webpage--centerCommentTextContent': isCommentTextContentPage && !isLeftSidebarIncluded,
+					'Webpage--centerPageContent': !isCommentTextContentPage && !isLeftSidebarIncluded
+					// 'Webpage--wideSidebar': sidebarMode !== 'channels'
+				})}>
+					{/*<Header/>*/}
 
-				<SideNavMenuButtons/>
+					<SideNavMenuButtons/>
 
-				<SidebarLeft ref={sidebarLeft}/>
+					<SidebarLeft ref={sidebarLeft}/>
 
-				<div
-					ref={paddingLeft}
-					className="Webpage-paddingLeft">
-					<BackButton placement="paddingLeft"/>
-				</div>
+					<div
+						ref={paddingLeft}
+						className="Webpage-paddingLeft">
+						<BackButton placement="paddingLeft"/>
+					</div>
 
-				<div className="Webpage-contentContainer">
-					<BackButton placement="content"/>
+					<div className="Webpage-contentContainer">
+						<BackButton placement="content"/>
 
-					{configuration.headerMarkup &&
-						<Markup
-							content={configuration.headerContent}
-							markup={configuration.headerMarkup}
-							fullWidth={configuration.headerMarkupFullWidth}
-							className="Webpage-headerBanner"/>
-					}
-
-					{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
-					<main
-						tabIndex={-1}
-						className="Webpage-content">
-						{initialized && !cookiesAccepted &&
-							<Announcement
-								onClick={onAcceptCookies}
-								buttonLabel={messages.actions.accept}>
-								{configuration.cookiePolicyUrl ?
-									addLearnMoreLink(
-										messages.cookies.notice,
-										messages.actions.learnMore,
-										configuration.cookiePolicyUrl
-									) :
-									messages.cookies.notice
-								}
-							</Announcement>
+						{configuration.headerMarkup &&
+							<Markup
+								content={configuration.headerContent}
+								markup={configuration.headerMarkup}
+								fullWidth={configuration.headerMarkupFullWidth}
+								className="Webpage-headerBanner"/>
 						}
 
-						{announcement && !announcement.read &&
-							<Announcement
-								announcement={announcement}
-								onClose={onHideAnnouncement}
-								closeLabel={messages.actions.close}
-							/>
-						}
-						{children}
-					</main>
+						{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
+						<main
+							tabIndex={-1}
+							className="Webpage-content">
+							{initialized && !cookiesAccepted &&
+								<Announcement
+									onClick={onAcceptCookies}
+									buttonLabel={messages.actions.accept}>
+									{configuration.cookiePolicyUrl ?
+										addLearnMoreLink(
+											messages.cookies.notice,
+											messages.actions.learnMore,
+											configuration.cookiePolicyUrl
+										) :
+										messages.cookies.notice
+									}
+								</Announcement>
+							}
 
-					<Footer/>
+							{announcement && !announcement.read &&
+								<Announcement
+									announcement={announcement}
+									onClose={onHideAnnouncement}
+									closeLabel={messages.actions.close}
+								/>
+							}
+							{children}
+						</main>
+
+						<Footer/>
+					</div>
+
+					<div
+						ref={paddingRight}
+						className="Webpage-paddingRight"
+					/>
+
+					<SidebarRight/>
+
+					{/*
+					<FullWidthContent>
+						...
+					</FullWidthContent>
+					*/}
 				</div>
 
-				<div
-					ref={paddingRight}
-					className="Webpage-paddingRight"
+				<OkCancelModal
+					okLabel={messages.actions.ok}
+					cancelLabel={messages.actions.cancel}
+					yesLabel={messages.actions.yes}
+					noLabel={messages.actions.no}
 				/>
 
-				<SidebarRight/>
-
-				{/*
-				<FullWidthContent>
-					...
-				</FullWidthContent>
-				*/}
+				<TweetModal/>
 			</div>
-
-			<OkCancelModal
-				okLabel={messages.actions.ok}
-				cancelLabel={messages.actions.cancel}
-				yesLabel={messages.actions.yes}
-				noLabel={messages.actions.no}
-			/>
-
-			<TweetModal/>
-		</div>
+		</MeasureContext.Provider>
 	)
 }
 

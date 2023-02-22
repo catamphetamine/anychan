@@ -1,5 +1,10 @@
-@import "frontend-lib/styles/style-variables.css";
+@import "frontend-lib/styles/variables.css";
+@import "frontend-lib/styles/variables.light.css";
+@import "frontend-lib/styles/variables.dark.css";
+
 @import "social-components-react/style/variables.css";
+@import "social-components-react/style/variables.light.css";
+@import "social-components-react/style/variables.dark.css";
 
 @import "frontend-lib/styles/constants.css";
 @import "frontend-lib/styles/grid.mixins.css";

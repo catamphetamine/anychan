@@ -35,6 +35,7 @@ import getMessages, {
 import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
 import useSettings from '../hooks/useSettings.js'
+import useMeasure from '../hooks/useMeasure.js'
 
 import { shouldUseProxy, getProxyUrl } from '../utility/proxy.js'
 
@@ -81,8 +82,16 @@ function Settings({
 	const userSettings = useSettings()
 	const messages = useMessages()
 	const locale = useLocale()
+	const measure = useMeasure()
 
-	const onSetDarkMode = useCallback(value => dispatch(setDarkMode(value)), [dispatch])
+	const onSetDarkMode = useCallback((value) => {
+		dispatch(setDarkMode(value))
+		measure()
+	}, [
+		dispatch,
+		measure
+	])
+
 	const onLocaleChange = useCallback(locale => dispatch(saveLocale({ locale, userSettings })), [dispatch, userSettings])
 	const onFontSizeChange = useCallback(fontSize => dispatch(saveFontSize({ fontSize, userSettings })), [dispatch, userSettings])
 	const onAutoDarkModeChange = useCallback(autoDarkMode => dispatch(saveAutoDarkMode({ autoDarkMode, userSettings })), [dispatch, userSettings])

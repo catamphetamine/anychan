@@ -1,0 +1,104 @@
+/* Dark Mode. */
+.dark {
+	/* https://refactoringui.com/previews/building-your-color-palette */
+	/* "Base" color (orange). */
+	--base-color-100: #dccdba;
+	--base-color-200: #daac72;
+	--base-color-300: #d68e60;
+	--base-color-400: #d47d3e;
+	--base-color-500: #de7100;
+	--base-color-600: #c55d00;
+	--base-color-700: #b55100;
+	--base-color-800: #823b01;
+	--base-color-900: #613000;
+
+	/* LinearProgress. */
+	--LinearProgress-color: var(--base-color-600);
+
+	/* BackButton. */
+	/* Using transparent colors because the back button can be placed above post thumbnails at 1280x1024 screen resolution. */
+	--BackButton-backgroundColor--hover: rgba(255, 255, 255, 0.03);
+	--BackButton-borderColor--hover: rgba(255, 255, 255, 0.015);
+
+	/* Sidebar. */
+	--Sidebar-color-200: var(--Content-color-300);
+	--Sidebar-highlightColor-100: #303030;
+	--Sidebar-highlightColor-200: #2c2c2c;
+	--Sidebar-baseColor-200: #6c4d38;
+	--Sidebar-baseColor-700: var(--base-color-300);
+
+	/* Announcement. */
+	--Announcement-backgroundColor: var(--Content-backgroundColor);
+	--Announcement-color: var(--Clickable-color--text);
+	--Announcement-link-borderBottom: 1px dashed currentColor;
+	/*--Announcement-link-textDecoration: underline;*/
+	/*--Announcement-backgroundColor: var(--white-color);*/
+	/*--Announcement-color: var(--Content-backgroundColor);*/
+	/*--Announcement-link-color: var(--base-color-800);*/
+	--Announcement-boxShadow: 0 0 10px rgba(0,0,0,0.6);
+
+	/* HeaderSeparator. */
+	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
+
+	/* ChannelThreadHeader. */
+	--ChannelThreadHeader-borderColor: var(--Content-color-200);
+
+	/* ChannelUrl. */
+	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
+	--ChannelUrl-slash-color--active: var(--ChannelUrl-slash-color);
+	--ChannelUrl-slash-color--selected: var(--ChannelUrl-slash-color);
+
+	/* Notification. */
+	--Notification-color: var(--base-color-300);
+
+	/* Content. */
+	--Content-backgroundColor--active: #333331;
+
+	/* Post. */
+	--Post-color--secondaryThread: var(--Content-color-500);
+
+	/* PostQuoteBlock (inverse). */
+	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
+	    have regular quotes and "inverse" quotes. */
+	--PostQuoteBlock-color--inverse: #dc5e5e;
+
+	/* PostSubheading. */
+	--PostSubheading-color: #cf5858;
+
+	/* Comment. */
+	/*--Comment-backgroundColor--new: #4a3e31;*/
+
+	/* Comment-marginTop--extra. */
+	--Comment-marginTop--extra: 3px;
+
+	/* CommentAuthor. */
+	/*--CommentAuthor-color--accent: var(--base-color-300);*/
+	--CommentAuthor-color--administrator: #c44876;
+	--CommentAuthor-color--moderator: #57add1;
+
+	/* CommentSeparator. */
+	--CommentSeparator-color: rgba(255,255,255,0.15);
+	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
+	/*--CommentSeparator-color--new: #503e27;*/
+
+	/* StarIcon. */
+	--StarIcon-borderColor: var(--Clickable-color--textActive);
+	--StarIcon-backgroundColor: var(--Clickable-color--text);
+
+	/* ThreadActivityIndicator. */
+	--ThreadActivityIndicator-color--active: #91c74b;
+	--ThreadActivityIndicator-borderColor--active: #8db33b;
+	--ThreadActivityIndicator-color--idle: #cdc460;
+	--ThreadActivityIndicator-borderColor--idle: #c9c252;
+	--ThreadActivityIndicator-color--off: #878787;
+	--ThreadActivityIndicator-borderColor--off: #797979;
+	--ThreadActivityIndicator-hot-color: #d66d00;
+
+	/* Toolbar. */
+	--Toolbar-color: var(--Content-color-600);
+	--Toolbar-color--active: var(--Content-color-900);
+	--Toolbar-color--selected: var(--Content-color-800);
+
+	/* Tooltip. */
+	--Tooltip-boxShadowColor: rgba(0, 0, 0, 0.5);
+}

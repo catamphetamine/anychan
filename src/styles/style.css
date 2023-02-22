@@ -3,7 +3,9 @@
 @import "frontend-lib/styles/grid.css";
 
 @import "./constants";
-@import "./style-variables";
+@import "./variables";
+@import "./variables.light";
+@import "./variables.dark";
 @import "./react-responsive-ui";
 @import "./components";
 @import "./base";
