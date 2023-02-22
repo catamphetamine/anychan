@@ -40,6 +40,9 @@
 		   because there's no spacing between adjacent comments. */
 		width: 100%;
 	}
+
+	--Comment-marginTop: 0px;
+	--Comment-marginTop--nested: 0px;
 }
 
 .Document--leftHanded {
@@ -147,6 +150,7 @@
 				> .Comment {
 					/* Don't show the top border on the main ("root", "first shown") comment. */
 					border-top: none;
+
 					&.Comment--hasThumbnail {
 						margin-left: 0;
 						.Comment-thumbnail {
@@ -188,6 +192,8 @@
 .InReplyToModal-actions {
 	display: flex;
 	justify-content: flex-end;
+
+	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 
 	padding-left: var(--Post-paddingRight);
 	padding-right: var(--Post-paddingRight);
