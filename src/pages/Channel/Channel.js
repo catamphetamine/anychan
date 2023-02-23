@@ -125,6 +125,7 @@ function ChannelPage() {
 			'ChannelPage--latestComments': channelView === 'new-comments'
 		})}>
 			<ChannelHeader
+				alignTitle="start"
 				channelView={channelView}
 				onChannelViewWillChange={onChannelViewWillChange}
 				onChannelViewDidChange={onChannelViewDidChange}

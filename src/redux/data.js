@@ -32,30 +32,44 @@ export const getChannels = redux.action(
 	})
 )
 
-export const getThreads = redux.action(
-	(channelId, {
-		censoredWords,
-		grammarCorrection,
-		locale,
-		withLatestComments,
-		sortByRating,
-		userData,
-		userSettings
-	}) => async http => {
-		const threads = await _getThreads({
-			channelId,
-			censoredWords,
-			grammarCorrection,
-			locale,
-			messages: getMessages(locale),
-			withLatestComments,
-			sortByRating,
-			http,
-			userData,
-			userSettings
-		})
-		return { channelId, threads }
-	},
+// `dispatch(getThreads())` is not used in the app because it would
+// result in "race condition" errors in `loadChannelPage.js`.
+// export const getThreads = redux.action(
+// 	(channelId, {
+// 		censoredWords,
+// 		grammarCorrection,
+// 		locale,
+// 		withLatestComments,
+// 		sortByRating,
+// 		userData,
+// 		userSettings
+// 	}) => async http => {
+// 		const threads = await _getThreads({
+// 			channelId,
+// 			censoredWords,
+// 			grammarCorrection,
+// 			locale,
+// 			messages: getMessages(locale),
+// 			withLatestComments,
+// 			sortByRating,
+// 			http,
+// 			userData,
+// 			userSettings
+// 		})
+// 		return { channelId, threads }
+// 	},
+// 	(state, { channelId, threads }) => {
+// 		// Get the current `channel`.
+// 		// ... same code as in `setChannelThreads()` ...
+// 		return {
+// 			...state,
+// 			channel,
+// 			threads
+// 		}
+// 	}
+// )
+
+export const setChannelThreads = redux.simpleAction(
 	(state, { channelId, threads }) => {
 		// Get the current `channel`.
 		const channel = getChannelObject(state, channelId)
