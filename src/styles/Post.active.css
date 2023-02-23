@@ -1,0 +1,39 @@
+@import "frontend-lib/styles/variables.css";
+@import "frontend-lib/styles/variables.light.css";
+@import "frontend-lib/styles/variables.dark.css";
+
+@import "social-components-react/style/variables.css";
+@import "social-components-react/style/variables.light.css";
+@import "social-components-react/style/variables.dark.css";
+
+@import "frontend-lib/styles/constants.css";
+@import "frontend-lib/styles/grid.mixins.css";
+
+:root {
+	/* Post */
+	--Post-transition: none;
+	--Post-transition--onClick: background-color 60ms;
+
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-transition: none;
+	--PostInlineSpoiler-transition--onClick: var(--Post-transition--onClick);
+}
+
+.Post {
+	transition: var(--Post-transition);
+}
+
+.PostInlineSpoiler {
+	transition: var(--PostInlineSpoiler-transition);
+}
+
+.Clickable {
+	--Post-transition: var(--Post-transition--onClick);
+	--PostInlineSpoiler-transition: var(--PostInlineSpoiler-transition--onClick);
+}
+
+.Clickable--active {
+	--Post-backgroundColor: var(--Content-backgroundColor--active);
+	--PostInlineSpoiler-color: var(--PostInlineSpoiler-color--contentActive);
+	--PostInlineSpoiler-color--censored: var(--PostInlineSpoiler-color--censoredContentActive);
+}

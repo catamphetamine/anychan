@@ -1,7 +1,6 @@
 :root {
 	--ChannelThreadHeader-channelId-marginRight: 0.4em;
 	--ChannelThreadHeader-channelId-color: var(--Content-color-700);
-	--ChannelThreadHeader-channelId-slash-color: var(--Content-color-500);
 }
 
 .ChannelThreadHeader-channelId {

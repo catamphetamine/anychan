@@ -92,6 +92,7 @@
 		.ThreadPage-aboveComments,
 		.ThreadPage-belowComments,
 		.Comment,
+		.CommentTree-toggler,
 		.PostForm--comment {
 			pointer-events: auto;
 		}

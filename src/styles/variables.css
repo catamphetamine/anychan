@@ -14,6 +14,95 @@
 	--base-color-800: #8f3c00;
 	--base-color-900: #6D2D00;
 
+	/* `social-components-react` */
+	--SocialComponents-fontFamily: var(--Document-fontFamily);
+	--SocialComponents-fontFamily--text: var(--Text-fontFamily);
+	--SocialComponents-lineHeight: var(--Document-lineHeight);
+
+	/* Color */
+	--SocialComponents-color-100: var(--Content-color-100);
+	--SocialComponents-color-200: var(--Content-color-200);
+	--SocialComponents-color-300: var(--Content-color-300);
+	--SocialComponents-color-400: var(--Content-color-400);
+	--SocialComponents-color-500: var(--Content-color-500);
+	--SocialComponents-color-600: var(--Content-color-600);
+	--SocialComponents-color-700: var(--Content-color-700);
+	--SocialComponents-color-800: var(--Content-color-800);
+	--SocialComponents-color-900: var(--Content-color-900);
+
+	/* Background Color */
+	--SocialComponents-backgroundColor: var(--Content-backgroundColor);
+
+	/* Clickable Color. */
+	--SocialComponentsClickable-color: var(--Clickable-color);
+	--SocialComponentsClickable-color--active: var(--Clickable-color--active);
+	/* "Clickable text" buttons are usually colored a bit darker. */
+	--SocialComponentsClickable-color--text: var(--Clickable-color--text);
+
+	/* Comment. */
+	--Comment-marginLeft--latestComments: 1rem;
+
+	/* CommentTree. */
+	@mixin upto-xs {
+		--CommentTreeBranch-marginTop--content: 1.9em;
+	}
+
+	/* Post */
+	--Post-paddingLeft: var(--ContentSection-padding--horizontal);
+	--Post-transition: none;
+	--Post-transition--onClick: background-color 60ms;
+	@mixin upto-m {
+		/* Don't reduce the spacing between text paragraphs on small screens,
+		   because `--PostContent-marginTop` is already small on such screens. */
+		--Post-textLineHeightBlankSpace: 0em;
+	}
+	@mixin xl-plus {
+		--Post-paddingLeft: calc(var(--unit) * 2);
+	}
+
+	/* PostContent */
+	@mixin upto-m {
+		--PostContent-marginTop--compact: 0.3em;
+	}
+
+	/* PostInlineSpoiler. */
+	--PostInlineSpoiler-transition--onClick: var(--Post-transition--onClick);
+	--PostInlineSpoiler-transition: none;
+
+	/* PostList. */
+	@mixin upto-xs {
+		--PostList-marginLeft: var(--unit);
+	}
+
+	/* PostQuoteBorderLeft. */
+	@mixin upto-s {
+		--PostQuoteBorderLeft-left: calc(var(--PostQuoteBlock-paddingLeft) * 1/4);
+	}
+
+	/* Slideshow. */
+	@mixin xxs {
+		--Slideshow-Control-margin: calc(var(--unit) / 2);
+		--Slideshow-DragAndScaleModeButton-marginBottom: calc(var(--unit) / 2);
+	}
+	@mixin l-plus {
+		--Slideshow-Control-height: calc(var(--unit) * 3.5);
+	}
+
+	/* Z-indexes. */
+	--Sidebar-zIndex: 10;
+	--Header-zIndex--below: 19;
+	--Header-zIndex: 20;
+	--SideNavMenuButton-zIndex: var(--Header-zIndex);
+	--Slideshow-zIndex: 30;
+	--Notification-zIndex: 40;
+
+	/*
+	--PageContent-paddingLeft--nonContentSection: 0px;
+	@mixin upto-m {
+		--PageContent-paddingLeft--nonContentSection: var(--Post-paddingLeft);
+	}
+	*/
+
 	/* PageContent. */
 	--PageContent-paddingLeft: var(--unit);
 
@@ -129,12 +218,12 @@
 	}
 
 	/* Sidebar. */
+	--Sidebar-borderWidth: 1px;
 	--Sidebar-color-500: var(--Content-color-500);
 	--Sidebar-color-600: var(--Content-color-600);
 	--Sidebar-color-900: var(--Content-color-900);
 	--Sidebar-backgroundColor: var(--Content-backgroundColor);
 	/*--Sidebar-backgroundColor--collapsible: var(--Sidebar-backgroundColor);*/
-	--Sidebar-borderColor: var(--Header-borderColor);
 	--Sidebar-color--accent: var(--PostQuoteBlock-color);
 	/*--Sidebar-highlightColor-100--collapsible: var(--Sidebar-highlightColor-100);*/
 	/*--Sidebar-highlightColor-200--collapsible: var(--Sidebar-highlightColor-200);*/
@@ -168,9 +257,6 @@
 	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
 	--SideNavMenuButtonIcon-borderColor: var(--Content-backgroundColor);
 
-	/* ChannelThreadsSidebarSectionThread. */
-	--ChannelThreadsSidebarSectionThread-borderColor: var(--Content-color-200);
-
 	/* Channels. */
 	/* These styles aren't just for `.Sidebar`,
 	   they're for the `/boards` page too,
@@ -203,6 +289,11 @@
 	.Webpage {
 		--CommentsList-maxWidth: calc(var(--Post-paddingLeft) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) + var(--PostThumbnail-marginRight) + var(--CommentText-maxWidth) + var(--Post-paddingLeft));
 	}
+
+	/* Comment. */
+	/*--Comment-boxShadow: inset 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);*/
+	--Comment-boxShadow: none;
+	--Comment-border: var(--CommentSeparator-color) solid var(--CommentSeparator-width--outline);
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -240,7 +331,6 @@
 	/* CommentSeparator. */
 	--CommentSeparator-width: 0px;
 	--CommentSeparator-width--outline: 1px;
-	--CommentSeparator-color: var(--Content-color-300);
 	--CommentSeparator-color--largeScreen: var(--CommentSeparator-color);
 	--CommentSeparator-color--channelPage: var(--CommentSeparator-color);
 	--CommentSeparator-color--channelPageLargeScreen: var(--CommentSeparator-color--channelPage);
@@ -290,11 +380,10 @@
 	--CommentFooter-lineHeight: 1.75em;
 
 	/* CommentTree. */
-	--CommentTree-color: var(--Content-color-400);
-	--CommentTree-color--hover: var(--Content-color-600);
 	@mixin m-plus {
 		--CommentTree-borderWidth: 2px;
 	}
+	--CommentTreeDialogueTrace-height--through: var(--Comment-marginTop);
 
 	/* CommentAuthor. */
 	--CommentAuthor-marginTop: 0px;
@@ -306,7 +395,6 @@
 	--Post-paddingTop: calc(var(--unit) * 0.75);
 	--Post-paddingTop--compact: var(--Post-paddingTop);
 	--Post-paddingLeft: var(--unit);
-
 
 	@mixin upto-s {
 		--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
@@ -386,6 +474,9 @@
 	   resulting in a weird horizontal scrollbar appearing on small screens. */
 	--CommentMoreActions-paddingLeft: 0.7rem;
 	--CommentMoreActions-paddingTop: 0.8rem;
+
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderWidth: 1px;
 
 	/* ChannelThreadHeader. */
 	--ChannelThreadHeader-width: auto;

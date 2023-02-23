@@ -40,13 +40,32 @@
 	/* HeaderSeparator. */
 	--HeaderSeparator-color--left: rgba(255,255,255,0.2);
 
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderWidth: 2px;
+
 	/* ChannelThreadHeader. */
-	--ChannelThreadHeader-borderColor: var(--Content-color-200);
+	--ChannelThreadHeader-borderColor: var(--Document-backgroundColor);
+	--ChannelThreadHeader-channelId-slash-color: var(--Content-color-300);
+
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderColor: var(--Document-backgroundColor);
 
 	/* ChannelUrl. */
 	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
 	--ChannelUrl-slash-color--active: var(--ChannelUrl-slash-color);
 	--ChannelUrl-slash-color--selected: var(--ChannelUrl-slash-color);
+
+	/* CommentSpacerLine. */
+	--CommentSpacerLine-color: var(--Content-color-100);
+
+	/* CommentTree. */
+	--CommentTree-color: var(--Content-color-100);
+	--CommentTree-color--hover: var(--Content-color-200);
+	--CommentTree-backgroundColor--hover: rgba(255, 255, 255, 0.05);
+
+	/* PressedStateButton. */
+	--PressedStateButton-color--active: var(--base-color-300);
+	--PressedStateButton-color--pressed: var(--base-color-400);
 
 	/* Notification. */
 	--Notification-color: var(--base-color-300);
@@ -77,9 +96,12 @@
 	--CommentAuthor-color--moderator: #57add1;
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(255,255,255,0.15);
+	--CommentSeparator-color: rgba(255,255,255,0.05);
 	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
 	/*--CommentSeparator-color--new: #503e27;*/
+
+	/* Sidebar. */
+	--Sidebar-borderColor: var(--Document-backgroundColor);
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Clickable-color--textActive);

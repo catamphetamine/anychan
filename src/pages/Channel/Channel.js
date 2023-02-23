@@ -130,21 +130,23 @@ function ChannelPage() {
 				onChannelViewDidChange={onChannelViewDidChange}
 			/>
 
-			{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
-			    when the user changes the current channel's viewing mode. */}
-			<CommentsList
-				key={channelView}
-				mode="channel"
-				transformInitialItemState={transformInitialItemState}
-				initialState={initialVirtualScrollerState}
-				setState={setVirtualScrollerState}
-				initialScrollPosition={initialScrollPosition}
-				setScrollPosition={setScrollPosition}
-				items={threadsForPreviousChannelView.current || threads}
-				itemComponent={ChannelThread}
-				itemComponentProps={itemComponentProps}
-				className="ChannelPage-threads"
-			/>
+			<div className="ChannelPage-commentsListContainer">
+				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
+				    when the user changes the current channel's viewing mode. */}
+				<CommentsList
+					key={channelView}
+					mode="channel"
+					transformInitialItemState={transformInitialItemState}
+					initialState={initialVirtualScrollerState}
+					setState={setVirtualScrollerState}
+					initialScrollPosition={initialScrollPosition}
+					setScrollPosition={setScrollPosition}
+					items={threadsForPreviousChannelView.current || threads}
+					itemComponent={ChannelThread}
+					itemComponentProps={itemComponentProps}
+					className={classNames('ChannelPage-threads', `ChannelPage-threads--${channelView}`)}
+				/>
+			</div>
 		</section>
 	)
 }

@@ -274,7 +274,7 @@ function ThreadPage() {
 					/>
 				}
 			</div>
-			<div className="ThreadPage-commentsContainer">
+			<div className="ThreadPage-commentsListContainer">
 				<ThreadCommentsList
 					thread={thread}
 					searchQuery={searchQuery}

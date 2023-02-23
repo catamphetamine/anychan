@@ -28,9 +28,18 @@
 	.ChannelHeader-heading {
 		text-align: var(--ChannelThreadHeader-textAlign);
 	}
+}
 
-	.CommentsList {
-		margin-top: 1px; /* var(--Comment-marginTop); */
+.ChannelPage-commentsListContainer {
+	/* `.CommentsList` element already has a "negative" `margin-top`,
+	   so `margin-top` is set on `.ThreadPage-commentsListContainer` element instead. */
+	/* `--Comment-marginTop` is not defined at `:root` level. */
+	margin-top: var(--Comment-marginTop);
+}
+
+.ChannelPage--latestComments {
+	.ChannelPage-commentsListContainer {
+		margin-top: 0;
 	}
 }
 

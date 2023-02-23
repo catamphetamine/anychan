@@ -142,14 +142,17 @@
 .Comment {
 	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
 	border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
-			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+			box-shadow: var(--Comment-boxShadow);
+  		border: var(--Comment-border);
 		/*}*/
 		/*
 		&:not(.Comment--showThumbnail) {
 			> .Post {
-				box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+				box-shadow: var(--Comment-boxShadow);
+  			border: var(--Comment-border);
 			}
 		}
 		*/
@@ -160,7 +163,7 @@
 	--CommentSeparator-color: var(--CommentSeparator-color--channelPage);
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
-			box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color), var(--ContentSection-shadow);
+			box-shadow: var(--Comment-boxShadow), var(--ContentSection-shadow);
 		/*}*/
 	/*}*/
 }

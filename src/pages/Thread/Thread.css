@@ -61,16 +61,11 @@
 	}
 }
 
-.ThreadPage-commentsContainer {
-	--Thread-comments-marginTop: 0px;
-	@mixin m-plus {
-		/* `--Comment-marginTop` is not defined at `:root` level. */
-		--Thread-comments-marginTop: var(--Comment-marginTop);
-	}
-
+.ThreadPage-commentsListContainer {
 	/* `.CommentsList` element already has a "negative" `margin-top`,
-	   so `margin-top` is set on `.ThreadPage-commentsContainer` element instead. */
-	margin-top: var(--Thread-comments-marginTop);
+	   so `margin-top` is set on `.ThreadPage-commentsListContainer` element instead. */
+	/* `--Comment-marginTop` is not defined at `:root` level. */
+	margin-top: var(--Comment-marginTop);
 }
 
 .ThreadPage-belowComments {

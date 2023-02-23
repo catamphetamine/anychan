@@ -21,7 +21,8 @@
 	position: relative;
 
   background-color: var(--Post-backgroundColor);
-  box-shadow: 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);
+  box-shadow: var(--Comment-boxShadow);
+  border: var(--Comment-border);
 
 	padding-top: var(--PostForm-paddingBottom);
   padding-bottom: var(--PostForm-paddingBottom);

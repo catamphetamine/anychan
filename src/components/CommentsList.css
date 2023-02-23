@@ -13,7 +13,7 @@
 }
 
 /* Comment tree comment borders. */
-.CommentsList {
+.CommentsList--noSpacing {
 	/* The individual borders on `__thumbnail` and `__content`
 		 will be replaced with the border on `.Comment` itself. */
 	.CommentTree-comment--nested,

@@ -33,11 +33,22 @@
 
 	/* ChannelThreadHeader. */
 	--ChannelThreadHeader-borderColor: var(--Content-color-300);
+	--ChannelThreadHeader-channelId-slash-color: var(--Content-color-300);
+
+	/* ChannelThreadsSidebarSectionThread. */
+	--ChannelThreadsSidebarSectionThread-borderColor: var(--Content-color-200);
 
 	/* ChannelUrl. */
 	--ChannelUrl-slash-color--hover: var(--ChannelUrl-slash-color--selected);
 	--ChannelUrl-slash-color--active: #e9ccb8;
 	--ChannelUrl-slash-color--selected: #ead5c0;
+
+	/* CommentSpacerLine. */
+	--CommentSpacerLine-color: var(--Content-color-300);
+
+	/* CommentTree. */
+	--CommentTree-color: var(--Content-color-400);
+	--CommentTree-color--hover: var(--Content-color-500);
 
 	/* PressedStateButton. */
 	--PressedStateButton-color--active: #bd5700;
@@ -87,10 +98,13 @@
 	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
 
 	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(0,0,0,0.1);
+	--CommentSeparator-color: rgba(0,0,0,0.125);
 	--CommentSeparator-color--previouslyRead: rgba(0,0,0,0.12);
 	--CommentSeparator-color--channelPageLargeScreen: var(--Content-color-200);
 	/*--CommentSeparator-color--new: #e2d6c0;*/
+
+	/* Sidebar. */
+	--Sidebar-borderColor: var(--Header-borderColor);
 
 	/* StarIcon. */
 	--StarIcon-borderColor: var(--Content-color-900);

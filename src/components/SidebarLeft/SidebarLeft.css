@@ -1,11 +1,11 @@
 .SidebarLeft {
-	border-right: 1px solid var(--Sidebar-borderColor);
+	border-right: var(--Sidebar-borderWidth) solid var(--Sidebar-borderColor);
 
 	display: flex;
 	flex-direction: column;
 
 	.SidebarTopBar {
-		border-bottom: 1px solid var(--ChannelThreadsSidebarSectionThread-borderColor);
+		border-bottom: var(--ChannelThreadsSidebarSectionThread-borderWidth) solid var(--ChannelThreadsSidebarSectionThread-borderColor);
 	}
 
 	.ChannelHeader {

@@ -17,7 +17,7 @@
 
 	background-color: var(--Post-backgroundColor);
 
-	border-bottom: 1px solid var(--ChannelThreadsSidebarSectionThread-borderColor);
+	border-bottom: var(--ChannelThreadsSidebarSectionThread-borderWidth) solid var(--ChannelThreadsSidebarSectionThread-borderColor);
 
 	--CommentMoreActions-opacity: 0.5;
 

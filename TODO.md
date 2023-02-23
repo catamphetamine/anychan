@@ -9,6 +9,11 @@
 
 
 
+
+
+Redesign channel view mode as a select rather than a set of buttons. Fill down-arrow to the right. Hover: show border.
+
+
 Слева расположен список тредов доски. Треды отсортированы на выбор по: дате создания, дате наиболее позднего комментария.
 В режиме "по дате ниболее позднего комментария" закреплённые треды показываются выше остальных.
 Это создаёт "визуальный шум" и занимает место как на странице доски, так и слева в сайдбаре в списке тредов доски.
@@ -119,6 +124,11 @@ useUserData()
 * favoriteChannels → channels
 
 Post Form: `showErrorMessage={false}` + setError()
+
+
+
+
+На айфоне при закрытии слайдшоу смахиванием оно не делает fade out
 
 
 

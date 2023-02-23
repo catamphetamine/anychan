@@ -1,5 +1,5 @@
 .SidebarRight {
-	border-left: 1px solid var(--Sidebar-borderColor);
+	border-left: var(--Sidebar-borderWidth) solid var(--Sidebar-borderColor);
 
 	.SidebarTopBar {
 		padding-top: calc(var(--unit) * 1);
