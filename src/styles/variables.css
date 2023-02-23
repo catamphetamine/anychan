@@ -257,6 +257,12 @@
 	/*--SideNavMenuButton-color--active: var(--base-color-700);*/
 	--SideNavMenuButtonIcon-borderColor: var(--Content-backgroundColor);
 
+	/* Modal. */
+	/* `inset` shadow is used instead of a regular one because
+	   `.Comment`s have a `border`, and using a non-`inset` shadow
+	   would result in visually doubling the width of that border. */
+	--Modal-boxShadow: inset 0 0 0 var(--Modal-borderWidth) var(--Modal-borderColor);
+
 	/* Channels. */
 	/* These styles aren't just for `.Sidebar`,
 	   they're for the `/boards` page too,

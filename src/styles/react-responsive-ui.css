@@ -21,3 +21,8 @@
 		font-size: var(--Heading-fontSize--xl);
 	}
 }
+
+.rrui__modal__vertical-margin--top,
+.rrui__modal__vertical-margin--bottom {
+	flex-basis: 1rem;
+}
