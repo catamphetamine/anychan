@@ -203,8 +203,16 @@
 @mixin m-plus {
 	:root {
 		--PostThumbnailContainer-maxWidth: calc(var(--PostThumbnail-maxWidth) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
+		--PostThumbnailContainer-width: var(--PostThumbnailContainer-maxWidth);
+	}
+
+	/* `--PostThumbnail-width` CSS variable is only available at `.Comment` level,
+	   so `:root` selector is not used here. */
+	/*
+	.Comment {
 		--PostThumbnailContainer-width: calc(var(--PostThumbnail-width) + 2 * var(--Picture-borderWidth) + var(--PostThumbnail-marginRight));
 	}
+	*/
 
 	/*.Comment--thread {*/
 		/* Using `margin-right` instead of `padding-right` here
@@ -305,10 +313,12 @@
 		   would still be displayed as having some height. */
     align-items: flex-start;
 		justify-content: flex-end;
+
 		/* In case of changing these also change `.Sidebar`'s
 			 `flex-basis` accordingly in `Application.css`. */
 		width: var(--PostThumbnailContainer-width);
 		min-width: var(--PostThumbnailContainer-width);
+
 		/* Using `margin-right` instead of `padding-right`
 			 so that it's not included in `width`. */
 		/*margin-right: var(--PostThumbnail-marginRight);*/
@@ -317,6 +327,8 @@
 		/* Using specifically `padding-right` instead of `margin-right`
 		   was relevant for the old design, not anymore though. */
 		padding-right: var(--PostThumbnail-marginRight);
+
+		margin-bottom: var(--PostThumbnail-marginBottom);
 	}
 
 	.Comment-thumbnailPlaceholder {
@@ -331,94 +343,98 @@
 	*/
 	/*.ThreadPage-comments,*/
 	/*.InReplyToModal {*/
-		.CommentTree-comment--topLevel {
-			&.Comment--thread,
-			&.Comment--channelLatestComments {
-				&.Comment--hasNoThumbnail:not(.Comment--expandAttachments) {
-					--Comment-marginLeft: var(--PostThumbnailContainer-maxWidth);
+
+	.CommentTree-comment--topLevel {
+		&.Comment--thread,
+		&.Comment--channelLatestComments {
+			&.Comment--hasNoThumbnail:not(.Comment--expandAttachments) {
+				--Comment-marginLeft: var(--PostThumbnailContainer-maxWidth);
+			}
+
+			&.Comment--hasThumbnail {
+				margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
+				.Comment-thumbnail {
+					/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
+					width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
+					min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
 				}
-
-				&.Comment--hasThumbnail {
-					margin-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
-					.Comment-thumbnail {
-						/* `1 * ` is to prevent the `calc()` expression being parsed incorrectly for some reason in Chrome. */
-						width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
-						min-width: calc(var(--PostThumbnailContainer-width) - 1 * (var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width)));
-					}
-				}
 			}
 		}
+	}
 
-		.Comment--thread.CommentTree-comment--topLevel.CommentTree-comment--expanded,
-		/* On a channel page, thread cards won't have `.CommentTree-comment--topLevel`
-		   CSS class when viewed in default mode.
-		   The CSS class will only be present when `channelView` is "new-comments".
-		   Therefore, the CSS selector is `:not(.CommentTree-comment--nested)`
-		   rather than `.CommentTree-comment--topLevel`. */
-		.Comment--channel:not(.CommentTree-comment--nested) {
-			margin-left: 0;
-			width: 100%;
-			max-width: none;
-			.Comment-thumbnail {
-				padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
-			}
-		}
-
-		/* Always show `.Comment-thumbnailPlaceholder` element for the main comment of a thread
-		   when viewing a list of threads on a channel page. This way, the list of threads looks
-		   uniform and aligned. */
-		.Comment--channel.CommentTree-comment--topLevel {
-			.Comment-thumbnailPlaceholder {
-				display: block;
-				width: var(--PostThumbnailContainer-maxWidth);
-				min-width: var(--PostThumbnailContainer-maxWidth);
-			}
-		}
-
-		.Comment--fullWidth {
-			width: 100%;
-			max-width: none;
-			margin-left: 0;
-		}
-
-		/* ` !important` is just for "specificity".
-		   Otherwise, `:not()` selectors above would be more "specific". */
+	.Comment--thread.CommentTree-comment--topLevel.CommentTree-comment--expanded,
+	/* On a channel page, thread cards won't have `.CommentTree-comment--topLevel`
+	   CSS class when viewed in default mode.
+	   The CSS class will only be present when `channelView` is "new-comments".
+	   Therefore, the CSS selector is `:not(.CommentTree-comment--nested)`
+	   rather than `.CommentTree-comment--topLevel`. */
+	.Comment--channel:not(.CommentTree-comment--nested) {
+		margin-left: 0;
+		width: 100%;
+		max-width: none;
 		.Comment-thumbnail {
-			width: var(--PostThumbnailContainer-width);
-			min-width: var(--PostThumbnailContainer-width);
+			padding-left: calc(var(--PostThumbnail-maxWidth) - var(--PostThumbnail-width));
 		}
+	}
 
-		.Comment--thread {
-			/* Don't stretch short comments to full width on thread page. */
-			/* Only stretch them to full width when their replies are expanded. */
-			/* Also stretch them to full width in `InReplyToModal` because there's no
-			   spacing between adjacent comments. */
-			&.CommentTree-comment--expanded {
-				width: 100%;
-			}
+	/* Always show `.Comment-thumbnailPlaceholder` element for the main comment of a thread
+	   when viewing a list of threads on a channel page. This way, the list of threads looks
+	   uniform and aligned. */
+	.Comment--channel.CommentTree-comment--topLevel {
+		.Comment-thumbnailPlaceholder {
+			display: block;
+			width: var(--PostThumbnailContainer-maxWidth);
+			min-width: var(--PostThumbnailContainer-maxWidth);
 		}
+	}
 
-		.Comment--channel.CommentTree-comment--nested {
-			/* Don't stretch short comments to full width. */
-			display: inline-flex;
+	.Comment--fullWidth {
+		width: 100%;
+		max-width: none;
+		margin-left: 0;
+	}
+
+	/* ` !important` is just for "specificity".
+	   Otherwise, `:not()` selectors above would be more "specific". */
+	/*
+	.Comment-thumbnail {
+		width: var(--PostThumbnailContainer-width);
+		min-width: var(--PostThumbnailContainer-width);
+	}
+	*/
+
+	.Comment--thread {
+		/* Don't stretch short comments to full width on thread page. */
+		/* Only stretch them to full width when their replies are expanded. */
+		/* Also stretch them to full width in `InReplyToModal` because there's no
+		   spacing between adjacent comments. */
+		&.CommentTree-comment--expanded {
+			width: 100%;
 		}
+	}
 
-		.Comment-container {
-			/* `display: flex` is required to prevent `.Comment-container`
-				 from stretching to `100%` of page width. */
-			/* Also `display: flex` fixes weird extra vertical space at the bottom
-				 when `.Comment`'s `display` is set to `inline-flex`. */
-			display: flex;
-			/* `flex-direction: column` is because there's `.Comment-spacer`. */
-			flex-direction: column;
-			align-items: flex-start;
+	.Comment--channel.CommentTree-comment--nested {
+		/* Don't stretch short comments to full width. */
+		display: inline-flex;
+	}
 
-			/* Don't expand `.Clickable` to the full width of the container element. */
-			/* The container element has `align-children: stretch` property. */
-			.Clickable {
-				align-self: flex-start;
-			}
+	.Comment-container {
+		/* `display: flex` is required to prevent `.Comment-container`
+			 from stretching to `100%` of page width. */
+		/* Also `display: flex` fixes weird extra vertical space at the bottom
+			 when `.Comment`'s `display` is set to `inline-flex`. */
+		display: flex;
+		/* `flex-direction: column` is because there's `.Comment-spacer`. */
+		flex-direction: column;
+		align-items: flex-start;
+
+		/* Don't expand `.Clickable` to the full width of the container element. */
+		/* The container element has `align-children: stretch` property. */
+		.Clickable {
+			align-self: flex-start;
 		}
+	}
+
 	/*}*/
 
 	/*.ThreadPage-comments {*/

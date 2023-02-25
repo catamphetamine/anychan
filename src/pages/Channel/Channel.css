@@ -95,3 +95,30 @@
 		}
 	}
 }
+
+.ChannelPage-threads--new-threads-tiles {
+  display: grid;
+  place-items: center;
+  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+
+	align-items: flex-start;
+
+  --Post-minWidth: 0px;
+
+  .Comment {
+  	/* Place comment content below comment thumbnail. */
+  	flex-direction: column;
+
+  	/* No padding is required on the left side of a comment thumbnail element. */
+  	--PostThumbnail-maxWidth: var(--PostThumbnail-width);
+  	--PostThumbnail-marginRight: 0px;
+  	--PostThumbnail-marginTop: 0px;
+		--PostThumbnail-marginBottom: var(--Post-paddingLeft);
+  }
+
+  .Comment-thumbnail {
+  	/* Horizontally center the thumbnail image. */
+  	justify-content: center;
+  }
+}

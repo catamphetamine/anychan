@@ -151,3 +151,21 @@ export const provider = shape({
 		vote: PropTypes.func
 	})
 })
+
+// See `easy-react-form` docs.
+const replyFormState = shape({
+	values: object,
+	errors: object
+	// ...
+})
+
+export const commentTreeState = shape({
+	hidden: bool,
+	expandContent: bool,
+	expandPostLinkQuotes: objectOf(bool),
+	showReplyForm: bool,
+	replyForm: replyFormState,
+	replyFormInputHeight: number,
+	replyFormInputError: string,
+	replyFormError: string
+})

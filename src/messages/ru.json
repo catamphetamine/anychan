@@ -244,7 +244,8 @@
 	"channelViewMode": {
 		"newThreads": "Новые Треды",
 		"newComments": "Новые Комментарии",
-		"popular": "Популярное"
+		"popular": "Популярное",
+		"newThreadsTiles": "Новые Треды (Плитка)"
 	},
 	"nMoreComments": "{count, plural, one {ещё <tag>#</tag> комментарий} few {ещё <tag>#</tag> комментария} many {ещё <tag>#</tag> комментариев} other {ещё <tag>#</tag> комментария}}",
 	"noNewComments": "Нет новых комментариев",

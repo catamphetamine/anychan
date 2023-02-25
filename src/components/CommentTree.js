@@ -6,6 +6,8 @@ import CommentBlock from './Comment/CommentBlock.js'
 
 import { POST_FORM_INPUT_FIELD_NAME } from './PostForm.js'
 
+import { commentTreeState } from '../PropTypes.js'
+
 import './CommentTree.css'
 
 export default function CommentTree({
@@ -107,6 +109,9 @@ export default function CommentTree({
 					return {
 						...state,
 						replyForm: replyFormState,
+						// This property is not used anywhere else.
+						// It's just used to compare the "previous" value to the "new" one
+						// in order to detect the cases when the form height has changed.
 						replyFormInputError
 					}
 				})
@@ -166,7 +171,7 @@ CommentTree.propTypes = {
 	// `state` property is supplied by `<InReplyToModal/>`.
 	// Initially it's `undefined`.
 	//
-	initialState: PropTypes.object,
+	initialState: commentTreeState,
 
 	// When `<CommentTree/>` is rendered on a thread page,
 	// `setState()` property is supplied by `virtual-scroller`.

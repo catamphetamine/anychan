@@ -7893,10 +7893,10 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-virtual-scroller@^1.12.1:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.1.tgz#ec5c975897e8a5f7ccd29b48c3448504afc584ab"
-  integrity sha512-ehMhmUFfI4+HmEN9kzfef1XcKZkeYEE9xVAcn0QZVwFoRZg1etQWEOSevZ4AbST6ly3VwHK4hoD9XYAEQtMqvQ==
+virtual-scroller@^1.12.2:
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.2.tgz#a2e11557195c1620e64163fa73652794cbfd3769"
+  integrity sha512-EU+eh3Jo2uKxUL9Gr8RKRe/yoGYqLkjWqHR/FjD5C9ixpyWJ1DRz9t5FoNiEam1qjLbOLO27NyTIUA0EToCJpQ==
   dependencies:
     request-animation-frame-timeout "^1.0.0"
 

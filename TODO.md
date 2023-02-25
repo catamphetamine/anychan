@@ -31,6 +31,17 @@ Redesign channel view mode as a select rather than a set of buttons. Fill down-a
 
 
 
+Use `thread.comments[0].textPreviewForSidebar` in channel view mode `-tiles` (or generate a longer text preview as `.textPreviewForTiles`).
+
+Change channel view toolbar buttons into an `<ExpandableMenu/>`.
+
+Check thread view tiles mode on small screens: `.Comment-thumbnail` element is not shown there, in `Comment.css`: `@mixin m-plus { ... }`.
+
+Make columns count dependent on available page width (update on window resize + re-mount the VirtualScroller while clearing its state if `columnsCount` changes, or maybe not: maybe `virtual-scroller` can handle changing `columnsCount` dynamically).
+
+Add channel view mode: `popular-tiles` (tiles icon with a pulse icon at the bottom).
+
+Expanding YouTube videos in tiles mode won't fit.
 
 Add hide left sidebar setting.
 
@@ -82,9 +93,6 @@ Cache tracked thread stats collection and add a comment why is it cached (becaus
 Add screenshots on the website.
 
 Highlight current provider in sidebar sources. Check how it looks in dark mode.
-
-
-[virtual-scroller] "onItemHeightDidChange()" has been called for item index 0 but the item hasn't been rendered before. — при переключении с "by-popularity" на "with-latest-comments" на странице доски.
 
 
 Update subscribed thread selectively in utility/thread/getThread.js → onThreadFetched() instead of refreshing the whole list of subscribed threads.

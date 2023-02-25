@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
@@ -21,7 +22,7 @@ import useSlideshow from '../Comment/useSlideshow.js'
 
 import useOnThreadClick from '../useOnThreadClick.js'
 
-import { thread } from '../../PropTypes.js'
+import { thread, commentTreeState } from '../../PropTypes.js'
 
 // import getThreadThumbnail from '../../utility/thread/getThreadThumbnail.js'
 
@@ -56,7 +57,11 @@ export default function ChannelThreadsSidebarSectionThread({
 			...state,
 			hidden
 		}),
-		onHiddenChange: onHeightDidChange
+		onHiddenChange: () => {
+			if (onHeightDidChange) {
+				onHeightDidChange()
+			}
+		}
 	})
 
 	const threadThumbnailContainerStyle = useMemo(() => ({
@@ -143,9 +148,9 @@ export default function ChannelThreadsSidebarSectionThread({
 							{thread.titleCensored}
 						</h3>
 					}
-					{thread.comments[0].textPreview &&
+					{thread.comments[0].textPreviewForSidebar &&
 						<p className="ChannelThreadsSidebarSectionThread-content">
-							{thread.comments[0].textPreview}
+							{thread.comments[0].textPreviewForSidebar}
 						</p>
 					}
 					<CommentMoreActions
@@ -164,7 +169,10 @@ export default function ChannelThreadsSidebarSectionThread({
 }
 
 ChannelThreadsSidebarSectionThread.propTypes = {
-	item: thread.isRequired
+	item: thread.isRequired,
+	state: commentTreeState,
+	setState: PropTypes.func.isRequired,
+	onHeightDidChange: PropTypes.func
 }
 
 export const CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH = 128

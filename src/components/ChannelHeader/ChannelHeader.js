@@ -98,7 +98,12 @@ export default function ChannelHeader({
 
 ChannelHeader.propTypes = {
 	alignTitle: PropTypes.oneOf(['start', 'center']).isRequired,
-	channelView: PropTypes.oneOf(['new-threads', 'new-comments', 'popular']).isRequired,
+	channelView: PropTypes.oneOf([
+		'new-threads',
+		'new-threads-tiles',
+		'new-comments',
+		'popular'
+	]).isRequired,
 	onChannelViewWillChange: PropTypes.func,
 	onChannelViewDidChange: PropTypes.func,
 	className: PropTypes.string

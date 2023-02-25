@@ -4,6 +4,8 @@ import classNames from 'classnames'
 
 import CommentTree from '../../components/CommentTree.js'
 
+import { comment as commentType, commentTreeState } from '../../PropTypes.js'
+
 // Made `ThreadComment` a `React.memo()` to optimize
 // `<VirtualScroller/>` re-rendering: when `comment` doesn't change,
 // it shouldn't re-render.
@@ -35,8 +37,8 @@ const ThreadComment = React.memo(function({
 })
 
 ThreadComment.propTypes = {
-	item: PropTypes.object.isRequired,
-	state: PropTypes.object,
+	item: commentType.isRequired,
+	state: commentTreeState,
 	setState: PropTypes.func.isRequired
 }
 

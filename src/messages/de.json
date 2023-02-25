@@ -242,7 +242,8 @@
 	"channelViewMode": {
 		"newThreads": "Neue Thread",
 		"newComments": "Neue Kommentare",
-		"popular": "Beliebt"
+		"popular": "Beliebt",
+		"newThreadsTiles": "Neue Thread (Fliesen)"
 	},
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",

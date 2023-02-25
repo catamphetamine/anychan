@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { thread as threadType } from '../../PropTypes.js'
+import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 
 import ChannelThreadWithComments from './ChannelThreadWithComments.js'
 import ChannelThreadWithoutComments from './ChannelThreadWithoutComments.js'
+import ChannelThreadTile from './ChannelThreadTile.js'
 
 const ChannelThread = ({
 	item: thread,
@@ -14,9 +15,12 @@ const ChannelThread = ({
 	channelView,
 	commonProps
 }) => {
-	const Component = channelView === 'new-comments'
-		? ChannelThreadWithComments
-		: ChannelThreadWithoutComments
+	const Component = channelView === 'new-threads-tiles'
+		? ChannelThreadTile
+		: (channelView === 'new-comments'
+			? ChannelThreadWithComments
+			: ChannelThreadWithoutComments
+		)
 
 	return (
 		<Component
@@ -32,7 +36,7 @@ const ChannelThread = ({
 ChannelThread.propTypes = {
 	item: threadType.isRequired,
 
-	state: PropTypes.object,
+	state: commentTreeState,
 
 	// `setState()` property is provided by `virtual-scroller`.
 	setState: PropTypes.func.isRequired,

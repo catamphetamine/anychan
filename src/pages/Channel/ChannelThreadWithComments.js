@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-import { thread as threadType } from '../../PropTypes.js'
+import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 
 import CommentTree from '../../components/CommentTree.js'
 
@@ -65,7 +65,7 @@ export default function ChannelThreadWithComments({
 ChannelThreadWithComments.propTypes = {
 	thread: threadType.isRequired,
 
-	state: PropTypes.object,
+	state: commentTreeState,
 
 	// `setState()` property is provided by `virtual-scroller`.
 	setState: PropTypes.func.isRequired,

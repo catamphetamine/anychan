@@ -417,13 +417,11 @@
 		--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
 
 		/* `--CommentText-maxWidth` is always equal to `--Text-maxWidth` at the `:root` level. */
-		/* It doesn't get overridden by `.Webpage--withLeftSidebar` at the `:root` level. */
-		/* Hence using the additional `.Webpage` selector to override the `--Post-minWidth`
-		   defined at the `:root` level above. */
+		/* `.Webpage--withLeftSidebar` overrides `--CommentText-maxWidth` variable, */
+		/* but overriding it at that level doesn't override the `--Post-minWidth`
+		   that is defined at the `:root` level. To fix that, `--Post-minWidth` is re-defined
+		   at `.Webpage` level. */
 		.Webpage {
-			/* `--Post-minWidth` variable should be declared at the `:root` level
-			   in order for `<InReplyToModal/>` to "see" it, because it's rendered
-			   outside of `.Webpage` element. */
 			--Post-minWidth: calc(var(--CommentText-maxWidth) / 2);
 		}
 	}
@@ -439,6 +437,7 @@
 	   as `--PostThumbnail-maxWidth--actual` CSS variable. */
 	--PostThumbnail-maxWidth: var(--PostThumbnail-maxWidth--actual, var(--PostThumbnail-maxWidth--default));
 	--PostThumbnail-marginRight: var(--Post-paddingLeft);
+	--PostThumbnail-marginBottom: 0px;
 	/* Post thumbnail has some top spacing in order for
 	   its top edge to be at a similar height
 	   with the first line of text's top edge (non-capital letters). */

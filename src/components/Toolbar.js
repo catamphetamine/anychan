@@ -36,6 +36,8 @@ import ThreadWithCommentsIconOutline from '../../assets/images/icons/toolbar/thr
 
 import PopularThreadsIconOutline from '../../assets/images/icons/toolbar/popular-threads-icon-outline.svg'
 
+import ThreadTilesIconOutline from '../../assets/images/icons/toolbar/thread-tiles-outline.svg'
+
 // import ThreadIconOutline from '../../assets/images/icons/toolbar/thread-icon-outline.svg'
 // import CommentIconOutline from '../../assets/images/icons/toolbar/comment-icon-outline.svg'
 
@@ -102,6 +104,14 @@ export default function Toolbar({
 			wait: isSettingChannelView,
 			className: 'Toolbar-item--channelView'
 			// className: classNames('Toolbar-item--channelView', 'Toolbar-item--channelViewRightmost')
+		},
+		{
+			title: messages.channelViewMode.newThreadsTiles,
+			onClick: () => setChannelView('new-threads-tiles'),
+			isSelected: channelView === 'new-threads-tiles',
+			icon: ThreadTilesIconOutline,
+			wait: isSettingChannelView,
+			className: 'Toolbar-item--channelView'
 		},
 		{
 			type: 'separator'
@@ -175,7 +185,12 @@ Toolbar.propTypes = {
 	setSearchBarShown: PropTypes.func,
 	areAttachmentsExpanded: PropTypes.bool,
 	setAttachmentsExpanded: PropTypes.func,
-	channelView: PropTypes.oneOf(['new-threads', 'new-comments', 'popular']),
+	channelView: PropTypes.oneOf([
+		'new-threads',
+		'new-threads-tiles',
+		'new-comments',
+		'popular'
+	]),
 	setChannelView: PropTypes.func,
 	isSettingChannelView: PropTypes.bool,
 	openSlideshow: PropTypes.func,

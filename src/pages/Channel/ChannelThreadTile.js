@@ -5,23 +5,13 @@ import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 
 import CommentBlock from '../../components/Comment/CommentBlock.js'
 
-export default function ChannelThreadWithoutComments({
+export default function ChannelThreadTile({
 	thread,
 	state,
 	setState,
 	onHeightDidChange,
 	commonProps
 }) {
-	const onExpandContentChange = useCallback((expandContent) => {
-		setState({
-			...state,
-			expandContent
-		})
-	}, [
-		state,
-		setState
-	])
-
 	const setHidden = useCallback((hidden) => {
 		setState({
 			...state,
@@ -44,15 +34,13 @@ export default function ChannelThreadWithoutComments({
 			comment={thread.comments[0]}
 			threadId={thread.id}
 			onRenderedContentDidChange={onHeightDidChange}
-			initialExpandContent={state && state.expandContent}
-			onExpandContentChange={onExpandContentChange}
 			initialHidden={state && state.hidden}
 			setHidden={setHidden}
 		/>
 	)
 }
 
-ChannelThreadWithoutComments.propTypes = {
+ChannelThreadTile.propTypes = {
 	thread: threadType.isRequired,
 
 	state: commentTreeState,

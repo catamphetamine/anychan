@@ -93,7 +93,7 @@ export default async function getThreads({
 			// didn't work: it was always the comment of the last `thread` in the loop.
 			// Perhaps it has something to do with the "closure" thing in Javascript.
 			const comment = this
-			if (!comment.textPreviewCreated) {
+			if (!comment.textPreviewForSidebarCreated) {
 				comment.parseContent()
 				let decreaseCharacterLimitBy = 0
 				if (comment.titleCensored) {
@@ -101,13 +101,13 @@ export default async function getThreads({
 					maxLines--
 					decreaseCharacterLimitBy = Math.ceil(comment.titleCensored.length / charactersInLine) * charactersInLine
 				}
-				comment.textPreview = getCommentTextPreview(comment, {
+				comment.textPreviewForSidebar = getCommentTextPreview(comment, {
 					messages,
 					decreaseCharacterLimitBy,
 					charactersInLine,
 					maxLines
 				})
-				comment.textPreviewCreated = true
+				comment.textPreviewForSidebarCreated = true
 			}
 		}).bind(comment)
 

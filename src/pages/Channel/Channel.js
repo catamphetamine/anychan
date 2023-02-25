@@ -120,6 +120,13 @@ function ChannelPage() {
 		return itemState
 	}, [channelView])
 
+	const getColumnsCount = useCallback(() => {
+		if (channelView === 'new-threads-tiles') {
+			return 3
+		}
+		return 1
+	}, [channelView])
+
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
 			'ChannelPage--latestComments': channelView === 'new-comments'
@@ -137,6 +144,7 @@ function ChannelPage() {
 				<CommentsList
 					key={channelView}
 					mode="channel"
+					getColumnsCount={getColumnsCount}
 					transformInitialItemState={transformInitialItemState}
 					initialState={initialVirtualScrollerState}
 					setState={setVirtualScrollerState}

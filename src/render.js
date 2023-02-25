@@ -2,6 +2,7 @@ import { render } from 'react-pages/client'
 
 import getReactPagesConfig from './react-pages.js'
 import configuration from './configuration.js'
+import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVirtualScrollerDevModePageLoadWarnings.js'
 
 // import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
@@ -85,6 +86,8 @@ export default async function({ userData }) {
 			// Reset "is navigating" flag that's used in "Backspace" keydown handler
 			// when deciding whether should navigate "back".
 			window._isNavigationInProgress = false
+
+			suppressVirtualScrollerDevModePageLoadWarnings()
 		}
 	})
 
