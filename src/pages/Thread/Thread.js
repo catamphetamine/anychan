@@ -235,18 +235,6 @@ function ThreadPage() {
 		setNewFromIndex
 	])
 
-	const onMount = useMemo(() => {
-		const noNewComments = fromIndex === thread.comments.length
-		const pageContentHeightBeforeMount = document.documentElement.scrollHeight
-		return () => {
-			if (noNewComments) {
-				// Preserve scroll position on mount.
-				const pageContentHeight = document.documentElement.scrollHeight
-				window.scrollTo(0, window.scrollY + (pageContentHeight - pageContentHeightBeforeMount))
-			}
-		}
-	}, [])
-
 	return (
 		<section className={classNames('ThreadPage', 'Content')}>
 			<ThreadPageHeader
@@ -282,7 +270,6 @@ function ThreadPage() {
 					itemComponentProps={itemComponentProps}
 					getCommentById={getCommentById}
 					preserveScrollPositionOnPrependItems={preserveScrollPositionOnPrependItems}
-					onMount={onMount}
 					className={classNames('ThreadPage-comments', {
 						// 'ThreadPage-comments--fromTheStart': fromIndex === 0
 					})}

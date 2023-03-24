@@ -85,6 +85,13 @@ function CommentsList({
 		}
 	})
 
+	// `VirtualScroller` no longer restores the Y scroll position on mount:
+	// it was found out that this feature conflicted with the same feature
+	// of the application "router" library (`found-scroll`/`scroll-behavior`).
+	// Instead, the Y scroll position is supposed to be restored by
+	// the application "router" library (`found-scroll`/`scroll-behavior`).
+	initialScrollPosition = undefined
+
 	return (
 		<VirtualScroller
 			{...rest}

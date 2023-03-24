@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
@@ -12,10 +12,51 @@ import Button from 'frontend-lib/components/Button.js'
 
 import './BackButton.css'
 
-export default function BackButton({
+const BackButton = React.forwardRef(({
+	syncWithButton,
 	placement
-}) {
+}, ref) => {
 	const messages = useMessages()
+
+	const onPointerDown = useCallback(() => {
+		if (syncWithButton) {
+			syncWithButton.current.classList.add('BackButton--active')
+		}
+	}, [syncWithButton])
+
+	const onPointerUp = useCallback(() => {
+		if (syncWithButton) {
+			syncWithButton.current.classList.remove('BackButton--active')
+		}
+	}, [syncWithButton])
+
+	const onPointerIn = useCallback(() => {
+		if (syncWithButton) {
+			syncWithButton.current.classList.add('BackButton--hover')
+		}
+	}, [syncWithButton])
+
+	const onPointerOut = useCallback(() => {
+		if (syncWithButton) {
+			syncWithButton.current.classList.remove('BackButton--active')
+			syncWithButton.current.classList.remove('BackButton--hover')
+		}
+	}, [syncWithButton])
+
+	const onTouchStart = useCallback((event) => {
+		if (event.touches.length === 1) {
+			// Don't add the `--active` class on touch
+			// because the user is not necessarily intending to click the button.
+			// The user might just be scrolling using touch.
+			// onPointerDown()
+		} else {
+			// Reset on multitouch.
+			onPointerOut()
+		}
+	}, [
+		onPointerDown,
+		onPointerOut
+	])
 
 	const [canGoBack, goBack] = useCanGoBackFromThreadToChannel()
 
@@ -27,21 +68,37 @@ export default function BackButton({
 
 	return (
 		<Button
+			ref={ref}
 			aria-label={messages.actions.back}
 			onClick={goBack}
+			onMouseDown={onPointerDown}
+			onMouseUp={onPointerUp}
+			onTouchStart={onTouchStart}
+			onTouchEnd={onPointerUp}
+			onTouchMove={onPointerOut}
+			onTouchCancel={onPointerUp}
+			onMouseEnter={onPointerIn}
+			onMouseLeave={onPointerOut}
+			onDragStart={onPointerOut}
 			className={classNames('BackButton', {
 				'BackButton--hidden': !canGoBack,
 				'BackButton--paddingLeft': placement === 'paddingLeft',
-				'BackButton--content': placement === 'content'
+				'BackButton--content': placement === 'content',
+				'BackButton--aboveContent': placement === 'aboveContent'
 			})}>
 			<LeftArrow className="BackButtonIcon"/>
 		</Button>
 	)
-}
+})
 
 BackButton.propTypes = {
-	placement: PropTypes.oneOf(['paddingLeft', 'content']).isRequired
+	placement: PropTypes.oneOf(['paddingLeft', 'content', 'aboveContent']).isRequired,
+	syncWithButton: PropTypes.shape({
+		current: PropTypes.any
+	})
 }
+
+export default BackButton
 
 function LeftArrow({ className }) {
 	return (

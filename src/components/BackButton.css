@@ -25,6 +25,7 @@
 	border-right: 1px solid transparent;
 	transition: all 60ms;
 
+	&.BackButton--active,
 	/*&:focus,*/
 	&:active {
 		color: var(--Clickable-color--text);
@@ -34,6 +35,7 @@
 		}
 	}
 
+	&.BackButton--hover,
 	&:hover {
 		/*color: var(--Clickable-color--text);*/
 		background-color: var(--BackButton-backgroundColor--hover);
@@ -51,6 +53,14 @@
 
 .Webpage--withLeftSidebar {
 	@mixin xl-plus {
+		.BackButton {
+			/*--BackButton-borderColor: transparent;*/
+			--BackButton-borderColor--hover: transparent;
+
+			/*--BackButton-backgroundColor: transparent;*/
+			--BackButton-backgroundColor--hover: transparent;
+		}
+
 		.BackButton--content {
 			display: block;
 
@@ -60,12 +70,6 @@
 			width: calc(var(--Post-paddingLeft--has-thumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--CommentSeparator-width--outline)); /* + var(--PaddingLeft-minWidth) */
 			height: 100%;
 
-			/*--BackButton-borderColor: transparent;*/
-			--BackButton-borderColor--hover: transparent;
-
-			/*--BackButton-backgroundColor: transparent;*/
-			--BackButton-backgroundColor--hover: transparent;
-
 			/* `BackButton` is rendered "below" the comment elements
 			   so that "hover" events are triggered on comment elements
 			   and only in the "empty" places are "hover" events triggered
@@ -74,27 +78,48 @@
 			z-index: 0;
 
 			.BackButtonIcon {
-				/*display: none;*/
+				display: none;
+				/*
 				position: fixed;
 				bottom: calc(var(--unit) * 1.1);
 				left: calc(var(--SidebarLeft-width) + var(--BackButtonIcon-left));
 				margin: var(--BackButtonIcon-padding);
 				opacity: 0.75;
+				*/
 			}
 		}
-	}
 
-	&.Webpage--thread {
-		.Webpage-content {
-			pointer-events: none;
+		.BackButton--aboveContent {
+			display: block;
+
+			position: fixed;
+			bottom: calc(var(--unit) * 1.1);
+			left: calc(var(--SidebarLeft-width) + var(--BackButtonIcon-left));
+			opacity: 0.75;
+
+			/* The button should be rendered "above" the page content. */
+			z-index: 1;
+
+			.BackButtonIcon {
+				margin: var(--BackButtonIcon-padding);
+			}
 		}
-		.ThreadPageHeader,
-		.ThreadPage-aboveComments,
-		.ThreadPage-belowComments,
-		.Comment,
-		.CommentTree-toggler,
-		.PostForm--comment {
-			pointer-events: auto;
+
+		/* Make the elements in the page content section clickable,
+		   but at the same time all mouse hover/click events should
+		   fall through the empty space in the page content section. */
+		&.Webpage--thread {
+			.Webpage-content {
+				pointer-events: none;
+			}
+			.ThreadPageHeader,
+			.ThreadPage-aboveComments,
+			.ThreadPage-belowComments,
+			.Comment,
+			.CommentTree-toggler,
+			.PostForm--comment {
+				pointer-events: auto;
+			}
 		}
 	}
 }
@@ -123,10 +148,12 @@
 		}
 
 		@mixin xl-plus {
+			--BackButton-marginRight: var(--unit);
+
 			display: block;
 			/*position: relative;*/
 			position: absolute;
-			width: calc(100% - var(--unit));
+			width: calc(100% - var(--BackButton-marginRight));
 			/*min-width: calc(var(--BackButtonIcon-padding) + var(--BackButtonIcon-width) + var(--BackButtonIcon-padding));*/
 			min-width: var(--BackButton-minWidth);
 			height: 100%;
@@ -140,6 +167,10 @@
 				opacity: 0.75;
 			}
 		}
+	}
+
+	.BackButtonIconButton {
+		display: none;
 	}
 }
 

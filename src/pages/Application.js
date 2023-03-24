@@ -151,6 +151,8 @@ function App({
   const announcement = useSelector(state => state.announcement.announcement)
   const isLoadingTweet = useSelector(state => state.twitter.isLoading)
 
+  const backButtonAboveContent = useRef()
+
 	// Detects touch capability and screen size.
 	useDeviceInfo()
 
@@ -253,7 +255,15 @@ function App({
 					</div>
 
 					<div className="Webpage-contentContainer">
-						<BackButton placement="content"/>
+						<BackButton
+							placement="content"
+							syncWithButton={backButtonAboveContent}
+						/>
+
+						<BackButton
+							ref={backButtonAboveContent}
+							placement="aboveContent"
+						/>
 
 						{configuration.headerMarkup &&
 							<Markup

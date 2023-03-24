@@ -31,6 +31,9 @@ Redesign channel view mode as a select rather than a set of buttons. Fill down-a
 
 
 
+Анимацию крутилки рефреша можно взять здесь:
+https://codesandbox.io/p/sandbox/virtual-scroller-infinite-scroll-forked-srptij?file=%2Fpages%2F_app.js&selection=%5B%7B%22endColumn%22%3A8%2C%22endLineNumber%22%3A7%2C%22startColumn%22%3A8%2C%22startLineNumber%22%3A7%7D%5D
+
 Use `thread.comments[0].textPreviewForSidebar` in channel view mode `-tiles` (or generate a longer text preview as `.textPreviewForTiles`).
 
 Change channel view toolbar buttons into an `<ExpandableMenu/>`.

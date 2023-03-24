@@ -9,7 +9,7 @@ import useMessages from '../hooks/useMessages.js'
 
 import { getViewportHeight } from 'web-browser-window'
 import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
-import useMount from 'frontend-lib/hooks/useMount.js'
+import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 import Button from 'frontend-lib/components/Button.js'
 
@@ -86,8 +86,7 @@ function MenuIcon({ mode, className }) {
 	// The use of `isMounted()` in `className` is to prevent the
 	// `transform` animations of menu icon bars from being played
 	// on page load (when styles are included on a page via javascript).
-	const [isMounted, onMount] = useMount()
-	onMount()
+	const isMounted = useIsMounted()
 
 	return (
 		<div className={classNames(className, 'SideNavMenuButtonIcon', {

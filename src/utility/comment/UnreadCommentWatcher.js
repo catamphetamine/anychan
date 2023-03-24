@@ -2,13 +2,18 @@ import { latestReadComments } from '../../UserData/collections/index.js'
 import onCommentRead from '../../utility/comment/onCommentRead.js'
 
 export default class UnreadCommentWatcher {
-	constructor({
-		dispatch,
-		getThread,
-		channel,
-		userData,
-		hitBoxContraction
-	}) {
+	constructor(parameters) {
+		this.parameters = parameters
+	}
+
+	start() {
+		const {
+			dispatch,
+			getThread,
+			channel,
+			userData
+		} = this.parameters
+
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 		// https://caniuse.com/#search=IntersectionObserver
@@ -18,6 +23,15 @@ export default class UnreadCommentWatcher {
 			// Values order: top, right, bottom, left.
 			rootMargin: '0px 0px 0px 0px'
 		})
+	}
+
+	stop() {
+		if (!this.observer) {
+			console.error('`UnreadCommentWatcher` has already been stopped')
+			return
+		}
+		this.observer.disconnect()
+		this.observer = undefined
 	}
 
 	createIntersectionHandler({ dispatch, getThread, channel, userData }) {
@@ -124,11 +138,6 @@ export default class UnreadCommentWatcher {
 		if (this.observer) {
 			this.observer.unobserve(element)
 		}
-	}
-
-	stop() {
-		this.observer.disconnect()
-		this.observer = undefined
 	}
 }
 

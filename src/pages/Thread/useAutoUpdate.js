@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import useMount from 'frontend-lib/hooks/useMount.js'
+import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 import useLocale from '../../hooks/useLocale.js'
 import useUserData from '../../hooks/useUserData.js'
@@ -38,7 +38,7 @@ export default function useAutoUpdate({
 	setError,
 	autoStart
 }) {
-	const [isMounted, onMount] = useMount()
+	const isMounted = useIsMounted()
 
 	const isStarted = useRef()
 	const isUpdating = useRef()
@@ -242,12 +242,6 @@ export default function useAutoUpdate({
 			}
 		}
 	}
-
-	// `onMount()` call is placed above `useEffect()` that creates an
-	// `IntersectionObserver`, just in case the effect runs its callback
-	// synchronously. It doesn't (tested in Chrome), but anyway.
-	// One could say that it's conceptually more correct this way.
-	onMount()
 
 	useEffect(() => {
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.

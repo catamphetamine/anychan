@@ -28,6 +28,7 @@ export default function useUnreadCommentWatcher({ channel, thread } = {}) {
 	}, [])
 
 	useEffect(() => {
+		unreadCommentWatcher.start()
 		return () => {
 			unreadCommentWatcher.stop()
 		}
