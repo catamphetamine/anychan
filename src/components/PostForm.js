@@ -82,7 +82,6 @@ function PostForm({
 		<Form
 			ref={ref}
 			autoFocus={autoFocus}
-			requiredMessage={messages.form.error.required}
 			onSubmit={onSubmit}
 			initialState={initialState}
 			onStateDidChange={onStateDidChange}
@@ -114,7 +113,6 @@ function PostForm({
 			}
 			<Submit
 				component={Button}
-				type="submit"
 				title={messages.actions.post}
 				className="PostForm-action">
 				{/*messages.actions.post*/}

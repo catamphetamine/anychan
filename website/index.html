@@ -373,8 +373,10 @@
 
 		<script>
 			// https://www.epidemicsound.com/music/search/?term=dog
+			const barkSound = new Audio('./sounds/bark.ogg')
+
 			function onLogoClick() {
-				new Audio('./sounds/bark.ogg').play()
+				barkSound.play()
 
 				var container = document.querySelector('.HeroLogoTextBubbleContainer')
 				container.style.display = 'block'

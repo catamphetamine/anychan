@@ -1,18 +1,18 @@
 import Imageboard from './Imageboard.js'
 
-import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
+import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
 
 const MAX_LATEST_COMMENTS_PAGES_COUNT = 2
 
-export default async function getThreadsFromImageboard(channelId, {
+export default async function getThreadsFromImageboard({
+	channelId,
 	withLatestComments,
 	sortByRating,
 	messages,
 	http,
-	proxyUrl,
 	userSettings
 }) {
-	const imageboard = Imageboard({ messages, http, proxyUrl, userSettings })
+	const imageboard = Imageboard({ messages, http, userSettings })
 
 	const threads = await imageboard.getThreads({
 		boardId: channelId

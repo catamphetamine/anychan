@@ -29,6 +29,11 @@
 	"sources": {
 		"title": "Quellen"
 	},
+	"userAccount": {
+		"title": "Benutzer",
+		"pass": "Pass",
+		"notSupported": "Diese Quelle unterstützt keine Benutzeranmeldung."
+	},
 	"settings": {
 		"language": {
 			"title": "Sprache",

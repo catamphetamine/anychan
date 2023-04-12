@@ -3,17 +3,16 @@ import Imageboard, { getConfig } from 'imageboard'
 import {
 	getProvider,
 	isDeployedOnProviderDomain
-} from '../provider.js'
+} from '../../provider.js'
 
-import { shouldUseProxy, getProxiedUrl } from '../utility/proxy.js'
-import getMessages from './utility/getMessages.js'
-import shouldMinimizeGeneratedPostLinkBlockQuotes from '../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
-import configuration from '../configuration.js'
+import { shouldUseProxy, getProxiedUrl } from '../../utility/proxy.js'
+import getMessages from '../utility/getMessages.js'
+import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
+import configuration from '../../configuration.js'
 
 export default function Imageboard_({
 	messages,
 	http,
-	proxyUrl,
 	userSettings
 }) {
 	return Imageboard(getProvider().imageboard, {
@@ -29,7 +28,7 @@ export default function Imageboard_({
 		request: async (method, url, { body, headers }) => {
 			// Proxy the URL (if required).
 			if (shouldUseProxy()) {
-				url = getProxiedUrl(url, { proxyUrl, userSettings })
+				url = getProxiedUrl(url, { userSettings })
 			}
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
 			// https://caniuse.com/#feat=fetch

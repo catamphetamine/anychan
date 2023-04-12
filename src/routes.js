@@ -4,6 +4,7 @@ import Channels from './pages/Channels.js'
 import Channel from './pages/Channel/Channel.js'
 import Thread from './pages/Thread/Thread.js'
 import Settings from './pages/Settings.js'
+import UserAccount from './pages/UserAccount.js'
 import NotFound from './pages/NotFound.js'
 import Offline from './pages/Offline.js'
 import GenericError from './pages/Error.js'
@@ -15,6 +16,7 @@ export default [{
 		{ Component: Home },
 		{ path: 'channels', Component: Channels },
 		{ path: 'settings', Component: Settings },
+		{ path: 'user', Component: UserAccount },
 		{ path: 'error', status: 500, Component: GenericError },
 		{ path: 'offline', status: 503, Component: Offline },
 		{ path: 'not-found', status: 404, Component: NotFound },

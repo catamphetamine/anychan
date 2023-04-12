@@ -158,7 +158,7 @@ export function createConfiguration({ development }) {
 
 			// Injects `js` and `css` bundles into `index.html`.
 			HtmlPlugin({
-				googleAnalytics: development ? false : true
+				dev: development ? false : true
 			}),
 
 			// Add `react-refresh-webpack-plugin` in development mode

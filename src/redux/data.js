@@ -322,7 +322,7 @@ export const onCommentRead = redux.simpleAction(
 
 export const vote = redux.action(
 	({ up, channelId, threadId, commentId, userData, userSettings }) => async http => {
-		const voteAccepted = await _vote({
+		const voteAccepted = await getProvider().api.vote({
 			up,
 			channelId,
 			commentId,

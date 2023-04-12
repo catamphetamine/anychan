@@ -218,7 +218,6 @@ function AddTheme({
 		<Form
 			autoFocus
 			ref={addThemeForm}
-			requiredMessage={messages.form.error.required}
 			onSubmit={onAddTheme}
 			className="form">
 			<Field

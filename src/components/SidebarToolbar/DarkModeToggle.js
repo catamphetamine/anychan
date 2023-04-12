@@ -7,7 +7,7 @@ import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
 import { hideSidebar } from '../../redux/app.js'
 
-import { getDarkModeMenuItem } from '../MainMenu.js'
+import getDarkModeMenuItem from './getDarkModeMenuItem.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSettings from '../../hooks/useSettings.js'

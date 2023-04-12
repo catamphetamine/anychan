@@ -29,6 +29,11 @@
 	"sources": {
 		"title": "Sources"
 	},
+	"userAccount": {
+		"title": "User",
+		"pass": "Pass",
+		"notSupported": "This source doesn't support user log in."
+	},
 	"settings": {
 		"language": {
 			"title": "Language",

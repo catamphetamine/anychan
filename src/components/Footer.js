@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import MainMenu from './MainMenu.js'
 import Markup from './Markup.js'
 
 import configuration from '../configuration.js'
@@ -64,9 +63,6 @@ export default function Footer({ className }) {
 					.
 				</p>
 			</div>
-			{!offline && false &&
-				<MainMenu footer/>
-			}
 		</footer>
 	)
 }

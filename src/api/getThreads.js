@@ -1,5 +1,4 @@
 import { getProvider } from '../provider.js'
-import getThreadsFromImageboard from './getThreadsFromImageboard.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import configuration from '../configuration.js'
@@ -12,7 +11,6 @@ export default async function getThreads({
 	messages,
 	locale,
 	http,
-	proxyUrl,
 	withLatestComments,
 	sortByRating,
 	userData,
@@ -20,21 +18,14 @@ export default async function getThreads({
 }) {
 	const provider = getProvider()
 
-	let result
-	if (provider.imageboard) {
-		result = await getThreadsFromImageboard(channelId, {
-			withLatestComments,
-			sortByRating,
-			messages,
-			http,
-			proxyUrl,
-			userSettings
-		})
-	} else {
-		result = await provider.api.getThreads({ channelId })
-	}
-
-	const { threads, hasMoreThreads } = result
+	const { threads, hasMoreThreads } = await provider.api.getThreads({
+		channelId,
+		withLatestComments,
+		sortByRating,
+		messages,
+		http,
+		userSettings
+	})
 
 	const threadVotes = userData.getThreadVotes(channelId)
 	const ownThreadIds = userData.getOwnThreads(channelId)

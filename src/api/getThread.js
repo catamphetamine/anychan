@@ -1,5 +1,4 @@
 import { getProvider } from '../provider.js'
-import getThreadFromImageboard from './getThreadFromImageboard.js'
 import configuration from '../configuration.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
@@ -31,7 +30,6 @@ export default async function getThread({
 	messages,
 	locale,
 	http,
-	proxyUrl,
 	userData,
 	userSettings
 }) {
@@ -47,27 +45,16 @@ export default async function getThread({
 
 	const provider = getProvider()
 
-	let result
-	if (provider.imageboard) {
-		result = await getThreadFromImageboard({
-			channelId,
-			threadId,
-			archived,
-			afterCommentId,
-			afterCommentsCount,
-			messages,
-			http,
-			proxyUrl,
-			userSettings
-		})
-	} else {
-		result = await provider.api.getThread({
-			channelId,
-			threadId
-		})
-	}
-
-	const { thread, hasMoreComments } = result
+	const { thread, hasMoreComments } = await provider.api.getThread({
+		channelId,
+		threadId,
+		archived,
+		afterCommentId,
+		afterCommentsCount,
+		messages,
+		http,
+		userSettings
+	})
 
 	// (this feature is not currently used)
 	// `4chan.org` provides a "-tail" API for getting thread comments

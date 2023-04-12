@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
-import getSettingsMenuItem from './getSettingsMenuItem.js'
+import getUserAccountMenuItem from './getUserAccountMenuItem.js'
 import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useRoute from '../../hooks/useRoute.js'
 
-export default function SettingsLink({ withLabel }) {
+export default function UserAccountLink({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
-	const menuItem = useMemo(() => getSettingsMenuItem({ messages }), [messages])
+	const menuItem = useMemo(() => getUserAccountMenuItem({ messages }), [messages])
 
 	const route = useRoute()
 	const locationPathname = route.location.pathname
@@ -23,8 +23,6 @@ export default function SettingsLink({ withLabel }) {
 	const Icon = isCurrentUrl
 		? menuItem.iconActive
 		: menuItem.icon
-
-	const title = messages.settings.title
 
 	return (
 		<SidebarMenuItem
@@ -37,7 +35,7 @@ export default function SettingsLink({ withLabel }) {
 	)
 }
 
-SettingsLink.propTypes = {
+UserAccountLink.propTypes = {
 	withLabel: PropTypes.bool
 }
 

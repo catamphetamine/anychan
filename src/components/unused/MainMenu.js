@@ -5,31 +5,16 @@ import classNames from 'classnames'
 
 import Menu from 'frontend-lib/components/Menu.js'
 
-import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
-import { notify } from '../redux/notifications.js'
-import autoDarkMode from 'frontend-lib/utility/style/autoDarkMode.js'
-import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
-
-import {
-	showSidebar,
-	setSidebarMode,
-	setDarkMode
-} from '../redux/app.js'
-
-import { saveDarkMode } from '../redux/settings.js'
-
 import useMessages from '../hooks/useMessages.js'
 import useSettings from '../hooks/useSettings.js'
 import useMeasure from '../hooks/useMeasure.js'
+import useSource from '../hooks/useSource.js'
 
 import FeedIconOutline from 'frontend-lib/icons/fill-and-outline/feed-outline.svg'
 import FeedIconFill from 'frontend-lib/icons/fill-and-outline/feed-fill.svg'
 
-import SettingsIconOutline from 'frontend-lib/icons/fill-and-outline/settings-outline.svg'
-import SettingsIconFill from 'frontend-lib/icons/fill-and-outline/settings-fill.svg'
-
-import MoonIconOutline from 'frontend-lib/icons/fill-and-outline/moon-outline.svg'
-import MoonIconFill from 'frontend-lib/icons/fill-and-outline/moon-fill.svg'
+import PersonIconOutline from 'frontend-lib/icons/fill-and-outline/person-outline.svg'
+import PersonIconFill from 'frontend-lib/icons/fill-and-outline/person-fill.svg'
 
 // import BellIconOutline from 'frontend-lib/icons/fill-and-outline/bell-outline.svg'
 // import BellIconFill from 'frontend-lib/icons/fill-and-outline/bell-fill.svg'
@@ -43,13 +28,12 @@ import MoonIconFill from 'frontend-lib/icons/fill-and-outline/moon-fill.svg'
 import MenuIconOutline from 'frontend-lib/icons/fill-and-outline/menu-outline.svg'
 import MenuIconFill from 'frontend-lib/icons/fill-and-outline/menu-fill.svg'
 
-export default function MainMenu({
-	footer
-}) {
+export default function MainMenu() {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 	const userSettings = useSettings()
 	const measure = useMeasure()
+	const source = useSource()
 
 	const isSidebarShown = useSelector(state => state.app.isSidebarShown)
 	const sidebarMode = useSelector(state => state.app.sidebarMode)
@@ -58,12 +42,26 @@ export default function MainMenu({
 	const areNotificationsShown = useSelector(state => state.app.areNotificationsShown)
 
 	function getMenuItems() {
+		// A legacy version of the website used "footer" mode for the `<MainMenu/>`.
+		const footer = false
+
 		const areChannelsShown = sidebarMode === 'channels' && (footer ? isSidebarShown : true)
 		const areSubscribedThreadsShown = sidebarMode === 'thread-subscriptions' && (footer ? isSidebarShown : true)
 		const areNotificationsShown = sidebarMode === 'notifications' && (footer ? isSidebarShown : true)
 
 		const settingsItem = getSettingsMenuItem({ messages })
+		// Don't show the "fill" icon variant when a user has sidebar expanded
+		// in a "mobile" version of a website, because those icons are shown
+		// in the expanded sidebar and it doesn't look better with "fill" icon
+		// variant there even if the respective menu item is selected.
 		settingsItem.isSelected = !isSidebarShown
+
+		const userAccountItem = getUserAccountMenuItem({ messages })
+		// Don't show the "fill" icon variant when a user has sidebar expanded
+		// in a "mobile" version of a website, because those icons are shown
+		// in the expanded sidebar and it doesn't look better with "fill" icon
+		// variant there even if the respective menu item is selected.
+		userAccountItem.isSelected = !isSidebarShown
 
 		const darkModeItem = getDarkModeMenuItem({ messages, dispatch, measure, darkMode, userSettings })
 
@@ -137,9 +135,11 @@ export default function MainMenu({
 		// 	iconActive: BellIconFill
 		// }
 
+		let menuItems
+
 		// Mobile menu is optimized for holding the phone in the right hand.
 		if (footer) {
-			return [
+			menuItems = [
 				darkModeItem,
 				menuItem,
 				settingsItem
@@ -147,16 +147,22 @@ export default function MainMenu({
 				// subscribedThreadsItem,
 				// notificationsItem
 			]
+		} else {
+			// Desktop menu is optimized for left-to-right mouse navigation.
+			menuItems = [
+				darkModeItem,
+				// subscribedThreadsItem,
+				// notificationsItem,
+				// channelsItem,
+				settingsItem
+			]
 		}
 
-		// Desktop menu is optimized for left-to-right mouse navigation.
-		return [
-			darkModeItem,
-			// subscribedThreadsItem,
-			// notificationsItem,
-			// channelsItem,
-			settingsItem
-		]
+		if (source.api.logIn) {
+			menuItems.push(userAccountItem)
+		}
+
+		return menuItems
 	}
 
 	return (
@@ -167,7 +173,7 @@ export default function MainMenu({
 }
 
 MainMenu.propTypes = {
-	footer: PropTypes.bool,
+	// footer: PropTypes.bool,
 	// isSidebarShown: PropTypes.bool,
 	// darkMode: PropTypes.bool,
 	// areSubscribedThreadsShown: PropTypes.bool,
@@ -175,32 +181,12 @@ MainMenu.propTypes = {
 	// dispatch: PropTypes.func.isRequired
 }
 
-export function getDarkModeMenuItem({ messages, dispatch, measure, darkMode, userSettings }) {
+export function getUserAccountMenuItem({ messages, dispatch, measure, darkMode, userSettings }) {
 	return {
-		title: messages.darkMode,
-		onClick: () => {
-			if (!areCookiesAccepted()) {
-				return dispatch(notify(messages.cookies.required))
-			}
-			dispatch(setDarkMode(!darkMode))
-			dispatch(saveDarkMode({ darkMode: !darkMode, userSettings }))
-			autoDarkMode(false, {
-				setDarkMode: (value) => dispatch(applyDarkMode(value))
-			})
-			measure()
-		},
-		isSelected: darkMode,
-		icon: MoonIconOutline,
-		iconActive: MoonIconFill
-	}
-}
-
-export function getSettingsMenuItem({ messages }) {
-	return {
-		title: messages.settings.title,
-		pathname: '/settings',
-		url: '/settings',
-		icon: SettingsIconOutline,
-		iconActive: SettingsIconFill
+		title: messages.userAccount.title,
+		pathname: '/user',
+		url: '/user',
+		icon: PersonIconOutline,
+		iconActive: PersonIconFill
 	}
 }

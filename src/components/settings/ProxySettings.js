@@ -128,7 +128,6 @@ export default function ProxySettings({
 			{!useDefault &&
 				<Form
 					onSubmit={onSave}
-					requiredMessage={messages.form.error.required}
 					className="form">
 					{({ values }) => (
 						<>

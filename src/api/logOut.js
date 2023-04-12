@@ -1,6 +1,6 @@
 import { getProvider } from '../provider.js'
 
-export default async function vote({
+export default async function logOut({
 	channelId,
 	threadId,
 	commentId,
@@ -8,7 +8,7 @@ export default async function vote({
 	userSettings,
 	...rest
 }) {
-	return await getProvider().api.vote({
+	return await getProvider().api.logOut({
 		channelId,
 		threadId,
 		commentId,

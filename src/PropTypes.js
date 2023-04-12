@@ -11,7 +11,7 @@ import {
 	picture
 } from 'social-components-react/components/PropTypes.js'
 
-const {
+import {
 	shape,
 	arrayOf,
 	objectOf,
@@ -23,7 +23,7 @@ const {
 	oneOf,
 	oneOfType,
 	instanceOf
-} = PropTypes
+} from 'prop-types'
 
 export const channelId = string
 

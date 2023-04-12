@@ -1,5 +1,14 @@
 import { getConfig } from 'imageboard'
 
+import getChannelsApi from '../../src/api/imageboard/getChannels.js'
+import getThreadsApi from '../../src/api/imageboard/getThreads.js'
+import getThreadApi from '../../src/api/imageboard/getThread.js'
+import voteApi from '../../src/api/imageboard/vote.js'
+import logInApi from '../../src/api/imageboard/logIn.js'
+import logOutApi from '../../src/api/imageboard/logOut.js'
+import postApi from '../../src/api/imageboard/post.js'
+import reportApi from '../../src/api/imageboard/report.js'
+
 import TwoChannel from './2ch/index.json' assert { type: 'json' }
 import FourChan from './4chan/index.json' assert { type: 'json' }
 import EightChan from './8ch/index.json' assert { type: 'json' }
@@ -35,6 +44,32 @@ for (const provider of PROVIDERS) {
 
 	provider.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${relativeUrl}`
+	}
+
+	provider.api = {
+		getChannels: getChannelsApi,
+		getThreads: getThreadsApi,
+		getThread: getThreadApi
+	}
+
+	if (imageboardConfig.api.vote) {
+		provider.api.vote = voteApi
+	}
+
+	if (imageboardConfig.api.logIn) {
+		provider.api.logIn = logInApi
+	}
+
+	if (imageboardConfig.api.logOut) {
+		provider.api.logOut = logOutApi
+	}
+
+	if (imageboardConfig.api.post) {
+		provider.api.post = postApi
+	}
+
+	if (imageboardConfig.api.report) {
+		provider.api.report = reportApi
 	}
 }
 

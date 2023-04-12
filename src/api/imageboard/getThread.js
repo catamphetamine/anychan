@@ -1,6 +1,6 @@
 import Imageboard from './Imageboard.js'
 
-import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
+import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
 
 export default async function getThreadFromImageboard({
 	channelId,
@@ -10,10 +10,9 @@ export default async function getThreadFromImageboard({
 	afterCommentsCount,
 	messages,
 	http,
-	proxyUrl,
 	userSettings
 }) {
-	const imageboard = Imageboard({ messages, http, proxyUrl, userSettings })
+	const imageboard = Imageboard({ messages, http, userSettings })
 
 	const thread = await imageboard.getThread({
 		boardId: channelId,

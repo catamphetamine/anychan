@@ -29,6 +29,11 @@
 	"sources": {
 		"title": "Источники"
 	},
+	"userAccount": {
+		"title": "Пользователь",
+		"pass": "Пасскод",
+		"notSupported": "Данный источник не поддерживает пользовательский вход."
+	},
 	"settings": {
 		"language": {
 			"title": "Язык",

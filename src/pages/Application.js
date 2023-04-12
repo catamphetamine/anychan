@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import Announcement, { announcementPropType } from 'frontend-lib/components/Announcement.js'
 
-import Header from '../components/Header.js'
+// import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
 import SidebarLeft from '../components/SidebarLeft/SidebarLeft.js'
 import SidebarRight from '../components/SidebarRight/SidebarRight.js'

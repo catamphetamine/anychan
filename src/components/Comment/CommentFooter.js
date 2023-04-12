@@ -17,7 +17,7 @@ import PressedStateButton from 'social-components-react/components/PressedStateB
 import Padding from 'social-components-react/components/Padding.js'
 
 import PictureIcon from 'frontend-lib/icons/picture-rect-square-outline-thicker.svg'
-import PersonIcon from 'frontend-lib/icons/person-outline.svg'
+import PersonIcon from 'frontend-lib/icons/person-outline-no-bottom-border.svg'
 import CommentIcon from 'frontend-lib/icons/message-rounded-rect-square-thicker.svg'
 import MessageIcon from 'frontend-lib/icons/message-rounded-rect-square-thicker.svg'
 // import ReplyIcon from 'frontend-lib/icons/reply.svg'
