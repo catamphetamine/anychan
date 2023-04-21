@@ -1,33 +1,31 @@
 import Imageboard, { getConfig } from 'imageboard'
 
-import {
-	getProvider,
-	isDeployedOnProviderDomain
-} from '../../provider.js'
+import isDeployedOnProviderDomain from '../../utility/source/isDeployedOnProviderDomain.js'
 
-import { shouldUseProxy, getProxiedUrl } from '../../utility/proxy.js'
+import shouldUseProxy from '../../utility/proxy/shouldUseProxy.js'
+import getProxiedUrl from '../../utility/proxy/getProxiedUrl.js'
 import getMessages from '../utility/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
-export default function Imageboard_({
+export default function Imageboard_(provider, {
 	messages,
 	http,
 	userSettings
 }) {
-	return Imageboard(getProvider().imageboard, {
+	return Imageboard(provider.imageboard, {
 		messages: messages && getMessages(messages),
-		generatedQuoteMaxLength: configuration.generatedQuoteMaxLength,
-		generatedQuoteMinFitFactor: configuration.generatedQuoteMinFitFactor,
-		generatedQuoteMaxFitFactor: configuration.generatedQuoteMaxFitFactor,
+		generatedQuoteMaxLength: getConfiguration().generatedQuoteMaxLength,
+		generatedQuoteMinFitFactor: getConfiguration().generatedQuoteMinFitFactor,
+		generatedQuoteMaxFitFactor: getConfiguration().generatedQuoteMaxFitFactor,
 		minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes(),
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
-		useRelativeUrls: isDeployedOnProviderDomain(),
+		useRelativeUrls: isDeployedOnProviderDomain(provider),
 		request: async (method, url, { body, headers }) => {
 			// Proxy the URL (if required).
-			if (shouldUseProxy()) {
+			if (shouldUseProxy({ provider })) {
 				url = getProxiedUrl(url, { userSettings })
 			}
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
@@ -55,7 +53,7 @@ export default function Imageboard_({
 				})
 				if (response.ok) {
 					url = response.url
-					if (shouldUseProxy()) {
+					if (shouldUseProxy({ provider })) {
 						url = response.headers.get('X-Final-Url') || url
 					}
 					return response.text().then((response) => ({

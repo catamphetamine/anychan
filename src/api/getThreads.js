@@ -1,7 +1,6 @@
 import { getProvider } from '../provider.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
-import configuration from '../configuration.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 export default async function getThreads({

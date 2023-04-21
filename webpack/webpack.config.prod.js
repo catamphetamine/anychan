@@ -4,13 +4,13 @@ import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import { createConfiguration } from './webpack.config.js'
-// import applicationConfiguration from '../configuration.js'
+// import getApplicationConfiguration from '../getConfiguration.js'
 
 const configuration = createConfiguration({ development: false })
 
 // `__webpack_public_path__` is configured dynamically at runtime.
 // https://webpack.js.org/guides/public-path/#on-the-fly
-// configuration.output.publicPath = (applicationConfiguration.path || '') + '/'
+// configuration.output.publicPath = (getApplicationConfiguration().path || '') + '/'
 
 // Minimize CSS.
 // https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production

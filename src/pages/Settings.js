@@ -26,6 +26,8 @@ import {
 	saveProxyUrl
 } from '../redux/settings.js'
 
+import { getProvider } from '../provider.js'
+
 import { setDarkMode } from '../redux/app.js'
 
 import getMessages, {
@@ -37,7 +39,8 @@ import useLocale from '../hooks/useLocale.js'
 import useSettings from '../hooks/useSettings.js'
 import useMeasure from '../hooks/useMeasure.js'
 
-import { shouldUseProxy, getProxyUrl } from '../utility/proxy.js'
+import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
+import getProxyUrl from '../utility/proxy/getProxyUrl.js'
 
 import {
 	ContentSections,
@@ -166,7 +169,7 @@ function Settings({
 			/>
 
 			{/* CORS Proxy */}
-			{shouldUseProxy() &&
+			{shouldUseProxy(getProvider()) &&
 				<ProxySettings
 					messages={messages}
 					value={settings.proxyUrl}

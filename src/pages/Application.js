@@ -50,7 +50,7 @@ import loadApplication from './Application.load.js'
 import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/announcement.js'
 
 import { getProvider } from '../provider.js'
-import configuration from '../configuration.js'
+import getConfiguration from '../configuration.js'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
 import { SourceContext } from '../hooks/useSource.js'
@@ -265,11 +265,11 @@ function App({
 							placement="aboveContent"
 						/>
 
-						{configuration.headerMarkup &&
+						{getConfiguration().headerMarkup &&
 							<Markup
-								content={configuration.headerContent}
-								markup={configuration.headerMarkup}
-								fullWidth={configuration.headerMarkupFullWidth}
+								content={getConfiguration().headerContent}
+								markup={getConfiguration().headerMarkup}
+								fullWidth={getConfiguration().headerMarkupFullWidth}
 								className="Webpage-headerBanner"/>
 						}
 
@@ -281,11 +281,11 @@ function App({
 								<Announcement
 									onClick={onAcceptCookies}
 									buttonLabel={messages.actions.accept}>
-									{configuration.cookiePolicyUrl ?
+									{getConfiguration().cookiePolicyUrl ?
 										addLearnMoreLink(
 											messages.cookies.notice,
 											messages.actions.learnMore,
-											configuration.cookiePolicyUrl
+											getConfiguration().cookiePolicyUrl
 										) :
 										messages.cookies.notice
 									}

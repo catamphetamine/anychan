@@ -10,7 +10,7 @@ import { setOfflineMode } from '../redux/app.js'
 import { getChannels } from '../redux/data.js'
 import { setAnnouncement } from '../redux/announcement.js'
 
-import configuration from '../configuration.js'
+import getConfiguration from '../configuration.js'
 
 export default async function loadApplication({
 	dispatch,
@@ -66,9 +66,9 @@ export default async function loadApplication({
 	// Show announcements.
 	if (process.env.NODE_ENV === 'production') {
 		startPollingAnnouncement(
-			configuration.announcementUrl || addBasePath('/announcement.json'),
+			getConfiguration().announcementUrl || addBasePath('/announcement.json'),
 			announcement => dispatch(setAnnouncement(announcement)),
-			configuration.announcementPollInterval,
+			getConfiguration().announcementPollInterval,
 			{ userData }
 		)
 	}

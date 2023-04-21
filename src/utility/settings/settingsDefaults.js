@@ -1,4 +1,4 @@
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
 import { defaultLanguage, getLanguageNames } from '../../messages/index.js'
 
@@ -23,7 +23,7 @@ export function setDefaultThemes(defaultThemes) {
 }
 
 export function getDefaultThemeId() {
-	return configuration.defaultTheme || DEFAULT_THEMES[0].id
+	return getConfiguration().defaultTheme || DEFAULT_THEMES[0].id
 }
 
 export function getDefaultLanguage() {
@@ -50,6 +50,6 @@ export default function getDefaultSettings() {
 		channelView: 'new-threads',
 		theme: getDefaultThemeId(),
 		locale: getDefaultLanguage(),
-		...configuration.defaultSettings
+		...getConfiguration().defaultSettings
 	}
 }

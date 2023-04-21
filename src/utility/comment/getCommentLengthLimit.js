@@ -1,6 +1,6 @@
 import { getViewportWidth } from 'web-browser-window'
 
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
 // The screen width at which the comments are at their full width.
 // Is currently equal to `var(--Window-minWidth--m)`.
@@ -28,7 +28,7 @@ function getCommentLengthLimitFactor(width) {
  * @return {number}
  */
 export default function getCommentLengthLimit(mode) {
-	return Math.round((mode === 'channel' ? configuration.commentLengthLimitForThreadPreview : configuration.commentLengthLimit) * commentLengthLimitFactor)
+	return Math.round((mode === 'channel' ? getConfiguration().commentLengthLimitForThreadPreview : getConfiguration().commentLengthLimit) * commentLengthLimitFactor)
 }
 
 /**

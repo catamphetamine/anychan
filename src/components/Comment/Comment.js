@@ -30,7 +30,7 @@ import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.j
 import getUrl from '../../utility/getUrl.js'
 import resourceCache from '../../utility/resourceCache.js'
 import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
@@ -125,7 +125,7 @@ export default function Comment({
 			resourceMessages={getResourceMessages(getMessages(locale))}
 			useSmallestThumbnailsForAttachments
 			serviceIcons={SERVICE_ICONS}
-			youTubeApiKey={configuration.youtubeApiKey}
+			youTubeApiKey={getConfiguration().youtubeApiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
 			contentMaxLength={getCommentLengthLimit(mode)}

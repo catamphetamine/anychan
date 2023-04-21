@@ -1,4 +1,4 @@
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
 // Calculates time to next update for thread auto update process.
 export default function getNextUpdateAtForThread(prevUpdateAt, {
@@ -89,7 +89,7 @@ const THREAD_UPDATE_INTERVALS_NORMAL = [
 	{                            updateInterval:  1 * day    }
 ]
 
-const THREAD_UPDATE_INTERVALS = getThreadUpdateIntervals(configuration.dataPollingRate)
+const THREAD_UPDATE_INTERVALS = getThreadUpdateIntervals(getConfiguration().dataPollingRate)
 
 // The minimum update interval for "background" mode is "1 minute".
 const THREAD_UPDATE_INTERVALS_IN_BACKGROUND_MODE = THREAD_UPDATE_INTERVALS.filter(
@@ -108,7 +108,7 @@ const ONGOING_CONVERSATION_UPDATE_INTERVALS_NORMAL = [
 	{ maxIdleTime:   5 * minute, updateInterval: 25 * second }
 ]
 
-const ONGOING_CONVERSATION_UPDATE_INTERVALS = getOngoingConversationUpdateIntervals(configuration.dataPollingRate)
+const ONGOING_CONVERSATION_UPDATE_INTERVALS = getOngoingConversationUpdateIntervals(getConfiguration().dataPollingRate)
 
 /**
  * Returns thread update interval based on its "idle" time.

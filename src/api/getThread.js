@@ -1,5 +1,4 @@
 import { getProvider } from '../provider.js'
-import configuration from '../configuration.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'

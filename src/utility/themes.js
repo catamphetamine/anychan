@@ -2,10 +2,10 @@ import loadStylesheet from 'frontend-lib/utility/loadStylesheet.js'
 
 import { getDefaultThemes } from './settings/settingsDefaults.js'
 
-import configuration from '../configuration.js'
+import getConfiguration from '../configuration.js'
 
 function getBuiltInThemes() {
-	return getDefaultThemes().concat(configuration.themes || [])
+	return getDefaultThemes().concat(getConfiguration().themes || [])
 }
 
 export function getThemes({ userSettings }) {

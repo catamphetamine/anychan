@@ -1,19 +1,19 @@
 import * as Sentry from '@sentry/browser'
 import { onCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-import configuration from './configuration.js'
+import getConfiguration from './configuration.js'
 
 export default function() {
 	// Initialize Cookie Policy.
 	// Don't show Cookie Notice by default (better UX).
-	window.SHOW_COOKIE_NOTICE = configuration.showCookieNotice
+	window.SHOW_COOKIE_NOTICE = getConfiguration().showCookieNotice
 
 	// Initialize `sentry.io`.
 	if (process.env.NODE_ENV === 'production') {
-		if (configuration.sentryUrl) {
+		if (getConfiguration().sentryUrl) {
 			onCookiesAccepted(() => {
 				Sentry.init({
-					dsn: configuration.sentryUrl
+					dsn: getConfiguration().sentryUrl
 				})
 			})
 		}

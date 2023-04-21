@@ -1,4 +1,4 @@
-import configuration from '../configuration.js'
+import getConfiguration from '../configuration.js'
 
 import {
 	shouldIncludeProviderInPath,
@@ -42,7 +42,7 @@ export function removeBasePath(path) {
 }
 
 function _getBasePath() {
-	if (configuration.path) {
-		return configuration.path
+	if (getConfiguration().path) {
+		return getConfiguration().path
 	}
 }

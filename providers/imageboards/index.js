@@ -46,30 +46,37 @@ for (const provider of PROVIDERS) {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${relativeUrl}`
 	}
 
+	function addProvider(func) {
+		return (parameters) => func({
+			provider,
+			...parameters
+		})
+	}
+
 	provider.api = {
-		getChannels: getChannelsApi,
-		getThreads: getThreadsApi,
-		getThread: getThreadApi
+		getChannels: addProvider(getChannelsApi),
+		getThreads: addProvider(getThreadsApi),
+		getThread: addProvider(getThreadApi)
 	}
 
 	if (imageboardConfig.api.vote) {
-		provider.api.vote = voteApi
+		provider.api.vote = addProvider(voteApi)
 	}
 
 	if (imageboardConfig.api.logIn) {
-		provider.api.logIn = logInApi
+		provider.api.logIn = addProvider(logInApi)
 	}
 
 	if (imageboardConfig.api.logOut) {
-		provider.api.logOut = logOutApi
+		provider.api.logOut = addProvider(logOutApi)
 	}
 
 	if (imageboardConfig.api.post) {
-		provider.api.post = postApi
+		provider.api.post = addProvider(postApi)
 	}
 
 	if (imageboardConfig.api.report) {
-		provider.api.report = reportApi
+		provider.api.report = addProvider(reportApi)
 	}
 }
 

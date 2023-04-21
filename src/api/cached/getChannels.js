@@ -1,6 +1,6 @@
 import getChannels from '../getChannels.js'
 import getPrefix from '../../utility/storage/getStoragePrefix.js'
-import configuration from '../../configuration.js'
+import getConfiguration from '../../configuration.js'
 
 import storage from '../../utility/storage/storage.js'
 
@@ -18,7 +18,7 @@ export default async function getChannelsCached({
 	const prefix = getPrefix()
 	const key = prefix + (all ? 'getAllChannels' : 'getChannels')
 	const cached = storage.get(key)
-	if (cached && cached.timestamp + configuration.channelsCacheTimeout >= Date.now()) {
+	if (cached && cached.timestamp + getConfiguration().channelsCacheTimeout >= Date.now()) {
 		return cached.value
 	}
 	// Fetch the list of channels and cache it with the current timestamp.

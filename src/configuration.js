@@ -1,1 +1,3 @@
-export default CONFIG
+export default function() {
+	return CONFIG
+}

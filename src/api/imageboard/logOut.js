@@ -1,6 +1,7 @@
 import Imageboard from './Imageboard.js'
 
 export default async function logOut({
+	provider,
 	http,
 	messages,
 	userSettings,
@@ -9,7 +10,7 @@ export default async function logOut({
 	commentId,
 	...rest
 }) {
-	return await Imageboard({ messages, http, userSettings }).logOut({
+	return await Imageboard({ provider, messages, http, userSettings }).logOut({
 		boardId: channelId,
 		threadId,
 		commentId,

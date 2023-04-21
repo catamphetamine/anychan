@@ -1,7 +1,7 @@
 import { render } from 'react-pages/client'
 
 import getReactPagesConfig from './react-pages.js'
-import configuration from './configuration.js'
+import getConfiguration from './configuration.js'
 import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVirtualScrollerDevModePageLoadWarnings.js'
 
 // import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
@@ -55,9 +55,9 @@ export default async function({ userData }) {
 			// and without any "Demographics" tracking features
 			// seems to comply with GDPR.
 			// Google Analytics cookie violates GDPR.
-			if (configuration.googleAnalyticsId && process.env.NODE_ENV === 'production') {
+			if (getConfiguration().googleAnalyticsId && process.env.NODE_ENV === 'production') {
 				// Set up Google Analytics via `gtag`.
-				gtag('config', configuration.googleAnalyticsId, {
+				gtag('config', getConfiguration().googleAnalyticsId, {
 					// Anonymize IP for all Google Analytics events.
 					// https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization
 					// This makes Google Analytics compliant with GDPR:

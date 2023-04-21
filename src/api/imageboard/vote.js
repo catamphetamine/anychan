@@ -1,6 +1,7 @@
 import Imageboard from './Imageboard.js'
 
 export default async function vote({
+	provider,
 	http,
 	messages,
 	userSettings,
@@ -9,7 +10,7 @@ export default async function vote({
 	commentId,
 	...rest
 }) {
-	return await Imageboard({ messages, http, userSettings }).vote({
+	return await Imageboard(provider, { messages, http, userSettings }).vote({
 		boardId: channelId,
 		threadId,
 		commentId,

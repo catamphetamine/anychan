@@ -1,5 +1,7 @@
-import configuration from './configuration.js'
+import getConfiguration from './configuration.js'
 import PROVIDERS from './providers.js'
+
+import isDeployedOnProviderDomain_ from './utility/source/isDeployedOnProviderDomain.js'
 
 // Might not work correctly on server side
 // in case of multiple supported providers.
@@ -14,9 +16,9 @@ function getCurrentProviderById(id) {
 	if (provider) {
 		return provider
 	}
-	if (typeof configuration.provider === 'object') {
-		if (configuration.provider.id === id) {
-			return configuration.provider
+	if (typeof getConfiguration().provider === 'object') {
+		if (getConfiguration().provider.id === id) {
+			return getConfiguration().provider
 		}
 	}
 	throw new Error(`Unknown provider: ${id}`)
@@ -61,17 +63,17 @@ export function setProviderById(id, { alias, multiProvider }) {
 		'footnotes'
 	]
 	for (const property of CUSTOMIZABLE_PROPERTIES) {
-		if (configuration[property] !== undefined) {
-			provider[property] = configuration[property]
+		if (getConfiguration()[property] !== undefined) {
+			provider[property] = getConfiguration()[property]
 		}
 	}
 }
 
 export function getDefaultProviderId() {
-	if (typeof configuration.provider === 'string') {
-		return configuration.provider
-	} else if (typeof configuration.provider === 'object') {
-		return configuration.provider.id
+	if (typeof getConfiguration().provider === 'string') {
+		return getConfiguration().provider
+	} else if (typeof getConfiguration().provider === 'object') {
+		return getConfiguration().provider.id
 	}
 }
 
@@ -97,28 +99,8 @@ export function addProviderIdToPath(path, providerId) {
 	return `/${providerId}${path}`
 }
 
-// Some providers may be deployed on regular HTTP for simplicity.
-// `4chan.org` has "https://www.4chan.org" website URL:
-// when navigating to "https://4chan.org" images won't load.
-// const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
-const WWW_REGEXP = /^(www\.)?/
-export function isDeployedOnProviderDomain(provider = getProvider()) {
-	if (!provider) {
-		return false
-	}
-	if (typeof window !== 'undefined') {
-		const domain = window.location.hostname.replace(WWW_REGEXP, '')
-		// Replace the `www.` part just in case.
-		if (provider.domain.replace(WWW_REGEXP, '') === domain) {
-			return true
-		}
-		if (provider.domains) {
-			if (provider.domains.includes(domain)) {
-				return true
-			}
-		}
-	}
-	return false
+export function isDeployedOnProviderDomain() {
+	return isDeployedOnProviderDomain_(getProvider())
 }
 
 export function getProviderIdByDomain() {

@@ -1,6 +1,7 @@
 import Imageboard from './Imageboard.js'
 
 export default async function report({
+	provider,
 	http,
 	messages,
 	userSettings,
@@ -9,7 +10,7 @@ export default async function report({
 	commentId,
 	...rest
 }) {
-	return await Imageboard({ messages, http, userSettings }).report({
+	return await Imageboard(provider, { messages, http, userSettings }).report({
 		boardId: channelId,
 		threadId,
 		commentId,

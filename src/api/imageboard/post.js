@@ -1,6 +1,7 @@
 import Imageboard from './Imageboard.js'
 
 export default async function post({
+	provider,
 	http,
 	messages,
 	userSettings,
@@ -9,7 +10,7 @@ export default async function post({
 	commentId,
 	...rest
 }) {
-	return await Imageboard({ messages, http, userSettings }).post({
+	return await Imageboard(provider, { messages, http, userSettings }).post({
 		boardId: channelId,
 		threadId,
 		commentId,

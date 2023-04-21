@@ -2,7 +2,7 @@
 // import loadResourceLinks from 'social-components/utility/post/loadResourceLinks.js'
 
 // import getCommentLengthLimit from './comment/getCommentLengthLimit.js'
-// import configuration from '../configuration.js'
+// import getConfiguration() from '../configuration.js'
 
 // import shouldMinimizeGeneratedPostLinkBlockQuotes from './post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 
@@ -10,7 +10,7 @@
 // function isn't that useful and can be removed.
 // export function loadResourceLinksSync(comment, { mode, messages, getCommentById }) {
 // 	loadResourceLinks(comment, {
-// 		youTubeApiKey: configuration.youtubeApiKey,
+// 		youTubeApiKey: getConfiguration().youtubeApiKey,
 // 		cache: ResourceCache,
 // 		messages: getResourceMessages(messages),
 // 		contentMaxLength: getCommentLengthLimit(mode),

@@ -17,8 +17,6 @@ import getBasePath, {
 	removeBasePath
 } from './utility/getBasePath.js'
 
-import configuration from './configuration.js'
-
 export default function() {
 	// Adding provider logos here instead of directly in `./providers.js`
 	// because `import`ing logo files is only supported in Webpack
