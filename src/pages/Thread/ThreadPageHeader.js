@@ -7,7 +7,7 @@ import ThreadPageHeaderTitleSeparator from './ThreadPageHeaderTitleSeparator.js'
 import useOnChannelLinkClick from '../../components/useOnChannelLinkClick.js'
 
 import ThreadTitle from '../../components/ThreadTitle.js'
-import Toolbar from '../../components/Toolbar.js'
+import ThreadPageHeaderToolbar from './ThreadPageHeaderToolbar.js'
 import ThreadActivityIndicator from '../../components/ThreadActivityIndicator.js'
 import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
 import ChannelThreadHeaderSource from '../../components/ChannelThreadHeaderSource.js'
@@ -48,10 +48,8 @@ export default function ThreadPageHeader({
 	// isSearchBarShown={isSearchBarShown}
 	// setSearchBarShown={setSearchBarShown}
 	const threadMenu = (
-		<Toolbar
-			mode="thread"
+		<ThreadPageHeaderToolbar
 			thread={thread}
-			dispatch={dispatch}
 			getCommentById={getCommentById}
 			openSlideshow={openSlideshow}
 			isThreadSubscribed={isThreadSubscribed}

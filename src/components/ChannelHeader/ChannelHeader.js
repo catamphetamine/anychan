@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import Toolbar from '../../components/Toolbar.js'
+import ChannelHeaderToolbar from './ChannelHeaderToolbar.js'
 import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
 import ChannelThreadHeaderSource, { ChannelThreadHeaderSourcePlaceholder } from '../../components/ChannelThreadHeaderSource.js'
 
-import useChannelView from './useChannelView.js'
 import useOnChannelLinkClick from '../useOnChannelLinkClick.js'
 
 import './ChannelHeader.css'
@@ -46,29 +45,13 @@ export default function ChannelHeader({
 }) {
 	const channel = useSelector(state => state.data.channel)
 
-	const [isSearchBarShown, setSearchBarShown] = useState()
-
-	const {
-		isSettingChannelView,
-		setChannelView
-	} = useChannelView({
-		channel,
-		onChannelViewWillChange,
-		onChannelViewDidChange
-	})
-
 	const onChannelLinkClick = useOnChannelLinkClick({
 		channelId: channel.id
 	})
 
 	const toolbar = (
-		<Toolbar
-			mode="channel"
-			isSearchBarShown={isSearchBarShown}
-			setSearchBarShown={setSearchBarShown}
+		<ChannelHeaderToolbar
 			channelView={channelView}
-			setChannelView={setChannelView}
-			isSettingChannelView={isSettingChannelView}
 		/>
 	)
 
