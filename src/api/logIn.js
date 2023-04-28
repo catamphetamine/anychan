@@ -1,14 +1,13 @@
-import { getProvider } from '../provider.js'
-
 export default async function logIn({
 	channelId,
 	threadId,
 	commentId,
 	http,
 	userSettings,
+	dataSource,
 	...rest
 }) {
-	return await getProvider().api.logIn({
+	return await dataSource.api.logIn({
 		channelId,
 		threadId,
 		commentId,

@@ -1,4 +1,3 @@
-import { getProvider } from '../provider.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
@@ -30,7 +29,8 @@ export default async function getThread({
 	locale,
 	http,
 	userData,
-	userSettings
+	userSettings,
+	dataSource
 }) {
 	// Automatically set `afterCommentId`/`afterCommentsCount` parameters
 	// if `threadBeforeRefresh` parameter was passed.
@@ -42,9 +42,7 @@ export default async function getThread({
 		}
 	}
 
-	const provider = getProvider()
-
-	const { thread, hasMoreComments } = await provider.api.getThread({
+	const { thread, hasMoreComments } = await dataSource.api.getThread({
 		channelId,
 		threadId,
 		archived,
@@ -88,7 +86,8 @@ export default async function getThread({
 		// messages,
 		locale,
 		grammarCorrection,
-		censoredWords
+		censoredWords,
+		dataSource
 	})
 
 	// If it's not an "incremental" fetch.

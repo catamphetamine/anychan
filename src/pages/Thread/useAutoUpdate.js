@@ -6,6 +6,7 @@ import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 import useLocale from '../../hooks/useLocale.js'
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
 import getThread from '../../utility/thread/getThread.js'
 
@@ -54,6 +55,7 @@ export default function useAutoUpdate({
 
 	const userData = useUserData()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 	const dispatch = useDispatch()
 	const locale = useLocale()
 
@@ -190,6 +192,7 @@ export default function useAutoUpdate({
 				dispatch,
 				userData,
 				userSettings,
+				dataSource,
 				action: 'refreshThreadInState'
 			})
 			onThreadFetched(updatedThread, { dispatch, userData })

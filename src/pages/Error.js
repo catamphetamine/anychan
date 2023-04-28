@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import ExternalLink from 'frontend-lib/components/ExternalLink.js'
 
-import { getProvider } from '../provider.js'
+import useDataSource from '../hooks/useDataSource.js'
 import getMessages from '../messages/index.js'
 
 import useMessages from '../hooks/useMessages.js'
@@ -23,7 +23,9 @@ export default function ErrorPage({
 	const { location } = useRoute()
 	const offline = useSelector(state => state.app.offline)
 
-	const custom = getProvider() && getProvider().errorPages && getProvider().errorPages[status]
+	const dataSource = useDataSource()
+
+	const custom = dataSource && dataSource.errorPages && dataSource.errorPages[status]
 
 	const LinkComponent = offline ? ExternalLink : Link
 

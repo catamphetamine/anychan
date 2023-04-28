@@ -3,6 +3,7 @@ import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
 import UserSettings from '../../UserSettings/UserSettings.js'
+import DATA_SOURCES from '../../dataSources.js'
 
 import { MemoryStorage } from 'web-browser-storage'
 import { TestTab } from 'web-browser-tab'
@@ -13,6 +14,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 		const userSettings = new UserSettings(storage)
+		const dataSource = DATA_SOURCES['4chan']
 
 		const timer = new TestTimer()
 
@@ -108,6 +110,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			timer,
 			userData,
 			userSettings,
+			dataSource,
 			storage,
 			dispatch,
 			nextUpdateRandomizeInterval: 0,

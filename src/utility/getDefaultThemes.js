@@ -12,12 +12,12 @@ export default function getDefaultThemes() {
 	return defaultThemes
 }
 
-// `addBasePath()` result depends on the current provider,
-// and the current provider is not known beforhand
+// `addBasePath()` result depends on the current data source,
+// and the current data source is not known beforhand
 // and is determined either from the current URL
 // or from the configuration file.
 // That means that the default themes list can't be created
-// before the current provider has been set, which means that
+// before the current data source has been set, which means that
 // the default themes list should be created in a later function call
 // rather than immediately at the top level of the file.
 function createDefaultThemes() {

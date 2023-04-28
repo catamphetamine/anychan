@@ -1,8 +1,8 @@
 @import "../../styles/common.css";
 
-.ProviderLogoAndToolbarSidebarSection {
-	/* Only show `.SidebarProviderLogoAndToolbar` on small screens. */
-	.SidebarProviderLogoAndToolbar {
+.DataSourceLogoAndToolbarSidebarSection {
+	/* Only show `.SidebarDataSourceLogoAndToolbar` on small screens. */
+	.SidebarDataSourceLogoAndToolbar {
 		@mixin m-plus {
 			display: none;
 		}

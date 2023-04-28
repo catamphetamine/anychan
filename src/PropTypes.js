@@ -112,7 +112,7 @@ export const subscribedThread = shape({
 	// }).isRequired
 })
 
-export const provider = shape({
+export const dataSource = shape({
 	id: string.isRequired,
 	shortId: string.isRequired,
 	title: string.isRequired,

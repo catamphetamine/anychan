@@ -36,6 +36,7 @@ export default class SubscribedThreadsUpdater {
 		timer = new Timer(),
 		userData,
 		userSettings,
+		dataSource,
 		storage = storage_,
 		dispatch,
 		// `getThreadStub` parameter is currently only used in tests.
@@ -52,6 +53,7 @@ export default class SubscribedThreadsUpdater {
 		this.timer = timer
 		this.userData = userData
 		this.userSettings = userSettings
+		this.dataSource = dataSource
 		this.dispatch = dispatch
 		this.getThreadStub = getThreadStub
 		this.createGetThreadParameters = createGetThreadParameters
@@ -498,6 +500,7 @@ export default class SubscribedThreadsUpdater {
 			dispatch: this.dispatch,
 			userData: this.userData,
 			userSettings: this.userSettings,
+			dataSource: this.dataSource,
 			timer: this.timer,
 			action: this.getThreadStub ? 'getThreadStub' : 'getThread',
 			getThread: this.getThreadStub

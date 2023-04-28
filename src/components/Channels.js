@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { TextInput, Button, Select } from 'react-responsive-ui'
 import classNames from 'classnames'
 
-import { getProvider } from '../provider.js'
 import getUrl from '../utility/getUrl.js'
 import isThreadPage from '../utility/routes/isThreadPage.js'
 import isChannelPage from '../utility/routes/isChannelPage.js'
@@ -15,6 +14,7 @@ import { getChannels } from '../redux/data.js'
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
 import useSettings from '../hooks/useSettings.js'
+import useDataSource from '../hooks/useDataSource.js'
 
 import ChannelUrl from './ChannelUrl.js'
 
@@ -40,6 +40,7 @@ export default function Channels({
 	const dispatch = useDispatch()
 	const messages = useMessages()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 
 	const route = useRoute()
 
@@ -122,8 +123,8 @@ export default function Channels({
 	])
 
 	const loadChannelsList = useCallback(async () => {
-		await dispatch(getChannels({ userSettings }))
-	}, [dispatch, userSettings])
+		await dispatch(getChannels({ userSettings, dataSource }))
+	}, [dispatch, userSettings, dataSource])
 
 	if (!channels) {
 		return (
@@ -176,7 +177,7 @@ export default function Channels({
 				{getChannelsListItems()}
 			</List>
 
-			{!showAllChannels && showAllChannelsLink && (hasMoreChannels || getProvider().contentCategoryUnspecified) &&
+			{!showAllChannels && showAllChannelsLink && (hasMoreChannels || dataSource.contentCategoryUnspecified) &&
 				<div className="Channels-showAllWrapper">
 					<Link to="/channels" className="Channels-showAll">
 						{messages.boards.showAll}

@@ -6,7 +6,7 @@ import { showTweet } from '../../redux/twitter.js'
 export default function useSocial() {
 	const dispatch = useDispatch()
 	const isSocialClickable = useCallback((social) => {
-		return social.provider === 'Twitter'
+		return social.dataSource === 'Twitter'
 	}, [])
 	const onSocialClick = useCallback((social) => {
 		dispatch(showTweet({

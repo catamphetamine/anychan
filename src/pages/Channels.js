@@ -12,6 +12,7 @@ import { getChannels } from '../redux/data.js'
 import getUrl from '../utility/getUrl.js'
 
 import getUserSettings from '../UserSettings.js'
+import { getDataSource } from '../dataSource.js'
 
 import getMessages from '../messages/index.js'
 
@@ -43,7 +44,8 @@ ChannelsPage.meta = ({ settings }) => ({
 ChannelsPage.load = async ({ dispatch }) => {
 	await dispatch(getChannels({
 		all: true,
-		userSettings: getUserSettings()
+		userSettings: getUserSettings(),
+		dataSource: getDataSource()
 	}))
 }
 

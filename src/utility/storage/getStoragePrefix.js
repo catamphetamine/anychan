@@ -1,7 +1,7 @@
-import { getProviderShortId, isMultiProvider } from '../../provider.js'
+import { getDataSource, isMultiDataSource } from '../../dataSource.js'
 
 export const BASE_PREFIX = '⌨️'
 
 export default function getStoragePrefix() {
-	return BASE_PREFIX + (isMultiProvider() ? getProviderShortId() : '')
+	return BASE_PREFIX + (isMultiDataSource() ? getDataSource().shortId : '')
 }

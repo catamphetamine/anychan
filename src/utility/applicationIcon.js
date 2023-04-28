@@ -1,6 +1,6 @@
 // Imageboard icons are 192px x 192px.
 // This could be configurable (hypothetically).
-const PROVIDER_ICON_SIZE = 192
+const DATA_SOURCE_ICON_SIZE = 192
 
 const CIRCLE_RADIUS = 40
 const CIRCLE_RADIUS_LARGE = 60
@@ -15,8 +15,8 @@ export function updateApplicationIcon(iconUrl, { notificationsCount, notificatio
 		return setApplicationIcon(iconUrl)
 	}
 	const canvas = document.createElement('canvas')
-	canvas.width = PROVIDER_ICON_SIZE
-	canvas.height = PROVIDER_ICON_SIZE
+	canvas.width = DATA_SOURCE_ICON_SIZE
+	canvas.height = DATA_SOURCE_ICON_SIZE
 	const ctx = canvas.getContext('2d')
 	const image = new Image()
 	image.src = iconUrl

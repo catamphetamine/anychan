@@ -1,15 +1,11 @@
-import { getProvider } from '../provider.js'
-
 /**
  * Returns a list of channels.
  * @param  {object} options.http — `react-pages` `http` utility.
  * @param  {boolean} options.all — If set to `true`, then the "full" list of channels is returned. Some imageboards support creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
- * @return {object} Returns `{ [channels], [channelsByPopularity], [channelsByCategory], [allChannels: { channels, [channelsByPopularity], [channelsByCategory] }], [hasMoreChannels] }`. If a provider doesn't differentiate between a "short" list of channels and a "long" list of channels then both `channels` and `allChannels` are returned and are the same. Otherwise, either `channels` and `hasMoreChannels: true` or `allChannels: { channels }` are returned. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the provider provides those).
+ * @return {object} Returns `{ [channels], [channelsByPopularity], [channelsByCategory], [allChannels: { channels, [channelsByPopularity], [channelsByCategory] }], [hasMoreChannels] }`. If a data source doesn't differentiate between a "short" list of channels and a "long" list of channels then both `channels` and `allChannels` are returned and are the same. Otherwise, either `channels` and `hasMoreChannels: true` or `allChannels: { channels }` are returned. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the data source provides those).
  */
-export default async function getChannels({ all, http, userSettings }) {
-	const provider = getProvider()
-
-	const { channels, hasMoreChannels } = await provider.api.getChannels({
+export default async function getChannels({ all, http, userSettings, dataSource }) {
+	const { channels, hasMoreChannels } = await dataSource.api.getChannels({
 		all,
 		http,
 		userSettings
@@ -17,10 +13,10 @@ export default async function getChannels({ all, http, userSettings }) {
 
 	// Mark hidden channels.
 	if (!all) {
-		markHiddenChannels(channels)
+		markHiddenChannels(channels, { dataSource })
 	}
 
-	const result = getChannelsResult(channels)
+	const result = getChannelsResult(channels, { dataSource })
 	if (!hasMoreChannels) {
 		return {
 			...result,
@@ -40,8 +36,8 @@ export default async function getChannels({ all, http, userSettings }) {
 	}
 }
 
-export function getChannelsExample(providerId) {
-	switch (providerId) {
+export function getChannelsExample(dataSourceId) {
+	switch (dataSourceId) {
 		case '2ch':
 			return [{
 				id: 'a',
@@ -54,9 +50,9 @@ export function getChannelsExample(providerId) {
  * Returns the list(s) of channels.
  * @param  {object} options.http — `react-pages` `http` utility.
  * @param  {boolean} options.all — If set to `true`, then the "full" list of channels is returned. Some imageboards support creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
- * @return {object} `{ channels, [channelsByPopularity], [channelsByCategory] }`. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the provider provides those).
+ * @return {object} `{ channels, [channelsByPopularity], [channelsByCategory] }`. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the data source provides those).
  */
-export function getChannelsResult(channels) {
+function getChannelsResult(channels, { dataSource }) {
 	const result = {
 		channels
 	}
@@ -66,7 +62,7 @@ export function getChannelsResult(channels) {
 	if (channels[0].category) {
 		result.channelsByCategory = groupChannelsByCategory(
 			channels.filter(channel => !channel.isHidden),
-			getProvider().contentCategories
+			dataSource.contentCategories
 		)
 	}
 	return result
@@ -112,14 +108,14 @@ function groupChannelsByCategory(channels, categoriesOrder = []) {
 	}, categories).filter(_ => _.channels.length > 0)
 }
 
-function markHiddenChannels(channels) {
-	const contentCategoryUnspecified = getProvider().contentCategoryUnspecified
+function markHiddenChannels(channels, { dataSource }) {
+	const contentCategoryUnspecified = dataSource.contentCategoryUnspecified
 	if (contentCategoryUnspecified) {
 		for (const channel of channels) {
 			if (channel.category === contentCategoryUnspecified) {
 				// Special case for `2ch.hk`'s `/int/` board which happens to be
 				// in the ignored category but shouldn't be hidden.
-				if (getProvider().id === '2ch' && channel.id === 'int') {
+				if (dataSource.id === '2ch' && channel.id === 'int') {
 					continue
 				}
 				channel.isHidden = true

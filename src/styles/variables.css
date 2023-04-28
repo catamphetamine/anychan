@@ -124,11 +124,6 @@
 		--LinearProgress-animationTimingFactor: 1.5;
 	}
 
-	/* LoadingSpinner. */
-	--LoadingSpinner-color: var(--Content-color-300);
-	--LoadingSpinner-width: calc(var(--unit) * 4);
-	--LoadingSpinner-borderWidth: 2px;
-
 	/* Header. */
 	--Header-backgroundColor--title: var(--Header-backgroundColor);
 	--Header-backgroundColor--menu: var(--Header-backgroundColor);

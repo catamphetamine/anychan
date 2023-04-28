@@ -81,7 +81,7 @@ export default {
 		},
 		lockedAt: {
 			type: 'date',
-			description: 'The date when the thread was locked. If the provider supports this kind of a timestamp.',
+			description: 'The date when the thread was locked. If the data source supports this kind of a timestamp.',
 			required: false
 		},
 		trimming: {

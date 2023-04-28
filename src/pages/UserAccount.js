@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
-import useSource from '../hooks/useSource.js'
+import useDataSource from '../hooks/useDataSource.js'
 import useMessages from '../hooks/useMessages.js'
 
 import FillButton from '../components/FillButton.js'
@@ -19,7 +19,7 @@ import {
 import './UserAccount.css'
 
 export default function UserAccountPage() {
-	const source = useSource()
+	const source = useDataSource()
 	const messages = useMessages()
 	const dispatch = useDispatch()
 

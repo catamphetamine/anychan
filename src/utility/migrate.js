@@ -1,4 +1,4 @@
-import { getProviderById } from '../provider.js'
+import { getDataSourceById } from '../dataSource.js'
 import getPrefix, { BASE_PREFIX } from './storage/getStoragePrefix.js'
 import compareVersions from './semver-compare.js'
 import storage_ from './storage/storage.js'
@@ -42,20 +42,20 @@ function migrate_({ version }, {
 		for (const key of storage.keys()) {
 			if (key.indexOf(BASE_PREFIX_LEGACY) === 0) {
 				let newKey = key.replace(BASE_PREFIX_LEGACY, BASE_PREFIX)
-				// Replace a dot after a provider prefix with a colon,
-				// if there is a provider prefix.
+				// Replace a dot after a data source prefix with a colon,
+				// if there is a data source prefix.
 				if (newKey.includes('.')) {
-					const providerId = newKey.slice(BASE_PREFIX.length, newKey.indexOf('.'))
-					const provider = getProviderById(providerId)
-					if (provider) {
-						const { shortId } = provider
+					const dataSourceId = newKey.slice(BASE_PREFIX.length, newKey.indexOf('.'))
+					const dataSource = getDataSourceById(dataSourceId)
+					if (dataSource) {
+						const { shortId } = dataSource
 						if (shortId) {
-							newKey = newKey.replace(providerId + '.', shortId)
+							newKey = newKey.replace(dataSourceId + '.', shortId)
 						} else {
-							console.error(`Provider "shortId" not defined when migrating local storage record key prefixes for provider "${providerId}"`)
+							console.error(`Data Source "shortId" not defined when migrating local storage record key prefixes for data source "${dataSourceId}"`)
 						}
 					} else {
-						console.error(`Provider not found when migrating local storage record key prefixes: "${providerId}"`)
+						console.error(`Data Source not found when migrating local storage record key prefixes: "${dataSourceId}"`)
 					}
 				}
 				storage.set(newKey, storage.get(key))
@@ -85,7 +85,7 @@ function migrate_({ version }, {
 		// Could be cleaned as part of the "scheduled clean-up" procedure.
 		//
 		// function getLegacyPrefix() {
-		// 	return getPrefix().replace(BASE_PREFIX, BASE_PREFIX_LEGACY).replace(providerShortId, providerId)
+		// 	return getPrefix().replace(BASE_PREFIX, BASE_PREFIX_LEGACY).replace(dataSourceShortId, dataSourceId)
 		// }
 		// // Remove the legacy-named "getAllBoards" cache.
 		// if (localStorage.getItem(getLegacyPrefix() + 'getAllBoards')) {

@@ -1,20 +1,19 @@
 import {
-	getProvider,
 	getChannelUrlPattern,
 	getChannelUrl
-} from '../provider.js'
+} from '../dataSource.js'
 
 import parseLocationUrl from './parseLocationUrl.js'
 import getUrl from './getUrl.js'
 
-// Replaces links to the provider's website with in-app links.
+// Replaces links to the dataSource's website with in-app links.
 // Example: "https://2ch.hk/a/" → "/a".
-export default function transformProviderLink({ url, content }) {
+export default function transformDataSourceLink({ url, content }, { dataSource }) {
 	const location = parseLocationUrl(url)
 	const pathname = normalizePathname(location.pathname)
 
 	const channelLink = getChannelLink({
-		channelUrlPattern: getProvider().channelUrl,
+		channelUrlPattern: dataSource.channelUrl,
 		pathname
 	})
 
@@ -23,7 +22,7 @@ export default function transformProviderLink({ url, content }) {
 	}
 
 	const threadLink = getThreadLink({
-		threadUrlPattern: getProvider().threadUrl,
+		threadUrlPattern: dataSource.threadUrl,
 		pathname
 	})
 
@@ -32,7 +31,7 @@ export default function transformProviderLink({ url, content }) {
 	}
 
 	const commentLink = getCommentLink({
-		commentUrlPattern: getProvider().commentUrl,
+		commentUrlPattern: dataSource.commentUrl,
 		pathname
 	})
 

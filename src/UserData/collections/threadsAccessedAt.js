@@ -4,7 +4,7 @@ import { encodeDate, decodeDate } from '../compression.js'
 // Archived threads that haven't been accessed for a while
 // get cleaned up from User Data (including this collection).
 //
-// Some providers have a concept of "archived" threads.
+// Some dataSources have a concept of "archived" threads.
 // "Archived" threads are usually old/locked/expired ones
 // that may or may not be scheduled for deletion.
 //

@@ -26,7 +26,7 @@ import {
 	saveProxyUrl
 } from '../redux/settings.js'
 
-import { getProvider } from '../provider.js'
+import useDataSource from '../hooks/useDataSource.js'
 
 import { setDarkMode } from '../redux/app.js'
 
@@ -86,6 +86,7 @@ function Settings({
 	const messages = useMessages()
 	const locale = useLocale()
 	const measure = useMeasure()
+	const dataSource = useDataSource()
 
 	const onSetDarkMode = useCallback((value) => {
 		dispatch(setDarkMode(value))
@@ -169,7 +170,7 @@ function Settings({
 			/>
 
 			{/* CORS Proxy */}
-			{shouldUseProxy(getProvider()) &&
+			{shouldUseProxy(dataSource) &&
 				<ProxySettings
 					messages={messages}
 					value={settings.proxyUrl}

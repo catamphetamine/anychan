@@ -6,7 +6,7 @@ import useSettings from '../../hooks/useSettings.js'
 
 import getMessages from '../../messages/index.js'
 
-import { vote as voteForComment } from '../../redux/data.js'
+import { vote as voteAction } from '../../redux/data.js'
 
 import { notify, showError } from '../../redux/notifications.js'
 
@@ -24,7 +24,7 @@ export default function useVote({
 
 	const onVote = useCallback(async (up) => {
 		try {
-			const voteAccepted = await dispatch(voteForComment({
+			const voteAccepted = await dispatch(voteAction({
 				channelId,
 				threadId,
 				commentId: comment.id,

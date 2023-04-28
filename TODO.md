@@ -10,6 +10,9 @@
 
 
 
+Test proxy server button: add "loading" indicator (+ maybe on other buttons).
+
+
 
 Redesign channel view mode as a select rather than a set of buttons. Fill down-arrow to the right. Hover: show border.
 
@@ -84,7 +87,7 @@ Change search button icon into an input and add search comments/threads toolbar 
 
 Remove sidebar left / sidebar right styles from the respective .css files so that those two sidebars are kind of interchangeable.
 
-On provider change: stop user data, stop thread auto update, stop subscribed thread watcher, stop clean up.
+On dataSource change: stop user data, stop thread auto update, stop subscribed thread watcher, stop clean up.
 
 Cache tracked thread stats collection and add a comment why is it cached (because it could be updated very frequently as the user scrolls a subscribed thread). Add `updateTrackedThread()` redux action instead of `getSubscribedThreads()`.
 
@@ -95,7 +98,7 @@ Cache tracked thread stats collection and add a comment why is it cached (becaus
 
 Add screenshots on the website.
 
-Highlight current provider in sidebar sources. Check how it looks in dark mode.
+Highlight current dataSource in sidebar sources. Check how it looks in dark mode.
 
 
 Update subscribed thread selectively in utility/thread/getThread.js → onThreadFetched() instead of refreshing the whole list of subscribed threads.
@@ -125,14 +128,6 @@ Subscribed Threads List — мигают картинки, когда он об�
 
 
 
-
-Provider -> Source
-
-useSource()
-useSettings()
-useUserData()
-
-* favoriteChannels → channels
 
 Post Form: `showErrorMessage={false}` + setError()
 
@@ -215,7 +210,7 @@ Check all imageboards.
 
 
 
-В настройках можно добавить настройку источника: чтобы прямо можно было запустить приложение без какого-то default provider, и настроить провайдера непосредственно в настройках, а потом уже обновить страницу. В таком случае может быть список настроенных провайдеров, и селектор выбора между ними как в настройках, так и в правом сайдбаре иконкой. Если провайдер не задан, то на "домашнем экране" можно показывать сообщение: "Вы не выбрали источник данных. [ссылка]Настроить[/ссылка]".
+В настройках можно добавить настройку источника: чтобы прямо можно было запустить приложение без какого-то default dataSource, и настроить провайдера непосредственно в настройках, а потом уже обновить страницу. В таком случае может быть список настроенных провайдеров, и селектор выбора между ними как в настройках, так и в правом сайдбаре иконкой. Если провайдер не задан, то на "домашнем экране" можно показывать сообщение: "Вы не выбрали источник данных. [ссылка]Настроить[/ссылка]".
 
 
 
@@ -494,7 +489,7 @@ On open — open the first "favorite channel", if any.
 
 Add start/stop on UserData / UserSettings / Storage (StartStopStorage wrapper)
 
-Add provider switch in the top right corner (outline + accent color).
+Add dataSource switch in the top right corner (outline + accent color).
 
 На сайте anychan'а фоном тоже сделать шаблон + градиент.
 
@@ -630,10 +625,10 @@ Test new comment animation slide up. Move webapp frontend repo to gitlab. Update
 
 
 
-В демо можно добавить provider'ы: reddit и telegram.
+В демо можно добавить dataSource'ы: reddit и telegram.
 
-Можно даже сделать некое подобие "overchan" или "RSS Feed": справа в сайдбаре можно переключать разных provider'ов, а в левом сайдбаре можно будет выбирать каналы на этих provider'ах.
-Например, справа переключатель provider'ов — reddit и telegram — а слева список каналов телеграма или список досок реддита.
+Можно даже сделать некое подобие "overchan" или "RSS Feed": справа в сайдбаре можно переключать разных dataSource'ов, а в левом сайдбаре можно будет выбирать каналы на этих dataSource'ах.
+Например, справа переключатель dataSource'ов — reddit и telegram — а слева список каналов телеграма или список досок реддита.
 
 
 

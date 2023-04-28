@@ -1,26 +1,26 @@
 :root {
-	--ChannelThreadHeader-providerLogo-width: 1em;
-	--ChannelThreadHeader-providerLogo-marginRight: 0.4em;
+	--ChannelThreadHeader-dataSourceLogo-width: 1em;
+	--ChannelThreadHeader-dataSourceLogo-marginRight: 0.4em;
 }
 
-.ChannelThreadHeader-providerLogoLink {
-	/* Provider SVG logos use "currentColor" in order to be visible
+.ChannelThreadHeader-dataSourceLogoLink {
+	/* DataSource SVG logos use "currentColor" in order to be visible
 	   both in "light mode" and "dark mode". */
 	&, &:active {
 		color: inherit;
 	}
 }
 
-.ChannelThreadHeader-providerLogo {
+.ChannelThreadHeader-dataSourceLogo {
 	position: relative;
-	top: calc((1.35em - var(--ChannelThreadHeader-providerLogo-width)) / 2);
-	/*width: var(--ChannelThreadHeader-providerLogo-width);*/
-	height: var(--ChannelThreadHeader-providerLogo-width);
-	margin-right: var(--ChannelThreadHeader-providerLogo-marginRight);
+	top: calc((1.35em - var(--ChannelThreadHeader-dataSourceLogo-width)) / 2);
+	/*width: var(--ChannelThreadHeader-dataSourceLogo-width);*/
+	height: var(--ChannelThreadHeader-dataSourceLogo-width);
+	margin-right: var(--ChannelThreadHeader-dataSourceLogo-marginRight);
 }
 
-.ChannelThreadHeader-providerLogo--spaceEquivalent {
+.ChannelThreadHeader-dataSourceLogo--spaceEquivalent {
 	visibility: hidden;
-	margin-left: var(--ChannelThreadHeader-providerLogo-marginRight);
+	margin-left: var(--ChannelThreadHeader-dataSourceLogo-marginRight);
 	margin-right: 0;
 }

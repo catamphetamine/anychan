@@ -1,20 +1,21 @@
 import React from 'react'
 import { Link } from 'react-pages'
 
-import ProviderLogo from './ProviderLogo.js'
+import DataSourceLogo from './DataSourceLogo.js'
 
-import { getProvider } from '../provider.js'
+import useDataSource from '../hooks/useDataSource.js'
 
 import './ChannelThreadHeaderSource.css'
 
 export default function ChannelThreadHeaderSource() {
+	const dataSource = useDataSource()
 	return (
 		<Link
 			to="/"
-			title={getProvider().title}
-			className="ChannelThreadHeader-providerLogoLink">
-			<ProviderLogo
-				className="ChannelThreadHeader-providerLogo"
+			title={dataSource.title}
+			className="ChannelThreadHeader-dataSourceLogoLink">
+			<DataSourceLogo
+				className="ChannelThreadHeader-dataSourceLogo"
 			/>
 		</Link>
 	)
@@ -22,8 +23,8 @@ export default function ChannelThreadHeaderSource() {
 
 export function ChannelThreadHeaderSourcePlaceholder() {
 	return (
-		<ProviderLogo
-			className="ChannelThreadHeader-providerLogo ChannelThreadHeader-providerLogo--spaceEquivalent"
+		<DataSourceLogo
+			className="ChannelThreadHeader-dataSourceLogo ChannelThreadHeader-dataSourceLogo--spaceEquivalent"
 		/>
 	)
 }

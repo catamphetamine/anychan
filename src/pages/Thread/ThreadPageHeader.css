@@ -111,7 +111,7 @@
 /*}*/
 
 .ThreadPageHeader-logoLink {
-	/* Provider SVG logos use "currentColor" in order to be visible
+	/* DataSource SVG logos use "currentColor" in order to be visible
 	   both in "light mode" and "dark mode". */
 	&, &:active {
 		color: inherit;

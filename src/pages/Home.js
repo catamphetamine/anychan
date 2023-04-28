@@ -5,23 +5,25 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Content } from 'social-components-react/components/PostContent.js'
 import Button from 'frontend-lib/components/Button.js'
 
-import ProviderLogo, { hasLogo } from '../components/ProviderLogo.js'
+import DataSourceLogo, { hasLogo } from '../components/DataSourceLogo.js'
 
 import useMessages from '../hooks/useMessages.js'
+import useDataSource from '../hooks/useDataSource.js'
 
-import { getProvider } from '../provider.js'
 import { showSidebar, setSidebarMode } from '../redux/app.js'
 
 import './Home.css'
 
 export default function Home() {
+	const dataSource = useDataSource()
+
 	const {
 		title,
 		subtitle,
 		description,
 		announcement,
 		links
-	} = getProvider()
+	} = dataSource
 
 	const messages = useMessages()
 	const dispatch = useDispatch()
@@ -35,18 +37,18 @@ export default function Home() {
 		<section className="HomePage">
 			<div className="Content Content--text">
 				<div className="HomePage-brand">
-					{hasLogo(getProvider()) &&
+					{hasLogo(dataSource) &&
 						<a
 							target="_blank"
-							href={`https://${getProvider().domain}`}
+							href={`https://${dataSource.domain}`}
 							className="HomePage-logoLink">
-							<ProviderLogo className="HomePage-logo"/>
+							<DataSourceLogo className="HomePage-logo"/>
 						</a>
 					}
 					<div>
 						<a
 							target="_blank"
-							href={`https://${getProvider().domain}`}
+							href={`https://${dataSource.domain}`}
 							className="HomePage-title">
 							{title}
 						</a>

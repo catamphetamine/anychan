@@ -9,7 +9,7 @@ import { notify } from '../../redux/notifications.js'
 
 import getMessages from '../../messages/index.js'
 
-import { getCommentUrl, getThreadUrl } from '../../provider.js'
+import { getCommentUrl, getThreadUrl } from '../../dataSource.js'
 
 export default function useReply({
 	comment,

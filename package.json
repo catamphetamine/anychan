@@ -35,7 +35,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.4",
-    "react-pages": "^0.6.35",
+    "react-pages": "^0.6.52",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
     "react-responsive-ui": "^0.15.41",

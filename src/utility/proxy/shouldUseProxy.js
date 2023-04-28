@@ -1,5 +1,5 @@
-import isDeployedOnProviderDomain from '../source/isDeployedOnProviderDomain.js'
+import isDeployedOnDataSourceDomain from '../source/isDeployedOnDataSourceDomain.js'
 
-export default function shouldUseProxy({ provider }) {
-	return !isDeployedOnProviderDomain(provider)
+export default function shouldUseProxy({ dataSource }) {
+	return !isDeployedOnDataSourceDomain(dataSource)
 }

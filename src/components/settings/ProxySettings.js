@@ -9,6 +9,7 @@ import { Form, Field, Submit } from '../Form.js'
 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
 import { notify, showError } from '../../redux/notifications.js'
 
@@ -56,13 +57,15 @@ export default function ProxySettings({
 	const dispatch = useDispatch()
 	const userData = useUserData()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 
 	const onTestProxyServer = useCallback(async (proxyUrl) => {
 		const getProxyTestResult = async () => {
 			const { channels } = await _getChannels({
 				http: getHttpClient(),
 				proxyUrl,
-				userSettings
+				userSettings,
+				dataSource
 			})
 
 			if (channels.length === 0) {
@@ -74,7 +77,8 @@ export default function ProxySettings({
 				http: getHttpClient(),
 				proxyUrl,
 				userData,
-				userSettings
+				userSettings,
+				dataSource
 			})
 
 			if (threads.length === 0) {
@@ -102,7 +106,9 @@ export default function ProxySettings({
 			// Sometimes there's no `error.message` for some weird reason, just `error.status`.
 			dispatch(showError(testResults.error.replace('{error}', error.message || error.status)))
 		}
-	}, [])
+	}, [
+		dataSource
+	])
 
 	const savedValue = value || defaultValue
 

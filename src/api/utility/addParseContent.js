@@ -10,9 +10,7 @@ import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmen
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 // import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
-import transformProviderLink from '../../utility/transformProviderLink.js'
-
-import { getProviderId } from '../../provider.js'
+import transformDataSourceLink from '../../utility/transformDataSourceLink.js'
 
 /**
  * Modifies the `comment`'s `.parseContent()` function a bit.
@@ -31,6 +29,7 @@ export default function addParseContent(comment, {
 	grammarCorrection,
 	censoredWords,
 	locale,
+	dataSource,
 	// messages
 }) {
 	const originalParseContent = comment.parseContent
@@ -100,16 +99,18 @@ export default function addParseContent(comment, {
 					if (part.type === 'code') {
 						return false
 					}
-					// Transform `link`s having the same `service` as the current service provider
+					// Transform `link`s having the same `service` as the current data source
 					// from external hyperlinks to internal application links.
-					// For example, if the application uses `4chan` as a service provider
+					// For example, if the application uses `4chan` as a data source
 					// and then encounters a link to `4chan.org` then it would transform that link
 					// from an external "absolute URL" hyperlink to an in-app link.
 					if (part.type === 'link') {
-						if (part.service === getProviderId()) {
-							const { url, content } = transformProviderLink({
+						if (part.service === dataSource.id) {
+							const { url, content } = transformDataSourceLink({
 								url: part.url,
 								content: part.content
+							}, {
+								dataSource
 							})
 							part.url = url
 							part.content = content

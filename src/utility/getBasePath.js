@@ -1,11 +1,11 @@
 import getConfiguration from '../configuration.js'
 
 import {
-	shouldIncludeProviderInPath,
-	getProviderId,
-	getProviderAlias,
-	addProviderIdToPath
-} from '../provider.js'
+	shouldIncludeDataSourceInPath,
+	getDataSource,
+	getDataSourceAlias,
+	addDataSourceIdToPath
+} from '../dataSource.js'
 
 /**
  * Returns "base" path of the application.
@@ -13,11 +13,11 @@ import {
  * the "base" path was "/anychan".
  * @return {string}
  */
-export default function getBasePath({ providerId } = {}) {
-	if (shouldIncludeProviderInPath()) {
-		providerId = providerId || getProviderAlias() || getProviderId()
-		if (providerId) {
-			return addBasePath(addProviderIdToPath('', providerId))
+export default function getBasePath({ dataSourceId } = {}) {
+	if (shouldIncludeDataSourceInPath()) {
+		dataSourceId = dataSourceId || getDataSourceAlias() || getDataSource().id
+		if (dataSourceId) {
+			return addBasePath(addDataSourceIdToPath('', dataSourceId))
 		}
 	}
 	return _getBasePath() || ''

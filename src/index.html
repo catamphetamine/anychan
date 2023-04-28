@@ -73,10 +73,10 @@
 		</script>
 		<% } %>
 		<script>
-			var PROVIDER_ICON_URLS = <%= providerIconUrls %>
-			var PROVIDER_TITLES = <%= providerTitles %>
-			var ICON_URL = (CONFIG.provider && PROVIDER_ICON_URLS[CONFIG.provider]) || "<%= defaultIconUrl %>"
-			var TITLE = (CONFIG.provider && PROVIDER_TITLES[CONFIG.provider]) || "<%= defaultTitle %>"
+			var DATA_SOURCE_ICON_URLS = <%= dataSourceIconUrls %>
+			var DATA_SOURCE_TITLES = <%= dataSourceTitles %>
+			var ICON_URL = (CONFIG.dataSource && DATA_SOURCE_ICON_URLS[CONFIG.dataSource]) || "<%= defaultIconUrl %>"
+			var TITLE = (CONFIG.dataSource && DATA_SOURCE_TITLES[CONFIG.dataSource]) || "<%= defaultTitle %>"
 		</script>
 		<title><%= defaultTitle %></title>
 		<script>

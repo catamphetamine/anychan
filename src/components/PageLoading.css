@@ -1,61 +1,32 @@
-.react-pages__loading
-{
-	position : fixed;
+.PageLoading {
+	position: fixed;
 
-	top    : 0;
-	left   : 0;
-	right  : 0;
-	bottom : 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 
-	background-color : rgba(0, 0, 0, 0.08);
+	z-index: -1;
+	opacity: 0;
 
-	z-index : -1;
-	opacity : 0;
-
-	transition : background-color 0ms linear 160ms, opacity 160ms ease-out, z-index 160ms step-end;
+	transition: background-color 0ms linear var(--PageLoading-hideAnimationDuration), opacity var(--PageLoading-hideAnimationDuration) ease-out, z-index var(--PageLoading-hideAnimationDuration) step-end;
 }
 
-.react-pages__loading-spinner
-{
-	position   : absolute;
-	left       : calc(50% - 2rem);
-	top        : calc(50% - 2rem);
-	width      : 4rem;
-	height     : 4rem;
-	color      : white;
-
-	transition : color 0ms linear 160ms;
+.PageLoading--show {
+	opacity: 1;
+	cursor: wait;
+	z-index: var(--PageLoading-zIndex);
+	transition: opacity var(--PageLoading-showAnimationDuration) ease-out var(--PageLoading-showAnimationDelay), z-index 0ms step-start;
 }
 
-.react-pages__loading--initial .react-pages__loading-spinner
-{
-	transition : none;
+.PageLoading--showImmediately {
+	transition-delay: 0ms;
 }
 
-.react-pages__loading--shown
-{
-	z-index : 1000;
-	opacity : 1;
-
-	transition : opacity 600ms ease-out 500ms, z-index 0ms step-start;
-
-	cursor : wait;
+.PageLoading--show.PageLoading--initial {
+	background-color: var(--PageLoading-backgroundColor--initial);
 }
 
-.react-pages__loading--immediate
-{
-	transition-delay : 0ms;
-}
-
-.react-pages__loading--initial
-{
-	background-color : transparent;
-}
-
-.react-pages__loading--initial .react-pages__loading-spinner
-{
-	/* The current implementation for the spinner is 4 stacked arcs,
-	   so not using transparency here. */
-	/*color : rgba(0, 0, 0, 0.25);*/
-	color : #cfcfcf;
+.PageLoading--show:not(.PageLoading--initial) {
+	background-color: var(--PageLoading-backgroundColor);
 }

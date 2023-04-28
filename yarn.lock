@@ -1416,30 +1416,20 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@catamphetamine/farce@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@catamphetamine/farce/-/farce-0.4.6.tgz#83f1578f859b9c9d3113a3b51d6358568e68b5f9"
-  integrity sha512-VMHPXoJldvFrlmqZEpH+xFCIxqLqSnJZHBS+9lSfpukfi6moUP4fmt9i1zgE1hVSnFTh1WIX2Kqiz+eBHc2dQA==
+"@catamphetamine/farce@^0.4.18":
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/@catamphetamine/farce/-/farce-0.4.18.tgz#3cc800494ecc9aaca0be5893f04c4ee4199e4168"
+  integrity sha512-SBXfsNcYREzSLlEU/gmOKJX1S/NF1GgK4vDw2eHvW//fyHLog+tXds+n29reGZwH1NwPS2NLe2hEqruFIzn44Q==
   dependencies:
     query-string "^5.1.1"
-    redux "^4.1.2"
 
-"@catamphetamine/found-scroll@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@catamphetamine/found-scroll/-/found-scroll-1.1.1.tgz#80fa09f88cde25fdec33add7c6eb90de87285890"
-  integrity sha512-D3GMgXavdCXBVJ/BaFi3zXrn1E7rgZLhp7dhR507xjPEC6XcCCJAqLyp5HIbwVy+2oKea6W7Q47mdqXgnVBoOQ==
-  dependencies:
-    farce "^0.4.5"
-    prop-types "^15.7.2"
-    scroll-behavior "^0.11.0"
-
-"@catamphetamine/found@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@catamphetamine/found/-/found-1.3.1.tgz#1f58a8261bd5efbe3528a882165e7d6eb2cdadaf"
-  integrity sha512-CIElUMVuKVix/5nAVKaNPTT678TZSWZonxx7j190U8/ghmWDmHSIrZF6SF4VNiqANgwzhWBg63tuUiXPIQDG+Q==
+"@catamphetamine/found@^1.3.11":
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/@catamphetamine/found/-/found-1.3.11.tgz#733000d1948ea304e756e47fc930e7ebc5746ed1"
+  integrity sha512-/yWwPyctoaAsDC2Hqe6zIOne9qzetE8Yvm61IM2rOKzyr5NSG85yajIj47Y/E3HxC7iIsqZYFKyLgfncJCL70g==
   dependencies:
     "@babel/runtime" "^7.16.5"
-    "@catamphetamine/farce" "^0.4.6"
+    "@catamphetamine/farce" "^0.4.18"
     "@restart/context" "^2.1.4"
     "@restart/hooks" "^0.4.5"
     "@types/enzyme" "^3.10.12"
@@ -4198,7 +4188,7 @@ dom-converter@^0.2.0:
   dependencies:
     utila "~0.4"
 
-dom-helpers@^5.1.4, dom-helpers@^5.2.1:
+dom-helpers@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
   integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
@@ -7240,13 +7230,13 @@ react-modal@^3.15.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.6.35:
-  version "0.6.35"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.6.35.tgz#ab2d3c197474fc493437011fd65c9c3f6c5e8eed"
-  integrity sha512-Mmgyb+PLfxx/BfrA5dTTDU44TehPjj9OX/NTlGRga34DLjYzozxB4Y3XzqOu6/yZupHZFVlLhVQvB9N8sMRwmg==
+react-pages@^0.6.52:
+  version "0.6.52"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.6.52.tgz#fc6261416273bf1b25dd6754e5377a34f9775c03"
+  integrity sha512-2NDIry+3YjzGF67B+bYiIff4Pts/Cw1SvJ5GAnTW1cVsckigC5WEgD8vv5ehPTKVLSBfM0ClNy4KOucF5BT6Yg==
   dependencies:
-    "@catamphetamine/found" "^1.3.1"
-    "@catamphetamine/found-scroll" "^1.1.1"
+    "@catamphetamine/farce" "^0.4.18"
+    "@catamphetamine/found" "^1.3.11"
     classnames "^2.3.1"
     cookie "^0.4.1"
     core-js-pure "^3.19.1"
@@ -7435,7 +7425,7 @@ redux@^4.0.4:
   dependencies:
     "@babel/runtime" "^7.9.2"
 
-redux@^4.1.2, redux@^4.2.1:
+redux@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.1.tgz#c08f4306826c49b5e9dc901dee0452ea8fce6197"
   integrity sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==
@@ -7719,15 +7709,6 @@ schema-utils@^4.0.0:
     ajv "^8.8.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
-
-scroll-behavior@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/scroll-behavior/-/scroll-behavior-0.11.0.tgz#fff2765b6007341b80a04678fcd314e54d5b03ea"
-  integrity sha512-wQvNs3Q1TRvEkkwrFd/BkIL+dA4PYQl55/FUlmtjgz63/FtbnyR6MkLyRmjK0Rg3LCZCr0jORsFfMLkeNYdFuA==
-  dependencies:
-    dom-helpers "^5.1.4"
-    invariant "^2.2.4"
-    page-lifecycle "^0.1.2"
 
 scroll-into-view-if-needed@^2.2.24, scroll-into-view-if-needed@^2.2.28, scroll-into-view-if-needed@^2.2.29:
   version "2.2.31"

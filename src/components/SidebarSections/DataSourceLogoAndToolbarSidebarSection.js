@@ -7,28 +7,28 @@ import UserAccountLink from '../SidebarToolbar/UserAccountLink.js'
 
 import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
 
-import SidebarProviderLogoAndToolbar from '../Sidebar/SidebarProviderLogoAndToolbar.js'
+import SidebarDataSourceLogoAndToolbar from '../Sidebar/SidebarDataSourceLogoAndToolbar.js'
 
-import useSource from '../../hooks/useSource.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
-import './ProviderLogoAndToolbarSidebarSection.css'
+import './DataSourceLogoAndToolbarSidebarSection.css'
 
-export default function ProviderLogoAndToolbarSidebarSection() {
-	const source = useSource()
+export default function DataSourceLogoAndToolbarSidebarSection() {
+	const dataSource = useDataSource()
 
 	const toolbarElements = (
 		<>
 			<DarkModeToggle/>
 			<SettingsLink/>
-			{source.api.logIn &&
+			{dataSource.api.logIn &&
 				<UserAccountLink/>
 			}
 		</>
 	)
 
 	return (
-		<div className="ProviderLogoAndToolbarSidebarSection">
-			<SidebarProviderLogoAndToolbar
+		<div className="DataSourceLogoAndToolbarSidebarSection">
+			<SidebarDataSourceLogoAndToolbar
 				toolbarElements={toolbarElements}
 			/>
 			<SidebarTopBar alignContent="end">

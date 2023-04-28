@@ -1,4 +1,3 @@
-import { getProvider } from '../../provider.js'
 import { getSubscribedThreads } from '../../redux/subscribedThreads.js'
 import onSubscribedThreadFetched from '../subscribedThread/onSubscribedThreadFetched.js'
 import onSubscribedThreadsChanged from '../subscribedThread/onSubscribedThreadsChanged.js'
@@ -59,7 +58,7 @@ export default function onThreadsFetched(channelId, threads, {
 // 	threadArchive,
 // 	threadArchiveLifetime,
 // 	threadArchiveLifetimeInfinite
-// } = getProvider()
+// } = getDataSource()
 
 // // See if any of the subscribed threads have expired.
 // // if some threads are missing from the `threads` list

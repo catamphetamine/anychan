@@ -15,7 +15,8 @@ export default function onApplicationStarted({
 	setInitialized,
 	userData,
 	userDataForUserDataCleaner,
-	userSettings
+	userSettings,
+	dataSource
 }) {
 	// Start User Data cleaner.
 	const userDataCleaner = new UserDataCleaner({ userData: userDataForUserDataCleaner })
@@ -28,6 +29,7 @@ export default function onApplicationStarted({
 		dispatch,
 		userData,
 		userSettings,
+		dataSource,
 		createGetThreadParameters() {
 			const {
 				censoredWords,

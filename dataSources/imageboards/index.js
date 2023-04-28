@@ -17,7 +17,7 @@ import KohlChan from './kohlchan/index.json' assert { type: 'json' }
 import LainChan from './lainchan/index.json' assert { type: 'json' }
 import ArisuChan from './arisuchan/index.json' assert { type: 'json' }
 
-const PROVIDERS = [
+const DATA_SOURCES = [
 	TwoChannel,
 	FourChan,
 	EightChan,
@@ -27,56 +27,61 @@ const PROVIDERS = [
 	ArisuChan
 ]
 
-export default PROVIDERS
+export default DATA_SOURCES
 
-for (const provider of PROVIDERS) {
+for (const dataSource of DATA_SOURCES) {
 	// Get "core" imageboard config.
 	// (API URLs, board/thread/comment URLs, etc).
-	const imageboardConfig = getConfig(provider.id)
+	const imageboardConfig = getConfig(dataSource.id)
 
-	// provider.imageboard = imageboardConfig
-	provider.imageboard = provider.id
-	provider.domain = imageboardConfig.domain
+	// dataSource.imageboard = imageboardConfig
+	dataSource.imageboard = dataSource.id
+	dataSource.domain = imageboardConfig.domain
 
-	provider.channelUrl = imageboardConfig.boardUrl.replace('{boardId}', '{channelId}')
-	provider.threadUrl = imageboardConfig.threadUrl.replace('{boardId}', '{channelId}')
-	provider.commentUrl = imageboardConfig.commentUrl.replace('{boardId}', '{channelId}')
+	dataSource.channelUrl = imageboardConfig.boardUrl.replace('{boardId}', '{channelId}')
+	dataSource.threadUrl = imageboardConfig.threadUrl.replace('{boardId}', '{channelId}')
+	dataSource.commentUrl = imageboardConfig.commentUrl.replace('{boardId}', '{channelId}')
 
-	provider.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
+	dataSource.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
 		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${relativeUrl}`
 	}
 
-	function addProvider(func) {
+	dataSource.api = {
+		getChannels: getChannelsApi,
+		getThreads: getThreadsApi,
+		getThread: getThreadApi
+	}
+
+	if (imageboardConfig.api.vote) {
+		dataSource.api.vote = voteApi
+	}
+
+	if (imageboardConfig.api.logIn) {
+		dataSource.api.logIn = logInApi
+	}
+
+	if (imageboardConfig.api.logOut) {
+		dataSource.api.logOut = logOutApi
+	}
+
+	if (imageboardConfig.api.post) {
+		dataSource.api.post = postApi
+	}
+
+	if (imageboardConfig.api.report) {
+		dataSource.api.report = reportApi
+	}
+
+	function addDataSourceParameterToFunction(func) {
 		return (parameters) => func({
-			provider,
+			dataSource,
 			...parameters
 		})
 	}
 
-	provider.api = {
-		getChannels: addProvider(getChannelsApi),
-		getThreads: addProvider(getThreadsApi),
-		getThread: addProvider(getThreadApi)
-	}
-
-	if (imageboardConfig.api.vote) {
-		provider.api.vote = addProvider(voteApi)
-	}
-
-	if (imageboardConfig.api.logIn) {
-		provider.api.logIn = addProvider(logInApi)
-	}
-
-	if (imageboardConfig.api.logOut) {
-		provider.api.logOut = addProvider(logOutApi)
-	}
-
-	if (imageboardConfig.api.post) {
-		provider.api.post = addProvider(postApi)
-	}
-
-	if (imageboardConfig.api.report) {
-		provider.api.report = addProvider(reportApi)
+	// Add `dataSource` parameter to each `api` function.
+	for (const functionName of Object.keys(dataSource.api)) {
+		dataSource.api[functionName] = addDataSourceParameterToFunction(dataSource.api[functionName])
 	}
 }
 

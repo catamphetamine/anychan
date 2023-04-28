@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import Toolbar from '../../components/Toolbar.js'
-import ProviderLogo from '../../components/ProviderLogo.js'
 import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
 import ChannelThreadHeaderSource, { ChannelThreadHeaderSourcePlaceholder } from '../../components/ChannelThreadHeaderSource.js'
 

@@ -14,7 +14,7 @@ import SideNavMenuButtons from '../components/SideNavMenuButtons.js'
 import BackButton from '../components/BackButton.js'
 import Markup from '../components/Markup.js'
 import Slideshow from '../components/Slideshow.js'
-import Loading from '../components/LoadingIndicator.js'
+import PageLoadingIndicator from '../components/PageLoadingIndicator.js'
 import { CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarSections/ChannelThreadsSidebarSectionThread.js'
 import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
 import Snackbar from 'frontend-lib/components/Snackbar.js'
@@ -49,11 +49,11 @@ import loadApplication from './Application.load.js'
 
 import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/announcement.js'
 
-import { getProvider } from '../provider.js'
+import { getDataSource } from '../dataSource.js'
 import getConfiguration from '../configuration.js'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
-import { SourceContext } from '../hooks/useSource.js'
+import useDataSource, { DataSourceContext } from '../hooks/useDataSource.js'
 import useSettings, { SettingsContext } from '../hooks/useSettings.js'
 import useUserData, { UserDataContext } from '../hooks/useUserData.js'
 import useUserDataForUserDataCleaner, { UserDataForUserDataCleanerContext } from '../hooks/useUserDataForUserDataCleaner.js'
@@ -92,12 +92,12 @@ export default function Application({ children }) {
 		return getUserSettings()
 	}, [])
 
-	const source = useMemo(() => {
-		return getProvider()
+	const dataSource = useMemo(() => {
+		return getDataSource()
 	}, [])
 
 	return (
-		<SourceContext.Provider value={source}>
+		<DataSourceContext.Provider value={dataSource}>
 			<UserDataContext.Provider value={userData}>
 				<UserDataForUserDataCleanerContext.Provider value={userDataForUserDataCleaner}>
 					<SettingsContext.Provider value={settings}>
@@ -107,7 +107,7 @@ export default function Application({ children }) {
 					</SettingsContext.Provider>
 				</UserDataForUserDataCleanerContext.Provider>
 			</UserDataContext.Provider>
-		</SourceContext.Provider>
+		</DataSourceContext.Provider>
 	)
 }
 
@@ -122,7 +122,8 @@ Application.load = {
 			getState,
 			location,
 			userData: getUserData(),
-			userSettings: getUserSettings()
+			userSettings: getUserSettings(),
+			dataSource: getDataSource()
 		})
 	},
 	blocking: true
@@ -137,6 +138,7 @@ function App({
 	const userData = useUserData()
 	const userDataForUserDataCleaner = useUserDataForUserDataCleaner()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 
 	const [initialized, setInitialized] = useState()
 
@@ -165,6 +167,7 @@ function App({
 			userData,
 			userDataForUserDataCleaner,
 			userSettings,
+			dataSource,
 			setInitialized
 		})
 	}, [])
@@ -221,7 +224,7 @@ function App({
 		<MeasureContext.Provider value={measure}>
 			<div className={classNames(`theme--${theme}`)}>
 				{/* Page loading indicator */}
-				<Loading show={isLoadingTweet || !initialized}/>
+				<PageLoadingIndicator show={isLoadingTweet || !initialized}/>
 
 				{/* Pop-up messages */}
 				<Snackbar placement="bottom"/>

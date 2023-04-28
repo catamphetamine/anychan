@@ -1,4 +1,4 @@
-.SourcesSidebarSection-source {
+.DataSourcesSidebarSection-dataSource {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -28,7 +28,7 @@
 	}
 }
 
-.SourcesSidebarSection-source--selected {
+.DataSourcesSidebarSection-dataSource--selected {
 	color: var(--SidebarLink-color--selected);
 	background-color: var(--SidebarLink-backgroundColor--selected);
 	border-top-color: var(--SidebarLink-borderColor--selected);
@@ -45,7 +45,7 @@
 	}
 }
 
-.SourcesSidebarSection-sourceLogo {
+.DataSourcesSidebarSection-dataSourceLogo {
 	width: 1em;
 	height: 1em;
 

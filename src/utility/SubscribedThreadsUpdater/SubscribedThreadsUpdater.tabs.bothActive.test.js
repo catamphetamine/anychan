@@ -3,6 +3,7 @@ import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
 import UserSettings from '../../UserSettings/UserSettings.js'
+import DATA_SOURCES from '../../dataSources.js'
 
 import { MemoryStorage } from 'web-browser-storage'
 import { TestTab } from 'web-browser-tab'
@@ -19,6 +20,8 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 		const userData2 = new UserData(storage2)
 
 		const userSettings = new UserSettings(storage1)
+
+		const dataSource = DATA_SOURCES['4chan']
 
 		const timer = new TestTimer()
 
@@ -159,6 +162,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			tab: tab1,
 			userData: userData1,
 			userSettings,
+			dataSource,
 			storage: storage1,
 			dispatch: dispatch1,
 			timer,
@@ -178,6 +182,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			tab: tab2,
 			userData: userData2,
 			userSettings,
+			dataSource,
 			storage: storage2,
 			dispatch: dispatch2,
 			timer,

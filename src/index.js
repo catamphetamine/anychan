@@ -28,25 +28,25 @@ import './styles/style.css'
 
 import initializeMiscellaneous from './initialize-miscellaneous.js'
 import initializeIntl from './initialize-intl.js'
-import initializeProvider from './initialize-provider.js'
+import initializeDataSource from './initialize-dataSource.js'
 import initializeApp from './initialize-app.js'
 import renderApp from './render.js'
 
 // Run the application.
 // First initialize error handlers and stuff.
-// Then initialize the currently used provider
+// Then initialize the currently used dataSource
 // because it's used as a prefix in settings and user data.
-// Then initialize the app (applies user settings for the provider).
+// Then initialize the app (applies user settings for the dataSource).
 //
 // `require()` is used instead of `import` because the proveder
 // has to be initialized before the other code is included on a page,
 // otherwise that other code would include things like `UserData.js`
-// before the provider is initialized and hence with an incorrect `prefix`.
+// before the data source is initialized and hence with an incorrect `prefix`.
 //
 try {
 	initializeMiscellaneous()
 	initializeIntl()
-	initializeProvider()
+	initializeDataSource()
 	const { userData } = await initializeApp()
 	await renderApp({ userData })
 } catch (error) {

@@ -15,6 +15,7 @@ export default async function loadThreadPage({
 	location,
 	userData,
 	userSettings,
+	dataSource,
 	params: {
 		channelId,
 		threadId
@@ -42,6 +43,7 @@ export default async function loadThreadPage({
 		dispatch,
 		userData,
 		userSettings,
+		dataSource,
 		action: 'getThreadInState'
 	})
 

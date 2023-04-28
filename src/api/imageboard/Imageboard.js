@@ -1,6 +1,6 @@
 import Imageboard, { getConfig } from 'imageboard'
 
-import isDeployedOnProviderDomain from '../../utility/source/isDeployedOnProviderDomain.js'
+import isDeployedOnDataSourceDomain from '../../utility/source/isDeployedOnDataSourceDomain.js'
 
 import shouldUseProxy from '../../utility/proxy/shouldUseProxy.js'
 import getProxiedUrl from '../../utility/proxy/getProxiedUrl.js'
@@ -8,12 +8,12 @@ import getMessages from '../utility/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 import getConfiguration from '../../configuration.js'
 
-export default function Imageboard_(provider, {
+export default function Imageboard_(dataSource, {
 	messages,
 	http,
 	userSettings
 }) {
-	return Imageboard(provider.imageboard, {
+	return Imageboard(dataSource.imageboard, {
 		messages: messages && getMessages(messages),
 		generatedQuoteMaxLength: getConfiguration().generatedQuoteMaxLength,
 		generatedQuoteMinFitFactor: getConfiguration().generatedQuoteMinFitFactor,
@@ -22,10 +22,10 @@ export default function Imageboard_(provider, {
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
-		useRelativeUrls: isDeployedOnProviderDomain(provider),
+		useRelativeUrls: isDeployedOnDataSourceDomain(dataSource),
 		request: async (method, url, { body, headers }) => {
 			// Proxy the URL (if required).
-			if (shouldUseProxy({ provider })) {
+			if (shouldUseProxy({ dataSource })) {
 				url = getProxiedUrl(url, { userSettings })
 			}
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
@@ -53,7 +53,7 @@ export default function Imageboard_(provider, {
 				})
 				if (response.ok) {
 					url = response.url
-					if (shouldUseProxy({ provider })) {
+					if (shouldUseProxy({ dataSource })) {
 						url = response.headers.get('X-Final-Url') || url
 					}
 					return response.text().then((response) => ({

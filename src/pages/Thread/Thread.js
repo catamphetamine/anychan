@@ -37,6 +37,7 @@ import loadThreadPage from './loadThreadPage.js'
 
 import getUserData from '../../UserData.js'
 import getUserSettings from '../../UserSettings.js'
+import { getDataSource } from '../../dataSource.js'
 
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
@@ -348,7 +349,8 @@ ThreadPage.load = async ({
 		location,
 		params,
 		userData: getUserData(),
-		userSettings: getUserSettings()
+		userSettings: getUserSettings(),
+		dataSource: getDataSource()
 	})
 }
 

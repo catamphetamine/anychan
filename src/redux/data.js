@@ -10,18 +10,22 @@ import getNewRepliesCount from '../utility/thread/getNewRepliesCount.js'
 import _getChannelsCached from '../api/cached/getChannels.js'
 import _getThreads from '../api/getThreads.js'
 import _getThread from '../api/getThread.js'
-import _vote from '../api/vote.js'
 
 const redux = new ReduxModule('DATA')
 
 export const getChannels = redux.action(
-	({ all, userSettings }) => async http => await _getChannelsCached({
+	({
+		all,
+		userSettings,
+		dataSource
+	}) => async http => await _getChannelsCached({
 		// In case of adding new options here,
 		// also add them in `./src/api/cached/getChannels.js`
 		// and `./src/components/settings/ProxySettings.js`.
 		http,
 		all,
-		userSettings
+		userSettings,
+		dataSource
 	}),
 	(state, result) => ({
 		...state,
@@ -42,7 +46,8 @@ export const getChannels = redux.action(
 // 		withLatestComments,
 // 		sortByRating,
 // 		userData,
-// 		userSettings
+// 		userSettings,
+// 		dataSource
 // 	}) => async http => {
 // 		const threads = await _getThreads({
 // 			channelId,
@@ -54,7 +59,8 @@ export const getChannels = redux.action(
 // 			sortByRating,
 // 			http,
 // 			userData,
-// 			userSettings
+// 			userSettings,
+// 			dataSource
 // 		})
 // 		return { channelId, threads }
 // 	},
@@ -97,7 +103,8 @@ export const getThread = redux.action(
 		grammarCorrection,
 		locale,
 		userData,
-		userSettings
+		userSettings,
+		dataSource
 	}) => async http => {
 		return await _getThread({
 			channelId,
@@ -111,7 +118,8 @@ export const getThread = redux.action(
 			messages: getMessages(locale),
 			http,
 			userData,
-			userSettings
+			userSettings,
+			dataSource
 		})
 	},
 	(state, thread) => {
@@ -145,7 +153,8 @@ export const refreshThread = redux.action(
 		grammarCorrection,
 		locale,
 		userData,
-		userSettings
+		userSettings,
+		dataSource
 	}) => async http => {
 		const updatedThread = await _getThread({
 			channelId: thread.channelId,
@@ -164,7 +173,8 @@ export const refreshThread = redux.action(
 			messages: getMessages(locale),
 			http,
 			userData,
-			userSettings
+			userSettings,
+			dataSource
 		})
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
@@ -321,8 +331,16 @@ export const onCommentRead = redux.simpleAction(
 )
 
 export const vote = redux.action(
-	({ up, channelId, threadId, commentId, userData, userSettings }) => async http => {
-		const voteAccepted = await getProvider().api.vote({
+	({
+		up,
+		channelId,
+		threadId,
+		commentId,
+		userData,
+		userSettings,
+		dataSource
+	}) => async http => {
+		const voteAccepted = await dataSource.api.vote({
 			up,
 			channelId,
 			commentId,

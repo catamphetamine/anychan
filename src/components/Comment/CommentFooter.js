@@ -9,7 +9,7 @@ import {
 	channelId
 } from '../../PropTypes.js'
 
-import CommentFooterBadges from './CommentFooterBadges.js'
+import getCommentFooterBadges from './getCommentFooterBadges.js'
 
 import PostBadge from 'social-components-react/components/PostBadge.js'
 import PostVotes from 'social-components-react/components/PostVotes.js'
@@ -27,6 +27,8 @@ import CommentFooterDate from './CommentFooterDate.js'
 import CommentFooterSeparator from './CommentFooterSeparator.js'
 
 import getMessages from '../../messages/index.js'
+
+import useDataSource from '../../hooks/useDataSource.js'
 
 import './CommentFooter.css'
 import './CommentFooterBadge.css'
@@ -56,6 +58,8 @@ export default function CommentFooter({
 	onHide,
 	moreActionsButtonRef
 }) {
+	const dataSource = useDataSource()
+
 	const subscribedThreadIds = useSelector(state => state.channel.subscribedThreadIds)
 
 	const isSubscribedThreadInCatalog = useMemo(() => {
@@ -69,7 +73,7 @@ export default function CommentFooter({
 	])
 
 	const rightSideBadges = useMemo(() => {
-		let badges = CommentFooterBadges
+		let badges = getCommentFooterBadges({ dataSource })
 		// This type of filtering is done in `<Post/>` automatically,
 		// but since `leftSideBadges` are also used here outside `<Post/>`,
 		// they're filtered here manually.
@@ -79,6 +83,7 @@ export default function CommentFooter({
 		}
 	}, [
 		comment,
+		dataSource,
 		isSubscribedThreadInCatalog
 	])
 

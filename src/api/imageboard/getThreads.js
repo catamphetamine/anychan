@@ -5,7 +5,7 @@ import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.j
 const MAX_LATEST_COMMENTS_PAGES_COUNT = 2
 
 export default async function getThreadsFromImageboard({
-	provider,
+	dataSource,
 	channelId,
 	withLatestComments,
 	sortByRating,
@@ -13,7 +13,7 @@ export default async function getThreadsFromImageboard({
 	http,
 	userSettings
 }) {
-	const imageboard = Imageboard(provider, { messages, http, userSettings })
+	const imageboard = Imageboard(dataSource, { messages, http, userSettings })
 
 	const threads = await imageboard.getThreads({
 		boardId: channelId

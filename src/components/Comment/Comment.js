@@ -35,8 +35,8 @@ import getConfiguration from '../../configuration.js'
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
 import ArhivachIcon from '../../../assets/images/icons/services/arhivach.svg'
-import TwoChannelIcon from '../../../providers/imageboards/2ch/logo.svg'
-import FourChannelIcon from '../../../providers/imageboards/4chan/logo.svg'
+import TwoChannelIcon from '../../../dataSources/imageboards/2ch/logo.svg'
+import FourChannelIcon from '../../../dataSources/imageboards/4chan/logo.svg'
 
 import './Comment.css'
 

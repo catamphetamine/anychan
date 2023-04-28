@@ -1,13 +1,13 @@
 import Imageboard from './Imageboard.js'
 
 export default async function getChannelsFromImageboard({
-	provider,
+	dataSource,
 	all,
 	http,
 	messages,
 	userSettings
 }) {
-	const imageboard = Imageboard(provider, { messages, http, userSettings })
+	const imageboard = Imageboard(dataSource, { messages, http, userSettings })
 
 	let channels = await (all ? imageboard.getAllBoards() : imageboard.getBoards())
 

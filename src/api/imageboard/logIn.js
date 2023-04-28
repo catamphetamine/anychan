@@ -1,7 +1,7 @@
 import Imageboard from './Imageboard.js'
 
 export default async function logIn({
-	provider,
+	dataSource,
 	http,
 	messages,
 	userSettings,
@@ -10,7 +10,7 @@ export default async function logIn({
 	commentId,
 	...rest
 }) {
-	return await Imageboard({ provider, messages, http, userSettings }).logIn({
+	return await Imageboard({ dataSource, messages, http, userSettings }).logIn({
 		boardId: channelId,
 		threadId,
 		commentId,

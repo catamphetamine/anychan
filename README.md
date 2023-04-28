@@ -60,7 +60,7 @@ A "build" contains an `index.html` file and a bunch of `.js`/`.css`/`.map`/image
 
 Inside a "build", find and edit the `index.html` file in order to specify custom [configuration options](#configuration) such as:
 * URL path at which the contents of the "build" are hosted (the default is "hosted at the root of the domain").
-* The default data "provider" id (like `"4chan"`).
+* The default "data source" id (like `"4chan"`).
 * YouTube API key for loading YouTube video links.
 
 Those custom configuration options should be specified at the top of the `index.html` file in the global `CONFIG` variable:
@@ -73,7 +73,7 @@ Those custom configuration options should be specified at the top of the `index.
       // https://gitlab.com/catamphetamine/anychan#configuration
       var CONFIG = {
         "path": "/my-custom-file-hosting-path",
-        "provider": "my-custom-default-provider-id",
+        "dataSource": "my-custom-default-data-source-id",
         "youtubeApiKey": "my-custom-youtube-api-key",
         "googleAnalyticsId": "my-custom-google-analytics-id"
       }
@@ -106,44 +106,44 @@ The default configuration can be found in `./configuration/default.json` file. A
   // If it's not the case, and it's hosted at a "subpath", specify that "subpath" here.
   "path": "/anychan",
 
-  // The `provider` parameter describes the data source being used.
+  // The `dataSource` parameter describes the data source being used.
   //
-  // If the provider is a "supported-out-of-the-box" one,
-  // then the "provider" parameter can be set to just the provider id (name).
+  // If the data source is a "supported-out-of-the-box" one,
+  // then the "dataSource" parameter can be set to just the data source id (name).
   // Examples: "4chan", "8ch", "2ch", "kohlchan", "lainchan".
   //
-  // If this application runs on the provider's main domain,
-  // the application will detect that and the "provider" parameter
+  // If this application runs on the data source's main domain,
+  // the application will detect that and the "dataSource" parameter
   // is not required in that case.
   // For example, if this application is hosted at `4chan.org` domain
-  // then it would assume that the `provider` parameter is "4chan".
+  // then it would assume that the `dataSource` parameter is "4chan".
   //
-  // In all other cases, the `provider` parameter should be an object
+  // In all other cases, the `dataSource` parameter should be an object
   // specifying various configuration parameters: `logo`, `title`,
   // `api` configuration, etc.
   // See "Adding a new imageboard" section of this readme for more info.
   //
-  "provider": "4chan",
+  "dataSource": "4chan",
 
-  // Provider icon.
-  // Overwrites `provider.icon`.
+  // Data source icon.
+  // Overwrites `dataSource.icon`.
   // Should be of `192px` width and `192px` height.
   "icon": "https://s.4cdn.org/image/favicon.ico",
 
-  // Provider logo (a larger version of an icon).
-  // Overwrites `provider.logo`.
+  // Data source logo (a larger version of an icon).
+  // Overwrites `dataSource.logo`.
   "logo": "https://s.4cdn.org/image/fp/logo-transparent.png",
 
-  // Provider title.
-  // Overwrites `provider.title`.
+  // Data source title.
+  // Overwrites `dataSource.title`.
   "title": "4chan",
 
-  // Provider "subtitle" (the text under the title on the home page).
-  // Overwrites `provider.subtitle`.
+  // Data source "subtitle" (the text under the title on the home page).
+  // Overwrites `dataSource.subtitle`.
   "subtitle": "Since 2003",
 
   // Home page content.
-  // Overwrites `provider.description`.
+  // Overwrites `dataSource.description`.
   // https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
   "description": [
     {
@@ -184,7 +184,7 @@ The default configuration can be found in `./configuration/default.json` file. A
   "footerMarkupFullWidth": false,
 
   // Footer notes content.
-  // Overwrites `provider.footnotes`.
+  // Overwrites `dataSource.footnotes`.
   // https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
   "footnotes": "Copyright © 2003-2020 4chan community support LLC. All rights reserved",
 
@@ -250,7 +250,7 @@ The default configuration can be found in `./configuration/default.json` file. A
 
   // How often should the application "poll" the data source for new data.
   // Contrary to "push" updates, "polling" is a technique for continuously
-  // re-fetching the data from the source to see if there're any updates.
+  // re-fetching the data from the data source to see if there're any updates.
   // Older engines, like classic imageboards, don't support "push" updates
   // via WebSockets, so the only way to get updates is by manually "polling"
   // for new data in a loop. The higher the "polling" rate, the more load
@@ -455,13 +455,13 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 
 * [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-NGINX.md).
 
-Not every proxy works with every "provider" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
+Not every proxy works with every "data source" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
 
 ####
 
 In `./configuration/default.json` there's a `proxyUrl` setting — this is the URL of the CORS-proxy that will be used for querying the API.
 
-<!-- There's also a dedicated `proxyUrlAws` setting for providers that don't block AWS yet. -->
+<!-- There's also a dedicated `proxyUrlAws` setting for data sources that don't block AWS yet. -->
 
 ## Known issues
 
@@ -538,13 +538,13 @@ To run the tests from console:
 npm test
 ```
 
-## Provider configuration
+## Data Source Configuration
 
 (advanced topic)
 
-The `anychan` client application supports any data provider as a datasource. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. There're currently several imageboards that're supported "out of the box".
+`anychan` supports any data source. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. There're currently several imageboards that're supported "out of the box".
 
-To add a new provider, create an `index.json` file with the provider's configuration, along with some supplementary files like a 192x192 `icon.png` and a `logo.svg`.
+To add a new data source, create an `index.json` file with the data source's configuration, along with some supplementary files like a 192x192 `icon.png` and a `logo.svg`.
 
 <details>
 <summary><code>index.json</code> format</summary>
@@ -554,14 +554,14 @@ To add a new provider, create an `index.json` file with the provider's configura
 ```js
 {
   // (required)
-  // Provider's unique ID.
+  // Data source's unique ID.
   "id": "4chan",
 
   // (required)
-  // Provider's unique single-character ID.
+  // Data source's unique single-character ID.
   //
   // This is currently only used on the demo site
-  // as a prefix for storing provider-specific data
+  // as a prefix for storing data-source-specific data
   // in a web browser's `localStorage`:
   // longer prefixes occupy more space on the disk
   // so a short single-character emoji is used instead.
@@ -576,19 +576,19 @@ To add a new provider, create an `index.json` file with the provider's configura
   "shortId": "🍀",
 
   // (required)
-  // Provider's domain name.
+  // Data source's domain name.
   "domain": "4chan.org",
 
   // (required)
-  // Provider title.
+  // Data source title.
   "title": "4chan",
 
   // (optional)
-  // The text displayed under the provider's title on the home page.
+  // The text displayed under the data source's title on the home page.
   "subtitle": "The imageboard",
 
   // (required)
-  // Provider description.
+  // Data source description.
   // Can be a `String` or `InlineContent` (text with hyperlinks):
   // https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Post/PostContent.md
   "description": "4chan is the oldest English-speaking imageboard",
@@ -642,12 +642,12 @@ To add a new provider, create an `index.json` file with the provider's configura
   "contentCategoryUnspecified": "Rest",
 
   // (optional)
-  // Most providers use "relative" URLs for attachments.
+  // Most data sources use "relative" URLs for attachments.
   // And some of them also have "backup" domains in case
   // their primary domain name is blocked by the authorities.
   // Because `anychan` can run on any domain name,
   // it requires a way to determine whether it is
-  // running on a "legitimate" provider domain name
+  // running on a "legitimate" data source domain name
   // in order to decide whether it should leave those attachment
   // URLs as they are (being relative URLs, like "/images/abc.jpg")
   // or convert those  attachment URLs from relative URLs to
@@ -657,8 +657,8 @@ To add a new provider, create an `index.json` file with the provider's configura
   // but rather on one of the "backup" domains, it should have
   // a way of knowing that it's still a "legitimate" domain
   // so that it could leave relative attachment URLs as they are.
-  // For that, the `domains` provider configuration parameter exists:
-  // it should list all legitimate "backup" domains of the provider.
+  // For that, the `domains` data source configuration parameter exists:
+  // it should list all legitimate "backup" domains of the data source.
   // The default domain name shouldn't be included in the "domains" list,
   // beacuse it has already been configured as the "domain" property.
   "domains": [
@@ -681,7 +681,7 @@ To add a new provider, create an `index.json` file with the provider's configura
   },
 
   // (optional)
-  // Whether the provider archives threads
+  // Whether the data source archives threads
   // that're pushed off the list of a channel's threads.
   // For example, `4chan.org` archives threads for about 3 days
   // before they're deleted.
@@ -693,7 +693,7 @@ To add a new provider, create an `index.json` file with the provider's configura
   // For example, on `4chan.org` it's "3 days" (max),
   // which equals to `3 * 24 * 60 * 60 * 1000` milliseconds.
   // If `threadArchive` is `true` but `threadArchiveLifetime` is not set
-  // then it means that the provider archives threads indefinitely.
+  // then it means that the data source archives threads indefinitely.
   threadArchiveLifetime: 259200000,
 
   // (required)
@@ -799,7 +799,7 @@ To add a new provider, create an `index.json` file with the provider's configura
     // (optional)
     // (currently not used)
     //
-    // Should be `true` if the provider supports "global" thread search
+    // Should be `true` if the data source supports "global" thread search
     // by calling `.findThreads()` method without `channelId` parameter.
     //
     supportsGlobalThreadSearch: boolean?,
@@ -858,7 +858,7 @@ To add a new provider, create an `index.json` file with the provider's configura
     // Votes for a comment in a thread.
     // Can be either an upvote or a downvote.
     //
-    async vote({
+    async voteForComment({
       channelId,
       threadId,
       commentId,
@@ -885,7 +885,7 @@ To add a new provider, create an `index.json` file with the provider's configura
 #####
 
 
-The files should be placed in the provider's directory created inside the `providers` folder. Then, the provider's config should be `import`ed in `providers/index.js` and added to the list of `PROVIDERS`. After that, the provider's `icon` and `logo` should be assigned in `src/provider.js`.
+The files should be placed in the data source's directory created inside the `dataSources` folder. Then, the data source's config should be `import`ed in `dataSources/index.js` and added to the list of `DATA_SOURCES`. After that, the data source's `icon` and `logo` should be assigned in `src/dataSource.js`.
 
 ## Adding a new imageboard
 
@@ -893,10 +893,10 @@ The files should be placed in the provider's directory created inside the `provi
 
 First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `anychan` application:
 
-* Create the imageboard's directory in `./providers/imageboards`.
-* In that directory, create `index.json` [configuration file](#provider-configuration). Create an `icon.png` (`192px x 192px`) and a `logo.svg` (or `logo.jpg`, or `logo.png`). See other imageboards' directories as an example.
-* Add the new imageboard in `./providers/imageboards/index.js` (analogous to the existing imageboards).
-* Add the new imageboard in `./src/providers.js` (analogous to the existing imageboards).
+* Create the imageboard's directory in `./dataSources/imageboards`.
+* In that directory, create `index.json` [configuration file](#data-source-configuration). Create an `icon.png` (`192px x 192px`) and a `logo.svg` (or `logo.jpg`, or `logo.png`). See other imageboards' directories as an example.
+* Add the new imageboard in `./dataSources/imageboards/index.js` (analogous to the existing imageboards).
+* Add the new imageboard in `./src/dataSources.js` (analogous to the existing imageboards).
 
 <!--
 ## Browser support

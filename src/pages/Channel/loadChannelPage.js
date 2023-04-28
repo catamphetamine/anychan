@@ -16,6 +16,7 @@ export default async function loadChannelPage({
 	dispatch,
 	userData,
 	userSettings,
+	dataSource,
 	getCurrentChannel,
 	settings,
 	channelView,
@@ -38,7 +39,8 @@ export default async function loadChannelPage({
 		sortByRating: channelView === 'popular',
 		http: getHttpClient(),
 		userData,
-		userSettings
+		userSettings,
+		dataSource
 	})
 
 	dispatch(setChannelThreads({ channelId, threads }))

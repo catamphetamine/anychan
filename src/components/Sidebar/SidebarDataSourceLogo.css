@@ -1,0 +1,31 @@
+@import "../../styles/common.css";
+
+:root {
+	--Sidebar-DataSourceLogo-width: 1em;
+	--Sidebar-DataSourceLogo-marginRight: 0.4em;
+}
+
+.SidebarDataSourceLogo {
+	display: flex;
+	justify-content: center;
+	flex: 1;
+	font-size: 1.5rem;
+	font-weight: 300;
+}
+
+.SidebarDataSourceLogo-link {
+	display: flex;
+	align-items: center;
+	color: inherit;
+}
+
+.SidebarDataSourceLogo-image {
+	height: var(--Sidebar-DataSourceLogo-width);
+	margin-right: var(--Sidebar-DataSourceLogo-marginRight);
+}
+
+.SidebarDataSourceLogo-image--placeholder {
+	visibility: hidden;
+	margin-left: var(--Sidebar-DataSourceLogo-marginRight);
+	margin-right: 0;
+}

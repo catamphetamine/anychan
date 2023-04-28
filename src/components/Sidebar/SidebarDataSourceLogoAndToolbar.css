@@ -1,7 +1,7 @@
-.SidebarProviderLogoAndToolbar {
+.SidebarDataSourceLogoAndToolbar {
 	/* These CSS variables value assignments are placed here
-	   rather than in `.SidebarProviderLogoAndToolbar-toolbar` because
-	   they're also used in the left-side spacing of provider logo in the sidebar. */
+	   rather than in `.SidebarDataSourceLogoAndToolbar-toolbar` because
+	   they're also used in the left-side spacing of data source logo in the sidebar. */
 	--SidebarMenuItem-icon-width: 1.1em;
 	--SidebarMenuItem-marginRight: 0.6em;
 
@@ -16,7 +16,7 @@
 	padding-left: calc(var(--SidebarMenuItem-icon-width) + var(--SidebarMenuItem-marginRight) + var(--SidebarMenuItem-icon-width));
 }
 
-.SidebarProviderLogoAndToolbar-toolbar {
+.SidebarDataSourceLogoAndToolbar-toolbar {
 	display: flex;
 	align-items: center;
 }

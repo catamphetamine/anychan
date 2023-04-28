@@ -5,22 +5,23 @@ import classNames from 'classnames'
 
 import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
-import ProviderIcon from '../ProviderIcon.js'
-import ProviderLogo from '../ProviderLogo.js'
+import DataSourceIcon from '../DataSourceIcon.js'
+import DataSourceLogo from '../DataSourceLogo.js'
 
 import useRoute from '../../hooks/useRoute.js'
-
-import { getProvider } from '../../provider.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
 import './HomePageLink.css'
 
 // This component is not used.
 export default function HomePageLink({ withLabel }) {
 	const route = useRoute()
+	const dataSource = useDataSource()
+
 	const locationPathname = route.location.pathname
 	const isHomePage = locationPathname === '/'
 
-	const title = getProvider().title
+	const title = dataSource.title
 
 	return (
 		<SidebarMenuItem
@@ -38,15 +39,15 @@ HomePageLink.propTypes = {
 	withLabel: PropTypes.bool
 }
 
-function HomePageIcon({ providerId, ...rest }) {
-	if (providerId === 'lainchan' || providerId === 'arisuchan') {
-		return <ProviderLogo {...rest}/>
+function HomePageIcon({ dataSourceId, ...rest }) {
+	if (dataSourceId === 'lainchan' || dataSourceId === 'arisuchan') {
+		return <DataSourceLogo {...rest}/>
 	}
-	return <ProviderIcon {...rest}/>
+	return <DataSourceIcon {...rest}/>
 }
 
 HomePageIcon.propTypes = {
-	providerId: PropTypes.string.isRequired
+	dataSourceId: PropTypes.string.isRequired
 }
 
 // Using `0.1` instead of `0` and `2.9` instead of `3.0` here

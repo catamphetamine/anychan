@@ -10,6 +10,7 @@ import {
 
 import getUserData from '../../UserData.js'
 import getUserSettings from '../../UserSettings.js'
+import { getDataSource } from '../../dataSource.js'
 
 import getMessages from '../../messages/index.js'
 
@@ -169,6 +170,7 @@ ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
 		dispatch,
 		userData: getUserData(),
 		userSettings: getUserSettings(),
+		dataSource: getDataSource(),
 		getCurrentChannel: () => getState().data.channel,
 		settings,
 		channelView: settings.channelView,

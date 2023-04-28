@@ -1,13 +1,13 @@
 import React, { StrictMode } from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 
 export default function ApplicationWrapper({ store, children }) {
 	return (
 		<StrictMode>
-			<Provider store={store}>
+			<ReduxProvider store={store}>
 				{children}
-			</Provider>
+			</ReduxProvider>
 		</StrictMode>
 	)
 }

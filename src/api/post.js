@@ -1,14 +1,13 @@
-import { getProvider } from '../provider.js'
-
 export default async function post({
 	channelId,
 	threadId,
 	commentId,
 	http,
 	userSettings,
+	dataSource,
 	...rest
 }) {
-	return await getProvider().api.post({
+	return await dataSource.api.post({
 		channelId,
 		threadId,
 		commentId,

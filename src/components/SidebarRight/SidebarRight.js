@@ -9,8 +9,8 @@ import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
 import AvailableChannelsSidebarSection from '../SidebarSections/AvailableChannelsSidebarSection.js'
 import FavoriteChannelsSidebarSection from '../SidebarSections/FavoriteChannelsSidebarSection.js'
 import SubscribedThreadsSidebarSection from '../SidebarSections/SubscribedThreadsSidebarSection.js'
-import ProviderLogoAndToolbarSidebarSection from '../SidebarSections/ProviderLogoAndToolbarSidebarSection.js'
-import SourcesSidebarSection from '../SidebarSections/SourcesSidebarSection.js'
+import DataSourceLogoAndToolbarSidebarSection from '../SidebarSections/DataSourceLogoAndToolbarSidebarSection.js'
+import DataSourcesSidebarSection from '../SidebarSections/DataSourcesSidebarSection.js'
 
 import './SidebarRight.css'
 
@@ -22,11 +22,11 @@ export default function SidebarRight() {
 		<Sidebar className={classNames('SidebarRight', {
 			'Sidebar--show': isSidebarShown
 		})}>
-			<ProviderLogoAndToolbarSidebarSection/>
+			<DataSourceLogoAndToolbarSidebarSection/>
 			<SubscribedThreadsSidebarSection/>
 			<FavoriteChannelsSidebarSection/>
 			<AvailableChannelsSidebarSection/>
-			<SourcesSidebarSection/>
+			<DataSourcesSidebarSection/>
 		</Sidebar>
 	)
 }

@@ -1,4 +1,3 @@
-import { getProvider } from '../provider.js'
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
@@ -13,11 +12,10 @@ export default async function getThreads({
 	withLatestComments,
 	sortByRating,
 	userData,
-	userSettings
+	userSettings,
+	dataSource
 }) {
-	const provider = getProvider()
-
-	const { threads, hasMoreThreads } = await provider.api.getThreads({
+	const { threads, hasMoreThreads } = await dataSource.api.getThreads({
 		channelId,
 		withLatestComments,
 		sortByRating,
@@ -68,7 +66,8 @@ export default async function getThreads({
 			// messages,
 			locale,
 			grammarCorrection,
-			censoredWords
+			censoredWords,
+			dataSource
 		})
 
 		const comment = thread.comments[0]

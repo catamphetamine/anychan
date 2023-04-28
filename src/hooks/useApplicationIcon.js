@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { updateApplicationIcon } from '../utility/applicationIcon.js'
-import { getProvider } from '../provider.js'
+
+import useDataSource from '../hooks/useDataSource.js'
 
 export default function useApplicationIcon() {
+	const dataSource = useDataSource()
+
 	const autoUpdateUnreadCommentsCount = useSelector(state => state.data.autoUpdateUnreadCommentsCount)
 	const autoUpdateUnreadRepliesCount = useSelector(state => state.data.autoUpdateUnreadRepliesCount)
 
@@ -12,7 +15,7 @@ export default function useApplicationIcon() {
 	const [hasNewReplies, setHasNewReplies] = useState()
 
 	useEffect(() => {
-		// updateApplicationIcon(getProvider().icon, {
+		// updateApplicationIcon(dataSource.icon, {
 		// 	notificationsCount: autoUpdateUnreadCommentsCount
 		// 	notificationsAreImportant: ...
 		// })
@@ -25,17 +28,18 @@ export default function useApplicationIcon() {
 
 	useEffect(() => {
 		if (hasNewComments || hasNewReplies) {
-			updateApplicationIcon(getProvider().icon, {
+			updateApplicationIcon(dataSource.icon, {
 				notificationsCount: 1,
 				notificationsAreImportant: hasNewReplies
 			})
 		} else {
-			updateApplicationIcon(getProvider().icon, {
+			updateApplicationIcon(dataSource.icon, {
 				notificationsCount: 0
 			})
 		}
 	}, [
 		hasNewComments,
-		hasNewReplies
+		hasNewReplies,
+		dataSource
 	])
 }

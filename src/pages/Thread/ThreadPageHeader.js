@@ -9,7 +9,6 @@ import useOnChannelLinkClick from '../../components/useOnChannelLinkClick.js'
 import ThreadTitle from '../../components/ThreadTitle.js'
 import Toolbar from '../../components/Toolbar.js'
 import ThreadActivityIndicator from '../../components/ThreadActivityIndicator.js'
-import ProviderLogo from '../../components/ProviderLogo.js'
 import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
 import ChannelThreadHeaderSource from '../../components/ChannelThreadHeaderSource.js'
 

@@ -6,6 +6,7 @@ import { saveChannelView } from '../../redux/settings.js'
 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
 import loadChannelPage from '../../pages/Channel/loadChannelPage.js'
 
@@ -28,6 +29,7 @@ export default function useChannelView({
 	const dispatch = useDispatch()
 	const userData = useUserData()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 
 	// Added `isSettingChannelView` flag to disable Toolbar channel view selection buttons
 	// while it's loading.
@@ -49,6 +51,7 @@ export default function useChannelView({
 				dispatch,
 				userData,
 				userSettings,
+				dataSource,
 				getCurrentChannel: () => channel,
 				settings,
 				channelView: view,

@@ -6,12 +6,12 @@ import classNames from 'classnames'
 import Markup from './Markup.js'
 
 import getConfiguration from '../configuration.js'
-import { getProvider } from '../provider.js'
 import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
 import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
+import useDataSource from '../hooks/useDataSource.js'
 
 import { Content } from 'social-components-react/components/PostContent.js'
 
@@ -23,6 +23,7 @@ export default function Footer({ className }) {
 	const offline = useSelector(state => state.app.offline)
 	const messages = useMessages()
 	const route = useRoute()
+	const dataSource = useDataSource()
 
 	return (
 		<footer className={classNames(className, 'Footer', 'Content', {
@@ -35,13 +36,13 @@ export default function Footer({ className }) {
 					fullWidth={getConfiguration().footerMarkupFullWidth}
 					className="Footer-banner"/>
 			}
-			{getProvider() && getProvider().links &&
-				<FooterLinks links={getProvider().links}/>
+			{dataSource && dataSource.links &&
+				<FooterLinks links={dataSource.links}/>
 			}
 			<div className="Footer-notes">
-				{getProvider() && getProvider().footnotes &&
+				{dataSource && dataSource.footnotes &&
 					<Content>
-						{getProvider().footnotes}
+						{dataSource.footnotes}
 					</Content>
 				}
 				<p>
@@ -72,7 +73,7 @@ Footer.propTypes = {
 }
 
 // const COPYRIGHT_REPORT = {
-// 	_html: getProvider().copyrightReport
+// 	_html: getDataSource().copyrightReport
 // }
 
 // footnotes.replace('{year}', (new Date()).getFullYear())

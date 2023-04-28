@@ -14,7 +14,7 @@ import {
 } from '../../PropTypes.js'
 
 import getMessages from '../../messages/index.js'
-import { getThreadUrl, getCommentUrl } from '../../provider.js'
+import { getThreadUrl, getCommentUrl } from '../../dataSource.js'
 
 import './CommentMoreActions.css'
 
@@ -93,7 +93,7 @@ export default function CommentMoreActions({
 
 		if (mode === 'thread') {
 			// "Show original comment".
-			// (redirects to the original provider website)
+			// (redirects to the original data source website)
 			actions.push({
 				label: messages.post.moreActions.showOriginalComment,
 				onClick: () => {

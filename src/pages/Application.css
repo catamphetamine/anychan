@@ -147,7 +147,7 @@
 		top: 0;
 		right: 0;
 		bottom: var(--FooterMenu-height);
-		z-index: var(--sidebar-z-index);
+		z-index: var(--Sidebar-zIndex);
 		/*background-color: var(--Sidebar-backgroundColor--collapsible);*/
 	}
 	.Document--leftHanded {

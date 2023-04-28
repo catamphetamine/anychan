@@ -11,12 +11,12 @@ export default function getUserSettings() {
 	return userSettings
 }
 
-// `getPrefix()` result depends on the current provider,
-// and the current provider is not known beforhand
+// `getPrefix()` result depends on the current dataSource,
+// and the current data source is not known beforhand
 // and is determined either from the current URL
 // or from the configuration file.
 // That means that the default `UserSettings` instance can't be created
-// before the current provider has been set, which means that
+// before the current data source has been set, which means that
 // the default `UserSettings` should be created in a later function call
 // rather than immediately at the top level of the file.
 function createUserSettings() {

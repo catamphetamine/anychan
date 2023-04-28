@@ -32,7 +32,8 @@ export default function addCommentProps(thread, {
 	// messages,
 	grammarCorrection,
 	censoredWords,
-	locale
+	locale,
+	dataSource
 }) {
 	if (fromIndex === 0) {
 		addRootCommentProps(thread)
@@ -93,6 +94,7 @@ export default function addCommentProps(thread, {
 			grammarCorrection,
 			censoredWords,
 			locale,
+			dataSource,
 			// messages
 		})
 
