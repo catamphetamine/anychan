@@ -335,7 +335,7 @@ function ThreadPage() {
 ThreadPage.meta = getThreadPageMeta
 
 ThreadPage.load = async ({
-	getState,
+	useSelector,
 	dispatch,
 	location,
 	params
@@ -347,7 +347,7 @@ ThreadPage.load = async ({
 	} = getContext()
 
 	await loadThreadPage({
-		getState,
+		useSelector,
 		dispatch,
 		location,
 		params,

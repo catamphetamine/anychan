@@ -16,7 +16,10 @@ export default function useChannelView({
 	onChannelViewWillChange,
 	onChannelViewDidChange
 }) {
-	const settings = useSetting(settings => settings)
+	const censoredWords = useSetting(settings => settings.censoredWords)
+	const grammarCorrection = useSetting(settings => settings.grammarCorrection)
+	const locale = useSetting(settings => settings.locale)
+	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
 
 	// Cancel any potential running `loadChannelPage()` function
 	// when navigating away from this page.
@@ -49,14 +52,17 @@ export default function useChannelView({
 			// Refresh the page.
 			await loadChannelPage({
 				channelId: channel.id,
+				useChannel: () => channel,
 				dispatch,
 				userData,
 				userSettings,
 				dataSource,
-				getCurrentChannel: () => channel,
-				settings,
-				channelView: view,
-				wasCancelled
+				wasCancelled,
+				censoredWords,
+				grammarCorrection,
+				locale,
+				autoSuggestFavoriteChannels,
+				channelView: view
 			})
 
 			if (wasCancelled()) {
@@ -80,7 +86,10 @@ export default function useChannelView({
 		userData,
 		userSettings,
 		channel,
-		settings
+		censoredWords,
+		grammarCorrection,
+		locale,
+		autoSuggestFavoriteChannels
 	])
 
 	return {

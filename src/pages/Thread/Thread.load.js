@@ -7,10 +7,12 @@ import {
 import getThread from '../../utility/thread/getThread.js'
 import getLatestReadCommentIndex from '../../utility/thread/getLatestReadCommentIndex.js'
 
+import useSetting from '../../hooks/useSetting.js'
+
 import getFromIndex from './getFromIndex.js'
 
 export default async function loadThreadPage({
-	getState,
+	useSelector,
 	dispatch,
 	location,
 	userData,
@@ -23,11 +25,11 @@ export default async function loadThreadPage({
 }) {
 	threadId = Number(threadId)
 
-	const {
-		censoredWords,
-		grammarCorrection,
-		locale
-	} = getState().settings.settings
+	const useSetting_ = (getter) => useSetting(getter, { useSelector })
+
+	const censoredWords = useSetting_(settings => settings.censoredWords)
+	const grammarCorrection = useSetting_(settings => settings.grammarCorrection)
+	const locale = useSetting_(settings => settings.locale)
 
 	const thread = await getThread({ channelId, threadId }, {
 		// `afterCommentId`/`afterCommentsCount` feature isn't currently used,

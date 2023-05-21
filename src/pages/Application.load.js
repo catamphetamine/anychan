@@ -14,7 +14,6 @@ import getConfiguration from '../configuration.js'
 
 export default async function loadApplication({
 	dispatch,
-	getState,
 	location,
 	userData,
 	userSettings,

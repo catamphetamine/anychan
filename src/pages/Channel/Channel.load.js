@@ -13,22 +13,18 @@ import { getHttpClient } from 'react-pages'
 
 export default async function loadChannelPage({
 	channelId,
+	useChannel,
 	dispatch,
 	userData,
 	userSettings,
 	dataSource,
-	getCurrentChannel,
-	settings,
+	censoredWords,
+	grammarCorrection,
+	locale,
+	autoSuggestFavoriteChannels,
 	channelView,
 	wasCancelled
 }) {
-	const {
-		censoredWords,
-		grammarCorrection,
-		locale,
-		autoSuggestFavoriteChannels
-	} = settings
-
 	const threads = await getThreads({
 		channelId,
 		censoredWords,
@@ -68,7 +64,7 @@ export default async function loadChannelPage({
 	// 	sortByRating: channelView === 'popular'
 	// }))
 
-	const channel = getCurrentChannel()
+	const channel = useChannel()
 
 	if (wasCancelled()) {
 		return

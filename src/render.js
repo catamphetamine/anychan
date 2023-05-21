@@ -9,7 +9,7 @@ import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVi
 
 export default async function() {
 	let isFirstRender = true
-	let currentRoute
+	let currentPage
 
 	// Renders the webpage on the client side
 	const { enableHotReload } = await render(getReactPagesConfig(), {
@@ -20,11 +20,14 @@ export default async function() {
 			// when deciding whether should navigate "back".
 			window._isNavigationInProgress = true
 		},
-		onNavigate(url, location, { dispatch, getState }) {
-			// `window._previouslyVisitedRoute` is used in `<SideNavMenuButton/>`.
-			// `window._previouslyVisitedRoute` could alternatively be stored somewhere in Redux state.
-			window._previouslyVisitedRoute = currentRoute
-			currentRoute = getState().found.match
+		onNavigate({ url, location, params, dispatch, useSelector }) {
+			// `window._previouslyVisitedPage` is used in `<SideNavMenuButton/>`.
+			// `window._previouslyVisitedPage` could alternatively be stored somewhere in Redux state.
+			window._previouslyVisitedPage = currentPage
+			currentPage = {
+				location,
+				params
+			}
 
 			window._onNavigate({ dispatch })
 

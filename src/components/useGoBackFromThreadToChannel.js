@@ -22,9 +22,9 @@ export default function useGoBackFromThreadToChannel({ channelId }) {
 		dispatch(goto(`/${channelId}`))
 	}, [dispatch, channelId])
 
-	const previousRoute = window._previouslyVisitedRoute
+	const previouslyVisitedPage = window._previouslyVisitedPage
 
-	if (previousRoute && isChannelPage(previousRoute) && canGoBackInstantly()) {
+	if (previouslyVisitedPage && isChannelPage(previouslyVisitedPage) && canGoBackInstantly()) {
 		return onGoBackInstantly
 	}
 

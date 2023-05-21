@@ -16,6 +16,7 @@ import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 import ChannelThread from './ChannelThread.js'
 import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
+import useSetting from '../../hooks/useSetting.js'
 import useLocale from '../../hooks/useLocale.js'
 import useUserData from '../../hooks/useUserData.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
@@ -162,7 +163,7 @@ function ChannelPage() {
 ChannelPage.meta = getChannelPageMeta
 
 ChannelPage.load = async ({
-	getState,
+	useSelector,
 	dispatch,
 	params: { channelId }
 }) => {
@@ -172,18 +173,21 @@ ChannelPage.load = async ({
 		dataSource
 	} = getContext()
 
-	const settings = getState().settings.settings
+	const useSetting_ = (getter) => useSetting(getter, { useSelector })
 
 	return await loadChannelPage({
 		channelId,
+		useChannel: () => useSelector(state => state.data.channel),
 		dispatch,
 		userData,
 		userSettings,
 		dataSource,
-		getCurrentChannel: () => getState().data.channel,
-		settings,
-		channelView: settings.channelView,
-		wasCancelled: () => false
+		wasCancelled: () => false,
+		censoredWords: useSetting_(settings => settings.censoredWords),
+		grammarCorrection: useSetting_(settings => settings.grammarCorrection),
+		locale: useSetting_(settings => settings.locale),
+		autoSuggestFavoriteChannels: useSetting_(settings => settings.autoSuggestFavoriteChannels),
+		channelView: useSetting_(settings => settings.channelView)
 	})
 }
 

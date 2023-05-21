@@ -120,7 +120,7 @@ Application.propTypes = {
 	children: PropTypes.node
 }
 
-Application.load = async ({ dispatch, getState, location }) => {
+Application.load = async ({ dispatch, useSelector, location }) => {
 	const {
 		userData,
 		userSettings,
@@ -129,7 +129,6 @@ Application.load = async ({ dispatch, getState, location }) => {
 
 	await loadApplication({
 		dispatch,
-		getState,
 		location,
 		userData,
 		userSettings,

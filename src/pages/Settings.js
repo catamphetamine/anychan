@@ -81,14 +81,6 @@ SettingsPage.meta = ({ useSelector, props }) => {
 	}
 }
 
-// SettingsPage.load = async () => {
-// 	return {
-// 		props: {
-// 			a: 'b'
-// 		}
-// 	}
-// }
-
 function Settings({
 	settings
 }) {
