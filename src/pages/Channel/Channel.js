@@ -8,10 +8,6 @@ import {
 	setScrollPosition
 } from '../../redux/channel.js'
 
-import getUserData from '../../UserData.js'
-import getUserSettings from '../../UserSettings.js'
-import { getDataSource } from '../../dataSource.js'
-
 import getMessages from '../../messages/index.js'
 
 import CommentsList from '../../components/CommentsList.js'
@@ -26,8 +22,10 @@ import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useOnThreadClick from '../../components/useOnThreadClick.js'
 
-import getChannelPageMeta from './getChannelPageMeta.js'
-import loadChannelPage from './loadChannelPage.js'
+import { getContext } from '../../context.js'
+
+import getChannelPageMeta from './Channel.meta.js'
+import loadChannelPage from './Channel.load.js'
 
 import './Channel.css'
 
@@ -163,14 +161,25 @@ function ChannelPage() {
 
 ChannelPage.meta = getChannelPageMeta
 
-ChannelPage.load = async ({ getState, dispatch, params: { channelId } }) => {
+ChannelPage.load = async ({
+	getState,
+	dispatch,
+	params: { channelId }
+}) => {
+	const {
+		userData,
+		userSettings,
+		dataSource
+	} = getContext()
+
 	const settings = getState().settings.settings
+
 	return await loadChannelPage({
 		channelId,
 		dispatch,
-		userData: getUserData(),
-		userSettings: getUserSettings(),
-		dataSource: getDataSource(),
+		userData,
+		userSettings,
+		dataSource,
 		getCurrentChannel: () => getState().data.channel,
 		settings,
 		channelView: settings.channelView,

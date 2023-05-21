@@ -5,11 +5,12 @@ import AvailableChannels from '../AvailableChannels.js'
 import SidebarSection from '../Sidebar/SidebarSection.js'
 
 import useMessages from '../../hooks/useMessages.js'
+import useSetting from '../../hooks/useSetting.js'
 
 export default function AvailableChannelsSidebarSection() {
 	const messages = useMessages()
 
-	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
+	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 
 	let title

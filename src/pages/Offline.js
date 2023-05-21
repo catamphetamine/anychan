@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import getMessages from '../messages/index.js'
+import useMessages from '../hooks/useMessages.js'
 
 import ErrorPage from './Error.js'
 
@@ -14,6 +14,9 @@ export default function Offline() {
 	return <ErrorPage status={503}/>
 }
 
-Offline.meta = ({ settings }) => ({
-	title: getMessages(settings.settings.locale).errorPages['503'].title
-})
+Offline.meta = ({ useSelector }) => {
+	const messages = useMessages({ useSelector })
+	return {
+		title: messages.errorPages['503'].title
+	}
+}

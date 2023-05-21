@@ -7,6 +7,7 @@ import SidebarSection from '../Sidebar/SidebarSection.js'
 import EditFavoriteChannels from '../EditFavoriteChannels.js'
 
 import useMessages from '../../hooks/useMessages.js'
+import useSetting from '../../hooks/useSetting.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
 
@@ -20,7 +21,7 @@ export default function FavoriteChannelsSidebarSection() {
 
 	const moreButtonRef = useRef()
 
-	const autoSuggestFavoriteChannels = useSelector(state => state.settings.settings.autoSuggestFavoriteChannels)
+	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
 

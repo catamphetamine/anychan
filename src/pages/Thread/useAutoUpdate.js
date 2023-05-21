@@ -5,6 +5,7 @@ import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 import useLocale from '../../hooks/useLocale.js'
 import useUserData from '../../hooks/useUserData.js'
+import useSetting from '../../hooks/useSetting.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
 
@@ -50,8 +51,8 @@ export default function useAutoUpdate({
 	const thread = useSelector(state => state.data.thread)
 	const threadRefreshedAt = useSelector(state => state.data.threadRefreshedAt)
 
-	const censoredWords = useSelector(state => state.settings.settings.censoredWords)
-	const grammarCorrection = useSelector(state => state.settings.settings.grammarCorrection)
+	const censoredWords = useSetting(settings => settings.censoredWords)
+	const grammarCorrection = useSetting(settings => settings.grammarCorrection)
 
 	const userData = useUserData()
 	const userSettings = useSettings()

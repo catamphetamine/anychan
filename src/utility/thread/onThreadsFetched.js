@@ -58,7 +58,7 @@ export default function onThreadsFetched(channelId, threads, {
 // 	threadArchive,
 // 	threadArchiveLifetime,
 // 	threadArchiveLifetimeInfinite
-// } = getDataSource()
+// } = dataSource
 
 // // See if any of the subscribed threads have expired.
 // // if some threads are missing from the `threads` list

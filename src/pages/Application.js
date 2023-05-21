@@ -25,6 +25,9 @@ import useApplicationIcon from '../hooks/useApplicationIcon.js'
 import onApplicationStarted from '../utility/onApplicationStarted.js'
 import onBeforeNavigate from '../utility/onBeforeNavigate.js'
 import onNavigate from '../utility/onNavigate.js'
+import { getDefaultThemeId } from '../utility/settings/settingsDefaults.js'
+
+import { getContext } from '../context.js'
 
 import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
@@ -36,6 +39,7 @@ import { markAnnouncementAsRead } from '../redux/announcement.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
+import useTheme from '../hooks/useTheme.js'
 
 import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
 import isThreadPage from '../utility/routes/isThreadPage.js'
@@ -44,12 +48,13 @@ import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
 import getUserData from '../UserData.js'
 import getUserSettings from '../UserSettings.js'
+import { getDataSource } from '../dataSource.js'
 
+import getApplicationMeta from './Application.meta.js'
 import loadApplication from './Application.load.js'
 
 import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/announcement.js'
 
-import { getDataSource } from '../dataSource.js'
 import getConfiguration from '../configuration.js'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
@@ -115,19 +120,24 @@ Application.propTypes = {
 	children: PropTypes.node
 }
 
-Application.load = {
-	load: async ({ dispatch, getState, location }) => {
-		await loadApplication({
-			dispatch,
-			getState,
-			location,
-			userData: getUserData(),
-			userSettings: getUserSettings(),
-			dataSource: getDataSource()
-		})
-	},
-	blocking: true
+Application.load = async ({ dispatch, getState, location }) => {
+	const {
+		userData,
+		userSettings,
+		dataSource
+	} = getContext()
+
+	await loadApplication({
+		dispatch,
+		getState,
+		location,
+		userData,
+		userSettings,
+		dataSource
+	})
 }
+
+Application.meta = getApplicationMeta
 
 function App({
 	children
@@ -142,7 +152,7 @@ function App({
 
 	const [initialized, setInitialized] = useState()
 
-	const theme = useSelector(state => state.settings.settings.theme)
+	const theme = useTheme()
 
 	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
 	const offline = useSelector(state => state.app.offline)

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 
 import Channels from './Channels.js'
 
+import useSetting from '../hooks/useSetting.js'
+
 export default function AvailableChannels(props) {
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 
@@ -24,7 +26,7 @@ export default function AvailableChannels(props) {
 	const _channelsByPopularity = useMemo(() => exceptFavoriteChannels(channelsByPopularity), [channelsByPopularity, exceptFavoriteChannels])
 	const _channelsByCategory = useMemo(() => exceptFavoriteChannels(channelsByCategory), [channelsByCategory, exceptFavoriteChannels])
 
-	const channelsView = useSelector(state => state.settings.settings.channelsView)
+	const channelsView = useSetting(settings => settings.channelsView)
 
 	return (
 		<Channels

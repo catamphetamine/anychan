@@ -5,6 +5,7 @@ import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
 import ChannelHeader from '../ChannelHeader/ChannelHeader.js'
 
 import useRoute from '../../hooks/useRoute.js'
+import useSetting from '../../hooks/useSetting.js'
 
 import isThreadPage from '../../utility/routes/isThreadPage.js'
 import isChannelPage from '../../utility/routes/isChannelPage.js'
@@ -13,7 +14,7 @@ import './ChannelThreadsSidebarStickyHeader.css'
 
 export default function ChannelThreadsSidebarStickyHeader() {
 	const threads = useSelector(state => state.data.threads)
-	const { channelView } = useSelector(state => state.settings.settings)
+	const channelView = useSetting(settings => settings.channelView)
 
 	const route = useRoute()
 	const isChannelOrThreadPage = isChannelPage(route) || isThreadPage(route)

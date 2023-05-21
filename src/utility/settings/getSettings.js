@@ -2,7 +2,7 @@ import compileWordPatterns from 'social-components/utility/post/compileWordPatte
 
 import getLanguageFromLocale from '../getLanguageFromLocale.js'
 import getCensoredWordsByLanguage from '../getCensoredWordsByLanguage.js'
-import getDefaultSettings from './settingsDefaults.js'
+import { getDefaultSettings } from './settingsDefaults.js'
 
 export default function getSettings({ userSettings }) {
 	const settings = {

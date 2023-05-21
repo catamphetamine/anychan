@@ -1,4 +1,4 @@
-import Imageboard, { getConfig } from 'imageboard'
+import Imageboard from 'imageboard'
 
 import isDeployedOnDataSourceDomain from '../../utility/source/isDeployedOnDataSourceDomain.js'
 

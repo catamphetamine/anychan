@@ -222,10 +222,10 @@ function DataSourceSuppliedCountryFlagBadge({ className, ...rest }) {
 }
 
 function DataSourceSuppliedCountryFlag({ name, url, ...rest }) {
-	// let url = getDataSource().countryFlagUrl
+	// let url = dataSource.countryFlagUrl
 	// // Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
 	// // https://2ch.hk/icons/logos/krym.gif
-	// if (getDataSource().id === '2ch' && country === 'krym') {
+	// if (dataSource.id === '2ch' && country === 'krym') {
 	// 	url = url.replace(/\.png$/, '.gif')
 	// }
 	// Transform relative URL to an absolute one.

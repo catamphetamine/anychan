@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-pages'
 import classNames from 'classnames'
 
-import getMessages from '../messages/index.js'
+import useMessages from '../hooks/useMessages.js'
 
 import ErrorPage from './Error.js'
 
@@ -14,6 +14,9 @@ export default function NotFound() {
 	return <ErrorPage status={404}/>
 }
 
-NotFound.meta = ({ settings }) => ({
-	title: getMessages(settings.settings.locale).errorPages['404'].title
-})
+NotFound.meta = ({ useSelector }) => {
+	const messages = useMessages({ useSelector })
+	return {
+		title: messages.errorPages['404'].title
+	}
+}

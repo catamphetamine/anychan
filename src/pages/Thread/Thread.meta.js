@@ -1,4 +1,6 @@
-export default function getThreadPageMeta({ data: { channel, thread }}) {
+export default function getThreadPageMeta({ useSelector }) {
+	const channel = useSelector(state => state.data.channel)
+	const thread = useSelector(state => state.data.thread)
 	return {
 		title: thread && ('/' + channel.id + '/' + ' — ' + thread.titleCensored),
 		description: thread && thread.comments[0].textPreviewForPageDescription,

@@ -1,17 +1,18 @@
 import { render } from 'react-pages/client'
 
+import { getContext } from './context.js'
 import getReactPagesConfig from './react-pages.js'
 import getConfiguration from './configuration.js'
 import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVirtualScrollerDevModePageLoadWarnings.js'
 
 // import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-export default async function({ userData }) {
+export default async function() {
 	let isFirstRender = true
 	let currentRoute
 
 	// Renders the webpage on the client side
-	const result = await render(getReactPagesConfig(), {
+	const { enableHotReload } = await render(getReactPagesConfig(), {
 		onBeforeNavigate({ dispatch, location, params }) {
 			window._onBeforeNavigate({ dispatch })
 
@@ -48,6 +49,7 @@ export default async function({ userData }) {
 
 			// Flush cached `localStorage`.
 			// (writes cached `latestReadComments` and `latestSeenThreads`).
+			const { userData } = getContext()
 			userData.storage.flush()
 
 			// Set up Google Analytics.
@@ -91,20 +93,8 @@ export default async function({ userData }) {
 		}
 	})
 
-	// If there was an error during the initial rendering
-	// then `result` will be `undefined`.
-	if (result) {
-		const { store } = result
-		// Webpack "Hot Module Replacement"
-		if (import.meta.webpackHot) {
-			// Updates Redux "reducers" and actions.
-			window.hotReloadRedux = ({ reducers }) => {
-				store.hotReload(reducers)
-			}
-			// If if a hot reload has been requested before the page finished rendering.
-			if (window.hotReloadReduxOnLoad) {
-				window.hotReloadRedux(window.hotReloadReduxOnLoad)
-			}
-		}
+	// Enables hot-reload via Webpack "Hot Module Replacement".
+	if (import.meta.webpackHot) {
+		enableHotReload()
 	}
 }

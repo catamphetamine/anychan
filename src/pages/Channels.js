@@ -11,10 +11,9 @@ import { channel as channelType } from '../PropTypes.js'
 import { getChannels } from '../redux/data.js'
 import getUrl from '../utility/getUrl.js'
 
-import getUserSettings from '../UserSettings.js'
-import { getDataSource } from '../dataSource.js'
-
 import getMessages from '../messages/index.js'
+
+import { getContext } from '../context.js'
 
 import './Channels.css'
 
@@ -37,15 +36,23 @@ export default function ChannelsPage() {
 	)
 }
 
-ChannelsPage.meta = ({ settings }) => ({
-	title: getMessages(settings.settings.locale).boards.title
-})
+ChannelsPage.meta = ({ useSelector }) => {
+	const messages = useMessages({ useSelector })
+	return {
+		title: messages.boards.title
+	}
+}
 
-ChannelsPage.load = async ({ dispatch }) => {
+ChannelsPage.load = async ({ dispatch, getContext }) => {
+	const {
+		userSettings,
+		dataSource
+	} = getContext()
+
 	await dispatch(getChannels({
 		all: true,
-		userSettings: getUserSettings(),
-		dataSource: getDataSource()
+		userSettings,
+		dataSource
 	}))
 }
 

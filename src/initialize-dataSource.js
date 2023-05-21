@@ -90,7 +90,7 @@ export default function() {
 	if (!dataSource) {
 		throw new Error(`No data source ID has been set. Either set a default data source ID in configuration, or pass data source ID as part of the URL (example: "${location.origin}${getBasePath({ dataSourceId: '4chan' })}").`)
 	}
-	setDataSourceById(dataSource.id, { alias: dataSource.alias, multiDataSource })
+	const dataSourceInfo = setDataSourceById(dataSource.id, { alias: dataSource.alias, multiDataSource })
 	// Apply data source icon as a website icon.
 	if (dataSource.icon) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
@@ -111,4 +111,5 @@ export default function() {
 	// if (dataSource === '4chan') {
 	// 	document.documentElement.style.setProperty('--Slideshow-Slide-backgroundColor', '#d3d9f1')
 	// }
+	return dataSourceInfo
 }

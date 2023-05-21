@@ -67,5 +67,8 @@ export default async function() {
 		condition: () => userSettings.requiresMigration()
 	})
 
-	return { userData }
+	return {
+		userData,
+		userSettings
+	}
 }

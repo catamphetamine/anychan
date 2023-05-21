@@ -5,17 +5,18 @@ import { setChannelView } from '../../redux/channel.js'
 import { saveChannelView } from '../../redux/settings.js'
 
 import useUserData from '../../hooks/useUserData.js'
+import useSetting from '../../hooks/useSetting.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
 
-import loadChannelPage from '../../pages/Channel/loadChannelPage.js'
+import loadChannelPage from '../../pages/Channel/Channel.load.js'
 
 export default function useChannelView({
 	channel,
 	onChannelViewWillChange,
 	onChannelViewDidChange
 }) {
-	const settings = useSelector(state => state.settings.settings)
+	const settings = useSetting(settings => settings)
 
 	// Cancel any potential running `loadChannelPage()` function
 	// when navigating away from this page.

@@ -32,12 +32,10 @@ import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnail
 import useGoToComment from './useGoToComment.js'
 import useGoBackKeyboardControl from './useGoBackKeyboardControl.js'
 
-import getThreadPageMeta from './getThreadPageMeta.js'
-import loadThreadPage from './loadThreadPage.js'
+import getThreadPageMeta from './Thread.meta.js'
+import loadThreadPage from './Thread.load.js'
 
-import getUserData from '../../UserData.js'
-import getUserSettings from '../../UserSettings.js'
-import { getDataSource } from '../../dataSource.js'
+import { getContext } from '../../context.js'
 
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
@@ -340,17 +338,22 @@ ThreadPage.load = async ({
 	getState,
 	dispatch,
 	location,
-	userData,
 	params
 }) => {
+	const {
+		userData,
+		userSettings,
+		dataSource
+	} = getContext()
+
 	await loadThreadPage({
 		getState,
 		dispatch,
 		location,
 		params,
-		userData: getUserData(),
-		userSettings: getUserSettings(),
-		dataSource: getDataSource()
+		userData,
+		userSettings,
+		dataSource
 	})
 }
 

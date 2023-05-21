@@ -17,9 +17,9 @@ export default [{
 		{ path: 'channels', Component: Channels },
 		{ path: 'settings', Component: Settings },
 		{ path: 'user', Component: UserAccount },
-		{ path: 'error', status: 500, Component: GenericError },
+		{ path: 'error', status: 500, default: true, Component: GenericError },
 		{ path: 'offline', status: 503, Component: Offline },
-		{ path: 'not-found', status: 404, Component: NotFound },
+		{ path: 'not-found', status: 404, default: true, Component: NotFound },
 		{ path: ':channelId', Component: Channel },
 		{ path: ':channelId/:threadId', Component: Thread },
 		{ path: '*', status: 404, Component: NotFound }

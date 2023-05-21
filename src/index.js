@@ -30,6 +30,7 @@ import initializeMiscellaneous from './initialize-miscellaneous.js'
 import initializeIntl from './initialize-intl.js'
 import initializeDataSource from './initialize-dataSource.js'
 import initializeApp from './initialize-app.js'
+import { setContext } from './context.js'
 import renderApp from './render.js'
 
 // Run the application.
@@ -46,9 +47,24 @@ import renderApp from './render.js'
 try {
 	initializeMiscellaneous()
 	initializeIntl()
-	initializeDataSource()
-	const { userData } = await initializeApp()
-	await renderApp({ userData })
+
+	const {
+		dataSource,
+		dataSourceAlias,
+		multiDataSource
+	} = initializeDataSource()
+
+	const { userData, userSettings } = await initializeApp()
+
+	setContext({
+		userData,
+		userSettings,
+		dataSource,
+		dataSourceAlias,
+		multiDataSource
+	})
+
+	await renderApp()
 } catch (error) {
 	console.error(error.stack || error)
 	alert(error.message)

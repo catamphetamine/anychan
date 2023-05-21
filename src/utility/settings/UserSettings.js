@@ -1,4 +1,4 @@
-import getDefaultSettings from './settingsDefaults.js'
+import { getDefaultSettings } from './settingsDefaults.js'
 import migrate from './UserSettings.migrate.js'
 
 // Current version of user settings.

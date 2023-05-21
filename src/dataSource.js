@@ -29,18 +29,18 @@ export function getDataSource() {
 }
 
 export function getDataSourceAlias() {
-	return _dataSource.alias
+	return _dataSource.dataSourceAlias
 }
 
 export function isMultiDataSource() {
 	return _dataSource.multiDataSource
 }
 
-export function setDataSourceById(id, { alias, multiDataSource }) {
+export function setDataSourceById(id, { alias: dataSourceAlias, multiDataSource }) {
 	const dataSource = getCurrentDataSourceById(id)
 	_dataSource = {
 		dataSource,
-		alias,
+		dataSourceAlias,
 		multiDataSource
 	}
 	// Apply customization from configuration.
@@ -56,6 +56,11 @@ export function setDataSourceById(id, { alias, multiDataSource }) {
 		if (getConfiguration()[property] !== undefined) {
 			dataSource[property] = getConfiguration()[property]
 		}
+	}
+	return {
+		dataSource,
+		dataSourceAlias,
+		multiDataSource
 	}
 }
 

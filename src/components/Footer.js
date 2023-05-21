@@ -73,7 +73,7 @@ Footer.propTypes = {
 }
 
 // const COPYRIGHT_REPORT = {
-// 	_html: getDataSource().copyrightReport
+// 	_html: dataSource.copyrightReport
 // }
 
 // footnotes.replace('{year}', (new Date()).getFullYear())

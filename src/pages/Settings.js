@@ -30,12 +30,11 @@ import useDataSource from '../hooks/useDataSource.js'
 
 import { setDarkMode } from '../redux/app.js'
 
-import getMessages, {
-	getLanguageNames
-} from '../messages/index.js'
+import { getLanguageNames } from '../messages/index.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
+import useSetting from '../hooks/useSetting.js'
 import useSettings from '../hooks/useSettings.js'
 import useMeasure from '../hooks/useMeasure.js'
 
@@ -52,9 +51,9 @@ import './Settings.css'
 
 const LANGUAGE_NAMES = getLanguageNames()
 
-export default function SettingsPage() {
+export default function SettingsPage(props) {
 	const messages = useMessages()
-	const settings = useSelector(state => state.settings.settings)
+	const settings = useSetting(settings => settings)
 	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
 	return (
 		<section className="SettingsPage Content Content--text">
@@ -74,9 +73,21 @@ export default function SettingsPage() {
 	)
 }
 
-SettingsPage.meta = ({ settings }) => ({
-	title: getMessages(settings.settings.locale).settings.title
-})
+SettingsPage.meta = ({ useSelector, props }) => {
+	const messages = useMessages({ useSelector })
+	const locale = useSelector(state => state.settings.settings.locale)
+	return {
+		title: messages.settings.title + locale
+	}
+}
+
+// SettingsPage.load = async () => {
+// 	return {
+// 		props: {
+// 			a: 'b'
+// 		}
+// 	}
+// }
 
 function Settings({
 	settings

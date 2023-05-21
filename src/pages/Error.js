@@ -7,7 +7,6 @@ import classNames from 'classnames'
 import ExternalLink from 'frontend-lib/components/ExternalLink.js'
 
 import useDataSource from '../hooks/useDataSource.js'
-import getMessages from '../messages/index.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
@@ -69,9 +68,12 @@ ErrorPage.defaultProps = {
 	status: 500
 }
 
-ErrorPage.meta = ({ settings }) => ({
-	title: getMessages(settings.settings.locale).errorPages['500'].title
-})
+ErrorPage.meta = ({ useSelector }) => {
+	const messages = useMessages({ useSelector })
+	return {
+		title: messages.errorPages['500'].title
+	}
+}
 
 function getRandomElement(array) {
 	return array[Math.floor(Math.random() * array.length)]

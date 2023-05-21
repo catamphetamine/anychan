@@ -41,7 +41,7 @@ function isSupportedLanguage(language) {
 	return SUPPORTED_LANGUAGES.includes(language)
 }
 
-export default function getDefaultSettings() {
+export function getDefaultSettings() {
 	return {
 		fontSize: 'm',
 		darkMode: false,
