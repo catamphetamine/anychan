@@ -5232,10 +5232,10 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
   integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
-imageboard@^0.6.27:
-  version "0.6.27"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.27.tgz#6d8d9d9a93767d208264e60bfa98e78ce16d7009"
-  integrity sha512-u3RxiQC8y2/F1Pwt8tw2xfQYviUICMOvq7QLziSm7hjB0J6/ok40RJyRdJr8zHmAnYyEF+jM9XYkxdcgZbT8fg==
+imageboard@^0.6.28:
+  version "0.6.28"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.28.tgz#7fffa4dfda3e25e2445d98b78dbd24e9b0740f5e"
+  integrity sha512-7Y3eMsHg0KqGkio8gPSnii+W/4PpJWtkyPzYVksCMHYX/F8FCvTzJfvbz3FWRjbBnGavDBwrrkPvsTeKOoqKgA==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"

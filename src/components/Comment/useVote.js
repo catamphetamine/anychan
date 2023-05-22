@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
+import useDataSource from '../../hooks/useDataSource.js'
 
 import getMessages from '../../messages/index.js'
 
@@ -19,6 +20,7 @@ export default function useVote({
 	const dispatch = useDispatch()
 	const userData = useUserData()
 	const userSettings = useSettings()
+	const dataSource = useDataSource()
 
 	const [vote, setVote] = useState(comment.vote)
 
@@ -30,7 +32,8 @@ export default function useVote({
 				commentId: comment.id,
 				up,
 				userData,
-				userSettings
+				userSettings,
+				dataSource
 			}))
 			if (voteAccepted) {
 				if (up) {
