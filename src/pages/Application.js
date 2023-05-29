@@ -48,7 +48,7 @@ import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
 import getUserData from '../UserData.js'
 import getUserSettings from '../UserSettings.js'
-import { getDataSource } from '../dataSource.js'
+import getDataSource from '../utility/dataSource/getDataSource.js'
 
 import getApplicationMeta from './Application.meta.js'
 import loadApplication from './Application.load.js'

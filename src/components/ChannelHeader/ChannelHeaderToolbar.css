@@ -1,0 +1,80 @@
+:root {
+	--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: 5;
+	--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItem: 10;
+	--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItemHighlighted: 15;
+
+	--ChannelHeaderToolbar-channelSorting-marginRight: 0.5rem;
+}
+
+.ChannelHeaderToolbar {
+	display: flex;
+	align-items: center;
+
+	paddingLeft: var(--Toolbar-paddingLeft);
+
+	.Toolbar {
+		--Toolbar-paddingLeft: 0px;
+	}
+}
+
+.ChannelHeaderToolbar-channelLayout,
+.ChannelHeaderToolbar-channelSorting {
+	--rrui-list-item-height: auto;
+
+	.rrui__expandable-list {
+		margin-top: 0.5rem;
+		margin-right: -1rem;
+
+		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItem);
+	}
+
+	.rrui__list__item {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	.rrui__list__item--selected {
+		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItemHighlighted);
+	}
+}
+
+.ChannelHeaderToolbar-channelLayoutButton {
+	/*width: var(--MenuIcon-width);*/
+}
+
+.ChannelHeaderToolbar-channelLayoutIcon {
+  width: var(--MenuIcon-width);
+  height: var(--MenuIcon-width);
+
+	g {
+		/* `!important` overrides the default `stroke-width`
+		   set via `style` on a `<g/>` element of the SVG image. */
+		stroke-width: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth) !important;
+	}
+
+	/*&--selected {*/
+		/*g {*/
+			/* `!important` overrides the `stroke-width` `!important`
+			   set on a non-selected `.menu-item` CSS class. */
+			/*stroke-width: 10 !important;*/
+		/*}*/
+	/*}*/
+}
+
+.ChannelHeaderToolbar-channelSortingButton {
+	/*width: var(--MenuIcon-width);*/
+}
+
+.ChannelHeaderToolbar-channelSortingButtonIcon {
+  width: var(--MenuIcon-width);
+  height: var(--MenuIcon-width);
+}
+
+.ChannelHeaderToolbar-channelLayout,
+.ChannelHeaderToolbar-channelSorting {
+	margin-right: var(--ChannelHeaderToolbar-channelSorting-marginRight);
+}
+
+.ChannelHeaderToolbar-toolbar--afterChannelLayoutOrSortingSelect {
+	margin-left: calc(-1 * var(--MenuIcon-padding));
+}

@@ -9,6 +9,24 @@
 
 
 
+Add "x" (remove) icon on attached files.
+
+
+const canAttachFiles = true → ... (check: maxAttachmentsCount, etc)
+
+`maxAttachmentsInThread`, `maxAttachmentSize`, `maxVideoAttachmentSize`, `maxVideoAttachmentDuration`, `maxAttachmentsSize`, `maxAttachments`.
+
+
+
+`file.type` — maybe check if that MIME-type is supported in file attachments on a board. For example, if starts with `image/...`, then it's an image. If starts with `video/...`, then it's a video. Otherwise, could be an audio, etc. A document: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`.
+
+
+
+Also check `maxCommentLength`, `createThreadCooldown`, `postCommentCooldown`, `attachFileCooldown`.
+
+Also check `thread.attachmentLimitReached: boolean?`.
+
+
 
 Test proxy server button: add "loading" indicator (+ maybe on other buttons).
 

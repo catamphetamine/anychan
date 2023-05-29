@@ -246,11 +246,20 @@
 	"inReplyTo": "В ответ на",
 	"backToPreviouslyViewedComment": "Вернуться",
 	"previouslySeenThreads": "Предыдущие",
-	"channelViewMode": {
-		"newThreads": "Новые Треды",
-		"newComments": "Новые Комментарии",
-		"popular": "Популярное",
-		"newThreadsTiles": "Новые Треды (Плитка)"
+	"channelLayout": {
+		"title": "Вид",
+		"options": {
+			"threadsList": "Треды",
+			"threadsListWithLatestComments": "Треды с последними комментариями",
+			"threadsTiles": "Треды (плитка)"
+		}
+	},
+	"channelSorting": {
+		"title": "Сортировка",
+		"options": {
+			"default": "По умолчанию",
+			"popular": "Самое обсуждаемое"
+		}
 	},
 	"nMoreComments": "{count, plural, one {ещё <tag>#</tag> комментарий} few {ещё <tag>#</tag> комментария} many {ещё <tag>#</tag> комментариев} other {ещё <tag>#</tag> комментария}}",
 	"noNewComments": "Нет новых комментариев",

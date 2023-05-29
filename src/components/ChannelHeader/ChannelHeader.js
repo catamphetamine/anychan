@@ -14,29 +14,35 @@ import './ChannelHeader.css'
 export default function ChannelHeader({
 	alignTitle,
 
-	// `channelView` should be cached at the initial render on the `Channel` page
-	// and then passed as a property into this component.
+	// `channelLayout` / `channelSorting` should be cached at the initial render
+	// on the `Channel` page and then passed as a property into this component.
 	//
-	// Otherwise, if `channelView` was read from its latest value from `state.settings`,
-	// it could result in an incorrect behavior of `<VirtualScroller/>` when navigating "Back"
-	// to the `Channel` page.
+	// Otherwise, if `channelLayout` / `channelSorting` was read from its latest value
+	// from `state.settings`, it could result in an incorrect behavior of `<VirtualScroller/>`
+	// when navigating "Back" to the `Channel` page.
 	//
 	// In that case, the cached threads-list-item sizes that would be read from the cached
-	// `<VirtualScroller/>` state would correspond to the old `channelView` — the one that was
-	// selected when the user was still on the `Channel` page — while the user might have changed
-	// the selected `channelView` to some other value in some other web browser tab
-	// since the channel page has initially been rendered.
+	// `<VirtualScroller/>` state would correspond to the old `channelLayout` / `channelSorting` —
+	// the one that was selected when the user was still on the `Channel` page — while the user might
+	// have changed the selected `channelLayout` / `channelSorting` to some other value in some other
+	// web browser tab since the channel page has initially been rendered.
 	//
 	// And when the user would navigate "Back" to the `Channel` page, it would attempt to render
 	// the list of threads using the cached `<VirtualScroller/>` item heights that had been measured
-	// for a different `channelView` parameter, and, therefore, for a different list of thread.
+	// for a different `channelLayout` / `channelSorting` parameter, and, therefore, for a different
+	// list of thread.
 	//
 	// So, after "Back" navigation, the `Channel` page should be restored exactly to the state
-	// it was before navigating from it, and that "exact" state would include the `channelView`
-	// setting value, and that's why the original `channelView` gets saved in Redux
+	// it was before navigating from it, and that "exact" state would include the
+	// `channelLayout` / `channelSorting` setting value, and that's why the original
+	// `channelLayout` / `channelSorting` gets saved in Redux
 	// in `state.channel` state object rather than just read from `state.settings`.
 	//
-	channelView,
+	channelLayout,
+	channelSorting,
+
+	canChangeChannelLayout,
+	canChangeChannelSorting,
 
 	onChannelViewWillChange,
 	onChannelViewDidChange,
@@ -51,7 +57,10 @@ export default function ChannelHeader({
 
 	const toolbar = (
 		<ChannelHeaderToolbar
-			channelView={channelView}
+			canChangeChannelLayout={canChangeChannelLayout}
+			canChangeChannelSorting={canChangeChannelSorting}
+			channelLayout={channelLayout}
+			channelSorting={channelSorting}
 		/>
 	)
 
@@ -80,12 +89,17 @@ export default function ChannelHeader({
 
 ChannelHeader.propTypes = {
 	alignTitle: PropTypes.oneOf(['start', 'center']).isRequired,
-	channelView: PropTypes.oneOf([
-		'new-threads',
-		'new-threads-tiles',
-		'new-comments',
+	channelLayout: PropTypes.oneOf([
+		'threadsList',
+		'threadsListWithLatestComments',
+		'threadsTiles'
+	]).isRequired,
+	channelSorting: PropTypes.oneOf([
+		'default',
 		'popular'
 	]).isRequired,
+	canChangeChannelLayout: PropTypes.bool,
+	canChangeChannelSorting: PropTypes.bool,
 	onChannelViewWillChange: PropTypes.func,
 	onChannelViewDidChange: PropTypes.func,
 	className: PropTypes.string

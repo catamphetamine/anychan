@@ -45,23 +45,26 @@ function ChannelPage() {
 		// during Back / Forward navigation.
 		initialLatestSeenThreadId,
 
-		// `channelView` should be cached at the initial render.
+		// `channelLayout` / `channelSorting` should be cached at the initial render.
 		// Otherwise, if it was read from its latest value from `state.settings`,
 		// it could result in an incorrect behavior of `<VirtualScroller/>` when navigating "Back".
-		// In that case, the cached list item sizes would correspond to the old `channelView`
-		// while the user might have changed the `channelView` to some other value in some other tab
+		// In that case, the cached list item sizes would correspond to the old
+		// `channelLayout` / `channelSorting` while the user might have changed the
+		// `channelLayout` / `channelSorting` to some other value in some other tab
 		// since the channel page has initially been rendered.
 		// So after "Back" navigation, the page should be restored to as it was before navigating from it,
-		// and that would include the `channelView` setting value, and that's why it gets saved
-		// in `state.channel` for this particular page rather than just in `state.settings`.
-		channelView
+		// and that would include the `channelLayout` / `channelSorting` setting value,
+		// and that's why it gets saved in `state.channel` for this particular page
+		// rather than just in `state.settings`.
+		channelLayout,
+		channelSorting
 	} = useSelector(state => state.channel)
 
 	const dispatch = useDispatch()
 
 	// This "hack" is used to keep rendering the `threads` list
-	// which was loaded for the previous `channelView` when switching
-	// channel view in the Toolbar.
+	// which was loaded for the previous `channelLayout` / `channelSorting`
+	// when switching channel view in the Toolbar.
 	const threadsForPreviousChannelView = useRef()
 
 	// Update max attachment thumbnail width.
@@ -72,7 +75,8 @@ function ChannelPage() {
 	const unreadCommentWatcher = useUnreadCommentWatcher()
 
 	const itemComponentProps = useMemo(() => ({
-		channelView,
+		channelLayout,
+		channelSorting,
 		commonProps: {
 			mode: 'channel',
 			// Old cached board objects don't have a `.features` sub-object.
@@ -83,7 +87,7 @@ function ChannelPage() {
 			locale,
 			onClick: onThreadClick,
 			unreadCommentWatcher,
-			latestSeenThreadId: channelView === 'new-threads' ? initialLatestSeenThreadId : undefined
+			latestSeenThreadId: channelLayout === 'threadsList' ? initialLatestSeenThreadId : undefined
 		}
 	}), [
 		channel,
@@ -92,12 +96,16 @@ function ChannelPage() {
 		onThreadClick,
 		unreadCommentWatcher,
 		initialLatestSeenThreadId,
-		channelView
+		channelLayout,
+		channelSorting
 	])
 
 	const threadsForCurrentChannelView = useMemo(() => {
 		return threads
-	}, [channelView])
+	}, [
+		channelLayout,
+		channelSorting
+	])
 
 	const onChannelViewWillChange = useCallback(() => {
 		threadsForPreviousChannelView.current = threads
@@ -108,7 +116,7 @@ function ChannelPage() {
 	}, [])
 
 	const transformInitialItemState = useCallback((itemState, item) => {
-		if (channelView === 'new-comments') {
+		if (channelLayout === 'threadsListWithLatestComments') {
 			// If the thread is not hidden then show its latest comments.
 			if (!itemState.hidden) {
 				return {
@@ -118,22 +126,25 @@ function ChannelPage() {
 			}
 		}
 		return itemState
-	}, [channelView])
+	}, [channelLayout])
 
 	const getColumnsCount = useCallback(() => {
-		if (channelView === 'new-threads-tiles') {
+		if (channelLayout === 'threadsTiles') {
 			return 3
 		}
 		return 1
-	}, [channelView])
+	}, [channelLayout])
 
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
-			'ChannelPage--latestComments': channelView === 'new-comments'
+			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments'
 		})}>
 			<ChannelHeader
 				alignTitle="start"
-				channelView={channelView}
+				channelLayout={channelLayout}
+				channelSorting={channelSorting}
+				canChangeChannelLayout
+				canChangeChannelSorting
 				onChannelViewWillChange={onChannelViewWillChange}
 				onChannelViewDidChange={onChannelViewDidChange}
 			/>
@@ -142,7 +153,7 @@ function ChannelPage() {
 				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
 				    when the user changes the current channel's viewing mode. */}
 				<CommentsList
-					key={channelView}
+					key={channelLayout + '_' + channelSorting}
 					mode="channel"
 					getColumnsCount={getColumnsCount}
 					transformInitialItemState={transformInitialItemState}
@@ -153,7 +164,9 @@ function ChannelPage() {
 					items={threadsForPreviousChannelView.current || threads}
 					itemComponent={ChannelThread}
 					itemComponentProps={itemComponentProps}
-					className={classNames('ChannelPage-threads', `ChannelPage-threads--${channelView}`)}
+					className={classNames('ChannelPage-threads', {
+						'ChannelPage-threads--tiles': channelLayout === 'threadsTiles'
+					})}
 				/>
 			</div>
 		</section>
@@ -187,7 +200,8 @@ ChannelPage.load = async ({
 		grammarCorrection: useSetting_(settings => settings.grammarCorrection),
 		locale: useSetting_(settings => settings.locale),
 		autoSuggestFavoriteChannels: useSetting_(settings => settings.autoSuggestFavoriteChannels),
-		channelView: useSetting_(settings => settings.channelView)
+		channelLayout: useSetting_(settings => settings.channelLayout),
+		channelSorting: useSetting_(settings => settings.channelSorting)
 	})
 }
 

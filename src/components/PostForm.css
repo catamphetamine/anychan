@@ -2,6 +2,8 @@
 
 .PostForm {
 	--PostForm-paddingLeft: var(--Post-paddingLeft);
+	--PostForm-paddingRight: var(--Post-paddingRight);
+	--PostForm-paddingTop: var(--Post-paddingTop);
 	--PostForm-paddingBottom: var(--Post-paddingBottom);
 
 	--PostFormActionIcon-width: calc(var(--unit) * 2.2);
@@ -14,23 +16,28 @@
 
 	--PostFormTextInput-marginRight: var(--unit);
 
-	--rrui-multiline-text-height: auto;
-	display: flex;
-
-	/* Loading indicator is `position: absolute`. */
-	position: relative;
-
   background-color: var(--Post-backgroundColor);
   box-shadow: var(--Comment-boxShadow);
   border: var(--Comment-border);
 
-	padding-top: var(--PostForm-paddingBottom);
+	padding-top: var(--PostForm-paddingTop);
   padding-bottom: var(--PostForm-paddingBottom);
   padding-left: var(--PostForm-paddingLeft);
-  padding-right: var(--PostForm-paddingLeft);
+  padding-right: var(--PostForm-paddingRight);
 }
 
-.PostForm-textInput {
+.PostForm-form {
+	--rrui-multiline-text-height: auto;
+
+	display: flex;
+
+	width: 100%;
+
+	/* Loading indicator is `position: absolute`. */
+	position: relative;
+}
+
+.PostForm-textInputContainer {
 	flex: 1;
 	margin-right: var(--PostFormTextInput-marginRight);
 }
@@ -78,8 +85,8 @@
 
 .PostForm-close {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: calc(-1 * var(--PostForm-paddingTop));
+	right: calc(-1 * var(--PostForm-paddingRight));
 
 	width: calc(var(--PostFormCloseIcon-width) + 2 * var(--PostFormClose-padding));
 	height: calc(var(--PostFormCloseIcon-width) + 2 * var(--PostFormClose-padding));
@@ -103,7 +110,41 @@
 
 .PostForm-loading {
 	position: absolute;
-	width: calc(100% - var(--Post-paddingLeft) - var(--PostFormTextInput-marginRight) - var(--PostFormActionIcon-width) - var(--Post-paddingRight));
-	left: var(--Post-paddingLeft);
-	bottom: var(--PostForm-paddingBottom);
+	/*width: calc(100% - var(--Post-paddingLeft) - var(--PostFormTextInput-marginRight) - var(--PostFormActionIcon-width) - var(--Post-paddingRight));*/
+	/*left: var(--Post-paddingLeft);*/
+	/*bottom: var(--PostForm-paddingBottom);*/
+	width: calc(100% - var(--PostFormTextInput-marginRight) - var(--PostFormActionIcon-width));
+	left: 0;
+	bottom: 0;
+}
+
+.PostForm {
+	.rrui__file-upload__area--dragged-over {
+		box-shadow: 0 0 0 1px var(--base-color-200);
+		background-color: var(--base-color-100);
+	}
+}
+
+.PostForm-attachments {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.PostForm-attachment {
+	margin-bottom: var(--PostForm-paddingBottom);
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.PostForm-attachments,
+.PostForm-attach {
+	margin-top: var(--PostForm-paddingBottom);
+}
+
+.PostForm-attachIcon {
+	width: 1.15rem;
+	height: 1.15rem;
+	margin-right: 0.35rem;
 }

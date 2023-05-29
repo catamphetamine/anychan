@@ -1,13 +1,10 @@
-import {
-	getDataSourceIdByDomain,
-	getDefaultDataSourceId,
-	setDataSourceById,
-	getDataSourceById,
-	shouldIncludeDataSourceInPath,
-	getDataSourceIdFromPath,
-	addDataSourceIdToPath,
-	getLegacyImplicitDefaultDataSource
-} from './dataSource.js'
+import getDataSourceIdByDomain from './utility/dataSource/getDataSourceIdByDomain.js'
+import getDefaultDataSourceId from './utility/dataSource/getDefaultDataSourceId.js'
+import setDataSourceById from './utility/dataSource/setDataSourceById.js'
+import getDataSourceById from './utility/dataSource/getDataSourceById.js'
+import shouldIncludeDataSourceInPath from './utility/dataSource/shouldIncludeDataSourceInPath.js'
+import getDataSourceIdFromPath from './utility/dataSource/getDataSourceIdFromPath.js'
+import addDataSourceIdToPath from './utility/dataSource/addDataSourceIdToPath.js'
 
 import { addDataSourceLogos } from './dataSourceLogos.js'
 

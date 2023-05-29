@@ -7,9 +7,12 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import { notify } from '../../redux/notifications.js'
 
+import useDataSource from '../../hooks/useDataSource.js'
+
 import getMessages from '../../messages/index.js'
 
-import { getCommentUrl, getThreadUrl } from '../../dataSource.js'
+import getThreadUrl from '../../utility/dataSource/getThreadUrl.js'
+import getCommentUrl from '../../utility/dataSource/getCommentUrl.js'
 
 export default function useReply({
 	comment,
@@ -30,6 +33,7 @@ export default function useReply({
 	locale
 }) {
 	const dispatch = useDispatch()
+	const dataSource = useDataSource()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 
@@ -128,11 +132,16 @@ export default function useReply({
 
 		let url
 		if (comment.id === threadId) {
-			url = getThreadUrl(channelId, threadId, {
+			url = getThreadUrl(dataSource, {
+				channelId,
+				threadId,
 				notSafeForWork: channelIsNotSafeForWork
 			})
 		} else {
-			url = getCommentUrl(channelId, threadId, comment.id, {
+			url = getCommentUrl(dataSource, {
+				channelId,
+				threadId,
+				commentId: comment.id,
 				notSafeForWork: channelIsNotSafeForWork
 			})
 		}

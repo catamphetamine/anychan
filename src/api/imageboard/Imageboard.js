@@ -1,6 +1,6 @@
 import Imageboard from 'imageboard'
 
-import isDeployedOnDataSourceDomain from '../../utility/source/isDeployedOnDataSourceDomain.js'
+import isDeployedOnDataSourceDomain from '../../utility/dataSource/isDeployedOnDataSourceDomain.js'
 
 import shouldUseProxy from '../../utility/proxy/shouldUseProxy.js'
 import getProxiedUrl from '../../utility/proxy/getProxiedUrl.js'

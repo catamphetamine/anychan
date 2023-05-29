@@ -1,4 +1,5 @@
-import { getDataSource, isMultiDataSource } from '../../dataSource.js'
+import getDataSource from '../../utility/dataSource/getDataSource.js'
+import isMultiDataSource from '../../utility/dataSource/isMultiDataSource.js'
 
 export const BASE_PREFIX = '⌨️'
 

@@ -14,8 +14,12 @@ export const setInitialLatestSeenThreadId = redux.simpleAction(
 	(state, initialLatestSeenThreadId) => ({ ...state, initialLatestSeenThreadId })
 )
 
-export const setChannelView = redux.simpleAction(
-	(state, channelView) => ({ ...state, channelView })
+export const setChannelLayout = redux.simpleAction(
+	(state, channelLayout) => ({ ...state, channelLayout })
+)
+
+export const setChannelSorting = redux.simpleAction(
+	(state, channelSorting) => ({ ...state, channelSorting })
 )
 
 export const resetState = redux.simpleAction(

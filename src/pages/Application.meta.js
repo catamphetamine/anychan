@@ -1,6 +1,6 @@
 import getPostText from 'social-components/utility/post/getPostText.js'
 
-import { getDataSource, getDataSourceIconUrl } from '../dataSource.js'
+import getDataSource from '../utility/dataSource/getDataSource.js'
 
 export default function getApplicationMeta() {
 	// If no data source has been configured then an error will be shown.

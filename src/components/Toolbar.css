@@ -1,14 +1,18 @@
 @import "../styles/common.css";
 
+:root {
+	/*--Toolbar-paddingLeft: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
+	--Toolbar-paddingLeft: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+	--Toolbar-paddingRight: var(--Toolbar-paddingLeft);
+}
+
 .Toolbar {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: var(--Toolbar-marginTop);
 	margin-bottom: var(--Toolbar-marginTop);
-	/*padding-left: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
-	/*padding-right: calc(var(--PageContent-paddingLeft) + var(--PageContent-paddingLeft--nonContentSection));*/
-	padding-left: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
-	padding-right: calc(var(--PageContent-paddingLeft) + var(--Post-paddingLeft));
+	padding-left: var(--Toolbar-paddingLeft);
+	padding-right: var(--Toolbar-paddingRight);
 	color: var(--Toolbar-color);
 
 	--MenuIcon-width: var(--ToolbarIcon-width);
@@ -20,34 +24,8 @@
    don't overwrite the `.Toolbar-item--channelView` styles in production mode
    when Webpack decides to put all CSS in a single file
    with `.menu .menu-item` styles being placed after `.Toolbar-item--channelView` styles. */
-.Toolbar {
-	.Toolbar-item--channelView {
-		&.menu-item {
-			width: calc(var(--MenuIcon-width) * 1.5);
-
-			.menu-item__icon {
-		    width: 150%;
-		    height: 150%;
-
-				g {
-					/* `!important` overrides the default `stroke-width`
-					   set via `style` on a `<g/>` element of the SVG image. */
-					stroke-width: 5 !important;
-				}
-			}
-
-			&.menu-item--selected {
-				.menu-item__icon {
-					g {
-						/* `!important` overrides the `stroke-width` `!important`
-						   set on a non-selected `.menu-item` CSS class. */
-						stroke-width: 10 !important;
-					}
-				}
-			}
-		}
-	}
-}
+/*.Toolbar {*/
+/*}*/
 
 /*.Toolbar-item--channelViewRightmost {
 	margin-right: calc(-1 * var(--MenuIcon-width) * 0.25);

@@ -3,7 +3,7 @@ import migrate from './UserSettings.migrate.js'
 
 // Current version of user settings.
 // See `UserSettings.migrate.js` comments for the changelog.
-const VERSION = 2
+const VERSION = 3
 
 export default class UserSettings {
 	constructor(storage, { prefix = '' } = {}) {

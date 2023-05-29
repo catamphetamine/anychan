@@ -244,11 +244,20 @@
 	"inReplyTo": "In reply to",
 	"backToPreviouslyViewedComment": "Return",
 	"previouslySeenThreads": "Seen",
-	"channelViewMode": {
-		"newThreads": "New Threads",
-		"newComments": "New Comments",
-		"popular": "Popular",
-		"newThreadsTiles": "New Threads (Tiles)"
+	"channelLayout": {
+		"title": "Layout",
+		"options": {
+			"threadsList": "Threads",
+			"threadsListWithLatestComments": "Threads with latest comments",
+			"threadsTiles": "Threads (tiles)"
+		}
+	},
+	"channelSorting": {
+		"title": "Sorting",
+		"options": {
+			"default": "Default",
+			"popular": "Most popular"
+		}
 	},
 	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
 	"noNewComments": "No new comments",

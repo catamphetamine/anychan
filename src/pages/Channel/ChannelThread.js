@@ -12,12 +12,12 @@ const ChannelThread = ({
 	state,
 	setState,
 	onHeightDidChange,
-	channelView,
+	channelLayout,
 	commonProps
 }) => {
-	const Component = channelView === 'new-threads-tiles'
+	const Component = channelLayout === 'threadsTiles'
 		? ChannelThreadTile
-		: (channelView === 'new-comments'
+		: (channelLayout === 'threadsListWithLatestComments'
 			? ChannelThreadWithComments
 			: ChannelThreadWithoutComments
 		)
@@ -44,7 +44,11 @@ ChannelThread.propTypes = {
 	// `onHeightDidChange()` property is provided by `virtual-scroller`.
 	onHeightDidChange: PropTypes.func.isRequired,
 
-	channelView: PropTypes.string,
+	channelLayout: PropTypes.oneOf([
+		'threadsList',
+		'threadsListWithLatestComments',
+		'threadsTiles'
+	]),
 
 	commonProps: PropTypes.object.isRequired
 }

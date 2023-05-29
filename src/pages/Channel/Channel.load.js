@@ -1,6 +1,12 @@
 import { setChannelThreads } from '../../redux/data.js'
-import { resetState, setInitialLatestSeenThreadId, setChannelView, getSubscribedThreadIdsForChannel } from '../../redux/channel.js'
 import { addFavoriteChannel } from '../../redux/favoriteChannels.js'
+import {
+	resetState,
+	setInitialLatestSeenThreadId,
+	setChannelLayout,
+	setChannelSorting,
+	getSubscribedThreadIdsForChannel
+} from '../../redux/channel.js'
 
 import onThreadsFetched from '../../utility/thread/onThreadsFetched.js'
 import getLatestSeenThreadId from '../../utility/thread/getLatestSeenThreadId.js'
@@ -22,7 +28,8 @@ export default async function loadChannelPage({
 	grammarCorrection,
 	locale,
 	autoSuggestFavoriteChannels,
-	channelView,
+	channelLayout,
+	channelSorting,
 	wasCancelled
 }) {
 	const threads = await getThreads({
@@ -31,8 +38,8 @@ export default async function loadChannelPage({
 		grammarCorrection,
 		locale,
 		messages: getMessages(locale),
-		withLatestComments: channelView === 'new-comments',
-		sortByRating: channelView === 'popular',
+		withLatestComments: channelLayout === 'threadsListWithLatestComments',
+		sortByRating: channelSorting === 'popular',
 		http: getHttpClient(),
 		userData,
 		userSettings,
@@ -45,14 +52,14 @@ export default async function loadChannelPage({
 	// result in "race condition" errors here: the page would re-render
 	// after `await dispatch(getThreads())` because it's "asynchronous",
 	// so the page would be in an inconsistent state when it still has the old
-	// `channelView` but at the same time it already has the new `threads`.
+	// `channelLayout` / `channelSorting` but at the same time it already has the new `threads`.
 	//
 	// The observed error would be:
 	//
 	// > [virtual-scroller] "onItemHeightDidChange()" has been called for item index 0
 	//   but the item hasn't been rendered before.
 	//
-	// when switching between different `channelView` modes.
+	// when switching between different `channelLayout` / `channelSorting` modes.
 	//
 	// const { threads } = await dispatch(getThreadsAction(channelId, {
 	// 	censoredWords,
@@ -60,8 +67,8 @@ export default async function loadChannelPage({
 	// 	locale,
 	// 	userData,
 	// 	userSettings,
-	// 	withLatestComments: channelView === 'new-comments',
-	// 	sortByRating: channelView === 'popular'
+	// 	withLatestComments: channelLayout === 'threadsListWithLatestComments',
+	// 	sortByRating: channelSorting === 'popular'
 	// }))
 
 	const channel = useChannel()
@@ -86,8 +93,10 @@ export default async function loadChannelPage({
 	dispatch(resetState())
 	// Set initial state.
 	dispatch(setInitialLatestSeenThreadId(getLatestSeenThreadId(channelId, threads, { userData })))
-	// Set channel view.
-	dispatch(setChannelView(channelView))
+	// Set channel layout.
+	dispatch(setChannelLayout(channelLayout))
+	// Set channel sorting.
+	dispatch(setChannelSorting(channelSorting))
 	// Set subscribed thread IDs.
 	dispatch(getSubscribedThreadIdsForChannel({ channelId, userData }))
 }

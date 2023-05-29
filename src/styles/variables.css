@@ -565,6 +565,8 @@
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;
 	--Toolbar-marginBottom: 0px;
+	--Toolbar-paddingLeft: 0px;
+	--Toolbar-paddingRight: 0px;
 	--ToolbarIcon-width: calc(var(--unit) * 1.25);
 
 	/* Tooltip. */

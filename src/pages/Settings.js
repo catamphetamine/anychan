@@ -77,7 +77,7 @@ SettingsPage.meta = ({ useSelector, props }) => {
 	const messages = useMessages({ useSelector })
 	const locale = useSelector(state => state.settings.settings.locale)
 	return {
-		title: messages.settings.title + locale
+		title: messages.settings.title
 	}
 }
 

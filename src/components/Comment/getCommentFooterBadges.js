@@ -4,7 +4,7 @@ import StarIcon from '../StarIcon.js'
 import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 
 import getMessages, { getCountryName } from '../../messages/index.js'
-import { getAbsoluteUrl } from '../../dataSource.js'
+import getAbsoluteUrl from '../../utility/dataSource/getAbsoluteUrl.js'
 
 import AnonymousCountryIcon from 'frontend-lib/icons/anonymous.svg'
 import DislikeIcon from 'frontend-lib/icons/dislike.svg'

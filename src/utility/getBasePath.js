@@ -1,11 +1,9 @@
 import getConfiguration from '../configuration.js'
 
-import {
-	shouldIncludeDataSourceInPath,
-	getDataSource,
-	getDataSourceAlias,
-	addDataSourceIdToPath
-} from '../dataSource.js'
+import getDataSource from './dataSource/getDataSource.js'
+import getDataSourceAlias from './dataSource/getDataSourceAlias.js'
+import addDataSourceIdToPath from './dataSource/addDataSourceIdToPath.js'
+import shouldIncludeDataSourceInPath from './dataSource/shouldIncludeDataSourceInPath.js'
 
 /**
  * Returns "base" path of the application.

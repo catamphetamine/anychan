@@ -18,7 +18,7 @@ export function createConfiguration({ development }) {
 
 		output: {
 			// Filesystem path for static files
-			path: path.resolve('./build'),
+			path: path.resolve('./build/assets'),
 
 			// Network path for static files
 			publicPath: '/',

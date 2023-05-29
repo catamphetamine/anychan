@@ -8,6 +8,8 @@ import { createConfiguration } from './webpack.config.js'
 
 const configuration = createConfiguration({ development: false })
 
+configuration.output.publicPath = '/assets'
+
 // `__webpack_public_path__` is configured dynamically at runtime.
 // https://webpack.js.org/guides/public-path/#on-the-fly
 // configuration.output.publicPath = (getApplicationConfiguration().path || '') + '/'
@@ -25,6 +27,7 @@ configuration.optimization = {
 
 configuration.plugins = configuration.plugins.concat([
   // Clears the output folder before building.
+  // (doesn't seem to work?)
   new CleanWebpackPlugin(),
 
   // Extracts CSS into a separate file.

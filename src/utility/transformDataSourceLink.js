@@ -1,8 +1,3 @@
-import {
-	getChannelUrlPattern,
-	getChannelUrl
-} from '../dataSource.js'
-
 import parseLocationUrl from './parseLocationUrl.js'
 import getUrl from './getUrl.js'
 

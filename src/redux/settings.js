@@ -127,11 +127,20 @@ export const saveChannelsView = redux.simpleAction(
 	}
 )
 
-export const saveChannelView = redux.simpleAction(
-	(state, { channelView, userSettings }) => {
+export const saveChannelLayout = redux.simpleAction(
+	(state, { channelLayout, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('channelView', channelView, { userSettings })
+			settings: saveSetting('channelLayout', channelLayout, { userSettings })
+		}
+	}
+)
+
+export const saveChannelSorting = redux.simpleAction(
+	(state, { channelSorting, userSettings }) => {
+		return {
+			...state,
+			settings: saveSetting('channelSorting', channelSorting, { userSettings })
 		}
 	}
 )

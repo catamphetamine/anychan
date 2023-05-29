@@ -14,7 +14,8 @@ import './ChannelThreadsSidebarStickyHeader.css'
 
 export default function ChannelThreadsSidebarStickyHeader() {
 	const threads = useSelector(state => state.data.threads)
-	const channelView = useSetting(settings => settings.channelView)
+	const channelLayout = useSetting(settings => settings.channelLayout)
+	const channelSorting = useSetting(settings => settings.channelSorting)
 
 	const route = useRoute()
 	const isChannelOrThreadPage = isChannelPage(route) || isThreadPage(route)
@@ -34,7 +35,9 @@ export default function ChannelThreadsSidebarStickyHeader() {
 		<SidebarTopBar>
 			<ChannelHeader
 				alignTitle="start"
-				channelView={channelView}
+				channelLayout={channelLayout}
+				channelSorting={channelSorting}
+				canChangeChannelSorting
 				className="ChannelThreadsSidebarStickyHeader"
 			/>
 		</SidebarTopBar>

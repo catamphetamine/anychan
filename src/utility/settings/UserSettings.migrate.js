@@ -22,6 +22,14 @@ export default function migrate(settings, version = 0) {
 			delete settings.autoSuggestFavoriteBoards
 		}
 	}
+	// Version 3.
+	// May 29, 2023.
+	// Split `channelView` -> `channelLayout` / `channelSorting`.
+	if (version < 3) {
+		if (settings.channelView) {
+			delete settings.channelView
+		}
+	}
 }
 
 // Version 1.

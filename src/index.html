@@ -13,7 +13,9 @@
 			var BASE_PATH = CONFIG.path || ''
 			var VERSION = '<%= version %>'
 		</script>
-		<!-- Set the correct `configuration.path` if running a GitHub pages demo. -->
+		<!-- Set the correct `configuration.path` when running
+			   at `https://catamphetamine.github.io/anychan` URL.
+			   The main demo is at `https://anychans.github.io` URL. -->
 		<script>
 			if (window.location.origin === 'https://catamphetamine.github.io') {
 				BASE_PATH = CONFIG.path = '/anychan'

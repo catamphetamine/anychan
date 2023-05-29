@@ -1,8 +1,3 @@
-// Some dataSources may be deployed on regular HTTP for simplicity.
-// `4chan.org` has "https://www.4chan.org" website URL:
-// when navigating to "https://4chan.org" images won't load.
-// const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
-const WWW_REGEXP = /^(www\.)?/
 export default function isDeployedOnDataSourceDomain(dataSource) {
 	if (!dataSource) {
 		return false
@@ -21,3 +16,9 @@ export default function isDeployedOnDataSourceDomain(dataSource) {
 	}
 	return false
 }
+
+// Some dataSources may be deployed on regular HTTP for simplicity.
+// `4chan.org` has "https://www.4chan.org" website URL:
+// when navigating to "https://4chan.org" images won't load.
+// const HTTPS_REGEXP = /^https?:\/\/(www\.)?/
+const WWW_REGEXP = /^(www\.)?/

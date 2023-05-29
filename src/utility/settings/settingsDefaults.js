@@ -47,7 +47,8 @@ export function getDefaultSettings() {
 		darkMode: false,
 		autoDarkMode: true,
 		censorWords: true,
-		channelView: 'new-threads',
+		channelLayout: 'threadsList',
+		channelSorting: 'default',
 		theme: getDefaultThemeId(),
 		locale: getDefaultLanguage(),
 		...getConfiguration().defaultSettings

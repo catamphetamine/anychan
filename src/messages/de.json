@@ -244,11 +244,20 @@
 	"inReplyTo": "als Antwort auf",
 	"backToPreviouslyViewedComment": "Rückkehr",
 	"previouslySeenThreads": "Gesehen",
-	"channelViewMode": {
-		"newThreads": "Neue Thread",
-		"newComments": "Neue Kommentare",
-		"popular": "Beliebt",
-		"newThreadsTiles": "Neue Thread (Fliesen)"
+	"channelLayout": {
+		"title": "Layout",
+		"options": {
+			"threadsList": "Threads",
+			"threadsListWithLatestComments": "Threads mit den neuesten Kommentaren",
+			"threadsTiles": "Threads (Fliesen)"
+		}
+	},
+	"channelSorting": {
+		"title": "Sortierung",
+		"options": {
+			"default": "Standard",
+			"popular": "Am beliebtesten"
+		}
 	},
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",

@@ -1,4 +1,4 @@
-import { getDataSourceById } from '../dataSource.js'
+import getDataSourceById from './dataSource/getDataSourceById.js'
 import getPrefix, { BASE_PREFIX } from './storage/getStoragePrefix.js'
 import compareVersions from './semver-compare.js'
 import storage_ from './storage/storage.js'

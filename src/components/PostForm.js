@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import { TextInput, Button } from 'react-responsive-ui'
+import { TextInput, Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
@@ -15,6 +15,9 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
+import AttachIcon from 'frontend-lib/icons/attach.svg'
+
+import TextButton from './TextButton.js'
 
 import useMessages from '../hooks/useMessages.js'
 
@@ -38,6 +41,7 @@ function PostForm({
 
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState()
+	const [fileAttachments, setFileAttachments] = useState([])
 
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
@@ -64,7 +68,15 @@ function PostForm({
 		}
 	}, [])
 
+	const onFileAttached = useCallback((file) => {
+		setFileAttachments(fileAttachments.concat(file))
+	}, [
+		fileAttachments
+	])
+
 	const loadingIndicatorFadeOutDuration = 160 // ms
+
+	const canAttachFiles = true
 
 	// Doesn't use `autoFocus={true}` property here by default.
 	// The reason that if `autoFocus={true}` property is set
@@ -78,55 +90,92 @@ function PostForm({
 	// re-mounts that form and the cursor jumps inside its input,
 	// causing the page scroll position to jump accordingly.
 
+	const contentInputFieldElement = (
+		<Field
+			required
+			name={POST_FORM_INPUT_FIELD_NAME}
+			type="text"
+			multiline
+			rows={2}
+			value={initialInputValue}
+			onChange={onInputValueChange}
+			initialHeight={initialInputHeight}
+			onHeightChange={onInputHeightChange}
+			onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
+			placeholder={messages.post.form.inputText}
+			className="form__component PostForm-textInput"
+		/>
+	)
+
 	return (
-		<Form
-			ref={ref}
-			autoFocus={autoFocus}
-			onSubmit={onSubmit}
-			initialState={initialState}
-			onStateDidChange={onStateDidChange}
-			className={classNames('form', 'PostForm', {
-				'PostForm--page': placement === 'page',
-				'PostForm--comment': placement === 'comment'
-			})}>
-			<Field
-				required
-				name={POST_FORM_INPUT_FIELD_NAME}
-				type="text"
-				multiline
-				rows={2}
-				value={initialInputValue}
-				onChange={onInputValueChange}
-				initialHeight={initialInputHeight}
-				onHeightChange={onInputHeightChange}
-				onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
-				placeholder={messages.post.form.inputText}
-				className="form__component PostForm-textInput"
-			/>
-			{onCancel &&
-				<Button
-					onClick={onCancel}
-					title={messages.actions.close}
-					className="PostForm-close">
-					<CancelIcon className="PostForm-closeIcon"/>
-				</Button>
-			}
-			<Submit
-				component={Button}
-				title={messages.actions.post}
-				className="PostForm-action">
-				{/*messages.actions.post*/}
-				<SendIcon className="PostForm-actionIcon"/>
-			</Submit>
+		<section className={classNames('PostForm', {
+			'PostForm--page': placement === 'page',
+			'PostForm--comment': placement === 'comment'
+		})}>
+			<Form
+				ref={ref}
+				autoFocus={autoFocus}
+				onSubmit={onSubmit}
+				initialState={initialState}
+				onStateDidChange={onStateDidChange}
+				className={classNames('form', 'PostForm-form')}>
+				{canAttachFiles
+					? (
+						<DropFileUpload clickable={false} onChange={onFileAttached} className="PostForm-textInputContainer">
+							{contentInputFieldElement}
+						</DropFileUpload>
+					)
+					: (
+						<div className="PostForm-textInputContainer">
+							{contentInputFieldElement}
+						</div>
+					)
+				}
+				{onCancel &&
+					<Button
+						onClick={onCancel}
+						title={messages.actions.close}
+						className="PostForm-close">
+						<CancelIcon className="PostForm-closeIcon"/>
+					</Button>
+				}
+				<Submit
+					component={Button}
+					title={messages.actions.post}
+					className="PostForm-action">
+					{/*messages.actions.post*/}
+					<SendIcon className="PostForm-actionIcon"/>
+				</Submit>
+				<FadeInOut show={loading} fadeOutDuration={loadingIndicatorFadeOutDuration}>
+					<LinearProgress className="PostForm-loading"/>
+				</FadeInOut>
+			</Form>
 			{error &&
 				<div className="PostForm-error">
 					{error}
 				</div>
 			}
-			<FadeInOut show={loading} fadeOutDuration={loadingIndicatorFadeOutDuration}>
-				<LinearProgress className="PostForm-loading"/>
-			</FadeInOut>
-		</Form>
+			{canAttachFiles && fileAttachments.length > 0 &&
+				<ul className="PostForm-attachments">
+					{fileAttachments.map((file, i) => (
+						<li key={i} className="PostForm-attachment">
+							{file.name}
+							{/*file.type*/}
+						</li>
+					))}
+				</ul>
+			}
+			{canAttachFiles &&
+				<FileUploadButton
+					component={TextButton}
+					type="button"
+					onChange={onFileAttached}
+					className="PostForm-attach">
+					<AttachIcon className="PostForm-attachIcon"/>
+					{messages.actions.attachFile}
+				</FileUploadButton>
+			}
+		</section>
 	)
 }
 

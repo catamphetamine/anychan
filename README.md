@@ -103,25 +103,42 @@ The default configuration can be found in `./configuration/default.json` file. A
 ```js
 {
   // By default, the application assumes that it's hosted at the root of the domain.
-  // If it's not the case, and it's hosted at a "subpath", specify that "subpath" here.
+  // If it's not the case, i.e. if it's hosted at a "subpath", then specify that "subpath" here.
+  // For example, if the application is hosted at "https://domain.com/application"
+  // then the "path" configuration parameter should be set to "/application".
   "path": "/anychan",
 
   // The `dataSource` parameter describes the data source being used.
   //
   // If the data source is a "supported-out-of-the-box" one,
-  // then the "dataSource" parameter can be set to just the data source id (name).
-  // Examples: "4chan", "8ch", "2ch", "kohlchan", "lainchan".
+  // then the "dataSource" parameter can be set to such data source name:
   //
-  // If this application runs on the data source's main domain,
-  // the application will detect that and the "dataSource" parameter
-  // is not required in that case.
-  // For example, if this application is hosted at `4chan.org` domain
-  // then it would assume that the `dataSource` parameter is "4chan".
+  // * "4chan"
+  // * "8ch"
+  // * "2ch"
+  // * "kohlchan"
+  // * "lainchan"
   //
-  // In all other cases, the `dataSource` parameter should be an object
-  // specifying various configuration parameters: `logo`, `title`,
-  // `api` configuration, etc.
-  // See "Adding a new imageboard" section of this readme for more info.
+  // Specifying the "dataSource" parameter in such cases can be omitted
+  // if this application runs on the data source's main domain (e.g. "4chan.org")
+  // because the application is smart enough to detect that type of situation
+  // and will automatically determine the correct data source name.
+  // In other cases — when running the application on other domains —
+  // specifying a data source is required, unless you'd prefer the application
+  // to run in a "multi-datasource" mode in which case it will require
+  // a data source name as a URL path prefix. For example, "https://domain.com/4chan/b".
+  //
+  // When a data source is not a "supported-out-of-the-box" one,
+  // the "dataSource" configuration parameter value should be an object
+  // describing the configuration parameters of the data source:
+  //
+  // * `logo`
+  // * `title`
+  // * `api`
+  // * etc
+  //
+  // See "Adding a new imageboard" section of the docs for more info on
+  // the available configuration parameters for a custom data source.
   //
   "dataSource": "4chan",
 
@@ -188,19 +205,20 @@ The default configuration can be found in `./configuration/default.json` file. A
   // https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
   "footnotes": "Copyright © 2003-2020 4chan community support LLC. All rights reserved",
 
-  // CORS Proxy URL (see the "Proxy" section of the readme).
+  // CORS proxy URL (see the "Proxy" section of the docs).
   //
-  // To set up a free proxy,
-  // AWS EC2 is the easiest way to set up a free 1-year proxy,
-  // but AWS is blocked on most imageboards as a DDoS prevention measure,
-  // so Heroku is used instead.
-  // CORS Proxy is only required when running on another domain
-  // compared to the imageboard's domain.
-  // For example, CORS Proxy is required when running a demo
-  // somewhere on `surge.sh` and using "4chan" imageboard.
+  // A CORS proxy is required unless this application is running on the
+  // data source's main domain (e.g. "4chan.org").
+  // That's a stupid limitation of all web browsers.
   //
-  // `{url}` parameter is the target URL.
-  // `{urlEncoded}` parameter is the target URL encoded using `encodeURIComponent()`.
+  // A CORS proxy URL string should contain a target URL parameter.
+  // The target URL parameter could be present in that string in one of the two variants:
+  // * `{url}` — the target URL.
+  // * `{urlEncoded}` — the target URL encoded using `encodeURIComponent()`.
+  //
+  // Examples:
+  // * "https://my-cors-proxy.com/{url}"
+  // * "https://my-cors-proxy.com?url={urlEncoded}"
   //
   "proxyUrl": "https://anychan-proxy.vercel.app?url={urlEncoded}",
 
@@ -520,9 +538,14 @@ Also, check if the [proxy](#proxy) server that is configured by default still wo
 
 To create a build from the sources, follow the instructions in the [Development](#development) section above, but, at the last step, instead of running `yarn run dev`, run `yarn run build`.
 
-The contents of the "build" will be output to the `build` directory: `index.html` and a bunch of `.js`/`.css`/`.map`/image files with random generated names (and also about a 100 of code syntax highlighter language plugins that are only loaded on demand at runtime when highlighting a given language in` "code"` blocks).
+The contents of the "build" will be output to the `build` directory:
 
-To pack the `build` directory contents into a `*.zip` archive, run `npm run build:pack`.
+* `index.html` — The main HTML file. Configuration could be edited there.
+* `announcement.json` — Allows showing an announcement banner. See configuration docs for more info on the contents of that file.
+* `readme.txt` — A short description.
+* `assets` folder — Contains a bunch of `.js`/`.css`/`.map`/image files with random generated names (and also about a 100 of code syntax highlighter language plugins that are only loaded on demand at runtime when highlighting a given language in` "code"` blocks).
+
+To create a `*.zip` archive of a build, run `yarn run build:pack` command.
 
 ## Test
 
@@ -885,7 +908,7 @@ To add a new data source, create an `index.json` file with the data source's con
 #####
 
 
-The files should be placed in the data source's directory created inside the `dataSources` folder. Then, the data source's config should be `import`ed in `dataSources/index.js` and added to the list of `DATA_SOURCES`. After that, the data source's `icon` and `logo` should be assigned in `src/dataSource.js`.
+The files should be placed in the data source's directory created inside the `dataSources` folder. Then, the data source's config should be `import`ed in `dataSources/index.js` and added to the list of `DATA_SOURCES`. After that, the data source's `icon` and `logo` should be assigned in `src/dataSourceLogos.js`.
 
 ## Adding a new imageboard
 

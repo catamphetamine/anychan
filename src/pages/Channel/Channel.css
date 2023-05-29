@@ -96,7 +96,7 @@
 	}
 }
 
-.ChannelPage-threads--new-threads-tiles {
+.ChannelPage-threads--tiles {
   display: grid;
   place-items: center;
   gap: 2rem;

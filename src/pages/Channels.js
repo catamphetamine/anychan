@@ -11,7 +11,7 @@ import { channel as channelType } from '../PropTypes.js'
 import { getChannels } from '../redux/data.js'
 import getUrl from '../utility/getUrl.js'
 
-import getMessages from '../messages/index.js'
+import useMessages from '../hooks/useMessages.js'
 
 import { getContext } from '../context.js'
 
@@ -43,7 +43,7 @@ ChannelsPage.meta = ({ useSelector }) => {
 	}
 }
 
-ChannelsPage.load = async ({ dispatch, getContext }) => {
+ChannelsPage.load = async ({ dispatch }) => {
 	const {
 		userSettings,
 		dataSource
