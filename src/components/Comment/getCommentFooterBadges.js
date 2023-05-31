@@ -109,7 +109,7 @@ export default function({ dataSource }) {
 			name: 'sticky',
 			icon: PinIcon,
 			title: ({ post, locale }) => getMessages(locale).post.sticky,
-			condition: (post) => post.onTop
+			condition: (post) => post.pinned
 		},
 		{
 			name: 'trimming',

@@ -162,7 +162,8 @@ const INCREMENTAL_THREAD_UPDATE_PROPERTIES = [
 	'archived',
 
 	// Is the thread pinned?
-	'onTop'
+	'pinned',
+	'pinnedOrder'
 ]
 
 function getThreadPropertiesFromIncrementalUpdate(thread) {

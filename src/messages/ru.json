@@ -249,9 +249,9 @@
 	"channelLayout": {
 		"title": "Вид",
 		"options": {
-			"threadsList": "Треды",
-			"threadsListWithLatestComments": "Треды с последними комментариями",
-			"threadsTiles": "Треды (плитка)"
+			"threadsList": "Список тредов",
+			"threadsListWithLatestComments": "Список тредов с последними комментариями",
+			"threadsTiles": "Плитки тредов"
 		}
 	},
 	"channelSorting": {

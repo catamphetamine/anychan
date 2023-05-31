@@ -17,27 +17,6 @@
 	}
 }
 
-.ChannelHeaderToolbar-channelLayout,
-.ChannelHeaderToolbar-channelSorting {
-	--rrui-list-item-height: auto;
-
-	.rrui__expandable-list {
-		margin-top: 0.5rem;
-		margin-right: -1rem;
-
-		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItem);
-	}
-
-	.rrui__list__item {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-	}
-
-	.rrui__list__item--selected {
-		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItemHighlighted);
-	}
-}
-
 .ChannelHeaderToolbar-channelLayoutButton {
 	/*width: var(--MenuIcon-width);*/
 }
@@ -65,14 +44,34 @@
 	/*width: var(--MenuIcon-width);*/
 }
 
-.ChannelHeaderToolbar-channelSortingButtonIcon {
+.ChannelHeaderToolbar-channelSortingIcon {
   width: var(--MenuIcon-width);
   height: var(--MenuIcon-width);
 }
 
-.ChannelHeaderToolbar-channelLayout,
-.ChannelHeaderToolbar-channelSorting {
+/* Layout and Sorting <select/>s. */
+
+.ChannelHeaderToolbar-channelLayoutSelect,
+.ChannelHeaderToolbar-channelSortingSelect {
+	--rrui-list-item-height: auto;
+
 	margin-right: var(--ChannelHeaderToolbar-channelSorting-marginRight);
+
+	.rrui__expandable-list {
+		margin-top: 0.5rem;
+		margin-right: -1rem;
+
+		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItem);
+	}
+
+	.rrui__list__item {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	.rrui__list__item--selected {
+		--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth: var(--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItemHighlighted);
+	}
 }
 
 .ChannelHeaderToolbar-toolbar--afterChannelLayoutOrSortingSelect {

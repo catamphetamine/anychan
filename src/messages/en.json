@@ -247,9 +247,9 @@
 	"channelLayout": {
 		"title": "Layout",
 		"options": {
-			"threadsList": "Threads",
-			"threadsListWithLatestComments": "Threads with latest comments",
-			"threadsTiles": "Threads (tiles)"
+			"threadsList": "Threads list",
+			"threadsListWithLatestComments": "Threads list with latest comments",
+			"threadsTiles": "Thread tiles"
 		}
 	},
 	"channelSorting": {

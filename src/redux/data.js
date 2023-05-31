@@ -8,7 +8,7 @@ import getNewRepliesCount from '../utility/thread/getNewRepliesCount.js'
 
 // import _getChannels from '../api/getChannels.js'
 import _getChannelsCached from '../api/cached/getChannels.js'
-import _getThreads from '../api/getThreads.js'
+// import _getThreads from '../api/getThreads.js'
 import _getThread from '../api/getThread.js'
 
 const redux = new ReduxModule('DATA')
@@ -401,7 +401,7 @@ function populateChannelInfoFromThreadData(channel, thread) {
 function setThreadInfo(thread, channel) {
 	// `2ch.hk` and `4chan.org` provide `bumpLimit` info.
 	// Mark all comments that have reached that "bump limit".
-	if (channel.bumpLimit && !(thread.trimming || thread.onTop)) {
+	if (channel.bumpLimit && !(thread.trimming || thread.pinned)) {
 		if (thread.comments.length >= channel.bumpLimit) {
 			let i = channel.bumpLimit
 			while (i < thread.comments.length) {

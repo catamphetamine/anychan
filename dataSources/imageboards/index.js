@@ -1,4 +1,4 @@
-import { getConfig } from 'imageboard'
+import Imageboard, { getConfig } from 'imageboard'
 
 import getChannelsApi from '../../src/api/imageboard/getChannels.js'
 import getThreadsApi from '../../src/api/imageboard/getThreads.js'
@@ -70,6 +70,10 @@ for (const dataSource of DATA_SOURCES) {
 
 	if (imageboardConfig.api.report) {
 		dataSource.api.report = reportApi
+	}
+
+	dataSource.supportsFeature = (feature) => {
+		return Imageboard(dataSource.id).supportsFeature(feature)
 	}
 
 	function addDataSourceParameterToFunction(func) {

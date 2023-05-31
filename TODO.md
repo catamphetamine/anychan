@@ -7,6 +7,25 @@
 
 
 
+При переключении Layout или Sorting — мотать наверх (когда загрузилось, перед показом).
+
+
+
+Make entire <PostForm/> droppable
+
+
+Remove expandable menus and remake into icon buttons
+Layout: 3  buttons | Popular icon (if available) Search icon
+
+Layout buttons + popular button: show loading indicator while switching
+
+Popular icon: pressed: background with opacity + outline active.
+
+
+
+
+
+Expand search field on search icon click. Maybe remove search icon from sidebar threads list header.
 
 
 Add "x" (remove) icon on attached files.
@@ -195,7 +214,7 @@ Refresh postlinkproperties on `onContentChange()`. Split `onContentChange` into 
 
 
 
-"Единый поиска игор тред" — почему-то в конце списка показывается, а следует его показывать вначале (`thread.onTop` and `thread.onTopOrder`).
+"Единый поиска игор тред" — почему-то в конце списка показывается, а следует его показывать вначале (`thread.pinned` and `thread.pinnedOrder`).
 
 Scroll threads list in left sidebar to top when navigating to a new channel in the right sidebar (or some other way).
 

@@ -135,7 +135,7 @@ function addRootCommentProps(thread) {
 	// Also it used in `./CommentAuthor` to not show "original poster" badge
 	// on the opening post of a thread.
 	rootComment.isRootComment = true
-	// `bumpLimitReached`, `onTop` and others are used for post header badges.
+	// `bumpLimitReached`, `pinned` and others are used for post header badges.
 	for (const property of ROOT_COMMENT_PROPERTIES_OF_A_THREAD) {
 		rootComment[property] = thread[property]
 	}
@@ -149,7 +149,7 @@ export const ROOT_COMMENT_PROPERTIES_OF_A_THREAD = [
 	'commentAttachmentsCount',
 	'uniquePostersCount',
 	// Header badges.
-	'onTop',
+	'pinned',
 	'trim',
 	'archived',
 	'locked',

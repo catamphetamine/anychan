@@ -33,7 +33,7 @@
     "file-saver": "^2.0.5",
     "filesize": "^10.0.7",
     "flexible-json-schema": "^0.12.5",
-    "imageboard": "^0.6.29",
+    "imageboard": "^0.6.32",
     "intl-messageformat": "^10.3.4",
     "javascript-time-ago": "^2.5.9",
     "lodash-es": "^4.17.21",
