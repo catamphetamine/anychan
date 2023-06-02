@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { Link } from 'react-pages'
 
 import Menu from 'frontend-lib/components/Menu.js'
 
@@ -14,6 +15,7 @@ export default function Toolbar({
 	return (
 		<Menu
 			{...rest}
+			Link={Link}
 			className={classNames('Toolbar', className)}>
 			{items}
 		</Menu>

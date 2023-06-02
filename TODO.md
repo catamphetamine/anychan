@@ -7,8 +7,21 @@
 
 
 
+
+Remove `ButtonOrLink.js` component from `frontend-lib`.
+
+
+
 При переключении Layout или Sorting — мотать наверх (когда загрузилось, перед показом).
 
+
+
+File upload:
+* Show "loading" icon while loading preview ("blank" file icon + loading spinner, maybe a spinner like a flower like in MacOS)
+* Show "blank" file icon if preview not loaded
+* Show preview if preview is loaded
+
+Remove `<UnreadCommentWatcher/>` when showing search results (Channel, Thread).
 
 
 Make entire <PostForm/> droppable
@@ -168,6 +181,11 @@ Subscribed Threads List — мигают картинки, когда он об�
 
 Post Form: `showErrorMessage={false}` + setError()
 
+
+
+
+Loading spinner animation (refresh):
+https://cssloaders.github.io/
 
 
 

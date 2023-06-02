@@ -18,6 +18,7 @@ import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 import AttachIcon from 'frontend-lib/icons/attach.svg'
 
 import TextButton from './TextButton.js'
+import LoadingSpinner from './LoadingSpinner.js'
 
 import useMessages from '../hooks/useMessages.js'
 
@@ -160,6 +161,7 @@ function PostForm({
 					{fileAttachments.map((file, i) => (
 						<li key={i} className="PostForm-attachment">
 							{file.name}
+							{/*<LoadingSpinner/>*/}
 							{/*file.type*/}
 						</li>
 					))}

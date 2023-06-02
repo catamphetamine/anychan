@@ -12,28 +12,9 @@ import loadApplication from './pages/Application.load.js'
 
 export default function getReactPagesConfig() {
 	return getReactPagesConfig_({
-		container: ApplicationWrapper,
+		rootComponent: ApplicationWrapper,
 		routes,
 		reducers,
-
-		meta: getApplicationMeta,
-
-		load: async ({ dispatch, getState, location }) => {
-			const {
-				userData,
-				userSettings,
-				dataSource
-			} = getContext()
-
-			await loadApplication({
-				dispatch,
-				getState,
-				location,
-				userData,
-				userSettings,
-				dataSource
-			})
-		},
 
 		basename: getBasePath(),
 
