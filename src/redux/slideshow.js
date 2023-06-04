@@ -5,6 +5,7 @@ const redux = new ReduxModule('SLIDESHOW')
 const SLIDESHOW_PROPERTIES = [
 	'slides',
 	'index',
+	'mode',
 	'imageElement',
 	'goToSource'
 ]
