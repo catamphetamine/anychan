@@ -16,6 +16,7 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 import AttachIcon from 'frontend-lib/icons/attach.svg'
+import FileIcon from 'frontend-lib/icons/file-wide.svg'
 
 import TextButton from './TextButton.js'
 import LoadingSpinner from './LoadingSpinner.js'
@@ -157,15 +158,31 @@ function PostForm({
 				</div>
 			}
 			{canAttachFiles && fileAttachments.length > 0 &&
-				<ul className="PostForm-attachments">
-					{fileAttachments.map((file, i) => (
-						<li key={i} className="PostForm-attachment">
-							{file.name}
-							{/*<LoadingSpinner/>*/}
-							{/*file.type*/}
-						</li>
-					))}
-				</ul>
+				<div className="PostForm-attachments">
+					<ul className="PostForm-attachmentsList">
+						{fileAttachments.map((file, i) => {
+							const fileExtension = getFileExtension(file.name)
+							return (
+								<li key={i} className="PostForm-attachment">
+									<div className="PostForm-attachmentThumbnail">
+										<FileIcon className="PostForm-attachmentIcon"/>
+										<div className={classNames('PostForm-attachmentFileExtension', {
+											'PostForm-attachmentFileExtension--longer': fileExtension.length >= 4 && fileExtension.length < 5,
+											'PostForm-attachmentFileExtension--long': fileExtension.length >= 5
+										})}>
+											{fileExtension}
+										</div>
+									</div>
+									<div className="PostForm-attachmentTitle">
+										{file.name}
+									</div>
+									{/*<LoadingSpinner/>*/}
+									{/*file.type*/}
+								</li>
+							)
+						})}
+					</ul>
+				</div>
 			}
 			{canAttachFiles &&
 				<FileUploadButton
@@ -201,3 +218,10 @@ PostForm.propTypes = {
 export default PostForm
 
 export const POST_FORM_INPUT_FIELD_NAME = 'content'
+
+function getFileExtension(name) {
+	const parts = name.split('.')
+	if (parts.length > 1) {
+		return parts[parts.length - 1]
+	}
+}

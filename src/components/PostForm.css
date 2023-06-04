@@ -1,11 +1,28 @@
 @import "../styles/common.css";
 
-.PostForm {
+:root {
 	--PostForm-paddingLeft: var(--Post-paddingLeft);
 	--PostForm-paddingRight: var(--Post-paddingRight);
 	--PostForm-paddingTop: var(--Post-paddingTop);
 	--PostForm-paddingBottom: var(--Post-paddingBottom);
 
+	--PostFormAttachments-marginTop: calc(1.5 * var(--PostForm-paddingBottom));
+	--PostFormAttachments-paddingBottom: calc(0.5 * var(--PostForm-paddingBottom));
+
+	--PostFormAttachment-marginTop: calc(1.5 * var(--PostForm-paddingBottom));
+	--PostFormAttachment-marginRight: calc(1.5 * var(--PostForm-paddingBottom));
+
+	/* "wwww" file extension fits into the thumbnail. */
+	--PostFormAttachmentThumbnail-width: 4rem;
+	--PostFormAttachmentThumbnail-height: 4rem;
+	--PostFormAttachmentThumbnail-paddingLeft: 0.5rem;
+
+	--PostFormAttachmentTitle-maxWidth: 7rem;
+	--PostFormAttachmentTitle-maxHeight: 2.5rem;
+	--PostFormAttachmentTitle-marginTop: 0.75rem;
+}
+
+.PostForm {
 	--PostFormActionIcon-width: calc(var(--unit) * 2.2);
 
 	--PostFormAction-paddingLeft: var(--unit);
@@ -126,19 +143,83 @@
 }
 
 .PostForm-attachments {
+	/*margin-top: var(--PostForm-paddingBottom);*/
+	margin-top: calc(var(--PostFormAttachments-marginTop) - var(--PostFormAttachment-marginTop));
+}
+
+.PostForm-attachmentsList {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+
+	/*margin-top: calc(-1 * var(--PostFormAttachment-marginTop));*/
+	margin-right: calc(-1 * var(--PostFormAttachment-marginRight));
+	padding-bottom: var(--PostFormAttachments-paddingBottom);
 }
 
 .PostForm-attachment {
-	margin-bottom: var(--PostForm-paddingBottom);
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	margin-top: var(--PostFormAttachment-marginTop);
+  margin-right: var(--PostFormAttachment-marginRight);
 
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.PostForm-attachments,
+.PostForm-attachmentThumbnail {
+	position: relative;
+}
+
+.PostForm-attachmentFileExtension {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+
+	max-width: calc(var(--PostFormAttachmentThumbnail-width) - 2 * var(--PostFormAttachmentThumbnail-paddingLeft));
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.PostForm-attachmentFileExtension--longer {
+	/* "wwww" file extension fits. */
+	font-size: 95%;
+}
+
+.PostForm-attachmentFileExtension--long {
+	/* "wwwww" file extension fits. */
+	font-size: 75%;
+}
+
+.PostForm-attachmentIcon {
+	width: var(--PostFormAttachmentThumbnail-width);
+	height: var(--PostFormAttachmentThumbnail-height);
+}
+
+.PostForm-attachmentTitle {
+	max-width: var(--PostFormAttachmentTitle-maxWidth);
+	max-height: var(--PostFormAttachmentTitle-maxHeight);
+
+	margin-top: var(--PostFormAttachmentTitle-marginTop);
+
+	/* Long strings can overflow the attachment element max width.
+	   `overflow-wrap` in combination with `word-break` fixes that
+	   by forcing word breaks on overflow.
+	   https://stackoverflow.com/questions/17259916/difference-between-overflow-wrap-and-word-break
+	   https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap
+	   https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
 .PostForm-attach {
 	margin-top: var(--PostForm-paddingBottom);
 }
