@@ -7253,10 +7253,10 @@ react-modal@^3.15.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.2.tgz#25e0367e6f93f751e5db0f4c2eb4febe20b76de1"
-  integrity sha512-HpLAN4O6ysAOfj6Wi2NSsveNH8DD0sRFdjLgIHeeIi0VYbTR8yrP0p7ttG1SdEZBCpbz+kKKouUcUF6lAmlwvA==
+react-pages@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.3.tgz#896f61729a7915b07468402efddcd5234da1c59e"
+  integrity sha512-ZX7cvuSDPu54orf+ONItiA978HD4FRNxLrpB7m/4WlBU651eSNZCi8yBwDMQC4xMYd2Plj3KRAC8r/ochhLuBg==
   dependencies:
     "@catamphetamine/farce" "^0.4.18"
     "@catamphetamine/found" "^1.3.11"
