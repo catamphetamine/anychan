@@ -54,7 +54,7 @@
 	position: relative;
 }
 
-.PostForm-textInputContainer {
+.PostForm-textInput {
 	flex: 1;
 	margin-right: var(--PostFormTextInput-marginRight);
 }
@@ -135,9 +135,13 @@
 	bottom: 0;
 }
 
-.PostForm {
-	.rrui__file-upload__area--dragged-over {
-		box-shadow: 0 0 0 1px var(--base-color-200);
+.PostForm-dropFileArea {
+	width: 100%;
+}
+
+.PostForm-dropFileArea--draggedOver {
+	.PostForm {
+		/*box-shadow: 0 0 0 1px var(--base-color-200);*/
 		background-color: var(--base-color-100);
 	}
 }

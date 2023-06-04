@@ -92,24 +92,7 @@ function PostForm({
 	// re-mounts that form and the cursor jumps inside its input,
 	// causing the page scroll position to jump accordingly.
 
-	const contentInputFieldElement = (
-		<Field
-			required
-			name={POST_FORM_INPUT_FIELD_NAME}
-			type="text"
-			multiline
-			rows={2}
-			value={initialInputValue}
-			onChange={onInputValueChange}
-			initialHeight={initialInputHeight}
-			onHeightChange={onInputHeightChange}
-			onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
-			placeholder={messages.post.form.inputText}
-			className="form__component PostForm-textInput"
-		/>
-	)
-
-	return (
+	const formElement = (
 		<section className={classNames('PostForm', {
 			'PostForm--page': placement === 'page',
 			'PostForm--comment': placement === 'comment'
@@ -121,18 +104,20 @@ function PostForm({
 				initialState={initialState}
 				onStateDidChange={onStateDidChange}
 				className={classNames('form', 'PostForm-form')}>
-				{canAttachFiles
-					? (
-						<DropFileUpload clickable={false} onChange={onFileAttached} className="PostForm-textInputContainer">
-							{contentInputFieldElement}
-						</DropFileUpload>
-					)
-					: (
-						<div className="PostForm-textInputContainer">
-							{contentInputFieldElement}
-						</div>
-					)
-				}
+				<Field
+					required
+					name={POST_FORM_INPUT_FIELD_NAME}
+					type="text"
+					multiline
+					rows={2}
+					value={initialInputValue}
+					onChange={onInputValueChange}
+					initialHeight={initialInputHeight}
+					onHeightChange={onInputHeightChange}
+					onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
+					placeholder={messages.post.form.inputText}
+					className="form__component PostForm-textInput"
+				/>
 				{onCancel &&
 					<Button
 						onClick={onCancel}
@@ -196,6 +181,20 @@ function PostForm({
 			}
 		</section>
 	)
+
+	if (canAttachFiles) {
+		return (
+			<DropFileUpload
+				clickable={false}
+				onChange={onFileAttached}
+				className="PostForm-dropFileArea"
+				draggedOverClassName="PostForm-dropFileArea--draggedOver">
+				{formElement}
+			</DropFileUpload>
+		)
+	}
+
+	return formElement
 }
 
 PostForm = React.forwardRef(PostForm)

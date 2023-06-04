@@ -7304,10 +7304,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-responsive-ui@^0.15.45:
-  version "0.15.45"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.45.tgz#0c7f8ec012b72f9d8b650dd370576903a3879d94"
-  integrity sha512-iiTLeyWa+JIDvd7f2lii7qbHgLROYVmVv2ASeAfAPenCnNPZk/04O+4/b93PFWVANP4SE1l4RfbxavAI3kI0RQ==
+react-responsive-ui@^0.15.47:
+  version "0.15.47"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.47.tgz#68741e06d943def855a9fbaa14ee66e282b8e4a4"
+  integrity sha512-XVtFD06Dl6l4hLXrOvWk4+2Tfn2w/0ahol8jLJHKSmrw5jMZpMxY+IFDlWn23v0Wvb48ZMaUmgAJN+h7zSeHLA==
   dependencies:
     "@babel/node" "^7.18.10"
     classnames "^2.3.1"
