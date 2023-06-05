@@ -147,8 +147,7 @@
 }
 
 .PostForm-attachments {
-	/*margin-top: var(--PostForm-paddingBottom);*/
-	margin-top: calc(var(--PostFormAttachments-marginTop) - var(--PostFormAttachment-marginTop));
+	margin-top: var(--PostForm-paddingBottom);
 }
 
 .PostForm-attachmentsList {
@@ -160,8 +159,9 @@
 	align-items: center;
 	flex-wrap: wrap;
 
-	/*margin-top: calc(-1 * var(--PostFormAttachment-marginTop));*/
+	margin-top: calc(-1 * var(--PostFormAttachment-marginTop));
 	margin-right: calc(-1 * var(--PostFormAttachment-marginRight));
+
 	padding-bottom: var(--PostFormAttachments-paddingBottom);
 }
 
@@ -224,11 +224,17 @@
 	word-break: break-word;
 }
 
-.PostForm-attach {
+.PostForm {
+	.PostAttachments {
+		margin-top: var(--PostForm-paddingBottom);
+	}
+}
+
+.PostForm-attachFile {
 	margin-top: var(--PostForm-paddingBottom);
 }
 
-.PostForm-attachIcon {
+.PostForm-attachFileIcon {
 	width: 1.15rem;
 	height: 1.15rem;
 	margin-right: 0.35rem;

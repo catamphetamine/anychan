@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { TextInput, Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
@@ -18,8 +18,18 @@ import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 import AttachIcon from 'frontend-lib/icons/attach.svg'
 import FileIcon from 'frontend-lib/icons/file-wide.svg'
 
+import getFileInfo from 'frontend-lib/utility/file/getFileInfo.js'
+import getFileDataUrl from 'frontend-lib/utility/file/getFileDataUrl.js'
+import getAudioFileInfoFromId3Tags from 'frontend-lib/utility/file/getAudioFileInfoFromId3Tags.js'
+
 import TextButton from './TextButton.js'
 import LoadingSpinner from './LoadingSpinner.js'
+
+import PostAttachments from 'social-components-react/components/PostAttachments.js'
+
+import useSlideshow from './Comment/useSlideshow.js'
+
+import { showError } from '../redux/notifications.js'
 
 import useMessages from '../hooks/useMessages.js'
 
@@ -43,6 +53,8 @@ function PostForm({
 
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState()
+
+	const [files, setFiles] = useState([])
 	const [fileAttachments, setFileAttachments] = useState([])
 
 	useEffectSkipMount(() => {
@@ -70,10 +82,30 @@ function PostForm({
 		}
 	}, [])
 
-	const onFileAttached = useCallback((file) => {
-		setFileAttachments(fileAttachments.concat(file))
+	const dummyPostWithAttachments = useMemo(() => {
+		return {
+			attachments: fileAttachments
+		}
+	}, [fileAttachments])
+
+	const { onAttachmentClick } = useSlideshow({ comment: dummyPostWithAttachments })
+
+	const dispatch = useDispatch()
+
+	const onFileAttached = useCallback(async (file) => {
+		try {
+			const attachment = await createAttachmentForFile(file)
+			attachment.id = getNextAttachmentId(fileAttachments)
+			setFiles(files.concat({ file, id: attachment.id }))
+			setFileAttachments(fileAttachments.concat(attachment))
+		} catch (error) {
+			dispatch(showError(messages.errors.attachFileError))
+			throw error
+		}
 	}, [
-		fileAttachments
+		files,
+		fileAttachments,
+		messages
 	])
 
 	const loadingIndicatorFadeOutDuration = 160 // ms
@@ -143,9 +175,21 @@ function PostForm({
 				</div>
 			}
 			{canAttachFiles && fileAttachments.length > 0 &&
+				<PostAttachments
+					compact
+					post={dummyPostWithAttachments}
+					useSmallestThumbnails={true}
+					maxAttachmentThumbnails={false}
+					attachmentThumbnailSize={undefined}
+					spoilerLabel={messages.post.spoiler}
+					onAttachmentClick={onAttachmentClick}
+				/>
+			}
+			{canAttachFiles && fileAttachments.length > 0 &&
 				<div className="PostForm-attachments">
 					<ul className="PostForm-attachmentsList">
-						{fileAttachments.map((file, i) => {
+						{fileAttachments.map((attachment, i) => {
+							const file = files.find(_ => _.id === attachment.id).file
 							const fileExtension = getFileExtension(file.name)
 							return (
 								<li key={i} className="PostForm-attachment">
@@ -174,8 +218,8 @@ function PostForm({
 					component={TextButton}
 					type="button"
 					onChange={onFileAttached}
-					className="PostForm-attach">
-					<AttachIcon className="PostForm-attachIcon"/>
+					className="PostForm-attachFile">
+					<AttachIcon className="PostForm-attachFileIcon"/>
 					{messages.actions.attachFile}
 				</FileUploadButton>
 			}
@@ -223,4 +267,84 @@ function getFileExtension(name) {
 	if (parts.length > 1) {
 		return parts[parts.length - 1]
 	}
+}
+
+async function createAttachmentForFile(file) {
+	const [type, subtype] = file.type.split('/')
+	switch (type) {
+		case 'image':
+			const imageInfo = await getFileInfo(file)
+			return {
+				type: 'picture',
+				picture: {
+					type: imageInfo.type,
+					size: imageInfo.size,
+					width: imageInfo.width,
+					height: imageInfo.height,
+					url: imageInfo.url
+				}
+			}
+		case 'video':
+			const videoInfo = await getFileInfo(file)
+			return {
+				type: 'video',
+				video: {
+					type: videoInfo.type,
+					size: videoInfo.size,
+					width: videoInfo.width,
+					height: videoInfo.height,
+					url: videoInfo.url,
+					duration: videoInfo.duration,
+					picture: {
+						type: videoInfo.picture.type,
+						width: videoInfo.picture.width,
+						height: videoInfo.picture.height,
+						url: videoInfo.picture.url
+					}
+				}
+			}
+		case 'audio':
+			const audioInfo = await getFileInfo(file)
+			const audioId3Tags = await getAudioFileInfoFromId3Tags(file)
+			// Get audio title.
+			let title
+			if (audioId3Tags.title) {
+				title = audioId3Tags.title
+				if (audioId3Tags.artist) {
+					title = audioId3Tags.artist + ' — ' + audioId3Tags.title
+				}
+			}
+			// Return audio attachment.
+			return {
+				type: 'audio',
+				audio: {
+					title,
+					type: audioInfo.type,
+					size: audioInfo.size,
+					url: audioInfo.url,
+					duration: audioInfo.duration
+				}
+			}
+		default:
+			const fileDataUrl = await getFileDataUrl(file)
+			return {
+				type: 'file',
+				file: {
+					name: file.name,
+					type: file.type,
+					size: file.size,
+					url: fileDataUrl
+				}
+			}
+	}
+}
+
+function getNextAttachmentId(attachments) {
+	let id = 1
+	for (const attachment of attachments) {
+		if (attachment.id) {
+			id = Math.max(id, attachment.id)
+		}
+	}
+	return id + 1
 }

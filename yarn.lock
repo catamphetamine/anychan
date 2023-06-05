@@ -1439,6 +1439,13 @@
     tiny-set-immediate "^1.0.2"
     tiny-warning "^1.0.3"
 
+"@catamphetamine/id3js@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@catamphetamine/id3js/-/id3js-1.0.0.tgz#41fd4799d2bbaa8be0de93154726789450d535d3"
+  integrity sha512-pok0swd/oZ5FWDitYYg0BA9CZxZAG7aCW66nB1THeRVhiYh9tEj3l7f2/jSiqwCzkPx0Fs8gqeAcXYF0GTsvLg==
+  dependencies:
+    node-fetch "^3.3.1"
+
 "@csstools/cascade-layer-name-parser@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@csstools/cascade-layer-name-parser/-/cascade-layer-name-parser-1.0.2.tgz#35253f57c6c83d684fe396672486c644e6a84127"
