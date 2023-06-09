@@ -45,7 +45,12 @@ function PostForm({
 	initialError,
 	onErrorDidChange,
 	initialInputHeight,
-	onInputHeightChange,
+	onInputHeightDidChange,
+	initialFiles,
+	onFilesDidChange,
+	initialAttachments,
+	onAttachmentsDidChange,
+	onHeightDidChange,
 	onCancel,
 	onSubmit: onSubmit_
 }, ref) {
@@ -54,14 +59,29 @@ function PostForm({
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState()
 
-	const [files, setFiles] = useState([])
-	const [fileAttachments, setFileAttachments] = useState([])
+	const [files, setFiles] = useState(initialFiles || [])
+	const [fileAttachments, setFileAttachments] = useState(initialAttachments || [])
 
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
 			onErrorDidChange(error)
 		}
 	}, [error])
+
+	useEffectSkipMount(() => {
+		// They say that two consequtive `setState()` calls are batched together.
+		// Still, in case there's any weird behavior in some hypothetical future,
+		// this `if` consistency check here guards against possible weird bugs
+		// resulting from possibly inconsistent data being written in the form state.
+		if (files.length === fileAttachments.length) {
+			if (onFilesDidChange) {
+				onFilesDidChange(files)
+			}
+			if (onAttachmentsDidChange) {
+				onAttachmentsDidChange(fileAttachments)
+			}
+		}
+	}, [files, fileAttachments])
 
 	const onSubmit = useCallback(async (values) => {
 		try {
@@ -98,6 +118,9 @@ function PostForm({
 			attachment.id = getNextAttachmentId(fileAttachments)
 			setFiles(files.concat({ file, id: attachment.id }))
 			setFileAttachments(fileAttachments.concat(attachment))
+			if (onHeightDidChange) {
+				onHeightDidChange()
+			}
 		} catch (error) {
 			dispatch(showError(messages.errors.attachFileError))
 			throw error
@@ -145,7 +168,7 @@ function PostForm({
 					value={initialInputValue}
 					onChange={onInputValueChange}
 					initialHeight={initialInputHeight}
-					onHeightChange={onInputHeightChange}
+					onHeightChange={onInputHeightDidChange}
 					onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
 					placeholder={messages.post.form.inputText}
 					className="form__component PostForm-textInput"
@@ -255,7 +278,12 @@ PostForm.propTypes = {
 	initialInputValue: PropTypes.string,
 	onInputValueChange: PropTypes.func,
 	initialInputHeight: PropTypes.number,
-	onInputHeightChange: PropTypes.func
+	onInputHeightDidChange: PropTypes.func,
+	initialFiles: PropTypes.arrayOf(PropTypes.object),
+	onFilesDidChange: PropTypes.func,
+	initialAttachments: PropTypes.arrayOf(PropTypes.object),
+	onAttachmentsDidChange: PropTypes.func,
+	onHeightDidChange: PropTypes.func
 }
 
 export default PostForm

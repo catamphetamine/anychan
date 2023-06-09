@@ -65,10 +65,10 @@ export default function migrate({
 					subscribedThreadsState,
 					{ channelId, threadId },
 					// Doesn't use:
-					// `createSubscribedThreadStatsRecordStubEncoded(decodeData(subscribedThread, collections['subscribedThreads']))`
+					// `createSubscribedThreadStateRecordStubEncoded(decodeData(subscribedThread, collections['subscribedThreads']))`
 					// because:
 					// * `subscribedThreads` collection hasn't been migrated yet by this time.
-					// * If the structure of the `subscribedThreadStats` collection changes in some future,
+					// * If the structure of the `subscribedThreadState` collection changes in some future,
 					//   it will get reflected in further migrations anyway.
 					{
 						// The comments count of `1` is, obviously, not true, but it doesn't really matter,

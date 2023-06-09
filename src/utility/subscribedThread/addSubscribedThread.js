@@ -1,7 +1,7 @@
 import { getSubscribedThreadsUpdater } from '../globals.js'
 import sortSubscribedThreads from './sortSubscribedThreads.js'
 import createSubscribedThreadRecord from './createSubscribedThreadRecord.js'
-import createSubscribedThreadStatsRecord from './createSubscribedThreadStatsRecord.js'
+import createSubscribedThreadStateRecord from './createSubscribedThreadStateRecord.js'
 
 import { Timer } from 'web-browser-timer'
 
@@ -22,10 +22,10 @@ export default function addSubscribedThread(thread, {
 	userData.addSubscribedThreadIdForChannel(thread.channelId, thread.id)
 
 	// Add `subscribedThreadsStats` record to User Data.
-	userData.setSubscribedThreadStats(
+	userData.setSubscribedThreadState(
 		thread.channelId,
 		thread.id,
-		createSubscribedThreadStatsRecord(thread, {
+		createSubscribedThreadStateRecord(thread, {
 			refreshedAt: subscribedThread.addedAt,
 			userData
 		})
@@ -33,7 +33,7 @@ export default function addSubscribedThread(thread, {
 
 	// Sort the list of subscribed threads.
 	// Remove old expired subscribed threads.
-	// Sorting subscribed threads uses `subscribedThreadStats` info,
+	// Sorting subscribed threads uses `subscribedThreadState` info,
 	// that's why it's performed at the end of this function.
 	sortAndCleanUpExpiredSubscribedThreads({ userData, timer })
 

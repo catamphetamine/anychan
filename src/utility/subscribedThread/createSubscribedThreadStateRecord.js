@@ -4,7 +4,7 @@ import getFirstNewCommentIndex from '../thread/getFirstNewCommentIndex.js'
 import getNewCommentsCount from '../thread/getNewCommentsCount.js'
 import getNewRepliesCount from '../thread/getNewRepliesCount.js'
 
-export default function createSubscribedThreadStatsRecord(thread, {
+export default function createSubscribedThreadStateRecord(thread, {
 	refreshedAt,
 	userData
 }) {
@@ -47,7 +47,7 @@ export default function createSubscribedThreadStatsRecord(thread, {
 
 // This record is created when it's found out that no "stats" record
 // exists for the subscribed thread in `UserData` (fixes data corruption).
-export function createSubscribedThreadStatsRecordStubEncoded(subscribedThread) {
+export function createSubscribedThreadStateRecordStubEncoded(subscribedThread) {
 	return {
 		refreshedAt: encodeDate(subscribedThread.addedAt),
 		latestComment: {
@@ -71,7 +71,7 @@ export function createSubscribedThreadStatsRecordStubEncoded(subscribedThread) {
 //
 // Returns `undefined` if a subscribed thread stats record couldn't be created.
 //
-export function createSubscribedThreadStatsRecordForIncrementalUpdate(thread, {
+export function createSubscribedThreadStateRecordForIncrementalUpdate(thread, {
 	prevStats,
 	refreshedAt,
 	userData
@@ -80,7 +80,7 @@ export function createSubscribedThreadStatsRecordForIncrementalUpdate(thread, {
 	if (thread.afterCommentId > prevStats.latestComment.id) {
 		console.error('Incremental update after comment ID', thread.afterCommentId)
 		console.error('Prevous latest comment ID', prevStats.latestComment.id)
-		console.error('createSubscribedThreadStatsRecordForIncrementalUpdate(): the "incremental" thread update data is not enough for getting the new comments count')
+		console.error('createSubscribedThreadStateRecordForIncrementalUpdate(): the "incremental" thread update data is not enough for getting the new comments count')
 		return
 	}
 

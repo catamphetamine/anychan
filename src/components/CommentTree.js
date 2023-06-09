@@ -58,7 +58,9 @@ export default function CommentTree({
 					showReplyForm,
 					// Reset reply form state.
 					replyForm: undefined,
-					replyFormInputHeight: undefined
+					replyFormInputHeight: undefined,
+					replyFormFiles: undefined,
+					replyFormAttachments: undefined
 				}))
 			},
 			initialExpandContent: initialState.expandContent,
@@ -131,10 +133,24 @@ export default function CommentTree({
 				}))
 			},
 			initialReplyFormInputHeight: initialState.replyFormInputHeight,
-			onReplyFormInputHeightChange: (height) => {
+			onReplyFormInputHeightDidChange: (height) => {
 				updateState((state) => ({
 					...state,
 					replyFormInputHeight: height
+				}))
+			},
+			initialReplyFormFiles: initialState.replyFormFiles,
+			onReplyFormFilesDidChange: (files) => {
+				updateState((state) => ({
+					...state,
+					replyFormFiles: files
+				}))
+			},
+			initialReplyFormAttachments: initialState.replyFormAttachments,
+			onReplyFormAttachmentsDidChange: (attachments) => {
+				updateState((state) => ({
+					...state,
+					replyFormAttachments: attachments
 				}))
 			},
 			getCommentById

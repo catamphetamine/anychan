@@ -27,7 +27,7 @@ export default function useReply({
 	initialShowReplyForm,
 	onShowReplyFormChange,
 	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
-	onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+	onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
 	onRenderedContentDidChange,
 	moreActionsButtonRef,
 	locale
@@ -45,8 +45,8 @@ export default function useReply({
 			onShowReplyFormChange(showReplyForm)
 		}
 		// Reply form has been toggled: update `virtual-scroller` item height.
-		if (onReplyFormInputHeightChange) {
-			onReplyFormInputHeightChange()
+		if (onReplyFormInputHeightDidChange) {
+			onReplyFormInputHeightDidChange()
 		}
 		if (showReplyForm) {
 			replyForm.current.focus()
@@ -189,15 +189,15 @@ export default function useReply({
 		checkCanReply
 	])
 
-	const onReplyFormInputHeightChange = useCallback((height) => {
-		if (onReplyFormInputHeightChange_) {
-			onReplyFormInputHeightChange_(height)
+	const onReplyFormInputHeightDidChange = useCallback((height) => {
+		if (onReplyFormInputHeightDidChange_) {
+			onReplyFormInputHeightDidChange_(height)
 		}
 		if (onRenderedContentDidChange) {
 			onRenderedContentDidChange()
 		}
 	}, [
-		onReplyFormInputHeightChange_,
+		onReplyFormInputHeightDidChange_,
 		onRenderedContentDidChange
 	])
 
@@ -226,7 +226,7 @@ export default function useReply({
 		onCancelReply,
 		onSubmitReply,
 		onReplyFormErrorDidChange,
-		onReplyFormInputHeightChange
+		onReplyFormInputHeightDidChange
 	}
 }
 

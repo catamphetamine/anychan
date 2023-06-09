@@ -1,5 +1,5 @@
 import doesSubscribedThreadHaveNewComments from './doesSubscribedThreadHaveNewComments.js'
-import createSubscribedThreadStatsRecord from './createSubscribedThreadStatsRecord.js'
+import createSubscribedThreadStateRecord from './createSubscribedThreadStateRecord.js'
 import UserData from '../../UserData/UserData.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -38,7 +38,7 @@ describe('doesSubscribedThreadHaveNewComments', () => {
 
 		userData.setLatestReadCommentId('a', 100, 100)
 
-		userData.setSubscribedThreadStats('a', 100, createSubscribedThreadStatsRecord(thread, {
+		userData.setSubscribedThreadState('a', 100, createSubscribedThreadStateRecord(thread, {
 			refreshedAt: new Date(0),
 			userData
 		}))
@@ -50,7 +50,7 @@ describe('doesSubscribedThreadHaveNewComments', () => {
 
 		userData.setLatestReadCommentId('a', 100, 101)
 
-		userData.setSubscribedThreadStats('a', 100, createSubscribedThreadStatsRecord(thread, {
+		userData.setSubscribedThreadState('a', 100, createSubscribedThreadStateRecord(thread, {
 			refreshedAt: new Date(0),
 			userData
 		}))

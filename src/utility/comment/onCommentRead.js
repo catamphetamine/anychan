@@ -1,7 +1,8 @@
 import { onCommentRead as onCommentReadAction } from '../../redux/data.js'
-import { updateSubscribedThreadStats } from '../../redux/subscribedThreads.js'
+import { updateSubscribedThreadState } from '../../redux/subscribedThreads.js'
 
-import createSubscribedThreadStatsRecord from '../subscribedThread/createSubscribedThreadStatsRecord.js'
+import createSubscribedThreadStateRecord from '../subscribedThread/createSubscribedThreadStateRecord.js'
+import reSortSubscribedThreads from '../subscribedThread/reSortSubscribedThreads.js'
 
 export default function onCommentRead({
 	channelId,
@@ -17,17 +18,17 @@ export default function onCommentRead({
 
 	// If this thread is subscribed to, then update "new comments" counter
 	// for this thread in "thread subscriptions" list in the Sidebar.
-	const subscribedThreadStats = userData.getSubscribedThreadStats(channelId, threadId)
-	if (subscribedThreadStats) {
-		dispatch(updateSubscribedThreadStats(
+	const subscribedThreadState = userData.getSubscribedThreadState(channelId, threadId)
+	if (subscribedThreadState) {
+		dispatch(updateSubscribedThreadState(
 			channelId,
 			threadId,
-			subscribedThreadStats,
+			subscribedThreadState,
 			{
-				...createSubscribedThreadStatsRecord(thread, { channel, userData }),
+				...createSubscribedThreadStateRecord(thread, { channel, userData }),
 				// Retain the `refreshedAt` timestamp because the thread hasn't been updated,
 				// it's just that some previously-unread comment in it has been read.
-				refreshedAt: subscribedThreadStats.refreshedAt
+				refreshedAt: subscribedThreadState.refreshedAt
 			},
 			{ userData }
 		))

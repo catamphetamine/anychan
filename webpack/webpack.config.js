@@ -43,7 +43,13 @@ export function createConfiguration({ development }) {
 					// * `imageboard` — Is an `npm` package. Is not compiled when published.
 					// * `react-pages` — Is an `npm` package. Is not compiled when published.
 					// * `flexible-json-schema` — Is an `npm` package. Is not compiled when published.
-					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-parser|social-components-react|social-components|imageboard|react-pages|flexible-json-schema)[\/\\])/,
+					// * `web-browser-input` — Is an `npm` package. Is not compiled when published.
+					// * `web-browser-storage` — Is an `npm` package. Is not compiled when published.
+					// * `web-browser-style` — Is an `npm` package. Is not compiled when published.
+					// * `web-browser-tab` — Is an `npm` package. Is not compiled when published.
+					// * `web-browser-timer` — Is an `npm` package. Is not compiled when published.
+					// * `web-browser-window` — Is an `npm` package. Is not compiled when published.
+					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-parser|social-components-react|social-components|imageboard|react-pages|flexible-json-schema|web-browser-input|web-browser-storage|web-browser-style|web-browser-tab|web-browser-timer|web-browser-window)[\/\\])/,
 					use: [{
 						// https://blog.logrocket.com/migrating-swc-webpack-babel-overview/
 						loader: 'swc-loader'
@@ -117,7 +123,7 @@ export function createConfiguration({ development }) {
 			// the changes in their code, either via hot-reload or by refreshing the page.
 			// By default, Webpack caches the whole `node_modules` folder and doesn't hot-reload it.
 			// https://webpack.js.org/configuration/other-options/#managedpaths
-    	managedPaths: [
+			managedPaths: [
 				// Don't cache packages:
 				// * `frontend-lib` — Is not an `npm` package. Is a `yarn link`-ed folder.
 				// * `social-components` — Is an `npm` package.
@@ -128,8 +134,14 @@ export function createConfiguration({ development }) {
 				// * `react-responsive-ui` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `virtual-scroller` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
 				// * `easy-react-form` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
-				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-parser|social-components-react|imageboard|react-pages|react-responsive-ui|virtual-scroller|easy-react-form)[\/\\]))/
-    	]
+				// * `web-browser-input` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				// * `web-browser-storage` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				// * `web-browser-style` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				// * `web-browser-tab` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				// * `web-browser-timer` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				// * `web-browser-window` — Is an `npm` package. It's convenient to edit the code of this package directly when experimenting during development.
+				/(node_modules[\/\\](?!(frontend-lib|social-components|social-components-parser|social-components-react|imageboard|react-pages|react-responsive-ui|virtual-scroller|easy-react-form|web-browser-input|web-browser-storage|web-browser-style|web-browser-tab|web-browser-timer|web-browser-window)[\/\\]))/
+			]
 		},
 
 		// Hides "Entrypoint size exeeds the recommened limit (250kB)" warnings.

@@ -69,7 +69,7 @@ describe('addSubscribedThread', function() {
 			locked: true
 		})
 
-		userData.getSubscribedThreadStats('a', 123).should.deep.equal({
+		userData.getSubscribedThreadState('a', 123).should.deep.equal({
 			latestComment: {
 				id: 124,
 				createdAt: nowWithoutMilliseconds

@@ -1,3 +1,4 @@
+// import { BundleAnalyzerPlugin } from 'webpack-analyzer-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -36,7 +37,14 @@ configuration.plugins = configuration.plugins.concat([
     // both options are optional
     filename: "[name].[contenthash].css",
     chunkFilename: "[name].[contenthash].css"
-  })
+  }),
+
+  // // Reports the size of the bundle.
+  // new BundleAnalyzerPlugin({
+  //   analyzerMode: 'static',
+  //   reportFilename: 'bundle-stats.html',
+  //   openAnalyzer: false
+  // })
 ])
 
 // Extracts CSS into a separate file.

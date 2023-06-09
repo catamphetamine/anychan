@@ -439,21 +439,21 @@ export default class SubscribedThreadsUpdater {
 				continue
 			}
 
-			const subscribedThreadStats = this.userData.getSubscribedThreadStats(
+			const subscribedThreadState = this.userData.getSubscribedThreadState(
 				subscribedThread.channel.id,
 				subscribedThread.id
 			)
 
-			if (!subscribedThreadStats) {
+			if (!subscribedThreadState) {
 				console.error(`"subscribedThreadsState" record not found for subscribed thread "/${subscribedThread.channel.id}/${subscribedThread.id}"`)
 			}
 
 			let latestUpdateAt
 			let latestCommentDate
 
-			if (subscribedThreadStats) {
-				latestUpdateAt = subscribedThreadStats.refreshedAt
-				latestCommentDate = subscribedThreadStats.latestComment.createdAt
+			if (subscribedThreadState) {
+				latestUpdateAt = subscribedThreadState.refreshedAt
+				latestCommentDate = subscribedThreadState.latestComment.createdAt
 			} else {
 				latestUpdateAt = subscribedThread.addedAt
 				latestCommentDate = subscribedThread.addedAt
@@ -484,7 +484,7 @@ export default class SubscribedThreadsUpdater {
 	async refreshThread(subscribedThread) {
 		// Calls `onSubscribedThreadFetched()` internally after the thread's data
 		// has been fetched.
-		// const subscribedThreadStats = this.userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
+		// const subscribedThreadState = this.userData.getSubscribedThreadState(subscribedThread.channel.id, subscribedThread.id)
 		await getThread({
 			channelId: subscribedThread.channel.id,
 			threadId: subscribedThread.id
@@ -493,8 +493,8 @@ export default class SubscribedThreadsUpdater {
 			// though it could potentially be used in some hypothetical future.
 			// It would enable fetching only the "incremental" update
 			// for the thread instead of fetching all of its comments.
-			// afterCommentId: subscribedThreadStats && subscribedThreadStats.latestComment.id,
-			// afterCommentsCount: subscribedThreadStats && subscribedThreadStats.commentsCount,
+			// afterCommentId: subscribedThreadState && subscribedThreadState.latestComment.id,
+			// afterCommentsCount: subscribedThreadState && subscribedThreadState.commentsCount,
 			...this.createGetThreadParameters()
 		}, {
 			dispatch: this.dispatch,

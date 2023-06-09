@@ -12,6 +12,7 @@ import getMessages from '../../messages/index.js'
 
 import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
+import PinnedThreads from '../../components/PinnedThreads/PinnedThreads.js'
 
 import ChannelThread from './ChannelThread.js'
 import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
@@ -66,6 +67,8 @@ function ChannelPage() {
 	// which was loaded for the previous `channelLayout` / `channelSorting`
 	// when switching channel view in the Toolbar.
 	const threadsForPreviousChannelView = useRef()
+
+	const threadsList = threadsForPreviousChannelView.current || threads
 
 	// Update max attachment thumbnail width.
 	useUpdateAttachmentThumbnailMaxWidth({ threads })
@@ -150,6 +153,10 @@ function ChannelPage() {
 			/>
 
 			<div className="ChannelPage-commentsListContainer">
+				{/*<PinnedThreads
+					threads={threadsList}
+				/>*/}
+
 				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
 				    when the user changes the current channel's viewing mode. */}
 				<CommentsList
@@ -161,7 +168,7 @@ function ChannelPage() {
 					setState={setVirtualScrollerState}
 					initialScrollPosition={initialScrollPosition}
 					setScrollPosition={setScrollPosition}
-					items={threadsForPreviousChannelView.current || threads}
+					items={threadsList}
 					itemComponent={ChannelThread}
 					itemComponentProps={itemComponentProps}
 					className={classNames('ChannelPage-threads', {

@@ -47,7 +47,7 @@ describe('onThreadFetched', function() {
 
 		userData.getSubscribedThread('a', 123).id.should.equal(123)
 
-		userData.getSubscribedThreadStats('a', 123).should.deep.equal({
+		userData.getSubscribedThreadState('a', 123).should.deep.equal({
 			latestComment: {
 				id: 123,
 				createdAt: nowWithoutMilliseconds
@@ -101,7 +101,7 @@ describe('onThreadFetched', function() {
 			updatedAt: nowWithoutMilliseconds
 		})
 
-		userData.getSubscribedThreadStats('a', 123).should.deep.equal({
+		userData.getSubscribedThreadState('a', 123).should.deep.equal({
 			latestComment: {
 				id: 124,
 				createdAt: nowWithoutMilliseconds

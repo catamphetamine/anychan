@@ -155,7 +155,7 @@ describe('UserDataCleaner', function() {
 		// The clean-up procedure also fixes corrupt thread data.
 		// In this case, it should've re-created a missing "thread stats" record.
 		expectToEqual(
-			userData.getSubscribedThreadStats('a', 123),
+			userData.getSubscribedThreadState('a', 123),
 			{
 				refreshedAt: tooOldDate,
 				latestComment: {
@@ -182,7 +182,7 @@ describe('UserDataCleaner', function() {
 		// Doesn't clean up `subscribedThreadsStats` collection,
 		// even when it's "unused" (old) threads data.
 		expectToEqual(
-			userData.getSubscribedThreadStats('b', 456).commentsCount,
+			userData.getSubscribedThreadState('b', 456).commentsCount,
 			1
 		)
 
@@ -203,7 +203,7 @@ describe('UserDataCleaner', function() {
 		// Doesn't clean up `subscribedThreadsStats` collection,
 		// even when it's "unused" (old) threads data.
 		expectToEqual(
-			userData.getSubscribedThreadStats('c', 789).commentsCount,
+			userData.getSubscribedThreadState('c', 789).commentsCount,
 			1
 		)
 

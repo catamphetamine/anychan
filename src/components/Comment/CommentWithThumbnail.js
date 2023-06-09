@@ -91,7 +91,7 @@ export default function CommentWithThumbnail({
 	if (hidden) {
 		commentElement = (
 			<CommentHidden
-				mode={mode}
+				type={comment.id === threadId ? 'thread' : 'comment'}
 				comment={comment}
 				messages={getMessages(locale)}
 				className={commentClassName}
@@ -141,6 +141,7 @@ export default function CommentWithThumbnail({
 			onAttachmentClick={onAttachmentClick}
 			showThumbnail={!hidden}
 			className={classNames(className, 'Comment', `Comment--${mode}`, {
+				'Comment--hidden': hidden,
 				'Comment--compact': compact,
 				// 'Comment--removed': comment.removed,
 				'Comment--titled': comment.title,

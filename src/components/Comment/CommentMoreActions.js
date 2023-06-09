@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -14,6 +14,7 @@ import {
 } from '../../PropTypes.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
+import useUserData from '../../hooks/useUserData.js'
 
 import getMessages from '../../messages/index.js'
 
@@ -38,6 +39,26 @@ export default function CommentMoreActions({
 }) {
 	const dispatch = useDispatch()
 	const dataSource = useDataSource()
+	const userData = useUserData()
+
+	const commentId = comment.id
+
+	const isOwn = useCallback(() => {
+		if (mode === 'thread') {
+			return userData.isOwnComment(channelId, threadId, commentId)
+		} else {
+			return userData.isOwnThread(channelId, threadId)
+		}
+	}, [
+		mode,
+		userData,
+		channelId,
+		threadId,
+		commentId
+	])
+
+	const [markedAsOwn, setMarkedAsOwn] = useState(isOwn())
+	const [isIgnoredAuthor, setIgnoredAuthor] = useState(comment.authorId ? userData.isIgnoredAuthor(comment.authorId) : false)
 
 	const moreActions = useMemo(() => {
 		let actions = []
@@ -51,7 +72,7 @@ export default function CommentMoreActions({
 			}
 			actions.push({
 				label: messages.post.moreActions.copyId,
-				onClick: () => copyTextToClipboard('>>' + comment.id)
+				onClick: () => copyTextToClipboard('>>' + commentId)
 			})
 		}
 
@@ -86,15 +107,32 @@ export default function CommentMoreActions({
 			// "Hide".
 			{
 				label: messages.post.moreActions.hide,
-				onClick: () => onHide()
-			},
-
-			// "Ignore Author".
-			{
-				label: messages.post.moreActions.ignoreAuthor,
-				onClick: () => dispatch(notify(messages.notImplemented))
+				onClick: () => {
+					onHide()
+				}
 			}
 		])
+
+		console.log('@@@@@@@@@@@@', isIgnoredAuthor)
+
+		if (comment.authorId) {
+			// "Ignore Author".
+			actions.push({
+				label: isIgnoredAuthor
+					? messages.post.moreActions.unignoreAuthor
+					: messages.post.moreActions.ignoreAuthor,
+				onClick: () => {
+					if (userData.isIgnoredAuthor(comment.authorId)) {
+						userData.removeIgnoredAuthor(comment.authorId)
+						setIgnoredAuthor(false)
+					} else {
+						userData.addIgnoredAuthor(comment.authorId)
+						setIgnoredAuthor(true)
+					}
+					dispatch(notify(messages.notImplemented))
+				}
+			})
+		}
 
 		if (mode === 'thread') {
 			// "Show original comment".
@@ -103,7 +141,7 @@ export default function CommentMoreActions({
 				label: messages.post.moreActions.showOriginalComment,
 				onClick: () => {
 					let url
-					if (comment.id === threadId) {
+					if (commentId === threadId) {
 						url = getThreadUrl(dataSource, {
 							channelId,
 							threadId,
@@ -113,7 +151,7 @@ export default function CommentMoreActions({
 						url = getCommentUrl(dataSource, {
 							channelId,
 							threadId,
-							commentId: comment.id,
+							commentId,
 							notSafeForWork: channelIsNotSafeForWork
 						})
 					}
@@ -123,7 +161,45 @@ export default function CommentMoreActions({
 		}
 
 		if (mode === 'thread') {
-			if (comment.id === threadId) {
+			// "This is my comment" / "This is not my comment".
+			actions.push({
+				label: isOwn()
+					? (threadId === commentId ? messages.unmarkAsOwnThread : messages.unmarkAsOwnComment)
+					: (threadId === commentId ? messages.markAsOwnThread : messages.markAsOwnComment),
+				onClick: () => {
+					if (isOwn()) {
+						userData.removeOwnComment(channelId, threadId, commentId)
+						if (threadId === commentId) {
+							userData.removeOwnThread(channelId, threadId)
+						}
+						setMarkedAsOwn(false)
+					} else {
+						userData.addOwnComment(channelId, threadId, commentId)
+						if (threadId === commentId) {
+							userData.addOwnThread(channelId, threadId)
+						}
+						setMarkedAsOwn(true)
+					}
+				}
+			})
+		} else {
+			// "This is my thread" / "This is not my thread".
+			actions.push({
+				label: isOwn() ? messages.unmarkAsOwnThread : messages.markAsOwnThread,
+				onClick: () => {
+					if (isOwn()) {
+						userData.removeOwnThread(channelId, threadId)
+						setMarkedAsOwn(false)
+					} else {
+						userData.addOwnThread(channelId, threadId)
+						setMarkedAsOwn(true)
+					}
+				}
+			})
+		}
+
+		if (mode === 'thread') {
+			if (commentId === threadId) {
 				// "Download thread".
 				actions.push({
 					label: messages.downloadThread,
@@ -139,11 +215,16 @@ export default function CommentMoreActions({
 		channelId,
 		channelIsNotSafeForWork,
 		threadId,
-		comment,
+		commentId,
 		mode,
 		onReply,
 		url,
 		urlBasePath,
+		isOwn,
+		markedAsOwn,
+		setMarkedAsOwn,
+		isIgnoredAuthor,
+		setIgnoredAuthor,
 		onDownloadThread
 	])
 

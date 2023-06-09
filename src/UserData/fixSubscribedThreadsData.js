@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash-es'
 
-import { createSubscribedThreadStatsRecordStubEncoded } from '../utility/subscribedThread/createSubscribedThreadStatsRecord.js'
+import { createSubscribedThreadStateRecordStubEncoded } from '../utility/subscribedThread/createSubscribedThreadStateRecord.js'
 import { subscribedThreadsIndex, subscribedThreadsState } from './collections/index.js'
 
 export default function fixSubscribedThreadsData({ userData, log = () => {} }) {
@@ -129,7 +129,7 @@ function fixSubscribedThreadsStats({ userData, log, subscribedThreadIdsByChannel
 			for (const threadId of subscribedThreadIdsByChannel[channelId]) {
 				if (!subscribedThreadsStateData[channelId][String(threadId)]) {
 					log('Add absent subscribed thread stats for channel', channelId, 'for thread', threadId)
-					subscribedThreadsStateData[channelId][String(threadId)] = createSubscribedThreadStatsRecordStubEncoded(
+					subscribedThreadsStateData[channelId][String(threadId)] = createSubscribedThreadStateRecordStubEncoded(
 						getSubscribedThread(channelId, threadId)
 					)
 					changed = true
@@ -148,7 +148,7 @@ function fixSubscribedThreadsStats({ userData, log, subscribedThreadIdsByChannel
 			subscribedThreadsStateData[channelId] = subscribedThreadIdsByChannel[channelId].reduce(
 				(all, threadId) => ({
 					...all,
-					[threadId]: createSubscribedThreadStatsRecordStubEncoded(
+					[threadId]: createSubscribedThreadStateRecordStubEncoded(
 						getSubscribedThread(channelId, threadId)
 					)
 				}),

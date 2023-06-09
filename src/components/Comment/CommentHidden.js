@@ -9,13 +9,13 @@ import { comment } from '../../PropTypes.js'
 import './CommentHidden.css'
 
 export default function CommentHidden({
-	mode,
+	type,
 	comment,
 	messages,
 	className,
 	...rest
 }) {
-	let content = mode === 'channel'
+	let content = type === 'thread'
 		? messages.thread.hidden
 		: messages.comment.hidden
 
@@ -33,7 +33,7 @@ export default function CommentHidden({
 }
 
 CommentHidden.propTypes = {
-	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
+	type: PropTypes.oneOf(['thread', 'comment']).isRequired,
 	comment: comment.isRequired,
 	messages: PropTypes.object.isRequired,
 	className: PropTypes.string

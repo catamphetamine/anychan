@@ -27,10 +27,14 @@ export default {
 		removeLatestReadCommentId: 'remove'
 	},
 
-	// Cache writes to this collection because it's frequently written
-	// as the user is scrolling a thread.
-	// Changes aren't flushed to disk immediately to prevent frequent disk writes.
-	// (potentially many writes per second).
+	// Updates to this collection are cached because it's frequently written to
+	// as the user is scrolling a thread:
+	// `<UnreadCommentWatcher/>` updates `latestReadComments` record for the
+	// currently open thread every time a user scrolls down past an unread comment.
+	//
+	// To prevent frequent disk writes (potentially many writes per second),
+	// updates aren't flushed to disk immediately.
+	//
 	cache: true,
 
 	// The most recent "read" comment "wins" when merging.

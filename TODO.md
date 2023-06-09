@@ -8,11 +8,36 @@
 
 
 
-Remove `ButtonOrLink.js` component from `frontend-lib`.
+
+При нажатии на скрытый тред в режиме древа — не показывает древо комментов.
+
+При скрытии треда в режиме треда — показывает комменты.
+
+CommentTree — add `setGlobalState` property on tree items.
+`setGlobalState({ hidden: true })` — при таком `globalState` не будут рендериться children'ы первого порядка, а также сам root comment треда будет помечен как `hidden: true`, сам при этом не будучи hidden (не будучи помеченным как hidden в коллекции hiddenThreads/hiddenComments).
 
 
 
-При переключении Layout или Sorting — мотать наверх (когда загрузилось, перед показом).
+
+Add Ignored Author / Remove Ignored Author:
+* Remove "Not implemented".
+* Mark comments as hidden on thread page load / on channel page load / on thread page auto-update.
+* Call `onHeightDidChange` on ignore/unignore.
+* Maybe also hide other comments by that author that're currently rendered on screen (`VirtualScroller.isItemRendered(...)`, или типа того).
+
+
+
+Add notice when posting in the form: "This application is running in demo mode, which means that it won't automatically mark the comments or threads you create as yours. To do that manually, click on the button with three dots on a comment or thread and then choose: "This is my comment" / "This is my thread""
+
+Don’t show that notice if `userData.showDemoModeMarkOwnCommentsManuallyHint === false`.
+
+
+
+На странице канала при переключении Layout или Sorting — мотать наверх (когда загрузилось, перед показом).
+
+
+
+Можно добавить режим просмотра картинок не в виде слайдшоу, а плиткой. По нажатию — открывать slideshow и показывать кнопку "go to comment".
 
 
 
@@ -154,7 +179,7 @@ Highlight current dataSource in sidebar sources. Check how it looks in dark mode
 Update subscribed thread selectively in utility/thread/getThread.js → onThreadFetched() instead of refreshing the whole list of subscribed threads.
 
 
-Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads. Вместо этого ставить флаг `useSmallestSize`, а также обновлять "селективно" только конкретный subscribed thread в Redux state, а также добавить `cached` на коллекцию `subscribedThreadStats`.
+Subscribed Threads List — мигают картинки, когда он обновляется при обновлениях. Например, при скроллинге треда, который отслеживается: срабатывают UnreadCommentWatcher и перерендеривают список SubscribedThreads. Вместо этого ставить флаг `useSmallestSize`, а также обновлять "селективно" только конкретный subscribed thread в Redux state, а также добавить `cached` на коллекцию `subscribedThreadState`.
 
 "auto-update" при появлении новых комментариев, цитаты в них, которые ссылаются на "previous comments", не распаршены: <a href ... >...</a>
 
@@ -359,9 +384,9 @@ Check new `react-pages`' server-side rendering on webapp-frontend
 
 
 
-Перегенерировать subscribedThreadStats в CommentReadStatusWatcher
+Перегенерировать subscribedThreadState в CommentReadStatusWatcher
 
-Если пришло обновление subscribedThreadStats из другой вкладки, если возникла ситуация merge, если они разные, то ...
+Если пришло обновление subscribedThreadState из другой вкладки, если возникла ситуация merge, если они разные, то ...
 
 
 

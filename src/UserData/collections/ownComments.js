@@ -16,6 +16,7 @@ export default {
 		isOwnComment: ({ getFrom }) => (channelId, threadId, commentId) => {
 			return getFrom(channelId, threadId, commentId) !== undefined
 		},
-		addOwnComment: 'addTo'
+		addOwnComment: 'addTo',
+		removeOwnComment: 'removeFrom'
 	}
 }

@@ -214,6 +214,7 @@
 			"report": "Bericht",
 			"hide": "Ausblenden",
 			"ignoreAuthor": "Autor ignorieren",
+			"unignoreAuthor": "Autor nicht ignorieren",
 			"showOriginalComment": "Originalkommentar anzeigen"
 		},
 		"form": {
@@ -242,6 +243,10 @@
 	"downloadThread": "Thread-Daten herunterladen",
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
 	"inReplyTo": "als Antwort auf",
+	"markAsOwnComment": "Das ist mein Kommentar",
+	"unmarkAsOwnComment": "Das ist nicht mein Kommentar",
+	"markAsOwnThread": "Das ist mein Thread",
+	"unmarkAsOwnThread": "Das ist nicht mein Thread",
 	"backToPreviouslyViewedComment": "Rückkehr",
 	"previouslySeenThreads": "Gesehen",
 	"channelLayout": {

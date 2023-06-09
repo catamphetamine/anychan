@@ -11,14 +11,14 @@ export default function doesSubscribedThreadHaveNewComments(subscribedThread, { 
 		return false
 	}
 
-	const subscribedThreadStats = userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
+	const subscribedThreadState = userData.getSubscribedThreadState(subscribedThread.channel.id, subscribedThread.id)
 
-	if (!subscribedThreadStats) {
+	if (!subscribedThreadState) {
 		console.error(`"subscribedThreadsState" record not found for subscribed thread "/${subscribedThread.channel.id}/${subscribedThread.id}"`)
 		return false
 	}
 
-	return subscribedThreadStats.newCommentsCount > 0
+	return subscribedThreadState.newCommentsCount > 0
 }
 
 // export default function doesSubscribedThreadHaveNewComments(subscribedThread, { userData }) {

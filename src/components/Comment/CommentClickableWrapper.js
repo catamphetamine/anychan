@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import Clickable from 'frontend-lib/components/Clickable.js'
 
@@ -52,7 +53,10 @@ export default function CommentClickableWrapper({
 		<Clickable
 			filter={commentOnClickFilter}
 			onClick={onClick}
-			url={getBasePath() + getOnClickUrl(channelId, threadId, commentId)}>
+			url={getBasePath() + getOnClickUrl(channelId, threadId, commentId)}
+			className={classNames({
+				'CommentClickableWrapper--rootComment': threadId === commentId
+			})}>
 			{children}
 		</Clickable>
 	)

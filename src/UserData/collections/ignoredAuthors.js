@@ -17,6 +17,9 @@ export default {
 	},
 
 	methods: {
+		isIgnoredAuthor: ({ getFrom }) => (authorId) => {
+			return getFrom(authorId) !== undefined
+		},
 		addIgnoredAuthor: 'addTo',
 		removeIgnoredAuthor: 'removeFrom'
 	},

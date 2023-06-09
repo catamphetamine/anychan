@@ -2,6 +2,7 @@ import { ReduxModule } from 'react-pages'
 
 import addSubscribedThread from '../utility/subscribedThread/addSubscribedThread.js'
 import sortSubscribedThreads from '../utility/subscribedThread/sortSubscribedThreads.js'
+import reSortSubscribedThreads from '../utility/subscribedThread/reSortSubscribedThreads.js'
 import onSubscribedThreadsChanged from '../utility/subscribedThread/onSubscribedThreadsChanged.js'
 
 const redux = new ReduxModule('SUBSCRIBED_THREADS')
@@ -33,14 +34,20 @@ export const subscribeToThread = redux.action(
 	})
 )
 
-export const updateSubscribedThreadStats = redux.action(
-	(channelId, threadId, prevSubscribedThreadStats, newSubscribedThreadStats, { userData }) => async () => {
+export const updateSubscribedThreadState = redux.action(
+	(channelId, threadId, prevSubscribedThreadState, newSubscribedThreadState, { userData }) => async () => {
 		// Update `subscribedThreadsStats` record in User Data.
-		userData.setSubscribedThreadStats(
+		userData.setSubscribedThreadState(
 			channelId,
 			threadId,
-			newSubscribedThreadStats
+			newSubscribedThreadState
 		)
+
+		const hasChangedToNoNewComments = prevSubscribedThreadState.newCommentsCount > 0 &&
+			newSubscribedThreadState.newCommentsCount === 0
+
+		const hasChangedToNoNewReplies = prevSubscribedThreadState.newRepliesCount > 0 &&
+			newSubscribedThreadState.newRepliesCount === 0
 
 		// See if the order of subscribed threads has changed
 		// as a result of this subscribed thread no longer having
@@ -48,15 +55,12 @@ export const updateSubscribedThreadStats = redux.action(
 		// If the order of subscribed threads has changed,
 		// update subscribed threads in User Data and in Redux state,
 		// so that they get re-rendered.
-		const newSubscribedThreads = onSubscribedThreadsChanged({
-			sort: true,
-			userData
-		})
+		const hasOrderChanged = reSortSubscribedThreads({ userData })
 
 		return {
 			channelId,
 			threadId,
-			subscribedThreads: newSubscribedThreads
+			subscribedThreads: hasChangedToNoNewComments || hasChangedToNoNewReplies || hasOrderChanged ? userData.getSubscribedThreads() : undefined
 		}
 	},
 	(state, { channelId, threadId, subscribedThreads: newSubscribedThreads }) => {
@@ -90,7 +94,7 @@ export const updateSubscribedThreadStats = redux.action(
 // which restores the subscribed thread record.
 export const restoreSubscribedThread = redux.action(
 	(subscribedThread, {
-		subscribedThreadStats,
+		subscribedThreadState,
 		userData,
 		subscribedThreadsUpdater
 	}) => async () => {
@@ -99,10 +103,10 @@ export const restoreSubscribedThread = redux.action(
 		userData.addSubscribedThreadIdForChannel(subscribedThread.channel.id, subscribedThread.id)
 
 		// Add `subscribedThreadsStats` record to User Data.
-		userData.setSubscribedThreadStats(
+		userData.setSubscribedThreadState(
 			subscribedThread.channel.id,
 			subscribedThread.id,
-			subscribedThreadStats
+			subscribedThreadState
 		)
 
 		// Sort subscribed threads.
@@ -125,11 +129,11 @@ export const restoreSubscribedThread = redux.action(
 export const unsubscribeFromThread = redux.action(
 	(subscribedThread, { userData }) => async () => {
 		// Get subscribed thread stats record in order to return it later.
-		const subscribedThreadStats = userData.getSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
+		const subscribedThreadState = userData.getSubscribedThreadState(subscribedThread.channel.id, subscribedThread.id)
 
 		userData.removeSubscribedThread(subscribedThread)
 		userData.removeSubscribedThreadIdFromChannel(subscribedThread.channel.id, subscribedThread.id)
-		userData.removeSubscribedThreadStats(subscribedThread.channel.id, subscribedThread.id)
+		userData.removeSubscribedThreadState(subscribedThread.channel.id, subscribedThread.id)
 
 		// No need to notify Subscribed Threads Updater
 		// because it will review the list of subscribed threads upon running anyway.
@@ -137,10 +141,10 @@ export const unsubscribeFromThread = redux.action(
 		const subscribedThreads = userData.getSubscribedThreads()
 
 		return {
-			// `subscribedThreadStats` property is read in `onUnsubscribeToThread()` function
-			// of `<SubscribedThread/>` component in order to backup `subscribedThreadStats`
+			// `subscribedThreadState` property is read in `onUnsubscribeToThread()` function
+			// of `<SubscribedThread/>` component in order to backup `subscribedThreadState`
 			// in case of undoing the unsubscribing from the thread.
-			subscribedThreadStats,
+			subscribedThreadState,
 			subscribedThreads
 		}
 	},

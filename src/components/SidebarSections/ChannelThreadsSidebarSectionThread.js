@@ -100,7 +100,7 @@ export default function ChannelThreadsSidebarSectionThread({
 						className="ChannelThreadsSidebarSectionThread-thumbnailPlaceholder"
 					/>
 					<CommentHidden
-						mode="channel"
+						type="thread"
 						comment={thread.comments[0]}
 						messages={messages}
 					/>

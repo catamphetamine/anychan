@@ -51,6 +51,12 @@
 	}
 }
 
+.ChannelPage-threads {
+	.CommentClickableWrapper--rootComment {
+		width: 100%;
+	}
+}
+
 /*
 .ChannelPage-threads {
 	@mixin l-plus {

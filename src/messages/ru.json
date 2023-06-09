@@ -215,6 +215,7 @@
 			"report": "Пожаловаться",
 			"hide": "Скрыть",
 			"ignoreAuthor": "Игнорировать автора",
+			"unignoreAuthor": "Не игнорировать автора",
 			"showOriginalComment": "Показать оригинал"
 		},
 		"form": {
@@ -244,6 +245,10 @@
 	"downloadThread": "Скачать тред",
 	"notImplemented": "Ещё не сделано",
 	"inReplyTo": "В ответ на",
+	"markAsOwnComment": "Это мой комментарий",
+	"unmarkAsOwnComment": "Это не мой комментарий",
+	"markAsOwnThread": "Это мой тред",
+	"unmarkAsOwnThread": "Это не мой тред",
 	"backToPreviouslyViewedComment": "Вернуться",
 	"previouslySeenThreads": "Предыдущие",
 	"channelLayout": {

@@ -34,7 +34,7 @@
     "file-saver": "^2.0.5",
     "filesize": "^10.0.7",
     "flexible-json-schema": "^0.12.5",
-    "imageboard": "^0.6.32",
+    "imageboard": "^0.6.33",
     "intl-messageformat": "^10.3.4",
     "javascript-time-ago": "^2.5.9",
     "lodash-es": "^4.17.21",
@@ -42,7 +42,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.4",
-    "react-pages": "^0.7.3",
+    "react-pages": "^0.7.5",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
     "react-responsive-ui": "^0.15.47",
@@ -60,7 +60,7 @@
     "web-browser-style": "^0.1.1",
     "web-browser-tab": "^0.1.10",
     "web-browser-timer": "^0.1.6",
-    "web-browser-window": "^0.2.1"
+    "web-browser-window": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -107,7 +107,7 @@
     "universal-webpack": "^0.8.5",
     "url-loader": "^4.1.1",
     "webpack": "^5.80.0",
-    "webpack-bundle-analyzer": "^4.8.0",
+    "webpack-bundle-analyzer": "^4.9.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.3",
     "yarn-upgrade-all": "^0.7.2"

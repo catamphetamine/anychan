@@ -12,6 +12,7 @@ export default {
 		isOwnThread: ({ getFrom }) => (channelId, threadId) => {
 			return getFrom(channelId, threadId) !== undefined
 		},
-		addOwnThread: 'addTo'
+		addOwnThread: 'addTo',
+		removeOwnThread: 'removeFrom'
 	}
 }

@@ -14,9 +14,9 @@ import {
 	onStopTrimming
 } from './subscribedThreadRecordStatusUpdaters.js'
 
-import createSubscribedThreadStatsRecord, {
-	createSubscribedThreadStatsRecordForIncrementalUpdate
-} from './createSubscribedThreadStatsRecord.js'
+import createSubscribedThreadStateRecord, {
+	createSubscribedThreadStateRecordForIncrementalUpdate
+} from './createSubscribedThreadStateRecord.js'
 
 import getLatestReadCommentIndex from '../thread/getLatestReadCommentIndex.js'
 
@@ -91,7 +91,7 @@ export default function onSubscribedThreadFetched(thread, {
 	// Update subscribed thread info: whether there're any new comments.
 	let newCommentsCountChanged = false
 	if (!min) {
-		const prevStats = userData.getSubscribedThreadStats(thread.channelId, thread.id)
+		const prevStats = userData.getSubscribedThreadState(thread.channelId, thread.id)
 
 		if (!prevStats) {
 			console.error(`"subscribedThreadsState" record not found for subscribed thread "/${thread.channelId}/${thread.id}"`)
@@ -103,7 +103,7 @@ export default function onSubscribedThreadFetched(thread, {
 		// This feature is not currently used.
 		if (thread.afterCommentId) {
 			if (prevStats) {
-				newStats = createSubscribedThreadStatsRecordForIncrementalUpdate(thread, {
+				newStats = createSubscribedThreadStateRecordForIncrementalUpdate(thread, {
 					prevStats,
 					refreshedAt: new Date(timer.now()),
 					userData
@@ -112,14 +112,14 @@ export default function onSubscribedThreadFetched(thread, {
 				console.error('Couldn\'t update subscribed thread stats after an incremental thread update without having a previous subscribed thread stats record')
 			}
 		} else {
-			newStats = createSubscribedThreadStatsRecord(thread, {
+			newStats = createSubscribedThreadStateRecord(thread, {
 				refreshedAt: new Date(timer.now()),
 				userData
 			})
 		}
 
 		if (newStats) {
-			userData.setSubscribedThreadStats(
+			userData.setSubscribedThreadState(
 				thread.channelId,
 				thread.id,
 				newStats

@@ -18,6 +18,6 @@ export default {
 	methods: {
 		addHiddenComment: 'addTo',
 		isCommentHidden: 'getFrom',
-		removeHidden: 'removeFrom'
+		removeHiddenComment: 'removeFrom'
 	}
 }

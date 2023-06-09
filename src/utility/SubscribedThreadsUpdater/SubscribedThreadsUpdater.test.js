@@ -331,7 +331,7 @@ describe('SubscribedThreadsUpdater', function() {
 
 		expectToEqual(storage.getData()[BASE_PREFIX + 'subscribedThreadUpdate'], undefined)
 
-		const thread1Stats = userData.getSubscribedThreadStats(thread1.channelId, thread1.id)
+		const thread1Stats = userData.getSubscribedThreadState(thread1.channelId, thread1.id)
 
 		expectToEqual(thread1Stats.refreshedAt instanceof Date, true)
 		expectToEqual(timer.now() - thread1Stats.refreshedAt.getTime() < 20000, true)

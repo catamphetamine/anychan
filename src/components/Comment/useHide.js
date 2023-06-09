@@ -82,6 +82,7 @@ export default function useHide({
 	const onHide = useCallback(() => {
 		if (commentId === threadId) {
 			userData.addHiddenThread(channelId, threadId)
+			userData.addHiddenComment(channelId, threadId, commentId)
 		} else {
 			userData.addHiddenComment(channelId, threadId, commentId)
 		}
@@ -93,6 +94,7 @@ export default function useHide({
 	const onUnHide = useCallback(() => {
 		if (commentId === threadId) {
 			userData.removeHiddenThread(channelId, threadId)
+			userData.removeHiddenComment(channelId, threadId, commentId)
 		} else {
 			userData.removeHiddenComment(channelId, threadId, commentId)
 		}

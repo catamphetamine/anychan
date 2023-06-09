@@ -75,7 +75,7 @@ describe('onSubscribedThreadFetched', () => {
 		)
 
 		expectToEqual(
-			userData.getSubscribedThreadStats('a', 100),
+			userData.getSubscribedThreadState('a', 100),
 			{
 				latestComment: {
 					id: 102,

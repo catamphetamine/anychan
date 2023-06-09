@@ -44,17 +44,17 @@ function SubscribedThread({
 	// If the user accidentally removes this thread from the list of
 	// subscribed threads, and then clicks "Undo", the subscribed thread
 	// record will be restored, along with its "stats" record.
-	const subscribedThreadStatsBeforeRemoval = useRef()
+	const subscribedThreadStateBeforeRemoval = useRef()
 
 	const onUnsubscribeToThread = useCallback(async () => {
-		const { subscribedThreadStats } = await dispatch(unsubscribeFromThread(thread, { userData }))
-		subscribedThreadStatsBeforeRemoval.current = subscribedThreadStats
+		const { subscribedThreadState } = await dispatch(unsubscribeFromThread(thread, { userData }))
+		subscribedThreadStateBeforeRemoval.current = subscribedThreadState
 		setUnsubscribed(true)
 	}, [thread, userData])
 
 	const onRestoreSubscribedThread = useCallback(async () => {
 		await dispatch(restoreSubscribedThread(thread, {
-			subscribedThreadStats: subscribedThreadStatsBeforeRemoval.current,
+			subscribedThreadState: subscribedThreadStateBeforeRemoval.current,
 			userData,
 			subscribedThreadsUpdater: getSubscribedThreadsUpdater()
 		}))

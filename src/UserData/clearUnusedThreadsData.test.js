@@ -35,7 +35,7 @@ describe('clearUnusedThreadsData', function() {
 			addedAt: date
 		})
 
-		userData.setSubscribedThreadStats('a', 123, {
+		userData.setSubscribedThreadState('a', 123, {
 			refreshedAt: date,
 			latestComment: {
 				id: 123,
@@ -46,7 +46,7 @@ describe('clearUnusedThreadsData', function() {
 			newRepliesCount: 1
 		})
 
-		userData.setSubscribedThreadStats('b', 456, {
+		userData.setSubscribedThreadState('b', 456, {
 			refreshedAt: date,
 			latestComment: {
 				id: 456,
@@ -123,9 +123,9 @@ describe('clearUnusedThreadsData', function() {
 			}
 		)
 
-		// `subscribedThreadStats` collection doesn't get cleared.
+		// `subscribedThreadState` collection doesn't get cleared.
 		expectToEqual(
-			userData.getSubscribedThreadStats('a', 123),
+			userData.getSubscribedThreadState('a', 123),
 			{
 				refreshedAt: date,
 				latestComment: {
@@ -139,7 +139,7 @@ describe('clearUnusedThreadsData', function() {
 		)
 
 		expectToEqual(
-			userData.getSubscribedThreadStats('b', 456),
+			userData.getSubscribedThreadState('b', 456),
 			{
 				refreshedAt: date,
 				latestComment: {

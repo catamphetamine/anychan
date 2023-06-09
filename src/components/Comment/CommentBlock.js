@@ -47,13 +47,17 @@ export default function CommentBlock({
 	initialHidden,
 	setHidden,
 	initialReplyFormInputHeight,
-	onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+	onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
 	// initialReplyFormInputValue,
 	// onReplyFormInputValueChange,
 	initialReplyFormError,
 	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 	initialReplyFormState,
 	onReplyFormStateDidChange,
+	initialReplyFormFiles,
+	onReplyFormFilesDidChange,
+	initialReplyFormAttachments,
+	onReplyFormAttachmentsDidChange,
 	showSeparatorLineBetweenTopLevelComments,
 	isFirstItemInTheList,
 	...rest
@@ -69,7 +73,7 @@ export default function CommentBlock({
 		onCancelReply,
 		onSubmitReply,
 		onReplyFormErrorDidChange,
-		onReplyFormInputHeightChange
+		onReplyFormInputHeightDidChange
 	} = useReply({
 		comment,
 		threadId,
@@ -82,7 +86,7 @@ export default function CommentBlock({
 		canReply,
 		initialShowReplyForm,
 		onShowReplyFormChange,
-		onReplyFormInputHeightChange: onReplyFormInputHeightChange_,
+		onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
 		onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 		onRenderedContentDidChange,
 		moreActionsButtonRef,
@@ -186,7 +190,12 @@ export default function CommentBlock({
 						initialError={initialReplyFormError}
 						onErrorDidChange={onReplyFormErrorDidChange}
 						initialInputHeight={initialReplyFormInputHeight}
-						onInputHeightChange={onReplyFormInputHeightChange}
+						onInputHeightDidChange={onReplyFormInputHeightDidChange}
+						initialFiles={initialReplyFormFiles}
+						onFilesDidChange={onReplyFormFilesDidChange}
+						initialAttachments={initialReplyFormAttachments}
+						onAttachmentsDidChange={onReplyFormAttachmentsDidChange}
+						onHeightDidChange={onRenderedContentDidChange}
 						onCancel={onCancelReply}
 						onSubmit={onSubmitReply}
 					/>
@@ -226,9 +235,13 @@ CommentBlock.propTypes = {
 	initialReplyFormError: PropTypes.string,
 	onReplyFormErrorDidChange: PropTypes.func,
 	initialReplyFormInputHeight: PropTypes.number,
-	onReplyFormInputHeightChange: PropTypes.func,
+	onReplyFormInputHeightDidChange: PropTypes.func,
 	initialReplyFormState: PropTypes.object,
 	onReplyFormStateDidChange: PropTypes.func,
+	initialReplyFormFiles: PropTypes.arrayOf(PropTypes.object),
+	onReplyFormFilesDidChange: PropTypes.func,
+	initialReplyFormAttachments: PropTypes.arrayOf(PropTypes.object),
+	onReplyFormAttachmentsDidChange: PropTypes.func,
 	showSeparatorLineBetweenTopLevelComments: PropTypes.bool,
 	isFirstItemInTheList: PropTypes.bool
 }

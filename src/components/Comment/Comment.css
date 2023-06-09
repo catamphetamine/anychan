@@ -347,7 +347,8 @@
 	.CommentTree-comment--topLevel {
 		&.Comment--thread,
 		&.Comment--channelLatestComments {
-			&.Comment--hasNoThumbnail:not(.Comment--expandAttachments) {
+			&.Comment--hasNoThumbnail:not(.Comment--expandAttachments),
+			&.Comment--hidden {
 				--Comment-marginLeft: var(--PostThumbnailContainer-maxWidth);
 			}
 

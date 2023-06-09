@@ -24,6 +24,7 @@ export default function ThreadThumbnail({
 		return (
 			<Picture
 				border
+				preload={false}
 				picture={picture}
 				width={width}
 				height={width}

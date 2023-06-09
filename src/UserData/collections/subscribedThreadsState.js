@@ -12,9 +12,9 @@ export default {
 	type: 'channels-threads-data',
 
 	methods: {
-		getSubscribedThreadStats: 'get',
-		setSubscribedThreadStats: 'set',
-		removeSubscribedThreadStats: 'remove'
+		getSubscribedThreadState: 'get',
+		setSubscribedThreadState: 'set',
+		removeSubscribedThreadState: 'remove'
 	},
 
 	schema: {
@@ -67,10 +67,14 @@ export default {
 		return data
 	},
 
-	// Cache writes to this collection because it's frequently written
-	// as the user is scrolling a thread.
-	// Changes aren't flushed to disk immediately to prevent frequent disk writes.
-	// (potentially many writes per second).
+	// Updates to this collection are cached because it's frequently written to
+	// as the user is scrolling a subscribed thread:
+	// `<UnreadCommentWatcher/>` updates `subscribedThreadsState` for the currently
+	// open subscribed thread every time a user scrolls down past an unread comment.
+	//
+	// To prevent frequent disk writes (potentially many writes per second),
+	// updates aren't flushed to disk immediately.
+	//
 	cache: true,
 
 	// The most "fresh" subscribed thread update data "wins" when merging.

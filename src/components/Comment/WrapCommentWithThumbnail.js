@@ -33,6 +33,8 @@ function WrapCommentWithThumbnail({
 	// could be overwridden by a user via javascript or via the Console, or smth.
 	const showThumbnail = shouldShowThumbnail && window.SHOW_POST_THUMBNAIL;
 
+	console.log(rest)
+
 	return (
 		<CommentThumbnail
 			mode={mode}
@@ -52,6 +54,7 @@ function WrapCommentWithThumbnail({
 						'Comment--showThumbnail': window.SHOW_POST_THUMBNAIL,
 						'Comment--hasThumbnail': showThumbnail && thumbnailElement,
 						'Comment--hasNoThumbnail': showThumbnail && !thumbnailElement,
+						'Comment--hidden': false
 					})}>
 					{showThumbnail && thumbnailElement &&
 						<div className="Comment-thumbnail">
