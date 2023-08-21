@@ -130,11 +130,19 @@ export default class UnreadCommentWatcher {
 	}
 
 	unwatch(element) {
-		// If child components are unwatched in `componentWillUnmount()`,
-		// then it happens after `componentWillUnmount()` of their parent
-		// has been called, and if `UnreadCommentWatcher` was stopped in
-		// `componentWillUnmount()` of their parent, then `this.observer`
-		// is `undefined` at this stage.
+		// `UnreadCommentWatcher` instance is usually created in React components
+		// in a `useMemo()` hook, and then it gets `.start()`-ed and `.stop()`-ped
+		// in a `useEffect()` hook.
+		// Suppose an `unreadCommentWatcher` has been `.start()`-ed and then
+		// the `.watch()` method gets called on some Elements.
+		// After that, the React subtree gets unmounted (for example, during navigation)
+		// and React "effects" are being cleaned up.
+		// In that case, parent "effects" will cle cleaned up before child ones.
+		// So by the time a child calls `.unwatch()` as part of their effects clean-up,
+		// the parent has already called `.stop()` which has set `this.observer` to `undefined`.
+		// Hence the `if (this.observer)` check.
+		// An example of a parent-child relationship would be
+		// `useUnreadCommentWatcher()` hook and `<CommentReadStatusWatcher/>` child element.
 		if (this.observer) {
 			this.observer.unobserve(element)
 		}

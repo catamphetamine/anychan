@@ -101,6 +101,14 @@ export default function CommentBlock({
 		comment,
 		threadId,
 		channelId,
+		// `initialHidden` should be passed as a property
+		// and not read from `userData.isCommentHidden()`.
+		// The reason is that the result of `userData.isCommentHidden()`
+		// will change dynamically when the user hides or un-hides the comment
+		// while `virtual-scroller` requires all list items be "idempotent"
+		// (i.e. produce the same rendered element provided the same item object)
+		// and not depend on any outside sources of data:
+		// they can only use their `item` object as the only source of data.
 		initialHidden,
 		setHidden,
 		onAfterHiddenChange: onRenderedContentDidChange

@@ -31,7 +31,7 @@ import useMessages from '../../hooks/useMessages.js'
 
 import './ChannelThreadsSidebarSectionThread.css'
 
-export default function ChannelThreadsSidebarSectionThread({
+function ChannelThreadsSidebarSectionThread({
 	item: thread,
 	state,
 	setState,
@@ -174,6 +174,20 @@ ChannelThreadsSidebarSectionThread.propTypes = {
 	setState: PropTypes.func.isRequired,
 	onHeightDidChange: PropTypes.func
 }
+
+// Using `React.memo()` so that `virtual-scroller`
+// doesn't re-render items as the user scrolls.
+//
+// Also prevents unneeded re-rendering of the list's items
+// when the user enters or exits fullscreen for a `<video/>` element.
+// In those cases, `.simplebar-content-wrapper` element's `height` changes
+// which triggers an `onResize()` listener of `virtual-scroller`,
+// which determines that the scrollable container's height did change
+// so it re-renders the list with the updated "shown item indexes".
+//
+ChannelThreadsSidebarSectionThread = React.memo(ChannelThreadsSidebarSectionThread)
+
+export default ChannelThreadsSidebarSectionThread
 
 export const CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH = 128
 const SIDEBAR_THREAD_THUMBNAIL_BORDER_WIDTHH = 1

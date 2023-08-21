@@ -19,11 +19,44 @@ CommentTree — add `setGlobalState` property on tree items.
 
 
 
+
+Сделать окошко "Go to" для перехода в раздел по ID. (+ hotkey)
+
+Start animating background slideshow fade out when picture is dragged from screen.
+
+CommentMoreActions — при рендере вычисляет isOwnThread, isOwnComment, isIgnoredAuthor, ...
+Брать такие штуки непосредственно из `comment`, где их проставлять при изначальной загрузке + при изменении.
+Также проставлять `comment.hidden` если ignored author.
+
+
+Если страница треда не найдена в каталоге, то не перенаправлять на страницу ошибки, а просто показывать сообщение, что "Тред не найден".
+
+
+Slideshow Thumbnail box shadow edit
+
+
+
 Add Ignored Author / Remove Ignored Author:
 * Remove "Not implemented".
 * Mark comments as hidden on thread page load / on channel page load / on thread page auto-update.
 * Call `onHeightDidChange` on ignore/unignore.
 * Maybe also hide other comments by that author that're currently rendered on screen (`VirtualScroller.isItemRendered(...)`, или типа того).
+
+
+
+
+Spectrum background:
+
+```
+.spectrum-background {
+    background:
+        linear-gradient(red, transparent),
+        linear-gradient(to top left, lime, transparent),
+        linear-gradient(to top right, blue, transparent);
+    background-blend-mode: screen;
+}
+```
+
 
 
 

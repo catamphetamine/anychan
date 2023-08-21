@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import SidebarSectionActionButton from './SidebarSectionActionButton.js'
 import SidebarSectionMoreButton from './SidebarSectionMoreButton.js'
 
 import './SidebarSection.css'
 
 export default function SidebarSection({
 	title,
+	actions,
 	moreLabel,
 	onMore,
 	moreButtonRef,
@@ -25,14 +27,28 @@ export default function SidebarSection({
 		})}>
 			{title &&
 				<h1 className="SidebarSection-title">
-					{title}
-					{onMore &&
-						<SidebarSectionMoreButton
-							ref={moreButtonRef}
-							title={moreLabel}
-							onClick={onMore}
-						/>
-					}
+					<span className="SidebarSection-titleText">
+						{title}
+					</span>
+					{(actions || onMore) && (
+						<div className="SidebarSection-actionButtons">
+							{actions && actions.map((action, i) => (
+								<SidebarSectionActionButton
+									key={i}
+									title={action.title}
+									Icon={action.Icon}
+									onClick={action.onClick}
+								/>
+							))}
+							{onMore &&
+								<SidebarSectionMoreButton
+									ref={moreButtonRef}
+									title={moreLabel}
+									onClick={onMore}
+								/>
+							}
+						</div>
+					)}
 				</h1>
 			}
 			{children}
@@ -42,6 +58,11 @@ export default function SidebarSection({
 
 SidebarSection.propTypes = {
 	title: PropTypes.string,
+	actions: PropTypes.arrayOf(PropTypes.shape({
+		title: PropTypes.string.isRequired,
+		onClick: PropTypes.func.isRequired,
+		Icon: PropTypes.elementType.isRequired
+	})),
 	moreLabel: PropTypes.string,
 	onMore: PropTypes.func,
 	moreButtonRef: PropTypes.object,

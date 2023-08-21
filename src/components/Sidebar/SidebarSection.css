@@ -33,25 +33,26 @@
 }
 
 .SidebarSection-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	/* `position: relative` is for the "..." button. */
 	position: relative;
-	/* `overflow: visible` is for the "..." button. */
-	/*overflow: visible;*/
-	/* `overflow: hidden` is used to prevent long
-	   sidebar section titles from overflowing it. */
-	overflow: hidden;
+
 	margin-top: 0;
 	margin-bottom: var(--unit);
+
 	/* Using `padding-left` / `padding-right` instead of
 	   `margin-left` / `margin-right` to prevent the "..."
 	   button from being cut due to `overflow: hidden`. */
 	/*padding-left: var(--SidebarSection-paddingLeft);*/
 	/*padding-right: var(--SidebarSection-paddingLeft);*/
+
 	--SidebarSection-title-paddingLeft: calc(var(--SidebarSection-paddingLeft) + var(--SidebarSectionMoreButton-width) + 2 * var(--SidebarSectionMoreButton-paddingLeft));
   padding-left: var(--SidebarSection-title-paddingLeft);
   padding-right: var(--SidebarSection-title-paddingLeft);
-	white-space: nowrap;
-	text-overflow: ellipsis;
+
 	text-align: center;
 	font-weight: var(--UppercaseLabel-fontWeight);
 	font-size: var(--UppercaseLabel-fontSize);
@@ -60,6 +61,16 @@
 	color: var(--Sidebar-color-600);
 	user-select: none;
 	cursor: default;
+}
+
+.SidebarSection-titleText {
+	/* `overflow: visible` is for the "..." button. */
+	/*overflow: visible;*/
+	/* `overflow: hidden` is used to prevent long
+	   sidebar section titles from overflowing it. */
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .SidebarSection-text {
@@ -73,4 +84,14 @@
 	font-weight: lighter;
 	letter-spacing: 0.6px;
 	color: var(--Sidebar-color-500);
+}
+
+.SidebarSection-actionButtons {
+	position: absolute;
+	right: calc(var(--SidebarSection-paddingLeft) - var(--SidebarSectionActionButton-paddingLeft));
+	top: 50%;
+	transform: translateY(-50%);
+
+	display: flex;
+	align-items: center;
 }

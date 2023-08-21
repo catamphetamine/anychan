@@ -82,7 +82,7 @@
 	/* Slideshow. */
 	@mixin xxs {
 		--Slideshow-Control-margin: calc(var(--unit) / 2);
-		--Slideshow-DragAndScaleModeButton-marginBottom: calc(var(--unit) / 2);
+		--Slideshow-PanAndZoomModeButton-marginBottom: calc(var(--unit) / 2);
 	}
 	@mixin l-plus {
 		--Slideshow-Control-height: calc(var(--unit) * 3.5);

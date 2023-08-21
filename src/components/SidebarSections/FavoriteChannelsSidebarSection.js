@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -13,6 +13,8 @@ import useDataSource from '../../hooks/useDataSource.js'
 
 import { getChannels } from '../../redux/data.js'
 
+import SearchIcon from 'frontend-lib/icons/search.svg'
+
 export default function FavoriteChannelsSidebarSection() {
 	const dispatch = useDispatch()
 	const messages = useMessages()
@@ -26,6 +28,14 @@ export default function FavoriteChannelsSidebarSection() {
 	const allChannels = useSelector(state => state.data.allChannels && state.data.allChannels.channels)
 
 	const [editingFavoriteChannels, setEditingFavoriteChannels] = useState()
+
+	const actions = useMemo(() => [
+		{
+			title: messages.search,
+			onClick: () => {},
+			Icon: SearchIcon
+		}
+	], [])
 
 	// Not using `async` here to prevent the focus
 	// from being lost on unpush.
@@ -74,6 +84,7 @@ export default function FavoriteChannelsSidebarSection() {
 		return (
 			<SidebarSection
 				title={messages.boards.title}
+				actions={actions}
 				moreLabel={messages.actions.edit}
 				moreButtonRef={moreButtonRef}
 				onMore={onMore}>

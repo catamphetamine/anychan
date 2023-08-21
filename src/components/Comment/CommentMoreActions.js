@@ -113,8 +113,6 @@ export default function CommentMoreActions({
 			}
 		])
 
-		console.log('@@@@@@@@@@@@', isIgnoredAuthor)
-
 		if (comment.authorId) {
 			// "Ignore Author".
 			actions.push({
@@ -128,8 +126,18 @@ export default function CommentMoreActions({
 					} else {
 						userData.addIgnoredAuthor(comment.authorId)
 						setIgnoredAuthor(true)
+						if (onHide) {
+							onHide()
+							// A convenient feature would be it also automatically hiding
+							// all the other comments from the now-ignored author in the current thread.
+							// But that would mess up `virtual-scroller`'s layout calculations
+							// because some of those comments are gonna be off-screen
+							// and, as a result, `virtual-scroller`'s would experience a "jump of content"
+							// when scrolling up to such comments after ignoring the author.
+							// Because of that, the app doesn't automatically hide all the other comments
+							// from this author in the current thread.
+						}
 					}
-					dispatch(notify(messages.notImplemented))
 				}
 			})
 		}

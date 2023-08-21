@@ -9,32 +9,37 @@
 	--SidebarButton-color--active: var(--Sidebar-baseColor-700);
 	--SidebarButton-backgroundColor--active: var(--Sidebar-highlightColor-200);
 	--SidebarButton-borderColor--pressedActive: var(--Sidebar-baseColor-200);
-	/* SidebarSectionMoreButton. */
-	--SidebarSectionMoreButton-width: var(--unit);
-	--SidebarSectionMoreButton-paddingLeft: calc(var(--unit) / 2);
 }
 
 .SidebarSectionMoreButton {
-	/*--rrui-button-side-padding: var(--SidebarSectionMoreButton-paddingLeft);*/
+	/*--rrui-button-side-padding: var(--SidebarSectionActionButton-paddingLeft);*/
 	/*--rrui-button-busy-indicator-bottom: 0px;*/
 	/*--rrui-button-busy-indicator-width: 1px;*/
+
 	/* The "more" button's top and bottom border would be
-	   hidden due to `overflow: hidden` if its `height` was `100%`. */
-	--SidebarSectionMoreButton-height: calc(100% - 2 * 1px);
+	   hidden due to `overflow: hidden` if its `height` was `100%`,
+	   so the "more" button's `height` is reduced by the width
+	   of the top and bottom border. */
+/*	--SidebarSectionMoreButton-height: calc(100% - 2 * 1px);*/
+	--SidebarSectionMoreButton-height: var(--SidebarSectionActionButton-width);
 	--SidebarSectionMoreButtonIcon-opacity: 0.5;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: calc(var(--SidebarSectionMoreButton-width) + 2 * var(--SidebarSectionMoreButton-paddingLeft));
+
+/*	position: relative;*/
+/*	top: calc((100% - var(--SidebarSectionMoreButton-height)) / 2);*/
+
+	width: calc(var(--SidebarSectionActionButton-width) + 2 * var(--SidebarSectionActionButton-paddingLeft));
 	height: var(--SidebarSectionMoreButton-height);
-	position: absolute;
-	right: calc(var(--SidebarSection-paddingLeft) - var(--SidebarSectionMoreButton-paddingLeft));
-	top: calc((100% - var(--SidebarSectionMoreButton-height)) / 2);
-	padding-left: var(--SidebarSectionMoreButton-paddingLeft);
-	padding-right: var(--SidebarSectionMoreButton-paddingLeft);
+
+	padding-left: var(--SidebarSectionActionButton-paddingLeft);
+	padding-right: var(--SidebarSectionActionButton-paddingLeft);
 }
 
 .SidebarSectionMoreButton-icon {
+	display: block;
 	width: 100%;
 	opacity: var(--SidebarSectionMoreButtonIcon-opacity);
 }
