@@ -191,6 +191,8 @@
 	"storageCapacityExceeded": "Datenspeicherkapazität überschritten. Daten werden nicht gespeichert.",
 	"loadingThreadsError": "Threadliste konnte nicht geladen werden",
 	"loadingCommentsError": "Threadkommentare konnten nicht geladen werden",
+	"invalidBoardId": "Ungültige Board-ID",
+	"board": "Board",
 	"thread": {
 		"default": "Thread",
 		"hidden": "Versteckter Thread"

@@ -11,6 +11,7 @@ import { clearChannelsCache } from '../../api/cached/getChannels.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 import { notify, showError } from '../../redux/notifications.js'
 
+import { FormStyle, FormComponent } from '../Form.js'
 import TextButton from '../TextButton.js'
 
 import {
@@ -167,40 +168,40 @@ export default function DataSettings({
 					</>
 				)
 			}
-			<div className="form">
-				<div className="form__component form__component--button">
+			<FormStyle>
+				<FormComponent type="button">
 					<TextButton
 						onClick={onResetSettings}>
 						{messages.settings.data.resetSettings.title}
 					</TextButton>
-				</div>
-				<div className="form__component form__component--button">
+				</FormComponent>
+				<FormComponent type="button">
 					<TextButton
 						onClick={onClearUserData}>
 						{messages.settings.data.clearUserData.title}
 					</TextButton>
-				</div>
-				<div className="form__component form__component--button">
+				</FormComponent>
+				<FormComponent type="button">
 					<TextButton
 						onClick={onClearChannelsCache}>
 						{messages.settings.data.clearChannelsCache.title}
 					</TextButton>
-				</div>
-				<div className="form__component form__component--button">
+				</FormComponent>
+				<FormComponent type="button">
 					<TextButton
 						onClick={onClearYouTubeCache}>
 						{messages.settings.data.clearYouTubeCache.title}
 					</TextButton>
-				</div>
+				</FormComponent>
 				<br/>
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<TextButton
 						multiline
 						onClick={onExport}>
 						{messages.settings.data.export.title}
 					</TextButton>
-				</div>
-				<div className="form__component form__component--button">
+				</FormComponent>
+				<FormComponent type="button">
 					<FileUploadButton
 						accept=".json"
 						multiline
@@ -208,9 +209,9 @@ export default function DataSettings({
 						onChange={onImport}>
 						{messages.settings.data.import.title}
 					</FileUploadButton>
-				</div>
+				</FormComponent>
 				<br/>
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<FileUploadButton
 						accept=".json"
 						multiline
@@ -218,11 +219,11 @@ export default function DataSettings({
 						onChange={onAddUserData}>
 						{messages.settings.data.merge.title}
 					</FileUploadButton>
-				</div>
-				<p className="form__component form__component--description">
+				</FormComponent>
+				<FormComponent type="description">
 					{messages.settings.data.merge.description}
-				</p>
-			</div>
+				</FormComponent>
+			</FormStyle>
 		</ContentSection>
 	)
 }

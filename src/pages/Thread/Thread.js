@@ -261,6 +261,7 @@ function ThreadPage() {
 					/>
 				}
 			</div>
+
 			<div className="ThreadPage-commentsListContainer">
 				<ThreadCommentsList
 					thread={thread}
@@ -280,54 +281,62 @@ function ThreadPage() {
 				*/}
 			</div>
 
+			<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide">
+				{!searchQuery && (
+					<>
+						{!(thread.locked || thread.expired) &&
+							<React.Fragment>
+								<AutoUpdate
+									autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
+								/>
+								{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
+								{thread.bumpLimitReached &&
+									<InfoBanner
+										Icon={SinkingBoatIcon}>
+										{messages.threadBumpLimitReached}
+									</InfoBanner>
+								}
+							</React.Fragment>
+						}
+						{thread.archived &&
+							<InfoBanner
+								Icon={BoxIcon}>
+								{messages.threadIsArchived}
+							</InfoBanner>
+						}
+						{!thread.archived && thread.locked &&
+							<InfoBanner
+								Icon={LockIcon}>
+								{messages.threadIsLocked}
+							</InfoBanner>
+						}
+						{thread.expired &&
+							<InfoBanner
+								Icon={GhostIcon}>
+								{messages.threadExpired}
+							</InfoBanner>
+						}
+					</>
+				)}
+			</div>
+
 			{/* `.ThreadPage-belowComments` is used to restore the default
 			    `pointer-events: auto` behavior. */}
 			<div className="ThreadPage-belowComments">
-				{!searchQuery && !(thread.locked || thread.expired) &&
-					<React.Fragment>
-						<AutoUpdate
-							autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
-						/>
-						{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
-						{thread.bumpLimitReached &&
-							<InfoBanner
-								Icon={SinkingBoatIcon}>
-								{messages.threadBumpLimitReached}
-							</InfoBanner>
-						}
-					</React.Fragment>
-				}
-				{!searchQuery && thread.archived &&
-					<InfoBanner
-						Icon={BoxIcon}>
-						{messages.threadIsArchived}
-					</InfoBanner>
-				}
-				{!searchQuery && !thread.archived && thread.locked &&
-					<InfoBanner
-						Icon={LockIcon}>
-						{messages.threadIsLocked}
-					</InfoBanner>
-				}
-				{!searchQuery && thread.expired &&
-					<InfoBanner
-						Icon={GhostIcon}>
-						{messages.threadExpired}
-					</InfoBanner>
-				}
-				{threadNavigationHistory.length > 0 &&
-					<InReplyToModal
-						channel={channel}
-						thread={thread}
-						isOpen={isThreadHistoryModalShown}
-						onClose={hideThreadHistoryModal}
-						onGoBack={onGoBackInThreadNavigationHistory}
-						history={threadNavigationHistory}
-						onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
-						onGoToComment={onGoToComment}
-					/>
-				}
 			</div>
+
+			{threadNavigationHistory.length > 0 &&
+				<InReplyToModal
+					channel={channel}
+					thread={thread}
+					isOpen={isThreadHistoryModalShown}
+					onClose={hideThreadHistoryModal}
+					onGoBack={onGoBackInThreadNavigationHistory}
+					history={threadNavigationHistory}
+					onRequestShowCommentFromSameThread={onRequestShowCommentFromSameThread}
+					onGoToComment={onGoToComment}
+				/>
+			}
 		</section>
 	)
 }

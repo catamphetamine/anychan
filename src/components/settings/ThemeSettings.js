@@ -5,7 +5,7 @@ import { Modal } from 'react-responsive-ui'
 import Select from '../Select.js'
 import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
-import { Form, Field, Submit } from '../Form.js'
+import { Form, Field, Submit, FormStyle, FormComponent, FormActions, FormAction } from '../Form.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 
 import isValidUrl from '../../utility/isValidUrl.js'
@@ -93,37 +93,38 @@ export default function ThemeSettings({
 				{messages.settings.theme.title}
 			</ContentSectionHeader>
 
-			<div className="form">
-				<Select
-					value={theme}
-					options={options}
-					onChange={onSelectTheme}
-					className="form__component"
-				/>
-				<div className="form__component form__component--button">
+			<FormStyle>
+				<FormComponent>
+					<Select
+						value={theme}
+						options={options}
+						onChange={onSelectTheme}
+					/>
+				</FormComponent>
+				<FormComponent type="button">
 					<TextButton
 						onClick={() => setShowAddThemeModal(true)}>
 						{messages.settings.theme.add.title}
 					</TextButton>
-				</div>
+				</FormComponent>
 				{guideUrl &&
-					<div className="form__component form__component--button">
+					<FormComponent type="button">
 						<a
 							href={guideUrl}
 							target="_blank">
 							{messages.settings.theme.guide}
 						</a>
-					</div>
+					</FormComponent>
 				}
 				{!isBuiltInTheme(theme) &&
-					<div className="form__component form__component--button">
+					<FormComponent type="button">
 						<TextButton
 							onClick={onRemoveSelectedTheme}>
 							{messages.settings.theme.deleteCurrent.title}
 						</TextButton>
-					</div>
+					</FormComponent>
 				}
-			</div>
+			</FormStyle>
 
 			{/* Add theme modal */}
 			<Modal
@@ -218,63 +219,67 @@ function AddTheme({
 		<Form
 			autoFocus
 			ref={addThemeForm}
-			onSubmit={onAddTheme}
-			className="form">
-			<Field
-				required
-				type="text"
-				name="id"
-				label={messages.settings.theme.add.id}
-				validate={validateId}
-				className="form__component"
-			/>
-			<Field
-				required
-				type="text"
-				name="name"
-				label={messages.settings.theme.add.name}
-				validate={validateName}
-				className="form__component"
-			/>
-			{!pasteCodeInstead &&
+			onSubmit={onAddTheme}>
+			<FormComponent>
 				<Field
 					required
 					type="text"
-					name="url"
-					label={messages.settings.theme.add.url}
-					validate={validateCssUrl}
-					className="form__component"
+					name="id"
+					label={messages.settings.theme.add.id}
+					validate={validateId}
 				/>
+			</FormComponent>
+			<FormComponent>
+				<Field
+					required
+					type="text"
+					name="name"
+					label={messages.settings.theme.add.name}
+					validate={validateName}
+				/>
+			</FormComponent>
+			{!pasteCodeInstead &&
+				<FormComponent>
+					<Field
+						required
+						type="text"
+						name="url"
+						label={messages.settings.theme.add.url}
+						validate={validateCssUrl}
+					/>
+				</FormComponent>
 			}
 			{!pasteCodeInstead &&
-				<TextButton
-					onClick={() => setPasteCodeInstead(true)}
-					className="form__component">
-					{messages.settings.theme.add.pasteCodeInstead}
-				</TextButton>
+				<FormComponent>
+					<TextButton onClick={() => setPasteCodeInstead(true)}>
+						{messages.settings.theme.add.pasteCodeInstead}
+					</TextButton>
+				</FormComponent>
 			}
 			{pasteCodeInstead &&
-				<Field
-					required
-					type="text"
-					multiline
-					name="css"
-					label={messages.settings.theme.add.code}
-					className="form__component rrui__input--monospace"
-				/>
+				<FormComponent>
+					<Field
+						required
+						type="text"
+						multiline
+						name="css"
+						label={messages.settings.theme.add.code}
+						className="rrui__input--monospace"
+					/>
+				</FormComponent>
 			}
-			<div className="form__actions">
-				<TextButton
-					onClick={close}
-					className="form__action">
-					{messages.actions.cancel}
-				</TextButton>
-				<Submit
-					component={FillButton}
-					className="form__action">
-					{messages.actions.add}
-				</Submit>
-			</div>
+			<FormActions>
+				<FormAction>
+					<TextButton onClick={close}>
+						{messages.actions.cancel}
+					</TextButton>
+				</FormAction>
+				<FormAction>
+					<Submit component={FillButton}>
+						{messages.actions.add}
+					</Submit>
+				</FormAction>
+			</FormActions>
 		</Form>
 	)
 }

@@ -14,13 +14,17 @@
 	width: calc(var(--SidebarSectionActionButton-width) + 2 * var(--SidebarSectionActionButton-paddingLeft));
 	height: var(--SidebarSectionActionButton-width);
 
-/*	padding-left: var(--SidebarSectionActionButton-paddingLeft);*/
-/*	padding-right: var(--SidebarSectionActionButton-paddingLeft);*/
+	/* padding-left: var(--SidebarSectionActionButton-paddingLeft); */
+	/* padding-right: var(--SidebarSectionActionButton-paddingLeft); */
 
 	margin-right: var(--SidebarSectionActionButton-marginRight);
 
 	&:last-child {
 		margin-right: 0;
+	}
+
+	&:active {
+		color: var(--SidebarButton-color--active);
 	}
 }
 

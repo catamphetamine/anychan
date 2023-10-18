@@ -5,7 +5,7 @@ import useDataSource from '../hooks/useDataSource.js'
 import useMessages from '../hooks/useMessages.js'
 
 import FillButton from '../components/FillButton.js'
-import { Form, Field, Submit } from '../components/Form.js'
+import { Form, Field, Submit, FormComponent, FormAction } from '../components/Form.js'
 import Heading from '../components/Heading.js'
 
 import { notify } from '../redux/notifications.js'
@@ -49,22 +49,22 @@ export default function UserAccountPage() {
 				)}
 				{source.api.logIn && (
 					<ContentSection>
-						<Form
-							onSubmit={onSubmit}
-							className="form">
-							<Field
-								required
-								type="text"
-								name="token"
-								label={messages.userAccount.pass}
-								className="form__component"
-							/>
-							<Submit
-								component={FillButton}
-								title={messages.actions.post}
-								className="form__action">
-								{messages.logIn}
-							</Submit>
+						<Form onSubmit={onSubmit}>
+							<FormComponent>
+								<Field
+									required
+									type="text"
+									name="token"
+									label={messages.userAccount.pass}
+								/>
+							</FormComponent>
+							<FormAction>
+								<Submit
+									component={FillButton}
+									title={messages.actions.post}>
+									{messages.logIn}
+								</Submit>
+							</FormAction>
 						</Form>
 					</ContentSection>
 				)}

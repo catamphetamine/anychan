@@ -1,0 +1,26 @@
+@import "../styles/common.css";
+
+.GoToChannelModal-goButtonIcon {
+	width: calc(var(--unit) * 1.5);
+	height: calc(var(--unit) * 1.5);
+}
+
+.GoToChannelModal-option {
+	display: flex;
+	align-items: center;
+	height: calc(var(--unit) * 3);
+}
+
+.rrui__list__item:active {
+	.GoToChannelModal-optionValue {
+		color: var(--Content-backgroundColor);
+	}
+}
+
+.GoToChannelModal-optionValue {
+	color: var(--Clickable-color--text);
+}
+
+.GoToChannelModal-optionLabel {
+	margin-left: var(--unit);
+}

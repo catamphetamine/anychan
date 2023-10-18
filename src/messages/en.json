@@ -191,6 +191,8 @@
 	"storageCapacityExceeded": "Data storage capacity exceeded. Data won't be saved.",
 	"loadingThreadsError": "Couldn't load threads list",
 	"loadingCommentsError": "Couldn't load thread comments",
+	"invalidBoardId": "Invalid board ID",
+	"board": "Board",
 	"thread": {
 		"default": "Thread",
 		"hidden": "Hidden thread"

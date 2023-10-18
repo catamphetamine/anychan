@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Select } from 'react-responsive-ui'
+import { Autocomplete } from 'react-responsive-ui'
 
 import ScrollableContainer, {
 	getScrollableContainerHeight,
@@ -9,14 +9,14 @@ import ScrollableContainer, {
 	setScrollableContainerScrollY
 } from '../../ScrollableContainer.js'
 
-const SelectComponent = React.forwardRef(({
+const AutocompleteComponent = React.forwardRef(({
 	wait,
 	...rest
 }, ref) => {
 	return (
-		<Select
+		<Autocomplete
 			ref={ref}
-			wait={wait}
+			readOnly={wait}
 			ScrollableContainer={ScrollableContainer}
 			getScrollableContainerHeight={getScrollableContainerHeight}
 			getScrollableContainerScrollY={getScrollableContainerScrollY}
@@ -26,8 +26,8 @@ const SelectComponent = React.forwardRef(({
 	)
 })
 
-SelectComponent.propTypes = {
+AutocompleteComponent.propTypes = {
 	wait: PropTypes.bool
 }
 
-export default SelectComponent
+export default AutocompleteComponent

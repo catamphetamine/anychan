@@ -25,7 +25,6 @@ import {
 
 import SearchIcon from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
 
-import './Channels.css'
 import './EditFavoriteChannels.css'
 
 export default function EditFavoriteChannels({
@@ -49,7 +48,6 @@ export default function EditFavoriteChannels({
 	}, [])
 
 	const onSelectChannel = useCallback((channel) => {
-		console.log(channel)
 		if (!channel) {
 			return onExitEditMode()
 		}

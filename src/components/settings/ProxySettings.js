@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getHttpClient } from 'react-pages'
 
 import TextButton from '../TextButton.js'
-import { Form, Field, Submit } from '../Form.js'
+import { Form, Field, Submit, FormComponent, FormAction, FormComponentAndButton } from '../Form.js'
 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
@@ -132,38 +132,38 @@ export default function ProxySettings({
 			</Switch>
 
 			{!useDefault &&
-				<Form
-					onSubmit={onSave}
-					className="form">
+				<Form onSubmit={onSave}>
 					{({ values }) => (
 						<>
-							<div className="form__component-and-button">
-								<Field
-									required
-									type="text"
-									name="proxyUrl"
-									label={messages.settings.proxy.url}
-									value={savedValue}
-									validate={validateUrl}
-									className="form__component"
-								/>
+							<FormComponentAndButton>
+								<FormComponent>
+									<Field
+										required
+										type="text"
+										name="proxyUrl"
+										label={messages.settings.proxy.url}
+										value={savedValue}
+										validate={validateUrl}
+									/>
+								</FormComponent>
 								{values && values.proxyUrl !== savedValue &&
-									<Submit
-										type="submit"
-										component={TextButton}
-										className="form__action form__action--inline">
-										{messages.actions.save}
-									</Submit>
+									<FormAction inline>
+										<Submit
+											type="submit"
+											component={TextButton}>
+											{messages.actions.save}
+										</Submit>
+									</FormAction>
 								}
-							</div>
+							</FormComponentAndButton>
 
 							{/* Proxy Server Test button */}
-							<div className="form__component form__component--button">
+							<FormComponent type="button">
 								<TextButton
 									onClick={() => onTestProxyServer(values && values.proxyUrl)}>
 									{messages.settings.proxy.test}
 								</TextButton>
-							</div>
+							</FormComponent>
 						</>
 					)}
 				</Form>
@@ -171,12 +171,12 @@ export default function ProxySettings({
 
 			{/* Proxy Server Test button */}
 			{useDefault &&
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<TextButton
 						onClick={() => onTestProxyServer()}>
 						{messages.settings.proxy.test}
 					</TextButton>
-				</div>
+				</FormComponent>
 			}
 		</ContentSection>
 	)

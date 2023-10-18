@@ -68,10 +68,11 @@
 	margin-top: var(--Comment-marginTop);
 }
 
-.ThreadPage-belowComments {
-	/* Using `padding-top: 1px` here instead of `margin`s on children because
+.ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide {
+	/* Using `padding-top: 1px` here to prevent "margin collapse" of the children's `margin`s.
+	   The reason why `padding-top` is used instead of `margin-top` here is also because
 	   `pointer-events: none` property is set on `.Webpage-content` making pointer events
-	   "fall through" the top margin (but not when using top padding).
+	   "fall through" the top margin and the point under the cursor wouldn't be clickable.
 	*/
 	padding-top: 1px;
 }

@@ -5,7 +5,7 @@ import { TextInput, Button, DropFileUpload, FileUploadButton } from 'react-respo
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
-import { Form, Field, Submit } from './Form.js'
+import { Form, Field, Submit, FormComponent } from './Form.js'
 
 import LinearProgress from 'frontend-lib/components/LinearProgress.js'
 import { FadeInOut } from 'react-responsive-ui'
@@ -159,20 +159,22 @@ function PostForm({
 				initialState={initialState}
 				onStateDidChange={onStateDidChange}
 				className={classNames('form', 'PostForm-form')}>
-				<Field
-					required
-					name={POST_FORM_INPUT_FIELD_NAME}
-					type="text"
-					multiline
-					rows={2}
-					value={initialInputValue}
-					onChange={onInputValueChange}
-					initialHeight={initialInputHeight}
-					onHeightChange={onInputHeightDidChange}
-					onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
-					placeholder={messages.post.form.inputText}
-					className="form__component PostForm-textInput"
-				/>
+				<FormComponent>
+					<Field
+						required
+						name={POST_FORM_INPUT_FIELD_NAME}
+						type="text"
+						multiline
+						rows={2}
+						value={initialInputValue}
+						onChange={onInputValueChange}
+						initialHeight={initialInputHeight}
+						onHeightChange={onInputHeightDidChange}
+						onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
+						placeholder={messages.post.form.inputText}
+						className="PostForm-textInput"
+					/>
+				</FormComponent>
 				{onCancel &&
 					<Button
 						onClick={onCancel}

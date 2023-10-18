@@ -1,11 +1,11 @@
 import React, { useMemo, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-import Channels from './Channels.js'
+import ChannelsListInSidebar from './ChannelsList/ChannelsListInSidebar.js'
 
 import useSetting from '../hooks/useSetting.js'
 
-export default function AvailableChannels(props) {
+export default function AvailableChannels() {
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
 
 	// Channels won't be loaded in "offline" mode.
@@ -15,7 +15,6 @@ export default function AvailableChannels(props) {
 	const channelsByPopularity = useSelector(state => state.data.channelsByPopularity)
 	const channelsByCategory = useSelector(state => state.data.channelsByCategory)
 	const hasMoreChannels = useSelector(state => state.data.hasMoreChannels)
-	const selectedChannel = useSelector(state => state.data.channel)
 
 	// Exclude `favoriteChannels` from the list of available channels.
 	const exceptFavoriteChannels = useCallback((channels) => {
@@ -29,16 +28,17 @@ export default function AvailableChannels(props) {
 	const channelsView = useSetting(settings => settings.channelsView)
 
 	return (
-		<Channels
-			highlightSelectedChannel
+		<ChannelsListInSidebar
+			views={VIEWS}
+			showAllChannelsLink
 			shouldSaveChannelsView
 			channels={_channels}
 			channelsByPopularity={_channelsByPopularity}
 			channelsByCategory={_channelsByCategory}
 			hasMoreChannels={hasMoreChannels}
-			selectedChannel={selectedChannel}
 			channelsView={channelsView}
-			{...props}
 		/>
 	)
 }
+
+const VIEWS = ['list', 'by-category']

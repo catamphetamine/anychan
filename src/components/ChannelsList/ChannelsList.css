@@ -1,0 +1,30 @@
+@import "../../styles/common.css";
+
+.Channels-list--grid {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto;
+	.ChannelsListSectionHeader-urlPlaceholder,
+	.ChannelsListSectionHeader-title,
+	.ChannelsListChannel-url,
+	.ChannelsListChannel-title {
+		grid-column: span 1;
+	}
+}
+
+.ChannelsListSectionHeader-title {
+	margin-top: var(--ChannelsListSectionHeader-title-marginTop);
+	margin-bottom: var(--ChannelsListSectionHeader-title-marginBottom);
+	padding-left: var(--unit);
+	font-size: var(--ChannelsListSectionHeader-title-fontSize);
+	font-weight: 300;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ChannelsListSectionHeader-title--first {
+	margin-top: 0;
+	@mixin upto-m {
+		margin-top: 0.8em;
+	}
+}

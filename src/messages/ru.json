@@ -191,6 +191,8 @@
 	"storageCapacityExceeded": "Хранилище данных переполнено. Данные не будут сохранены.",
 	"loadingThreadsError": "Не удалось загрузить список тредов",
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
+	"invalidBoardId": "Недопустимое имя доски",
+	"board": "Доска",
 	"thread": {
 		"default": "Тред",
 		"hidden": "Скрытый тред"

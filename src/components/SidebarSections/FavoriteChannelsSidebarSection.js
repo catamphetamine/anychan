@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import FavoriteChannels from '../FavoriteChannels.js'
 import SidebarSection from '../Sidebar/SidebarSection.js'
 import EditFavoriteChannels from '../EditFavoriteChannels.js'
+import GoToChannelModal from '../GoToChannelModal.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSetting from '../../hooks/useSetting.js'
@@ -29,10 +30,18 @@ export default function FavoriteChannelsSidebarSection() {
 
 	const [editingFavoriteChannels, setEditingFavoriteChannels] = useState()
 
+	const [showGoToChannelModal, setShowGoToChannelModal] = useState()
+
+	const onHideGoToChannelModal = useCallback(() => {
+		setShowGoToChannelModal()
+	}, [setShowGoToChannelModal])
+
 	const actions = useMemo(() => [
 		{
 			title: messages.search,
-			onClick: () => {},
+			onClick: () => {
+				setShowGoToChannelModal(true);
+			},
 			Icon: SearchIcon
 		}
 	], [])
@@ -75,7 +84,7 @@ export default function FavoriteChannelsSidebarSection() {
 			}
 		} else {
 			children = (
-				<FavoriteChannels channels={favoriteChannels}/>
+				<FavoriteChannels/>
 			)
 		}
 	}
@@ -89,6 +98,10 @@ export default function FavoriteChannelsSidebarSection() {
 				moreButtonRef={moreButtonRef}
 				onMore={onMore}>
 				{children}
+				<GoToChannelModal
+					isOpen={showGoToChannelModal}
+					close={onHideGoToChannelModal}
+				/>
 			</SidebarSection>
 		)
 	}

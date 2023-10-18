@@ -1,16 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import Channels from './Channels.js'
+import ChannelsListInSidebar from './ChannelsList/ChannelsListInSidebar.js'
 
-export default function FavoriteChannels(props) {
-	const selectedChannel = useSelector(state => state.data.channel)
+export default function FavoriteChannels() {
+	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
+
 	return (
-		<Channels
-			showAllChannelsLink={false}
-			selectedChannel={selectedChannel}
-			highlightSelectedChannel
-			{...props}
+		<ChannelsListInSidebar
+			channels={favoriteChannels}
 		/>
 	)
 }

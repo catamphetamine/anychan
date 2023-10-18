@@ -1,21 +1,9 @@
-@import "../styles/common.css";
+@import "../../styles/common.css";
 
 .Channels {
 	display: flex;
 	flex-direction: column;
 	align-content: center;
-}
-
-.Channels-list--grid {
-	display: grid;
-	grid-template-columns: auto auto;
-	grid-template-rows: auto;
-	.ChannelsListSectionHeader-urlPlaceholder,
-	.ChannelsListSectionHeader-title,
-	.ChannelsListChannel-url,
-	.ChannelsListChannel-title {
-		grid-column: span 1;
-	}
 }
 
 .ChannelsListChannel-url,
@@ -35,23 +23,6 @@
 	.ChannelUrl {
 		position: relative;
 		top: -0.05em;
-	}
-}
-
-.ChannelsListSectionHeader-title {
-	margin-top: var(--ChannelsListSectionHeader-title-marginTop);
-	margin-bottom: var(--ChannelsListSectionHeader-title-marginBottom);
-	padding-left: var(--unit);
-	font-size: var(--ChannelsListSectionHeader-title-fontSize);
-	font-weight: 300;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.ChannelsListSectionHeader-title--first {
-	margin-top: 0;
-	@mixin upto-m {
-		margin-top: 0.8em;
 	}
 }
 
@@ -165,12 +136,6 @@
 	margin-bottom: calc(var(--unit) * 2);
 	--rrui-input-field-background-color-focus: var(--Channels-backgroundColor);
 	--rrui-input-field-text-color: var(--Sidebar-color-900);
-}
-
-.Channels-nothingFound {
-	margin-top: calc(var(--unit) * 2);
-	text-align: center;
-	color: var(--Sidebar-color-900);
 }
 
 .ChannelsListChannel-title {

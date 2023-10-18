@@ -14,6 +14,7 @@ import LanguageSettings from '../components/settings/LanguageSettings.js'
 import FontSizeSettings from '../components/settings/FontSizeSettings.js'
 import DarkModeSettings from '../components/settings/DarkModeSettings.js'
 import LeftHandedSettings from '../components/settings/LeftHandedSettings.js'
+import { FormComponent } from '../components/Form.js'
 
 import getLanguageFromLocale from '../utility/getLanguageFromLocale.js'
 
@@ -115,13 +116,13 @@ function Settings({
 				onChange={onLocaleChange}
 				languages={LANGUAGE_NAMES}>
 				{/* "Adding a new language" guide. */}
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<a
 						href="https://gitlab.com/catamphetamine/anychan/blob/master/docs/translation/guide.md"
 						target="_blank">
 						{messages.settings.language.translationGuide}
 					</a>
-				</div>
+				</FormComponent>
 			</LanguageSettings>
 
 			{/* Theme */}

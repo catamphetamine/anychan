@@ -8,6 +8,7 @@ import {
 } from 'frontend-lib/components/ContentSection.js'
 
 import TextButton from '../TextButton.js'
+import { FormComponent, FormLabel } from '../Form.js'
 
 import censorWords from 'social-components/utility/post/censorWords.js'
 import compileWordPatterns from 'social-components/utility/post/compileWordPatterns.js'
@@ -68,12 +69,12 @@ export default function CensoredWordsSettings({
 			</div>
 			{/* "Hide Censored Words" button. */}
 			{showCensoredWords &&
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<TextButton
 						onClick={() => setShowCensoredWords(false)}>
 						{messages.settings.censorship.hideCensoredWordsList}
 					</TextButton>
-				</div>
+				</FormComponent>
 			}
 			{/* Censored words list. */}
 			{showCensoredWords &&
@@ -83,20 +84,20 @@ export default function CensoredWordsSettings({
 			}
 			{/* "Show Censored Words" button. */}
 			{!showCensoredWords &&
-				<div className="form__component form__component--button">
+				<FormComponent type="button">
 					<TextButton
 						onClick={() => setShowCensoredWords(true)}>
 						{messages.settings.censorship.showCensoredWordsList}
 					</TextButton>
-				</div>
+				</FormComponent>
 			}
 			{/* "Test Censored Word Rules" button. */}
-			<div className="form__component form__component--button">
+			<FormComponent type="button">
 				<TextButton
 					onClick={() => setShowTestWordCensorshipRulesModal(true)}>
 					{messages.settings.censorship.test.title}
 				</TextButton>
-			</div>
+			</FormComponent>
 			{/* "Test Censored Word Rules" modal. */}
 			<Modal
 				isOpen={showTestWordCensorshipRulesModal}
@@ -162,37 +163,42 @@ function TestCensoredWords({
 	}, [useCustomRule])
 	return (
 		<React.Fragment>
-			<Checkbox
-				value={useCustomRule}
-				onChange={onUseCustomRuleChange}
-				className="form__component">
-				{messages.settings.censorship.test.useCustomRule}
-			</Checkbox>
+			<FormComponent>
+				<Checkbox
+					value={useCustomRule}
+					onChange={onUseCustomRuleChange}>
+					{messages.settings.censorship.test.useCustomRule}
+				</Checkbox>
+			</FormComponent>
 			{useCustomRule &&
-				<TextInput
-					ref={ruleInputRef}
-					value={rule}
-					onChange={onRuleChange}
-					label={messages.settings.censorship.test.rule}
-					className="form__component"/>
+				<FormComponent>
+					<TextInput
+						ref={ruleInputRef}
+						value={rule}
+						onChange={onRuleChange}
+						label={messages.settings.censorship.test.rule}
+					/>
+				</FormComponent>
 			}
-			<TextInput
-				multiline
-				autoFocus
-				value={text}
-				onChange={onTextChange}
-				label={messages.settings.censorship.test.text}
-				className="form__component"/>
-			<div className="form__component">
-				<div className="form__label">
+			<FormComponent>
+				<TextInput
+					multiline
+					autoFocus
+					value={text}
+					onChange={onTextChange}
+					label={messages.settings.censorship.test.text}
+				/>
+			</FormComponent>
+			<FormComponent>
+				<FormLabel>
 					{messages.settings.censorship.test.result}
-				</div>
+				</FormLabel>
 				{result &&
 					<Content>
 						{result}
 					</Content>
 				}
-			</div>
+			</FormComponent>
 		</React.Fragment>
 	)
 }

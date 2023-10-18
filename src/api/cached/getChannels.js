@@ -15,8 +15,7 @@ export default async function getChannelsCached({
 	all,
 	...rest
 }) {
-	const prefix = getPrefix()
-	const key = prefix + (all ? 'getAllChannels' : 'getChannels')
+	const key = getPrefix() + (all ? 'getAllChannels' : 'getChannels')
 	const cached = storage.get(key)
 	if (cached && cached.timestamp + getConfiguration().channelsCacheTimeout >= Date.now()) {
 		return cached.value
@@ -34,7 +33,6 @@ export default async function getChannelsCached({
 }
 
 export function clearChannelsCache() {
-	const prefix = getPrefix()
-	storage.delete(prefix + 'getChannels')
-	storage.delete(prefix + 'getAllChannels')
+	storage.delete(getPrefix() + 'getChannels')
+	storage.delete(getPrefix() + 'getAllChannels')
 }

@@ -3,17 +3,19 @@ import PropTypes from 'prop-types'
 
 import TextInput from './fields/TextInput.js'
 import Select from './fields/Select.js'
+import Autocomplete from './fields/Autocomplete.js'
 
 import { Field as Field_ } from 'frontend-lib/components/Form.js'
 
 const Field = React.forwardRef(({
-	wait,
 	type,
-	options,
 	component,
 	...rest
 }, ref) => {
 	switch (type) {
+		case 'autocomplete':
+			component = Autocomplete
+			break
 		case 'text':
 			component = TextInput
 			break
@@ -36,13 +38,10 @@ const Field = React.forwardRef(({
 
 Field.propTypes = {
 	type: PropTypes.oneOf([
+		'autocomplete',
 		'text',
 		'select'
 	]),
-	options: PropTypes.arrayOf(PropTypes.shape({
-		value: PropTypes.any,
-		label: PropTypes.string.isRequired
-	})),
 	component: PropTypes.elementType
 }
 
