@@ -9,7 +9,8 @@ import { createConfiguration } from './webpack.config.js'
 
 const configuration = createConfiguration({ development: false })
 
-configuration.output.publicPath = '/assets'
+// The trailing slash is required.
+configuration.output.publicPath = '/assets/'
 
 // `__webpack_public_path__` is configured dynamically at runtime.
 // https://webpack.js.org/guides/public-path/#on-the-fly
