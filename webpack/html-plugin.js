@@ -61,11 +61,11 @@ for (const dataSource of DATA_SOURCES) {
 }
 
 // Injects `js` and `css` bundles into `index.html`.
-export default function({ dev }) {
+export default function({ development }) {
 	return new HtmlWebpackPlugin({
 		template: 'src/index.html',
 		minify: false,
-		inject: dev ? true : false,
+		inject: Boolean(development),
 		// favicon: 'assets/images/icon/icon-192.png',
 		// Seems to use "lodash" templates.
 		templateParameters: {
@@ -74,11 +74,11 @@ export default function({ dev }) {
 			dataSourceIconUrls: JSON.stringify(DATA_SOURCE_ICON_URLS, null, '\t'),
 			dataSourceTitles: JSON.stringify(DATA_SOURCE_TITLES, null, '\t'),
 			defaultConfiguration: JSON.stringify({
-				...(dev ? CUSTOM_DEV_CONFIG : undefined),
+				...(development ? CUSTOM_DEV_CONFIG : undefined),
 				...defaultConfiguration
 			}, null, '\t'),
-			googleAnalytics: dev ? false : true,
-			productionBuild: dev ? false : true,
+			googleAnalytics: !development,
+			productionBuild: !development,
 			version: Package.version
 		}
 	})

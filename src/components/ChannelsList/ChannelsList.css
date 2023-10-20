@@ -4,6 +4,7 @@
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-rows: auto;
+	align-items: flex-start;
 	.ChannelsListSectionHeader-urlPlaceholder,
 	.ChannelsListSectionHeader-title,
 	.ChannelsListChannel-url,
