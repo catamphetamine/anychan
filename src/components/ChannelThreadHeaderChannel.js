@@ -27,7 +27,7 @@ export default function ChannelThreadHeaderChannel({
 				channelId={channel.id}
 				className="ChannelThreadHeader-channelId"
 			/>
-			{showTitle ? channel.title : undefined}
+			{showTitle && channel.title ? channel.title : undefined}
 		</Link>
 	)
 }

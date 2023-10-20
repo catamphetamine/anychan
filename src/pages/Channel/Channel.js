@@ -27,7 +27,7 @@ import useOnThreadClick from '../../components/useOnThreadClick.js'
 import { getContext } from '../../context.js'
 
 import getChannelPageMeta from './Channel.meta.js'
-import loadChannelPage from './Channel.load.js'
+import useLoadChannelPage from '../../hooks/useLoadChannelPage.js'
 
 import './Channel.css'
 
@@ -187,29 +187,16 @@ ChannelPage.load = async ({
 	dispatch,
 	params: { channelId }
 }) => {
-	const {
-		userData,
-		userSettings,
-		dataSource
-	} = getContext()
-
-	const useSetting_ = (getter) => useSetting(getter, { useSelector })
-
-	return await loadChannelPage({
-		channelId,
-		useChannel: () => useSelector(state => state.data.channel),
-		dispatch,
-		userData,
-		userSettings,
-		dataSource,
-		wasCancelled: () => false,
-		censoredWords: useSetting_(settings => settings.censoredWords),
-		grammarCorrection: useSetting_(settings => settings.grammarCorrection),
-		locale: useSetting_(settings => settings.locale),
-		autoSuggestFavoriteChannels: useSetting_(settings => settings.autoSuggestFavoriteChannels),
-		channelLayout: useSetting_(settings => settings.channelLayout),
-		channelSorting: useSetting_(settings => settings.channelSorting)
+	const loadChannelPage = useLoadChannelPage({
+		useCallback: (func) => func,
+		useSelector,
+		useDispatch: () => dispatch,
+		useUserData: () => getContext().userData,
+		useUserSettings: () => getContext().userSettings,
+		useDataSource: () => getContext().dataSource
 	})
+
+	await loadChannelPage({ channelId })
 }
 
 // This is a workaround for cases when navigating from one channel

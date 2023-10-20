@@ -29,6 +29,7 @@ const SidebarSectionMoreButton = React.forwardRef(({
 			ref={ref}
 			title={title}
 			onClick={onClick_}
+			pressed={isPressed}
 			aria-pressed={isPressed}
 			className={classNames('SidebarSectionMoreButton', 'SidebarButton', {
 				'SidebarButton--pressed': isPressed,

@@ -21,7 +21,7 @@ export default function SettingsLink({ withLabel }) {
 	const isCurrentUrl = locationPathname === menuItem.pathname
 
 	const Icon = isCurrentUrl
-		? menuItem.iconActive
+		? menuItem.iconSelected
 		: menuItem.icon
 
 	const title = messages.settings.title

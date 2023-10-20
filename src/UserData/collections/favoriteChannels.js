@@ -27,7 +27,10 @@ export default {
 
 	methods: {
 		addFavoriteChannel: 'addTo',
-		removeFavoriteChannel: 'removeFrom'
+		removeFavoriteChannel: 'removeFrom',
+		isFavoriteChannel: ({ getFrom }) => (channel) => {
+			return getFrom(channel) !== undefined
+		}
 	},
 
 	// `isEqual()` must be defined for collections of type "list".

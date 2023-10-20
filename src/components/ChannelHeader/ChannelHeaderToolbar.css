@@ -4,6 +4,15 @@
 	--ChannelHeaderToolbar-channelLayoutIcon-strokeWidth--listItemHighlighted: 15;
 
 	--ChannelHeaderToolbar-channelSorting-marginRight: 0.5rem;
+
+	--ChannelHeaderToolbar-fillIcon-backgroundColor: var(--Content-color-300);
+	--ChannelHeaderToolbar-fillIcon-backgroundColor--active: var(--Content-color-500);
+}
+
+/* `--Menu-color--active` CSS variable is redefined in `.Toolbar` CSS selector
+   in `Toolbar.css` file, so this derived variable can't be declared in `:root`. */
+.ChannelHeaderToolbar .Toolbar {
+	--ChannelHeaderToolbar-fillIcon-borderColor--active: var(--Menu-color--active);
 }
 
 .ChannelHeaderToolbar {
@@ -15,6 +24,10 @@
 	.Toolbar {
 		--Toolbar-paddingLeft: 0px;
 	}
+
+	--StarIcon-borderColor: var(--Menu-color);
+	--StarIcon-backgroundColor: var(--ChannelHeaderToolbar-fillIcon-backgroundColor);
+	--StarIcon-backgroundColor--acitve: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
 }
 
 .ChannelHeaderToolbar-channelLayoutButton {
@@ -76,4 +89,25 @@
 
 .ChannelHeaderToolbar-toolbar--afterChannelLayoutOrSortingSelect {
 	margin-left: calc(-1 * var(--MenuIcon-padding));
+}
+
+.ChannelHeaderToolbar-sortByPopularityButton--selected {
+	g {
+		fill: var(--ChannelHeaderToolbar-fillIcon-backgroundColor);
+	}
+
+	&:active {
+		g {
+			fill: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
+		}
+	}
+}
+
+.ChannelHeaderToolbar-favoriteChannelButton {
+	--StarIcon-backgroundColor-opacity: 1;
+
+	&:active {
+		--StarIcon-borderColor: var(--ChannelHeaderToolbar-fillIcon-borderColor--active);
+		--StarIcon-backgroundColor: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
+	}
 }

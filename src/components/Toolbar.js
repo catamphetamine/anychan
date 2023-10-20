@@ -28,7 +28,7 @@ Toolbar.propTypes = {
 		onClick: PropTypes.func,
 		isSelected: PropTypes.bool,
 		icon: PropTypes.elementType,
-		iconActive: PropTypes.elementType,
+		iconSelected: PropTypes.elementType,
 		animate: PropTypes.oneOf(['pop']),
 		type: PropTypes.oneOf(['separator']),
 		size: PropTypes.oneOf(['s']),

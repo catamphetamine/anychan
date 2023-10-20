@@ -4,18 +4,8 @@ import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 const redux = new ReduxModule()
 
-export const showSidebar = redux.simpleAction(
-	(state, shouldBeShown) => ({
-		...state,
-		isSidebarShown: shouldBeShown
-	})
-)
-
-export const hideSidebar = redux.simpleAction(
-	(state) => ({
-		...state,
-		isSidebarShown: false
-	})
+export const setShowSidebar = redux.simpleAction(
+	(state, isSidebarShown) => ({ ...state, isSidebarShown })
 )
 
 const _setDarkMode = redux.simpleAction(
@@ -29,15 +19,19 @@ export const setDarkMode = (darkMode) => {
 }
 
 export const setCookiesAccepted = redux.simpleAction(
-	(state) => ({ ...state, cookiesAccepted: true })
+	(state, cookiesAccepted) => ({ ...state, cookiesAccepted })
 )
 
 export const setOfflineMode = redux.simpleAction(
-	(state) => ({ ...state, offline: true })
+	(state, offline) => ({ ...state, offline })
 )
 
 export const setSidebarMode = redux.simpleAction(
 	(state, sidebarMode) => ({ ...state, sidebarMode })
+)
+
+export const setShowPageLoadingIndicator = redux.simpleAction(
+	(state, showPageLoadingIndicator) => ({ ...state, showPageLoadingIndicator })
 )
 
 export default redux.reducer({

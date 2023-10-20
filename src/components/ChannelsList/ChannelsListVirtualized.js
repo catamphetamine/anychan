@@ -48,9 +48,11 @@ function ChannelsListItem({ children: { channel } }) {
 			<div className="ChannelsListChannel-url">
 				<ChannelUrl channelId={channel.id}/>
 			</div>
-			<div className="ChannelsListChannel-title">
-				{channel.title}
-			</div>
+			{channel.title &&
+				<div className="ChannelsListChannel-title">
+					{channel.title}
+				</div>
+			}
 		</Link>
 	)
 }

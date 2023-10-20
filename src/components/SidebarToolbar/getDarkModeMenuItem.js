@@ -1,13 +1,7 @@
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
 import { notify } from '../../redux/notifications.js'
-
-import {
-	showSidebar,
-	setSidebarMode,
-	setDarkMode
-} from '../../redux/app.js'
-
+import { setDarkMode } from '../../redux/app.js'
 import { saveDarkMode } from '../../redux/settings.js'
 
 import autoDarkMode from 'frontend-lib/utility/style/autoDarkMode.js'
@@ -38,6 +32,6 @@ export default function getDarkModeMenuItem({
 		},
 		isSelected: darkMode,
 		icon: MoonIconOutline,
-		iconActive: MoonIconFill
+		iconSelected: MoonIconFill
 	}
 }

@@ -41,8 +41,8 @@
 	--HeaderSeparator-color--right: var(--HeaderSeparator-color--left);
 
 	/* Menu. */
-	--Menu-color--active: var(--Header-color--active);
-	--Menu-color--selected: var(--Menu-color--active);
+	/* --Menu-color--active: var(--Header-color--active); */
+	/* --Menu-color--selected: var(--Menu-color--active); */
 
 	/* NotificationBadge. */
 	--NotificationBadge-backgroundColor: hsl(36, 100%, 45%);
@@ -96,8 +96,8 @@
 	--ChannelUrl-slash-color--selected: hsl(357, 36%, 80%);
 
 	/* Toolbar. */
-	--Toolbar-color--active: hsl(321, 36%, 57%);
-	--Toolbar-color--selected: var(--base-color-500);
+	/* --Toolbar-color--active: hsl(321, 36%, 57%); */
+	/* --Toolbar-color--selected: var(--base-color-500); */
 
 	/* PressedStateButton. */
 	--PressedStateButton-color--active: hsl(338, 78%, 40%);
@@ -174,8 +174,8 @@
 	--HeaderSeparator-color--left: transparent;
 
 	/* Menu. */
-	--Menu-color--active: var(--base-color-400);
-	--Menu-color--selected: var(--Menu-color--active);
+	/* --Menu-color--active: var(--base-color-400); */
+	/* --Menu-color--selected: var(--Menu-color--active); */
 
 	/* Sidebar. */
 	--Sidebar-color-500: hsl(239, 22%, 59%);

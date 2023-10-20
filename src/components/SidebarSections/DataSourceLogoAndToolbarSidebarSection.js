@@ -20,7 +20,7 @@ export default function DataSourceLogoAndToolbarSidebarSection() {
 		<>
 			<DarkModeToggle/>
 			<SettingsLink/>
-			{dataSource.api.logIn &&
+			{false && dataSource.api.logIn &&
 				<UserAccountLink/>
 			}
 		</>

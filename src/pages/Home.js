@@ -10,7 +10,7 @@ import DataSourceLogo, { hasLogo } from '../components/DataSourceLogo.js'
 import useMessages from '../hooks/useMessages.js'
 import useDataSource from '../hooks/useDataSource.js'
 
-import { showSidebar, setSidebarMode } from '../redux/app.js'
+import { setShowSidebar, setSidebarMode } from '../redux/app.js'
 
 import './Home.css'
 
@@ -29,7 +29,7 @@ export default function Home() {
 	const dispatch = useDispatch()
 
 	const onShowChannelsList = useCallback(() => {
-		dispatch(showSidebar(true))
+		dispatch(setShowSidebar(true))
 		dispatch(setSidebarMode('channel'))
 	}, [dispatch])
 

@@ -112,6 +112,14 @@
 
   --Post-minWidth: 0px;
 
+  .Comment-container {
+  	/* "By default, a grid item cannot be smaller than the size of its content.
+        Grid items have an initial size of min-width: auto and min-height: auto.
+        You can override this behavior by setting grid items to min-width: 0, min-height: 0 or overflow with any value other than visible." */
+  	/* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
+  	min-width: 0;
+  }
+
   .Comment {
   	/* Place comment content below comment thumbnail. */
   	flex-direction: column;

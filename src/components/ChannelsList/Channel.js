@@ -71,7 +71,7 @@ export default function Channel({
 					'ChannelsListChannel-title--hover': isHovered,
 					'ChannelsListChannel-title--active': isActive
 				})}>
-				{channel.title}
+				{channel.title || ''}
 			</Link>
 		</React.Fragment>
 	)

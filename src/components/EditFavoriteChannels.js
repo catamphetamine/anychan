@@ -91,6 +91,7 @@ export default function EditFavoriteChannels({
 				maxOptions={50}
 				optionComponent={ChannelOptionComponent}
 				icon={SearchIcon}
+				placeholder={messages.search}
 				className="EditFavoriteChannels-search"
 				value={selectedChannel}
 				onChange={onSelectChannel}
@@ -149,7 +150,7 @@ function Channel({
 		})}>
 			<ChannelUrl channelId={channel.id} active={dragged}/>
 			<span className="EditFavoriteChannels-channelTitle">
-				{channel.title}
+				{channel.title || ''}
 			</span>
 			<ListButton
 				muted

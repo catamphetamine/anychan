@@ -77,16 +77,9 @@ export const getChannels = redux.action(
 
 export const setChannelThreads = redux.simpleAction(
 	(state, { channelId, threads }) => {
-		// Get the current `channel`.
-		const channel = getChannelObject(state, channelId)
-		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
-		// Instead, it returns the board settings as part of "get threads" and
-		// "get thread comments" API responses.
-		if (threads.length > 0) {
-			populateChannelInfoFromThreadData(channel, threads[0])
-			for (const thread of threads) {
-				setThreadInfo(thread, channel)
-			}
+		const channel = getChannelForThreads({ channelId, threads, state })
+		for (const thread of threads) {
+			setThreadPropertiesFromChannelProperties(thread, channel)
 		}
 		return {
 			...state,
@@ -124,12 +117,12 @@ export const getThread = redux.action(
 	},
 	(state, thread) => {
 		// Get the current `channel`.
-		const channel = getChannelObject(state, thread.channelId)
+		const channel = getChannelObjectForChannelIdFromStateData(state, thread.channelId)
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
 		// Instead, it returns the board settings as part of "get threads" and
 		// "get thread comments" API responses.
 		populateChannelInfoFromThreadData(channel, thread)
-		setThreadInfo(thread, channel)
+		setThreadPropertiesFromChannelProperties(thread, channel)
 		return {
 			...state,
 			...AUTO_UPDATE_NO_NEW_COMMENTS_STATE,
@@ -184,8 +177,8 @@ export const refreshThread = redux.action(
 	},
 	(state, { thread, userData }) => {
 		// Get the current `channel`.
-		const channel = getChannelObject(state, thread.channelId)
-		setThreadInfo(thread, channel)
+		const channel = getChannelObjectForChannelIdFromStateData(state, thread.channelId)
+		setThreadPropertiesFromChannelProperties(thread, channel)
 		const prevCommentsCount = thread.comments.length
 		return {
 			...state,
@@ -357,11 +350,25 @@ export const vote = redux.action(
 
 export default redux.reducer()
 
-function getChannelObject(state, channelId) {
+// Returns `channel` object for a list of `threads`.
+export function getChannelForThreads({ channelId, threads, state }) {
+	// Get the current `channel`.
+	const channel = getChannelObjectForChannelIdFromStateData(state, channelId)
+	// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
+	// Instead, it returns the board settings as part of "get threads" and
+	// "get thread comments" API responses.
+	if (threads.length > 0) {
+		populateChannelInfoFromThreadData(channel, threads[0])
+	}
+	return channel
+}
+
+function getChannelObjectForChannelIdFromStateData(state, channelId) {
+	const { channels, channel } = state
 	// Sometimes all channels are pre-fetched (when there's a small amount of them).
 	// In those cases, find the channel by its `id` in the list of pre-fetched channels.
-	if (state.channels) {
-		const channel = state.channels.find(_ => _.id === channelId)
+	if (channels) {
+		const channel = channels.find(_ => _.id === channelId)
 		if (channel) {
 			return channel
 		}
@@ -369,8 +376,8 @@ function getChannelObject(state, channelId) {
 	// In other cases (for example, on `8ch.net`, where there're about 20 000 "user boards"),
 	// construct a new channel object based on the available info.
 	// If such channel object has already been constructed before, then use it.
-	if (state.channel && state.channel.id === channelId) {
-		return state.channel
+	if (channel && channel.id === channelId) {
+		return channel
 	}
 	// Return a "dummy" channel object, with the `id` being `channelId`,
 	// and the `title` also being `channelId` (because `title` is a required property).
@@ -398,7 +405,7 @@ function populateChannelInfoFromThreadData(channel, thread) {
 // rather than in `addCommentProps.js`
 // because here it requires access to channel props
 // which aren't available in `addCommentProps.js`.
-function setThreadInfo(thread, channel) {
+function setThreadPropertiesFromChannelProperties(thread, channel) {
 	// `2ch.hk` and `4chan.org` provide `bumpLimit` info.
 	// Mark all comments that have reached that "bump limit".
 	if (channel.bumpLimit && !(thread.trimming || thread.pinned)) {

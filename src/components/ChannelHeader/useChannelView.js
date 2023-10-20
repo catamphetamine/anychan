@@ -8,19 +8,12 @@ import useUserData from '../../hooks/useUserData.js'
 import useSetting from '../../hooks/useSetting.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
-
-import loadChannelPage from '../../pages/Channel/Channel.load.js'
+import useLoadChannelPage from '../../hooks/useLoadChannelPage.js'
 
 export default function useChannelView({
-	channel,
 	onChannelViewWillChange,
 	onChannelViewDidChange
 }) {
-	const censoredWords = useSetting(settings => settings.censoredWords)
-	const grammarCorrection = useSetting(settings => settings.grammarCorrection)
-	const locale = useSetting(settings => settings.locale)
-	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
-
 	// Cancel any potential running `loadChannelPage()` function
 	// when navigating away from this page.
 	const wasUnmounted = useRef()
@@ -32,18 +25,22 @@ export default function useChannelView({
 		}
 	}, [])
 
+	const wasCancelled = useCallback(() => wasUnmounted.current, [])
+
+	const loadChannelPage = useLoadChannelPage({
+		wasCancelled
+	})
+
 	const dispatch = useDispatch()
-	const userData = useUserData()
 	const userSettings = useSettings()
-	const dataSource = useDataSource()
 
 	// Added `isSettingChannelView` flag to disable channel view selection buttons
 	// in Toolbar while it's loading.
 	const [isSettingChannelView, setSettingChannelView] = useState()
 
-	const onSetChannelView = useCallback(async ({ layout, sorting }) => {
-		const wasCancelled = () => wasUnmounted.current
+	const channel = useSelector(state => state.data.channel)
 
+	const onSetChannelView = useCallback(async ({ layout, sorting }) => {
 		try {
 			if (onChannelViewWillChange) {
 				onChannelViewWillChange()
@@ -54,16 +51,6 @@ export default function useChannelView({
 			// Refresh the page.
 			await loadChannelPage({
 				channelId: channel.id,
-				useChannel: () => channel,
-				dispatch,
-				userData,
-				userSettings,
-				dataSource,
-				wasCancelled,
-				censoredWords,
-				grammarCorrection,
-				locale,
-				autoSuggestFavoriteChannels,
 				channelLayout: layout,
 				channelSorting: sorting
 			})
@@ -92,13 +79,9 @@ export default function useChannelView({
 		}
 	}, [
 		dispatch,
-		userData,
 		userSettings,
 		channel,
-		censoredWords,
-		grammarCorrection,
-		locale,
-		autoSuggestFavoriteChannels
+		loadChannelPage
 	])
 
 	return {

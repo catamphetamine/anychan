@@ -118,7 +118,7 @@
 
 	/* Toolbar. */
 	--Toolbar-color: var(--Content-color-600);
-	--Toolbar-color--active: var(--Content-color-900);
+	--Toolbar-color--active: var(--Clickable-color--textActive); /* var(--Content-color-900); */
 	--Toolbar-color--selected: var(--Content-color-800);
 
 	/* Tooltip. */

@@ -6,7 +6,8 @@ import PageLoading from './PageLoading.js'
 
 export default function PageLoadingIndicator() {
 	const isLoading = useLoading()
+	const showPageLoadingIndicator = useSelector(state => state.app.showPageLoadingIndicator)
 	return (
-		<PageLoading show={isLoading}/>
+		<PageLoading show={isLoading || showPageLoadingIndicator}/>
 	)
 }

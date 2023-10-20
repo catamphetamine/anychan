@@ -529,6 +529,11 @@
 	--ChannelHeader-fontWeight: intial;
 	--ChannelHeader-textAlign: initial;
 
+	/* StarIcon. */
+	--StarIcon-backgroundColor-opacity: 0.8;
+	--StarIcon-backgroundColor--active: var(--StarIcon-backgroundColor);
+	--StarIcon-backgroundColor-opacity--active: var(--StarIcon-backgroundColor-opacity);
+
 	/* ThreadPageHeader. */
 	--ThreadPageHeader-marginTop: 0px;
 	--ThreadPageHeader-marginBottom: 0px;

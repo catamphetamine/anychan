@@ -41,20 +41,20 @@ export default function ThreadPageHeaderToolbar({
 			isSelected: isThreadSubscribed,
 			animate: 'pop',
 			icon: StarIconOutline,
-			iconActive: StarIcon
+			iconSelected: StarIcon
 		},
 		{
 			title: areAttachmentsExpanded ? messages.post.collapseAttachments : messages.post.expandAttachments,
 			onClick: () => setAttachmentsExpanded(!areAttachmentsExpanded),
 			isSelected: areAttachmentsExpanded,
 			icon: PictureIconOutline,
-			iconActive: PictureIconFill
+			iconSelected: PictureIconFill
 		},
 		{
 			title: messages.post.viewAttachments,
 			onClick: openSlideshow,
 			icon: SlideshowIconOutline,
-			iconActive: SlideshowIconFill
+			iconSelected: SlideshowIconFill
 		}
 		// ,
 		// {
@@ -69,7 +69,7 @@ export default function ThreadPageHeaderToolbar({
 		// 	// onClick: () => setSearchBarShown(!isSearchBarShown),
 		// 	isSelected: isSearchBarShown,
 		// 	icon: SearchIconOutline,
-		// 	iconActive: SearchIconFill,
+		// 	iconSelected: SearchIconFill,
 		// 	size: 's'
 		// }
 	], [

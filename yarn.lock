@@ -7998,10 +7998,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.8:
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.8.tgz#6e8e645c86675e43a3100572220cdaf1c04c91d0"
-  integrity sha512-6+uTSieeeXT5+pRWczmBjXxzXBLsf/ypkHfbizLSq1w9nHcO+0JMZdqQ3CvG7dvHKES6wg6H8/7F6AXz0o34xQ==
+react-pages@^0.7.9:
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.9.tgz#6191447b6082e9765b99d078b4d006ea63843a2b"
+  integrity sha512-iav9GoKkCa6TU/6DIEoq05pcSzkLmBcSvu8JXzaSzH2gfcsp8mfBnQGH9jCNTwNZdKY1yz3i21sqQb1KlET2vg==
   dependencies:
     "@catamphetamine/farce" "^0.4.18"
     "@catamphetamine/found" "^1.3.11"
@@ -8049,10 +8049,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-responsive-ui@^0.15.51:
-  version "0.15.51"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.51.tgz#b5a6ec1ba473ed18b47be3cdda9f29ea001fc52a"
-  integrity sha512-U9wRIdqwqiDi5npSsh4VQWwkXvFSyjFAQLlgcibDXYKehXSDwJJpaG64zuFCjdqwvEoY0Sn4s8Bw4R5Np1DhGw==
+react-responsive-ui@^0.15.54:
+  version "0.15.54"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.54.tgz#cac565a622da3b08a662e04fe95b7644743f2e6c"
+  integrity sha512-8c6Hplb9V33WeTZhXCY350iULWF9XLjEhjs1sMGPYenBovNP1Gbb6SKtLx15/1zV/m2swN5R8Rvy5954gMwfpw==
   dependencies:
     "@babel/node" "^7.22.6"
     classnames "^2.3.2"

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { ExpandableMenu, List } from 'react-responsive-ui'
 
 import Button from 'frontend-lib/components/ButtonAsync.js'
@@ -11,21 +11,20 @@ import Toolbar from '../../components/Toolbar.js'
 import useMessages from '../../hooks/useMessages.js'
 import useDataSource from '../../hooks/useDataSource.js'
 import useChannelView from './useChannelView.js'
-
-import { notify } from '../../redux/notifications.js'
+import useChannelHeaderToolbarFavorite from './useChannelHeaderToolbarFavorite.js'
+import useChannelHeaderToolbarSearch from './useChannelHeaderToolbarSearch.js'
 
 import ThreadsIconOutline from '../../../assets/images/icons/toolbar/threads-icon-outline.svg'
 import ThreadTilesIconOutline from '../../../assets/images/icons/toolbar/thread-tiles-outline.svg'
+
 import PopularThreadsIconOutline from '../../../assets/images/icons/toolbar/popular-threads-icon-outline.svg'
+import PopularThreadsIconFill from '../../../assets/images/icons/toolbar/popular-threads-icon-fill.svg'
 
 // `class="st0"` is used there to work around `svgr` bug.
 // https://github.com/gregberge/svgr/issues/771
 // Or maybe "play" with "SVGO" config options.
 // https://react-svgr.com/docs/options/
 import ThreadWithCommentsIconOutline from '../../../assets/images/icons/toolbar/thread-with-comments-icon-outline.svg'
-
-import SearchIconOutline from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
-import SearchIconFill from 'frontend-lib/icons/fill-and-outline/search-fill.svg'
 
 import SortIcon from 'frontend-lib/icons/sort-thin.svg'
 
@@ -39,13 +38,10 @@ export default function ChannelHeaderToolbar({
 	onChannelViewWillChange,
 	onChannelViewDidChange
 }) {
-	const channel = useSelector(state => state.data.channel)
-
 	const {
 		isSettingChannelView,
 		setChannelView
 	} = useChannelView({
-		channel,
 		onChannelViewWillChange,
 		onChannelViewDidChange
 	})
@@ -70,9 +66,6 @@ export default function ChannelHeaderToolbar({
 		channelSorting
 	])
 
-	const [isSearchBarShown, setSearchBarShown] = useState()
-
-	const dispatch = useDispatch()
 	const messages = useMessages()
 	const dataSource = useDataSource()
 
@@ -119,9 +112,11 @@ export default function ChannelHeaderToolbar({
 				}
 			},
 			// icon: FireIconOutline,
-			// iconActive: FireIconFill,
+			// iconSelected: FireIconFill,
 			isSelected: channelSorting === 'popular',
 			icon: PopularThreadsIconOutline,
+			iconSelected: PopularThreadsIconFill,
+			className: 'ChannelHeaderToolbar-sortByPopularityButton',
  			wait: isSettingChannelView,
 			// className: 'ChannelHeaderToolbar-channelSortingButton'
 		}
@@ -131,6 +126,9 @@ export default function ChannelHeaderToolbar({
 		isSettingChannelView,
 		messages
 	])
+
+	const channelHeaderToolbarFavorite = useChannelHeaderToolbarFavorite()
+	const channelHeaderToolbarSearch = useChannelHeaderToolbarSearch()
 
 	const items = useMemo(() => {
 		let items = []
@@ -144,27 +142,18 @@ export default function ChannelHeaderToolbar({
 			items.push(channelSortingPopularItem)
 		}
 
-		items.push(
-			{
-				title: messages.actions.search,
-				onClick: () => dispatch(notify(messages.notImplemented)),
-				// onClick: () => setSearchBarShown(!isSearchBarShown),
-				isSelected: isSearchBarShown,
-				icon: SearchIconOutline,
-				iconActive: SearchIconFill,
-				size: 's'
-			}
-		)
+		items.push(channelHeaderToolbarFavorite)
+		items.push(channelHeaderToolbarSearch)
 
 		return items
 	}, [
 		channelLayoutItems,
 		channelSortingPopularItem,
-		isSearchBarShown,
-		setSearchBarShown,
 		canChangeChannelLayout,
 		canChangeChannelSorting,
-		messages
+		messages,
+		channelHeaderToolbarFavorite,
+		channelHeaderToolbarSearch
 	])
 
 	return (

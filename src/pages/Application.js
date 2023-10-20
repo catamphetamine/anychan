@@ -219,7 +219,7 @@ function App({
 
 	const onAcceptCookies = useCallback(() => {
 		acceptCookies()
-		dispatch(setCookiesAccepted())
+		dispatch(setCookiesAccepted(true))
 	}, [dispatch])
 
 	const isCommentTextContentPage = isChannelPage(route) || isThreadPage(route)

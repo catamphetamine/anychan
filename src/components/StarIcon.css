@@ -18,5 +18,5 @@
 
 .StarIconFill {
 	color: var(--StarIcon-backgroundColor);
-	opacity: 0.8;
+	opacity: var(--StarIcon-backgroundColor-opacity);
 }

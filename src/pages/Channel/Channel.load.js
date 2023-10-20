@@ -1,4 +1,4 @@
-import { setChannelThreads } from '../../redux/data.js'
+import { setChannelThreads, getChannelForThreads } from '../../redux/data.js'
 import { addFavoriteChannel } from '../../redux/favoriteChannels.js'
 import {
 	resetState,
@@ -19,7 +19,7 @@ import { getHttpClient } from 'react-pages'
 
 export default async function loadChannelPage({
 	channelId,
-	useChannel,
+	state,
 	dispatch,
 	userData,
 	userSettings,
@@ -71,8 +71,6 @@ export default async function loadChannelPage({
 	// 	sortByRating: channelSorting === 'popular'
 	// }))
 
-	const channel = useChannel()
-
 	if (wasCancelled()) {
 		return
 	}
@@ -80,6 +78,7 @@ export default async function loadChannelPage({
 	onThreadsFetched(channelId, threads, { dispatch, userData })
 
 	if (autoSuggestFavoriteChannels !== false) {
+		const channel = getChannelForThreads({ channelId, threads, state })
 		dispatch(addFavoriteChannel({
 			channel: {
 				id: channel.id,

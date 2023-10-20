@@ -1,8 +1,7 @@
 import getChannels from '../getChannels.js'
-import getPrefix from '../../utility/storage/getStoragePrefix.js'
 import getConfiguration from '../../configuration.js'
-
-import storage from '../../utility/storage/storage.js'
+import getPrefix from '../../utility/storage/getStoragePrefix.js'
+import storage from './storage.js'
 
 /**
  * Caches `getChannels()` result for a day.
@@ -15,24 +14,52 @@ export default async function getChannelsCached({
 	all,
 	...rest
 }) {
-	const key = getPrefix() + (all ? 'getAllChannels' : 'getChannels')
-	const cached = storage.get(key)
-	if (cached && cached.timestamp + getConfiguration().channelsCacheTimeout >= Date.now()) {
-		return cached.value
+	// See if there's a recent cached value. If there is, return it.
+	let result = readFromCache({ all })
+	if (result) {
+		return result
 	}
-	// Fetch the list of channels and cache it with the current timestamp.
-	const result = await getChannels({
+
+	// Fetch the list of channels.
+	result = await getChannels({
 		all,
 		...rest
 	})
-	storage.set(key, {
-		timestamp: Date.now(),
-		value: result
-	})
+
+	// Update the cached value.
+	writeToCache(result, { all })
+
+	// Return the result.
 	return result
 }
 
 export function clearChannelsCache() {
-	storage.delete(getPrefix() + 'getChannels')
-	storage.delete(getPrefix() + 'getAllChannels')
+	storage.delete(getChannelsCacheKey())
+	storage.delete(getAllChannelsCacheKey())
+}
+
+export function getChannelsCacheKey() {
+	return getPrefix() + 'getChannels'
+}
+
+export function getAllChannelsCacheKey() {
+	return getPrefix() + 'getAllChannels'
+}
+
+function readFromCache({ all }) {
+	const cached = storage.get(getCacheKey({ all }))
+	if (cached && cached.timestamp + getConfiguration().channelsCacheTimeout >= Date.now()) {
+		return cached.value
+	}
+}
+
+function writeToCache(result, { all }) {
+	storage.set(getCacheKey({ all }), {
+		timestamp: Date.now(),
+		value: result
+	})
+}
+
+function getCacheKey({ all }) {
+	return all ? getAllChannelsCacheKey() : getChannelsCacheKey()
 }

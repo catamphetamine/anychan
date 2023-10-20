@@ -47,9 +47,9 @@
 /* `.rrui-button` style interferes with this one in development mode,
    because Webpack doesn't maintain styles import order. */
 .SidebarButton {
-	color: var(--SidebarButton-color);
-	background-color: var(--SidebarButton-backgroundColor);
-	box-shadow: inset 0 0 0 1px var(--SidebarButton-borderColor);
+	--PressedStateButton-color: var(--SidebarButton-color);
+	--PressedStateButton-backgroundColor: var(--SidebarButton-backgroundColor);
+	--PressedStateButton-borderColor: var(--SidebarButton-borderColor);
 }
 
 .SidebarButton {

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
-import { hideSidebar } from '../../redux/app.js'
+import { setShowSidebar } from '../../redux/app.js'
 
 import getDarkModeMenuItem from './getDarkModeMenuItem.js'
 
@@ -39,14 +39,14 @@ export default function DarkModeToggle({ withLabel }) {
 	const onToggleDarkMode = useCallback(() => {
 		darkModeMenuItem.onClick()
 		// Hide sidebar pop up on navigation (only on small screens).
-		dispatch(hideSidebar())
+		dispatch(setShowSidebar(false))
 	}, [
 		dispatch,
 		darkModeMenuItem
 	])
 
 	const DarkModeIcon = darkModeMenuItem.isSelected
-		? darkModeMenuItem.iconActive
+		? darkModeMenuItem.iconSelected
 		: darkModeMenuItem.icon
 
 	const title = darkModeMenuItem.title

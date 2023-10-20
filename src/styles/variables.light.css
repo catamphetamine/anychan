@@ -123,7 +123,7 @@
 	/* A slightly darker color of Channel/Thread menu icons,
 	   because they're on a gray background. */
 	--Toolbar-color: var(--Content-color-700);
-	--Toolbar-color--active: var(--gray-color-650);
+	--Toolbar-color--active: var(--Clickable-color--textActive); /* var(--gray-color-650); */
 	--Toolbar-color--selected: var(--Content-color-700);
 
 	/* Tooltip. */

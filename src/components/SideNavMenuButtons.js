@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import useCanGoBackFromThreadToChannel from './useCanGoBackFromThreadToChannel.js'
-import { showSidebar } from '../redux/app.js'
+import { setShowSidebar } from '../redux/app.js'
 import useMessages from '../hooks/useMessages.js'
 
 import { getViewportHeight } from 'web-browser-window'
@@ -26,9 +26,9 @@ export default function SideNavMenuButtons() {
 
 	const toggleSidebar = useCallback(() => {
 		if (isSidebarShown) {
-			dispatch(showSidebar(false))
+			dispatch(setShowSidebar(false))
 		} else {
-			dispatch(showSidebar(true))
+			dispatch(setShowSidebar(true))
 		}
 	}, [dispatch, isSidebarShown])
 

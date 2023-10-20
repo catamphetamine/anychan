@@ -7,6 +7,6 @@ export default function getUserAccountMenuItem({ messages }) {
 		pathname: '/user',
 		url: '/user',
 		icon: PersonIconOutline,
-		iconActive: PersonIconFill
+		iconSelected: PersonIconFill
 	}
 }

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { TextInput, Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
+import { Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 

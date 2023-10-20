@@ -7,6 +7,6 @@ export default function getSettingsMenuItem({ messages }) {
 		pathname: '/settings',
 		url: '/settings',
 		icon: SettingsIconOutline,
-		iconActive: SettingsIconFill
+		iconSelected: SettingsIconFill
 	}
 }

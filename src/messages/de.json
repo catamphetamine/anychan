@@ -9,6 +9,10 @@
 		"byCategory": "Nach Kategorie",
 		"error": "Die Liste der Boards konnte nicht geladen werden"
 	},
+	"favoriteBoards": {
+		"add": "Board zu Favoriten hinzufügen",
+		"remove": "Board aus Favoriten entfernen"
+	},
 	"threads": {
 		"title": "Threads",
 		"showAllThreads": "Zeige alle threads",

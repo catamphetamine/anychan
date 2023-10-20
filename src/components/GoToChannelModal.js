@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { goto } from 'react-pages'
 
 import { Modal } from 'react-responsive-ui'
 import Button from 'frontend-lib/components/Button.js'
@@ -10,6 +11,9 @@ import FillButton from './FillButton.js'
 import ChannelUrl from './ChannelUrl.js'
 
 import useMessages from '../hooks/useMessages.js'
+import useLoadChannelPage from '../hooks/useLoadChannelPage.js'
+
+import { setShowPageLoadingIndicator } from '../redux/app.js'
 
 import RightArrow from 'frontend-lib/icons/right-arrow-minimal.svg'
 import CloseIcon from 'frontend-lib/icons/close.svg'
@@ -23,11 +27,31 @@ export default function GoToChannelModal({
 	close
 }) {
 	const messages = useMessages()
+	const dispatch = useDispatch()
 
-	const onGoToChannel = useCallback(({ channelId }) => {
-		console.log(channelId)
-		close()
-	}, [close])
+	const [isSubmitting, setSubmitting] = useState()
+
+	const loadChannelPage = useLoadChannelPage()
+
+	const onGoToChannel = useCallback(async ({ channelId }) => {
+		try {
+			setSubmitting(true)
+			dispatch(setShowPageLoadingIndicator(true))
+			await loadChannelPage({
+				channelId
+			})
+			close()
+			dispatch(goto(`/${channelId}`, { load: false }))
+		} finally {
+			setSubmitting(false)
+			dispatch(setShowPageLoadingIndicator(false))
+		}
+	}, [
+		loadChannelPage,
+		close,
+		setSubmitting,
+		dispatch
+	])
 
 	const availableChannels = useSelector(state => state.data.channels)
 
@@ -51,7 +75,8 @@ export default function GoToChannelModal({
 		<Modal
 			isOpen={isOpen}
 			close={close}
-			className="GoToChannelModal">
+			className="GoToChannelModal"
+			wait={isSubmitting}>
 			<Modal.Content>
 				<Form
 					autoFocus
@@ -62,6 +87,7 @@ export default function GoToChannelModal({
 								required
 								type="autocomplete"
 								acceptsAnyValue
+								submitOnSelectOption
 								options={channelOptions}
 								optionComponent={ChannelOption}
 								name="channelId"
