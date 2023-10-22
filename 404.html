@@ -33,6 +33,20 @@
 			}
 		</script>
 
+		<!-- Redirect to the new site from the root URL of the old site. -->
+		<script>
+			if (
+				window.location.pathname === '/anychan/' ||
+				window.location.pathname === '/anychan' ||
+				// `2ch` stopped working in the old version of the app
+				// because they changed their API.
+				window.location.pathname === '/anychan/2ch/' ||
+				window.location.pathname === '/anychan/2ch'
+			) {
+				window.location = 'https://anychans.github.io';
+			}
+		</script>
+
 		<script>
 			(function () {
 				var scriptTagAttributes = {"defer":true,"src":"/main.49f2a2313ac66c7086ed.js"}
@@ -132,13 +146,13 @@
 			}
 		</style>
 		<div id="NewSiteAnnouncement">
-			You're browsing an older version of the app. A <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">newer alpha version</a> is in development and available for testing. <a href="#" id="NewSiteAnnouncement-hide">Hide</a>
+			This is an old version of the app. <a target="_blank" id="NewSiteAnnouncementLink" href="https://anychans.github.io/4chan">Go to the new version</a>. Or <a href="#" id="NewSiteAnnouncement-hide">stay on the old one and don't show this message again</a>.
 		</div>
 		<script>
 			// var ANYCHAN_ANNOUNCEMENT_ID = '20-02-2023'
 			// var ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME = 'anychan/announcement/' + ANYCHAN_ANNOUNCEMENT_ID + '/read';
 			// var ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE = '✓'
-			var ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME = 'ShowNewSiteAnnouncement';
+			var ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME = 'ShowNewSiteAnnouncement/22.10.2023';
 			var ANYCHAN_ANNOUNCEMENT_READ_FLAG_VALUE = '0';
 			function maybeShowNewSiteAnnouncement() {
 				var showNewSiteAnnouncementFlag = localStorage.getItem(ANYCHAN_ANNOUNCEMENT_READ_FLAG_NAME);
