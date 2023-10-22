@@ -560,6 +560,13 @@
 
 	/* Text. */
 	--Text-maxWidth--compact: 33em;
+	.Webpage--channel--threadsTiles {
+		@mixin xxl-plus {
+			/* Increased the `maxWidth` of the `Text` so that four columns of thread cards
+			   fit on a channel page when viewing it in "grid" mode at XXL screen size. */
+			--Text-maxWidth: 52em;
+		}
+	}
 
 	/* ThreadPageShowPrevious. */
 	--ThreadPageShowPrevious-marginTop: calc(var(--unit) * 0.75);

@@ -115,6 +115,7 @@
 			.ThreadPageHeader,
 			.ThreadPage-aboveComments,
 			.ThreadPage-belowComments,
+			.ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-content,
 			.Comment,
 			.CommentTree-toggler,
 			.PostForm--comment {

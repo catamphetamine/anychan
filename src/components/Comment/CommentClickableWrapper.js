@@ -51,6 +51,7 @@ export default function CommentClickableWrapper({
 
 	return (
 		<Clickable
+			cursor="pointer"
 			filter={commentOnClickFilter}
 			onClick={onClick}
 			url={getBasePath() + getOnClickUrl(channelId, threadId, commentId)}

@@ -1,5 +1,15 @@
 @import "../styles/common.css";
 
+.GoToChannelModal {
+	input {
+		text-transform: lowercase;
+
+		&::placeholder {
+			text-transform: initial;
+		}
+	}
+}
+
 .GoToChannelModal-goButtonIcon {
 	width: calc(var(--unit) * 1.5);
 	height: calc(var(--unit) * 1.5);

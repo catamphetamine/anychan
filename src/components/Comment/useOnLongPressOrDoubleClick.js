@@ -22,11 +22,18 @@ const ELEMENTS_APPLICABLE_FOR_LONG_PRESS_OR_DOUBLE_CLICK_ACTION = [
 	'Comment',
 	'Comment-thumbnail',
 	'Comment-thumbnailPlaceholder',
+	'Comment-exceptThumbnail',
 	'CommentAuthor',
 	'PostTitle',
 	'PostParagraph',
 	'PostVideo',
 	'PostPicture',
+	// When there're attachment thumbnails, the empty space between them
+	// is `.PostAttachmentThumbnails-list`.
+	'PostAttachmentThumbnails-list',
+	// When there's very little text in a comment, the empty space in the lower part of it
+	// is `.Comment-comment`.
+	'Comment-comment',
 	'PostEmbeddedAttachmentTitle',
 	'PostContent',
 	'CommentFooter',

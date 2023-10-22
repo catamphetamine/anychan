@@ -20,6 +20,8 @@
 	--PostFormAttachmentTitle-maxWidth: 7rem;
 	--PostFormAttachmentTitle-maxHeight: 2.5rem;
 	--PostFormAttachmentTitle-marginTop: 0.75rem;
+
+	--PostFormAttachFileIcon-width: 1.15rem;
 }
 
 .PostForm {
@@ -54,7 +56,7 @@
 	position: relative;
 }
 
-.PostForm-textInput {
+.PostForm-textInputContainer {
 	flex: 1;
 	margin-right: var(--PostFormTextInput-marginRight);
 }
@@ -235,7 +237,19 @@
 }
 
 .PostForm-attachFileIcon {
-	width: 1.15rem;
-	height: 1.15rem;
+	width: var(--PostFormAttachFileIcon-width);
+	height: var(--PostFormAttachFileIcon-width);
 	margin-right: 0.35rem;
+
+	/*
+	--LoadingSpinnerRadialBars-width: 1.15rem;
+	--LoadingSpinnerRadialBars-element-thickness: 0.075rem;
+	--LoadingSpinnerRadialBars-element-length: 0.2rem;
+	*/
+}
+
+.PostForm-attachFileIcon--loading {
+	width: calc(var(--PostFormAttachFileIcon-width) * 0.85);
+	height: calc(var(--PostFormAttachFileIcon-width) * 0.85);
+	margin-left: calc(var(--PostFormAttachFileIcon-width) * 0.15);
 }

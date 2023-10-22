@@ -24,6 +24,7 @@ export default function useReply({
 	threadExpired,
 	// Other properties.
 	canReply,
+	replyFormInputFieldName,
 	initialShowReplyForm,
 	onShowReplyFormChange,
 	onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
@@ -36,6 +37,7 @@ export default function useReply({
 	const dataSource = useDataSource()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
+	const [replyFormInitialText, setReplyFormInitialText] = useState()
 
 	const replyForm = useRef()
 
@@ -89,9 +91,23 @@ export default function useReply({
 		locale
 	])
 
-	const onReply = useCallback(() => {
+	const onReply = useCallback(({ selectedText } = {}) => {
 		if (!checkCanReply()) {
 			return
+		}
+
+		const replyTextPrefix = getReplyTextPrefix({
+			commentId: comment.id,
+			threadId,
+			quoteText: selectedText
+		})
+
+		if (replyTextPrefix) {
+			appendReplyTextPrefixToInputField(replyTextPrefix, {
+				replyForm,
+				setReplyFormInitialText,
+				replyFormInputFieldName
+			})
 		}
 
 		// If the reply form is already open, re-focus it.
@@ -102,23 +118,23 @@ export default function useReply({
 		// Show the reply form.
 		setShowReplyForm(true)
 	}, [
-		checkCanReply
+		comment,
+		threadId,
+		checkCanReply,
+		replyForm,
+		replyFormInputFieldName,
+		setReplyFormInitialText
 	])
 
-	const onSubmitReply = useCallback(async ({ content, quoteText }) => {
+	const onSubmitReply = useCallback(async ({
+		[replyFormInputFieldName]: content
+	}) => {
 		// Suppose a user opens a reply form and then the thread
 		// changes its state to "locked". The reply form is still visible
 		// but the user shouldn't be able to submit a reply.
 		if (!checkCanReply()) {
 			return
 		}
-
-		const text = getReplyText({
-			commentId: comment.id,
-			threadId,
-			quoteText
-		})
-		console.log(text)
 
 		// Disable reply form.
 		// Show a spinner.
@@ -221,6 +237,7 @@ export default function useReply({
 
 	return {
 		replyForm,
+		replyFormInitialText,
 		showReplyForm,
 		onReply,
 		onCancelReply,
@@ -230,15 +247,54 @@ export default function useReply({
 	}
 }
 
-function getReplyText({ commentId, threadId, quoteText }) {
+function getReplyTextPrefix({ commentId, threadId, quoteText }) {
 	let text = '>>' + commentId
 	// if (commentId === threadId) {
 	// 	text += ' (OP)'
 	// }
 	text += '\n'
 	if (quoteText) {
-		text += '>' + quoteText.split('\n').join('>\n')
+		text += '>' + quoteText.trim().split('\n').join('>\n')
 		text += '\n'
 	}
 	return text
+}
+
+function appendReplyTextPrefixToInputField(replyTextPrefix, {
+	replyForm,
+	setReplyFormInitialText,
+	replyFormInputFieldName
+}) {
+	// If the `<PostForm/>` is already shown, update the `<input/>` text directly.
+	// Otherwise, pass an `initialInputValue` property to the `<PostForm/>`.
+	if (replyForm.current) {
+		const getInputValue = () => replyForm.current.get(replyFormInputFieldName)
+		const setInputValue = (value) => replyForm.current.set(replyFormInputFieldName, value)
+
+		let currentText = getInputValue()
+		if (currentText) {
+			currentText = currentText.trim()
+		}
+
+		if (currentText) {
+			// When a user has first double-clicked a post and the reply prefix is
+			// something like ">>12345" but then they select some specific part
+			// of that post and click "Reply" in the selected text's popup menu,
+			// the resulting input value shouldn't be ">>12345 \n\n >>12345 \n >Quote"
+			// and should instead be just ">>12345 \n >Quote".
+			if (replyTextPrefix.indexOf(currentText) === 0) {
+				setInputValue(replyTextPrefix)
+			} else {
+				setInputValue(currentText + '\n' + '\n' + replyTextPrefix)
+			}
+		} else {
+			setInputValue(replyTextPrefix)
+		}
+
+		// Don't reset `replyFormInitialText`, otherwise the Form
+		// would reset the input field's `value`.
+		// setReplyFormInitialText(undefined)
+	} else {
+		setReplyFormInitialText(replyTextPrefix)
+	}
 }

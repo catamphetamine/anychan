@@ -161,6 +161,7 @@ function App({
 
   const announcement = useSelector(state => state.announcement.announcement)
   const isLoadingTweet = useSelector(state => state.twitter.isLoading)
+  const channelLayout = useSelector(state => state.channel.channelLayout)
 
   const backButtonAboveContent = useRef()
 
@@ -246,6 +247,7 @@ function App({
 					'Webpage--contentSections': isContentSectionsPage(route),
 					// 'Webpage--channels': isChannelsPage(route),
 					'Webpage--channel': isChannelPage(route),
+					'Webpage--channel--threadsTiles': isChannelPage(route) && channelLayout === 'threadsTiles',
 					'Webpage--thread': isThreadPage(route),
 					'Webpage--commentTextContent': isCommentTextContentPage,
 					'Webpage--withLeftSidebar': isLeftSidebarIncluded,

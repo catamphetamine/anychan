@@ -4986,10 +4986,10 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.yarnpkg.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
-easy-react-form@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.2.2.tgz#ee84c1785ca5136b94c771d5274f5b9d0a7ee5a3"
-  integrity sha512-3e7f6HNkxBQxciHprU0gnzik/HCOa4zUKlLWMVuXGQzEmMqkgUKUgdHT3VZPJDiWfGpopyFmMslZvNO241XTpg==
+easy-react-form@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.2.4.tgz#4154f4cae9d173b222f25b3c975c95d81591073d"
+  integrity sha512-idLUnLMiQTofJnY0l21ZphQ2CdNmDTKH+U6N1mA1oPS/Ctbg04cnoGUcNItKjPl16hXiWeUxpYexzLMuQ7H8TQ==
   dependencies:
     prop-types "^15.8.1"
     scroll-into-view-if-needed "^3.0.10"
@@ -8049,10 +8049,10 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-responsive-ui@^0.15.54:
-  version "0.15.54"
-  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.54.tgz#cac565a622da3b08a662e04fe95b7644743f2e6c"
-  integrity sha512-8c6Hplb9V33WeTZhXCY350iULWF9XLjEhjs1sMGPYenBovNP1Gbb6SKtLx15/1zV/m2swN5R8Rvy5954gMwfpw==
+react-responsive-ui@^0.15.55:
+  version "0.15.55"
+  resolved "https://registry.yarnpkg.com/react-responsive-ui/-/react-responsive-ui-0.15.55.tgz#77a8d8916d902caa7d88e92b4620b5d225003745"
+  integrity sha512-xDc3MMTMOQm/hP1kmj3Iocfiv7Etna7m6KHrK43tdmNW9bajHpSK1iPldoR59AhHz4weohUo3b8orPhC/Rk5yA==
   dependencies:
     "@babel/node" "^7.22.6"
     classnames "^2.3.2"

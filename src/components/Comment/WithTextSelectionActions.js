@@ -40,7 +40,7 @@ function TextSelectionActions({
 	...rest
 }, ref) {
 	const onClick = () => {
-		onReply(selection.getText())
+		onReply({ selectedText: selection.getText() })
 		selection.clear()
 	}
 

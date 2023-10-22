@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
+import { getViewportWidthWithScrollbar } from 'web-browser-window'
 
 import {
 	setVirtualScrollerState,
@@ -133,7 +134,29 @@ function ChannelPage() {
 
 	const getColumnsCount = useCallback(() => {
 		if (channelLayout === 'threadsTiles') {
-			return 3
+			const style = getComputedStyle(document.documentElement)
+
+			const maxWidthXs = parseInt(style.getPropertyValue('--Window-maxWidth--xs'))
+			const maxWidthS = parseInt(style.getPropertyValue('--Window-maxWidth--s'))
+			const maxWidthM = parseInt(style.getPropertyValue('--Window-maxWidth--m'))
+			const maxWidthL = parseInt(style.getPropertyValue('--Window-maxWidth--l'))
+			const maxWidthXl = parseInt(style.getPropertyValue('--Window-maxWidth--xl'))
+
+		  // These values must be equal to those in `.ChannelPage-threads--tiles`
+		  // in `pages/Channel/Channel.css`.
+		  const getColumnsCount = (width) => {
+				if (width <= maxWidthXs) {
+					return 1
+				} else if (width <= maxWidthS) {
+					return 2
+				} else if (width <= maxWidthXl) {
+					return 3
+				} else {
+					return 4
+				}
+			}
+
+			return getColumnsCount(getViewportWidthWithScrollbar())
 		}
 		return 1
 	}, [channelLayout])

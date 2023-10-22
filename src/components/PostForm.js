@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
@@ -23,7 +23,8 @@ import getFileDataUrl from 'frontend-lib/utility/file/getFileDataUrl.js'
 import getAudioFileInfoFromId3Tags from 'frontend-lib/utility/file/getAudioFileInfoFromId3Tags.js'
 
 import TextButton from './TextButton.js'
-import LoadingSpinner from './LoadingSpinner.js'
+// import LoadingSpinner from './LoadingSpinnerRadialBars.js'
+import LoadingSpinner from './LoadingSpinnerCirclingComet.js'
 
 import PostAttachments from 'social-components-react/components/PostAttachments.js'
 
@@ -51,16 +52,31 @@ function PostForm({
 	initialAttachments,
 	onAttachmentsDidChange,
 	onHeightDidChange,
+	attachmentThumbnailSize = 250,
 	onCancel,
 	onSubmit: onSubmit_
 }, ref) {
 	const messages = useMessages()
+
+	const form = useRef()
+	const setForm = (formElement) => {
+		form.current = formElement
+		if (ref) {
+			if (typeof ref === 'function') {
+				ref(formElement)
+			} else {
+				ref.current = formElement
+			}
+		}
+	}
 
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState()
 
 	const [files, setFiles] = useState(initialFiles || [])
 	const [fileAttachments, setFileAttachments] = useState(initialAttachments || [])
+
+	const [filesBeingProcessed, setFilesBeingProcessed] = useState([])
 
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
@@ -110,30 +126,111 @@ function PostForm({
 
 	const { onAttachmentClick } = useSlideshow({ comment: dummyPostWithAttachments })
 
+	const onAttachmentRemove = useCallback((attachment) => {
+		setFiles((files) => files.filter(_ => _.id !== attachment.id))
+		setFileAttachments((fileAttachments) => fileAttachments.filter(_ => _ !== attachment))
+	}, [])
+
 	const dispatch = useDispatch()
 
 	const onFileAttached = useCallback(async (file) => {
+		// Get a temporary ID for the file being processed.
+		const id = getNextFileBeingProcessedId()
 		try {
+			// Mark the file as "is being processed".
+			setFilesBeingProcessed((filesBeingProcessed) => {
+				return filesBeingProcessed.concat({ id })
+			})
+			// Process the file.
 			const attachment = await createAttachmentForFile(file)
-			attachment.id = getNextAttachmentId(fileAttachments)
-			setFiles(files.concat({ file, id: attachment.id }))
-			setFileAttachments(fileAttachments.concat(attachment))
+			// When getting next attachment ID, it doesn't look into `fileAttachments`
+			// to see what's the next unused one because two files could be uploaded
+			// simultaneously, and each such upload handler function would have
+			// a stale copy of the `fileAttachments` state variable.
+			attachment.id = getNextAttachmentId()
+			// Unmark the file as "is being processed".
+			setFilesBeingProcessed((filesBeingProcessed) => {
+				return filesBeingProcessed.filter(_ => _.id !== id)
+			})
+			// Show the new attachment in the `<PostForm/>`.
+			setFiles((files) => files.concat({ file, id: attachment.id }))
+			setFileAttachments((fileAttachments) => fileAttachments.concat(attachment))
+			// The `<PostForm/>`'s height did change.
 			if (onHeightDidChange) {
 				onHeightDidChange()
 			}
 		} catch (error) {
+			// Unmark the file as "is being processed".
+			setFilesBeingProcessed((filesBeingProcessed) => {
+				return filesBeingProcessed.filter(_ => _.id !== id)
+			})
+			// Show an error message.
 			dispatch(showError(messages.errors.attachFileError))
 			throw error
 		}
 	}, [
-		files,
-		fileAttachments,
 		messages
+	])
+
+	const onFileOrFilesAttached = useCallback(async (fileOrFiles) => {
+		if (Array.isArray(fileOrFiles)) {
+			for (const file of fileOrFiles) {
+				onFileAttached(file)
+			}
+		} else {
+			onFileAttached(fileOrFiles)
+		}
+	}, [onFileAttached])
+
+	const onDrop = useCallback(async (something) => {
+		// If a file is dropped, it's gonna be a `Blob` (`File`) or an array of `Blob`s (`File`s).
+		// If a text selection is dropped, it's gonna be a `DataTransferItem`.
+		if (Array.isArray(something) && something.every(_ => _ instanceof Blob)) {
+			for (const file of something) {
+				onFileAttached(file)
+			}
+		} else if (something instanceof Blob) {
+			onFileAttached(something)
+		} else if (something instanceof DataTransferItem) {
+			something.getAsString((string) => {
+				string = string.trim()
+				if (form.current) {
+					const getInputValue = () => form.current.get(POST_FORM_INPUT_FIELD_NAME)
+					const setInputValue = (value) => form.current.set(POST_FORM_INPUT_FIELD_NAME, value)
+
+					let inputValue = getInputValue()
+					if (inputValue) {
+						inputValue = inputValue.trim()
+					}
+
+					if (inputValue) {
+						setInputValue(inputValue + '\n' + '\n' + string)
+					} else {
+						setInputValue(string)
+					}
+
+					form.current.focus()
+				}
+			})
+		}
+	}, [
+		onFileAttached
 	])
 
 	const loadingIndicatorFadeOutDuration = 160 // ms
 
 	const canAttachFiles = true
+
+	// When passing an initial `value` property to a `<Field/>`,
+	// it does set the input field's value, but it doesn't move the cursor
+	// to the end of the input field. At least on Windows in Chrome in Oct 2023.
+	// To work around that, manually call `input.setSelectionRange()` to reposition the caret.
+	useLayoutEffect(() => {
+		const input = form.current.getElement(POST_FORM_INPUT_FIELD_NAME)
+		if (input && input.value) {
+			input.setSelectionRange(input.value.length, input.value.length)
+		}
+	}, [])
 
 	// Doesn't use `autoFocus={true}` property here by default.
 	// The reason that if `autoFocus={true}` property is set
@@ -153,13 +250,13 @@ function PostForm({
 			'PostForm--comment': placement === 'comment'
 		})}>
 			<Form
-				ref={ref}
+				ref={setForm}
 				autoFocus={autoFocus}
 				onSubmit={onSubmit}
 				initialState={initialState}
 				onStateDidChange={onStateDidChange}
 				className={classNames('form', 'PostForm-form')}>
-				<FormComponent>
+				<FormComponent className="PostForm-textInputContainer">
 					<Field
 						required
 						name={POST_FORM_INPUT_FIELD_NAME}
@@ -172,7 +269,6 @@ function PostForm({
 						onHeightChange={onInputHeightDidChange}
 						onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}
 						placeholder={messages.post.form.inputText}
-						className="PostForm-textInput"
 					/>
 				</FormComponent>
 				{onCancel &&
@@ -205,12 +301,14 @@ function PostForm({
 					post={dummyPostWithAttachments}
 					useSmallestThumbnails={true}
 					maxAttachmentThumbnails={false}
-					attachmentThumbnailSize={undefined}
+					attachmentThumbnailSize={attachmentThumbnailSize}
 					spoilerLabel={messages.post.spoiler}
+					removeAttachmentLabel={messages.post.removeAttachment}
 					onAttachmentClick={onAttachmentClick}
+					onAttachmentRemove={onAttachmentRemove}
 				/>
 			}
-			{canAttachFiles && fileAttachments.length > 0 &&
+			{/*canAttachFiles && fileAttachments.length > 0 &&
 				<div className="PostForm-attachments">
 					<ul className="PostForm-attachmentsList">
 						{fileAttachments.map((attachment, i) => {
@@ -230,21 +328,25 @@ function PostForm({
 									<div className="PostForm-attachmentTitle">
 										{file.name}
 									</div>
-									{/*<LoadingSpinner/>*/}
-									{/*file.type*/}
 								</li>
 							)
 						})}
 					</ul>
 				</div>
-			}
+			*/}
+			{/*<LoadingSpinner/>*/}
+			{/*file.type*/}
 			{canAttachFiles &&
 				<FileUploadButton
+					multiple
 					component={TextButton}
 					type="button"
-					onChange={onFileAttached}
+					onChange={onFileOrFilesAttached}
 					className="PostForm-attachFile">
-					<AttachIcon className="PostForm-attachFileIcon"/>
+					{filesBeingProcessed.length === 0
+						? <AttachIcon className="PostForm-attachFileIcon"/>
+						: <LoadingSpinner className="PostForm-attachFileIcon PostForm-attachFileIcon--loading"/>
+					}
 					{messages.actions.attachFile}
 				</FileUploadButton>
 			}
@@ -254,8 +356,9 @@ function PostForm({
 	if (canAttachFiles) {
 		return (
 			<DropFileUpload
+				multiple
 				clickable={false}
-				onChange={onFileAttached}
+				onChange={onDrop}
 				className="PostForm-dropFileArea"
 				draggedOverClassName="PostForm-dropFileArea--draggedOver">
 				{formElement}
@@ -285,7 +388,8 @@ PostForm.propTypes = {
 	onFilesDidChange: PropTypes.func,
 	initialAttachments: PropTypes.arrayOf(PropTypes.object),
 	onAttachmentsDidChange: PropTypes.func,
-	onHeightDidChange: PropTypes.func
+	onHeightDidChange: PropTypes.func,
+	attachmentThumbnailSize: PropTypes.number
 }
 
 export default PostForm
@@ -369,12 +473,39 @@ async function createAttachmentForFile(file) {
 	}
 }
 
-function getNextAttachmentId(attachments) {
-	let id = 1
-	for (const attachment of attachments) {
-		if (attachment.id) {
-			id = Math.max(id, attachment.id)
-		}
+// When getting next attachment ID, it doesn't look into `fileAttachments`
+// to see what's the next unused one because two files could be uploaded
+// simultaneously, and each such upload handler function would have
+// a stale copy of the `fileAttachments` state variable.
+// function getNextAttachmentId(attachments) {
+// 	let id = 1
+// 	for (const attachment of attachments) {
+// 		if (attachment.id) {
+// 			id = Math.max(id, attachment.id)
+// 		}
+// 	}
+// 	return id + 1
+// }
+
+// "Safe" refers to the ability of JavaScript to represent integers exactly
+// and to correctly compare them.
+const MAX_SAFE_INTEGER = 9007199254740991
+
+let attachmentId = 0
+function getNextAttachmentId() {
+	if (attachmentId === MAX_SAFE_INTEGER) {
+		attachmentId = 0
 	}
-	return id + 1
+	attachmentId++
+	return attachmentId
 }
+
+let processedFileId = 0
+function getNextFileBeingProcessedId() {
+	if (processedFileId === MAX_SAFE_INTEGER) {
+		processedFileId = 0
+	}
+	processedFileId++
+	return processedFileId
+}
+

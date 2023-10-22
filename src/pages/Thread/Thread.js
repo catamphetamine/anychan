@@ -282,42 +282,45 @@ function ThreadPage() {
 			</div>
 
 			<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide">
-				{!searchQuery && (
-					<>
-						{!(thread.locked || thread.expired) &&
-							<React.Fragment>
-								<AutoUpdate
-									autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
-								/>
-								{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
-								{thread.bumpLimitReached &&
-									<InfoBanner
-										Icon={SinkingBoatIcon}>
-										{messages.threadBumpLimitReached}
-									</InfoBanner>
-								}
-							</React.Fragment>
-						}
-						{thread.archived &&
-							<InfoBanner
-								Icon={BoxIcon}>
-								{messages.threadIsArchived}
-							</InfoBanner>
-						}
-						{!thread.archived && thread.locked &&
-							<InfoBanner
-								Icon={LockIcon}>
-								{messages.threadIsLocked}
-							</InfoBanner>
-						}
-						{thread.expired &&
-							<InfoBanner
-								Icon={GhostIcon}>
-								{messages.threadExpired}
-							</InfoBanner>
-						}
-					</>
-				)}
+				<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-emptySpace"/>
+				<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-content">
+					{!searchQuery && (
+						<>
+							{!(thread.locked || thread.expired) &&
+								<React.Fragment>
+									<AutoUpdate
+										autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
+									/>
+									{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
+									{thread.bumpLimitReached &&
+										<InfoBanner
+											Icon={SinkingBoatIcon}>
+											{messages.threadBumpLimitReached}
+										</InfoBanner>
+									}
+								</React.Fragment>
+							}
+							{thread.archived &&
+								<InfoBanner
+									Icon={BoxIcon}>
+									{messages.threadIsArchived}
+								</InfoBanner>
+							}
+							{!thread.archived && thread.locked &&
+								<InfoBanner
+									Icon={LockIcon}>
+									{messages.threadIsLocked}
+								</InfoBanner>
+							}
+							{thread.expired &&
+								<InfoBanner
+									Icon={GhostIcon}>
+									{messages.threadExpired}
+								</InfoBanner>
+							}
+						</>
+					)}
+				</div>
 			</div>
 
 			{/* `.ThreadPage-belowComments` is used to restore the default

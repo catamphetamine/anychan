@@ -75,6 +75,16 @@
 	   "fall through" the top margin and the point under the cursor wouldn't be clickable.
 	*/
 	padding-top: 1px;
+
+	display: flex;
+}
+
+.ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-emptySpace {
+	flex: none;
+
+	@mixin m-plus {
+		min-width: calc(var(--PostThumbnailContainer-maxWidth));
+	}
 }
 
 .ThreadPage {

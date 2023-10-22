@@ -141,10 +141,15 @@ export default function CommentTree({
 			},
 			initialReplyFormFiles: initialState.replyFormFiles,
 			onReplyFormFilesDidChange: (files) => {
-				updateState((state) => ({
-					...state,
-					replyFormFiles: files
-				}))
+				updateState((state) => {
+					// if (!isEqual(state.files, files)) {
+					onHeightDidChange()
+					// }
+					return {
+						...state,
+						replyFormFiles: files
+					}
+				})
 			},
 			initialReplyFormAttachments: initialState.replyFormAttachments,
 			onReplyFormAttachmentsDidChange: (attachments) => {

@@ -1,0 +1,23 @@
+/* Light mode. */
+.light {
+	/* Document. */
+	--Document-backgroundColor: hsl(52deg 8% 83%);
+
+	/* Content. */
+	--Content-backgroundColor: hsl(52deg 17% 95%);
+	--Content-backgroundColor--active: hsl(36deg 62% 93%);
+
+	/* Grays. */
+	--gray-color-50: hsl(0, 0%, 90%);
+	--gray-color-100: hsl(0, 0%, 87%);
+	--gray-color-200: hsl(0, 0%, 82%);
+	--gray-color-300: hsl(0, 0%, 78%);
+	--gray-color-400: hsl(0, 0%, 69%);
+	--gray-color-500: hsl(0, 0%, 58%);
+
+	/* Sidebar. */
+	--SidebarLink-backgroundColor--hover: hsl(39deg 60% 93%);
+}
+
+/* Dark mode. */
+.dark {}

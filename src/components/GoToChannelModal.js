@@ -29,12 +29,15 @@ export default function GoToChannelModal({
 	const messages = useMessages()
 	const dispatch = useDispatch()
 
-	const [isSubmitting, setSubmitting] = useState()
+	const [isSubmitting, setSubmitting] = useState(false)
+	const [channelNotFoundError, setChannelNotFoundError] = useState(false)
 
 	const loadChannelPage = useLoadChannelPage()
 
 	const onGoToChannel = useCallback(async ({ channelId }) => {
 		try {
+			channelId = channelId.toString()
+			setChannelNotFoundError(false)
 			setSubmitting(true)
 			dispatch(setShowPageLoadingIndicator(true))
 			await loadChannelPage({
@@ -42,6 +45,12 @@ export default function GoToChannelModal({
 			})
 			close()
 			dispatch(goto(`/${channelId}`, { load: false }))
+		} catch (error) {
+			if (error.status === 404) {
+				setChannelNotFoundError(true)
+			} else {
+				throw error
+			}
 		} finally {
 			setSubmitting(false)
 			dispatch(setShowPageLoadingIndicator(false))
@@ -50,6 +59,7 @@ export default function GoToChannelModal({
 		loadChannelPage,
 		close,
 		setSubmitting,
+		setChannelNotFoundError,
 		dispatch
 	])
 
@@ -65,11 +75,15 @@ export default function GoToChannelModal({
 		return []
 	}, [availableChannels])
 
-	function validateChannelId(value) {
+	const validateChannelId = useCallback((value) => {
 		if (!CHANNEL_ID_REG_EXP.test(value)) {
 			return messages.invalidBoardId
 		}
-	}
+	}, [messages])
+
+	const onInputValueChange = useCallback(() => {
+		setChannelNotFoundError(false)
+	}, [])
 
 	return (
 		<Modal
@@ -86,6 +100,7 @@ export default function GoToChannelModal({
 							<Field
 								required
 								type="autocomplete"
+								inputType="search"
 								acceptsAnyValue
 								submitOnSelectOption
 								options={channelOptions}
@@ -94,6 +109,8 @@ export default function GoToChannelModal({
 								autoComplete="off"
 								placeholder={messages.board}
 								validate={validateChannelId}
+								error={channelNotFoundError ? messages.boardNotFound : undefined}
+								onInputValueChange={onInputValueChange}
 							/>
 						</FormComponent>
 						<FormAction inline>

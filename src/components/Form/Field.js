@@ -10,6 +10,7 @@ import { Field as Field_ } from 'frontend-lib/components/Form.js'
 const Field = React.forwardRef(({
 	type,
 	component,
+	inputType,
 	...rest
 }, ref) => {
 	switch (type) {
@@ -31,6 +32,7 @@ const Field = React.forwardRef(({
 		<Field_
 			ref={ref}
 			{...rest}
+			type={inputType}
 			component={component}
 		/>
 	)

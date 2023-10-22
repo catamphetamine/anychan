@@ -8,6 +8,8 @@
 
 
 
+
+
 Прыгает скролл при виде каналов "grid" на странице:
 https://anychans.github.io/4chan/a
 

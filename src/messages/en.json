@@ -80,6 +80,7 @@
 			},
 			"themes": {
 				"default": "Default",
+				"gray": "Gray",
 				"neon-genesis-evangelion": "Neon Genesis Evangelion"
 			}
 		},
@@ -197,6 +198,7 @@
 	"loadingCommentsError": "Couldn't load thread comments",
 	"invalidBoardId": "Invalid board ID",
 	"board": "Board",
+	"boardNotFound": "Board not found",
 	"thread": {
 		"default": "Thread",
 		"hidden": "Hidden thread"

@@ -105,10 +105,32 @@
 .ChannelPage-threads--tiles {
   display: grid;
   place-items: center;
-  gap: 2rem;
-  grid-template-columns: repeat(3, 1fr);
+  gap: var(--Comment-marginTop); /* calc(3 * var(--unit)); */
+
+  /* These values must be equal to those in `getColumnsCount()`
+     in `pages/Channel/Channel.js`. */
+	@mixin upto-xs {
+  	grid-template-columns: repeat(1, 1fr);
+  }
+	@mixin s {
+  	grid-template-columns: repeat(2, 1fr);
+  }
+	@mixin m {
+  	grid-template-columns: repeat(3, 1fr);
+  }
+	@mixin l {
+  	grid-template-columns: repeat(3, 1fr);
+  }
+	@mixin xl {
+  	grid-template-columns: repeat(3, 1fr);
+  }
+	@mixin xxl-plus {
+  	grid-template-columns: repeat(4, 1fr);
+  }
 
 	align-items: flex-start;
+
+	margin-top: var(--Comment-marginTop);
 
   --Post-minWidth: 0px;
 
@@ -118,6 +140,13 @@
         You can override this behavior by setting grid items to min-width: 0, min-height: 0 or overflow with any value other than visible." */
   	/* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
   	min-width: 0;
+
+  	/* Stretch each card to the full width of its column. */
+  	width: 100%;
+  }
+
+  .Comment-spacer {
+  	--Comment-marginTop: 0;
   }
 
   .Comment {
@@ -132,7 +161,11 @@
   }
 
   .Comment-thumbnail {
-  	/* Horizontally center the thumbnail image. */
+  	/* Center the thumbnail image horizontally inside ".Comment-thumbnail". */
   	justify-content: center;
+
+  	/* Center the ".Comment-thumbnail" itself. */
+    margin-left: auto;
+    margin-right: auto;
   }
 }

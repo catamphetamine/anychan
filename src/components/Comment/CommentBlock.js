@@ -9,7 +9,7 @@ import {
 } from '../../PropTypes.js'
 
 import NewAutoUpdateCommentsStartLine from './NewAutoUpdateCommentsStartLine.js'
-import PostForm from '../PostForm.js'
+import PostForm, { POST_FORM_INPUT_FIELD_NAME } from '../PostForm.js'
 import CommentReadStatusWatcher from './CommentReadStatusWatcher.js'
 import CommentWithThumbnail from './CommentWithThumbnail.js'
 import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickableWrapper.js'
@@ -68,6 +68,7 @@ export default function CommentBlock({
 
 	const {
 		replyForm,
+		replyFormInitialText,
 		showReplyForm,
 		onReply,
 		onCancelReply,
@@ -84,6 +85,7 @@ export default function CommentBlock({
 		threadExpired,
 		// Other properties.
 		canReply,
+		replyFormInputFieldName: POST_FORM_INPUT_FIELD_NAME,
 		initialShowReplyForm,
 		onShowReplyFormChange,
 		onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
@@ -193,6 +195,7 @@ export default function CommentBlock({
 						ref={replyForm}
 						placement="comment"
 						locale={locale}
+						initialInputValue={replyFormInitialText}
 						initialState={initialReplyFormState}
 						onStateDidChange={onReplyFormStateDidChange}
 						initialError={initialReplyFormError}

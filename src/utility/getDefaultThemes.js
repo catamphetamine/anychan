@@ -1,6 +1,7 @@
 import { addBasePath } from './getBasePath.js'
 
 import DefaultThemeUrl from '../styles/theme/default.css'
+import GrayThemeUrl from '../styles/theme/gray.css'
 import NeonGenesisEvangelionThemeUrl from '../styles/theme/neon-genesis-evangelion.css'
 
 let defaultThemes
@@ -26,6 +27,11 @@ function createDefaultThemes() {
 			id: 'default',
 			name: 'Default',
 			url: addBasePath(DefaultThemeUrl)
+		},
+		{
+			id: 'gray',
+			name: 'Gray',
+			url: addBasePath(GrayThemeUrl)
 		},
 		{
 			id: 'neon-genesis-evangelion',

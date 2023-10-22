@@ -176,6 +176,20 @@
 }
 */
 
+/* When there's very little text in a comment, the empty space in the lower part
+   of it is `.Comment-comment`. Disable selecting text by double-clicking that part
+   because the double-click action is used for showing a Reply form. */
+.Comment-comment {
+	-webkit-user-select: none; /* Safari */
+	user-select: none;
+
+	/* Re-enable text selection in a comment. */
+	.Comment-titleAndContentAndAttachments {
+		-webkit-user-select: text; /* Safari */
+		user-select: text;
+	}
+}
+
 :root {
 	/* Add some left padding to first-level comment tree branch.
 		If comments don't have any side padding

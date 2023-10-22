@@ -1,0 +1,17 @@
+.LoadingSpinnerCirclingComet {
+	width: 1rem;
+	height: 1rem;
+
+	animation: 1s linear 0s infinite normal none running LoadingSpinnerCirclingComet;
+
+	color: var(--Clickable-color);
+}
+
+@keyframes LoadingSpinnerCirclingComet {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

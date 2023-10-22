@@ -80,6 +80,7 @@
 			},
 			"themes": {
 				"default": "По умолчанию",
+				"gray": "Серая",
 				"neon-genesis-evangelion": "Евангелион"
 			}
 		},
@@ -197,6 +198,7 @@
 	"loadingCommentsError": "Не удалось загрузить сообщения треда",
 	"invalidBoardId": "Недопустимое имя доски",
 	"board": "Доска",
+	"boardNotFound": "Доска не найдена",
 	"thread": {
 		"default": "Тред",
 		"hidden": "Скрытый тред"

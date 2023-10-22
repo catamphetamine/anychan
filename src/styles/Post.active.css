@@ -21,8 +21,10 @@
 	--PostInlineSpoiler-transition: var(--PostInlineSpoiler-transition--onClick);
 }
 
-.Clickable--active {
-	--Post-backgroundColor: var(--Content-backgroundColor--active);
-	--PostInlineSpoiler-color: var(--PostInlineSpoiler-color--contentActive);
-	--PostInlineSpoiler-color--censored: var(--PostInlineSpoiler-color--censoredContentActive);
+.ChannelPage-threads {
+	.Clickable--active {
+		--Post-backgroundColor: var(--Content-backgroundColor--active);
+		--PostInlineSpoiler-color: var(--PostInlineSpoiler-color--contentActive);
+		--PostInlineSpoiler-color--censored: var(--PostInlineSpoiler-color--censoredContentActive);
+	}
 }

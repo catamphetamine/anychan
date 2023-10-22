@@ -6,6 +6,7 @@ import CommentClickableWrapper from './CommentClickableWrapper.js'
 import useOnLongPressOrDoubleClick from './useOnLongPressOrDoubleClick.js'
 
 import OnLongPress from 'frontend-lib/components/OnLongPress.js'
+import Clickable from 'frontend-lib/components/Clickable.js'
 
 import {
 	comment as commentType,
@@ -40,10 +41,16 @@ export default function CommentWithThumbnailClickableWrapper({
 			<OnLongPress
 				touchOnly
 				onLongPress={onLongPressOrDoubleClick}>
-				{(props) => children({
-					...props,
-					onDoubleClick: onLongPressOrDoubleClick
-				})}
+				{(props) => {
+					// Standard React's `onDoubleClick` event handler doesn't work for touch events.
+					// `<Clickable onDoubleClick/>` does.
+					return (
+						<Clickable
+							onDoubleClick={onLongPressOrDoubleClick}>
+							{children(props)}
+						</Clickable>
+					)
+				}}
 			</OnLongPress>
 		)
 	}

@@ -1,5 +1,3 @@
-@import "../../styles/common.css";
-
 .InfoBanner {
 	display: flex;
 	align-items: center;
@@ -18,9 +16,6 @@
 	font-size: var(--UppercaseLabel-fontSize);
 	letter-spacing: var(--UppercaseLabel-letterSpacing);
 	text-transform: var(--UppercaseLabel-textTransform);
-	@mixin m-plus {
-		margin-left: calc(var(--PostThumbnailContainer-maxWidth));
-	}
 }
 
 .InfoBanner-icon {

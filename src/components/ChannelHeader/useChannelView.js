@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { setChannelLayout, setChannelSorting } from '../../redux/channel.js'
 import { saveChannelLayout, saveChannelSorting } from '../../redux/settings.js'
+import { setShowPageLoadingIndicator } from '../../redux/app.js'
 
 import useUserData from '../../hooks/useUserData.js'
 import useSetting from '../../hooks/useSetting.js'
@@ -47,6 +48,7 @@ export default function useChannelView({
 			}
 
 			setSettingChannelView(true)
+			dispatch(setShowPageLoadingIndicator(true))
 
 			// Refresh the page.
 			await loadChannelPage({
@@ -76,6 +78,7 @@ export default function useChannelView({
 			}
 		} finally {
 			setSettingChannelView(false)
+			dispatch(setShowPageLoadingIndicator(false))
 		}
 	}, [
 		dispatch,

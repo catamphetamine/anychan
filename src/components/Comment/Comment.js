@@ -161,7 +161,9 @@ export default function Comment({
 				locale={locale}
 			/>
 			<div className={commentClassName}>
-				{titleContentAndAttachments}
+				<div className="Comment-titleAndContentAndAttachments">
+					{titleContentAndAttachments}
+				</div>
 			</div>
 			<CommentFooter
 				comment={comment}
