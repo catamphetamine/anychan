@@ -5,8 +5,14 @@
 
 	--ChannelHeaderToolbar-channelSorting-marginRight: 0.5rem;
 
+	--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor: var(--ChannelThreadHeader-backgroundColor);
+	--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor--active: var(--Clickable-color);
+
+	--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor: currentColor;
+	--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor--active: var(--ChannelThreadHeader-backgroundColor);
+
 	--ChannelHeaderToolbar-fillIcon-backgroundColor: var(--Content-color-300);
-	--ChannelHeaderToolbar-fillIcon-backgroundColor--active: var(--Content-color-500);
+	--ChannelHeaderToolbar-fillIcon-backgroundColor--active: var(--Clickable-color);
 }
 
 /* `--Menu-color--active` CSS variable is redefined in `.Toolbar` CSS selector
@@ -27,12 +33,41 @@
 
 	--StarIcon-borderColor: var(--Menu-color);
 	--StarIcon-backgroundColor: var(--ChannelHeaderToolbar-fillIcon-backgroundColor);
-	--StarIcon-backgroundColor--acitve: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
+	--StarIcon-backgroundColor--active: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
 }
 
 .ChannelHeaderToolbar-channelLayoutButton {
-	/*width: var(--MenuIcon-width);*/
+	[data-background-fill] {
+		fill: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor);
+	}
+
+	[data-background-stroke] {
+		stroke: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor);
+	}
+
+	[data-foreground-fill] {
+		fill: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor);
+	}
+
+	[data-foreground-stroke] {
+		stroke: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor);
+	}
+
+	&:active {
+		--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor--active);
+		--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-foregroundColor--active);
+	}
 }
+
+.ChannelHeaderToolbar-channelLayoutButton--selected {
+	--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor: var(--Content-color-100);
+}
+
+/*
+.ChannelHeaderToolbar-channelLayoutButton--selected {
+	--Menu-color--selected: var(--ChannelHeaderToolbar-channelLayoutButton-fillIcon-backgroundColor);
+}
+*/
 
 .ChannelHeaderToolbar-channelLayoutIcon {
   width: var(--MenuIcon-width);
@@ -47,7 +82,7 @@
 	/*&--selected {*/
 		/*g {*/
 			/* `!important` overrides the `stroke-width` `!important`
-			   set on a non-selected `.menu-item` CSS class. */
+			   set on a non-selected `.MenuItem` CSS class. */
 			/*stroke-width: 10 !important;*/
 		/*}*/
 	/*}*/
@@ -89,6 +124,14 @@
 
 .ChannelHeaderToolbar-toolbar--afterChannelLayoutOrSortingSelect {
 	margin-left: calc(-1 * var(--MenuIcon-padding));
+}
+
+.ChannelHeaderToolbar-sortByPopularityButton {
+	&:active {
+		g {
+			fill: var(--ChannelHeaderToolbar-fillIcon-backgroundColor--active);
+		}
+	}
 }
 
 .ChannelHeaderToolbar-sortByPopularityButton--selected {

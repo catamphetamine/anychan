@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<g fill="none" stroke="currentColor" stroke-width="10">
-	<rect x="8" y="8" class="st0" width="120" height="120"/>
-	<rect x="196" y="8" class="st0" width="120" height="120"/>
-	<rect x="384" y="8" class="st0" width="120" height="120"/>
-	<rect x="196" y="196" class="st0" width="120" height="120"/>
-	<rect x="384" y="196" class="st0" width="120" height="120"/>
-	<rect x="8" y="196" class="st0" width="120" height="120"/>
-	<rect x="8" y="384" class="st0" width="120" height="120"/>
-	<rect x="196" y="384" class="st0" width="120" height="120"/>
-	<rect x="384" y="384" class="st0" width="120" height="120"/>
+<g fill="none" stroke="currentColor" fill="currentColor" stroke-width="10">
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="8" y="8" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="196" y="8" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="384" y="8" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="196" y="196" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="384" y="196" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="8" y="196" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="8" y="384" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="196" y="384" class="st0" width="120" height="120"/>
+	<rect data-background-fill="true" data-foreground-stroke-fill="true" x="384" y="384" class="st0" width="120" height="120"/>
 </g>
 </svg>

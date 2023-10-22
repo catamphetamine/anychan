@@ -20,10 +20,10 @@
 	--Menu-color--active: var(--Toolbar-color--active);
 }
 
-/* Added `.Toolbar` parent selector so that the `.menu .menu-item` styles
+/* Added `.Toolbar` parent selector so that the `.Menu .MenuItem` styles
    don't overwrite the `.Toolbar-item--channelView` styles in production mode
    when Webpack decides to put all CSS in a single file
-   with `.menu .menu-item` styles being placed after `.Toolbar-item--channelView` styles. */
+   with `.Menu .MenuItem` styles being placed after `.Toolbar-item--channelView` styles. */
 /*.Toolbar {*/
 /*}*/
 

@@ -12,7 +12,7 @@
 /* Added `.CommentMoreActions` parent selector so that `.PostMoreActions-toggler` styles
    don't overwrite `.CommentMoreActions-button` styles in production mode
    when Webpack decides to put all CSS in a single file
-   with `.PostMoreActions-toggler` styles being placed after `.menu-item` styles. */
+   with `.PostMoreActions-toggler` styles being placed after `.MenuItem` styles. */
 .CommentMoreActions {
 	.CommentMoreActions-button {
 		/*display: flex;*/

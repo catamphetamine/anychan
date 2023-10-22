@@ -11,6 +11,7 @@ import LinearProgress from 'frontend-lib/components/LinearProgress.js'
 import { FadeInOut } from 'react-responsive-ui'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
+import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
@@ -56,6 +57,8 @@ function PostForm({
 	onCancel,
 	onSubmit: onSubmit_
 }, ref) {
+	const isMounted = useIsMounted()
+
 	const messages = useMessages()
 
 	const form = useRef()
@@ -143,6 +146,11 @@ function PostForm({
 			})
 			// Process the file.
 			const attachment = await createAttachmentForFile(file)
+			// Exit if the `<PostForm/>` was closed or navigated from
+			// while the attachment was being processed.
+			if (!isMounted()) {
+				return
+			}
 			// When getting next attachment ID, it doesn't look into `fileAttachments`
 			// to see what's the next unused one because two files could be uploaded
 			// simultaneously, and each such upload handler function would have
@@ -169,7 +177,8 @@ function PostForm({
 			throw error
 		}
 	}, [
-		messages
+		messages,
+		isMounted
 	])
 
 	const onFileOrFilesAttached = useCallback(async (fileOrFiles) => {

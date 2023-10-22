@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import StarIconOutline from 'frontend-lib/icons/fill-and-outline/star-outline.svg'
+import StarIconFill from 'frontend-lib/icons/fill-and-outline/star-fill.svg'
 import StarIcon from '../StarIcon.js'
 
 import useFavoriteChannel from './useFavoriteChannel.js'
@@ -25,7 +26,9 @@ export default function useChannelHeaderToolbarFavorite() {
 		isSelected: isFavoriteChannel,
 		animate: 'pop',
 		icon: StarIconOutline,
+		iconActive: StarIconFill,
 		iconSelected: StarIcon,
+		iconSelectedActive: StarIconFill,
 		className: 'ChannelHeaderToolbar-favoriteChannelButton'
 	}), [
 		isFavoriteChannel,

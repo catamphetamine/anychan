@@ -3,20 +3,27 @@
 <style type="text/css">
 	.st0{fill:none;stroke:currentColor;stroke-width:10;}
 </style>
+<!--
+`class="st0"` is used there to work around `svgr` bug.
+https://github.com/gregberge/svgr/issues/771
+Or maybe "play" with "SVGO" config options.
+https://react-svgr.com/docs/options/
+The workaround was added in September 2022
+-->
 <g class="st0">
-	<rect x="6.4" y="7" width="499.6" height="180.9"/>
-	<rect x="75.7" y="57" width="80" height="80"/>
-	<line x1="219.7" y1="57" x2="448.9" y2="57"/>
-	<line x1="219.7" y1="96" x2="448.9" y2="96"/>
-	<line x1="219.7" y1="135" x2="343.9" y2="135"/>
-	<rect x="159.1" y="219.6" width="345.8" height="126.3"/>
-	<line x1="219.7" y1="261.6" x2="448.9" y2="261.6"/>
-	<line x1="219.7" y1="301.6" x2="343.9" y2="301.6"/>
-	<rect x="159.1" y="379.5" width="345.8" height="126.3"/>
-	<line x1="219.7" y1="421.5" x2="448.9" y2="421.5"/>
-	<line x1="219.7" y1="461.5" x2="343.9" y2="461.5"/>
-	<line x1="75.1" y1="191.8" x2="75.1" y2="441.6"/>
-	<line x1="72.3" y1="289.4" x2="159.1" y2="289.4"/>
-	<line x1="72.3" y1="436.6" x2="159.1" y2="436.6"/>
+	<rect data-background-fill="true" stroke="currentColor" fill="none" x="6.4" y="7" width="499.6" height="180.9"/>
+	<rect data-background-fill="true" data-foreground-stroke="true" stroke="currentColor" fill="none" x="75.7" y="57" width="80" height="80"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="57" x2="448.9" y2="57"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="96" x2="448.9" y2="96"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="135" x2="343.9" y2="135"/>
+	<rect data-background-fill="true" stroke="currentColor" fill="none" x="159.1" y="219.6" width="345.8" height="126.3"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="261.6" x2="448.9" y2="261.6"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="301.6" x2="343.9" y2="301.6"/>
+	<rect data-background-fill="true" stroke="currentColor" fill="none" x="159.1" y="379.5" width="345.8" height="126.3"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="421.5" x2="448.9" y2="421.5"/>
+	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="461.5" x2="343.9" y2="461.5"/>
+	<line data-background-stroke="true" stroke="currentColor" x1="75.1" y1="191.8" x2="75.1" y2="441.6"/>
+	<line data-background-stroke="true" stroke="currentColor" x1="72.3" y1="289.4" x2="159.1" y2="289.4"/>
+	<line data-background-stroke="true" stroke="currentColor" x1="72.3" y1="436.6" x2="159.1" y2="436.6"/>
 </g>
 </svg>

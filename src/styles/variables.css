@@ -564,7 +564,7 @@
 		@mixin xxl-plus {
 			/* Increased the `maxWidth` of the `Text` so that four columns of thread cards
 			   fit on a channel page when viewing it in "grid" mode at XXL screen size. */
-			--Text-maxWidth: 52em;
+			--Text-maxWidth: 68em;
 		}
 	}
 

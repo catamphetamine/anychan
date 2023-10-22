@@ -14,17 +14,16 @@ import useChannelView from './useChannelView.js'
 import useChannelHeaderToolbarFavorite from './useChannelHeaderToolbarFavorite.js'
 import useChannelHeaderToolbarSearch from './useChannelHeaderToolbarSearch.js'
 
-import ThreadsIconOutline from '../../../assets/images/icons/toolbar/threads-icon-outline.svg'
 import ThreadTilesIconOutline from '../../../assets/images/icons/toolbar/thread-tiles-outline.svg'
-
-import PopularThreadsIconOutline from '../../../assets/images/icons/toolbar/popular-threads-icon-outline.svg'
-import PopularThreadsIconFill from '../../../assets/images/icons/toolbar/popular-threads-icon-fill.svg'
-
+import ThreadsIconOutline from '../../../assets/images/icons/toolbar/threads-icon-outline.svg'
 // `class="st0"` is used there to work around `svgr` bug.
 // https://github.com/gregberge/svgr/issues/771
 // Or maybe "play" with "SVGO" config options.
 // https://react-svgr.com/docs/options/
 import ThreadWithCommentsIconOutline from '../../../assets/images/icons/toolbar/thread-with-comments-icon-outline.svg'
+
+import PopularThreadsIconOutline from '../../../assets/images/icons/toolbar/popular-threads-icon-outline.svg'
+import PopularThreadsIconFill from '../../../assets/images/icons/toolbar/popular-threads-icon-fill.svg'
 
 import SortIcon from 'frontend-lib/icons/sort-thin.svg'
 
@@ -76,7 +75,7 @@ export default function ChannelHeaderToolbar({
 			isSelected: channelLayout === 'threadsTiles',
 			icon: ThreadTilesIconOutline,
 			wait: isSettingChannelView,
-			// className: 'ChannelHeaderToolbar-channelLayoutButton'
+			className: 'ChannelHeaderToolbar-channelLayoutButton'
 		},
 		{
 			title: messages.channelLayout.options.threadsList,
@@ -84,7 +83,7 @@ export default function ChannelHeaderToolbar({
 			isSelected: channelLayout === 'threadsList',
 			icon: ThreadsIconOutline,
 			wait: isSettingChannelView,
-			// className: 'ChannelHeaderToolbar-channelLayoutButton'
+			className: 'ChannelHeaderToolbar-channelLayoutButton'
 		},
 		{
 			title: messages.channelLayout.options.threadsListWithLatestComments,
@@ -92,7 +91,7 @@ export default function ChannelHeaderToolbar({
 			isSelected: channelLayout === 'threadsListWithLatestComments',
 			icon: ThreadWithCommentsIconOutline,
 			wait: isSettingChannelView,
-			// className: 'ChannelHeaderToolbar-channelLayoutButton'
+			className: 'ChannelHeaderToolbar-channelLayoutButton'
 		}
 	], [
 		channelLayout,

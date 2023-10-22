@@ -29,6 +29,8 @@ Toolbar.propTypes = {
 		isSelected: PropTypes.bool,
 		icon: PropTypes.elementType,
 		iconSelected: PropTypes.elementType,
+		iconActive: PropTypes.elementType,
+		iconSelectedActive: PropTypes.elementType,
 		animate: PropTypes.oneOf(['pop']),
 		type: PropTypes.oneOf(['separator']),
 		size: PropTypes.oneOf(['s']),
