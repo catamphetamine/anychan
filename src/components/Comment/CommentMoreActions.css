@@ -5,10 +5,8 @@
 .CommentMoreActions {
 	font-size: var(--Document-fontSize);
 	font-weight: var(--Document-fontWeight);
-	.rrui__expandable {
-		margin-top: calc(-2 * var(--unit));
-		/*margin-bottom: var(--unit);*/
-	}
+
+	--PostMoreActionsMenu-marginTop: calc(-2 * var(--unit));
 }
 
 /* Added `.CommentMoreActions` parent selector so that `.PostMoreActions-toggler` styles
