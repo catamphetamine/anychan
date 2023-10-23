@@ -105,7 +105,10 @@ function PostForm({
 	const onSubmit = useCallback(async (values) => {
 		try {
 			setLoading(true)
-			await onSubmit_(values)
+			await onSubmit_({
+				content: values[POST_FORM_INPUT_FIELD_NAME],
+				attachmentFiles: files.map(_ => _.file)
+			})
 		} catch (error) {
 			console.error(error)
 			setError(error.message)

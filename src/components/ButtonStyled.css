@@ -1,3 +1,7 @@
+:root {
+	--Button-opacity--disabled: 0.7;
+}
+
 .Button--text {
 	height: auto;
 	color: var(--Clickable-color--text);
@@ -7,8 +11,12 @@
 		border-bottom-color: currentColor;
 	}
 
-	&:active {
+	&:active:not(:disabled) {
 		color: var(--Clickable-color--textActive);
+	}
+
+	&:disabled {
+		opacity: var(--Button-opacity--disabled);
 	}
 }
 
@@ -23,9 +31,13 @@
 		box-shadow: 0 0 2px var(--Clickable-color--active);
 	}
 
-	&:active {
+	&:active:not(:disabled) {
 		color: var(--Content-backgroundColor);
 		background-color: var(--Clickable-color--active);
+	}
+
+	&:disabled {
+		opacity: var(--Button-opacity--disabled);
 	}
 }
 
@@ -42,10 +54,14 @@
 		box-shadow: 0 0 2px var(--Clickable-color--active);
 	}
 
-	&:active {
+	&:active:not(:disabled) {
 		color: var(--Content-backgroundColor);
 		background-color: var(--Clickable-color--text);
 		border-color: var(--Clickable-color--text);
+	}
+
+	&:disabled {
+		opacity: var(--Button-opacity--disabled);
 	}
 }
 

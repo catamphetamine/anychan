@@ -115,7 +115,7 @@ export default function GoToChannelModal({
 						</FormComponent>
 						<FormAction inline>
 							<Submit
-								aria-label={messages.actions.ok}
+								aria-label={messages.actions.submit}
 								component={FillButton}>
 								<RightArrow className="GoToChannelModal-goButtonIcon"/>
 							</Submit>

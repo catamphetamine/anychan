@@ -6,7 +6,6 @@ import classNames from 'classnames'
 
 import Announcement, { announcementPropType } from 'frontend-lib/components/Announcement.js'
 
-// import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
 import SidebarLeft from '../components/SidebarLeft/SidebarLeft.js'
 import SidebarRight from '../components/SidebarRight/SidebarRight.js'
@@ -15,6 +14,7 @@ import BackButton from '../components/BackButton.js'
 import Markup from '../components/Markup.js'
 import Slideshow from '../components/Slideshow.js'
 import PageLoadingIndicator from '../components/PageLoadingIndicator.js'
+import CaptchaModal from '../components/Captcha/CaptchaModal.js'
 import { CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarSections/ChannelThreadsSidebarSectionThread.js'
 import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
 import Snackbar from 'frontend-lib/components/Snackbar.js'
@@ -36,6 +36,7 @@ import TweetModal from '../components/TweetModal.js'
 
 import { setCookiesAccepted } from '../redux/app.js'
 import { markAnnouncementAsRead } from '../redux/announcement.js'
+import { setShowCaptchaModal } from '../redux/captcha.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
@@ -71,9 +72,6 @@ import './MainContentWithSidebarLayout.css'
 // import 'react-time-ago/Tooltip.css'
 
 import '../components/PageLoading.css'
-// Not importing `LoadingIndicator.css` because
-// it's already loaded as part of `react-responsive-ui/style.css`.
-// import 'react-pages/components/LoadingIndicator.css'
 
 // Turn this flag to `true` to debug `virtual-scroller`.
 //
@@ -155,6 +153,13 @@ function App({
 
 	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
 	const offline = useSelector(state => state.app.offline)
+
+	const captcha = useSelector(state => state.captcha.captcha)
+	const showCaptchaModal = useSelector(state => state.captcha.showCaptchaModal)
+
+	const hideCaptchaModal = useCallback(() => {
+		dispatch(setShowCaptchaModal(false))
+	}, [])
 
 	const route = useRoute()
   const { location } = route
@@ -284,7 +289,8 @@ function App({
 								content={getConfiguration().headerContent}
 								markup={getConfiguration().headerMarkup}
 								fullWidth={getConfiguration().headerMarkupFullWidth}
-								className="Webpage-headerBanner"/>
+								className="Webpage-headerBanner"
+							/>
 						}
 
 						{/* `<main/>` is focusable for keyboard navigation: page up, page down. */}
@@ -338,6 +344,12 @@ function App({
 					cancelLabel={messages.actions.cancel}
 					yesLabel={messages.actions.yes}
 					noLabel={messages.actions.no}
+				/>
+
+				<CaptchaModal
+					captcha={captcha}
+					isOpen={showCaptchaModal}
+					close={hideCaptchaModal}
 				/>
 
 				<TweetModal/>

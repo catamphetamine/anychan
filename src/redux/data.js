@@ -10,6 +10,9 @@ import getNewRepliesCount from '../utility/thread/getNewRepliesCount.js'
 import _getChannelsCached from '../api/cached/getChannels.js'
 // import _getThreads from '../api/getThreads.js'
 import _getThread from '../api/getThread.js'
+import _createComment from '../api/createComment.js'
+import _createThread from '../api/createThread.js'
+import _getCaptcha from '../api/getCaptcha.js'
 
 const redux = new ReduxModule('DATA')
 
@@ -185,6 +188,72 @@ export const refreshThread = redux.action(
 			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }),
 			thread,
 			threadRefreshedAt: Date.now()
+		}
+	}
+)
+
+export const createComment = redux.action(
+	({
+		channelId,
+		threadId,
+		userSettings,
+		dataSource,
+		...rest
+	}) => async http => {
+		return await _createComment({
+			channelId,
+			threadId,
+			userSettings,
+			dataSource,
+			http,
+			...rest
+		})
+	},
+	(state, result) => {
+		return {
+			...state
+		}
+	}
+)
+
+export const createThread = redux.action(
+	({
+		channelId,
+		userSettings,
+		dataSource,
+		...rest
+	}) => async http => {
+		return await _createThread({
+			channelId,
+			userSettings,
+			dataSource,
+			http,
+			...rest
+		})
+	},
+	(state, result) => {
+		return {
+			...state
+		}
+	}
+)
+
+export const getCaptcha = redux.action(
+	({
+		channelId,
+		threadId,
+		...rest
+	}) => async http => {
+		return await _getCaptcha({
+			channelId,
+			threadId,
+			http,
+			...rest
+		})
+	},
+	(state, result) => {
+		return {
+			...state
 		}
 	}
 )

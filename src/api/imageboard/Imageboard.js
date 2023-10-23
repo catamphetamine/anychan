@@ -24,6 +24,25 @@ export default function Imageboard_(dataSource, {
 		expandReplies: true,
 		useRelativeUrls: isDeployedOnDataSourceDomain(dataSource),
 		request: async (method, url, { body, headers }) => {
+			// Send the `body` as `FormData`, if required.
+			if (headers['Content-Type'] === 'multipart/form-data') {
+				const formData = new FormData()
+				for (const key of Object.keys(body)) {
+					if (body[key] !== undefined && body[key] !== null) {
+						if (Array.isArray(body[key])) {
+							for (const element of body[key]) {
+								formData.append(key + '[]', element)
+							}
+						} else {
+							formData.append(key, body[key])
+						}
+					}
+				}
+				body = formData
+				// Remove `Content-Type` header so that it autogenerates it from the `FormData`.
+				// Example: "multipart/form-data; boundary=----WebKitFormBoundaryZEglkYA7NndbejbB".
+				delete headers['Content-Type']
+			}
 			// Proxy the URL (if required).
 			if (shouldUseProxy({ dataSource })) {
 				url = getProxiedUrl(url, { userSettings })

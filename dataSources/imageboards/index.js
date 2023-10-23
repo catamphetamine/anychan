@@ -6,7 +6,9 @@ import getThreadApi from '../../src/api/imageboard/getThread.js'
 import voteApi from '../../src/api/imageboard/vote.js'
 import logInApi from '../../src/api/imageboard/logIn.js'
 import logOutApi from '../../src/api/imageboard/logOut.js'
-import postApi from '../../src/api/imageboard/post.js'
+import createThreadApi from '../../src/api/imageboard/createThread.js'
+import createCommentApi from '../../src/api/imageboard/createComment.js'
+import getCaptchaApi from '../../src/api/imageboard/getCaptcha.js'
 import reportApi from '../../src/api/imageboard/report.js'
 
 import TwoChannel from './2ch/index.json' assert { type: 'json' }
@@ -65,7 +67,15 @@ for (const dataSource of DATA_SOURCES) {
 	}
 
 	if (imageboardConfig.api.post) {
-		dataSource.api.post = postApi
+		dataSource.api.createComment = createCommentApi
+	}
+
+	if (imageboardConfig.api.post) {
+		dataSource.api.createThread = createThreadApi
+	}
+
+	if (imageboardConfig.api.getCaptcha) {
+		dataSource.api.getCaptcha = getCaptchaApi
 	}
 
 	if (imageboardConfig.api.report) {

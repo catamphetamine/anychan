@@ -1,0 +1,32 @@
+.TextCaptcha {
+	/* Centers the CAPTCHA image horizontally. */
+	display: flex;
+	flex-direction: column;
+
+	/* Hide number increment/decrement buttons on `<input type="number"/>`. */
+	input[type=number] {
+		/* Chrome, Safari, Edge, Opera */
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+
+		/* Firefox */
+		& {
+		  -moz-appearance: textfield;
+		}
+	}
+}
+
+.TextCaptcha-picture {
+	margin-bottom: calc(var(--unit) * 1);
+
+	/* Centers the CAPTCHA image horizontally. */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.TextCaptcha-error {
+	color: var(--Critical-color);
+}

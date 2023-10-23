@@ -1,5 +1,6 @@
 export { default as announcement } from './announcement.js';
 export { default as app } from './app.js';
+export { default as captcha } from './captcha.js';
 export { default as channel } from './channel.js';
 export { default as data } from './data.js';
 export { default as favoriteChannels } from './favoriteChannels.js';

@@ -5,14 +5,31 @@ import { openLinkInNewTab } from 'web-browser-input'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
-import { notify } from '../../redux/notifications.js'
+import { notify, showError } from '../../redux/notifications.js'
+import { createComment, getCaptcha } from '../../redux/data.js'
+
+import AccessDeniedError from '../../api/errors/AccessDeniedError.js'
+import AttachmentNotSupportedError from '../../api/errors/AttachmentNotSupportedError.js'
+import AttachmentsCountExceededError from '../../api/errors/AttachmentsCountExceededError.js'
+import BannedError from '../../api/errors/BannedError.js'
+import CaptchaSolutionIncorrectError from '../../api/errors/CaptchaSolutionIncorrectError.js'
+import ChannelNotFoundError from '../../api/errors/ChannelNotFoundError.js'
+import CommentContentBlockedError from '../../api/errors/CommentContentBlockedError.js'
+import CommentContentSizeExceededError from '../../api/errors/CommentContentSizeExceededError.js'
+import CommentRequiredError from '../../api/errors/CommentRequiredError.js'
+import DuplicateAttachmentError from '../../api/errors/DuplicateAttachmentError.js'
+import RateLimitError from '../../api/errors/RateLimitError.js'
+import ThreadIsLockedError from '../../api/errors/ThreadIsLockedError.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
+import useSettings from '../../hooks/useSettings.js'
 
 import getMessages from '../../messages/index.js'
 
 import getThreadUrl from '../../utility/dataSource/getThreadUrl.js'
 import getCommentUrl from '../../utility/dataSource/getCommentUrl.js'
+
+import showCaptcha from '../../utility/captcha/showCaptcha.js'
 
 export default function useReply({
 	comment,
@@ -35,6 +52,7 @@ export default function useReply({
 }) {
 	const dispatch = useDispatch()
 	const dataSource = useDataSource()
+	const userSettings = useSettings()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 	const [replyFormInitialText, setReplyFormInitialText] = useState()
@@ -127,7 +145,8 @@ export default function useReply({
 	])
 
 	const onSubmitReply = useCallback(async ({
-		[replyFormInputFieldName]: content
+		content,
+		attachmentFiles
 	}) => {
 		// Suppose a user opens a reply form and then the thread
 		// changes its state to "locked". The reply form is still visible
@@ -188,17 +207,152 @@ export default function useReply({
 		// 	setShowReplyForm(true)
 		// }
 
-		await new Promise(resolve => setTimeout(resolve, 1000))
+		const submitComment = async ({ captchaSolution, captcha } = {}) => {
+			try {
+				let parameters = {
+					channelId,
+					threadId,
+					dataSource,
+					userSettings,
+					messages: getMessages(locale),
+					authorIsThreadAuthor: undefined,
+					accessToken: undefined,
+					authorEmail: undefined,
+					authorName: undefined,
+					title: undefined,
+					authorBadgeId: undefined,
+					content: content,
+					tags: undefined,
+					attachments: attachmentFiles
+				}
 
-		dispatch(notify(getMessages(locale).notImplemented))
+				if (dataSource.id === '2ch') {
+					parameters = {
+						...parameters,
+						authorIsThreadAuthor: undefined,
+						authorBadgeId: undefined
+					}
+					if (captcha) {
+						parameters = {
+							...parameters,
+							captchaType: '2chcaptcha',
+							captchaId: captcha.id,
+							captchaSolution
+						}
+					}
+				}
 
-		setTimeout(() => {
-			openLinkInNewTab(url)
-		}, 800)
+				const result = await dispatch(createComment(parameters))
+				console.log('@@@ Comment:', result)
+				dispatch(notify('Comment created: ' + result.id))
+				return result
+			} catch (error) {
+				if (error instanceof AccessDeniedError) {
+					dispatch(showError(getMessages(locale).accessDenied))
+				} else if (error instanceof BannedError) {
+					// Could also show the ban details here:
+					// * banReason?: string
+					// * banId?: any
+					// * banChannelId?: string
+					// * banEndsAt?: Date
+					dispatch(showError(
+						new IntlMessageFormat(getMessages(locale).yourAccountIsBanned, locale)
+							.format({
+								reason: error.banReason,
+								banId: error.banId,
+								boardId: error.banChannelId,
+								untilDate: error.banEndsAt
+							})
+					))
+				} else if (error instanceof ChannelNotFoundError) {
+					dispatch(showError(getMessages(locale).boardNotFound))
+				} else if (error instanceof ThreadIsLockedError) {
+					dispatch(showError(getMessages(locale).threadIsLocked))
+				} else if (error instanceof CommentRequiredError) {
+					dispatch(showError(getMessages(locale).commentRequired))
+				} else if (error instanceof CaptchaSolutionIncorrectError) {
+					// This error should be handled in the CAPTCHA input modal.
+					if (captcha) {
+						throw error
+					} else {
+						dispatch(showError(getMessages(locale).captchaSolutionIncorrect))
+					}
+				} else if (error instanceof RateLimitError) {
+					dispatch(showError(getMessages(locale).createCommentRateLimitExceeded))
+				} else if (error instanceof DuplicateAttachmentError) {
+					dispatch(showError(getMessages(locale).duplicateAttachmentsFound))
+				} else if (error instanceof AttachmentNotSupportedError) {
+					dispatch(showError(getMessages(locale).attachmentNotSupported))
+				} else if (error instanceof AttachmentsCountExceededError) {
+					dispatch(showError(getMessages(locale).attachmentsCountExceeded))
+				} else if (error instanceof CommentContentSizeExceededError) {
+					dispatch(showError(getMessages(locale).сommentContentSizeExceeded))
+				} else if (error instanceof CommentContentBlockedError) {
+					dispatch(showError(getMessages(locale).commentContentBlocked))
+				} else {
+					throw error
+				}
+			}
+		}
+
+		if (process.env.NODE_ENV !== 'production' && dataSource.id === '2ch') {
+			const captcha = await dispatch(getCaptcha({
+				channelId,
+				threadId,
+				dataSource,
+				userSettings,
+				messages: getMessages(locale)
+			}))
+
+			// const captcha = {
+			// 	"id": "b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
+			// 	"type": "text",
+			// 	"characterSet": "russian",
+			// 	"expiresAt": new Date("2027-01-01T00:00:00.000Z"),
+			// 	image: {
+			// 		"url": "https://2ch.hk/api/captcha/2chcaptcha/show?id=b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
+			// 		"type": "image/png",
+			// 		"width": 270,
+			// 		"height": 120
+			// 	}
+			// }
+
+			console.log('@@@ CAPTCHA:', captcha)
+
+			dispatch(notify('Справка: Капча `2ch.hk`, судя по всему, не работает на сайтах, отличных от `2ch.hk`: не грузит картинку, а даже если и грузит, то потом не принимает ответ.'))
+
+			setTimeout(() => {
+				dispatch(notify('Note: `2ch.hk` CAPTCHA image doesn\'t seem to work on a non-`2ch.hk` website: doesn\'t load image, and even if it does, it won\'t accept the solution.'))
+			}, 0)
+
+			// Show a CAPTCHA to the user.
+			// If they solve it, then submit the new comment.
+			showCaptcha({
+				id: captcha.id,
+				type: captcha.type,
+				characterSet: captcha.characterSet,
+				expiresAt: captcha.expiresAt,
+				image: captcha.image
+			}, {
+				dispatch,
+				onSubmit: submitComment
+			})
+		} else {
+			// Show "Not implemented yet" placeholder message.
+			await new Promise(resolve => setTimeout(resolve, 1000))
+			dispatch(notify(getMessages(locale).notImplemented))
+
+			// Open the thread at the original website so that the user could post their comment there.
+			setTimeout(() => {
+				openLinkInNewTab(url)
+			}, 800)
+		}
 	}, [
 		channelId,
 		threadId,
 		comment,
+		dataSource,
+		userSettings,
 		channelIsNotSafeForWork,
 		dispatch,
 		locale,

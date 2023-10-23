@@ -18,7 +18,12 @@ isekai thread не грузит youtube video (не фетчит названи�
 
 
 
-Pinned threads small heights
+Pinned threads small-height mini-cards on top of the catalog (like in telegram, but not stacked).
+
+
+
+
+Support pasting files into the `<PostForm/>`. Images should be encoded to PNG or JPG (user-selectable). Maybe JPG by default.
 
 
 
