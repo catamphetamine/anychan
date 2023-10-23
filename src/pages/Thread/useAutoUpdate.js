@@ -122,7 +122,9 @@ export default function useAutoUpdate({
 			setSecondsLeft(secondsLeftResult.secondsLeft)
 			if (secondsLeftResult.timeToNextSecondsLeft) {
 				autoUpdateSecondsLeftTimer.current = setTimeout(
-					updateSecondsLeft,
+					() => {
+						updateSecondsLeft(nextUpdateAt)
+					},
 					secondsLeftResult.timeToNextSecondsLeft
 				)
 			}
@@ -131,7 +133,7 @@ export default function useAutoUpdate({
 		setSecondsLeft
 	])
 
-	const scheduleNextUpdate = (prevUpdateAt) => {
+	const scheduleNextUpdate = useCallback((prevUpdateAt) => {
 		log('refresh - schedule')
 
 		const nextUpdateAt = getNextUpdateAt(prevUpdateAt)
@@ -150,15 +152,22 @@ export default function useAutoUpdate({
 
 		setNextUpdateAt(nextUpdateAt)
 		updateSecondsLeft(nextUpdateAt)
-	}
+	}, [
+		getNextUpdateAt,
+		setNextUpdateAt,
+		updateSecondsLeft,
+		refreshThread
+	])
 
-	const activateTriggerElement = () => {
+	const activateTriggerElement = useCallback(() => {
 		log('trigger element - activate')
 		// Will start thread auto update when the element becomes visible on screen.
 		triggerElementScrolledToObserver.current.observe(getTriggerElement())
-	}
+	}, [
+		getTriggerElement
+	])
 
-	const deactivateTriggerElement = (element) => {
+	const deactivateTriggerElement = useCallback((element) => {
 		log('trigger element - deactivate')
 		// No longer track the visibility of the auto update "trigger element".
 		triggerElementScrolledToObserver.current.unobserve(element)
@@ -172,7 +181,7 @@ export default function useAutoUpdate({
 		// // Could still use `.unobserve()`, in which case `node.current`
 		// // would have to be replaced by an "element" attribute here.
 		// triggerElementScrolledToObserver.current.disconnect()
-	}
+	}, [])
 
 	// `thread` object reference changes every time the thread is refreshed.
 	// When there're new comments, the old `thread` object doesn't know about

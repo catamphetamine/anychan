@@ -1,6 +1,7 @@
 import getConfiguration from '../../configuration.js'
 
 // Calculates time to next update for thread auto update process.
+// Returns a `number`.
 export default function getNextUpdateAtForThread(prevUpdateAt, {
 	latestCommentDate,
 	beforeLatestCommentDate,

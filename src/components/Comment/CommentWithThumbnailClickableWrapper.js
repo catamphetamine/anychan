@@ -36,6 +36,17 @@ export default function CommentWithThumbnailClickableWrapper({
 		)
 	}
 
+	const onLongPressEnabled = false
+	if (!onLongPressEnabled) {
+		// Standard React's `onDoubleClick` event handler doesn't work for touch events.
+		// `<Clickable onDoubleClick/>` does.
+		return (
+			<Clickable onDoubleClick={onLongPressOrDoubleClick}>
+				{children({})}
+			</Clickable>
+		)
+	}
+
 	if (onLongPressOrDoubleClick) {
 		return (
 			<OnLongPress
@@ -45,8 +56,7 @@ export default function CommentWithThumbnailClickableWrapper({
 					// Standard React's `onDoubleClick` event handler doesn't work for touch events.
 					// `<Clickable onDoubleClick/>` does.
 					return (
-						<Clickable
-							onDoubleClick={onLongPressOrDoubleClick}>
+						<Clickable onDoubleClick={onLongPressOrDoubleClick}>
 							{children(props)}
 						</Clickable>
 					)

@@ -58,7 +58,7 @@ function AutoUpdate({
 					}
 					{nextUpdateAt &&
 						<AutoUpdateTimer
-							secondsLeft={secondsLeftUntilNextUpdate}
+							secondsLeftUntilNextUpdate={secondsLeftUntilNextUpdate}
 							nextUpdateAt={nextUpdateAt}
 						/>
 					}
@@ -84,7 +84,7 @@ AutoUpdate.propTypes = {
 export default AutoUpdate
 
 function AutoUpdateTimer({
-	secondsLeft,
+	secondsLeftUntilNextUpdate,
 	nextUpdateAt
 }) {
 	const messages = useMessages()
@@ -103,12 +103,12 @@ function AutoUpdateTimer({
 	return (
 		<React.Fragment>
 			{messages.autoUpdate.scheduledBeforeTime}
-			{secondsLeft &&
+			{secondsLeftUntilNextUpdate &&
 				<time dateTime={nextUpdateAtISOString}>
-					{relativeTimeFormat.format(secondsLeft, 'second')}
+					{relativeTimeFormat.format(secondsLeftUntilNextUpdate, 'second')}
 				</time>
 			}
-			{!secondsLeft &&
+			{!secondsLeftUntilNextUpdate &&
 				<ReactTimeAgo
 					future
 					minTimeLeft={30}
@@ -123,6 +123,6 @@ function AutoUpdateTimer({
 }
 
 AutoUpdateTimer.propTypes = {
-	secondsLeft: PropTypes.number,
+	secondsLeftUntilNextUpdate: PropTypes.number,
 	nextUpdateAt: PropTypes.number.isRequired
 }
