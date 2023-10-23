@@ -6,6 +6,7 @@ import classNames from 'classnames'
 
 import Announcement, { announcementPropType } from 'frontend-lib/components/Announcement.js'
 
+import Background from '../components/Background.js'
 import Footer from '../components/Footer.js'
 import SidebarLeft from '../components/SidebarLeft/SidebarLeft.js'
 import SidebarRight from '../components/SidebarRight/SidebarRight.js'
@@ -167,6 +168,7 @@ function App({
   const announcement = useSelector(state => state.announcement.announcement)
   const isLoadingTweet = useSelector(state => state.twitter.isLoading)
   const channelLayout = useSelector(state => state.channel.channelLayout)
+  const colorfulBackground = useSelector(state => state.app.colorfulBackground)
 
   const backButtonAboveContent = useRef()
 
@@ -238,6 +240,11 @@ function App({
 	return (
 		<MeasureContext.Provider value={measure}>
 			<div className={classNames(`theme--${theme}`)}>
+				{/* Gradient/pattern background */}
+				{colorfulBackground &&
+					<Background/>
+				}
+
 				{/* Page loading indicator */}
 				<PageLoadingIndicator show={isLoadingTweet || !initialized}/>
 

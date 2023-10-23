@@ -272,6 +272,7 @@
 			"popular": "Am beliebtesten"
 		}
 	},
+	"colorfulBackground": "Bunter Hintergrund",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",
 	"hasNewComments": "Hat neue Kommentare",

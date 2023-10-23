@@ -23,6 +23,7 @@ import ThreadIsLockedError from '../../api/errors/ThreadIsLockedError.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
 import useSettings from '../../hooks/useSettings.js'
+import useUserData from '../../hooks/useUserData.js'
 
 import getMessages from '../../messages/index.js'
 
@@ -49,11 +50,13 @@ export default function useReply({
 	onRenderedContentDidChange,
 	moreActionsButtonRef,
 	locale,
-	refreshThread
+	refreshThread,
+	onSubscribeToThread
 }) {
 	const dispatch = useDispatch()
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
+	const userData = useUserData()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 	const [replyFormInitialText, setReplyFormInitialText] = useState()
@@ -181,32 +184,6 @@ export default function useReply({
 				notSafeForWork: channelIsNotSafeForWork
 			})
 		}
-
-		// try {
-		// 	const commentId = await createComment(text, {
-		// 		channelId,
-		// 		threadId
-		// 	})
-		// 	const latestReadCommentId = UserData.getLatestReadCommentId(channelId, threadId)
-		// 	const hasMoreUnreadComments = latestReadCommentId < thread.comments[thread.comments.length - 1]
-		// 	if (!hasMoreUnreadComments) {
-		// 		UserData.setLatestReadCommentId(channelId, threadId, commentId)
-		// 	}
-		// 	UserData.addOwnComment(channelId, threadId, commentId)
-		// 	if (!UserData.getSubscribedThread(channelId, threadId)) {
-		// 		onSubscribeToThread()
-		// 	}
-		// 	await dispatch(triggerAutoUpdateThreadRefreshIfAutoUpdateIsRunningOrRefreshThreadAndMaybeStartAutoUpdate())
-		// } catch (error) {
-		// 	console.error(error)
-		// 	return notifyError(error)
-		// }
-
-		// if (showReplyForm) {
-		// 	replyForm.current.focus()
-		// } else {
-		// 	setShowReplyForm(true)
-		// }
 
 		const submitComment = async ({ captchaSolution, captcha } = {}) => {
 			try {
@@ -336,8 +313,22 @@ export default function useReply({
 				onSubmit: async (parameters) => {
 					const result = await submitComment(parameters)
 					console.log('@@@ Comment:', result)
+
+					const commentId = result.id
+
+					// Mark the new comment as "own".
+					userData.addOwnComment(channelId, threadId, commentId)
+
+					// If "auto-subscribe to threads when posting a comment" setting
+					// is turned on then automatically subscribe to the thread.
+					// if (!userData.isSubscribedThread(channelId, threadId)) {
+					// 	onSubscribeToThread()
+					// }
+
 					setShowReplyForm(false)
+
 					dispatch(notify(getMessages(locale).commentPosted))
+
 					if (refreshThread) {
 						refreshThread()
 					}
@@ -359,6 +350,7 @@ export default function useReply({
 		comment,
 		dataSource,
 		userSettings,
+		userData,
 		channelIsNotSafeForWork,
 		dispatch,
 		locale,

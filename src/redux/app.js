@@ -34,6 +34,10 @@ export const setShowPageLoadingIndicator = redux.simpleAction(
 	(state, showPageLoadingIndicator) => ({ ...state, showPageLoadingIndicator })
 )
 
+export const setColorfulBackground = redux.simpleAction(
+	(state, colorfulBackground) => ({ ...state, colorfulBackground })
+)
+
 export default redux.reducer({
 	sidebarMode: 'channels'
 })

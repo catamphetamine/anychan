@@ -3,6 +3,7 @@ import React from 'react'
 // import HomePageLink from '../SidebarToolbar/HomePageLink.js'
 import SettingsLink from '../SidebarToolbar/SettingsLink.js'
 import DarkModeToggle from '../SidebarToolbar/DarkModeToggle.js'
+import ColorfulBackgroundToggle from '../SidebarToolbar/ColorfulBackgroundToggle.js'
 import UserAccountLink from '../SidebarToolbar/UserAccountLink.js'
 
 import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
@@ -19,6 +20,7 @@ export default function DataSourceLogoAndToolbarSidebarSection() {
 	const toolbarElements = (
 		<>
 			<DarkModeToggle/>
+			<ColorfulBackgroundToggle/>
 			<SettingsLink/>
 			{dataSource.api.logIn &&
 				<UserAccountLink/>

@@ -1,0 +1,72 @@
+{
+	"fontSize": {
+		"oneOf": [
+			"xxs",
+			"xs",
+			"s",
+			"m",
+			"l",
+			"xl",
+			"xxl"
+		],
+		"description": "Font size",
+		"required": false
+	},
+	"darkMode": {
+		"type": "boolean",
+		"description": "Manual Dark Mode switch: on/off",
+		"required": false
+	},
+	"autoDarkMode": {
+		"type": "boolean",
+		"description": "Whether Dark Mode toggle should sync with system settings",
+		"required": false
+	},
+	"autoSuggestFavoriteChannels": {
+		"type": "boolean",
+		"description": "Whether it should automatically add a channel to the list of \"favorite\" ones when navigating to them",
+		"required": false
+	},
+	"colorfulBackground": {
+		"type": "boolean",
+		"description": "Whether it should show colorful background instead of just a background color",
+		"required": false
+	},
+	"censorWords": {
+		"type": "boolean",
+		"description": "Whether it should censor offensive words in comments text",
+		"required": false
+	},
+	"channelLayout": {
+		"oneOf": [
+			"threadsList",
+			"threadsListWithLatestComments",
+			"threadsTiles"
+		],
+		"description": "Channel page layout",
+		"required": false
+	},
+	"channelSorting": {
+		"oneOf": [
+			"default",
+			"popular"
+		],
+		"description": "Channel page sorting",
+		"required": false
+	},
+	"theme": {
+		"type": "string",
+		"description": "Theme ID. Supports custom themes",
+		"required": false
+	},
+	"locale": {
+		"type": "string",
+		"description": "User's locale (language)",
+		"required": false
+	},
+	"version": {
+		"type": "number",
+		"description": "Settings version",
+		"required": false
+	}
+}

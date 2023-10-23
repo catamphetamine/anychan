@@ -51,6 +51,15 @@ export const saveTheme = redux.simpleAction(
 	}
 )
 
+export const saveColorfulBackground = redux.simpleAction(
+	(state, { colorfulBackground, userSettings }) => {
+		return {
+			...state,
+			settings: saveSetting('colorfulBackground', colorfulBackground, { userSettings })
+		}
+	}
+)
+
 export const saveFontSize = redux.simpleAction(
 	(state, { fontSize, userSettings }) => {
 		return {

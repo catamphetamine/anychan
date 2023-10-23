@@ -94,7 +94,8 @@ export default function CommentBlock({
 		onRenderedContentDidChange,
 		moreActionsButtonRef,
 		locale,
-		refreshThread
+		refreshThread,
+		onSubscribeToThread
 	})
 
 	const {

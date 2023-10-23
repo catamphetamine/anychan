@@ -5,51 +5,51 @@ import classNames from 'classnames'
 
 import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
 
-import { setShowSidebar } from '../../redux/app.js'
+import { setShowSidebar, setColorfulBackground } from '../../redux/app.js'
 
-import getDarkModeMenuItem from './getDarkModeMenuItem.js'
+import getColorfulBackgroundMenuItem from './getColorfulBackgroundMenuItem.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSettings from '../../hooks/useSettings.js'
 import useMeasure from '../../hooks/useMeasure.js'
 
-export default function DarkModeToggle({ withLabel }) {
+export default function ColorfulBackgroundToggle({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 	const userSettings = useSettings()
 	const measure = useMeasure()
 
-	const darkMode = useSelector(state => state.app.darkMode)
+	const colorfulBackground = useSelector(state => state.app.colorfulBackground)
 
-	const darkModeMenuItem = useMemo(() => {
-		return getDarkModeMenuItem({
+	const menuItem = useMemo(() => {
+		return getColorfulBackgroundMenuItem({
 			messages,
 			dispatch,
 			measure,
-			darkMode,
+			colorfulBackground,
 			userSettings
 		})
 	}, [
 		messages,
 		dispatch,
-		darkMode,
+		colorfulBackground,
 		userSettings
 	])
 
 	const onToggle = useCallback(() => {
-		darkModeMenuItem.onClick()
+		menuItem.onClick()
 		// Hide sidebar when toggling the switch (only on small screens).
 		dispatch(setShowSidebar(false))
 	}, [
 		dispatch,
-		darkModeMenuItem
+		menuItem
 	])
 
-	const Icon = darkModeMenuItem.isSelected
-		? darkModeMenuItem.iconSelected
-		: darkModeMenuItem.icon
+	const Icon = menuItem.isSelected
+		? menuItem.iconSelected
+		: menuItem.icon
 
-	const title = darkModeMenuItem.title
+	const title = menuItem.title
 
 	return (
 		<SidebarMenuItem
@@ -61,6 +61,6 @@ export default function DarkModeToggle({ withLabel }) {
 	)
 }
 
-DarkModeToggle.propTypes = {
+ColorfulBackgroundToggle.propTypes = {
 	withLabel: PropTypes.bool
 }

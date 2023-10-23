@@ -1,0 +1,96 @@
+/*
+Noon to Dusk: `linear-gradient(to right, rgb(255, 110, 127), rgb(191, 233, 255))`
+Hazel: `linear-gradient(to right, rgb(119, 161, 211), rgb(121, 203, 202), rgb(230, 132, 174))`
+
+Ed's Sunset:
+https://uigradients.com/#Ed'sSunsetGradient
+--BackgroundGradient-color--1: hsl(12deg 96% 74%);
+--BackgroundGradient-color--2: hsl(26deg 98% 74%);
+
+Pale Wood:
+https://uigradients.com/#PaleWood
+--BackgroundGradient-color--1: hsl(34deg 53% 66%);
+--BackgroundGradient-color--2: hsl(35deg 49% 72%);
+
+Copper:
+https://uigradients.com/#Copper
+--BackgroundGradient-color--1: hsl(11deg 21% 64%);
+--BackgroundGradient-color--2: hsl(9deg 16% 50%);
+
+A list of gradients:
+https://uigradients.com
+*/
+
+:root {
+	--BackgroundPattern-url: url('../../assets/images/background-pattern.svg');
+	--BackgroundPattern-size: 22rem;
+}
+
+.dark {
+	--Background-backgroundColor: #170f28;
+
+	/* Orange to Purple */
+	--BackgroundGradient-color--1: hsl(19deg 57% 17%);
+	--BackgroundGradient-color--2: hsl(284deg 46% 21%);
+
+	--BackgroundGradient-blendMode: darken;
+	--BackgroundGradient-zIndex: -1;
+
+	--BackgroundPattern-filter: invert(100%);
+	--BackgroundPattern-opacity: 0.25;
+	--BackgroundPattern-blendMode: initial;
+	--BackgroundPattern-zIndex: -2;
+}
+
+.light {
+	--Background-backgroundColor: #ffffff;
+
+	--BackgroundPattern-blendMode: overlay;
+	--BackgroundPattern-filter: initial;
+
+	--BackgroundGradient-color--1: hsl(12deg 96% 74%);
+	--BackgroundGradient-color--2: hsl(26deg 98% 74%);
+
+	--BackgroundGradient-blendMode: initial;
+	--BackgroundGradient-zIndex: initial;
+
+	--BackgroundPattern-filter: initial;
+	--BackgroundPattern-opacity: 0.35;
+	--BackgroundPattern-blendMode: overlay;
+	--BackgroundPattern-zIndex: initial;
+}
+
+.Background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: var(--Background-backgroundColor);
+}
+
+.Background-gradient,
+.Background-pattern {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.Background-gradient {
+	z-index: var(--BackgroundGradient-zIndex);
+	background-image: linear-gradient(to right, var(--BackgroundGradient-color--1), var(--BackgroundGradient-color--2));
+	mix-blend-mode: var(--BackgroundGradient-blendMode);
+}
+
+.Background-pattern {
+	z-index: var(--BackgroundPattern-zIndex);
+	background-image: var(--BackgroundPattern-url);
+	background-repeat: repeat;
+	background-size: var(--BackgroundPattern-size), cover;
+	mix-blend-mode: var(--BackgroundPattern-blendMode);
+	opacity: var(--BackgroundPattern-opacity);
+	filter: var(--BackgroundPattern-filter);
+}

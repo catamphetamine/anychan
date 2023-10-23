@@ -21,7 +21,7 @@ export default function useThreadSubscribed({
 	const subscribedThreads = useSelector(state => state.subscribedThreads.subscribedThreads)
 
 	const isThreadSubscribed = useMemo(() => {
-		return Boolean(userData.getSubscribedThread(channel.id, thread.id))
+		return userData.isSubscribedThread(channel.id, thread.id)
 	}, [
 		channel,
 		thread,

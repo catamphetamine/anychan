@@ -164,6 +164,14 @@ export default {
 				}
 			})
 		},
+		isSubscribedThread: ({ getFrom }) => (channelId, threadId) => {
+			return Boolean(getFrom({
+				id: threadId,
+				channel: {
+					id: channelId
+				}
+			}))
+		},
 		updateSubscribedThread: 'setIn',
 		addSubscribedThread: 'addTo',
 		removeSubscribedThread: 'removeFrom'

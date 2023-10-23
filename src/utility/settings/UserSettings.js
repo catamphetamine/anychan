@@ -1,9 +1,14 @@
+import schemaValidation from 'flexible-json-schema'
+
 import { getDefaultSettings } from './settingsDefaults.js'
+import settingsSchema from './settingsSchema.json' assert { type: 'json' }
 import migrate from './UserSettings.migrate.js'
 
 // Current version of user settings.
 // See `UserSettings.migrate.js` comments for the changelog.
 const VERSION = 3
+
+const validateSettings_ = schemaValidation(settingsSchema)
 
 export default class UserSettings {
 	constructor(storage, { prefix = '' } = {}) {
@@ -29,6 +34,10 @@ export default class UserSettings {
 
 	get(name) {
 		const settings = this.storage.get(this.key) || {}
+
+		// Validate settings.
+		validateSettings(settings)
+
 		if (name) {
 			return settings[name]
 			// const value = settings[name]
@@ -72,6 +81,10 @@ export default class UserSettings {
 		if (!settings.version) {
 			settings.version = VERSION
 		}
+
+		// Validate settings.
+		validateSettings(settings)
+
 		this.storage.set(this.key, settings)
 	}
 
@@ -97,5 +110,16 @@ export default class UserSettings {
 				handler()
 			}
 		})
+	}
+}
+
+function validateSettings(settings) {
+	// Validate settings.
+	try {
+		validateSettings_(settings)
+	} catch (error) {
+		console.error('Settings object seems to be not valid:')
+		console.error(error)
+		console.log(settings)
 	}
 }

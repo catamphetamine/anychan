@@ -107,6 +107,9 @@ export function createConfiguration({ development }) {
 				// Load SVG images as inline React elements.
 				{
 					test: /\.svg$/,
+					exclude: [
+						path.resolve('./assets/images/background-pattern.svg')
+					],
 					use: [{
 						loader: '@svgr/webpack'
 					}]

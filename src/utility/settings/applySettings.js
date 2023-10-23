@@ -3,7 +3,7 @@ import applyFontSize from 'frontend-lib/utility/style/applyFontSize.js'
 import applyLeftHanded from 'frontend-lib/utility/style/applyLeftHanded.js'
 import autoDarkMode from 'frontend-lib/utility/style/autoDarkMode.js'
 
-import { setDarkMode } from '../../redux/app.js'
+import { setDarkMode, setColorfulBackground } from '../../redux/app.js'
 
 import { applyTheme } from '../themes.js'
 
@@ -22,6 +22,8 @@ export default async function applySettings({
 	if (!settings.autoDarkMode) {
 		dispatch(setDarkMode(settings.darkMode))
 	}
+
+	dispatch(setColorfulBackground(settings.colorfulBackground))
 
 	applyFontSize(settings.fontSize)
 	applyLeftHanded(settings.leftHanded)

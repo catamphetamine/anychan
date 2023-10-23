@@ -553,7 +553,7 @@
 }
 
 .Comment--previouslyRead {
-	--Post-backgroundColor: transparent;
+	--Post-backgroundColor: var(--Document-backgroundColor);
 	--PostLinkIcon-backgroundColor: var(--Document-backgroundColor);
 	/*--CommentSeparator-color: transparent;*/
 	--CommentSeparator-color: var(--CommentSeparator-color--previouslyRead);
