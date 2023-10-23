@@ -48,7 +48,8 @@ export default function useReply({
 	onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
 	onRenderedContentDidChange,
 	moreActionsButtonRef,
-	locale
+	locale,
+	refreshThread
 }) {
 	const dispatch = useDispatch()
 	const dataSource = useDataSource()
@@ -242,10 +243,7 @@ export default function useReply({
 					}
 				}
 
-				const result = await dispatch(createComment(parameters))
-				console.log('@@@ Comment:', result)
-				dispatch(notify('Comment created: ' + result.id))
-				return result
+				return await dispatch(createComment(parameters))
 			} catch (error) {
 				if (error instanceof AccessDeniedError) {
 					dispatch(showError(getMessages(locale).accessDenied))
@@ -335,7 +333,15 @@ export default function useReply({
 				image: captcha.image
 			}, {
 				dispatch,
-				onSubmit: submitComment
+				onSubmit: async (parameters) => {
+					const result = await submitComment(parameters)
+					console.log('@@@ Comment:', result)
+					setShowReplyForm(false)
+					dispatch(notify(getMessages(locale).commentPosted))
+					if (refreshThread) {
+						refreshThread()
+					}
+				}
 			})
 		} else {
 			// Show "Not implemented yet" placeholder message.
@@ -356,7 +362,8 @@ export default function useReply({
 		channelIsNotSafeForWork,
 		dispatch,
 		locale,
-		checkCanReply
+		checkCanReply,
+		refreshThread
 	])
 
 	const onReplyFormInputHeightDidChange = useCallback((height) => {

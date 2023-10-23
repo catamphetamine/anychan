@@ -1,10 +1,8 @@
-import React, { useRef, useState, useMemo } from 'react'
+import React, { useRef, useMemo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import ReactTimeAgo from 'react-time-ago'
 import RelativeTimeFormat from 'relative-time-format'
-
-import useAutoUpdate from './useAutoUpdate.js'
 
 import { thread as threadType } from '../../PropTypes.js'
 
@@ -17,29 +15,18 @@ import Button from 'frontend-lib/components/Button.js'
 
 import './AutoUpdate.css'
 
-export default function AutoUpdate({ autoStart }) {
-	const [isUpdating, setUpdating] = useState()
-	const [isExpired, setExpired] = useState()
-	const [isLocked, setLocked] = useState()
-	const [error, setError] = useState()
-	const [nextUpdateAt, setNextUpdateAt] = useState()
-	const [secondsLeft, setSecondsLeft] = useState()
-
-	const node = useRef()
+function AutoUpdate({
+	refreshThread,
+	isAnyoneRefreshingThread,
+	isThreadExpired,
+	isThreadLocked,
+	isAutoUpdateError,
+	nextUpdateAt,
+	secondsLeftUntilNextUpdate
+}, ref) {
 	const messages = useMessages()
 
-	const [refreshThread] = useAutoUpdate({
-		node,
-		setNextUpdateAt,
-		setUpdating,
-		setExpired,
-		setLocked,
-		setError,
-		setSecondsLeft,
-		autoStart
-	})
-
-	if (isExpired || isLocked) {
+	if (isThreadExpired || isThreadLocked) {
 		return null
 	}
 
@@ -55,15 +42,15 @@ export default function AutoUpdate({ autoStart }) {
 	// off-screen would make the browser scroll to it automatically.
 	return (
 		<Button
-			ref={node}
+			ref={ref}
 			onClick={refreshThread}
 			className="AutoUpdate">
-			{isUpdating &&
+			{isAnyoneRefreshingThread &&
 				messages.autoUpdate.inProgress
 			}
-			{!isUpdating &&
+			{!isAnyoneRefreshingThread &&
 				<React.Fragment>
-					{error &&
+					{isAutoUpdateError &&
 						<React.Fragment>
 							{messages.autoUpdate.error}
 							{'. '}
@@ -71,19 +58,30 @@ export default function AutoUpdate({ autoStart }) {
 					}
 					{nextUpdateAt &&
 						<AutoUpdateTimer
-							secondsLeft={secondsLeft}
-							nextUpdateAt={nextUpdateAt}/>
+							secondsLeft={secondsLeftUntilNextUpdate}
+							nextUpdateAt={nextUpdateAt}
+						/>
 					}
-					{error && '.'}
+					{isAutoUpdateError && '.'}
 				</React.Fragment>
 			}
 		</Button>
 	)
 }
 
+AutoUpdate = React.forwardRef(AutoUpdate)
+
 AutoUpdate.propTypes = {
-	autoStart: PropTypes.bool
+	refreshThread: PropTypes.func.isRequired,
+	isAnyoneRefreshingThread: PropTypes.bool,
+	isThreadExpired: PropTypes.bool,
+	isThreadLocked: PropTypes.bool,
+	isAutoUpdateError: PropTypes.bool,
+	nextUpdateAt: PropTypes.number,
+	secondsLeftUntilNextUpdate: PropTypes.number
 }
+
+export default AutoUpdate
 
 function AutoUpdateTimer({
 	secondsLeft,
@@ -116,7 +114,8 @@ function AutoUpdateTimer({
 					minTimeLeft={30}
 					date={nextUpdateAt}
 					locale={locale}
-					timeStyle="round-minute"/>
+					timeStyle="round-minute"
+				/>
 			}
 			{messages.autoUpdate.scheduledAfterTime}
 		</React.Fragment>

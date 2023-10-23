@@ -60,6 +60,7 @@ export default function CommentBlock({
 	onReplyFormAttachmentsDidChange,
 	showSeparatorLineBetweenTopLevelComments,
 	isFirstItemInTheList,
+	refreshThread,
 	...rest
 }) {
 	// This button gets focused when the user clicks the "Cancel" button
@@ -92,7 +93,8 @@ export default function CommentBlock({
 		onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 		onRenderedContentDidChange,
 		moreActionsButtonRef,
-		locale
+		locale,
+		refreshThread
 	})
 
 	const {

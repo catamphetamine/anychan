@@ -131,7 +131,7 @@ export const getThread = redux.action(
 			...AUTO_UPDATE_NO_NEW_COMMENTS_STATE,
 			channel,
 			thread,
-			threadRefreshedAt: Date.now()
+			threadFetchedAt: Date.now()
 		}
 	}
 )
@@ -141,6 +141,24 @@ export const resetAutoUpdateNewCommentsIndication = redux.simpleAction(
 		...state,
 		...AUTO_UPDATE_NO_NEW_COMMENTS_STATE
 	})
+)
+
+export const setThreadBeingFetched = redux.simpleAction(
+	(state, threadBeingFetched) => {
+		return {
+			...state,
+			threadBeingFetched
+		}
+	}
+)
+
+export const setThreadIsBeingRefreshed = redux.simpleAction(
+	(state, threadIsBeingRefreshed) => {
+		return {
+			...state,
+			threadIsBeingRefreshed
+		}
+	}
 )
 
 export const refreshThread = redux.action(
@@ -187,7 +205,7 @@ export const refreshThread = redux.action(
 			...state,
 			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }),
 			thread,
-			threadRefreshedAt: Date.now()
+			threadFetchedAt: Date.now()
 		}
 	}
 )

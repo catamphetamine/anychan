@@ -74,7 +74,7 @@ export default function useFromIndex({
 	const preserveScrollPositionOnPrependItems = newFromIndex === undefined
 	const setNewFromIndexPreservingScrollPosition = onSetFromIndex
 
-	return [
+	return {
 		fromIndex,
 		setNewFromIndex,
 		setNewFromIndexPreservingScrollPosition,
@@ -82,5 +82,5 @@ export default function useFromIndex({
 		isInitialFromIndex,
 		initialLatestReadCommentIndex,
 		initiallyShowCommentsFromTheLatestReadOne
-	]
+	}
 }

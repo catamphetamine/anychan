@@ -286,6 +286,7 @@
 	"сommentContentSizeExceeded": "Comment content too long",
 	"commentContentBlocked": "Comment contains blacklisted content",
 	"commentRequired": "Comment is required",
+	"commentPosted": "Comment posted",
 	"createCommentRateLimitExceeded": "Create comment rate limit exceeded",
 	"captchaSolutionIncorrect": "Incorrect CAPTCHA solution",
 	"captchaExpired": "CAPTCHA expired",

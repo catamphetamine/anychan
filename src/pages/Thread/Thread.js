@@ -35,6 +35,8 @@ import useGoBackKeyboardControl from './useGoBackKeyboardControl.js'
 import getThreadPageMeta from './Thread.meta.js'
 import loadThreadPage from './Thread.load.js'
 
+import useAutoUpdate from './useAutoUpdate.js'
+
 import { getContext } from '../../context.js'
 
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
@@ -72,7 +74,7 @@ function ThreadPage() {
 	})
 
 	// First shown comment index.
-	const [
+	const {
 		fromIndex,
 		setNewFromIndex,
 		setNewFromIndexPreservingScrollPosition,
@@ -80,10 +82,31 @@ function ThreadPage() {
 		isInitialFromIndex,
 		initialLatestReadCommentIndex,
 		initiallyShowCommentsFromTheLatestReadOne
-	] = useFromIndex({
+	} = useFromIndex({
 		thread,
 		location
 	})
+
+	const autoUpdateElement = useRef()
+	const getAutoUpdateTriggerElement = useCallback(() => autoUpdateElement.current, [])
+
+	const autoUpdateParameters = useAutoUpdate({
+		getTriggerElement: getAutoUpdateTriggerElement,
+		autoStart: initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1
+	})
+
+	// `autoUpdateParameters` are also used in "Reply" form
+	// when posting a reply in a thread: `refreshThread()` function is used there.
+	// But `refreshThread()` function doesn't influence the `render()` function result at all,
+	// so to prevent `itemComponentProps` from needlessly changing
+	// and needlessly causing the comments tree to re-render,
+	// the `refreshThread()` function is passed via a "ref".
+	const refreshThreadRef = useRef()
+	refreshThreadRef.current = autoUpdateParameters.refreshThread
+
+	const refreshThread = useCallback(async () => {
+		await refreshThreadRef.current()
+	}, [])
 
 	const {
 		openSlideshow
@@ -199,7 +222,8 @@ function ThreadPage() {
 		onRequestShowCommentFromSameThread,
 		isPreviouslyRead,
 		onDownloadThread,
-		onSubscribeToThread
+		onSubscribeToThread,
+		refreshThread
 	}), [
 		// The dependencies list should be such that
 		// comments aren't re-rendered when they don't need to.
@@ -217,7 +241,8 @@ function ThreadPage() {
 		dispatch,
 		locale,
 		unreadCommentWatcher,
-		onNavigateToComment
+		onNavigateToComment,
+		refreshThread
 	])
 
 	// Go "back" to thread page on "Backspace".
@@ -289,7 +314,8 @@ function ThreadPage() {
 							{!(thread.locked || thread.expired) &&
 								<React.Fragment>
 									<AutoUpdate
-										autoStart={initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1}
+										ref={autoUpdateElement}
+										{...autoUpdateParameters}
 									/>
 									{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
 									{thread.bumpLimitReached &&

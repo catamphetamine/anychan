@@ -46,7 +46,7 @@ export default async function loadThreadPage({
 		userData,
 		userSettings,
 		dataSource,
-		action: 'getThreadInState'
+		action: 'getThreadAndPutItInState'
 	})
 
 	// Reset a potentially previously set "instant back" state.

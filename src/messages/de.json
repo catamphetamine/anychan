@@ -288,6 +288,7 @@
 	"сommentContentSizeExceeded": "Kommentarinhalt zu lang",
 	"commentContentBlocked": "Der Kommentar enthält Inhalte, die auf der schwarzen Liste stehen",
 	"commentRequired": "Kommentar ist erforderlich",
+	"commentPosted": "Kommentar gepostet",
 	"createCommentRateLimitExceeded": "Das Limit für die Kommentarerstellungsrate wurde überschritten",
 	"captchaSolutionIncorrect": "Falsche Captcha-Code-Lösung",
 	"captchaExpired": "Der Captcha-Code ist abgelaufen",

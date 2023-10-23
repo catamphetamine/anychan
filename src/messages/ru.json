@@ -288,6 +288,7 @@
 	"сommentContentSizeExceeded": "Слишком длинный текст комментария",
 	"commentContentBlocked": "Комментарий содержит запрещённое содержимое",
 	"commentRequired": "Комментарий пуст",
+	"commentPosted": "Комментарий отправлен",
 	"createCommentRateLimitExceeded": "Превышен предел количества новых комментариев за временной промежуток",
 	"captchaSolutionIncorrect": "Неверная разгадка капчи",
 	"captchaExpired": "Капча истекла",

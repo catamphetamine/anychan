@@ -6,7 +6,7 @@ import Button from 'frontend-lib/components/Button.js'
 
 import TextCaptcha, { textCaptchaType } from './TextCaptcha.js'
 
-import { getCaptchaSubmitFunction } from '../../utility/captcha/captchaSubmitFunction.js'
+import { getCaptchaSubmitFunction, removeCaptchaSubmitFunction } from '../../utility/captcha/captchaSubmitFunction.js'
 
 export default function CaptchaModal({
 	isOpen,
@@ -20,15 +20,24 @@ export default function CaptchaModal({
 		try {
 			setSubmitting(true)
 			await onSubmit(...args)
+			close()
 		} finally {
 			setSubmitting(false)
 		}
 	}, [captcha])
 
+	const onClose = useCallback(() => {
+		removeCaptchaSubmitFunction(captcha.id)
+		close()
+	}, [
+		close,
+		captcha
+	])
+
 	return (
 		<Modal
 			isOpen={isOpen}
-			close={close}
+			close={onClose}
 			className="CaptchaModal"
 			wait={isSubmitting}>
 			<Modal.Content>
@@ -36,7 +45,7 @@ export default function CaptchaModal({
 					<TextCaptcha
 						captcha={captcha}
 						onSubmit={onSubmitCaptchaSolution}
-						onCancel={close}
+						onCancel={onClose}
 					/>
 				}
 			</Modal.Content>

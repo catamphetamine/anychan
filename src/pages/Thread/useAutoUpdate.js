@@ -1,6 +1,7 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 import useLocale from '../../hooks/useLocale.js'
@@ -31,25 +32,59 @@ import onThreadExpired from '../../utility/thread/onThreadExpired.js'
 //   currently expanded, to re-render the tree of their replies.
 //
 export default function useAutoUpdate({
-	node,
-	setNextUpdateAt,
-	setSecondsLeft,
-	setUpdating,
-	setExpired,
-	setLocked,
-	setError,
+	getTriggerElement,
 	autoStart
 }) {
 	const isMounted = useIsMounted()
 
+	const thread = useSelector(state => state.data.thread)
+	const threadIsBeingRefreshed = useSelector(state => state.data.threadIsBeingRefreshed)
+	const threadBeingFetched = useSelector(state => state.data.threadBeingFetched)
+	const threadFetchedAt = useSelector(state => state.data.threadFetchedAt)
+
+	const isAnyoneRefreshingThread = thread && (
+		threadIsBeingRefreshed ||
+		(threadBeingFetched && threadBeingFetched.channelId === thread.channelId && threadBeingFetched.threadId === thread.id)
+	)
+
 	const isStarted = useRef()
 	const isUpdating = useRef()
-	const scrolledToObserver = useRef()
+
+	const isAnyoneCurrentlyRefreshingThread = useCallback(() => {
+		return isAnyoneRefreshingThread || isUpdating.current
+	}, [
+		isAnyoneRefreshingThread
+	])
+
+	const triggerElementScrolledToObserver = useRef()
 	const autoUpdateTimer = useRef()
 	const autoUpdateSecondsLeftTimer = useRef()
 
-	const thread = useSelector(state => state.data.thread)
-	const threadRefreshedAt = useSelector(state => state.data.threadRefreshedAt)
+	const [threadAutoUpdatedAt, setThreadAutoUpdatedAt] = useState()
+
+	const getNextUpdateAt = useCallback((prevUpdateAt) => {
+		const latestComment = thread.comments[thread.comments.length - 1]
+		let beforeLatestComment
+		if (thread.comments.length > 1) {
+			beforeLatestComment = thread.comments[thread.comments.length - 2]
+		}
+		return getNextUpdateAtForThread(prevUpdateAt, {
+			latestCommentDate: latestComment.createdAt,
+			beforeLatestCommentDate: beforeLatestComment && beforeLatestComment.createdAt
+		})
+	}, [
+		thread
+	])
+
+	// `_isUpdating` variable is currently not used anywhere.
+	// Instead, `isUpdating.current` is used.
+	// Therefore, `setUpdating()` function is only used to trigger a re-render.
+	const [_isUpdating, setUpdating] = useState(isUpdating.current)
+	const [isExpired, setExpired] = useState(thread && thread.expired)
+	const [isLocked, setLocked] = useState(thread && thread.locked)
+	const [isError, setErrored] = useState(false)
+	const [nextUpdateAt, setNextUpdateAt] = useState()
+	const [secondsLeft, setSecondsLeft] = useState()
 
 	const censoredWords = useSetting(settings => settings.censoredWords)
 	const grammarCorrection = useSetting(settings => settings.grammarCorrection)
@@ -60,46 +95,73 @@ export default function useAutoUpdate({
 	const dispatch = useDispatch()
 	const locale = useLocale()
 
-	let refreshThread
-	const scheduleNextUpdate = (prevUpdateAt) => {
-		log('refresh - schedule')
-		const latestComment = thread.comments[thread.comments.length - 1]
-		let beforeLatestComment
-		if (thread.comments.length > 1) {
-			beforeLatestComment = thread.comments[thread.comments.length - 2]
-		}
-		const nextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, {
-			latestCommentDate: latestComment.createdAt,
-			beforeLatestCommentDate: beforeLatestComment && beforeLatestComment.createdAt
-		})
-		const nextUpdateIn = nextUpdateAt - Date.now()
-		setNextUpdateAt(nextUpdateAt)
-		function updateSecondsLeft() {
-			const secondsLeftResult = getSecondsLeft(nextUpdateAt - Date.now())
-			if (secondsLeftResult) {
-				setSecondsLeft(secondsLeftResult.secondsLeft)
-				if (secondsLeftResult.timeToNextSecondsLeft) {
-					autoUpdateSecondsLeftTimer.current = setTimeout(
-						updateSecondsLeft,
-						secondsLeftResult.timeToNextSecondsLeft
-					)
+	useEffectSkipMount(() => {
+		// If the thread was re-fetched externally.
+		if (threadFetchedAt) {
+			if (!threadAutoUpdatedAt || threadAutoUpdatedAt < threadFetchedAt) {
+				// If the "auto-update" process is already running, don't intervene:
+				// it will re-run `scheduleNextUpdate()` by itself at the end.
+				log('thread was refreshed by someone else - recalculate next update time')
+				if (!isUpdating.current) {
+					// Re-run `scheduleNextUpdate()` function.
+					scheduleNextUpdate(threadFetchedAt)
 				}
 			}
 		}
-		updateSecondsLeft()
+	}, [threadFetchedAt])
+
+	// `refreshThread` is used in `scheduleNextUpdate()`
+	// and at the same time `scheduleNextUpdate()` uses `refreshThread`.
+	// To resolve such "circular dependency", `let refreshThread` variable
+	// is declared first and then assigned later.
+	let refreshThread
+
+	const updateSecondsLeft = useCallback((nextUpdateAt) => {
+		const secondsLeftResult = getSecondsLeft(nextUpdateAt - Date.now())
+		if (secondsLeftResult) {
+			setSecondsLeft(secondsLeftResult.secondsLeft)
+			if (secondsLeftResult.timeToNextSecondsLeft) {
+				autoUpdateSecondsLeftTimer.current = setTimeout(
+					updateSecondsLeft,
+					secondsLeftResult.timeToNextSecondsLeft
+				)
+			}
+		}
+	}, [
+		setSecondsLeft
+	])
+
+	const scheduleNextUpdate = (prevUpdateAt) => {
+		log('refresh - schedule')
+
+		const nextUpdateAt = getNextUpdateAt(prevUpdateAt)
+		const nextUpdateIn = nextUpdateAt - Date.now()
+
+		// Just a precaution against `setTimeout()` entering an infinite cycle.
+		// In case someone tampers with the code in some future.
+		// Normally, `nextUpdateAt` number is always returned.
+		if (isNaN(nextUpdateAt)) {
+			throw new Error('Auto-Update next update time unknown')
+		}
+
+		clearTimeout(autoUpdateSecondsLeftTimer.current)
+		clearTimeout(autoUpdateTimer.current)
 		autoUpdateTimer.current = setTimeout(refreshThread, nextUpdateIn)
+
+		setNextUpdateAt(nextUpdateAt)
+		updateSecondsLeft(nextUpdateAt)
 	}
 
 	const activateTriggerElement = () => {
 		log('trigger element - activate')
 		// Will start thread auto update when the element becomes visible on screen.
-		scrolledToObserver.current.observe(node.current)
+		triggerElementScrolledToObserver.current.observe(getTriggerElement())
 	}
 
 	const deactivateTriggerElement = (element) => {
 		log('trigger element - deactivate')
 		// No longer track the visibility of the auto update "trigger element".
-		scrolledToObserver.current.unobserve(element)
+		triggerElementScrolledToObserver.current.unobserve(element)
 		// // Could use `.unobserve()` instead of `.disconnect()`, but because
 		// // in React 17, effect cleanup functions run "asynchronously",
 		// // `node.current` is `null` by the time this function is called
@@ -109,7 +171,7 @@ export default function useAutoUpdate({
 		// // So, using `.disconnect()` seems a simpler way.
 		// // Could still use `.unobserve()`, in which case `node.current`
 		// // would have to be replaced by an "element" attribute here.
-		// scrolledToObserver.current.disconnect()
+		// triggerElementScrolledToObserver.current.disconnect()
 	}
 
 	// `thread` object reference changes every time the thread is refreshed.
@@ -125,7 +187,7 @@ export default function useAutoUpdate({
 	// has the latest reference to the up-to-date `scheduleNextUpdate()` function?
 	// The workaround is using `useRef()` and then `scheduleNextUpdate.current()`.
 	const scheduleNextUpdateRef = useRef()
-	scheduleNextUpdateRef.current = () => scheduleNextUpdate(threadRefreshedAt)
+	scheduleNextUpdateRef.current = () => scheduleNextUpdate(threadFetchedAt)
 
 	// `startAutoUpdate()` dependencies list is empty
 	// because it's used in `useEffect()`, so it should be a constant.
@@ -174,12 +236,12 @@ export default function useAutoUpdate({
 		// If the user clicks the `<AutoUpdate/>` button
 		// several times in quick succession, this flag
 		// will prevent it from needlessly double-refreshing.
-		if (isUpdating.current) {
+		if (isAnyoneCurrentlyRefreshingThread()) {
 			return
 		}
-		isUpdating.current = true
 		clearTimeout(autoUpdateTimer.current)
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
+		isUpdating.current = true
 		setUpdating(true)
 		setSecondsLeft(undefined)
 		try {
@@ -196,6 +258,7 @@ export default function useAutoUpdate({
 				dataSource,
 				action: 'refreshThreadInState'
 			})
+			setThreadAutoUpdatedAt(Date.now())
 			onThreadFetched(updatedThread, { dispatch, userData })
 			if (!isStarted.current) {
 				log('has already been stopped - exit')
@@ -216,7 +279,7 @@ export default function useAutoUpdate({
 				onThreadHasExpired()
 				return
 			}
-			setError(false)
+			setErrored(false)
 			const latestComment = updatedThread.comments[updatedThread.comments.length - 1]
 			if (latestComment.id === previousLatestComment.id) {
 				log('no new comments')
@@ -234,7 +297,7 @@ export default function useAutoUpdate({
 				console.error(error)
 				if (isMounted()) {
 					scheduleNextUpdate(Date.now())
-					setError(true)
+					setErrored(true)
 				} else {
 					stopAutoUpdate()
 				}
@@ -251,7 +314,7 @@ export default function useAutoUpdate({
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 		// https://caniuse.com/#search=IntersectionObserver
-		scrolledToObserver.current = new IntersectionObserver((entries, observer) => {
+		triggerElementScrolledToObserver.current = new IntersectionObserver((entries, observer) => {
 			// "one entry per observed element".
 			// https://web.dev/resize-observer/
 			// `entry.target === element`.
@@ -281,7 +344,7 @@ export default function useAutoUpdate({
 		// https://reactjs.org/blog/2020/08/10/react-v17-rc.html#potential-issues
 		// One workaround: using `useLayoutEffect()` instead of `useEffect()`.
 		// Another workaround: snapshot `const element = node.current`.
-		const element = node.current
+		const element = getTriggerElement()
 		return () => {
 			deactivateTriggerElement(element)
 			stopAutoUpdate()
@@ -294,9 +357,15 @@ export default function useAutoUpdate({
 		}
 	}, [])
 
-	return [
-		refreshThread
-	]
+	return {
+		refreshThread,
+		isAnyoneRefreshingThread,
+		isThreadExpired: isExpired,
+		isThreadLocked: isLocked,
+		isAutoUpdateError: isError,
+		nextUpdateAt,
+		secondsLeftUntilNextUpdate: secondsLeft
+	}
 }
 
 const SECONDS_LEFT_STEPS = [
