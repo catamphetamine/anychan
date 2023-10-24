@@ -7,13 +7,13 @@ import Imageboard from '../../src/api/imageboard/Imageboard.js'
 import getChannelsApi from '../../src/api/imageboard/getChannels.js'
 import getThreadsApi from '../../src/api/imageboard/getThreads.js'
 import getThreadApi from '../../src/api/imageboard/getThread.js'
-import voteApi from '../../src/api/imageboard/vote.js'
+import voteForCommentApi from '../../src/api/imageboard/voteForComment.js'
+import reportCommentApi from '../../src/api/imageboard/reportComment.js'
 import logInApi from '../../src/api/imageboard/logIn.js'
 import logOutApi from '../../src/api/imageboard/logOut.js'
 import createThreadApi from '../../src/api/imageboard/createThread.js'
 import createCommentApi from '../../src/api/imageboard/createComment.js'
 import getCaptchaApi from '../../src/api/imageboard/getCaptcha.js'
-import reportApi from '../../src/api/imageboard/report.js'
 
 import TwoChannel from './2ch/index.json' assert { type: 'json' }
 import FourChan from './4chan/index.json' assert { type: 'json' }
@@ -59,7 +59,7 @@ for (const dataSource of DATA_SOURCES) {
 	}
 
 	if (imageboardConfig.api.vote) {
-		dataSource.api.vote = voteApi
+		dataSource.api.voteForComment = voteForCommentApi
 	}
 
 	if (imageboardConfig.api.logIn) {
@@ -83,7 +83,7 @@ for (const dataSource of DATA_SOURCES) {
 	}
 
 	if (imageboardConfig.api.report) {
-		dataSource.api.report = reportApi
+		dataSource.api.reportComment = reportCommentApi
 	}
 
 	dataSource.supportsFeature = (feature) => {

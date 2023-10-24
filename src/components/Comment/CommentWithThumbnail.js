@@ -44,7 +44,6 @@ export default function CommentWithThumbnail({
 	// to scroll to the parent post when the user hides its tree of replies.
 	elementRef,
 	onPostUrlClick: onPostUrlClick_,
-	onReply,
 	// "Reply on double click":
 	clickableElementProps,
 	className,
@@ -106,7 +105,6 @@ export default function CommentWithThumbnail({
 				threadId={threadId}
 				channelId={channelId}
 				locale={locale}
-				onReply={onReply}
 				onRenderedContentDidChange={onRenderedContentDidChange}
 				expandAttachments={expandAttachments}
 				onAttachmentClick={onAttachmentClick}
@@ -171,7 +169,6 @@ CommentWithThumbnail.propTypes = {
 	compact: PropTypes.bool,
 	elementRef: PropTypes.object,
 	onPostUrlClick: PropTypes.func,
-	onReply: PropTypes.func,
 	clickableElementProps: clickableElementPropsType,
 	className: PropTypes.string
 }

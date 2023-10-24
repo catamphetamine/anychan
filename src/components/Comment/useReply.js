@@ -6,7 +6,8 @@ import { openLinkInNewTab } from 'web-browser-input'
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import { notify, showError } from '../../redux/notifications.js'
-import { createComment, getCaptcha } from '../../redux/data.js'
+import { createComment } from '../../redux/data.js'
+import { getCaptcha } from '../../redux/captcha.js'
 
 import AccessDeniedError from '../../api/errors/AccessDeniedError.js'
 import AttachmentNotSupportedError from '../../api/errors/AttachmentNotSupportedError.js'
@@ -14,9 +15,9 @@ import AttachmentsCountExceededError from '../../api/errors/AttachmentsCountExce
 import BannedError from '../../api/errors/BannedError.js'
 import CaptchaSolutionIncorrectError from '../../api/errors/CaptchaSolutionIncorrectError.js'
 import ChannelNotFoundError from '../../api/errors/ChannelNotFoundError.js'
-import CommentContentBlockedError from '../../api/errors/CommentContentBlockedError.js'
-import CommentContentSizeExceededError from '../../api/errors/CommentContentSizeExceededError.js'
-import CommentRequiredError from '../../api/errors/CommentRequiredError.js'
+import ContentBlockedError from '../../api/errors/ContentBlockedError.js'
+import ContentTooLongError from '../../api/errors/ContentTooLongError.js'
+import ContentRequiredError from '../../api/errors/ContentRequiredError.js'
 import DuplicateAttachmentError from '../../api/errors/DuplicateAttachmentError.js'
 import RateLimitError from '../../api/errors/RateLimitError.js'
 import ThreadIsLockedError from '../../api/errors/ThreadIsLockedError.js'
@@ -248,8 +249,8 @@ export default function useReply({
 					dispatch(showError(getMessages(locale).boardNotFound))
 				} else if (error instanceof ThreadIsLockedError) {
 					dispatch(showError(getMessages(locale).threadIsLocked))
-				} else if (error instanceof CommentRequiredError) {
-					dispatch(showError(getMessages(locale).commentRequired))
+				} else if (error instanceof ContentRequiredError) {
+					dispatch(showError(getMessages(locale).commentContentRequired))
 				} else if (error instanceof CaptchaSolutionIncorrectError) {
 					if (captcha) {
 						// This error should be handled in the CAPTCHA input modal.
@@ -265,9 +266,9 @@ export default function useReply({
 					dispatch(showError(getMessages(locale).attachmentNotSupported))
 				} else if (error instanceof AttachmentsCountExceededError) {
 					dispatch(showError(getMessages(locale).attachmentsCountExceeded))
-				} else if (error instanceof CommentContentSizeExceededError) {
-					dispatch(showError(getMessages(locale).сommentContentSizeExceeded))
-				} else if (error instanceof CommentContentBlockedError) {
+				} else if (error instanceof ContentTooLongError) {
+					dispatch(showError(getMessages(locale).сommentContentTooLong))
+				} else if (error instanceof ContentBlockedError) {
 					dispatch(showError(getMessages(locale).commentContentBlocked))
 				} else {
 					console.error(error)
@@ -356,7 +357,7 @@ export default function useReply({
 			}
 		} else {
 			// Show "Not implemented yet" placeholder message.
-			await new Promise(resolve => setTimeout(resolve, 1000))
+			await new Promise(resolve => setTimeout(resolve, 400))
 			dispatch(notify(getMessages(locale).notImplemented))
 
 			// Open the thread at the original website so that the user could post their comment there.

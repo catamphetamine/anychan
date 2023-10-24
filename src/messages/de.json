@@ -276,6 +276,13 @@
 			"popular": "Am beliebtesten"
 		}
 	},
+	"report": {
+		"contentInputLabel": "Text des Berichts",
+		"submitted": "Ihr Bericht wurde übermittelt",
+		"alreadyReported": "Sie haben bereits einen Bericht eingereicht",
+		"contentRequired": "Berichtstext ist erforderlich",
+		"error": "Ihr Bericht konnte nicht übermittelt werden"
+	},
 	"proxyPostingCaution": "Achten Sie darauf, was Sie hier posten. Alle Benutzer dieser App nutzen denselben Proxyserver. Wenn der Proxyserver gesperrt wird, funktioniert die Anwendung möglicherweise nicht mehr für alle.",
 	"colorfulBackground": "Bunter Hintergrund",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
@@ -291,9 +298,9 @@
 	"attachmentNotSupported": "Einige der Anhänge werden nicht unterstützt",
 	"attachmentsCountExceeded": "Zu viele Anhänge",
 	"duplicateAttachmentsFound": "Doppelte Anhänge gefunden",
-	"сommentContentSizeExceeded": "Kommentarinhalt zu lang",
+	"сommentContentTooLong": "Kommentarinhalt zu lang",
 	"commentContentBlocked": "Der Kommentar enthält Inhalte, die auf der schwarzen Liste stehen",
-	"commentRequired": "Kommentar ist erforderlich",
+	"commentContentRequired": "Kommentar ist erforderlich",
 	"createCommentSuccess": "Kommentar gepostet",
 	"createCommentError": "Der Kommentar konnte nicht gepostet werden",
 	"createCommentRateLimitExceeded": "Das Limit für die Kommentarerstellungsrate wurde überschritten",

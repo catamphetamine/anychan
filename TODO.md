@@ -14,10 +14,6 @@ isekai thread не грузит youtube video (не фетчит названи�
 
 
 
-Add "report" modal.
-
-
-
 
 When expanding a tree of replies of a comment that has no post-thumbnail, that comment gets expanded to full width. That causes the comment to jump up and out of the screen when there's many text in it and the user has scrolled the page so that only the bottom of the comment is currently visible. The application could work around that by updating the scroll position after toggling the tree of replies in order to preserve the position of the bottom edge of the comment so that there's no "jump".
 

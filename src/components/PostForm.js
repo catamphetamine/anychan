@@ -279,7 +279,6 @@ function PostForm({
 				className={classNames('form', 'PostForm-form')}>
 				<FormComponent className="PostForm-textInputContainer">
 					<Field
-						required
 						name={POST_FORM_INPUT_FIELD_NAME}
 						type="text"
 						multiline

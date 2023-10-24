@@ -276,6 +276,13 @@
 			"popular": "Most popular"
 		}
 	},
+	"report": {
+		"contentInputLabel": "Report text",
+		"submitted": "Your report has been submitted",
+		"alreadyReported": "You've already submitted a report",
+		"contentRequired": "Report text is required",
+		"error": "Couldn't submit your report"
+	},
 	"proxyPostingCaution": "Be mindful of what you post here. All users of this app share the same proxy server. If the proxy server gets banned, the application might stop working for everyone.",
 	"colorfulBackground": "Colorful background",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
@@ -289,9 +296,9 @@
 	"attachmentNotSupported": "Some of the attachments aren't supported",
 	"attachmentsCountExceeded": "Too many attachments",
 	"duplicateAttachmentsFound": "Duplicate attachments found",
-	"сommentContentSizeExceeded": "Comment content too long",
+	"сommentContentTooLong": "Comment content too long",
 	"commentContentBlocked": "Comment contains blacklisted content",
-	"commentRequired": "Comment is required",
+	"commentContentRequired": "Comment is required",
 	"createCommentSuccess": "Comment posted",
 	"createCommentError": "Couldn't post the comment",
 	"createCommentRateLimitExceeded": "Create comment rate limit exceeded",

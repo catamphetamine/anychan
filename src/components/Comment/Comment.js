@@ -61,6 +61,7 @@ export default function Comment({
 	onAttachmentClick,
 	onHide,
 	onReply,
+	onReport,
 	urlBasePath,
 	postDateLinkClickable,
 	postDateLinkUpdatePageUrlToPostUrlOnClick,
@@ -184,6 +185,7 @@ export default function Comment({
 				postDateLinkNavigateToPostUrlOnClick={postDateLinkNavigateToPostUrlOnClick}
 				mode={mode}
 				onReply={onReply}
+				onReport={onReport}
 				onHide={onHide}
 				vote={vote}
 				onVote={hasVoting ? onVote : undefined}
@@ -219,6 +221,7 @@ Comment.propTypes = {
 	postDateLinkNavigateToPostUrlOnClick: PropTypes.bool,
 	onHide: PropTypes.func.isRequired,
 	onReply: PropTypes.func,
+	onReport: PropTypes.func,
 	dispatch: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	onPostUrlClick: PropTypes.func,
@@ -287,7 +290,6 @@ function CommentTitleContentAndAttachments({
 	url,
 	locale,
 	messages,
-	onReply,
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	showPostThumbnailWhenThereIsNoContent,
 	showOnlyFirstAttachmentThumbnail,

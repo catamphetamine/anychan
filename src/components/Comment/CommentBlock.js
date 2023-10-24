@@ -15,6 +15,7 @@ import CommentWithThumbnail from './CommentWithThumbnail.js'
 import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickableWrapper.js'
 
 import useReply from './useReply.js'
+import useReport from './useReport.js'
 import useHide from './useHide.js'
 
 import getMessages from '../../messages/index.js'
@@ -99,6 +100,14 @@ export default function CommentBlock({
 	})
 
 	const {
+		onReport
+	} = useReport({
+		channelId,
+		threadId,
+		commentId: comment.id
+	})
+
+	const {
 		hidden,
 		onHide,
 		onUnHide
@@ -165,6 +174,7 @@ export default function CommentBlock({
 						hidden={hidden}
 						onHide={onHide}
 						onReply={onReply}
+						onReport={onReport}
 						urlBasePath={getBasePath()}
 						onRenderedContentDidChange={onRenderedContentDidChange}
 						channelIsNotSafeForWork={channelIsNotSafeForWork}

@@ -33,6 +33,7 @@ export default function CommentMoreActions({
 	url,
 	urlBasePath,
 	onReply,
+	onReport,
 	onDownloadThread,
 	onHide,
 	buttonRef
@@ -67,12 +68,16 @@ export default function CommentMoreActions({
 			if (onReply) {
 				actions.push({
 					label: messages.post.reply,
-					onClick: () => onReply()
+					onClick: () => {
+						onReply()
+					}
 				})
 			}
 			actions.push({
 				label: messages.post.moreActions.copyId,
-				onClick: () => copyTextToClipboard('>>' + commentId)
+				onClick: () => {
+					copyTextToClipboard('>>' + commentId)
+				}
 			})
 		}
 
@@ -81,29 +86,26 @@ export default function CommentMoreActions({
 				// "Copy URL".
 				{
 					label: messages.post.moreActions.copyUrl,
-					onClick: () => copyTextToClipboard(window.location.origin + urlBasePath + url)
+					onClick: () => {
+						copyTextToClipboard(window.location.origin + urlBasePath + url)
+					}
+				}
+			)
+		}
+
+		if (onReport) {
+			actions.push(
+				// "Report".
+				{
+					label: messages.post.moreActions.report,
+					onClick: () => {
+						onReport()
+					}
 				}
 			)
 		}
 
 		actions = actions.concat([
-			// "Report".
-			{
-				label: messages.post.moreActions.report,
-				onClick: () => {
-					// 4chan.org:
-					// const width = 400
-					// const height = 550
-					// const url = `https://sys.4chan.org/${boardId}/imgboard.php?mode=report&no=${commentId}`
-					// return window.open(
-					// 	url,
-					// 	undefined,
-					// 	`toolbar=0,scrollbars=1,location=0,status=1,menubar=0,resizable=1,width=${width},height=${height}`
-					// )
-					dispatch(notify(messages.notImplemented))
-				}
-			},
-
 			// "Hide".
 			{
 				label: messages.post.moreActions.hide,
@@ -226,6 +228,7 @@ export default function CommentMoreActions({
 		commentId,
 		mode,
 		onReply,
+		onReport,
 		url,
 		urlBasePath,
 		isOwn,
@@ -260,6 +263,7 @@ CommentMoreActions.propTypes = {
 	url: PropTypes.string,
 	urlBasePath: PropTypes.string,
 	onReply: PropTypes.func,
+	onReport: PropTypes.func,
 	onDownloadThread: PropTypes.func,
 	onHide: PropTypes.func.isRequired,
 	buttonRef: PropTypes.object

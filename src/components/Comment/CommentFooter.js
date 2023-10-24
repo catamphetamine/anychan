@@ -55,6 +55,7 @@ export default function CommentFooter({
 	onPostUrlClick,
 	mode,
 	onReply,
+	onReport,
 	onHide,
 	moreActionsButtonRef
 }) {
@@ -190,6 +191,7 @@ export default function CommentFooter({
 					url={url}
 					urlBasePath={urlBasePath}
 					onReply={onReply}
+					onReport={onReport}
 					onDownloadThread={onDownloadThread}
 					onHide={onHide}
 				/>
@@ -215,6 +217,7 @@ CommentFooter.propTypes = {
 	locale: PropTypes.string.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
+	onReport: PropTypes.func,
 	onHide: PropTypes.func.isRequired,
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,

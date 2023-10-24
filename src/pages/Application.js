@@ -16,6 +16,7 @@ import Markup from '../components/Markup.js'
 import Slideshow from '../components/Slideshow.js'
 import PageLoadingIndicator from '../components/PageLoadingIndicator.js'
 import CaptchaModal from '../components/Captcha/CaptchaModal.js'
+import ReportCommentModal from '../components/Report/ReportCommentModal.js'
 import { CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH } from '../components/SidebarSections/ChannelThreadsSidebarSectionThread.js'
 import useDeviceInfo from 'social-components-react/hooks/useDeviceInfo.js'
 import Snackbar from 'frontend-lib/components/Snackbar.js'
@@ -369,6 +370,8 @@ function App({
 					isOpen={showCaptchaModal}
 					close={hideCaptchaModal}
 				/>
+
+				<ReportCommentModal/>
 
 				<TweetModal/>
 			</div>

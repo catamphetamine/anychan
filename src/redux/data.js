@@ -12,7 +12,7 @@ import _getChannelsCached from '../api/cached/getChannels.js'
 import _getThread from '../api/getThread.js'
 import _createComment from '../api/createComment.js'
 import _createThread from '../api/createThread.js'
-import _getCaptcha from '../api/getCaptcha.js'
+import _voteForComment from '../api/voteForComment.js'
 
 const redux = new ReduxModule('DATA')
 
@@ -260,26 +260,6 @@ export const createThread = redux.action(
 	}
 )
 
-export const getCaptcha = redux.action(
-	({
-		channelId,
-		threadId,
-		...rest
-	}) => async http => {
-		return await _getCaptcha({
-			channelId,
-			threadId,
-			http,
-			...rest
-		})
-	},
-	(state, result) => {
-		return {
-			...state
-		}
-	}
-)
-
 // This action is currently not used.
 // `onCommentRead()` action is used instead.
 //
@@ -425,13 +405,14 @@ export const vote = redux.action(
 		dataSource,
 		messages
 	}) => async http => {
-		const voteAccepted = await dataSource.api.vote({
+		const voteAccepted = await _voteForComment({
 			up,
 			channelId,
 			commentId,
 			http,
 			userSettings,
-			messages
+			messages,
+			dataSource
 		})
 		// If the vote has been accepted then mark this comment as "voted" in user data.
 		// If the vote hasn't been accepted due to "already voted"
