@@ -1,5 +1,7 @@
 import Imageboard_, { getConfig } from 'imageboard'
 
+import { getCookie, deleteCookie } from 'frontend-lib/utility/cookies.js'
+
 import Imageboard from '../../src/api/imageboard/Imageboard.js'
 
 import getChannelsApi from '../../src/api/imageboard/getChannels.js'
@@ -128,6 +130,16 @@ for (const dataSource of DATA_SOURCES) {
 	// Add `dataSource` parameter to each `api` function.
 	for (const functionName of Object.keys(dataSource.api)) {
 		dataSource.api[functionName] = addImageboardArgumentToFunction(dataSource.api[functionName])
+	}
+
+	const { accessTokenCookieName } = imageboardConfig
+	if (accessTokenCookieName) {
+		dataSource.readAccessTokenFromCookie = () => {
+			return getCookie(accessTokenCookieName)
+		}
+		dataSource.clearAccessTokenCookie = () => {
+			deleteCookie(accessTokenCookieName)
+		}
 	}
 }
 

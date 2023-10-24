@@ -276,6 +276,7 @@
 			"popular": "Most popular"
 		}
 	},
+	"proxyPostingCaution": "Be mindful of what you post here. All users of this app share the same proxy server. If the proxy server gets banned, the application might stop working for everyone.",
 	"colorfulBackground": "Colorful background",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
 	"noNewComments": "No new comments",
@@ -291,7 +292,8 @@
 	"сommentContentSizeExceeded": "Comment content too long",
 	"commentContentBlocked": "Comment contains blacklisted content",
 	"commentRequired": "Comment is required",
-	"commentPosted": "Comment posted",
+	"createCommentSuccess": "Comment posted",
+	"createCommentError": "Couldn't post the comment",
 	"createCommentRateLimitExceeded": "Create comment rate limit exceeded",
 	"captchaSolutionIncorrect": "Incorrect CAPTCHA solution",
 	"captchaExpired": "CAPTCHA expired",

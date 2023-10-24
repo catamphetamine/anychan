@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { comment } from '../../PropTypes.js'
 import getMessages from '../../messages/index.js'
 
-import AnonymousPersonIcon from '../../../assets/images/icons/person-outline-anonymous.svg'
+import AnonymousPersonIcon from '../../../assets/images/icons/person-anonymous.svg'
 import PersonIcon from 'frontend-lib/icons/person-outline-slightly-thinner-no-bottom-border.svg'
 // import PersonFillIcon from 'frontend-lib/icons/person-fill-slightly-thinner-no-bottom-border.svg'
 import VerifiedIcon from 'frontend-lib/icons/verified.svg'

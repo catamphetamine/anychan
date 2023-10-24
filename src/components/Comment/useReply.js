@@ -209,13 +209,16 @@ export default function useReply({
 				if (dataSource.id === '2ch') {
 					parameters = {
 						...parameters,
+						// `captchaType` parameter seems to be required
+						// even when there's no catpcha (for example,
+						// when the user is logged in via a "passcode").
+						captchaType: '2chcaptcha',
 						authorIsThreadAuthor: undefined,
 						authorBadgeId: undefined
 					}
 					if (captcha) {
 						parameters = {
 							...parameters,
-							captchaType: '2chcaptcha',
 							captchaId: captcha.id,
 							captchaSolution
 						}
@@ -248,8 +251,8 @@ export default function useReply({
 				} else if (error instanceof CommentRequiredError) {
 					dispatch(showError(getMessages(locale).commentRequired))
 				} else if (error instanceof CaptchaSolutionIncorrectError) {
-					// This error should be handled in the CAPTCHA input modal.
 					if (captcha) {
+						// This error should be handled in the CAPTCHA input modal.
 						throw error
 					} else {
 						dispatch(showError(getMessages(locale).captchaSolutionIncorrect))
@@ -267,13 +270,21 @@ export default function useReply({
 				} else if (error instanceof CommentContentBlockedError) {
 					dispatch(showError(getMessages(locale).commentContentBlocked))
 				} else {
-					throw error
+					console.error(error)
+					dispatch(showError(getMessages(locale).createCommentError))
 				}
 			}
 		}
 
 		const onSubmitComment = async (parameters) => {
 			const result = await submitComment(parameters)
+
+			// When an error notification is displayed,
+			// the returned `result` is `undefined`.
+			if (!result) {
+				return
+			}
+
 			console.log('@@@ Comment:', result)
 
 			const commentId = result.id
@@ -289,14 +300,15 @@ export default function useReply({
 
 			setShowReplyForm(false)
 
-			dispatch(notify(getMessages(locale).commentPosted))
+			dispatch(notify(getMessages(locale).createCommentSuccess))
 
 			if (refreshThread) {
 				refreshThread()
 			}
 		}
 
-		if (process.env.NODE_ENV !== 'production' && dataSource.id === '2ch') {
+		// process.env.NODE_ENV !== 'production'
+		if (dataSource.id === '2ch') {
 			if (accessToken) {
 				await onSubmitComment()
 			} else {

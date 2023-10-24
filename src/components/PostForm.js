@@ -31,9 +31,12 @@ import PostAttachments from 'social-components-react/components/PostAttachments.
 
 import useSlideshow from './Comment/useSlideshow.js'
 
+import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
+
 import { showError } from '../redux/notifications.js'
 
 import useMessages from '../hooks/useMessages.js'
+import useDataSource from '../hooks/useDataSource.js'
 
 import './PostForm.css'
 
@@ -229,6 +232,12 @@ function PostForm({
 		onFileAttached
 	])
 
+	const dataSource = useDataSource()
+
+	const doesUseProxy = useMemo(() => {
+		return shouldUseProxy({ dataSource })
+	}, [dataSource])
+
 	const loadingIndicatorFadeOutDuration = 160 // ms
 
 	const canAttachFiles = true
@@ -305,6 +314,11 @@ function PostForm({
 			{error &&
 				<div className="PostForm-error">
 					{error}
+				</div>
+			}
+			{dataSource.id === '2ch' && doesUseProxy &&
+				<div className="PostForm-proxyCaution">
+					{messages.proxyPostingCaution}
 				</div>
 			}
 			{canAttachFiles && fileAttachments.length > 0 &&

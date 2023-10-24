@@ -1,0 +1,8 @@
+.UserAccountLink-icon--anonymousFill {
+	[data-foreground-fill] {
+		fill: var(--Sidebar-backgroundColor);
+	}
+	[data-foreground-stroke] {
+		stroke: var(--Sidebar-backgroundColor);
+	}
+}

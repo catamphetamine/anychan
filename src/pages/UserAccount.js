@@ -6,7 +6,7 @@ import useSettings from '../hooks/useSettings.js'
 import useMessages from '../hooks/useMessages.js'
 
 import FillButton from '../components/FillButton.js'
-import { Form, Field, Submit, FormComponent, FormAction } from '../components/Form.js'
+import { Form, Field, Submit, FormComponentAndButton, FormComponent, FormAction } from '../components/Form.js'
 import Heading from '../components/Heading.js'
 
 import { user as userType } from '../PropTypes.js'
@@ -16,6 +16,8 @@ import RateLimitError from '../api/errors/RateLimitError.js'
 
 import { notify, showError } from '../redux/notifications.js'
 import { logIn, logOut } from '../redux/auth.js'
+
+import updateAuthTokenFromCookie  from '../utility/auth/updateAuthTokenFromCookie.js'
 
 import {
 	ContentSections,
@@ -47,20 +49,42 @@ export default function UserAccountPage() {
 }
 
 function Authenticated() {
+	const dataSource = useDataSource()
+	const userSettings = useSettings()
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
-	const onLogOut = useCallback(() => {
-		dispatch(notify(messages.notImplemented))
-		// dispatch(logOut())
-	}, [])
+	const onLogOut = useCallback(async () => {
+		await dispatch(logOut({
+			dataSource,
+			userSettings,
+			messages
+		}))
+		// Clear the cookie just in case the server didn't do that.
+		if (dataSource.clearAccessTokenCookie) {
+			dataSource.clearAccessTokenCookie()
+		}
+		// See if the server has correctly cleared the access token cookie.
+		// If the cookie wasn't cleared properly,
+		// read the existing access token from such cookie
+		// to indicate to the user that the logout didn't happen.
+		updateAuthTokenFromCookie({ dispatch, dataSource })
+	}, [
+		dataSource,
+		userSettings,
+		messages
+	])
 
 	return (
 		<ContentSections>
 			<ContentSection>
-				<FillButton onClick={onLogOut}>
-					{messages.logOut}
-				</FillButton>
+				<Form onSubmit={onLogOut}>
+					<FormAction top>
+						<Submit component={FillButton} className="UserAccount-logOutButton">
+							{messages.logOut}
+						</Submit>
+					</FormAction>
+				</Form>
 			</ContentSection>
 		</ContentSections>
 	)
@@ -94,9 +118,9 @@ function NotAuthenticated() {
 			console.log('@@@ Log In result:', result)
 			if (dataSource.id === '2ch') {
 				if (window.location.hostname === 'localhost') {
-					dispatch(notify('Сервер `2ch.hk` проставляет куки, но куки не пишутся для сайтов, запущенных на localhost. Ваш пасскод, видимо, верный, но ответ сервера невозможно прочесть в случае с localhost.'))
+					dispatch(notify('Сервер `2ch.hk` проставляет куки, но куки не пишутся для сайтов, запущенных на localhost. Ваш пасскод, видимо, верный, но ответ сервера невозможно прочесть в случае с localhost. Но вы можете проставить куку "passcode_auth" вручную и обновить страницу.'))
 					setTimeout(() => {
-						dispatch(notify('Server-side-set cookies don\'t work on localhost. Your auth token looks valid but the response can\'t be read on localhost.'))
+						dispatch(notify('Server-side-set cookies don\'t work on localhost. Your auth token looks valid but the response can\'t be read on localhost. But you could add "passcode_auth" cookie manually and refresh the page.'))
 					}, 0)
 					return
 				}
@@ -136,23 +160,24 @@ function NotAuthenticated() {
 			{dataSource.api.logIn && (
 				<ContentSection>
 					<Form onSubmit={onSubmit}>
-						<FormComponent>
-							<Field
-								required
-								type="text"
-								name="token"
-								label={messages.userAccount.pass}
-								error={logInError}
-								onChange={onInputValueChange}
-							/>
-						</FormComponent>
-						<FormAction>
-							<Submit
-								component={FillButton}
-								title={messages.actions.post}>
-								{messages.logIn}
-							</Submit>
-						</FormAction>
+						<FormComponentAndButton>
+							<FormComponent>
+								<Field
+									required
+									type="text"
+									inputType="password"
+									name="token"
+									label={messages.userAccount.pass}
+									error={logInError}
+									onChange={onInputValueChange}
+								/>
+							</FormComponent>
+							<FormAction inline>
+								<Submit component={FillButton}>
+									{messages.logIn}
+								</Submit>
+							</FormAction>
+						</FormComponentAndButton>
 					</Form>
 				</ContentSection>
 			)}

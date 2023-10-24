@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 141.73 141.8">
+  <path data-background-fill="true" fill="currentColor" d="M14 131.7c0-16.7 13.2-30.3 29.5-30.3h54.9c16.3 0 29.5 13.6 29.5 30.3v10.1h7.3v-10.1c0-20.8-16.5-37.8-36.8-37.8h-55c-20.3 0-36.8 16.9-36.8 37.8v10.1H14z"/>
+  <path data-background-fill="true" data-foreground-stroke="true" fill="none" stroke="currentColor" stroke-width="6" d="M33.9 90.57V3h72.23v87.57l-9.61-8.7-7.97 8.7-8.67-8.37-8.53 8.17-8.97-8.28-9.39 8.48-8.92-8.25-10.17 8.25z"/>
+  <rect data-foreground-fill="true" width="13" height="20" x="52.6" y="31.5" fill="currentColor" rx="5.45" ry="5.45"/>
+  <rect data-foreground-fill="true" width="13" height="20" x="76.55" y="31.5" fill="currentColor" rx="5.45" ry="5.45"/>
+</svg>

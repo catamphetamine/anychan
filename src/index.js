@@ -54,7 +54,9 @@ try {
 		multiDataSource
 	} = initializeDataSource()
 
-	const { userData, userSettings } = await initializeApp()
+	const { userData, userSettings } = await initializeApp({
+		dataSource
+	})
 
 	setContext({
 		userData,

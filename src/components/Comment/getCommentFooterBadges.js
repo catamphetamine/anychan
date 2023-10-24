@@ -6,7 +6,7 @@ import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 import getMessages, { getCountryName } from '../../messages/index.js'
 import getAbsoluteUrl from '../../utility/dataSource/getAbsoluteUrl.js'
 
-import AnonymousCountryIcon from 'frontend-lib/icons/anonymous.svg'
+import AnonymousCountryIcon from 'frontend-lib/icons/anonymous-mask.svg'
 import DislikeIcon from 'frontend-lib/icons/dislike.svg'
 import DeceasedFaceIcon from 'frontend-lib/icons/deceased-face-rect.svg'
 import PinIcon from 'frontend-lib/icons/pin.svg'

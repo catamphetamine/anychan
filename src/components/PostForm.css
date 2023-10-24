@@ -253,3 +253,9 @@
 	height: calc(var(--PostFormAttachFileIcon-width) * 0.85);
 	margin-left: calc(var(--PostFormAttachFileIcon-width) * 0.15);
 }
+
+.PostForm-proxyCaution {
+	color: var(--Content-color-500);
+	font-weight: lighter;
+	margin-top: calc(var(--unit) * 1);
+}

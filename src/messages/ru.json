@@ -278,6 +278,7 @@
 			"popular": "Самое обсуждаемое"
 		}
 	},
+	"proxyPostingCaution": "Осторожнее с постингом здесь, молодые люди. Все пользователи этого приложения сидят на одном и том же прокси. Если этот прокси забанят, то приложение может перестать работать у всех.",
 	"colorfulBackground": "Разноцветный фон",
 	"nMoreComments": "{count, plural, one {ещё <tag>#</tag> комментарий} few {ещё <tag>#</tag> комментария} many {ещё <tag>#</tag> комментариев} other {ещё <tag>#</tag> комментария}}",
 	"noNewComments": "Нет новых комментариев",
@@ -293,7 +294,8 @@
 	"сommentContentSizeExceeded": "Слишком длинный текст комментария",
 	"commentContentBlocked": "Комментарий содержит запрещённое содержимое",
 	"commentRequired": "Комментарий пуст",
-	"commentPosted": "Комментарий отправлен",
+	"createCommentSuccess": "Комментарий отправлен",
+	"createCommentError": "Не удалось отправить комментарий",
 	"createCommentRateLimitExceeded": "Превышен предел количества новых комментариев за временной промежуток",
 	"captchaSolutionIncorrect": "Неверная разгадка капчи",
 	"captchaExpired": "Капча истекла",

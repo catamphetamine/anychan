@@ -9,8 +9,9 @@ import onUserDataExternalChange from './UserData/onUserDataExternalChange.js'
 import onSettingsExternalChange from './utility/settings/onSettingsExternalChange.js'
 import addUserDataExternalChangeListener from './UserData/addUserDataExternalChangeListener.js'
 import exclusiveExecution from './utility/exclusiveExecution.js'
+import updateAuthTokenFromCookie from './utility/auth/updateAuthTokenFromCookie.js'
 
-export default async function() {
+export default async function({ dataSource }) {
 	const dispatch = delayedDispatch
 
 	// Setting default themes' `*.css` file URLs here instead of directly in
@@ -18,6 +19,10 @@ export default async function() {
 	// can only be obtained when running a Webpack build and they wouldn't work
 	// when running console tests.
 	setDefaultThemes(getDefaultThemes())
+
+	// If the data source uses server-side-set cookies for authentication,
+	// read the existing access token from such cookie.
+	updateAuthTokenFromCookie({ dispatch, dataSource })
 
 	const userData = getUserData()
 	const userSettings = getUserSettings()

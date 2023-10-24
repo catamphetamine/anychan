@@ -8,3 +8,7 @@
 .UserAccount-logInNotSupported {
 	text-align: center;
 }
+
+.UserAccount-logOutButton {
+	margin-top: 0;
+}

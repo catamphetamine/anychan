@@ -66,7 +66,7 @@ export default function Imageboard_(dataSource, {
 					}
 					return response.text().then((responseText) => ({
 						url,
-						response: responseText,
+						responseText,
 						headers: response.headers
 					}))
 				} else {
@@ -92,6 +92,7 @@ export default function Imageboard_(dataSource, {
 // Returns a `Promise` and rejects it with the error.
 function rejectWithErrorForResponse(response) {
 	const error = new Error(response.statusText)
+  error.url = response.url
 	error.status = response.status
 	error.headers = response.headers
 	return response.text().then(
@@ -108,14 +109,16 @@ function rejectWithErrorForResponse(response) {
 // Converts an object to a `FormData` instance.
 function createFormData(body) {
 	const formData = new FormData()
-	for (const key of Object.keys(body)) {
-		if (body[key] !== undefined && body[key] !== null) {
-			if (Array.isArray(body[key])) {
-				for (const element of body[key]) {
-					formData.append(key + '[]', element)
+	if (body) {
+		for (const key of Object.keys(body)) {
+			if (body[key] !== undefined && body[key] !== null) {
+				if (Array.isArray(body[key])) {
+					for (const element of body[key]) {
+						formData.append(key + '[]', element)
+					}
+				} else {
+					formData.append(key, body[key])
 				}
-			} else {
-				formData.append(key, body[key])
 			}
 		}
 	}

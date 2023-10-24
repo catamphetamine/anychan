@@ -276,6 +276,7 @@
 			"popular": "Am beliebtesten"
 		}
 	},
+	"proxyPostingCaution": "Achten Sie darauf, was Sie hier posten. Alle Benutzer dieser App nutzen denselben Proxyserver. Wenn der Proxyserver gesperrt wird, funktioniert die Anwendung möglicherweise nicht mehr für alle.",
 	"colorfulBackground": "Bunter Hintergrund",
 	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",
@@ -293,7 +294,8 @@
 	"сommentContentSizeExceeded": "Kommentarinhalt zu lang",
 	"commentContentBlocked": "Der Kommentar enthält Inhalte, die auf der schwarzen Liste stehen",
 	"commentRequired": "Kommentar ist erforderlich",
-	"commentPosted": "Kommentar gepostet",
+	"createCommentSuccess": "Kommentar gepostet",
+	"createCommentError": "Der Kommentar konnte nicht gepostet werden",
 	"createCommentRateLimitExceeded": "Das Limit für die Kommentarerstellungsrate wurde überschritten",
 	"captchaSolutionIncorrect": "Falsche Captcha-Code-Lösung",
 	"captchaExpired": "Der Captcha-Code ist abgelaufen",
