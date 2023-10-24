@@ -42,11 +42,14 @@ import { setShowCaptchaModal } from '../redux/captcha.js'
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
 import useTheme from '../hooks/useTheme.js'
+import useSetting from '../hooks/useSetting.js'
 
 import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
 import isThreadPage from '../utility/routes/isThreadPage.js'
 import isChannelPage from '../utility/routes/isChannelPage.js'
 import isChannelsPage from '../utility/routes/isChannelsPage.js'
+
+import getMessages from '../messages/index.js'
 
 import getUserData from '../UserData.js'
 import getUserSettings from '../UserSettings.js'
@@ -119,19 +122,27 @@ Application.propTypes = {
 	children: PropTypes.node
 }
 
-Application.load = async ({ dispatch, useSelector, location }) => {
+Application.load = async ({
+	dispatch,
+	useSelector,
+	location
+}) => {
 	const {
 		userData,
 		userSettings,
 		dataSource
 	} = getContext()
 
+	const useSetting_ = (getter) => useSetting(getter, { useSelector })
+	const locale = useSetting_(settings => settings.locale)
+
 	await loadApplication({
 		dispatch,
 		location,
 		userData,
 		userSettings,
-		dataSource
+		dataSource,
+		messages: getMessages(locale)
 	})
 }
 

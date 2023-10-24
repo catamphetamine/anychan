@@ -8,7 +8,6 @@ import ApplicationWrapper from './components/ApplicationWrapper.js'
 import PageLoading from './components/PageLoading.js'
 
 import getApplicationMeta from './pages/Application.meta.js'
-import loadApplication from './pages/Application.load.js'
 
 export default function getReactPagesConfig() {
 	return getReactPagesConfig_({

@@ -4,11 +4,21 @@
  * @param  {boolean} options.all — If set to `true`, then the "full" list of channels is returned. Some imageboards support creating "user boards", and, for example, `8ch.net` had about 20,000 of such "user boards".
  * @return {object} Returns `{ [channels], [channelsByPopularity], [channelsByCategory], [allChannels: { channels, [channelsByPopularity], [channelsByCategory] }], [hasMoreChannels] }`. If a data source doesn't differentiate between a "short" list of channels and a "long" list of channels then both `channels` and `allChannels` are returned and are the same. Otherwise, either `channels` and `hasMoreChannels: true` or `allChannels: { channels }` are returned. Along with `channels` (or `allChannels.channels`), `channelsByPopularity` and `channelsByCategory` could also be returned (if the data source provides those).
  */
-export default async function getChannels({ all, http, userSettings, dataSource }) {
-	const { channels, hasMoreChannels } = await dataSource.api.getChannels({
+export default async function getChannels({
+	all,
+	http,
+	userSettings,
+	dataSource,
+	messages
+}) {
+	const {
+		channels,
+		hasMoreChannels
+	} = await dataSource.api.getChannels({
 		all,
 		http,
-		userSettings
+		userSettings,
+		messages
 	})
 
 	// Mark hidden channels.

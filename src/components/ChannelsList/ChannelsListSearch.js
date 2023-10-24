@@ -41,7 +41,7 @@ export default function ChannelsListSearch({
 				channels={channels}
 			/>
 
-			{searchQuery && anythingFound &&
+			{searchQuery && !anythingFound &&
 				<div className="Channels-nothingFound">
 					{messages.noSearchResults}
 				</div>

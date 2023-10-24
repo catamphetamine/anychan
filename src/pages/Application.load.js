@@ -17,7 +17,8 @@ export default async function loadApplication({
 	location,
 	userData,
 	userSettings,
-	dataSource
+	dataSource,
+	messages
 }) {
 	// Dispatch delayed actions.
 	// For example, `dispatch(autoDarkMode())`.
@@ -35,7 +36,11 @@ export default async function loadApplication({
 
 	// Get the list of channels.
 	try {
-		await dispatch(getChannels({ userSettings, dataSource }))
+		await dispatch(getChannels({
+			userSettings,
+			dataSource,
+			messages
+		}))
 	} catch (error) {
 		let errorPageUrl
 		// `503 Service Unavailable`

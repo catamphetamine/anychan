@@ -96,8 +96,17 @@ export default function ChannelsListBase({
 	])
 
 	const loadChannelsList = useCallback(async () => {
-		await dispatch(getChannels({ userSettings, dataSource }))
-	}, [dispatch, userSettings, dataSource])
+		await dispatch(getChannels({
+			userSettings,
+			dataSource,
+			messages
+		}))
+	}, [
+		dispatch,
+		userSettings,
+		dataSource,
+		messages
+	])
 
 	if (!channels) {
 		return (

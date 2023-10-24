@@ -32,7 +32,7 @@ export default function DataSourcesSidebarSection() {
 			{dataSources.map((dataSource) => (
 				<a
 					key={dataSource.id}
-					href={getBasePath({ sourceId: dataSource.id })}
+					href={getBasePath({ dataSourceId: dataSource.id })}
 					className={classNames('DataSourcesSidebarSection-dataSource', {
 						'DataSourcesSidebarSection-dataSource--selected': dataSource.id === currentDataSource.id
 					})}>

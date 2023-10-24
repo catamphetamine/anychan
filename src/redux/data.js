@@ -20,16 +20,18 @@ export const getChannels = redux.action(
 	({
 		all,
 		userSettings,
-		dataSource
+		dataSource,
+		messages
 	}) => async http => {
 		return await _getChannelsCached({
 			// In case of adding new options here,
 			// also add them in `./src/api/cached/getChannels.js`
 			// and `./src/components/settings/ProxySettings.js`.
 			http,
-			all,
 			userSettings,
-			dataSource
+			dataSource,
+			messages,
+			all
 		})
 	},
 	(state, result) => ({

@@ -39,8 +39,9 @@ export const logOut = redux.action(
 			http
 		})
 	},
-	(state, result) => ({
-		...state
+	(state) => ({
+		...state,
+		accessToken: undefined
 	})
 )
 

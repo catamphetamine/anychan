@@ -51,11 +51,22 @@ export default function FavoriteChannelsSidebarSection() {
 	const onMore = useCallback((isEditMode) => {
 		const finish = () => setEditingFavoriteChannels(isEditMode)
 		if (isEditMode && !allChannels) {
-			return dispatch(getChannels({ all: true, userSettings, dataSource })).then(finish)
+			return dispatch(getChannels({
+				all: true,
+				userSettings,
+				dataSource,
+				messages
+			})).then(finish)
 		} else {
 			finish()
 		}
-	}, [dispatch, userSettings, allChannels, dataSource])
+	}, [
+		dispatch,
+		userSettings,
+		allChannels,
+		dataSource,
+		messages
+	])
 
 	let children
 	if (editingFavoriteChannels) {

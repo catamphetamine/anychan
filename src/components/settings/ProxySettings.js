@@ -10,6 +10,7 @@ import { Form, Field, Submit, FormComponent, FormAction, FormComponentAndButton 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
+import useMessages from '../../hooks/useMessages.js'
 
 import { notify, showError } from '../../redux/notifications.js'
 
@@ -58,14 +59,17 @@ export default function ProxySettings({
 	const userData = useUserData()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const allMessages = useMessages()
 
 	const onTestProxyServer = useCallback(async (proxyUrl) => {
 		const getProxyTestResult = async () => {
 			const { channels } = await _getChannels({
-				http: getHttpClient(),
 				proxyUrl,
+				// `Imageboard` parameters.
+				http: getHttpClient(),
 				userSettings,
-				dataSource
+				dataSource,
+				messages: allMessages
 			})
 
 			if (channels.length === 0) {
@@ -74,11 +78,13 @@ export default function ProxySettings({
 
 			const threads = await _getThreads({
 				channelId: channels[0].id,
-				http: getHttpClient(),
 				proxyUrl,
 				userData,
+				// `Imageboard` parameters.
+				http: getHttpClient(),
 				userSettings,
-				dataSource
+				dataSource,
+				messages: allMessages
 			})
 
 			if (threads.length === 0) {
