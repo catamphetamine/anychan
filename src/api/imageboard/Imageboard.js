@@ -24,21 +24,10 @@ export default function Imageboard_(dataSource, {
 		expandReplies: true,
 		useRelativeUrls: isDeployedOnDataSourceDomain(dataSource),
 		request: async (method, url, { body, headers }) => {
-			// Send the `body` as `FormData`, if required.
+			// If request "Content-Type" is set to be "multipart/form-data",
+			// convert the `body` object to a `FormData` instance.
 			if (headers['Content-Type'] === 'multipart/form-data') {
-				const formData = new FormData()
-				for (const key of Object.keys(body)) {
-					if (body[key] !== undefined && body[key] !== null) {
-						if (Array.isArray(body[key])) {
-							for (const element of body[key]) {
-								formData.append(key + '[]', element)
-							}
-						} else {
-							formData.append(key, body[key])
-						}
-					}
-				}
-				body = formData
+				body = createFormData(body)
 				// Remove `Content-Type` header so that it autogenerates it from the `FormData`.
 				// Example: "multipart/form-data; boundary=----WebKitFormBoundaryZEglkYA7NndbejbB".
 				delete headers['Content-Type']
@@ -75,14 +64,14 @@ export default function Imageboard_(dataSource, {
 					if (shouldUseProxy({ dataSource })) {
 						url = response.headers.get('X-Final-Url') || url
 					}
-					return response.text().then((response) => ({
+					return response.text().then((responseText) => ({
 						url,
-						response
+						response: responseText,
+						headers: response.headers
 					}))
+				} else {
+      		return rejectWithErrorForResponse(response)
 				}
-				const error = new Error(response.statusText)
-				error.status = response.status
-				throw error
 			} else {
 				// This is only for Safari 9.x and iOS Safari 9.x, because other browsers will use `fetch()`.
 				// `await http[method]()` will throw an error with a `.status` property in case of an error.
@@ -97,4 +86,38 @@ export default function Imageboard_(dataSource, {
 			}
 		}
 	})
+}
+
+// Creates an error from a `fetch()` response.
+// Returns a `Promise` and rejects it with the error.
+function rejectWithErrorForResponse(response) {
+	const error = new Error(response.statusText)
+	error.status = response.status
+	error.headers = response.headers
+	return response.text().then(
+		(responseText) => {
+			error.responseText = responseText
+			throw error
+		},
+		(error_) => {
+			throw error
+		}
+	)
+}
+
+// Converts an object to a `FormData` instance.
+function createFormData(body) {
+	const formData = new FormData()
+	for (const key of Object.keys(body)) {
+		if (body[key] !== undefined && body[key] !== null) {
+			if (Array.isArray(body[key])) {
+				for (const element of body[key]) {
+					formData.append(key + '[]', element)
+				}
+			} else {
+				formData.append(key, body[key])
+			}
+		}
+	}
+	return formData
 }

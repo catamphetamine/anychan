@@ -21,15 +21,17 @@ export const getChannels = redux.action(
 		all,
 		userSettings,
 		dataSource
-	}) => async http => await _getChannelsCached({
-		// In case of adding new options here,
-		// also add them in `./src/api/cached/getChannels.js`
-		// and `./src/components/settings/ProxySettings.js`.
-		http,
-		all,
-		userSettings,
-		dataSource
-	}),
+	}) => async http => {
+		return await _getChannelsCached({
+			// In case of adding new options here,
+			// also add them in `./src/api/cached/getChannels.js`
+			// and `./src/components/settings/ProxySettings.js`.
+			http,
+			all,
+			userSettings,
+			dataSource
+		})
+	},
 	(state, result) => ({
 		...state,
 		// `result` has `channels` and potentially other things
@@ -418,14 +420,16 @@ export const vote = redux.action(
 		commentId,
 		userData,
 		userSettings,
-		dataSource
+		dataSource,
+		messages
 	}) => async http => {
 		const voteAccepted = await dataSource.api.vote({
 			up,
 			channelId,
 			commentId,
 			http,
-			userSettings
+			userSettings,
+			messages
 		})
 		// If the vote has been accepted then mark this comment as "voted" in user data.
 		// If the vote hasn't been accepted due to "already voted"

@@ -1,19 +1,9 @@
-import Imageboard from './Imageboard.js'
-
-export default async function report({
-	dataSource,
-	http,
-	messages,
-	userSettings,
+export default async function report(imageboard, {
 	channelId,
-	threadId,
-	commentId,
 	...rest
 }) {
-	return await Imageboard(dataSource, { messages, http, userSettings }).report({
+	return await imageboard.report({
 		boardId: channelId,
-		threadId,
-		commentId,
 		...rest
 	})
 }

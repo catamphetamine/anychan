@@ -1,4 +1,6 @@
-import Imageboard, { getConfig } from 'imageboard'
+import Imageboard_, { getConfig } from 'imageboard'
+
+import Imageboard from '../../src/api/imageboard/Imageboard.js'
 
 import getChannelsApi from '../../src/api/imageboard/getChannels.js'
 import getThreadsApi from '../../src/api/imageboard/getThreads.js'
@@ -83,19 +85,49 @@ for (const dataSource of DATA_SOURCES) {
 	}
 
 	dataSource.supportsFeature = (feature) => {
-		return Imageboard(dataSource.id).supportsFeature(feature)
+		return Imageboard_(dataSource.id).supportsFeature(feature)
 	}
 
-	function addDataSourceParameterToFunction(func) {
-		return (parameters) => func({
-			dataSource,
+	// function addDataSourceParameterToFunction(func) {
+	// 	return (parameters) => func({
+	// 		dataSource,
+	// 		...parameters
+	// 	})
+	// }
+
+	function addImageboardArgumentToFunction(func) {
+		return ({
+			http,
+			messages,
+			userSettings,
 			...parameters
-		})
+		}) => {
+			// Validate function parameters.
+			if (!http) {
+				throw new Error('`http` parameter is required')
+			}
+			if (!messages) {
+				throw new Error('`messages` parameter is required')
+			}
+			if (!userSettings) {
+				throw new Error('`userSettings` parameter is required')
+			}
+
+			// Create imageboard instance.
+			const imageboard = Imageboard(dataSource, {
+				http,
+				messages,
+				userSettings
+			})
+
+			// Call the function with `imageboard` argument.
+			return func(imageboard, parameters)
+		}
 	}
 
 	// Add `dataSource` parameter to each `api` function.
 	for (const functionName of Object.keys(dataSource.api)) {
-		dataSource.api[functionName] = addDataSourceParameterToFunction(dataSource.api[functionName])
+		dataSource.api[functionName] = addImageboardArgumentToFunction(dataSource.api[functionName])
 	}
 }
 

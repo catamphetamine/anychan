@@ -1,5 +1,3 @@
-import Imageboard from './Imageboard.js'
-
 import AccessDeniedError from '../errors/AccessDeniedError.js'
 import AttachmentNotSupportedError from '../errors/AttachmentNotSupportedError.js'
 import AttachmentsCountExceededError from '../errors/AttachmentsCountExceededError.js'
@@ -12,16 +10,12 @@ import DuplicateAttachmentError from '../errors/DuplicateAttachmentError.js'
 import RateLimitError from '../errors/RateLimitError.js'
 import ThreadIsLockedError from '../errors/ThreadIsLockedError.js'
 
-export default async function createComment({
-	dataSource,
-	http,
-	messages,
-	userSettings,
+export default async function createComment(imageboard, {
 	channelId,
 	...rest
 }) {
 	try {
-		return await Imageboard(dataSource, { messages, http, userSettings }).createComment({
+		return await imageboard.createComment({
 			boardId: channelId,
 			...rest
 		})

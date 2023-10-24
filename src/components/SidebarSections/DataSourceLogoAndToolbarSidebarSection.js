@@ -22,7 +22,7 @@ export default function DataSourceLogoAndToolbarSidebarSection() {
 			<DarkModeToggle/>
 			<ColorfulBackgroundToggle/>
 			<SettingsLink/>
-			{dataSource.api.logIn &&
+			{dataSource.api.logIn && (dataSource.id === '2ch' || dataSource.id === '4chan') &&
 				<UserAccountLink/>
 			}
 		</>

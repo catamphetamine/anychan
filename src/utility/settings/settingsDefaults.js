@@ -47,6 +47,8 @@ export function getDefaultSettings() {
 		darkMode: false,
 		autoDarkMode: true,
 		censorWords: true,
+		colorfulBackground: false,
+		autoSuggestFavoriteChannels: true,
 		channelLayout: 'threadsList',
 		channelSorting: 'default',
 		theme: getDefaultThemeId(),

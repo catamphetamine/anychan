@@ -35,8 +35,12 @@
 	},
 	"userAccount": {
 		"title": "User",
+		"logInToken": "Auth token",
 		"pass": "Pass",
-		"notSupported": "This source doesn't support user log in."
+		"notSupported": "This source doesn't support user log in.",
+		"logInError": "Couldn't log in",
+		"notFoundError": "User not found",
+		"rateLimitError": "Rate limit exceeded"
 	},
 	"settings": {
 		"language": {

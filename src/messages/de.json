@@ -35,8 +35,12 @@
 	},
 	"userAccount": {
 		"title": "Benutzer",
+		"logInToken": "Authentifizierungstoken",
 		"pass": "Pass",
-		"notSupported": "Diese Quelle unterstützt keine Benutzeranmeldung."
+		"notSupported": "Diese Quelle unterstützt keine Benutzeranmeldung.",
+		"logInError": "Konnte mich nicht anmelden",
+		"notFoundError": "Benutzer nicht gefunden",
+		"rateLimitError": "Frequenzgrenze überschritten"
 	},
 	"settings": {
 		"language": {

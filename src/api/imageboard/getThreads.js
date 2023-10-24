@@ -1,20 +1,13 @@
-import Imageboard from './Imageboard.js'
-
 import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
 
 const MAX_LATEST_COMMENTS_PAGES_COUNT = 2
 
-export default async function getThreadsFromImageboard({
-	dataSource,
+export default async function getThreadsFromImageboard(imageboard, {
 	channelId,
 	withLatestComments,
 	sortByRating,
-	messages,
-	http,
-	userSettings
+	dataSourceId
 }) {
-	const imageboard = Imageboard(dataSource, { messages, http, userSettings })
-
 	let threads = await imageboard.getThreads({
 		boardId: channelId
 	}, {
@@ -42,7 +35,7 @@ export default async function getThreadsFromImageboard({
 	// On `2ch.hk`, there's a bug when `/d/catalog.json` doesn't return the threads.
 	// It used to return an empty list of threads, now (May 2023) it returns a single one.
 	// Work around that a bit by adding two sticky threads.
-	if (dataSource.id === '2ch') {
+	if (dataSourceId === '2ch') {
 		if (channelId === 'd' && threads.length < 2) {
 			if (!threads.find(_ => _.id === TWO_CHANNEL_D_BOARD_FAG_BOARD_BUGS_AND_FEATURES_THREAD.id)) {
 				threads = [TWO_CHANNEL_D_BOARD_FAG_BOARD_BUGS_AND_FEATURES_THREAD].concat(threads)

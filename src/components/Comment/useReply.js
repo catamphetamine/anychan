@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { openLinkInNewTab } from 'web-browser-input'
 
@@ -57,6 +57,8 @@ export default function useReply({
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
 	const userData = useUserData()
+
+	const accessToken = useSelector(state => state.auth.accessToken)
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
 	const [replyFormInitialText, setReplyFormInitialText] = useState()
@@ -194,7 +196,7 @@ export default function useReply({
 					userSettings,
 					messages: getMessages(locale),
 					authorIsThreadAuthor: undefined,
-					accessToken: undefined,
+					accessToken: accessToken,
 					authorEmail: undefined,
 					authorName: undefined,
 					title: undefined,
@@ -270,70 +272,76 @@ export default function useReply({
 			}
 		}
 
-		if (process.env.NODE_ENV !== 'production' && dataSource.id === '2ch') {
-			const captcha = await dispatch(getCaptcha({
-				channelId,
-				threadId,
-				dataSource,
-				userSettings,
-				messages: getMessages(locale)
-			}))
+		const onSubmitComment = async (parameters) => {
+			const result = await submitComment(parameters)
+			console.log('@@@ Comment:', result)
 
-			// const captcha = {
-			// 	"id": "b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
-			// 	"type": "text",
-			// 	"characterSet": "russian",
-			// 	"expiresAt": new Date("2027-01-01T00:00:00.000Z"),
-			// 	image: {
-			// 		"url": "https://2ch.hk/api/captcha/2chcaptcha/show?id=b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
-			// 		"type": "image/png",
-			// 		"width": 270,
-			// 		"height": 120
-			// 	}
+			const commentId = result.id
+
+			// Mark the new comment as "own".
+			userData.addOwnComment(channelId, threadId, commentId)
+
+			// If "auto-subscribe to threads when posting a comment" setting
+			// is turned on then automatically subscribe to the thread.
+			// if (!userData.isSubscribedThread(channelId, threadId)) {
+			// 	onSubscribeToThread()
 			// }
 
-			console.log('@@@ CAPTCHA:', captcha)
+			setShowReplyForm(false)
 
-			dispatch(notify('Справка: Капча `2ch.hk`, судя по всему, не работает на сайтах, отличных от `2ch.hk`: не грузит картинку, а даже если и грузит, то потом не принимает ответ.'))
+			dispatch(notify(getMessages(locale).commentPosted))
 
-			setTimeout(() => {
-				dispatch(notify('Note: `2ch.hk` CAPTCHA image doesn\'t seem to work on a non-`2ch.hk` website: doesn\'t load image, and even if it does, it won\'t accept the solution.'))
-			}, 0)
+			if (refreshThread) {
+				refreshThread()
+			}
+		}
 
-			// Show a CAPTCHA to the user.
-			// If they solve it, then submit the new comment.
-			showCaptcha({
-				id: captcha.id,
-				type: captcha.type,
-				characterSet: captcha.characterSet,
-				expiresAt: captcha.expiresAt,
-				image: captcha.image
-			}, {
-				dispatch,
-				onSubmit: async (parameters) => {
-					const result = await submitComment(parameters)
-					console.log('@@@ Comment:', result)
+		if (process.env.NODE_ENV !== 'production' && dataSource.id === '2ch') {
+			if (accessToken) {
+				await onSubmitComment()
+			} else {
+				const captcha = await dispatch(getCaptcha({
+					channelId,
+					threadId,
+					dataSource,
+					userSettings,
+					messages: getMessages(locale)
+				}))
 
-					const commentId = result.id
+				// const captcha = {
+				// 	"id": "b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
+				// 	"type": "text",
+				// 	"characterSet": "russian",
+				// 	"expiresAt": new Date("2027-01-01T00:00:00.000Z"),
+				// 	image: {
+				// 		"url": "https://2ch.hk/api/captcha/2chcaptcha/show?id=b523714e9662a6e0741c3070b96a1c9c7c6591f2c11c9e2b15fdf577fa360e1662391df0a0fe929dc7f6bc6aa576ce851e0b50c9f3cedeefa7f4067b059cacf14ffc3633",
+				// 		"type": "image/png",
+				// 		"width": 270,
+				// 		"height": 120
+				// 	}
+				// }
 
-					// Mark the new comment as "own".
-					userData.addOwnComment(channelId, threadId, commentId)
+				console.log('@@@ CAPTCHA:', captcha)
 
-					// If "auto-subscribe to threads when posting a comment" setting
-					// is turned on then automatically subscribe to the thread.
-					// if (!userData.isSubscribedThread(channelId, threadId)) {
-					// 	onSubscribeToThread()
-					// }
+				dispatch(notify('Справка: Капча `2ch.hk`, судя по всему, не работает на сайтах, отличных от `2ch.hk`: не грузит картинку, а даже если и грузит, то потом не принимает ответ.'))
 
-					setShowReplyForm(false)
+				setTimeout(() => {
+					dispatch(notify('Note: `2ch.hk` CAPTCHA image doesn\'t seem to work on a non-`2ch.hk` website: doesn\'t load image, and even if it does, it won\'t accept the solution.'))
+				}, 0)
 
-					dispatch(notify(getMessages(locale).commentPosted))
-
-					if (refreshThread) {
-						refreshThread()
-					}
-				}
-			})
+				// Show a CAPTCHA to the user.
+				// If they solve it, then submit the new comment.
+				showCaptcha({
+					id: captcha.id,
+					type: captcha.type,
+					characterSet: captcha.characterSet,
+					expiresAt: captcha.expiresAt,
+					image: captcha.image
+				}, {
+					dispatch,
+					onSubmit: onSubmitComment
+				})
+			}
 		} else {
 			// Show "Not implemented yet" placeholder message.
 			await new Promise(resolve => setTimeout(resolve, 1000))
@@ -355,7 +363,8 @@ export default function useReply({
 		dispatch,
 		locale,
 		checkCanReply,
-		refreshThread
+		refreshThread,
+		accessToken
 	])
 
 	const onReplyFormInputHeightDidChange = useCallback((height) => {

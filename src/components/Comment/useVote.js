@@ -33,7 +33,8 @@ export default function useVote({
 				up,
 				userData,
 				userSettings,
-				dataSource
+				dataSource,
+				messages: getMessages(locale)
 			}))
 			if (voteAccepted) {
 				if (up) {

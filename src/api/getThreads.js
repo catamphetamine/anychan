@@ -21,7 +21,9 @@ export default async function getThreads({
 		sortByRating,
 		messages,
 		http,
-		userSettings
+		userSettings,
+		// `dataSourceId` parameter is used in `src/api/imageboard/getThreads.js`.
+		dataSourceId: dataSource.id
 	})
 
 	const threadVotes = userData.getThreadVotes(channelId)

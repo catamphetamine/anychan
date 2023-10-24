@@ -3,7 +3,6 @@ export default async function createThread({
 	...rest
 }) {
 	return await dataSource.api.createThread({
-		dataSource,
 		...rest
 	})
 }

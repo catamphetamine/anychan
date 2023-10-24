@@ -78,6 +78,7 @@ export default class UserSettings {
 		} else {
 			settings = name
 		}
+
 		if (!settings.version) {
 			settings.version = VERSION
 		}

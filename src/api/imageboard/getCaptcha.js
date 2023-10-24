@@ -1,14 +1,8 @@
-import Imageboard from './Imageboard.js'
-
-export default async function getCaptcha({
+export default async function getCaptcha(imageboard, {
 	channelId,
-	dataSource,
-	userSettings,
-	messages,
-	http,
 	...rest
 }) {
-	return await Imageboard(dataSource, { messages, http, userSettings }).getCaptcha({
+	return await imageboard.getCaptcha({
 		boardId: channelId,
 		...rest
 	})

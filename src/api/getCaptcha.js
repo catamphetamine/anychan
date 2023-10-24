@@ -3,7 +3,6 @@ export default async function getCaptcha({
 	...rest
 }) {
 	return await dataSource.api.getCaptcha({
-		dataSource,
 		...rest
 	})
 }

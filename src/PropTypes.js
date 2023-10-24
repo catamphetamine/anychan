@@ -169,3 +169,7 @@ export const commentTreeState = shape({
 	replyFormInputError: string,
 	replyFormError: string
 })
+
+export const user = shape({
+
+})

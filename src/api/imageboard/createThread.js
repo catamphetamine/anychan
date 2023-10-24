@@ -1,14 +1,8 @@
-import Imageboard from './Imageboard.js'
-
-export default async function createThread({
-	dataSource,
-	http,
-	messages,
-	userSettings,
+export default async function createThread(imageboard, {
 	channelId,
 	...rest
 }) {
-	return await Imageboard(dataSource, { messages, http, userSettings }).createThread({
+	return await imageboard.createThread({
 		boardId: channelId,
 		...rest
 	})

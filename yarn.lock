@@ -5975,13 +5975,14 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.6.35:
-  version "0.6.35"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.35.tgz#3a0a0fac459971c29296e97142535a12af7f190e"
-  integrity sha512-w6MXDTmD2tngndpJlJy1X4iz8yT7GwE/R7IbbH/Sm7nmoyn/X2Yk8xRao2oCV+MU/WpYSFJeSaLcxy2tBttn2w==
+imageboard@^0.6.36:
+  version "0.6.36"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.36.tgz#ae0817f6f7a8db5571bcb6ce66262ca9a50543a4"
+  integrity sha512-RPf9iL/Zpi2VUY/38vHxN0iFTd/1WvKoYM1m+EFn3v72CP/qq8evbwSSqzm1R1Vo0TVpgVd2oA1D2ICPYk9GPw==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
+    set-cookie-parser "^2.6.0"
     social-components "^0.3.5"
     social-components-parser "^0.2.3"
 
@@ -8589,6 +8590,11 @@ serve-static@1.15.0:
     escape-html "~1.0.3"
     parseurl "~1.3.3"
     send "0.18.0"
+
+set-cookie-parser@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.6.0.tgz#131921e50f62ff1a66a461d7d62d7b21d5d15a51"
+  integrity sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==
 
 setimmediate@^1.0.5:
   version "1.0.5"
