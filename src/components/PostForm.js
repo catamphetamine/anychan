@@ -312,14 +312,14 @@ function PostForm({
 				</FadeInOut>
 			</Form>
 			{error &&
-				<div className="PostForm-error">
+				<p className="PostForm-error">
 					{error}
-				</div>
+				</p>
 			}
 			{dataSource.id === '2ch' && doesUseProxy &&
-				<div className="PostForm-proxyCaution">
+				<p className="PostForm-proxyCaution">
 					{messages.proxyPostingCaution}
-				</div>
+				</p>
 			}
 			{canAttachFiles && fileAttachments.length > 0 &&
 				<PostAttachments
