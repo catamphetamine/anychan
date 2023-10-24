@@ -125,7 +125,10 @@ function NotAuthenticated() {
 					return
 				}
 			}
-			// Could somehow read `passcode_auth` cookie here.
+			if (!result.accessToken) {
+				dispatch(showError('Access token not found in server response'))
+				return
+			}
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				setLogInError(messages.userAccount.notFoundError)
