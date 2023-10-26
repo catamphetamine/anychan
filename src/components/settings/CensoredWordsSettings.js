@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Modal, Checkbox, TextInput } from 'react-responsive-ui'
 
@@ -14,6 +14,8 @@ import censorWords from 'social-components/utility/post/censorWords.js'
 import compileWordPatterns from 'social-components/utility/post/compileWordPatterns.js'
 
 import { Content } from 'social-components-react/components/PostContent.js'
+
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import getCensoredWordsByLanguage from '../../utility/getCensoredWordsByLanguage.js'
 
@@ -136,7 +138,9 @@ function TestCensoredWords({
 	const [rule, setRule] = useState()
 	const [text, setText] = useState()
 	const [result, setResult] = useState()
+
 	const ruleInputRef = useRef()
+
 	function updateResult(text = '', useCustomRule, rule = '') {
 		const patterns = useCustomRule
 			? [rule]
@@ -144,23 +148,28 @@ function TestCensoredWords({
 		// New line characters are ignored.
 		setResult([censorWords(text, compileWordPatterns(patterns, language))])
 	}
+
 	function onUseCustomRuleChange(value) {
 		setUseCustomRule(value)
 		updateResult(text, value, rule)
 	}
+
 	function onRuleChange(value) {
 		setRule(value)
 		updateResult(text, useCustomRule, value)
 	}
+
 	function onTextChange(value) {
 		setText(value)
 		updateResult(value, useCustomRule, rule)
 	}
-	useEffect(() => {
+
+	useEffectSkipMount(() => {
 		if (useCustomRule) {
 			ruleInputRef.current.focus()
 		}
 	}, [useCustomRule])
+
 	return (
 		<React.Fragment>
 			<FormComponent>

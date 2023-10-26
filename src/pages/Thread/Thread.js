@@ -1,7 +1,8 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelectorForLocation, goto } from 'react-pages'
 
 import getMessages from '../../messages/index.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
@@ -14,6 +15,7 @@ import ShowPrevious from '../../components/ShowPrevious.js'
 
 import ThreadCommentsList from './ThreadCommentsList.js'
 import ThreadPageHeader from './ThreadPageHeader.js'
+import ThreadCreateComment from './ThreadCreateComment.js'
 import AutoUpdate from './AutoUpdate.js'
 import InfoBanner from './InfoBanner.js'
 import PostForm from '../../components/PostForm.js'
@@ -46,13 +48,19 @@ import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 
 import './Thread.css'
 
-function ThreadPage() {
+export default function ThreadPage() {
 	const [isSearchBarShown, setSearchBarShown] = useState()
 	const [searchQuery, setSearchQuery] = useState()
 
-	// Redux state.
-	const channel = useSelector(state => state.data.channel)
-	const thread = useSelector(state => state.data.thread)
+	// Using `useSelectorForLocation()` instead of `useSelector()` here
+	// as a workaround for cases when navigating from one thread
+	// to another thread in order to prevent page state inconsistencies
+	// while the current thread data is being updated in Redux
+	// as the "next" page is being loaded.
+	// https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
+	// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
+	const channel = useSelectorForLocation(state => state.data.channel)
+	const thread = useSelectorForLocation(state => state.data.thread)
 
 	const dispatch = useDispatch()
 	const locale = useLocale()
@@ -91,6 +99,8 @@ function ThreadPage() {
 	const getAutoUpdateTriggerElement = useCallback(() => autoUpdateElement.current, [])
 
 	const autoUpdateParameters = useAutoUpdate({
+		channelId: channel.id,
+		threadId: thread.id,
 		getTriggerElement: getAutoUpdateTriggerElement,
 		autoStart: initiallyShowCommentsFromTheLatestReadOne && initialLatestReadCommentIndex === thread.comments.length - 1
 	})
@@ -299,11 +309,21 @@ function ThreadPage() {
 						// 'ThreadPage-comments--fromTheStart': fromIndex === 0
 					})}
 				/>
+
 				{/*noNewComments &&
 					<p className="ThreadPage-noNewComments">
 						{messages.noNewComments}
 					</p>
 				*/}
+
+				<div className="Comment-spacer"/>
+
+				<ThreadCreateComment
+					channelId={channel.id}
+					channelIsNotSafeForWork={channel.notSafeForWork}
+					threadId={thread.id}
+					refreshThread={refreshThread}
+				/>
 			</div>
 
 			<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide">
@@ -394,17 +414,3 @@ ThreadPage.load = async ({
 		dataSource
 	})
 }
-
-// This is a workaround for cases when navigating from one thread
-// to another thread in order to prevent page state inconsistencies
-// while the current thread data is being updated in Redux
-// as the "next" page is being loaded.
-// https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
-// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
-export default function ThreadPageWrapper() {
-	const channelId = useSelector(state => state.data.channel.id)
-	const threadId = useSelector(state => state.data.thread.id)
-	return <ThreadPage key={`${channelId}/${threadId}`}/>
-}
-ThreadPageWrapper.meta = ThreadPage.meta
-ThreadPageWrapper.load = ThreadPage.load

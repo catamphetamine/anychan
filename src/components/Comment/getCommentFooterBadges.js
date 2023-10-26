@@ -13,11 +13,12 @@ import PinIcon from 'frontend-lib/icons/pin.svg'
 import InfinityIcon from 'frontend-lib/icons/infinity.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
-import AnonymousIcon from '../../../assets/images/icons/anonymous.svg'
+import AnonymousIconOutline from '../../../assets/images/icons/person-anonymous-slimmer-outline.svg'
+import AnonymousIconFill from '../../../assets/images/icons/person-anonymous-slimmer-fill.svg'
 import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 import CommentRemovedIcon from 'frontend-lib/icons/message-rounded-rect-square-removed.svg'
 
-export default function({ dataSource }) {
+export default function getCommentFooterBadges({ dataSource, isOwn }) {
 	return [
 		{
 			name: 'subscribed',
@@ -57,11 +58,27 @@ export default function({ dataSource }) {
 		},
 		{
 			name: 'original-poster',
-			icon: AnonymousIcon,
+			icon: AnonymousIconOutline,
 			title: ({ post, locale }) => getMessages(locale).post.threadAuthor,
 			// If there are author IDs in the thread then "Original poster" is
 			// gonna be the post author name instead of being a badge.
-			condition: post => (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+			condition: post => !isOwn && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+			// Instead of using `isOwn`, it could have used `post.own` flag.
+			// The reason why specifically `isOwn` is used is because
+			// when the user clicks "This is my comment" / "This is not my comment"
+			// in `CommentMoreActions` menu, `isOwn` flag is updated and the component re-renders.
+		},
+		{
+			name: 'own',
+			icon: AnonymousIconOutline,
+			title: ({ post, locale }) => post.threadId === post.id ? getMessages(locale).post.ownThread : getMessages(locale).post.ownComment,
+			// If there are author IDs in the thread then "Original poster" is
+			// gonna be the post author name instead of being a badge.
+			condition: post => isOwn
+			// Instead of using `isOwn`, it could have used `post.own` flag.
+			// The reason why specifically `isOwn` is used is because
+			// when the user clicks "This is my comment" / "This is not my comment"
+			// in `CommentMoreActions` menu, `isOwn` flag is updated and the component re-renders.
 		},
 		{
 			name: 'country',

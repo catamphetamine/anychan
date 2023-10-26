@@ -21,6 +21,9 @@ import getNextUpdateAtForThread from '../../utility/thread/getNextUpdateAtForThr
 import onThreadFetched from '../../utility/thread/onThreadFetched.js'
 import onThreadExpired from '../../utility/thread/onThreadExpired.js'
 
+const THREAD_FETCH_REQUESTED_BY = 'auto-update'
+const CONCURRENT_THREAD_UPDATE_WAIT_INTERVAL = 500
+
 // Thread page "auto-update" feature:
 //
 // * Replaces `thread` object on every refresh.
@@ -32,6 +35,8 @@ import onThreadExpired from '../../utility/thread/onThreadExpired.js'
 //   currently expanded, to re-render the tree of their replies.
 //
 export default function useAutoUpdate({
+	channelId,
+	threadId,
 	getTriggerElement,
 	autoStart
 }) {
@@ -41,26 +46,31 @@ export default function useAutoUpdate({
 	const threadIsBeingRefreshed = useSelector(state => state.data.threadIsBeingRefreshed)
 	const threadBeingFetched = useSelector(state => state.data.threadBeingFetched)
 	const threadFetchedAt = useSelector(state => state.data.threadFetchedAt)
+	const threadFetchedBy = useSelector(state => state.data.threadFetchedBy)
 
-	const isAnyoneRefreshingThread = thread && (
-		threadIsBeingRefreshed ||
-		(threadBeingFetched && threadBeingFetched.channelId === thread.channelId && threadBeingFetched.threadId === thread.id)
+	const isAnyoneFetchingOrRefreshingSomeThread = threadBeingFetched || threadIsBeingRefreshed
+
+	const isAnyoneFetchingOrRefreshingThisThread = (
+		threadIsBeingRefreshed &&
+		thread &&
+		thread.id === threadId &&
+		thread.channelId === channelId
+	) || (
+		threadBeingFetched &&
+		threadBeingFetched.channelId === channelId &&
+		threadBeingFetched.threadId === threadId
 	)
+
+	// const isAnyoneFetchingOrRefreshingAnotherThread = isAnyoneFetchingOrRefreshingSomeThread && !isAnyoneFetchingOrRefreshingThisThread
 
 	const isStarted = useRef()
 	const isUpdating = useRef()
-
-	const isAnyoneCurrentlyRefreshingThread = useCallback(() => {
-		return isAnyoneRefreshingThread || isUpdating.current
-	}, [
-		isAnyoneRefreshingThread
-	])
+	const latestKnownThreadObject = useRef(thread)
 
 	const triggerElementScrolledToObserver = useRef()
 	const autoUpdateTimer = useRef()
 	const autoUpdateSecondsLeftTimer = useRef()
-
-	const [threadAutoUpdatedAt, setThreadAutoUpdatedAt] = useState()
+	const concurrentThreadUpdateWaitTimer = useRef()
 
 	const getNextUpdateAt = useCallback((prevUpdateAt) => {
 		const latestComment = thread.comments[thread.comments.length - 1]
@@ -86,6 +96,19 @@ export default function useAutoUpdate({
 	const [nextUpdateAt, setNextUpdateAt] = useState()
 	const [secondsLeft, setSecondsLeft] = useState()
 
+	// The auto-update function can't call `refreshThread()` function directly
+	// to avoid a "circular dependency", so it's worked around using an "effect".
+	const [refreshThreadOnTimeRequest, setRefreshThreadOnTimeRequest] = useState()
+
+	// The auto-update function is updated on every re-render.
+	// `refreshThread()` function is returned to the "outside world"
+	// where there're no guarantees on how it might get called:
+	// maybe in a callback, maybe in a `setTimeout()`, maybe after an `await`.
+	// In all those cases, it would've been potentially stale, so instead of
+	// returning the `refreshThread()` function directly, it is exposed via a
+	// "request thread update" function.
+	const [refreshThreadOnDemandRequest, setRefreshThreadOnDemandRequest] = useState()
+
 	const censoredWords = useSetting(settings => settings.censoredWords)
 	const grammarCorrection = useSetting(settings => settings.grammarCorrection)
 
@@ -96,36 +119,41 @@ export default function useAutoUpdate({
 	const locale = useLocale()
 
 	useEffectSkipMount(() => {
-		// If the thread was re-fetched externally.
-		if (threadFetchedAt) {
-			if (!threadAutoUpdatedAt || threadAutoUpdatedAt < threadFetchedAt) {
-				// If the "auto-update" process is already running, don't intervene:
-				// it will re-run `scheduleNextUpdate()` by itself at the end.
-				log('thread was refreshed by someone else - recalculate next update time')
-				if (!isUpdating.current) {
-					// Re-run `scheduleNextUpdate()` function.
-					scheduleNextUpdate(threadFetchedAt)
+		// Whenever the thread is re-fetched.
+		if (latestKnownThreadObject.current !== thread) {
+			log('has detected that thread has been re-fetched')
+			// Check if the thread was re-fetched externally.
+			if (threadFetchedBy !== THREAD_FETCH_REQUESTED_BY) {
+				log('thread has been fetched by someone else')
+				// If the auto-update process hasn't been started yet,
+				// it doesn't care if the thread was re-fetched externally.
+				// If the auto-update process has ended, same thing.
+				// So only handle the cases when the auto-update process is running.
+				if (isStarted.current) {
+					// If the "auto-update" process is already running, don't intervene:
+					// it will re-run `scheduleNextUpdate()` by itself at the end.
+					log('thread has been fetched by someone else - recalculate next refresh time')
+					if (!isUpdating.current) {
+						// Re-run `scheduleNextUpdate()` function.
+						scheduleNextUpdate(threadFetchedAt)
+					}
 				}
 			}
+			latestKnownThreadObject.current = thread
 		}
-	}, [threadFetchedAt])
-
-	// `refreshThread` is used in `scheduleNextUpdate()`
-	// and at the same time `scheduleNextUpdate()` uses `refreshThread`.
-	// To resolve such "circular dependency", `let refreshThread` variable
-	// is declared first and then assigned later.
-	let refreshThread
+	}, [thread])
 
 	const updateSecondsLeft = useCallback((nextUpdateAt) => {
 		const secondsLeftResult = getSecondsLeft(nextUpdateAt - Date.now())
 		if (secondsLeftResult) {
-			setSecondsLeft(secondsLeftResult.secondsLeft)
-			if (secondsLeftResult.timeToNextSecondsLeft) {
+			const { secondsLeft, timeToNextSecondsLeft } = secondsLeftResult
+			setSecondsLeft(secondsLeft)
+			if (timeToNextSecondsLeft) {
 				autoUpdateSecondsLeftTimer.current = setTimeout(
 					() => {
 						updateSecondsLeft(nextUpdateAt)
 					},
-					secondsLeftResult.timeToNextSecondsLeft
+					timeToNextSecondsLeft
 				)
 			}
 		}
@@ -137,7 +165,7 @@ export default function useAutoUpdate({
 		log('refresh - schedule')
 
 		const nextUpdateAt = getNextUpdateAt(prevUpdateAt)
-		const nextUpdateIn = nextUpdateAt - Date.now()
+		const nextUpdateIn = Math.max(nextUpdateAt - Date.now(), 0)
 
 		// Just a precaution against `setTimeout()` entering an infinite cycle.
 		// In case someone tampers with the code in some future.
@@ -146,9 +174,23 @@ export default function useAutoUpdate({
 			throw new Error('Auto-Update next update time unknown')
 		}
 
+		log('refresh - scheduled in', Math.round(nextUpdateIn / 1000), 'sec')
+
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
 		clearTimeout(autoUpdateTimer.current)
-		autoUpdateTimer.current = setTimeout(refreshThread, nextUpdateIn)
+
+		autoUpdateTimer.current = setTimeout(() => {
+			log('auto-update timer triggered')
+			if (!isMounted()) {
+				log('not mounted — exit')
+				return
+			}
+			// Using a "set state" function here instead of calling `refreshThread()` directly
+			// works around a "circular dependency" between `refreshThread()` and `scheduleNextUpdate()`.
+			// Otherwise, it wouldn't be clear how to declare these two functions using `useCallback()` hooks
+			// because one would require another.
+			setRefreshThreadOnTimeRequest({})
+		}, nextUpdateIn)
 
 		setNextUpdateAt(nextUpdateAt)
 		updateSecondsLeft(nextUpdateAt)
@@ -156,19 +198,40 @@ export default function useAutoUpdate({
 		getNextUpdateAt,
 		setNextUpdateAt,
 		updateSecondsLeft,
-		refreshThread
+		setRefreshThreadOnTimeRequest,
+		isMounted
 	])
 
 	const activateTriggerElement = useCallback(() => {
-		log('trigger element - activate')
+		log('auto-update start on-scroll-to trigger element - activate')
+		if (!isMounted()) {
+			log('auto-update start on-scroll-to trigger element — not activated because the parent component is unmounted')
+			return
+		}
+		// There could be no trigger element rendered at all.
+		// For example, when navigating to a "locked" thread,
+		// no "auto update on-scroll-to trigger element" is rendered
+		// because there'll be no new comments due to the thread being locked.
+		// Analogous, a thread could become "locked" during the process of auto-update
+		// so this function should check for the trigger element's existence
+		// in order to be "safe" to call.
+		if (!getTriggerElement()) {
+			log('auto-update start on-scroll-to trigger element — not found')
+			return
+		}
 		// Will start thread auto update when the element becomes visible on screen.
 		triggerElementScrolledToObserver.current.observe(getTriggerElement())
 	}, [
-		getTriggerElement
+		getTriggerElement,
+		isMounted
 	])
 
 	const deactivateTriggerElement = useCallback((element) => {
-		log('trigger element - deactivate')
+		log('auto-update start on-scroll-to trigger element - deactivate')
+		if (!element) {
+			log('auto-update start on-scroll-to trigger element — not found')
+			return
+		}
 		// No longer track the visibility of the auto update "trigger element".
 		triggerElementScrolledToObserver.current.unobserve(element)
 		// // Could use `.unobserve()` instead of `.disconnect()`, but because
@@ -201,8 +264,12 @@ export default function useAutoUpdate({
 	// `startAutoUpdate()` dependencies list is empty
 	// because it's used in `useEffect()`, so it should be a constant.
 	const startAutoUpdate = useCallback(() => {
+		if (isStarted.current) {
+			log('auto-update process has already been started')
+			return
+		}
 		isStarted.current = true
-		log('start')
+		log('start auto-update process')
 		// The `<AutoUpdate/>` element is visible:
 		// schedule a thread update, and "unobserve" the `<AutoUpdate/>` element.
 		scheduleNextUpdateRef.current()
@@ -215,15 +282,23 @@ export default function useAutoUpdate({
 	// `stopAutoUpdate()` dependencies list is empty
 	// because it's used in `useEffect()`, so it should be a constant.
 	const stopAutoUpdate = useCallback(() => {
+		if (!isStarted.current) {
+			log('auto-update process has already been stopped')
+			return
+		}
+		log('stop auto-update process')
 		isStarted.current = false
-		log('stop')
 		clearTimeout(autoUpdateTimer.current)
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
+		clearTimeout(concurrentThreadUpdateWaitTimer.current)
 	}, [])
 
 	const onThreadHasExpired = useCallback(() => {
 		log('thread expired')
-		stopAutoUpdate()
+		// If Auto-Update is running, stop it.
+		if (isStarted.current) {
+			stopAutoUpdate()
+		}
 		if (isMounted()) {
 			// Clear the expired thread from user data.
 			setExpired(true)
@@ -235,81 +310,152 @@ export default function useAutoUpdate({
 			{ dispatch, userData }
 		)
 	}, [
-		dispatch,
-		userData,
 		stopAutoUpdate,
-		thread
+		isMounted,
+		thread,
+		userData,
+		dispatch
 	])
 
-	refreshThread = async () => {
-		// If the user clicks the `<AutoUpdate/>` button
-		// several times in quick succession, this flag
-		// will prevent it from needlessly double-refreshing.
-		if (isAnyoneCurrentlyRefreshingThread()) {
+	// `refreshThread()` function is called by:
+	//
+	// * The code in this file recursively in a cycle,
+	//   if it has been started and hasn't been stopped.
+	//
+	// * On demand by the code in this file.
+	//   For example, when the user clicks on the `<AutoUpdate/>` element,
+	//   or when the auto-update process has just started.
+	//
+	// * On demand by any other external code.
+	//   For example, by `<PostForm/>`
+	//   after a new comment has been sent to the thread..
+	//
+	// Therefore, when making any assumptions, `refreshThread()` code
+	// should assume any of those two cases.
+	//
+	// Also, there's no point in writing this function using `useCallback()`
+	// because it's not passed as a property anywhere.
+	//
+	const refreshThread = async () => {
+		log('refreshing thread')
+
+		// If the user is currently navigating to another thread,
+		// performing a refresh of the currently displayed thread
+		// would overwrite the navigate-to thread's data in Redux state
+		// resulting in a weird effect: the URL would point to the new page
+		// but the content would be from the old page. Not to mention any possible bugs.
+		//
+		// To work around that, the refresh thread request gets delayed
+		// until the navigate-to thread's data has been loaded,
+		// and then it checks whether the new thread data is in Redux state:
+		// * If it is, it means that the user has navigated to a different thread
+		//   so this pending "refresh thread" call should be dismissed.
+		// * If it isn't and the "old" thread data is still in Redux state
+		//   then it means that the navigate-to thread couldn't be loaded for some reason
+		//   and the user is still on the "old" thread page, so the pending
+		//   "refresh thread" call should be executed.
+		//
+		if (isAnyoneFetchingOrRefreshingSomeThread) {
+			log('concurrent thread fetch or refresh detected — wait')
+			clearTimeout(concurrentThreadUpdateWaitTimer.current)
+			concurrentThreadUpdateWaitTimer.current = setTimeout(
+				() => {
+					refreshThread()
+				},
+				CONCURRENT_THREAD_UPDATE_WAIT_INTERVAL
+			)
 			return
 		}
+
+		const isStillThatThreadPage = thread && thread.id === threadId && thread.channelId === channelId
+		if (!isStillThatThreadPage) {
+			log('no longer at that thread page — won\'t refresh that thread')
+			if (isStarted.current) {
+				stopAutoUpdate()
+			}
+			return
+		}
+
 		clearTimeout(autoUpdateTimer.current)
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
-		isUpdating.current = true
-		setUpdating(true)
-		setSecondsLeft(undefined)
-		try {
-			log('refreshing thread')
-			const previousLatestComment = thread.comments[thread.comments.length - 1]
-			const updatedThread = await getThread({ thread }, {
-				censoredWords,
-				grammarCorrection,
-				locale
-			}, {
-				dispatch,
-				userData,
-				userSettings,
-				dataSource,
-				action: 'refreshThreadInState'
-			})
-			setThreadAutoUpdatedAt(Date.now())
-			onThreadFetched(updatedThread, { dispatch, userData })
-			if (!isStarted.current) {
-				log('has already been stopped - exit')
-				return
-			}
-			if (!isMounted()) {
-				stopAutoUpdate()
-				return
-			}
-			if (updatedThread.locked) {
-				log('thread is locked')
-				stopAutoUpdate()
-				setLocked(true)
-				return
-			}
-			if (updatedThread.archived) {
-				log('thread is archived')
-				onThreadHasExpired()
-				return
-			}
-			setErrored(false)
-			const latestComment = updatedThread.comments[updatedThread.comments.length - 1]
-			if (latestComment.id === previousLatestComment.id) {
-				log('no new comments')
-				scheduleNextUpdate(Date.now())
-			} else {
-				log('has new comments')
-				stopAutoUpdate()
-				activateTriggerElement()
-			}
-		} catch (error) {
-			if (error.status === 404) {
-				onThreadHasExpired()
-			} else {
-				log('error')
-				console.error(error)
-				if (isMounted()) {
-					scheduleNextUpdate(Date.now())
-					setErrored(true)
-				} else {
+
+		// Refreshs the thread.
+		// Returns a `resultCode: string`.
+		const updateThread = async () => {
+			try {
+				const previousLatestComment = thread.comments[thread.comments.length - 1]
+
+				const updatedThread = await getThread({ thread }, {
+					requestedBy: THREAD_FETCH_REQUESTED_BY,
+					censoredWords,
+					grammarCorrection,
+					locale
+				}, {
+					dispatch,
+					userData,
+					userSettings,
+					dataSource,
+					action: 'refreshThreadInState'
+				})
+
+				latestKnownThreadObject.current = updatedThread
+
+				onThreadFetched(updatedThread, { dispatch, userData })
+
+				// When thread becomes "archived", it also automatically becomes "locked",
+				// so there's no need to check for `updatedThread.archived`
+				// after checking for `updatedThread.locked`.
+				if (updatedThread.locked) {
+					log('thread has been locked — stop auto-update')
 					stopAutoUpdate()
+					if (isMounted()) {
+						setLocked(true)
+					}
+					return 'LOCKED'
 				}
+
+				const latestComment = updatedThread.comments[updatedThread.comments.length - 1]
+				if (latestComment.id === previousLatestComment.id) {
+					log('thread has no new comments')
+					// If Auto-Update is running, schedule a next update.
+					if (isStarted.current) {
+						scheduleNextUpdate(Date.now())
+					}
+					return 'NO_NEW_COMMENTS'
+				} else {
+					log('thread has new comments')
+					// If Auto-Update is running, schedule a next update.
+					if (isStarted.current) {
+						stopAutoUpdate()
+						activateTriggerElement()
+					}
+					return 'NEW_COMMENTS'
+				}
+			} catch (error) {
+				if (error.status === 404) {
+					onThreadHasExpired()
+					return 'EXPIRED'
+				} else {
+					log('thread refresh error')
+					console.error(error)
+					// If Auto-Update is running, schedule a next update.
+					if (isStarted.current) {
+						scheduleNextUpdate(Date.now())
+					}
+					throw error
+				}
+			}
+		}
+
+		try {
+			isUpdating.current = true
+			setUpdating(true)
+			setSecondsLeft(undefined)
+			setErrored(false)
+			await updateThread()
+		} catch (error) {
+			if (isMounted()) {
+				setErrored(true)
 			}
 		} finally {
 			isUpdating.current = false
@@ -318,6 +464,36 @@ export default function useAutoUpdate({
 			}
 		}
 	}
+
+	useEffectSkipMount(() => {
+		// If the user clicks the `<AutoUpdate/>` button
+		// several times in quick succession, this check
+		// will prevent it from needlessly running several
+		// "refresh" processes simultaneously.
+		if (!isUpdating.current) {
+			refreshThread()
+		}
+	}, [
+		refreshThreadOnDemandRequest,
+		refreshThreadOnTimeRequest
+	])
+
+	const refreshThreadOnDemand = useCallback(async () => {
+		// This code doesn't directly call `await refreshThread()`.
+		// The reason is that `refreshThread` function is created during render.
+		// That means that that function's "reference" is updated on every re-render.
+		// The `refreshThreadOnDemand()` function is returned to the outside world
+		// from this hook, and after that there're no guarantees on how it will be used:
+		// it might get called in a callback or in a `setTimeout()`, or after some `await`,
+		// and if that happens, the `refreshThreadOnDemand()` function reference they have
+		// previously obtained is no longer guaranteed to not be stale, and stale would mean
+		// incorrect behavior. For that reason, to make the returned `refreshThreadOnDemand()`
+		// function safe to use, it calls the `refreshThread()` function asynchronously,
+		// by triggering an "effect".
+		// For same reason, `refreshThreadOnDemand()` function declared via `useCallback()`
+		// shouldn't have any dependencies.
+		setRefreshThreadOnDemandRequest({})
+	}, [])
 
 	useEffect(() => {
 		// Every modern browser except Internet Explorer supports `IntersectionObserver`s.
@@ -329,11 +505,9 @@ export default function useAutoUpdate({
 			// `entry.target === element`.
 			const entry = entries[0]
 			if (entry.isIntersecting) {
-				if (!isStarted.current) {
-					log('trigger element - triggered')
-					deactivateTriggerElement(entry.target)
-					startAutoUpdate()
-				}
+				log('auto-update start on-scroll-to trigger element - triggered: either is visible on screen or is not far from the current scroll position')
+				deactivateTriggerElement(entry.target)
+				startAutoUpdate()
 			}
 		}, {
 			// "rootMargin" option is incorrectly named.
@@ -347,6 +521,7 @@ export default function useAutoUpdate({
 		} else {
 			activateTriggerElement()
 		}
+		// The cleanup function should deactivate the "on-scroll-to" trigger element.
 		// In React 17, effect cleanup functions run "asynchronously", so
 		// `node.current` is `null` by the time the cleanup function is called.
 		// https://github.com/facebook/react/issues/20555
@@ -367,8 +542,8 @@ export default function useAutoUpdate({
 	}, [])
 
 	return {
-		refreshThread,
-		isAnyoneRefreshingThread,
+		refreshThread: refreshThreadOnDemand,
+		isAnyoneRefreshingThread: isAnyoneFetchingOrRefreshingThisThread,
 		isThreadExpired: isExpired,
 		isThreadLocked: isLocked,
 		isAutoUpdateError: isError,
@@ -420,7 +595,7 @@ function getSecondsLeft(interval) {
 	}
 }
 
-const DEBUG = false
+const DEBUG = true
 function log(...args) {
 	if (DEBUG) {
 		console.log.apply(console, ['[auto-update]'].concat(args))

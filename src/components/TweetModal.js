@@ -8,6 +8,8 @@ import Button from 'frontend-lib/components/Button.js'
 import renderTweet from 'social-components/services/Twitter/renderTweet.js'
 import { openLinkInNewTab } from 'web-browser-input'
 
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
+
 import CloseIcon from 'frontend-lib/icons/close.svg'
 
 import { hideTweet, setLoadingTweet } from '../redux/twitter.js'
@@ -44,7 +46,7 @@ export default function TweetModal() {
 		dispatch(hideTweet())
 	}, [dispatch])
 
-	useEffect(() => {
+	useEffectSkipMount(() => {
 		if (tweetId) {
 			setShowTweet(true)
 			dispatch(setLoadingTweet(true))

@@ -1,13 +1,18 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { Form, Field, Submit, FormComponent, FormActions, FormAction } from '../Form.js'
 import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
 
+import shouldUseProxy from '../../utility/proxy/shouldUseProxy.js'
+
 import useReportComment from './useReportComment.js'
 
 import useMessages from '../../hooks/useMessages.js'
+import useDataSource from '../../hooks/useDataSource.js'
+
+import './ReportCommentForm.css'
 
 export default function ReportCommentForm({
 	channelId,
@@ -48,6 +53,12 @@ export default function ReportCommentForm({
 		onAfterSubmit
 	])
 
+	const dataSource = useDataSource()
+
+	const doesUseProxy = useMemo(() => {
+		return shouldUseProxy({ dataSource })
+	}, [dataSource])
+
 	return (
 		<Form
 			autoFocus={autoFocus}
@@ -63,6 +74,16 @@ export default function ReportCommentForm({
 					placeholder={messages.report.contentInputLabel}
 				/>
 			</FormComponent>
+			{(dataSource.id === '2ch' || dataSource.id === '4chan') &&
+				<p className="PostForm-notWorkingNotice">
+					{messages.doesNotWorkForTheDataSource}
+				</p>
+			}
+			{dataSource.supportsReportComment() && doesUseProxy &&
+				<p className="ReportCommentForm-proxyCaution">
+					{messages.proxyPostingCaution}
+				</p>
+			}
 			<FormActions>
 				{onCancel &&
 					<FormAction>

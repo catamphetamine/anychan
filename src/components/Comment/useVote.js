@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux'
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
-
-import getMessages from '../../messages/index.js'
+import useMessages from '../../hooks/useMessages.js'
 
 import { vote as voteAction } from '../../redux/data.js'
 
@@ -14,17 +13,22 @@ import { notify, showError } from '../../redux/notifications.js'
 export default function useVote({
 	channelId,
 	threadId,
-	comment,
-	locale
+	comment
 }) {
 	const dispatch = useDispatch()
 	const userData = useUserData()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const messages = useMessages()
 
 	const [vote, setVote] = useState(comment.vote)
 
 	const onVote = useCallback(async (up) => {
+		if (!dataSource.supportsVote()) {
+			dispatch(notify(messages.notImplemented))
+			return
+		}
+
 		try {
 			const voteAccepted = await dispatch(voteAction({
 				channelId,
@@ -34,7 +38,7 @@ export default function useVote({
 				userData,
 				userSettings,
 				dataSource,
-				messages: getMessages(locale)
+				messages
 			}))
 			if (voteAccepted) {
 				if (up) {
@@ -43,7 +47,7 @@ export default function useVote({
 					comment.downvotes++
 				}
 			} else {
-				dispatch(notify(getMessages(locale).post.alreadyVoted))
+				dispatch(notify(messages.post.alreadyVoted))
 			}
 			// If the vote has been accepted then mark this comment as "voted".
 			// If the vote hasn't been accepted due to "already voted"
@@ -57,8 +61,11 @@ export default function useVote({
 		channelId,
 		threadId,
 		comment,
-		locale,
-		dispatch
+		messages,
+		dispatch,
+		dataSource,
+		userData,
+		userSettings
 	])
 
 	return [

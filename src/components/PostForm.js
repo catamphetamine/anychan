@@ -11,6 +11,7 @@ import LinearProgress from 'frontend-lib/components/LinearProgress.js'
 import { FadeInOut } from 'react-responsive-ui'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
+import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
 import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
@@ -41,6 +42,10 @@ import useDataSource from '../hooks/useDataSource.js'
 import './PostForm.css'
 
 function PostForm({
+	expanded: expandedPropertyValue,
+	onExpandedChange,
+	unexpandOnClose,
+	expandOnInteraction,
 	placement,
 	autoFocus,
 	initialState,
@@ -58,7 +63,8 @@ function PostForm({
 	onHeightDidChange,
 	attachmentThumbnailSize = 250,
 	onCancel,
-	onSubmit: onSubmit_
+	onSubmit: onSubmit_,
+	className
 }, ref) {
 	const isMounted = useIsMounted()
 
@@ -77,18 +83,48 @@ function PostForm({
 	}
 
 	const [error, setError] = useState(initialError)
-	const [loading, setLoading] = useState()
+	const [loading, setLoading] = useState(false)
 
 	const [files, setFiles] = useState(initialFiles || [])
 	const [fileAttachments, setFileAttachments] = useState(initialAttachments || [])
 
 	const [filesBeingProcessed, setFilesBeingProcessed] = useState([])
 
+	const [hasInteracted, setHasInteracted] = useState(false)
+	const [expanded, setExpanded] = useState(expandedPropertyValue)
+
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
 			onErrorDidChange(error)
 		}
 	}, [error])
+
+	const applyExpandedValue = useCallback((value) => {
+		setExpanded(value)
+		if (onExpandedChange) {
+			onExpandedChange(value)
+		}
+	}, [
+		onExpandedChange
+	])
+
+	const unExpand = useCallback(() => {
+		applyExpandedValue(false)
+	}, [applyExpandedValue])
+
+	const onClose = onCancel || (expanded && unexpandOnClose && unExpand)
+
+	useEffectSkipMount(() => {
+		applyExpandedValue(expandedPropertyValue)
+	}, [
+		expandedPropertyValue
+	])
+
+	useLayoutEffectSkipMount(() => {
+		if (onHeightDidChange) {
+			onHeightDidChange()
+		}
+	}, [expanded])
 
 	useEffectSkipMount(() => {
 		// They say that two consequtive `setState()` calls are batched together.
@@ -232,7 +268,23 @@ function PostForm({
 		onFileAttached
 	])
 
+	const onInteraction = useCallback(() => {
+		if (!hasInteracted) {
+			setHasInteracted(true)
+		}
+		if (expandOnInteraction && !expanded) {
+			applyExpandedValue(true)
+		}
+	}, [
+		hasInteracted,
+		expandOnInteraction,
+		expanded,
+		applyExpandedValue
+	])
+
 	const dataSource = useDataSource()
+
+	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
 
 	const doesUseProxy = useMemo(() => {
 		return shouldUseProxy({ dataSource })
@@ -266,7 +318,10 @@ function PostForm({
 	// causing the page scroll position to jump accordingly.
 
 	const formElement = (
-		<section className={classNames('PostForm', {
+		<section className={classNames(className, 'PostForm', {
+			'PostForm--hasInteracted': hasInteracted,
+			'PostForm--hasNotInteracted': !hasInteracted,
+			'PostForm--notExpanded': !expanded,
 			'PostForm--page': placement === 'page',
 			'PostForm--comment': placement === 'comment'
 		})}>
@@ -282,8 +337,10 @@ function PostForm({
 						name={POST_FORM_INPUT_FIELD_NAME}
 						type="text"
 						multiline
-						rows={2}
+						rows={expanded ? 2 : 1}
 						value={initialInputValue}
+						onFocus={onInteraction}
+						onClick={onInteraction}
 						onChange={onInputValueChange}
 						initialHeight={initialInputHeight}
 						onHeightChange={onInputHeightDidChange}
@@ -291,9 +348,9 @@ function PostForm({
 						placeholder={messages.post.form.inputText}
 					/>
 				</FormComponent>
-				{onCancel &&
+				{onClose &&
 					<Button
-						onClick={onCancel}
+						onClick={onClose}
 						title={messages.actions.close}
 						className="PostForm-close">
 						<CancelIcon className="PostForm-closeIcon"/>
@@ -315,7 +372,12 @@ function PostForm({
 					{error}
 				</p>
 			}
-			{dataSource.id === '2ch' && doesUseProxy &&
+			{(dataSource.id === '2ch' || dataSource.id === '4chan') &&
+				<p className="PostForm-notWorkingNotice">
+					{messages.doesNotWorkForTheDataSource}
+				</p>
+			}
+			{isPostingSupported && doesUseProxy &&
 				<p className="PostForm-proxyCaution">
 					{messages.proxyPostingCaution}
 				</p>
@@ -397,6 +459,10 @@ function PostForm({
 PostForm = React.forwardRef(PostForm)
 
 PostForm.propTypes = {
+	expanded: PropTypes.bool,
+	onExpandedChange: PropTypes.func,
+	unexpandOnClose: PropTypes.bool,
+	expandOnInteraction: PropTypes.bool,
 	placement: PropTypes.oneOf(['page', 'comment']).isRequired,
 	autoFocus: PropTypes.bool,
 	onCancel: PropTypes.func,
@@ -414,7 +480,8 @@ PostForm.propTypes = {
 	initialAttachments: PropTypes.arrayOf(PropTypes.object),
 	onAttachmentsDidChange: PropTypes.func,
 	onHeightDidChange: PropTypes.func,
-	attachmentThumbnailSize: PropTypes.number
+	attachmentThumbnailSize: PropTypes.number,
+	className: PropTypes.string
 }
 
 export default PostForm

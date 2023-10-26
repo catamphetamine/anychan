@@ -38,8 +38,18 @@
 }
 
 .ChannelPage--latestComments {
+	/*
 	.ChannelPage-commentsListContainer {
 		margin-top: 0;
+	}
+	*/
+
+	.Comment-spacer--aboveFirstSpacerLine {
+		display: none;
+	}
+
+	.Comment-spacerLine--first {
+		display: none;
 	}
 }
 

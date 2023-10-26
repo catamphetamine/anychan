@@ -294,7 +294,9 @@
 	/* Comment. */
 	/*--Comment-boxShadow: inset 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);*/
 	--Comment-boxShadow: none;
-	--Comment-border: var(--CommentSeparator-color) solid var(--CommentSeparator-width--outline);
+	--Comment-borderColor: var(--CommentSeparator-color);
+	--Comment-borderWidth: var(--CommentSeparator-width--outline);
+	--Comment-border: var(--Comment-borderColor) solid var(--Comment-borderWidth);
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -573,6 +575,9 @@
 	@mixin l-plus {
 		--ThreadPageShowPrevious-marginTop: var(--unit);
 	}
+
+	/* ChannelCreateThreadButton. */
+	--ChannelCreateThreadButton-marginTop: var(--ThreadPageShowPrevious-marginTop);
 
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;

@@ -2,8 +2,10 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { showReportCommentModal } from '../../redux/report.js'
+import { notify } from '../../redux/notifications.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
+import useMessages from '../../hooks/useMessages.js'
 
 export default function useReport({
 	channelId,
@@ -12,6 +14,7 @@ export default function useReport({
 }) {
 	const dispatch = useDispatch()
 	const dataSource = useDataSource()
+	const messages = useMessages()
 
 	const onReport = useCallback(() => {
 		dispatch(showReportCommentModal({
@@ -25,7 +28,11 @@ export default function useReport({
 		commentId
 	])
 
+	const onReportNotImplemented = useCallback(() => {
+		dispatch(notify(messages.notImplemented))
+	}, [])
+
 	return {
-		onReport: dataSource.id === '2ch' ? onReport : undefined
+		onReport: dataSource.supportsReportComment() ? onReport : onReportNotImplemented
 	}
 }

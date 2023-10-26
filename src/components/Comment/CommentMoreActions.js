@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -34,6 +34,8 @@ export default function CommentMoreActions({
 	urlBasePath,
 	onReply,
 	onReport,
+	isOwn,
+	setOwn,
 	onDownloadThread,
 	onHide,
 	buttonRef
@@ -44,21 +46,6 @@ export default function CommentMoreActions({
 
 	const commentId = comment.id
 
-	const isOwn = useCallback(() => {
-		if (mode === 'thread') {
-			return userData.isOwnComment(channelId, threadId, commentId)
-		} else {
-			return userData.isOwnThread(channelId, threadId)
-		}
-	}, [
-		mode,
-		userData,
-		channelId,
-		threadId,
-		commentId
-	])
-
-	const [markedAsOwn, setMarkedAsOwn] = useState(isOwn())
 	const [isIgnoredAuthor, setIgnoredAuthor] = useState(comment.authorId ? userData.isIgnoredAuthor(comment.authorId) : false)
 
 	const moreActions = useMemo(() => {
@@ -145,10 +132,10 @@ export default function CommentMoreActions({
 		}
 
 		if (mode === 'thread') {
-			// "Show original comment".
+			// "Go to original comment".
 			// (redirects to the original data source website)
 			actions.push({
-				label: messages.post.moreActions.showOriginalComment,
+				label: messages.post.moreActions.goToOriginalComment,
 				onClick: () => {
 					let url
 					if (commentId === threadId) {
@@ -173,36 +160,38 @@ export default function CommentMoreActions({
 		if (mode === 'thread') {
 			// "This is my comment" / "This is not my comment".
 			actions.push({
-				label: isOwn()
+				label: isOwn
 					? (threadId === commentId ? messages.unmarkAsOwnThread : messages.unmarkAsOwnComment)
 					: (threadId === commentId ? messages.markAsOwnThread : messages.markAsOwnComment),
 				onClick: () => {
-					if (isOwn()) {
+					if (isOwn) {
 						userData.removeOwnComment(channelId, threadId, commentId)
 						if (threadId === commentId) {
 							userData.removeOwnThread(channelId, threadId)
 						}
-						setMarkedAsOwn(false)
+						comment.own = false
+						setOwn(false)
 					} else {
 						userData.addOwnComment(channelId, threadId, commentId)
 						if (threadId === commentId) {
 							userData.addOwnThread(channelId, threadId)
 						}
-						setMarkedAsOwn(true)
+						comment.own = true
+						setOwn(true)
 					}
 				}
 			})
 		} else {
 			// "This is my thread" / "This is not my thread".
 			actions.push({
-				label: isOwn() ? messages.unmarkAsOwnThread : messages.markAsOwnThread,
+				label: isOwn ? messages.unmarkAsOwnThread : messages.markAsOwnThread,
 				onClick: () => {
-					if (isOwn()) {
+					if (isOwn) {
 						userData.removeOwnThread(channelId, threadId)
-						setMarkedAsOwn(false)
+						setOwn(false)
 					} else {
 						userData.addOwnThread(channelId, threadId)
-						setMarkedAsOwn(true)
+						setOwn(true)
 					}
 				}
 			})
@@ -232,8 +221,7 @@ export default function CommentMoreActions({
 		url,
 		urlBasePath,
 		isOwn,
-		markedAsOwn,
-		setMarkedAsOwn,
+		setOwn,
 		isIgnoredAuthor,
 		setIgnoredAuthor,
 		onDownloadThread
@@ -264,6 +252,8 @@ CommentMoreActions.propTypes = {
 	urlBasePath: PropTypes.string,
 	onReply: PropTypes.func,
 	onReport: PropTypes.func,
+	isOwn: PropTypes.bool,
+	setOwn: PropTypes.func,
 	onDownloadThread: PropTypes.func,
 	onHide: PropTypes.func.isRequired,
 	buttonRef: PropTypes.object

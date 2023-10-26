@@ -216,6 +216,8 @@
 	"post": {
 		"archived": "Archivierter Thread",
 		"trimming": "Trimmen Thread",
+		"ownComment": "Dies ist Ihr Kommentar",
+		"ownThread": "Das ist dein Thread",
 		"threadAuthor": "Autor des Thread",
 		"attachmentsCount": "Anhänge",
 		"commentAttachmentsCount": "Anhänge in Kommentaren",
@@ -227,7 +229,7 @@
 			"hide": "Ausblenden",
 			"ignoreAuthor": "Autor ignorieren",
 			"unignoreAuthor": "Autor nicht ignorieren",
-			"showOriginalComment": "Originalkommentar anzeigen"
+			"goToOriginalComment": "Gehen Sie zur Hauptwebsite"
 		},
 		"form": {
 			"inputText": "Schreibe einen Kommentar…"
@@ -254,6 +256,7 @@
 	},
 	"downloadThread": "Thread-Daten herunterladen",
 	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
+	"doesNotWorkForTheDataSource": "Diese Funktion funktioniert derzeit nicht mit diesem Imageboard",
 	"inReplyTo": "als Antwort auf",
 	"markAsOwnComment": "Das ist mein Kommentar",
 	"unmarkAsOwnComment": "Das ist nicht mein Kommentar",
@@ -304,6 +307,10 @@
 	"createCommentSuccess": "Kommentar gepostet",
 	"createCommentError": "Der Kommentar konnte nicht gepostet werden",
 	"createCommentRateLimitExceeded": "Das Limit für die Kommentarerstellungsrate wurde überschritten",
+	"createThread": "Erstelle einen Thread",
+	"createThreadError": "Es konnte kein neuer Thread erstellt werden",
+	"createThreadSuccess": "Thread erstellt",
+	"createThreadRateLimitExceeded": "Grenzwert für Thread-Erstellungsrate überschritten",
 	"captchaSolutionIncorrect": "Falsche Captcha-Code-Lösung",
 	"captchaExpired": "Der Captcha-Code ist abgelaufen",
 	"captcha": "Captcha-Code",

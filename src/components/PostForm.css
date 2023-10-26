@@ -1,6 +1,9 @@
 @import "../styles/common.css";
 
 :root {
+	--PostForm-backgroundColor: var(--Post-backgroundColor);
+	--PostForm-borderColor: var(--Comment-borderColor);
+
 	--PostForm-paddingLeft: var(--Post-paddingLeft);
 	--PostForm-paddingRight: var(--Post-paddingRight);
 	--PostForm-paddingTop: var(--Post-paddingTop);
@@ -35,9 +38,12 @@
 
 	--PostFormTextInput-marginRight: var(--unit);
 
-  background-color: var(--Post-backgroundColor);
+	--Comment-borderColor: var(--PostForm-borderColor);
+
+  background-color: var(--PostForm-backgroundColor);
   box-shadow: var(--Comment-boxShadow);
   border: var(--Comment-border);
+  border-color: var(--PostForm-borderColor);
 
 	padding-top: var(--PostForm-paddingTop);
   padding-bottom: var(--PostForm-paddingBottom);
@@ -126,6 +132,19 @@
 .PostForm-error {
 	color: var(--Critical-color);
 	margin-top: var(--unit);
+}
+
+.PostForm--notExpanded {
+	.PostForm-proxyCaution,
+	.PostForm-notWorkingNotice,
+	.PostForm-attachFile,
+	.PostForm-action {
+		display: none;
+	}
+
+	.PostForm-textInputContainer {
+		margin-right: 0;
+	}
 }
 
 .PostForm-proxyCaution {

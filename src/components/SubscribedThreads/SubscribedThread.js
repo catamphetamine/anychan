@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-pages'
@@ -22,6 +22,8 @@ import useUserData from '../../hooks/useUserData.js'
 
 import getUrl from '../../utility/getUrl.js'
 import doesSubscribedThreadHaveNewComments from '../../utility/subscribedThread/doesSubscribedThreadHaveNewComments.js'
+
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import { unsubscribeFromThread, restoreSubscribedThread } from '../../redux/subscribedThreads.js'
 
@@ -61,7 +63,7 @@ function SubscribedThread({
 		setUnsubscribed(false)
 	}, [thread, userData])
 
-	useEffect(() => {
+	useEffectSkipMount(() => {
 		if (unsubscribed) {
 			// Expired threads don't get an "Undo" button.
 			if (undoUnsubscribeButton.current) {

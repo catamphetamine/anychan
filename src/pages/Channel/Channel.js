@@ -1,8 +1,9 @@
 import React, { useMemo, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { getViewportWidthWithScrollbar } from 'web-browser-window'
+import { useSelectorForLocation } from 'react-pages'
 
 import {
 	setVirtualScrollerState,
@@ -15,6 +16,7 @@ import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 import PinnedThreads from '../../components/PinnedThreads/PinnedThreads.js'
 
+import ChannelCreateThreadButton from './ChannelCreateThreadButton.js'
 import ChannelThread from './ChannelThread.js'
 import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
@@ -30,11 +32,20 @@ import { getContext } from '../../context.js'
 import getChannelPageMeta from './Channel.meta.js'
 import useLoadChannelPage from '../../hooks/useLoadChannelPage.js'
 
+import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
+
 import './Channel.css'
 
-function ChannelPage() {
-	const channel = useSelector(state => state.data.channel)
-	const threads = useSelector(state => state.data.threads)
+export default function ChannelPage() {
+	// Using `useSelectorForLocation()` instead of `useSelector()` here
+	// as a workaround for cases when navigating from one channel
+	// to another channel in order to prevent page state inconsistencies
+	// while the current channel data is being updated in Redux
+	// as the "next" page is being loaded.
+	// https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
+	// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
+	const channel = useSelectorForLocation(state => state.data.channel)
+	const latestLoadedThreads = useSelectorForLocation(state => state.data.threads)
 
 	const locale = useLocale()
 
@@ -60,16 +71,15 @@ function ChannelPage() {
 		// rather than just in `state.settings`.
 		channelLayout,
 		channelSorting
-	} = useSelector(state => state.channel)
+	} = useSelectorForLocation(state => state.channel)
 
 	const dispatch = useDispatch()
 
-	// This "hack" is used to keep rendering the `threads` list
-	// which was loaded for the previous `channelLayout` / `channelSorting`
-	// when switching channel view in the Toolbar.
-	const threadsForPreviousChannelView = useRef()
-
-	const threadsList = threadsForPreviousChannelView.current || threads
+	const {
+		threads,
+		onChannelViewWillChange,
+		onChannelViewDidChange
+	} = useThreadsForChannelView(latestLoadedThreads)
 
 	// Update max attachment thumbnail width.
 	useUpdateAttachmentThumbnailMaxWidth({ threads })
@@ -103,21 +113,6 @@ function ChannelPage() {
 		channelLayout,
 		channelSorting
 	])
-
-	const threadsForCurrentChannelView = useMemo(() => {
-		return threads
-	}, [
-		channelLayout,
-		channelSorting
-	])
-
-	const onChannelViewWillChange = useCallback(() => {
-		threadsForPreviousChannelView.current = threads
-	}, [])
-
-	const onChannelViewDidChange = useCallback(() => {
-		threadsForPreviousChannelView.current = undefined
-	}, [])
 
 	const transformInitialItemState = useCallback((itemState, item) => {
 		if (channelLayout === 'threadsListWithLatestComments') {
@@ -161,6 +156,14 @@ function ChannelPage() {
 		return 1
 	}, [channelLayout])
 
+	// Scroll to the top of the page when changing channel layout or channel sorting.
+	useLayoutEffectSkipMount(() => {
+		window.scrollTo(0, 0)
+	}, [
+		channelLayout,
+		channelSorting
+	])
+
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
 			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments'
@@ -175,9 +178,14 @@ function ChannelPage() {
 				onChannelViewDidChange={onChannelViewDidChange}
 			/>
 
+			<ChannelCreateThreadButton
+				channelId={channel.id}
+				channelIsNotSafeForWork={channel.notSafeForWork}
+			/>
+
 			<div className="ChannelPage-commentsListContainer">
 				{/*<PinnedThreads
-					threads={threadsList}
+					threads={threads}
 				/>*/}
 
 				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
@@ -191,7 +199,7 @@ function ChannelPage() {
 					setState={setVirtualScrollerState}
 					initialScrollPosition={initialScrollPosition}
 					setScrollPosition={setScrollPosition}
-					items={threadsList}
+					items={threads}
 					itemComponent={ChannelThread}
 					itemComponentProps={itemComponentProps}
 					className={classNames('ChannelPage-threads', {
@@ -222,15 +230,29 @@ ChannelPage.load = async ({
 	await loadChannelPage({ channelId })
 }
 
-// This is a workaround for cases when navigating from one channel
-// to another channel in order to prevent page state inconsistencies
-// while the current channel data is being updated in Redux
-// as the "next" page is being loaded.
-// https://github.com/4Catalyzer/found/issues/639#issuecomment-567084189
-// https://gitlab.com/catamphetamine/react-pages#same-route-navigation
-export default function ChannelPageWrapper() {
-	const channelId = useSelector(state => state.data.channel.id)
-	return <ChannelPage key={channelId}/>
+function useThreadsForChannelView(latestLoadedThreads) {
+	// This "hack" is used to keep rendering the `threads` list
+	// which was loaded for the previous `channelLayout` / `channelSorting`
+	// when switching channel view in the Toolbar.
+	const threadsForPreviousChannelView = useRef()
+
+	// Until `channelLayout` / `channelSorting` have been updated in Redux state,
+	// it's gonna use the list of threads for the previous values of those two.
+	// When `channelLayout` / `channelSorting` have been updated in Redux state,
+	// `onChannelViewDidChange()` is called and the "previous" value gets cleared.
+	const threads = threadsForPreviousChannelView.current || latestLoadedThreads
+
+	const onChannelViewWillChange = useCallback(() => {
+		threadsForPreviousChannelView.current = latestLoadedThreads
+	}, [])
+
+	const onChannelViewDidChange = useCallback(() => {
+		threadsForPreviousChannelView.current = undefined
+	}, [])
+
+	return {
+		threads,
+		onChannelViewWillChange,
+		onChannelViewDidChange
+	}
 }
-ChannelPageWrapper.meta = ChannelPage.meta
-ChannelPageWrapper.load = ChannelPage.load

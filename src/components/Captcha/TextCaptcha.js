@@ -5,15 +5,19 @@ import { Form, Field, Submit, FormComponent, FormActions, FormAction } from '../
 import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
 
-import Picture from 'social-components-react/components/Picture.js'
+import TextCaptchaChallengeImage from './TextCaptchaChallengeImage.js'
+import TextCaptchaChallengeImageSlider from './TextCaptchaChallengeImageSlider.js'
 
 import CaptchaSolutionIncorrectError from '../../api/errors/CaptchaSolutionIncorrectError.js'
 
 import useMessages from '../../hooks/useMessages.js'
 
+import { textCaptchaType } from './PropTypes.js'
+
 import './TextCaptcha.css'
 
 export default function TextCaptcha({
+	slider,
 	captcha,
 	onSubmit,
 	onCancel
@@ -32,17 +36,6 @@ export default function TextCaptcha({
 	const [captchaExpired, setCaptchaExpired] = useState(initialCaptchaExpired)
 
 	const captchaExpirationTimer = useRef()
-
-	const captchaPicture = useMemo(() => ({
-		title: messages.captcha,
-		type: captcha.image.type,
-		url: captcha.image.url,
-		width: captcha.image.width,
-		height: captcha.image.height
-	}), [
-		messages,
-		captcha
-	])
 
 	const onSubmitCaptcha = useCallback(async ({ solution }) => {
 		try {
@@ -86,12 +79,19 @@ export default function TextCaptcha({
 
 	return (
 		<div className="TextCaptcha">
-			<Picture
-				useSmallestSize
-				useSmallestSizeExactDimensions
-				picture={captchaPicture}
-				className="TextCaptcha-picture"
-			/>
+			{captcha.challengeType === 'image' &&
+				<TextCaptchaChallengeImage
+					captcha={captcha}
+					className="TextCaptcha-challenge"
+				/>
+			}
+
+			{captcha.challengeType === 'image-slider' &&
+				<TextCaptchaChallengeImageSlider
+					captcha={captcha}
+					className="TextCaptcha-challenge"
+				/>
+			}
 
 			<Form
 				autoFocus
@@ -129,20 +129,9 @@ export default function TextCaptcha({
 	)
 }
 
-export const textCaptchaType = PropTypes.shape({
-	id: PropTypes.string.isRequired,
-	type: PropTypes.oneOf(['text']).isRequired,
-	characterSet: PropTypes.string,
-	expiresAt: PropTypes.instanceOf(Date).isRequired,
-	image: PropTypes.shape({
-		type: PropTypes.string.isRequired,
-		url: PropTypes.string.isRequired,
-		width: PropTypes.number.isRequired,
-		height: PropTypes.number.isRequired
-	}).isRequired
-})
 
 TextCaptcha.propTypes = {
+	slider: PropTypes.bool,
 	captcha: textCaptchaType.isRequired,
 	onSubmit: PropTypes.func.isRequired,
 	onCancel: PropTypes.func.isRequired

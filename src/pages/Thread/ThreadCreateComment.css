@@ -1,0 +1,6 @@
+.ThreadCreateComment--notExpanded {
+	--PostForm-borderColor: transparent;
+	--PostForm-backgroundColor: transparent;
+
+	--rrui-input-field-border-color: var(--Content-color-300);
+}

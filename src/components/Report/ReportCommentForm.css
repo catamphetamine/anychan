@@ -1,0 +1,5 @@
+.ReportCommentForm-proxyCaution {
+	color: var(--Content-color-500);
+	font-weight: lighter;
+	margin-top: var(--unit);
+}

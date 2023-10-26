@@ -75,7 +75,7 @@ export default function addCommentProps(thread, {
 
 		// Set ownership status.
 		if (ownCommentIds.includes(comment.id)) {
-			comment.ownCommentIds = true
+			comment.own = true
 		}
 
 		// Set hidden status.

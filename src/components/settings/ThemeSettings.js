@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-ui'
 
@@ -7,6 +7,8 @@ import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
 import { Form, Field, Submit, FormStyle, FormComponent, FormActions, FormAction } from '../Form.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
+
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import isValidUrl from '../../utility/isValidUrl.js'
 import isValidRelativeUrl from '../../utility/isValidRelativeUrl.js'
@@ -164,7 +166,7 @@ function AddTheme({
 	const userSettings = useSettings()
 
 	// Focus the "Code" input after "Paste CSS code instead" has been clicked.
-	useEffect(() => {
+	useEffectSkipMount(() => {
 		if (pasteCodeInstead) {
 			addThemeForm.current.focus('css')
 		}

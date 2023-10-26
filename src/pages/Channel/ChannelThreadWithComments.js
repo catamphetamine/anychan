@@ -31,7 +31,7 @@ export default function ChannelThreadWithComments({
 		return {
 			...commonProps,
 			threadId: thread.id,
-			isFirstItemInTheList: thread.isFirstThreadInTheList,
+			isFirstThreadInTheList: thread.isFirstThreadInTheList,
 			showRepliesCount: false,
 			postDateLinkClickable: false,
 			postDateLinkUpdatePageUrlToPostUrlOnClick: false,

@@ -22,6 +22,23 @@ export const setChannelSorting = redux.simpleAction(
 	(state, channelSorting) => ({ ...state, channelSorting })
 )
 
+export const updateCreateThreadState = redux.simpleAction(
+	(state, createThreadStateUpdate) => ({
+		...state,
+		createThreadState: {
+			...state.createThreadState,
+			...createThreadStateUpdate
+		}
+	})
+)
+
+export const resetCreateThreadState = redux.simpleAction(
+	(state, createThreadStateUpdate) => ({
+		...state,
+		createThreadState: undefined
+	})
+)
+
 export const resetState = redux.simpleAction(
 	(state) => ({})
 )

@@ -33,6 +33,8 @@ export default function useShowCommentOnSameThreadUrlNavigation({
 			}
 		}
 		window.addEventListener('popstate', historyListener)
-		return () => window.removeEventListener('popstate', historyListener)
+		return () => {
+			window.removeEventListener('popstate', historyListener)
+		}
 	}, [])
 }

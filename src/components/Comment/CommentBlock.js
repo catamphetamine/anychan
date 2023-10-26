@@ -17,6 +17,7 @@ import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickabl
 import useReply from './useReply.js'
 import useReport from './useReport.js'
 import useHide from './useHide.js'
+import useOwn from './useOwn.js'
 
 import getMessages from '../../messages/index.js'
 import UnreadCommentWatcher from '../../utility/comment/UnreadCommentWatcher.js'
@@ -60,13 +61,23 @@ export default function CommentBlock({
 	initialReplyFormAttachments,
 	onReplyFormAttachmentsDidChange,
 	showSeparatorLineBetweenTopLevelComments,
-	isFirstItemInTheList,
+	isFirstThreadInTheList,
 	refreshThread,
 	...rest
 }) {
 	// This button gets focused when the user clicks the "Cancel" button
 	// on the reply form under this comment.
 	const moreActionsButtonRef = useRef()
+
+	const {
+		isOwn,
+		setOwn
+	} = useOwn({
+		channelId,
+		threadId,
+		commentId: comment.id,
+		mode
+	})
 
 	const {
 		replyForm,
@@ -94,7 +105,6 @@ export default function CommentBlock({
 		onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 		onRenderedContentDidChange,
 		moreActionsButtonRef,
-		locale,
 		refreshThread,
 		onSubscribeToThread
 	})
@@ -136,7 +146,9 @@ export default function CommentBlock({
 				</div>
 			}
 
-			<div className="Comment-spacer"/>
+			<div className={classNames('Comment-spacer', {
+				'Comment-spacer--aboveFirstSpacerLine': isFirstThreadInTheList && comment.id === threadId
+			})}/>
 
 			{!parentComment && showSeparatorLineBetweenTopLevelComments &&
 				<>
@@ -146,7 +158,7 @@ export default function CommentBlock({
 					    visually hidden, for example, by making it transparent.
 					*/}
 					<hr className={classNames('Comment-spacerLine', {
-						'Comment-spacerLine--first': isFirstItemInTheList
+						'Comment-spacerLine--first': isFirstThreadInTheList && comment.id === threadId
 					})}/>
 					<div className="Comment-spacer"/>
 				</>
@@ -175,6 +187,8 @@ export default function CommentBlock({
 						onHide={onHide}
 						onReply={onReply}
 						onReport={onReport}
+						isOwn={isOwn}
+						setOwn={setOwn}
 						urlBasePath={getBasePath()}
 						onRenderedContentDidChange={onRenderedContentDidChange}
 						channelIsNotSafeForWork={channelIsNotSafeForWork}
@@ -206,8 +220,8 @@ export default function CommentBlock({
 
 					<PostForm
 						ref={replyForm}
+						expanded
 						placement="comment"
-						locale={locale}
 						initialInputValue={replyFormInitialText}
 						initialState={initialReplyFormState}
 						onStateDidChange={onReplyFormStateDidChange}
@@ -267,7 +281,7 @@ CommentBlock.propTypes = {
 	initialReplyFormAttachments: PropTypes.arrayOf(PropTypes.object),
 	onReplyFormAttachmentsDidChange: PropTypes.func,
 	showSeparatorLineBetweenTopLevelComments: PropTypes.bool,
-	isFirstItemInTheList: PropTypes.bool
+	isFirstThreadInTheList: PropTypes.bool
 }
 
 /*

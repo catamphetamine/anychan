@@ -4,19 +4,21 @@ import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-ui'
 import Button from 'frontend-lib/components/Button.js'
 
-import TextCaptcha, { textCaptchaType } from './TextCaptcha.js'
+import TextCaptcha from './TextCaptcha.js'
+import { textCaptchaType } from './PropTypes.js'
 
 import { getCaptchaSubmitFunction, removeCaptchaSubmitFunction } from '../../utility/captcha/captchaSubmitFunction.js'
 
 export default function CaptchaModal({
 	isOpen,
 	close,
-	captcha
+	captcha,
+	captchaSubmitId
 }) {
 	const [isSubmitting, setSubmitting] = useState(false)
 
 	const onSubmitCaptchaSolution = useCallback(async (...args) => {
-		const onSubmit = getCaptchaSubmitFunction(captcha.id)
+		const onSubmit = getCaptchaSubmitFunction(captchaSubmitId)
 		try {
 			setSubmitting(true)
 			await onSubmit(...args)
@@ -24,14 +26,14 @@ export default function CaptchaModal({
 		} finally {
 			setSubmitting(false)
 		}
-	}, [captcha])
+	}, [captchaSubmitId])
 
 	const onClose = useCallback(() => {
-		removeCaptchaSubmitFunction(captcha.id)
+		removeCaptchaSubmitFunction(captchaSubmitId)
 		close()
 	}, [
 		close,
-		captcha
+		captchaSubmitId
 	])
 
 	return (
@@ -58,5 +60,6 @@ CaptchaModal.propTypes = {
 	close: PropTypes.func.isRequired,
 	captcha: PropTypes.oneOfType([
 		textCaptchaType
-	])
+	]),
+	captchaSubmitId: PropTypes.string
 }

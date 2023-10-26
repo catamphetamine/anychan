@@ -1,5 +1,7 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import getRequestedCommentIndex from './getRequestedCommentIndex.js'
 
@@ -37,9 +39,7 @@ export default function useFromIndex({
 
 	const onSetFromIndex = useCallback((fromIndex) => {
 		dispatch(setFromIndex(fromIndex))
-	}, [
-		setFromIndex
-	])
+	}, [])
 
 	// `newFromIndex` and `newFromIndexHasBeenSet` are only used
 	// so that `VirtualScroller`'s `preserveScrollPositionOnPrependItems`
@@ -48,27 +48,23 @@ export default function useFromIndex({
 	const [newFromIndex, setNewFromIndex] = useState()
 	const [newFromIndexHasBeenSet, setNewFromIndexHasBeenSet] = useState()
 
-	useEffect(() => {
+	useEffectSkipMount(() => {
 		if (newFromIndex !== undefined) {
 			onSetFromIndex(newFromIndex)
 			setNewFromIndexHasBeenSet(true)
 		}
 	}, [
-		newFromIndex,
-		onSetFromIndex,
-		setNewFromIndexHasBeenSet
+		newFromIndex
 	])
 
-	useEffect(() => {
+	useEffectSkipMount(() => {
 		if (newFromIndexHasBeenSet) {
 			setNewFromIndex(undefined)
 			setNewFromIndexHasBeenSet(false)
 			window.scrollTo(0, 0)
 		}
 	}, [
-		newFromIndexHasBeenSet,
-		setNewFromIndex,
-		setNewFromIndexHasBeenSet
+		newFromIndexHasBeenSet
 	])
 
 	const preserveScrollPositionOnPrependItems = newFromIndex === undefined

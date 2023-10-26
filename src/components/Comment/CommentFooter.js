@@ -56,6 +56,8 @@ export default function CommentFooter({
 	mode,
 	onReply,
 	onReport,
+	isOwn,
+	setOwn,
 	onHide,
 	moreActionsButtonRef
 }) {
@@ -74,7 +76,7 @@ export default function CommentFooter({
 	])
 
 	const rightSideBadges = useMemo(() => {
-		let badges = getCommentFooterBadges({ dataSource })
+		let badges = getCommentFooterBadges({ dataSource, isOwn })
 		// This type of filtering is done in `<Post/>` automatically,
 		// but since `leftSideBadges` are also used here outside `<Post/>`,
 		// they're filtered here manually.
@@ -85,7 +87,8 @@ export default function CommentFooter({
 	}, [
 		comment,
 		dataSource,
-		isSubscribedThreadInCatalog
+		isSubscribedThreadInCatalog,
+		isOwn
 	])
 
 	const leftSideBadges = useMemo(() => {
@@ -192,6 +195,8 @@ export default function CommentFooter({
 					urlBasePath={urlBasePath}
 					onReply={onReply}
 					onReport={onReport}
+					isOwn={isOwn}
+					setOwn={setOwn}
 					onDownloadThread={onDownloadThread}
 					onHide={onHide}
 				/>
@@ -218,6 +223,8 @@ CommentFooter.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
 	onReport: PropTypes.func,
+	isOwn: PropTypes.bool,
+	setOwn: PropTypes.func,
 	onHide: PropTypes.func.isRequired,
 	urlBasePath: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,

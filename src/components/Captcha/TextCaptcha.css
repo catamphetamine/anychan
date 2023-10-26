@@ -19,7 +19,7 @@
 	}
 }
 
-.TextCaptcha-picture {
+.TextCaptcha-challenge {
 	margin-bottom: calc(var(--unit) * 1);
 
 	/* Centers the CAPTCHA image horizontally. */

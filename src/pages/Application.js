@@ -168,6 +168,7 @@ function App({
 	const offline = useSelector(state => state.app.offline)
 
 	const captcha = useSelector(state => state.captcha.captcha)
+	const captchaSubmitId = useSelector(state => state.captcha.captchaSubmitId)
 	const showCaptchaModal = useSelector(state => state.captcha.showCaptchaModal)
 
 	const hideCaptchaModal = useCallback(() => {
@@ -367,6 +368,7 @@ function App({
 
 				<CaptchaModal
 					captcha={captcha}
+					captchaSubmitId={captchaSubmitId}
 					isOpen={showCaptchaModal}
 					close={hideCaptchaModal}
 				/>

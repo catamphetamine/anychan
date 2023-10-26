@@ -216,6 +216,8 @@
 	"post": {
 		"archived": "Archived thread",
 		"trimming": "Trimming thread",
+		"ownComment": "This is your comment",
+		"ownThread": "This is your thread",
 		"threadAuthor": "Thread author",
 		"attachmentsCount": "Attachments",
 		"commentAttachmentsCount": "Attachments in comments",
@@ -227,7 +229,7 @@
 			"hide": "Hide",
 			"ignoreAuthor": "Ignore author",
 			"unignoreAuthor": "Unignore author",
-			"showOriginalComment": "Show original comment"
+			"goToOriginalComment": "Go to the main website"
 		},
 		"form": {
 			"inputText": "Write a comment…"
@@ -254,6 +256,7 @@
 	},
 	"downloadThread": "Download thread data",
 	"notImplemented": "This feature hasn't been implemented yet",
+	"doesNotWorkForTheDataSource": "This feature currently doesn't work with this imageboard",
 	"inReplyTo": "In reply to",
 	"markAsOwnComment": "This is my comment",
 	"unmarkAsOwnComment": "This is not my comment",
@@ -302,6 +305,10 @@
 	"createCommentSuccess": "Comment posted",
 	"createCommentError": "Couldn't post the comment",
 	"createCommentRateLimitExceeded": "Create comment rate limit exceeded",
+	"createThread": "Create thread",
+	"createThreadError": "Couldn't create a new thread",
+	"createThreadSuccess": "Thread created",
+	"createThreadRateLimitExceeded": "Create thread rate limit exceeded",
 	"captchaSolutionIncorrect": "Incorrect CAPTCHA solution",
 	"captchaExpired": "CAPTCHA expired",
 	"captcha": "CAPTCHA",

@@ -32,6 +32,8 @@ export default function CommentWithThumbnail({
 	comment,
 	threadId,
 	channelId,
+	isOwn,
+	setOwn,
 	hidden,
 	onRenderedContentDidChange,
 	locale,
@@ -104,6 +106,8 @@ export default function CommentWithThumbnail({
 				comment={comment}
 				threadId={threadId}
 				channelId={channelId}
+				isOwn={isOwn}
+				setOwn={setOwn}
 				locale={locale}
 				onRenderedContentDidChange={onRenderedContentDidChange}
 				expandAttachments={expandAttachments}
@@ -139,6 +143,7 @@ export default function CommentWithThumbnail({
 			onAttachmentClick={onAttachmentClick}
 			showThumbnail={!hidden}
 			className={classNames(className, 'Comment', `Comment--${mode}`, {
+				'Comment--own': isOwn,
 				'Comment--hidden': hidden,
 				'Comment--compact': compact,
 				// 'Comment--removed': comment.removed,
@@ -160,6 +165,8 @@ CommentWithThumbnail.propTypes = {
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,
 	hidden: PropTypes.bool,
+	isOwn: PropTypes.bool,
+	setOwn: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	locale: PropTypes.string.isRequired,
 	expandAttachments: PropTypes.bool,

@@ -98,6 +98,7 @@ export const setChannelThreads = redux.simpleAction(
 
 export const getThread = redux.action(
 	(channelId, threadId, {
+		requestedBy,
 		archived,
 		censoredWords,
 		grammarCorrection,
@@ -106,7 +107,7 @@ export const getThread = redux.action(
 		userSettings,
 		dataSource
 	}) => async http => {
-		return await _getThread({
+		const thread = await _getThread({
 			channelId,
 			threadId,
 			...{
@@ -121,8 +122,12 @@ export const getThread = redux.action(
 			userSettings,
 			dataSource
 		})
+		return {
+			thread,
+			requestedBy
+		}
 	},
-	(state, thread) => {
+	(state, { thread, requestedBy }) => {
 		// Get the current `channel`.
 		const channel = getChannelObjectForChannelIdFromStateData(state, thread.channelId)
 		// `2ch.hk` doesn't specify most of the board settings in `/boards.json` API response.
@@ -135,7 +140,8 @@ export const getThread = redux.action(
 			...AUTO_UPDATE_NO_NEW_COMMENTS_STATE,
 			channel,
 			thread,
-			threadFetchedAt: Date.now()
+			threadFetchedAt: Date.now(),
+			threadFetchedBy: requestedBy
 		}
 	}
 )
@@ -167,6 +173,7 @@ export const setThreadIsBeingRefreshed = redux.simpleAction(
 
 export const refreshThread = redux.action(
 	(thread, {
+		requestedBy,
 		censoredWords,
 		grammarCorrection,
 		locale,
@@ -197,10 +204,11 @@ export const refreshThread = redux.action(
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
 			thread: updatedThread,
-			userData
+			userData,
+			requestedBy
 		}
 	},
-	(state, { thread, userData }) => {
+	(state, { thread, userData, requestedBy }) => {
 		// Get the current `channel`.
 		const channel = getChannelObjectForChannelIdFromStateData(state, thread.channelId)
 		setThreadPropertiesFromChannelProperties(thread, channel)
@@ -209,7 +217,8 @@ export const refreshThread = redux.action(
 			...state,
 			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }),
 			thread,
-			threadFetchedAt: Date.now()
+			threadFetchedAt: Date.now(),
+			threadFetchedBy: requestedBy
 		}
 	}
 )
@@ -230,11 +239,6 @@ export const createComment = redux.action(
 			http,
 			...rest
 		})
-	},
-	(state, result) => {
-		return {
-			...state
-		}
 	}
 )
 
@@ -252,11 +256,6 @@ export const createThread = redux.action(
 			http,
 			...rest
 		})
-	},
-	(state, result) => {
-		return {
-			...state
-		}
 	}
 )
 

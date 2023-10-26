@@ -42,7 +42,7 @@ export default async function getThread(
 			case 'getThreadAndPutItInState':
 				try {
 					dispatch(setThreadBeingFetched({ channelId, threadId }))
-					thread = await dispatch(createGetThreadAction(
+					thread = (await dispatch(createGetThreadAction(
 						channelId,
 						threadId,
 						{
@@ -51,7 +51,7 @@ export default async function getThread(
 							userSettings,
 							dataSource
 						}
-					))
+					))).thread
 				} finally {
 					// "Get thread" action might throw an error.
 					dispatch(setThreadBeingFetched(undefined))

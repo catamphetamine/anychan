@@ -216,6 +216,8 @@
 	"post": {
 		"archived": "Архивный тред",
 		"trimming": "Бесконечный тред",
+		"ownComment": "Это ваш комментарий",
+		"ownThread": "Это ваш тред",
 		"threadAuthor": "Автор треда",
 		"commentsCount": "Комментариев",
 		"attachmentsCount": "Вложений",
@@ -228,7 +230,7 @@
 			"hide": "Скрыть",
 			"ignoreAuthor": "Игнорировать автора",
 			"unignoreAuthor": "Не игнорировать автора",
-			"showOriginalComment": "Показать оригинал"
+			"goToOriginalComment": "Перейти на основной сайт"
 		},
 		"form": {
 			"inputText": "Напишите комментарий…"
@@ -256,6 +258,7 @@
 	},
 	"downloadThread": "Скачать тред",
 	"notImplemented": "Ещё не сделано",
+	"doesNotWorkForTheDataSource": "Этот функционал на текущий момент времени не работает с данным имиджбордом",
 	"inReplyTo": "В ответ на",
 	"markAsOwnComment": "Это мой комментарий",
 	"unmarkAsOwnComment": "Это не мой комментарий",
@@ -304,6 +307,10 @@
 	"createCommentSuccess": "Комментарий отправлен",
 	"createCommentError": "Не удалось отправить комментарий",
 	"createCommentRateLimitExceeded": "Превышен предел количества новых комментариев за временной промежуток",
+	"createThread": "Создать тред",
+	"createThreadError": "Не удалось создать тред",
+	"createThreadSuccess": "Тред создан",
+	"createThreadRateLimitExceeded": "Превышен предел количества новых тредов за временной промежуток",
 	"captchaSolutionIncorrect": "Неверная разгадка капчи",
 	"captchaExpired": "Капча истекла",
 	"captcha": "Капча",

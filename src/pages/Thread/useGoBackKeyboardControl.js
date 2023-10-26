@@ -24,5 +24,5 @@ export default function useGoBackKeyboardControl({ channelId }) {
 		return () => {
 			document.removeEventListener('keydown', onKeyDown)
 		}
-	})
+	}, [])
 }

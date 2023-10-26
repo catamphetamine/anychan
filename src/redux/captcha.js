@@ -24,7 +24,12 @@ export const setShowCaptchaModal = redux.simpleAction(
 )
 
 export const setCaptcha = redux.simpleAction(
-	(state, captcha) => ({ ...state, captcha })
+	(state, { captcha, captchaParameters, captchaSubmitId }) => ({
+		...state,
+		...captchaParameters,
+		captcha,
+		captchaSubmitId
+	})
 )
 
 export default redux.reducer({})

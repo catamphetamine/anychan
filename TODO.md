@@ -7,6 +7,13 @@
 
 
 
+Own comments:
+
+* Check how it changes site icon on new comments in thread
+* Mark some comments as "yours" and check how it changes site icon on new replies
+* Subscribe to a thread, mark some comments as "yours" and check how the notification dots in the sidebar are different.
+
+
 
 
 isekai thread не грузит youtube video (не фетчит название, а показывает ID)

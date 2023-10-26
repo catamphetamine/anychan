@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 141.25 141.25">
+	<polygon data-background-fill="true" data-background-stroke="true" points="34.9 90.57 34.9 3 107.13 3 107.13 90.57 97.52 81.87 89.55 90.57 80.88 82.2 72.35 90.37 63.38 82.09 53.99 90.57 45.07 82.32 34.9 90.57" fill="none" stroke="currentColor" stroke-width="6"/>
+	<rect data-foreground-fill="true" x="53.6" y="31.5" width="13" height="20" rx="5.45" ry="5.45" fill="currentColor" stroke-width="6"/>
+	<rect data-foreground-fill="true" x="77.55" y="31.5" width="13" height="20" rx="5.45" ry="5.45" fill="currentColor" stroke-width="6"/>
+	<path data-background-stroke="true" d="M58.44,87.08v6.35a3,3,0,0,1-2.07,2.89l-28.49,9.74A7.19,7.19,0,0,0,23,112.87v28.86" fill="none" stroke="currentColor" stroke-width="6"/>
+	<path data-background-stroke="true" d="M84.57,85.39v7.2a3.84,3.84,0,0,0,2.94,3.73l28.7,9.54a5.07,5.07,0,0,1,3.9,4.94v30.93" fill="none" stroke="currentColor" stroke-width="6"/>
+	<line data-foreground-stroke="true" x1="41.7" y1="128.7" x2="41.7" y2="141.17" stroke="currentColor" stroke-width="6"/>
+	<line data-foreground-stroke="true" x1="102.61" y1="128.45" x2="102.61" y2="140.92" stroke="currentColor" stroke-width="6"/>
+</svg>

@@ -85,11 +85,12 @@ function CommentsList({
 		}
 	})
 
-	// `VirtualScroller` no longer restores the Y scroll position on mount:
-	// it was found out that this feature conflicted with the same feature
-	// of the application "router" library (`found-scroll`/`scroll-behavior`).
-	// Instead, the Y scroll position is supposed to be restored by
-	// the application "router" library (`found-scroll`/`scroll-behavior`).
+	// `VirtualScroller` has a feature of accepting `initialScrollPosition`
+	// parameter in order to restore the scroll position on remount.
+	// Later, if was found out that such behavior conflicted with `react-pages` —
+	// the application "router" library which uses `found-scroll`/`scroll-behavior`
+	// to manage (restore) scroll positon automatically.
+	// So `initialScrollPosition` property is no longer passed to `VirtualScroller`.
 	initialScrollPosition = undefined
 
 	return (

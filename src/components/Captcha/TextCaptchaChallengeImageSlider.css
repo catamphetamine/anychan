@@ -1,0 +1,9 @@
+/*.TextCaptchaChallengeImageSlider-loading {
+	width: 3rem;
+	height: 3rem;
+}*/
+
+.TextCaptchaChallengeImageSlider-error {
+	margin: 0;
+	color: var(--Critical-color);
+}

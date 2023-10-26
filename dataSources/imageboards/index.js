@@ -141,6 +141,21 @@ for (const dataSource of DATA_SOURCES) {
 			deleteCookie(accessTokenCookieName)
 		}
 	}
+
+	dataSource.supportsCreateThread = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+	dataSource.supportsCreateComment = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+	dataSource.supportsReportComment = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+	dataSource.supportsLogIn = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+	dataSource.supportsVote = () => imageboardConfig.engine === 'makaba'
+	dataSource.supportsGetCaptcha = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+
+	// if (imageboardConfig.api.getCaptchaFrame) {
+	// 	dataSource.getCaptchaFrameUrl = ({ channelId, threadId }) => {
+	// 		return imageboardConfig.api.getCaptchaFrame.url
+	// 			.replace('{boardId}', channelId)
+	// 			.replace('{threadId}', threadId)
+	// 	}
+	// }
 }
 
 function getDomainForBoard(boardProperties, config) {
