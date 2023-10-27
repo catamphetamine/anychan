@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import useDataSource from '../hooks/useDataSource.js'
 import useSettings from '../hooks/useSettings.js'
 import useMessages from '../hooks/useMessages.js'
+import useLocale from '../hooks/useLocale.js'
 
 import FillButton from '../components/FillButton.js'
-import { Form, Field, Submit, FormComponentAndButton, FormComponent, FormAction } from '../components/Form.js'
+import { Form, Field, Submit, FormComponentsAndButton, FormComponent, FormAction } from '../components/Form.js'
 import Heading from '../components/Heading.js'
 
 import { user as userType } from '../PropTypes.js'
 
 import NotFoundError from '../api/errors/NotFoundError.js'
 import RateLimitError from '../api/errors/RateLimitError.js'
+import InvalidAuthToken from '../api/errors/InvalidAuthToken.js'
+import AuthTokenNotFoundOrIncorrectSecret from '../api/errors/AuthTokenNotFoundOrIncorrectSecret.js'
 
 import { notify, showError } from '../redux/notifications.js'
 import { logIn, logOut } from '../redux/auth.js'
@@ -61,8 +64,8 @@ function Authenticated() {
 			messages
 		}))
 		// Clear the cookie just in case the server didn't do that.
-		if (dataSource.clearAccessTokenCookie) {
-			dataSource.clearAccessTokenCookie()
+		if (dataSource.clearAuthCookies) {
+			dataSource.clearAuthCookies()
 		}
 		// See if the server has correctly cleared the access token cookie.
 		// If the cookie wasn't cleared properly,
@@ -94,6 +97,7 @@ function NotAuthenticated() {
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
 	const messages = useMessages()
+	const locale = useLocale()
 	const dispatch = useDispatch()
 
 	const [logInError, setLogInError] = useState()
@@ -102,15 +106,12 @@ function NotAuthenticated() {
 		setLogInError()
 	}, [])
 
-	const onSubmit = useCallback(async ({ token }) => {
-		if (dataSource.id === '4chan') {
-			dispatch(notify(messages.notImplemented))
-			return
-		}
+	const onSubmit = useCallback(async ({ token, tokenPassword }) => {
 		try {
 			setLogInError()
 			const result = await dispatch(logIn({
 				token,
+				tokenPassword,
 				dataSource,
 				userSettings,
 				messages
@@ -118,10 +119,11 @@ function NotAuthenticated() {
 			console.log('@@@ Log In result:', result)
 			if (dataSource.id === '2ch') {
 				if (window.location.hostname === 'localhost') {
-					dispatch(notify('Сервер `2ch.hk` проставляет куки, но куки не пишутся для сайтов, запущенных на localhost. Ваш пасскод, видимо, верный, но ответ сервера невозможно прочесть в случае с localhost. Но вы можете проставить куку "passcode_auth" вручную и обновить страницу.'))
-					setTimeout(() => {
+					if (locale === 'ru') {
+						dispatch(notify('Сервер `2ch.hk` проставляет куки, но куки не пишутся для сайтов, запущенных на localhost. Ваш пасскод, видимо, верный, но ответ сервера невозможно прочесть в случае с localhost. Но вы можете проставить куку "passcode_auth" вручную и обновить страницу.'))
+					} else {
 						dispatch(notify('Server-side-set cookies don\'t work on localhost. Your auth token looks valid but the response can\'t be read on localhost. But you could add "passcode_auth" cookie manually and refresh the page.'))
-					}, 0)
+					}
 					return
 				}
 			}
@@ -133,12 +135,17 @@ function NotAuthenticated() {
 			if (error instanceof NotFoundError) {
 				setLogInError(messages.userAccount.notFoundError)
 			} else if (error instanceof RateLimitError) {
-				setLogInError(messages.userAccount.rateLimitError)
+				setLogInError(messages.userAccount.notFoundError)
+			} else if (error instanceof InvalidAuthToken) {
+				setLogInError(messages.userAccount.invalidPass)
+			} else if (error instanceof AuthTokenNotFoundOrIncorrectSecret) {
+				setLogInError(messages.userAccount.passNotFoundOrIncorrectPin)
 			} else {
 				setLogInError(messages.userAccount.logInError)
 			}
 		}
 	}, [
+		locale,
 		messages,
 		dataSource,
 		userSettings
@@ -155,15 +162,18 @@ function NotAuthenticated() {
 					</p>
 				</ContentSection>
 			)}
-			{!dataSource.api.logIn && (
+			{!dataSource.supportsLogIn() && (
 				<ContentSection className="UserAccount-logInNotSupported">
 					{messages.userAccount.notSupported}
 				</ContentSection>
 			)}
-			{dataSource.api.logIn && (
+			{dataSource.supportsLogIn() && (
 				<ContentSection>
 					<Form onSubmit={onSubmit}>
-						<FormComponentAndButton>
+						<FormComponentsAndButton
+							smallScreen={dataSource.hasLogInTokenPassword() ? false : undefined}
+							ratio={dataSource.hasLogInTokenPassword() ? '2:1:x' : undefined}
+							count={dataSource.hasLogInTokenPassword() ? 2 : 1}>
 							<FormComponent>
 								<Field
 									required
@@ -175,12 +185,24 @@ function NotAuthenticated() {
 									onChange={onInputValueChange}
 								/>
 							</FormComponent>
+							{dataSource.hasLogInTokenPassword() &&
+								<FormComponent>
+									<Field
+										required
+										type="text"
+										inputType="password"
+										name="tokenPassword"
+										label={messages.userAccount.passPin}
+										onChange={onInputValueChange}
+									/>
+								</FormComponent>
+							}
 							<FormAction inline>
 								<Submit component={FillButton}>
 									{messages.logIn}
 								</Submit>
 							</FormAction>
-						</FormComponentAndButton>
+						</FormComponentsAndButton>
 					</Form>
 				</ContentSection>
 			)}

@@ -2,6 +2,7 @@ import censorWords from 'social-components/utility/post/censorWords.js'
 import getInlineContentText from 'social-components/utility/post/getInlineContentText.js'
 
 import addParseContent from './addParseContent.js'
+import addCommentTextFunctions from './addCommentTextFunctions.js'
 import transformText from './transformText.js'
 
 /**
@@ -29,7 +30,7 @@ export default function addCommentProps(thread, {
 	ignoredAuthors,
 	hasAuthorIds,
 	// onHasAuthorIds,
-	// messages,
+	messages,
 	grammarCorrection,
 	censoredWords,
 	locale,
@@ -97,6 +98,13 @@ export default function addCommentProps(thread, {
 			dataSource,
 			// messages
 		})
+
+		// Adds text-related utility functions to `comment`:
+		// * `getContentText()`
+		// * `getContentText()`
+		// * `getContentText()`
+		// * `getContentText()`
+		addCommentTextFunctions(comment, { messages })
 
 		if (comment.title) {
 			// Transform and censor comment title.

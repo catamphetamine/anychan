@@ -37,10 +37,14 @@
 		"title": "Benutzer",
 		"logInToken": "Authentifizierungstoken",
 		"pass": "Pass",
+		"passPin": "Pass PIN",
 		"notSupported": "Diese Quelle unterstützt keine Benutzeranmeldung.",
 		"logInError": "Konnte mich nicht anmelden",
 		"notFoundError": "Benutzer nicht gefunden",
-		"rateLimitError": "Frequenzgrenze überschritten"
+		"rateLimitError": "Frequenzgrenze überschritten",
+		"invalidToken": "Ungültiges Authentifizierungstoken",
+		"invalidPass": "Ungültiger Pass",
+		"passNotFoundOrIncorrectPin": "Pass nicht gefunden oder falsche PIN"
 	},
 	"settings": {
 		"language": {
@@ -255,7 +259,7 @@
 		"error": "Der Thread konnte nicht aktualisiert werden"
 	},
 	"downloadThread": "Thread-Daten herunterladen",
-	"notImplemented": "Diese Funktion wurde noch nicht implementiert",
+	"notImplementedForThisEngine": "Diese Funktion wurde für dieses Imageboard nicht implementiert",
 	"doesNotWorkForTheDataSource": "Diese Funktion funktioniert derzeit nicht mit diesem Imageboard",
 	"inReplyTo": "als Antwort auf",
 	"markAsOwnComment": "Das ist mein Kommentar",

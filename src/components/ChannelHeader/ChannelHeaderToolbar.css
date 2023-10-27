@@ -25,10 +25,9 @@
 	display: flex;
 	align-items: center;
 
-	paddingLeft: var(--Toolbar-paddingLeft);
-
 	.Toolbar {
 		--Toolbar-paddingLeft: 0px;
+		--Toolbar-paddingRight: 0px;
 	}
 
 	--StarIcon-borderColor: var(--Menu-color);

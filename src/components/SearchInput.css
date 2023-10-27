@@ -1,0 +1,28 @@
+:root {
+	--SearchInput-backgroundColor: transparent;
+	--SearchInputLoading-width: var(--unit);
+}
+
+.SearchInput {
+	position: relative;
+}
+
+.SearchInput-loadingEllipsis {
+	width: var(--SearchInputLoading-width);
+	height: var(--SearchInputLoading-width);
+	opacity: 0.5;
+}
+
+.SearchInput-loadingEllipsisBackgrond {
+	width: calc(var(--SearchInputLoading-width) * 1.25);
+	height: var(--SearchInputLoading-width);
+	background-color: var(--SearchInput-backgroundColor);
+}
+
+.SearchInput-loadingEllipsis,
+.SearchInput-loadingEllipsisBackgrond {
+	position: absolute;
+	top: calc(50% - var(--SearchInputLoading-width) / 2);
+	right: 0;
+	pointer-events: none;
+}

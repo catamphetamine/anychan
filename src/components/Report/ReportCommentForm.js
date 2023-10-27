@@ -62,8 +62,7 @@ export default function ReportCommentForm({
 	return (
 		<Form
 			autoFocus={autoFocus}
-			onSubmit={onSubmitForm}
-			className="form">
+			onSubmit={onSubmitForm}>
 			<FormComponent>
 				<Field
 					required

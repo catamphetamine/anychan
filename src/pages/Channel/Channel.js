@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from 'react'
+import React, { useState, useMemo, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
@@ -7,6 +7,7 @@ import { useSelectorForLocation } from 'react-pages'
 
 import {
 	setVirtualScrollerState,
+	setSearchResultsState,
 	setScrollPosition
 } from '../../redux/channel.js'
 
@@ -22,6 +23,7 @@ import { getShowRepliesState } from 'social-components-react/components/CommentT
 
 import useSetting from '../../hooks/useSetting.js'
 import useLocale from '../../hooks/useLocale.js'
+import useMessages from '../../hooks/useMessages.js'
 import useUserData from '../../hooks/useUserData.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
@@ -48,10 +50,13 @@ export default function ChannelPage() {
 	const latestLoadedThreads = useSelectorForLocation(state => state.data.threads)
 
 	const locale = useLocale()
+	const messages = useMessages()
 
 	const {
 		virtualScrollerState: initialVirtualScrollerState,
 		scrollPosition: initialScrollPosition,
+
+		searchResultsState: initialSearchResultsState,
 
 		// `latestSeenThreadId` should be determined on the initial render,
 		// and then it shouldn't change, so that `VirtualScroller` state stays the same
@@ -164,11 +169,46 @@ export default function ChannelPage() {
 		channelSorting
 	])
 
+	const [searchQuery, setSearchQuery] = useState(initialSearchResultsState ? initialSearchResultsState.searchQuery : undefined)
+	const [searchResults, setSearchResults] = useState(initialSearchResultsState ? initialSearchResultsState.searchResults : undefined)
+	const [searchResultsId, setSearchResultsId] = useState(initialSearchResultsState ? initialSearchResultsState.searchResultsId : undefined)
+	const [searchResultsQuery, setSearchResultsQuery] = useState(initialSearchResultsState ? initialSearchResultsState.searchQuery : undefined)
+
+	const onSearchResults = useCallback((searchResults, { query, finished, duration }) => {
+		const searchResultsId = getNextSearchResultsId()
+		setSearchResults(searchResults)
+		setSearchResultsId(searchResultsId)
+		setSearchResultsQuery(query)
+		dispatch(setSearchResultsState({
+			searchResults,
+			searchResultsId,
+			searchQuery: query
+		}))
+		// Reset `virtual-scroller` state whenever the user changes search input value.
+		// Otherwise, there'd be a bug:
+		// * User goes to channel page.
+		// * User scrolls down, etc.
+		// * User enters something in the search input.
+		// * The channel page shows search results.
+		// * The user clicks on a thread and goes to the thread page.
+		// * The user clicks "Back" button and returns to the channel page.
+		// * `VirtualScroller` restores the `initialVirtualScrollerState` and shows the search results.
+		// * The user clears the search input.
+		// * `VirtualScroller` remounts because of the `key` property.
+		// * When `VirtualScroller` mounts, it reads `initialVirtualScrollerState` and applies it.
+		// * The result is: `VirtualScroller` shouldn't have restored any previous state, but it did.
+		dispatch(setVirtualScrollerState(undefined))
+	}, [])
+
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
 			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments'
 		})}>
 			<ChannelHeader
+				threads={threads}
+				searchQuery={searchQuery}
+				onSearchQueryChange={setSearchQuery}
+				onSearchResults={onSearchResults}
 				alignTitle="start"
 				channelLayout={channelLayout}
 				channelSorting={channelSorting}
@@ -188,10 +228,16 @@ export default function ChannelPage() {
 					threads={threads}
 				/>*/}
 
+				{searchResultsQuery && searchResults.length === 0 &&
+					<div className="ChannelPage-nothingFound">
+						{messages.noSearchResults}
+					</div>
+				}
+
 				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
 				    when the user changes the current channel's viewing mode. */}
 				<CommentsList
-					key={channelLayout + '_' + channelSorting}
+					key={searchResultsQuery ? 'searchResults:' + searchResultsId : channelLayout + '_' + channelSorting}
 					mode="channel"
 					getColumnsCount={getColumnsCount}
 					transformInitialItemState={transformInitialItemState}
@@ -199,7 +245,7 @@ export default function ChannelPage() {
 					setState={setVirtualScrollerState}
 					initialScrollPosition={initialScrollPosition}
 					setScrollPosition={setScrollPosition}
-					items={threads}
+					items={searchResultsQuery ? searchResults : threads}
 					itemComponent={ChannelThread}
 					itemComponentProps={itemComponentProps}
 					className={classNames('ChannelPage-threads', {
@@ -244,6 +290,21 @@ function useThreadsForChannelView(latestLoadedThreads) {
 
 	const onChannelViewWillChange = useCallback(() => {
 		threadsForPreviousChannelView.current = latestLoadedThreads
+
+		// Reset `virtual-scroller` state whenever the user changes search input value.
+		// Otherwise, there'd be a bug:
+		// * User goes to channel page.
+		// * User scrolls down, etc.
+		// * User enters something in the search input.
+		// * The channel page shows search results.
+		// * The user clicks on a thread and goes to the thread page.
+		// * The user clicks "Back" button and returns to the channel page.
+		// * `VirtualScroller` restores the `initialVirtualScrollerState` and shows the search results.
+		// * The user clears the search input.
+		// * `VirtualScroller` remounts because of the `key` property.
+		// * When `VirtualScroller` mounts, it reads `initialVirtualScrollerState` and applies it.
+		// * The result is: `VirtualScroller` shouldn't have restored any previous state, but it did.
+		dispatch(setVirtualScrollerState(undefined))
 	}, [])
 
 	const onChannelViewDidChange = useCallback(() => {
@@ -255,4 +316,17 @@ function useThreadsForChannelView(latestLoadedThreads) {
 		onChannelViewWillChange,
 		onChannelViewDidChange
 	}
+}
+
+// "Safe" refers to the ability of JavaScript to represent integers exactly
+// and to correctly compare them.
+const MAX_SAFE_INTEGER = 9007199254740991
+
+let searchResultsId = 0
+function getNextSearchResultsId() {
+	if (searchResultsId === MAX_SAFE_INTEGER) {
+		searchResultsId = 0
+	}
+	searchResultsId++
+	return searchResultsId
 }

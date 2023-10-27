@@ -285,6 +285,7 @@ function PostForm({
 	const dataSource = useDataSource()
 
 	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
+	const isPostingSupportedButNotWorking = dataSource.id === '2ch' || dataSource.id === '4chan'
 
 	const doesUseProxy = useMemo(() => {
 		return shouldUseProxy({ dataSource })
@@ -372,7 +373,7 @@ function PostForm({
 					{error}
 				</p>
 			}
-			{(dataSource.id === '2ch' || dataSource.id === '4chan') &&
+			{isPostingSupported && isPostingSupportedButNotWorking &&
 				<p className="PostForm-notWorkingNotice">
 					{messages.doesNotWorkForTheDataSource}
 				</p>

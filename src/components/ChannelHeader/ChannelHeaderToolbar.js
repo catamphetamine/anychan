@@ -30,6 +30,9 @@ import SortIcon from 'frontend-lib/icons/sort-thin.svg'
 import './ChannelHeaderToolbar.css'
 
 export default function ChannelHeaderToolbar({
+	search,
+	searchButtonRef,
+	onSearchClick,
 	channelLayout,
 	channelSorting,
 	canChangeChannelLayout,
@@ -127,7 +130,10 @@ export default function ChannelHeaderToolbar({
 	])
 
 	const channelHeaderToolbarFavorite = useChannelHeaderToolbarFavorite()
-	const channelHeaderToolbarSearch = useChannelHeaderToolbarSearch()
+	const channelHeaderToolbarSearch = useChannelHeaderToolbarSearch({
+		onSearchClick,
+		searchButtonRef
+	})
 
 	const items = useMemo(() => {
 		let items = []
@@ -142,10 +148,14 @@ export default function ChannelHeaderToolbar({
 		}
 
 		items.push(channelHeaderToolbarFavorite)
-		items.push(channelHeaderToolbarSearch)
+
+		if (search) {
+			items.push(channelHeaderToolbarSearch)
+		}
 
 		return items
 	}, [
+		search,
 		channelLayoutItems,
 		channelSortingPopularItem,
 		canChangeChannelLayout,
@@ -179,6 +189,8 @@ export default function ChannelHeaderToolbar({
 }
 
 ChannelHeaderToolbar.propTypes = {
+	search: PropTypes.bool,
+	searchButtonRef: PropTypes.object,
 	channelLayout: PropTypes.oneOf([
 		'threadsList',
 		'threadsListWithLatestComments',

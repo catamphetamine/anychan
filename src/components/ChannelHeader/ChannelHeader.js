@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
@@ -6,6 +6,9 @@ import classNames from 'classnames'
 import ChannelHeaderToolbar from './ChannelHeaderToolbar.js'
 import ChannelThreadHeaderChannel from '../../components/ChannelThreadHeaderChannel.js'
 import ChannelThreadHeaderSource, { ChannelThreadHeaderSourcePlaceholder } from '../../components/ChannelThreadHeaderSource.js'
+import SearchInput from '../SearchInput.js'
+
+import { thread as threadType } from '../../PropTypes.js'
 
 import useOnChannelLinkClick from '../useOnChannelLinkClick.js'
 
@@ -13,6 +16,11 @@ import './ChannelHeader.css'
 
 export default function ChannelHeader({
 	alignTitle,
+
+	threads,
+	onSearchResults,
+	searchQuery,
+	onSearchQueryChange,
 
 	// `channelLayout` / `channelSorting` should be cached at the initial render
 	// on the `Channel` page and then passed as a property into this component.
@@ -49,7 +57,36 @@ export default function ChannelHeader({
 
 	className
 }) {
+	const searchInput = useRef()
+	const searchButtonRef = useRef()
+
+	const [showSearchInput, setShowSearchInput] = useState(Boolean(searchQuery))
+
+	const onSearchClick = useCallback(() => {
+		setShowSearchInput(!showSearchInput)
+		if (showSearchInput) {
+			onSearchQueryChange()
+		} else {
+			searchInput.current.focus()
+		}
+	}, [
+		showSearchInput
+	])
+
+	const onSearchInputEscapeKeyDownWhenEmpty = useCallback(() => {
+		setShowSearchInput(false)
+		searchButtonRef.current.focus()
+	}, [])
+
+	const onSearchInputBlurWhenEmpty = useCallback(() => {
+		setShowSearchInput(false)
+	}, [])
+
 	const channel = useSelector(state => state.data.channel)
+
+	const getThreadTextSingleLineLowerCase = useCallback((thread) => {
+		return thread.comments[0].getContentTextSingleLineLowerCase()
+	}, [])
 
 	const onChannelLinkClick = useOnChannelLinkClick({
 		channelId: channel.id
@@ -57,6 +94,9 @@ export default function ChannelHeader({
 
 	const toolbar = (
 		<ChannelHeaderToolbar
+			searchButtonRef={searchButtonRef}
+			search={Boolean(onSearchQueryChange)}
+			onSearchClick={onSearchClick}
 			canChangeChannelLayout={canChangeChannelLayout}
 			canChangeChannelSorting={canChangeChannelSorting}
 			channelLayout={channelLayout}
@@ -83,11 +123,37 @@ export default function ChannelHeader({
 				<ChannelThreadHeaderSourcePlaceholder/>
 			</h1>
 			{toolbar}
+			{onSearchQueryChange &&
+				<SearchInput
+					ref={searchInput}
+					value={searchQuery}
+					onChange={onSearchQueryChange}
+					items={threads}
+					getItemTextLowerCase={getThreadTextSingleLineLowerCase}
+					onResults={onSearchResults}
+					onEscapeKeyDownWhenEmpty={onSearchInputEscapeKeyDownWhenEmpty}
+					onBlurWhenEmpty={onSearchInputBlurWhenEmpty}
+					className={classNames('ChannelHeader-search', {
+						// Hiding the `<SearchInput/>` via CSS instead of via javascript
+						// because this way focus management is less prone to not working:
+						// mobile web browsers are fine with manually calling `.focus()`
+						// on an `<input/>` field when it's called immediately after
+						// handling a user interaction `event`.
+						// (which is gonna be a click on the search button).
+						'ChannelHeader-search--hidden': !showSearchInput
+					})}
+					inputClassName="ChannelHeader-searchInput"
+				/>
+			}
 		</header>
 	)
 }
 
 ChannelHeader.propTypes = {
+	threads: PropTypes.arrayOf(threadType),
+	onSearchResults: PropTypes.func,
+	searchQuery: PropTypes.string,
+	onSearchQueryChange: PropTypes.func,
 	alignTitle: PropTypes.oneOf(['start', 'center']).isRequired,
 	channelLayout: PropTypes.oneOf([
 		'threadsList',

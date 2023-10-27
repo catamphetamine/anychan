@@ -37,10 +37,14 @@
 		"title": "User",
 		"logInToken": "Auth token",
 		"pass": "Pass",
+		"passPin": "Pass PIN",
 		"notSupported": "This source doesn't support user log in.",
 		"logInError": "Couldn't log in",
 		"notFoundError": "User not found",
-		"rateLimitError": "Rate limit exceeded"
+		"rateLimitError": "Rate limit exceeded",
+		"invalidToken": "Invalid auth token",
+		"invalidPass": "Invalid pass",
+		"passNotFoundOrIncorrectPin": "Pass not found or incorrect PIN"
 	},
 	"settings": {
 		"language": {
@@ -255,7 +259,7 @@
 		"error": "Couldn't update the thread"
 	},
 	"downloadThread": "Download thread data",
-	"notImplemented": "This feature hasn't been implemented yet",
+	"notImplementedForThisEngine": "This feature hasn't been implemented for this imageboard",
 	"doesNotWorkForTheDataSource": "This feature currently doesn't work with this imageboard",
 	"inReplyTo": "In reply to",
 	"markAsOwnComment": "This is my comment",

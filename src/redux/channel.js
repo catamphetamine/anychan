@@ -2,6 +2,10 @@ import { ReduxModule } from 'react-pages'
 
 const redux = new ReduxModule('CHANNEL')
 
+export const setSearchResultsState = redux.simpleAction(
+	(state, searchResultsState) => ({ ...state, searchResultsState })
+)
+
 export const setVirtualScrollerState = redux.simpleAction(
 	(state, virtualScrollerState) => ({ ...state, virtualScrollerState })
 )

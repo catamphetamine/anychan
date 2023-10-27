@@ -1,11 +1,21 @@
 @import "../../styles/common.css";
 
+:root {
+	--ChannelHeaderSearch-width: calc(var(--unit) * 10);
+	--ChannelHeaderSearch-animationDuration: 300ms;
+
+	@mixin xxs {
+		--ChannelHeaderSearch-width: calc(var(--unit) * 5);
+	}
+}
+
 .ChannelHeader {
 	display: flex;
 	align-items: center;
 
 	height: var(--ChannelHeader-height);
 	padding-left: var(--ChannelHeader-paddingLeft);
+	padding-right: var(--ChannelHeader-paddingLeft);
 }
 
 .ChannelHeader-toolbarSizePlaceholder {
@@ -32,4 +42,24 @@
 
 .ChannelHeader-heading--alignContentCenter {
 	text-align: center;
+}
+
+.ChannelHeader-searchInput {
+	width: var(--ChannelHeaderSearch-width);
+	margin-left: var(--unit);
+	transition: width var(--ChannelHeaderSearch-animationDuration), margin-left var(--ChannelHeaderSearch-animationDuration);
+}
+
+.ChannelHeader-search {
+	--SearchInput-backgroundColor: var(--ChannelThreadHeader-backgroundColor);
+}
+
+.ChannelHeader-search--hidden {
+	.ChannelHeader-searchInput {
+		width: 0;
+		margin-left: 0;
+	}
+	.SearchInput-loadingEllipsis {
+		display: none;
+	}
 }

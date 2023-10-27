@@ -77,7 +77,7 @@ export default function ThemeSettings({
 
 	async function onRemoveSelectedTheme() {
 		if (await OkCancelModal.show({
-			content: messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)
+			text: messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)
 		})) {
 			removeTheme(theme, { userSettings })
 			await onSelectTheme(getDefaultThemeId())
@@ -139,7 +139,8 @@ export default function ThemeSettings({
 					<AddTheme
 						messages={messages}
 						onSaveTheme={onAddTheme}
-						close={() => setShowAddThemeModal(false)}/>
+						close={() => setShowAddThemeModal(false)}
+					/>
 				</Modal.Content>
 			</Modal>
 		</ContentSection>

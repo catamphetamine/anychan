@@ -147,10 +147,13 @@
 	}
 }
 
+.PostForm-notWorkingNotice,
 .PostForm-proxyCaution {
-	color: var(--Content-color-500);
-	font-weight: lighter;
+	color: var(--Content-color-600);
+	font-size: 85%;
+	/* font-weight: lighter; */
 	margin-top: var(--unit);
+	margin-bottom: 0;
 }
 
 .PostForm-loading {

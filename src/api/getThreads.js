@@ -65,7 +65,7 @@ export default async function getThreads({
 			ownCommentIds: ownThreadIds || [],
 			hiddenCommentIds: hiddenThreadIds || [],
 			ignoredAuthors: ignoredAuthors || {},
-			// messages,
+			messages,
 			locale,
 			grammarCorrection,
 			censoredWords,

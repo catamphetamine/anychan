@@ -1,30 +1,27 @@
-import { useState, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { useMemo } from 'react'
 
 import useMessages from '../../hooks/useMessages.js'
-
-import { notify } from '../../redux/notifications.js'
 
 import SearchIconOutline from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
 import SearchIconFill from 'frontend-lib/icons/fill-and-outline/search-fill.svg'
 
-export default function useChannelHeaderToolbarSearch() {
-	const dispatch = useDispatch()
+export default function useChannelHeaderToolbarSearch({
+	onSearchClick,
+	searchButtonRef
+}) {
 	const messages = useMessages()
 
-	const [isSearchBarShown, setSearchBarShown] = useState()
-
 	return useMemo(() => ({
+		ref: searchButtonRef,
 		title: messages.actions.search,
-		onClick: () => dispatch(notify(messages.notImplemented)),
-		// onClick: () => setSearchBarShown(!isSearchBarShown),
-		isSelected: isSearchBarShown,
+		onClick: onSearchClick,
+		isSelected: false,
 		icon: SearchIconOutline,
 		iconSelected: SearchIconFill,
 		size: 's'
 	}), [
-		isSearchBarShown,
-		setSearchBarShown,
+		searchButtonRef,
+		onSearchClick,
 		messages
 	])
 }

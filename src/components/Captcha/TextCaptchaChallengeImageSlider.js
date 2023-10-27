@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
-// import LoadingEllipsis from 'social-components-react/components/LoadingEllipsis.js'
-
 import { imageSliderTextCaptchaType } from './PropTypes.js'
 
 import './TextCaptchaChallengeImageSlider.css'

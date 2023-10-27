@@ -65,7 +65,7 @@ export default function ThreadPageHeaderToolbar({
 		// ,
 		// {
 		// 	title: messages.actions.search,
-		// 	onClick: () => dispatch(notify(messages.notImplemented)),
+		// 	onClick: () => ...,
 		// 	// onClick: () => setSearchBarShown(!isSearchBarShown),
 		// 	isSelected: isSearchBarShown,
 		// 	icon: SearchIconOutline,

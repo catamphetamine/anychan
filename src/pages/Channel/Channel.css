@@ -179,3 +179,8 @@
     margin-right: auto;
   }
 }
+
+.ChannelPage-nothingFound {
+	margin-top: calc(var(--unit) * 3);
+	text-align: center;
+}

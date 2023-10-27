@@ -4986,10 +4986,10 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.yarnpkg.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
-easy-react-form@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.2.4.tgz#4154f4cae9d173b222f25b3c975c95d81591073d"
-  integrity sha512-idLUnLMiQTofJnY0l21ZphQ2CdNmDTKH+U6N1mA1oPS/Ctbg04cnoGUcNItKjPl16hXiWeUxpYexzLMuQ7H8TQ==
+easy-react-form@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/easy-react-form/-/easy-react-form-2.2.5.tgz#5f70bfb588f8a8e868f1c4b0f42d7a9f0d4d28e3"
+  integrity sha512-5jKTLSbJlfuFNeYflVbd//C6c8oVBHaAzRIyb+GgaXHY2Nm6bTY1y77yEowZGYWCQ2NokS+HKtdXUB4SIzNomA==
   dependencies:
     prop-types "^15.8.1"
     scroll-into-view-if-needed "^3.0.10"
@@ -5975,10 +5975,10 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.6.40:
-  version "0.6.40"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.40.tgz#cd480cd394d3c251bcc3aced1db7534bf72302dc"
-  integrity sha512-xrDHe5e+KKt992nqhdjuSQksZItu4fanvKw8fY9EyAUsgzlxvCwGdG5IAutHBhHwYi7krE5X0nNV8jK3FtzbFg==
+imageboard@^0.6.41:
+  version "0.6.41"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.41.tgz#1605a49d71774e93a25bf87c8835fe3dca096b3a"
+  integrity sha512-upMqz4EpTj++yK5O7aKm2LW6JqVvNCA0LX0QD789j55OlyHtOj5YzFUYcT7y4SoZ/s0hcv0F/ZvMsB0e+eS6Ag==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
@@ -8745,10 +8745,10 @@ social-components@^0.3.2, social-components@^0.3.5:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
-social-components@^0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.7.tgz#11a176ff8f9d77ccf61cbaf3a1a5a23ffe99b48b"
-  integrity sha512-55z9PySSivlHLOCo7nx2fSDAtjhb9krY2qhPEgWvAdYdkggeREQA8lNELFf4W1WmiUJv5QawDs8cApXpRmG/GQ==
+social-components@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.8.tgz#b767dd348e9f03119b291c03b7ddd7e2a7d4a6cc"
+  integrity sha512-HprKn3sz8rqS44E48/iMYF7G3xBfKCRrqT3ODTNj4/2e+cnCUB+89pKKnIgtJHoX8Xo/DnQJN+OPBSguHAq5zQ==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

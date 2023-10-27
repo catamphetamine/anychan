@@ -15,15 +15,13 @@ export const setAccessToken = redux.simpleAction(
 export const logIn = redux.action(
 	({
 		token,
-		userSettings,
-		dataSource,
-		messages
+		tokenPassword,
+		...rest
 	}) => async http => {
 		return await _logIn({
 			token,
-			userSettings,
-			dataSource,
-			messages,
+			tokenPassword,
+			...rest,
 			http
 		})
 	},

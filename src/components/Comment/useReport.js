@@ -29,7 +29,7 @@ export default function useReport({
 	])
 
 	const onReportNotImplemented = useCallback(() => {
-		dispatch(notify(messages.notImplemented))
+		dispatch(notify(messages.notImplementedForThisEngine))
 	}, [])
 
 	return {

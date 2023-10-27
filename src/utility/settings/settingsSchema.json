@@ -32,6 +32,16 @@
 		"description": "Whether it should show colorful background instead of just a background color",
 		"required": false
 	},
+	"leftHanded": {
+		"type": "boolean",
+		"description": "Whether the user is left-handed. The UI could potentially somehow accomodate for that. Another example of potential accomodation could be \"color blindness\".",
+		"required": false
+	},
+	"grammarCorrection": {
+		"type": "boolean",
+		"description": "Whether to automatically fix comments' grammar: stuff like long em dash, spaces after commas, etc",
+		"required": false
+	},
 	"censorWords": {
 		"type": "boolean",
 		"description": "Whether it should censor offensive words in comments text",
@@ -59,9 +69,38 @@
 		"description": "Theme ID. Supports custom themes",
 		"required": false
 	},
+	"themes": {
+		"description": "Custom themes",
+		"required": false,
+		"arrayOf": {
+			"id": {
+				"type": "string",
+				"description": "Theme ID"
+			},
+			"name": {
+				"type": "string",
+				"description": "Theme name"
+			},
+			"url": {
+				"type": "string",
+				"description": "Theme URL",
+				"required": false
+			},
+			"css": {
+				"type": "string",
+				"description": "Theme CSS code",
+				"required": false
+			}
+		}
+	},
 	"locale": {
 		"type": "string",
 		"description": "User's locale (language)",
+		"required": false
+	},
+	"proxyUrl": {
+		"type": "string",
+		"description": "Custom CORS proxy URL",
 		"required": false
 	},
 	"version": {

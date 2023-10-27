@@ -46,7 +46,7 @@ export default function DataSettings({
 
 	async function onResetSettings() {
 		if (await OkCancelModal.show({
-			content: messages.settings.data.resetSettings.warning
+			text: messages.settings.data.resetSettings.warning
 		})) {
 			// Reset settings.
 			dispatch(resetSettings({ userSettings }))
@@ -58,7 +58,7 @@ export default function DataSettings({
 
 	async function onClearUserData() {
 		if (await OkCancelModal.show({
-			content: messages.settings.data.clearUserData.warning
+			text: messages.settings.data.clearUserData.warning
 		})) {
 			// Reset user data.
 			// Could also be implented as `resetUserData()`
@@ -104,7 +104,7 @@ export default function DataSettings({
 		}
 		const { settings, userData: userDataData } = json
 		if (await OkCancelModal.show({
-			content: messages.settings.data.import.warning
+			text: messages.settings.data.import.warning
 		})) {
 			// Replace settings.
 			dispatch(replaceSettings({ settings, userSettings }))

@@ -132,13 +132,16 @@ for (const dataSource of DATA_SOURCES) {
 		dataSource.api[functionName] = addImageboardArgumentToFunction(dataSource.api[functionName])
 	}
 
-	const { accessTokenCookieName } = imageboardConfig
+	const { accessTokenCookieName, authenticatedCookieName } = imageboardConfig
 	if (accessTokenCookieName) {
 		dataSource.readAccessTokenFromCookie = () => {
 			return getCookie(accessTokenCookieName)
 		}
-		dataSource.clearAccessTokenCookie = () => {
+		dataSource.clearAuthCookies = () => {
 			deleteCookie(accessTokenCookieName)
+			if (authenticatedCookieName) {
+				deleteCookie(authenticatedCookieName)
+			}
 		}
 	}
 
@@ -148,6 +151,8 @@ for (const dataSource of DATA_SOURCES) {
 	dataSource.supportsLogIn = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
 	dataSource.supportsVote = () => imageboardConfig.engine === 'makaba'
 	dataSource.supportsGetCaptcha = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
+
+	dataSource.hasLogInTokenPassword = () => dataSource.id === '4chan'
 
 	// if (imageboardConfig.api.getCaptchaFrame) {
 	// 	dataSource.getCaptchaFrameUrl = ({ channelId, threadId }) => {
