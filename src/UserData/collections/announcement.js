@@ -23,18 +23,22 @@ export default {
 			oneOfType: [
 				{
 					is: 'string',
-					type: 'string'
+					type: 'string',
+					description: 'Text'
 				},
 				{
 					is: 'any[]',
+					description: 'Content',
 					arrayOf: {
 						oneOfType: [
 							{
 								is: 'string',
-								type: 'string'
+								type: 'string',
+								description: 'Text'
 							},
 							{
 								is: 'object',
+								description: 'Object',
 								schema: {}
 							},
 							{
@@ -43,10 +47,12 @@ export default {
 									oneOfType: [
 										{
 											is: 'string',
-											type: 'string'
+											type: 'string',
+											description: 'Text'
 										},
 										{
 											is: 'object',
+											description: 'Object',
 											schema: {}
 										}
 									]

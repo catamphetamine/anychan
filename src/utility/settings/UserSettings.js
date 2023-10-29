@@ -6,7 +6,7 @@ import migrate from './UserSettings.migrate.js'
 
 // Current version of user settings.
 // See `UserSettings.migrate.js` comments for the changelog.
-const VERSION = 3
+const VERSION = 4
 
 const validateSettings_ = schemaValidation(settingsSchema)
 
@@ -20,23 +20,28 @@ export default class UserSettings {
 	// Migrate settings.
 	migrate() {
 		const data = this.storage.get(this.key)
-		migrate(data, data.version)
-		data.version = VERSION
+		migrateSettingsData(data)
 		this.storage.set(this.key, data)
 	}
 
 	requiresMigration() {
 		const data = this.storage.get(this.key)
 		if (data) {
-			return data.version !== VERSION
+			return settingsDataRequiresMigration(data)
 		}
 	}
 
 	get(name) {
-		const settings = this.storage.get(this.key) || {}
+		let settings = this.storage.get(this.key)
 
-		// Validate settings.
-		validateSettings(settings)
+		if (settings) {
+			if (!settingsDataRequiresMigration(settings)) {
+				// Validate settings.
+				validateSettings(settings)
+			}
+		} else {
+			settings = {}
+		}
 
 		if (name) {
 			return settings[name]
@@ -123,4 +128,13 @@ function validateSettings(settings) {
 		console.error(error)
 		console.log(settings)
 	}
+}
+
+export function migrateSettingsData(data) {
+	migrate(data, data.version)
+	data.version = VERSION
+}
+
+export function settingsDataRequiresMigration(data) {
+	return data.version !== VERSION
 }

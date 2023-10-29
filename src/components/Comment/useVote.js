@@ -25,7 +25,7 @@ export default function useVote({
 
 	const onVote = useCallback(async (up) => {
 		if (!dataSource.supportsVote()) {
-			dispatch(notify(messages.notImplementedForThisEngine))
+			dispatch(notify(messages.notImplementedForTheDataSource))
 			return
 		}
 

@@ -27,10 +27,59 @@
 		"description": "Whether it should automatically add a channel to the list of \"favorite\" ones when navigating to them",
 		"required": false
 	},
-	"colorfulBackground": {
-		"type": "boolean",
-		"description": "Whether it should show colorful background instead of just a background color",
+	"backgroundLightMode": {
+		"type": "string",
+		"description": "Colorful background name (for light mode)",
 		"required": false
+	},
+	"backgroundDarkMode": {
+		"type": "string",
+		"description": "Colorful background name (for dark mode)",
+		"required": false
+	},
+	"backgroundLightModeCustom": {
+		"description": "Custom colorful background (for light mode)",
+		"required": false,
+		"schema": {
+			"gradientColor1": {
+				"type": "string",
+				"description": "Gradent color 1"
+			},
+			"gradientColor2": {
+				"type": "string",
+				"description": "Gradent color 2"
+			},
+			"patternOpacity": {
+				"type": "nonNegativeNumber",
+				"description": "Pattern opacity"
+			},
+			"backgroundColor": {
+				"type": "string",
+				"description": "Background color"
+			}
+		}
+	},
+	"backgroundDarkModeCustom": {
+		"description": "Custom colorful background (for dark mode)",
+		"required": false,
+		"schema": {
+			"gradientColor1": {
+				"type": "string",
+				"description": "Gradent color 1"
+			},
+			"gradientColor2": {
+				"type": "string",
+				"description": "Gradent color 2"
+			},
+			"patternOpacity": {
+				"type": "nonNegativeNumber",
+				"description": "Pattern opacity"
+			},
+			"backgroundColor": {
+				"type": "string",
+				"description": "Background color"
+			}
+		}
 	},
 	"leftHanded": {
 		"type": "boolean",

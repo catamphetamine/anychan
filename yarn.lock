@@ -5975,10 +5975,10 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.6.41:
-  version "0.6.41"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.41.tgz#1605a49d71774e93a25bf87c8835fe3dca096b3a"
-  integrity sha512-upMqz4EpTj++yK5O7aKm2LW6JqVvNCA0LX0QD789j55OlyHtOj5YzFUYcT7y4SoZ/s0hcv0F/ZvMsB0e+eS6Ag==
+imageboard@^0.6.43:
+  version "0.6.43"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.6.43.tgz#350b10eb88ce6c9a45d69181c2cd805834d16e71"
+  integrity sha512-zW351pKJZsSiI9CQiE3Cj/CNw7lYOgReJyZo2ZQ1KKN8mfvrwhsyRJmjpBoeladljLypfTfCVXiTZmf3fB5K5w==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
@@ -7999,10 +7999,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.10:
-  version "0.7.10"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.10.tgz#e1b94a6357feeb225ae7b7bbf2a0493bb0fe453a"
-  integrity sha512-Q5UhgX+qOWYU7RcxV8YasQm3pdLO7Rf7RES/2sow9IWocIliOhadSDD3aYpwqYoR2rSWJGtvm7jL69b3AcHhig==
+react-pages@^0.7.11:
+  version "0.7.11"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.11.tgz#ced9eea63c63470076ee49e72bd1c99c78ce514d"
+  integrity sha512-DMr5BoSRgbPYHXpB7AA2ojjEhRddyCuuSdnYsdgPRp5CQoFsMPLDUQ0di03oDx57hPN3J8yDK6LhjYwLgFgzgA==
   dependencies:
     "@catamphetamine/farce" "^0.4.18"
     "@catamphetamine/found" "^1.3.11"

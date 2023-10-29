@@ -8,7 +8,6 @@ import storage_ from '../storage/storage.js'
 import StatusRecord from './SubscribedThreadsUpdater.StatusRecord.js'
 
 import {
-	subscribedThreadsUpdateInProgress,
 	subscribedThreadsUpdateInProgressForThread,
 	subscribedThreadsUpdateNotInProgress
 } from '../../redux/subscribedThreads.js'
@@ -43,7 +42,8 @@ export default class SubscribedThreadsUpdater {
 		getThreadStub,
 		// `createGetThreadParameters` parameter is set in `./src/utility/onApplicationStarted.js`.
 		createGetThreadParameters = () => ({}),
-		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL
+		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL,
+		eventLog
 	}) {
 		if (!tab) {
 			tab = new Tab({ storage })
@@ -59,6 +59,7 @@ export default class SubscribedThreadsUpdater {
 		this.createGetThreadParameters = createGetThreadParameters
 		this.nextUpdateRandomizeInterval = nextUpdateRandomizeInterval
 
+		this.eventLog = eventLog
 		this.log = (...args) => debug.apply(this, [this.tab.getId()].concat(args))
 
 		this.statusRecord = new StatusRecord({
@@ -83,6 +84,7 @@ export default class SubscribedThreadsUpdater {
 	// Will return a `Promise` when started from an "active" tab.
 	// (which is the case in tests)
 	async start() {
+		this.logEvent('START')
 		this.log('Start')
 
 		if (this._isActive) {
@@ -108,6 +110,7 @@ export default class SubscribedThreadsUpdater {
 	}
 
 	stop() {
+		this.logEvent('STOP')
 		this.log('Stop')
 
 		if (!this._isActive) {
@@ -139,11 +142,14 @@ export default class SubscribedThreadsUpdater {
 	// Will return a `Promise` when started from an "active" tab.
 	// (which is the case in tests)
 	async update() {
+		this.logEvent('CHECK_IS_ACTIVE_TAB')
 		// Attempt an update.
 		if (this.tab.isActive()) {
+			this.logEvent('IS_ACTIVE_TAB')
 			// Returns a `Promise`.
 			return await this._update()
 		} else {
+			this.logEvent('IS_INACTIVE_TAB')
 			this.scheduleUpdateAfter(BACKGROUND_TAB_UPDATE_DELAY)
 		}
 	}
@@ -151,6 +157,7 @@ export default class SubscribedThreadsUpdater {
 	// This method is called in cases when a new thread has been added
 	// to a list of subscribed threads.
 	async reset() {
+		this.logEvent('RESET')
 		this.stopScheduledUpdates()
 		if (this._isUpdating) {
 			this._needsUpdate = true
@@ -160,6 +167,7 @@ export default class SubscribedThreadsUpdater {
 	}
 
 	scheduleUpdateAfter(delay) {
+		this.logEvent('SCHEDULE_UPDATE')
 		this.log('Schedule an update after', Math.floor(delay / 1000), 'seconds')
 
 		// Randomize the `delay` until a next update so that
@@ -178,14 +186,22 @@ export default class SubscribedThreadsUpdater {
 	}
 
 	setStatus(status, { reason } = {}) {
+		this.log('Status', status)
+		console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', this.tab.getId(), status)
 		this.status = status
 		this.reason = reason
+	}
+
+	logEvent(event, parameters) {
+		if (this.eventLog) {
+			this.eventLog.push({ event, ...parameters })
+		}
 	}
 
 	async _update() {
 		this.onUpdateStarted()
 
-		this.log('See if anything should be updated')
+		this.log('See if there\'re any threads that should be updated now')
 
 		const {
 			subscribedThreadsToUpdate,
@@ -228,6 +244,7 @@ export default class SubscribedThreadsUpdater {
 				}
 			})
 		} else {
+			this.logEvent('UPDATE_NOT_REQUIRED')
 			this.log('No subscribed threads to update')
 			this.onUpdateEnded({ nextUpdateAt })
 			this.dispatch(subscribedThreadsUpdateNotInProgress())
@@ -235,12 +252,14 @@ export default class SubscribedThreadsUpdater {
 	}
 
 	onUpdateStarted() {
+		this.logEvent('UPDATE_START')
 		this.log('Update', 'Start')
 		this._isUpdating = true
 		this.setStatus('UPDATE')
 	}
 
 	onUpdateEnded({ retryAfter, nextUpdateAt }) {
+		this.logEvent('UPDATE_END')
 		this.log('Update', 'End')
 		this._isUpdating = false
 		this.setStatus('IDLE')
@@ -266,6 +285,7 @@ export default class SubscribedThreadsUpdater {
 			return
 		}
 
+		this.logEvent('END')
 		this.log('No future updates will be made for these subscribed threads')
 	}
 
@@ -284,8 +304,9 @@ export default class SubscribedThreadsUpdater {
 			}
 		}
 
-		const waitAndRetry = ({ reason }) => {
-			this.log(`Wait and retry. Reason: ${reason}`)
+		const waitAndRetry = ({ reason, error }) => {
+			this.logEvent('WAIT_AND_RETRY', { reason })
+			this.log(`Wait and retry. Reason: ${reason}${error ? '. Error: ' + error : ''}`)
 			onUpdateFinished({ retryAfter: CONCURRENT_UPDATE_WAIT_FOR_INTERVAL })
 		}
 
@@ -304,10 +325,11 @@ export default class SubscribedThreadsUpdater {
 				await this.updateThreads(subscribedThreadsToUpdate)
 				onUpdateFinished()
 			} catch (error) {
+				this.logEvent('ERROR')
 				if (!error.message.startsWith('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD')) {
 					reportError(error)
 				}
-				waitAndRetry({ reason: error.message })
+				waitAndRetry({ reason: 'ERROR', error: error.message })
 			}
 
 			// Even though some other tab might've taken over the update process
@@ -317,28 +339,38 @@ export default class SubscribedThreadsUpdater {
 			onUpdateEndedAcrossTabs()
 		}
 
+		this.logEvent('GET_IS_ACTIVE_TAB')
+
 		if (this.tab.isActive()) {
+			this.logEvent('IS_ACTIVE_TAB')
 			this.log('Is active tab')
 			return startUpdatingThreadsIfNotAlreadyUpdating()
+		} else {
+			this.logEvent('IS_INACTIVE_TAB')
 		}
 
 		if (isAlreadyUpdatingThreads()) {
 			return waitAndRetry({ reason: 'CONCURRENT_UPDATE_IN_PROGRESS' })
 		}
 
+		this.logEvent('GET_ACTIVE_TAB')
 		this.log('Get active tab')
 		this.setStatus('GET_ACTIVE_TAB')
 		const tabId = await this.tab.getActiveTabId()
 
 		if (!tabId) {
+			this.logEvent('NO_ACTIVE_TAB')
 			this.log('No active tab')
 			return startUpdatingThreadsIfNotAlreadyUpdating()
 		}
 
 		if (tabId === this.tab.getId()) {
+			this.logEvent('ACTIVE_TAB_THIS')
 			this.log('Is active tab')
 			return startUpdatingThreadsIfNotAlreadyUpdating()
 		}
+
+		this.logEvent('ACTIVE_TAB_OTHER', { tabId })
 
 		// The only purpose of this `if` is calling `isAlreadyUpdatingThreads()`
 		// which, in turn, dispatches an "update in progress" action if there's
@@ -354,6 +386,8 @@ export default class SubscribedThreadsUpdater {
 	}
 
 	async updateThreads(subscribedThreadsToUpdate) {
+		this.logEvent('UPDATE_THREADS_START')
+
 		// Create a status record.
 		await this.statusRecord.create()
 
@@ -361,6 +395,10 @@ export default class SubscribedThreadsUpdater {
 
 		let i = 0
 		for (const subscribedThread of subscribedThreadsToUpdate) {
+			this.logEvent('UPDATE_THREAD', {
+				threadId: subscribedThread.id,
+				channelId: subscribedThread.channel.id
+			})
 			this.log('Thread', subscribedThread.id, 'in channel', subscribedThread.channel.id)
 
 			// Check that the lock hasn't timed out.
@@ -377,13 +415,22 @@ export default class SubscribedThreadsUpdater {
 			})
 
 			// Refresh the thread.
+			this.logEvent('FETCH_THREAD_START', {
+				threadId: subscribedThread.id,
+				channelId: subscribedThread.channel.id
+			})
 			this.log('Refresh thread', subscribedThread.id, 'in channel', subscribedThread.channel.id)
 			try {
 				await this.refreshThread(subscribedThread)
 			} catch (error) {
+				this.logEvent('FETCH_THREAD_ERROR', {
+					threadId: subscribedThread.id,
+					channelId: subscribedThread.channel.id
+				})
 				reportError(error)
 				// See if threads update has been cancelled.
 				if (!this._isActive) {
+					this.logEvent('WAS_CANCELLED')
 					this.log('Cancelled')
 					return
 				}
@@ -392,6 +439,12 @@ export default class SubscribedThreadsUpdater {
 				i++
 				continue
 			}
+
+			// Log the event.
+			this.logEvent('FETCH_THREAD_END', {
+				threadId: subscribedThread.id,
+				channelId: subscribedThread.channel.id
+			})
 
 			// Update status: "Not updating any particular thread at the moment".
 			this.dispatch(subscribedThreadsUpdateInProgressForThread({
@@ -405,16 +458,19 @@ export default class SubscribedThreadsUpdater {
 
 			// See if threads update has been cancelled.
 			if (!this._isActive) {
+				this.logEvent('WAS_CANCELLED')
 				this.log('Cancelled')
 				return
 			}
 
 			// Wait before proceeding to the next one.
 			if (i < subscribedThreadsToUpdate.length - 1) {
+				this.logEvent('SCHEDULE_UPDATE_NEXT_THREAD')
 				this.log('Wait between threads')
 				await this.timer.waitFor(WAIT_INTERVAL_BETWEEN_THREADS)
 			}
 			else {
+				this.logEvent('UPDATE_THREADS_END')
 				this.log('All threads have been updated')
 
 				// Threads update finished.
@@ -503,7 +559,9 @@ export default class SubscribedThreadsUpdater {
 			dataSource: this.dataSource,
 			timer: this.timer,
 			action: this.getThreadStub ? 'getThreadStub' : 'getThread',
-			getThread: this.getThreadStub
+			getThreadStub: this.getThreadStub
 		})
 	}
 }
+
+const eventLog = () => {}

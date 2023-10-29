@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai'
 import fetch from 'node-fetch'
 
-import DEFAULT_CONFIGURATION from '../configuration/default.json'
+import DEFAULT_CONFIGURATION from '../configuration/default.json' assert { type: 'json' }
 
 // global._TEST_ = true
 

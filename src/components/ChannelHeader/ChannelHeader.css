@@ -2,11 +2,14 @@
 
 :root {
 	--ChannelHeaderSearch-width: calc(var(--unit) * 10);
-	--ChannelHeaderSearch-animationDuration: 300ms;
-
 	@mixin xxs {
 		--ChannelHeaderSearch-width: calc(var(--unit) * 5);
 	}
+	@mixin m-plus {
+		--ChannelHeaderSearch-width: calc(var(--unit) * 14);
+	}
+
+	--ChannelHeaderSearch-animationDuration: 300ms;
 }
 
 .ChannelHeader {

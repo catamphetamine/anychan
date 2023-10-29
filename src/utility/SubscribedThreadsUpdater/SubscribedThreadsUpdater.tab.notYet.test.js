@@ -2,7 +2,7 @@ import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
-import UserSettings from '../../UserSettings/UserSettings.js'
+import UserSettings from '../../utility/settings/UserSettings.js'
 import DATA_SOURCES from '../../dataSources.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -75,26 +75,17 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 		subscribedThreadsUpdaterStub.wasReset.should.equal(true)
 
-		const dispatchedActions = []
+		let eventLog = []
 
-		const dispatch = async (action) => {
+		let dispatchedActions = []
+
+		const dispatch = (action) => {
 			switch (action.type) {
 				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
 					action.value = undefined
 					break
 			}
-
 			dispatchedActions.push(action)
-
-			if (action.type === 'GET_THREAD') {
-				await timer.waitFor(10000)
-				if (action.value.channelId === thread1.channelId && action.value.threadId === thread1.id) {
-					return thread1
-				} else {
-					console.log(action)
-					throw new Error('Thread not found')
-				}
-			}
 		}
 
 		const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
@@ -105,15 +96,22 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			dataSource,
 			storage,
 			dispatch,
+			eventLog,
 			nextUpdateRandomizeInterval: 0,
-			getThreadStub: (channelId, threadId) => {
-				return dispatch({
+			getThreadStub: async ({ channelId, threadId }) => {
+				dispatch({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
 				})
+				await timer.waitFor(10000)
+				if (channelId === thread1.channelId && threadId === thread1.id) {
+					return thread1
+				} else {
+					throw new Error(`Thread not found: /${channelId}/${threadId}`)
+				}
 			}
 		})
 
@@ -126,10 +124,25 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 		subscribedThreadsUpdater.status.should.equal('SCHEDULED')
 
-		dispatchedActions.should.deep.equal([{
-			type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-			value: undefined
-		}])
+		eventLog.should.deep.equal([
+			{ event: 'START' },
+
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+
+			{ event: 'UPDATE_START' },
+
+			{ event: 'UPDATE_NOT_REQUIRED' },
+
+			{ event: 'UPDATE_END' },
+
+			{ event: 'SCHEDULE_UPDATE' }
+		])
+
+		// dispatchedActions.should.deep.equal([{
+		// 	type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
+		// 	value: undefined
+		// }])
 
 		subscribedThreadsUpdater.stop()
 	})

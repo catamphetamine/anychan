@@ -2,21 +2,6 @@
 Noon to Dusk: `linear-gradient(to right, rgb(255, 110, 127), rgb(191, 233, 255))`
 Hazel: `linear-gradient(to right, rgb(119, 161, 211), rgb(121, 203, 202), rgb(230, 132, 174))`
 
-Ed's Sunset:
-https://uigradients.com/#Ed'sSunsetGradient
---BackgroundGradient-color--1: hsl(12deg 96% 74%);
---BackgroundGradient-color--2: hsl(26deg 98% 74%);
-
-Pale Wood:
-https://uigradients.com/#PaleWood
---BackgroundGradient-color--1: hsl(34deg 53% 66%);
---BackgroundGradient-color--2: hsl(35deg 49% 72%);
-
-Copper:
-https://uigradients.com/#Copper
---BackgroundGradient-color--1: hsl(11deg 21% 64%);
---BackgroundGradient-color--2: hsl(9deg 16% 50%);
-
 A list of gradients:
 https://uigradients.com
 */
@@ -26,13 +11,14 @@ https://uigradients.com
 	--BackgroundPattern-size: 22rem;
 }
 
+/* In dark mode:
+   * Background color is `--Background-backgroundColor`.
+   * Pattern color is `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
+   * Pattern opacity is `--BackgroundPattern-opacity`.
+   * The more light or transparent Background color is,
+     the more the gradient "shines through".
+*/
 .dark {
-	--Background-backgroundColor: #170f28;
-
-	/* Orange to Purple */
-	--BackgroundGradient-color--1: hsl(19deg 57% 17%);
-	--BackgroundGradient-color--2: hsl(284deg 46% 21%);
-
 	--BackgroundGradient-blendMode: darken;
 	--BackgroundGradient-zIndex: -1;
 
@@ -42,14 +28,18 @@ https://uigradients.com
 	--BackgroundPattern-zIndex: -2;
 }
 
+/* In light mode:
+   * Background color is `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
+   * Pattern color is an "overlay" effect of black color over the Background color:
+     it's a darker version of the Background color below it.
+   * Pattern opacity is `--BackgroundPattern-opacity`.
+*/
 .light {
-	--Background-backgroundColor: #ffffff;
+	/* In light mode, `--Background-backgroundColor` is irrelevant. */
+	--Background-backgroundColor: initial;
 
 	--BackgroundPattern-blendMode: overlay;
 	--BackgroundPattern-filter: initial;
-
-	--BackgroundGradient-color--1: hsl(12deg 96% 74%);
-	--BackgroundGradient-color--2: hsl(26deg 98% 74%);
 
 	--BackgroundGradient-blendMode: initial;
 	--BackgroundGradient-zIndex: initial;
@@ -60,7 +50,57 @@ https://uigradients.com
 	--BackgroundPattern-zIndex: initial;
 }
 
+.dark {
+	/* Monochrome */
+	.Background--dark--monochrome {
+    --BackgroundGradient-color--1: hsl(0deg 0% 19.8%);
+    --BackgroundGradient-color--2: hsl(0deg 0% 83.69%);
+    --BackgroundPattern-opacity: 0.15;
+		--Background-backgroundColor: hsl(0deg 0% 10%);
+	}
+
+	/* Dark Blue */
+	.Background--dark--dark-blue {
+		/* https://uigradients.com/#BurningOrange */
+		--BackgroundGradient-color--1: hsl(346deg 100% 63%);
+		--BackgroundGradient-color--2: hsl(9deg 100% 58%);
+		--BackgroundPattern-opacity: 0.16;
+		--Background-backgroundColor: hsl(235deg 45% 11%);
+	}
+
+	/* Purple */
+	.Background--dark--purple {
+		/* Orange to Purple */
+		--BackgroundGradient-color--1: hsl(19deg 57% 17%);
+		--BackgroundGradient-color--2: hsl(284deg 46% 21%);
+		--BackgroundPattern-opacity: 0.3;
+		--Background-backgroundColor: #170f28;
+	}
+}
+
+.light {
+	/* Orange Purple */
+	.Background--light--orange-purple {
+		--BackgroundGradient-color--1: hsl(34deg 53% 66%);
+		--BackgroundGradient-color--2: hsl(0deg 46% 70%);
+	}
+
+	/* Purple Blue */
+	.Background--light--purple-blue {
+		--BackgroundGradient-color--1: hsl(11deg 21% 64%);
+		--BackgroundGradient-color--2: hsl(208deg 20% 62%);
+	}
+
+	/* Green Brown */
+	.Background--light--green-brown {
+    --BackgroundGradient-color--1: hsl(52deg 28% 67%);
+    --BackgroundGradient-color--2: hsl(18deg 49% 71%);
+	}
+}
+
 .Background {
+	display: none;
+
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -68,6 +108,18 @@ https://uigradients.com
 	height: 100%;
 
 	background-color: var(--Background-backgroundColor);
+}
+
+.light {
+	.Background--light--show {
+		display: block;
+	}
+}
+
+.dark {
+	.Background--dark--show {
+		display: block;
+	}
 }
 
 .Background-gradient,

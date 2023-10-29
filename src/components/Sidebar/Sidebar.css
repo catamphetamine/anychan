@@ -17,6 +17,9 @@
 	   on really wide screens.
 	*/
 	max-width: calc(var(--ChannelThreadsSidebarSectionThread-paddingLeft) + var(--ChannelThreadsSidebarSectionThreadThumbnail-width) + var(--ChannelThreadsSidebarSectionThread-thumbnail-marginRight) + var(--CommentText-maxWidth--sidebar) + var(--ChannelThreadsSidebarSectionThread-paddingLeft));
+
+	-webkit-user-select: none; /* Safari */
+	user-select: none;
 }
 
 .Sidebar {

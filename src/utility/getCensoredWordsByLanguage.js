@@ -1,6 +1,6 @@
-import IGNORED_WORDS_DE from 'frontend-lib/messages/offensive.de.json'
-import IGNORED_WORDS_EN from 'frontend-lib/messages/offensive.en.json'
-import IGNORED_WORDS_RU from 'frontend-lib/messages/offensive.ru.json'
+import IGNORED_WORDS_DE from 'frontend-lib/messages/offensive.de.json' assert { type: 'json' }
+import IGNORED_WORDS_EN from 'frontend-lib/messages/offensive.en.json' assert { type: 'json' }
+import IGNORED_WORDS_RU from 'frontend-lib/messages/offensive.ru.json' assert { type: 'json' }
 
 import getConfiguration from '../configuration.js'
 

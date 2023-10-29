@@ -1,3 +1,5 @@
+import { DEFAULT_BACKGROUNDS_DARK_MODE, DEFAULT_BACKGROUNDS_LIGHT_MODE } from './settingsDefaults.js'
+
 // The `version` of a user's "User Settings" is stored in `version` property in `localStorage`.
 // The latest version of "User Settings" is `VERSION` in `UserData.js`.
 export default function migrate(settings, version = 0) {
@@ -28,6 +30,17 @@ export default function migrate(settings, version = 0) {
 	if (version < 3) {
 		if (settings.channelView) {
 			delete settings.channelView
+		}
+	}
+	// Version 4.
+	// Oct 28, 2023.
+	// Removed `colorfulBackground: true` flag.
+	// Introduced flags: `backgroundLightMode: string` / `backgroundDarkMode: string`.
+	if (version < 4) {
+		if (settings.colorfulBackground) {
+			delete settings.colorfulBackground
+			settings.backgroundLightMode = DEFAULT_BACKGROUNDS_LIGHT_MODE[0]
+			settings.backgroundDarkMode = DEFAULT_BACKGROUNDS_DARK_MODE[0]
 		}
 	}
 }

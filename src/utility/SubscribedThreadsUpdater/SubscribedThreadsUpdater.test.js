@@ -2,7 +2,7 @@ import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
-import UserSettings from '../../UserSettings/UserSettings.js'
+import UserSettings from '../../utility/settings/UserSettings.js'
 import DATA_SOURCES from '../../dataSources.js'
 
 import { BASE_PREFIX } from '../storage/getStoragePrefix.js'

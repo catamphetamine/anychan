@@ -201,6 +201,20 @@ export const refreshThread = redux.action(
 			userSettings,
 			dataSource
 		})
+
+		// Some code for testing thread auto-update "new comments" / "new replies" notifications.
+		// Can be removed.
+		//
+		// const latestComment = updatedThread.comments[updatedThread.comments.length - 1]
+		// userData.addOwnComment(thread.channelId, thread.id, latestComment.id)
+		// const fakeNewComment = {
+		// 	...latestComment,
+		// 	id: Date.now()
+		// }
+		// updatedThread.comments.push(fakeNewComment)
+		// latestComment.replies = latestComment.replies || []
+		// latestComment.replies.push(fakeNewComment)
+
 		mergePrevAndNewThreadComments(thread, updatedThread)
 		return {
 			thread: updatedThread,
@@ -212,7 +226,7 @@ export const refreshThread = redux.action(
 		// Get the current `channel`.
 		const channel = getChannelObjectForChannelIdFromStateData(state, thread.channelId)
 		setThreadPropertiesFromChannelProperties(thread, channel)
-		const prevCommentsCount = thread.comments.length
+		const prevCommentsCount = state.thread && state.thread.comments.length
 		return {
 			...state,
 			...getAutoUpdateNewCommentsState(state, thread, { prevCommentsCount, userData }),

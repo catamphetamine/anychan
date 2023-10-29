@@ -1,21 +1,34 @@
-// `react-pages`: add @serverSideRender(({ children: string }) => string) (и убрать `renderContent: false`, включая readme и -example)
-
-// Мб сделать в `react-pages` что-нибудь, чтобы последний компонент route'а всегда re-mount-ился при смене location, даже если URL остался тем же: это решит те случаи, когда, например, на странице есть ссылка на саму себя (но это редкие случаи). Например, можно добавлять в `key` все параметры `route`'а.
-
-// `react-pages`: Не unmount-ит страницу текущего треда при переходе по ссылке другого треда. https://github.com/4Catalyzer/found/issues/639
 
 
 
 
+* Maybe fix loading channel page in goto modal:
+  * First it loads channel
+  * Then it dispatches goto()
+  * In the meantime, it's not consistent: the location is for the prev channel but the page is for the new channel
+
+* Maybe move `addCommentProps` / `addThreadProps` / ... to `thread/getThread.js`
+  Or write a comment, so that people know that there's no `parseContent()` added comments, etc.
+  Maybe `getThread()` could return `{ channel, thread }` instead of `thread`.
+
+* Maybe write in `useLoadChannel()` that it shouldn't be used as a hook?
+
+* Synchronize `channelLayout`/`channelView` with `threadsList`: rewrite the current workaround.
+  * Add Channel properties like in `redux/data.js` when re-fetching channel for switching view/layout.
 
 
 
 
-Own comments:
+* Pinned threads expanded state in Redux (test "back")
+  * `state.expandedPinnedThreads`
+  * `Comment.expandedPinnedThread`
+  * `dispatch(setExpandedPinnedThreads())`
 
-* Check how it changes site icon on new comments in thread
-* Mark some comments as "yours" and check how it changes site icon on new replies
-* Subscribe to a thread, mark some comments as "yours" and check how the notification dots in the sidebar are different.
+* Check kohlchan (reply, report, login)
+
+
+
+
 
 
 
@@ -1520,80 +1533,6 @@ Add dontTrackNewComments user data item.
 
 
 
-
-
-
-Форма ответа — "Write a comment..." (Напишите комментарий...), слева — скрепка прикрепления файла, а может и справа.
-
-
-
-
-
-
-Кнопку создания треда тоже как-то можно сделать (и форму).
-
-
-
-
-
-
-
-
-Print Screen PNG -> JPG:
-
-```js
-// ==UserScript==
-// @name         Convert pasted image to jpg
-// @namespace    https://2ch.hk/
-// @version      0.1
-// @description  Converts pasted images from png to jpg
-// @author       Anon
-// @match        *://2ch.hk/*
-// @match        *://2ch.pm/*
-// @icon         https://www.google.com/s2/favicons?domain=tampermonkey.net
-// @grant        none
-// ==/UserScript==
-
-
-(function() {
-    'use strict';
-
-    const imageOpts = {
-        filename: 'image.jpg',
-        type: 'image/jpeg',
-        quality: 0.95,
-    };
-
-    function imageToFile(image, { type, filename, quality }, callback) {
-        var canvas = document.createElement('canvas');
-        canvas.width = image.width;
-        canvas.height = image.height;
-        canvas.getContext('2d').drawImage(image, 0, 0);
-        canvas.toBlob(blob => callback(new File([blob], filename, { type })), type, quality);
-    }
-
-    $('.makaba').off('paste').on('paste', function(e) {
-        var items = (e.clipboardData || e.originalEvent.clipboardData).items;
-        for (const item of items) {
-            if (item.kind !== 'file') {
-                continue;
-            }
-
-            var blob = item.getAsFile();
-            if (item.type !== 'image/png') {
-                window.FormFiles.addMultiFiles([blob]);
-                continue;
-            }
-
-            let img = new Image();
-            img.onload = function() {
-                imageToFile(img, imageOpts, file => window.FormFiles.addMultiFiles([file]));
-            };
-            img.src = (window.URL || window.webkitURL).createObjectURL(blob);
-        }
-    })
-})();
-```
 
 
 

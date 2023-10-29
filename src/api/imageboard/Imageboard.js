@@ -22,8 +22,21 @@ export default function Imageboard_(dataSource, {
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
+		getSetCookieHeaders({ headers }) {
+			// See if the `fetch()` response headers allow reading `set-cookie` header.
+			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
+			if (headers.getSetCookie().length > 0) {
+				return headers.getSetCookie()
+			}
+			// Otherwise, fall back to `anychan-proxy`'s workaround with `x-set-cookies` header.
+			const xSetCookies = headers.get('x-set-cookies')
+			if (xSetCookies) {
+				return JSON.parse(xSetCookies)
+			}
+			return []
+		},
 		useRelativeUrls: isDeployedOnDataSourceDomain(dataSource),
-		request: async (method, url, { body, headers }) => {
+		request: async (method, url, { body, headers, cookies }) => {
 			// If request "Content-Type" is set to be "multipart/form-data",
 			// convert the `body` object to a `FormData` instance.
 			if (headers['Content-Type'] === 'multipart/form-data') {
@@ -32,13 +45,49 @@ export default function Imageboard_(dataSource, {
 				// Example: "multipart/form-data; boundary=----WebKitFormBoundaryZEglkYA7NndbejbB".
 				delete headers['Content-Type']
 			}
+
 			// Proxy the URL (if required).
 			if (shouldUseProxy({ dataSource })) {
 				url = getProxiedUrl(url, { userSettings })
 			}
+
+			// `Set-Cookie` headers can't be read from `fetch()` response in a web browser:
+			//
+			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
+			//
+			// "Browsers block frontend JavaScript code from accessing the Set-Cookie header,
+			//  as required by the Fetch spec, which defines Set-Cookie as a forbidden response
+			//  header name that must be filtered out from any response exposed to frontend code."
+			//
+			// The workaround was simple: just put the values of `Set-Cookie` headers
+			// to some other header when sending the response.
+			//
+			// Setting `x-set-cookies` header to `true`
+			// instructs `anychan-proxy` to put the values of `Set-Cookie` headers
+			// to `x-set-cookies` header.
+			//
+			headers['x-set-cookies'] = 'true'
+
+			// Web browsers don't allow the client javascript code to set the contents
+			// of the `Cookie` HTTP request header.
+			//
+			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
+			//
+			// But it may be required to send some cookies to the server.
+			// For example, to authenticate the user.
+			//
+			// A workaround is to pass `x-cookies` request header to `anychan-proxy`:
+			// it will append the contents of that header to the `cookies` header,
+			// using `"; "` as a separator.
+			//
+			if (cookies) {
+				headers['x-cookie'] = Object.keys(cookies).map(key => `${key}=${cookies[key]}`).join('; ')
+			}
+
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.
 			// https://caniuse.com/#feat=fetch
 			if (window.fetch) {
+				// Make an HTTP response using `fetch()`.
 				const response = await fetch(url, {
 					method,
 					headers,
@@ -59,6 +108,7 @@ export default function Imageboard_(dataSource, {
 					// https://fetch.spec.whatwg.org/#cors-protocol-and-credentials
 					credentials: 'include'
 				})
+
 				if (response.ok) {
 					url = response.url
 					if (shouldUseProxy({ dataSource })) {

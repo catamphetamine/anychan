@@ -86,7 +86,12 @@ function SubscribedThread({
 		return doesSubscribedThreadHaveNewComments(thread, { userData })
 	}, [thread, userData])
 
-	const hasNewReplies = false
+	const hasNewReplies = useMemo(() => {
+		if (unsubscribed) {
+			return false
+		}
+		return doesSubscribedThreadHaveNewComments(thread, { type: 'reply', userData })
+	}, [thread, userData])
 
 	return (
 		<div

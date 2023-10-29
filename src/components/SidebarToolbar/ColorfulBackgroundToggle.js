@@ -19,20 +19,23 @@ export default function ColorfulBackgroundToggle({ withLabel }) {
 	const userSettings = useSettings()
 	const measure = useMeasure()
 
-	const colorfulBackground = useSelector(state => state.app.colorfulBackground)
+	const backgroundLightMode = useSelector(state => state.app.backgroundLightMode)
+	const backgroundDarkMode = useSelector(state => state.app.backgroundDarkMode)
 
 	const menuItem = useMemo(() => {
 		return getColorfulBackgroundMenuItem({
 			messages,
 			dispatch,
 			measure,
-			colorfulBackground,
+			backgroundLightMode,
+			backgroundDarkMode,
 			userSettings
 		})
 	}, [
 		messages,
 		dispatch,
-		colorfulBackground,
+		backgroundLightMode,
+		backgroundDarkMode,
 		userSettings
 	])
 

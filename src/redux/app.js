@@ -34,8 +34,12 @@ export const setShowPageLoadingIndicator = redux.simpleAction(
 	(state, showPageLoadingIndicator) => ({ ...state, showPageLoadingIndicator })
 )
 
-export const setColorfulBackground = redux.simpleAction(
-	(state, colorfulBackground) => ({ ...state, colorfulBackground })
+export const setBackgroundLightMode = redux.simpleAction(
+	(state, backgroundLightMode) => ({ ...state, backgroundLightMode })
+)
+
+export const setBackgroundDarkMode = redux.simpleAction(
+	(state, backgroundDarkMode) => ({ ...state, backgroundDarkMode })
 )
 
 export default redux.reducer({

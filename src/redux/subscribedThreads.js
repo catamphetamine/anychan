@@ -154,14 +154,10 @@ export const unsubscribeFromThread = redux.action(
 	})
 )
 
-export const subscribedThreadsUpdateInProgress = redux.simpleAction(
-	'UPDATE_IN_PROGRESS',
-	(state) => ({
-		...state,
-		subscribedThreadsUpdateInProgress: true
-	})
-)
-
+// "Update is in progress for thread" events are emitted
+// in case the application would prefer to show some kind of a
+// status indicator for subscribed threads list items in sidebar.
+// For example, when a thread is being updated, it could show a spinner of some sort.
 export const subscribedThreadsUpdateInProgressForThread = redux.simpleAction(
 	'UPDATE_IN_PROGRESS_FOR_THREAD',
 	(state, { channelId, threadId }) => ({
@@ -172,6 +168,10 @@ export const subscribedThreadsUpdateInProgressForThread = redux.simpleAction(
 	})
 )
 
+// "Subscribed threads update is not in progress" event is emitted
+// in case the application would prefer to show or hide some kind of a
+// status indicator for subscribed threads list in sidebar.
+// For example, it could show or hide an "updating" spinner of some sort.
 export const subscribedThreadsUpdateNotInProgress = redux.simpleAction(
 	'UPDATE_NOT_IN_PROGRESS',
 	(state) => ({

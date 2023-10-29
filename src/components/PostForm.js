@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
+import React, { useState, useCallback, useMemo, useRef, useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
@@ -33,6 +33,7 @@ import PostAttachments from 'social-components-react/components/PostAttachments.
 import useSlideshow from './Comment/useSlideshow.js'
 
 import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
+import convertPngToJpg from '../utility/convertPngToJpg.js'
 
 import { showError } from '../redux/notifications.js'
 
@@ -62,6 +63,7 @@ function PostForm({
 	onAttachmentsDidChange,
 	onHeightDidChange,
 	attachmentThumbnailSize = 250,
+	resetAfterSubmit,
 	onCancel,
 	onSubmit: onSubmit_,
 	className
@@ -71,13 +73,13 @@ function PostForm({
 	const messages = useMessages()
 
 	const form = useRef()
-	const setForm = (formElement) => {
-		form.current = formElement
+	const setForm = (instance) => {
+		form.current = instance
 		if (ref) {
 			if (typeof ref === 'function') {
-				ref(formElement)
+				ref(instance)
 			} else {
-				ref.current = formElement
+				ref.current = instance
 			}
 		}
 	}
@@ -92,6 +94,8 @@ function PostForm({
 
 	const [hasInteracted, setHasInteracted] = useState(false)
 	const [expanded, setExpanded] = useState(expandedPropertyValue)
+
+	const accessToken = useSelector(state => state.auth.accessToken)
 
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
@@ -148,13 +152,20 @@ function PostForm({
 				content: values[POST_FORM_INPUT_FIELD_NAME],
 				attachmentFiles: files.map(_ => _.file)
 			})
+			if (resetAfterSubmit) {
+				form.current.reset()
+			}
 		} catch (error) {
 			console.error(error)
 			setError(error.message)
 		} finally {
 			setLoading(false)
 		}
-	})
+	}, [
+		onSubmit_,
+		files,
+		resetAfterSubmit
+	])
 
 	const onInputKeyDown = useCallback((event) => {
 		if (isKeyCombination(event, ['Esc'])) {
@@ -268,6 +279,28 @@ function PostForm({
 		onFileAttached
 	])
 
+	// Handles pasting files into the form.
+	useEffect(() => {
+		const element = form.current.getElement()
+		const onPaste = async (event) => {
+			const items = event.clipboardData.items
+			for (const item of items) {
+				if (item.kind !== 'file') {
+					continue
+				}
+				let file = item.getAsFile()
+				if (file.type === 'image/png') {
+					file = await convertPngToJpg(file)
+				}
+				onFileAttached(file)
+			}
+		}
+		element.addEventListener('paste', onPaste)
+		return () => {
+			element.removeEventListener('paste', onPaste)
+		}
+	}, [])
+
 	const onInteraction = useCallback(() => {
 		if (!hasInteracted) {
 			setHasInteracted(true)
@@ -285,7 +318,7 @@ function PostForm({
 	const dataSource = useDataSource()
 
 	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
-	const isPostingSupportedButNotWorking = dataSource.id === '2ch' || dataSource.id === '4chan'
+	const isPostingSupportedButNotWorking = dataSource.id === '4chan'
 
 	const doesUseProxy = useMemo(() => {
 		return shouldUseProxy({ dataSource })
@@ -381,6 +414,11 @@ function PostForm({
 			{isPostingSupported && doesUseProxy &&
 				<p className="PostForm-proxyCaution">
 					{messages.proxyPostingCaution}
+				</p>
+			}
+			{!isPostingSupported &&
+				<p className="PostForm-notImplementedNotice">
+					{messages.notImplementedForTheDataSource}
 				</p>
 			}
 			{canAttachFiles && fileAttachments.length > 0 &&
@@ -482,6 +520,7 @@ PostForm.propTypes = {
 	onAttachmentsDidChange: PropTypes.func,
 	onHeightDidChange: PropTypes.func,
 	attachmentThumbnailSize: PropTypes.number,
+	resetAfterSubmit: PropTypes.bool,
 	className: PropTypes.string
 }
 

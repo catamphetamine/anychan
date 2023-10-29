@@ -181,7 +181,6 @@ function App({
   const announcement = useSelector(state => state.announcement.announcement)
   const isLoadingTweet = useSelector(state => state.twitter.isLoading)
   const channelLayout = useSelector(state => state.channel.channelLayout)
-  const colorfulBackground = useSelector(state => state.app.colorfulBackground)
 
   const backButtonAboveContent = useRef()
 
@@ -254,9 +253,7 @@ function App({
 		<MeasureContext.Provider value={measure}>
 			<div className={classNames(`theme--${theme}`)}>
 				{/* Gradient/pattern background */}
-				{colorfulBackground &&
-					<Background/>
-				}
+				<Background/>
 
 				{/* Page loading indicator */}
 				<PageLoadingIndicator show={isLoadingTweet || !initialized}/>

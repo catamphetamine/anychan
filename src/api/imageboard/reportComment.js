@@ -1,4 +1,6 @@
 import AlreadyReportedError from '../errors/AlreadyReportedError.js'
+import CaptchaNotRequiredError from '../errors/CaptchaNotRequiredError.js'
+import CaptchaSolutionIncorrectError from '../errors/CaptchaSolutionIncorrectError.js'
 import ContentRequiredError from '../errors/ContentRequiredError.js'
 
 export default async function reportComment(imageboard, {
@@ -16,6 +18,10 @@ export default async function reportComment(imageboard, {
 				throw new AlreadyReportedError()
 			case 'REPORT_CONTENT_REQUIRED':
 				throw new ContentRequiredError()
+			case 'INCORRECT_CAPTCHA_SOLUTION':
+				throw new CaptchaSolutionIncorrectError()
+			case 'CAPTCHA_NOT_REQUIRED':
+				throw new CaptchaNotRequiredError()
 			// case 'TOO_MANY_COMMENTS_BEING_REPORTED':
 			// 	... currently the UI doesn't allow selecting multiple comments for a report ...
 			default:

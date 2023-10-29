@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import useDataSource from '../hooks/useDataSource.js'
 import useSettings from '../hooks/useSettings.js'
 import useMessages from '../hooks/useMessages.js'
-import useLocale from '../hooks/useLocale.js'
 
 import FillButton from '../components/FillButton.js'
 import { Form, Field, Submit, FormComponentsAndButton, FormComponent, FormAction } from '../components/Form.js'
@@ -97,7 +96,6 @@ function NotAuthenticated() {
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
 	const messages = useMessages()
-	const locale = useLocale()
 	const dispatch = useDispatch()
 
 	const [logInError, setLogInError] = useState()
@@ -117,16 +115,6 @@ function NotAuthenticated() {
 				messages
 			}))
 			console.log('@@@ Log In result:', result)
-			if (dataSource.id === '2ch') {
-				if (window.location.hostname === 'localhost') {
-					if (locale === 'ru') {
-						dispatch(notify('Сервер `2ch.hk` проставляет куки, но куки не пишутся для сайтов, запущенных на localhost. Ваш пасскод, видимо, верный, но ответ сервера невозможно прочесть в случае с localhost. Но вы можете проставить куку "passcode_auth" вручную и обновить страницу.'))
-					} else {
-						dispatch(notify('Server-side-set cookies don\'t work on localhost. Your auth token looks valid but the response can\'t be read on localhost. But you could add "passcode_auth" cookie manually and refresh the page.'))
-					}
-					return
-				}
-			}
 			if (!result.accessToken) {
 				dispatch(showError('Access token not found in server response'))
 				return
@@ -145,7 +133,6 @@ function NotAuthenticated() {
 			}
 		}
 	}, [
-		locale,
 		messages,
 		dataSource,
 		userSettings

@@ -17,6 +17,10 @@ export default function useReport({
 	const messages = useMessages()
 
 	const onReport = useCallback(() => {
+
+
+			dispatch(notify(messages.cookies.required))
+
 		dispatch(showReportCommentModal({
 			channelId,
 			threadId,
@@ -29,7 +33,7 @@ export default function useReport({
 	])
 
 	const onReportNotImplemented = useCallback(() => {
-		dispatch(notify(messages.notImplementedForThisEngine))
+		dispatch(notify(messages.notImplementedForTheDataSource))
 	}, [])
 
 	return {

@@ -487,6 +487,22 @@ In `./configuration/default.json` there's a `proxyUrl` setting — this is the U
 
 This application uses React, and can be rendered both on client side and server side. But, React is rumoured to be rather slow when it comes to server-side rendering, compared to the "classic" way of generating web pages from simple templates (like PHP). I didn't benchmark server-side rendering of this app, but I'd assume that, for a high-load website, it would make a difference to use a more performant solution (cost-wise). Maybe it could be some kind of a separate "static" "archive" version that would be very minimalistic, and would be easily indexed by search engines. Both Google and Bing still can index client-side websites that use javascript for the initial loading, but a separate "static" website would most likely get better "score".
 
+<details>
+<summary>More details</summary>
+
+#####
+
+This application is built using [`react-pages`](https://www.npmjs.com/package/react-pages) library which does support server-side rendering.
+
+Why even implement server-side rendering? One reason would be for the website to be indexable by search engines in order to be discoverable on the internet.
+
+However, I wouldn't consider server-side rendering suitable for this specific application:
+
+* When I originally started this project in August 2018, React used to be not so performant when it comes to server-side rendering. Writing this section now in October 2023, I didn't bother checking if that situation has changed. So I'll just assume that React, although reasonably fast, it still not the most performant solution when it comes to outputting raw HTML when compared to more simplistic template-based rendering engines that don't even bother executing any javascript. So, for example, an imageboard could employ dual-website strategy: one website could be statically generated and would drive the traffic to the website from search engines, and another website would be this interactive React "Single-Page Application" that doesn't bother with server-side rendering and provides User Experience.
+
+* This application uses [`virtual-scroller`](https://www.npmjs.com/package/virtual-scroller) to only render the currently-visible portion of large lists of comments or threads when run in a web browser. On server side, it would have to render the full lists of those comments. Suppose that's not an issue by itself to the server. But after rendering those large lists of comments on the server, they'd have to be [re-"hydrated"](https://www.gatsbyjs.com/docs/conceptual/react-hydration/) on the client in order to make al that raw HTML snapshot interactive and running. And while doing re-"hydration" on the client, it would have to render the page 1:1 of how it was rendered on the server, meaning that on the client it would have to also render those large lists of comments. And I've tested how rendering large lists of comments performed at the initial stages of developing this application in 2019, and the performance wasn't acceptable: somewhere in the magnitude of 1 second for a list of about a 1000 comments, which is nowhere near being considered "swift".
+</details>
+
 #### Virtualized Lists
 
 The lists of threads/comments are implemented via a "[Virtual Scroller](https://gitlab.com/catamphetamine/virtual-scroller)" which results in great performance boost but at the same time [doesn't support some native in-browser features](https://gitlab.com/catamphetamine/virtual-scroller#search-focus-management) such as "Find on page" or "Tab" key navigation or "screen readers".

@@ -259,7 +259,7 @@
 		"error": "Couldn't update the thread"
 	},
 	"downloadThread": "Download thread data",
-	"notImplementedForThisEngine": "This feature hasn't been implemented for this imageboard",
+	"notImplementedForTheDataSource": "This feature hasn't been implemented for this imageboard",
 	"doesNotWorkForTheDataSource": "This feature currently doesn't work with this imageboard",
 	"inReplyTo": "In reply to",
 	"markAsOwnComment": "This is my comment",

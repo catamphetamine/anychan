@@ -50,4 +50,6 @@ export const logOut = redux.action(
 	})
 )
 
-export default redux.reducer()
+export default redux.reducer({
+	accessToken: 'ad3f6c2190e735ab8f7820b34a0011dab2c7eaf95f3ef94342094e44374ea588'
+})

@@ -2,7 +2,7 @@ import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
-import UserSettings from '../../UserSettings/UserSettings.js'
+import UserSettings from '../../utility/settings/UserSettings.js'
 import DATA_SOURCES from '../../dataSources.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -26,13 +26,13 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 		const timer = new TestTimer()
 
 		const tab1 = new TestTab({
-			id: '1 (inactive)',
+			id: '1 (inactive tab)',
 			storage: storage1,
 			timer
 		})
 
 		const tab2 = new TestTab({
-			id: '2 (active)',
+			id: '2 (active tab)',
 			storage: storage1,
 			timer
 		})
@@ -109,34 +109,43 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		subscribedThreadsUpdaterStub.wasReset.should.equal(true)
 
-		let dispatchedActions1 = []
-		let dispatchedActions2 = []
+		let eventLog = []
 
-		const dispatch = async (action, tab) => {
+		const eventLog1 = {
+			push: (event) => {
+				eventLog.push({
+					...event,
+					tab: 1
+				})
+			}
+		}
+
+		const eventLog2 = {
+			push: (event) => {
+				eventLog.push({
+					...event,
+					tab: 2
+				})
+			}
+		}
+
+		let dispatchedActions = []
+
+		const dispatch = (action, tab) => {
 			switch (action.type) {
 				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
 					action.value = undefined
 					break
 			}
 
-			const dispatchedActions = tab === tab1 ? dispatchedActions1 : dispatchedActions2
-			dispatchedActions.push(action)
-
-			if (action.type === 'GET_THREAD') {
-				await timer.waitFor(10000)
-				if (action.value.channelId === thread1.channelId && action.value.threadId === thread1.id) {
-					return thread1
-				} else if (action.value.channelId === thread2.channelId && action.value.threadId === thread2.id) {
-					return thread2
-				} else {
-					console.log(action)
-					throw new Error('Thread not found')
-				}
-			}
+			dispatchedActions.push({
+				tab: tab === tab1 ? 1 : 2,
+				...action
+			})
 		}
 
-		const dispatch1 = async (action) => await dispatch(action, tab1)
-		const dispatch2 = async (action) => await dispatch(action, tab2)
+		const dispatch1 = (action) => dispatch(action, tab1)
+		const dispatch2 = (action) => dispatch(action, tab2)
 
 		await timer.fastForward(24 * 60 * 60 * 1000)
 
@@ -166,15 +175,24 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage1,
 			dispatch: dispatch1,
 			timer,
+			eventLog: eventLog1,
 			nextUpdateRandomizeInterval: 0,
-			getThreadStub: (channelId, threadId) => {
-				return dispatch({
+			getThreadStub: async ({ channelId, threadId }) => {
+				dispatch1({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
 				})
+				await timer.waitFor(10000)
+				if (channelId === thread1.channelId && threadId === thread1.id) {
+					return thread1
+				} else if (channelId === thread2.channelId && threadId === thread2.id) {
+					return thread2
+				} else {
+					throw new Error(`Thread not found: /${channelId}/${threadId}`)
+				}
 			}
 		})
 
@@ -186,15 +204,24 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage2,
 			dispatch: dispatch2,
 			timer,
+			eventLog: eventLog2,
 			nextUpdateRandomizeInterval: 0,
-			getThreadStub: (channelId, threadId) => {
-				return dispatch({
+			getThreadStub: async ({ channelId, threadId }) => {
+				dispatch2({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
 				})
+				await timer.waitFor(10000)
+				if (channelId === thread1.channelId && threadId === thread1.id) {
+					return thread1
+				} else if (channelId === thread2.channelId && threadId === thread2.id) {
+					return thread2
+				} else {
+					throw new Error(`Thread not found: /${channelId}/${threadId}`)
+				}
 			}
 		})
 
@@ -223,336 +250,106 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			]
 		})
 
+		// `tab.setActive()` call should be made after `SubscribedThreadsUpdater.start()` has been called.
+		// Otherwise, if the order of the calls is different, it won't do anything (the test will timeout).
+		// tab1.setActive(false)
 		tab2.setActive(true)
 
-		// "Schedule an upate after 1 second".
+		await timer.fastForward(100)
+
+		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
+		subscribedThreadsUpdater2.status.should.equal('SCHEDULED')
+
 		await timer.fastForward(1000)
+
+		eventLog.should.deep.equal([
+			{ tab: 1, event: 'START' },
+			{ tab: 1, event: 'CHECK_IS_ACTIVE_TAB' },
+			{ tab: 1, event: 'IS_INACTIVE_TAB' },
+			{ tab: 1, event: 'SCHEDULE_UPDATE' },
+
+			{ tab: 2, event: 'START' },
+			{ tab: 2, event: 'CHECK_IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'IS_INACTIVE_TAB' },
+			{ tab: 2, event: 'SCHEDULE_UPDATE' },
+
+			{ tab: 1, event: 'UPDATE_START' },
+			{ tab: 1, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 1, event: 'IS_INACTIVE_TAB' },
+			{ tab: 1, event: 'GET_ACTIVE_TAB' },
+
+			{ tab: 2, event: 'UPDATE_START' },
+			{ tab: 2, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'UPDATE_THREADS_START' }
+		])
 
 		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
 		subscribedThreadsUpdater2.status.should.equal('UPDATE')
 
-		dispatchedActions1.should.deep.equal([
-			// Tab 1 emits `UPDATE_IN_PROGRESS_FOR_THREAD` action
-			// when it detects an external change to the local storage
-			// that was made by Tab 2.
-			//
-			// This tests the `onExternalChange` option of `SubscribedThreadsUpdater.StatusRecord`.
-			//
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			}
-		])
+		eventLog = []
 
-		// Tab 2 is still waiting for `STATUS_RECORD_CREATION_REPEATABLE_READ_CHECK_INTERVAL`
-		// at this point.
-		dispatchedActions2.should.deep.equal([])
-
-		dispatchedActions1 = []
-		dispatchedActions2 = []
+		dispatchedActions = []
 
 		// Wait for Tab 2 to confirm that the update status record has been created.
 		await timer.fastForward(200)
 
-		dispatchedActions1.should.deep.equal([
-			// Tab 1 emits `UPDATE_IN_PROGRESS_FOR_THREAD` action because it detects
-			// that the status record has been updated in `localStorage`
-			// by some other tab (Tab 2) (an "external" User Data change).
-			//
-			// The update was: status record has `startedAt` property at this point.
-			//
-			// This tests the `onExternalChange` option of `SubscribedThreadsUpdater.StatusRecord`.
-			//
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			},
-			// Tab 1 emits `UPDATE_IN_PROGRESS_FOR_THREAD` action because it detects
-			// that the status record has been updated in `localStorage`
-			// by some other tab (Tab 2) (an "external" User Data change).
-			//
-			// The update was: status record has `channelId` and `threadId` properties at this stage.
-			//
-			// This tests the `onExternalChange` option of `SubscribedThreadsUpdater.StatusRecord`.
-			//
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			}
+		eventLog.should.deep.equal([
+			{ tab: 2, event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread1.id },
+			{ tab: 2, event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread1.id }
 		])
 
+		eventLog = []
 
-		dispatchedActions2.should.deep.equal([
-			// A subscribed thread will be updated.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			// A subscribed thread is fetched.
-			{
-				type: 'GET_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			}
-		])
-
-		dispatchedActions1 = []
-		dispatchedActions2 = []
-
-		await timer.fastForward(10000)
-
-		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
+		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
 		subscribedThreadsUpdater2.status.should.equal('UPDATE')
 
-		// Tab 1 recursively retries to re-run an update
-		// every time it sees that Tab 2 is running a concurrent update.
-		// (at this time, for Thread 1).
-		dispatchedActions1.should.deep.equal([
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			// Tab 2 has finished updating Thread 1.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			}
-		])
-
-		dispatchedActions2.should.deep.equal([
-			// Subscribed Thread 1 has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-				value: undefined
-			},
-			// Tab 2 emits `UPDATE_IN_PROGRESS_FOR_THREAD` action with `channelId` and `threadId`
-			// being `undefined` to signal that it's not updating any particular thread at the moment.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			}
-		])
-
-		dispatchedActions1 = []
-		dispatchedActions2 = []
+		dispatchedActions = []
 
 		await timer.fastForward(5000)
 
-		// Subscribed Thread Updater 1 waits for Subscribed Thread Updater 2
-		// to finish a concurrent update.
-		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
+		eventLog.should.deep.equal([
+			{ tab: 1, event: 'NO_ACTIVE_TAB ???' },
+			{ tab: 1, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_UPDATE_IN_PROGRESS' },
+			{ tab: 1, event: 'UPDATE_END' },
+			{ tab: 1, event: 'SCHEDULE_UPDATE' },
 
-		// Subscribed Thread Updater 2 update is in progress.
+			{ tab: 1, event: 'UPDATE_START' }
+		])
+
+		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
 		subscribedThreadsUpdater2.status.should.equal('UPDATE')
 
-		// Tab 1 recursively retries to re-run an update
-		// every time it sees that Tab 2 is running a concurrent update.
-		// (at this time, for Thread 2).
-		dispatchedActions1.should.deep.equal([
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			}
-		])
+		console.log('********************************************************')
 
-		dispatchedActions2.should.deep.equal([
-			// Tab 2 emits `UPDATE_IN_PROGRESS_FOR_THREAD` action when it starts updating
-			// Subscribed Thread 2.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			// Fetches Subscribed Thread 2.
-			{
-				type: 'GET_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			}
-		])
+		dispatchedActions = []
 
-		dispatchedActions1 = []
-		dispatchedActions2 = []
+		await timer.fastForward(1000)
 
-		await timer.fastForward(7000)
+		eventLog.should.deep.equal([])
 
-		// Subscribed Thread Updater 1 waits for Subscribed Thread Updater 2
-		// to finish a concurrent update.
-		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
+		eventLog = []
 
-		// Subscribed Thread Updater 2 update has finished.
+		console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+
+		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
 		subscribedThreadsUpdater2.status.should.equal('SCHEDULED')
 
-		// Tab 1 recursively retries to re-run an update
-		// every time it sees that Tab 2 is running a concurrent update.
-		// (at this time, for Thread 2).
-		dispatchedActions1.should.deep.equal([
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread2.id
-				}
-			},
-			// (external change detected)
-			// Tab 2 has finished updating Thread 2.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			},
-			// (external change detected)
-			// Tab 2 has finished updating Subscribed Threads.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-				value: undefined
-			}
-		])
+		dispatchedActions = []
+		expectedActions = []
 
-		dispatchedActions2.should.deep.equal([
-			// Subscribed Thread 2 has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-				value: undefined
-			},
-			// Tab 2 has finished updating Thread 2.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			},
-			// Tab 2 has finished updating Subscribed Threads.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-				value: undefined
-			}
-		])
+		await timer.fastForward(20000)
 
-		dispatchedActions1 = []
-		dispatchedActions2 = []
+		eventLog.should.deep.equal([])
 
-		// Tab 1 will finish its attempt to run a Subscribed Threads Update.
-		await timer.fastForward(4000)
+		eventLog = []
 
-		// Subscribed Thread Updater 1 has performed a Subscribed Threads Update procedure.
-		// No subscribed threads required update at this point.
-		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
 
-		// Next update has been scheduled for some time in future.
-		subscribedThreadsUpdater2.status.should.equal('SCHEDULED')
+		subscribedThreadsUpdater1.status.should.equal('A')
+		subscribedThreadsUpdater2.status.should.equal('B')
 
-		dispatchedActions1.should.deep.equal([
-			// A subscribed thread has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-				value: undefined
-			}
-		])
-
-		dispatchedActions2.should.deep.equal([])
-
-		dispatchedActions1 = []
-		dispatchedActions2 = []
+		dispatchedActions = []
+		expectedActions = []
 
 		subscribedThreadsUpdater1.getThreadsToUpdateNowAndNextUpdateTime().should.deep.equal({
 			nextUpdateAt: 86531000,

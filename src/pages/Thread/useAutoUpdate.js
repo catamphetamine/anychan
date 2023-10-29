@@ -595,7 +595,7 @@ function getSecondsLeft(interval) {
 	}
 }
 
-const DEBUG = true
+const DEBUG = false
 function log(...args) {
 	if (DEBUG) {
 		console.log.apply(console, ['[auto-update]'].concat(args))

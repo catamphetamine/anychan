@@ -2,7 +2,7 @@ import SubscribedThreadsUpdater from './SubscribedThreadsUpdater.js'
 import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
-import UserSettings from '../../UserSettings/UserSettings.js'
+import UserSettings from '../../utility/settings/UserSettings.js'
 import DATA_SOURCES from '../../dataSources.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -54,6 +54,12 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			}
 		}
 
+		userData.setLatestReadCommentId(
+			channel.id,
+			thread1.id,
+			thread1.comments[thread1.comments.length - 1].id
+		)
+
 		addSubscribedThread(thread1, {
 			channel,
 			userData,
@@ -61,38 +67,25 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
+		userData.getSubscribedThreadState(channel.id, thread1.id).newCommentsCount.should.equal(0)
+
 		await timer.fastForward(24 * 60 * 60 * 1000)
 
 		const startedAt = new Date(timer.now())
 
-		thread1.comments.push({
-			id: 2,
-			content: 'Comment 2',
-			createdAt: startedAt
-		})
-
 		subscribedThreadsUpdaterStub.wasReset.should.equal(true)
 
-		const dispatchedActions = []
+		let eventLog = []
 
-		const dispatch = async (action) => {
+		let dispatchedActions = []
+
+		const dispatch = (action) => {
 			switch (action.type) {
 				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
 					action.value = undefined
 					break
 			}
-
 			dispatchedActions.push(action)
-
-			if (action.type === 'GET_THREAD') {
-				await timer.waitFor(10000)
-				if (action.value.channelId === thread1.channelId && action.value.threadId === thread1.id) {
-					return thread1
-				} else {
-					console.log(action)
-					throw new Error('Thread not found')
-				}
-			}
 		}
 
 		const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
@@ -103,15 +96,22 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			dataSource,
 			storage,
 			dispatch,
+			eventLog,
 			nextUpdateRandomizeInterval: 0,
-			getThreadStub: (channelId, threadId) => {
-				return dispatch({
+			getThreadStub: async ({ channelId, threadId }) => {
+				dispatch({
 					type: 'GET_THREAD',
 					value: {
 						channelId,
 						threadId
 					}
 				})
+				await timer.waitFor(10000)
+				if (channelId === thread1.channelId && threadId === thread1.id) {
+					return thread1
+				} else {
+					throw new Error(`Thread not found: /${channelId}/${threadId}`)
+				}
 			}
 		})
 
@@ -125,45 +125,72 @@ describe('SubscribedThreadsUpdater/tab', function() {
 		// Next update was scheduled.
 		subscribedThreadsUpdater.status.should.equal('SCHEDULED')
 
-		dispatchedActions.should.deep.equal([
-			// Subscribed Threads Update has started.
-			// A subscribed thread will be updated.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			// A subscribed thread is fetched.
-			{
-				type: 'GET_THREAD',
-				value: {
-					channelId: channel.id,
-					threadId: thread1.id
-				}
-			},
-			// A subscribed thread has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-				value: undefined
-			},
-			// Not updating any subscribed thread at the moment.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			},
-			// Subscribed Threads Update has finished.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-				value: undefined
-			}
+		eventLog.should.deep.equal([
+			{ event: 'START' },
+
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+
+			{ event: 'UPDATE_START' },
+
+			{ event: 'GET_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+
+			{ event: 'UPDATE_THREADS_START' },
+
+			{ event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread1.id },
+			{ event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread1.id },
+			{ event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread1.id },
+
+			{ event: 'UPDATE_THREADS_END' },
+
+			{ event: 'UPDATE_END' },
+
+			{ event: 'SCHEDULE_UPDATE' }
 		])
 
+		// dispatchedActions.should.deep.equal([
+		// 	// Subscribed Threads Update has started.
+		// 	// A subscribed thread will be updated.
+		// 	{
+		// 		type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
+		// 		value: {
+		// 			channelId: channel.id,
+		// 			threadId: thread1.id
+		// 		}
+		// 	},
+		// 	// A subscribed thread is fetched.
+		// 	{
+		// 		type: 'GET_THREAD',
+		// 		value: {
+		// 			channelId: channel.id,
+		// 			threadId: thread1.id
+		// 		}
+		// 	},
+		// 	// It seems that it no longer fetches subscribed threads in `SubscribedThreadsUpdater.js`.
+		// 	// // A subscribed thread has been fetched.
+		// 	// // Update the list of subscribed threads in the sidebar.
+		// 	// {
+		// 	// 	type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
+		// 	// 	value: undefined
+		// 	// },
+		// 	// Not updating any subscribed thread at the moment.
+		// 	{
+		// 		type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
+		// 		value: {
+		// 			channelId: undefined,
+		// 			threadId: undefined
+		// 		}
+		// 	},
+		// 	// Subscribed Threads Update has finished.
+		// 	{
+		// 		type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
+		// 		value: undefined
+		// 	}
+		// ])
+
 		subscribedThreadsUpdater.stop()
+
+		userData.getSubscribedThreadState(channel.id, thread1.id).newCommentsCount.should.equal(0)
 	})
 })

@@ -352,7 +352,11 @@ function CommentTitleContentAndAttachments({
 	// and should stay the same. The reason is that it's used in a callback of `loadResourceLinks()`
 	// function when `onPostContentChange` gets passed to `<PostContent/>`.
 	useEffectSkipMount(() => {
-		console.warn('`onPostContentChange()` function reference seems to have changed. It isn\'t supposed to change.')
+		// `onPostContentChange()` reference does change in development on "hot-reload",
+		// so only show the warning in production.
+		if (process.env.NODE_ENV === 'production') {
+			console.warn('`onPostContentChange()` function reference seems to have changed. It isn\'t supposed to change.')
+		}
 	}, [onPostContentChange])
 
 	return (

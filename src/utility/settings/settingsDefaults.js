@@ -2,6 +2,9 @@ import getConfiguration from '../../configuration.js'
 
 import { defaultLanguage, getLanguageNames } from '../../messages/index.js'
 
+export const DEFAULT_BACKGROUNDS_DARK_MODE = ['Purple', 'Dark Blue', 'Monochrome']
+export const DEFAULT_BACKGROUNDS_LIGHT_MODE = ['Orange Purple', 'Purple Blue', 'Green Brown']
+
 // `DEFAULT_THEMES` will be overridden by a proper default themes list
 // when the code is run after being compiled by Webpack.
 // The reason is that otherwise console tests wouldn't work
@@ -47,7 +50,6 @@ export function getDefaultSettings() {
 		darkMode: false,
 		autoDarkMode: true,
 		censorWords: true,
-		colorfulBackground: false,
 		autoSuggestFavoriteChannels: true,
 		channelLayout: 'threadsList',
 		channelSorting: 'default',

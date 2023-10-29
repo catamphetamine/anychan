@@ -51,11 +51,20 @@ export const saveTheme = redux.simpleAction(
 	}
 )
 
-export const saveColorfulBackground = redux.simpleAction(
-	(state, { colorfulBackground, userSettings }) => {
+export const saveBackgroundLightMode = redux.simpleAction(
+	(state, { backgroundLightMode, userSettings }) => {
 		return {
 			...state,
-			settings: saveSetting('colorfulBackground', colorfulBackground, { userSettings })
+			settings: saveSetting('backgroundLightMode', backgroundLightMode, { userSettings })
+		}
+	}
+)
+
+export const saveBackgroundDarkMode = redux.simpleAction(
+	(state, { backgroundDarkMode, userSettings }) => {
+		return {
+			...state,
+			settings: saveSetting('backgroundDarkMode', backgroundDarkMode, { userSettings })
 		}
 	}
 )

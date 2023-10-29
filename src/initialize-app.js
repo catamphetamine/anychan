@@ -1,7 +1,9 @@
 import getUserSettings from './UserSettings.js'
+import { migrateSettingsData, settingsDataRequiresMigration } from './utility/settings/UserSettings.js'
 import getUserData from './UserData.js'
 import applySettings from './utility/settings/applySettings.js'
 import { setDefaultThemes } from './utility/settings/settingsDefaults.js'
+import getSettings from './utility/settings/getSettings.js'
 import getDefaultThemes from './utility/getDefaultThemes.js'
 import { delayedDispatch } from './utility/dispatch.js'
 import migrate, { requiresMigration } from './utility/migrate.js'
@@ -35,8 +37,19 @@ export default async function({ dataSource }) {
 
 	userData.start()
 
+	// Get settings object.
+	const initialSettings = getSettings({ userSettings })
+
+	// Migrate the setings object if required.
+	// User settings in local storage will be migrated separately.
+	// This migration is just to correctly apply the settings in the `applySettings()` call below.
+	// The settings data in local storage won't be affected.
+	if (settingsDataRequiresMigration(initialSettings)) {
+		migrateSettingsData(initialSettings)
+	}
+
 	// Apply user settings.
-	applySettings({ dispatch, userSettings })
+	applySettings({ dispatch, settings: initialSettings })
 
 	// Listen to settings changes coming from other browser tabs.
 	userSettings.onExternalChange(() => {

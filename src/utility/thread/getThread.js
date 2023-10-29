@@ -97,16 +97,14 @@ export default async function getThread(
 			// Fetches a `Thread` ("stub").
 			// This function is a "stub" ("mock") and it's only used in tests.
 			case 'getThreadStub':
-				getThreadStub()
+				thread = await getThreadStub({ channelId, threadId })
 				break
 
 			default:
 				throw new Error(`Unknown "action" parameter received in "getThread()" function: "${action}"`)
 		}
 
-		if (action !== 'getThreadStub') {
-			onThreadFetched(thread, { dispatch, userData, timer })
-		}
+		onThreadFetched(thread, { dispatch, userData, timer })
 
 		return thread
 	} catch (error) {

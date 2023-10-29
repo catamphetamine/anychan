@@ -261,7 +261,7 @@
 		"error": "Не удалось обновить тред"
 	},
 	"downloadThread": "Скачать тред",
-	"notImplementedForThisEngine": "Этот функционал не сделан для данного имиджборда",
+	"notImplementedForTheDataSource": "Этот функционал не сделан для данного имиджборда",
 	"doesNotWorkForTheDataSource": "Этот функционал на текущий момент времени не работает с данным имиджбордом",
 	"inReplyTo": "В ответ на",
 	"markAsOwnComment": "Это мой комментарий",

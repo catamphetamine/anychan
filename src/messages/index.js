@@ -1,22 +1,22 @@
-import de from './de.json'
-import en from './en.json'
-import ru from './ru.json'
+import de from './de.json' assert { type: 'json' }
+import en from './en.json' assert { type: 'json' }
+import ru from './ru.json' assert { type: 'json' }
 
-import deBase from 'frontend-lib/messages/de.json'
-import enBase from 'frontend-lib/messages/en.json'
-import ruBase from 'frontend-lib/messages/ru.json'
+import deBase from 'frontend-lib/messages/de.json' assert { type: 'json' }
+import enBase from 'frontend-lib/messages/en.json' assert { type: 'json' }
+import ruBase from 'frontend-lib/messages/ru.json' assert { type: 'json' }
 
-import deSocial from 'social-components/messages/de.json'
-import enSocial from 'social-components/messages/en.json'
-import ruSocial from 'social-components/messages/ru.json'
+import deSocial from 'social-components/messages/de.json' assert { type: 'json' }
+import enSocial from 'social-components/messages/en.json' assert { type: 'json' }
+import ruSocial from 'social-components/messages/ru.json' assert { type: 'json' }
 
-import deSocialReact from 'social-components-react/messages/de.json'
-import enSocialReact from 'social-components-react/messages/en.json'
-import ruSocialReact from 'social-components-react/messages/ru.json'
+import deSocialReact from 'social-components-react/messages/de.json' assert { type: 'json' }
+import enSocialReact from 'social-components-react/messages/en.json' assert { type: 'json' }
+import ruSocialReact from 'social-components-react/messages/ru.json' assert { type: 'json' }
 
-import deCountries from 'frontend-lib/messages/countries.de.json'
-import enCountries from 'frontend-lib/messages/countries.en.json'
-import ruCountries from 'frontend-lib/messages/countries.ru.json'
+import deCountries from 'frontend-lib/messages/countries.de.json' assert { type: 'json' }
+import enCountries from 'frontend-lib/messages/countries.en.json' assert { type: 'json' }
+import ruCountries from 'frontend-lib/messages/countries.ru.json' assert { type: 'json' }
 
 import Messages from 'frontend-lib/messages/Messages.js'
 import mergeMessages from 'frontend-lib/messages/mergeMessages.js'

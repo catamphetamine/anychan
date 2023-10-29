@@ -2,6 +2,7 @@ import AccessDeniedError from '../errors/AccessDeniedError.js'
 import AttachmentNotSupportedError from '../errors/AttachmentNotSupportedError.js'
 import AttachmentsCountExceededError from '../errors/AttachmentsCountExceededError.js'
 import BannedError from '../errors/BannedError.js'
+import CaptchaNotRequiredError from '../errors/CaptchaNotRequiredError.js'
 import CaptchaSolutionIncorrectError from '../errors/CaptchaSolutionIncorrectError.js'
 import ChannelNotFoundError from '../errors/ChannelNotFoundError.js'
 import ContentBlockedError from '../errors/ContentBlockedError.js'
@@ -41,6 +42,8 @@ export default async function createCommentOrThread(imageboard, {
 				throw new ContentRequiredError()
 			case 'INCORRECT_CAPTCHA_SOLUTION':
 				throw new CaptchaSolutionIncorrectError()
+			case 'CAPTCHA_NOT_REQUIRED':
+				throw new CaptchaNotRequiredError()
 			case 'BOARD_MAX_POSTING_RATE_EXCEEDED':
 				throw new RateLimitError()
 			case 'THREAD_IS_LOCKED':

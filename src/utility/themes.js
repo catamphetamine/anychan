@@ -9,11 +9,19 @@ function getBuiltInThemes() {
 }
 
 export function getThemes({ userSettings }) {
-	return getBuiltInThemes().concat(userSettings.get('themes') || [])
+	return _getThemes({ themes: userSettings.get('themes') })
+}
+
+function _getThemes({ themes }) {
+	return getBuiltInThemes().concat(themes || [])
 }
 
 export function getTheme(id, { userSettings }) {
-	return getThemes({ userSettings }).find(_ => _.id === id)
+	return _getTheme(id, { themes: userSettings.get('themes') })
+}
+
+function _getTheme(id, { themes }) {
+	return _getThemes({ themes }).find(_ => _.id === id)
 }
 
 export function isBuiltInTheme(id) {
@@ -46,15 +54,36 @@ export function removeTheme(id, { userSettings }) {
 
 /**
  * Applies a theme to the UI.
- * @param  {(string|object)} theme
+ * @param  {(string|object)} themeObjectOrThemeName
+ * @param {object} [userSettings]
  * @param {object[]} [themes]
+ * @return {boolean} `true` if the theme has been applied, `false` if there was an error.
  */
-export async function applyTheme(theme, { userSettings }) {
-	if (typeof theme === 'string') {
-		theme = getTheme(theme, { userSettings })
+export async function applyTheme(themeObjectOrThemeName, { userSettings, themes, ...rest }) {
+	// If `userSettings` parameter was passed, convert it to `settings` object
+	// and call the function again.
+	if (userSettings) {
+		return applyTheme(themeObjectOrThemeName, {
+			themes: userSettings.get('themes'),
+			...rest
+		})
 	}
 
-	const themes = getThemes({ userSettings })
+	// Get `theme` object.
+	let theme
+	if (typeof themeObjectOrThemeName === 'string') {
+		theme = _getTheme(themeObjectOrThemeName, { themes })
+		// If the theme couldn't be found by name,
+		// log an error and return `false`.
+		if (!theme) {
+			console.error(`Theme not found: "${themeObjectOrThemeName}"`)
+			return false
+		}
+	} else {
+		theme = themeObjectOrThemeName
+	}
+
+	const allThemes = _getThemes({ themes })
 	const previousThemeStyle = document.head.querySelector('[data-theme]')
 	const previousThemeId = previousThemeStyle && previousThemeStyle.dataset.theme
 
@@ -64,7 +93,7 @@ export async function applyTheme(theme, { userSettings }) {
 
 	function finishSwitchingTheme(style) {
 		style.setAttribute('data-theme', theme.id)
-		for (const { id } of themes) {
+		for (const { id } of allThemes) {
 			document.body.classList.remove(`theme--${id}`)
 		}
 		document.body.classList.add(`theme--${theme.id}`)
@@ -82,4 +111,7 @@ export async function applyTheme(theme, { userSettings }) {
 		document.head.appendChild(style)
 		finishSwitchingTheme(style)
 	}
+
+	// Return `true`
+	return true
 }

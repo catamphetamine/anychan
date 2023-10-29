@@ -204,7 +204,11 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		userData2.setLatestReadCommentId('a', 123, 124)
 
-		dispatchedActions.should.deep.equal([
+		const dispatchedAction = dispatchedActions[0]
+
+		delete dispatchedAction.value.userData
+
+		dispatchedAction.should.deep.equal(
 			{
 				type: 'DATA: ON_COMMENT_READ',
 				value: {
@@ -214,7 +218,7 @@ describe('UserData/onUserDataExternalChange', function() {
 					commentIndex: undefined
 				}
 			}
-		])
+		)
 
 		userData1.getLatestReadCommentId('a', 123).should.equal(124)
 	})

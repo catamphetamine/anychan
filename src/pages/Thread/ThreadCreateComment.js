@@ -108,6 +108,7 @@ export default function ThreadCreateComment({
 			onExpandedChange={onFormExpandedChange}
 			unexpandOnClose
 			expandOnInteraction
+			resetAfterSubmit
 			placement="comment"
 			initialState={formState}
 			onStateDidChange={onFormStateChange}

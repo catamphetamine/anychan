@@ -137,6 +137,7 @@
 .PostForm--notExpanded {
 	.PostForm-proxyCaution,
 	.PostForm-notWorkingNotice,
+	.PostForm-notImplementedNotice,
 	.PostForm-attachFile,
 	.PostForm-action {
 		display: none;
@@ -147,6 +148,7 @@
 	}
 }
 
+.PostForm-notImplementedNotice,
 .PostForm-notWorkingNotice,
 .PostForm-proxyCaution {
 	color: var(--Content-color-600);
