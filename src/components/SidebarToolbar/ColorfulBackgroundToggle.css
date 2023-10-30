@@ -1,0 +1,7 @@
+.ColorfulBackgroundToggle {
+	.SidebarMenuItem-icon {
+		[data-foreground-fill] {
+			fill: var(--Sidebar-backgroundColor);
+		}
+	}
+}

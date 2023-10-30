@@ -2,6 +2,26 @@
 
 
 
+* Somehow get channel and thread in `onSubmitCommentOrThread()`
+* Maybe when pasting a comment, the thread should already be in redux state (but not required)
+* And when creating a thread, it could be fetched as part of `goto()`
+
+
+Test create thread in /v/:
+* Adds the thread to favorites
+* Redirects to the thread's page
+
+
+
+useSubmitCommentOrThread:
+
+const onSubscribeToThread = () => {
+// ... somehow get channel and thread here ...
+// dispatch(subscribeToThread(thread, { channel, userData }))
+}
+
+
+
 * Maybe fix loading channel page in goto modal:
   * First it loads channel
   * Then it dispatches goto()

@@ -315,6 +315,18 @@ function PostForm({
 		applyExpandedValue
 	])
 
+	const onInputValueChange_ = useCallback((value) => {
+		if (onInputValueChange) {
+			onInputValueChange(value)
+		}
+		if (!hasInteracted) {
+			setHasInteracted(true)
+		}
+	}, [
+		onInputValueChange,
+		hasInteracted
+	])
+
 	const dataSource = useDataSource()
 
 	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
@@ -375,7 +387,7 @@ function PostForm({
 						value={initialInputValue}
 						onFocus={onInteraction}
 						onClick={onInteraction}
-						onChange={onInputValueChange}
+						onChange={onInputValueChange_}
 						initialHeight={initialInputHeight}
 						onHeightChange={onInputHeightDidChange}
 						onKeyDown={placement === 'comment' ? onInputKeyDown : undefined}

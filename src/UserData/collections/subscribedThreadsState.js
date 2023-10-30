@@ -46,10 +46,24 @@ export default {
 		refreshedAt: {
 			type: 'date',
 			description: 'The date when the thread data was latest refreshed'
+		},
+		refreshErrorAt: {
+			type: 'date',
+			description: 'The date when the thread data couldn\'t be fetched due to an error. Gets reset on successfull fetch.',
+			required: false
+		},
+		refreshErrorCount: {
+			type: 'nonNegativeInteger',
+			description: 'How many times in a row did the application attempt to fetch the thread and got an error in response. Gets reset on successfull fetch.',
+			required: false
 		}
 	},
 
 	decode(data) {
+		// Decode `refreshErrorAt` property.
+		if (data.refreshErrorAt) {
+			data.refreshErrorAt = decodeDate(data.refreshErrorAt)
+		}
 		// Decode `refreshedAt` property.
 		data.refreshedAt = decodeDate(data.refreshedAt)
 		// Decode `latestComment.createdAt` property.
@@ -59,6 +73,10 @@ export default {
 	},
 
 	encode(data) {
+		// Encode `refreshErrorAt` property.
+		if (data.refreshErrorAt) {
+			data.refreshErrorAt = encodeDate(data.refreshErrorAt)
+		}
 		// Encode `refreshedAt` property.
 		data.refreshedAt = encodeDate(data.refreshedAt)
 		// Encode `latestComment.createdAt` property.

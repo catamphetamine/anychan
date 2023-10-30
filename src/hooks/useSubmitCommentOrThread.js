@@ -3,18 +3,23 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { openLinkInNewTab } from 'web-browser-input'
 
-import AccessDeniedError from '../api/errors/AccessDeniedError.js'
+import UnauthorizedError from '../api/errors/UnauthorizedError.js'
 import AttachmentNotSupportedError from '../api/errors/AttachmentNotSupportedError.js'
+import AttachmentRequiredError from '../api/errors/AttachmentRequiredError.js'
+import AttachmentSizeLimitExceededError from '../api/errors/AttachmentSizeLimitExceededError.js'
 import AttachmentsCountExceededError from '../api/errors/AttachmentsCountExceededError.js'
 import BannedError from '../api/errors/BannedError.js'
 import CaptchaNotRequiredError from '../api/errors/CaptchaNotRequiredError.js'
 import CaptchaSolutionIncorrectError from '../api/errors/CaptchaSolutionIncorrectError.js'
 import ChannelNotFoundError from '../api/errors/ChannelNotFoundError.js'
+import ChannelIsLockedError from '../api/errors/ChannelIsLockedError.js'
 import ContentBlockedError from '../api/errors/ContentBlockedError.js'
-import ContentTooLongError from '../api/errors/ContentTooLongError.js'
+import ContentLengthLimitExceededError from '../api/errors/ContentLengthLimitExceededError.js'
 import ContentRequiredError from '../api/errors/ContentRequiredError.js'
+import CommentNotFoundError from '../api/errors/CommentNotFoundError.js'
 import DuplicateAttachmentError from '../api/errors/DuplicateAttachmentError.js'
 import RateLimitError from '../api/errors/RateLimitError.js'
+import ThreadNotFoundError from '../api/errors/ThreadNotFoundError.js'
 import ThreadIsLockedError from '../api/errors/ThreadIsLockedError.js'
 
 import { createComment, createThread } from '../redux/data.js'
@@ -97,7 +102,7 @@ export default function useSubmitCommentOrThread({
 
 			return result
 		} catch (error) {
-			if (error instanceof AccessDeniedError) {
+			if (error instanceof UnauthorizedError) {
 				dispatch(showError(messages.accessDenied))
 			} else if (error instanceof BannedError) {
 				// Could also show the ban details here:
@@ -116,6 +121,12 @@ export default function useSubmitCommentOrThread({
 				))
 			} else if (error instanceof ChannelNotFoundError) {
 				dispatch(showError(messages.boardNotFound))
+			} else if (error instanceof ThreadNotFoundError) {
+				dispatch(showError(messages.threadNotFound))
+			} else if (error instanceof CommentNotFoundError) {
+				dispatch(showError(messages.commentNotFound))
+			} else if (error instanceof ChannelIsLockedError) {
+				dispatch(showError(messages.boardIsLocked))
 			} else if (error instanceof ThreadIsLockedError) {
 				dispatch(showError(messages.threadIsLocked))
 			} else if (error instanceof ContentRequiredError) {
@@ -131,11 +142,15 @@ export default function useSubmitCommentOrThread({
 				dispatch(showError(threadId ? messages.createCommentRateLimitExceeded : messages.createThreadRateLimitExceeded))
 			} else if (error instanceof DuplicateAttachmentError) {
 				dispatch(showError(messages.duplicateAttachmentsFound))
+			} else if (error instanceof AttachmentRequiredError) {
+				dispatch(showError(messages.attachmentRequired))
 			} else if (error instanceof AttachmentNotSupportedError) {
 				dispatch(showError(messages.attachmentNotSupported))
+			} else if (error instanceof AttachmentSizeLimitExceededError) {
+				dispatch(showError(messages.attachmentSizeLimitExceededError))
 			} else if (error instanceof AttachmentsCountExceededError) {
 				dispatch(showError(messages.attachmentsCountExceeded))
-			} else if (error instanceof ContentTooLongError) {
+			} else if (error instanceof ContentLengthLimitExceededError) {
 				dispatch(showError(messages.сommentContentTooLong))
 			} else if (error instanceof ContentBlockedError) {
 				dispatch(showError(messages.commentContentBlocked))
@@ -208,19 +223,31 @@ export default function useSubmitCommentOrThread({
 			return
 		}
 
-		console.log('@@@ Comment or thread:', result)
-		console.log('@@@ Comment or thread ID:', result.id)
+		const isCreatingThread = !threadId
+
+		const commentId_ = result.id
+		const threadId_ = isCreatingThread ? commentId_ : threadId
 
 		// Mark the new comment as "own".
-		userData.addOwnComment(channelId, threadId, result.id)
-		if (!threadId) {
+		userData.addOwnComment(channelId, threadId_, commentId_)
+		if (isCreatingThread) {
 			// Mark the new thread as "own".
 			// This should be done together with marking the root comment as "own".
-			userData.addOwnThread(channelId, threadId)
+			userData.addOwnThread(channelId, threadId_)
 		}
 
-		// If "auto-subscribe to threads when posting a comment" setting
-		// is turned on then automatically subscribe to the thread.
+		const onSubscribeToThread = () => {
+			// ... somehow get channel and thread here ...
+			// dispatch(subscribeToThread(thread, { channel, userData }))
+		}
+
+		// When creating a thread, automatically subscribe to that thread.
+		if (isCreatingThread) {
+			onSubscribeToThread()
+		}
+
+		// // If "auto-subscribe to threads when posting a comment" setting
+		// // is turned on then automatically subscribe to the thread.
 		// if (!userData.isSubscribedThread(channelId, threadId)) {
 		// 	onSubscribeToThread()
 		// }

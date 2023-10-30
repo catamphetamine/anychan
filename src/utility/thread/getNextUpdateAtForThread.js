@@ -1,12 +1,29 @@
 import getConfiguration from '../../configuration.js'
 
+const REFRESH_ERROR_UPDATE_DELAY = 60 * 1000
+
 // Calculates time to next update for thread auto update process.
 // Returns a `number`.
 export default function getNextUpdateAtForThread(prevUpdateAt, {
-	latestCommentDate,
-	beforeLatestCommentDate,
-	backgroundMode
+	refreshErrorDate,
+	refreshErrorCount,
+	...options
 }) {
+	if (refreshErrorCount) {
+		const usualNextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, options)
+		const certainErrorsCount = Math.min(refreshErrorCount - 1, 10)
+		return Math.max(
+			usualNextUpdateAt,
+			refreshErrorDate.getTime() + certainErrorsCount * certainErrorsCount * certainErrorsCount * REFRESH_ERROR_UPDATE_DELAY
+		)
+	}
+
+	const {
+		latestCommentDate,
+		beforeLatestCommentDate,
+		backgroundMode
+	} = options
+
 	// Get time to next update based on the latest comment's date:
 	// if there're recent comments in the thread then update it often,
 	// if there're no recent comments in the thread then update it rarely.

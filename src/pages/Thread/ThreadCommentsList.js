@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import {
-	setVirtualScrollerState,
-	setScrollPosition
+	setVirtualScrollerState
 } from '../../redux/thread.js'
 
 import ThreadComment from './ThreadComment.js'
@@ -23,8 +22,7 @@ export default function ThreadCommentsList({
 	...rest
 }) {
 	const {
-		virtualScrollerState: initialVirtualScrollerState,
-		scrollPosition: initialScrollPosition
+		virtualScrollerState: initialVirtualScrollerState
 	} = useSelector(state => state.thread)
 
 	// `renderComments()` is called whenever there's a "parent" comment
@@ -74,8 +72,6 @@ export default function ThreadCommentsList({
 				mode="thread"
 				initialState={initialVirtualScrollerState}
 				setState={setVirtualScrollerState}
-				initialScrollPosition={initialScrollPosition}
-				setScrollPosition={setScrollPosition}
 				items={shownComments}
 				itemComponent={ThreadComment}
 				itemComponentProps={itemComponentProps_}

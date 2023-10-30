@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
+import { goto } from 'react-pages'
 
 import PostForm from '../../components/PostForm.js'
 

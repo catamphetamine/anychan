@@ -11,8 +11,6 @@ function CommentsList({
 	mode,
 	initialState,
 	setState,
-	initialScrollPosition,
-	setScrollPosition,
 	getCommentById,
 	transformInitialItemState,
 	stateRef,
@@ -37,12 +35,6 @@ function CommentsList({
 	}, [
 		mode
 	])
-
-	const scrollPosition = useRef()
-	const onScrollPositionChange = useCallback(
-		scrollY => scrollPosition.current = scrollY,
-		[]
-	)
 
 	// `onItemInitialRender` property of `<VirtualScroller/>` shouldn't change
 	// because `<VirtualScroller/>` doesn't support handling changes of such properties.
@@ -78,20 +70,8 @@ function CommentsList({
 				// Save `virtual-scroller` state in Redux state.
 				dispatch(setState(virtualScrollerState.current))
 			}
-			if (setScrollPosition) {
-				// Save scroll position in Redux state.
-				dispatch(setScrollPosition(scrollPosition.current))
-			}
 		}
 	})
-
-	// `VirtualScroller` has a feature of accepting `initialScrollPosition`
-	// parameter in order to restore the scroll position on remount.
-	// Later, if was found out that such behavior conflicted with `react-pages` —
-	// the application "router" library which uses `found-scroll`/`scroll-behavior`
-	// to manage (restore) scroll positon automatically.
-	// So `initialScrollPosition` property is no longer passed to `VirtualScroller`.
-	initialScrollPosition = undefined
 
 	return (
 		<VirtualScroller
@@ -102,8 +82,6 @@ function CommentsList({
 			initialState={initialState}
 			getInitialItemState={getInitialItemState}
 			onStateChange={onVirtualScrollerStateChange}
-			initialScrollPosition={initialScrollPosition}
-			onScrollPositionChange={onScrollPositionChange}
 			onItemInitialRender={onItemInitialRender}
 			getItemId={getCommentId}
 			measureItemsBatchSize={12}
@@ -115,8 +93,6 @@ CommentsList.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	initialState: PropTypes.object,
 	setState: PropTypes.func,
-	initialScrollPosition: PropTypes.number,
-	setScrollPosition: PropTypes.func,
 	getCommentById: PropTypes.func,
 	transformInitialItemState: PropTypes.func,
 	stateRef: PropTypes.object,

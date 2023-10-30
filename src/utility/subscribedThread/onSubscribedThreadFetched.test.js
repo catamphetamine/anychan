@@ -154,4 +154,131 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		)
 	})
+
+	it('should reset subscribed thread errored state', async () => {
+		const storage = new MemoryStorage()
+		const userData = new UserData(storage)
+
+		const timer = new TestTimer()
+		await timer.fastForward(Date.now())
+
+		const now = getDateWithoutMilliseconds(new Date(timer.now()))
+
+		const channel = {
+			id: 'a',
+			title: 'Anime'
+		}
+
+		const thread = {
+			id: 100,
+			channelId: 'a',
+			title: 'Anime 1',
+			comments: [{
+				id: 100,
+				createdAt: new Date(0)
+			}]
+		}
+
+		const subscribedThreadsUpdater = {
+			wasReset: false,
+			reset() {
+				this.wasReset = true
+			}
+		}
+
+		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+
+		const stats = userData.getSubscribedThreadState('a', 100)
+
+		stats.refreshErrorAt = now
+		stats.refreshErrorCount = 1
+
+		userData.setSubscribedThreadState('a', 100, stats)
+
+		const changed = onSubscribedThreadFetched(thread, {
+			timer,
+			userData
+		})
+
+		// New data has been received. Returns `true`.
+		expectToEqual(changed, true)
+
+		expectToEqual(
+			userData.getSubscribedThreadState('a', 100),
+			{
+				latestComment: {
+					id: 100,
+					createdAt: new Date(0)
+				},
+				commentsCount: 1,
+				newCommentsCount: 1,
+				newRepliesCount: 0,
+				refreshedAt: now
+			}
+		)
+	})
+
+	it('should reset subscribed thread errored state (catalog API response)', async () => {
+		const storage = new MemoryStorage()
+		const userData = new UserData(storage)
+
+		const timer = new TestTimer()
+		await timer.fastForward(Date.now())
+
+		const now = getDateWithoutMilliseconds(new Date(timer.now()))
+
+		const channel = {
+			id: 'a',
+			title: 'Anime'
+		}
+
+		const thread = {
+			id: 100,
+			channelId: 'a',
+			title: 'Anime 1',
+			comments: [{
+				id: 100,
+				createdAt: new Date(0)
+			}]
+		}
+
+		const subscribedThreadsUpdater = {
+			wasReset: false,
+			reset() {
+				this.wasReset = true
+			}
+		}
+
+		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+
+		const stats = userData.getSubscribedThreadState('a', 100)
+
+		stats.refreshErrorAt = now
+		stats.refreshErrorCount = 1
+
+		userData.setSubscribedThreadState('a', 100, stats)
+
+		const changed = onSubscribedThreadFetched(thread, {
+			timer,
+			userData,
+			min: true
+		})
+
+		// New data has been received. Returns `true`.
+		expectToEqual(changed, true)
+
+		expectToEqual(
+			userData.getSubscribedThreadState('a', 100),
+			{
+				latestComment: {
+					id: 100,
+					createdAt: new Date(0)
+				},
+				commentsCount: 1,
+				newCommentsCount: 1,
+				newRepliesCount: 0,
+				refreshedAt: now
+			}
+		)
+	})
 })

@@ -98,15 +98,8 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			dispatch,
 			eventLog,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 10000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(10000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else {
@@ -133,7 +126,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 			{ event: 'UPDATE_START' },
 
-			{ event: 'GET_IS_ACTIVE_TAB' },
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
 			{ event: 'IS_ACTIVE_TAB' },
 
 			{ event: 'UPDATE_THREADS_START' },
@@ -148,46 +141,6 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 			{ event: 'SCHEDULE_UPDATE' }
 		])
-
-		// dispatchedActions.should.deep.equal([
-		// 	// Subscribed Threads Update has started.
-		// 	// A subscribed thread will be updated.
-		// 	{
-		// 		type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-		// 		value: {
-		// 			channelId: channel.id,
-		// 			threadId: thread1.id
-		// 		}
-		// 	},
-		// 	// A subscribed thread is fetched.
-		// 	{
-		// 		type: 'GET_THREAD',
-		// 		value: {
-		// 			channelId: channel.id,
-		// 			threadId: thread1.id
-		// 		}
-		// 	},
-		// 	// It seems that it no longer fetches subscribed threads in `SubscribedThreadsUpdater.js`.
-		// 	// // A subscribed thread has been fetched.
-		// 	// // Update the list of subscribed threads in the sidebar.
-		// 	// {
-		// 	// 	type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-		// 	// 	value: undefined
-		// 	// },
-		// 	// Not updating any subscribed thread at the moment.
-		// 	{
-		// 		type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-		// 		value: {
-		// 			channelId: undefined,
-		// 			threadId: undefined
-		// 		}
-		// 	},
-		// 	// Subscribed Threads Update has finished.
-		// 	{
-		// 		type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-		// 		value: undefined
-		// 	}
-		// ])
 
 		subscribedThreadsUpdater.stop()
 

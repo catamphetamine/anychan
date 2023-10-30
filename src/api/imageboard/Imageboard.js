@@ -29,9 +29,11 @@ export default function Imageboard_(dataSource, {
 				return headers.getSetCookie()
 			}
 			// Otherwise, fall back to `anychan-proxy`'s workaround with `x-set-cookies` header.
-			const xSetCookies = headers.get('x-set-cookies')
-			if (xSetCookies) {
-				return JSON.parse(xSetCookies)
+			if (shouldUseProxy({ dataSource })) {
+				const xSetCookies = headers.get('x-set-cookies')
+				if (xSetCookies) {
+					return JSON.parse(xSetCookies)
+				}
 			}
 			return []
 		},
@@ -66,7 +68,9 @@ export default function Imageboard_(dataSource, {
 			// instructs `anychan-proxy` to put the values of `Set-Cookie` headers
 			// to `x-set-cookies` header.
 			//
-			headers['x-set-cookies'] = 'true'
+			if (shouldUseProxy({ dataSource })) {
+				headers['x-set-cookies'] = 'true'
+			}
 
 			// Web browsers don't allow the client javascript code to set the contents
 			// of the `Cookie` HTTP request header.
@@ -81,7 +85,9 @@ export default function Imageboard_(dataSource, {
 			// using `"; "` as a separator.
 			//
 			if (cookies) {
-				headers['x-cookie'] = Object.keys(cookies).map(key => `${key}=${cookies[key]}`).join('; ')
+				if (shouldUseProxy({ dataSource })) {
+					headers['x-cookie'] = Object.keys(cookies).map(key => `${key}=${cookies[key]}`).join('; ')
+				}
 			}
 
 			// `fetch()` is not supported in Safari 9.x and iOS Safari 9.x.

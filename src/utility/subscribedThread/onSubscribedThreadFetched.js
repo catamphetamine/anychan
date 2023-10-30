@@ -1,5 +1,4 @@
 import { Timer } from 'web-browser-timer'
-import { isEqual } from 'lodash-es'
 
 import reportError from '../reportError.js'
 
@@ -17,8 +16,6 @@ import {
 import createSubscribedThreadStateRecord, {
 	createSubscribedThreadStateRecordForIncrementalUpdate
 } from './createSubscribedThreadStateRecord.js'
-
-import getLatestReadCommentIndex from '../thread/getLatestReadCommentIndex.js'
 
 /**
  * Updates subscribed thread info from the fetched thread data.
@@ -88,15 +85,36 @@ export default function onSubscribedThreadFetched(thread, {
 		changed = true
 	}
 
-	// Update subscribed thread info: whether there're any new comments.
-	let newCommentsCountChanged = false
-	if (!min) {
-		const prevStats = userData.getSubscribedThreadState(thread.channelId, thread.id)
+	// Update subscribed thread stats record.
+	// For example, set new comments count.
+	let statsChanged = false
 
-		if (!prevStats) {
-			console.error(`"subscribedThreadsState" record not found for subscribed thread "/${thread.channelId}/${thread.id}"`)
+	const prevStats = userData.getSubscribedThreadState(thread.channelId, thread.id)
+
+	if (!prevStats) {
+		console.error(`"subscribedThreadsState" record not found for subscribed thread "/${thread.channelId}/${thread.id}"`)
+	}
+
+	// Patches the existing thread stats record:
+	// Resets `refreshErrorAt` / `refreshErrorCount` properties in the thread's stats,
+	// since the thread has been fetched "successfully".
+	// This is done only when a new stats record doesn't get created.
+	const resetErroredState = () => {
+		if (prevStats) {
+			if (prevStats.refreshErrorAt) {
+				delete prevStats.refreshErrorAt
+				delete prevStats.refreshErrorCount
+				userData.setSubscribedThreadState(
+					thread.channelId,
+					thread.id,
+					prevStats
+				)
+				statsChanged = true
+			}
 		}
+	}
 
+	if (!min) {
 		let newStats
 
 		// In case of an "incremental" thread update.
@@ -126,9 +144,17 @@ export default function onSubscribedThreadFetched(thread, {
 			)
 
 			if (!prevStats || (prevStats.newCommentsCount !== newStats.newCommentsCount)) {
-				newCommentsCountChanged = true
+				statsChanged = true
 			}
+
+			if (prevStats && prevStats.refreshErrorAt) {
+				statsChanged = true
+			}
+		} else {
+			resetErroredState()
 		}
+	} else {
+		resetErroredState()
 	}
 
 	// Update subscribed thread record.
@@ -138,7 +164,7 @@ export default function onSubscribedThreadFetched(thread, {
 		userData.updateSubscribedThread(subscribedThread)
 	}
 
-	return changed || newCommentsCountChanged
+	return changed || statsChanged
 }
 
 // // The existing "archivedAt" value could be a "hypothetical" one

@@ -78,7 +78,9 @@ export default function ThreadCreateComment({
 	}, [])
 
 	const onAfterSubmit = useCallback(({ id }) => {
-		dispatch(resetCreateCommentState())
+		// dispatch(dispatch(updateCreateCommentState({
+		// 	formExpanded: false
+		// })))
 		if (refreshThread) {
 			refreshThread()
 		}

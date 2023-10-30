@@ -33,6 +33,10 @@
 	}
 }
 
+.SubscribedThread-thumbnail {
+	--PictureStatus-color: var(--Sidebar-color-500);
+}
+
 /*
 .SubscribedThread--unsubscribed {
 	.SubscribedThread-inner {

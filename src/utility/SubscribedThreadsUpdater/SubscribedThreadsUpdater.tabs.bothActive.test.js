@@ -33,7 +33,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		const tab2 = new TestTab({
 			id: '2 (active tab)',
-			storage: storage1,
+			storage: storage2,
 			timer
 		})
 
@@ -177,15 +177,8 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			timer,
 			eventLog: eventLog1,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch1({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(1000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
@@ -206,15 +199,8 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			timer,
 			eventLog: eventLog2,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch2({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(1000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
@@ -285,12 +271,12 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			{ tab: 2, event: 'SCHEDULE_UPDATE' },
 
 			{ tab: 1, event: 'UPDATE_START' },
-			{ tab: 1, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 1, event: 'CHECK_IS_ACTIVE_TAB' },
 			{ tab: 1, event: 'IS_ACTIVE_TAB' },
 			{ tab: 1, event: 'UPDATE_THREADS_START' },
 
 			{ tab: 2, event: 'UPDATE_START' },
-			{ tab: 2, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'CHECK_IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_UPDATE_IN_PROGRESS' },
 			{ tab: 2, event: 'UPDATE_END' },
@@ -298,26 +284,22 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 			{ tab: 1, event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread1.id },
 			{ tab: 1, event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread1.id },
-
-			{ tab: 2, event: 'UPDATE_START' },
-			{ tab: 2, event: 'GET_IS_ACTIVE_TAB' },
-			{ tab: 2, event: 'IS_ACTIVE_TAB' },
-			{ tab: 2, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_UPDATE_IN_PROGRESS' },
-			{ tab: 2, event: 'UPDATE_END' },
-			{ tab: 2, event: 'SCHEDULE_UPDATE' },
-
 			{ tab: 1, event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread1.id },
 			{ tab: 1, event: 'SCHEDULE_UPDATE_NEXT_THREAD' },
 
-			{ tab: 1, event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread2.id },
-			{ tab: 1, event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread2.id },
-
 			{ tab: 2, event: 'UPDATE_START' },
-			{ tab: 2, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'CHECK_IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_UPDATE_IN_PROGRESS' },
 			{ tab: 2, event: 'UPDATE_END' },
 			{ tab: 2, event: 'SCHEDULE_UPDATE' },
+
+			{ tab: 1, event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread2.id },
+			{ tab: 1, event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread2.id },
+			{ tab: 1, event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread2.id },
+			{ tab: 1, event: 'UPDATE_THREADS_END' },
+			{ tab: 1, event: 'UPDATE_END' },
+			{ tab: 1, event: 'SCHEDULE_UPDATE' },
 
 			{ tab: 2, event: 'UPDATE_START' },
 			// By this time, `tab1` has finished fetching both thread 1 and thread 2,
@@ -325,12 +307,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			// so `tab2` detects that there're no threads to update at the moment.
 			{ tab: 2, event: 'UPDATE_NOT_REQUIRED' },
 			{ tab: 2, event: 'UPDATE_END' },
-			{ tab: 2, event: 'SCHEDULE_UPDATE' },
-
-			{ tab: 1, event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread2.id },
-			{ tab: 1, event: 'UPDATE_THREADS_END' },
-			{ tab: 1, event: 'UPDATE_END' },
-			{ tab: 1, event: 'SCHEDULE_UPDATE' }
+			{ tab: 2, event: 'SCHEDULE_UPDATE' }
 		])
 
 		subscribedThreadsUpdater1.stop()

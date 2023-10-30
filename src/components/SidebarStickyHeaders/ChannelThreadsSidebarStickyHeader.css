@@ -3,4 +3,6 @@
 	--ChannelHeader-fontSize: var(--ChannelThreadHeader-fontSize);
 	--ChannelHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
 	--ChannelHeader-textAlign: left;
+
+	--ChannelHeaderSearch-width: calc(var(--unit) * 9);
 }

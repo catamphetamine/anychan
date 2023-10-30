@@ -550,6 +550,8 @@ To specify custom [configuration options](#configuration) (like YouTube API key)
 
 Also, check if the [proxy](#proxy) server that is configured by default still works.
 
+Also, when pulling any changes to `package.json` or `yarn.lock`, don't forget to re-run the `yarn` command to install new packages.
+
 ## Build
 
 To create a build from the sources, follow the instructions in the [Development](#development) section above, but, at the last step, instead of running `yarn run dev`, run `yarn run build`.

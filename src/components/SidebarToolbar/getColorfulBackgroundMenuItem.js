@@ -15,6 +15,10 @@ export default function getColorfulBackgroundMenuItem({
 	measure,
 	backgroundLightMode,
 	backgroundDarkMode,
+	prevBackgroundLightMode,
+	prevBackgroundDarkMode,
+	setPrevBackgroundLightMode,
+	setPrevBackgroundDarkMode,
 	userSettings
 }) {
 	const isBackgroundEnabled = backgroundLightMode || backgroundDarkMode
@@ -26,14 +30,19 @@ export default function getColorfulBackgroundMenuItem({
 				return dispatch(notify(messages.cookies.required))
 			}
 
-			const backgroundLightMode = isBackgroundEnabled ? undefined : getRandomElementOfArray(DEFAULT_BACKGROUNDS_LIGHT_MODE)
-			const backgroundDarkMode = isBackgroundEnabled ? undefined : getRandomElementOfArray(DEFAULT_BACKGROUNDS_DARK_MODE)
+			if (isBackgroundEnabled) {
+				setPrevBackgroundLightMode(backgroundLightMode)
+				setPrevBackgroundDarkMode(backgroundDarkMode)
+			}
 
-			dispatch(setBackgroundLightMode(backgroundLightMode))
-			dispatch(setBackgroundDarkMode(backgroundDarkMode))
+			const backgroundLightModeNew = isBackgroundEnabled ? undefined : getRandomElementOfArrayExcept(DEFAULT_BACKGROUNDS_LIGHT_MODE, prevBackgroundLightMode)
+			const backgroundDarkModeNew = isBackgroundEnabled ? undefined : getRandomElementOfArrayExcept(DEFAULT_BACKGROUNDS_DARK_MODE, prevBackgroundDarkMode)
 
-			dispatch(saveBackgroundLightMode({ backgroundLightMode, userSettings }))
-			dispatch(saveBackgroundDarkMode({ backgroundDarkMode, userSettings }))
+			dispatch(setBackgroundLightMode(backgroundLightModeNew))
+			dispatch(setBackgroundDarkMode(backgroundDarkModeNew))
+
+			dispatch(saveBackgroundLightMode({ backgroundLightMode: backgroundLightModeNew, userSettings }))
+			dispatch(saveBackgroundDarkMode({ backgroundDarkMode: backgroundDarkModeNew, userSettings }))
 
 			measure()
 		},
@@ -45,4 +54,12 @@ export default function getColorfulBackgroundMenuItem({
 
 function getRandomElementOfArray(array) {
 	return array[Math.floor(Math.random() * array.length)]
+}
+
+function getRandomElementOfArrayExcept(array, exceptElement) {
+	const newElement = getRandomElementOfArray(array)
+	if (newElement === exceptElement) {
+		return getRandomElementOfArrayExcept(array, exceptElement)
+	}
+	return newElement
 }

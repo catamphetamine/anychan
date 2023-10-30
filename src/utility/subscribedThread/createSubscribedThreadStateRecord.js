@@ -46,6 +46,26 @@ export default function createSubscribedThreadStateRecord(thread, {
 }
 
 // This record is created when it's found out that no "stats" record
+// exists for a subscribed thread.
+export function createSubscribedThreadStateRecordStub(subscribedThread) {
+	return {
+		refreshedAt: subscribedThread.addedAt,
+		latestComment: {
+			// This is the ID of the first comment rather than the ID of the latest comment,
+			// but it still works. The ID of the latest comment isn't currently used anyway.
+			id: subscribedThread.id,
+			createdAt: subscribedThread.addedAt
+		},
+		// The comments count of `1` is, obviously, not true, but it doesn't really matter,
+		// because `commentsCount` is currently only used to check if "incremental" thread update
+		// could be used.
+		commentsCount: 1,
+		newCommentsCount: 0,
+		newRepliesCount: 0
+	}
+}
+
+// This record is created when it's found out that no "stats" record
 // exists for the subscribed thread in `UserData` (fixes data corruption).
 export function createSubscribedThreadStateRecordStubEncoded(subscribedThread) {
 	return {

@@ -5,10 +5,10 @@ import _logOut from '../api/logOut.js'
 
 const redux = new ReduxModule()
 
-export const setAccessToken = redux.simpleAction(
-	(state, accessToken) => ({
+export const setAuthState = redux.simpleAction(
+	(state, authState) => ({
 		...state,
-		accessToken
+		...authState
 	})
 )
 
@@ -50,6 +50,4 @@ export const logOut = redux.action(
 	})
 )
 
-export default redux.reducer({
-	accessToken: 'ad3f6c2190e735ab8f7820b34a0011dab2c7eaf95f3ef94342094e44374ea588'
-})
+export default redux.reducer()

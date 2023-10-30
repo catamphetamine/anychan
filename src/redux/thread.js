@@ -22,10 +22,6 @@ export const setExpandAttachments = redux.simpleAction(
 	(state, expandAttachments) => ({ ...state, expandAttachments })
 )
 
-export const setScrollPosition = redux.simpleAction(
-	(state, scrollPosition) => ({ ...state, scrollPosition })
-)
-
 export const updateCreateCommentState = redux.simpleAction(
 	(state, createCommentStateUpdate) => ({
 		...state,

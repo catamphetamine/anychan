@@ -98,15 +98,8 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			dispatch,
 			eventLog,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 10000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(10000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else {
@@ -138,11 +131,6 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 			{ event: 'SCHEDULE_UPDATE' }
 		])
-
-		// dispatchedActions.should.deep.equal([{
-		// 	type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-		// 	value: undefined
-		// }])
 
 		subscribedThreadsUpdater.stop()
 	})

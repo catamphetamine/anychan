@@ -1,11 +1,12 @@
 import { Tab } from 'web-browser-tab'
 import { Timer } from 'web-browser-timer'
 
-import getThread from '../thread/getThread.js'
+import { getThreadWithCallback } from '../thread/getThread.js'
 import getNextUpdateAtForThread from '../thread/getNextUpdateAtForThread.js'
 import reportError from '../reportError.js'
 import storage_ from '../storage/storage.js'
 import StatusRecord from './SubscribedThreadsUpdater.StatusRecord.js'
+import SubscribedThreadsUpdaterError from './SubscribedThreadsUpdaterError.js'
 
 import {
 	subscribedThreadsUpdateInProgressForThread,
@@ -40,6 +41,8 @@ export default class SubscribedThreadsUpdater {
 		dispatch,
 		// `getThreadStub` parameter is currently only used in tests.
 		getThreadStub,
+		// `refreshThreadDelay` parameter is currently only used in tests.
+		refreshThreadDelay,
 		// `createGetThreadParameters` parameter is set in `./src/utility/onApplicationStarted.js`.
 		createGetThreadParameters = () => ({}),
 		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL,
@@ -56,6 +59,7 @@ export default class SubscribedThreadsUpdater {
 		this.dataSource = dataSource
 		this.dispatch = dispatch
 		this.getThreadStub = getThreadStub
+		this.refreshThreadDelay = refreshThreadDelay
 		this.createGetThreadParameters = createGetThreadParameters
 		this.nextUpdateRandomizeInterval = nextUpdateRandomizeInterval
 
@@ -128,6 +132,10 @@ export default class SubscribedThreadsUpdater {
 			this.unlistenPageHideEvent()
 		}
 
+		// Reset `this.refreshThreadDelayTimer`.
+		// That timer is only used in tests.
+		this.timer.cancel(this.refreshThreadDelayTimer)
+
 		this.setStatus('STOP')
 	}
 
@@ -187,7 +195,6 @@ export default class SubscribedThreadsUpdater {
 
 	setStatus(status, { reason } = {}) {
 		this.log('Status', status)
-		console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', this.tab.getId(), status)
 		this.status = status
 		this.reason = reason
 	}
@@ -321,30 +328,43 @@ export default class SubscribedThreadsUpdater {
 				return waitAndRetry({ reason: 'CONCURRENT_UPDATE_IN_PROGRESS' })
 			}
 
-			try {
-				await this.updateThreads(subscribedThreadsToUpdate)
-				onUpdateFinished()
-			} catch (error) {
-				this.logEvent('ERROR')
-				if (!error.message.startsWith('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD')) {
-					reportError(error)
-				}
-				waitAndRetry({ reason: 'ERROR', error: error.message })
-			}
+			// `SubscribedThreadsUpdater` was partially rewritten without `async`/`await`
+			// and with using `callback`s instead. The reason is that `async`/`await`
+			// or `Promise` don't work well with `timer.fastForward()` in tests.
+			// So `async`/`await` and `Promise`s have been rewritten in `callback`s,
+			// and tests now run correctly.
+			await new Promise((resolve, reject) => {
+				this.updateThreads(subscribedThreadsToUpdate, (error) => {
+					if (error) {
+						if (!(error instanceof SubscribedThreadsUpdaterError)) {
+							return reject(error)
+						}
+						this.logEvent('ERROR')
+						if (!error.message.startsWith('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD')) {
+							reportError(error)
+						}
+						return waitAndRetry({ reason: 'ERROR', error: error.message })
+					}
 
-			// Even though some other tab might've taken over the update process
-			// due to this tab timing out, or something like that, still reset
-			// the update process status. The update status will be re-set
-			// one external changes to the local storage.
-			onUpdateEndedAcrossTabs()
+					onUpdateFinished()
+
+					// Even though some other tab might've taken over the update process
+					// due to this tab timing out, or something like that, still reset
+					// the update process status. The update status will be re-set
+					// one external changes to the local storage.
+					onUpdateEndedAcrossTabs()
+
+					resolve()
+				})
+			})
 		}
 
-		this.logEvent('GET_IS_ACTIVE_TAB')
+		this.logEvent('CHECK_IS_ACTIVE_TAB')
 
 		if (this.tab.isActive()) {
 			this.logEvent('IS_ACTIVE_TAB')
 			this.log('Is active tab')
-			return startUpdatingThreadsIfNotAlreadyUpdating()
+			return await startUpdatingThreadsIfNotAlreadyUpdating()
 		} else {
 			this.logEvent('IS_INACTIVE_TAB')
 		}
@@ -361,13 +381,13 @@ export default class SubscribedThreadsUpdater {
 		if (!tabId) {
 			this.logEvent('NO_ACTIVE_TAB')
 			this.log('No active tab')
-			return startUpdatingThreadsIfNotAlreadyUpdating()
+			return await startUpdatingThreadsIfNotAlreadyUpdating()
 		}
 
 		if (tabId === this.tab.getId()) {
 			this.logEvent('ACTIVE_TAB_THIS')
 			this.log('Is active tab')
-			return startUpdatingThreadsIfNotAlreadyUpdating()
+			return await startUpdatingThreadsIfNotAlreadyUpdating()
 		}
 
 		this.logEvent('ACTIVE_TAB_OTHER', { tabId })
@@ -385,103 +405,153 @@ export default class SubscribedThreadsUpdater {
 		return waitAndRetry({ reason: 'CONCURRENT_TAB_IS_ACTIVE' })
 	}
 
-	async updateThreads(subscribedThreadsToUpdate) {
+	updateThreads(subscribedThreadsToUpdate, callback) {
 		this.logEvent('UPDATE_THREADS_START')
 
 		// Create a status record.
-		await this.statusRecord.create()
+		this.statusRecord.create((hasCreatedStatusRecord) => {
+			if (!hasCreatedStatusRecord) {
+				return callback(new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: CREATE: LOCKED'))
+			}
+			this.log('Update threads')
+			this.updateThreads_(subscribedThreadsToUpdate, callback)
+		})
+	}
 
-		this.log('Update threads')
+	updateThreads_(subscribedThreadsToUpdate, callback) {
+		const [subscribedThread, ...restSubscribedThreads] = subscribedThreadsToUpdate
 
-		let i = 0
-		for (const subscribedThread of subscribedThreadsToUpdate) {
-			this.logEvent('UPDATE_THREAD', {
-				threadId: subscribedThread.id,
-				channelId: subscribedThread.channel.id
-			})
-			this.log('Thread', subscribedThread.id, 'in channel', subscribedThread.channel.id)
+		const updateNextSubscribedThread = () => {
+			if (restSubscribedThreads.length === 0) {
+				this.log('Finished updating threads')
+			} else {
+				this.updateThreads_(restSubscribedThreads, callback)
+			}
+		}
 
-			// Check that the lock hasn't timed out.
+		this.logEvent('UPDATE_THREAD', {
+			threadId: subscribedThread.id,
+			channelId: subscribedThread.channel.id
+		})
+		this.log('Thread', subscribedThread.id, 'in channel', subscribedThread.channel.id)
+
+		// Check that the lock hasn't timed out.
+		try {
 			this.statusRecord.validateNotExpired()
+		} catch (error) {
+			return callback(error)
+		}
 
-			// Update status: "Updating thread X in channel Y".
-			this.dispatch(subscribedThreadsUpdateInProgressForThread({
-				threadId: subscribedThread.id,
-				channelId: subscribedThread.channel.id
-			}))
-			this.statusRecord.update({
-				threadId: subscribedThread.id,
-				channelId: subscribedThread.channel.id
-			})
-
+		const refreshThread = (callback) => {
 			// Refresh the thread.
 			this.logEvent('FETCH_THREAD_START', {
 				threadId: subscribedThread.id,
 				channelId: subscribedThread.channel.id
 			})
 			this.log('Refresh thread', subscribedThread.id, 'in channel', subscribedThread.channel.id)
+
+			const refreshThread_ = () => {
+				this.refreshThread(subscribedThread, (error, thread) => {
+					if (error) {
+						this.logEvent('FETCH_THREAD_ERROR', {
+							threadId: subscribedThread.id,
+							channelId: subscribedThread.channel.id
+						})
+						reportError(error)
+						// Ignore the error and continue to the next thread.
+						// For example, a thread could have expired or has been deleted by a moderator.
+					}
+					// Log the event.
+					this.logEvent('FETCH_THREAD_END', {
+						threadId: subscribedThread.id,
+						channelId: subscribedThread.channel.id
+					})
+					callback()
+				})
+			}
+
+			if (this.refreshThreadDelay) {
+				this.refreshThreadDelayTimer = this.timer.schedule(refreshThread_, this.refreshThreadDelay)
+			} else {
+				refreshThread_()
+			}
+		}
+
+		const beforeRefreshThread = (callback) => {
+			// Update status: "Updating thread X in channel Y".
+			this.dispatch(subscribedThreadsUpdateInProgressForThread({
+				threadId: subscribedThread.id,
+				channelId: subscribedThread.channel.id
+			}))
 			try {
-				await this.refreshThread(subscribedThread)
-			} catch (error) {
-				this.logEvent('FETCH_THREAD_ERROR', {
+				this.statusRecord.update({
 					threadId: subscribedThread.id,
 					channelId: subscribedThread.channel.id
 				})
-				reportError(error)
-				// See if threads update has been cancelled.
-				if (!this._isActive) {
-					this.logEvent('WAS_CANCELLED')
-					this.log('Cancelled')
-					return
-				}
-				// Ignore the error and continue to the next thread.
-				// For example, a thread could have expired or has been deleted by a moderator.
-				i++
-				continue
+				callback()
+			} catch (error) {
+				callback(error)
 			}
+		}
 
-			// Log the event.
-			this.logEvent('FETCH_THREAD_END', {
-				threadId: subscribedThread.id,
-				channelId: subscribedThread.channel.id
-			})
-
+		const afterRefreshThread = (callback) => {
 			// Update status: "Not updating any particular thread at the moment".
 			this.dispatch(subscribedThreadsUpdateInProgressForThread({
 				threadId: undefined,
 				channelId: undefined
 			}))
-			this.statusRecord.update({
-				threadId: undefined,
-				channelId: undefined
-			})
-
-			// See if threads update has been cancelled.
-			if (!this._isActive) {
-				this.logEvent('WAS_CANCELLED')
-				this.log('Cancelled')
-				return
+			try {
+				this.statusRecord.update({
+					threadId: undefined,
+					channelId: undefined
+				})
+				callback()
+			} catch (error) {
+				callback(error)
 			}
-
-			// Wait before proceeding to the next one.
-			if (i < subscribedThreadsToUpdate.length - 1) {
-				this.logEvent('SCHEDULE_UPDATE_NEXT_THREAD')
-				this.log('Wait between threads')
-				await this.timer.waitFor(WAIT_INTERVAL_BETWEEN_THREADS)
-			}
-			else {
-				this.logEvent('UPDATE_THREADS_END')
-				this.log('All threads have been updated')
-
-				// Threads update finished.
-				// Remove the status record.
-				this.statusRecord.remove()
-			}
-
-			i++
 		}
 
-		this.log('Finished updating threads')
+		const finishedRefreshingThread = () => {
+			// Wait before proceeding to the next one.
+			if (restSubscribedThreads.length > 0) {
+				this.logEvent('SCHEDULE_UPDATE_NEXT_THREAD')
+				this.log('Wait between threads')
+				return this.timer.schedule(updateNextSubscribedThread, WAIT_INTERVAL_BETWEEN_THREADS)
+			}
+
+			this.logEvent('UPDATE_THREADS_END')
+			this.log('All threads have been updated')
+
+			// Threads update finished.
+			// Remove the status record.
+			this.statusRecord.remove()
+
+			this.log('Finished updating threads')
+			callback()
+		}
+
+		beforeRefreshThread((error) => {
+			if (error) {
+				return callback(error)
+			}
+			refreshThread((error) => {
+				if (error) {
+					return callback(error)
+				}
+				// See if threads update has been cancelled.
+				if (!this._isActive) {
+					this.logEvent('WAS_CANCELLED')
+					this.log('Cancelled')
+					return callback(new SubscribedThreadsUpdaterError('CANCELLED'))
+				}
+				afterRefreshThread((error) => {
+					if (error) {
+						return callback(error)
+					}
+					finishedRefreshingThread()
+				})
+			})
+		})
 	}
 
 	getThreadsToUpdateNowAndNextUpdateTime() {
@@ -517,6 +587,8 @@ export default class SubscribedThreadsUpdater {
 
 			const nextUpdateAt = getNextUpdateAtForThread(latestUpdateAt.getTime(), {
 				latestCommentDate,
+				refreshErrorDate: subscribedThreadState && subscribedThreadState.refreshErrorAt,
+				refreshErrorCount:  subscribedThreadState && subscribedThreadState.refreshErrorCount,
 				backgroundMode: true
 			})
 
@@ -537,11 +609,17 @@ export default class SubscribedThreadsUpdater {
 		}
 	}
 
-	async refreshThread(subscribedThread) {
-		// Calls `onSubscribedThreadFetched()` internally after the thread's data
-		// has been fetched.
-		// const subscribedThreadState = this.userData.getSubscribedThreadState(subscribedThread.channel.id, subscribedThread.id)
-		await getThread({
+	// `SubscribedThreadsUpdater` was partially rewritten without `async`/`await`
+	// and with using `callback`s instead. The reason is that `async`/`await`
+	// or `Promise` don't work well with `timer.fastForward()` in tests.
+	// So `async`/`await` and `Promise`s have been rewritten in `callback`s,
+	// and tests now run correctly.
+	refreshThread(subscribedThread, callback) {
+		// `getThreadWithCallback()` function also calls `onSubscribedThreadFetched()`
+		// internally after the thread's data has been fetched.
+		// Calling `onSubscribedThreadFetched()` is required in order to update
+		// subscribed thread records with the updated info.
+		getThreadWithCallback({
 			channelId: subscribedThread.channel.id,
 			threadId: subscribedThread.id
 		}, {
@@ -560,7 +638,7 @@ export default class SubscribedThreadsUpdater {
 			timer: this.timer,
 			action: this.getThreadStub ? 'getThreadStub' : 'getThread',
 			getThreadStub: this.getThreadStub
-		})
+		}, callback)
 	}
 }
 

@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import classNames from 'classnames'
@@ -13,6 +13,8 @@ import useMessages from '../../hooks/useMessages.js'
 import useSettings from '../../hooks/useSettings.js'
 import useMeasure from '../../hooks/useMeasure.js'
 
+import './ColorfulBackgroundToggle.css'
+
 export default function ColorfulBackgroundToggle({ withLabel }) {
 	const dispatch = useDispatch()
 	const messages = useMessages()
@@ -22,6 +24,9 @@ export default function ColorfulBackgroundToggle({ withLabel }) {
 	const backgroundLightMode = useSelector(state => state.app.backgroundLightMode)
 	const backgroundDarkMode = useSelector(state => state.app.backgroundDarkMode)
 
+	const [prevBackgroundLightMode, setPrevBackgroundLightMode] = useState()
+	const [prevBackgroundDarkMode, setPrevBackgroundDarkMode] = useState()
+
 	const menuItem = useMemo(() => {
 		return getColorfulBackgroundMenuItem({
 			messages,
@@ -29,6 +34,10 @@ export default function ColorfulBackgroundToggle({ withLabel }) {
 			measure,
 			backgroundLightMode,
 			backgroundDarkMode,
+			prevBackgroundLightMode,
+			prevBackgroundDarkMode,
+			setPrevBackgroundLightMode,
+			setPrevBackgroundDarkMode,
 			userSettings
 		})
 	}, [
@@ -36,6 +45,8 @@ export default function ColorfulBackgroundToggle({ withLabel }) {
 		dispatch,
 		backgroundLightMode,
 		backgroundDarkMode,
+		prevBackgroundLightMode,
+		prevBackgroundDarkMode,
 		userSettings
 	])
 
@@ -60,6 +71,7 @@ export default function ColorfulBackgroundToggle({ withLabel }) {
 			label={title}
 			showLabel={withLabel}
 			IconComponent={Icon}
+			className="ColorfulBackgroundToggle"
 		/>
 	)
 }

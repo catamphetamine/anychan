@@ -232,6 +232,7 @@ describe('onThreadExpired', () => {
 						789
 					]
 				},
+				// `subscribedThreads` list gets re-sorted according to their latest comment date.
 				subscribedThreads: [
 					{
 						id: 123,
@@ -242,20 +243,20 @@ describe('onThreadExpired', () => {
 						addedAt: 1
 					},
 					{
+						id: 789,
+						title: 'Random 1',
+						channel: {
+							id: 'b'
+						},
+						addedAt: 1
+					},
+					{
 						id: 456,
 						title: 'Anime 2',
 						channel: {
 							id: 'a'
 						},
 						expired: true,
-						addedAt: 1
-					},
-					{
-						id: 789,
-						title: 'Random 1',
-						channel: {
-							id: 'b'
-						},
 						addedAt: 1
 					}
 				],

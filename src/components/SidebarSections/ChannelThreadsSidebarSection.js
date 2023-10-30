@@ -15,15 +15,16 @@ import isChannelPage from '../../utility/routes/isChannelPage.js'
 
 import './ChannelThreadsSidebarSection.css'
 
-export default function ChannelThreadsSidebarSection() {
+export default function ChannelThreadsSidebarSection({
+	searchQuery,
+	searchResults
+}) {
 	const messages = useMessages()
 
 	const dummyDiv = useRef()
 
 	// const channel = useSelector(state => state.data.channel)
 	const threads = useSelector(state => state.data.threads)
-	const channelLayout = useSelector(state => state.channel.channelLayout)
-	const channelSorting = useSelector(state => state.channel.channelSorting)
 
 	const getInitialItemState = useCallback((thread) => ({
 		hidden: thread.comments[0].hidden
@@ -77,7 +78,7 @@ export default function ChannelThreadsSidebarSection() {
 			<div ref={dummyDiv}/>
 
 			<VirtualScroller
-				key={channelLayout + '_' + channelSorting}
+				key={searchQuery}
 				bypass={typeof window === 'undefined'}
 				className="ChannelThreadsSidebarSection"
 				getInitialItemState={getInitialItemState}
@@ -85,11 +86,16 @@ export default function ChannelThreadsSidebarSection() {
 				getItemId={getItemId}
 				measureItemsBatchSize={12}
 				getScrollableContainer={getScrollableContainer}
-				items={threads}
+				items={searchResults || threads}
 				itemComponent={ChannelThreadsSidebarSectionThread}
 			/>
 		</SidebarSection>
 	)
+}
+
+ChannelThreadsSidebarSection.propTypes = {
+	searchQuery: PropTypes.string,
+	searchResults: PropTypes.arrayOf(PropTypes.object)
 }
 
 function getItemId(thread) {

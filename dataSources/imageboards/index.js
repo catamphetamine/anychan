@@ -132,18 +132,18 @@ for (const dataSource of DATA_SOURCES) {
 		dataSource.api[functionName] = addImageboardArgumentToFunction(dataSource.api[functionName])
 	}
 
-	const { accessTokenCookieName, authenticatedCookieName } = imageboardConfig
-	if (accessTokenCookieName) {
-		dataSource.readAccessTokenFromCookie = () => {
-			return getCookie(accessTokenCookieName)
-		}
-		dataSource.clearAuthCookies = () => {
-			deleteCookie(accessTokenCookieName)
-			if (authenticatedCookieName) {
-				deleteCookie(authenticatedCookieName)
-			}
-		}
-	}
+	// const { accessTokenCookieName, authenticatedCookieName } = imageboardConfig
+	// if (accessTokenCookieName) {
+	// 	dataSource.readAccessTokenFromCookie = () => {
+	// 		return getCookie(accessTokenCookieName)
+	// 	}
+	// 	dataSource.clearAuthCookies = () => {
+	// 		deleteCookie(accessTokenCookieName)
+	// 		if (authenticatedCookieName) {
+	// 			deleteCookie(authenticatedCookieName)
+	// 		}
+	// 	}
+	// }
 
 	dataSource.supportsCreateThread = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'
 	dataSource.supportsCreateComment = () => imageboardConfig.engine === 'makaba' || dataSource.id === '4chan'

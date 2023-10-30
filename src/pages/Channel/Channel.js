@@ -7,8 +7,7 @@ import { useSelectorForLocation } from 'react-pages'
 
 import {
 	setVirtualScrollerState,
-	setSearchResultsState,
-	setScrollPosition
+	setSearchResultsState
 } from '../../redux/channel.js'
 
 import getMessages from '../../messages/index.js'
@@ -54,7 +53,6 @@ export default function ChannelPage() {
 
 	const {
 		virtualScrollerState: initialVirtualScrollerState,
-		scrollPosition: initialScrollPosition,
 
 		searchResultsState: initialSearchResultsState,
 
@@ -171,17 +169,13 @@ export default function ChannelPage() {
 
 	const [searchQuery, setSearchQuery] = useState(initialSearchResultsState ? initialSearchResultsState.searchQuery : undefined)
 	const [searchResults, setSearchResults] = useState(initialSearchResultsState ? initialSearchResultsState.searchResults : undefined)
-	const [searchResultsId, setSearchResultsId] = useState(initialSearchResultsState ? initialSearchResultsState.searchResultsId : undefined)
 	const [searchResultsQuery, setSearchResultsQuery] = useState(initialSearchResultsState ? initialSearchResultsState.searchQuery : undefined)
 
 	const onSearchResults = useCallback((searchResults, { query, finished, duration }) => {
-		const searchResultsId = getNextSearchResultsId()
 		setSearchResults(searchResults)
-		setSearchResultsId(searchResultsId)
 		setSearchResultsQuery(query)
 		dispatch(setSearchResultsState({
 			searchResults,
-			searchResultsId,
 			searchQuery: query
 		}))
 		// Reset `virtual-scroller` state whenever the user changes search input value.
@@ -235,16 +229,23 @@ export default function ChannelPage() {
 				}
 
 				{/* Added `key` property to force a reset of any `<VirtualScroller/>` state
-				    when the user changes the current channel's viewing mode. */}
+				    when the user changes the current channel's layout.
+				    Why was that done? Maybe in some future someone will remove
+				    re-loading of the `threads` list when switching between different layouts,
+				    and in that case the `threads` list will stay the same when doing the switching,
+				    meaning that `virtual-scroller` would retain item states and item heights
+				    and it would be unexpected for it to see those list items start rendering differently.
+				    But currently, when switching between different layouts and sortings,
+				    `threads` list gets re-fetched from the server, and `virtual-scroller`
+				    correctly resets item states and heights when it receives a completely new set of items,
+				    so with the currently implementation the `key` is not required and could be removed. */}
 				<CommentsList
-					key={searchResultsQuery ? 'searchResults:' + searchResultsId : channelLayout + '_' + channelSorting}
+					key={channelLayout}
 					mode="channel"
 					getColumnsCount={getColumnsCount}
 					transformInitialItemState={transformInitialItemState}
 					initialState={initialVirtualScrollerState}
 					setState={setVirtualScrollerState}
-					initialScrollPosition={initialScrollPosition}
-					setScrollPosition={setScrollPosition}
 					items={searchResultsQuery ? searchResults : threads}
 					itemComponent={ChannelThread}
 					itemComponentProps={itemComponentProps}
@@ -316,17 +317,4 @@ function useThreadsForChannelView(latestLoadedThreads) {
 		onChannelViewWillChange,
 		onChannelViewDidChange
 	}
-}
-
-// "Safe" refers to the ability of JavaScript to represent integers exactly
-// and to correctly compare them.
-const MAX_SAFE_INTEGER = 9007199254740991
-
-let searchResultsId = 0
-function getNextSearchResultsId() {
-	if (searchResultsId === MAX_SAFE_INTEGER) {
-		searchResultsId = 0
-	}
-	searchResultsId++
-	return searchResultsId
 }

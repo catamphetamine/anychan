@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useDataSource from '../hooks/useDataSource.js'
+import useUserData from '../hooks/useUserData.js'
 import useSettings from '../hooks/useSettings.js'
 import useMessages from '../hooks/useMessages.js'
 
@@ -19,7 +20,7 @@ import AuthTokenNotFoundOrIncorrectSecret from '../api/errors/AuthTokenNotFoundO
 import { notify, showError } from '../redux/notifications.js'
 import { logIn, logOut } from '../redux/auth.js'
 
-import updateAuthTokenFromCookie  from '../utility/auth/updateAuthTokenFromCookie.js'
+import setInitialAuthState  from '../utility/auth/setInitialAuthState.js'
 
 import {
 	ContentSections,
@@ -53,6 +54,7 @@ export default function UserAccountPage() {
 function Authenticated() {
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
+	const userData = useUserData()
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
@@ -62,18 +64,17 @@ function Authenticated() {
 			userSettings,
 			messages
 		}))
-		// Clear the cookie just in case the server didn't do that.
-		if (dataSource.clearAuthCookies) {
-			dataSource.clearAuthCookies()
-		}
+		// Clear auth token from `userData`.
+		userData.removeAuth()
 		// See if the server has correctly cleared the access token cookie.
 		// If the cookie wasn't cleared properly,
 		// read the existing access token from such cookie
 		// to indicate to the user that the logout didn't happen.
-		updateAuthTokenFromCookie({ dispatch, dataSource })
+		setInitialAuthState({ dispatch, dataSource, userData })
 	}, [
 		dataSource,
 		userSettings,
+		userData,
 		messages
 	])
 
@@ -95,6 +96,7 @@ function Authenticated() {
 function NotAuthenticated() {
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
+	const userData = useUserData()
 	const messages = useMessages()
 	const dispatch = useDispatch()
 
@@ -119,6 +121,9 @@ function NotAuthenticated() {
 				dispatch(showError('Access token not found in server response'))
 				return
 			}
+			userData.setAuth({
+				accessToken: result.accessToken
+			})
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				setLogInError(messages.userAccount.notFoundError)
@@ -135,7 +140,8 @@ function NotAuthenticated() {
 	}, [
 		messages,
 		dataSource,
-		userSettings
+		userSettings,
+		userData
 	])
 
 	return (

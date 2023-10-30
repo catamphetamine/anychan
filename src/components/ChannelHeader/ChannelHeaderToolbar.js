@@ -138,13 +138,15 @@ export default function ChannelHeaderToolbar({
 	const items = useMemo(() => {
 		let items = []
 
-		if (canChangeChannelLayout || canChangeChannelSorting) {
+		if (canChangeChannelLayout && canChangeChannelSorting) {
 			items = items.concat(channelLayoutItems)
 			items.push({ type: 'separator' })
 		}
 
-		if (dataSource.supportsFeature && dataSource.supportsFeature('getThreads.sortByRating')) {
-			items.push(channelSortingPopularItem)
+		if (canChangeChannelSorting) {
+			if (dataSource.supportsFeature && dataSource.supportsFeature('getThreads.sortByRating')) {
+				items.push(channelSortingPopularItem)
+			}
 		}
 
 		items.push(channelHeaderToolbarFavorite)

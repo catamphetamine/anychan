@@ -10,10 +10,6 @@ export const setVirtualScrollerState = redux.simpleAction(
 	(state, virtualScrollerState) => ({ ...state, virtualScrollerState })
 )
 
-export const setScrollPosition = redux.simpleAction(
-	(state, scrollPosition) => ({ ...state, scrollPosition })
-)
-
 export const setInitialLatestSeenThreadId = redux.simpleAction(
 	(state, initialLatestSeenThreadId) => ({ ...state, initialLatestSeenThreadId })
 )

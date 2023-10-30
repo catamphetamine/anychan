@@ -1,6 +1,7 @@
 import { BASE_PREFIX } from '../storage/getStoragePrefix.js'
+import SubscribedThreadsUpdaterError from './SubscribedThreadsUpdaterError.js'
 
-const STATUS_RECORD_STORAGE_KEY = BASE_PREFIX + 'subscribedThreadUpdate'
+export const STATUS_RECORD_STORAGE_KEY = BASE_PREFIX + 'subscribedThreadUpdate'
 
 // Some web browsers limit `setTimeout()` delay to be 1 second minimum
 // for background tabs.
@@ -64,7 +65,7 @@ export default class StatusRecord {
 				return statusRecord
 			}
 		}
-		throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: VALIDATE: EXPIRED')
+		throw new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: VALIDATE: EXPIRED')
 	}
 
 	get() {
@@ -87,7 +88,7 @@ export default class StatusRecord {
 		return statusRecord
 	}
 
-	async create() {
+	create(callback) {
 		this.log('Create')
 
 		const newStatusRecord = {
@@ -99,29 +100,30 @@ export default class StatusRecord {
 		// Attempt to acquire the "lock".
 		this.storage.set(STATUS_RECORD_STORAGE_KEY, newStatusRecord)
 
+		// This code will be executed after a short delay.
+		const afterWaitForRepeatableRead = () => {
+			// Check that the lock has been acquired.
+			// For example, some other concurrent tab could accidentally overwrite it.
+			const statusRecord = this.storage.get(STATUS_RECORD_STORAGE_KEY)
+
+			const hasAquiredLock = isSameProcedure(newStatusRecord, statusRecord)
+
+			if (hasAquiredLock) {
+				this.log('Update Status Record: Lock acquired')
+				this.storage.set(STATUS_RECORD_STORAGE_KEY, {
+					...statusRecord,
+					startedAt: this.timer.now()
+				})
+			} else {
+				this.log('Update Status Record: Lock goes to some other concurrent updater')
+			}
+
+			// this.onStart()
+			callback(hasAquiredLock)
+		}
+
 		// Wait a bit to detect possible "race conditions".
-		await this.timer.waitFor(STATUS_RECORD_CREATION_REPEATABLE_READ_CHECK_INTERVAL)
-
-		// Check that the lock has been acquired.
-		// For example, some other concurrent tab could accidentally overwrite it.
-		const statusRecord = this.storage.get(STATUS_RECORD_STORAGE_KEY)
-
-		const hasAquiredLock = isSameProcedure(newStatusRecord, statusRecord)
-
-		if (hasAquiredLock) {
-			this.log('Update Status Record: Lock acquired')
-			this.storage.set(STATUS_RECORD_STORAGE_KEY, {
-				...statusRecord,
-				startedAt: this.timer.now()
-			})
-		}
-
-		if (!hasAquiredLock) {
-			this.log('Update Status Record: Lock goes to some other concurrent updater')
-			throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: CREATE: LOCKED')
-		}
-
-		// this.onStart()
+		this.timer.schedule(afterWaitForRepeatableRead, STATUS_RECORD_CREATION_REPEATABLE_READ_CHECK_INTERVAL)
 	}
 
 	update(properties) {
@@ -131,12 +133,12 @@ export default class StatusRecord {
 
 		if (!statusRecord) {
 			console.error('[SubscribedThreadsUpdater] Update Status Record: Not found')
-			throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: UPDATE: NOT_FOUND')
+			throw new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: UPDATE: NOT_FOUND')
 		}
 
 		if (statusRecord.processId !== this.processId) {
 			console.error('[SubscribedThreadsUpdater] Update Status Record: Subscribed threads update was taken over by another tab', statusRecord.processId)
-			throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: UPDATE: EXPIRED')
+			throw new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: UPDATE: EXPIRED')
 		}
 
 		statusRecord = {
@@ -162,7 +164,7 @@ export default class StatusRecord {
 				return
 			}
 			console.error('[SubscribedThreadsUpdater] Delete Status Record: Not found')
-			throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: REMOVE: NOT_FOUND')
+			throw new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: REMOVE: NOT_FOUND')
 		}
 
 		if (statusRecord.processId !== this.processId) {
@@ -170,7 +172,7 @@ export default class StatusRecord {
 				return
 			}
 			console.error('[SubscribedThreadsUpdater] Delete Status Record: Subscribed threads update was taken over by another tab', statusRecord.processId)
-			throw new Error('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: REMOVE: EXPIRED')
+			throw new SubscribedThreadsUpdaterError('SUBSCRIBED_THREAD_UPDATER: STATUS_RECORD: REMOVE: EXPIRED')
 		}
 
 		this.storage.delete(STATUS_RECORD_STORAGE_KEY)

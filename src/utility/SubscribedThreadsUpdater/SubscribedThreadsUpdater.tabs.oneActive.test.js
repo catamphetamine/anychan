@@ -33,7 +33,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		const tab2 = new TestTab({
 			id: '2 (active tab)',
-			storage: storage1,
+			storage: storage2,
 			timer
 		})
 
@@ -177,15 +177,8 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			timer,
 			eventLog: eventLog1,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch1({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(10000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
@@ -206,15 +199,8 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			timer,
 			eventLog: eventLog2,
 			nextUpdateRandomizeInterval: 0,
+			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
-				dispatch2({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
-				await timer.waitFor(10000)
 				if (channelId === thread1.channelId && threadId === thread1.id) {
 					return thread1
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
@@ -274,12 +260,12 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			{ tab: 2, event: 'SCHEDULE_UPDATE' },
 
 			{ tab: 1, event: 'UPDATE_START' },
-			{ tab: 1, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 1, event: 'CHECK_IS_ACTIVE_TAB' },
 			{ tab: 1, event: 'IS_INACTIVE_TAB' },
 			{ tab: 1, event: 'GET_ACTIVE_TAB' },
 
 			{ tab: 2, event: 'UPDATE_START' },
-			{ tab: 2, event: 'GET_IS_ACTIVE_TAB' },
+			{ tab: 2, event: 'CHECK_IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'IS_ACTIVE_TAB' },
 			{ tab: 2, event: 'UPDATE_THREADS_START' }
 		])
@@ -288,8 +274,6 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 		subscribedThreadsUpdater2.status.should.equal('UPDATE')
 
 		eventLog = []
-
-		dispatchedActions = []
 
 		// Wait for Tab 2 to confirm that the update status record has been created.
 		await timer.fastForward(200)
@@ -304,62 +288,49 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
 		subscribedThreadsUpdater2.status.should.equal('UPDATE')
 
-		dispatchedActions = []
-
 		await timer.fastForward(5000)
 
 		eventLog.should.deep.equal([
-			{ tab: 1, event: 'NO_ACTIVE_TAB ???' },
+			{ tab: 1, event: 'ACTIVE_TAB_OTHER', tabId: tab2.id },
+			{ tab: 1, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_TAB_IS_ACTIVE' },
+			{ tab: 1, event: 'UPDATE_END' },
+			{ tab: 1, event: 'SCHEDULE_UPDATE' },
+
+			{ tab: 2, event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread1.id },
+			{ tab: 2, event: 'SCHEDULE_UPDATE_NEXT_THREAD' },
+			{ tab: 2, event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread2.id },
+			{ tab: 2, event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread2.id },
+
+			{ tab: 1, event: 'UPDATE_START' },
+			{ tab: 1, event: 'CHECK_IS_ACTIVE_TAB' },
+			{ tab: 1, event: 'IS_INACTIVE_TAB' },
 			{ tab: 1, event: 'WAIT_AND_RETRY', reason: 'CONCURRENT_UPDATE_IN_PROGRESS' },
 			{ tab: 1, event: 'UPDATE_END' },
 			{ tab: 1, event: 'SCHEDULE_UPDATE' },
 
-			{ tab: 1, event: 'UPDATE_START' }
+			{ tab: 2, event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread2.id },
+			{ tab: 2, event: 'UPDATE_THREADS_END' },
+			{ tab: 2, event: 'UPDATE_END' },
+			{ tab: 2, event: 'SCHEDULE_UPDATE' },
+
+			{ tab: 1, event: 'UPDATE_START' },
+			{ tab: 1, event: 'UPDATE_NOT_REQUIRED' },
+			{ tab: 1, event: 'UPDATE_END' },
+			{ tab: 1, event: 'SCHEDULE_UPDATE' }
 		])
 
-		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
-		subscribedThreadsUpdater2.status.should.equal('UPDATE')
-
-		console.log('********************************************************')
-
-		dispatchedActions = []
-
-		await timer.fastForward(1000)
-
-		eventLog.should.deep.equal([])
-
 		eventLog = []
 
-		console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-
-		subscribedThreadsUpdater1.status.should.equal('GET_ACTIVE_TAB')
+		subscribedThreadsUpdater1.status.should.equal('SCHEDULED')
 		subscribedThreadsUpdater2.status.should.equal('SCHEDULED')
 
-		dispatchedActions = []
-		expectedActions = []
-
-		await timer.fastForward(20000)
+		await timer.fastForward(10000)
 
 		eventLog.should.deep.equal([])
 
-		eventLog = []
+		subscribedThreadsUpdater1.getThreadsToUpdateNowAndNextUpdateTime().subscribedThreadsToUpdate.should.deep.equal([])
 
-
-		subscribedThreadsUpdater1.status.should.equal('A')
-		subscribedThreadsUpdater2.status.should.equal('B')
-
-		dispatchedActions = []
-		expectedActions = []
-
-		subscribedThreadsUpdater1.getThreadsToUpdateNowAndNextUpdateTime().should.deep.equal({
-			nextUpdateAt: 86531000,
-			subscribedThreadsToUpdate: []
-		})
-
-		subscribedThreadsUpdater2.getThreadsToUpdateNowAndNextUpdateTime().should.deep.equal({
-			nextUpdateAt: 86531000,
-			subscribedThreadsToUpdate: []
-		})
+		subscribedThreadsUpdater2.getThreadsToUpdateNowAndNextUpdateTime().subscribedThreadsToUpdate.should.deep.equal([])
 
 		subscribedThreadsUpdater1.stop()
 		subscribedThreadsUpdater2.stop()

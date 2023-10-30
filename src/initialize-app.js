@@ -11,7 +11,7 @@ import onUserDataExternalChange from './UserData/onUserDataExternalChange.js'
 import onSettingsExternalChange from './utility/settings/onSettingsExternalChange.js'
 import addUserDataExternalChangeListener from './UserData/addUserDataExternalChangeListener.js'
 import exclusiveExecution from './utility/exclusiveExecution.js'
-import updateAuthTokenFromCookie from './utility/auth/updateAuthTokenFromCookie.js'
+import setInitialAuthState from './utility/auth/setInitialAuthState.js'
 
 export default async function({ dataSource }) {
 	const dispatch = delayedDispatch
@@ -22,12 +22,11 @@ export default async function({ dataSource }) {
 	// when running console tests.
 	setDefaultThemes(getDefaultThemes())
 
-	// If the data source uses server-side-set cookies for authentication,
-	// read the existing access token from such cookie.
-	updateAuthTokenFromCookie({ dispatch, dataSource })
-
 	const userData = getUserData()
 	const userSettings = getUserSettings()
+
+	// Read user's authentication info from `userData`.
+	setInitialAuthState({ dispatch, dataSource, userData })
 
 	// Listen to `userData` changes coming from other browser tabs.
 	addUserDataExternalChangeListener({

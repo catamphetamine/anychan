@@ -146,6 +146,14 @@
 	.PostForm-textInputContainer {
 		margin-right: 0;
 	}
+
+	textarea {
+		--rrui-input-field-border-color: var(--Content-color-500);
+
+		&::placeholder {
+			color: var(--Content-color-700);
+		}
+	}
 }
 
 .PostForm-notImplementedNotice,

@@ -1,12 +1,16 @@
 @import "../../styles/common.css";
 
 :root {
-	--ChannelHeaderSearch-width: calc(var(--unit) * 10);
+	--ChannelHeaderSearch-width--smallScreen: calc(var(--unit) * 5);
+	--ChannelHeaderSearch-width--mediumScreen: calc(var(--unit) * 10);
+	--ChannelHeaderSearch-width--largeScreen: calc(var(--unit) * 14);
+
+	--ChannelHeaderSearch-width: var(--ChannelHeaderSearch-width--mediumScreen);
 	@mixin xxs {
-		--ChannelHeaderSearch-width: calc(var(--unit) * 5);
+		--ChannelHeaderSearch-width: var(--ChannelHeaderSearch-width--smallScreen);
 	}
 	@mixin m-plus {
-		--ChannelHeaderSearch-width: calc(var(--unit) * 14);
+		--ChannelHeaderSearch-width: var(--ChannelHeaderSearch-width--largeScreen);
 	}
 
 	--ChannelHeaderSearch-animationDuration: 300ms;

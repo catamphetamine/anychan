@@ -8,6 +8,7 @@ import './Sidebar.css'
 
 const Sidebar = React.forwardRef(({
 	StickyHeader,
+	stickyHeaderProps,
 	className,
 	children,
 	...rest
@@ -18,7 +19,7 @@ const Sidebar = React.forwardRef(({
 			{...rest}
 			className={classNames('Sidebar', className)}>
 			{StickyHeader &&
-				<StickyHeader/>
+				<StickyHeader {...stickyHeaderProps}/>
 			}
 			<SimpleBar className="Sidebar-scrollableList">
 				{children}
@@ -30,6 +31,7 @@ const Sidebar = React.forwardRef(({
 Sidebar.propTypes = {
 	className: PropTypes.string,
 	StickyHeader: PropTypes.elementType,
+	stickyHeaderProps: PropTypes.object,
 	children: PropTypes.node.isRequired
 }
 

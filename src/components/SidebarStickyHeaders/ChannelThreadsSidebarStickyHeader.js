@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import SidebarTopBar from '../Sidebar/SidebarTopBar.js'
@@ -12,13 +13,26 @@ import isChannelPage from '../../utility/routes/isChannelPage.js'
 
 import './ChannelThreadsSidebarStickyHeader.css'
 
-export default function ChannelThreadsSidebarStickyHeader() {
+export default function ChannelThreadsSidebarStickyHeader({
+	setSearchResultsQuery,
+	setSearchResults
+}) {
 	const threads = useSelector(state => state.data.threads)
 	const channelLayout = useSetting(settings => settings.channelLayout)
 	const channelSorting = useSetting(settings => settings.channelSorting)
 
 	const route = useRoute()
 	const isChannelOrThreadPage = isChannelPage(route) || isThreadPage(route)
+
+	const [searchQuery, setSearchQuery] = useState()
+
+	const onSearchResults = useCallback((searchResults, { query, finished, duration }) => {
+		setSearchResultsQuery(query)
+		setSearchResults(searchResults)
+	}, [
+		setSearchResultsQuery,
+		setSearchResults
+	])
 
 	if (!isChannelOrThreadPage) {
 		return null
@@ -34,7 +48,12 @@ export default function ChannelThreadsSidebarStickyHeader() {
 	return (
 		<SidebarTopBar>
 			<ChannelHeader
+				threads={threads}
+				searchQuery={searchQuery}
+				onSearchQueryChange={setSearchQuery}
+				onSearchResults={onSearchResults}
 				alignTitle="start"
+				canChangeChannelLayout={false}
 				channelLayout={channelLayout}
 				channelSorting={channelSorting}
 				canChangeChannelSorting
@@ -42,4 +61,9 @@ export default function ChannelThreadsSidebarStickyHeader() {
 			/>
 		</SidebarTopBar>
 	)
+}
+
+ChannelThreadsSidebarStickyHeader.propTypes = {
+	setSearchResultsQuery: PropTypes.func.isRequired,
+	setSearchResults: PropTypes.func.isRequired
 }

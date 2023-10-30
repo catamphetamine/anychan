@@ -5,7 +5,7 @@ import UserData from '../../UserData/UserData.js'
 import UserSettings from '../../utility/settings/UserSettings.js'
 import DATA_SOURCES from '../../dataSources.js'
 
-import { BASE_PREFIX } from '../storage/getStoragePrefix.js'
+import { STATUS_RECORD_STORAGE_KEY } from './SubscribedThreadsUpdater.StatusRecord.js'
 
 import { MemoryStorage } from 'web-browser-storage'
 import { TestTab } from 'web-browser-tab'
@@ -93,6 +93,8 @@ describe('SubscribedThreadsUpdater', function() {
 		addSubscribedThread(thread2, { channel, userData, timer, subscribedThreadsUpdater: subscribedThreadsUpdaterStub })
 		addSubscribedThread(thread3, { channel, userData, timer, subscribedThreadsUpdater: subscribedThreadsUpdaterStub })
 
+		// Skip some time so that after such a long time period
+		// it will run the update procedure for all threads.
 		await timer.fastForward(24 * 60 * 60 * 1000)
 
 		const startedAt = new Date(timer.now())
@@ -115,6 +117,14 @@ describe('SubscribedThreadsUpdater', function() {
 			createdAt: startedAt
 		})
 
+		let eventLog = []
+
+		const eventLog_ = {
+			push(entry) {
+				eventLog.push(entry)
+			}
+		}
+
 		let dispatchedActions = []
 
 		const dispatch = async (action) => {
@@ -123,32 +133,7 @@ describe('SubscribedThreadsUpdater', function() {
 					action.value = undefined
 					break
 			}
-
 			dispatchedActions.push(action)
-
-			if (action.type === 'GET_THREAD') {
-				await timer.waitFor(10000)
-
-				// Fetch Thread 1.
-				if (action.value.channelId === thread1.channelId && action.value.threadId === thread1.id) {
-					return thread1
-				}
-
-				// Fetch Thread 2.
-				if (action.value.channelId === thread2.channelId && action.value.threadId === thread2.id) {
-					return thread2
-				}
-
-				// Fetch Thread 3.
-				if (action.value.channelId === thread3.channelId && action.value.threadId === thread3.id) {
-					return thread3
-				}
-
-				// Throw a "Not Found" error.
-				const error = new Error('Not Found')
-				error.status = 404
-				throw error
-			}
 		}
 
 		const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
@@ -159,20 +144,28 @@ describe('SubscribedThreadsUpdater', function() {
 			dataSource,
 			storage,
 			dispatch,
+			eventLog: eventLog_,
 			nextUpdateRandomizeInterval: 0,
-			getThreadStub: (channelId, threadId) => {
-				return dispatch({
-					type: 'GET_THREAD',
-					value: {
-						channelId,
-						threadId
-					}
-				})
+			refreshThreadDelay: 1000,
+			getThreadStub: async ({ channelId, threadId }) => {
+				if (channelId === thread1.channelId && threadId === thread1.id) {
+					return thread1
+				} else if (channelId === thread2.channelId && threadId === thread2.id) {
+					return thread2
+				} else if (channelId === thread3.channelId && threadId === thread3.id) {
+					return thread2
+				} else {
+					// Throw a "Not Found" error.
+					const error = new Error('Not Found')
+					error.status = 404
+					throw error
+				}
 			}
 		})
 
 		subscribedThreadsUpdater.start()
 
+		// The `tab` is set as "active" after `SubscribedThreadsUpdater` has been started.
 		tab.setActive(true)
 
 		expectToEqual(subscribedThreadsUpdater.getThreadsToUpdateNowAndNextUpdateTime(), {
@@ -185,31 +178,27 @@ describe('SubscribedThreadsUpdater', function() {
 
 		subscribedThreadsUpdater.status.should.equal('SCHEDULED')
 
-		await timer.fastForward(5000)
+		await timer.fastForward(2000)
 
-		dispatchedActions.should.deep.equal([
-			// Will update Thread 1.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: thread1.channelId,
-					threadId: thread1.id
-				}
-			},
-			// Fetch Thread 1.
-			{
-				type: 'GET_THREAD',
-				value: {
-					channelId: thread1.channelId,
-					threadId: thread1.id
-				}
-			}
+		eventLog.should.deep.equal([
+			{ event: 'START' },
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_INACTIVE_TAB' },
+			{ event: 'SCHEDULE_UPDATE' },
+
+			{ event: 'UPDATE_START' },
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+			{ event: 'UPDATE_THREADS_START' },
+
+			{ event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread1.id },
+			{ event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread1.id }
 		])
 
-		dispatchedActions = []
+		eventLog = []
 
 		expectToEqual(
-			storage.getData()[BASE_PREFIX + 'subscribedThreadUpdate'],
+			storage.getData()[STATUS_RECORD_STORAGE_KEY],
 			{
 				processId: tab.getId(),
 				createdAt: 86401000,
@@ -222,120 +211,74 @@ describe('SubscribedThreadsUpdater', function() {
 
 		subscribedThreadsUpdater.status.should.equal('UPDATE')
 
-		await timer.fastForward(10000)
+		await timer.fastForward(3000)
 
-		dispatchedActions.should.deep.equal([
-			// Subscribed Thread 1 has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-				value: undefined
-			},
-			// Finished updating Subscribed Thread 1.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			}
+		eventLog.should.deep.equal([
+			{ event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread1.id },
+			{ event: 'SCHEDULE_UPDATE_NEXT_THREAD' },
+
+			{ event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread2.id },
+			{ event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread2.id },
+			{ event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread2.id },
+			{ event: 'UPDATE_THREADS_END' },
+			{ event: 'UPDATE_END' },
+			{ event: 'SCHEDULE_UPDATE' }
 		])
 
-		dispatchedActions = []
+		eventLog = []
 
 		expectToEqual(
-			storage.getData()[BASE_PREFIX + 'subscribedThreadUpdate'],
-			{
-				processId: tab.getId(),
-				createdAt: 86401000,
-				startedAt: 86401150,
-				activeAt: 86415000,
-				channelId: undefined,
-				threadId: undefined
-			}
+			storage.getData()[STATUS_RECORD_STORAGE_KEY],
+			undefined
 		)
-
-		subscribedThreadsUpdater.status.should.equal('UPDATE')
-
-		await timer.fastForward(10000)
-
-		expectToEqual(dispatchedActions, [
-			// Will update Thread 2.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: thread2.channelId,
-					threadId: thread2.id
-				}
-			},
-			// Fetch Thread 2.
-			{
-				type: 'GET_THREAD',
-				value: {
-					channelId: thread2.channelId,
-					threadId: thread2.id
-				}
-			}
-		])
-
-		dispatchedActions = []
-
-		expectToEqual(
-			storage.getData()[BASE_PREFIX + 'subscribedThreadUpdate'],
-			{
-				processId: tab.getId(),
-				createdAt: 86401000,
-				startedAt: 86401150,
-				activeAt: 86416000,
-				channelId: channel.id,
-				threadId: thread2.id
-			}
-		)
-
-		subscribedThreadsUpdater.status.should.equal('UPDATE')
-
-		await timer.fastForward(1000)
-
-		dispatchedActions.should.deep.equal([
-			// Subscribed Thread 2 has been fetched.
-			// Update the list of subscribed threads in the sidebar.
-			{
-				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
-				value: undefined
-			},
-			// Finished updating Subscribed Thread 2.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_IN_PROGRESS_FOR_THREAD',
-				value: {
-					channelId: undefined,
-					threadId: undefined
-				}
-			}
-		])
-
-		dispatchedActions = []
-
-		await timer.fastForward(1000)
-
-		dispatchedActions.should.deep.equal([
-			// Finished Subscribed Threads Update.
-			{
-				type: 'SUBSCRIBED_THREADS: UPDATE_NOT_IN_PROGRESS',
-				value: undefined
-			}
-		])
-
-		dispatchedActions = []
 
 		subscribedThreadsUpdater.status.should.equal('SCHEDULED')
 
-		expectToEqual(storage.getData()[BASE_PREFIX + 'subscribedThreadUpdate'], undefined)
+		await timer.fastForward(100000)
+
+		eventLog.should.deep.equal([
+			{ event: 'UPDATE_START' },
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+			{ event: 'UPDATE_THREADS_START' },
+
+			{ event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread1.id },
+			{ event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread1.id },
+			{ event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread1.id },
+
+			{ event: 'UPDATE_THREADS_END' },
+			{ event: 'UPDATE_END' },
+			{ event: 'SCHEDULE_UPDATE' },
+
+			{ event: 'UPDATE_START' },
+			{ event: 'CHECK_IS_ACTIVE_TAB' },
+			{ event: 'IS_ACTIVE_TAB' },
+			{ event: 'UPDATE_THREADS_START' },
+
+			{ event: 'UPDATE_THREAD', channelId: channel.id, threadId: thread2.id },
+			{ event: 'FETCH_THREAD_START', channelId: channel.id, threadId: thread2.id },
+			{ event: 'FETCH_THREAD_END', channelId: channel.id, threadId: thread2.id },
+
+			{ event: 'UPDATE_THREADS_END' },
+			{ event: 'UPDATE_END' },
+			{ event: 'SCHEDULE_UPDATE' }
+		])
+
+		eventLog = []
+
+		expectToEqual(
+			storage.getData()[STATUS_RECORD_STORAGE_KEY],
+			undefined
+		)
+
+		subscribedThreadsUpdater.status.should.equal('SCHEDULED')
 
 		const thread1Stats = userData.getSubscribedThreadState(thread1.channelId, thread1.id)
 
 		expectToEqual(thread1Stats.refreshedAt instanceof Date, true)
-		expectToEqual(timer.now() - thread1Stats.refreshedAt.getTime() < 20000, true)
+		expectToEqual(timer.now() - new Date(thread1Stats.refreshedAt).getTime() < 100000, true)
 
+		// Validates that it has updated "subscribed thread" records.
 		expectToEqual(thread1Stats, {
 			refreshedAt: thread1Stats.refreshedAt,
 			commentsCount: thread1.comments.length,
@@ -347,10 +290,7 @@ describe('SubscribedThreadsUpdater', function() {
 			}
 		})
 
-		expectToEqual(subscribedThreadsUpdater.getThreadsToUpdateNowAndNextUpdateTime(), {
-			nextUpdateAt: 86471000,
-			subscribedThreadsToUpdate: []
-		})
+		subscribedThreadsUpdater.getThreadsToUpdateNowAndNextUpdateTime().subscribedThreadsToUpdate.should.deep.equal([])
 
 		subscribedThreadsUpdater.stop()
 	})

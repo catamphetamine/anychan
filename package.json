@@ -29,12 +29,12 @@
     "@sentry/browser": "^7.74.0",
     "classnames": "^2.3.2",
     "core-js": "^3.33.0",
-    "easy-react-form": "^2.2.5",
+    "easy-react-form": "^2.2.6",
     "fast-memoize": "^2.5.2",
     "file-saver": "^2.0.5",
     "filesize": "^10.1.0",
     "flexible-json-schema": "^0.12.7",
-    "imageboard": "^0.6.43",
+    "imageboard": "^0.6.49",
     "intl-messageformat": "^10.5.4",
     "javascript-time-ago": "^2.5.9",
     "lodash-es": "^4.17.21",
@@ -59,7 +59,7 @@
     "web-browser-storage": "^0.1.11",
     "web-browser-style": "^0.1.2",
     "web-browser-tab": "^0.1.10",
-    "web-browser-timer": "^0.1.6",
+    "web-browser-timer": "^0.1.8",
     "web-browser-window": "^0.2.2"
   },
   "devDependencies": {
