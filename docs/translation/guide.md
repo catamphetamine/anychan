@@ -6,7 +6,7 @@ To add a new translation, "fork" the repository (or several repositories), "clon
 
 ## Messages
 
-"Messages" are spread out across two repositories: [`anychan`](https://gitlab.com/catamphetamine/anychan/tree/master/src/messages) and [`frontend-lib`](https://gitlab.com/catamphetamine/frontend-lib/tree/master/messages). The file name is `<language>.json`.
+"Messages" are spread out across two repositories: [`anychan`](https://gitlab.com/catamphetamine/anychan/tree/master/src/messages) and [`frontend-lib`](https://gitlab.com/catamphetamine/frontend-lib/tree/main/messages). The file name is `<language>.json`.
 
 Translating both `<language>.json` files is required. If some of the "messages" inside the files are missing, they'll be substituted by English ones.
 
