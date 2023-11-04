@@ -1,0 +1,332 @@
+{
+	"boards": {
+		"title": "Borden",
+		"moreBoards": "Meer Borden",
+		"showRestBoards": "Toon alle borden",
+		"showAll": "Toon alle borden",
+		"showBoardsList": "Toon bordenlijst",
+		"byPopularity": "Populair",
+		"byCategory": "Per Categorie",
+		"error": "Kan de lijst met borden niet laden"
+	},
+	"favoriteBoards": {
+		"add": "Bord toevoegen aan favorieten",
+		"remove": "Bord verwijderen van favorieten"
+	},
+	"threads": {
+		"title": "Draden",
+		"showAllThreads": "Toon alle draden",
+		"byPopularity": "Populair",
+		"byDate": "Meest recent"
+	},
+	"subscribedThreads": {
+		"title": "Onderwerpabonnementen",
+		"subscribedThread": "Geabonneerd op draad",
+		"subscribeToThread": "Abonneer op draad",
+		"unsubscribeFromThread": "Afmelden van draad",
+		"empty": "Geen draadabonnementen",
+		"allExpired": "Draad is verlopen",
+		"showExpired": "toon verlopen",
+		"showMore": "toon meer",
+		"showLess": "toon minder"
+	},
+	"sources": {
+		"title": "Bronnen"
+	},
+	"userAccount": {
+		"title": "Gebruiker",
+		"logInToken": "Authenticatietoken",
+		"pass": "Wachtwoord",
+		"passPin": "Wachtwoord PIN",
+		"notSupported": "Deze bron ondersteunt inloggen niet.",
+		"logInError": "Kon niet inloggen",
+		"notFoundError": "Gebruiker not gevonden",
+		"rateLimitError": "Snelheidslimiet overschreden",
+		"invalidToken": "Ongeldige authenticatietoken",
+		"invalidPass": "Ongeldig wachtwoord",
+		"passNotFoundOrIncorrectPin": "Wachtwoord niet gevonden of incorrecte PIN"
+	},
+	"settings": {
+		"language": {
+			"title": "Taal",
+			"translationGuide": "\"Een nieuwe vertaling toevoegen\" gids"
+		},
+		"leftHanded": {
+			"title": "Linkshandig",
+			"enable": "Ik ben linkshandig",
+			"description": "Als je een linkshandig bent en deze applicatie op een mobiel gebruikt, kunt u de «linkshandige» modus inschakelen, zodat sommige knoppen die gewoonlijk aan de rechterkant van het scherm te vinden zijn voor een betere bereikbaarheid naar links worden verplaatst van het scherm voor een betere bereikbaarheid voor de linkerduim."
+		},
+		"fontSize": {
+			"title": "Lettertypegrootte",
+			"xxs": "Kleinste",
+			"xs": "Klein",
+			"s": "Kleiner",
+			"m": "Gemiddeld",
+			"l": "Groter",
+			"xl": "Groot",
+			"xxl": "Grootste"
+		},
+		"theme": {
+			"title": "Thema",
+			"add": {
+				"title": "Thema Toevoegen",
+				"id": "Codenaam",
+				"name": "Naam",
+				"url": "URL",
+				"code": "Code",
+				"pasteCodeInstead": "In plaats daarvan code plakken",
+				"invalidId": "Ongeldige codenaam",
+				"invalidUrl": "Ongeldige URL",
+				"invalidExtension": "Niet een \".css\" bestand URL",
+				"cssFileError": "Kon het \".css\" bestand niet laden",
+				"alreadyExists": "Bestaat al"
+			},
+			"guide": "\"Een nieuw thema maken\" gids",
+			"deleteCurrent": {
+				"title": "Verwijder huidig thema",
+				"warning": "Weet je zeker dat je dit thema wilt verwijderen \"{0}\"?"
+			},
+			"themes": {
+				"default": "Standaard",
+				"gray": "Grijs",
+				"neon-genesis-evangelion": "Neon Genesis Evangelion"
+			}
+		},
+		"proxy": {
+			"title": "Proxy",
+			"description": "Web browsers beperkt websites van het lezen van andere websites' data. Om daaromheen te werken, een speciale \"proxy server\" wordt gebruikt om het API te gebruiken.",
+			"url": "URL",
+			"invalidUrl": "Ongeldige URL",
+			"saved": "Proxy URL opgeslagen",
+			"test": "Test",
+			"testResults": {
+				"ok": "Proxy werkt",
+				"error": "Proxy fout: {error}",
+				"undetermined": "Misschien werkt de proxy"
+			}
+		},
+		"darkMode": {
+			"auto": "Gebruik systeemvoorkeur"
+		},
+		"grammarCorrection": {
+			"title": "Grammaticacorrectie",
+			"enable": "Grammaticacorrectie Inschakelen",
+			"description": "Corrigeert automatisch enkele grammaticale fouten in opmerkingen: plaatst witruimte na komma's en punten, vervangt streepjes met tussenruimte door 'em-streepjes', gebruikt de juiste aanhalingstekens, enzovoort.",
+			"viewCode": "Bekijk code"
+		},
+		"censorship": {
+			"title": "Censuur",
+			"showCensoredWordsList": "Toon Gecensureerde Woordenlijst",
+			"hideCensoredWordsList": "Verberg Gecensureerde Woordenlijst",
+			"test": {
+				"title": "Test censuur",
+				"useCustomRule": "Gebruik een aangepaste regel",
+				"rule": "Regel",
+				"text": "Tekst",
+				"result": "Resultaat"
+			},
+			"docs": {
+				"titleStart": null,
+				"titleRegExps": "Reguliere expressies",
+				"titleEnd": " tips",
+				"tips": {
+					"start": "Woord start",
+					"end": "Woord einde",
+					"any": "Elke letter",
+					"anyOf": "Een enkele letter",
+					"optional": "Optionele letter",
+					"anyCountOf": "Elke telling van elke letter",
+					"oneOrMoreOf": "Een of meer van een willekeurige letter",
+					"rangeCountOf": "Nul tot twee van welke letter dan ook"
+				}
+			}
+		},
+		"keyboardShortcuts": {
+			"title": "Toetsenbord Sneltoetsen",
+			"keys": "Toetsenbordtoetsen",
+			"action": "Actie",
+			"navigation": {
+				"title": "Navigatie",
+				"goBackToTheListOfThreads": "Ga terug naar de lijst met draden vanaf een draad"
+			},
+			"videoPlayer": {
+				"title": "Video Speler",
+				"volumeUp": "Volume Omhoog",
+				"volumeDown": "Volume Omlaag",
+				"volumeMuteUnmute": "Volume Dempen/Dempen opheffen",
+				"playPause": "Speel/Pause",
+				"enterExitFullscreen": "Open/verlaat Volledig scherm modus",
+				"jumpForwardSmall": "Spring Vooruit (5 sec.)",
+				"jumpBackwardSmall": "Spring Achteruit (5 sec.)",
+				"jumpForwardMedium": "Spring Vooruit (30 sec.)",
+				"jumpBackwardMedium": "Spring Achteruit (30 sec.)",
+				"jumpToStart": "Spring Naar Start",
+				"jumpToEnd": "Spring naar het Einde"
+			}
+		},
+		"data": {
+			"title": "Data",
+			"description": "\"Gebruikersdata\" zijn de gegevens die de gebruiker beschrijven in plaats van de app: \"favoriet\" bordenlijst, lijst met geabonneerde draden, draad/commentaar-ID's die ik leuk/niet leuk vond, verborgen draad/commentaar-ID's, eigen draad/commentaar-ID's, commentaar lezen ID's, genegeerde gebruikers-ID's.",
+			"resetSettings": {
+				"title": "Reset instellingen",
+				"warning": "Al je instellingen (inclusief gecensureerde woordenlijst en toegevoegde thema's) wordt gereset. Weet je het zeker?",
+				"done": "De instellingen zijn gereset"
+			},
+			"clearUserData": {
+				"title": "Wis Gebruikersgegevens",
+				"warning": "All your user data (\"favorite\" boards list, subscribed threads list, liked/disliked thread/comment IDs, hidden thread/comment IDs, own thread/comment IDs, read comment IDs, ignored user IDs) will be cleared. Are you sure?",
+				"done": "De gebruikersgegevens zijn gewist"
+			},
+			"clearChannelsCache": {
+				"title": "Bord-Cache Opschonen"
+			},
+			"clearYouTubeCache": {
+				"title": "Youtube-Cache Opschonen"
+			},
+			"userDataSize": "Gebruikersgegevens grootte",
+			"showUserDataSize": "Toon",
+			"export": {
+				"title": "Maak een back-up van instellingen en gebruikersgegevens"
+			},
+			"import": {
+				"title": "Herstel instellingen en gebruikersgegevens vanaf een back-up",
+				"warning": "Al je huidige instellingen en gebruikersgegevens worden overschreven. Weet je het zeker?",
+				"error": "Syntax fout",
+				"done": "De instellingen en gebruikersgegevens zijn hersteld"
+			},
+			"merge": {
+				"title": "Voeg gebruikersgegevens toe vanuit een back-up",
+				"description": "Verlies je geschiedenis niet meer als u thuiskomt van uw werk - neem gewoon een «back-up van instellingen en gebruikersgegevens» mee en «voeg deze thuis toe»: op deze manier gaan er geen historische gegevens verloren.",
+				"done": "Gebruikersgegevens zijn toegevoegd"
+			}
+		}
+	},
+	"storageCapacityExceeded": "Capaciteit voor gegevensopslag overschreden. Gegevens worden niet opgeslagen.",
+	"loadingThreadsError": "Kan de dradenlijst niet laden",
+	"loadingCommentsError": "Kon het opmerkingen niet laden",
+	"invalidBoardId": "Ongeldig bord ID",
+	"board": "Bord",
+	"thread": {
+		"default": "Draad",
+		"hidden": "Verborgen draad"
+	},
+	"comment": {
+		"default": "Reageren",
+		"deleted": "Opmerking verwijderen",
+		"hidden": "Verborgen opmerking",
+		"external": "Reageer vanaf een andere draad"
+	},
+	"post": {
+		"archived": "Gearchiveerde draad",
+		"trimming": "Draad afsnijden",
+		"ownComment": "Dit is jouw opmerking",
+		"ownThread": "Dit is jouw draad",
+		"threadAuthor": "Draad auteur",
+		"attachmentsCount": "Bestanden",
+		"commentAttachmentsCount": "Bestanden in opmerkingen",
+		"uniquePostersCount": "Unieke poster-IP-adressen",
+		"moreActions": {
+			"copyUrl": "Kopieer link",
+			"copyId": "Kopieer nummer",
+			"report": "Rapporteren",
+			"hide": "Verbergen",
+			"ignoreAuthor": "Auteur negeren",
+			"unignoreAuthor": "Negeer auteur ongedaan maken",
+			"goToOriginalComment": "Ga naar de hoofdwebsite"
+		},
+		"form": {
+			"inputText": "Laat een opmerking achter…"
+		}
+	},
+	"role": {
+		"board": {
+			"administrator": "Bord beheerder",
+			"moderator": "Bord moderator"
+		}
+	},
+	"footnotes": {
+		"postAnychan": " web client",
+		"preAuthor": " door "
+	},
+	"country": {
+		"anonymous": "Anoniem"
+	},
+	"autoUpdate": {
+		"scheduledBeforeTime": "Auto-update ",
+		"scheduledAfterTime": null,
+		"inProgress": "Updaten…",
+		"error": "Kan de draad niet updaten"
+	},
+	"downloadThread": "Download draad data",
+	"notImplementedForTheDataSource": "Deze functie is niet geïmplementeerd voor dit imageboard",
+	"doesNotWorkForTheDataSource": "Deze functie werkt momenteel niet met dit imageboard",
+	"inReplyTo": "Als antwoord op",
+	"markAsOwnComment": "Dit is mijn opmerking",
+	"unmarkAsOwnComment": "Dit is niet mijn opmerking",
+	"markAsOwnThread": "Dit is mijn draad",
+	"unmarkAsOwnThread": "Dit is niet mijn draad",
+	"backToPreviouslyViewedComment": "Terug",
+	"previouslySeenThreads": "Gezien",
+	"channelLayout": {
+		"title": "Layout",
+		"options": {
+			"threadsList": "Dradenlijst",
+			"threadsListWithLatestComments": "Dradenlijst met de meest recente opmerkingen",
+			"threadsTiles": "Draadtegels"
+		}
+	},
+	"channelSorting": {
+		"title": "Sorteren",
+		"options": {
+			"default": "Standaard",
+			"popular": "Meest populair"
+		}
+	},
+	"report": {
+		"contentInputLabel": "Rapporteer tekst",
+		"submitted": "Uw rapport is verzonden",
+		"alreadyReported": "U heeft al een rapport ingediend",
+		"contentRequired": "Rapporteertekst is vereist",
+		"error": "Kan uw rapport niet indienen"
+	},
+	"proxyPostingCaution": "Let op wat je hier post. Alle gebruikers van deze app delen dezelfde proxyserver. Als de proxyserver wordt verbannen, werkt de applicatie mogelijk niet meer voor iedereen.",
+	"colorfulBackground": "Kleurrijke achtergrond",
+	"nMoreComments": "{count, meervoud, een {<tag>#</tag> comment meer} other {<tag>#</tag> meer opmerkingen}}",
+	"noNewComments": "Geen nieuwe opmerkingen",
+	"hasNewComments": "Heeft nieuwe opmerkingen",
+	"hasNewReplies": "Heeft nieuwe reacties",
+	"newComments": "Nieuwe opmerkingen",
+	"lastComment": "Meest recente opmerkingen",
+	"goToComment": "Ga ga naar opmerking",
+	"yourAccountIsBanned": "Je bent verbannen{ untilDate, select, undefined {} null {} other { until {untilDate, date, long}} }{ reason, select, undefined {} null {} other {. Reden: {reason}} }{ banId, select, undefined {} null {} other {. Ban ID: {banId}} }{ boardId, select, undefined {} null {} other {. Bord: {boardId}} }",
+	"attachmentRequired": "Een bestand is vereist",
+	"attachmentNotSupported": "Sommige bestanden worden niet ondersteund",
+	"attachmentsCountExceeded": "Te veel bestanden",
+	"attachmentSizeLimitExceededError": "Bestand te groot",
+	"duplicateAttachmentsFound": "Dubbele bestanden gevonden",
+	"сommentContentTooLong": "Opmerking inhoud is te lang",
+	"commentContentBlocked": "Opmering heeft woorden uit de zwarte-lijst",
+	"commentContentRequired": "Opmerking is vereist",
+	"createCommentSuccess": "Operking geplaatst",
+	"createCommentError": "Kon de opmerking niet plaatsen",
+	"createCommentRateLimitExceeded": "De limiet voor het aantal opmerkingen voor het maken van reacties is overschredend",
+	"createThread": "Draad maken",
+	"createThreadError": "Kon geen nieuwe draad maken",
+	"createThreadSuccess": "Draad aangemaakt",
+	"createThreadRateLimitExceeded": "Draad maken limiet overschreden",
+	"captchaSolutionIncorrect": "Incorrecte CAPTCHA oplossing",
+	"captchaExpired": "CAPTCHA verlopen",
+	"captcha": "CAPTCHA",
+	"captchaSolution": "CAPTCHA oplossing",
+	"boardNotFound": "Bord niet gevonden",
+	"threadNotFound": "Draad niet gevonden",
+	"commentNotFound": "Opmerking niet gevonden",
+	"boardIsLocked": "Bord is vergrendeld",
+	"threadBumpLimitReached": "Deze draad heeft de bumplimiet bereikt en gaat naar beneden",
+	"threadIsArchived": "Deze draad is gearchiveerd",
+	"threadIsLocked": "Deze draad is gesloten",
+	"threadExpired": "Deze draad is verlopen",
+	"threadExpiresSoon": "Deze draad is op positie {0} van de {1}. Zodra deze onder de laatste plaats komt, vervalt deze. Om een draad terug te brengen naar de eerste plaats, kun je een reactie in achterlaten.",
+	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in de laatste <time>15 minuten</time>",
+	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in het laatste <time>uur</time>"
+}
