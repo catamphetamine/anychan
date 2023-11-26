@@ -41,6 +41,16 @@ export default function ErrorPage({
 						{errorPageMessages.description}
 					</p>
 				}
+				{offline && dataSource && dataSource.id === '94chan' &&
+					<p className="ErrorPage-description">
+						<code className="ErrorPage-code">94chan.org</code> is known to not work with the default "demo" proxy due to its anti-DDoS protection system. But it does work with a proxy that is manually run at <code className="ErrorPage-code">localhost</code>.
+					</p>
+				}
+				{offline && dataSource && dataSource.id === 'ptchan' &&
+					<p className="ErrorPage-description">
+						<code className="ErrorPage-code">ptchan.org</code> is <a href="https://gitgud.io/fatchan/haproxy-protection/-/issues/24" target="_blank">known</a> to not work with the default "demo" proxy due to its anti-DDoS protection system. But it would've been working otherwise.
+					</p>
+				}
 				{custom && custom.images &&
 					<img
 						aria-hidden

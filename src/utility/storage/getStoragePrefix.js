@@ -1,8 +1,8 @@
-import getDataSource from '../../utility/dataSource/getDataSource.js'
-import isMultiDataSource from '../../utility/dataSource/isMultiDataSource.js'
-
 export const BASE_PREFIX = '⌨️'
 
-export default function getStoragePrefix() {
-	return BASE_PREFIX + (isMultiDataSource() ? getDataSource().shortId : '')
+export default function getStoragePrefix({
+	dataSource,
+	multiDataSource
+}) {
+	return BASE_PREFIX + (multiDataSource ? dataSource.shortId : '')
 }

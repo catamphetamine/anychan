@@ -154,6 +154,9 @@ function PostForm({
 			})
 			if (resetAfterSubmit) {
 				form.current.reset()
+				setFiles([])
+				setFileAttachments([])
+				setError()
 			}
 		} catch (error) {
 			console.error(error)

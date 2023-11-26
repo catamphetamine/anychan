@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 import { useSelectorForLocation, goto } from 'react-pages'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 
 import useMessages from '../../hooks/useMessages.js'
@@ -38,8 +38,6 @@ import getThreadPageMeta from './Thread.meta.js'
 import loadThreadPage from './Thread.load.js'
 
 import useAutoUpdate from './useAutoUpdate.js'
-
-import { getContext } from '../../context.js'
 
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
@@ -396,21 +394,16 @@ ThreadPage.load = async ({
 	useSelector,
 	dispatch,
 	location,
-	params
+	params,
+	context
 }) => {
-	const {
-		userData,
-		userSettings,
-		dataSource
-	} = getContext()
-
 	await loadThreadPage({
 		useSelector,
 		dispatch,
 		location,
 		params,
-		userData,
-		userSettings,
-		dataSource
+		userData: context.userData,
+		userSettings: context.userSettings,
+		dataSource: context.dataSource
 	})
 }

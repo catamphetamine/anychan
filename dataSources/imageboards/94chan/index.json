@@ -1,0 +1,24 @@
+{
+	"id": "94chan",
+	"shortId": "🦎",
+	"title": "94chan",
+	"description": "The 94th Channel of the Internetz.",
+	"footnotes": "Copyright © 94chan",
+	"links": [{
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://94chan.org/rules.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://94chan.org/faq.html"
+	}, {
+		"type": "news",
+		"text": "News",
+		"url": "https://94chan.org/news.html"
+	}, {
+		"type": "telegram",
+		"text": "Telegram",
+		"url": "https://t.me/ninetyfourchan"
+	}]
+}

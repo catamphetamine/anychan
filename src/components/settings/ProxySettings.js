@@ -10,6 +10,7 @@ import { Form, Field, Submit, FormComponent, FormAction, FormComponentAndButton 
 import useUserData from '../../hooks/useUserData.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
+import useMultiDataSource from '../../hooks/useMultiDataSource.js'
 import useMessages from '../../hooks/useMessages.js'
 
 import { notify, showError } from '../../redux/notifications.js'
@@ -46,79 +47,109 @@ export default function ProxySettings({
 		}
 	}, [])
 
-	const onSave = useCallback(({ proxyUrl }) => {
-		if (proxyUrl === defaultValue) {
-			onChange()
-		} else {
-			onChange(proxyUrl)
-		}
-		dispatch(notify(messages.settings.proxy.saved))
-	}, [onChange])
-
 	const dispatch = useDispatch()
 	const userData = useUserData()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const multiDataSource = useMultiDataSource()
 	const allMessages = useMessages()
 
-	const onTestProxyServer = useCallback(async (proxyUrl) => {
-		const getProxyTestResult = async () => {
-			const { channels } = await _getChannels({
-				proxyUrl,
-				// `Imageboard` parameters.
-				http: getHttpClient(),
-				userSettings,
-				dataSource,
-				messages: allMessages
-			})
+	const testProxyServer = useCallback(async (proxyUrl) => {
+		const { channels } = await _getChannels({
+			// `proxyUrl: null` would force no use of proxy.
+			proxyUrl: proxyUrl || null,
+			// `Imageboard` parameters.
+			http: getHttpClient(),
+			userSettings,
+			dataSource,
+			multiDataSource,
+			messages: allMessages
+		})
 
-			if (channels.length === 0) {
-				return undefined
-			}
-
-			const threads = await _getThreads({
-				channelId: channels[0].id,
-				proxyUrl,
-				userData,
-				// `Imageboard` parameters.
-				http: getHttpClient(),
-				userSettings,
-				dataSource,
-				messages: allMessages
-			})
-
-			if (threads.length === 0) {
-				return undefined
-			}
-
-			return Boolean(threads[0].id)
+		if (channels.length === 0) {
+			return undefined
 		}
 
-		const { testResults } = messages.settings.proxy
+		const threads = await _getThreads({
+			channelId: channels[0].id,
+			// `proxyUrl: null` would force no use of proxy.
+			proxyUrl: proxyUrl || null,
+			userData,
+			// `Imageboard` parameters.
+			http: getHttpClient(),
+			userSettings,
+			dataSource,
+			messages: allMessages
+		})
 
+		if (threads.length === 0) {
+			return undefined
+		}
+
+		return Boolean(threads[0].id)
+	}, [
+		dataSource,
+		multiDataSource,
+		userSettings,
+		allMessages
+	])
+
+	const testProxyServerAndShowResult = useCallback(async (proxyUrl, { onSuccess }) => {
+		const { testResults } = messages.settings.proxy
 		try {
-			const result = await getProxyTestResult()
-			dispatch(notify(
-				result === true
-					? testResults.ok
-					: (
-						result === false
-							? testResults.error.replace('{error}', messages.error)
-							: testResults.undetermined
-					)
-			))
+			const result = await testProxyServer(proxyUrl)
+			if (result === true) {
+				onSuccess()
+			} else if (result === false) {
+				dispatch(notify(testResults.error.replace('{error}', messages.error)))
+			} else {
+				dispatch(notify(testResults.undetermined))
+			}
 		} catch (error) {
 			console.error(error)
 			// Sometimes there's no `error.message` for some weird reason, just `error.status`.
 			dispatch(showError(testResults.error.replace('{error}', error.message || error.status)))
 		}
 	}, [
-		dataSource
+		testProxyServer,
+		messages
+	])
+
+	const onTestProxyServer = useCallback(async (proxyUrl) => {
+		await testProxyServerAndShowResult(proxyUrl, {
+			onSuccess: () => {
+				const { testResults } = messages.settings.proxy
+				dispatch(notify(testResults.ok))
+			}
+		})
+	}, [
+		testProxyServerAndShowResult
+	])
+
+	const onSave = useCallback(async ({ proxyUrl }) => {
+		if (proxyUrl === defaultValue) {
+			onChange()
+		} else {
+			onChange(proxyUrl)
+		}
+		dispatch(notify(messages.settings.proxy.saved))
+	}, [
+		testProxyServerAndShowResult,
+		onChange
 	])
 
 	const savedValue = value || defaultValue
 
 	const [useDefault, setUseDefault] = useState(!value)
+
+	const testProxyServerButton = (
+		<FormComponent type="button">
+			<TextButton
+				onClick={() => onTestProxyServer()}>
+				{messages.settings.proxy.test}
+			</TextButton>
+		</FormComponent>
+	)
 
 	return (
 		<ContentSection>
@@ -130,6 +161,12 @@ export default function ProxySettings({
 				{messages.settings.proxy.description}
 			</ContentSectionDescription>
 
+			<ContentSectionDescription marginBottom="medium">
+				<a href="https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md" target="_blank">
+					{messages.settings.proxy.setUpCustomProxyGuideTitle}
+				</a>
+			</ContentSectionDescription>
+
 			<Switch
 				value={useDefault}
 				onChange={onUseDefault}
@@ -139,50 +176,47 @@ export default function ProxySettings({
 
 			{!useDefault &&
 				<Form onSubmit={onSave}>
-					{({ values }) => (
-						<>
-							<FormComponentAndButton>
-								<FormComponent>
-									<Field
-										required
-										type="text"
-										name="proxyUrl"
-										label={messages.settings.proxy.url}
-										value={savedValue}
-										validate={validateUrl}
-									/>
-								</FormComponent>
-								{values && values.proxyUrl !== savedValue &&
-									<FormAction inline>
-										<Submit
-											type="submit"
-											component={TextButton}>
-											{messages.actions.save}
-										</Submit>
-									</FormAction>
-								}
-							</FormComponentAndButton>
+					{({ values }) => {
+						const hasEditedProxyUrl = values && values.proxyUrl !== savedValue
 
-							{/* Proxy Server Test button */}
-							<FormComponent type="button">
-								<TextButton
-									onClick={() => onTestProxyServer(values && values.proxyUrl)}>
-									{messages.settings.proxy.test}
-								</TextButton>
-							</FormComponent>
-						</>
-					)}
+						return (
+							<>
+								<FormComponentAndButton>
+									<FormComponent>
+										<Field
+											required
+											type="text"
+											name="proxyUrl"
+											placeholder={messages.settings.proxy.url}
+											value={savedValue}
+											validate={validateUrl}
+										/>
+									</FormComponent>
+									{hasEditedProxyUrl &&
+										<FormAction inline>
+											<Submit
+												type="submit"
+												customHeight
+												component={TextButton}>
+												{messages.actions.save}
+											</Submit>
+										</FormAction>
+									}
+								</FormComponentAndButton>
+
+								{/* Proxy Server Test button */}
+								{!hasEditedProxyUrl &&
+									testProxyServerButton
+								}
+							</>
+						)
+					}}
 				</Form>
 			}
 
 			{/* Proxy Server Test button */}
 			{useDefault &&
-				<FormComponent type="button">
-					<TextButton
-						onClick={() => onTestProxyServer()}>
-						{messages.settings.proxy.test}
-					</TextButton>
-				</FormComponent>
+				testProxyServerButton
 			}
 		</ContentSection>
 	)

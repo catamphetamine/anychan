@@ -1,4 +1,4 @@
-import getMessages from '../messages/index.js'
+import getMessages from '../messages/getMessages.js'
 import useLocale from './useLocale.js'
 
 export default function useMessages({ useSelector } = {}) {

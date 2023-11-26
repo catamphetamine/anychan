@@ -1,6 +1,6 @@
 import getDataSourceIdByDomain from './utility/dataSource/getDataSourceIdByDomain.js'
 import getDefaultDataSourceId from './utility/dataSource/getDefaultDataSourceId.js'
-import setDataSourceById from './utility/dataSource/setDataSourceById.js'
+import getCurrentDataSourceInfo from './utility/dataSource/getCurrentDataSourceInfo.js'
 import getDataSourceById from './utility/dataSource/getDataSourceById.js'
 import shouldIncludeDataSourceInPath from './utility/dataSource/shouldIncludeDataSourceInPath.js'
 import getDataSourceIdFromPath from './utility/dataSource/getDataSourceIdFromPath.js'
@@ -8,7 +8,7 @@ import addDataSourceIdToPath from './utility/dataSource/addDataSourceIdToPath.js
 
 import { addDataSourceLogos } from './dataSourceLogos.js'
 
-import getBasePath, {
+import {
 	addBasePath,
 	removeBasePath
 } from './utility/getBasePath.js'
@@ -23,6 +23,7 @@ export default function() {
 	let dataSource
 	// Whether this website (app) supports multiple dataSources.
 	let multiDataSource
+
 	// Deprecated.
 	// Previously, data source id could be specified as "chan" URL parameter
 	// (`chan` URL parameter was used for multi-dataSource `gh-pages` demo).
@@ -47,6 +48,7 @@ export default function() {
 			}
 		}
 	}
+
 	// Get data source id from path.
 	// Example: "/4chan/b/12345".
 	if (!dataSource) {
@@ -55,6 +57,7 @@ export default function() {
 			multiDataSource = true
 		}
 	}
+
 	// Get data source id by domain.
 	// (in case `anychan` is deployed on one of the dataSources' domains).
 	if (!dataSource) {
@@ -84,10 +87,17 @@ export default function() {
 			}
 		}
 	}
+
 	if (!dataSource) {
-		throw new Error(`No data source ID has been set. Either set a default data source ID in configuration, or pass data source ID as part of the URL (example: "${location.origin}${getBasePath({ dataSourceId: '4chan' })}").`)
+		throw new Error('No data source ID has been set. Either set a default data source ID in configuration, or pass data source ID as part of the URL.')
 	}
-	const dataSourceInfo = setDataSourceById(dataSource.id, { alias: dataSource.alias, multiDataSource })
+
+	const dataSourceInfo = getCurrentDataSourceInfo({
+		id: dataSource.id,
+		alias: dataSource.alias,
+		multiDataSource
+	})
+
 	// Apply data source icon as a website icon.
 	if (dataSource.icon) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
@@ -100,6 +110,7 @@ export default function() {
 			siteIcon.href = dataSource.icon
 		}
 	}
+
 	// Actually, don't set slide background color to a shade of blue
 	// because in "dark mode" it would be too bright.
 	// // `4chan.org` uses a shade of blue for its transparent PNG image color.
@@ -108,5 +119,6 @@ export default function() {
 	// if (dataSource === '4chan') {
 	// 	document.documentElement.style.setProperty('--Slideshow-Slide-backgroundColor', '#d3d9f1')
 	// }
+
 	return dataSourceInfo
 }

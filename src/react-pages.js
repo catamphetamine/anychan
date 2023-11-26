@@ -9,13 +9,16 @@ import PageLoading from './components/PageLoading.js'
 
 import getApplicationMeta from './pages/Application.meta.js'
 
-export default function getReactPagesConfig() {
+export default function getReactPagesConfig({
+	dataSource,
+	dataSourceAlias
+}) {
 	return getReactPagesConfig_({
 		rootComponent: ApplicationWrapper,
 		routes,
 		reducers,
 
-		basename: getBasePath(),
+		basename: getBasePath({ dataSource, dataSourceAlias }),
 
 		// This parameter will be transformed into an `onError()` function of `react-pages`.
 		errorPages: {

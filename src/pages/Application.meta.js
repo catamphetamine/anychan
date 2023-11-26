@@ -1,18 +1,18 @@
 import getPostText from 'social-components/utility/post/getPostText.js'
 
-import getDataSource from '../utility/dataSource/getDataSource.js'
+export default function getApplicationMeta({ useSelector }) {
+	const dataSourceInfoForMeta = useSelector(state => state.app.dataSourceInfoForMeta)
 
-export default function getApplicationMeta() {
 	// If no data source has been configured then an error will be shown.
 	// The program shouldn't crash while attempting to access properties of a data source
-	// when `getDataSource()` returns `undefined`.
-	if (getDataSource()) {
+	// when Data Source hasn't been set.
+	if (dataSourceInfoForMeta) {
 		const {
 			title,
 			description,
 			icon,
 			language
-		} = getDataSource()
+		} = dataSourceInfoForMeta
 
 		let meta = {
 			site_name: title,
@@ -42,6 +42,6 @@ function getHTMLLocaleFromLanguage(language) {
 		case 'de':
 			return 'de_DE'
 		default:
-			throw new Error(`Unsupported language: ${language}`)
+			throw new Error(`Unsupported language of data source: ${language}`)
 	}
 }

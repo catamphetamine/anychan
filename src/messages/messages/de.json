@@ -84,7 +84,7 @@
 			"guide": "Ein neues Thema erstellen",
 			"deleteCurrent": {
 				"title": "Aktuelles Theme löschen",
-				"warning": "Möchten Sie das Theme \"{0}\" wirklich löschen?"
+				"warning": "Möchten Sie das Theme \"{theme}\" wirklich löschen?"
 			},
 			"themes": {
 				"default": "Standard",
@@ -95,6 +95,7 @@
 		"proxy": {
 			"title": "Proxy",
 			"description": "Webbrowser verhindern, dass Websites die Daten anderer Websites lesen. Um dies zu umgehen, wird ein spezieller \"Proxyserver\" verwendet, um die API aufzurufen.",
+			"setUpCustomProxyGuideTitle": "Anleitung: So richten Sie Ihren eigenen Proxy ein (eng.)",
 			"url": "URL",
 			"invalidUrl": "ungültige URL",
 			"saved": "Proxy-URL gespeichert",
@@ -291,14 +292,14 @@
 	},
 	"proxyPostingCaution": "Achten Sie darauf, was Sie hier posten. Alle Benutzer dieser App nutzen denselben Proxyserver. Wenn der Proxyserver gesperrt wird, funktioniert die Anwendung möglicherweise nicht mehr für alle.",
 	"colorfulBackground": "Bunter Hintergrund",
-	"nMoreComments": "{count, plural, one {<tag>#</tag> weiterer Kommentar} other {<tag>#</tag> weitere Kommentare}}",
+	"nMoreComments": "{count, plural, one {<countTag>#</countTag> weiterer Kommentar} other {<countTag>#</countTag> weitere Kommentare}}",
 	"noNewComments": "Keine neuen Kommentare",
 	"hasNewComments": "Hat neue Kommentare",
 	"hasNewReplies": "Hat neue Antworten",
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
 	"goToComment": "Zum Kommentar gehen",
-	"yourAccountIsBanned": "{ untilDate, select, undefined {Du bist verbannt} null {Du bist verbannt} other {Du bist bis zum {untilDate, date, long} gesperrt}{ reason, select, undefined {} null {} other {. Grund: {reason}} }{ banId, select, undefined {} null {} other {. Sperr-ID: {banId}} }{ boardId, select, undefined {} null {} other {. Board: {boardId}} }",
+	"yourAccountIsBanned": "{untilDate, missing {Du bist verbannt}}{untilDate, exists {Du bist bis zum {untilDate, date, long} gesperrt}}{reason, exists {. Grund: {reason}}}{banId, exists {. Sperr-ID: {banId}}}{boardId, exists {. Board: {boardId}}}",
 	"attachmentRequired": "Eine Anlage ist erforderlich",
 	"attachmentNotSupported": "Einige der Anhänge werden nicht unterstützt",
 	"attachmentsCountExceeded": "Zu viele Anhänge",
@@ -326,7 +327,7 @@
 	"threadIsArchived": "Dieser Thread ist archiviert",
 	"threadIsLocked": "Dieser Thread ist gesperrt",
 	"threadExpired": "Dieser Thread ist abgelaufen",
-	"threadExpiresSoon": "Der Thread befindet sich an der {0} Stelle von {1}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
-	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in den letzten <time>15 Minuten</time>",
-	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> Kommentar} other {<count>#</count> Kommentare}} in der letzten <time>Stunde</time>"
+	"threadExpiresSoon": "Der Thread befindet sich an der {position} Stelle von {lastPosition}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
+	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> Kommentar} other {<commentsCountTag>#</commentsCountTag> Kommentare}} in den letzten <timeTag>15 Minuten</timeTag>",
+	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> Kommentar} other {<commentsCountTag>#</commentsCountTag> Kommentare}} in der letzten <timeTag>Stunde</timeTag>"
 }

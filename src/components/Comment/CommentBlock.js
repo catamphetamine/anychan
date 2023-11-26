@@ -19,9 +19,10 @@ import useReport from './useReport.js'
 import useHide from './useHide.js'
 import useOwn from './useOwn.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 import UnreadCommentWatcher from '../../utility/comment/UnreadCommentWatcher.js'
-import getBasePath from '../../utility/getBasePath.js'
+
+import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
 import './CommentBlock.css'
 
@@ -65,6 +66,8 @@ export default function CommentBlock({
 	refreshThread,
 	...rest
 }) {
+	const urlBasePath = useUrlBasePath()
+
 	// This button gets focused when the user clicks the "Cancel" button
 	// on the reply form under this comment.
 	const moreActionsButtonRef = useRef()
@@ -189,7 +192,7 @@ export default function CommentBlock({
 						onReport={onReport}
 						isOwn={isOwn}
 						setOwn={setOwn}
-						urlBasePath={getBasePath()}
+						urlBasePath={urlBasePath}
 						onRenderedContentDidChange={onRenderedContentDidChange}
 						channelIsNotSafeForWork={channelIsNotSafeForWork}
 						moreActionsButtonRef={moreActionsButtonRef}

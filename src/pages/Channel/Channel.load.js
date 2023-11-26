@@ -13,7 +13,7 @@ import getLatestSeenThreadId from '../../utility/thread/getLatestSeenThreadId.js
 
 import getThreads from '../../api/getThreads.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import { getHttpClient } from 'react-pages'
 

@@ -35,6 +35,7 @@ import useMessages from './useMessages.js'
 import useLocale from './useLocale.js'
 import useSettings from './useSettings.js'
 import useUserData from './useUserData.js'
+import useMessageFormatter from './useMessageFormatter.js'
 
 export default function useSubmitCommentOrThread({
 	channelId,
@@ -50,6 +51,8 @@ export default function useSubmitCommentOrThread({
 	const messages = useMessages()
 	const locale = useLocale()
 	const dispatch = useDispatch()
+
+	const bannedMessageFormatter = useMessageFormatter(messages.yourAccountIsBanned)
 
 	const accessToken = useSelector(state => state.auth.accessToken)
 
@@ -110,15 +113,12 @@ export default function useSubmitCommentOrThread({
 				// * banId?: any
 				// * banChannelId?: string
 				// * banEndsAt?: Date
-				dispatch(showError(
-					new IntlMessageFormat(messages.yourAccountIsBanned, locale)
-						.format({
-							reason: error.banReason,
-							banId: error.banId,
-							boardId: error.banChannelId,
-							untilDate: error.banEndsAt
-						})
-				))
+				dispatch(showError(bannedMessageFormatter({
+					reason: error.banReason,
+					banId: error.banId,
+					boardId: error.banChannelId,
+					untilDate: error.banEndsAt
+				})))
 			} else if (error instanceof ChannelNotFoundError) {
 				dispatch(showError(messages.boardNotFound))
 			} else if (error instanceof ThreadNotFoundError) {
@@ -163,7 +163,7 @@ export default function useSubmitCommentOrThread({
 		dataSource,
 		userSettings,
 		messages,
-		locale,
+		bannedMessageFormatter,
 		channelId,
 		threadId,
 		accessToken

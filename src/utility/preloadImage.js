@@ -7,10 +7,7 @@ export default function preloadImage(url) {
 		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#Image_loading_errors
 		image.onerror = (event) => {
 			// // Log the error to `sentry.io`.
-			// setTimeout(() => {
-			// 	console.log(event)
-			// 	throw new Error(event)
-			// }, 0)
+			// reportError(new Error(event))
 			if (event.path && event.path[0]) {
 				console.error(`Image not found: ${event.path[0].src}`)
 			}

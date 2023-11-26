@@ -1,19 +1,17 @@
 import getConfiguration from '../../configuration.js'
 import getDataSourceById from './getDataSourceById.js'
-import { setDataSourceInfo } from './dataSourceInfoStore.js'
 
-export default function setDataSourceById(id, { alias: dataSourceAlias, multiDataSource }) {
+export default function getCurrentDataSourceInfo({
+	id,
+	alias: dataSourceAlias,
+	multiDataSource
+}) {
 	const dataSource = getCurrentDataSourceById(id)
 	for (const property of CUSTOMIZABLE_PROPERTIES) {
 		if (getConfiguration()[property] !== undefined) {
 			dataSource[property] = getConfiguration()[property]
 		}
 	}
-	setDataSourceInfo({
-		dataSource,
-		dataSourceAlias,
-		multiDataSource
-	})
 	return {
 		dataSource,
 		dataSourceAlias,

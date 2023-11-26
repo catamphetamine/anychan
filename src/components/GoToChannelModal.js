@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
+import { useNavigate } from 'react-pages'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { goto } from 'react-pages'
 
 import { Modal } from 'react-responsive-ui'
 import Button from 'frontend-lib/components/Button.js'
@@ -28,6 +28,7 @@ export default function GoToChannelModal({
 }) {
 	const messages = useMessages()
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const [isSubmitting, setSubmitting] = useState(false)
 	const [channelNotFoundError, setChannelNotFoundError] = useState(false)
@@ -44,7 +45,7 @@ export default function GoToChannelModal({
 				channelId
 			})
 			close()
-			dispatch(goto(`/${channelId}`, { load: false }))
+			navigate(`/${channelId}`, { load: false })
 		} catch (error) {
 			if (error.status === 404) {
 				setChannelNotFoundError(true)
@@ -60,6 +61,7 @@ export default function GoToChannelModal({
 		close,
 		setSubmitting,
 		setChannelNotFoundError,
+		navigate,
 		dispatch
 	])
 

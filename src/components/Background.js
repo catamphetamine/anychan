@@ -29,6 +29,7 @@ export default function Background() {
 				'Background--dark--show': backgroundDarkMode
 			}
 		)}>
+			<div className="Background-backdrop"/>
 			<div className="Background-gradient"/>
 			<div className="Background-pattern"/>
 		</div>

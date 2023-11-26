@@ -4,7 +4,8 @@ import classNames from 'classnames'
 
 import Clickable from 'frontend-lib/components/Clickable.js'
 
-import getBasePath from '../../utility/getBasePath.js'
+import useUrlBasePath from '../../hooks/useUrlBasePath.js'
+
 import getUrl from '../../utility/getUrl.js'
 
 import {
@@ -20,6 +21,8 @@ export default function CommentClickableWrapper({
 	commentId,
 	children
 }) {
+	const urlBasePath = useUrlBasePath()
+
 	const onClick = useCallback((event) => {
 		if (onClick_) {
 			event.preventDefault()
@@ -54,7 +57,7 @@ export default function CommentClickableWrapper({
 			cursor="pointer"
 			filter={commentOnClickFilter}
 			onClick={onClick}
-			url={getBasePath() + getOnClickUrl(channelId, threadId, commentId)}
+			url={urlBasePath + getOnClickUrl(channelId, threadId, commentId)}
 			className={classNames({
 				'CommentClickableWrapper--rootComment': threadId === commentId
 			})}>

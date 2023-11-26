@@ -1,12 +1,10 @@
 import React, { useRef, useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import ReactTimeAgo from 'react-time-ago'
-import IntlMessageFormat from 'intl-messageformat'
 
 import TextButton from './TextButton.js'
 
+import useMessage from '../hooks/useMessage.js'
 import useMessages from '../hooks/useMessages.js'
-import useLocale from '../hooks/useLocale.js'
 
 import DoubleArrowUp from 'frontend-lib/icons/double-arrow-up-thin.svg'
 
@@ -21,24 +19,21 @@ export default function ShowPrevious({
 	onShowAll
 }) {
 	const messages = useMessages()
-	const locale = useLocale()
 
 	const showPreviousButton = useRef()
 
-	const commentsCountMessage = useMemo(() => {
-		return new IntlMessageFormat(messages.nMoreComments, locale)
-	}, [locale])
+	const nMoreCommentsMessageParameters = useMemo(() => ({
+		count: fromIndex,
+		countTag: (children) => (
+			<span className="ShowPrevious-count">
+				{children}
+			</span>
+		)
+	}), [
+		fromIndex
+	])
 
-	const nMoreComments = useMemo(() => {
-		return commentsCountMessage.format({
-			count: fromIndex,
-			tag: (children) => (
-				<span className="ShowPrevious-count">
-					{children}
-				</span>
-			)
-		})
-	}, [commentsCountMessage, fromIndex])
+	const nMoreComments = useMessage(messages.nMoreComments, nMoreCommentsMessageParameters)
 
 	const [hasShownPrevious, setHasShownPrevious] = useState()
 

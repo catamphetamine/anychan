@@ -1,4 +1,4 @@
-import { goForward, wasInstantNavigation } from 'react-pages'
+import { wasInstantNavigation } from 'react-pages'
 
 import isThreadPage from '../utility/routes/isThreadPage.js'
 
@@ -9,7 +9,7 @@ import isThreadPage from '../utility/routes/isThreadPage.js'
  * @param  {number} threadId
  * @return {function} [goto]
  */
-export default function getGoBackToThreadFromChannel({
+export default function canGoBackToThreadFromChannel({
 	channelId,
 	threadId,
 	commentId
@@ -35,6 +35,6 @@ export default function getGoBackToThreadFromChannel({
 		commentIdFromHash === commentId &&
 		wasInstantNavigation()
 	) {
-		return goForward
+		return true
 	}
 }

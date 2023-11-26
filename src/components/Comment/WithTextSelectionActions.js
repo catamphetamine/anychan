@@ -8,6 +8,7 @@ import Button from 'frontend-lib/components/Button.js'
 export default function WithTextSelectionActions({
 	onReply,
 	messages,
+	className,
 	children
 }) {
 	const tooltipProps = useMemo(() => ({
@@ -21,7 +22,8 @@ export default function WithTextSelectionActions({
 	return (
 		<TextSelectionTooltip
 			TooltipComponent={TextSelectionActions}
-			tooltipProps={tooltipProps}>
+			tooltipProps={tooltipProps}
+			className={className}>
 			{children}
 		</TextSelectionTooltip>
 	)
@@ -30,6 +32,7 @@ export default function WithTextSelectionActions({
 WithTextSelectionActions.propTypes = {
 	onReply: PropTypes.func.isRequired,
 	messages: PropTypes.object.isRequired,
+	className: PropTypes.string,
 	children: PropTypes.node.isRequired
 }
 

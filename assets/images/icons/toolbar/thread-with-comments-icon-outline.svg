@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 <style type="text/css">
-	.st0{fill:none;stroke:currentColor;stroke-width:10;}
+	.thread-with-comments-icon-outline-icon{fill:none;stroke:currentColor;stroke-width:10;}
 </style>
 <!--
-`class="st0"` is used there to work around `svgr` bug.
+`class="thread-with-comments-icon-outline-icon"` is used there to work around `svgr` bug.
 https://github.com/gregberge/svgr/issues/771
 Or maybe "play" with "SVGO" config options.
 https://react-svgr.com/docs/options/
 The workaround was added in September 2022
 -->
-<g class="st0">
+<g class="thread-with-comments-icon-outline-icon">
 	<rect data-background-fill="true" stroke="currentColor" fill="none" x="6.4" y="7" width="499.6" height="180.9"/>
 	<rect data-background-fill="true" data-foreground-stroke="true" stroke="currentColor" fill="none" x="75.7" y="57" width="80" height="80"/>
 	<line data-foreground-stroke="true" stroke="currentColor" x1="219.7" y1="57" x2="448.9" y2="57"/>

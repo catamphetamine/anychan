@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { goto } from 'react-pages'
+import { useNavigate } from 'react-pages'
 
 import PostForm from '../../components/PostForm.js'
 
@@ -27,6 +27,7 @@ export default function ChannelCreateThreadButton({
 
 	const messages = useMessages()
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const form = useRef()
 	const createThreadButton = useRef()
@@ -85,11 +86,12 @@ export default function ChannelCreateThreadButton({
 	const onAfterSubmit = useCallback(({ id }) => {
 		dispatch(resetCreateThreadState())
 		if (id) {
-			dispatch(goto(`/${channelId}/${id}`))
+			navigate(`/${channelId}/${id}`)
 		} else {
 			dispatch(showError('Thread ID not found in server response'))
 		}
 	}, [
+		navigate,
 		channelId
 	])
 

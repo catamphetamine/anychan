@@ -2,8 +2,12 @@
 	--Button-opacity--disabled: 0.7;
 }
 
-.Button--text {
-	height: auto;
+/* `.Button--text-custom-height` can be used in cases when `.Button--text`'s `height: auto`
+   overwrites a previously set fixed `height` due to a specific CSS files order.
+   For example, `.FormAction--inline` sets a fixed `height` on a `.FormAction`,
+   but then `.Button--text` overwrites it with `height: auto`. */
+.Button--text,
+.Button--text-custom-height {
 	color: var(--Clickable-color--text);
 	border-bottom: 1px solid transparent;
 
@@ -18,6 +22,10 @@
 	&:disabled {
 		opacity: var(--Button-opacity--disabled);
 	}
+}
+
+.Button--text {
+	height: auto;
 }
 
 .Button--fill {

@@ -26,7 +26,7 @@ import useSocial from './useSocial.js'
 import usePostLink from './usePostLink.js'
 import useAttachmentThumbnailFlags from './useAttachmentThumbnailFlags.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks.js'
 import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
 import getUrl from '../../utility/getUrl.js'
@@ -146,16 +146,6 @@ export default function Comment({
 			onRenderedContentDidChange={onRenderedContentDidChange}
 		/>
 	)
-
-	if (onReply) {
-		titleContentAndAttachments = (
-			<WithTextSelectionActions
-				onReply={onReply}
-				messages={getMessages(locale).post}>
-				{titleContentAndAttachments}
-			</WithTextSelectionActions>
-		)
-	}
 
 	return (
 		<Component className="Comment-exceptThumbnail">
@@ -297,6 +287,7 @@ function CommentTitleContentAndAttachments({
 	url,
 	locale,
 	messages,
+	onReply,
 	showPostThumbnailWhenThereAreMultipleAttachments,
 	showPostThumbnailWhenThereIsNoContent,
 	showOnlyFirstAttachmentThumbnail,
@@ -359,6 +350,11 @@ function CommentTitleContentAndAttachments({
 		}
 	}, [onPostContentChange])
 
+	const withTextSelectionActionsProps = useMemo(() => ({
+		onReply,
+		messages: getMessages(locale).post
+	}), [])
+
 	return (
 		<React.Fragment>
 			<PostTitle
@@ -368,6 +364,8 @@ function CommentTitleContentAndAttachments({
 			<PostContent
 				compact
 				post={comment}
+				wrapperComponent={onReply && WithTextSelectionActions}
+				wrapperComponentProps={onReply && withTextSelectionActionsProps}
 				initialExpandContent={initialExpandContent}
 				onExpandContentChange={onExpandContentChange}
 				initialExpandPostLinkQuotes={initialExpandPostLinkQuotes}
@@ -419,5 +417,6 @@ CommentTitleContentAndAttachments.propTypes = {
 	renderComments: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	showOnlyFirstAttachmentThumbnail: PropTypes.bool,
-	reRenderAttachments: PropTypes.func
+	reRenderAttachments: PropTypes.func,
+	onReply: PropTypes.func
 }

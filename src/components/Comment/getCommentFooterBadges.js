@@ -3,8 +3,11 @@ import React from 'react'
 import StarIcon from '../StarIcon.js'
 import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 
-import getMessages, { getCountryName } from '../../messages/index.js'
-import getAbsoluteUrl from '../../utility/dataSource/getAbsoluteUrl.js'
+import getMessages from '../../messages/getMessages.js'
+import getCountryName from '../../messages/getCountryName.js'
+import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
+
+import useDataSource from '../../hooks/useDataSource.js'
 
 import AnonymousCountryIcon from 'frontend-lib/icons/anonymous-mask.svg'
 import DislikeIcon from 'frontend-lib/icons/dislike.svg'
@@ -38,7 +41,7 @@ export default function getCommentFooterBadges({ dataSource, isOwn }) {
 			icon: DeceasedFaceIcon,
 			title: ({ post, locale }) => {
 				if (post.authorBanReason) {
-					return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{0}', post.authorBanReason)
+					return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{reason}', post.authorBanReason)
 				}
 				return getMessages(locale).post.banned
 			},
@@ -239,20 +242,25 @@ function DataSourceSuppliedCountryFlagBadge({ className, ...rest }) {
 }
 
 function DataSourceSuppliedCountryFlag({ name, url, ...rest }) {
+	const dataSource = useDataSource()
+
 	// let url = dataSource.countryFlagUrl
 	// // Fix `2ch.hk` bug: `krym.png` has `.gif` extension.
 	// // https://2ch.hk/icons/logos/krym.gif
 	// if (dataSource.id === '2ch' && country === 'krym') {
 	// 	url = url.replace(/\.png$/, '.gif')
 	// }
+
 	// Transform relative URL to an absolute one.
-	url = getAbsoluteUrl(url)
+	url = getFinalUrl(url, { dataSource })
+
 	// src={url.replace('{country}', country)}
 	return (
 		<img
 			{...rest}
 			alt={name}
 			src={url}
-			className="CommentFooterBadge-customCountryFlag"/>
+			className="CommentFooterBadge-customCountryFlag"
+		/>
 	)
 }

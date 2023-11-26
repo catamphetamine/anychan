@@ -2,7 +2,7 @@ import clearUnusedThreadsData from './clearUnusedThreadsData.js'
 import fixSubscribedThreadsData from './fixSubscribedThreadsData.js'
 import fixThreadCommentData from './fixThreadCommentData.js'
 import Lock from '../utility/Lock.js'
-import storage_ from '../utility/storage/storage.js'
+import Storage from '../utility/storage/Storage.js'
 
 import { TabStatusWatcher } from 'web-browser-tab/status-watcher'
 import { Timer } from 'web-browser-timer'
@@ -31,8 +31,10 @@ const TIMEOUT = 15 * MINUTE
 
 export default class UserDataCleaner {
 	constructor({
+		dispatch,
 		userData,
-		storage = storage_,
+		userSettings,
+		storage,
 		tabStatusWatcher = new TabStatusWatcher({
 			log: debugTabStatusWatcher
 		}),
@@ -41,12 +43,22 @@ export default class UserDataCleaner {
 		timer = new Timer()
 	}) {
 		this.userData = userData
+
+		// Initialize storage.
+		if (!storage) {
+			storage = new Storage({
+				dispatch,
+				getLocale: userSettings && (() => userSettings.get('locale'))
+			})
+		}
+
 		this.lock = new Lock('Clean-Up.Lock', {
 			storage,
 			timer,
 			timeout: TIMEOUT,
 			log: debugLock
 		})
+
 		this.tabStatusWatcher = tabStatusWatcher
 		this.unusedThreadDataLifeTime = unusedThreadDataLifeTime
 		this.startDelayMax = startDelayMax

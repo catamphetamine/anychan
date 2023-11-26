@@ -27,6 +27,8 @@ import {
 
 import applySettings from '../../utility/settings/applySettings.js'
 
+import useMultiDataSource from '../../hooks/useMultiDataSource.js'
+import useDataSource from '../../hooks/useDataSource.js'
 import useSettings from '../../hooks/useSettings.js'
 import useUserData from '../../hooks/useUserData.js'
 
@@ -35,6 +37,8 @@ export default function DataSettings({
 	locale,
 	dispatch
 }) {
+	const multiDataSource = useMultiDataSource()
+	const dataSource = useDataSource()
 	const userData = useUserData()
 	const userSettings = useSettings()
 
@@ -129,7 +133,10 @@ export default function DataSettings({
 	}
 
 	function onClearChannelsCache() {
-		clearChannelsCache()
+		clearChannelsCache({
+			dataSource,
+			multiDataSource
+		})
 		dispatch(notify(messages.status.done))
 	}
 

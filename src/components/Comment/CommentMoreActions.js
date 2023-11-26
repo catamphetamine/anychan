@@ -16,7 +16,7 @@ import {
 import useDataSource from '../../hooks/useDataSource.js'
 import useUserData from '../../hooks/useUserData.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import getThreadUrl from '../../utility/dataSource/getThreadUrl.js'
 import getCommentUrl from '../../utility/dataSource/getCommentUrl.js'

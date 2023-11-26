@@ -10,24 +10,29 @@ Imageboard support is provided by [`imageboard`](https://gitlab.com/catamphetami
 
 Supported imageboard engines:
 
-* [4chan](https://github.com/4chan/4chan-API)
+* [4chan](https://github.com/4chan/4chan-API) — `4chan.org`'s proprietary engine.
 
-  1. [4chan.org](https://www.4chan.org/) — [demo](https://anychans.github.io/4chan)
+  1. [4chan.org](https://www.4chan.org/) — [demo](https://anychans.github.io/4chan)
 
-* [vichan](https://github.com/vichan-devel/vichan)
+* [vichan](https://github.com/vichan-devel/vichan) — An open-source `4chan`-compatible engine running on PHP/MySQL whose development started in 2012. The codebase has seen various maintainers take over and then leave off over the years, but as of late 2023, it seems like it's still being maintained and receiving new features.
 
   1. [lainchan.org](https://lainchan.org/) — [demo](https://anychans.github.io/lainchan)
 
-* [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity))
+* [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity)) — A 2013 fork of `vichan` engine with the goal of supporting an "infinite" amount of user-managed boards as opposed to a finite set of predefined boards. No longer maintained since 2018.
 
   1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://anychans.github.io/8ch)
 
-* [lynxchan](https://gitgud.io/LynxChan/LynxChan)
+* [lynxchan](https://gitgud.io/LynxChan/LynxChan) — An alternative engine Node.js/MongoDB whose development started in 2015. Rather than mimicking any existing engine, it set off on its own path and ended up becoming a popular choice (of its time) provided that there's really not much else to choose from. Some choices made by the author are questionable and the overall approach doesn't look professional to me. For example, the engine has a bunch of quite obvious but easily-fixable [issues](https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/lynxchan-issues.md) that the author refuses to recognize and has no interest in fixing. The author's demeanor, in general, is somewhat controversial and not to everyone's liking.
 
   1. [kohlchan.net](https://kohlchan.net) — [demo](https://anychans.github.io/kohlchan)
   2. [endchan.net](https://endchan.net) — [demo](https://anychans.github.io/endchan)
 
-* [makaba](https://2ch.hk/api/)
+* [jschan](https://gitgud.io/fatchan/jschan/) — An alternative engine written in Node.js/MongoDB whose development started in 2019. Isn't really adopted by anyone, perhaps because there haven't been any new imageboards since its development has started. Compared to `lynxchan`, purely from a technical perspective, it looks much more professional and mature, and the author is a [well-known developer](https://lowendtalk.com/discussion/186679/basedflare-new-cloudflare-like-service).
+
+  1. [94chan.org](https://94chan.org/) — [demo](https://anychans.github.io/94chan). The website is behind a CloudFlare-alike DDoS protection and returns `403 Forbidden` for the "demo" CORS proxy, but it is functional when accessed through one's [own CORS proxy](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md) running at `localhost`.
+  2. [ptchan.org](https://ptchan.org/) — [demo](https://anychans.github.io/ptchan). The website is behind a CloudFlare-alike DDoS protection and returns [`403 Forbidden`](https://gitgud.io/fatchan/haproxy-protection/-/issues/24) for a CORS proxy.
+
+* [makaba](https://2ch.hk/api/) — `2ch.hk`'s proprietary engine.
 
   1. [2ch.hk](https://2ch.hk/) — [demo](https://anychans.github.io/2ch)
 
@@ -469,9 +474,9 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 [Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 -->
 
-* [An example of setting up a free CORS proxy on Vercel running "CORS Anywhere"](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-VERCEL-CORS-ANYWHERE.md).
+* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-VERCEL.md).
 
-* [An example of setting up a free 1-year AWS EC2 CORS proxy running NginX](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-NGINX.md).
+* [An example of setting up a free 1-year AWS EC2 CORS proxy](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-EC2.md).
 
 Not every proxy works with every "data source" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
 
@@ -700,9 +705,9 @@ To add a new data source, create an `index.json` file with the data source's con
   // so that it could leave relative attachment URLs as they are.
   // For that, the `domains` data source configuration parameter exists:
   // it should list all legitimate "backup" domains of the data source.
-  // The default domain name shouldn't be included in the "domains" list,
-  // beacuse it has already been configured as the "domain" property.
+  // The default domain name should also be included in the "domains" list.
   "domains": [
+    "kohlchan.net",
     "kohl.chan",
     "kohlchankxguym67.onion",
     "kohlchan7cwtdwfuicqhxgqx4k47bsvlt2wn5eduzovntrzvonv4cqyd.onion"

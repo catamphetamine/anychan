@@ -84,7 +84,7 @@
 			"guide": "\"Een nieuw thema maken\" gids",
 			"deleteCurrent": {
 				"title": "Verwijder huidig thema",
-				"warning": "Weet je zeker dat je dit thema wilt verwijderen \"{0}\"?"
+				"warning": "Weet je zeker dat je dit thema wilt verwijderen \"{theme}\"?"
 			},
 			"themes": {
 				"default": "Standaard",
@@ -95,6 +95,7 @@
 		"proxy": {
 			"title": "Proxy",
 			"description": "Web browsers beperkt websites van het lezen van andere websites' data. Om daaromheen te werken, een speciale \"proxy server\" wordt gebruikt om het API te gebruiken.",
+			"setUpCustomProxyGuideTitle": "Gids: Hoe u uw eigen proxy kunt instellen (eng.)",
 			"url": "URL",
 			"invalidUrl": "Ongeldige URL",
 			"saved": "Proxy URL opgeslagen",
@@ -291,14 +292,14 @@
 	},
 	"proxyPostingCaution": "Let op wat je hier post. Alle gebruikers van deze app delen dezelfde proxyserver. Als de proxyserver wordt verbannen, werkt de applicatie mogelijk niet meer voor iedereen.",
 	"colorfulBackground": "Kleurrijke achtergrond",
-	"nMoreComments": "{count, meervoud, een {<tag>#</tag> comment meer} other {<tag>#</tag> meer opmerkingen}}",
+	"nMoreComments": "{count, meervoud, een {<countTag>#</countTag> comment meer} other {<countTag>#</countTag> meer opmerkingen}}",
 	"noNewComments": "Geen nieuwe opmerkingen",
 	"hasNewComments": "Heeft nieuwe opmerkingen",
 	"hasNewReplies": "Heeft nieuwe reacties",
 	"newComments": "Nieuwe opmerkingen",
 	"lastComment": "Meest recente opmerkingen",
 	"goToComment": "Ga ga naar opmerking",
-	"yourAccountIsBanned": "Je bent verbannen{ untilDate, select, undefined {} null {} other { until {untilDate, date, long}} }{ reason, select, undefined {} null {} other {. Reden: {reason}} }{ banId, select, undefined {} null {} other {. Ban ID: {banId}} }{ boardId, select, undefined {} null {} other {. Bord: {boardId}} }",
+	"yourAccountIsBanned": "Je bent verbannen{untilDate, exists { until {untilDate, date, long}}}{reason, exists {. Reden: {reason}}}{banId, exists {. Ban ID: {banId}}}{boardId, exists {. Bord: {boardId}}}",
 	"attachmentRequired": "Een bestand is vereist",
 	"attachmentNotSupported": "Sommige bestanden worden niet ondersteund",
 	"attachmentsCountExceeded": "Te veel bestanden",
@@ -326,7 +327,7 @@
 	"threadIsArchived": "Deze draad is gearchiveerd",
 	"threadIsLocked": "Deze draad is gesloten",
 	"threadExpired": "Deze draad is verlopen",
-	"threadExpiresSoon": "Deze draad is op positie {0} van de {1}. Zodra deze onder de laatste plaats komt, vervalt deze. Om een draad terug te brengen naar de eerste plaats, kun je een reactie in achterlaten.",
-	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in de laatste <time>15 minuten</time>",
-	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in het laatste <time>uur</time>"
+	"threadExpiresSoon": "Deze draad is op positie {position} van de {lastPosition}. Zodra deze onder de laatste plaats komt, vervalt deze. Om een draad terug te brengen naar de eerste plaats, kun je een reactie in achterlaten.",
+	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in de laatste <timeTag>15 minuten</timeTag>",
+	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in het laatste <timeTag>uur</timeTag>"
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import getBasePath from '../../utility/getBasePath.js'
+import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
 // A user could be navigating browser history from a URL to a URL,
 // and both URLs could belong to the same thread but different comments.
@@ -12,11 +12,13 @@ export default function useShowCommentOnSameThreadUrlNavigation({
 	thread,
 	showComment
 }) {
+	const urlBasePath = useUrlBasePath()
+
 	useEffect(() => {
 		const historyListener = (event) => {
 			const THREAD_PATH_REG_EXP = /^\/([^/]+)\/([^/]+)$/
 			const COMMENT_ID_REG_EXP = /^#(\d+)$/
-			const path = location.pathname.slice(getBasePath().length)
+			const path = location.pathname.slice(urlBasePath.length)
 			let match = path.match(THREAD_PATH_REG_EXP)
 			if (match) {
 				const channelId = match[1]
@@ -36,5 +38,7 @@ export default function useShowCommentOnSameThreadUrlNavigation({
 		return () => {
 			window.removeEventListener('popstate', historyListener)
 		}
-	}, [])
+	}, [
+		urlBasePath
+	])
 }

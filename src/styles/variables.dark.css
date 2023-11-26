@@ -78,7 +78,7 @@
 
 	/* PostQuoteBlock (inverse). */
 	/* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
-	    have regular quotes and "inverse" quotes. */
+	    or on `jschan` engine have regular quotes and "inverse" quotes. */
 	--PostQuoteBlock-color--inverse: #dc5e5e;
 
 	/* PostSubheading. */

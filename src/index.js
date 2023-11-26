@@ -28,9 +28,9 @@ import './styles/style.css'
 
 import initializeMiscellaneous from './initialize-miscellaneous.js'
 import initializeIntl from './initialize-intl.js'
+import initializeResources from './initialize-resources.js'
 import initializeDataSource from './initialize-dataSource.js'
-import initializeApp from './initialize-app.js'
-import { setContext } from './context.js'
+import initializeUserSettings from './initialize-userSettings.js'
 import renderApp from './render.js'
 
 // Run the application.
@@ -47,6 +47,7 @@ import renderApp from './render.js'
 try {
 	initializeMiscellaneous()
 	initializeIntl()
+	initializeResources()
 
 	const {
 		dataSource,
@@ -54,19 +55,16 @@ try {
 		multiDataSource
 	} = initializeDataSource()
 
-	const { userData, userSettings } = await initializeApp({
-		dataSource
+	await initializeUserSettings({
+		dataSource,
+		multiDataSource
 	})
 
-	setContext({
-		userData,
-		userSettings,
+	await renderApp({
 		dataSource,
 		dataSourceAlias,
 		multiDataSource
 	})
-
-	await renderApp()
 } catch (error) {
 	console.error(error.stack || error)
 	alert(error.message)

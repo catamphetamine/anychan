@@ -23,11 +23,26 @@ export default function getDarkModeMenuItem({
 			if (!areCookiesAccepted()) {
 				return dispatch(notify(messages.cookies.required))
 			}
-			dispatch(setDarkMode(!darkMode))
-			dispatch(saveDarkMode({ darkMode: !darkMode, userSettings }))
+
+			// Enters Dark Mode (when `value` is `true`) or Light Mode (when `value` is `false`).
+			const enterDarkMode = (value) => {
+				// Apply `.dark`/`.light` CSS class to `<body/>`.
+				applyDarkMode(value)
+				// `dispatch(setDarkMode())` calls `applyDarkMode()` under the hood.
+				dispatch(setDarkMode(value))
+			}
+
+			// Apply `.dark`/`.light` CSS class to `<body/>`.
+			enterDarkMode(!darkMode)
 			autoDarkMode(false, {
-				setDarkMode: (value) => dispatch(applyDarkMode(value))
+				setDarkMode: enterDarkMode
 			})
+
+			// Save the setting.
+			dispatch(saveDarkMode({ darkMode: !darkMode, userSettings }))
+
+			// Re-measure page elements because their dimensions or spacings
+			// might be different in Light Mode and Dark Mode.
 			measure()
 		},
 		isSelected: darkMode,

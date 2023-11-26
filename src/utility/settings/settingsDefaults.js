@@ -1,6 +1,7 @@
 import getConfiguration from '../../configuration.js'
 
-import { defaultLanguage, getLanguageNames } from '../../messages/index.js'
+import getDefaultLanguage_ from '../../messages/getDefaultLanguage.js'
+import getLanguageNames from '../../messages/getLanguageNames.js'
 
 export const DEFAULT_BACKGROUNDS_DARK_MODE = ['Purple', 'Dark Blue', 'Monochrome']
 export const DEFAULT_BACKGROUNDS_LIGHT_MODE = ['Orange Purple', 'Purple Blue', 'Green Brown']
@@ -30,12 +31,18 @@ export function getDefaultThemeId() {
 }
 
 export function getDefaultLanguage() {
+	// When running in a web browser, prefer `navigator.language`
+	// over the "fallback" default language.
+	// `navigator.language` is the user's preferred language
+	// either configured in the web browser or in the Operating System.
 	if (typeof window !== 'undefined') {
 		if (isSupportedLanguage(navigator.language)) {
 			return navigator.language
 		}
 	}
-	return defaultLanguage
+
+	// Use the "fallback" default language.
+	return getDefaultLanguage_()
 }
 
 const SUPPORTED_LANGUAGES = Object.keys(getLanguageNames())

@@ -11,6 +11,7 @@ import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shoul
 // import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
 import transformDataSourceLink from '../../utility/transformDataSourceLink.js'
+import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
 
 /**
  * Modifies the `comment`'s `.parseContent()` function a bit.
@@ -63,6 +64,20 @@ export default function addParseContent(comment, {
 		}
 
 		originalParseContent({ getCommentById })
+
+		// Only on `kohlchan.net`:
+		// Convert relative URLs to "emojis" to absolute ones
+		// in case of not running on an imageboard's "official" domain.
+		// (for example, when running on the `anychan` demo website)
+		if (dataSource.id === 'kohlchan') {
+			if (comment.content) {
+				visitPostParts('emoji', (emoji) => {
+					if (emoji.url) {
+						emoji.url = getFinalUrl(emoji.url, { dataSource })
+					}
+				}, comment.content)
+			}
+		}
 
 		// Transform comment content:
 		// * Censor "offensive" words.

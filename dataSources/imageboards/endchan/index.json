@@ -1,6 +1,14 @@
 {
 	"id": "endchan",
 	"shortId": "🔚",
+	"domains": [
+		"endchan.net",
+		"endchan.gg",
+		"endchan.org",
+		"endchancxfbnrfgauuxlztwlckytq7rgeo5v6pc2zd4nyqo3khfam4ad.onion",
+		"enxx3byspwsdo446jujc52ucy2pf5urdbhqw3kbsfhlfjwmbpj5smdad.onion",
+		"kqrtg5wz4qbyjprujkz33gza7r73iw3ainqp1mz5zmu16symcdwy.loki"
+	],
 	"title": "EndChan",
 	"description": "The imageboard at the end of the universe. You can make your own imageboard for free w/o experience or technical knowledge.",
 	"links": [{
@@ -23,5 +31,9 @@
 		"type": "twitter",
 		"text": "Twitter",
 		"url": "https://twitter.com/endchanxyz"
+	}, {
+		"type": "telegram",
+		"text": "Telegram",
+		"url": "https://t.me/endchan"
 	}]
 }

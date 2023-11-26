@@ -12,7 +12,7 @@ import useMessages from '../../hooks/useMessages.js'
 
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 export default function useReply({
 	comment,

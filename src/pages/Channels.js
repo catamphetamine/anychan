@@ -7,12 +7,10 @@ import ChannelUrl from '../components/ChannelUrl.js'
 
 import { getChannels } from '../redux/data.js'
 
-import getMessages from '../messages/index.js'
+import getMessages from '../messages/getMessages.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useSetting from '../hooks/useSetting.js'
-
-import { getContext } from '../context.js'
 
 import './Channels.css'
 
@@ -42,19 +40,19 @@ ChannelsPage.meta = ({ useSelector }) => {
 	}
 }
 
-ChannelsPage.load = async ({ dispatch, useSelector }) => {
-	const {
-		userSettings,
-		dataSource
-	} = getContext()
-
+ChannelsPage.load = async ({
+	dispatch,
+	useSelector,
+	context
+}) => {
 	const useSetting_ = (getter) => useSetting(getter, { useSelector })
 	const locale = useSetting_(settings => settings.locale)
 
 	await dispatch(getChannels({
 		all: true,
-		userSettings,
-		dataSource,
+		userSettings: context.userSettings,
+		dataSource: context.dataSource,
+		multiDataSource: context.multiDataSource,
 		messages: getMessages(locale)
 	}))
 }

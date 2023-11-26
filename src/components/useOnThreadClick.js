@@ -1,8 +1,8 @@
 import { useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { goto } from 'react-pages'
+import { useNavigate, useGoForward } from 'react-pages'
 
-import getGoBackToThreadFromChannel from './getGoBackToThreadFromChannel.js'
+import canGoBackToThreadFromChannel from './canGoBackToThreadFromChannel.js'
 
 import useRoute from '../hooks/useRoute.js'
 
@@ -12,6 +12,9 @@ import getUrl from '../utility/getUrl.js'
 // Skips loading the thread page if the thread has been viewed before.
 export default function useOnThreadClick() {
 	const dispatch = useDispatch()
+
+	const navigate = useNavigate()
+	const goForward = useGoForward()
 
 	// Looks like, due to how the whole thing works, `found.resolvedMatch`
 	// still refers to the previous page's location on the initial render
@@ -46,25 +49,28 @@ export default function useOnThreadClick() {
 		// to the correct "current" page location right after the initial render.
 		//
 		if (isChannelPage(channelRoute)) {
-			const goBackToThreadFromChannel = getGoBackToThreadFromChannel({
+			const canGoBackToThreadFromChannel_ = canGoBackToThreadFromChannel({
 				commentId: targetCommentId,
 				channelId,
 				threadId,
 				channelRoute: channelRouteRef.current
 			})
-			if (goBackToThreadFromChannel) {
-				return dispatch(goBackToThreadFromChannel())
+			if (canGoBackToThreadFromChannel_) {
+				return goForward()
 			}
 		}
 
 		// Navigate to the thread page normally: first load the data and then
 		// render the thread page.
 		//
-		// The only reason the navigation here is done programmatically via `goto()`
+		// The only reason the navigation here is done programmatically via `navigate()`
 		// is because a thread card can't be implmented as a `<Link/>` element
 		// because it itself can contain links — the ones in the "original" comment
 		// of the thread. The error would be: "<a> cannot appear as a descendant of <a>".
 		//
-		dispatch(goto(getUrl(channelId, threadId, targetCommentId), { instantBack: true }))
-	}, [])
+		navigate(getUrl(channelId, threadId, targetCommentId), { instantBack: true })
+	}, [
+		navigate,
+		goForward
+	])
 }

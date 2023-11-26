@@ -9,10 +9,10 @@ import CommentHidden from '../Comment/CommentHidden.js'
 import useHide from '../Comment/useHide.js'
 
 import isThreadPage from '../../utility/routes/isThreadPage.js'
-import getBasePath from '../../utility/getBasePath.js'
 import getUrl from '../../utility/getUrl.js'
 
 import useRoute from '../../hooks/useRoute.js'
+import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
 import Clickable from 'frontend-lib/components/Clickable.js'
 
@@ -39,6 +39,8 @@ function ChannelThreadsSidebarSectionThread({
 }) {
 	const locale = useLocale()
 	const messages = useMessages()
+
+	const urlBasePath = useUrlBasePath()
 
 	const currentThread = useSelector(state => state.data.thread)
 
@@ -160,7 +162,7 @@ function ChannelThreadsSidebarSectionThread({
 						messages={messages}
 						onHide={onHide}
 						url={getUrl(thread.channelId, thread.id)}
-						urlBasePath={getBasePath()}
+						urlBasePath={urlBasePath}
 					/>
 				</div>
 			</section>

@@ -22,6 +22,7 @@ ButtonStyled.propTypes = {
 		PropTypes.oneOf([
 			'text',
 			'text-multiline',
+			'text-custom-height',
 			'fill',
 			'outline'
 		]),

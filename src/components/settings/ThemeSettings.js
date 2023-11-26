@@ -77,7 +77,7 @@ export default function ThemeSettings({
 
 	async function onRemoveSelectedTheme() {
 		if (await OkCancelModal.show({
-			text: messages.settings.theme.deleteCurrent.warning.replace('{0}', theme)
+			text: messages.settings.theme.deleteCurrent.warning.replace('{theme}', theme)
 		})) {
 			removeTheme(theme, { userSettings })
 			await onSelectTheme(getDefaultThemeId())

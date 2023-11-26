@@ -84,7 +84,7 @@
 			"guide": "\"Making a new theme\" guide",
 			"deleteCurrent": {
 				"title": "Delete current theme",
-				"warning": "Are you sure you want to delete theme \"{0}\"?"
+				"warning": "Are you sure you want to delete theme \"{theme}\"?"
 			},
 			"themes": {
 				"default": "Default",
@@ -95,6 +95,7 @@
 		"proxy": {
 			"title": "Proxy",
 			"description": "Web browsers restrict websites from reading other websites' data. To work around that, a special \"proxy server\" is used to call the API.",
+			"setUpCustomProxyGuideTitle": "Guide: How to set up your own Proxy",
 			"url": "URL",
 			"invalidUrl": "Invalid URL",
 			"saved": "Proxy URL saved",
@@ -291,14 +292,14 @@
 	},
 	"proxyPostingCaution": "Be mindful of what you post here. All users of this app share the same proxy server. If the proxy server gets banned, the application might stop working for everyone.",
 	"colorfulBackground": "Colorful background",
-	"nMoreComments": "{count, plural, one {<tag>#</tag> more comment} other {<tag>#</tag> more comments}}",
+	"nMoreComments": "{count, plural, one {<countTag>#</countTag> more comment} other {<countTag>#</countTag> more comments}}",
 	"noNewComments": "No new comments",
 	"hasNewComments": "Has new comments",
 	"hasNewReplies": "Has new replies",
 	"newComments": "New comments",
 	"lastComment": "Last comment",
 	"goToComment": "Go to comment",
-	"yourAccountIsBanned": "You're banned{ untilDate, select, undefined {} null {} other { until {untilDate, date, long}} }{ reason, select, undefined {} null {} other {. Reason: {reason}} }{ banId, select, undefined {} null {} other {. Ban ID: {banId}} }{ boardId, select, undefined {} null {} other {. Board: {boardId}} }",
+	"yourAccountIsBanned": "You're banned{untilDate, exists { until {untilDate, date, long}}}{reason, exists {. Reason: {reason}}}{banId, exists {. Ban ID: {banId}}}{boardId, exists {. Board: {boardId}}}",
 	"attachmentRequired": "An attachment is required",
 	"attachmentNotSupported": "Some of the attachments aren't supported",
 	"attachmentsCountExceeded": "Too many attachments",
@@ -326,7 +327,7 @@
 	"threadIsArchived": "This thread is archived",
 	"threadIsLocked": "This thread is locked",
 	"threadExpired": "This thread has expired",
-	"threadExpiresSoon": "The thread is at {0} place of {1}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
-	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>15 minutes</time>",
-	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> comment} other {<count>#</count> comments}} in the last <time>hour</time>"
+	"threadExpiresSoon": "The thread is at {position} place of {lastPosition}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
+	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in the last <timeTag>15 minutes</timeTag>",
+	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in the last <timeTag>hour</timeTag>"
 }

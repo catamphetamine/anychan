@@ -1,6 +1,6 @@
 import { ReduxModule } from 'react-pages'
 
-import getMessages from '../messages/index.js'
+import getMessages from '../messages/getMessages.js'
 import getLatestReadCommentIndex from '../utility/thread/getLatestReadCommentIndex.js'
 import mergePrevAndNewThreadComments from '../utility/thread/mergePrevAndNewThreadComments.js'
 import getNewCommentsCount from '../utility/thread/getNewCommentsCount.js'
@@ -21,6 +21,7 @@ export const getChannels = redux.action(
 		all,
 		userSettings,
 		dataSource,
+		multiDataSource,
 		messages
 	}) => async http => {
 		return await _getChannelsCached({
@@ -30,6 +31,7 @@ export const getChannels = redux.action(
 			http,
 			userSettings,
 			dataSource,
+			multiDataSource,
 			messages,
 			all
 		})

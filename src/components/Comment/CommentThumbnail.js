@@ -7,7 +7,7 @@ import PictureStack from 'social-components-react/components/PictureStack.js'
 import usePostThumbnail from './usePostThumbnail.js'
 import useAttachmentThumbnailFlags from './useAttachmentThumbnailFlags.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import {
 	comment as commentType,

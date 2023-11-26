@@ -34,7 +34,7 @@
 // 		{/*
 // 		{!thread.bumpLimitReached && thread.willExpireSoon &&
 // 			<div
-// 				title={getMessages(locale).threadExpiresSoon.replace('{0}', 1).replace('{1}', 2)}
+// 				title={getMessages(locale).threadExpiresSoon.replace('{position}', 1).replace('{lastPosition}', 2)}
 // 				className="ThreadPage-stats-icon-container">
 // 				<DownRightArrow className="ThreadPage-stats-icon ThreadPage-stats-down-right-arrow-icon"/>
 // 			</div>

@@ -241,7 +241,7 @@
 	--SidebarLink-borderColor: transparent;
 	--SidebarLink-borderColor--hover: var(--SidebarLink-borderColor);
 	--SidebarLink-borderColor--active: var(--SidebarLink-borderColor--hover);
-	--SidebarLink-borderColor--selected: var(--PostQuoteBlock-borderColor--generated);
+	--SidebarLink-borderColor--selected: var(--SidebarLink-borderColor);
 	--SidebarLink-borderColor--selectedHover: var(--SidebarLink-borderColor--selected);
 	--SidebarLink-borderColor--selectedActive: var(--SidebarLink-borderColor--selected);
 

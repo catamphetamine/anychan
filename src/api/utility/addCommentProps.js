@@ -3,7 +3,10 @@ import getInlineContentText from 'social-components/utility/post/getInlineConten
 
 import addParseContent from './addParseContent.js'
 import addCommentTextFunctions from './addCommentTextFunctions.js'
+import convertAttachmentUrlsToAbsolute from './convertAttachmentUrlsToAbsolute.js'
 import transformText from './transformText.js'
+
+import isDeployedOnDataSourceDomain from '../../utility/dataSource/isDeployedOnDataSourceDomain.js'
 
 /**
  * Sets utility properties on thread comments.
@@ -106,13 +109,24 @@ export default function addCommentProps(thread, {
 		// * `getContentText()`
 		addCommentTextFunctions(comment, { messages })
 
+		// Transform and censor comment title.
 		if (comment.title) {
-			// Transform and censor comment title.
 			transformCommentTitle(comment, {
 				grammarCorrection,
 				censoredWords,
 				locale
 			})
+		}
+
+		// Convert relative attachment URLs into absolute ones
+		// in case of not running on an imageboard's "official" domain.
+		// (for example, when running on the `anychan` demo website)
+		if (!isDeployedOnDataSourceDomain(dataSource)) {
+			if (comment.attachments) {
+				for (const attachment of comment.attachments) {
+					convertAttachmentUrlsToAbsolute(attachment, { dataSource })
+				}
+			}
 		}
 	}
 

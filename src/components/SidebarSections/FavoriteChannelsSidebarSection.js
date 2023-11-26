@@ -11,6 +11,7 @@ import useMessages from '../../hooks/useMessages.js'
 import useSetting from '../../hooks/useSetting.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
+import useMultiDataSource from '../../hooks/useMultiDataSource.js'
 
 import { getChannels } from '../../redux/data.js'
 
@@ -21,6 +22,7 @@ export default function FavoriteChannelsSidebarSection() {
 	const messages = useMessages()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const multiDataSource = useMultiDataSource()
 
 	const moreButtonRef = useRef()
 
@@ -55,6 +57,7 @@ export default function FavoriteChannelsSidebarSection() {
 				all: true,
 				userSettings,
 				dataSource,
+				multiDataSource,
 				messages
 			})).then(finish)
 		} else {
@@ -65,6 +68,7 @@ export default function FavoriteChannelsSidebarSection() {
 		userSettings,
 		allChannels,
 		dataSource,
+		multiDataSource,
 		messages
 	])
 

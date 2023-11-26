@@ -1,0 +1,28 @@
+{
+	"id": "ptchan",
+	"shortId": "👧",
+	"title": "ptちゃん",
+	"description": "O ptchan.org é um site dedicado à comunidade de língua portuguesa onde se pode participar de forma anónima e criar tábuas.",
+	"footnotes": "Todas as marcas registadas, direitos de autor, comentários e ficheiros neste site são propriedade e responsabilidade dos seus respectivos autores e proprietários. Só um louco levaria o que aqui é escrito a sério.",
+	"links": [{
+		"type": "rules",
+		"text": "Regras",
+		"url": "https://ptchan.org/rules.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://ptchan.org/faq.html"
+	}, {
+		"type": "news",
+		"text": "Notícias",
+		"url": "https://94chan.org/news.html"
+	}, {
+		"type": "telegram",
+		"text": "Telegram",
+		"url": "https://t.me/ninetyfourchan"
+	}, {
+		"type": "youtube",
+		"text": "Stream",
+		"url": "https://ptchan.org/stream.html"
+	}]
+}

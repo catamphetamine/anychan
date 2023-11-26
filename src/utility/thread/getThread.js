@@ -9,7 +9,7 @@ import {
 
 import _getThread from '../../api/getThread.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import onThreadFetched from './onThreadFetched.js'
 import onThreadExpired from './onThreadExpired.js'

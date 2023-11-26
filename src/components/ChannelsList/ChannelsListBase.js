@@ -11,6 +11,7 @@ import { getChannels } from '../../redux/data.js'
 import useMessages from '../../hooks/useMessages.js'
 import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
+import useMultiDataSource from '../../hooks/useMultiDataSource.js'
 
 import ChannelsListSearch from './ChannelsListSearch.js'
 import ChannelsListViewSwitcher from './ChannelsListViewSwitcher.js'
@@ -37,6 +38,7 @@ export default function ChannelsListBase({
 	const messages = useMessages()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const multiDataSource = useMultiDataSource()
 
 	const [filteredChannels, setFilteredChannels] = useState()
 	const [view, setView] = useState()
@@ -99,12 +101,14 @@ export default function ChannelsListBase({
 		await dispatch(getChannels({
 			userSettings,
 			dataSource,
+			multiDataSource,
 			messages
 		}))
 	}, [
 		dispatch,
 		userSettings,
 		dataSource,
+		multiDataSource,
 		messages
 	])
 
@@ -166,7 +170,7 @@ export const channelShape = {
 
 ChannelsListBase.propTypes = {
 	views: PropTypes.arrayOf(PropTypes.oneOf(['list', 'by-category'])),
-	channels: PropTypes.arrayOf(PropTypes.shape(channelShape)).isRequired,
+	channels: PropTypes.arrayOf(PropTypes.shape(channelShape)),
 	channelsByPopularity: PropTypes.arrayOf(PropTypes.shape(channelShape)),
 	channelsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,

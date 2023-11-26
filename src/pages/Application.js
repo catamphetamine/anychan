@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-// import { Loading } from 'react-pages'
 import classNames from 'classnames'
 
 import Announcement, { announcementPropType } from 'frontend-lib/components/Announcement.js'
@@ -29,8 +28,6 @@ import onBeforeNavigate from '../utility/onBeforeNavigate.js'
 import onNavigate from '../utility/onNavigate.js'
 import { getDefaultThemeId } from '../utility/settings/settingsDefaults.js'
 
-import { getContext } from '../context.js'
-
 import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 import { areCookiesAccepted, acceptCookies, addLearnMoreLink } from 'frontend-lib/utility/cookiePolicy.js'
@@ -50,11 +47,7 @@ import isThreadPage from '../utility/routes/isThreadPage.js'
 import isChannelPage from '../utility/routes/isChannelPage.js'
 import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
-import getMessages from '../messages/index.js'
-
-import getUserData from '../UserData.js'
-import getUserSettings from '../UserSettings.js'
-import getDataSource from '../utility/dataSource/getDataSource.js'
+import getMessages from '../messages/getMessages.js'
 
 import getApplicationMeta from './Application.meta.js'
 import loadApplication from './Application.load.js'
@@ -64,7 +57,9 @@ import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/an
 import getConfiguration from '../configuration.js'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
+import { MultiDataSourceContext } from '../hooks/useMultiDataSource.js'
 import useDataSource, { DataSourceContext } from '../hooks/useDataSource.js'
+import { DataSourceAliasContext } from '../hooks/useDataSourceAlias.js'
 import useSettings, { SettingsContext } from '../hooks/useSettings.js'
 import useUserData, { UserDataContext } from '../hooks/useUserData.js'
 import useUserDataForUserDataCleaner, { UserDataForUserDataCleanerContext } from '../hooks/useUserDataForUserDataCleaner.js'
@@ -87,35 +82,35 @@ import '../components/PageLoading.css'
 //
 // window.VirtualScrollerDebug = true
 
-export default function Application({ children }) {
-	const userData = useMemo(() => {
-		return getUserData()
-	}, [])
-
-	const userDataForUserDataCleaner = useMemo(() => {
-		return getUserData({ userDataCleaner: true })
-	}, [])
-
-	const settings = useMemo(() => {
-		return getUserSettings()
-	}, [])
-
-	const dataSource = useMemo(() => {
-		return getDataSource()
-	}, [])
-
+export default function Application({
+	// All these properties are the ones that're returned from `Application.load.js` function.
+	// They're passed to that function in the form of a `context` parameter.
+	// The `context` parameter is created by `getLoadContext()` function in `render.js`.
+	userData,
+	userDataForUserDataCleaner,
+	userSettings,
+	dataSource,
+	dataSourceAlias,
+	multiDataSource,
+	// `children` property is passed by `react-pages`.
+	children
+}) {
 	return (
-		<DataSourceContext.Provider value={dataSource}>
-			<UserDataContext.Provider value={userData}>
-				<UserDataForUserDataCleanerContext.Provider value={userDataForUserDataCleaner}>
-					<SettingsContext.Provider value={settings}>
-						<App>
-							{children}
-						</App>
-					</SettingsContext.Provider>
-				</UserDataForUserDataCleanerContext.Provider>
-			</UserDataContext.Provider>
-		</DataSourceContext.Provider>
+		<MultiDataSourceContext.Provider value={multiDataSource}>
+			<DataSourceAliasContext.Provider value={dataSourceAlias}>
+				<DataSourceContext.Provider value={dataSource}>
+					<UserDataContext.Provider value={userData}>
+						<UserDataForUserDataCleanerContext.Provider value={userDataForUserDataCleaner}>
+							<SettingsContext.Provider value={userSettings}>
+								<App>
+									{children}
+								</App>
+							</SettingsContext.Provider>
+						</UserDataForUserDataCleanerContext.Provider>
+					</UserDataContext.Provider>
+				</DataSourceContext.Provider>
+			</DataSourceAliasContext.Provider>
+		</MultiDataSourceContext.Provider>
 	)
 }
 
@@ -126,23 +121,21 @@ Application.propTypes = {
 Application.load = async ({
 	dispatch,
 	useSelector,
-	location
+	location,
+	context
 }) => {
-	const {
-		userData,
-		userSettings,
-		dataSource
-	} = getContext()
-
 	const useSetting_ = (getter) => useSetting(getter, { useSelector })
 	const locale = useSetting_(settings => settings.locale)
 
-	await loadApplication({
+	return await loadApplication({
 		dispatch,
 		location,
-		userData,
-		userSettings,
-		dataSource,
+		userData: context.userData,
+		userDataForUserDataCleaner: context.userDataForUserDataCleaner,
+		userSettings: context.userSettings,
+		dataSource: context.dataSource,
+		dataSourceAlias: context.dataSourceAlias,
+		multiDataSource: context.multiDataSource,
 		messages: getMessages(locale)
 	})
 }
@@ -191,7 +184,7 @@ function App({
 		// Load YouTube video player API.
 		loadYouTubeVideoPlayerApi()
 
-		onApplicationStarted({
+		const onApplicationStopped = onApplicationStarted({
 			dispatch,
 			userData,
 			userDataForUserDataCleaner,
@@ -199,6 +192,8 @@ function App({
 			dataSource,
 			setInitialized
 		})
+
+		return onApplicationStopped
 	}, [])
 
 	useEffect(() => {

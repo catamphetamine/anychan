@@ -522,8 +522,8 @@
 /* Thread comment styles end. */
 
 /* `8ch.net` and imageboards running on `lynxchan` engine (such as `kohlchan.net`)
-		have regular quotes and "inverse" quotes. */
-/* `8ch.net` "inverse" quotes are red. */
+	or on `jschan` engine have regular quotes and "inverse" quotes. */
+/* `8ch`/`kohlchan`/`jschan` "inverse" quotes are red. Can also be called "pinktext". */
 .PostQuoteBlock--inverse {
 	--PostQuoteBlock-marginTop: var(--PostQuoteBlock-marginTop--inverse);
 	--PostQuoteBlock-marginBottom: var(--PostQuoteBlock-marginBottom--inverse);
@@ -539,7 +539,7 @@
 	}
 }
 
-/* `8ch.net` red heading. */
+/* `8ch`/`jschan` red heading. */
 .PostText--heading {
 	color: var(--PostSubheading-color);
 	font-weight: bolder;

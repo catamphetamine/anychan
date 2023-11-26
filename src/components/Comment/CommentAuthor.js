@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { comment } from '../../PropTypes.js'
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import AnonymousPersonIcon from '../../../assets/images/icons/person-anonymous.svg'
 import PersonIcon from 'frontend-lib/icons/person-outline-slightly-thinner-no-bottom-border.svg'

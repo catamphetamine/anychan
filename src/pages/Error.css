@@ -13,6 +13,10 @@
 	margin: 0;
 }
 
+.ErrorPage-code {
+	font-weight: bolder;
+}
+
 .ErrorPage--showImage .ErrorPage-title {
 	margin-top: calc(var(--unit) * 4);
 }

@@ -37,10 +37,18 @@
 		"description": "Colorful background name (for dark mode)",
 		"required": false
 	},
-	"backgroundLightModeCustom": {
-		"description": "Custom colorful background (for light mode)",
+	"backgroundsLightMode": {
+		"description": "Custom colorful backgrounds (for light mode)",
 		"required": false,
-		"schema": {
+		"arrayOf": {
+			"id": {
+				"type": "string",
+				"description": "Background ID"
+			},
+			"name": {
+				"type": "string",
+				"description": "Background name"
+			},
 			"gradientColor1": {
 				"type": "string",
 				"description": "Gradent color 1"
@@ -52,6 +60,14 @@
 			"patternOpacity": {
 				"type": "nonNegativeNumber",
 				"description": "Pattern opacity"
+			},
+			"patternBlendMode": {
+				"type": "string",
+				"description": "Pattern blend mode"
+			},
+			"backgroundBlendMode": {
+				"type": "string",
+				"description": "Background blend mode"
 			},
 			"backgroundColor": {
 				"type": "string",
@@ -59,10 +75,18 @@
 			}
 		}
 	},
-	"backgroundDarkModeCustom": {
-		"description": "Custom colorful background (for dark mode)",
+	"backgroundsDarkMode": {
+		"description": "Custom colorful backgrounds (for dark mode)",
 		"required": false,
-		"schema": {
+		"arrayOf": {
+			"id": {
+				"type": "string",
+				"description": "Background ID"
+			},
+			"name": {
+				"type": "string",
+				"description": "Background name"
+			},
 			"gradientColor1": {
 				"type": "string",
 				"description": "Gradent color 1"
@@ -74,6 +98,14 @@
 			"patternOpacity": {
 				"type": "nonNegativeNumber",
 				"description": "Pattern opacity"
+			},
+			"patternBlendMode": {
+				"type": "string",
+				"description": "Pattern blend mode"
+			},
+			"backgroundBlendMode": {
+				"type": "string",
+				"description": "Background blend mode"
 			},
 			"backgroundColor": {
 				"type": "string",

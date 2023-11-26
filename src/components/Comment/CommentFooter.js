@@ -26,7 +26,7 @@ import CommentMoreActions from './CommentMoreActions.js'
 import CommentFooterDate from './CommentFooterDate.js'
 import CommentFooterSeparator from './CommentFooterSeparator.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
 

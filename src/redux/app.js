@@ -1,22 +1,18 @@
 import { ReduxModule } from 'react-pages'
 
-import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
-
 const redux = new ReduxModule()
+
+export const setDataSourceInfoForMeta = redux.simpleAction(
+	(state, dataSourceInfoForMeta) => ({ ...state, dataSourceInfoForMeta })
+)
 
 export const setShowSidebar = redux.simpleAction(
 	(state, isSidebarShown) => ({ ...state, isSidebarShown })
 )
 
-const _setDarkMode = redux.simpleAction(
+export const setDarkMode = redux.simpleAction(
 	(state, darkMode) => ({ ...state, darkMode })
 )
-export const setDarkMode = (darkMode) => {
-	// Apply `.dark`/`.light` CSS class to `<body/>` before Redux is initialized.
-	applyDarkMode(darkMode)
-	// Dispatch the Redux action. It will be processed after the page is loaded.
-	return _setDarkMode(darkMode)
-}
 
 export const setCookiesAccepted = redux.simpleAction(
 	(state, cookiesAccepted) => ({ ...state, cookiesAccepted })

@@ -13,19 +13,31 @@ https://uigradients.com
 
 /* In dark mode:
    * Background color is `--Background-backgroundColor`.
-   * Pattern color is `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
+   * Pattern color after blending is gonna be `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
    * Pattern opacity is `--BackgroundPattern-opacity`.
    * The more light or transparent Background color is,
      the more the gradient "shines through".
+
+   An alternative would've been:
+   * Background Layer's `background-color` is `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
+   * Background Layer's `-webkit-mask-image` is `--BackgroundPattern-url`,
+     along with `-webkit-mask: center repeat` and `-webkit-mask-size: 420px auto`.
+     The pattern's stroke is black so the pattern outline would be colored in gradient colors
+     and the rest would be just black because it wouldn't get through the "mask".
+   * Pattern Layer's `display` is `none` because there's no need for the Pattern Layer.
+   * Example implementation: https://t.me/durov
 */
 .dark {
 	--BackgroundGradient-blendMode: darken;
 	--BackgroundGradient-zIndex: -1;
 
 	--BackgroundPattern-filter: invert(100%);
-	--BackgroundPattern-opacity: 0.25;
 	--BackgroundPattern-blendMode: initial;
 	--BackgroundPattern-zIndex: -2;
+	--BackgroundPattern-opacity: 0.25;
+
+	--BackgroundBackdrop-zIndex: -3;
+	--BackgroundBackdrop-backgroundColor: initial;
 }
 
 /* In light mode:
@@ -38,16 +50,16 @@ https://uigradients.com
 	/* In light mode, `--Background-backgroundColor` is irrelevant. */
 	--Background-backgroundColor: initial;
 
-	--BackgroundPattern-blendMode: overlay;
-	--BackgroundPattern-filter: initial;
-
 	--BackgroundGradient-blendMode: initial;
 	--BackgroundGradient-zIndex: initial;
 
 	--BackgroundPattern-filter: initial;
-	--BackgroundPattern-opacity: 0.35;
 	--BackgroundPattern-blendMode: overlay;
 	--BackgroundPattern-zIndex: initial;
+	--BackgroundPattern-opacity: 0.35;
+
+	--BackgroundBackdrop-zIndex: initial;
+	--BackgroundBackdrop-backgroundColor: initial;
 }
 
 .dark {
@@ -75,6 +87,12 @@ https://uigradients.com
 		--BackgroundGradient-color--2: hsl(284deg 46% 21%);
 		--BackgroundPattern-opacity: 0.3;
 		--Background-backgroundColor: #170f28;
+	}
+
+	/* Blue Red */
+	.Background--dark--blue-red {
+		background-image: linear-gradient(to right,#000667,#511717);
+		--BackgroundPattern-blendMode: screen;
 	}
 }
 
@@ -122,6 +140,7 @@ https://uigradients.com
 	}
 }
 
+.Background-backdrop,
 .Background-gradient,
 .Background-pattern {
 	position: absolute;
@@ -129,6 +148,11 @@ https://uigradients.com
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+.Background-backdrop {
+	z-index: var(--BackgroundBackdrop-zIndex);
+	background-color: var(--BackgroundBackdrop-backgroundColor);
 }
 
 .Background-gradient {

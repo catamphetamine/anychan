@@ -1,28 +1,25 @@
 import getConfiguration from '../configuration.js'
 
-import getDataSource from './dataSource/getDataSource.js'
-import getDataSourceAlias from './dataSource/getDataSourceAlias.js'
 import addDataSourceIdToPath from './dataSource/addDataSourceIdToPath.js'
 import shouldIncludeDataSourceInPath from './dataSource/shouldIncludeDataSourceInPath.js'
 
 /**
- * Returns "base" path of the application.
- * For example, on `catamphetamine.github.io/anychan`
- * the "base" path was "/anychan".
+ * Returns "base" path of the application based on a "data source" ID.
+ * @param {string}
  * @return {string}
  */
-export default function getBasePath({ dataSourceId } = {}) {
+export default function getBasePath({
+	dataSource,
+	dataSourceAlias
+}) {
 	if (shouldIncludeDataSourceInPath()) {
-		dataSourceId = dataSourceId || getDataSourceAlias() || getDataSource().id
-		if (dataSourceId) {
-			return addBasePath(addDataSourceIdToPath('', dataSourceId))
-		}
+		return addBasePath(addDataSourceIdToPath('', dataSourceAlias || dataSource.id))
 	}
-	return _getBasePath() || ''
+	return getCoreBasePath() || ''
 }
 
 export function addBasePath(path) {
-	const basePath = _getBasePath()
+	const basePath = getCoreBasePath()
 	if (basePath) {
 		return basePath + path
 	}
@@ -30,7 +27,7 @@ export function addBasePath(path) {
 }
 
 export function removeBasePath(path) {
-	const basePath = _getBasePath()
+	const basePath = getCoreBasePath()
 	if (basePath) {
 		if (path.indexOf(basePath) === 0) {
 			return path.slice(basePath.length)
@@ -39,7 +36,13 @@ export function removeBasePath(path) {
 	return path
 }
 
-function _getBasePath() {
+/**
+ * Returns "base" path of the application.
+ * For example, on `catamphetamine.github.io/anychan`, the "base" path was "/anychan",
+ * and on `anychans.github.io` it's `""`.
+ * @return {string}
+ */
+function getCoreBasePath() {
 	if (getConfiguration().path) {
 		return getConfiguration().path
 	}

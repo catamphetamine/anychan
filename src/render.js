@@ -1,18 +1,28 @@
 import { render } from 'react-pages/client'
 
-import { getContext } from './context.js'
+import { createLoadContextGetterFunction } from './loadContext.js'
 import getReactPagesConfig from './react-pages.js'
 import getConfiguration from './configuration.js'
 import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVirtualScrollerDevModePageLoadWarnings.js'
 
-// import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
-
-export default async function() {
+export default async function({
+	dataSource,
+	dataSourceAlias,
+	multiDataSource
+}) {
 	let isFirstRender = true
 	let currentPage
 
 	// Renders the webpage on the client side
-	const { enableHotReload } = await render(getReactPagesConfig(), {
+	const { enableHotReload } = await render(getReactPagesConfig({
+		dataSource,
+		dataSourceAlias,
+	}), {
+		getLoadContext: createLoadContextGetterFunction({
+			dataSource,
+			dataSourceAlias,
+			multiDataSource
+		}),
 		onBeforeNavigate({ dispatch, location, params }) {
 			window._onBeforeNavigate({ dispatch })
 
@@ -20,7 +30,7 @@ export default async function() {
 			// when deciding whether should navigate "back".
 			window._isNavigationInProgress = true
 		},
-		onNavigate({ url, location, params, dispatch, useSelector }) {
+		onNavigate({ url, location, params, context, dispatch, useSelector }) {
 			// `window._previouslyVisitedPage` is used in `<SideNavMenuButton/>`.
 			// `window._previouslyVisitedPage` could alternatively be stored somewhere in Redux state.
 			window._previouslyVisitedPage = currentPage
@@ -52,7 +62,7 @@ export default async function() {
 
 			// Flush cached `localStorage`.
 			// (writes cached `latestReadComments` and `latestSeenThreads`).
-			const { userData } = getContext()
+			const { userData } = context
 			userData.storage.flush()
 
 			// Set up Google Analytics.

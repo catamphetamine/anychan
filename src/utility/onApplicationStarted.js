@@ -18,10 +18,16 @@ export default function onApplicationStarted({
 	userSettings,
 	dataSource
 }) {
-	// Start User Data cleaner.
-	const userDataCleaner = new UserDataCleaner({ userData: userDataForUserDataCleaner })
+	// Create User Data cleaner.
+	const userDataCleaner = new UserDataCleaner({
+		userData: userDataForUserDataCleaner,
+		dispatch,
+		userSettings
+	})
+
 	setUserDataCleaner(userDataCleaner)
 
+	// Start User Data cleaner.
 	userDataCleaner.start()
 
 	// Start subscribed thread updater.
@@ -61,4 +67,9 @@ export default function onApplicationStarted({
 	dispatch(getSubscribedThreads({ userData }))
 
 	setInitialized(true)
+
+	return () => {
+		userDataCleaner.stop()
+		subscribedThreadsUpdater.stop()
+	}
 }

@@ -22,7 +22,7 @@ import {
 
 import { clickableElementPropsType } from 'frontend-lib/components/OnLongPress.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 window.SHOW_POST_HEADER = false
 // window.POST_FULL_WIDTH = true

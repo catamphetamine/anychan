@@ -1,7 +1,9 @@
 import getChannels from '../getChannels.js'
 import getConfiguration from '../../configuration.js'
-import getPrefix from '../../utility/storage/getStoragePrefix.js'
-import storage from './storage.js'
+import getStoragePrefix from '../../utility/storage/getStoragePrefix.js'
+import Storage from '../../utility/storage/Storage.js'
+
+const storage = new Storage()
 
 /**
  * Caches `getChannels()` result for a day.
@@ -10,56 +12,80 @@ import storage from './storage.js'
  * @param {boolean} [all] — The `all` option of `getChannels()`.
  * @return {object} `getChannels()` result.
  */
-export default async function getChannelsCached({
-	all,
-	...rest
-}) {
+export default async function getChannelsCached(parameters) {
+	const {
+		all,
+		dataSource,
+		multiDataSource
+	} = parameters
+
+	if (dataSource === undefined) {
+		throw new Error('A cached version of `getChannels()` expects a `dataSource` parameter')
+	}
+
+	if (multiDataSource === undefined) {
+		throw new Error('A cached version of `getChannels()` expects a `multiDataSource` parameter')
+	}
+
 	// See if there's a recent cached value. If there is, return it.
-	let result = readFromCache({ all })
+	let result = readFromCache({ all, dataSource, multiDataSource })
+
 	if (result) {
 		return result
 	}
 
 	// Fetch the list of channels.
-	result = await getChannels({
-		all,
-		...rest
-	})
+	result = await getChannels(parameters)
 
 	// Update the cached value.
-	writeToCache(result, { all })
+	writeToCache(result, { all, dataSource, multiDataSource })
 
 	// Return the result.
 	return result
 }
 
-export function clearChannelsCache() {
-	storage.delete(getChannelsCacheKey())
-	storage.delete(getAllChannelsCacheKey())
+export function clearChannelsCache({
+	dataSource,
+	multiDataSource
+}) {
+	storage.delete(getChannelsCacheKey({ dataSource, multiDataSource }))
+	storage.delete(getAllChannelsCacheKey({ dataSource, multiDataSource }))
 }
 
-export function getChannelsCacheKey() {
-	return getPrefix() + 'getChannels'
+export function getChannelsCacheKey({
+	dataSource,
+	multiDataSource
+}) {
+	return getStoragePrefix({ dataSource, multiDataSource }) + 'getChannels'
 }
 
-export function getAllChannelsCacheKey() {
-	return getPrefix() + 'getAllChannels'
+export function getAllChannelsCacheKey({
+	dataSource,
+	multiDataSource
+}) {
+	return getStoragePrefix({ dataSource, multiDataSource }) + 'getAllChannels'
 }
 
-function readFromCache({ all }) {
-	const cached = storage.get(getCacheKey({ all }))
+function readFromCache({ all, dataSource, multiDataSource }) {
+	const cached = storage.get(getCacheKey({ all, dataSource, multiDataSource }))
 	if (cached && cached.timestamp + getConfiguration().channelsCacheTimeout >= Date.now()) {
 		return cached.value
 	}
 }
 
-function writeToCache(result, { all }) {
-	storage.set(getCacheKey({ all }), {
+function writeToCache(result, { all, dataSource, multiDataSource }) {
+	storage.set(getCacheKey({ all, dataSource, multiDataSource }), {
 		timestamp: Date.now(),
 		value: result
 	})
 }
 
-function getCacheKey({ all }) {
-	return all ? getAllChannelsCacheKey() : getChannelsCacheKey()
+function getCacheKey({ all, dataSource, multiDataSource }) {
+	return all ? getAllChannelsCacheKey({
+		dataSource,
+		multiDataSource
+	}) : getChannelsCacheKey({
+		dataSource,
+		multiDataSource
+	})
 }

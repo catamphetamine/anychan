@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { Tooltip } from 'react-responsive-ui'
 import classNames from 'classnames'
-import IntlMessageFormat from 'intl-messageformat'
 
 import CommentIcon from 'frontend-lib/icons/message-rounded-rect-square.svg'
 // import FireIcon from '../../assets/images/icons/fire-outline.svg'
 import FireIcon from '../../assets/images/icons/fire.svg'
 
+import useMessage from '../hooks/useMessage.js'
 import useMessages from '../hooks/useMessages.js'
-import useLocale from '../hooks/useLocale.js'
 
 import './ThreadActivityIndicator.css'
 import './Tooltip.css'
@@ -31,8 +30,6 @@ export default function ThreadActivityIndicator({
 	...rest
 }) {
 	const mountedAt = useMemo(() => Date.now(), [])
-	const messages = useMessages()
-	const locale = useLocale()
 
 	// Calculate counts.
 	let commentsInTheLatestFifteenMinutes = 0
@@ -76,40 +73,31 @@ export default function ThreadActivityIndicator({
 		}
 	}, [])
 
-	// Render.
-	const {
-		threadActivityStatus15Min,
-		threadActivityStatusHour
-	} = messages
+	const messages = useMessages()
 
-	const tooltip15Min = useMemo(() => {
-		return new IntlMessageFormat(threadActivityStatus15Min, locale)
-	}, [
-		threadActivityStatus15Min,
-		locale
-	])
+	const tooltipStatsMessageParametersFor15MinInterval = useMemo(() => {
+		return getTooltipStatsMessageParameters({ count: commentsInTheLatestFifteenMinutes })
+	}, [commentsInTheLatestFifteenMinutes])
 
-	const tooltipHour = useMemo(() => {
-		return new IntlMessageFormat(threadActivityStatusHour, locale)
-	}, [
-		threadActivityStatusHour,
-		locale
-	])
+	const tooltipStatsMessageParametersFor1HourInterval = useMemo(() => {
+		return getTooltipStatsMessageParameters({ count: commentsInTheLatestHour })
+	}, [commentsInTheLatestHour])
+
+	const tooltipStatsFor15MinInterval = useMessage(messages.threadActivityStatsFor15MinInterval, tooltipStatsMessageParametersFor15MinInterval)
+	const tooltipStatsFor1HourInterval = useMessage(messages.threadActivityStatsFor1HourInterval, tooltipStatsMessageParametersFor1HourInterval)
 
 	const tooltipContent = useMemo(() => (
-		<React.Fragment>
-			<TooltipStats
-				tooltip={tooltip15Min}
-				count={commentsInTheLatestFifteenMinutes}/>
-			<TooltipStats
-				tooltip={tooltipHour}
-				count={commentsInTheLatestHour}/>
-		</React.Fragment>
+		<>
+			<TooltipStats>
+				{tooltipStatsFor15MinInterval}
+			</TooltipStats>
+			<TooltipStats>
+				{tooltipStatsFor1HourInterval}
+			</TooltipStats>
+		</>
 	), [
-		tooltip15Min,
-		tooltipHour,
-		commentsInTheLatestFifteenMinutes,
-		commentsInTheLatestHour
+		tooltipStatsFor15MinInterval,
+		tooltipStatsFor1HourInterval
 	])
 
 	const isHot = commentsInTheLatestFifteenMinutes > 10
@@ -159,32 +147,17 @@ ThreadActivityIndicator.defaultProps = {
 	autoUpdateDelay: MINUTE
 }
 
-function TooltipStats({ tooltip, count }) {
+function TooltipStats({ children }) {
 	// If `key`s weren't used, React would show a warning.
 	return (
 		<div className="ThreadActivityIndicatorTooltipStats">
-			{tooltip.format({
-				_count: count,
-				count: (children) => (
-					<ThreadActivityIndicatorTooltipStatsCount key="theCount">
-						{children}
-					</ThreadActivityIndicatorTooltipStatsCount>
-				),
-				time: (children) => (
-					<ThreadActivityIndicatorTooltipStatsPeriod key="theTime">
-						{children}
-					</ThreadActivityIndicatorTooltipStatsPeriod>
-				)
-			})}
+			{children}
 		</div>
 	)
 }
 
 TooltipStats.propTypes = {
-	tooltip: PropTypes.shape({
-		format: PropTypes.func.isRequired
-	}).isRequired,
-	count: PropTypes.number.isRequired
+	children: PropTypes.node.isRequired
 }
 
 function ThreadActivityIndicatorTooltipStatsCount({ children }) {
@@ -210,4 +183,20 @@ function ThreadActivityIndicatorTooltipStatsPeriod({ children }) {
 
 ThreadActivityIndicatorTooltipStatsPeriod.propTypes = {
 	children: PropTypes.node.isRequired
+}
+
+function getTooltipStatsMessageParameters({ count }) {
+	return {
+		commentsCount: count,
+		commentsCountTag: (children) => (
+			<ThreadActivityIndicatorTooltipStatsCount key="count">
+				{children}
+			</ThreadActivityIndicatorTooltipStatsCount>
+		),
+		timeTag: (children) => (
+			<ThreadActivityIndicatorTooltipStatsPeriod key="time">
+				{children}
+			</ThreadActivityIndicatorTooltipStatsPeriod>
+		)
+	}
 }

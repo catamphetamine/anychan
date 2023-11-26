@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
+import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 import Heading from '../components/Heading.js'
 import ThemeSettings from '../components/settings/ThemeSettings.js'
@@ -31,7 +32,7 @@ import useDataSource from '../hooks/useDataSource.js'
 
 import { setDarkMode } from '../redux/app.js'
 
-import { getLanguageNames } from '../messages/index.js'
+import getLanguageNames from '../messages/getLanguageNames.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
@@ -40,7 +41,7 @@ import useSettings from '../hooks/useSettings.js'
 import useMeasure from '../hooks/useMeasure.js'
 
 import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
-import getProxyUrl from '../utility/proxy/getProxyUrl.js'
+import { getDefaultProxyUrl } from '../utility/proxy/getProxyUrl.js'
 
 import {
 	ContentSections,
@@ -54,8 +55,10 @@ const LANGUAGE_NAMES = getLanguageNames()
 
 export default function SettingsPage(props) {
 	const messages = useMessages()
+
 	const settings = useSetting(settings => settings)
 	const cookiesAccepted = useSelector(state => state.app.cookiesAccepted)
+
 	return (
 		<section className="SettingsPage Content Content--text">
 			{/* Settings */}
@@ -93,6 +96,8 @@ function Settings({
 	const dataSource = useDataSource()
 
 	const onSetDarkMode = useCallback((value) => {
+		// Apply `.dark`/`.light` CSS class to `<body/>`.
+		applyDarkMode(darkMode)
 		dispatch(setDarkMode(value))
 		measure()
 	}, [
@@ -174,11 +179,11 @@ function Settings({
 			/>
 
 			{/* CORS Proxy */}
-			{shouldUseProxy(dataSource) &&
+			{(!dataSource || shouldUseProxy(dataSource)) &&
 				<ProxySettings
 					messages={messages}
 					value={settings.proxyUrl}
-					defaultValue={getProxyUrl({ userSettings })}
+					defaultValue={getDefaultProxyUrl()}
 					onChange={onProxyUrlChange}
 				/>
 			}

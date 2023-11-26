@@ -10,7 +10,7 @@ export default function AvailableChannels() {
 
 	// Channels won't be loaded in "offline" mode.
 	const availableChannels = useSelector(state => state.data.channels)
-	const channels = availableChannels || []
+	const channels = availableChannels
 
 	const channelsByPopularity = useSelector(state => state.data.channelsByPopularity)
 	const channelsByCategory = useSelector(state => state.data.channelsByCategory)

@@ -84,7 +84,7 @@
 			"guide": "Руководство по созданию новых тем (англ.)",
 			"deleteCurrent": {
 				"title": "Удалить текущую тему",
-				"warning": "Вы уверены, что хотите удалить тему «{0}»?"
+				"warning": "Вы уверены, что хотите удалить тему «{theme}»?"
 			},
 			"themes": {
 				"default": "По умолчанию",
@@ -95,6 +95,7 @@
 		"proxy": {
 			"title": "Прокси-сервер",
 			"description": "Браузеры не разрешают одним сайтам читать данные с других сайтов. Для обхода этого ограничения HTTP запросы на API отправляются через особый «прокси-сервер».",
+			"setUpCustomProxyGuideTitle": "Руководство: Как запустить свой собственный прокси-сервер (англ.)",
 			"url": "Адрес",
 			"invalidUrl": "Неверный формат адреса",
 			"saved": "Адрес прокси-сервера сохранён",
@@ -293,14 +294,14 @@
 	},
 	"proxyPostingCaution": "Осторожнее с постингом здесь, молодые люди. Все пользователи этого приложения сидят на одном и том же прокси. Если этот прокси забанят, то приложение может перестать работать у всех.",
 	"colorfulBackground": "Разноцветный фон",
-	"nMoreComments": "{count, plural, one {ещё <tag>#</tag> комментарий} few {ещё <tag>#</tag> комментария} many {ещё <tag>#</tag> комментариев} other {ещё <tag>#</tag> комментария}}",
+	"nMoreComments": "{count, plural, one {ещё <countTag>#</countTag> комментарий} few {ещё <countTag>#</countTag> комментария} many {ещё <countTag>#</countTag> комментариев} other {ещё <countTag>#</countTag> комментария}}",
 	"noNewComments": "Нет новых комментариев",
 	"hasNewComments": "Есть новые комментарии",
 	"hasNewReplies": "Есть новые ответы",
 	"newComments": "Новые комментарии",
 	"lastComment": "Последний комментарий",
 	"goToComment": "Перейти к комментарию",
-	"yourAccountIsBanned": "Вы забанены{ untilDate, select, undefined {} null {} other { до {untilDate, date, long}} }{ reason, select, undefined {} null {} other {. Причина: {reason}} }{ banId, select, undefined {} null {} other {. ID бана: {banId}} }{ boardId, select, undefined {} null {} other {. Доска: {boardId}} }",
+	"yourAccountIsBanned": "Вы забанены{untilDate, exists { до {untilDate, date, long}}}{reason, exists {. Причина: {reason}}}{banId, exists {. ID бана: {banId}}}{boardId, exists {. Доска: {boardId}}}",
 	"attachmentRequired": "Требуется прикрепить вложение",
 	"attachmentNotSupported": "Какие-то из вложений не поддерживаются",
 	"attachmentsCountExceeded": "Слишком много вложений",
@@ -328,7 +329,7 @@
 	"threadIsArchived": "Тред в архиве",
 	"threadIsLocked": "Тред закрыт",
 	"threadExpired": "Тред потонул",
-	"threadExpiresSoon": "Тред на {0} месте из {1}. Как только тред опустится ниже последнего места, он будет затёрт. Для того, чтобы поднять тред, оставьте в нём комментарий.",
-	"threadActivityStatus15Min": "{_count, plural, one {<count>#</count> комментарий} few {<count>#</count> комментария} many {<count>#</count> комментариев} other {<count>#</count> комментария}} за последние <time>15 минут</time>",
-	"threadActivityStatusHour": "{_count, plural, one {<count>#</count> комментарий} few {<count>#</count> комментария} many {<count>#</count> комментариев} other {<count>#</count> комментария}} за последний <time>час</time>"
+	"threadExpiresSoon": "Тред на {position} месте из {lastPosition}. Как только тред опустится ниже последнего места, он будет затёрт. Для того, чтобы поднять тред, оставьте в нём комментарий.",
+	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> комментарий} few {<commentsCountTag>#</commentsCountTag> комментария} many {<commentsCountTag>#</commentsCountTag> комментариев} other {<commentsCountTag>#</commentsCountTag> комментария}} за последние <timeTag>15 минут</timeTag>",
+	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> комментарий} few {<commentsCountTag>#</commentsCountTag> комментария} many {<commentsCountTag>#</commentsCountTag> комментариев} other {<commentsCountTag>#</commentsCountTag> комментария}} за последний <timeTag>час</timeTag>"
 }

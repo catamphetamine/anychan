@@ -1,7 +1,10 @@
+// import getConfiguration from '../../configuration.js'
+
 export default function isDeployedOnDataSourceDomain(dataSource) {
 	if (!dataSource) {
 		return false
 	}
+
 	if (typeof window !== 'undefined') {
 		const domain = window.location.hostname.replace(WWW_REGEXP, '')
 		// Replace the `www.` part just in case.
@@ -14,6 +17,12 @@ export default function isDeployedOnDataSourceDomain(dataSource) {
 			}
 		}
 	}
+
+	// For server-side rendering, could introduce a configuration parameter,
+	// something like `useRelativeUrls: true`.
+	// if (getConfiguration().useRelativeUrls) {
+	// 	return true
+	// }
 	return false
 }
 

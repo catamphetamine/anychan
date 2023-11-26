@@ -2,6 +2,174 @@
 
 
 
+
+* Test using `await waitFor` in SubscribedThreadsUpdater.StatusRecord and maybe in SubscribedThreadsUpdater itself too. `npm test`. If the tests pass, write a note in `web-browser-timer` README in `fastForward` on why it might not work with promises and with which promises won't it work.
+
+
+
+
+
+
+
+
+* When posting a comment:
+  * If reply form is already unmounted, show "Comment Posted" notification
+  * If reply for is not unmounted, show the new reply as `parentComment.showReplyIds([...rest, newCommentId])`. `showReplyIds` will be reset on toggling "show replies" button of a comment. `onHeightChange()` when `showReplyIds` changed (use layout effect). When calling `refreshThread()` after posting a comment, pass parameters: `{ expectedCommentId: 12345, onExpectedCommentFound, onExpectedCommentNotFound: notify(...) }`. Those functions will be set in `AutoUpdate.expectedComments[]` `useRef()` array. They will be stored there only for the duration of one update cycle. If already updating, then set a `useRef()` variable `shouldReRunRefreshAfterFinishRefreshing.curren = true`, and then reset it when staring a refresh, if it was `true`.
+
+* Check thread header TooltipStats message formatting: 15min, 1hour.
+
+* Check banned message formatted (de)
+
+* Refactor `null` messages. Remove the comment that `messageLabel` could be `null`.
+
+
+
+* "<code>94chan.org</code> is known to not work with the "demo" proxy server" — only when config demo flag is `true`
+
+* "<code>94chan.org</code> is known to not work with the "demo" proxy server" — add "anchor" link to proxy settings
+
+
+
+
+
+
+
+
+* "Reply to" comment form — if the list of replies is expanded, the form should be rendered below those replies.
+
+* Reply Quote Modal — only show bottom border on `Comment` elements + maybe somehow hide left and right borders on `Comment` elements.
+
+
+
+
+
+
+
+
+* Maybe add a link to the comment or thread in the reply form itself if there's a notice that the functionality isn't implemented, or was disabled for anonymous posters (if the user is not logged in).
+
+* When running on a proxy with `x-set-cookie` headers, clear those named cookies that have been received from the server. The rationale is that there's no reason to keep them there.
+
+* `http://localhost:8080/?url=https%3A%2F%2F94chan.org%2Fpol%2Fcatalog.json` — The origin "http://localhost:8080" was not whitelisted by the operator of this proxy.
+  * Remove origin whitelisting by default mb, so that it's easier to run on localhost.
+
+* Create `cors-proxy-node` npm package. Rename references to `anychan-proxy` in `anychan`.
+
+* Check proxy instructions in `anychan` (if those work). Add a note that a proxy could be run on localhost (test that conjecture).
+
+* Add `config.demo` flag that disables anonymous (CAPTCHA) posting (show a message in the form) and also enables warnings about CORS proxy caution.
+
+* Test if 4chan twister captcha JSON object could be fetched via `fetch()` using the HTML page URL and responseType: text/html.
+
+* Maybe compile a list of 4chan report reasons and then insert them in `4chan.md` doc in `imageboard`.
+
+* Maybe enable 4chan report modal with reasons selector and CAPTCHA modal.
+
+* CORS proxy: Rename `areCookiesEnabled` to `shouldForwardCookiesForThisDomain`. Enable `x-cookie` and `x-set-cookie` in any case.
+
+* Maybe remove the list of "whitelisted" origins for cookies in CORS proxy, if it's not used.
+
+* Rename `x-cookies-enabled` flag to something like `x-forward-cookie`, and also rename it in the readme.
+
+* In `anychan` repo `docs`, create `proxy.md` with a description of what is CORS proxy, why is it used and how to set up one. Add that link to the Proxy Settings section in the app settings.
+
+* In CORS proxy, maybe rename `useCookie` flag to something like `forwardCookiesForDomains: []`, and also change it in the readme then.
+
+* In `node-cors-proxy`, document the `/stats` page URL maybe.
+
+
+
+
+
+
+* Move thread/channel data fetchers out of Redux `data.js`. The issue with the fetchers being there is: auto-update thread refresh has started and waits for server response, at that time user navigates to another page, response for new thread is received, response for the previous auto-updated thread is received and it overwrites the state for the new thread in Redux store. The solution would be: fetch data outside of `dispatch()`ing Redux actions and then only `dispatch()` a setter if `useStore().getState()` thread.id is the same and there's no other `fetchingThreadId`, etc.
+
+
+* Maybe assign lowercase `id`s to default gradients and migrate `UserData` accordingly. Test doge icon toggle.
+
+* При начале печатания в поле search на странице канала — scroll to top.
+
+
+
+* Test `announcement.json` (design, work).
+
+* Create a new build of version `0.4.0` and add a link to it in readme maybe, or where else.
+
+
+
+
+* When a new version is deployed, write to 4chan that maybe they'd send me a pass code
+https://boards.4channel.org/g/thread/96867655/hello-im-a-hobbyist-developer-of-a-small
+https://4chan.org/feedback
+api@4chan.org
+
+
+
+
+
+
+
+* Maybe add `DOMContentLoaded` event wrapper around the `index.js` script so that there're no errors in sentry.
+
+* Add selection of "colorful background" (for light mode and dark mode) in settings.
+
+* When creating a new thread, fetch that thread and then `navigateTo(threadUrl, { context: thread })` so that it doesn't re-fetch the thread.
+
+* Thread auto-update: start a new auto-update only if `useStore().getState().thread.id` is the same one and not `fetchingThreadId` another thread. This works around a bug when started a refresh and then navigated to another thread while it's refreshing.
+
+* `createUserData()` function has a flag — `userDataCleaner: boolean`. Refactor that flag to be an object instead of a boolean. Then see `utility/global.js` with `setUserDataCleaner()` and `setSubscribedThreadsUpdater()` — maybe remove that file.
+* Check if `setDataSourceInfoForMeta` works, and if other changes didn't break the app.
+* Test how it applies dark mode on page load: auto (OS based), custom via toggle.
+* Test open non-existing board page: shouldn't throw an error in console.
+* Test react pages navigation location update after `load()` threw an error: it should set navigation location to be the previous one via `goto({ skip load })`. Test how back/forward navigation works after such occasion. For that, maybe output `useNavigationLocation()` somewhere in Sidebar.
+
+* Add icons on the right side of `CommentMoreActions`. See Telegram on-hold menu on comment or iOS Safari menu on hold tab.
+
+* `2ch.hk` sets a special cookie when replying to any thread, after which "adult" channels become availble for viewing. This supposedly would prevent search engines from indexing those pages in order to escape a ban from RosKomNadzor. Look in `Set-Cookie` headers that the server sends in response, extract the cookie value from there, put it in `UserData` and then send it as `x-cookie` when fetching channels or threads.
+
+* Return "pinned" threads to their top position in "catalog" (regular) channel view.
+* Add the ability to "minimize" threads (including pinned ones). For pinned ones in minimized state, show a pin icon. Add a new `UserData` collection for minimized thread IDs (per-channel data). Clear expired threads from that list of IDs on a channel.
+
+* After a thread has been created, don't `notify('Thread created')`.
+* Don't clean up user data for: own threads, subscribed threads. Maybe only clear based on `latestAccessedAt` if the User Data size is over some threshold? Maybe not.
+
+
+
+Telegram background dark:
+
+BackgroundBackdrop-backgroundColor: black;
+BackgroundGradient-color--1: #003578;
+BackgroundGradient-color--2: #5d2600;
+BackgroundPattern-opacity: 1;
+BackgroundGradient-blendMode: multiply;
+
+Check other backgrounds: that adding BackgroundBackdrop didn't change those.
+
+
+* User Data Cleaner: don't clean "minimized" setting of pinned threads, if they didn't expire.
+
+* Test background image element (filter(blur)) and add it in `settingsSchema.json`.
+
+* Maybe paint "threads-with-replies"'s branches in a slightly darker color because it's not clearly visible on "colorful background".
+
+* UserData events log — turn off in production.
+
+
+
+* On mobile devices (e.g. iOS Safari), when "colorful background" is enabled, it doesn't extend to the top and bottom of the page. Maybe that's an issue specifically with `position: fixed` and top/left/bottom/right being `0`: it lags behind when the window dynamically changes size at the bottom due to the user scrolling.
+
+
+
+* If a subscribed thread is "soon" to be pushed out of the channel, show a yellow warning icon in sidebar.
+* On a thread page, it could calculate a probable time of when the thread will be pushed off the channel, and if that time is "soon", it could display a gray warning banner at the bottom.
+
+
+
+* Disable anonymous posting by default on demo site. Re-enable it if `window.ENABLE_ANONYMOUS_POSTING = true` is set in console (testing).
+
+
+
+
 * Somehow get channel and thread in `onSubmitCommentOrThread()`
 * Maybe when pasting a comment, the thread should already be in redux state (but not required)
 * And when creating a thread, it could be fetched as part of `goto()`
@@ -10,6 +178,21 @@
 Test create thread in /v/:
 * Adds the thread to favorites
 * Redirects to the thread's page
+
+
+
+Add `Title` field when posting a new thread.
+
+
+
+
+When a list of threads is fetched for displaying them in "tiles" mode, set `commentLengthLimitForThreadPreview` to be smaller.
+
+
+
+
+Если ввести что-то в поле поиска на канале, и затем нажать на этот же канал в сайдбаре, то поле поиска следует очищать, и показывать результаты `threads`, а не `searchResults`.
+
 
 
 

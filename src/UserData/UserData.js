@@ -84,14 +84,18 @@ export default class UserData {
 	}
 
 	start() {
-		// Start a `CachedLocalStorage`, if it is one.
+		// Start a `CachedStorage`, if it is one.
+		// A "started" `CachedStorage` would listen to external changes
+		// to `localStorage` and then refresh its internal cache accordingly.
 		if (this.storage.start) {
 			this.storage.start()
 		}
 	}
 
 	stop() {
-		// Stop a `CachedLocalStorage`, if it is one.
+		// Stop a `CachedStorage`, if it is one.
+		// A "started" `CachedStorage` would listen to external changes
+		// to `localStorage` and then refresh its internal cache accordingly.
 		if (this.storage.stop) {
 			this.storage.stop()
 		}

@@ -4,7 +4,7 @@ import { Timer } from 'web-browser-timer'
 import { getThreadWithCallback } from '../thread/getThread.js'
 import getNextUpdateAtForThread from '../thread/getNextUpdateAtForThread.js'
 import reportError from '../reportError.js'
-import storage_ from '../storage/storage.js'
+import Storage from '../storage/Storage.js'
 import StatusRecord from './SubscribedThreadsUpdater.StatusRecord.js'
 import SubscribedThreadsUpdaterError from './SubscribedThreadsUpdaterError.js'
 
@@ -37,7 +37,7 @@ export default class SubscribedThreadsUpdater {
 		userData,
 		userSettings,
 		dataSource,
-		storage = storage_,
+		storage,
 		dispatch,
 		// `getThreadStub` parameter is currently only used in tests.
 		getThreadStub,
@@ -48,6 +48,14 @@ export default class SubscribedThreadsUpdater {
 		nextUpdateRandomizeInterval = NEXT_UPDATE_RANDOMIZE_INTERVAL,
 		eventLog
 	}) {
+		// Initialize storage.
+		if (!storage) {
+			storage = new Storage({
+				dispatch,
+				getLocale: userSettings && (() => userSettings.get('locale'))
+			})
+		}
+
 		if (!tab) {
 			tab = new Tab({ storage })
 		}

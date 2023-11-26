@@ -9,11 +9,19 @@ export default function getProxyUrl({ userSettings }) {
 	// 		return getConfiguration().proxyUrlAws
 	// 	}
 	// }
-	const proxyUrl = userSettings.get('proxyUrl')
-	if (proxyUrl) {
-		return proxyUrl
+	if (userSettings) {
+		const proxyUrl = userSettings.get('proxyUrl')
+		// `proxyUrl: null` could mean "don't use any proxy".
+		if (proxyUrl || proxyUrl === null) {
+			return proxyUrl
+		}
 	}
-	if (getConfiguration().proxyUrl) {
+	return getDefaultProxyUrl()
+}
+
+export function getDefaultProxyUrl() {
+	// `proxyUrl: null` could mean "don't use any proxy".
+	if (getConfiguration().proxyUrl || getConfiguration().proxyUrl === null) {
 		return getConfiguration().proxyUrl
 	}
 }

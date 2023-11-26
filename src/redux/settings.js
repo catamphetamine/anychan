@@ -1,14 +1,14 @@
 import { ReduxModule } from 'react-pages'
 
-import getSettings_ from '../utility/settings/getSettings.js'
+import getSettings from '../utility/settings/getSettings.js'
 
 const redux = new ReduxModule()
 
-export const getSettings = redux.simpleAction(
-	(state, { userSettings }) => {
+export const setSettingsFromCustomSettingsData = redux.simpleAction(
+	(state, { settings }) => {
 		return {
 			...state,
-			settings: getSettings_({ userSettings })
+			settings: getSettings({ settings })
 		}
 	}
 )
@@ -18,7 +18,7 @@ export const resetSettings = redux.simpleAction(
 		userSettings.reset()
 		return {
 			...state,
-			settings: getSettings_({ userSettings })
+			settings: getSettings({ userSettings })
 		}
 	}
 )
@@ -28,7 +28,7 @@ export const replaceSettings = redux.simpleAction(
 		userSettings.replace(newSettings)
 		return {
 			...state,
-			settings: getSettings_({ userSettings })
+			settings: getSettings({ userSettings })
 		}
 	}
 )
@@ -173,5 +173,5 @@ export default redux.reducer()
  */
 function saveSetting(name, value, { userSettings }) {
 	userSettings.set(name, value)
-	return getSettings_({ userSettings })
+	return getSettings({ userSettings })
 }

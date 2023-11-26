@@ -10,7 +10,7 @@ import {
 	setSearchResultsState
 } from '../../redux/channel.js'
 
-import getMessages from '../../messages/index.js'
+import getMessages from '../../messages/getMessages.js'
 
 import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
@@ -27,8 +27,6 @@ import useUserData from '../../hooks/useUserData.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useOnThreadClick from '../../components/useOnThreadClick.js'
-
-import { getContext } from '../../context.js'
 
 import getChannelPageMeta from './Channel.meta.js'
 import useLoadChannelPage from '../../hooks/useLoadChannelPage.js'
@@ -179,7 +177,13 @@ export default function ChannelPage() {
 			searchQuery: query
 		}))
 		// Reset `virtual-scroller` state whenever the user changes search input value.
-		// Otherwise, there'd be a bug:
+		// That's because the old `initialVirtualScrollerState` is no longer valid
+		// because it was calculated for the old set of `items`, and the `items` are now different.
+		// If the old `initialVirtualScrollerState` wasn't cleared here
+		// and the user navigates to some other page and then goes "instant back" to this page,
+		// this page would get mounted again and the `<VirtualScroller/>` would get mounted with it,
+		// and the old `initialVirtualScrollerState` would get applied but the `items` would already
+		// be different, which would result in an inconsistency bug:
 		// * User goes to channel page.
 		// * User scrolls down, etc.
 		// * User enters something in the search input.
@@ -263,15 +267,16 @@ ChannelPage.meta = getChannelPageMeta
 ChannelPage.load = async ({
 	useSelector,
 	dispatch,
-	params: { channelId }
+	params: { channelId },
+	context
 }) => {
 	const loadChannelPage = useLoadChannelPage({
 		useCallback: (func) => func,
 		useSelector,
 		useDispatch: () => dispatch,
-		useUserData: () => getContext().userData,
-		useUserSettings: () => getContext().userSettings,
-		useDataSource: () => getContext().dataSource
+		useUserData: () => context.userData,
+		useUserSettings: () => context.userSettings,
+		useDataSource: () => context.dataSource
 	})
 
 	await loadChannelPage({ channelId })
@@ -292,8 +297,17 @@ function useThreadsForChannelView(latestLoadedThreads) {
 	const onChannelViewWillChange = useCallback(() => {
 		threadsForPreviousChannelView.current = latestLoadedThreads
 
-		// Reset `virtual-scroller` state whenever the user changes search input value.
-		// Otherwise, there'd be a bug:
+		// Reset `virtual-scroller` state whenever the user changes channel view.
+		// That's because the old `initialVirtualScrollerState` is no longer valid
+		// because it was calculated for the old set of `items`, and the `items` are now different.
+		// If the old `initialVirtualScrollerState` wasn't cleared here
+		// and the user navigates to some other page and then goes "instant back" to this page,
+		// this page would get mounted again and the `<VirtualScroller/>` would get mounted with it,
+		// and the old `initialVirtualScrollerState` would get applied but the `items` would already
+		// be different, which would result in an inconsistency bug.
+		// And even without the user navigating anywhere, `<VirtualScroller/>` would still re-mount
+		// because its `key` depends on `channelView` so that `key` would change whenever `channelView` does.
+		// The bug would manifest in the following way:
 		// * User goes to channel page.
 		// * User scrolls down, etc.
 		// * User enters something in the search input.

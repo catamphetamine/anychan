@@ -1,7 +1,7 @@
 import getDataSourceById from './dataSource/getDataSourceById.js'
-import getPrefix, { BASE_PREFIX } from './storage/getStoragePrefix.js'
+import { BASE_PREFIX } from './storage/getStoragePrefix.js'
 import compareVersions from './semver-compare.js'
-import storage_ from './storage/storage.js'
+import Storage from './storage/Storage.js'
 
 const debug = (...args) => console.log(['Migration'].concat(args))
 
@@ -14,15 +14,30 @@ const VERSION = 1
 
 export default function migrate({
 	collections,
-	storage = storage_
+	storage,
+	dispatch,
+	userSettings
 }) {
+	// Initialize storage.
+	if (!storage) {
+		storage = new Storage({
+			dispatch,
+			getLocale: userSettings && (() => userSettings.get('locale'))
+		})
+	}
+
 	const info = storage.get(BASE_PREFIX) || {}
 	migrate_(info, { collections, storage })
 	info.version = VERSION
 	storage.set(BASE_PREFIX, info)
 }
 
-export function requiresMigration({ storage = storage_ } = {}) {
+export function requiresMigration({ storage } = {}) {
+	// Initialize storage.
+	if (!storage) {
+		storage = new Storage()
+	}
+
 	const info = storage.get(BASE_PREFIX) || {}
 	const { version } = info
 	return version !== VERSION
