@@ -69,6 +69,10 @@
 	*/
 }
 
+.Comment {
+	border-radius: var(--Comment-borderRadius);
+}
+
 /* Thread comment styles begin. */
 
 .Comment-thumbnail {
@@ -76,7 +80,7 @@
 }
 
 .CommentTree-comment--nested {
-	border-left: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	border-left: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 }
 
 /*
@@ -130,23 +134,28 @@
 			 item height, if not required. */
 		/*
 		.Comment-thumbnail {
-			border-bottom: var(--CommentSeparator-width) solid transparent;
+			border-bottom: var(--Comment-borderWidth) solid transparent;
 		}
 		.Comment-comment {
-			border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+			border-bottom: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 		}
 		*/
 	/*}*/
 /*}*/
 
 .Comment {
-	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
-	border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	/* `--Comment-border` is defined inside `.Comment` instead of `:root`
+	   because this way different containers are able to override the color
+	   and the border width. Otherwise, they wouldn't be able to. */
+	--Comment-border: var(--Comment-borderColor) solid var(--Comment-borderWidth);
+
+	/*	border-top: var(--Comment-borderWidth) solid var(--Comment-borderColor);*/
+	/*	border-bottom: var(--Comment-borderWidth) solid var(--Comment-borderColor);*/
 
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
 			box-shadow: var(--Comment-boxShadow);
-  		border: var(--Comment-border);
+			border: var(--Comment-border);
 		/*}*/
 		/*
 		&:not(.Comment--showThumbnail) {
@@ -160,10 +169,12 @@
 }
 
 .Comment--channel {
-	--CommentSeparator-color: var(--CommentSeparator-color--channelPage);
+	--Comment-boxShadow--2: var(--ContentSection-shadow);
+
+	--Comment-borderColor: var(--Comment-borderColor--channelPage);
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
-			box-shadow: var(--Comment-boxShadow), var(--ContentSection-shadow);
+			box-shadow: var(--Comment-boxShadow), var(--Comment-boxShadow--2);
 		/*}*/
 	/*}*/
 }
@@ -197,12 +208,12 @@
 		because it would be drawn at the very screen edge (mobile devices).
 		This CSS variable can be used for styling such special case. */
 	@mixin upto-s {
-		--CommentTreeBranch-leftOffsetRatio--firstLevelOfNesting: 0.25;
+		--CommentTreePath-marginLeftRatio--root: 0.25;
 	}
 	/* Add the same left padding to first-level comment tree branch
 	   in `InReplyToModal` because it doesn't have any side padding. */
 	.InReplyToModal {
-		--CommentTreeBranch-leftOffsetRatio--firstLevelOfNesting: 0.25;
+		--CommentTreePath-marginLeftRatio--root: 0.25;
 	}
 }
 
@@ -555,8 +566,7 @@
 .Comment--previouslyRead {
 	--Post-backgroundColor: var(--Document-backgroundColor);
 	--PostLinkIcon-backgroundColor: var(--Document-backgroundColor);
-	/*--CommentSeparator-color: transparent;*/
-	--CommentSeparator-color: var(--CommentSeparator-color--previouslyRead);
+	--Comment-borderColor: var(--Comment-borderColor--previouslyRead);
 	--CommentFooter-color: var(--CommentFooter-color--previouslyRead);
 	--PressedStateButton-borderColor: var(--Content-color-200);
 	--PostQuoteBlock-backgroundColor: transparent;
@@ -646,8 +656,3 @@
 		background-color: var(--Comment-textSelectionTooltip-backgroundColor--active);
 	}
 }
-
-/*.Comment--new {
-	--Post-backgroundColor: var(--Comment-backgroundColor--new);
-	--CommentSeparator-color: var(--CommentSeparator-color--new);
-}*/

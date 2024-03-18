@@ -9,10 +9,10 @@ import {
 } from '../../PropTypes.js'
 
 import NewAutoUpdateCommentsStartLine from './NewAutoUpdateCommentsStartLine.js'
-import PostForm, { POST_FORM_INPUT_FIELD_NAME } from '../PostForm.js'
+import PostForm, { POST_FORM_INPUT_FIELD_NAME } from '../PostFormWithAttachments.js'
 import CommentReadStatusWatcher from './CommentReadStatusWatcher.js'
-import CommentWithThumbnail from './CommentWithThumbnail.js'
-import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickableWrapper.js'
+import CommentWithOptionalThumbnail from './CommentWithOptionalThumbnail.js'
+import CommentWithOptionalThumbnailClickableWrapper from './CommentWithOptionalThumbnailClickableWrapper.js'
 
 import useReply from './useReply.js'
 import useReport from './useReport.js'
@@ -32,7 +32,7 @@ export default function CommentBlock({
 	threadId,
 	channelId,
 	mode,
-	locale,
+	messages,
 	parentComment,
 	threadIsTrimming,
 	threadIsArchived,
@@ -145,12 +145,13 @@ export default function CommentBlock({
 		<div id={id} className="Comment-container">
 			{mode === 'channel' && latestSeenThreadId && id === latestSeenThreadId &&
 				<div className="Comment-previouslySeenThreadsBanner">
-					{getMessages(locale).previouslySeenThreads}
+					{messages.previouslySeenThreads}
 				</div>
 			}
 
 			<div className={classNames('Comment-spacer', {
-				'Comment-spacer--aboveFirstSpacerLine': isFirstThreadInTheList && comment.id === threadId
+				'Comment-spacer--topLevel': !parentComment,
+				'Comment-spacer--aboveFirstSpacerLine': showSeparatorLineBetweenTopLevelComments && isFirstThreadInTheList && comment.id === threadId
 			})}/>
 
 			{!parentComment && showSeparatorLineBetweenTopLevelComments &&
@@ -171,21 +172,21 @@ export default function CommentBlock({
 				<NewAutoUpdateCommentsStartLine commentId={comment.id}/>
 			}
 
-			<CommentWithThumbnailClickableWrapper
+			<CommentWithOptionalThumbnailClickableWrapper
 				comment={comment}
 				threadId={threadId}
 				channelId={channelId}
 				onClick={hidden ? onUnHide : onClick}
 				onReply={onReply}>
 				{(clickableElementProps) => (
-					<CommentWithThumbnail
+					<CommentWithOptionalThumbnail
 						{...rest}
 						comment={comment}
 						threadId={threadId}
 						channelId={channelId}
 						parentComment={parentComment}
 						mode={mode}
-						locale={locale}
+						messages={messages}
 						hidden={hidden}
 						onHide={onHide}
 						onReply={onReply}
@@ -199,7 +200,7 @@ export default function CommentBlock({
 						clickableElementProps={clickableElementProps}
 					/>
 				)}
-			</CommentWithThumbnailClickableWrapper>
+			</CommentWithOptionalThumbnailClickableWrapper>
 
 			{!parentComment && !comment.removed && !threadExpired && unreadCommentWatcher &&
 				<CommentReadStatusWatcher
@@ -219,7 +220,7 @@ export default function CommentBlock({
 
 			{showReplyForm &&
 				<>
-					<div className="Comment-spacer"/>
+					<div className="Comment-spacer Comment-spacer--aboveReplyForm"/>
 
 					<PostForm
 						ref={replyForm}
@@ -258,7 +259,7 @@ CommentBlock.propTypes = {
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	parentComment: commentType,
 	initialShowReplyForm: PropTypes.bool,
 	onShowReplyFormChange: PropTypes.func,

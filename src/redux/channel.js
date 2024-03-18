@@ -32,6 +32,16 @@ export const updateCreateThreadState = redux.simpleAction(
 	})
 )
 
+export const updatePinnedThreadsState = redux.simpleAction(
+	(state, pinnedThreadsStateUpdate) => ({
+		...state,
+		pinnedThreadsState: {
+			...state.pinnedThreadsState,
+			...pinnedThreadsStateUpdate
+		}
+	})
+)
+
 export const resetCreateThreadState = redux.simpleAction(
 	(state, createThreadStateUpdate) => ({
 		...state,

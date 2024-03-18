@@ -40,15 +40,16 @@
 
 	--Comment-borderColor: var(--PostForm-borderColor);
 
-  background-color: var(--PostForm-backgroundColor);
-  box-shadow: var(--Comment-boxShadow);
-  border: var(--Comment-border);
-  border-color: var(--PostForm-borderColor);
+	background-color: var(--PostForm-backgroundColor);
+	box-shadow: var(--Comment-boxShadow);
+	border: var(--Comment-border);
+	border-color: var(--PostForm-borderColor);
+	border-radius: var(--Comment-borderRadius);
 
 	padding-top: var(--PostForm-paddingTop);
-  padding-bottom: var(--PostForm-paddingBottom);
-  padding-left: var(--PostForm-paddingLeft);
-  padding-right: var(--PostForm-paddingRight);
+	padding-bottom: var(--PostForm-paddingBottom);
+	padding-left: var(--PostForm-paddingLeft);
+	padding-right: var(--PostForm-paddingRight);
 }
 
 .PostForm-form {
@@ -135,6 +136,8 @@
 }
 
 .PostForm--notExpanded {
+	box-shadow: none;
+
 	.PostForm-proxyCaution,
 	.PostForm-notWorkingNotice,
 	.PostForm-notImplementedNotice,
@@ -176,15 +179,8 @@
 	bottom: 0;
 }
 
-.PostForm-dropFileArea {
+.PostForm {
 	width: 100%;
-}
-
-.PostForm-dropFileArea--draggedOver {
-	.PostForm {
-		/*box-shadow: 0 0 0 1px var(--base-color-200);*/
-		background-color: var(--base-color-100);
-	}
 }
 
 .PostForm-attachments {
@@ -194,7 +190,7 @@
 .PostForm-attachmentsList {
 	margin: 0;
 	padding: 0;
-	list-style-type: none;
+	list-style: none;
 
 	display: flex;
 	align-items: center;

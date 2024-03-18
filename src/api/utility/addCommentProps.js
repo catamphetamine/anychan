@@ -104,9 +104,8 @@ export default function addCommentProps(thread, {
 
 		// Adds text-related utility functions to `comment`:
 		// * `getContentText()`
-		// * `getContentText()`
-		// * `getContentText()`
-		// * `getContentText()`
+		// * `getContentTextSingleLine()`
+		// * `getContentTextSingleLineLowerCase()`
 		addCommentTextFunctions(comment, { messages })
 
 		// Transform and censor comment title.

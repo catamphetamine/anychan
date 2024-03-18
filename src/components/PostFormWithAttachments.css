@@ -1,0 +1,6 @@
+.PostFormWithAttachments--draggedOver {
+	.PostForm {
+		/*box-shadow: 0 0 0 1px var(--base-color-200);*/
+		background-color: var(--base-color-100);
+	}
+}

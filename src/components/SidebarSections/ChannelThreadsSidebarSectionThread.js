@@ -7,6 +7,7 @@ import ThreadThumbnail from '../ThreadThumbnail.js'
 import CommentMoreActions from '../Comment/CommentMoreActions.js'
 import CommentHidden from '../Comment/CommentHidden.js'
 import useHide from '../Comment/useHide.js'
+import useReport from '../Comment/useReport.js'
 
 import isThreadPage from '../../utility/routes/isThreadPage.js'
 import getUrl from '../../utility/getUrl.js'
@@ -45,6 +46,14 @@ function ChannelThreadsSidebarSectionThread({
 	const currentThread = useSelector(state => state.data.thread)
 
 	const onThreadClick = useOnThreadClick()
+
+	const {
+		onReport
+	} = useReport({
+		channelId: thread.channelId,
+		threadId: thread.id,
+		commentId: thread.id
+	})
 
 	const {
 		hidden,
@@ -90,6 +99,7 @@ function ChannelThreadsSidebarSectionThread({
 			height={CHANNEL_THREADS_SIDEBAR_SECTION_THREAD_THUMBNAIL_WIDTH}
 			onAttachmentClick={onAttachmentClick}
 			locale={locale}
+			messages={messages}
 		/>
 	)
 
@@ -161,6 +171,7 @@ function ChannelThreadsSidebarSectionThread({
 						channelId={thread.channelId}
 						messages={messages}
 						onHide={onHide}
+						onReport={onReport}
 						url={getUrl(thread.channelId, thread.id)}
 						urlBasePath={urlBasePath}
 					/>

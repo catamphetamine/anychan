@@ -6,6 +6,7 @@ import { startPollingAnnouncement } from '../utility/announcement.js'
 import getBasePath, { addBasePath } from '../utility/getBasePath.js'
 import setInitialAuthState from '../utility/auth/setInitialAuthState.js'
 import migrateStoredData from '../utility/migrateStoredData.js'
+import applySettings from '../utility/settings/applySettings.js'
 
 import { setOfflineMode, setDataSourceInfoForMeta } from '../redux/app.js'
 import { getChannels } from '../redux/data.js'
@@ -51,9 +52,15 @@ export default async function loadApplication({
 		})
 
 		// Apply user's preferences.
-		dispatch(setSettingsFromCustomSettingsData({ settings: userSettings.get() }))
 		dispatch(getFavoriteChannels({ userData }))
 		dispatch(getSubscribedThreads({ userData }))
+
+		// Apply user's settings.
+		dispatch(setSettingsFromCustomSettingsData({ settings: userSettings.get() }))
+		applySettings({
+			dispatch,
+			userSettings
+		})
 
 		// The `props` for the `<Application/>` component.
 		const props = {

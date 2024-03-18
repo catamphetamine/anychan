@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { getViewportWidthWithScrollbar } from 'web-browser-window'
 import { useSelectorForLocation } from 'react-pages'
+import { sortThreadsWithPinnedOnTop } from 'imageboard'
 
 import {
 	setVirtualScrollerState,
@@ -14,9 +15,8 @@ import getMessages from '../../messages/getMessages.js'
 
 import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
-import PinnedThreads from '../../components/PinnedThreads/PinnedThreads.js'
 
-import ChannelCreateThreadButton from './ChannelCreateThreadButton.js'
+import ChannelPageTop from './ChannelPageTop.js'
 import ChannelThread from './ChannelThread.js'
 import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
@@ -98,16 +98,16 @@ export default function ChannelPage() {
 			// (Before early 2023).
 			hasVoting: channel.features && channel.features.votes,
 			channelId: channel.id,
-			dispatch,
 			locale,
+			messages,
 			onClick: onThreadClick,
 			unreadCommentWatcher,
 			latestSeenThreadId: channelLayout === 'threadsList' ? initialLatestSeenThreadId : undefined
 		}
 	}), [
 		channel,
-		dispatch,
 		locale,
+		messages,
 		onThreadClick,
 		unreadCommentWatcher,
 		initialLatestSeenThreadId,
@@ -198,6 +198,10 @@ export default function ChannelPage() {
 		dispatch(setVirtualScrollerState(undefined))
 	}, [])
 
+	const pinnedThreads = useMemo(() => {
+		return sortThreadsWithPinnedOnTop(threads.filter(_ => _.pinned))
+	}, [threads])
+
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
 			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments'
@@ -216,16 +220,13 @@ export default function ChannelPage() {
 				onChannelViewDidChange={onChannelViewDidChange}
 			/>
 
-			<ChannelCreateThreadButton
-				channelId={channel.id}
-				channelIsNotSafeForWork={channel.notSafeForWork}
+			<ChannelPageTop
+				channel={channel}
+				pinnedThreads={pinnedThreads}
+				threadComponentProps={itemComponentProps}
 			/>
 
 			<div className="ChannelPage-commentsListContainer">
-				{/*<PinnedThreads
-					threads={threads}
-				/>*/}
-
 				{searchResultsQuery && searchResults.length === 0 &&
 					<div className="ChannelPage-nothingFound">
 						{messages.noSearchResults}

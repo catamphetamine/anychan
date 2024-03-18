@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FileUploadButton } from 'react-responsive-ui'
 import { filesize } from 'filesize'
+import { useDispatch } from 'react-redux'
 
 import saveFile from 'frontend-lib/utility/saveFile.js'
 import readTextFile from 'frontend-lib/utility/readTextFile.js'
@@ -33,14 +34,14 @@ import useSettings from '../../hooks/useSettings.js'
 import useUserData from '../../hooks/useUserData.js'
 
 export default function DataSettings({
-	messages,
-	locale,
-	dispatch
+	messages
 }) {
 	const multiDataSource = useMultiDataSource()
 	const dataSource = useDataSource()
 	const userData = useUserData()
 	const userSettings = useSettings()
+
+	const dispatch = useDispatch()
 
 	const [userDataSize, setUserDataSize] = useState()
 
@@ -236,7 +237,5 @@ export default function DataSettings({
 }
 
 DataSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
-	locale: PropTypes.string.isRequired,
-	dispatch: PropTypes.func.isRequired
+	messages: PropTypes.object.isRequired
 }

@@ -1,0 +1,11 @@
+.ChannelPageTop {
+	/*display: flex;*/
+	/*justify-content: space-between;*/
+
+	margin-top: var(--ChannelPageTop-marginTop);
+	margin-bottom: var(--ChannelPageTop-marginTop);
+
+	.ChannelPinnedThreads {
+		margin-top: var(--ChannelPageTop-marginTop);
+	}
+}

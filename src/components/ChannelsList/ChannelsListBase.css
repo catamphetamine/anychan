@@ -193,3 +193,20 @@ a.ChannelsListChannel-title:active {
 	display: inline;
 	color: var(--Clickable-color--text);
 }
+
+.ChannelsListViewSwitcher {
+	display: inline-block;
+	align-self: center;
+	margin-left: var(--unit);
+	margin-right: var(--unit);
+	margin-bottom: var(--unit);
+
+	.rrui__select__button {
+		font-weight: var(--UppercaseLabel-fontWeight);
+		/* font-size: var(--UppercaseLabel-fontSize); */
+		font-size: 75%;
+		text-transform: var(--UppercaseLabel-textTransform);
+		letter-spacing: var(--UppercaseLabel-letterSpacing);
+		color: var(--Sidebar-color-600);
+	}
+}

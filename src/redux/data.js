@@ -23,12 +23,11 @@ export const getChannels = redux.action(
 		dataSource,
 		multiDataSource,
 		messages
-	}) => async http => {
+	}) => async () => {
 		return await _getChannelsCached({
 			// In case of adding new options here,
 			// also add them in `./src/api/cached/getChannels.js`
 			// and `./src/components/settings/ProxySettings.js`.
-			http,
 			userSettings,
 			dataSource,
 			multiDataSource,
@@ -57,7 +56,7 @@ export const getChannels = redux.action(
 // 		userData,
 // 		userSettings,
 // 		dataSource
-// 	}) => async http => {
+// 	}) => async () => {
 // 		const threads = await _getThreads({
 // 			channelId,
 // 			censoredWords,
@@ -66,7 +65,6 @@ export const getChannels = redux.action(
 // 			messages: getMessages(locale),
 // 			withLatestComments,
 // 			sortByRating,
-// 			http,
 // 			userData,
 // 			userSettings,
 // 			dataSource
@@ -108,7 +106,7 @@ export const getThread = redux.action(
 		userData,
 		userSettings,
 		dataSource
-	}) => async http => {
+	}) => async () => {
 		const thread = await _getThread({
 			channelId,
 			threadId,
@@ -119,7 +117,6 @@ export const getThread = redux.action(
 				locale
 			},
 			messages: getMessages(locale),
-			http,
 			userData,
 			userSettings,
 			dataSource
@@ -182,7 +179,7 @@ export const refreshThread = redux.action(
 		userData,
 		userSettings,
 		dataSource
-	}) => async http => {
+	}) => async () => {
 		const updatedThread = await _getThread({
 			channelId: thread.channelId,
 			threadId: thread.id,
@@ -198,7 +195,6 @@ export const refreshThread = redux.action(
 				locale
 			},
 			messages: getMessages(locale),
-			http,
 			userData,
 			userSettings,
 			dataSource
@@ -246,13 +242,12 @@ export const createComment = redux.action(
 		userSettings,
 		dataSource,
 		...rest
-	}) => async http => {
+	}) => async () => {
 		return await _createComment({
 			channelId,
 			threadId,
 			userSettings,
 			dataSource,
-			http,
 			...rest
 		})
 	}
@@ -264,12 +259,11 @@ export const createThread = redux.action(
 		userSettings,
 		dataSource,
 		...rest
-	}) => async http => {
+	}) => async () => {
 		return await _createThread({
 			channelId,
 			userSettings,
 			dataSource,
-			http,
 			...rest
 		})
 	}
@@ -419,12 +413,11 @@ export const vote = redux.action(
 		userSettings,
 		dataSource,
 		messages
-	}) => async http => {
+	}) => async () => {
 		const voteAccepted = await _voteForComment({
 			up,
 			channelId,
 			commentId,
-			http,
 			userSettings,
 			messages,
 			dataSource

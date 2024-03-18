@@ -1,8 +1,6 @@
 @import "../../styles/common.css";
 
 .ChannelCreateThreadButton-container {
-	margin-top: var(--ChannelCreateThreadButton-marginTop);
-	margin-bottom: var(--ChannelCreateThreadButton-marginTop);
 }
 
 .ChannelCreateThreadButton {

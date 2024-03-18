@@ -11,9 +11,9 @@
 	background-color: var(--Comment-newAutoUpdateCommentsStartLine-color);
 
 	@mixin m-plus {
-		width: calc(100% - var(--PostThumbnailContainer-maxWidth) + 2 * var(--CommentSeparator-width--outline));
-		margin-left: calc(var(--PostThumbnailContainer-maxWidth) + -1 * var(--CommentSeparator-width--outline));
-		margin-right: calc(-1 * var(--CommentSeparator-width--outline));
+		width: calc(100% - var(--PostThumbnailContainer-maxWidth) + 2 * var(--Comment-boxShadowOutlineWidth));
+		margin-left: calc(var(--PostThumbnailContainer-maxWidth) + -1 * var(--Comment-boxShadowOutlineWidth));
+		margin-right: calc(-1 * var(--Comment-boxShadowOutlineWidth));
 	}
 }
 
@@ -52,8 +52,7 @@
 .Comment-spacerLine {
 	margin: 0;
 	border: none;
-	/*border-bottom: 1px solid var(--CommentSeparator-color);*/
-	border-bottom: 1px solid var(--CommentSpacerLine-color);
+	border-bottom: var(--CommentSpacerLine-height) solid var(--CommentSpacerLine-color);
 }
 
 .Comment-spacerLine--first {

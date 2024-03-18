@@ -14,7 +14,11 @@
 }
 
 .BackButton {
-	/* Don't show the button on small screens. */
+	/* Don't show the button on small screens (less than L size).
+	   The rationale is that in that case it will overlap with
+	   comment cards on thread page, in which case the user might
+	   have issues clicking attachment thumbnails on the left side
+	   because the Back button overlay will be obstructing them. */
 	display: none;
 
 	/* Setting percentage-based `top` position for `position: fixed`
@@ -67,7 +71,7 @@
 			position: absolute;
 			left: 0; /* calc(-1 * var(--PaddingLeft-minWidth)); */
 			top: 0;
-			width: calc(var(--Post-paddingLeft--has-thumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--CommentSeparator-width--outline)); /* + var(--PaddingLeft-minWidth) */
+			width: calc(var(--Post-paddingLeft--has-thumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--Comment-boxShadowOutlineWidth));
 			height: 100%;
 
 			/* `BackButton` is rendered "below" the comment elements
@@ -118,7 +122,7 @@
 			.ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-content,
 			.Comment,
 			.CommentTree-toggler,
-			.PostForm--comment {
+			.PostFormWithAttachments--comment {
 				pointer-events: auto;
 			}
 		}

@@ -12,7 +12,6 @@ import { getCookie } from 'frontend-lib/utility/cookies.js'
 
 export default function Imageboard_(dataSource, {
 	messages,
-	http,
 	getProxyUrl
 }) {
 	const isUsingCorsProxy = shouldUseProxy({ dataSource })
@@ -111,6 +110,8 @@ export default function Imageboard_(dataSource, {
 				// Remove `Content-Type` header so that it autogenerates it from the `FormData`.
 				// Example: "multipart/form-data; boundary=----WebKitFormBoundaryZEglkYA7NndbejbB".
 				delete headers['content-type']
+			} else {
+				body = JSON.stringify(body)
 			}
 
 			// Proxy the URL (if required).
@@ -278,6 +279,8 @@ function rejectWithErrorForResponse(response, { status, isUsingCorsProxy }) {
 
 // Converts an object to a `FormData` instance.
 function createFormData(body) {
+  // * For 'multipart/form-data', use `FormData` class.
+  // * For 'application/x-www-form-urlencoded', use `URLSearchParams` class.
 	const formData = new FormData()
 	if (body) {
 		for (const key of Object.keys(body)) {

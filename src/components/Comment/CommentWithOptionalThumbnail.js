@@ -6,7 +6,7 @@ import WrapCommentWithThumbnail from './WrapCommentWithThumbnail.js'
 import CommentHidden from './CommentHidden.js'
 import Comment from './Comment.js'
 import { hasAuthor } from './CommentAuthor.js'
-import CommentWithThumbnailClickableWrapper from './CommentWithThumbnailClickableWrapper.js'
+import CommentWithOptionalThumbnailClickableWrapper from './CommentWithOptionalThumbnailClickableWrapper.js'
 
 import useSlideshow from './useSlideshow.js'
 import useCompact from './useCompact.js'
@@ -27,7 +27,7 @@ import getMessages from '../../messages/getMessages.js'
 window.SHOW_POST_HEADER = false
 // window.POST_FULL_WIDTH = true
 
-export default function CommentWithThumbnail({
+export default function CommentWithOptionalThumbnail({
 	mode,
 	comment,
 	threadId,
@@ -36,7 +36,7 @@ export default function CommentWithThumbnail({
 	setOwn,
 	hidden,
 	onRenderedContentDidChange,
-	locale,
+	messages,
 	expandAttachments,
 	isPreviouslyRead,
 	showingReplies,
@@ -94,7 +94,7 @@ export default function CommentWithThumbnail({
 			<CommentHidden
 				type={comment.id === threadId ? 'thread' : 'comment'}
 				comment={comment}
-				messages={getMessages(locale)}
+				messages={messages}
 				className={commentClassName}
 			/>
 		)
@@ -108,7 +108,7 @@ export default function CommentWithThumbnail({
 				channelId={channelId}
 				isOwn={isOwn}
 				setOwn={setOwn}
-				locale={locale}
+				messages={messages}
 				onRenderedContentDidChange={onRenderedContentDidChange}
 				expandAttachments={expandAttachments}
 				onAttachmentClick={onAttachmentClick}
@@ -138,7 +138,7 @@ export default function CommentWithThumbnail({
 			mode={mode}
 			comment={comment}
 			threadId={threadId}
-			locale={locale}
+			messages={messages}
 			expandAttachments={expandAttachments}
 			onAttachmentClick={onAttachmentClick}
 			showThumbnail={!hidden}
@@ -152,14 +152,15 @@ export default function CommentWithThumbnail({
 				'Comment--opening': mode === 'thread' && comment.id === threadId,
 				'Comment--showHeader': window.SHOW_POST_HEADER,
 				'Comment--fullWidth': window.POST_FULL_WIDTH,
-				'Comment--previouslyRead': previouslyRead
+				'Comment--previouslyRead': previouslyRead,
+				'Comment--expandAttachments': expandAttachments
 			})}>
 			{commentElement}
 		</WrapCommentWithThumbnail>
 	)
 }
 
-CommentWithThumbnail.propTypes = {
+CommentWithOptionalThumbnail.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
@@ -168,7 +169,7 @@ CommentWithThumbnail.propTypes = {
 	isOwn: PropTypes.bool,
 	setOwn: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	expandAttachments: PropTypes.bool,
 	isPreviouslyRead: PropTypes.func,
 	showingReplies: PropTypes.bool,

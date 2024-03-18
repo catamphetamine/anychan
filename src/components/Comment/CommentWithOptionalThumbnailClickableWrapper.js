@@ -14,7 +14,7 @@ import {
 	channelId
 } from '../../PropTypes.js'
 
-export default function CommentWithThumbnailClickableWrapper({
+export default function CommentWithOptionalThumbnailClickableWrapper({
 	comment,
 	threadId,
 	channelId,
@@ -68,7 +68,7 @@ export default function CommentWithThumbnailClickableWrapper({
 	return children({})
 }
 
-CommentWithThumbnailClickableWrapper.propTypes = {
+CommentWithOptionalThumbnailClickableWrapper.propTypes = {
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,

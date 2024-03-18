@@ -11,13 +11,12 @@ export const reportComment = redux.action(
 		commentId,
 		content,
 		...rest
-	}) => async http => {
+	}) => async () => {
 		return await _reportComment({
 			channelId,
 			threadId,
 			commentId,
 			content,
-			http,
 			...rest
 		})
 	}

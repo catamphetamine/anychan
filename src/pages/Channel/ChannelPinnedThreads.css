@@ -1,0 +1,15 @@
+.ChannelPinnedThreads {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	margin-top: var(--ChannelPageTop-marginTop);
+
+	> li {
+		margin-top: var(--Comment-marginTop--nested);
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}

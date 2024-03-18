@@ -2,7 +2,7 @@
 
 The application comes pre-packaged with a couple of built-in themes. Users can experiment with adding their own custom themes on the "Settings" page. For that, a user should supply either a URL of a `.css` file or just paste [CSS](https://developer.mozilla.org/docs/Learn/CSS/Introduction_to_CSS/How_CSS_works) code.
 
-Themes should mostly use the available [CSS Variables](https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/variables.md). If a customization can't be achieved using the available CSS Variables, consider contacting the repo author through [issues](https://gitlab.com/catamphetamine/anychan/issues) to discuss adding new CSS Variables, or just use CSS directly instead: for example, if `--Sidebar-backgroundColor` variable didn't exist, then the effect of `:root { --Sidebar-backgroundColor: red; }` could be achieved via `.Sidebar { background-color: red; }`.
+Themes should mostly use the available [CSS Variables](https://gitlab.com/catamphetamine/anychan/blob/master/docs/style/variables.md). If a customization can't be achieved using the available CSS Variables, consider contacting the repo author through [issues](https://gitlab.com/catamphetamine/anychan/issues) to discuss adding new CSS Variables, or just use CSS directly instead: for example, if `--Sidebar-backgroundColor` variable didn't exist, then the effect of `:root { --Sidebar-backgroundColor: red; }` could be achieved via `.Sidebar { background-color: red; }`.
 
 Each theme should provide both "Light" and "Dark" modes. "Light" mode styles are defined in `.light {}` CSS selector, and "Dark" mode styles are defined in `.dark {}` CSS selector. Common styles (both for "Light" and "Dark" modes) are defined in `:root {}` CSS selector.
 

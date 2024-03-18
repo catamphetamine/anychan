@@ -21,16 +21,16 @@ import AnonymousIconFill from '../../../assets/images/icons/person-anonymous-sli
 import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 import CommentRemovedIcon from 'frontend-lib/icons/message-rounded-rect-square-removed.svg'
 
-export default function getCommentFooterBadges({ dataSource, isOwn }) {
+export default function getCommentFooterBadges({ dataSource, isOwnComment }) {
 	return [
 		{
 			name: 'subscribed',
 			// icon: SubscribedThreadStatusIcon,
 			icon: StarIcon,
-			title: ({ post, locale }) => {
-				return getMessages(locale).subscribedThreads.subscribedThread
+			title: ({ post, messages }) => {
+				return messages.subscribedThreads.subscribedThread
 			},
-			getIconProps: ({ post, locale }) => ({
+			getIconProps: ({ post }) => ({
 				channelId: post.channelId,
 				threadId: post.id
 			}),
@@ -39,64 +39,64 @@ export default function getCommentFooterBadges({ dataSource, isOwn }) {
 		{
 			name: 'banned',
 			icon: DeceasedFaceIcon,
-			title: ({ post, locale }) => {
+			title: ({ post, messages }) => {
 				if (post.authorBanReason) {
-					return getMessages(locale).post.banned + getMessages(locale).post.bannedReason.replace('{reason}', post.authorBanReason)
+					return messages.post.banned + messages.post.bannedReason.replace('{reason}', post.authorBanReason)
 				}
-				return getMessages(locale).post.banned
+				return messages.post.banned
 			},
 			condition: post => post.authorBan
 		},
 		{
 			name: 'removed',
 			icon: CommentRemovedIcon,
-			title: ({ post, locale }) => getMessages(locale).post.removed,
+			title: ({ post, messages }) => messages.post.removed,
 			condition: post => post.removed
 		},
 		{
 			name: 'sage',
 			icon: DislikeIcon,
-			title: ({ post, locale }) => 'Sage',
+			title: ({ post }) => 'Sage',
 			condition: post => post.sage
 		},
 		{
 			name: 'original-poster',
 			icon: AnonymousIconOutline,
-			title: ({ post, locale }) => getMessages(locale).post.threadAuthor,
+			title: ({ post, messages }) => messages.post.threadAuthor,
 			// If there are author IDs in the thread then "Original poster" is
 			// gonna be the post author name instead of being a badge.
-			condition: post => !isOwn && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
-			// Instead of using `isOwn`, it could have used `post.own` flag.
-			// The reason why specifically `isOwn` is used is because
+			condition: post => !isOwnComment && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+			// Instead of using `isOwnComment`, it could have used `post.own` flag.
+			// The reason why specifically `isOwnComment` is used is because
 			// when the user clicks "This is my comment" / "This is not my comment"
-			// in `CommentMoreActions` menu, `isOwn` flag is updated and the component re-renders.
+			// in `CommentMoreActions` menu, `isOwnComment` flag is updated and the component re-renders.
 		},
 		{
 			name: 'own',
 			icon: AnonymousIconOutline,
-			title: ({ post, locale }) => post.threadId === post.id ? getMessages(locale).post.ownThread : getMessages(locale).post.ownComment,
+			title: ({ post, messages }) => post.threadId === post.id ? messages.post.ownThread : messages.post.ownComment,
 			// If there are author IDs in the thread then "Original poster" is
 			// gonna be the post author name instead of being a badge.
-			condition: post => isOwn
-			// Instead of using `isOwn`, it could have used `post.own` flag.
-			// The reason why specifically `isOwn` is used is because
+			condition: post => isOwnComment
+			// Instead of using `isOwnComment`, it could have used `post.own` flag.
+			// The reason why specifically `isOwnComment` is used is because
 			// when the user clicks "This is my comment" / "This is not my comment"
-			// in `CommentMoreActions` menu, `isOwn` flag is updated and the component re-renders.
+			// in `CommentMoreActions` menu, `isOwnComment` flag is updated and the component re-renders.
 		},
 		{
 			name: 'country',
-			getIcon: ({ post, locale }) => {
+			getIcon: ({ post }) => {
 				if (post.authorCountry) {
 					return CountryFlagBadge
 				}
 				return DataSourceSuppliedCountryFlagBadge
 			},
-			getIconProps: ({ post, locale }) => {
+			getIconProps: ({ post, messages, locale }) => {
 				if (post.authorCountry) {
 					return {
 						country: post.authorCountry,
 						name: post.authorCountry === 'ZZ' ?
-							getMessages(locale).country.anonymous :
+							messages.country.anonymous :
 							getCountryName(post.authorCountry, locale),
 						dataSourceId: dataSource.id,
 						channelId: post.channelIdForCountryFlag
@@ -108,10 +108,10 @@ export default function getCommentFooterBadges({ dataSource, isOwn }) {
 					name: post.authorBadgeName
 				}
 			},
-			title: ({ post, locale }) => {
+			title: ({ post, messages, locale }) => {
 				if (post.authorCountry) {
 					return post.authorCountry === 'ZZ' ?
-						getMessages(locale).country.anonymous :
+						messages.country.anonymous :
 						getCountryName(post.authorCountry, locale)
 				}
 				return post.authorBadgeName
@@ -121,32 +121,32 @@ export default function getCommentFooterBadges({ dataSource, isOwn }) {
 		{
 			name: 'bump-limit',
 			icon: SinkingBoatIcon,
-			title: ({ post, locale }) => getMessages(locale).threadBumpLimitReached,
+			title: ({ post, messages }) => messages.threadBumpLimitReached,
 			// On `2ch.hk` there can be "trimming" threads which aren't "sticky".
 			condition: (post) => (!post.archived && post.bumpLimitReached) || post.isOverBumpLimit
 		},
 		{
 			name: 'sticky',
 			icon: PinIcon,
-			title: ({ post, locale }) => getMessages(locale).post.sticky,
+			title: ({ post, messages }) => messages.post.sticky,
 			condition: (post) => post.pinned
 		},
 		{
 			name: 'trimming',
 			icon: InfinityIcon,
-			title: ({ post, locale }) => getMessages(locale).post.trimming,
+			title: ({ post, messages }) => messages.post.trimming,
 			condition: (post) => post.trimming
 		},
 		{
 			name: 'closed',
 			icon: LockIcon,
-			title: ({ post, locale }) => getMessages(locale).post.closed,
+			title: ({ post, messages }) => messages.post.closed,
 			condition: (post) => post.locked
 		},
 		{
 			name: 'archived',
 			icon: BoxIcon,
-			title: ({ post, locale }) => getMessages(locale).post.archived,
+			title: ({ post, messages }) => messages.post.archived,
 			condition: (post) => post.archived
 		}
 	]

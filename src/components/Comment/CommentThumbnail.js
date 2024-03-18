@@ -25,7 +25,7 @@ export default function CommentThumbnail({
 	fit,
 	expandAttachments,
 	onAttachmentClick,
-	locale,
+	messages,
 	children
 }) {
 	// Get attachment thumbnail flags.
@@ -67,7 +67,7 @@ export default function CommentThumbnail({
 				maxWidth={maxWidth}
 				maxHeight={maxHeight}
 				attachment={postThumbnail}
-				spoilerLabel={getMessages(locale).post && getMessages(locale).post.spoiler}
+				spoilerLabel={messages.post && messages.post.spoiler}
 				onClick={postThumbnailOnClick}
 				fixAttachmentPictureSize={shouldFixAttachmentPictureSize}
 			/>
@@ -105,7 +105,7 @@ CommentThumbnail.propTypes = {
 	width: PropTypes.number,
 	height: PropTypes.number,
 	fit: PropTypes.string,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	expandAttachments: PropTypes.bool,
 	onAttachmentClick: PropTypes.func,
 	children: PropTypes.func

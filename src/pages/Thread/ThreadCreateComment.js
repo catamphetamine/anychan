@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 
-import PostForm from '../../components/PostForm.js'
+import PostForm from '../../components/PostFormWithAttachments.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
@@ -110,6 +110,7 @@ export default function ThreadCreateComment({
 			onExpandedChange={onFormExpandedChange}
 			unexpandOnClose
 			expandOnInteraction
+			resetOnCancel
 			resetAfterSubmit
 			placement="comment"
 			initialState={formState}

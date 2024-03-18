@@ -197,15 +197,15 @@ export default function CommentMoreActions({
 			})
 		}
 
-		if (mode === 'thread') {
-			if (commentId === threadId) {
-				// "Download thread".
-				actions.push({
-					label: messages.downloadThread,
-					onClick: onDownloadThread
-				})
-			}
-		}
+		// if (mode === 'thread') {
+		// 	if (commentId === threadId) {
+		// 		// "Download thread".
+		// 		actions.push({
+		// 			label: messages.downloadThread,
+		// 			onClick: onDownloadThread
+		// 		})
+		// 	}
+		// }
 
 		return actions
 	}, [

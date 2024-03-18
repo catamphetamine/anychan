@@ -13,7 +13,7 @@ export default function WithTextSelectionActions({
 }) {
 	const tooltipProps = useMemo(() => ({
 		onReply,
-		children: messages.reply
+		children: messages.post.reply
 	}), [
 		onReply,
 		messages

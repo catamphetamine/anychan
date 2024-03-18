@@ -4,22 +4,32 @@ import PropTypes from 'prop-types'
 import CommentTree_ from 'social-components-react/components/CommentTree.js'
 import CommentBlock from './Comment/CommentBlock.js'
 
-import { POST_FORM_INPUT_FIELD_NAME } from './PostForm.js'
+import { POST_FORM_INPUT_FIELD_NAME } from './PostFormWithAttachments.js'
 
 import { commentTreeState } from '../PropTypes.js'
 
 import './CommentTree.css'
 
 export default function CommentTree({
-	// `state` property is supplied by `virtual-scroller`.
-	// It represents the current value of the state of comment tree.
-	// Hence, `<CommentTree/>` state storage is managed by `virtual-scroller`.
-	// `<CommentTree/>` state is stored in `virtual-scroller` state because it's simpler that way.
+	// This is the root comment of this `<CommentTree/>`.
+	comment,
+
+	// `initialState` property here is a `virtual-scroller` `state` object:
+	// it contains both the state of the `virtual-scroller` and the state of the `<CommentTree/>`.
+	// It's just simpler to store both those states in one object,
+	// since `virtual-scroller` provides a way to do that.
 	initialState,
 
-	// `setState()` is supplied by `virtual-scroller`.
-	// `setState()` is also supplied by `InReplyToModal` component.
-	// It gets called with the new state as an argument whenever the state of the comment tree changes.
+	// `setState()` property here is supplied by `virtual-scroller`:
+	// it provides a way to update the `virtual-scroller` `state` object
+	// with the state of the `<CommentTree/>`.
+	//
+	// The `<CommentTree/>` component is also used without `virtual-scroller` in `InReplyToModal` component.
+	// In that case, it also provides its own variant of `setState()` function.
+	//
+	// This `setState()` function will be called with the new state as an argument
+	// whenever the state of the `<CommentTree/>` changes.
+	//
 	setState,
 
 	// `onHeightDidChange()` is supplied by `virtual-scroller`.
@@ -34,6 +44,7 @@ export default function CommentTree({
 	// Returns a comment object by ID.
 	getCommentById,
 
+	// Any other options for `<CommentTree_/>`.
 	...rest
 }) {
 	const getCommentComponentProps = useCallback(({
@@ -157,12 +168,11 @@ export default function CommentTree({
 					...state,
 					replyFormAttachments: attachments
 				}))
-			},
-			getCommentById
+			}
 		}
 	}, [
-		onHeightDidChange,
-		getCommentById
+		getComponentProps,
+		onHeightDidChange
 	])
 
 	// This function is called when a replies tree for a comment is expanded.
@@ -170,9 +180,19 @@ export default function CommentTree({
 		comment.parseContent({ getCommentById })
 	}, [getCommentById])
 
+	// `<CommentTree_/>` passes the following properties to the `component`:
+	// * `comment: object`
+	// * `parentComment?: object`
+	// * `elementRef: object`
+	// * `showingReplies: boolean`
+	// * `onToggleShowReplies: function`
+	// * `toggleShowRepliesButtonRef: object`
+	// * Anything returned from `getComponentProps()`
+
 	return (
 		<CommentTree_
 			{...rest}
+			comment={comment}
 			initialState={initialState}
 			onStateChange={setState}
 			onDidToggleShowReplies={onHeightDidChange}
@@ -184,6 +204,8 @@ export default function CommentTree({
 }
 
 CommentTree.propTypes = {
+	comment: PropTypes.object.isRequired,
+
 	// When `<CommentTree/>` is rendered on a thread page,
 	// `state` property is supplied by `virtual-scroller`.
 	// Initially it's `undefined`.
@@ -225,8 +247,8 @@ CommentTree.propTypes = {
 	getCommentById: PropTypes.func.isRequired,
 
 	// Determines how the visual traces between comments of a "dialogue" are gonna look like:
-	// * "side" — Paints the connection lines on the left side of the comments of a "dialogue".
-	// * "through" — Paints the connection line going directly through the comments of a "dialogue".
+	// * "sideways" — Paints the connection lines on the left side of the comments of a "dialogue".
+	// * "straight-through" — Paints the connection line going directly through the comments of a "dialogue".
 	//
 	// "Dialogue" is a list of comments, each next comment being an only reply to the previous one.
 	//
@@ -246,10 +268,13 @@ CommentTree.propTypes = {
 	// 	}]
 	// }
 	//
-	dialogueTraceStyle: PropTypes.oneOf(['through', 'side']).isRequired
+	dialogueTraceStyle: PropTypes.oneOf([
+		'straight-through',
+		'sideways'
+	]).isRequired
 }
 
 CommentTree.defaultProps = {
-	// `<InReplyToModal/>` passes `dialogueTraceStyle="side"`.
-	dialogueTraceStyle: 'through'
+	// `<InReplyToModal/>` passes `dialogueTraceStyle="sideways"`.
+	dialogueTraceStyle: 'straight-through'
 }

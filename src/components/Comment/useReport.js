@@ -17,10 +17,6 @@ export default function useReport({
 	const messages = useMessages()
 
 	const onReport = useCallback(() => {
-
-
-			dispatch(notify(messages.cookies.required))
-
 		dispatch(showReportCommentModal({
 			channelId,
 			threadId,

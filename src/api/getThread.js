@@ -27,7 +27,6 @@ export default async function getThread({
 	censoredWords,
 	messages,
 	locale,
-	http,
 	userData,
 	userSettings,
 	dataSource
@@ -49,7 +48,6 @@ export default async function getThread({
 		afterCommentId,
 		afterCommentsCount,
 		messages,
-		http,
 		userSettings
 	})
 

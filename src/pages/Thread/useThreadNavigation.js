@@ -92,6 +92,20 @@ export default function useThreadNavigation({
 
 		let history = threadNavigationHistoryRef.current
 
+		// Don't do anything if already viewing the requested comment.
+		// For example, when the user clicks on a quote in a post,
+		// `InReplyToModal` is opened with the quoted comment.
+		// Then, the user expands the list of replies to that comment
+		// in that modal, finds that same reply and clicks on the quote once again.
+		// In those cases, it shouldn't do anything because the user is already viewing
+		// the quoted comment in the modal.
+		if (history.length > 0) {
+			const { comment } = history[history.length - 1]
+			if (comment.id === commentId) {
+				return
+			}
+		}
+
 		// This turned out to feel inconsistent, so this feature was disabled.
 		// // Don't add an entry to the history if the comment with the
 		// // `post-link` being clicked is still visible after scrolling

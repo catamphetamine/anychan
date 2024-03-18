@@ -184,6 +184,14 @@
 		"description": "Custom CORS proxy URL",
 		"required": false
 	},
+	"channelsView": {
+		"oneOf": [
+			"list",
+			"by-category"
+		],
+		"description": "The selected \"view\" of the list of channels in the sidebar",
+		"required": false
+	},
 	"version": {
 		"type": "number",
 		"description": "Settings version",

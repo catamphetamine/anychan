@@ -47,7 +47,7 @@ export default function CommentFooter({
 	toggleShowRepliesButtonRef,
 	onDownloadThread,
 	locale,
-	dispatch,
+	messages,
 	url,
 	urlBasePath,
 	vote,
@@ -76,7 +76,7 @@ export default function CommentFooter({
 	])
 
 	const rightSideBadges = useMemo(() => {
-		let badges = getCommentFooterBadges({ dataSource, isOwn })
+		let badges = getCommentFooterBadges({ dataSource, isOwnComment: isOwn })
 		// This type of filtering is done in `<Post/>` automatically,
 		// but since `leftSideBadges` are also used here outside `<Post/>`,
 		// they're filtered here manually.
@@ -149,6 +149,7 @@ export default function CommentFooter({
 			vote,
 			onVote,
 			locale,
+			messages,
 			rightSideBadges,
 			showingReplies,
 			showRepliesCount,
@@ -167,14 +168,14 @@ export default function CommentFooter({
 					<PostBadge
 						key={badge.name}
 						post={comment}
-						locale={locale}
-						messages={getMessages(locale).post}
+						parameters={{ locale, messages }}
 						badge={badge}
 						className={classNames('CommentFooterBadge', 'CommentFooterBadge--left', `CommentFooterBadge--${badge.name}`, {
 							'CommentFooterBadge--last': i === leftSideBadges.length - 1,
 							'CommentFooterBadge--ignoreCursor': !badge.title
 						})}
-						iconClassName={`CommentFooterBadge-icon CommentFooterBadge-icon--${badge.name}`}/>
+						iconClassName={`CommentFooterBadge-icon CommentFooterBadge-icon--${badge.name}`}
+					/>
 				))}
 			</div>
 			<div className="CommentFooter-right">
@@ -189,7 +190,7 @@ export default function CommentFooter({
 					threadId={threadId}
 					channelId={channelId}
 					channelIsNotSafeForWork={channelIsNotSafeForWork}
-					messages={getMessages(locale)}
+					messages={messages}
 					mode={mode}
 					url={url}
 					urlBasePath={urlBasePath}
@@ -218,8 +219,8 @@ CommentFooter.propTypes = {
 	onToggleShowReplies: PropTypes.func,
 	toggleShowRepliesButtonRef: PropTypes.any,
 	onPostUrlClick: PropTypes.func,
-	dispatch: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	onReply: PropTypes.func,
 	onReport: PropTypes.func,
@@ -270,7 +271,7 @@ const THREAD_STATS_BADGES = [
 	// {
 	// 	name: 'replies-count',
 	// 	icon: ReplyIcon,
-	// 	title: ({ post, locale, messages }) => messages && messages.repliesCount,
+	// 	title: ({ post, messages }) => messages && messages.repliesCount,
 	// 	condition: (post) => post.replies && post.replies.length > 0,
 	// 	content: ({ post }) => post.replies.length
 	// },
@@ -324,33 +325,35 @@ const RIGHT_SIDE_STUFF = {
 		comment,
 		vote,
 		onVote,
-		locale
+		messages
 	}) => (
 		<PostVotes
 			post={comment}
 			vote={vote}
 			onVote={onVote}
-			messages={getMessages(locale).post}/>
+			messages={messages.post}
+		/>
 	),
 	'right-side-badges': ({
 		comment,
 		rightSideBadges,
-		locale
+		locale,
+		messages
 	}) => (
-		<React.Fragment>
+		<>
 			{rightSideBadges.map((badge, i) => (
 				<PostBadge
 					key={badge.name}
 					post={comment}
-					locale={locale}
-					messages={getMessages(locale).post}
+					parameters={{ locale, messages }}
 					badge={badge}
 					className={classNames('CommentFooterBadge', 'CommentFooterBadge--right', `CommentFooterBadge--${badge.name}`, {
 						'CommentFooterBadge--last': i === rightSideBadges.length - 1
 					})}
-					iconClassName={`CommentFooterBadge-icon CommentFooterBadge-icon--${badge.name}`}/>
+					iconClassName={`CommentFooterBadge-icon CommentFooterBadge-icon--${badge.name}`}
+				/>
 			))}
-		</React.Fragment>
+		</>
 	),
 	time: ({
 		comment,
@@ -364,7 +367,8 @@ const RIGHT_SIDE_STUFF = {
 			hasAnythingBeforeTime={hasAnythingBeforeTime}
 			hasAnythingAfterTime={hasAnythingAfterTime}
 			locale={locale}
-			date={comment.createdAt}/>
+			date={comment.createdAt}
+		/>
 	),
 	replies: ({
 		comment,
@@ -372,14 +376,14 @@ const RIGHT_SIDE_STUFF = {
 		showRepliesCount,
 		onToggleShowReplies,
 		toggleShowRepliesButtonRef,
-		locale
+		messages
 	}) => (
 		<div className="CommentFooterItem">
 			<Padding>
 				<PressedStateButton
 					ref={toggleShowRepliesButtonRef}
 					onClick={onToggleShowReplies}
-					title={getMessages(locale).post.repliesCount}
+					title={messages.post.repliesCount}
 					pressed={showingReplies}>
 					<MessageIcon className="CommentFooterItemIcon CommentFooterItemIcon--replies"/>
 					{comment.replies.length}

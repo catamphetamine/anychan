@@ -17,8 +17,8 @@ import {
 	channel as channelType
 } from '../PropTypes.js'
 
-import useMessages from '../hooks/useMessages.js'
 import useLocale from '../hooks/useLocale.js'
+import useMessages from '../hooks/useMessages.js'
 
 import useGetCommentById from '../pages/Thread/useGetCommentById.js'
 
@@ -40,9 +40,8 @@ export default function InReplyToModal({
 
 	const comment = getCommentFromHistoryEntry(historyEntry)
 
-	const dispatch = useDispatch()
-	const messages = useMessages()
 	const locale = useLocale()
+	const messages = useMessages()
 
 	const onPostUrlClick = useCallback((event, post) => {
 		onGoToComment(post)
@@ -66,22 +65,25 @@ export default function InReplyToModal({
 			id: null,
 			threadId: thread.id,
 			channelId,
-			locale,
-			dispatch,
 			onRequestShowCommentFromSameThread,
 			onPostUrlClick,
 			mode: 'thread',
+			locale,
+			messages,
 			// Don't render `<Post/>` elements in "compact" mode.
 			// That means a bit larger margins/paddings.
-			compact: false
+			compact: false,
+			// Deactivate the hyperlink on post date.
+			postDateLinkUpdatePageUrlToPostUrlOnClick: true,
+			postDateLinkNavigateToPostUrlOnClick: false
 		}
 	}, [
 		thread,
 		channelId,
-		locale,
-		dispatch,
 		onRequestShowCommentFromSameThread,
-		onPostUrlClick
+		onPostUrlClick,
+		locale,
+		messages
 	])
 
 	// `overlayClassName` is used in `Thread.js`
@@ -124,9 +126,7 @@ export default function InReplyToModal({
 					getComponentProps={getComponentProps}
 					initialState={initialState}
 					setState={setState}
-					dialogueTraceStyle="side"
-					postDateLinkUpdatePageUrlToPostUrlOnClick={true}
-					postDateLinkNavigateToPostUrlOnClick={false}
+					dialogueTraceStyle="sideways"
 					getCommentById={getCommentById}
 				/>
 

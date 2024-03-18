@@ -85,7 +85,7 @@ export default function ChannelHeader({
 	const channel = useSelector(state => state.data.channel)
 
 	const getThreadTextSingleLineLowerCase = useCallback((thread) => {
-		return thread.comments[0].getContentTextSingleLineLowerCase()
+		return thread.comments[0].getContentTextWithTitleSingleLineLowerCase()
 	}, [])
 
 	const onChannelLinkClick = useOnChannelLinkClick({

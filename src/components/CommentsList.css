@@ -1,11 +1,14 @@
-:root {
-	--Comment-marginTop: var(--Comment-marginTop--topLevel);
-}
-
 /* Using a dedicated element instead of `margin-top`
 	 because `VirtualScroller` requires not having gaps between list items. */
 .CommentsList {
 	margin-top: calc(-1 * var(--Comment-marginTop));
+
+	/* This variable is not placed in `:root` in order to support overriding
+	   `--Comment-marginTop--topLevel` variable value by some containers.
+	   Otherwise, if this CSS variable declaration happened in `:root`
+	   then it wouldn't "see" any changes to `--Comment-marginTop--topLevel`
+	   introduced in any containers. */
+	--Comment-marginTop: var(--Comment-marginTop--topLevel);
 
 	.CommentTree--nested {
 		--Comment-marginTop: var(--Comment-marginTop--nested);
@@ -26,12 +29,12 @@
 
 	.CommentTree-comment--nested,
 	.CommentTree-comment--expanded {
-		border-bottom: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		border-bottom: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 	}
 
 	/*
 	.CommentTree-comment--nested {
-		border-left: var(--CommentTree-borderWidth) solid var(--CommentSeparator-color);
+		border-left: var(--CommentTreePath-borderWidth) solid var(--Comment-borderColor);
 	}
 	*/
 }

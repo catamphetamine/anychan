@@ -26,7 +26,6 @@ import useSocial from './useSocial.js'
 import usePostLink from './usePostLink.js'
 import useAttachmentThumbnailFlags from './useAttachmentThumbnailFlags.js'
 
-import getMessages from '../../messages/getMessages.js'
 import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks.js'
 import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
 import getUrl from '../../utility/getUrl.js'
@@ -56,8 +55,8 @@ export default function Comment({
 	toggleShowRepliesButtonRef,
 	onRequestShowCommentFromSameThread,
 	parentComment,
-	dispatch,
 	locale,
+	messages,
 	screenWidth,
 	expandAttachments,
 	onAttachmentClick,
@@ -76,7 +75,7 @@ export default function Comment({
 	moreActionsButtonRef,
 	className,
 	commentClassName,
-	// <CommentTitleContentAndAttachments/> props:
+	// <CommentTitleAndContentAndAttachments/> props:
 	...rest
 }) {
 	const isFirstCommentInThread = comment.id === threadId
@@ -119,14 +118,14 @@ export default function Comment({
 	] = useSocial()
 
 	let titleContentAndAttachments = (
-		<CommentTitleContentAndAttachments
+		<CommentTitleAndContentAndAttachments
 			{...rest}
 			comment={comment}
 			expandAttachments={expandAttachments}
-			locale={locale}
 			onReply={onReply}
-			messages={getMessages(locale).post}
-			resourceMessages={getResourceMessages(getMessages(locale))}
+			locale={locale}
+			messages={messages}
+			resourceMessages={getResourceMessages(messages)}
 			useSmallestThumbnailsForAttachments
 			serviceIcons={SERVICE_ICONS}
 			youTubeApiKey={getConfiguration().youtubeApiKey}
@@ -152,7 +151,7 @@ export default function Comment({
 			<CommentAuthor
 				compact
 				post={comment}
-				locale={locale}
+				messages={messages}
 			/>
 			<div className={commentClassName}>
 				<div className="Comment-titleAndContentAndAttachments">
@@ -170,7 +169,7 @@ export default function Comment({
 				onToggleShowReplies={onToggleShowReplies}
 				toggleShowRepliesButtonRef={toggleShowRepliesButtonRef}
 				locale={locale}
-				dispatch={dispatch}
+				messages={messages}
 				url={url}
 				urlBasePath={urlBasePath}
 				onPostUrlClick={postDateLinkClickable ? onPostUrlClick : undefined}
@@ -204,6 +203,7 @@ Comment.propTypes = {
 	onAttachmentClick: PropTypes.func.isRequired,
 	onHide: PropTypes.func.isRequired,
 	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	parentComment: commentType,
 	onDownloadThread: PropTypes.func,
 	showingReplies: PropTypes.bool,
@@ -219,7 +219,6 @@ Comment.propTypes = {
 	onReport: PropTypes.func,
 	isOwn: PropTypes.bool,
 	setOwn: PropTypes.func,
-	dispatch: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	onPostUrlClick: PropTypes.func,
 	moreActionsButtonRef: PropTypes.object,
@@ -254,7 +253,7 @@ function isBeingShownAsPartOfAnExpandedRepliesTreeOfTheParentComment(comment, pa
 	return parentComment && isMiddleDialogueChainLink(comment, parentComment)
 }
 
-function CommentTitleContentAndAttachments({
+function CommentTitleAndContentAndAttachments({
 	comment,
 	initialExpandContent,
 	onExpandContentChange,
@@ -352,8 +351,11 @@ function CommentTitleContentAndAttachments({
 
 	const withTextSelectionActionsProps = useMemo(() => ({
 		onReply,
-		messages: getMessages(locale).post
-	}), [])
+		messages
+	}), [
+		onReply,
+		messages
+	])
 
 	return (
 		<React.Fragment>
@@ -392,7 +394,7 @@ function CommentTitleContentAndAttachments({
 				resourceCache={areCookiesAccepted() ? resourceCache : undefined}
 				url={url}
 				locale={locale}
-				messages={messages}
+				messages={messages.post}
 			/>
 			<PostAttachments
 				compact
@@ -405,7 +407,7 @@ function CommentTitleContentAndAttachments({
 				attachmentThumbnailSize={attachmentThumbnailSize}
 				expandAttachments={expandAttachments}
 				showOnlyFirstAttachmentThumbnail={showOnlyFirstAttachmentThumbnail}
-				spoilerLabel={messages.spoiler}
+				spoilerLabel={messages.post.spoiler}
 				onAttachmentClick={onAttachmentClick}
 			/>
 			<PostStretchVertically/>
@@ -413,7 +415,7 @@ function CommentTitleContentAndAttachments({
 	)
 }
 
-CommentTitleContentAndAttachments.propTypes = {
+CommentTitleAndContentAndAttachments.propTypes = {
 	renderComments: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
 	showOnlyFirstAttachmentThumbnail: PropTypes.bool,

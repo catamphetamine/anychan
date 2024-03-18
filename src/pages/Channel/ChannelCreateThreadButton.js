@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-pages'
 
-import PostForm from '../../components/PostForm.js'
+import PostForm from '../../components/PostFormWithAttachments.js'
 
 import { channelId as channelIdType } from '../../PropTypes.js'
 

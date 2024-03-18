@@ -19,23 +19,47 @@ export default function addCommentTextFunctions(comment, {
 
 	// Returns a textual representation of `comment.content`
 	// converted to a single line.
-	comment.getContentTextSingleLine = () => {
+	comment.getContentTextSingleLine = ({ includeTitle } = {}) => {
 		if (typeof comment.contentTextSingleLine === 'string') {
 			return comment.contentTextSingleLine
 		}
 		// `comment.getContentText()` can't return `undefined`.
-		const text = (comment.title ? comment.title + '\n\n' : '') + comment.getContentText()
-		comment.contentTextSingleLine = text.replace(/\n+/g, ' ')
+		comment.contentTextSingleLine = getContentTextSingleLine_(comment)
 		return comment.contentTextSingleLine
 	}
 
 	// Returns a textual representation of `comment.content`
 	// converted to a single line and to lower case (for case-insensitive search).
-	comment.getContentTextSingleLineLowerCase = () => {
+	comment.getContentTextSingleLineLowerCase = (options) => {
 		if (typeof comment.contentTextSingleLineLowerCase === 'string') {
 			return comment.contentTextSingleLineLowerCase
 		}
-		comment.contentTextSingleLineLowerCase = comment.getContentTextSingleLine().toLowerCase()
+		comment.contentTextSingleLineLowerCase = getContentTextSingleLine_(comment).toLowerCase()
 		return comment.contentTextSingleLineLowerCase
 	}
+
+	// Returns a textual representation of `comment.content` (with `title`)
+	// converted to a single line and to lower case (for case-insensitive search).
+	comment.getContentTextWithTitleSingleLineLowerCase = () => {
+		if (typeof comment.contentTextWithTitleSingleLineLowerCase === 'string') {
+			return comment.contentTextWithTitleSingleLineLowerCase
+		}
+		comment.contentTextWithTitleSingleLineLowerCase = getContentTextSingleLineWithTitle_(comment).toLowerCase()
+		return comment.contentTextWithTitleSingleLineLowerCase
+	}
+}
+
+// Returns a `string`.
+function getContentTextSingleLine_(comment) {
+	return comment.getContentText().replace(/\n+/g, ' ')
+}
+
+// Returns a `string`.
+function getContentTextSingleLineWithTitle_(comment) {
+	const contentTextSingleLine = getContentTextSingleLine_(comment)
+	const { title = '' } = comment
+	if (title && contentTextSingleLine) {
+		return title + ' ' + contentTextSingleLine
+	}
+	return title || contentTextSingleLine
 }

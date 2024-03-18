@@ -1,0 +1,52 @@
+:root {
+	--ChannelPinnedThreadPreview-paddingTop: 0.5rem;
+	--ChannelPinnedThreadPreview-paddingLeft: 0.75rem;
+}
+
+.ChannelPinnedThreadPreview {
+	padding-left: var(--ChannelPinnedThreadPreview-paddingLeft);
+  padding-right: var(--ChannelPinnedThreadPreview-paddingLeft);
+	padding-top: var(--ChannelPinnedThreadPreview-paddingTop);
+  padding-bottom: var(--ChannelPinnedThreadPreview-paddingTop);
+
+	border: var(--Comment-borderColor) solid var(--Comment-borderWidth);
+	background-color: var(--Post-backgroundColor);
+	box-shadow: var(--Comment-boxShadow);
+
+	display: flex;
+}
+
+.ChannelPinnedThreadPreview-pinIcon {
+	min-width: 1rem;
+	width: 1rem;
+	height: 1rem;
+	margin-top: 0.25rem;
+	margin-left: 0.25rem;
+	margin-right: var(--ChannelPinnedThreadPreview-paddingLeft);
+	color: var(--CommentFooter-color);
+}
+
+.ChannelPinnedThreadPreview-titleAndText {
+	overflow: hidden;
+}
+
+.ChannelPinnedThreadPreview-title {
+	margin: 0;
+
+	font-size: 1rem;
+	font-weight: normal;
+
+	/*
+  font-family: var(--PostTitle-fontFamily);
+  font-weight: var(--PostTitle-fontWeight);
+  font-size: var(--PostTitle-fontSize);
+  */
+}
+
+.ChannelPinnedThreadPreview-text {
+	margin: 0;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

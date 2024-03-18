@@ -4,6 +4,8 @@ import getLanguageFromLocale from '../getLanguageFromLocale.js'
 import getCensoredWordsByLanguage from '../getCensoredWordsByLanguage.js'
 import { getDefaultSettings } from './settingsDefaults.js'
 
+// * Applies default settings for the parameters that don't have a custom value.
+// * Compiles censored words list.
 export default function getSettings({ userSettings, settings, ...rest }) {
 	// If `userSettings` parameter was passed, convert it to `settings` object
 	// and call the function again.

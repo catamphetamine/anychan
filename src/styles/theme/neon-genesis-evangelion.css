@@ -211,8 +211,8 @@
 	/* PostAttachment. */
 	/*--PostAttachment-shadowColor--hover: hsla(239, 18%, 33%, 0.22);*/
 
-	/* CommentSeparator. */
-	--CommentSeparator-color: hsla(239, 100%, 89%, 0.225);
-	--CommentSeparator-color--previouslyRead: hsla(239, 100%, 89%, 0.25);
-	--CommentSeparator-color--channelPageLargeScreen: hsla(239, 100%, 89%, 0.17);
+	/* Comment. */
+	--Comment-borderColor: hsla(239, 100%, 89%, 0.225);
+	--Comment-borderColor--previouslyRead: hsla(239, 100%, 89%, 0.25);
+	--Comment-borderColor--channelPageLargeScreen: hsla(239, 100%, 89%, 0.17);
 }

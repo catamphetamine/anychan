@@ -1,8 +1,13 @@
 @import "../styles/common.css";
 
 .InReplyToModal {
-	--CommentSeparator-width: 1px;
-	--CommentSeparator-width--outline: 0px;
+	/* In `InReplyToModal`, `border` is used instead of `box-shadow`
+	   to show a border around a comment. Rationale: `box-shadow` didn't really fit
+	   into the design because in `InReplyToModal` there's no spacing between comments,
+	   so if the border color in `box-shadow` was semi-transparent, it would get overlaid
+	   for any two adjacent comments resulting in a darker color of the border between them. */
+	--Comment-borderWidth: 1px;
+	--Comment-boxShadowOutlineWidth: 0px;
 
 	/*--InReplyToModalHeader-paddingTop: var(--unit);*/
 	--InReplyToModalBackIcon-width: 0.75em;
@@ -32,7 +37,7 @@
 		 so that the higher-level expanded reply has an illusion
 		 of having a `border`. */
 	.CommentTree-toggler {
-		border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+		border-top: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 	}
 
 	.Comment {
@@ -193,7 +198,7 @@
 	display: flex;
 	justify-content: flex-end;
 
-	border-top: var(--CommentSeparator-width) solid var(--CommentSeparator-color);
+	border-top: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 
 	padding-left: var(--Post-paddingRight);
 	padding-right: var(--Post-paddingRight);

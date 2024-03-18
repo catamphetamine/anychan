@@ -41,10 +41,11 @@
 
 	/* Comment. */
 	--Comment-marginLeft--latestComments: 1rem;
+	--Comment-borderRadius: 0rem;
 
 	/* CommentTree. */
 	@mixin upto-xs {
-		--CommentTreeBranch-marginTop--content: 1.9em;
+		--CommentTreePathBranch-marginTop--content: 1.9em;
 	}
 
 	/* Post */
@@ -292,11 +293,13 @@
 	}
 
 	/* Comment. */
-	/*--Comment-boxShadow: inset 0 0 0 var(--CommentSeparator-width--outline) var(--CommentSeparator-color);*/
+	/*--Comment-boxShadow: inset 0 0 0 var(--Comment-boxShadowOutlineWidth) var(--Comment-borderColor);*/
 	--Comment-boxShadow: none;
-	--Comment-borderColor: var(--CommentSeparator-color);
-	--Comment-borderWidth: var(--CommentSeparator-width--outline);
-	--Comment-border: var(--Comment-borderColor) solid var(--Comment-borderWidth);
+
+	/* Comment-borderWidth. */
+	/* `box-shadow` is currenly not used. */
+	--Comment-borderWidth: 1px;
+	--Comment-boxShadowOutlineWidth: 0px;
 
 	/* --Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 0px;
@@ -325,33 +328,28 @@
 	}
 	--Comment-marginTop--topLevelChannelPage: calc(var(--Comment-marginTop--channelPageBase) + var(--Comment-marginTop--extra));
 
+	/* Comment-borderColor. */
+	--Comment-borderColor--largeScreen: var(--Comment-borderColor);
+	--Comment-borderColor--channelPage: var(--Comment-borderColor);
+	--Comment-borderColor--channelPageLargeScreen: var(--Comment-borderColor--channelPage);
+	@mixin m-plus {
+		/* The `body` selector here prevents an infinite recursion
+		   while calculating `--Comment-borderColor` CSS variable value
+		   if it was defined as `--Comment-borderColor: var(--Comment-borderColor--largeScreen)`
+		   at `:root` level:
+		   `--Comment-borderColor` -> `--Comment-borderColor--largeScreen` ->
+		-> `--Comment-borderColor` -> `--Comment-borderColor--largeScreen` -> ... */
+		body {
+			--Comment-borderColor: var(--Comment-borderColor--largeScreen);
+			--Comment-borderColor--channelPage: var(--Comment-borderColor--channelPageLargeScreen);
+		}
+	}
+
 	/* --Comment-previouslySeenThreadsBanner. */
 	--Comment-previouslySeenThreadsBanner-color: var(--Content-color-600);
 	--Comment-previouslySeenThreadsBanner-fontSize: var(--UppercaseLabel-fontSize);
 	--Comment-previouslySeenThreadsBanner-letterSpacing: var(--UppercaseLabel-letterSpacing);
 	--Comment-previouslySeenThreadsBanner-borderColor: var(--Content-color-300);
-
-	/* CommentSeparator. */
-	--CommentSeparator-width: 0px;
-	--CommentSeparator-width--outline: 1px;
-	--CommentSeparator-color--largeScreen: var(--CommentSeparator-color);
-	--CommentSeparator-color--channelPage: var(--CommentSeparator-color);
-	--CommentSeparator-color--channelPageLargeScreen: var(--CommentSeparator-color--channelPage);
-	@mixin m-plus {
-		/* The `body` selector here prevents an infinite recursion
-		   while calculating `--CommentSeparator-color` CSS variable value
-		   if it was defined as `--CommentSeparator-color: var(--CommentSeparator-color--largeScreen)`
-		   at `:root` level:
-		   `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` ->
-		-> `--CommentSeparator-color` -> `--CommentSeparator-color--largeScreen` -> ... */
-		body {
-			--CommentSeparator-color: var(--CommentSeparator-color--largeScreen);
-			--CommentSeparator-color--channelPage: var(--CommentSeparator-color--channelPageLargeScreen);
-		}
-		/* `box-shadow` is used instead of `border-top`/`border-bottom`. */
-		/*--CommentSeparator-width: 0px;*/
-		/*--CommentSeparator-width--outline: 1px;*/
-	}
 
 	/* CommentFooter. */
 	/* Comment footer top margin is adjusted in such a way that human eye
@@ -384,15 +382,18 @@
 
 	/* CommentTree. */
 	@mixin m-plus {
-		--CommentTree-borderWidth: 2px;
+		--CommentTreePath-borderWidth: 2px;
 	}
-	--CommentTreeDialogueTrace-height--through: var(--Comment-marginTop);
+	--CommentTreePathWithNoBranching-height--straightThrough: var(--Comment-marginTop);
 
 	/* CommentAuthor. */
 	--CommentAuthor-marginTop: 0px;
 	--CommentAuthor-fontSize: 85%;
 	--CommentAuthor-color: var(--Content-color-800);
 	--CommentAuthor-color--colored: initial;
+
+	/* CommentSpacerLine. */
+	--CommentSpacerLine-height: 1px;
 
 	/* Post. */
 	--Post-paddingTop: calc(var(--unit) * 0.75);
@@ -492,6 +493,7 @@
 	--ChannelThreadHeader-fontWeight: 400;
 	--ChannelThreadHeader-textAlign: center;
 	--ChannelThreadHeader-paddingLeft: 0px;
+	--ChannelThreadHeader-paddingRight: var(--ChannelThreadHeader-paddingLeft);
 	@mixin upto-s {
 		--ChannelThreadHeader-paddingLeft: var(--PageContent-paddingLeft);
 		--ChannelThreadHeader-textAlign: left;
@@ -518,15 +520,16 @@
 	@mixin l {
 		--ChannelThreadHeader-textAlign: left;
 		--ChannelThreadHeader-paddingLeft: var(--Webpage-paddingLeft-width);
+		--ChannelThreadHeader-paddingRight: var(--Webpage-paddingRight-width);
 	}
 	@mixin xl-plus {
 		--ChannelThreadHeader-textAlign: left;
 		--ChannelThreadHeader-paddingLeft: var(--Webpage-paddingLeft-width);
+		--ChannelThreadHeader-paddingRight: var(--Webpage-paddingRight-width);
 	}
 
 	/* ChannelHeader. */
 	--ChannelHeader-height: auto;
-	--ChannelHeader-paddingLeft: 0px;
 	--ChannelHeader-fontSize: initial;
 	--ChannelHeader-fontWeight: intial;
 	--ChannelHeader-textAlign: initial;
@@ -576,8 +579,8 @@
 		--ThreadPageShowPrevious-marginTop: var(--unit);
 	}
 
-	/* ChannelCreateThreadButton. */
-	--ChannelCreateThreadButton-marginTop: var(--ThreadPageShowPrevious-marginTop);
+	/* ChannelPageTop. */
+	--ChannelPageTop-marginTop: var(--ThreadPageShowPrevious-marginTop);
 
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;

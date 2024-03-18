@@ -37,7 +37,7 @@ export default function ChannelThreadWithComments({
 			postDateLinkUpdatePageUrlToPostUrlOnClick: false,
 			postDateLinkNavigateToPostUrlOnClick: false,
 			toggleShowRepliesOnTreeBranchesClick: false,
-			showSeparatorLineBetweenTopLevelComments: true
+			showSeparatorLineBetweenTopLevelComments: false
 		}
 	}, [
 		commonProps,

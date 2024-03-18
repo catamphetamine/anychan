@@ -1,0 +1,12 @@
+{
+  "id": "{url}",
+  "name": "{title}",
+  "start_url": "{url}",
+  "icons": [
+    {
+      "src": "icons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

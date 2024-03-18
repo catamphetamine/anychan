@@ -22,7 +22,7 @@
 
 	height: var(--ChannelHeader-height);
 	padding-left: var(--ChannelHeader-paddingLeft);
-	padding-right: var(--ChannelHeader-paddingLeft);
+	padding-right: var(--ChannelHeader-paddingRight);
 }
 
 .ChannelHeader-toolbarSizePlaceholder {

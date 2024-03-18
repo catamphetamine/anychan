@@ -9,11 +9,10 @@ export const getCaptcha = redux.action(
 		channelId,
 		threadId,
 		...rest
-	}) => async http => {
+	}) => async () => {
 		return await _getCaptcha({
 			channelId,
 			threadId,
-			http,
 			...rest
 		})
 	}

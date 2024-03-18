@@ -6018,10 +6018,10 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.7.1.tgz#d6c771f209a6cdf0932a9013c4c12748654a0e33"
-  integrity sha512-grQ9uQjcwmUEIdCNQhVQM1G1+FWq15djIXNeh2uNTOs7+PBQvUF99dI6+i7ejdOa6yX1FNHzLoEjh2Rse+ZzLw==
+imageboard@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.7.4.tgz#d028c39302796f3a48ccfc78f7494e3333b97127"
+  integrity sha512-vI2MaizF2pQtcwOidGFk8mSMxpQ5feIIoB2HcPu3FVrX5Es9XRr9O3cyVnpzIMXhnePDLMvUpAxfKdi3b5Z87w==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
@@ -8038,10 +8038,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.12:
-  version "0.7.12"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.12.tgz#88870f37889e2ccd7aaa7f3698a8763e60cd2410"
-  integrity sha512-ujuvpOJNqJ8KBC+XCbfUPd9SEjZQ0a1Ww78L/55vHX6eXPfsuFoSIagJEyyJjCf1BNgVZTdiFfBoYFBtZBT+JQ==
+react-pages@^0.7.13:
+  version "0.7.13"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.13.tgz#dd428a29cf88f00ce9ce3f58cb1cea1716cadd97"
+  integrity sha512-bn/rNqlY++G8cCXrJ/KwSVIdskqyQ9Rn39CjpIAUIlxLEfB7rxf0HyHx01JsLXpFqhp7e/1Tl88FYeG/wgbHxQ==
   dependencies:
     "@catamphetamine/farce" "^0.4.19"
     "@catamphetamine/found" "^1.3.11"
@@ -8768,18 +8768,18 @@ social-components-parser@^0.2.3:
     html-document-parser "^1.1.1"
     social-components "^0.3.2"
 
-social-components@^0.3.2, social-components@^0.3.5:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.6.tgz#e89383fc5717f87d33789017caca63e9da1a9c6e"
-  integrity sha512-I+g3jSWuEQgf10O5ykh7REneqtPBuRV312GNyobMWsKYTekyK4S1P23ISvz0+XUbc2LueBh7tkaHOm8SpsiIWw==
+social-components@^0.3.10:
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.10.tgz#2328f70ffdd26e87b254dfaff417df6245c3978e"
+  integrity sha512-urIHNhyxojoWETXtJDOINcTB18GgAw3TEXmvwP+7TH6HxKSFRd+Xpy2nk3E5eR83VJL9zxPzSps6Qyq4kqOS/A==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
-social-components@^0.3.9:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.9.tgz#40b298b11355a09fd170255077120ac7a261c69f"
-  integrity sha512-Yl9mbf+wQEhp0+OGzfvZKkBw3z0BgZ/DOluyZuh9neeV7ifQp/cYp6tbVHYEc1LMNcqb+hkAhIpsHKXc0hHpnA==
+social-components@^0.3.2, social-components@^0.3.5:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.3.6.tgz#e89383fc5717f87d33789017caca63e9da1a9c6e"
+  integrity sha512-I+g3jSWuEQgf10O5ykh7REneqtPBuRV312GNyobMWsKYTekyK4S1P23ISvz0+XUbc2LueBh7tkaHOm8SpsiIWw==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

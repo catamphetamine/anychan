@@ -1,8 +1,8 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react'
+import React, { useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
-import { useSelectorForLocation, goto } from 'react-pages'
+import { useSelectorForLocation } from 'react-pages'
 
 import getMessages from '../../messages/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
@@ -18,7 +18,7 @@ import ThreadPageHeader from './ThreadPageHeader.js'
 import ThreadCreateComment from './ThreadCreateComment.js'
 import AutoUpdate from './AutoUpdate.js'
 import InfoBanner from './InfoBanner.js'
-import PostForm from '../../components/PostForm.js'
+import PostForm from '../../components/PostFormWithAttachments.js'
 
 import useFromIndex from './useFromIndex.js'
 import useExpandAttachments from './useExpandAttachments.js'
@@ -39,6 +39,8 @@ import loadThreadPage from './Thread.load.js'
 
 import useAutoUpdate from './useAutoUpdate.js'
 
+import useReRenderCommentsByIds from './useReRenderCommentsByIds.js'
+
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
@@ -47,9 +49,6 @@ import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
 import './Thread.css'
 
 export default function ThreadPage() {
-	const [isSearchBarShown, setSearchBarShown] = useState()
-	const [searchQuery, setSearchQuery] = useState()
-
 	// Using `useSelectorForLocation()` instead of `useSelector()` here
 	// as a workaround for cases when navigating from one thread
 	// to another thread in order to prevent page state inconsistencies
@@ -206,32 +205,72 @@ export default function ThreadPage() {
 		onNavigateToComment(commentId, fromCommentId)
 	}, [onNavigateToComment])
 
+	// `renderComments()` is called whenever there's a "parent" comment
+	// whose `content` did change (for example, when a YouTube video link got loaded),
+	// and so such "parent" comment update should trigger a "re-render" of all comments
+	// that quote this "parent" comment, because those quotes have been re-generated.
+	// `renderComments(commentIds)` does that: re-renders descendant comments by their IDs.
+	//
+	// `renderComments(commentIds)` only works as intended when all of the `commentIds`
+	// are currently rendered on the page. That might not be the case when using `virtual-scroller`.
+	// But there seems to be no better solution, and in the particular case of using this
+	// `renderComments(commentIds)` function for updating the replies of a comment who had
+	// some of its "resource links" loaded (for example, by transforming YouTube hyperlinks
+	// into embedded `video`s) it works in most of the cases because:
+	// * "resource links" are loaded only the first time a comment gets rendered.
+	// * The list of comments is always rendered top-to-bottom meaning that top comments
+	//   always get initially rendered before any of the bottom comments.
+	//
+	// So even if there could be any hypothetical inconsistencies in measuring such
+	// comments' heights, those cases would be extremely rare and the `virtual-scroller`
+	// would restore its proper operation by simply re-measuring those comments and
+	// printing a warning in the console.
+	//
+	const renderComments_ = useReRenderCommentsByIds({ shownComments })
+
+	// `renderComments_()` function "reference" changes whenever a list of `shownComments` does.
+	// But at the same time, `itemComponentProps` shouldn't change when not required,
+	// and the case of `renderComments_()` function "reference" changing would be considered a
+	// "not required" case because it doesn't affect the presentation at all.
+	// To fix that, `renderComments` property is created in such a way that it doesn't ever change,
+	// but at the same time `renderComments.currrent` function is always the latest `renderComments_` function.
+	const renderComments = useRef()
+	renderComments.current = renderComments_
+
 	const itemComponentProps = useMemo(() => ({
 		getCommentById,
-		mode: 'thread',
-		channelId: channel.id,
-		// Old cached board objects don't have a `.features` sub-object.
-		// (Before early 2023).
-		hasVoting: channel.features && channel.features.votes,
-		channelIsNotSafeForWork: channel.notSafeForWork,
-		canReply: true,
-		// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
-		// when a thread expires during auto-update.
-		threadExpired: thread.expired,
-		threadIsArchived: thread.archived,
-		threadIsLocked: thread.locked,
-		threadIsTrimming: thread.trimming,
-		threadId: thread.id,
-		dispatch,
-		locale,
-		unreadCommentWatcher,
-		expandGeneratedPostLinkBlockQuotes: !shouldMinimizeGeneratedPostLinkBlockQuotes(),
-		expandAttachments: areAttachmentsExpanded,
-		onRequestShowCommentFromSameThread,
-		isPreviouslyRead,
-		onDownloadThread,
-		onSubscribeToThread,
-		refreshThread
+		getComponentProps() {
+			return {
+				getCommentById,
+				mode: 'thread',
+				channelId: channel.id,
+				// Old cached board objects don't have a `.features` sub-object.
+				// (Before early 2023).
+				hasVoting: channel.features && channel.features.votes,
+				channelIsNotSafeForWork: channel.notSafeForWork,
+				canReply: true,
+				// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
+				// when a thread expires during auto-update.
+				threadExpired: thread.expired,
+				threadIsArchived: thread.archived,
+				threadIsLocked: thread.locked,
+				threadIsTrimming: thread.trimming,
+				threadId: thread.id,
+				locale,
+				messages,
+				unreadCommentWatcher,
+				expandGeneratedPostLinkBlockQuotes: !shouldMinimizeGeneratedPostLinkBlockQuotes(),
+				expandAttachments: areAttachmentsExpanded,
+				onRequestShowCommentFromSameThread,
+				isPreviouslyRead,
+				onDownloadThread,
+				onSubscribeToThread,
+				refreshThread,
+				renderComments: renderComments.current,
+				postDateLinkUpdatePageUrlToPostUrlOnClick: true,
+				postDateLinkNavigateToPostUrlOnClick: false
+			}
+		}
 	}), [
 		// The dependencies list should be such that
 		// comments aren't re-rendered when they don't need to.
@@ -246,8 +285,8 @@ export default function ThreadPage() {
 		isPreviouslyRead,
 		onDownloadThread,
 		onSubscribeToThread,
-		dispatch,
 		locale,
+		messages,
 		unreadCommentWatcher,
 		onNavigateToComment,
 		refreshThread
@@ -276,8 +315,8 @@ export default function ThreadPage() {
 				getCommentById={getCommentById}
 				isThreadSubscribed={isThreadSubscribed}
 				setThreadSubscribed={setThreadSubscribed}
-				isSearchBarShown={isSearchBarShown}
-				setSearchBarShown={setSearchBarShown}
+				isSearchBarShown={false}
+				setSearchBarShown={() => {}}
 				areAttachmentsExpanded={areAttachmentsExpanded}
 				setAttachmentsExpanded={setAttachmentsExpanded}
 			/>
@@ -298,7 +337,6 @@ export default function ThreadPage() {
 			<div className="ThreadPage-commentsListContainer">
 				<ThreadCommentsList
 					thread={thread}
-					searchQuery={searchQuery}
 					shownComments={shownComments}
 					itemComponentProps={itemComponentProps}
 					getCommentById={getCommentById}
@@ -327,43 +365,39 @@ export default function ThreadPage() {
 			<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide">
 				<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-emptySpace"/>
 				<div className="ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-content">
-					{!searchQuery && (
-						<>
-							{!(thread.locked || thread.expired) &&
-								<React.Fragment>
-									<AutoUpdate
-										ref={autoUpdateElement}
-										{...autoUpdateParameters}
-									/>
-									{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
-									{thread.bumpLimitReached &&
-										<InfoBanner
-											Icon={SinkingBoatIcon}>
-											{messages.threadBumpLimitReached}
-										</InfoBanner>
-									}
-								</React.Fragment>
-							}
-							{thread.archived &&
+					{!(thread.locked || thread.expired) &&
+						<React.Fragment>
+							<AutoUpdate
+								ref={autoUpdateElement}
+								{...autoUpdateParameters}
+							/>
+							{/*<PostForm autoFocus placement="page" onSubmit={onSubmitReply}/>*/}
+							{thread.bumpLimitReached &&
 								<InfoBanner
-									Icon={BoxIcon}>
-									{messages.threadIsArchived}
+									Icon={SinkingBoatIcon}>
+									{messages.threadBumpLimitReached}
 								</InfoBanner>
 							}
-							{!thread.archived && thread.locked &&
-								<InfoBanner
-									Icon={LockIcon}>
-									{messages.threadIsLocked}
-								</InfoBanner>
-							}
-							{thread.expired &&
-								<InfoBanner
-									Icon={GhostIcon}>
-									{messages.threadExpired}
-								</InfoBanner>
-							}
-						</>
-					)}
+						</React.Fragment>
+					}
+					{thread.archived &&
+						<InfoBanner
+							Icon={BoxIcon}>
+							{messages.threadIsArchived}
+						</InfoBanner>
+					}
+					{!thread.archived && thread.locked &&
+						<InfoBanner
+							Icon={LockIcon}>
+							{messages.threadIsLocked}
+						</InfoBanner>
+					}
+					{thread.expired &&
+						<InfoBanner
+							Icon={GhostIcon}>
+							{messages.threadExpired}
+						</InfoBanner>
+					}
 				</div>
 			</div>
 

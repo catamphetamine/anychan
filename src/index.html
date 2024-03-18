@@ -108,6 +108,17 @@
 				// document.querySelector('link[rel="shortcut icon"]').setAttribute('href', ICON_URL)
 			})()
 		</script>
+		<!-- "Progressive Web Application" feature support. -->
+    <!-- <link rel="manifest" href="manifest.json" /> -->
+		<script>
+			(function() {
+				var linkElement = document.createElement('link')
+				linkElement.setAttribute('rel', 'manifest')
+				linkElement.setAttribute('href', BASE_PATH + '/manifest.json')
+				document.head.appendChild(linkElement)
+				// document.querySelector('link[rel="shortcut icon"]').setAttribute('href', ICON_URL)
+			})()
+		</script>
 	</head>
 	<body>
 	</body>

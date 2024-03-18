@@ -22,6 +22,7 @@
 .ThreadPage {
 	--ThreadPageHeader-height: var(--ChannelThreadHeader-height);
 	--ThreadPageHeader-paddingLeft: var(--ChannelThreadHeader-paddingLeft);
+	--ThreadPageHeader-paddingRight: var(--ChannelThreadHeader-paddingRight);
 	--ThreadPageHeader-fontSize: var(--ChannelThreadHeader-fontSize);
 	--ThreadPageHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
 	--ThreadPageHeader-textAlign: var(--ChannelThreadHeader-textAlign);
@@ -65,7 +66,7 @@
 	/* `.CommentsList` element already has a "negative" `margin-top`,
 	   so `margin-top` is set on `.ThreadPage-commentsListContainer` element instead. */
 	/* `--Comment-marginTop` is not defined at `:root` level. */
-	margin-top: var(--Comment-marginTop);
+	margin-top: var(--Comment-marginTop--topLevel);
 }
 
 .ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide {
@@ -104,7 +105,8 @@
 }
 
 .ThreadPage {
-	.PostForm--comment {
+	.CommentTree:not(.CommentTree--repliesExpanded) > .Comment-container > .PostFormWithAttachments--comment,
+	.ThreadCreateComment.PostFormWithAttachments--comment {
 		@mixin m-plus {
 			--PostForm-marginLeft--comment: var(--PostThumbnailContainer-maxWidth);
 			margin-left: calc(var(--PostForm-marginLeft--comment));
@@ -116,6 +118,16 @@
 			margin-right: var(--PostForm-marginLeft--comment);
 			width: calc(100% - var(--PostForm-marginLeft--comment) - var(--PostForm-marginLeft--comment));
 		}
+	}
+
+	.CommentTree--repliesExpanded > .Comment-container > .PostFormWithAttachments--comment {
+		margin-left: var(--CommentTree-marginLeft--child);
+		width: calc(100% - var(--CommentTree-marginLeft--child));
+	}
+
+	.CommentTree--repliesExpanded > .Comment-container > .Comment-spacer--aboveReplyForm {
+		width: 1px;
+		background-color: var(--CommentTreePath-color--branch);
 	}
 }
 

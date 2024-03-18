@@ -12,12 +12,17 @@ import { comment as commentType, commentTreeState } from '../../PropTypes.js'
 //
 const ThreadComment = React.memo(function({
 	item: comment,
+	// `state` property is passed by `virtual-scroller`.
 	state,
+	// `setState` property is passed by `virtual-scroller`.
 	setState,
-	expandAttachments,
-	className,
+	// Any `itemComponentProps` that were passed to `virtual-scroller`.
 	...rest
 }) {
+	// `<CommentTree/>` uses the initial `state` to create its internal state.
+	// After that, it doesn't read the `state` and uses its internal one instead.
+	// Whenever its internal state changes, it calls `setState()` function
+	// to sync the external `state` with the internal one.
 	const initialState = useMemo(() => state, [])
 
 	return (
@@ -25,12 +30,6 @@ const ThreadComment = React.memo(function({
 			comment={comment}
 			initialState={initialState}
 			setState={setState}
-			postDateLinkUpdatePageUrlToPostUrlOnClick={true}
-			postDateLinkNavigateToPostUrlOnClick={false}
-			expandAttachments={expandAttachments}
-			className={classNames(className, {
-				'Comment--expandAttachments': expandAttachments
-			})}
 			{...rest}
 		/>
 	)

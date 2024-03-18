@@ -6,7 +6,6 @@
  */
 export default async function getChannels({
 	all,
-	http,
 	userSettings,
 	dataSource,
 	messages
@@ -16,7 +15,6 @@ export default async function getChannels({
 		hasMoreChannels
 	} = await dataSource.api.getChannels({
 		all,
-		http,
 		userSettings,
 		messages
 	})

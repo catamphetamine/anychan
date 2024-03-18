@@ -59,9 +59,9 @@
 	--CommentSpacerLine-color: var(--Content-color-100);
 
 	/* CommentTree. */
-	--CommentTree-color: var(--Content-color-100);
-	--CommentTree-color--hover: var(--Content-color-200);
-	--CommentTree-backgroundColor--hover: rgba(255, 255, 255, 0.05);
+	--CommentTreePath-color: var(--Content-color-100--transparent);
+	--CommentTreePath-color--hover: var(--Content-color-200--transparent);
+	--CommentTreePath-backgroundColor--hover: rgba(255, 255, 255, 0.05);
 
 	/* PressedStateButton. */
 	--PressedStateButton-color--active: var(--base-color-300);
@@ -86,6 +86,9 @@
 
 	/* Comment. */
 	/*--Comment-backgroundColor--new: #4a3e31;*/
+	--Comment-borderColor: rgba(255,255,255,0.05);
+	--Comment-borderColor--previouslyRead: rgba(255,255,255,0.12);
+	/*--Comment-borderColor--new: #503e27;*/
 
 	/* Comment-marginTop--extra. */
 	--Comment-marginTop--extra: 3px;
@@ -94,11 +97,6 @@
 	/*--CommentAuthor-color--accent: var(--base-color-300);*/
 	--CommentAuthor-color--administrator: #c44876;
 	--CommentAuthor-color--moderator: #57add1;
-
-	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(255,255,255,0.05);
-	--CommentSeparator-color--previouslyRead: rgba(255,255,255,0.12);
-	/*--CommentSeparator-color--new: #503e27;*/
 
 	/* Sidebar. */
 	--Sidebar-borderColor: var(--Document-backgroundColor);

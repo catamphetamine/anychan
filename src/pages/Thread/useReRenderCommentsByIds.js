@@ -65,5 +65,5 @@ export default function useReRenderCommentsByIds({ shownComments }) {
 		// 		...commentUpdateFlags
 		// 	})
 		// )
-	}, [])
+	}, [shownComments])
 }

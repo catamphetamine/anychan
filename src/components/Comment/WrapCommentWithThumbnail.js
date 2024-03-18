@@ -20,7 +20,7 @@ function WrapCommentWithThumbnail({
 	mode,
 	comment,
 	threadId,
-	locale,
+	messages,
 	expandAttachments,
 	onAttachmentClick,
 	showThumbnail: shouldShowThumbnail,
@@ -38,7 +38,7 @@ function WrapCommentWithThumbnail({
 			mode={mode}
 			comment={comment}
 			threadId={threadId}
-			locale={locale}
+			messages={messages}
 			expandAttachments={expandAttachments}
 			onAttachmentClick={onAttachmentClick}
 		>
@@ -79,7 +79,7 @@ WrapCommentWithThumbnail.propTypes = {
 	mode: PropTypes.oneOf(['channel', 'thread']).isRequired,
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	expandAttachments: PropTypes.bool,
 	onAttachmentClick: PropTypes.func,
 	showThumbnail: PropTypes.bool,

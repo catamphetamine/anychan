@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import { comment } from '../../PropTypes.js'
-import getMessages from '../../messages/getMessages.js'
 
 import AnonymousPersonIcon from '../../../assets/images/icons/person-anonymous.svg'
 import PersonIcon from 'frontend-lib/icons/person-outline-slightly-thinner-no-bottom-border.svg'
@@ -12,7 +11,7 @@ import VerifiedIcon from 'frontend-lib/icons/verified.svg'
 
 import './CommentAuthor.css'
 
-export default function CommentAuthor({ post, compact, locale }) {
+export default function CommentAuthor({ post, compact, messages }) {
 	// A thread's author doesn't necessarily have an `authorId`.
 	// For example, that'd be the case when the thread's author
 	// is a moderator at `4chan.org`.
@@ -21,7 +20,7 @@ export default function CommentAuthor({ post, compact, locale }) {
 	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.authorIsThreadAuthor && !post.isRootComment
 	let authorName = post.authorName
 	if (showThreadAuthorLabelAsAuthorId && !authorName) {
-		authorName = getMessages(locale).post.threadAuthor
+		authorName = messages.post.threadAuthor
 	}
 	// On `2ch.hk` original poster's posts don't have `authorId`.
 	const authorNameIsId = post.authorNameIsId || showThreadAuthorLabelAsAuthorId
@@ -34,7 +33,7 @@ export default function CommentAuthor({ post, compact, locale }) {
 	// post.authorRole = 'administrator'
 	// post.authorTripCode = '!!tripcode35ae80'
 	// post.authorEmail = 'user@example.com'
-	const authorRoleName = post.authorRole && (getRoleName(post.authorRole, post, locale) || post.authorRole)
+	const authorRoleName = post.authorRole && (getRoleName({ authorRole: post.authorRole, post, messages }) || post.authorRole)
 	const authorInfo = []
 	if (shouldShowAuthorId(post) && !authorNameIsId) {
 		authorInfo.push({
@@ -63,7 +62,7 @@ export default function CommentAuthor({ post, compact, locale }) {
 		authorInfo.push({
 			key: 'verified',
 			element: (
-				<span title={getMessages(locale).post.verified}>
+				<span title={messages.post.verified}>
 					<VerifiedIcon className="CommentAuthor-verified"/>
 				</span>
 			)
@@ -135,8 +134,9 @@ export default function CommentAuthor({ post, compact, locale }) {
 			)}>
 			<CommentAuthorIcon
 				post={post}
-				locale={locale}
-				showThreadAuthorLabelAsAuthorId={showThreadAuthorLabelAsAuthorId}/>
+				messages={messages}
+				showThreadAuthorLabelAsAuthorId={showThreadAuthorLabelAsAuthorId}
+			/>
 			<div className="CommentAuthor-info">
 				{authorInfoSpaced.map(({ key, element }) => React.cloneElement(element, { key }))}
 			</div>
@@ -147,7 +147,7 @@ export default function CommentAuthor({ post, compact, locale }) {
 CommentAuthor.propTypes = {
 	post: comment.isRequired,
 	compact: PropTypes.bool,
-	locale: PropTypes.string.isRequired
+	messages: PropTypes.object.isRequired
 }
 
 function CommentAuthorSeparator() {
@@ -158,14 +158,14 @@ function CommentAuthorSeparator() {
 	)
 }
 
-function getRoleName(authorRole, post, locale) {
+function getRoleName({ authorRole, post, messages }) {
 	if (post.authorRoleScope) {
-		const roleNames = getMessages(locale).role[post.authorRoleScope]
+		const roleNames = messages.role[post.authorRoleScope]
 		if (roleNames && roleNames[authorRole]) {
 			return roleNames[authorRole]
 		}
 	}
-	return getMessages(locale).role[authorRole]
+	return messages.role[authorRole]
 }
 
 // function PersonIconBottomBorder(props) {
@@ -196,7 +196,7 @@ function shouldShowAuthorId(post) {
 
 function CommentAuthorIcon({
 	post,
-	locale,
+	messages,
 	showThreadAuthorLabelAsAuthorId
 }) {
 	return (
@@ -204,7 +204,7 @@ function CommentAuthorIcon({
 			'CommentAuthorIcon--color': !showThreadAuthorLabelAsAuthorId && shouldShowAuthorId(post)
 		})}>
 			{showThreadAuthorLabelAsAuthorId &&
-				<span title={getMessages(locale).post.threadAuthor}>
+				<span title={messages.post.threadAuthor}>
 					<AnonymousPersonIcon
 						className={classNames(
 							'CommentAuthor-icon',
@@ -258,6 +258,6 @@ function CommentAuthorIcon({
 
 CommentAuthorIcon.propTypes = {
 	post: comment.isRequired,
-	locale: PropTypes.string.isRequired,
+	messages: PropTypes.object.isRequired,
 	showThreadAuthorLabelAsAuthorId: PropTypes.bool
 }

@@ -8,6 +8,7 @@
 
 	--ChannelHeader-height: var(--ChannelThreadHeader-height);
 	--ChannelHeader-paddingLeft: var(--ChannelThreadHeader-paddingLeft);
+	--ChannelHeader-paddingRight: var(--ChannelThreadHeader-paddingRight);
 	--ChannelHeader-fontSize: var(--ChannelThreadHeader-fontSize);
 	--ChannelHeader-fontWeight: var(--ChannelThreadHeader-fontWeight);
 	--ChannelHeader-textAlign: var(--ChannelThreadHeader-textAlign);
@@ -34,7 +35,7 @@
 	/* `.CommentsList` element already has a "negative" `margin-top`,
 	   so `margin-top` is set on `.ThreadPage-commentsListContainer` element instead. */
 	/* `--Comment-marginTop` is not defined at `:root` level. */
-	margin-top: var(--Comment-marginTop);
+	margin-top: var(--Comment-marginTop--topLevel);
 }
 
 .ChannelPage--latestComments {
@@ -101,14 +102,20 @@
 }
 
 .ChannelPage--latestComments {
-	--Comment-marginTop--topLevel: calc(var(--Comment-marginTop--nested) * 2);
+	--Comment-marginTop--topLevel: calc(var(--Comment-marginTop--nested) * 4);
 }
 
 .ChannelPage--latestComments {
 	.CommentTree--topLevel {
 		> .CommentTree-replies {
-			margin-left: var(--CommentTree-padding);
+			margin-left: var(--CommentTree-marginLeft--child);
 		}
+	}
+}
+
+.ChannelPage {
+	.Comment-spacer--topLevel {
+		height: var(--Comment-marginTop);
 	}
 }
 

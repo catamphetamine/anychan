@@ -4,7 +4,7 @@ export default function useGoToComment({
 	thread,
 	setNewFromIndex
 }) {
-	useCallback((comment) => {
+	return useCallback((comment) => {
 		const index = thread.comments.indexOf(comment)
 		if (index < 0) {
 			throw new Error(`Comment ${comment.id} not found`)

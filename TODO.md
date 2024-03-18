@@ -1,63 +1,137 @@
 
+https://anon.cafe/
+https://tvch.moe/
+https://smuglo.li/
+https://erischan.org/
+https://prolikewoah.com/
+https://alogs.space/
+
+
+* Some textual elements/buttons aren't eligible when using a custom background image: "Create Thread" button on channel page, footer links, copyright text, "Auto-update in XX sec", "Write a comment..." form placeholder. Maybe add background color to those elements + border + border-radius.
+
+* When showing a list of threads in "tiles" view, generate content preview that is shorter: no longer than XXX, and maybe don't bypass the threshold even if the rest text amount is small.
+
+* On large screens, expand the search icon into a field initially automatically.
+
+* In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
+
+* `validateDatasource` schema. Validate shortId uniqueness across different dataSources.
+
+* Parse 4chan main page's “popular threads” or “latest posts” and output them on `anychan`'s main page at the bottom as a "Latest comments" section. Show ellipsis while loading that section. Show `null` if error. See if same thing is available on 2ch, lynxchan, jschan.
+
+* Maybe add a setting to not darken pictures in dark mode. See how much are they darkened and if that should be disabled by default.
+
+* See if "Add to home screen" button on iPhone is available.
+
+* `cors-proxy-node`: `x-cookie` header value should replace the `cookie` header value, not concatenate them.
+
+* See if `2ch/gg` works without the cookie being sent to the proxy.
+
+* On create thread:
+  * Fetch the thread
+  * If not found then show thread not found error. Same one as when clicking a thread card in catalog.
+  * Else subscribe to the thread snd set `reduxState.data.preloadedThread` to `{ thread, channel, date: new Date() }`, and then in `.load()` of thread page compare `thread.id` and `channel.id` and the `date` (no later than 5 sec maybe). After reading `reduxState.data.preloadedThread` — clear it from redux state.
+
+* On submit “go to channel” modal:
+  * Do the same thing as for "On create thread:" case above.
+
+* `react-pages`: add `params` parameter to `goto()` and `redirect()`. It should be available as `navigationParams` in `.load()` function.
+
+* `react-pages`: `.meta` on all pages should use `props` rather than `useSelector()`. Document that in the README.
+
+* `anychan`: `.meta` on all pages should use `props` rather than `useSelector()`.
+
+* Add `<CommentTreeAsideContent/>` component that will render `children` after a "branch" element at the left side. Check it in both cases: usual multi-reply tree and "dialogue" mode when there's only one reply.
+
+* Pinned threads list button — like in telegram. Shows an expanded thread card below it. Check in desktop mode and in mobile mode. Maybe add a "close" icon to the thread card. Maybe show a horizontal separator line below the thread. Show the thread with latest comments when in "with latest comments" mode.
+
+* `imageboard`: don’t export sort pinned threads + test + ts + readme
+
+* When clicking "Ignore author"/"Unignore author" button — set `comment.hiddenBecauseAuthorIsIgnored` to `true` or `false` and render comments with such flag accordingly: with "Comment hidden" label being `position: absolute` and `overflow: hidden`. And clickable. On click — show the comment (set status as `unhideTemporarily` in tree state) but don't change the User Data. When clicking "Hide" button on such temporarily shown comment — if it's already ignored due to author being ignored, then just set `unhideTemporarily` flag to `false` and don't update User Data.
 
 
 
+* See how "pinned" threads are rendered.
+
+* "Tiles" channel view pinned threads test.
+
+* When clicking on a "post quote" in "with latest comments" mode in catalog — those're just links instead of proper on-click's. Same for "Comment" links substitutes for quotes ("Comment from another thread", etc).
+
+* "With latest comments" — don't show pinned threads on top. Show pinned threads on top separately.
+
+* `cors-proxy-node`: for `2ch.hk`'s archived threads, it currently sends an empty body. It should send the actual response.
+
+* Comment date link doesn't work on channel page — it should navigate to the thread.
+
+* When the user has posted a comment, maybe play a "pop" animation on it:
+  * If the comment is now rendered (after the auto-update.)
+  * Only do that for the first render.
+  * VirtualScroller could track whether it's a first render or not, maybe in item props.
+  * Checking for visibility could be done via `VirtualScroller.isItemRendered({ id })`, or maybe just `document.getElementBy...` `data-id`.
+
+* Make the "comment posted" notification less intrusive maybe somehow. Maybe show it at some other place.
+
+* Don't show "Thread posted" notification.
+
+* Mark the new thread and comment as "read" after it has been posted.
+
+* Check `renderComments` rerendering function in comments — that it works, that it's called:
+  * on thread page
+  * on channel page
+  * in "in reply to" modal
+
+* Maybe add a "backup" link in anychan readme to something like `anychan.surge.sh`. Maybe redirect from `captchan.surge.sh` to `anychan.surge.sh`. Change the link in twitter.
 
 * Test using `await waitFor` in SubscribedThreadsUpdater.StatusRecord and maybe in SubscribedThreadsUpdater itself too. `npm test`. If the tests pass, write a note in `web-browser-timer` README in `fastForward` on why it might not work with promises and with which promises won't it work.
 
-
-
-
-
-
-
-
-* When posting a comment:
-  * If reply form is already unmounted, show "Comment Posted" notification
-  * If reply for is not unmounted, show the new reply as `parentComment.showReplyIds([...rest, newCommentId])`. `showReplyIds` will be reset on toggling "show replies" button of a comment. `onHeightChange()` when `showReplyIds` changed (use layout effect). When calling `refreshThread()` after posting a comment, pass parameters: `{ expectedCommentId: 12345, onExpectedCommentFound, onExpectedCommentNotFound: notify(...) }`. Those functions will be set in `AutoUpdate.expectedComments[]` `useRef()` array. They will be stored there only for the duration of one update cycle. If already updating, then set a `useRef()` variable `shouldReRunRefreshAfterFinishRefreshing.curren = true`, and then reset it when staring a refresh, if it was `true`.
-
-* Check thread header TooltipStats message formatting: 15min, 1hour.
-
-* Check banned message formatted (de)
+* Check banned message formatting when posting a comment (`de`).
 
 * Refactor `null` messages. Remove the comment that `messageLabel` could be `null`.
-
-
 
 * "<code>94chan.org</code> is known to not work with the "demo" proxy server" — only when config demo flag is `true`
 
 * "<code>94chan.org</code> is known to not work with the "demo" proxy server" — add "anchor" link to proxy settings
 
+* Create `0.3.0` release and make a post in telegram with a snowman doge pic.
 
+* Test post comment with attachments.
 
+* "Reply to" comment form — if the list of replies is expanded, the form should be rendered above those replies with a comment tree "branch" border on the left side.
+  * Render `.CommentTree-branch` element to the left of the reply form and to the left of the spacer above it.
+  * Assign a className to `ReplyForm` instead of using a selector `.CommentTree--repliesExpanded > .Comment-container > .PostFormWithAttachments--comment`.
+  * Check in wide screen and small screen.
 
+* Add a link to "open on the original website" on comment or thread in the reply form when there's a notice that the functionality isn't implemented, or was disabled for anonymous posters (if the user is not logged in).
 
+* Create `cors-proxy-node` npm package.
+  * Test it with no whitelisted origins.
+  * In the readme, describe how to run it on localhost: `npm instlal -g cors-proxy-node && cors-proxy-node --port=8080`
+  * Document the `/stats` page URL.
 
+* Add `config.demo` flag that disables anonymous (CAPTCHA) posting (show a message in the form) and also show warnings about CORS proxy caution only when `config.demo` flag is on.
 
+* Show "other imageboards" section in sidebar only when in demo mode.
 
-* "Reply to" comment form — if the list of replies is expanded, the form should be rendered below those replies.
+* Disable anonymous posting by default on demo site. Re-enable it if `window.ENABLE_ANONYMOUS_POSTING = true` is set in console (testing).
 
-* Reply Quote Modal — only show bottom border on `Comment` elements + maybe somehow hide left and right borders on `Comment` elements.
+* `multiDataSource` mode could only be enabled if `config.demo` flag is `true`.
 
+* Maybe add `DOMContentLoaded` event wrapper around the `index.js` script so that there're no errors in sentry.
 
+* Move thread/channel data fetchers out of Redux `data.js`. The issue with the fetchers being there is: auto-update thread refresh has started and waits for server response, at that time user navigates to another page, response for new thread is received, response for the previous auto-updated thread is received and it overwrites the state for the new thread in Redux store. The solution would be: fetch data outside of `dispatch()`ing Redux actions and then only `dispatch()` a setter if `useStore().getState()` thread.id is the same and there's no other `fetchingThreadId`, etc.
 
+* Maybe assign lowercase `id`s to default gradients and migrate `UserData` accordingly. Test doge icon toggle.
 
+* When starts typing in the search input on channel page — scroll to top.
 
+* Add selection of "colorful background" (for light mode and dark mode) in settings.
 
+* When creating a new thread, `dispatch(setLatestCreatedThread({ threadId, channelId }))` and then `navigateTo(threadUrl)` and there `useSelector(state => state.data.latestCreatedThread)` read and if equals then `addSubscribedThread()`.
+  * After a thread has been created, don't `notify('Thread created')`.
+  * When adding subscribed thread, there won't be any "latest read comment ID", so it should maybe automatically mark the main comment of that thread as "read". That should be done for any thread, not just newly-created own ones.
+    * For own threads, that makes sense because the user has written the main comment.
 
-
-* Maybe add a link to the comment or thread in the reply form itself if there's a notice that the functionality isn't implemented, or was disabled for anonymous posters (if the user is not logged in).
-
-* When running on a proxy with `x-set-cookie` headers, clear those named cookies that have been received from the server. The rationale is that there's no reason to keep them there.
-
-* `http://localhost:8080/?url=https%3A%2F%2F94chan.org%2Fpol%2Fcatalog.json` — The origin "http://localhost:8080" was not whitelisted by the operator of this proxy.
-  * Remove origin whitelisting by default mb, so that it's easier to run on localhost.
-
-* Create `cors-proxy-node` npm package. Rename references to `anychan-proxy` in `anychan`.
-
-* Check proxy instructions in `anychan` (if those work). Add a note that a proxy could be run on localhost (test that conjecture).
-
-* Add `config.demo` flag that disables anonymous (CAPTCHA) posting (show a message in the form) and also enables warnings about CORS proxy caution.
+* Thread auto-update: start a new auto-update only if `useStore().getState().thread.id` is the same one and not `fetchingThreadId` of another thread. This works around a bug when started a refresh and then navigated to another thread while it's still refreshing.
 
 * Test if 4chan twister captcha JSON object could be fetched via `fetch()` using the HTML page URL and responseType: text/html.
 
@@ -65,88 +139,43 @@
 
 * Maybe enable 4chan report modal with reasons selector and CAPTCHA modal.
 
-* CORS proxy: Rename `areCookiesEnabled` to `shouldForwardCookiesForThisDomain`. Enable `x-cookie` and `x-set-cookie` in any case.
-
-* Maybe remove the list of "whitelisted" origins for cookies in CORS proxy, if it's not used.
-
-* Rename `x-cookies-enabled` flag to something like `x-forward-cookie`, and also rename it in the readme.
-
-* In `anychan` repo `docs`, create `proxy.md` with a description of what is CORS proxy, why is it used and how to set up one. Add that link to the Proxy Settings section in the app settings.
-
-* In CORS proxy, maybe rename `useCookie` flag to something like `forwardCookiesForDomains: []`, and also change it in the readme then.
-
-* In `node-cors-proxy`, document the `/stats` page URL maybe.
-
-
-
-
-
-
-* Move thread/channel data fetchers out of Redux `data.js`. The issue with the fetchers being there is: auto-update thread refresh has started and waits for server response, at that time user navigates to another page, response for new thread is received, response for the previous auto-updated thread is received and it overwrites the state for the new thread in Redux store. The solution would be: fetch data outside of `dispatch()`ing Redux actions and then only `dispatch()` a setter if `useStore().getState()` thread.id is the same and there's no other `fetchingThreadId`, etc.
-
-
-* Maybe assign lowercase `id`s to default gradients and migrate `UserData` accordingly. Test doge icon toggle.
-
-* При начале печатания в поле search на странице канала — scroll to top.
-
-
-
-* Test `announcement.json` (design, work).
-
-* Create a new build of version `0.4.0` and add a link to it in readme maybe, or where else.
-
-
-
+* Test `announcement.json` (test the design of it, see if it works).
 
 * When a new version is deployed, write to 4chan that maybe they'd send me a pass code
 https://boards.4channel.org/g/thread/96867655/hello-im-a-hobbyist-developer-of-a-small
 https://4chan.org/feedback
 api@4chan.org
 
-
-
-
-
-
-
-* Maybe add `DOMContentLoaded` event wrapper around the `index.js` script so that there're no errors in sentry.
-
-* Add selection of "colorful background" (for light mode and dark mode) in settings.
-
-* When creating a new thread, fetch that thread and then `navigateTo(threadUrl, { context: thread })` so that it doesn't re-fetch the thread.
-
-* Thread auto-update: start a new auto-update only if `useStore().getState().thread.id` is the same one and not `fetchingThreadId` another thread. This works around a bug when started a refresh and then navigated to another thread while it's refreshing.
+* When "no chan has been conifgured", show a normal web page rather than an `alert()`.
 
 * `createUserData()` function has a flag — `userDataCleaner: boolean`. Refactor that flag to be an object instead of a boolean. Then see `utility/global.js` with `setUserDataCleaner()` and `setSubscribedThreadsUpdater()` — maybe remove that file.
 * Check if `setDataSourceInfoForMeta` works, and if other changes didn't break the app.
 * Test how it applies dark mode on page load: auto (OS based), custom via toggle.
 * Test open non-existing board page: shouldn't throw an error in console.
-* Test react pages navigation location update after `load()` threw an error: it should set navigation location to be the previous one via `goto({ skip load })`. Test how back/forward navigation works after such occasion. For that, maybe output `useNavigationLocation()` somewhere in Sidebar.
 
 * Add icons on the right side of `CommentMoreActions`. See Telegram on-hold menu on comment or iOS Safari menu on hold tab.
 
-* `2ch.hk` sets a special cookie when replying to any thread, after which "adult" channels become availble for viewing. This supposedly would prevent search engines from indexing those pages in order to escape a ban from RosKomNadzor. Look in `Set-Cookie` headers that the server sends in response, extract the cookie value from there, put it in `UserData` and then send it as `x-cookie` when fetching channels or threads.
+* `2ch.hk` sets a special cookie when replying to any thread, after which "adult" channels become availble for viewing. This supposedly would prevent search engines from indexing those pages in order to escape a ban from RosKomNadzor. Look in `Set-Cookie` response headers, extract the cookie value from there, put it in `UserData` and then send it as `x-cookie` when fetching channels or threads.
 
 * Return "pinned" threads to their top position in "catalog" (regular) channel view.
-* Add the ability to "minimize" threads (including pinned ones). For pinned ones in minimized state, show a pin icon. Add a new `UserData` collection for minimized thread IDs (per-channel data). Clear expired threads from that list of IDs on a channel.
+  * Add the ability to "minimize" threads (pinned threads can be minimized too).
+    * Just show them in minimized format: only text content "thread title + '\n' + thread content".
+    * For pinned threads in minimized state, show a pin icon at the left side because the pin badge in the footer is no longer visible.
+  * Add a new `UserData` collection for minimized thread IDs (per-channel data): `minimizedThreads`.
 
-* After a thread has been created, don't `notify('Thread created')`.
-* Don't clean up user data for: own threads, subscribed threads. Maybe only clear based on `latestAccessedAt` if the User Data size is over some threshold? Maybe not.
+  * Minimizing threads should work with "Back"/"Forward" navigation and it shouldn't reset on that navigation. Maybe copy the solution for "hidden" threads.
 
+* Maybe rarely clean up user data for: own threads, subscribed threads. Maybe only clear it if `latestAccessedAt` is really old. For example, a couple of years. Or maybe not.
 
+* Telegram background dark:
 
-Telegram background dark:
+  BackgroundBackdrop-backgroundColor: black;
+  BackgroundGradient-color--1: #003578;
+  BackgroundGradient-color--2: #5d2600;
+  BackgroundPattern-opacity: 1;
+  BackgroundGradient-blendMode: multiply;
 
-BackgroundBackdrop-backgroundColor: black;
-BackgroundGradient-color--1: #003578;
-BackgroundGradient-color--2: #5d2600;
-BackgroundPattern-opacity: 1;
-BackgroundGradient-blendMode: multiply;
-
-Check other backgrounds: that adding BackgroundBackdrop didn't change those.
-
-
-* User Data Cleaner: don't clean "minimized" setting of pinned threads, if they didn't expire.
+  * Check other "colorful" backgrounds: that adding .BackgroundBackdrop element didn't change the behavior of those.
 
 * Test background image element (filter(blur)) and add it in `settingsSchema.json`.
 
@@ -154,158 +183,74 @@ Check other backgrounds: that adding BackgroundBackdrop didn't change those.
 
 * UserData events log — turn off in production.
 
+* Add `Title` field when posting a new thread.
 
+* When a list of threads is fetched for displaying them in "tiles" mode, set `commentLengthLimitForThreadPreview` to be smaller.
+
+* When the user inputs something in the search bar on channels page, and then clicks the same channel link in sidebar, it should clear the search bar, or, better, maybe completely remount the page.
+
+* Maybe fix "Go To" channel modal's window of inconsistency:
+  * User is at one channel.
+  * Then it loads channel and replaces the data in redux state? Or does it.
+  * In the meantime, it's not consistent: the location is for the prev channel but the data is for the new channel? Maybe not.
+
+* Maybe move `addCommentProps` / `addThreadProps` functions to `thread/getThread.js` file.
+  Or write a comment, so that people know that there's no `parseContent()` added for comments loaded via `thread/getThread.js`, etc.
+  Maybe `getThread()` could return `{ channel, thread }` instead of `thread`.
+
+* Maybe write in `useLoadChannel()` that it shouldn't be used as a React hook and it's only called that for some aesthetical reasons.
+
+* Synchronize `channelLayout`/`channelView` state variables with the `threadsList` obtained from Redux state: rewrite the current workaround that uses `ref`s.
+  * Maybe Add Channel-fetching-specific properties in `redux/data.js` when re-fetching channel for switching view/layout, perhaps something similar to `isFetchingThreadId`.
+
+* На странице канала в режиме latest comments, при нажатии на скрытый тред — не показывает древо комментов этого треда. (?) И при скрытии треда на странице канала в режиме latest comments — продолжает показывать его комментарии (?).
+  * Possible solution: CommentTree — add `setGlobalState` property on tree items.
+  * `setGlobalState({ hidden: true })` — при таком `globalState` не будут рендериться children'ы первого порядка, а также сам root comment треда будет помечен как `hidden: true`, сам при этом не будучи hidden (не будучи помеченным как hidden в коллекции hiddenThreads/hiddenComments).
+
+* Add hotkey (Ctrl + G) to show "Go To" channel modal, if not already shown.
+
+* Если пользователь нажимает на карточке треда в каталоге, и тред не найден, то не перенаправлять на страницу ошибки, а мб просто показывать сообщение, что "Тред не найден".
+
+* В треде anychan можно будет написать краткую заметку про движки lynxchan и jschan + snowman pic.
+
+* Мб как-то сэмулировать "is deployed on chan domain" у `2ch.hk`, и посмотреть, как он грузит вообще что, и работает ли. Логинится ли. Постит ли.
+
+-----------------
 
 * On mobile devices (e.g. iOS Safari), when "colorful background" is enabled, it doesn't extend to the top and bottom of the page. Maybe that's an issue specifically with `position: fixed` and top/left/bottom/right being `0`: it lags behind when the window dynamically changes size at the bottom due to the user scrolling.
 
-
-
 * If a subscribed thread is "soon" to be pushed out of the channel, show a yellow warning icon in sidebar.
+
 * On a thread page, it could calculate a probable time of when the thread will be pushed off the channel, and if that time is "soon", it could display a gray warning banner at the bottom.
 
+* Когда тред добавлен в избранное на странице треда, и потом пользователь возвращается в список тредов — звёздочка там не показывается. И наоборот: когда тред был убран из избранного на странице треда, и потом пользователь возвращается в список тредов — звёздочка там показывается по-старому.
 
+* `2ch.hk/a`: isekai thread не грузит youtube video: не фетчит название, а показывает ID.
 
-* Disable anonymous posting by default on demo site. Re-enable it if `window.ENABLE_ANONYMOUS_POSTING = true` is set in console (testing).
+* When expanding a tree of replies of a comment that has no post-thumbnail, that comment gets expanded to full width. That causes the comment to jump up and out of the screen when there's many text in it and the user has scrolled the page so that only the bottom of the comment is currently visible. The application could work around that by updating the scroll position after toggling the tree of replies in order to preserve the position of the bottom edge of the comment so that there's no "jump".
 
 
 
 
-* Somehow get channel and thread in `onSubmitCommentOrThread()`
-* Maybe when pasting a comment, the thread should already be in redux state (but not required)
-* And when creating a thread, it could be fetched as part of `goto()`
 
 
-Test create thread in /v/:
-* Adds the thread to favorites
-* Redirects to the thread's page
 
 
 
-Add `Title` field when posting a new thread.
 
 
 
 
-When a list of threads is fetched for displaying them in "tiles" mode, set `commentLengthLimitForThreadPreview` to be smaller.
 
 
 
-
-Если ввести что-то в поле поиска на канале, и затем нажать на этот же канал в сайдбаре, то поле поиска следует очищать, и показывать результаты `threads`, а не `searchResults`.
-
-
-
-
-useSubmitCommentOrThread:
-
-const onSubscribeToThread = () => {
-// ... somehow get channel and thread here ...
-// dispatch(subscribeToThread(thread, { channel, userData }))
-}
-
-
-
-* Maybe fix loading channel page in goto modal:
-  * First it loads channel
-  * Then it dispatches goto()
-  * In the meantime, it's not consistent: the location is for the prev channel but the page is for the new channel
-
-* Maybe move `addCommentProps` / `addThreadProps` / ... to `thread/getThread.js`
-  Or write a comment, so that people know that there's no `parseContent()` added comments, etc.
-  Maybe `getThread()` could return `{ channel, thread }` instead of `thread`.
-
-* Maybe write in `useLoadChannel()` that it shouldn't be used as a hook?
-
-* Synchronize `channelLayout`/`channelView` with `threadsList`: rewrite the current workaround.
-  * Add Channel properties like in `redux/data.js` when re-fetching channel for switching view/layout.
-
-
-
-
-* Pinned threads expanded state in Redux (test "back")
-  * `state.expandedPinnedThreads`
-  * `Comment.expandedPinnedThread`
-  * `dispatch(setExpandedPinnedThreads())`
-
-* Check kohlchan (reply, report, login)
-
-
-
-
-
-
-
-
-isekai thread не грузит youtube video (не фетчит название, а показывает ID)
-
-
-
-
-
-When expanding a tree of replies of a comment that has no post-thumbnail, that comment gets expanded to full width. That causes the comment to jump up and out of the screen when there's many text in it and the user has scrolled the page so that only the bottom of the comment is currently visible. The application could work around that by updating the scroll position after toggling the tree of replies in order to preserve the position of the bottom edge of the comment so that there's no "jump".
-
-
-
-
-Когда тред добавлен в избранное на странице треда, и потом пользователь возвращается в список тредов — звёздочка там не показывается. И наоборот: когда тред был убран из избранного на странице треда, и потом пользователь возвращается в список тредов — звёздочка там показывается по-старому.
-
-
-
-
-Pinned threads small-height mini-cards on top of the catalog (like in telegram, but not stacked).
-
-
-
-
-Support pasting files into the `<PostForm/>`. Images should be encoded to PNG or JPG (user-selectable). Maybe JPG by default.
-
-
-
-Прыгает скролл при виде каналов "grid" на странице:
-https://anychans.github.io/4chan/a
-
-
-
-
-Цвета по умолчанию — не белый фон, а желтоватый. Мб текстуру + на фон.
-
---Post-backgroundColor: #fffdee;
---Document-backgroundColor: #e9e7d5;
-...
-
-
-При нажатии на скрытый тред в режиме древа — не показывает древо комментов.
-
-При скрытии треда в режиме треда — показывает комменты.
-
-CommentTree — add `setGlobalState` property on tree items.
-`setGlobalState({ hidden: true })` — при таком `globalState` не будут рендериться children'ы первого порядка, а также сам root comment треда будет помечен как `hidden: true`, сам при этом не будучи hidden (не будучи помеченным как hidden в коллекции hiddenThreads/hiddenComments).
-
-
-
-
-
-Сделать окошко "Go to" для перехода в раздел по ID. (+ hotkey)
-
-Start animating background slideshow fade out when picture is dragged from screen.
-
-CommentMoreActions — при рендере вычисляет isOwnThread, isOwnComment, isIgnoredAuthor, ...
+(?) CommentMoreActions — при рендере вычисляет isOwnThread, isOwnComment, isIgnoredAuthor, ...
 Брать такие штуки непосредственно из `comment`, где их проставлять при изначальной загрузке + при изменении.
 Также проставлять `comment.hidden` если ignored author.
 
 
-Если страница треда не найдена в каталоге, то не перенаправлять на страницу ошибки, а просто показывать сообщение, что "Тред не найден".
 
 
-Slideshow Thumbnail box shadow edit
-
-
-
-Add Ignored Author / Remove Ignored Author:
-* Remove "Not implemented".
-* Mark comments as hidden on thread page load / on channel page load / on thread page auto-update.
-* Call `onHeightDidChange` on ignore/unignore.
-* Maybe also hide other comments by that author that're currently rendered on screen (`VirtualScroller.isItemRendered(...)`, или типа того).
 
 
 
@@ -1985,8 +1930,6 @@ Scroll smoothly to replies if they're not on screen, highlight comment on "go to
 Create translation thread on kohlchan.
 
 Сделать настройку "Дополнительные стили" (Additional styles).
-
-На `post-link`-и, не развёрнутые в блоки цитат, вида "(комментарий)" — тоже вешать `onPostLinkClick`.
 
 Если есть инлайновая ссылка на комментарий, то подставлять текст комментария инлайново, короткий (если из того же треда). Иначе: "[другой тред]" или "[комментарий из другого треда]".
 

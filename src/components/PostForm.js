@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo, useRef, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
-import { Button, DropFileUpload, FileUploadButton } from 'react-responsive-ui'
+import { useSelector } from 'react-redux'
+import { Button } from 'react-responsive-ui'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
@@ -12,30 +12,12 @@ import { FadeInOut } from 'react-responsive-ui'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
-import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
-import AttachIcon from 'frontend-lib/icons/attach.svg'
-import FileIcon from 'frontend-lib/icons/file-wide.svg'
-
-import getFileInfo from 'frontend-lib/utility/file/getFileInfo.js'
-import getFileDataUrl from 'frontend-lib/utility/file/getFileDataUrl.js'
-import getAudioFileInfoFromId3Tags from 'frontend-lib/utility/file/getAudioFileInfoFromId3Tags.js'
-
-import TextButton from './TextButton.js'
-// import LoadingSpinner from './LoadingSpinnerRadialBars.js'
-import LoadingSpinner from './LoadingSpinnerCirclingComet.js'
-
-import PostAttachments from 'social-components-react/components/PostAttachments.js'
-
-import useSlideshow from './Comment/useSlideshow.js'
 
 import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
-import convertPngToJpg from '../utility/convertPngToJpg.js'
-
-import { showError } from '../redux/notifications.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useDataSource from '../hooks/useDataSource.js'
@@ -57,19 +39,17 @@ function PostForm({
 	onErrorDidChange,
 	initialInputHeight,
 	onInputHeightDidChange,
-	initialFiles,
-	onFilesDidChange,
-	initialAttachments,
-	onAttachmentsDidChange,
 	onHeightDidChange,
-	attachmentThumbnailSize = 250,
 	resetAfterSubmit,
-	onCancel,
+	onAfterSubmit,
+	onCancel: onCancel_,
 	onSubmit: onSubmit_,
-	className
+	onReset: onReset_,
+	resetOnCancel,
+	additionalSubmitValues,
+	className,
+	children
 }, ref) {
-	const isMounted = useIsMounted()
-
 	const messages = useMessages()
 
 	const form = useRef()
@@ -86,11 +66,6 @@ function PostForm({
 
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState(false)
-
-	const [files, setFiles] = useState(initialFiles || [])
-	const [fileAttachments, setFileAttachments] = useState(initialAttachments || [])
-
-	const [filesBeingProcessed, setFilesBeingProcessed] = useState([])
 
 	const [hasInteracted, setHasInteracted] = useState(false)
 	const [expanded, setExpanded] = useState(expandedPropertyValue)
@@ -116,8 +91,6 @@ function PostForm({
 		applyExpandedValue(false)
 	}, [applyExpandedValue])
 
-	const onClose = onCancel || (expanded && unexpandOnClose && unExpand)
-
 	useEffectSkipMount(() => {
 		applyExpandedValue(expandedPropertyValue)
 	}, [
@@ -130,33 +103,49 @@ function PostForm({
 		}
 	}, [expanded])
 
-	useEffectSkipMount(() => {
-		// They say that two consequtive `setState()` calls are batched together.
-		// Still, in case there's any weird behavior in some hypothetical future,
-		// this `if` consistency check here guards against possible weird bugs
-		// resulting from possibly inconsistent data being written in the form state.
-		if (files.length === fileAttachments.length) {
-			if (onFilesDidChange) {
-				onFilesDidChange(files)
-			}
-			if (onAttachmentsDidChange) {
-				onAttachmentsDidChange(fileAttachments)
-			}
+	const onReset = useCallback(() => {
+		if (form.current) {
+			form.current.reset()
 		}
-	}, [files, fileAttachments])
+		setError()
+		if (onReset_) {
+			onReset_()
+		}
+	}, [
+		onReset_
+	])
+
+	const onCancel = useCallback(() => {
+		if (onCancel_) {
+			onCancel_()
+		}
+		if (expanded && unexpandOnClose) {
+			unExpand()
+		}
+		if (resetOnCancel) {
+			onReset()
+		}
+	}, [
+		onCancel_,
+		resetOnCancel,
+		onReset,
+		expanded,
+		unexpandOnClose,
+		unExpand
+	])
 
 	const onSubmit = useCallback(async (values) => {
 		try {
 			setLoading(true)
 			await onSubmit_({
-				content: values[POST_FORM_INPUT_FIELD_NAME],
-				attachmentFiles: files.map(_ => _.file)
+				...additionalSubmitValues,
+				content: values[POST_FORM_INPUT_FIELD_NAME]
 			})
 			if (resetAfterSubmit) {
-				form.current.reset()
-				setFiles([])
-				setFileAttachments([])
-				setError()
+				onReset()
+			}
+			if (onAfterSubmit) {
+				onAfterSubmit()
 			}
 		} catch (error) {
 			console.error(error)
@@ -166,143 +155,11 @@ function PostForm({
 		}
 	}, [
 		onSubmit_,
-		files,
-		resetAfterSubmit
+		onReset,
+		additionalSubmitValues,
+		resetAfterSubmit,
+		onAfterSubmit
 	])
-
-	const onInputKeyDown = useCallback((event) => {
-		if (isKeyCombination(event, ['Esc'])) {
-			event.preventDefault()
-			onCancel()
-		}
-	}, [])
-
-	const dummyPostWithAttachments = useMemo(() => {
-		return {
-			attachments: fileAttachments
-		}
-	}, [fileAttachments])
-
-	const { onAttachmentClick } = useSlideshow({ comment: dummyPostWithAttachments })
-
-	const onAttachmentRemove = useCallback((attachment) => {
-		setFiles((files) => files.filter(_ => _.id !== attachment.id))
-		setFileAttachments((fileAttachments) => fileAttachments.filter(_ => _ !== attachment))
-	}, [])
-
-	const dispatch = useDispatch()
-
-	const onFileAttached = useCallback(async (file) => {
-		// Get a temporary ID for the file being processed.
-		const id = getNextFileBeingProcessedId()
-		try {
-			// Mark the file as "is being processed".
-			setFilesBeingProcessed((filesBeingProcessed) => {
-				return filesBeingProcessed.concat({ id })
-			})
-			// Process the file.
-			const attachment = await createAttachmentForFile(file)
-			// Exit if the `<PostForm/>` was closed or navigated from
-			// while the attachment was being processed.
-			if (!isMounted()) {
-				return
-			}
-			// When getting next attachment ID, it doesn't look into `fileAttachments`
-			// to see what's the next unused one because two files could be uploaded
-			// simultaneously, and each such upload handler function would have
-			// a stale copy of the `fileAttachments` state variable.
-			attachment.id = getNextAttachmentId()
-			// Unmark the file as "is being processed".
-			setFilesBeingProcessed((filesBeingProcessed) => {
-				return filesBeingProcessed.filter(_ => _.id !== id)
-			})
-			// Show the new attachment in the `<PostForm/>`.
-			setFiles((files) => files.concat({ file, id: attachment.id }))
-			setFileAttachments((fileAttachments) => fileAttachments.concat(attachment))
-			// The `<PostForm/>`'s height did change.
-			if (onHeightDidChange) {
-				onHeightDidChange()
-			}
-		} catch (error) {
-			// Unmark the file as "is being processed".
-			setFilesBeingProcessed((filesBeingProcessed) => {
-				return filesBeingProcessed.filter(_ => _.id !== id)
-			})
-			// Show an error message.
-			dispatch(showError(messages.errors.attachFileError))
-			throw error
-		}
-	}, [
-		messages,
-		isMounted
-	])
-
-	const onFileOrFilesAttached = useCallback(async (fileOrFiles) => {
-		if (Array.isArray(fileOrFiles)) {
-			for (const file of fileOrFiles) {
-				onFileAttached(file)
-			}
-		} else {
-			onFileAttached(fileOrFiles)
-		}
-	}, [onFileAttached])
-
-	const onDrop = useCallback(async (something) => {
-		// If a file is dropped, it's gonna be a `Blob` (`File`) or an array of `Blob`s (`File`s).
-		// If a text selection is dropped, it's gonna be a `DataTransferItem`.
-		if (Array.isArray(something) && something.every(_ => _ instanceof Blob)) {
-			for (const file of something) {
-				onFileAttached(file)
-			}
-		} else if (something instanceof Blob) {
-			onFileAttached(something)
-		} else if (something instanceof DataTransferItem) {
-			something.getAsString((string) => {
-				string = string.trim()
-				if (form.current) {
-					const getInputValue = () => form.current.get(POST_FORM_INPUT_FIELD_NAME)
-					const setInputValue = (value) => form.current.set(POST_FORM_INPUT_FIELD_NAME, value)
-
-					let inputValue = getInputValue()
-					if (inputValue) {
-						inputValue = inputValue.trim()
-					}
-
-					if (inputValue) {
-						setInputValue(inputValue + '\n' + '\n' + string)
-					} else {
-						setInputValue(string)
-					}
-
-					form.current.focus()
-				}
-			})
-		}
-	}, [
-		onFileAttached
-	])
-
-	// Handles pasting files into the form.
-	useEffect(() => {
-		const element = form.current.getElement()
-		const onPaste = async (event) => {
-			const items = event.clipboardData.items
-			for (const item of items) {
-				if (item.kind !== 'file') {
-					continue
-				}
-				let file = item.getAsFile()
-				if (file.type === 'image/png') {
-					file = await convertPngToJpg(file)
-				}
-				onFileAttached(file)
-			}
-		}
-		element.addEventListener('paste', onPaste)
-		return () => {
-			element.removeEventListener('paste', onPaste)
-		}
-	}, [])
 
 	const onInteraction = useCallback(() => {
 		if (!hasInteracted) {
@@ -318,16 +175,26 @@ function PostForm({
 		applyExpandedValue
 	])
 
+	const onInputKeyDown = useCallback((event) => {
+		if (isKeyCombination(event, ['Esc'])) {
+			event.preventDefault()
+			if (onCancel) {
+				onCancel()
+			}
+		}
+	}, [
+		onCancel,
+		onInteraction
+	])
+
 	const onInputValueChange_ = useCallback((value) => {
 		if (onInputValueChange) {
 			onInputValueChange(value)
 		}
-		if (!hasInteracted) {
-			setHasInteracted(true)
-		}
+		onInteraction()
 	}, [
 		onInputValueChange,
-		hasInteracted
+		onInteraction
 	])
 
 	const dataSource = useDataSource()
@@ -340,8 +207,6 @@ function PostForm({
 	}, [dataSource])
 
 	const loadingIndicatorFadeOutDuration = 160 // ms
-
-	const canAttachFiles = true
 
 	// When passing an initial `value` property to a `<Field/>`,
 	// it does set the input field's value, but it doesn't move the cursor
@@ -366,7 +231,7 @@ function PostForm({
 	// re-mounts that form and the cursor jumps inside its input,
 	// causing the page scroll position to jump accordingly.
 
-	const formElement = (
+	return (
 		<section className={classNames(className, 'PostForm', {
 			'PostForm--hasInteracted': hasInteracted,
 			'PostForm--hasNotInteracted': !hasInteracted,
@@ -397,9 +262,9 @@ function PostForm({
 						placeholder={messages.post.form.inputText}
 					/>
 				</FormComponent>
-				{onClose &&
+				{onCancel && expanded &&
 					<Button
-						onClick={onClose}
+						onClick={onCancel}
 						title={messages.actions.close}
 						className="PostForm-close">
 						<CancelIcon className="PostForm-closeIcon"/>
@@ -436,78 +301,9 @@ function PostForm({
 					{messages.notImplementedForTheDataSource}
 				</p>
 			}
-			{canAttachFiles && fileAttachments.length > 0 &&
-				<PostAttachments
-					compact
-					post={dummyPostWithAttachments}
-					useSmallestThumbnails={true}
-					maxAttachmentThumbnails={false}
-					attachmentThumbnailSize={attachmentThumbnailSize}
-					spoilerLabel={messages.post.spoiler}
-					removeAttachmentLabel={messages.post.removeAttachment}
-					onAttachmentClick={onAttachmentClick}
-					onAttachmentRemove={onAttachmentRemove}
-				/>
-			}
-			{/*canAttachFiles && fileAttachments.length > 0 &&
-				<div className="PostForm-attachments">
-					<ul className="PostForm-attachmentsList">
-						{fileAttachments.map((attachment, i) => {
-							const file = files.find(_ => _.id === attachment.id).file
-							const fileExtension = getFileExtension(file.name)
-							return (
-								<li key={i} className="PostForm-attachment">
-									<div className="PostForm-attachmentThumbnail">
-										<FileIcon className="PostForm-attachmentIcon"/>
-										<div className={classNames('PostForm-attachmentFileExtension', {
-											'PostForm-attachmentFileExtension--longer': fileExtension.length >= 4 && fileExtension.length < 5,
-											'PostForm-attachmentFileExtension--long': fileExtension.length >= 5
-										})}>
-											{fileExtension}
-										</div>
-									</div>
-									<div className="PostForm-attachmentTitle">
-										{file.name}
-									</div>
-								</li>
-							)
-						})}
-					</ul>
-				</div>
-			*/}
-			{/*<LoadingSpinner/>*/}
-			{/*file.type*/}
-			{canAttachFiles &&
-				<FileUploadButton
-					multiple
-					component={TextButton}
-					type="button"
-					onChange={onFileOrFilesAttached}
-					className="PostForm-attachFile">
-					{filesBeingProcessed.length === 0
-						? <AttachIcon className="PostForm-attachFileIcon"/>
-						: <LoadingSpinner className="PostForm-attachFileIcon PostForm-attachFileIcon--loading"/>
-					}
-					{messages.actions.attachFile}
-				</FileUploadButton>
-			}
+			{children}
 		</section>
 	)
-
-	if (canAttachFiles) {
-		return (
-			<DropFileUpload
-				multiple
-				clickable={false}
-				onChange={onDrop}
-				className="PostForm-dropFileArea"
-				draggedOverClassName="PostForm-dropFileArea--draggedOver">
-				{formElement}
-			</DropFileUpload>
-		)
-	}
-
-	return formElement
 }
 
 PostForm = React.forwardRef(PostForm)
@@ -521,6 +317,9 @@ PostForm.propTypes = {
 	autoFocus: PropTypes.bool,
 	onCancel: PropTypes.func,
 	onSubmit: PropTypes.func.isRequired,
+	onReset: PropTypes.func,
+	resetOnCancel: PropTypes.bool,
+	additionalSubmitValues: PropTypes.object,
 	initialState: PropTypes.object,
 	onStateDidChange: PropTypes.func,
 	initialError: PropTypes.string,
@@ -529,130 +328,13 @@ PostForm.propTypes = {
 	onInputValueChange: PropTypes.func,
 	initialInputHeight: PropTypes.number,
 	onInputHeightDidChange: PropTypes.func,
-	initialFiles: PropTypes.arrayOf(PropTypes.object),
-	onFilesDidChange: PropTypes.func,
-	initialAttachments: PropTypes.arrayOf(PropTypes.object),
-	onAttachmentsDidChange: PropTypes.func,
 	onHeightDidChange: PropTypes.func,
-	attachmentThumbnailSize: PropTypes.number,
 	resetAfterSubmit: PropTypes.bool,
-	className: PropTypes.string
+	onAfterSubmit: PropTypes.func,
+	className: PropTypes.string,
+	children: PropTypes.node
 }
 
 export default PostForm
 
 export const POST_FORM_INPUT_FIELD_NAME = 'content'
-
-function getFileExtension(name) {
-	const parts = name.split('.')
-	if (parts.length > 1) {
-		return parts[parts.length - 1]
-	}
-}
-
-async function createAttachmentForFile(file) {
-	const [type, subtype] = file.type.split('/')
-	switch (type) {
-		case 'image':
-			const imageInfo = await getFileInfo(file)
-			return {
-				type: 'picture',
-				picture: {
-					type: imageInfo.type,
-					size: imageInfo.size,
-					width: imageInfo.width,
-					height: imageInfo.height,
-					url: imageInfo.url
-				}
-			}
-		case 'video':
-			const videoInfo = await getFileInfo(file)
-			return {
-				type: 'video',
-				video: {
-					type: videoInfo.type,
-					size: videoInfo.size,
-					width: videoInfo.width,
-					height: videoInfo.height,
-					url: videoInfo.url,
-					duration: videoInfo.duration,
-					picture: {
-						type: videoInfo.picture.type,
-						width: videoInfo.picture.width,
-						height: videoInfo.picture.height,
-						url: videoInfo.picture.url
-					}
-				}
-			}
-		case 'audio':
-			const audioInfo = await getFileInfo(file)
-			const audioId3Tags = await getAudioFileInfoFromId3Tags(file)
-			// Get audio title.
-			let title
-			if (audioId3Tags.title) {
-				title = audioId3Tags.title
-				if (audioId3Tags.artist) {
-					title = audioId3Tags.artist + ' — ' + audioId3Tags.title
-				}
-			}
-			// Return audio attachment.
-			return {
-				type: 'audio',
-				audio: {
-					title,
-					type: audioInfo.type,
-					size: audioInfo.size,
-					url: audioInfo.url,
-					duration: audioInfo.duration
-				}
-			}
-		default:
-			const fileDataUrl = await getFileDataUrl(file)
-			return {
-				type: 'file',
-				file: {
-					name: file.name,
-					type: file.type,
-					size: file.size,
-					url: fileDataUrl
-				}
-			}
-	}
-}
-
-// When getting next attachment ID, it doesn't look into `fileAttachments`
-// to see what's the next unused one because two files could be uploaded
-// simultaneously, and each such upload handler function would have
-// a stale copy of the `fileAttachments` state variable.
-// function getNextAttachmentId(attachments) {
-// 	let id = 1
-// 	for (const attachment of attachments) {
-// 		if (attachment.id) {
-// 			id = Math.max(id, attachment.id)
-// 		}
-// 	}
-// 	return id + 1
-// }
-
-// "Safe" refers to the ability of JavaScript to represent integers exactly
-// and to correctly compare them.
-const MAX_SAFE_INTEGER = 9007199254740991
-
-let attachmentId = 0
-function getNextAttachmentId() {
-	if (attachmentId === MAX_SAFE_INTEGER) {
-		attachmentId = 0
-	}
-	attachmentId++
-	return attachmentId
-}
-
-let processedFileId = 0
-function getNextFileBeingProcessedId() {
-	if (processedFileId === MAX_SAFE_INTEGER) {
-		processedFileId = 0
-	}
-	processedFileId++
-	return processedFileId
-}
-

@@ -80,15 +80,11 @@ export default function addDataSourceApiFunctions(dataSource) {
 
 	function addImageboardArgumentToFunction(func) {
 		return ({
-			http,
 			messages,
 			userSettings,
 			...parameters
 		}) => {
 			// Validate function parameters.
-			if (!http) {
-				throw new Error('`http` parameter is required')
-			}
 			if (!messages) {
 				throw new Error('`messages` parameter is required')
 			}
@@ -98,7 +94,6 @@ export default function addDataSourceApiFunctions(dataSource) {
 
 			// Create imageboard instance.
 			const imageboard = Imageboard(dataSource, {
-				http,
 				messages,
 				getProxyUrl() {
 					// `proxyUrl: null` could mean "don't use any proxy".

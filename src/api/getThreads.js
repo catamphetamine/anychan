@@ -8,7 +8,6 @@ export default async function getThreads({
 	grammarCorrection,
 	messages,
 	locale,
-	http,
 	withLatestComments,
 	sortByRating,
 	userData,
@@ -20,7 +19,6 @@ export default async function getThreads({
 		withLatestComments,
 		sortByRating,
 		messages,
-		http,
 		userSettings,
 		// `dataSourceId` parameter is used in `src/api/imageboard/getThreads.js`.
 		dataSourceId: dataSource.id
@@ -76,7 +74,7 @@ export default async function getThreads({
 
 		// Add a function to generate text preview which is used in the Sidebar
 		// to render thread preview.
-		comment.createTextPreview = (function({
+		comment.createTextPreviewForSidebar = (function({
 			charactersInLine,
 			maxLines
 		}) {
@@ -88,7 +86,9 @@ export default async function getThreads({
 				comment.parseContent()
 				let decreaseCharacterLimitBy = 0
 				if (comment.titleCensored) {
-					// There's an empty line between the thread's title and thread's text preview.
+					// There's an empty line between the thread's title and thread's text preview
+					// when thread card is rendered in sidebar. Because of that, if the thread has a title,
+					// the amount of available lines for the text should be decreased by 1.
 					maxLines--
 					decreaseCharacterLimitBy = Math.ceil(comment.titleCensored.length / charactersInLine) * charactersInLine
 				}

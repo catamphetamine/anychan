@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-ui'
 
@@ -41,10 +42,11 @@ const CSS_URL_REGEXP = /\.css(\?.*)?$/
 export default function ThemeSettings({
 	messages,
 	settings,
-	dispatch,
 	guideUrl
 }) {
 	const userSettings = useSettings()
+
+	const dispatch = useDispatch()
 
 	const [theme, setTheme] = useState(settings.theme)
 	const [showAddThemeModal, setShowAddThemeModal] = useState()

@@ -47,8 +47,8 @@
 	--CommentSpacerLine-color: var(--Content-color-300);
 
 	/* CommentTree. */
-	--CommentTree-color: var(--Content-color-400);
-	--CommentTree-color--hover: var(--Content-color-500);
+	--CommentTreePath-color: var(--Content-color-400--transparent);
+	--CommentTreePath-color--hover: var(--Content-color-500--transparent);
 
 	/* PressedStateButton. */
 	--PressedStateButton-color--active: #bd5700;
@@ -91,17 +91,15 @@
 
 	/* Comment. */
 	/*--Comment-backgroundColor--new: #fff0de;*/
+	--Comment-borderColor: rgba(0,0,0,0.125);
+	--Comment-borderColor--previouslyRead: rgba(0,0,0,0.12);
+	--Comment-borderColor--channelPageLargeScreen: var(--Content-color-200);
+	/*--Comment-borderColor--new: #e2d6c0;*/
 
 	/* CommentAuthor. */
 	/*--CommentAuthor-color--accent: var(--base-color-700);*/
 	--CommentAuthor-color--administrator: #BC0045; /* var(--alt-accent-color-700); */
 	--CommentAuthor-color--moderator: #0084BD; /* var(--accent-color-700); */
-
-	/* CommentSeparator. */
-	--CommentSeparator-color: rgba(0,0,0,0.125);
-	--CommentSeparator-color--previouslyRead: rgba(0,0,0,0.12);
-	--CommentSeparator-color--channelPageLargeScreen: var(--Content-color-200);
-	/*--CommentSeparator-color--new: #e2d6c0;*/
 
 	/* Sidebar. */
 	--Sidebar-borderColor: var(--Header-borderColor);
