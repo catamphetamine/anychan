@@ -144,10 +144,13 @@
 /*}*/
 
 .Comment {
+	/* There have been issues with `--Comment-border` when referencing it from
+	   `.PostForm` CSS class (it wasn't found), so instead of using that variable,
+	   it always writes the full expression: `var(--Comment-borderColor) solid var(--Comment-borderWidth)`. */
 	/* `--Comment-border` is defined inside `.Comment` instead of `:root`
 	   because this way different containers are able to override the color
 	   and the border width. Otherwise, they wouldn't be able to. */
-	--Comment-border: var(--Comment-borderColor) solid var(--Comment-borderWidth);
+	/* --Comment-border: var(--Comment-borderColor) solid var(--Comment-borderWidth); */
 
 	/*	border-top: var(--Comment-borderWidth) solid var(--Comment-borderColor);*/
 	/*	border-bottom: var(--Comment-borderWidth) solid var(--Comment-borderColor);*/
@@ -155,13 +158,13 @@
 	/*@mixin m-plus {*/
 		/*&.Comment--showThumbnail {*/
 			box-shadow: var(--Comment-boxShadow);
-			border: var(--Comment-border);
+			border: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 		/*}*/
 		/*
 		&:not(.Comment--showThumbnail) {
 			> .Post {
 				box-shadow: var(--Comment-boxShadow);
-  			border: var(--Comment-border);
+  				border: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 			}
 		}
 		*/

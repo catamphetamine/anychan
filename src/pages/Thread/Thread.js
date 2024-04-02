@@ -9,6 +9,7 @@ import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shoul
 
 import useMessages from '../../hooks/useMessages.js'
 import useLocale from '../../hooks/useLocale.js'
+import useBackground from '../../hooks/useBackground.js'
 
 import InReplyToModal from '../../components/InReplyToModal.js'
 import ShowPrevious from '../../components/ShowPrevious.js'
@@ -62,6 +63,7 @@ export default function ThreadPage() {
 	const dispatch = useDispatch()
 	const locale = useLocale()
 	const messages = useMessages()
+	const background = useBackground()
 
 	const unreadCommentWatcher = useUnreadCommentWatcher({ channel, thread })
 
@@ -307,7 +309,9 @@ export default function ThreadPage() {
 	])
 
 	return (
-		<section className={classNames('ThreadPage', 'Content')}>
+		<section className={classNames('ThreadPage', 'Content', {
+			'ThreadPage--onBackground': background
+		})}>
 			<ThreadPageHeader
 				channel={channel}
 				thread={thread}
@@ -352,7 +356,7 @@ export default function ThreadPage() {
 					</p>
 				*/}
 
-				<div className="Comment-spacer"/>
+				<div className="ThreadPage-createCommentSpacer"/>
 
 				<ThreadCreateComment
 					channelId={channel.id}

@@ -1,6 +1,12 @@
 .ThreadCreateComment--notExpanded {
-	--PostForm-borderColor: transparent;
-	--PostForm-backgroundColor: transparent;
+	&.ThreadCreateComment--onBackground {
+		--PostForm-opacity: var(--OnBackground-opacity--content);
+	}
 
-	--rrui-input-field-border-color: var(--Content-color-300);
+	&:not(.ThreadCreateComment--onBackground) {
+		--PostForm-borderColor: transparent;
+		--PostForm-backgroundColor: transparent;
+
+		--rrui-input-field-border-color: var(--Content-color-300);
+	}
 }

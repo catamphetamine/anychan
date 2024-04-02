@@ -11,3 +11,11 @@
 		padding-right: var(--unit);
 	}
 }
+
+.ChannelCreateThreadButton--fill {
+	height: var(--Button-height--singleLine);
+
+	--Button-opacity: var(--OnBackground-opacity--clickable);
+	--Button-color: var(--Clickable-color--text);
+	--Button-backgroundColor: var(--OnBackground-backgroundColor);
+}

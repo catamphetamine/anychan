@@ -34,8 +34,11 @@
 	width: calc(var(--SidebarSectionActionButton-width) + 2 * var(--SidebarSectionActionButton-paddingLeft));
 	height: var(--SidebarSectionMoreButton-height);
 
-	padding-left: var(--SidebarSectionActionButton-paddingLeft);
-	padding-right: var(--SidebarSectionActionButton-paddingLeft);
+	/* Overrides the `padding-left` and `padding-right` that is set on `.Button` CSS class. */
+	&.Button {
+		padding-left: var(--SidebarSectionActionButton-paddingLeft);
+		padding-right: var(--SidebarSectionActionButton-paddingLeft);
+	}
 }
 
 .SidebarSectionMoreButton-icon {

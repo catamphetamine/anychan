@@ -1,11 +1,26 @@
 @import "../styles/common.css";
 
 :root {
+	--FooterBanner-marginBottom: calc(var(--unit) * 2);
+
 	/*--FooterMenu-height: calc(var(--unit) * 3);*/
 	--FooterMenu-height: 0px;
+
+	--FooterNotes-marginTop: calc(2 * var(--unit));
+
+	--Footer-marginBottom: calc(2 * var(--unit));
+
+	--Footer-paddingLeft--onBackground: calc(2 * var(--unit));
+	--Footer-marginTop--onBackground: calc(3 * var(--unit));
+	--Footer-marginBottom--onBackground: 0;
+	--Footer-paddingTop--onBackground: calc(2 * var(--unit));
+	--Footer-paddingBottom--onBackground: var(--Footer-marginBottom);
+	--Footer-opacity--onBackground: var(--OnBackground-opacity--content);
 }
 
 .Footer {
+	margin-bottom: var(--Footer-marginBottom);
+
 	/* Override ".PostParagraph" margins.
 	  (those variables aren't defined). */
 	p {
@@ -55,15 +70,31 @@
 }
 
 .Footer-notes {
-	/*
-	margin-top: 1em;
-	margin-bottom: 1em;
-	*/
-	margin-top: calc(2 * var(--unit));
-	margin-bottom: calc(2 * var(--unit));
+	margin-top: var(--FooterNotes-marginTop);
 	text-align: center;
 	font-weight: 300;
 	font-size: 85%;
+}
+
+.Footer--onBackground {
+	margin-top: var(--Footer-marginTop--onBackground);
+	margin-bottom: var(--Footer-marginBottom--onBackground);
+
+	background-color: var(--OnBackground-backgroundColor);
+	opacity: var(--Footer-opacity--onBackground);
+
+	margin-left: calc(-1 * var(--Webpage-paddingLeft-width));
+	margin-right: calc(-1 * var(--Webpage-paddingRight-width));
+
+	padding-top: var(--Footer-paddingTop--onBackground);
+	padding-bottom: var(--Footer-paddingBottom--onBackground);
+
+	/* Overrides the `width` and `padding-left`/`padding-right` that is defined on `.Content` class. */
+	&.Content {
+		width: calc(100% + var(--Webpage-paddingLeft-width) + var(--Webpage-paddingRight-width));
+		padding-left: var(--Footer-paddingLeft--onBackground);
+		padding-right: var(--Footer-paddingLeft--onBackground);
+	}
 }
 
 .Footer-anychanLogo {
@@ -85,19 +116,21 @@
 .Footer-linkItem {
 	display: inline;
 	line-height: 1.75em;
+
 	&:after {
 		display: inline-block;
 		content: '·';
 		margin-left: 0.5em;
 		margin-right: 0.5em;
 	}
+
 	&:last-child:after {
 		display: none;
 	}
 }
 
 .Footer-banner {
-	margin-bottom: calc(var(--unit) * 2);
+	margin-bottom: var(--FooterBanner-marginBottom);
 	margin-left: calc(-1 * var(--PageContent-paddingLeft));
 	margin-right: calc(-1 * var(--PageContent-paddingLeft));
 }

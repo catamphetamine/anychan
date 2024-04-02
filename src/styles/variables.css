@@ -384,7 +384,7 @@
 	@mixin m-plus {
 		--CommentTreePath-borderWidth: 2px;
 	}
-	--CommentTreePathWithNoBranching-height--straightThrough: var(--Comment-marginTop);
+	--CommentTreePathWithNoBranching-height--straightThrough: var(--Comment-marginTop--nested);
 
 	/* CommentAuthor. */
 	--CommentAuthor-marginTop: 0px;
@@ -605,4 +605,11 @@
 	--UppercaseLabel-fontWeight: lighter;
 	--UppercaseLabel-letterSpacing: 0.075em;
   --UppercaseLabel-textTransform: uppercase;
+
+  --OnBackground-opacity--content: 0.65;
+  --OnBackground-opacity--clickable: 0.85;
+  --OnBackground-opacity--title: 0.75;
+  --OnBackground-backgroundColor: var(--Document-backgroundColor);
+
+  --Button-height--singleLine: calc(var(--unit) * 3);
 }

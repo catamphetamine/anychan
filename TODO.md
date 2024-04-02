@@ -6,6 +6,9 @@ https://erischan.org/
 https://prolikewoah.com/
 https://alogs.space/
 
+* When searching in a thread, pinned threads are shown regardless of the search query. They should be shown only when they match.
+
+* Expand search input on wide screens initially by default.
 
 * See `assets/manifest.json` — during build, it should create a `manifest.json` from that file in each dataSource folder. Also create 512px logo images for each dataSource.
 

@@ -133,8 +133,22 @@
 
 .ThreadPage {
 	.InfoBanner {
+		--InfoBanner-paddingLeft: var(--PostThumbnail-marginRight);
+
 		@mixin m-plus {
 			justify-content: flex-start;
 		}
 	}
+}
+
+.ThreadPage--onBackground {
+	.InfoBanner {
+		--InfoBanner-backgroundColor: var(--OnBackground-backgroundColor);
+		--InfoBanner-opacity: var(--OnBackground-opacity--content);
+		--InfoBanner-paddingTop: var(--unit);
+	}
+}
+
+.ThreadPage-createCommentSpacer {
+	height: var(--Comment-marginTop--topLevel);
 }

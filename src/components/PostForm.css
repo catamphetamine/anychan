@@ -4,6 +4,8 @@
 	--PostForm-backgroundColor: var(--Post-backgroundColor);
 	--PostForm-borderColor: var(--Comment-borderColor);
 
+	--PostForm-opacity: initial;
+
 	--PostForm-paddingLeft: var(--Post-paddingLeft);
 	--PostForm-paddingRight: var(--Post-paddingRight);
 	--PostForm-paddingTop: var(--Post-paddingTop);
@@ -42,9 +44,10 @@
 
 	background-color: var(--PostForm-backgroundColor);
 	box-shadow: var(--Comment-boxShadow);
-	border: var(--Comment-border);
+	border: var(--Comment-borderWidth) solid var(--Comment-borderColor);
 	border-color: var(--PostForm-borderColor);
 	border-radius: var(--Comment-borderRadius);
+	opacity: var(--PostForm-opacity);
 
 	padding-top: var(--PostForm-paddingTop);
 	padding-bottom: var(--PostForm-paddingBottom);

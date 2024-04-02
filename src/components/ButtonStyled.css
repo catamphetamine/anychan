@@ -1,5 +1,129 @@
-:root {
+/* Uses `.Button` CSS selector here instead of `:root`
+   because these variables are later re-defined at `.Button` level,
+   so if these definitions were at `:root` level, they wouldn't work
+   after the variables would be re-defined at `.Button` level. */
+.Button {
+	--Button-paddingLeft: 0px;
+
+	--Button-color: initial;
+	--Button-color--focus: var(--Button-color);
+	--Button-color--active: var(--Button-color);
+	--Button-color--disabled: var(--Button-color);
+
+	--Button-backgroundColor: none;
+	--Button-backgroundColor--focus: var(--Button-backgroundColor);
+	--Button-backgroundColor--active: var(--Button-backgroundColor);
+	--Button-backgroundColor--disabled: var(--Button-backgroundColor);
+
+	--Button-boxShadow: none;
+	--Button-boxShadow--focus: var(--Button-boxShadow);
+	--Button-boxShadow--active: var(--Button-boxShadow);
+	--Button-boxShadow--disabled: var(--Button-boxShadow);
+
+	--Button-opacity: initial;
+	--Button-opacity--focus: var(--Button-opacity);
+	--Button-opacity--active: var(--Button-opacity);
 	--Button-opacity--disabled: 0.7;
+
+	--Button-borderBottomWidth: 0;
+	--Button-borderBottomStyle: solid;
+	--Button-borderBottomColor: initial;
+
+	--Button-borderTopWidth: 0;
+	--Button-borderTopStyle: solid;
+	--Button-borderTopColor: initial;
+
+	--Button-borderLeftWidth: 0;
+	--Button-borderLeftStyle: solid;
+	--Button-borderLeftColor: initial;
+
+	--Button-borderRightWidth: 0;
+	--Button-borderRightStyle: solid;
+	--Button-borderRightColor: initial;
+
+	--Button-borderBottomWidth--focus: var(--Button-borderBottomWidth);
+	--Button-borderBottomStyle--focus: var(--Button-borderBottomStyle);
+	--Button-borderBottomColor--focus: var(--Button-borderBottomColor);
+
+	--Button-borderTopWidth--focus: var(--Button-borderTopWidth);
+	--Button-borderTopStyle--focus: var(--Button-borderTopStyle);
+	--Button-borderTopColor--focus: var(--Button-borderTopColor);
+
+	--Button-borderLeftWidth--focus: var(--Button-borderLeftWidth);
+	--Button-borderLeftStyle--focus: var(--Button-borderLeftStyle);
+	--Button-borderLeftColor--focus: var(--Button-borderLeftColor);
+
+	--Button-borderRightWidth--focus: var(--Button-borderRightWidth);
+	--Button-borderRightStyle--focus: var(--Button-borderRightStyle);
+	--Button-borderRightColor--focus: var(--Button-borderRightColor);
+
+	--Button-borderRadius: 0px;
+}
+
+.Button {
+	color: var(--Button-color);
+	background-color: var(--Button-backgroundColor);
+	padding-left: var(--Button-paddingLeft);
+	padding-right: var(--Button-paddingLeft);
+
+	border-bottom-width: var(--Button-borderBottomWidth);
+	border-bottom-style: var(--Button-borderBottomStyle);
+	border-bottom-color: var(--Button-borderBottomColor);
+
+	border-top-width: var(--Button-borderTopWidth);
+	border-top-style: var(--Button-borderTopStyle);
+	border-top-color: var(--Button-borderTopColor);
+
+	border-left-width: var(--Button-borderLeftWidth);
+	border-left-style: var(--Button-borderLeftStyle);
+	border-left-color: var(--Button-borderLeftColor);
+
+	border-right-width: var(--Button-borderRightWidth);
+	border-right-style: var(--Button-borderRightStyle);
+	border-right-color: var(--Button-borderRightColor);
+
+	border-radius: var(--Button-borderRadius);
+
+	opacity: var(--Button-opacity);
+	box-shadow: var(--Button-boxShadow);
+
+	&:focus {
+		color: var(--Button-color--focus);
+		background-color: var(--Button-backgroundColor--focus);
+		opacity: var(--Button-opacity--focus);
+
+		border-bottom-width: var(--Button-borderBottomWidth--focus);
+		border-bottom-style: var(--Button-borderBottomStyle--focus);
+		border-bottom-color: var(--Button-borderBottomColor--focus);
+
+		border-top-width: var(--Button-borderTopWidth--focus);
+		border-top-style: var(--Button-borderTopStyle--focus);
+		border-top-color: var(--Button-borderTopColor--focus);
+
+		border-left-width: var(--Button-borderLeftWidth--focus);
+		border-left-style: var(--Button-borderLeftStyle--focus);
+		border-left-color: var(--Button-borderLeftColor--focus);
+
+		border-right-width: var(--Button-borderRightWidth--focus);
+		border-right-style: var(--Button-borderRightStyle--focus);
+		border-right-color: var(--Button-borderRightColor--focus);
+
+		box-shadow: var(--Button-boxShadow--focus);
+	}
+
+	&:active:not(:disabled) {
+		color: var(--Button-color--active);
+		background-color: var(--Button-backgroundColor--active);
+		opacity: var(--Button-opacity--active);
+		box-shadow: var(--Button-boxShadow--active);
+	}
+
+	&:disabled {
+		color: var(--Button-color--disabled);
+		background-color: var(--Button-backgroundColor--disabled);
+		opacity: var(--Button-opacity--disabled);
+		box-shadow: var(--Button-boxShadow--disabled);
+	}
 }
 
 /* `.Button--text-custom-height` can be used in cases when `.Button--text`'s `height: auto`
@@ -8,82 +132,51 @@
    but then `.Button--text` overwrites it with `height: auto`. */
 .Button--text,
 .Button--text-custom-height {
-	color: var(--Clickable-color--text);
-	border-bottom: 1px solid transparent;
-
-	&:focus {
-		border-bottom-color: currentColor;
-	}
-
-	&:active:not(:disabled) {
-		color: var(--Clickable-color--textActive);
-	}
-
-	&:disabled {
-		opacity: var(--Button-opacity--disabled);
-	}
-}
-
-.Button--text {
-	height: auto;
+	--Button-color: var(--Clickable-color--text);
+	--Button-color--active: var(--Clickable-color--textActive);
+	--Button-color--disabled: var(--Button-opacity--disabled);
+	--Button-borderBottomWidth: 1px;
+	--Button-borderBottomColor: transparent;
+	--Button-borderBottomColor--focus: currentColor;
 }
 
 .Button--fill {
-	color: var(--Content-backgroundColor);
-	background-color: var(--Clickable-color);
-	padding-left: var(--unit);
-	padding-right: var(--unit);
-
-	&:focus {
-		/*box-shadow: 0 0 0 4px inset var(--Clickable-color--active);*/
-		box-shadow: 0 0 2px var(--Clickable-color--active);
-	}
-
-	&:active:not(:disabled) {
-		color: var(--Content-backgroundColor);
-		background-color: var(--Clickable-color--active);
-	}
-
-	&:disabled {
-		opacity: var(--Button-opacity--disabled);
-	}
+	--Button-color: var(--Content-backgroundColor);
+	--Button-color--active: var(--Content-backgroundColor);
+	--Button-backgroundColor: var(--Clickable-color);
+	--Button-backgroundColor--active: var(--Clickable-color--active);
+	--Button-paddingLeft: var(--unit);
+	--Button-boxShadow--focus: 0 0 2px var(--Clickable-color--active);
 }
 
 .Button--outline {
-	/*color: var(--Content-backgroundColor);*/
-	/*background-color: var(--Clickable-color);*/
-	color: var(--Clickable-color--text);
-	padding-left: var(--unit);
-	padding-right: var(--unit);
-	border: 1px solid currentColor;
-	border-radius: 4px;
-
-	&:focus {
-		box-shadow: 0 0 2px var(--Clickable-color--active);
-	}
-
-	&:active:not(:disabled) {
-		color: var(--Content-backgroundColor);
-		background-color: var(--Clickable-color--text);
-		border-color: var(--Clickable-color--text);
-	}
-
-	&:disabled {
-		opacity: var(--Button-opacity--disabled);
-	}
+	--Button-color: var(--Clickable-color--text);
+	--Button-color--active: var(--Content-backgroundColor);
+	--Button-backgroundColor: none;
+	--Button-backgroundColor--active: var(--Clickable-color--text);
+	--Button-paddingLeft: var(--unit);
+	--Button-borderWidth: 1px;
+	--Button-borderStyle: solid;
+	--Button-borderColor: currentColor;
+	--Button-borderRadius: 4px;
+	--Button-borderColor--active: var(--Clickable-color--text);
+	--Button-boxShadow--focus: 0 0 2px var(--Clickable-color--active);
 }
 
 .Button--float {
-	box-shadow: 0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
+	--Button-boxShadow: 0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
 		0px 0.4em 0.7em 0px rgba(0,0,0,0.07),
 		0px 0.07em 1.3em 0px rgba(0,0,0,0.06);
 
-	&:focus {
-		box-shadow: 0 0 2px var(--Clickable-color--active),
-			0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
-			0px 0.4em 0.7em 0px rgba(0,0,0,0.07),
-			0px 0.07em 1.3em 0px rgba(0,0,0,0.06);
-	}
+	--Button-boxShadow--focus: 0 0 2px var(--Clickable-color--active),
+		0px 0.22em 0.35em -0.07em rgba(0,0,0,0.1),
+		0px 0.4em 0.7em 0px rgba(0,0,0,0.07),
+		0px 0.07em 1.3em 0px rgba(0,0,0,0.06);
+}
+
+.Button--text {
+	/* Overwrites the `height` that is defined on `.FormAction` CSS class. */
+	height: auto;
 }
 
 .Button--multiline {

@@ -7,6 +7,7 @@ import PostForm from '../../components/PostFormWithAttachments.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
+import useBackground from '../../hooks/useBackground.js'
 
 import { updateCreateCommentState, resetCreateCommentState } from '../../redux/thread.js'
 
@@ -24,6 +25,7 @@ export default function ThreadCreateComment({
 	refreshThread
 }) {
 	const messages = useMessages()
+	const background = useBackground()
 	const dispatch = useDispatch()
 
 	const createCommentState = useSelector(state => state.thread.createCommentState)
@@ -125,7 +127,8 @@ export default function ThreadCreateComment({
 			onAttachmentsDidChange={onFormAttachmentsDidChange}
 			onSubmit={onSubmit}
 			className={classNames('ThreadCreateComment', {
-				'ThreadCreateComment--notExpanded': !formExpanded
+				'ThreadCreateComment--notExpanded': !formExpanded,
+				'ThreadCreateComment--onBackground': background
 			})}
 		/>
 	)

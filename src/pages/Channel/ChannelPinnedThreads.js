@@ -42,6 +42,10 @@ export default function ChannelPinnedThreads({
 		}))
 	}, [])
 
+	if (threads.length === 0) {
+		return null
+	}
+
 	return (
 		<ul className="ChannelPinnedThreads">
 			{threads.map((thread) => {

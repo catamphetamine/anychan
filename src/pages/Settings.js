@@ -62,7 +62,7 @@ export default function SettingsPage(props) {
 	return (
 		<section className="SettingsPage Content Content--text">
 			{/* Settings */}
-			<Heading>
+			<Heading onBackground>
 				{messages.settings.title}
 			</Heading>
 			{cookiesAccepted &&

@@ -8,10 +8,12 @@ import { thread as threadType } from '../../PropTypes.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useLocale from '../../hooks/useLocale.js'
+import useBackground from '../../hooks/useBackground.js'
 
 import getLanguageFromLocale from '../../utility/getLanguageFromLocale.js'
 
 import Button from 'frontend-lib/components/Button.js'
+import FillButton from '../../components/FillButton.js'
 
 import './AutoUpdate.css'
 
@@ -25,6 +27,9 @@ function AutoUpdate({
 	secondsLeftUntilNextUpdate
 }, ref) {
 	const messages = useMessages()
+	const background = useBackground()
+
+	const ButtonComponent = background ? FillButton : Button
 
 	if (isThreadExpired || isThreadLocked) {
 		return null
@@ -41,7 +46,7 @@ function AutoUpdate({
 	// scroll "jumping" because re-focusing a `<button/>` that's
 	// off-screen would make the browser scroll to it automatically.
 	return (
-		<Button
+		<ButtonComponent
 			ref={ref}
 			onClick={refreshThread}
 			className="AutoUpdate">
@@ -65,7 +70,7 @@ function AutoUpdate({
 					{isAutoUpdateError && '.'}
 				</React.Fragment>
 			}
-		</Button>
+		</ButtonComponent>
 	)
 }
 

@@ -1,10 +1,13 @@
 import React, { useRef, useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import TextButton from './TextButton.js'
+import FillButton from './FillButton.js'
 
 import useMessage from '../hooks/useMessage.js'
 import useMessages from '../hooks/useMessages.js'
+import useBackground from '../hooks/useBackground.js'
 
 import DoubleArrowUp from 'frontend-lib/icons/double-arrow-up-thin.svg'
 
@@ -19,6 +22,7 @@ export default function ShowPrevious({
 	onShowAll
 }) {
 	const messages = useMessages()
+	const background = useBackground()
 
 	const showPreviousButton = useRef()
 
@@ -65,26 +69,33 @@ export default function ShowPrevious({
 		}
 	}, [hasShownPrevious])
 
+	const ButtonComponent = background ? FillButton : TextButton
+
 	// const onShowAll = useCallback(() => setFromIndex(0), [setFromIndex])
 	return (
 		<div className="ShowPrevious">
 			{hasShownPrevious &&
-				<TextButton
+				<ButtonComponent
 					onClick={onShowAll}
-					className="ShowPrevious-showAll">
+					className={classNames('ShowPrevious-showAll', {
+						'ShowPrevious-button--fill': background
+					})}>
 					{messages.actions.showAll}
-				</TextButton>
+				</ButtonComponent>
 			}
-			<TextButton
+			<ButtonComponent
 				ref={showPreviousButton}
-				onClick={onShowPreviousClick}>
+				onClick={onShowPreviousClick}
+				className={classNames({
+					'ShowPrevious-button--fill': background
+				})}>
 				<span>
 					<DoubleArrowUp className="ShowPrevious-doubleArrow"/>
 					{getFirstString(nMoreComments)}
 					{getFirstTag(nMoreComments)}
 					{getLastString(nMoreComments)}
 				</span>
-			</TextButton>
+			</ButtonComponent>
 			{/*
 			<ReactTimeAgo
 				date={items[fromIndex - 1].createdAt}

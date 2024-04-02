@@ -2,15 +2,18 @@ import React, { useCallback, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-pages'
+import classNames from 'classnames'
 
 import PostForm from '../../components/PostFormWithAttachments.js'
 
 import { channelId as channelIdType } from '../../PropTypes.js'
 
 import TextButton from '../../components/TextButton.js'
+import FillButton from '../../components/FillButton.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
+import useBackground from '../../hooks/useBackground.js'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
@@ -28,6 +31,7 @@ export default function ChannelCreateThreadButton({
 	const messages = useMessages()
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const background = useBackground()
 
 	const form = useRef()
 	const createThreadButton = useRef()
@@ -120,15 +124,19 @@ export default function ChannelCreateThreadButton({
 		}
 	}, [showForm])
 
+	const ButtonComponent = background ? FillButton : TextButton
+
 	return (
 		<div className="ChannelCreateThreadButton-container">
 			{!showForm &&
-				<TextButton
+				<ButtonComponent
 					ref={createThreadButton}
 					onClick={onShowForm}
-					className="ChannelCreateThreadButton">
+					className={classNames('ChannelCreateThreadButton', {
+						'ChannelCreateThreadButton--fill': background
+					})}>
 					{messages.createThread}
-				</TextButton>
+				</ButtonComponent>
 			}
 			{showForm &&
 				<PostForm

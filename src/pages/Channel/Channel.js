@@ -24,6 +24,7 @@ import useSetting from '../../hooks/useSetting.js'
 import useLocale from '../../hooks/useLocale.js'
 import useMessages from '../../hooks/useMessages.js'
 import useUserData from '../../hooks/useUserData.js'
+import useBackground from '../../hooks/useBackground.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useOnThreadClick from '../../components/useOnThreadClick.js'
@@ -48,6 +49,7 @@ export default function ChannelPage() {
 
 	const locale = useLocale()
 	const messages = useMessages()
+	const background = useBackground()
 
 	const {
 		virtualScrollerState: initialVirtualScrollerState,
@@ -204,7 +206,8 @@ export default function ChannelPage() {
 
 	return (
 		<section className={classNames('Content', 'ChannelPage', {
-			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments'
+			'ChannelPage--latestComments': channelLayout === 'threadsListWithLatestComments',
+			'ChannelPage--onBackground': background
 		})}>
 			<ChannelHeader
 				threads={threads}
@@ -229,7 +232,9 @@ export default function ChannelPage() {
 			<div className="ChannelPage-commentsListContainer">
 				{searchResultsQuery && searchResults.length === 0 &&
 					<div className="ChannelPage-nothingFound">
-						{messages.noSearchResults}
+						<span className="ChannelPage-nothingFoundText">
+							{messages.noSearchResults}
+						</span>
 					</div>
 				}
 

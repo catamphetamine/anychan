@@ -38,7 +38,7 @@ export default function UserAccountPage() {
 
 	return (
 		<section className="UserAccount Content Content--text">
-			<Heading>
+			<Heading onBackground>
 				{messages.userAccount.title}
 			</Heading>
 			{accessToken &&

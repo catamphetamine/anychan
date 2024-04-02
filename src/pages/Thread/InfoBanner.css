@@ -1,16 +1,26 @@
+:root {
+	--InfoBanner-backgroundColor: none;
+	--InfoBanner-boxShadow: none;
+	--InfoBanner-opacity: initial;
+	--InfoBanner-paddingTop: 0px;
+	--InfoBanner-paddingLeft: 0px;
+}
+
 .InfoBanner {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
 	/*padding: var(--unit);*/
-	/*box-shadow: 0 0 0 1px var(--Content-color-300);*/
-	/*background-color: var(--Content-color-50);*/
+	box-shadow: var(--InfoBanner-boxShadow);
+	background-color: var(--InfoBanner-backgroundColor);
 
-	/*padding-top: var(--unit);*/
-	/*padding-bottom: var(--unit);*/
-	padding-left: var(--PostThumbnail-marginRight);
-	padding-right: var(--PostThumbnail-marginRight);
+	opacity: var(--InfoBanner-opacity);
+
+	padding-top: var(--InfoBanner-paddingTop);
+	padding-bottom: var(--InfoBanner-paddingTop);
+	padding-left: var(--InfoBanner-paddingLeft);
+	padding-right: var(--InfoBanner-paddingLeft);
 
 	font-weight: var(--UppercaseLabel-fontWeight);
 	font-size: var(--UppercaseLabel-fontSize);

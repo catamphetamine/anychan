@@ -31,7 +31,7 @@
 	}
 }
 
-.ChannelPage-commentsListContainer {
+.ChannelPageTop--withPinnedThreads + .ChannelPage-commentsListContainer {
 	/* `.CommentsList` element already has a "negative" `margin-top`,
 	   so `margin-top` is set on `.ThreadPage-commentsListContainer` element instead. */
 	/* `--Comment-marginTop` is not defined at `:root` level. */
@@ -189,5 +189,18 @@
 
 .ChannelPage-nothingFound {
 	margin-top: calc(var(--unit) * 3);
+	margin-bottom: calc(var(--unit) * 3);
 	text-align: center;
+}
+
+.ChannelPage--onBackground {
+	.ChannelPage-nothingFoundText {
+		opacity: var(--OnBackground-opacity--content);
+		color: var(--OnBackground-color);
+		background-color: var(--OnBackground-backgroundColor);
+		padding-left: calc(var(--unit));
+		padding-right: calc(var(--unit));
+		padding-top: calc(var(--unit) / 2);
+		padding-bottom: calc(var(--unit) / 2);
+	}
 }

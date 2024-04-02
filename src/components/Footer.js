@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 
 import Markup from './Markup.js'
+import ExternalLink from './ExternalLink.js'
 
 import getConfiguration from '../configuration.js'
 import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
@@ -12,6 +13,7 @@ import isChannelsPage from '../utility/routes/isChannelsPage.js'
 import useMessages from '../hooks/useMessages.js'
 import useRoute from '../hooks/useRoute.js'
 import useDataSource from '../hooks/useDataSource.js'
+import useBackground from '../hooks/useBackground.js'
 
 import { Content } from 'social-components-react/components/PostContent.js'
 
@@ -24,10 +26,12 @@ export default function Footer({ className }) {
 	const messages = useMessages()
 	const route = useRoute()
 	const dataSource = useDataSource()
+	const background = useBackground()
 
 	return (
 		<footer className={classNames(className, 'Footer', 'Content', {
-			'Content--background': isContentSectionsPage(route) || isChannelsPage(route)
+			'Content--background': isContentSectionsPage(route) || isChannelsPage(route),
+			'Footer--onBackground': background
 		})}>
 			{getConfiguration().footerMarkup &&
 				<Markup
@@ -84,11 +88,11 @@ function FooterLinks({ links }) {
 			<ul className="Footer-links">
 				{links.map((link, i) => (
 					<li key={i} className="Footer-linkItem">
-						<a
-							target="_blank"
-							href={link.url}>
+						<ExternalLink
+							openInNewTab
+							url={link.url}>
 							{link.text}
-						</a>
+						</ExternalLink>
 					</li>
 				))}
 			</ul>

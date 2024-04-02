@@ -2,11 +2,26 @@
 
 .AutoUpdate {
 	--AutoUpdate-borderBottomColor: transparent;
+	--AutoUpdate-marginLeft: var(--Post-paddingLeft);
+	--AutoUpdate-bottomBorderWidth: 1px;
 
 	display: block;
-	margin-left: var(--Post-paddingLeft);
-	margin-right: var(--Post-paddingLeft);
-	border-bottom: 1px solid var(--AutoUpdate-borderBottomColor);
+	margin-left: var(--AutoUpdate-marginLeft);
+	margin-right: var(--AutoUpdate-marginLeft);
+
+	--Button-borderBottomWidth: var(--AutoUpdate-bottomBorderWidth);
+	--Button-borderBottomColor: var(--AutoUpdate-borderBottomColor);
+
+	&.Button--fill {
+		height: var(--Button-height--singleLine);
+
+		--AutoUpdate-marginLeft: 0px;
+		--AutoUpdate-bottomBorderWidth: 0px;
+
+		--Button-opacity: var(--OnBackground-opacity--clickable);
+		--Button-color: var(--Clickable-color--text);
+		--Button-backgroundColor: var(--OnBackground-backgroundColor);
+	}
 
 	&:focus,
 	&:hover:not([disabled]) {
