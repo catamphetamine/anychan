@@ -51,7 +51,7 @@ export default function addCommentTextFunctions(comment, {
 
 // Returns a `string`.
 function getContentTextSingleLine_(comment) {
-	return comment.getContentText().replace(/\n+/g, ' ')
+	return comment.getContentText().replace(/\n+/g, ' ↩ ')
 }
 
 // Returns a `string`.

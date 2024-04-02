@@ -53,7 +53,7 @@
     "regenerator-runtime": "^0.14.0",
     "request-animation-frame-timeout": "^1.0.0",
     "simplebar-react": "^3.2.4",
-    "social-components": "^0.3.10",
+    "social-components": "^0.3.11",
     "virtual-scroller": "^1.12.4",
     "web-browser-input": "^0.2.1",
     "web-browser-storage": "^0.1.11",

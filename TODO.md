@@ -7,6 +7,10 @@ https://prolikewoah.com/
 https://alogs.space/
 
 
+* See `assets/manifest.json` — during build, it should create a `manifest.json` from that file in each dataSource folder. Also create 512px logo images for each dataSource.
+
+* Enable PWA mode.
+
 * Some textual elements/buttons aren't eligible when using a custom background image: "Create Thread" button on channel page, footer links, copyright text, "Auto-update in XX sec", "Write a comment..." form placeholder. Maybe add background color to those elements + border + border-radius.
 
 * When showing a list of threads in "tiles" view, generate content preview that is shorter: no longer than XXX, and maybe don't bypass the threshold even if the rest text amount is small.
