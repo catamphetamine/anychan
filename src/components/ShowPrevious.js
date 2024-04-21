@@ -78,7 +78,7 @@ export default function ShowPrevious({
 				<ButtonComponent
 					onClick={onShowAll}
 					className={classNames('ShowPrevious-showAll', {
-						'ShowPrevious-button--fill': background
+						'ShowPrevious-button--onBackground': background
 					})}>
 					{messages.actions.showAll}
 				</ButtonComponent>
@@ -87,7 +87,7 @@ export default function ShowPrevious({
 				ref={showPreviousButton}
 				onClick={onShowPreviousClick}
 				className={classNames({
-					'ShowPrevious-button--fill': background
+					'ShowPrevious-button--onBackground': background
 				})}>
 				<span>
 					<DoubleArrowUp className="ShowPrevious-doubleArrow"/>

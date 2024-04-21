@@ -13,6 +13,14 @@ import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shoul
 import transformDataSourceLink from '../../utility/transformDataSourceLink.js'
 import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
 
+// Content preview:
+// * Content preview is used on channel page when showing a thread.
+//   In that case, `maxLength` is equal to `configuration.commentLengthLimitForThreadPreview`.
+// * Content preview is used on channel page (using tile layout) when showing a thread.
+//   In that case, `maxLength` is equal to `configuration.commentLengthLimitForThreadPreviewForTileLayout`.
+// * Content preview is used on thread page when showing a comment.
+//   In that case, `maxLength` is equal to `configuration.commentLengthLimit`.
+
 /**
  * Modifies the `comment`'s `.parseContent()` function a bit.
  * @param {Comment} comment
@@ -35,6 +43,14 @@ export default function addParseContent(comment, {
 }) {
 	const originalParseContent = comment.parseContent
 
+	// Modify the `comment.parseContent()` function that is created by `imageboard` package:
+	// it will call the original `comment.parseContent()` and it will also additionally do some modifications on top:
+	// * Censors "offensive" words.
+	// * Corrects grammar (commas and spaces, long dashes, quotes, etc).
+	// * Fixes `kohlchan.net` emoji URLs.
+	// * Aligns attachments that're embedded in comment content to the left side because by default they're centered.
+	// * Sets utility properties `channelId`/`threadId` on `post-link`s.
+	// * Removes "OP" quote at the start of comment content.
 	comment.parseContent = ({ getCommentById } = {}) => {
 		// Thread page "auto-update" feature:
 		//
@@ -140,6 +156,7 @@ export default function addParseContent(comment, {
 					}
 				})
 			}
+
 			_transformContent(comment.content)
 			if (comment.contentPreview) {
 				_transformContent(comment.contentPreview)
@@ -162,7 +179,7 @@ export default function addParseContent(comment, {
 		// // "Show previous comments" button and then scrolling from bottom to top.
 		// loadResourceLinksSync(comment, { mode, messages, getCommentById: ... thread.getCommentById ... })
 
-		// Align attachments to the left.
+		// Align attachments that're embedded in comment content to the left side because by default they're centered.
 		setEmbeddedAttachmentsProps(comment)
 
 		// Set `channelId`/`threadId` on `post-link`s.
@@ -202,12 +219,14 @@ export default function addParseContent(comment, {
 				// then re-generate the preview (if it existed before).
 				if (comment.contentPreview) {
 					comment.contentPreview = generatePostPreview(comment, {
-						maxLength: getCommentLengthLimit(mode),
+						maxLength: getCommentLengthLimit({ mode }),
 						minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes()
 					})
 				}
 			} else if (result === null) {
-				// Clear comment's content (and its "preview" then).
+				// If after removing an "OP" quote at the start of comment content
+				// it becomes empty content then remove `comment.content` property:
+				// it just would mean that the comment's content was just an "OP" quote.
 				comment.content = undefined
 				comment.contentPreview = undefined
 			}

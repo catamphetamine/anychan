@@ -10,6 +10,10 @@ import { updatePinnedThreadsState } from '../../redux/channel.js'
 import ChannelPinnedThread from './ChannelPinnedThread.js';
 import ChannelPinnedThreadPreview from './ChannelPinnedThreadPreview.js';
 
+import useTransformCommentListItemInitialState from './useTransformCommentListItemInitialState.js'
+
+import { onCommentInitialRender, getCommentsListItemInitialState } from '../../components/CommentsList.js';
+
 import './ChannelPinnedThreads.css'
 
 export default function ChannelPinnedThreads({
@@ -25,11 +29,31 @@ export default function ChannelPinnedThreads({
 		expandedThreadStates = {}
 	} = pinnedThreadsState || {}
 
+	const transformCommentListItemInitialState = useTransformCommentListItemInitialState({
+		channelLayout: threadComponentProps.channelLayout
+	})
+
 	const onThreadPreviewClick = useCallback((thread) => {
 		const newExpandedThreadIds = expandedThreadIds.concat([thread.id])
 
+		onCommentInitialRender(thread, {
+			mode: 'channel',
+			getCommentById: threadComponentProps.getCommentById
+		})
+
 		dispatch(updatePinnedThreadsState({
-			expandedThreadIds: newExpandedThreadIds
+			expandedThreadIds: newExpandedThreadIds,
+			expandedThreadStates: {
+				...expandedThreadStates,
+				[String(thread.id)]: getCommentsListItemInitialState(thread, {
+					mode: 'channel',
+					// Ignore the "Hidden" status of the thread when expanding it from a preview.
+					// The rationale is that if a user is expanding a thread from a preview,
+					// they intend to view the thread rather than a "Hidden thread" placeholder.
+					ignoreHiddenState: true,
+					transformInitialItemState: transformCommentListItemInitialState
+				})
+			}
 		}))
 	}, [])
 

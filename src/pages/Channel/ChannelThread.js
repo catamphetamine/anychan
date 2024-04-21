@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { thread as threadType, commentTreeState } from '../../PropTypes.js'
@@ -6,6 +6,8 @@ import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 import ChannelThreadWithComments from './ChannelThreadWithComments.js'
 import ChannelThreadWithoutComments from './ChannelThreadWithoutComments.js'
 import ChannelThreadTile from './ChannelThreadTile.js'
+
+import useGetCommentById from '../Thread/useGetCommentById.js'
 
 const ChannelThread = ({
 	item: thread,
@@ -15,6 +17,18 @@ const ChannelThread = ({
 	channelLayout,
 	commonProps
 }) => {
+	const getCommentById = useGetCommentById({
+		thread
+	})
+
+	const commonPropsWithGetCommentById = useMemo(() => ({
+		...commonProps,
+		getCommentById
+	}), [
+		commonProps,
+		getCommentById
+	])
+
 	const Component = channelLayout === 'threadsTiles'
 		? ChannelThreadTile
 		: (channelLayout === 'threadsListWithLatestComments'
@@ -28,7 +42,8 @@ const ChannelThread = ({
 			state={state}
 			setState={setState}
 			onHeightDidChange={onHeightDidChange}
-			commonProps={commonProps}
+			commonProps={commonPropsWithGetCommentById}
+			getCommentById={getCommentById}
 		/>
 	)
 }

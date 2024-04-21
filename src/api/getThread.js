@@ -1,6 +1,5 @@
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
-import getCommentLengthLimit from '../utility/comment/getCommentLengthLimit.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 // import getOwnCommentsIncludingOriginalComment from '../UserData/bulkGetters/getOwnCommentsIncludingOriginalComment.js';

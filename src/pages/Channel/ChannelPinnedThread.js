@@ -5,6 +5,8 @@ import ChannelThread from './ChannelThread.js'
 
 import { thread as threadType } from '../../PropTypes.js'
 
+import './ChannelPinnedThread.css'
+
 export default function ChannelPinnedThread({
 	thread,
 	threadComponentProps,

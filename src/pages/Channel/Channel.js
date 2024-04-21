@@ -18,7 +18,6 @@ import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 
 import ChannelPageTop from './ChannelPageTop.js'
 import ChannelThread from './ChannelThread.js'
-import { getShowRepliesState } from 'social-components-react/components/CommentTree.js'
 
 import useSetting from '../../hooks/useSetting.js'
 import useLocale from '../../hooks/useLocale.js'
@@ -27,6 +26,7 @@ import useUserData from '../../hooks/useUserData.js'
 import useBackground from '../../hooks/useBackground.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
+import useTransformCommentListItemInitialState from './useTransformCommentListItemInitialState.js'
 import useOnThreadClick from '../../components/useOnThreadClick.js'
 
 import getChannelPageMeta from './Channel.meta.js'
@@ -96,8 +96,9 @@ export default function ChannelPage() {
 		channelSorting,
 		commonProps: {
 			mode: 'channel',
-			// Old cached board objects don't have a `.features` sub-object.
-			// (Before early 2023).
+			// Previously, before early 2023, the cached list of `channel` objects
+			// in `localStorage` didn't contain a `.features` sub-object in the list items.
+			// So because of legacy compatibility, here's a check that `channel.features` property exists.
 			hasVoting: channel.features && channel.features.votes,
 			channelId: channel.id,
 			locale,
@@ -117,18 +118,9 @@ export default function ChannelPage() {
 		channelSorting
 	])
 
-	const transformInitialItemState = useCallback((itemState, item) => {
-		if (channelLayout === 'threadsListWithLatestComments') {
-			// If the thread is not hidden then show its latest comments.
-			if (!itemState.hidden) {
-				return {
-					...itemState,
-					...getShowRepliesState(item.comments[0])
-				}
-			}
-		}
-		return itemState
-	}, [channelLayout])
+	const transformCommentListItemInitialState = useTransformCommentListItemInitialState({
+		channelLayout
+	})
 
 	const getColumnsCount = useCallback(() => {
 		if (channelLayout === 'threadsTiles') {
@@ -253,7 +245,7 @@ export default function ChannelPage() {
 					key={channelLayout}
 					mode="channel"
 					getColumnsCount={getColumnsCount}
-					transformInitialItemState={transformInitialItemState}
+					transformInitialItemState={transformCommentListItemInitialState}
 					initialState={initialVirtualScrollerState}
 					setState={setVirtualScrollerState}
 					items={searchResultsQuery ? searchResults : threads}

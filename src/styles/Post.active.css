@@ -21,7 +21,8 @@
 	--PostInlineSpoiler-transition: var(--PostInlineSpoiler-transition--onClick);
 }
 
-.ChannelPage-threads {
+.ChannelPage-threads,
+.ChannelPinnedThreads {
 	.Clickable--active {
 		--Post-backgroundColor: var(--Content-backgroundColor--active);
 		--PostInlineSpoiler-color: var(--PostInlineSpoiler-color--contentActive);

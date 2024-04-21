@@ -131,7 +131,7 @@ export default function Comment({
 			youTubeApiKey={getConfiguration().youtubeApiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			contentMaxLength={getCommentLengthLimit(mode)}
+			contentMaxLength={getCommentLengthLimit({ mode })}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
 			isPostLinkClickable={isPostLinkClickable}

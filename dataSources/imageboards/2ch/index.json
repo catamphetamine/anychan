@@ -26,13 +26,13 @@
 			"Подписывайся на официальный канал Двача в Телеграме и узнавай обо всех новостях и мемах первым! ",
 			{
 				"type": "link",
-				"url": "https://teleg.run/dvachannel",
+				"url": "https://t.me/dvachannel",
 				"content": "@dvachannel"
 			},
 			" и на запасной канал 2ch/Random ",
 			{
 				"type": "link",
-				"url": "https://teleg.run/rand2ch",
+				"url": "https://t.me/rand2ch",
 				"content": "@rand2ch"
 			}
 		]

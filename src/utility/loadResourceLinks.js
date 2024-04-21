@@ -13,7 +13,7 @@
 // 		youTubeApiKey: getConfiguration().youtubeApiKey,
 // 		cache: ResourceCache,
 // 		messages: getResourceMessages(messages),
-// 		contentMaxLength: getCommentLengthLimit(mode),
+// 		contentMaxLength: getCommentLengthLimit({ mode, layout: ... }),
 // 		minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes(),
 // 		onContentChange: () => onCommentContentChange(comment, { getCommentById, renderComments }),
 // 		// And maybe the `sync: true` flag can be removed

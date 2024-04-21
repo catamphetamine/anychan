@@ -62,7 +62,8 @@
 	}
 }
 
-.ChannelPage-threads {
+.ChannelPage-threads,
+.ChannelPinnedThreads {
 	.CommentClickableWrapper--rootComment {
 		width: 100%;
 	}

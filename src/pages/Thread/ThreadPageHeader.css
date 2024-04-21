@@ -18,6 +18,23 @@
 	/*margin-right: var(--ThreadPageHeader-marginRight);*/
 
 	--ChannelUrl-fontSize: var(--ThreadPageHeader-fontSize);
+
+	--ThreadPageHeaderStatusIcon-marginLeft: 0.5em;
+
+	--ThreadActivityIndicator-width: 0.55em;
+	--ThreadActivityIndicator-padding: 0.55em;
+
+	--ThreadActivityIndicator-marginLeft: 0.1em;
+
+	@mixin upto-s {
+		--ThreadActivityIndicator-marginLeft: 0.05em;
+	}
+	@mixin m {
+		--ThreadActivityIndicator-marginLeft: 0.075em;
+	}
+	@mixin l-plus {
+		--ThreadActivityIndicator-marginTop: 0.1em;
+	}
 }
 
 .ThreadPageHeader-backArrow {
@@ -133,15 +150,10 @@
 .ThreadPageHeader-statusIcon {
 	width: 1em;
 	height: 1em;
-	margin-left: 0.5em;
+	margin-left: var(--ThreadPageHeaderStatusIcon-marginLeft);
 }
 
 .ThreadPageHeader-activityIndicator {
-	--ThreadActivityIndicator-width: 0.55em;
-	--ThreadActivityIndicator-padding: 0.55em;
-
-	--ThreadActivityIndicator-marginLeft: 0.1em;
-
 	margin-left: var(--ThreadActivityIndicator-marginLeft);
 
 	/* Use of `margin-top` resulted in shifting the text in `ThreadPageHeader` up a little bit. */
@@ -163,18 +175,16 @@
 	   fire icon to be clipped at the right side,
 	   because `.ThreadPageHeader` has `overflow: hidden`. */
 	/*margin-right: calc(-1 * 0.45em);*/
-
-	@mixin upto-s {
-		--ThreadActivityIndicator-marginLeft: 0.05em;
-	}
-	@mixin m {
-		--ThreadActivityIndicator-marginLeft: 0.075em;
-	}
-	@mixin l-plus {
-		--ThreadActivityIndicator-marginTop: 0.1em;
-	}
 }
 
 .ThreadPageHeader-activityIndicator + .Toolbar {
 	padding-left: 0.25em;
 }
+
+/*
+.ThreadPageHeader-statusIconsAfterActivityIndicator {
+	.ThreadPageHeader-statusIcon:first-child {
+		margin-left: calc(var(--ThreadActivityIndicator-marginLeft));
+	}
+}
+*/

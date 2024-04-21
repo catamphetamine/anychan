@@ -12,7 +12,7 @@
 	}
 }
 
-.ChannelCreateThreadButton--fill {
+.ChannelCreateThreadButton--onBackground {
 	height: var(--Button-height--singleLine);
 
 	--Button-opacity: var(--OnBackground-opacity--clickable);

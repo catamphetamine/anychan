@@ -18,7 +18,7 @@ import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
 import AnonymousIconOutline from '../../../assets/images/icons/person-anonymous-slimmer-outline.svg'
 import AnonymousIconFill from '../../../assets/images/icons/person-anonymous-slimmer-fill.svg'
-import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
+import SinkingBoatIcon from '../../../assets/images/icons/sailing-boat-sinking.svg'
 import CommentRemovedIcon from 'frontend-lib/icons/message-rounded-rect-square-removed.svg'
 
 export default function getCommentFooterBadges({ dataSource, isOwnComment }) {

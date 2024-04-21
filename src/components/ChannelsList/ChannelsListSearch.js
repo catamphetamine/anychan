@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import ChannelsListSearchInput from './ChannelsListSearchInput.js'
-import { channelShape } from './ChannelsListBase.js'
+
+import { channelShape } from './ChannelsList.propTypes.js'
 
 import useMessages from '../../hooks/useMessages.js'
 

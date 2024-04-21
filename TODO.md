@@ -6,6 +6,8 @@ https://erischan.org/
 https://prolikewoah.com/
 https://alogs.space/
 
+* `getCommentLengthLimit()` — add `layout` parameter.
+
 * When searching in a thread, pinned threads are shown regardless of the search query. They should be shown only when they match.
 
 * Expand search input on wide screens initially by default.
@@ -191,8 +193,6 @@ api@4chan.org
 * UserData events log — turn off in production.
 
 * Add `Title` field when posting a new thread.
-
-* When a list of threads is fetched for displaying them in "tiles" mode, set `commentLengthLimitForThreadPreview` to be smaller.
 
 * When the user inputs something in the search bar on channels page, and then clicks the same channel link in sidebar, it should clear the search bar, or, better, maybe completely remount the page.
 

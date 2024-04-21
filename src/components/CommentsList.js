@@ -17,6 +17,7 @@ function CommentsList({
 	className,
 	...rest
 }) {
+	// `virtual-scroller` state.
 	const _stateRef = useRef()
 	const virtualScrollerState = stateRef || _stateRef
 	const onVirtualScrollerStateChange = useCallback(
@@ -24,16 +25,15 @@ function CommentsList({
 		[]
 	)
 
+	// Returns an initial state for a `virtual-scorller` item.
 	const getInitialItemState = useCallback((item) => {
-		let itemState = {
-			hidden: mode === 'channel' ? item.comments[0].hidden : item.hidden
-		}
-		if (transformInitialItemState) {
-			itemState = transformInitialItemState(itemState, item)
-		}
-		return itemState
+		return getCommentsListItemInitialState(item, {
+			mode,
+			transformInitialItemState
+		})
 	}, [
-		mode
+		mode,
+		transformInitialItemState
 	])
 
 	// `onItemInitialRender` property of `<VirtualScroller/>` shouldn't change
@@ -41,28 +41,15 @@ function CommentsList({
 	// That means that `getCommentById()` shouldn't change too.
 	const onItemInitialRender = useCallback(
 		(item) => {
-			const comment = getComment(item, mode)
-
-			// Parse comment content.
-			comment.parseContent({ getCommentById })
-
-			// Also parse the "latest comments" if the user is viewing a list of threads on a channel's page.
-			if (mode === 'channel') {
-				const thread = item
-				if (thread.latestComments) {
-					for (const latestComment of thread.latestComments) {
-						latestComment.parseContent({
-							getCommentById: createGetCommentByIdForLatestComments(thread)
-						})
-					}
-				}
-			}
+			onCommentInitialRender(item, { mode, getCommentById })
 		},
 		[mode, getCommentById]
 	)
 
 	const dispatch = useDispatch()
 
+	// Saves `virtual-scroller` state in Redux on navigate away from the page
+	// in case the user decides to navigate "Back" to this page.
 	useNavigationStartEffect(() => {
 		// console.log(`* On navigate from ${mode} page`)
 		if (isInstantBackAbleNavigation()) {
@@ -132,4 +119,46 @@ function createGetCommentByIdForLatestComments(thread) {
 		// in the list of "latest comments" because that list
 		// is just a "peek".
 	}
+}
+
+// This function should be called on a `thread` or a `comment` object
+// when it's about to be rendered for the first time.
+// This function is "idempotent" meaning that it could be called multiple times
+// with no futher effect.
+export function onCommentInitialRender(item, {
+	mode,
+	getCommentById
+}) {
+	const comment = getComment(item, mode)
+
+	// Parse comment content.
+	comment.parseContent({ getCommentById })
+
+	// Also parse the "latest comments" if the user is viewing a list of threads on a channel's page.
+	if (mode === 'channel') {
+		const thread = item
+		if (thread.latestComments) {
+			for (const latestComment of thread.latestComments) {
+				latestComment.parseContent({
+					getCommentById: createGetCommentByIdForLatestComments(thread)
+				})
+			}
+		}
+	}
+}
+
+// Returns an initial state for a `<CommentsList/>` item.
+export function getCommentsListItemInitialState(item, {
+	mode,
+	ignoreHiddenState,
+	transformInitialItemState
+}) {
+	let itemState = {}
+	if (!ignoreHiddenState) {
+		itemState.hidden = mode === 'channel' ? item.comments[0].hidden : item.hidden
+	}
+	if (transformInitialItemState) {
+		itemState = transformInitialItemState(itemState, item)
+	}
+	return itemState
 }

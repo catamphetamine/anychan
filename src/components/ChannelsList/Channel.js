@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import ChannelUrl from '../ChannelUrl.js'
 
-import { channelShape } from './ChannelsListBase.js'
+import { channelShape } from './ChannelsList.propTypes.js'
 
 import getUrl from '../../utility/getUrl.js'
 

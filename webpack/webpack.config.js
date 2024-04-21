@@ -56,6 +56,13 @@ export function createConfiguration({ development }) {
 					}]
 				},
 
+				// Load TypeScript `*.ts`/`*.tsx` files.
+				{
+					test: /\.tsx?$/,
+					exclude: /node_modules/,
+					use: 'ts-loader'
+				},
+
 				// Load CSS stylesheets.
 				{
 					test: /\.css$/,
@@ -158,7 +165,10 @@ export function createConfiguration({ development }) {
 			// Prevents Webpack from "expanding" symlinked paths inside `node_modules`
 			// to actual filesystem paths, so that `node_modules` from the main application
 			// directory are used instead of searching `node_modules` in the symlinked folders.
-			symlinks: false
+			symlinks: false,
+
+			// Support TypeScript files.
+			// extensions: ['.tsx', '.ts', '.js']
 		},
 
 		// Plugins will be added to this array by extending configurations.

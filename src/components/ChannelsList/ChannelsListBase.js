@@ -16,6 +16,8 @@ import useMultiDataSource from '../../hooks/useMultiDataSource.js'
 import ChannelsListSearch from './ChannelsListSearch.js'
 import ChannelsListViewSwitcher from './ChannelsListViewSwitcher.js'
 
+import { channelShape } from './ChannelsList.propTypes.js'
+
 import './ChannelsListBase.css'
 
 // `<Channels/>` are used in `pages/Channels.js`.
@@ -159,13 +161,6 @@ export default function ChannelsListBase({
 			}
 		</nav>
 	)
-}
-
-export const channelShape = {
-	id: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string,
-	commentsPerHour: PropTypes.number
 }
 
 ChannelsListBase.propTypes = {

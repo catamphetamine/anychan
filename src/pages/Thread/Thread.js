@@ -45,7 +45,7 @@ import useReRenderCommentsByIds from './useReRenderCommentsByIds.js'
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
-import SinkingBoatIcon from '../../../assets/images/icons/sinking-boat.svg'
+import SinkingBoatIcon from '../../../assets/images/icons/sailing-boat-sinking.svg'
 
 import './Thread.css'
 

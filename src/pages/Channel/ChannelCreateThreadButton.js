@@ -133,7 +133,7 @@ export default function ChannelCreateThreadButton({
 					ref={createThreadButton}
 					onClick={onShowForm}
 					className={classNames('ChannelCreateThreadButton', {
-						'ChannelCreateThreadButton--fill': background
+						'ChannelCreateThreadButton--onBackground': background
 					})}>
 					{messages.createThread}
 				</ButtonComponent>

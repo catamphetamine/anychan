@@ -27,8 +27,16 @@ function getCommentLengthLimitFactor(width) {
  * @param  {string} mode — One of: "channel", "thread".
  * @return {number}
  */
-export default function getCommentLengthLimit(mode) {
-	return Math.round((mode === 'channel' ? getConfiguration().commentLengthLimitForThreadPreview : getConfiguration().commentLengthLimit) * commentLengthLimitFactor)
+export default function getCommentLengthLimit({ mode, layout }) {
+	const maxLength = mode === 'channel'
+		? (
+			layout === 'tiles'
+				? getConfiguration().commentLengthLimitForThreadPreviewForTileLayout
+				: getConfiguration().commentLengthLimitForThreadPreview
+		)
+		: getConfiguration().commentLengthLimit
+
+	return Math.round(maxLength * commentLengthLimitFactor)
 }
 
 /**

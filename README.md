@@ -271,6 +271,12 @@ The default configuration can be found in `./configuration/default.json` file. A
   // Is `500` "points" by default.
   "commentLengthLimitForThreadPreview": 500,
 
+  // (on board pages when using tile layout)
+  // The maximum length of a thread comment (in "points")
+  // until a preview is generated for it and a "Read more" button is shown.
+  // Is `200` "points" by default.
+  "commentLengthLimitForThreadPreviewForTileLayout": 200,
+
   // How often should the application "poll" the data source for new data.
   // Contrary to "push" updates, "polling" is a technique for continuously
   // re-fetching the data from the data source to see if there're any updates.

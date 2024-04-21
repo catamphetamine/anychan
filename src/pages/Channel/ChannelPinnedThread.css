@@ -1,0 +1,5 @@
+.ChannelPinnedThread {
+	.CommentTree--nested {
+		--Comment-marginTop: var(--Comment-marginTop--nested);
+	}
+}

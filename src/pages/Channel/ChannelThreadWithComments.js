@@ -5,33 +5,28 @@ import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 
 import CommentTree from '../../components/CommentTree.js'
 
+import useGetCommentById from '../Thread/useGetCommentById.js'
+
 export default function ChannelThreadWithComments({
 	thread,
 	state,
 	setState,
 	onHeightDidChange,
-	commonProps
+	commonProps,
+	getCommentById
 }) {
-	const getCommentById = useCallback((commentId) => {
-		if (thread.comments[0].id === commentId) {
-			return thread.comments[0]
-		}
-		if (thread.latestComments) {
-			for (const comment of thread.latestComments) {
-				if (comment.id === commentId) {
-					return comment
-				}
-			}
-		}
-	}, [thread])
-
 	const initialState = useMemo(() => state, [])
+
+	const {
+		id: threadId,
+		isFirstThreadInTheList
+	} = thread
 
 	const getComponentProps = useCallback(() => {
 		return {
 			...commonProps,
-			threadId: thread.id,
-			isFirstThreadInTheList: thread.isFirstThreadInTheList,
+			threadId,
+			isFirstThreadInTheList,
 			showRepliesCount: false,
 			postDateLinkClickable: false,
 			postDateLinkUpdatePageUrlToPostUrlOnClick: false,
@@ -41,7 +36,10 @@ export default function ChannelThreadWithComments({
 		}
 	}, [
 		commonProps,
-		thread.id
+		// * `thread` object reference will change on a thread page when auto-refreshing a thread.
+		// * `thread` object reference is not supposed to change on a channel page.
+		threadId,
+		isFirstThreadInTheList
 	])
 
 	// `initialShowReplies` property is not used here

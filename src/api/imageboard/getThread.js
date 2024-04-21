@@ -16,7 +16,7 @@ export default async function getThreadFromImageboard(imageboard, {
 		parseContent: false,
 		// Add `.parseContent()` function to each `comment`.
 		addParseContent: true,
-		commentLengthLimit: getCommentLengthLimit('thread'),
+		commentLengthLimit: getCommentLengthLimit({ mode: 'thread' }),
 		archived,
 		// `afterCommentId`/`afterCommentsCount` feature is not currently used.
 		afterCommentId,

@@ -32,7 +32,7 @@
 	margin-right: 0.25em;
 }
 
-.ShowPrevious-button--fill {
+.ShowPrevious-button--onBackground {
 	height: var(--Button-height--singleLine);
 
 	--Button-opacity: var(--OnBackground-opacity--clickable);

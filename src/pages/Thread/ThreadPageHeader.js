@@ -24,6 +24,9 @@ import BoxIcon from 'frontend-lib/icons/box.svg'
 import LockIcon from 'frontend-lib/icons/lock.svg'
 import GhostIcon from 'frontend-lib/icons/ghost-neutral-cross-eyes-mouth-tongue.svg'
 
+import SailingBoatIcon from '../../../assets/images/icons/sailing-boat.svg'
+import SinkingBoatIcon from '../../../assets/images/icons/sailing-boat-sinking.svg'
+
 import './ThreadPageHeader.css'
 
 export default function ThreadPageHeader({
@@ -86,12 +89,30 @@ export default function ThreadPageHeader({
 						</>
 					}
 					{!thread.locked &&
-						<ThreadActivityIndicator
-							thread={thread}
-							tooltipOffsetTop={4}
-							tooltipAnchor="bottom"
-							className="ThreadPageHeader-activityIndicator"
-						/>
+						<>
+							{/* When fetching a `thread` for a thread page, there're no properties
+							    on the `thread` object that would tell what position does the thread have
+							    in the channel catalog. Hence, there seems to be no way to tell
+							    if a thread is reaching the bump limit or not, its position in the list, etc. */}
+							{false && !thread.bumpLimitReached &&
+								<ThreadStatusIcon
+									title="Thread position in catalog: N of M"
+									Icon={SailingBoatIcon}
+								/>
+							}
+							{thread.bumpLimitReached &&
+								<ThreadStatusIcon
+									title={messages.threadBumpLimitReached}
+									Icon={SinkingBoatIcon}
+								/>
+							}
+							<ThreadActivityIndicator
+								thread={thread}
+								tooltipOffsetTop={4}
+								tooltipAnchor="bottom"
+								className="ThreadPageHeader-activityIndicator"
+							/>
+						</>
 					}
 				</>
 			}
