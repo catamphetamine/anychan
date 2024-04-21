@@ -8,10 +8,10 @@ import enBase from 'frontend-lib/messages/en.json' assert { type: 'json' }
 import nlBase from 'frontend-lib/messages/nl.json' assert { type: 'json' }
 import ruBase from 'frontend-lib/messages/ru.json' assert { type: 'json' }
 
-import deSocial from 'social-components/messages/de.json' assert { type: 'json' }
-import enSocial from 'social-components/messages/en.json' assert { type: 'json' }
-import nlSocial from 'social-components/messages/nl.json' assert { type: 'json' }
-import ruSocial from 'social-components/messages/ru.json' assert { type: 'json' }
+import deSocial from 'social-components/messages/de.json' // assert { type: 'json' }
+import enSocial from 'social-components/messages/en.json' // assert { type: 'json' }
+import nlSocial from 'social-components/messages/nl.json' // assert { type: 'json' }
+import ruSocial from 'social-components/messages/ru.json'//  assert { type: 'json' }
 
 import deSocialReact from 'social-components-react/messages/de.json' assert { type: 'json' }
 import enSocialReact from 'social-components-react/messages/en.json' assert { type: 'json' }

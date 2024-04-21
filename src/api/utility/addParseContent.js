@@ -1,8 +1,13 @@
-import generatePostPreview from 'social-components/utility/post/generatePostPreview.js'
-import transformContent from 'social-components/utility/post/transformContent.js'
-import visitPostParts from 'social-components/utility/post/visitPostParts.js'
-import censorWords from 'social-components/utility/post/censorWords.js'
-import trimInlineContent from 'social-components/utility/post/trimInlineContent.js'
+import {
+	generatePostPreview
+ } from 'social-components/post'
+
+ import {
+	censorWords,
+	transformContent,
+	visitContentParts,
+	trimInlineContent
+ } from 'social-components/content'
 
 import transformText from './transformText.js'
 import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
@@ -87,7 +92,7 @@ export default function addParseContent(comment, {
 		// (for example, when running on the `anychan` demo website)
 		if (dataSource.id === 'kohlchan') {
 			if (comment.content) {
-				visitPostParts('emoji', (emoji) => {
+				visitContentParts('emoji', (emoji) => {
 					if (emoji.url) {
 						emoji.url = getFinalUrl(emoji.url, { dataSource })
 					}
@@ -241,7 +246,7 @@ export default function addParseContent(comment, {
  */
 function setPostLinkProps(comment) {
 	let i = 1
-	visitPostParts('post-link', (postLink) => {
+	visitContentParts('post-link', (postLink) => {
 		// Set `post-link` ids. This is to identify them later
 		// when restoring `VirtualScroller` state on scroll or
 		// "Back" navigation so that those that were expanded

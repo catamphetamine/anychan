@@ -1,4 +1,4 @@
-import compileWordPatterns from 'social-components/utility/post/compileWordPatterns.js'
+import { compileWordPatterns } from 'social-components/text'
 
 import getLanguageFromLocale from '../getLanguageFromLocale.js'
 import getCensoredWordsByLanguage from '../getCensoredWordsByLanguage.js'

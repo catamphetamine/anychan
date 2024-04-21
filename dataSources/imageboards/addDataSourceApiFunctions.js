@@ -1,6 +1,6 @@
 import Imageboard_, { getConfig } from 'imageboard'
 
-import Imageboard from '../../src/api/imageboard/Imageboard.js'
+import Imageboard from '../../src/api/imageboard/Imageboard.ts'
 import getProxyUrl from '../../src/utility/proxy/getProxyUrl.js'
 
 import getChannelsApi from '../../src/api/imageboard/getChannels.js'

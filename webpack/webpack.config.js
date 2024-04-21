@@ -168,7 +168,7 @@ export function createConfiguration({ development }) {
 			symlinks: false,
 
 			// Support TypeScript files.
-			// extensions: ['.tsx', '.ts', '.js']
+			extensions: ['.tsx', '.ts', '.js']
 		},
 
 		// Plugins will be added to this array by extending configurations.

@@ -1,3 +1,30 @@
+`imageboard/lib/parseContent.js`
+
+	if (!hasBeenCalledBefore || contentDidChange) {
+		if (commentLengthLimit) {
+			comment.contentPreview = createContentPreview(comment, {
+				maxLength: commentLengthLimit,
+				minimizeGeneratedPostLinkBlockQuotes
+			})
+		}
+	}
+
+	/**
+	 * Generates a `.contentPreview` from `comment`'s `.content`.
+	 * @param {object} comment
+	 * @param {number} [maxLength] — Content preview length "soft" limit (in "points"). By default, it equals to `commentLengthLimit` configuration parameter.
+	 * @return {Content} [contentPreview]
+	 */
+	comment.createContentPreview = ({ maxLength = commentLengthLimit }) => {
+		return createContentPreview(comment, {
+			maxLength,
+			minimizeGeneratedPostLinkBlockQuotes
+		})
+	}
+
+
+
+
 
 https://anon.cafe/
 https://tvch.moe/

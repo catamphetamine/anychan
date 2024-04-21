@@ -1,4 +1,4 @@
-import YouTubeResourceTestWithApiKey from 'social-components/utility/post/YouTubeResourceTestWithApiKey.js'
+import { YouTubeResourceTestWithApiKey } from 'social-components/resource'
 import getConfiguration from '../configuration.js'
 
 describe('loadYouTubeLinks', () => {

@@ -1,4 +1,4 @@
-import getPostText from 'social-components/utility/post/getPostText.js'
+import { getPostText } from 'social-components/post'
 
 /**
  * Returns comment `content` converted into text.

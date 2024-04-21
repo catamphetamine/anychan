@@ -259,7 +259,7 @@ The default configuration can be found in `./configuration/default.json` file. A
   // If `cookiePolicyUrl` is set, then a "Learn More" link
   // will be shown in the GDPR Cookie Notice.
   // This is gonna be the URL of the link.
-  "cookiePolicyUrl": "http://example.com/cookie-policy.html",
+  "cookiePolicyUrl": "https://example.com/cookie-policy.html",
 
   // (on thread pages) The maximum length of a thread comment (in "points")
   // until a preview is generated for it and a "Read more" button is shown.
@@ -306,9 +306,12 @@ The default configuration can be found in `./configuration/default.json` file. A
   // Default theme `id`.
   "defaultTheme": "yellow-sea",
 
-  // Custom "default settings".
-  // Any "default settings" defined here will be merged
-  // with the default "default settings".
+  // When the user goes to "Settings" page, they can modify the application's settings.
+  // By default, there're already some settings pre-selected.
+  // Those settings are called "default application settings".
+  // To customize those "default application settings" for all users,
+  // one can supply this `defaultSettings` configuration parameter:
+  // any properies from it will override the ones defined in the "default application settings".
   "defaultSettings": {
     "censorWords": false
   },
@@ -554,6 +557,8 @@ After the initial setup has been completed, the application could be run via:
 ```
 yarn run dev
 ```
+
+Because this project uses TypeScript, the initial start-up time is long.
 
 Wait for it to load and go to [`http://localhost:1234/4chan`](http://localhost:1234/4chan)
 

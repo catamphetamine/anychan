@@ -1,4 +1,4 @@
-import trimText from 'social-components/utility/post/trimText.js'
+import { trimText } from 'social-components/text'
 
 import getCommentText from './getCommentText.js'
 

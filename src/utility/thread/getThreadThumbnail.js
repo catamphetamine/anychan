@@ -1,11 +1,10 @@
-import hasAttachmentPicture from 'social-components/utility/attachment/hasPicture.js'
-import getThumbnailSize from 'social-components/utility/attachment/getThumbnailSize.js'
+import { doesAttachmentHavePicture, getAttachmentThumbnailSize } from 'social-components/attachment'
 
 export default function getThreadThumbnail(thread) {
 	const thumbnailAttachment = thread.comments[0].attachments &&
-			thread.comments[0].attachments.filter(hasAttachmentPicture)[0]
+			thread.comments[0].attachments.filter(doesAttachmentHavePicture)[0]
 	if (thumbnailAttachment) {
-		const thumbnail = getThumbnailSize(thumbnailAttachment)
+		const thumbnail = getAttachmentThumbnailSize(thumbnailAttachment)
 		const threadThumbnail = {
 			type: thumbnail.type,
 			url: thumbnail.url,

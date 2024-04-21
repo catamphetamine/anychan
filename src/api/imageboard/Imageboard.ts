@@ -10,9 +10,15 @@ import getConfiguration from '../../configuration.js'
 
 import { getCookie } from 'frontend-lib/utility/cookies.js'
 
-export default function Imageboard_(dataSource, {
+import type { HttpRequestError } from 'imageboard'
+import type { DataSource, Messages } from '@/types'
+
+export default function Imageboard_(dataSource: DataSource, {
 	messages,
 	getProxyUrl
+}: {
+	messages: Messages,
+	getProxyUrl: () => string
 }) {
 	const isUsingCorsProxy = shouldUseProxy({ dataSource })
 
@@ -25,7 +31,7 @@ export default function Imageboard_(dataSource, {
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
-		getSetCookieHeaders({ headers }) {
+		getSetCookieHeaders({ headers }: { headers: Headers }) {
 			// See if the `fetch()` response headers allow reading `set-cookie` header.
 			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
 			if (headers.getSetCookie().length > 0) {
@@ -41,7 +47,7 @@ export default function Imageboard_(dataSource, {
 			return []
 		},
 		useRelativeUrls: isDeployedOnDataSourceDomain(dataSource),
-		request: async (method, url, { body, headers, cookies }) => {
+		request: async (method, url, { body: bodyObject, headers, cookies }) => {
 			// It can follow redirects for read-only REST API
 			// because that could be used if the website URL configuration has changed
 			// and some data now resides at a different location.
@@ -72,7 +78,7 @@ export default function Imageboard_(dataSource, {
 			const shouldFollowRedirects = false
 
 			if (isUsingCorsProxy) {
-				headers['x-follow-redirect'] = shouldFollowRedirects
+				headers['x-follow-redirect'] = String(shouldFollowRedirects)
 			}
 
 			// Not following redirects automatically for GET requests
@@ -103,15 +109,17 @@ export default function Imageboard_(dataSource, {
 				headers['x-redirect-status'] = '200'
 			}
 
+			let body: string | FormData
+
 			// If request "Content-Type" is set to be "multipart/form-data",
 			// convert the `body` object to a `FormData` instance.
 			if (headers['content-type'] === 'multipart/form-data') {
-				body = createFormData(body)
+				body = createFormData(bodyObject)
 				// Remove `Content-Type` header so that it autogenerates it from the `FormData`.
 				// Example: "multipart/form-data; boundary=----WebKitFormBoundaryZEglkYA7NndbejbB".
 				delete headers['content-type']
 			} else {
-				body = JSON.stringify(body)
+				body = JSON.stringify(bodyObject)
 			}
 
 			// Proxy the URL (if required).
@@ -261,8 +269,8 @@ export default function Imageboard_(dataSource, {
 
 // Creates an error from a `fetch()` response.
 // Returns a `Promise` and rejects it with the error.
-function rejectWithErrorForResponse(response, { status, isUsingCorsProxy }) {
-	const error = new Error(response.statusText)
+function rejectWithErrorForResponse(response: Response, { status, isUsingCorsProxy }: { status: number, isUsingCorsProxy: boolean }) {
+	const error: HttpRequestError = new Error(response.statusText) as HttpRequestError
 	error.url = getFinalUrl(response, { isUsingCorsProxy })
 	error.status = status || response.status
 	error.headers = response.headers
@@ -278,7 +286,7 @@ function rejectWithErrorForResponse(response, { status, isUsingCorsProxy }) {
 }
 
 // Converts an object to a `FormData` instance.
-function createFormData(body) {
+function createFormData(body: Record<string, any>) {
   // * For 'multipart/form-data', use `FormData` class.
   // * For 'application/x-www-form-urlencoded', use `URLSearchParams` class.
 	const formData = new FormData()
@@ -300,7 +308,7 @@ function createFormData(body) {
 
 // If there were any redirects in the process,
 // returns the final "redirected to" URL.
-function getFinalUrl(response, { isUsingCorsProxy }) {
+function getFinalUrl(response: Response, { isUsingCorsProxy }: { isUsingCorsProxy: boolean }) {
 	let url = response.url
 	// When using a CORS proxy that automatically follows redirects,
 	// `response.url` will be the initial URL and won't be the final URL.

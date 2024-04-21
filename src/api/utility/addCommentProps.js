@@ -1,5 +1,4 @@
-import censorWords from 'social-components/utility/post/censorWords.js'
-import getInlineContentText from 'social-components/utility/post/getInlineContentText.js'
+import { censorWords, getInlineContentText } from 'social-components/content'
 
 import addParseContent from './addParseContent.js'
 import addCommentTextFunctions from './addCommentTextFunctions.js'

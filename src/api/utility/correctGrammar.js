@@ -1,4 +1,4 @@
-import { LETTER } from 'social-components/utility/post/compileWordPatterns.js'
+import { LETTER_PATTERN_BY_LANGUAGE } from 'social-components/text'
 
 // Doesn't support transforming: "Раз.Два" -> "Раз. Два".
 // // https://github.com/typograf/typograf
@@ -22,7 +22,7 @@ export default function correctGrammar(text, {
 	// 	return typograf.execute(text)
 	// }
 
-	const letter = language && LETTER[language] || LETTER.default
+	const letter = language && LETTER_PATTERN_BY_LANGUAGE[language] || LETTER_PATTERN_BY_LANGUAGE.default
 	text = text
 		// ` -- ` -> ` — ` (converts double dash to long dash)
 		.replace(/\s+--\s+/g, ' — ')
@@ -66,13 +66,13 @@ export default function correctGrammar(text, {
 		const uppercaseLetter = letter.toUpperCase()
 		text = text
 			// `\n.A` -> `\nА` (removes a comma in the start)
-			.replace(new RegExp(`^\\.([${letter.toUpperCase()}])`, 'g'), '$1')
+			.replace(new RegExp(`^\\.([${uppercaseLetter}])`, 'g'), '$1')
 			// `one.Two` -> `one. Two`
 			// `one?Two` -> `one? Two`
 			// (limited to ASCII because javascript doesn't support Unicode regexps yet)
-			.replace(new RegExp(`([${letter}][\\.!?])([${letter.toUpperCase()}][${letter} ])`, 'g'), '$1 $2')
+			.replace(new RegExp(`([${letter}][\\.!?])([${uppercaseLetter}][${letter} ])`, 'g'), '$1 $2')
 			// `...` -> `…`
-			.replace(new RegExp(`([${letter}${letter.toUpperCase()}])\\.\\.\\.`, 'g'), '$1…')
+			.replace(new RegExp(`([${letter}${uppercaseLetter}])\\.\\.\\.`, 'g'), '$1…')
 	}
 	return text
 }

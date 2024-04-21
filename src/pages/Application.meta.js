@@ -1,4 +1,4 @@
-import getPostText from 'social-components/utility/post/getPostText.js'
+import { getPostText } from 'social-components/post'
 
 export default function getApplicationMeta({ useSelector }) {
 	const dataSourceInfoForMeta = useSelector(state => state.app.dataSourceInfoForMeta)

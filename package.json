@@ -6,7 +6,7 @@
   "version": "0.3.0",
   "scripts": {
     "start": "npm run dev",
-    "dev": "node --experimental-json-modules node_modules/webpack/bin/webpack serve --port 1234 --hot --history-api-fallback --module-strict-export-presence --stats-errors --stats-error-details true --mode development --config webpack/webpack.config.js",
+    "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm --experimental-json-modules node_modules/webpack/bin/webpack serve --port 1234 --hot --history-api-fallback --module-strict-export-presence --stats-errors --stats-error-details true --mode development --config webpack/webpack.config.js",
     "build": "npm-run-all build:clean build:create",
     "build:create": "npm-run-all build:bundle build:copy-readme build:move-index-html create-announcement-json",
     "build:clean": "rimraf build",
@@ -20,7 +20,8 @@
     "create-404-page": "cpy build/index.html build --flat --rename=404.html",
     "copy-demo-website-files": "cpy website/** build",
     "create-announcement-json": "echo {} > build/announcement.json",
-    "test": "node --experimental-json-modules node_modules/mocha/bin/_mocha --require ./test/setup.js --reporter spec --colors --bail --exit --recursive \"./{,!(node_modules)/**/}*.test.js\""
+    "test": "mocha --import=tsx --require ./test/setup.js --reporter spec --colors --bail --exit --recursive \"./{,!(node_modules)/**/}*.test.js\"",
+    "test-with-type-check": "node --no-warnings=ExperimentalWarning --loader ts-node/esm node_modules/mocha/bin/_mocha --require ./test/setup.js --reporter spec --colors --bail --exit --recursive \"./{,!(node_modules)/**/}*.test.js\""
   },
   "dependencies": {
     "@catamphetamine/id3js": "^1.0.1",
@@ -35,7 +36,7 @@
     "file-saver": "^2.0.5",
     "filesize": "^10.1.1",
     "flexible-json-schema": "^0.12.12",
-    "imageboard": "^0.7.4",
+    "imageboard": "^0.8.0",
     "intl-messageformat": "^10.5.11",
     "javascript-time-ago": "^2.5.10",
     "lodash-es": "^4.17.21",
@@ -53,7 +54,7 @@
     "regenerator-runtime": "^0.14.1",
     "request-animation-frame-timeout": "^1.0.0",
     "simplebar-react": "^3.2.4",
-    "social-components": "^0.3.11",
+    "social-components": "^0.4.1",
     "virtual-scroller": "^1.12.4",
     "web-browser-input": "^0.2.1",
     "web-browser-storage": "^0.1.11",
@@ -104,6 +105,8 @@
     "swc-loader": "^0.2.6",
     "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.2",
     "typescript": "^5.4.5",
     "universal-webpack": "^0.8.5",
     "url-loader": "^4.1.1",

@@ -10,8 +10,8 @@ import {
 import TextButton from '../TextButton.js'
 import { FormComponent, FormLabel } from '../Form.js'
 
-import censorWords from 'social-components/utility/post/censorWords.js'
-import compileWordPatterns from 'social-components/utility/post/compileWordPatterns.js'
+import { compileWordPatterns } from 'social-components/text'
+import { censorWords } from 'social-components/content'
 
 import { Content } from 'social-components-react/components/PostContent.js'
 

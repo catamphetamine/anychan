@@ -1,4 +1,4 @@
-import { getPostThumbnailSize } from 'social-components/utility/post/getPostThumbnailAttachment.js'
+import { getPostThumbnailSize } from 'social-components/post'
 
 /**
  * Updates the current `attachmentThumbnailMaxWidth` from the new comments.

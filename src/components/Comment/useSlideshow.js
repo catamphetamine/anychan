@@ -5,7 +5,7 @@ import { isSlideSupported } from 'social-components-react/components/Slideshow.j
 
 import { openSlideshow } from '../../redux/slideshow.js'
 
-import getSortedAttachments from 'social-components/utility/post/getSortedAttachments.js'
+import { getSortedAttachments } from 'social-components/post'
 
 export default function useSlideshow({
 	comment

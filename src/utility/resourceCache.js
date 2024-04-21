@@ -1,4 +1,4 @@
-import ResourceCache from 'social-components/utility/cache/ResourceCache.js'
+import { ResourceCache } from 'social-components/cache'
 
 import Storage from './storage/Storage.js'
 
