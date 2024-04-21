@@ -9223,6 +9223,14 @@ social-components@^0.4.1:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
+social-components@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.2.tgz#73aff90101e24394ee4c8e00b0e40dde1de0e643"
+  integrity sha512-QymNyRTFegRsRXJSxEp/TtHha62zG5oh7SZmYJAYHIDmsBoJ4QxW5ww+YVGm0aW8xgxrrWhxJdeZ4ttU8KCvcA==
+  dependencies:
+    fetch-jsonp "^1.2.1"
+    lodash "^4.17.15"
+
 sockjs@^0.3.24:
   version "0.3.24"
   resolved "https://registry.yarnpkg.com/sockjs/-/sockjs-0.3.24.tgz#c9bc8995f33a111bea0395ec30aa3206bdb5ccce"

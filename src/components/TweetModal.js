@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-ui'
 import Button from 'frontend-lib/components/Button.js'
 
-import { renderTweet } from 'social-components/service'
+import { renderTweet } from 'social-components/services/twitter'
 import { openLinkInNewTab } from 'web-browser-input'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
