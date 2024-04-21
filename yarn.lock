@@ -6486,16 +6486,16 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.8.0.tgz#3896572e0bf03c0c35d625482686fa61f6d51ede"
-  integrity sha512-ka6G8DI9A6vn1eSmpvCB3sR0lHYpn4ul8wpdZkMhVRMpCPwG+EbVCdhH6drIrMpYsu4B0OgMGVypFCxQEaI96A==
+imageboard@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.8.1.tgz#8774fbe7bc6dbaaa78ef2ab812bc23986f8b0682"
+  integrity sha512-GvRB5dl0nclXBo5fX62RIr/j5ogmKO57Udogm1o/eIDHXDx8fe8UCJUFreCtR6wFslD8uYwbSSUuEHWC6lZi1w==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
     lodash "^4.17.21"
     set-cookie-parser "^2.6.0"
-    social-components "^0.4.1"
+    social-components "^0.4.3"
     social-components-parser "^0.3.1"
 
 immediate@~3.0.5:
@@ -9223,10 +9223,10 @@ social-components@^0.4.1:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
-social-components@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.2.tgz#73aff90101e24394ee4c8e00b0e40dde1de0e643"
-  integrity sha512-QymNyRTFegRsRXJSxEp/TtHha62zG5oh7SZmYJAYHIDmsBoJ4QxW5ww+YVGm0aW8xgxrrWhxJdeZ4ttU8KCvcA==
+social-components@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.3.tgz#56fc7819f0ad53a1ecf459d195a4c07e4b45d2b0"
+  integrity sha512-re5SfMPRZ1BzC1RY7ThGpfh+hEXAxULq+CqF4YXJ12YXPHfs9SQIjIebd8yA163ajSzrzl21mzufadCLzUXKpA==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
