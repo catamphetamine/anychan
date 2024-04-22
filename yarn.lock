@@ -8436,10 +8436,10 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-focus-lock@2.11.3:
-  version "2.11.3"
-  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.11.3.tgz#a7c98b4ab11fd270d78f90a7c9a9e69352c2af6d"
-  integrity sha512-CfWYS86y6KvAIGxYzO1/HlWI2zGON9Fa3L2xfREDGMNFAtYj3m/ZRvnsMH4H75dj5FpgDy2LWA1Vyx+twV80vw==
+react-focus-lock@^2.12.1:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.12.1.tgz#0eaefd5fc34de8998967043d902e426352393349"
+  integrity sha512-lfp8Dve4yJagkHiFrC1bGtib3mF2ktqwPJw4/WGcgPW+pJ/AVQA5X2vI7xgp13FcxFEpYBBHpXai/N2DBNC0Jw==
   dependencies:
     "@babel/runtime" "^7.0.0"
     focus-lock "^1.3.5"
@@ -9227,6 +9227,14 @@ social-components@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.3.tgz#56fc7819f0ad53a1ecf459d195a4c07e4b45d2b0"
   integrity sha512-re5SfMPRZ1BzC1RY7ThGpfh+hEXAxULq+CqF4YXJ12YXPHfs9SQIjIebd8yA163ajSzrzl21mzufadCLzUXKpA==
+  dependencies:
+    fetch-jsonp "^1.2.1"
+    lodash "^4.17.15"
+
+social-components@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.4.tgz#ac6baf96d69c2a4f44b4416465149ed9e31c57e4"
+  integrity sha512-rDHsYfC+G0AQ3ceCqEBORKN1aYczNCGu/mLeGBciSx5ZDZUYd5GufKABA3lKQxr+ZD3e29Kpl+87VSA2AfBXJA==
   dependencies:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"

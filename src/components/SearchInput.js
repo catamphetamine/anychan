@@ -6,11 +6,16 @@ import { TextInput } from 'react-responsive-ui'
 
 import LoadingEllipsis from 'social-components-react/components/LoadingEllipsis.js'
 
+import SearchIconOutline from 'frontend-lib/icons/fill-and-outline/search-outline.svg'
+
 import './SearchInput.css'
 
 function SearchInput({
 	value,
 	onChange,
+	icon,
+	placeholder,
+	'aria-label': ariaLabel,
 	items,
 	getItemTextLowerCase,
 	onResults,
@@ -190,6 +195,11 @@ function SearchInput({
 		<div className={classNames(className, 'SearchInput', {
 			'SearchInput--empty': isEmpty
 		})}>
+			{icon &&
+				<SearchIconOutline
+					className="SearchInput-icon"/>
+			}
+
 			<TextInput
 				ref={ref}
 				value={value}
@@ -197,7 +207,11 @@ function SearchInput({
 				type="search"
 				onKeyDown={onKeyDown}
 				onBlur={onBlur}
-				className={classNames(inputClassName, 'SearchInput-input')}
+				aria-label={ariaLabel}
+				placeholder={placeholder}
+				className={classNames(inputClassName, 'SearchInput-input', {
+					'SearchInput-input--withIcon': icon
+				})}
 			/>
 
 			{isSearching && (
@@ -215,6 +229,10 @@ SearchInput = React.forwardRef(SearchInput)
 SearchInput.propTypes = {
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
+
+	icon: PropTypes.bool,
+
+	placeholder: PropTypes.string,
 
 	// A list of items to search in.
 	items: PropTypes.arrayOf(PropTypes.any).isRequired,

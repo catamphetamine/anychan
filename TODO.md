@@ -1,31 +1,3 @@
-`imageboard/lib/parseContent.js`
-
-	if (!hasBeenCalledBefore || contentDidChange) {
-		if (commentLengthLimit) {
-			comment.contentPreview = createContentPreview(comment, {
-				maxLength: commentLengthLimit,
-				minimizeGeneratedPostLinkBlockQuotes
-			})
-		}
-	}
-
-	/**
-	 * Generates a `.contentPreview` from `comment`'s `.content`.
-	 * @param {object} comment
-	 * @param {number} [maxLength] — Content preview length "soft" limit (in "points"). By default, it equals to `commentLengthLimit` configuration parameter.
-	 * @return {Content} [contentPreview]
-	 */
-	comment.createContentPreview = ({ maxLength = commentLengthLimit }) => {
-		return createContentPreview(comment, {
-			maxLength,
-			minimizeGeneratedPostLinkBlockQuotes
-		})
-	}
-
-
-
-
-
 https://anon.cafe/
 https://tvch.moe/
 https://smuglo.li/
@@ -33,21 +5,7 @@ https://erischan.org/
 https://prolikewoah.com/
 https://alogs.space/
 
-* `getCommentLengthLimit()` — add `layout` parameter.
-
-* When searching in a thread, pinned threads are shown regardless of the search query. They should be shown only when they match.
-
-* Expand search input on wide screens initially by default.
-
-* See `assets/manifest.json` — during build, it should create a `manifest.json` from that file in each dataSource folder. Also create 512px logo images for each dataSource.
-
-* Enable PWA mode.
-
-* Some textual elements/buttons aren't eligible when using a custom background image: "Create Thread" button on channel page, footer links, copyright text, "Auto-update in XX sec", "Write a comment..." form placeholder. Maybe add background color to those elements + border + border-radius.
-
-* When showing a list of threads in "tiles" view, generate content preview that is shorter: no longer than XXX, and maybe don't bypass the threshold even if the rest text amount is small.
-
-* On large screens, expand the search icon into a field initially automatically.
+* Test PWA.
 
 * In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
 

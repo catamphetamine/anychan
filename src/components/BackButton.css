@@ -29,6 +29,11 @@
 	border-right: 1px solid transparent;
 	transition: all 60ms;
 
+	--Button-backgroundColor--hover: var(--BackButton-backgroundColor--hover);
+	--Button-backgroundColor--focus: var(--BackButton-backgroundColor--focus);
+	--Button-borderRightColor--hover: var(--BackButton-borderColor--hover);
+	--Button-borderRightColor--focus: var(--BackButton-borderColor--hover);
+
 	&.BackButton--active,
 	/*&:focus,*/
 	&:active {
@@ -39,11 +44,14 @@
 		}
 	}
 
+	&.BackButton--hover {
+		background-color: var(--Button-backgroundColor--hover);
+		border-right-color: var(--Button-borderRightColor--hover);
+	}
+
 	&.BackButton--hover,
-	&:hover {
-		/*color: var(--Clickable-color--text);*/
-		background-color: var(--BackButton-backgroundColor--hover);
-		border-right: 1px solid var(--BackButton-borderColor--hover);
+	&:hover,
+	&:focus {
 		.BackButtonIcon--leftArrow {
 			&:before {
 				transform: translateX(10%) translateY(20%) rotate(-35deg);

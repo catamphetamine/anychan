@@ -16,22 +16,24 @@ export default function ChannelPageTop({
 }) {
 	return (
 		<div className={classNames('ChannelPageTop', {
-			'ChannelPageTop--withPinnedThreads': pinnedThreads.length > 0
+			'ChannelPageTop--withPinnedThreads': pinnedThreads && pinnedThreads.length > 0
 		})}>
 			<ChannelCreateThreadButton
 				channelId={channel.id}
 				channelIsNotSafeForWork={channel.notSafeForWork}
 			/>
-			<ChannelPinnedThreads
-				threads={pinnedThreads}
-				threadComponentProps={threadComponentProps}
-			/>
+			{pinnedThreads && pinnedThreads.length > 0 &&
+				<ChannelPinnedThreads
+					threads={pinnedThreads}
+					threadComponentProps={threadComponentProps}
+				/>
+			}
 		</div>
 	)
 }
 
 ChannelPageTop.propTypes = {
 	channel: channelType.isRequired,
-	pinnedThreads: PropTypes.arrayOf(threadType).isRequired,
-	threadComponentProps: PropTypes.object.isRequired
+	pinnedThreads: PropTypes.arrayOf(threadType),
+	threadComponentProps: PropTypes.object
 }

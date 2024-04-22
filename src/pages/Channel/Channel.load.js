@@ -34,6 +34,7 @@ export default async function loadChannelPage({
 }) {
 	const threads = await getThreads({
 		channelId,
+		channelLayout,
 		censoredWords,
 		grammarCorrection,
 		locale,
@@ -62,6 +63,7 @@ export default async function loadChannelPage({
 	// when switching between different `channelLayout` / `channelSorting` modes.
 	//
 	// const { threads } = await dispatch(getThreadsAction(channelId, {
+	//  channelLayout,
 	// 	censoredWords,
 	// 	grammarCorrection,
 	// 	locale,

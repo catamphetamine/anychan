@@ -19,9 +19,16 @@
 	display: flex;
 	align-content: center;
 	justify-content: center;
-	margin-top: calc(var(--unit) * 6);
+
+	margin-top: calc(var(--unit) * 4);
+	/* Added some padding because it has a `background-color`
+	   when rendered above a background pattern. */
+	padding-top: calc(var(--unit) * 2);
+	padding-bottom: calc(var(--unit) * 2);
+
 	font-size: 2.5rem;
 	color: inherit;
+
 	@mixin upto-s {
 		font-size: 2rem;
 		margin-top: calc(var(--unit) * 3);
@@ -40,8 +47,9 @@
 }
 
 .HomePage-description {
-	margin-top: calc(var(--unit) * 6);
+	margin-top: calc(var(--unit) * 4);
 	margin-bottom: 0;
+
 	@mixin upto-s {
 		margin-top: calc(var(--unit) * 3);
 	}
@@ -66,5 +74,21 @@
 		margin-left: auto;
 		margin-right: auto;
 		color: var(--Clickable-color--text);
+	}
+}
+
+.HomePage--onBackground {
+	&:before {
+		position: absolute;
+		width: calc(100% + var(--Webpage-paddingLeft-width) + var(--Webpage-paddingRight-width));
+		height: calc(100% + var(--Footer-marginTop--onBackground));
+		margin-left: calc(-1 * var(--Webpage-paddingLeft-width));
+		margin-right: calc(-1 * var(--Webpage-paddingRight-width));
+		background-color: var(--OnBackground-backgroundColor);
+		opacity: var(--OnBackground-opacity--content);
+		top: 0;
+		left: 0;
+		z-index: -1;
+		content: '';
 	}
 }

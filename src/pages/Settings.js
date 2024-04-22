@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
+// import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 import Heading from '../components/Heading.js'
@@ -91,13 +91,12 @@ function Settings({
 	const dispatch = useDispatch()
 	const userSettings = useSettings()
 	const messages = useMessages()
-	const locale = useLocale()
 	const measure = useMeasure()
 	const dataSource = useDataSource()
 
 	const onSetDarkMode = useCallback((value) => {
 		// Apply `.dark`/`.light` CSS class to `<body/>`.
-		applyDarkMode(darkMode)
+		applyDarkMode(value)
 		dispatch(setDarkMode(value))
 		measure()
 	}, [

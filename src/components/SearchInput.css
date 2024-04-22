@@ -1,6 +1,8 @@
 :root {
 	--SearchInput-backgroundColor: transparent;
 	--SearchInputLoading-width: var(--unit);
+	--SearchInputIcon-width: var(--unit);
+	--SearchInputIcon-marginRight: var(--unit);
 }
 
 .SearchInput {
@@ -25,4 +27,17 @@
 	top: calc(50% - var(--SearchInputLoading-width) / 2);
 	right: 0;
 	pointer-events: none;
+}
+
+.SearchInput-icon {
+	position: absolute;
+	left: var(--ChannelHeaderSearch-marginLeft);
+	top: 50%;
+	transform: translateY(-50%);
+	width: var(--SearchInputIcon-width);
+	height: var(--SearchInputIcon-width);
+}
+
+.SearchInput-input--withIcon {
+	padding-left: calc(var(--SearchInputIcon-width) + var(--SearchInputIcon-marginRight));
 }

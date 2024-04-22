@@ -13,6 +13,8 @@
 		--ChannelHeaderSearch-width: var(--ChannelHeaderSearch-width--largeScreen);
 	}
 
+	--ChannelHeaderSearch-marginLeft: var(--unit);
+
 	--ChannelHeaderSearch-animationDuration: 300ms;
 }
 
@@ -53,7 +55,7 @@
 
 .ChannelHeader-searchInput {
 	width: var(--ChannelHeaderSearch-width);
-	margin-left: var(--unit);
+	margin-left: var(--ChannelHeaderSearch-marginLeft);
 	transition: width var(--ChannelHeaderSearch-animationDuration), margin-left var(--ChannelHeaderSearch-animationDuration);
 }
 
@@ -61,6 +63,10 @@
 	--SearchInput-backgroundColor: var(--ChannelThreadHeader-backgroundColor);
 }
 
+/* Automatically expands the search input on large screens. */
+/*
+@mixin upto-m {
+*/
 .ChannelHeader-search--hidden {
 	.ChannelHeader-searchInput {
 		width: 0;
@@ -70,3 +76,12 @@
 		display: none;
 	}
 }
+/*
+}
+
+@mixin l-plus {
+	.ChannelHeaderToolbarSearchButton {
+		pointer-events: none;
+	}
+}
+*/

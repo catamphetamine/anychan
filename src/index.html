@@ -112,11 +112,57 @@
     <!-- <link rel="manifest" href="manifest.json" /> -->
 		<script>
 			(function() {
-				var linkElement = document.createElement('link')
-				linkElement.setAttribute('rel', 'manifest')
-				linkElement.setAttribute('href', BASE_PATH + '/manifest.json')
-				document.head.appendChild(linkElement)
-				// document.querySelector('link[rel="shortcut icon"]').setAttribute('href', ICON_URL)
+				// When browsing a certain datasource, add a `manifest.json` file for that datasource.
+				// https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps
+				window.anychan_activateProgressiveWebApp = function(options) {
+					function setManifestUrl(url) {
+						// On some weird devices in some weird browsers, it throws:
+						// "TypeError: document.head.querySelector(...) is null".
+						// For example, on some "Generic Tablet" on "Android 7.0".
+						// Or, on "Mac OS X" in "Safari 14.0.1" it throws:
+						// "null is not an object (evaluating 'document.head.querySelector('[rel="manifest"]').href=(0,o.VH)().icon')".
+						var linkElement = document.head.querySelector('[rel="manifest"]')
+						if (linkElement) {
+							linkElement.setAttribute('href', url)
+						} else {
+							linkElement = document.createElement('link')
+							linkElement.setAttribute('rel', 'manifest')
+							linkElement.setAttribute('href', url)
+							document.head.appendChild(linkElement)
+						}
+					}
+
+					// Registers a `ServiceWorker` for the Progressive Web Application.
+					// https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Tutorials/CycleTracker/Service_workers
+					function registerServiceWorker(url) {
+						if ('serviceWorker' in navigator) {
+							// Calling `.register()` with the same file URL multiple times doesn't result in any changes.
+							// https://stackoverflow.com/questions/50471486/what-happens-if-i-call-serviceworker-register-multiple-times
+							// One could also manually unregister deprecated `ServiceWorker`s if required:
+							// https://stackoverflow.com/questions/33704791/how-do-i-uninstall-a-service-worker
+							navigator.serviceWorker.register(url)
+						}
+					}
+
+					if (window.location.hostname === 'localhost') {
+						console.log('[PWA] Skip enabing a Progressive Web Application when running on `localhost`')
+						return
+					}
+
+					setManifestUrl(BASE_PATH + options.manifestUrl)
+					registerServiceWorker(BASE_PATH + '/service-worker.js')
+				}
+
+				// If a certain data source is preconfigured, add a link to its `manifest.json` file.
+				if (CONFIG.dataSource) {
+					window.anychan_activateProgressiveWebApp({
+						manifestUrl: '/progressive-web-apps/' + CONFIG.dataSource + '/manifest.json'
+					})
+				} else {
+					// If no particular data source is configured, a data source will be detected dynamically
+					// based on the location pathname. The manifest URL will be updated dynamically
+					// in `initialize-dataSource.js`.
+				}
 			})()
 		</script>
 	</head>

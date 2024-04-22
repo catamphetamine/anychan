@@ -825,7 +825,7 @@ To add a new data source, create an `index.json` file with the data source's con
     // https://gitlab.com/catamphetamine/imageboard#thread
     // (with `boardId` renamed to `channelId`)
     //
-    async getThreads({ channelId, sort, afterThreadId, queryId }) {
+    async getThreads({ channelId, channelLayout, sort, afterThreadId, queryId }) {
       return {
         threads: Thread[],
         queryId: string?,

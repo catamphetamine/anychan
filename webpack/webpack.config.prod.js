@@ -49,9 +49,9 @@ configuration.plugins = configuration.plugins.concat([
 ])
 
 // Extracts CSS into a separate file.
-const cssLoaders = configuration.module.rules[1].use
+const cssLoaders = configuration.module.rules[2].use
 if (cssLoaders[0].loader !== 'style-loader') {
-  throw new Error(`'style-loader' configuration not found`)
+  throw new Error(`[anychan-build] 'style-loader' configuration not found in the 3rd \`rule\` of \`use\` list in \`webpack.config.js\``)
 }
 cssLoaders[0].loader = MiniCssExtractPlugin.loader
 

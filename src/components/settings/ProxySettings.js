@@ -72,6 +72,7 @@ export default function ProxySettings({
 
 		const threads = await _getThreads({
 			channelId: channels[0].id,
+			channelLayout: undefined,
 			// `proxyUrl: null` would force no use of proxy.
 			proxyUrl: proxyUrl || null,
 			userData,

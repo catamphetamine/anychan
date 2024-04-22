@@ -1,10 +1,7 @@
-import React, { useRef, useMemo, useCallback } from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import ReactTimeAgo from 'react-time-ago'
 import RelativeTimeFormat from 'relative-time-format'
-
-import { thread as threadType } from '../../PropTypes.js'
 
 import useMessages from '../../hooks/useMessages.js'
 import useLocale from '../../hooks/useLocale.js'
@@ -54,12 +51,12 @@ function AutoUpdate({
 				messages.autoUpdate.inProgress
 			}
 			{!isAnyoneRefreshingThread &&
-				<React.Fragment>
+				<>
 					{isAutoUpdateError &&
-						<React.Fragment>
+						<>
 							{messages.autoUpdate.error}
 							{'. '}
-						</React.Fragment>
+						</>
 					}
 					{nextUpdateAt &&
 						<AutoUpdateTimer
@@ -68,7 +65,7 @@ function AutoUpdate({
 						/>
 					}
 					{isAutoUpdateError && '.'}
-				</React.Fragment>
+				</>
 			}
 		</ButtonComponent>
 	)
@@ -106,7 +103,7 @@ function AutoUpdateTimer({
 	}, [nextUpdateAt])
 
 	return (
-		<React.Fragment>
+		<>
 			{messages.autoUpdate.scheduledBeforeTime}
 			{secondsLeftUntilNextUpdate &&
 				<time dateTime={nextUpdateAtISOString}>
@@ -123,7 +120,7 @@ function AutoUpdateTimer({
 				/>
 			}
 			{messages.autoUpdate.scheduledAfterTime}
-		</React.Fragment>
+		</>
 	)
 }
 

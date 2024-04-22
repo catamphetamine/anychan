@@ -38,6 +38,7 @@ import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
  */
 export default function addParseContent(comment, {
 	mode,
+	channelLayout,
 	channelId,
 	threadId,
 	grammarCorrection,
@@ -224,7 +225,7 @@ export default function addParseContent(comment, {
 				// then re-generate the preview (if it existed before).
 				if (comment.contentPreview) {
 					comment.contentPreview = generatePostPreview(comment, {
-						maxLength: getCommentLengthLimit({ mode }),
+						maxLength: getCommentLengthLimit({ mode, channelLayout }),
 						minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes()
 					})
 				}

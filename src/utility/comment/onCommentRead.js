@@ -41,6 +41,7 @@ export default function onCommentRead({
 		channelId,
 		threadId,
 		commentId,
-		commentIndex
+		commentIndex,
+		userData
 	}))
 }

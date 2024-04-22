@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import classNames from 'classnames';
 
 import { Content } from 'social-components-react/components/PostContent.js'
 import Button from 'frontend-lib/components/Button.js'
@@ -9,6 +9,7 @@ import DataSourceLogo, { hasLogo } from '../components/DataSourceLogo.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useDataSource from '../hooks/useDataSource.js'
+import useBackground from '../hooks/useBackground.js'
 
 import { setShowSidebar, setSidebarMode } from '../redux/app.js'
 
@@ -20,13 +21,12 @@ export default function Home() {
 	const {
 		title,
 		subtitle,
-		description,
-		announcement,
-		links
+		description
 	} = dataSource
 
 	const messages = useMessages()
 	const dispatch = useDispatch()
+	const background = useBackground()
 
 	const onShowChannelsList = useCallback(() => {
 		dispatch(setShowSidebar(true))
@@ -34,7 +34,9 @@ export default function Home() {
 	}, [dispatch])
 
 	return (
-		<section className="HomePage">
+		<section className={classNames('HomePage', {
+			'HomePage--onBackground': background
+		})}>
 			<div className="Content Content--text">
 				<div className="HomePage-brand">
 					{hasLogo(dataSource) &&

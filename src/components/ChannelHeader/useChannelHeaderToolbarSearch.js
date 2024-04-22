@@ -18,7 +18,8 @@ export default function useChannelHeaderToolbarSearch({
 		isSelected: false,
 		icon: SearchIconOutline,
 		iconSelected: SearchIconFill,
-		size: 's'
+		size: 's',
+		className: 'ChannelHeaderToolbarSearchButton'
 	}), [
 		searchButtonRef,
 		onSearchClick,

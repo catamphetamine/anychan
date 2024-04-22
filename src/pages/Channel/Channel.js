@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { getViewportWidthWithScrollbar } from 'web-browser-window'
@@ -11,18 +10,14 @@ import {
 	setSearchResultsState
 } from '../../redux/channel.js'
 
-import getMessages from '../../messages/getMessages.js'
-
 import CommentsList from '../../components/CommentsList.js'
 import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.js'
 
 import ChannelPageTop from './ChannelPageTop.js'
 import ChannelThread from './ChannelThread.js'
 
-import useSetting from '../../hooks/useSetting.js'
 import useLocale from '../../hooks/useLocale.js'
 import useMessages from '../../hooks/useMessages.js'
-import useUserData from '../../hooks/useUserData.js'
 import useBackground from '../../hooks/useBackground.js'
 import useUnreadCommentWatcher from '../Thread/useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
@@ -31,6 +26,7 @@ import useOnThreadClick from '../../components/useOnThreadClick.js'
 
 import getChannelPageMeta from './Channel.meta.js'
 import useLoadChannelPage from '../../hooks/useLoadChannelPage.js'
+import { ChannelLayoutContext } from './useChannelLayout.js'
 
 import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
 
@@ -217,7 +213,7 @@ export default function ChannelPage() {
 
 			<ChannelPageTop
 				channel={channel}
-				pinnedThreads={pinnedThreads}
+				pinnedThreads={searchResultsQuery ? undefined : pinnedThreads}
 				threadComponentProps={itemComponentProps}
 			/>
 
@@ -241,20 +237,22 @@ export default function ChannelPage() {
 				    `threads` list gets re-fetched from the server, and `virtual-scroller`
 				    correctly resets item states and heights when it receives a completely new set of items,
 				    so with the currently implementation the `key` is not required and could be removed. */}
-				<CommentsList
-					key={channelLayout}
-					mode="channel"
-					getColumnsCount={getColumnsCount}
-					transformInitialItemState={transformCommentListItemInitialState}
-					initialState={initialVirtualScrollerState}
-					setState={setVirtualScrollerState}
-					items={searchResultsQuery ? searchResults : threads}
-					itemComponent={ChannelThread}
-					itemComponentProps={itemComponentProps}
-					className={classNames('ChannelPage-threads', {
-						'ChannelPage-threads--tiles': channelLayout === 'threadsTiles'
-					})}
-				/>
+				<ChannelLayoutContext.Provider value={channelLayout}>
+					<CommentsList
+						key={channelLayout}
+						mode="channel"
+						getColumnsCount={getColumnsCount}
+						transformInitialItemState={transformCommentListItemInitialState}
+						initialState={initialVirtualScrollerState}
+						setState={setVirtualScrollerState}
+						items={searchResultsQuery ? searchResults : threads}
+						itemComponent={ChannelThread}
+						itemComponentProps={itemComponentProps}
+						className={classNames('ChannelPage-threads', {
+							'ChannelPage-threads--tiles': channelLayout === 'threadsTiles'
+						})}
+					/>
+				</ChannelLayoutContext.Provider>
 			</div>
 		</section>
 	)

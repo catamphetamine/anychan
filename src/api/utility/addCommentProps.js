@@ -18,6 +18,7 @@ import isDeployedOnDataSourceDomain from '../../utility/dataSource/isDeployedOnD
  */
 export default function addCommentProps(thread, {
 	mode,
+	channelLayout,
 	// (this feature is not currently used)
 	// `4chan.org` provides a "-tail" API for getting thread comments
 	// that reduces the traffic for a little bit by only returning
@@ -94,6 +95,7 @@ export default function addCommentProps(thread, {
 			mode,
 			channelId: thread.channelId,
 			threadId: thread.id,
+			channelLayout,
 			grammarCorrection,
 			censoredWords,
 			locale,

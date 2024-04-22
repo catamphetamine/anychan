@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
 import PostTitle from 'social-components-react/components/PostTitle.js'
 import PostContent from 'social-components-react/components/PostContent.js'
@@ -11,7 +10,6 @@ import { isMiddleDialogueChainLink } from 'social-components-react/components/Co
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import CommentAuthor from './CommentAuthor.js'
-import CommentHidden from './CommentHidden.js'
 import CommentFooter from './CommentFooter.js'
 import WithTextSelectionActions from './WithTextSelectionActions.js'
 
@@ -32,6 +30,8 @@ import getUrl from '../../utility/getUrl.js'
 import resourceCache from '../../utility/resourceCache.js'
 import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
 import getConfiguration from '../../configuration.js'
+
+import useChannelLayout from '../../pages/Channel/useChannelLayout.js'
 
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
@@ -78,7 +78,8 @@ export default function Comment({
 	// <CommentTitleAndContentAndAttachments/> props:
 	...rest
 }) {
-	const isFirstCommentInThread = comment.id === threadId
+	// const isFirstCommentInThread = comment.id === threadId
+
 	const url = getUrl(channelId, threadId, comment.id)
 
 	const [
@@ -117,6 +118,8 @@ export default function Comment({
 		onSocialClick
 	] = useSocial()
 
+	const channelLayout = useChannelLayout()
+
 	let titleContentAndAttachments = (
 		<CommentTitleAndContentAndAttachments
 			{...rest}
@@ -131,7 +134,7 @@ export default function Comment({
 			youTubeApiKey={getConfiguration().youtubeApiKey}
 			expandFirstPictureOrVideo={false}
 			maxAttachmentThumbnails={false}
-			contentMaxLength={getCommentLengthLimit({ mode })}
+			contentMaxLength={getCommentLengthLimit({ mode, channelLayout })}
 			onAttachmentClick={onAttachmentClick}
 			onPostLinkClick={onPostLinkClick}
 			isPostLinkClickable={isPostLinkClickable}

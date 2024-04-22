@@ -62,6 +62,8 @@ export function getDefaultSettings() {
 		channelSorting: 'default',
 		theme: getDefaultThemeId(),
 		locale: getDefaultLanguage(),
+		backgroundLightMode: 'Orange Purple',
+		backgroundDarkMode: 'Dark Blue',
 		...getConfiguration().defaultSettings
 	}
 }

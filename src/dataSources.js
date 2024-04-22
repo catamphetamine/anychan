@@ -17,5 +17,10 @@ const DATA_SOURCES = DATA_SOURCES_LIST.reduce((index, dataSource) => {
 // Add "8kun" alias to "8ch".
 DATA_SOURCES['8ch'].aliases = ['8kun']
 
+// Add URLs to `manifest.json` files.
+for (const dataSource of DATA_SOURCES_LIST) {
+	dataSource.manifestUrl = `/progressive-web-apps/${dataSource.id}/manifest.json`
+}
+
 // Exports an index of all supported dataSources.
 export default DATA_SOURCES

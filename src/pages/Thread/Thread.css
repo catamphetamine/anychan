@@ -91,6 +91,11 @@
 .ThreadPage {
 	.AutoUpdate {
 		margin-top: calc(var(--unit) * 2);
+
+		@mixin upto-s {
+			margin-left: auto;
+			margin-right: auto;
+		}
 	}
 }
 
@@ -151,4 +156,8 @@
 
 .ThreadPage-createCommentSpacer {
 	height: var(--Comment-marginTop--topLevel);
+}
+
+.ThreadPage-belowCommentsWithEmptySpaceOnTheLeftSide-content {
+	width: 100%;
 }

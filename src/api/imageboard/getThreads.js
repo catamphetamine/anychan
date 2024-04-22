@@ -4,6 +4,7 @@ const MAX_LATEST_COMMENTS_PAGES_COUNT = 2
 
 export default async function getThreadsFromImageboard(imageboard, {
 	channelId,
+	channelLayout,
 	withLatestComments,
 	sortByRating,
 	dataSourceId
@@ -16,7 +17,7 @@ export default async function getThreadsFromImageboard(imageboard, {
 		parseContent: false,
 		// Add `.parseContent()` function to each `comment`.
 		addParseContent: true,
-		commentLengthLimit: getCommentLengthLimit({ mode: 'channel', layout: undefined }),
+		commentLengthLimit: getCommentLengthLimit({ mode: 'channel', channelLayout }),
 		latestCommentLengthLimit: getCommentLengthLimit({ mode: 'thread' }),
 		maxLatestCommentsPages: withLatestComments ? MAX_LATEST_COMMENTS_PAGES_COUNT : undefined,
 		withLatestComments,

@@ -11,6 +11,7 @@ import SearchInput from '../SearchInput.js'
 import { thread as threadType } from '../../PropTypes.js'
 
 import useOnChannelLinkClick from '../useOnChannelLinkClick.js'
+import useMessages from '../../hooks/useMessages.js'
 
 import './ChannelHeader.css'
 
@@ -57,6 +58,8 @@ export default function ChannelHeader({
 
 	className
 }) {
+	const messages = useMessages()
+
 	const searchInput = useRef()
 	const searchButtonRef = useRef()
 
@@ -79,7 +82,11 @@ export default function ChannelHeader({
 	}, [])
 
 	const onSearchInputBlurWhenEmpty = useCallback(() => {
-		setShowSearchInput(false)
+		// To debug the design of the search input,
+		// set `window.rruiCollapseOnFocusOut = false` flag in the browser console.
+		if (window.rruiCollapseOnFocusOut !== false) {
+			setShowSearchInput(false)
+		}
 	}, [])
 
 	const channel = useSelector(state => state.data.channel)
@@ -128,6 +135,7 @@ export default function ChannelHeader({
 					ref={searchInput}
 					value={searchQuery}
 					onChange={onSearchQueryChange}
+					aria-label={messages.search}
 					items={threads}
 					getItemTextLowerCase={getThreadTextSingleLineLowerCase}
 					onResults={onSearchResults}

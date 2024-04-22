@@ -99,7 +99,7 @@ export default function() {
 	})
 
 	// Apply data source icon as a website icon.
-	if (dataSource.icon) {
+	if (dataSourceInfo.dataSource.icon) {
 		const siteIcon = document.head.querySelector('[rel="shortcut icon"]')
 		// On some weird devices in some weird browsers, it throws:
 		// "TypeError: document.head.querySelector(...) is null".
@@ -107,8 +107,16 @@ export default function() {
 		// Or, on "Mac OS X" in "Safari 14.0.1" it throws:
 		// "null is not an object (evaluating 'document.head.querySelector('[rel="shortcut icon"]').href=(0,o.VH)().icon')".
 		if (siteIcon) {
-			siteIcon.href = dataSource.icon
+			siteIcon.href = dataSourceInfo.dataSource.icon
 		}
+	}
+
+	// When browsing a certain datasource, add a `manifest.json` file for that datasource.
+	// https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps
+	if (dataSourceInfo.dataSource.manifestUrl) {
+		window.anychan_activateProgressiveWebApp({
+			manifestUrl: dataSourceInfo.dataSource.manifestUrl
+		})
 	}
 
 	// Actually, don't set slide background color to a shade of blue

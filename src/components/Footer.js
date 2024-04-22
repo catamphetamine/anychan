@@ -22,7 +22,8 @@ import AnychanLogo from '../../assets/images/icon/icon.svg'
 import './Footer.css'
 
 export default function Footer({ className }) {
-	const offline = useSelector(state => state.app.offline)
+	// const offline = useSelector(state => state.app.offline)
+
 	const messages = useMessages()
 	const route = useRoute()
 	const dataSource = useDataSource()

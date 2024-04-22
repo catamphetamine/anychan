@@ -4,6 +4,7 @@ import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 export default async function getThreads({
 	channelId,
+	channelLayout,
 	censoredWords,
 	grammarCorrection,
 	messages,
@@ -16,6 +17,7 @@ export default async function getThreads({
 }) {
 	const { threads, hasMoreThreads } = await dataSource.api.getThreads({
 		channelId,
+		channelLayout,
 		withLatestComments,
 		sortByRating,
 		messages,
@@ -59,6 +61,7 @@ export default async function getThreads({
 		// for threads that the user has already voted for.
 		addCommentProps(thread, {
 			mode: 'channel',
+			channelLayout,
 			votes: threadVotes ? (threadVotes[String(thread.id)] || {}) : {},
 			ownCommentIds: ownThreadIds || [],
 			hiddenCommentIds: hiddenThreadIds || [],
