@@ -2,8 +2,8 @@
   "compilerOptions": {
 		"sourceMap": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "esnext",
+    "target": "es6",
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",

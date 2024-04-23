@@ -46,7 +46,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.12.1",
-    "react-pages": "^0.7.14",
+    "react-pages": "^0.7.18",
     "react-redux": "^9.1.1",
     "react-responsive-ui": "^0.15.56",
     "react-sortable-dnd-list": "^1.0.1",

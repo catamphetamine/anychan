@@ -16,7 +16,7 @@ export default async function({
 	// Renders the webpage on the client side
 	const { enableHotReload } = await render(getReactPagesConfig({
 		dataSource,
-		dataSourceAlias,
+		dataSourceAlias
 	}), {
 		getLoadContext: createLoadContextGetterFunction({
 			dataSource,

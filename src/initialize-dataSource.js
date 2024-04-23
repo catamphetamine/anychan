@@ -89,7 +89,7 @@ export default function() {
 	}
 
 	if (!dataSource) {
-		throw new Error('No data source ID has been set. Either set a default data source ID in configuration, or pass data source ID as part of the URL.')
+		throw new Error('NO_DATA_SOURCE')
 	}
 
 	const dataSourceInfo = getCurrentDataSourceInfo({

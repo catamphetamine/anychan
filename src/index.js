@@ -32,6 +32,7 @@ import initializeResources from './initialize-resources.js'
 import initializeDataSource from './initialize-dataSource.js'
 import initializeUserSettings from './initialize-userSettings.js'
 import renderApp from './render.js'
+import renderNoDataSourcePage from './renderNoDataSourcePage.ts'
 
 // Run the application.
 // First initialize error handlers and stuff.
@@ -66,6 +67,10 @@ try {
 		multiDataSource
 	})
 } catch (error) {
-	console.error(error.stack || error)
-	alert(error.message)
+	if (error.message === 'NO_DATA_SOURCE') {
+		await renderNoDataSourcePage()
+	} else {
+		console.error(error.stack || error)
+		alert(error.message)
+	}
 }

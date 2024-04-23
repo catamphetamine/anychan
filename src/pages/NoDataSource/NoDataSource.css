@@ -1,0 +1,13 @@
+.NoDataSourcePage-code,
+.NoDataSourcePage-url {
+	padding-left: 0.35em;
+	padding-right: 0.35em;
+	padding-top: 0.1em;
+	padding-bottom: 0.1em;
+	background-color: var(--Content-color-100);
+	border-radius: 0.25em;
+}
+
+.NoDataSourcePage-dataSource {
+	line-height: var(--Document-lineHeight);
+}

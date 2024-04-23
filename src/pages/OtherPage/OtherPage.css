@@ -1,0 +1,21 @@
+@import "../../styles/common.css";
+
+.OtherPage {
+	flex: 1;
+
+	display: flex;
+	width: 100%;
+	min-height: 100vh;
+
+	color: var(--Content-color-900);
+	background-color: var(--Document-backgroundColor);
+}
+
+.OtherPage-content {
+	width: 100%;
+	max-width: var(--Content-maxWidth);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
