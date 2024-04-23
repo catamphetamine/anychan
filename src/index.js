@@ -45,32 +45,38 @@ import renderNoDataSourcePage from './renderNoDataSourcePage.ts'
 // otherwise that other code would include things like `UserData.js`
 // before the data source is initialized and hence with an incorrect `prefix`.
 //
-try {
-	initializeMiscellaneous()
-	initializeIntl()
-	initializeResources()
+async function run() {
+	try {
+		initializeMiscellaneous()
+		initializeIntl()
+		initializeResources()
 
-	const {
-		dataSource,
-		dataSourceAlias,
-		multiDataSource
-	} = initializeDataSource()
+		const {
+			dataSource,
+			dataSourceAlias,
+			multiDataSource
+		} = initializeDataSource()
 
-	await initializeUserSettings({
-		dataSource,
-		multiDataSource
-	})
+		await initializeUserSettings({
+			dataSource,
+			multiDataSource
+		})
 
-	await renderApp({
-		dataSource,
-		dataSourceAlias,
-		multiDataSource
-	})
-} catch (error) {
-	if (error.message === 'NO_DATA_SOURCE') {
-		await renderNoDataSourcePage()
-	} else {
-		console.error(error.stack || error)
-		alert(error.message)
+		await renderApp({
+			dataSource,
+			dataSourceAlias,
+			multiDataSource
+		})
+	} catch (error) {
+		if (error.message === 'NO_DATA_SOURCE') {
+			await renderNoDataSourcePage()
+		} else {
+			console.error(error.stack || error)
+			alert(error.message)
+		}
 	}
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+	run()
+})
