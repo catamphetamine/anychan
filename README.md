@@ -475,6 +475,8 @@ The app comes pre-packaged with a couple of built-in themes and allows [creating
 
 None of the imageboards (`4chan.org`, `8kun.top`, `2ch.hk`, etc) allow calling their API from other websites: they're all configured to block [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS), so a CORS proxy is required in order for a third party website to be able to query their API.
 
+[Read more](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md)
+
 <!--
 A public CORS proxy called ["CORS Anywhere"](https://cors-anywhere.herokuapp.com/) can be used for development/testing. Such public CORS proxy imposes several restrictions such as no support for "cookies" and rate limiting. For production, a dedicated CORS proxy should be set up.
 
@@ -483,11 +485,11 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 [Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 -->
 
-* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/cors-proxy-node/-/blob/main/README.md#hosting).
+<!-- * [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/cors-proxy-node/-/blob/main/README.md#hosting). -->
 
 <!-- * [An example of setting up a free 1-year AWS EC2 CORS proxy](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-EC2.md). -->
 
-Not every proxy works with every "data source" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
+<!-- Not every proxy works with every "data source" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack). -->
 
 ####
 
