@@ -58,3 +58,8 @@
 .Comment-spacerLine--first {
 	border-bottom-color: transparent;
 }
+
+.Comment-replyFormContainer {
+	/* It will add a `:before` pseudo-element to show a comment tree structure line. */
+	position: relative;
+}

@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from 'react-responsive-ui'
-import classNames from 'classnames'
 
 import Button from 'frontend-lib/components/Button.js'
 
@@ -56,6 +54,8 @@ export default function InReplyToModal({
 
 	const channelId = channel.id
 
+	const getThread = useCallback(() => thread, [thread])
+
 	const getComponentProps = useCallback(() => {
 		return {
 			// Don't set HTML `id` attribute on the comment DOM Element
@@ -63,6 +63,7 @@ export default function InReplyToModal({
 			// outside of the modal. To avoid setting an `id` attribute on the
 			// comment DOM Element, `id={null}` property is passed.
 			id: null,
+			getThread,
 			threadId: thread.id,
 			channelId,
 			onRequestShowCommentFromSameThread,
@@ -79,6 +80,7 @@ export default function InReplyToModal({
 		}
 	}, [
 		thread,
+		getThread,
 		channelId,
 		onRequestShowCommentFromSameThread,
 		onPostUrlClick,

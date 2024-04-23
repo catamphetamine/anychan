@@ -4,6 +4,20 @@
 
 None of the imageboards — `4chan.org`, `8kun.top`, `2ch.hk`, etc — will allow accessing their APIs in a web browser from outside of those websites themselves. In other words, in a web browser, only `4chan.org` will be able to access `4chan.org`'s API. That is called blocking of [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS) HTTP requests. A "CORS proxy" is required to bypass that restriction.
 
+## Configuration
+
+The proxy URL could be configured either way:
+* By specifying a `proxyUrl` parameter in the `configuration` — either in `configuration.json` or in the global `CONFIG` variable in `index.html`.
+* By editing the Proxy URL input field value on the Settings page.
+
+A proxy URL string should contain a target URL parameter. The target URL parameter could be present in that string in one of the two variants:
+* `{url}` — the target URL
+* `{urlEncoded}` — the target URL encoded using `encodeURIComponent()`
+
+Examples:
+* "https://my-cors-proxy.com/{url}"
+* "https://my-cors-proxy.com?url={urlEncoded}"
+
 ## Requirements
 
 This application imposes additional requirements on a CORS Proxy in order for it to be fully functional:
@@ -26,7 +40,7 @@ A CORS proxy fitting these requirements is [`cors-proxy-node`](https://www.npmjs
 
 ## Demo
 
-The demo website uses a [`cors-proxy-node`](https://www.npmjs.com/package/cors-proxy-node) CORS Proxy running free in a [Vercel](https://vercel.com/) Node.js container.
+The demo website uses [`anychan-proxy`](https://gitlab.com/catamphetamine/anychan-proxy) running free in a [Vercel](https://vercel.com/) Node.js container. Under the hood, `anychan-proxy` uses [`cors-proxy-node`](https://www.npmjs.com/package/cors-proxy-node) package.
 
 ## Custom
 
@@ -47,9 +61,7 @@ One could also run their own CORS Proxy. The reasons would be:
 
 The instructions would be:
 
-* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-VERCEL.md).
-
-* [An example of setting up a free 1-year AWS EC2 CORS proxy](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-EC2.md).
+* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/cors-proxy-node/-/blob/main/README.md#hosting).
 
 ## Hosting
 

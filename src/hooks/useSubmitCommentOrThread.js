@@ -36,13 +36,18 @@ import useLocale from './useLocale.js'
 import useSettings from './useSettings.js'
 import useUserData from './useUserData.js'
 import useMessageFormatter from './useMessageFormatter.js'
+import isDeployedOnDataSourceDomain from '../utility/dataSource/isDeployedOnDataSourceDomain.js'
+
+import { subscribeToThread } from '../redux/subscribedThreads.js'
 
 export default function useSubmitCommentOrThread({
+	getThread,
 	channelId,
 	threadId,
 	inReplyToCommentId,
 	channelIsNotSafeForWork,
 	isAble,
+	addSubscribedThread,
 	onAfterSubmit
 }) {
 	const dataSource = useDataSource()
@@ -236,30 +241,34 @@ export default function useSubmitCommentOrThread({
 			userData.addOwnThread(channelId, threadId_)
 		}
 
-		const onSubscribeToThread = () => {
-			// ... somehow get channel and thread here ...
-			// dispatch(subscribeToThread(thread, { channel, userData }))
-		}
+		// When creating a thread or posting a comment, it might be convenient to automatically subscribe to that thread.
+		// When posting a comment, thread subscription is added in this function.
+		// When creating a thread, thread subscription is added after navigating to the new thread's page.
 
-		// When creating a thread, automatically subscribe to that thread.
-		if (isCreatingThread) {
-			onSubscribeToThread()
+		// If "auto-subscribe to threads when posting a comment" setting
+		// is turned on then automatically subscribe to the thread
+		// when posting a new comment.
+		if (!isCreatingThread && addSubscribedThread) {
+			if (!userData.isSubscribedThread(channelId, threadId)) {
+				dispatch(subscribeToThread(getThread(), { userData }))
+			}
 		}
-
-		// // If "auto-subscribe to threads when posting a comment" setting
-		// // is turned on then automatically subscribe to the thread.
-		// if (!userData.isSubscribedThread(channelId, threadId)) {
-		// 	onSubscribeToThread()
-		// }
 
 		if (onAfterSubmit) {
-			onAfterSubmit(result)
+			// Call `onAfterSubmit()` function.
+			// If it is an `async` one then wait for it to finish.
+			const onAfterSubmitResult = onAfterSubmit(result)
+			if (onAfterSubmitResult && typeof onAfterSubmitResult.then === 'function') {
+				await onAfterSubmitResult
+			}
 		}
 	}, [
+		dispatch,
 		submitCommentOrThread,
 		userData,
 		channelId,
 		threadId,
+		getThread,
 		onAfterSubmit
 	])
 
@@ -393,6 +402,10 @@ export default function useSubmitCommentOrThread({
 		try {
 			await getCaptchaAndShowIt()
 		} catch (error) {
+			if (dataSource.id === '4chan' && !isDeployedOnDataSourceDomain(dataSource)) {
+				dispatch(notify('On 4chan, you must log in using your "pass" in order to be able to post a comment or a thread. To log in, click the user icon at the top of the sidebar.'))
+				return
+			}
 			if (error instanceof CaptchaNotRequiredError) {
 				await submitCommentOrThreadAndProcessResult(submitParameters)
 			} else {

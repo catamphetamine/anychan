@@ -4,6 +4,8 @@ import {
 	setInitialLatestReadCommentIndex
 } from '../../redux/thread.js'
 
+import { subscribeToThread } from '../../redux/subscribedThreads.js'
+
 import getThread from '../../utility/thread/getThread.js'
 import getLatestReadCommentIndex from '../../utility/thread/getLatestReadCommentIndex.js'
 
@@ -21,7 +23,8 @@ export default async function loadThreadPage({
 	params: {
 		channelId,
 		threadId
-	}
+	},
+	navigationContext
 }) {
 	threadId = Number(threadId)
 
@@ -48,6 +51,14 @@ export default async function loadThreadPage({
 		dataSource,
 		action: 'getThreadAndPutItInState'
 	})
+
+	// When a user creates a new thread, the application navigates to this new thread's page.
+	// In these cases, it might also be convenient to automatically subscribe the user to their new thread.
+	if (navigationContext && navigationContext.subscribeToThread) {
+		if (!userData.isSubscribedThread(channelId, threadId)) {
+			dispatch(subscribeToThread(thread, { userData }))
+		}
+	}
 
 	// Reset a potentially previously set "instant back" state.
 	dispatch(resetState())

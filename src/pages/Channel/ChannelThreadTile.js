@@ -22,6 +22,8 @@ export default function ChannelThreadTile({
 		setState
 	])
 
+	const getThread = useCallback(() => thread, [thread])
+
 	// threadIsTrimming={thread.trimming}
 	// threadIsArchived={thread.archived}
 
@@ -32,6 +34,7 @@ export default function ChannelThreadTile({
 		<CommentBlock
 			{...commonProps}
 			comment={thread.comments[0]}
+			getThread={getThread}
 			threadId={thread.id}
 			onRenderedContentDidChange={onHeightDidChange}
 			initialHidden={state && state.hidden}

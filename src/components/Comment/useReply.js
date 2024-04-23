@@ -5,17 +5,14 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import { notify } from '../../redux/notifications.js'
 
-import useDataSource from '../../hooks/useDataSource.js'
-import useSettings from '../../hooks/useSettings.js'
-import useUserData from '../../hooks/useUserData.js'
 import useMessages from '../../hooks/useMessages.js'
-
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
 
-import getMessages from '../../messages/getMessages.js'
+import refreshThreadOrTimeOut from '../../utility/thread/refreshThreadOrTimeOut.js'
 
 export default function useReply({
 	comment,
+	getThread,
 	threadId,
 	channelId,
 	channelIsNotSafeForWork,
@@ -31,13 +28,9 @@ export default function useReply({
 	onReplyFormInputHeightDidChange: onReplyFormInputHeightDidChange_,
 	onRenderedContentDidChange,
 	moreActionsButtonRef,
-	refreshThread,
-	onSubscribeToThread
+	refreshThread
 }) {
 	const dispatch = useDispatch()
-	const dataSource = useDataSource()
-	const userSettings = useSettings()
-	const userData = useUserData()
 	const messages = useMessages()
 
 	const [showReplyForm, setShowReplyForm] = useState(initialShowReplyForm)
@@ -130,14 +123,16 @@ export default function useReply({
 		setReplyFormInitialText
 	])
 
-	const onAfterSubmit = useCallback(() => {
-		setShowReplyForm(false)
+	const onAfterSubmit = useCallback(async () => {
 		if (refreshThread) {
-			refreshThread()
+			await refreshThreadOrTimeOut({ refreshThread })
 		}
+		setShowReplyForm(false)
 	}, [refreshThread])
 
 	const onSubmitReply = useSubmitCommentOrThread({
+		getThread,
+		addSubscribedThread: true,
 		channelId,
 		threadId,
 		inReplyToCommentId: comment.id,

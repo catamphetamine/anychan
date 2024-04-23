@@ -483,9 +483,9 @@ A free 1-year [AWS EC2](https://aws.amazon.com/ec2/) "micro" server can be set u
 [Heroku](https://www.heroku.com/) seems to work with CloudFlare without any issues. It has [another issue](https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#scale-the-app) though: a free instance will sleep after a half hour of inactivity (if it doesn’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 -->
 
-* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-VERCEL.md).
+* [An example of setting up a free CORS proxy on Vercel](https://gitlab.com/catamphetamine/cors-proxy-node/-/blob/main/README.md#hosting).
 
-* [An example of setting up a free 1-year AWS EC2 CORS proxy](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-EC2.md).
+<!-- * [An example of setting up a free 1-year AWS EC2 CORS proxy](https://gitlab.com/catamphetamine/anychan/tree/master/docs/proxy/CORS-PROXY-AWS-EC2.md). -->
 
 Not every proxy works with every "data source" though: for example, `4chan.org` uses CloudFlare CDN, so it will return `403 Forbidden` in response to any HTTP request received from an AWS EC2 proxy. That's because CloudFlare blocks all traffic from AWS EC2 (I guess because it could be easily set up for a DDoS attack).
 
@@ -951,7 +951,7 @@ The files should be placed in the data source's directory created inside the `da
 First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `anychan` application:
 
 * Create the imageboard's directory in `./dataSources/imageboards`.
-* In that directory, create `index.json` [configuration file](#data-source-configuration). Create an `icon.png` (`192px x 192px`) and a `logo.svg` (or `logo.jpg`, or `logo.png`). See other imageboards' directories as an example.
+* In that directory, create `index.json` [configuration file](#data-source-configuration). Create an `icon.png` (`192px x 192px`), a `logo.svg` (or `logo.jpg`, or `logo.png`) and an `app-icon-512.png` (for PWA support). See other imageboards' directories as an example.
 * Add the new imageboard in `./dataSources/imageboards/index.js` (analogous to the existing imageboards).
 * Add the new imageboard in `./src/dataSources.js` (analogous to the existing imageboards).
 

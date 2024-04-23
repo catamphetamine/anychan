@@ -1,10 +1,7 @@
 import React, { useRef, useCallback, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { useDispatch } from 'react-redux'
 import { useSelectorForLocation } from 'react-pages'
 
-import getMessages from '../../messages/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 
 import useMessages from '../../hooks/useMessages.js'
@@ -19,7 +16,6 @@ import ThreadPageHeader from './ThreadPageHeader.js'
 import ThreadCreateComment from './ThreadCreateComment.js'
 import AutoUpdate from './AutoUpdate.js'
 import InfoBanner from './InfoBanner.js'
-import PostForm from '../../components/PostFormWithAttachments.js'
 
 import useFromIndex from './useFromIndex.js'
 import useExpandAttachments from './useExpandAttachments.js'
@@ -29,7 +25,6 @@ import useSlideshow from './useSlideshow.js'
 import useShowCommentOnSameThreadUrlNavigation from './useShowCommentOnSameThreadUrlNavigation.js'
 import useGetCommentById from './useGetCommentById.js'
 import useDownloadThread from './useDownloadThread.js'
-import useSubscribeToThread from './useSubscribeToThread.js'
 import useUnreadCommentWatcher from './useUnreadCommentWatcher.js'
 import useUpdateAttachmentThumbnailMaxWidth from './useUpdateAttachmentThumbnailMaxWidth.js'
 import useGoToComment from './useGoToComment.js'
@@ -60,7 +55,6 @@ export default function ThreadPage() {
 	const channel = useSelectorForLocation(state => state.data.channel)
 	const thread = useSelectorForLocation(state => state.data.thread)
 
-	const dispatch = useDispatch()
 	const locale = useLocale()
 	const messages = useMessages()
 	const background = useBackground()
@@ -76,7 +70,6 @@ export default function ThreadPage() {
 	})
 
 	const [isThreadSubscribed, setThreadSubscribed] = useThreadSubscribed({
-		channel,
 		thread
 	})
 
@@ -113,8 +106,8 @@ export default function ThreadPage() {
 	const refreshThreadRef = useRef()
 	refreshThreadRef.current = autoUpdateParameters.refreshThread
 
-	const refreshThread = useCallback(async () => {
-		await refreshThreadRef.current()
+	const refreshThread = useCallback(async (refreshParameters) => {
+		await refreshThreadRef.current(refreshParameters)
 	}, [])
 
 	const {
@@ -148,11 +141,6 @@ export default function ThreadPage() {
 	const onDownloadThread = useDownloadThread({
 		thread,
 		getCommentById
-	})
-
-	const onSubscribeToThread = useSubscribeToThread({
-		thread,
-		channel
 	})
 
 	const [
@@ -239,6 +227,20 @@ export default function ThreadPage() {
 	const renderComments = useRef()
 	renderComments.current = renderComments_
 
+	// `getThread()` is used when automatically subscribing to the thread when posting a comment in it.
+	// See `useSubmitCommentOrThread()` hook for more info.
+	//
+	// `getThread` function reference shouldn't change between `thread` refreshes
+	// in order for `itemComponentProps` reference to not change between `thread` refreshes.
+	// Otherwise, `virtual-scroller` would re-render all visible items on thread refresh.
+	//
+	// In order to keep `getThread` reference the same while the `thread` object reference changes,
+	// it is implemented using `useRef()` and `useCallback()` "hack".
+	//
+	const threadRef = useRef()
+	threadRef.current = thread
+	const getThread = useCallback(() => threadRef.current, [])
+
 	const itemComponentProps = useMemo(() => ({
 		getCommentById,
 		getComponentProps() {
@@ -258,6 +260,7 @@ export default function ThreadPage() {
 				threadIsLocked: thread.locked,
 				threadIsTrimming: thread.trimming,
 				threadId: thread.id,
+				getThread,
 				locale,
 				messages,
 				unreadCommentWatcher,
@@ -266,7 +269,6 @@ export default function ThreadPage() {
 				onRequestShowCommentFromSameThread,
 				isPreviouslyRead,
 				onDownloadThread,
-				onSubscribeToThread,
 				refreshThread,
 				renderComments: renderComments.current,
 				postDateLinkUpdatePageUrlToPostUrlOnClick: true,
@@ -277,6 +279,7 @@ export default function ThreadPage() {
 		// The dependencies list should be such that
 		// comments aren't re-rendered when they don't need to.
 		channel,
+		getThread,
 		thread.expired,
 		thread.archived,
 		thread.locked,
@@ -286,7 +289,6 @@ export default function ThreadPage() {
 		getCommentById,
 		isPreviouslyRead,
 		onDownloadThread,
-		onSubscribeToThread,
 		locale,
 		messages,
 		unreadCommentWatcher,
@@ -359,6 +361,7 @@ export default function ThreadPage() {
 				<div className="ThreadPage-createCommentSpacer"/>
 
 				<ThreadCreateComment
+					getThread={getThread}
 					channelId={channel.id}
 					channelIsNotSafeForWork={channel.notSafeForWork}
 					threadId={thread.id}
@@ -433,7 +436,8 @@ ThreadPage.load = async ({
 	dispatch,
 	location,
 	params,
-	context
+	context,
+	navigationContext
 }) => {
 	await loadThreadPage({
 		useSelector,
@@ -442,6 +446,7 @@ ThreadPage.load = async ({
 		params,
 		userData: context.userData,
 		userSettings: context.userSettings,
-		dataSource: context.dataSource
+		dataSource: context.dataSource,
+		navigationContext
 	})
 }

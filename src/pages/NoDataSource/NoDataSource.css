@@ -1,3 +1,8 @@
+.NoDataSourcePage-title {
+	margin-bottom: 2.5rem;
+	font-weight: lighter;
+}
+
 .NoDataSourcePage-code,
 .NoDataSourcePage-url {
 	padding-left: 0.35em;
@@ -10,4 +15,8 @@
 
 .NoDataSourcePage-dataSource {
 	line-height: var(--Document-lineHeight);
+
+	&::marker {
+		color: var(--Content-color-300);
+	}
 }

@@ -6,6 +6,7 @@ const DATA_SOURCES = [
 	// SomeNonImageboardDATASourceLikeReddit
 ]
 
+// For each non-imageboard data source.
 for (const dataSource of DATA_SOURCES) {
 	dataSource.supportsCreateThread = () => true
 	dataSource.supportsCreateComment = () => true

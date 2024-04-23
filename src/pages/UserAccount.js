@@ -149,9 +149,9 @@ function NotAuthenticated() {
 			{dataSource.id === '4chan' && (
 				<ContentSection className="UserAccount-4chanPassNote">
 					<p style={{ marginTop: 0 }}>
-						Support for 4chan passes hasn't been implemented due to the fact that the developer doesn't have a 4chan pass.
+						Support for 4chan passes hasn't been implemented due to the fact that the developer doesn't have a 4chan pass. Otherwise, the implementation would be quite simple.
 						<br/>
-						If you have one, consider mailing it to <a href="mailto:anychan.official@gmail.com">anychan.official@gmail.com</a>.
+						If you think you could provide one for testing purposes, consider mailing it to <a href="mailto:anychan.official@gmail.com">anychan.official@gmail.com</a>.
 					</p>
 				</ContentSection>
 			)}

@@ -8468,10 +8468,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.18:
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.18.tgz#729c9ca4cfe120db6b60c42187488ba8534bdb30"
-  integrity sha512-N9r1fcL8lpsyOn7UD/afNfT4ah04j2ED8uowKWkDmOTTyVPMrY6dmqotSNISPhm9MSZcN41W3PAsvHqOhTx47A==
+react-pages@^0.7.19:
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.19.tgz#f81f5b5ea2591bbf6902deb695a3bbe56097a7d9"
+  integrity sha512-eww4XeiYA9UkdR6TovE1nOCYc8oRZZMMjSIDfmDUjvVpAXAQgZR058FQB+0obY8nmkTXAh1GmU5I09hTlFzpaQ==
   dependencies:
     "@catamphetamine/farce" "^0.4.19"
     "@catamphetamine/found" "^1.3.11"
@@ -9891,10 +9891,10 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-virtual-scroller@^1.12.4:
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.4.tgz#1d1df6fc08a45bb9e4e1ccfe92816bb2ac12f270"
-  integrity sha512-y9U5L4aGMDPOQzYVQcq+In8aCSed87tdM6aIHl5WeWNTzjjdlj6fS2kagLvlLwiOJQPzNYxS5VApDj47qpvJuw==
+virtual-scroller@^1.12.5:
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.5.tgz#4f96c3cd614068b8c5100ba9b026573999b8bae5"
+  integrity sha512-fMUdmArBpgBt0XBHgPuxONEz1GND2ukZD/Uf51PfhNnSeZA/cbtbhOOCoeI29BbcPjq6ZA63pZyARm6oIqLADw==
   dependencies:
     request-animation-frame-timeout "^1.0.0"
 

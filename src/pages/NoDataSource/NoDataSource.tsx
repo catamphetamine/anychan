@@ -7,7 +7,9 @@ import './NoDataSource.css'
 export default function NoDataSourcePage() {
 	return (
 		<section className="Content Content--text">
-			<h1>No Data Source</h1>
+			<h1 className="NoDataSourcePage-title">
+				No Data Source
+			</h1>
 
 			<p>
 				No <code className="NoDataSourcePage-code">dataSource</code> parameter was specified in the configuration, and no data source ID was found in the URL <code className="NoDataSourcePage-url">{location.pathname}</code>

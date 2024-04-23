@@ -5,13 +5,15 @@ import classNames from 'classnames'
 
 import PostForm from '../../components/PostFormWithAttachments.js'
 
-import useMessages from '../../hooks/useMessages.js'
 import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
 import useBackground from '../../hooks/useBackground.js'
 
 import { updateCreateCommentState, resetCreateCommentState } from '../../redux/thread.js'
 
+import refreshThreadOrTimeOut from '../../utility/thread/refreshThreadOrTimeOut.js'
+
 import {
+	thread as threadType,
 	channelId as channelIdType,
 	threadId as threadIdType
 } from '../../PropTypes.js'
@@ -19,12 +21,12 @@ import {
 import './ThreadCreateComment.css'
 
 export default function ThreadCreateComment({
+	getThread,
 	channelId,
 	channelIsNotSafeForWork,
 	threadId,
 	refreshThread
 }) {
-	const messages = useMessages()
 	const background = useBackground()
 	const dispatch = useDispatch()
 
@@ -79,18 +81,17 @@ export default function ThreadCreateComment({
 		}
 	}, [])
 
-	const onAfterSubmit = useCallback(({ id }) => {
-		// dispatch(dispatch(updateCreateCommentState({
-		// 	formExpanded: false
-		// })))
+	const onAfterSubmit = useCallback(async ({ id }) => {
 		if (refreshThread) {
-			refreshThread()
+			await refreshThreadOrTimeOut({ refreshThread })
 		}
 	}, [
 		refreshThread
 	])
 
 	const onSubmitComment = useSubmitCommentOrThread({
+		getThread,
+		addSubscribedThread: true,
 		channelId,
 		channelIsNotSafeForWork,
 		threadId,
@@ -135,6 +136,7 @@ export default function ThreadCreateComment({
 }
 
 ThreadCreateComment.propTypes = {
+	getThread: PropTypes.func.isRequired,
 	channelId: channelIdType.isRequired,
 	channelIsNotSafeForWork: PropTypes.bool,
 	threadId: threadIdType.isRequired,

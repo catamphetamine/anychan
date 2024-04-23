@@ -50,16 +50,20 @@ export default function useAutoUpdate({
 
 	const isAnyoneFetchingOrRefreshingSomeThread = threadBeingFetched || threadIsBeingRefreshed
 
-	const isAnyoneFetchingOrRefreshingThisThread = (
+	const isAnyoneRefreshingThisThread = (
 		threadIsBeingRefreshed &&
 		thread &&
 		thread.id === threadId &&
 		thread.channelId === channelId
-	) || (
+	)
+
+	const isAnyoneFetchingThisThread = (
 		threadBeingFetched &&
 		threadBeingFetched.channelId === channelId &&
 		threadBeingFetched.threadId === threadId
 	)
+
+	const isAnyoneFetchingOrRefreshingThisThread = isAnyoneRefreshingThisThread || isAnyoneFetchingThisThread
 
 	// const isAnyoneFetchingOrRefreshingAnotherThread = isAnyoneFetchingOrRefreshingSomeThread && !isAnyoneFetchingOrRefreshingThisThread
 
@@ -336,7 +340,7 @@ export default function useAutoUpdate({
 	// Also, there's no point in writing this function using `useCallback()`
 	// because it's not passed as a property anywhere.
 	//
-	const refreshThread = async () => {
+	const refreshThread = (refreshParameters) => {
 		log('refreshing thread')
 
 		// If the user is currently navigating to another thread,
@@ -360,10 +364,13 @@ export default function useAutoUpdate({
 			clearTimeout(concurrentThreadUpdateWaitTimer.current)
 			concurrentThreadUpdateWaitTimer.current = setTimeout(
 				() => {
-					refreshThread()
+					refreshThread(refreshParameters)
 				},
 				CONCURRENT_THREAD_UPDATE_WAIT_INTERVAL
 			)
+			if (refreshParameters && refreshParameters.onRefreshDelayed) {
+				refreshParameters.onRefreshDelayed(CONCURRENT_THREAD_UPDATE_WAIT_INTERVAL)
+			}
 			return
 		}
 
@@ -372,6 +379,9 @@ export default function useAutoUpdate({
 			log('no longer at that thread page — won\'t refresh that thread')
 			if (isStarted.current) {
 				stopAutoUpdate()
+			}
+			if (refreshParameters && refreshParameters.onRefreshCancelled) {
+				refreshParameters.onRefreshCancelled()
 			}
 			return
 		}
@@ -401,6 +411,10 @@ export default function useAutoUpdate({
 				latestKnownThreadObject.current = updatedThread
 
 				onThreadFetched(updatedThread, { dispatch, userData })
+
+				if (refreshParameters && refreshParameters.onRefreshFinished) {
+					refreshParameters.onRefreshFinished(updatedThread)
+				}
 
 				// When thread becomes "archived", it also automatically becomes "locked",
 				// so there's no need to check for `updatedThread.archived`
@@ -447,22 +461,26 @@ export default function useAutoUpdate({
 			}
 		}
 
-		try {
-			isUpdating.current = true
-			setUpdating(true)
-			setSecondsLeft(undefined)
-			setErrored(false)
-			await updateThread()
-		} catch (error) {
-			if (isMounted()) {
-				setErrored(true)
-			}
-		} finally {
-			isUpdating.current = false
-			if (isMounted()) {
-				setUpdating(false)
+		const run = async () => {
+			try {
+				isUpdating.current = true
+				setUpdating(true)
+				setSecondsLeft(undefined)
+				setErrored(false)
+				await updateThread()
+			} catch (error) {
+				if (isMounted()) {
+					setErrored(true)
+				}
+			} finally {
+				isUpdating.current = false
+				if (isMounted()) {
+					setUpdating(false)
+				}
 			}
 		}
+
+		run()
 	}
 
 	useEffectSkipMount(() => {
@@ -471,14 +489,17 @@ export default function useAutoUpdate({
 		// will prevent it from needlessly running several
 		// "refresh" processes simultaneously.
 		if (!isUpdating.current) {
-			refreshThread()
+			// Even though normally `refreshThreadOnDemandRequest` can't be `undefined`,
+			// it can be `undefined` when developing the application locally during React hot-reload on code changes.
+			// So the condition `refreshThreadOnDemandRequest &&` was added here so that the page doesn't break.
+			refreshThread(refreshThreadOnDemandRequest && refreshThreadOnDemandRequest.refreshParameters)
 		}
 	}, [
 		refreshThreadOnDemandRequest,
 		refreshThreadOnTimeRequest
 	])
 
-	const refreshThreadOnDemand = useCallback(async () => {
+	const refreshThreadOnDemand = useCallback(async (refreshParameters) => {
 		// This code doesn't directly call `await refreshThread()`.
 		// The reason is that `refreshThread` function is created during render.
 		// That means that that function's "reference" is updated on every re-render.
@@ -492,7 +513,7 @@ export default function useAutoUpdate({
 		// by triggering an "effect".
 		// For same reason, `refreshThreadOnDemand()` function declared via `useCallback()`
 		// shouldn't have any dependencies.
-		setRefreshThreadOnDemandRequest({})
+		setRefreshThreadOnDemandRequest({ refreshParameters })
 	}, [])
 
 	useEffect(() => {

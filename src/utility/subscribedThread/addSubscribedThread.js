@@ -6,13 +6,12 @@ import createSubscribedThreadStateRecord from './createSubscribedThreadStateReco
 import { Timer } from 'web-browser-timer'
 
 export default function addSubscribedThread(thread, {
-	channel,
 	userData,
 	subscribedThreadsUpdater = getSubscribedThreadsUpdater(),
 	timer = new Timer()
 }) {
 	// Create subscribed thread record.
-	const subscribedThread = createSubscribedThreadRecord(thread, { channel, userData })
+	const subscribedThread = createSubscribedThreadRecord(thread, { userData })
 
 	// Set `addedAt` date.
 	subscribedThread.addedAt = new Date(timer.now())

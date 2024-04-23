@@ -43,10 +43,10 @@ describe('createSubscribedThreadRecord', () => {
 				createdAt: new Date(2000)
 			}]
 		}, {
-			channel: {
-				id: 'a',
-				title: 'Anime'
-			},
+			// channel: {
+			// 	id: 'a',
+			// 	title: 'Anime'
+			// },
 			userData
 		})
 
@@ -57,7 +57,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
-					title: 'Anime'
+					// title: 'Anime'
 				},
 				thumbnail: {
 					type: 'image/jpeg',
@@ -96,10 +96,10 @@ describe('createSubscribedThreadRecord', () => {
 				createdAt: new Date(2000)
 			}]
 		}, {
-			channel: {
-				id: 'a',
-				title: 'Anime'
-			},
+			// channel: {
+			// 	id: 'a',
+			// 	title: 'Anime'
+			// },
 			userData
 		})
 
@@ -110,7 +110,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
-					title: 'Anime'
+					// title: 'Anime'
 				},
 				locked: true,
 				// lockedAt: new Date(4000)
@@ -139,10 +139,10 @@ describe('createSubscribedThreadRecord', () => {
 				createdAt: new Date(2000)
 			}]
 		}, {
-			channel: {
-				id: 'a',
-				title: 'Anime'
-			},
+			// channel: {
+			// 	id: 'a',
+			// 	title: 'Anime'
+			// },
 			userData
 		})
 
@@ -153,7 +153,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
-					title: 'Anime'
+					// title: 'Anime'
 				},
 				trimming: true
 			}
@@ -181,10 +181,10 @@ describe('createSubscribedThreadRecord', () => {
 				createdAt: new Date(2000)
 			}]
 		}, {
-			channel: {
-				id: 'a',
-				title: 'Anime'
-			},
+			// channel: {
+			// 	id: 'a',
+			// 	title: 'Anime'
+			// },
 			userData
 		})
 
@@ -197,7 +197,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
-					title: 'Anime'
+					// title: 'Anime'
 				},
 				trimming: true
 			}
@@ -232,10 +232,10 @@ describe('createSubscribedThreadRecord', () => {
 			commentsCount: 3,
 			comments: [COMMENT_1, COMMENT_2, COMMENT_3]
 		}, {
-			channel: {
-				id: 'a',
-				title: 'Anime'
-			},
+			// channel: {
+			// 	id: 'a',
+			// 	title: 'Anime'
+			// },
 			userData
 		})
 
@@ -249,7 +249,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
-					title: 'Anime'
+					// title: 'Anime'
 				}
 			}
 		)

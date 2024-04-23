@@ -32,6 +32,8 @@ export default function ChannelThreadWithoutComments({
 		setState
 	])
 
+	const getThread = useCallback(() => thread, [thread])
+
 	// threadIsTrimming={thread.trimming}
 	// threadIsArchived={thread.archived}
 
@@ -42,6 +44,7 @@ export default function ChannelThreadWithoutComments({
 		<CommentBlock
 			{...commonProps}
 			comment={thread.comments[0]}
+			getThread={getThread}
 			threadId={thread.id}
 			onRenderedContentDidChange={onHeightDidChange}
 			initialExpandContent={state && state.expandContent}

@@ -5,8 +5,6 @@ import { thread as threadType, commentTreeState } from '../../PropTypes.js'
 
 import CommentTree from '../../components/CommentTree.js'
 
-import useGetCommentById from '../Thread/useGetCommentById.js'
-
 export default function ChannelThreadWithComments({
 	thread,
 	state,
@@ -22,9 +20,15 @@ export default function ChannelThreadWithComments({
 		isFirstThreadInTheList
 	} = thread
 
+	// * `thread` object reference will change on a thread page when auto-refreshing a thread.
+	// * `thread` object reference is not supposed to change on a channel page.
+	// Since this is a thread page rathen than a channel page, `thread` object reference won't change.
+	const getThread = useCallback(() => thread, [thread])
+
 	const getComponentProps = useCallback(() => {
 		return {
 			...commonProps,
+			getThread,
 			threadId,
 			isFirstThreadInTheList,
 			showRepliesCount: false,
@@ -36,8 +40,7 @@ export default function ChannelThreadWithComments({
 		}
 	}, [
 		commonProps,
-		// * `thread` object reference will change on a thread page when auto-refreshing a thread.
-		// * `thread` object reference is not supposed to change on a channel page.
+		getThread,
 		threadId,
 		isFirstThreadInTheList
 	])

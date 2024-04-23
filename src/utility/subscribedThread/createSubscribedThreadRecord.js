@@ -1,5 +1,4 @@
 import getThreadThumbnail from '../thread/getThreadThumbnail.js'
-import getLatestReadCommentIndex from '../thread/getLatestReadCommentIndex.js'
 
 import {
 	onStartLocked,
@@ -8,7 +7,7 @@ import {
 	onStartTrimming
 } from './subscribedThreadRecordStatusUpdaters.js'
 
-export default function createSubscribedThreadRecord(thread, { channel, userData }) {
+export default function createSubscribedThreadRecord(thread, { userData }) {
 	// const latestComment = thread.comments[thread.comments.length - 1]
 
 	const subscribedThread = {
@@ -18,8 +17,8 @@ export default function createSubscribedThreadRecord(thread, { channel, userData
 		// for some reason (perhaps missing `messages` for "Picture", etc).
 		title: thread.titleCensored || thread.title,
 		channel: {
-			id: channel.id,
-			title: channel.title
+			id: thread.channelId,
+			title: undefined
 		}
 	}
 

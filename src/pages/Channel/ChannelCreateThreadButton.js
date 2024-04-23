@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-pages'
@@ -26,8 +26,6 @@ export default function ChannelCreateThreadButton({
 	channelId,
 	channelIsNotSafeForWork
 }) {
-	const [showCreateThreadForm, setShowCreateThreadForm] = useState(false)
-
 	const messages = useMessages()
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -90,7 +88,11 @@ export default function ChannelCreateThreadButton({
 	const onAfterSubmit = useCallback(({ id }) => {
 		dispatch(resetCreateThreadState())
 		if (id) {
-			navigate(`/${channelId}/${id}`)
+			navigate(`/${channelId}/${id}`, {
+				context: {
+					subscribeToThread: true
+				}
+			})
 		} else {
 			dispatch(showError('Thread ID not found in server response'))
 		}

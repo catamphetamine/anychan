@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import {
 	comment as commentType,
+	thread as threadType,
 	threadId,
 	channelId
 } from '../../PropTypes.js'
@@ -19,9 +20,6 @@ import useReport from './useReport.js'
 import useHide from './useHide.js'
 import useOwn from './useOwn.js'
 
-import getMessages from '../../messages/getMessages.js'
-import UnreadCommentWatcher from '../../utility/comment/UnreadCommentWatcher.js'
-
 import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
 import './CommentBlock.css'
@@ -29,6 +27,7 @@ import './CommentBlock.css'
 export default function CommentBlock({
 	id,
 	comment,
+	getThread,
 	threadId,
 	channelId,
 	mode,
@@ -41,7 +40,6 @@ export default function CommentBlock({
 	initialShowReplyForm,
 	onShowReplyFormChange,
 	onRenderedContentDidChange,
-	onSubscribeToThread,
 	unreadCommentWatcher,
 	latestSeenThreadId,
 	channelIsNotSafeForWork,
@@ -93,6 +91,7 @@ export default function CommentBlock({
 		onReplyFormInputHeightDidChange
 	} = useReply({
 		comment,
+		getThread,
 		threadId,
 		channelId,
 		channelIsNotSafeForWork,
@@ -108,8 +107,7 @@ export default function CommentBlock({
 		onReplyFormErrorDidChange: onReplyFormErrorDidChange_,
 		onRenderedContentDidChange,
 		moreActionsButtonRef,
-		refreshThread,
-		onSubscribeToThread
+		refreshThread
 	})
 
 	const {
@@ -222,25 +220,27 @@ export default function CommentBlock({
 				<>
 					<div className="Comment-spacer Comment-spacer--aboveReplyForm"/>
 
-					<PostForm
-						ref={replyForm}
-						expanded
-						placement="comment"
-						initialInputValue={replyFormInitialText}
-						initialState={initialReplyFormState}
-						onStateDidChange={onReplyFormStateDidChange}
-						initialError={initialReplyFormError}
-						onErrorDidChange={onReplyFormErrorDidChange}
-						initialInputHeight={initialReplyFormInputHeight}
-						onInputHeightDidChange={onReplyFormInputHeightDidChange}
-						initialFiles={initialReplyFormFiles}
-						onFilesDidChange={onReplyFormFilesDidChange}
-						initialAttachments={initialReplyFormAttachments}
-						onAttachmentsDidChange={onReplyFormAttachmentsDidChange}
-						onHeightDidChange={onRenderedContentDidChange}
-						onCancel={onCancelReply}
-						onSubmit={onSubmitReply}
-					/>
+					<div className="Comment-replyFormContainer">
+						<PostForm
+							ref={replyForm}
+							expanded
+							placement="comment"
+							initialInputValue={replyFormInitialText}
+							initialState={initialReplyFormState}
+							onStateDidChange={onReplyFormStateDidChange}
+							initialError={initialReplyFormError}
+							onErrorDidChange={onReplyFormErrorDidChange}
+							initialInputHeight={initialReplyFormInputHeight}
+							onInputHeightDidChange={onReplyFormInputHeightDidChange}
+							initialFiles={initialReplyFormFiles}
+							onFilesDidChange={onReplyFormFilesDidChange}
+							initialAttachments={initialReplyFormAttachments}
+							onAttachmentsDidChange={onReplyFormAttachmentsDidChange}
+							onHeightDidChange={onRenderedContentDidChange}
+							onCancel={onCancelReply}
+							onSubmit={onSubmitReply}
+						/>
+					</div>
 				</>
 			}
 		</div>
@@ -257,6 +257,7 @@ CommentBlock.propTypes = {
 	threadIsLocked: PropTypes.bool,
 	threadExpired: PropTypes.bool,
 	comment: commentType.isRequired,
+	getThread: PropTypes.func.isRequired,
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,
 	messages: PropTypes.object.isRequired,
@@ -264,7 +265,6 @@ CommentBlock.propTypes = {
 	initialShowReplyForm: PropTypes.bool,
 	onShowReplyFormChange: PropTypes.func,
 	onRenderedContentDidChange: PropTypes.func,
-	onSubscribeToThread: PropTypes.func,
 	unreadCommentWatcher: PropTypes.any,
 	// // This property type definition produced a mismatch warning on hot reload.
 	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher),

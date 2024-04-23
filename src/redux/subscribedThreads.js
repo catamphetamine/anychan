@@ -20,12 +20,11 @@ export const getSubscribedThreads = redux.simpleAction(
 
 export const subscribeToThread = redux.action(
 	(thread, {
-		channel,
 		userData,
 		timer,
 		subscribedThreadsUpdater
 	}) => async () => {
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 		return userData.getSubscribedThreads()
 	},
 	(state, subscribedThreads) => ({
@@ -72,9 +71,9 @@ export const updateSubscribedThreadState = redux.action(
 		if (!newSubscribedThreads) {
 			let i = 0
 			while (i < subscribedThreads.length) {
-				const thread = subscribedThreads[i]
-				if (thread.id === threadId && thread.channel.id === channelId) {
-					subscribedThreads[i] = { ...thread }
+				const subscribedThread = subscribedThreads[i]
+				if (subscribedThread.id === threadId && subscribedThread.channel.id === channelId) {
+					subscribedThreads[i] = { ...subscribedThread }
 					break
 				}
 				i++

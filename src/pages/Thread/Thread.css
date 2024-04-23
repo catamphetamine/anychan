@@ -110,7 +110,7 @@
 }
 
 .ThreadPage {
-	.CommentTree:not(.CommentTree--repliesExpanded) > .Comment-container > .PostFormWithAttachments--comment,
+	.CommentTree:not(.CommentTree--repliesExpanded) > .Comment-container > .Comment-replyFormContainer > .PostFormWithAttachments--comment,
 	.ThreadCreateComment.PostFormWithAttachments--comment {
 		@mixin m-plus {
 			--PostForm-marginLeft--comment: var(--PostThumbnailContainer-maxWidth);
@@ -125,9 +125,24 @@
 		}
 	}
 
-	.CommentTree--repliesExpanded > .Comment-container > .PostFormWithAttachments--comment {
-		margin-left: var(--CommentTree-marginLeft--child);
-		width: calc(100% - var(--CommentTree-marginLeft--child));
+	.CommentTree--repliesExpanded > .Comment-container > .Comment-replyFormContainer {
+		padding-left: var(--CommentTree-marginLeft--child);
+		/* width: calc(100% - var(--CommentTree-marginLeft--child)); */
+
+		&:before {
+			position: absolute;
+			/* This `1px` horizontal shift corresponds to the `1px` shift workaround for `.CommentTree-replies`. */
+			left: var(--CommentTreePathBranch-marginLeft--workaround);
+			top: 0;
+			width: var(--CommentTree-marginLeft--child);
+			border-left: var(--CommentTreePath-borderWidth) var(--CommentTreePath-borderStyle) var(--CommentTreePath-color);
+			height: 100%;
+			content: '';
+			display: block;
+		}
+
+		& > .PostFormWithAttachments--comment {
+		}
 	}
 
 	.CommentTree--repliesExpanded > .Comment-container > .Comment-spacer--aboveReplyForm {

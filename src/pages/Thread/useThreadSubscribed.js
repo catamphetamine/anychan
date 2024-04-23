@@ -7,12 +7,10 @@ import useUserData from '../../hooks/useUserData.js'
 
 /**
  * Same concept as `useState()` but for a thread's "subscribed" status.
- * @param  {object} options.channel
  * @param  {object} options.thread
  * @return {Array} Returns `[isSubscribed, setSubscribed]`
  */
 export default function useThreadSubscribed({
-	channel,
 	thread
 }) {
 	const userData = useUserData()
@@ -21,28 +19,26 @@ export default function useThreadSubscribed({
 	const subscribedThreads = useSelector(state => state.subscribedThreads.subscribedThreads)
 
 	const isThreadSubscribed = useMemo(() => {
-		return userData.isSubscribedThread(channel.id, thread.id)
+		return userData.isSubscribedThread(thread.channelId, thread.id)
 	}, [
-		channel,
 		thread,
 		subscribedThreads
 	])
 
 	const setThreadSubscribed = useCallback((isSubscribed) => {
 		if (isSubscribed) {
-			dispatch(subscribeToThread(thread, { channel, userData }))
+			dispatch(subscribeToThread(thread, { userData }))
 		} else {
 			dispatch(unsubscribeFromThread({
 				id: thread.id,
 				channel: {
-					id: channel.id
+					id: thread.channelId
 				}
 			}, {
 				userData
 			}))
 		}
 	}, [
-		channel,
 		thread
 	])
 

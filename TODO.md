@@ -5,7 +5,21 @@ https://erischan.org/
 https://prolikewoah.com/
 https://alogs.space/
 
-* Test PWA.
+* `Imageboard.ts` — see if it would work when not using a proxy. For example, it seems to theoretically read cookies fine. What about other headers.
+
+* Add "Background (Light)" and "Background (Dark)" on the Settings page:
+  * Enabled (toggle) + "i" icon when enabled: opens a modal with a list of available CSS variables for custom themes + "Not supported":
+    * --Background-backgroundColor
+    * --BackgroundGradient-blendMode
+    * --BackgroundGradient-color--1
+    * --BackgroundGradient-color--2
+    * --BackgroundPattern-filter
+    * --BackgroundPattern-blendMode
+    * --BackgroundPattern-zIndex
+    * --BackgroundPattern-opacity
+    * --BackgroundBackdrop-zIndex
+    * --BackgroundBackdrop-backgroundColor
+  * Select: 3 options
 
 * In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
 
@@ -87,13 +101,6 @@ https://alogs.space/
 * "<code>94chan.org</code> is known to not work with the "demo" proxy server" — add "anchor" link to proxy settings
 
 * Create `0.3.0` release and make a post in telegram with a snowman doge pic.
-
-* Test post comment with attachments.
-
-* "Reply to" comment form — if the list of replies is expanded, the form should be rendered above those replies with a comment tree "branch" border on the left side.
-  * Render `.CommentTree-branch` element to the left of the reply form and to the left of the spacer above it.
-  * Assign a className to `ReplyForm` instead of using a selector `.CommentTree--repliesExpanded > .Comment-container > .PostFormWithAttachments--comment`.
-  * Check in wide screen and small screen.
 
 * Add a link to "open on the original website" on comment or thread in the reply form when there's a notice that the functionality isn't implemented, or was disabled for anonymous posters (if the user is not logged in).
 
