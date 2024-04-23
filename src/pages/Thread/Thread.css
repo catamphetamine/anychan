@@ -132,7 +132,7 @@
 		&:before {
 			position: absolute;
 			/* This `1px` horizontal shift corresponds to the `1px` shift workaround for `.CommentTree-replies`. */
-			left: var(--CommentTreePathBranch-marginLeft--workaround);
+			left: 0;
 			top: 0;
 			width: var(--CommentTree-marginLeft--child);
 			border-left: var(--CommentTreePath-borderWidth) var(--CommentTreePath-borderStyle) var(--CommentTreePath-color);
@@ -140,14 +140,23 @@
 			content: '';
 			display: block;
 		}
-
-		& > .PostFormWithAttachments--comment {
-		}
 	}
 
 	.CommentTree--repliesExpanded > .Comment-container > .Comment-spacer--aboveReplyForm {
-		width: 1px;
-		background-color: var(--CommentTreePath-color--branch);
+		/* Non-zero `left` position will be set on this spacer at the first level of nesting of the comment tree. */
+		position: relative;
+		border-left: var(--CommentTreePath-borderWidth) var(--CommentTreePath-borderStyle) var(--CommentTreePath-color);
+	}
+
+	.CommentTree--topLevel.CommentTree--repliesExpanded > .Comment-container {
+		& > .Comment-spacer--aboveReplyForm,
+		& > .Comment-replyFormContainer:before {
+			left: var(--CommentTreePathBranch-marginLeft--workaround);
+		}
+		& > .Comment-replyFormContainer:before,
+		& > .Comment-spacer--aboveReplyForm {
+				margin-left: calc(var(--CommentTree-marginLeft--child) * var(--CommentTreePath-marginLeftRatio--root));
+		}
 	}
 }
 
