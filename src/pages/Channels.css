@@ -22,3 +22,19 @@
 		}
 	}
 }
+
+.ChannelsPage--onBackground {
+	&:before {
+		position: absolute;
+		width: calc(100% + var(--Webpage-paddingLeft-width) + var(--Webpage-paddingRight-width));
+		height: calc(100% + var(--Footer-marginTop--onBackground));
+		margin-left: calc(-1 * var(--Webpage-paddingLeft-width));
+		margin-right: calc(-1 * var(--Webpage-paddingRight-width));
+		background-color: var(--OnBackground-backgroundColor);
+		opacity: var(--OnBackground-opacity--content);
+		top: 0;
+		left: 0;
+		z-index: -1;
+		content: '';
+	}
+}

@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 
 import ChannelsListVirtualized from '../components/ChannelsList/ChannelsListVirtualized.js'
-import ChannelUrl from '../components/ChannelUrl.js'
 
 import { getChannels } from '../redux/data.js'
 
@@ -11,6 +10,7 @@ import getMessages from '../messages/getMessages.js'
 
 import useMessages from '../hooks/useMessages.js'
 import useSetting from '../hooks/useSetting.js'
+import useBackground from '../hooks/useBackground.js'
 
 import './Channels.css'
 
@@ -21,8 +21,12 @@ export default function ChannelsPage() {
 		channelsByPopularity
 	} = useSelector(state => state.data.allChannels)
 
+	const background = useBackground()
+
 	return (
-		<section className="ChannelsPage Content Content--text">
+		<section className={classNames('ChannelsPage', 'Content', 'Content--text', {
+			'ChannelsPage--onBackground': background
+		})}>
 			<ChannelsListVirtualized
 				showAllChannels
 				channels={channels}

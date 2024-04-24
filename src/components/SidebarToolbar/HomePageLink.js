@@ -1,12 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import classNames from 'classnames'
 
 import SidebarMenuItem from '../Sidebar/SidebarMenuItem.js'
-
-import DataSourceIcon from '../DataSourceIcon.js'
-import DataSourceLogo from '../DataSourceLogo.js'
 
 import useRoute from '../../hooks/useRoute.js'
 import useDataSource from '../../hooks/useDataSource.js'
