@@ -40,6 +40,7 @@ import isDeployedOnDataSourceDomain from '../utility/dataSource/isDeployedOnData
 
 import { subscribeToThread } from '../redux/subscribedThreads.js'
 
+// Returns a function that submits a thread or a comment.
 export default function useSubmitCommentOrThread({
 	getThread,
 	channelId,
@@ -374,7 +375,7 @@ export default function useSubmitCommentOrThread({
 				console.log('@@@ CAPTCHA parameters:', captchaParameters)
 			}
 
-			if (dataSource.id === '2ch') {
+			if (dataSource.id === '2ch' && !isDeployedOnDataSourceDomain(dataSource)) {
 				if (locale === 'ru') {
 					dispatch(notify('Справка: Капча `2ch.hk`, судя по всему, не работает на сайтах, отличных от `2ch.hk`: не грузит картинку, а даже если и грузит, то потом не принимает ответ. Поэтому на текущий момент постинг работает только из-под "пасскода". Войти по "пасскоду" можно нажав на значок пользователя вверху сайдбара.'))
 				} else {

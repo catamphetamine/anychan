@@ -66,6 +66,16 @@
 			"xl": "Groot",
 			"xxl": "Grootste"
 		},
+		"css": {
+			"title": "CSS",
+			"deleteWarning": "Als u aangepaste CSS uitschakelt, wordt alles wat u in het onderstaande veld heeft ingevoerd, gewist. Weet je het zeker?"
+		},
+		"background": {
+			"title": {
+				"light": "Lichte achtergrond",
+				"dark": "Donkere achtergrond"
+			}
+		},
 		"theme": {
 			"title": "Thema",
 			"add": {

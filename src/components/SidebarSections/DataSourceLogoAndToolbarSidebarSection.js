@@ -20,7 +20,7 @@ export default function DataSourceLogoAndToolbarSidebarSection() {
 	const toolbarElements = (
 		<>
 			<DarkModeToggle/>
-			<ColorfulBackgroundToggle/>
+			{/* <ColorfulBackgroundToggle/> */}
 			<SettingsLink/>
 			{dataSource && dataSource.supportsLogIn() &&
 				<UserAccountLink/>

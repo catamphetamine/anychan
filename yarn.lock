@@ -6486,16 +6486,16 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imageboard@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.8.1.tgz#8774fbe7bc6dbaaa78ef2ab812bc23986f8b0682"
-  integrity sha512-GvRB5dl0nclXBo5fX62RIr/j5ogmKO57Udogm1o/eIDHXDx8fe8UCJUFreCtR6wFslD8uYwbSSUuEHWC6lZi1w==
+imageboard@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.8.3.tgz#b6070d7b69d9e55966273e5c03d71c2a763e9c5f"
+  integrity sha512-Hny8sF3mEqslYjPSvejfa0XXobeNeiBYVzu2Z0coblnS0p+IEqQkZHiBLjN4YzZZa19H4BfJYw7hTWn6/7O1Og==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"
     lodash "^4.17.21"
     set-cookie-parser "^2.6.0"
-    social-components "^0.4.3"
+    social-components "^0.4.4"
     social-components-parser "^0.3.1"
 
 immediate@~3.0.5:
@@ -8468,10 +8468,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pages@^0.7.19:
-  version "0.7.19"
-  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.19.tgz#f81f5b5ea2591bbf6902deb695a3bbe56097a7d9"
-  integrity sha512-eww4XeiYA9UkdR6TovE1nOCYc8oRZZMMjSIDfmDUjvVpAXAQgZR058FQB+0obY8nmkTXAh1GmU5I09hTlFzpaQ==
+react-pages@^0.7.20:
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/react-pages/-/react-pages-0.7.20.tgz#f4c99be585d558723ea0df3483176daabf98a4e8"
+  integrity sha512-OHeorRO3w1Ovmp5XxyqYXpfbgqS3++kGBfhUfdTSaKSDMxmq/IbIcnk4viZR9JSQ1F/n6XhD6wDUtU+MvDK5/w==
   dependencies:
     "@catamphetamine/farce" "^0.4.19"
     "@catamphetamine/found" "^1.3.11"
@@ -9223,14 +9223,6 @@ social-components@^0.4.1:
     fetch-jsonp "^1.2.1"
     lodash "^4.17.15"
 
-social-components@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.3.tgz#56fc7819f0ad53a1ecf459d195a4c07e4b45d2b0"
-  integrity sha512-re5SfMPRZ1BzC1RY7ThGpfh+hEXAxULq+CqF4YXJ12YXPHfs9SQIjIebd8yA163ajSzrzl21mzufadCLzUXKpA==
-  dependencies:
-    fetch-jsonp "^1.2.1"
-    lodash "^4.17.15"
-
 social-components@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.4.tgz#ac6baf96d69c2a4f44b4416465149ed9e31c57e4"
@@ -9891,10 +9883,10 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-virtual-scroller@^1.12.5:
-  version "1.12.5"
-  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.5.tgz#4f96c3cd614068b8c5100ba9b026573999b8bae5"
-  integrity sha512-fMUdmArBpgBt0XBHgPuxONEz1GND2ukZD/Uf51PfhNnSeZA/cbtbhOOCoeI29BbcPjq6ZA63pZyARm6oIqLADw==
+virtual-scroller@^1.12.6:
+  version "1.12.6"
+  resolved "https://registry.yarnpkg.com/virtual-scroller/-/virtual-scroller-1.12.6.tgz#e41c1875fdb5ca4852f77058161a9d8a2b566c08"
+  integrity sha512-dJh9xz797B1pa/s/OFRBDG6eWa9sf8y1GvtGdo7lXX+4WPAlMeORHKt6xK+kvtUDcSfEpr6WFy4z0GNHImjKpQ==
   dependencies:
     request-animation-frame-timeout "^1.0.0"
 

@@ -8,11 +8,14 @@ import {
 	ContentSectionDescription
 } from 'frontend-lib/components/ContentSection.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 export default function GrammarCorrectionSettings({
-	messages,
 	value,
 	onChange
 }) {
+	const messages = useMessages()
+
 	return (
 		<ContentSection>
 			<ContentSectionHeader lite>
@@ -38,7 +41,6 @@ export default function GrammarCorrectionSettings({
 }
 
 GrammarCorrectionSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	value: PropTypes.bool,
 	onChange: PropTypes.func.isRequired
 }

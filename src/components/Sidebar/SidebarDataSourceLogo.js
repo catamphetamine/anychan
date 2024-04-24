@@ -21,11 +21,13 @@ export default function SidebarDataSourceLogo() {
 				className="SidebarDataSourceLogo-link">
 				<DataSourceLogo
 					aria-hidden
+					dataSource={dataSource}
 					className="SidebarDataSourceLogo-image"
 				/>
 				{dataSource.title}
 				<DataSourceLogo
 					aria-hidden
+					dataSource={dataSource}
 					className="SidebarDataSourceLogo-image SidebarDataSourceLogo-image--placeholder"
 				/>
 			</Link>

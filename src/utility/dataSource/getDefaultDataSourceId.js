@@ -1,4 +1,4 @@
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 
 export default function getDefaultDataSourceId() {
 	if (typeof getConfiguration().dataSource === 'string') {

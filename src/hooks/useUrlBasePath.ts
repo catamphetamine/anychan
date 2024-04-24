@@ -3,7 +3,7 @@ import useDataSourceAlias from './useDataSourceAlias.js'
 
 import getBasePath from '../utility/getBasePath.js'
 
-export default function useUrlBasePath() {
+export default function useUrlBasePath(): string {
 	const dataSource = useDataSource()
 	const dataSourceAlias = useDataSourceAlias()
 

@@ -13,10 +13,26 @@
 	border-radius: 0.25em;
 }
 
+.NoDataSourcePage-dataSources {
+	padding: 0;
+	list-style-type: none;
+}
+
 .NoDataSourcePage-dataSource {
 	line-height: var(--Document-lineHeight);
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
 
 	&::marker {
 		color: var(--Content-color-300);
 	}
+}
+
+.NoDataSourcePage-dataSourceLogo {
+	width: 1rem;
+	height: 1rem;
+	margin-right: 0.45em;
+	position: relative;
+	top: 0.15em;
+	color: var(--Content-color-900);
 }

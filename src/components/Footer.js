@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import Markup from './Markup.js'
 import ExternalLink from './ExternalLink.js'
 
-import getConfiguration from '../configuration.js'
+import getConfiguration from '../getConfiguration.ts'
 import isContentSectionsPage from '../utility/routes/isContentSectionsPage.js'
 import isChannelsPage from '../utility/routes/isChannelsPage.js'
 
@@ -34,12 +34,12 @@ export default function Footer({ className }) {
 			'Content--background': isContentSectionsPage(route) || isChannelsPage(route),
 			'Footer--onBackground': background
 		})}>
-			{getConfiguration().footerMarkup &&
+			{(getConfiguration().footerMarkupContent || getConfiguration().footerMarkupHtml) &&
 				<Markup
-					content={getConfiguration().footerContent}
-					markup={getConfiguration().footerMarkup}
-					fullWidth={getConfiguration().footerMarkupFullWidth}
-					className="Footer-banner"/>
+					id="footerMarkup"
+					content={getConfiguration().footerMarkupContent}
+					markup={getConfiguration().footerMarkupHtml}
+				/>
 			}
 			{dataSource && dataSource.links &&
 				<FooterLinks links={dataSource.links}/>

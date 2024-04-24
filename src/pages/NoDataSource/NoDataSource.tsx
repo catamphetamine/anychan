@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import DATA_SOURCES_LIST from '../../../dataSources/index.js'
 
+import DataSourceLogo from '../../components/DataSourceLogo.js'
+
 import './NoDataSource.css'
 
 export default function NoDataSourcePage() {
@@ -21,6 +23,7 @@ export default function NoDataSourcePage() {
 				{DATA_SOURCES_LIST.map((dataSource) => (
 					<li key={dataSource.id} className="NoDataSourcePage-dataSource">
 						<a href={'/' + dataSource.id}>
+							<DataSourceLogo dataSource={dataSource} className="NoDataSourcePage-dataSourceLogo"/>
 							{dataSource.id}
 						</a>
 					</li>

@@ -39,7 +39,7 @@ describe('onSubscribedThreadFetchError', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		// Errored first time.
 		onSubscribedThreadFetchError({
@@ -127,7 +127,7 @@ describe('onSubscribedThreadFetchError', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		userData.removeSubscribedThreadState('a', 100)
 

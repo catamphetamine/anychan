@@ -4,7 +4,9 @@ import useMessageFormatter_ from 'frontend-lib/hooks/useMessageFormatter.js'
 
 import useLocale from './useLocale.js'
 
-export default function useMessageFormatter(messageLabel, options) {
+type MessageFormatter = (parameters?: Record<string, any>) => string
+
+export default function useMessageFormatter(messageLabel: string, options?: Record<string, any>) {
 	const locale = useLocale()
 
 	const optionsWithLocale = useMemo(() => ({
@@ -15,5 +17,5 @@ export default function useMessageFormatter(messageLabel, options) {
 		locale
 	])
 
-	return useMessageFormatter_(messageLabel, optionsWithLocale)
+	return useMessageFormatter_(messageLabel, optionsWithLocale) as MessageFormatter
 }

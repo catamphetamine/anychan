@@ -1,5 +1,4 @@
 import path from 'path'
-import webpack from 'webpack'
 
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
@@ -168,7 +167,17 @@ export function createConfiguration({ development }) {
 			symlinks: false,
 
 			// Support TypeScript files.
-			extensions: ['.tsx', '.ts', '.js']
+			extensions: ['.tsx', '.ts', '.js'],
+
+			extensionAlias: {
+				// TypeScript doesn't allow to `import` other TypeScript files using a `*.ts` extension.
+				// Instead, it only allows doing that when changing the `*.ts` extension to `*.js` one.
+				// https://www.totaltypescript.com/relative-import-paths-need-explicit-file-extensions-in-ecmascript-imports
+				// But then Webpack starts complaining that it can't find the `*.js` file in the filesystem:
+				// naturally, because it has a `*.ts` file extension in reality.
+				// This `extensionAlias` setting of Webpack works around that issue.
+        '.js': ['.js', '.ts', '.tsx']
+			}
 		},
 
 		// Plugins will be added to this array by extending configurations.

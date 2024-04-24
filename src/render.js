@@ -2,7 +2,7 @@ import { render } from 'react-pages/client'
 
 import { createLoadContextGetterFunction } from './loadContext.js'
 import getReactPagesConfig from './react-pages.js'
-import getConfiguration from './configuration.js'
+import getConfiguration from './getConfiguration.ts'
 import suppressVirtualScrollerDevModePageLoadWarnings from './utility/suppressVirtualScrollerDevModePageLoadWarnings.js'
 
 export default async function({

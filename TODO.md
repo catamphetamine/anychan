@@ -7,20 +7,6 @@ https://alogs.space/
 
 * `Imageboard.ts` — see if it would work when not using a proxy. For example, it seems to theoretically read cookies fine. What about other headers.
 
-* Add "Background (Light)" and "Background (Dark)" on the Settings page:
-  * Enabled (toggle) + "i" icon when enabled: opens a modal with a list of available CSS variables for custom themes + "Not supported":
-    * --Background-backgroundColor
-    * --BackgroundGradient-blendMode
-    * --BackgroundGradient-color--1
-    * --BackgroundGradient-color--2
-    * --BackgroundPattern-filter
-    * --BackgroundPattern-blendMode
-    * --BackgroundPattern-zIndex
-    * --BackgroundPattern-opacity
-    * --BackgroundBackdrop-zIndex
-    * --BackgroundBackdrop-backgroundColor
-  * Select: 3 options
-
 * In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
 
 * `validateDatasource` schema. Validate shortId uniqueness across different dataSources.

@@ -39,9 +39,10 @@ HomePageLink.propTypes = {
 	withLabel: PropTypes.bool
 }
 
+/*
 function HomePageIcon({ dataSourceId, ...rest }) {
 	if (dataSourceId === 'lainchan' || dataSourceId === 'arisuchan') {
-		return <DataSourceLogo {...rest}/>
+		return <DataSourceLogo dataSource={...} {...rest}/>
 	}
 	return <DataSourceIcon {...rest}/>
 }
@@ -49,6 +50,7 @@ function HomePageIcon({ dataSourceId, ...rest }) {
 HomePageIcon.propTypes = {
 	dataSourceId: PropTypes.string.isRequired
 }
+*/
 
 // Using `0.1` instead of `0` and `2.9` instead of `3.0` here
 // to add some side padding for the `<line/>` so that it isn't clipped.

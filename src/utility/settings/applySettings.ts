@@ -1,11 +1,15 @@
+import type { Dispatch } from 'redux'
+import type { UserSettings, UserSettingsJson } from '../../types/index.js'
+
 import applyFontSize from 'frontend-lib/utility/style/applyFontSize.js'
 import applyLeftHanded from 'frontend-lib/utility/style/applyLeftHanded.js'
 import autoDarkMode from 'frontend-lib/utility/style/autoDarkMode.js'
 import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
-import { setDarkMode, setBackgroundLightMode, setBackgroundDarkMode } from '../../redux/app.js'
+import { setDarkMode } from '../../redux/app.js'
 
-import { applyTheme } from '../themes.js'
+import { applyTheme, applyCustomCss } from '../themes.js'
+import { applyBackground } from '../background.js'
 
 import getSettings from './getSettings.js'
 
@@ -13,6 +17,10 @@ export default async function applySettings({
 	userSettings,
 	settings,
 	...rest
+}: {
+	userSettings?: UserSettings,
+	settings?: UserSettingsJson,
+	dispatch: Dispatch
 }) {
 	// If `userSettings` parameter was passed, convert it to `settings` object
 	// and call the function again.
@@ -27,8 +35,8 @@ export default async function applySettings({
 
 	applyDarkModeSettings({ settings, dispatch })
 
-	dispatch(setBackgroundDarkMode(settings.backgroundDarkMode))
-	dispatch(setBackgroundLightMode(settings.backgroundLightMode))
+	applyBackgroundDark({ settings, dispatch })
+	applyBackgroundLight({ settings, dispatch })
 
 	applyFontSize(settings.fontSize)
 	applyLeftHanded(settings.leftHanded)
@@ -39,12 +47,24 @@ export default async function applySettings({
 	// and there's no `await` there when it calls this function.
 	await applyTheme(settings.theme, { themes: settings.themes })
 
+	if (settings.css) {
+		applyCustomCss(settings.css)
+	}
+
 	return settings
 }
 
-export function applyDarkModeSettings({ settings, dispatch }) {
+export function applyBackgroundDark({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {
+	applyBackground(settings.backgroundDarkMode, 'dark', { dispatch, backgrounds: settings.backgroundsDark });
+}
+
+export function applyBackgroundLight({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {
+	applyBackground(settings.backgroundLightMode, 'light', { dispatch, backgrounds: settings.backgroundsLight });
+}
+
+export function applyDarkModeSettings({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {
 	// Enters Dark Mode (when `value` is `true`) or Light Mode (when `value` is `false`).
-	const enterDarkMode = (value) => {
+	const enterDarkMode = (value: boolean) => {
 		// Apply `.dark`/`.light` CSS class to `<body/>`.
 		applyDarkMode(value)
 		// `dispatch(setDarkMode())` calls `applyDarkMode()` under the hood.

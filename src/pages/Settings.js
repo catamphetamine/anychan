@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import applyDarkMode from 'frontend-lib/utility/style/applyDarkMode.js'
 
 import Heading from '../components/Heading.js'
+import BackgroundSettings from '../components/settings/BackgroundSettings.js'
 import ThemeSettings from '../components/settings/ThemeSettings.js'
+import CssSettings from '../components/settings/CssSettings.js'
 import ProxySettings from '../components/settings/ProxySettings.js'
 import DataSettings from '../components/settings/DataSettings.js'
 import KeyboardShortcuts from '../components/settings/KeyboardShortcuts.js'
@@ -35,7 +37,6 @@ import { setDarkMode } from '../redux/app.js'
 import getLanguageNames from '../messages/getLanguageNames.js'
 
 import useMessages from '../hooks/useMessages.js'
-import useLocale from '../hooks/useLocale.js'
 import useSetting from '../hooks/useSetting.js'
 import useSettings from '../hooks/useSettings.js'
 import useMeasure from '../hooks/useMeasure.js'
@@ -44,16 +45,14 @@ import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
 import { getDefaultProxyUrl } from '../utility/proxy/getProxyUrl.js'
 
 import {
-	ContentSections,
-	ContentSection,
-	ContentSectionHeader
+	ContentSections
 } from 'frontend-lib/components/ContentSection.js'
 
 import './Settings.css'
 
 const LANGUAGE_NAMES = getLanguageNames()
 
-export default function SettingsPage(props) {
+export default function SettingsPage() {
 	const messages = useMessages()
 
 	const settings = useSetting(settings => settings)
@@ -77,9 +76,8 @@ export default function SettingsPage(props) {
 	)
 }
 
-SettingsPage.meta = ({ useSelector, props }) => {
+SettingsPage.meta = ({ useSelector }) => {
 	const messages = useMessages({ useSelector })
-	const locale = useSelector(state => state.settings.settings.locale)
 	return {
 		title: messages.settings.title
 	}
@@ -115,7 +113,6 @@ function Settings({
 		<ContentSections>
 			{/* Language */}
 			<LanguageSettings
-				messages={messages}
 				value={settings.locale}
 				onChange={onLocaleChange}
 				languages={LANGUAGE_NAMES}>
@@ -129,63 +126,62 @@ function Settings({
 				</FormComponent>
 			</LanguageSettings>
 
-			{/* Theme */}
-			<ThemeSettings
-				messages={messages}
-				settings={settings}
-				dispatch={dispatch}
-				guideUrl="https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md"/>
-
 			{/* Font Size */}
 			<FontSizeSettings
-				messages={messages}
 				value={settings.fontSize}
 				onChange={onFontSizeChange}/>
 
+			{/* Theme */}
+			<ThemeSettings
+				settings={settings}
+				guideUrl="https://gitlab.com/catamphetamine/anychan/blob/master/docs/themes/guide.md"/>
+
+			{/* Background (Light) */}
+			<BackgroundSettings
+				type="light"
+				settings={settings}/>
+
+			{/* Background (Dark) */}
+			<BackgroundSettings
+				type="dark"
+				settings={settings}/>
+
 			{/* Dark Mode */}
 			<DarkModeSettings
-				messages={messages}
 				autoDarkModeValue={settings.autoDarkMode}
 				onAutoDarkModeChange={onAutoDarkModeChange}
 				onSetDarkMode={onSetDarkMode}/>
 
 			{/* Left Handed */}
 			<LeftHandedSettings
-				messages={messages}
 				value={settings.leftHanded}
 				onChange={onLeftHandedChange}/>
 
 			{/* Grammar Correction */}
 			<GrammarCorrectionSettings
-				messages={messages}
 				value={settings.grammarCorrection}
 				onChange={onGrammarCorrectionChange}/>
 
 			{/* Censored Words */}
-			<CensoredWordsSettings
-				messages={messages}
-				language={getLanguageFromLocale(settings.locale)}/>
+			<CensoredWordsSettings language={getLanguageFromLocale(settings.locale)}/>
 
 			{/* Keyboard Shortcuts */}
-			<KeyboardShortcuts
-				messages={messages}/>
+			<KeyboardShortcuts/>
 
 			{/* Data */}
-			<DataSettings
-				messages={messages}
-				locale={settings.locale}
-				dispatch={dispatch}
-			/>
+			<DataSettings/>
 
 			{/* CORS Proxy */}
 			{(!dataSource || shouldUseProxy(dataSource)) &&
 				<ProxySettings
-					messages={messages}
 					value={settings.proxyUrl}
 					defaultValue={getDefaultProxyUrl()}
 					onChange={onProxyUrlChange}
 				/>
 			}
+
+			{/* CSS */}
+			<CssSettings value={settings.css}/>
 		</ContentSections>
 	)
 }

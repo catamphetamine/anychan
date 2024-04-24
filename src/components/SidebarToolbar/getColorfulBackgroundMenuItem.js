@@ -4,7 +4,7 @@ import { notify } from '../../redux/notifications.js'
 import { setBackgroundLightMode, setBackgroundDarkMode } from '../../redux/app.js'
 import { saveBackgroundLightMode, saveBackgroundDarkMode } from '../../redux/settings.js'
 
-import { DEFAULT_BACKGROUNDS_DARK_MODE, DEFAULT_BACKGROUNDS_LIGHT_MODE } from '../../utility/settings/settingsDefaults.js'
+import { DEFAULT_BACKGROUNDS_DARK_MODE, DEFAULT_BACKGROUNDS_LIGHT_MODE } from '../../utility/settings/settingsDefaults.ts'
 
 import DogeColorfulGlassesIconOutline from '../../../assets/images/icons/menu/doge-colorful-glasses-outline.svg'
 import DogeColorfulGlassesIconFill from '../../../assets/images/icons/menu/doge-colorful-glasses-fill.svg'

@@ -6,7 +6,6 @@ import WrapCommentWithThumbnail from './WrapCommentWithThumbnail.js'
 import CommentHidden from './CommentHidden.js'
 import Comment from './Comment.js'
 import { hasAuthor } from './CommentAuthor.js'
-import CommentWithOptionalThumbnailClickableWrapper from './CommentWithOptionalThumbnailClickableWrapper.js'
 
 import useSlideshow from './useSlideshow.js'
 import useCompact from './useCompact.js'

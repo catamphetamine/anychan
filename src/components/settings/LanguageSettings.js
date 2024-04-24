@@ -8,13 +8,16 @@ import {
 	ContentSectionHeader
 } from 'frontend-lib/components/ContentSection.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 export default function LanguageSettings({
-	messages,
 	value,
 	onChange,
 	languages,
 	children
 }) {
+	const messages = useMessages()
+
 	const options = useMemo(() => {
 		return Object.keys(languages).map((language) => ({
 			value: language,
@@ -38,7 +41,6 @@ export default function LanguageSettings({
 }
 
 LanguageSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	languages: PropTypes.objectOf(PropTypes.string).isRequired,

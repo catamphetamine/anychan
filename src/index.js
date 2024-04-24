@@ -77,10 +77,14 @@ async function run() {
 	}
 }
 
-if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', function() {
-		run()
-	})
-} else {
-	run()
+function onPageLoad(action) {
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function() {
+			action()
+		})
+	} else {
+		action()
+	}
 }
+
+onPageLoad(run)

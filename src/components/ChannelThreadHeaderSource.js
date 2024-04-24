@@ -15,6 +15,7 @@ export default function ChannelThreadHeaderSource() {
 			title={dataSource.title}
 			className="ChannelThreadHeader-dataSourceLogoLink">
 			<DataSourceLogo
+				dataSource={dataSource}
 				className="ChannelThreadHeader-dataSourceLogo"
 			/>
 		</Link>
@@ -22,8 +23,10 @@ export default function ChannelThreadHeaderSource() {
 }
 
 export function ChannelThreadHeaderSourcePlaceholder() {
+	const dataSource = useDataSource()
 	return (
 		<DataSourceLogo
+			dataSource={dataSource}
 			className="ChannelThreadHeader-dataSourceLogo ChannelThreadHeader-dataSourceLogo--spaceEquivalent"
 		/>
 	)

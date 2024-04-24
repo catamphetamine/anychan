@@ -1,4 +1,4 @@
-import { setDefaultThemes } from './utility/settings/settingsDefaults.js'
+import { setDefaultThemes } from './utility/settings/settingsDefaults.ts'
 import getDefaultThemes from './utility/getDefaultThemes.js'
 
 export default function() {

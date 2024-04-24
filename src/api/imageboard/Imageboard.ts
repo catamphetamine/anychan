@@ -6,12 +6,12 @@ import shouldUseProxy from '../../utility/proxy/shouldUseProxy.js'
 import getProxiedUrl from '../../utility/proxy/getProxiedUrl.js'
 import getMessages from '../utility/getMessages.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.js'
 
 import { getCookie } from 'frontend-lib/utility/cookies.js'
 
 import type { HttpRequestError } from 'imageboard'
-import type { DataSource, Messages } from '@/types'
+import type { DataSource, Messages } from '../../types/index.js'
 
 export default function Imageboard_(dataSource: DataSource, {
 	messages,
@@ -31,7 +31,7 @@ export default function Imageboard_(dataSource: DataSource, {
 		// `expandReplies: true` flag transforms reply ids into reply comment objects
 		// in `comment.inReplyTo[]` and `comment.replies[]`.
 		expandReplies: true,
-		getSetCookieHeaders({ headers }: { headers: Headers }) {
+		getSetCookieHeaders({ headers }): string[] {
 			// See if the `fetch()` response headers allow reading `set-cookie` header.
 			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie
 			if (headers.getSetCookie().length > 0) {
@@ -286,7 +286,7 @@ function rejectWithErrorForResponse(response: Response, { status, isUsingCorsPro
 }
 
 // Converts an object to a `FormData` instance.
-function createFormData(body: Record<string, any>) {
+function createFormData(body?: Record<string, any>) {
   // * For 'multipart/form-data', use `FormData` class.
   // * For 'application/x-www-form-urlencoded', use `URLSearchParams` class.
 	const formData = new FormData()

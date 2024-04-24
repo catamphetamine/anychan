@@ -1,4 +1,4 @@
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 
 const REFRESH_ERROR_UPDATE_DELAY = 60 * 1000
 

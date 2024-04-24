@@ -16,6 +16,9 @@ import { setShowSidebar, setSidebarMode } from '../redux/app.js'
 import './Home.css'
 
 export default function Home() {
+	const messages = useMessages()
+	const dispatch = useDispatch()
+	const background = useBackground()
 	const dataSource = useDataSource()
 
 	const {
@@ -23,10 +26,6 @@ export default function Home() {
 		subtitle,
 		description
 	} = dataSource
-
-	const messages = useMessages()
-	const dispatch = useDispatch()
-	const background = useBackground()
 
 	const onShowChannelsList = useCallback(() => {
 		dispatch(setShowSidebar(true))
@@ -44,7 +43,7 @@ export default function Home() {
 							target="_blank"
 							href={`https://${dataSource.domain}`}
 							className="HomePage-logoLink">
-							<DataSourceLogo className="HomePage-logo"/>
+							<DataSourceLogo dataSource={dataSource} className="HomePage-logo"/>
 						</a>
 					}
 					<div>

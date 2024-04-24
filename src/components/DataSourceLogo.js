@@ -1,7 +1,5 @@
 import React from 'react'
 
-import useDataSource from '../hooks/useDataSource.js'
-
 import { dataSource } from '../PropTypes.js'
 
 // CSS `color: black`.
@@ -11,12 +9,6 @@ export default function DataSourceLogo({
 	dataSource,
 	...rest
 }) {
-	const currentDataSource = useDataSource()
-
-	if (!dataSource) {
-		dataSource = currentDataSource
-	}
-
 	if (!hasLogo(dataSource)) {
 		return null
 	}
@@ -41,7 +33,7 @@ export default function DataSourceLogo({
 }
 
 DataSourceLogo.propTypes = {
-	dataSource: dataSource
+	dataSource: dataSource.isRequired
 }
 
 export function hasLogo(dataSource) {

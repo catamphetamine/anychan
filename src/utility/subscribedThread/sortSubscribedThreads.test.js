@@ -129,7 +129,7 @@ describe('sortSubscribedThreads', () => {
 						this.wasReset = true
 					}
 				}
-				addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+				addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 				return userData.getSubscribedThread(thread.channelId, thread.id)
 			}
 		)

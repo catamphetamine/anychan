@@ -2,7 +2,7 @@
 // import loadResourceLinks from 'social-components/utility/post/loadResourceLinks.js'
 
 // import getCommentLengthLimit from './comment/getCommentLengthLimit.js'
-// import getConfiguration() from '../configuration.js'
+// import getConfiguration() from '../configuration.ts'
 
 // import shouldMinimizeGeneratedPostLinkBlockQuotes from './post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 

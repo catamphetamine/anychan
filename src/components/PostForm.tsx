@@ -1,17 +1,24 @@
-import React, { useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import { Button } from 'react-responsive-ui'
+// There seem to be some weird TypeScript errors on the `<Form/>` element and its children.
+// The errors are because `Form` component props aren't not defined in TypeScript
+// and so it thinks that all of them are required while in reality some of those are optional.
+// @ts-nocheck
+
+import * as React from 'react'
+import { useState, useCallback, useMemo, useLayoutEffect } from 'react'
+import * as PropTypes from 'prop-types'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
 import { Form, Field, Submit, FormComponent } from './Form.js'
 
 import LinearProgress from 'frontend-lib/components/LinearProgress.js'
-import { FadeInOut } from 'react-responsive-ui'
+// @ts-expect-error
+import { Button, FadeInOut } from 'react-responsive-ui'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 import useLayoutEffectSkipMount from 'frontend-lib/hooks/useLayoutEffectSkipMount.js'
+// @ts-ignore
+import useForwardedRef from 'frontend-lib/hooks/useForwardedRef.js'
 
 // import SendIcon from 'frontend-lib/icons/send-plane-fill.svg'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
@@ -24,7 +31,13 @@ import useDataSource from '../hooks/useDataSource.js'
 
 import './PostForm.css'
 
-function PostForm({
+type Props = Record<string, any> & {
+	attachmentFiles: File[]
+};
+
+type EasyReactForm = any;
+
+const PostForm = React.forwardRef<EasyReactForm, Props>(({
 	expanded: expandedPropertyValue,
 	onExpandedChange,
 	unexpandOnClose,
@@ -46,23 +59,13 @@ function PostForm({
 	onSubmit: onSubmit_,
 	onReset: onReset_,
 	resetOnCancel,
-	additionalSubmitValues,
+	attachmentFiles,
 	className,
 	children
-}, ref) {
+}: Props, ref) => {
 	const messages = useMessages()
 
-	const form = useRef()
-	const setForm = (instance) => {
-		form.current = instance
-		if (ref) {
-			if (typeof ref === 'function') {
-				ref(instance)
-			} else {
-				ref.current = instance
-			}
-		}
-	}
+	const { setRef: setForm, internalRef: form } = useForwardedRef(ref) // useForwardedRef<EasyReactForm>(ref)
 
 	const [error, setError] = useState(initialError)
 	const [loading, setLoading] = useState(false)
@@ -70,15 +73,13 @@ function PostForm({
 	const [hasInteracted, setHasInteracted] = useState(false)
 	const [expanded, setExpanded] = useState(expandedPropertyValue)
 
-	const accessToken = useSelector(state => state.auth.accessToken)
-
 	useEffectSkipMount(() => {
 		if (onErrorDidChange) {
 			onErrorDidChange(error)
 		}
 	}, [error])
 
-	const applyExpandedValue = useCallback((value) => {
+	const applyExpandedValue = useCallback((value: boolean) => {
 		setExpanded(value)
 		if (onExpandedChange) {
 			onExpandedChange(value)
@@ -107,7 +108,7 @@ function PostForm({
 		if (form.current) {
 			form.current.reset()
 		}
-		setError()
+		setError(undefined)
 		if (onReset_) {
 			onReset_()
 		}
@@ -134,12 +135,20 @@ function PostForm({
 		unExpand
 	])
 
-	const onSubmit = useCallback(async (values) => {
+	const onSubmit = useCallback(async (values: {
+		[POST_FORM_INPUT_FIELD_NAME]?: string
+	}) => {
+		// If the text input is empty and there're no attachments then don't submit the form.
+		const content = values[POST_FORM_INPUT_FIELD_NAME]
+		if (!content && attachmentFiles.length === 0) {
+			return
+		}
+
 		try {
 			setLoading(true)
 			await onSubmit_({
-				...additionalSubmitValues,
-				content: values[POST_FORM_INPUT_FIELD_NAME]
+				attachmentFiles,
+				content
 			})
 			if (resetAfterSubmit) {
 				onReset()
@@ -156,7 +165,7 @@ function PostForm({
 	}, [
 		onSubmit_,
 		onReset,
-		additionalSubmitValues,
+		attachmentFiles,
 		resetAfterSubmit,
 		onAfterSubmit
 	])
@@ -175,7 +184,7 @@ function PostForm({
 		applyExpandedValue
 	])
 
-	const onInputKeyDown = useCallback((event) => {
+	const onInputKeyDown = useCallback((event: KeyboardEvent) => {
 		if (isKeyCombination(event, ['Esc'])) {
 			event.preventDefault()
 			if (onCancel) {
@@ -187,7 +196,7 @@ function PostForm({
 		onInteraction
 	])
 
-	const onInputValueChange_ = useCallback((value) => {
+	const onInputValueChange_ = useCallback((value?: string) => {
 		if (onInputValueChange) {
 			onInputValueChange(value)
 		}
@@ -304,9 +313,7 @@ function PostForm({
 			{children}
 		</section>
 	)
-}
-
-PostForm = React.forwardRef(PostForm)
+})
 
 PostForm.propTypes = {
 	expanded: PropTypes.bool,
@@ -319,7 +326,7 @@ PostForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 	onReset: PropTypes.func,
 	resetOnCancel: PropTypes.bool,
-	additionalSubmitValues: PropTypes.object,
+	attachmentFiles: PropTypes.arrayOf(PropTypes.object),
 	initialState: PropTypes.object,
 	onStateDidChange: PropTypes.func,
 	initialError: PropTypes.string,

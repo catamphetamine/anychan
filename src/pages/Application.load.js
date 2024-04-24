@@ -12,7 +12,7 @@ import { setOfflineMode, setDataSourceInfoForMeta } from '../redux/app.js'
 import { getChannels } from '../redux/data.js'
 import { setAnnouncement } from '../redux/announcement.js'
 
-import getConfiguration from '../configuration.js'
+import getConfiguration from '../getConfiguration.ts'
 
 export default async function loadApplication({
 	dispatch,

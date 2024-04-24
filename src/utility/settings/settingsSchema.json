@@ -51,27 +51,58 @@
 			},
 			"gradientColor1": {
 				"type": "string",
-				"description": "Gradent color 1"
+				"description": "Gradent color 1",
+				"required": false
 			},
 			"gradientColor2": {
 				"type": "string",
-				"description": "Gradent color 2"
+				"description": "Gradent color 2",
+				"required": false
+			},
+			"gradientBlendMode": {
+				"type": "string",
+				"description": "Gradient blend mode",
+				"required": false
+			},
+			"gradientZIndex": {
+				"type": "integer",
+				"description": "Gradient z-index",
+				"required": false
 			},
 			"patternOpacity": {
 				"type": "nonNegativeNumber",
-				"description": "Pattern opacity"
+				"description": "Pattern opacity",
+				"required": false
 			},
 			"patternBlendMode": {
 				"type": "string",
-				"description": "Pattern blend mode"
+				"description": "Pattern blend mode",
+				"required": false
 			},
-			"backgroundBlendMode": {
+			"patternZIndex": {
+				"type": "integer",
+				"description": "Pattern z-index",
+				"required": false
+			},
+			"patternFilter": {
 				"type": "string",
-				"description": "Background blend mode"
+				"description": "Pattern filter",
+				"required": false
 			},
 			"backgroundColor": {
 				"type": "string",
-				"description": "Background color"
+				"description": "Background color",
+				"required": false
+			},
+			"backdropZIndex": {
+				"type": "integer",
+				"description": "Backdrop z-index",
+				"required": false
+			},
+			"backdropColor": {
+				"type": "string",
+				"description": "Backdrop color",
+				"required": false
 			}
 		}
 	},
@@ -89,27 +120,58 @@
 			},
 			"gradientColor1": {
 				"type": "string",
-				"description": "Gradent color 1"
+				"description": "Gradent color 1",
+				"required": false
 			},
 			"gradientColor2": {
 				"type": "string",
-				"description": "Gradent color 2"
+				"description": "Gradent color 2",
+				"required": false
+			},
+			"gradientBlendMode": {
+				"type": "string",
+				"description": "Gradient blend mode",
+				"required": false
+			},
+			"gradientZIndex": {
+				"type": "integer",
+				"description": "Gradient z-index",
+				"required": false
 			},
 			"patternOpacity": {
 				"type": "nonNegativeNumber",
-				"description": "Pattern opacity"
+				"description": "Pattern opacity",
+				"required": false
 			},
 			"patternBlendMode": {
 				"type": "string",
-				"description": "Pattern blend mode"
+				"description": "Pattern blend mode",
+				"required": false
 			},
-			"backgroundBlendMode": {
+			"patternZIndex": {
+				"type": "integer",
+				"description": "Pattern z-index",
+				"required": false
+			},
+			"patternFilter": {
 				"type": "string",
-				"description": "Background blend mode"
+				"description": "Pattern filter",
+				"required": false
 			},
 			"backgroundColor": {
 				"type": "string",
-				"description": "Background color"
+				"description": "Background color",
+				"required": false
+			},
+			"backdropZIndex": {
+				"type": "integer",
+				"description": "Backdrop z-index",
+				"required": false
+			},
+			"backdropColor": {
+				"type": "string",
+				"description": "Backdrop color",
+				"required": false
 			}
 		}
 	},
@@ -126,6 +188,11 @@
 	"censorWords": {
 		"type": "boolean",
 		"description": "Whether it should censor offensive words in comments text",
+		"required": false
+	},
+	"censoredWordsPatterns": {
+		"arrayOf": "string",
+		"description": "Censored words patterns",
 		"required": false
 	},
 	"channelLayout": {
@@ -173,6 +240,11 @@
 				"required": false
 			}
 		}
+	},
+	"css": {
+		"type": "string",
+		"description": "Any custom CSS code",
+		"required": false
 	},
 	"locale": {
 		"type": "string",

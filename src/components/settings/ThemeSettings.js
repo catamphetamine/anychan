@@ -22,11 +22,11 @@ import {
 	addTheme,
 	removeTheme,
 	applyTheme
-} from '../../utility/themes.js'
+} from '../../utility/themes.ts'
 
 import {
 	getDefaultThemeId
-} from '../../utility/settings/settingsDefaults.js'
+} from '../../utility/settings/settingsDefaults.ts'
 
 import {
 	ContentSection,
@@ -36,15 +36,16 @@ import {
 import { showError } from '../../redux/notifications.js'
 
 import useSettings from '../../hooks/useSettings.js'
+import useMessages from '../../hooks/useMessages.js'
 
 const CSS_URL_REGEXP = /\.css(\?.*)?$/
 
 export default function ThemeSettings({
-	messages,
 	settings,
 	guideUrl
 }) {
 	const userSettings = useSettings()
+	const messages = useMessages()
 
 	const dispatch = useDispatch()
 
@@ -150,9 +151,7 @@ export default function ThemeSettings({
 }
 
 ThemeSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	settings: PropTypes.object.isRequired,
-	dispatch: PropTypes.func.isRequired,
 	guideUrl: PropTypes.string
 }
 

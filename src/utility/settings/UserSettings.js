@@ -1,6 +1,6 @@
 import schemaValidation from 'flexible-json-schema'
 
-import { getDefaultSettings } from './settingsDefaults.js'
+import { getDefaultSettings } from './settingsDefaults.ts'
 import settingsSchema from './settingsSchema.json' assert { type: 'json' }
 import migrate from './UserSettings.migrate.js'
 
@@ -8,6 +8,7 @@ import migrate from './UserSettings.migrate.js'
 // See `UserSettings.migrate.js` comments for the changelog.
 const VERSION = 4
 
+// Validates settings JSON object.
 const validateSettings_ = schemaValidation(settingsSchema)
 
 export default class UserSettings {

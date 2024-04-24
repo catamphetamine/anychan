@@ -1,5 +1,5 @@
 import getChannels from '../getChannels.js'
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 import getStoragePrefix from '../../utility/storage/getStoragePrefix.js'
 import Storage from '../../utility/storage/Storage.js'
 

@@ -19,14 +19,18 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import getCensoredWordsByLanguage from '../../utility/getCensoredWordsByLanguage.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 import './CensoredWordsSettings.css'
 
 export default function CensoredWordsSettings({
-	messages,
 	language
 }) {
+	const messages = useMessages()
+
 	const [showCensoredWords, setShowCensoredWords] = useState()
 	const [showTestWordCensorshipRulesModal, setShowTestWordCensorshipRulesModal] = useState()
+
 	return (
 		<ContentSection>
 			<ContentSectionHeader lite>
@@ -109,7 +113,6 @@ export default function CensoredWordsSettings({
 				</Modal.Title>
 				<Modal.Content>
 					<TestCensoredWords
-						messages={messages}
 						language={language}/>
 				</Modal.Content>
 				<Modal.Actions>
@@ -124,16 +127,14 @@ export default function CensoredWordsSettings({
 }
 
 CensoredWordsSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	language: PropTypes.string.isRequired
 }
 
 function TestCensoredWords({
-	isOpen,
-	close,
-	messages,
 	language
 }) {
+	const messages = useMessages()
+
 	const [useCustomRule, setUseCustomRule] = useState()
 	const [rule, setRule] = useState()
 	const [text, setText] = useState()
@@ -213,6 +214,5 @@ function TestCensoredWords({
 }
 
 TestCensoredWords.propTypes = {
-	messages: PropTypes.object.isRequired,
 	language: PropTypes.string.isRequired
 }

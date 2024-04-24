@@ -54,7 +54,7 @@ describe('addSubscribedThread', function() {
 		userData.addOwnThread('a', 123)
 		userData.addOwnComment('a', 123, 123)
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		userData.getSubscribedThreadIdsForChannel(channel.id).should.deep.equal([thread.id])
 
@@ -62,7 +62,7 @@ describe('addSubscribedThread', function() {
 			id: 123,
 			channel: {
 				id: 'a',
-				title: 'Anime'
+				// title: 'Anime'
 			},
 			title: 'Thread 1',
 			addedAt: nowWithoutMilliseconds,

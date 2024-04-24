@@ -40,7 +40,7 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		thread.comments.push({
 			id: 101,
@@ -66,7 +66,9 @@ describe('onSubscribedThreadFetched', () => {
 			userData.getSubscribedThread('a', 100),
 			{
 				id: 100,
-				channel,
+				channel: {
+					id: channel.id
+				},
 				title: 'Anime 1',
 				trimming: true,
 				addedAt: now,
@@ -129,7 +131,7 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		thread.locked = true
 
@@ -146,7 +148,9 @@ describe('onSubscribedThreadFetched', () => {
 			userData.getSubscribedThread('a', 100),
 			{
 				id: 100,
-				channel,
+				channel: {
+					id: channel.id
+				},
 				title: 'Anime 1',
 				addedAt: now,
 				updatedAt: now,
@@ -186,7 +190,7 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		const stats = userData.getSubscribedThreadState('a', 100)
 
@@ -249,7 +253,7 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		const stats = userData.getSubscribedThreadState('a', 100)
 

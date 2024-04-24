@@ -1,5 +1,11 @@
 @import "frontend-lib/styles/components.css";
 
+#bodyHtml {
+  /* Prevents any custom `bodyHtml` from being obscured by the "colorful background" layers. */
+  position: relative;
+  z-index: 1;
+}
+
 .content-section__header {
 	/* Roboto font is used. */
 	font-weight: 300;

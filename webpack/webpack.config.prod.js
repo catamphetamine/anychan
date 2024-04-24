@@ -5,7 +5,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import { createConfiguration } from './webpack.config.js'
-// import getApplicationConfiguration from '../getConfiguration.js'
+// import getApplicationConfiguration from '../getConfiguration.ts'
 
 const configuration = createConfiguration({ development: false })
 

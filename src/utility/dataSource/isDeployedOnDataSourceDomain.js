@@ -1,4 +1,4 @@
-// import getConfiguration from '../../configuration.js'
+// import getConfiguration from '../../configuration.ts'
 
 export default function isDeployedOnDataSourceDomain(dataSource) {
 	if (!dataSource) {

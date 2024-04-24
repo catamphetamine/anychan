@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
@@ -9,6 +9,7 @@ import AttachIcon from 'frontend-lib/icons/attach.svg'
 
 import useIsMounted from 'frontend-lib/hooks/useIsMounted.js'
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
+import useForwardedRef from 'frontend-lib/hooks/useForwardedRef.js'
 
 import getFileInfo from 'frontend-lib/utility/file/getFileInfo.js'
 import getFileDataUrl from 'frontend-lib/utility/file/getFileDataUrl.js'
@@ -45,17 +46,7 @@ function PostFormWithAttachments({
 	className,
 	...rest
 }, ref) {
-	const form = useRef()
-	const setForm = (instance) => {
-		form.current = instance
-		if (ref) {
-			if (typeof ref === 'function') {
-				ref(instance)
-			} else {
-				ref.current = instance
-			}
-		}
-	}
+	const { setRef: setForm, internalRef: form } = useForwardedRef(ref) // <EasyReactForm>
 
 	const isMounted = useIsMounted()
 
@@ -180,9 +171,9 @@ function PostFormWithAttachments({
 		setFileAttachments([])
 	}, [])
 
-	const additionalSubmitValues = useMemo(() => ({
-		attachmentFiles: files.map(_ => _.file)
-	}), [files])
+	const attachmentFileValues = useMemo(() => {
+		return files.map(_ => _.file)
+	}, [files])
 
 	const onDrop = useCallback(async (something) => {
 		// If a file is dropped, it's gonna be a `Blob` (`File`) or an array of `Blob`s (`File`s).
@@ -233,7 +224,7 @@ function PostFormWithAttachments({
 				{...rest}
 				placement={placement}
 				onReset={onReset}
-				additionalSubmitValues={additionalSubmitValues}
+				attachmentFiles={attachmentFileValues}
 				onHeightDidChange={onHeightDidChange}>
 				{fileAttachments.length > 0 &&
 					<PostAttachments

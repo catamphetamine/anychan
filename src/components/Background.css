@@ -21,7 +21,7 @@ https://uigradients.com
    An alternative would've been:
    * Background Layer's `background-color` is `--BackgroundGradient-color--1` to `--BackgroundGradient-color--2`.
    * Background Layer's `-webkit-mask-image` is `--BackgroundPattern-url`,
-     along with `-webkit-mask: center repeat` and `-webkit-mask-size: 420px auto`.
+     along with `-webkit-mask: center repeat` and `-webkit-mask-size: var(--BackgroundPattern-size) auto`.
      The pattern's stroke is black so the pattern outline would be colored in gradient colors
      and the rest would be just black because it wouldn't get through the "mask".
    * Pattern Layer's `display` is `none` because there's no need for the Pattern Layer.
@@ -64,63 +64,76 @@ https://uigradients.com
 
 .dark {
 	/* Monochrome */
+	/*
 	.Background--dark--monochrome {
     --BackgroundGradient-color--1: hsl(0deg 0% 19.8%);
     --BackgroundGradient-color--2: hsl(0deg 0% 83.69%);
     --BackgroundPattern-opacity: 0.1;
 		--Background-backgroundColor: hsl(0deg 0% 10%);
 	}
+	*/
 
 	/* Dark Blue */
-	.Background--dark--dark-blue {
+	/* .Background--dark--dark-blue { */
 		/* https://uigradients.com/#BurningOrange */
-
+		/*
     --BackgroundGradient-color--1: hsl(0deg 0% 15%);
     --BackgroundGradient-color--2: hsl(0deg 0% 20%);
     --BackgroundPattern-opacity: 0.1;
     --Background-backgroundColor: hsl(241deg 10% 11.75%);
+		*/
 		/*
 		--BackgroundGradient-color--1: hsl(346deg 100% 63%);
 		--BackgroundGradient-color--2: hsl(9deg 100% 58%);
 		--BackgroundPattern-opacity: 0.1;
 		--Background-backgroundColor: hsl(222deg 28.9% 12.15%);
 		*/
-	}
+	/* } */
 
 	/* Purple */
-	.Background--dark--purple {
+	/* .Background--dark--purple { */
 		/* Orange to Purple */
+		/*
 		--BackgroundGradient-color--1: hsl(19deg 27% 17%);
 		--BackgroundGradient-color--2: hsl(284deg 46% 21%);
 		--BackgroundPattern-opacity: 0.15;
-		--Background-backgroundColor: #170f28;
-	}
+		--Background-backgroundColor: hsl(259, 45%, 11%);
+		*/
+	/* } */
 
 	/* Blue Red */
+	/*
 	.Background--dark--blue-red {
 		background-image: linear-gradient(to right,#000667,#511717);
 		--BackgroundPattern-blendMode: screen;
 	}
+	*/
 }
 
 .light {
 	/* Orange Purple */
+	/*
 	.Background--light--orange-purple {
 		--BackgroundGradient-color--1: hsl(34deg 53% 66%);
 		--BackgroundGradient-color--2: hsl(0deg 46% 70%);
 	}
+	*/
 
 	/* Purple Blue */
+	/*
 	.Background--light--purple-blue {
 		--BackgroundGradient-color--1: hsl(11deg 21% 64%);
 		--BackgroundGradient-color--2: hsl(208deg 20% 62%);
 	}
+	*/
 
 	/* Green Brown */
+	/*
 	.Background--light--green-brown {
     --BackgroundGradient-color--1: hsl(52deg 28% 67%);
     --BackgroundGradient-color--2: hsl(18deg 49% 71%);
 	}
+	*/
 }
 
 .Background {

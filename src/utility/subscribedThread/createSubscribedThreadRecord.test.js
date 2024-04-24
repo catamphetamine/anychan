@@ -57,6 +57,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
+					title: undefined
 					// title: 'Anime'
 				},
 				thumbnail: {
@@ -110,6 +111,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
+					title: undefined
 					// title: 'Anime'
 				},
 				locked: true,
@@ -153,6 +155,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
+					title: undefined
 					// title: 'Anime'
 				},
 				trimming: true
@@ -197,6 +200,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
+					title: undefined
 					// title: 'Anime'
 				},
 				trimming: true
@@ -249,6 +253,7 @@ describe('createSubscribedThreadRecord', () => {
 				title: 'Anime 1',
 				channel: {
 					id: 'a',
+					title: undefined
 					// title: 'Anime'
 				}
 			}

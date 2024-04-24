@@ -1,11 +1,11 @@
-import getConfiguration from '../configuration.js'
+import getConfiguration from '../getConfiguration.ts'
 
 import addDataSourceIdToPath from './dataSource/addDataSourceIdToPath.js'
 import shouldIncludeDataSourceInPath from './dataSource/shouldIncludeDataSourceInPath.js'
 
 /**
  * Returns "base" path of the application based on a "data source" ID.
- * @param {string}
+ * @param {object}
  * @return {string}
  */
 export default function getBasePath({

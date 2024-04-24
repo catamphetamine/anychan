@@ -1,7 +1,7 @@
 import Storage from './utility/storage/Storage.js'
 import getStoragePrefix from './utility/storage/getStoragePrefix.js'
 import UserSettings from './utility/settings/UserSettings.js'
-import { getDefaultLanguage } from './utility/settings/settingsDefaults.js'
+import { getDefaultLanguage } from './utility/settings/settingsDefaults.ts'
 
 export default function createUserSettings({
 	dataSource,

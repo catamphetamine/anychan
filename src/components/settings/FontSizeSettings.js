@@ -10,11 +10,14 @@ import {
 	ContentSectionHeader
 } from 'frontend-lib/components/ContentSection.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 export default function FontSizeSettings({
-	messages,
 	value,
 	onChange
 }) {
+	const messages = useMessages()
+
 	const saveFontSize = useCallback((fontSize) => {
 		applyFontSize(fontSize)
 		onChange(fontSize)
@@ -42,7 +45,6 @@ export default function FontSizeSettings({
 }
 
 FontSizeSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired
 }

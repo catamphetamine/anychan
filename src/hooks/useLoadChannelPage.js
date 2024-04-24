@@ -13,6 +13,7 @@ import useDataSourceDefault from '../hooks/useDataSource.js'
 import useUserSettingsDefault from '../hooks/useSettings.js'
 import useUserDataDefault from '../hooks/useUserData.js'
 
+// Returns a function that loads a channel page.
 export default function useLoadChannelPage(parameters = {}) {
 	const {
 		useCallback = useCallbackDefault,

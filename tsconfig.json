@@ -2,13 +2,19 @@
   "compilerOptions": {
 		"sourceMap": true,
     "noImplicitAny": true,
-    "module": "esnext",
+    "module": "NodeNext",
     "target": "es6",
     "jsx": "react",
     "allowJs": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": [
+    "./src",
+    "../frontend-lib",
+    "../social-components-react"
+  ]
 }

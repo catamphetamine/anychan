@@ -66,6 +66,16 @@
 			"xl": "Large",
 			"xxl": "Largest"
 		},
+		"css": {
+			"title": "CSS",
+			"deleteWarning": "Disabling custom CSS will erase everything you've entered in the field below. Are you sure?"
+		},
+		"background": {
+			"title": {
+				"light": "Light Background",
+				"dark": "Dark Background"
+			}
+		},
 		"theme": {
 			"title": "Theme",
 			"add": {

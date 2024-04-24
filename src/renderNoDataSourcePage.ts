@@ -1,7 +1,7 @@
 import { render } from 'react-pages/client'
 
-import OtherPage from './pages/OtherPage/OtherPage'
-import NoDataSourcePage from './pages/NoDataSource/NoDataSource'
+import OtherPage from './pages/OtherPage/OtherPage.js'
+import NoDataSourcePage from './pages/NoDataSource/NoDataSource.js'
 
 export default async function renderNoDataSourcePage() {
 	// Renders the webpage on the client side

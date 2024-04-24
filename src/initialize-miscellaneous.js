@@ -1,9 +1,23 @@
 import * as Sentry from '@sentry/browser'
 import { onCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
-import getConfiguration from './configuration.js'
+import getConfiguration from './getConfiguration.ts'
 
 export default function() {
+	// Add any custom javascript to the `<head/>`.
+	if (getConfiguration().javascript) {
+		const script = document.createElement('script')
+		script.type = 'text/javascript'
+		script.textContent = getConfiguration().javascript
+		document.head.appendChild(script)
+	}
+
+	// Add any custom HTML to the `<body/>`.
+	if (getConfiguration().bodyHtml) {
+		// document.body.innerHTML += getConfiguration().bodyHtml
+		document.getElementById('bodyHtml').innerHTML = getConfiguration().bodyHtml
+	}
+
 	// Initialize Cookie Policy.
 	// Don't show Cookie Notice by default (better UX).
 	window.SHOW_COOKIE_NOTICE = getConfiguration().showCookieNotice

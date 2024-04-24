@@ -29,7 +29,7 @@ import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.j
 import getUrl from '../../utility/getUrl.js'
 import resourceCache from '../../utility/resourceCache.js'
 import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 
 import useChannelLayout from '../../pages/Channel/useChannelLayout.js'
 

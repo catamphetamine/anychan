@@ -1,6 +1,6 @@
 import { getViewportWidth } from 'web-browser-window'
 
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 
 // The screen width at which the comments are at their full width.
 // Is currently equal to `var(--Window-minWidth--m)`.

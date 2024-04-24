@@ -1,4 +1,4 @@
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 import getDataSourceById from './getDataSourceById.js'
 
 export default function getCurrentDataSourceInfo({

@@ -26,14 +26,13 @@ import {
 
 import isValidUrl from '../../utility/isValidUrl.js'
 
-const CSS_URL_REGEXP = /\.css(\?.*)?$/
-
 export default function ProxySettings({
-	messages,
 	value,
 	defaultValue,
 	onChange
 }) {
+	const messages = useMessages()
+
 	const validateUrl = useCallback((value) => {
 		if (!isValidUrl(value)) {
 			return messages.settings.proxy.invalidUrl
@@ -224,7 +223,6 @@ export default function ProxySettings({
 }
 
 ProxySettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	value: PropTypes.string,
 	defaultValue: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired

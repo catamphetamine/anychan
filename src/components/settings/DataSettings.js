@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useCallback } from 'react'
 import { FileUploadButton } from 'react-responsive-ui'
 import { filesize } from 'filesize'
 import { useDispatch } from 'react-redux'
@@ -32,14 +31,14 @@ import useMultiDataSource from '../../hooks/useMultiDataSource.js'
 import useDataSource from '../../hooks/useDataSource.js'
 import useSettings from '../../hooks/useSettings.js'
 import useUserData from '../../hooks/useUserData.js'
+import useMessages from '../../hooks/useMessages.js'
 
-export default function DataSettings({
-	messages
-}) {
+export default function DataSettings() {
 	const multiDataSource = useMultiDataSource()
 	const dataSource = useDataSource()
 	const userData = useUserData()
 	const userSettings = useSettings()
+	const messages = useMessages()
 
 	const dispatch = useDispatch()
 
@@ -234,8 +233,4 @@ export default function DataSettings({
 			</FormStyle>
 		</ContentSection>
 	)
-}
-
-DataSettings.propTypes = {
-	messages: PropTypes.object.isRequired
 }

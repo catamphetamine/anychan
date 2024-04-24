@@ -41,7 +41,7 @@ describe('onThreadsFetched', function() {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		expect(userData.getThreadAccessedAt(thread.channelId, thread.id)).to.equal(undefined)
 
@@ -102,7 +102,7 @@ describe('onThreadsFetched', function() {
 			id: 123,
 			channel: {
 				id: 'a',
-				title: 'Anime'
+				// title: 'Anime'
 			},
 			title: 'Anime 1',
 			locked: true,
@@ -136,11 +136,6 @@ describe('onThreadsFetched', function() {
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
 
-		const channel = {
-			id: 'a',
-			title: 'Anime'
-		}
-
 		const thread = {
 			id: 123,
 			channelId: 'a',
@@ -160,7 +155,7 @@ describe('onThreadsFetched', function() {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		expect(userData.getThreadAccessedAt(thread.channelId, thread.id)).to.equal(undefined)
 
@@ -212,7 +207,7 @@ describe('onThreadsFetched', function() {
 			id: 123,
 			channel: {
 				id: 'a',
-				title: 'Anime'
+				// title: 'Anime'
 			},
 			title: 'Anime 1',
 			// locked: true,

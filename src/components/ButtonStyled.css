@@ -58,6 +58,8 @@
 	--Button-borderRightColor--focus: var(--Button-borderRightColor);
 
 	--Button-borderRadius: 0px;
+
+	--Button-fontWeight: initial;
 }
 
 .Button {
@@ -65,6 +67,8 @@
 	background-color: var(--Button-backgroundColor);
 	padding-left: var(--Button-paddingLeft);
 	padding-right: var(--Button-paddingLeft);
+
+	font-weight: var(--Button-fontWeight);
 
 	border-bottom-width: var(--Button-borderBottomWidth);
 	border-bottom-style: var(--Button-borderBottomStyle);

@@ -1,9 +1,12 @@
+import type { Theme } from '../types/index.js'
+
 import { useSelector } from 'react-redux'
 
 import { getDefaultThemeId } from '../utility/settings/settingsDefaults.js'
 
-export default function useTheme() {
+export default function useTheme(): Theme['id'] {
 	// `state.settings.settings` will be `undefined` if there was an error while loading settings.
+	// @ts-expect-error
 	return useSelector(state => state.settings.settings ? state.settings.settings.theme : getDefaultThemeId())
 
 	// Or simply:

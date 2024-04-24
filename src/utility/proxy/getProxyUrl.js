@@ -1,4 +1,4 @@
-import getConfiguration from '../../configuration.js'
+import getConfiguration from '../../getConfiguration.ts'
 
 export default function getProxyUrl({ userSettings }) {
 	// AWS proxy is disabled for now, because "free tier" expires on AWS accounts,

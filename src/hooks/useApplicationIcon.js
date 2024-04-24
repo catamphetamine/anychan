@@ -5,6 +5,9 @@ import { updateApplicationIcon } from '../utility/applicationIcon.js'
 
 import useDataSource from '../hooks/useDataSource.js'
 
+// Sets up a listener that changes the application icon based on the application status:
+// * Unread comments
+// * Unread replies
 export default function useApplicationIcon() {
 	const dataSource = useDataSource()
 

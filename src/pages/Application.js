@@ -26,7 +26,7 @@ import useApplicationIcon from '../hooks/useApplicationIcon.js'
 import onApplicationStarted from '../utility/onApplicationStarted.js'
 import onBeforeNavigate from '../utility/onBeforeNavigate.js'
 import onNavigate from '../utility/onNavigate.js'
-import { getDefaultThemeId } from '../utility/settings/settingsDefaults.js'
+import { getDefaultThemeId } from '../utility/settings/settingsDefaults.ts'
 
 import useOnWindowResize from 'frontend-lib/hooks/useOnWindowResize.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
@@ -54,7 +54,7 @@ import loadApplication from './Application.load.js'
 
 import { markAnnouncementAsRead as _markAnnouncementAsRead } from '../utility/announcement.js'
 
-import getConfiguration from '../configuration.js'
+import getConfiguration from '../getConfiguration.ts'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
 import { MultiDataSourceContext } from '../hooks/useMultiDataSource.js'
@@ -296,12 +296,11 @@ function App({
 							placement="aboveContent"
 						/>
 
-						{getConfiguration().headerMarkup &&
+						{(getConfiguration().headerMarkupContent || getConfiguration().headerMarkupHtml) &&
 							<Markup
-								content={getConfiguration().headerContent}
-								markup={getConfiguration().headerMarkup}
-								fullWidth={getConfiguration().headerMarkupFullWidth}
-								className="Webpage-headerBanner"
+								id="headerMarkup"
+								content={getConfiguration().headerMarkupContent}
+								markup={getConfiguration().headerMarkupHtml}
 							/>
 						}
 

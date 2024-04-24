@@ -8,16 +8,19 @@ import { postContent } from 'social-components-react/components/PropTypes.js'
 import './Markup.css'
 
 export default function Markup({
-	content,
+	id,
 	markup,
+	content,
 	fullWidth,
 	className
 }) {
 	const dangerouslySetInnerHTML = useMemo(() => ({
 		__html: markup
 	}), [markup])
-	const banner = (
+
+	const element = (
 		<div
+			id={id}
 			dangerouslySetInnerHTML={markup ? dangerouslySetInnerHTML : undefined}
 			className={classNames('Markup', className)}>
 			{content &&
@@ -27,6 +30,7 @@ export default function Markup({
 			}
 		</div>
 	)
+
 	if (fullWidth) {
 		return (
 			<div className="Webpage-element--fullWidth">
@@ -34,12 +38,14 @@ export default function Markup({
 			</div>
 		)
 	}
+
 	return element
 }
 
 Markup.propTypes = {
-	content: postContent,
+	id: PropTypes.string,
 	markup: PropTypes.string,
+	content: postContent,
 	fullWidth: PropTypes.bool,
 	className: PropTypes.string
 }

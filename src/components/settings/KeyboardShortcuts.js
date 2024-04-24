@@ -1,19 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { ExpansionPanel } from 'react-responsive-ui'
 
 import {
 	ContentSection,
-	ContentSectionHeader,
-	ContentSectionDescription
+	ContentSectionHeader
 } from 'frontend-lib/components/ContentSection.js'
 
 import Table from '../Table.js'
 
-export default function KeyboardShortcuts({
-	messages
-}) {
+import useMessages from '../../hooks/useMessages.js'
+
+export default function KeyboardShortcuts() {
+	const messages = useMessages()
+
 	const headers = [
 		messages.settings.keyboardShortcuts.keys,
 		messages.settings.keyboardShortcuts.action
@@ -93,8 +93,4 @@ export default function KeyboardShortcuts({
 			</ExpansionPanel>
 		</ContentSection>
 	)
-}
-
-KeyboardShortcuts.propTypes = {
-	messages: PropTypes.object.isRequired
 }

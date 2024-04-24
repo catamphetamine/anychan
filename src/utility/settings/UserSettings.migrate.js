@@ -1,4 +1,4 @@
-import { DEFAULT_BACKGROUNDS_DARK_MODE, DEFAULT_BACKGROUNDS_LIGHT_MODE } from './settingsDefaults.js'
+import { DEFAULT_BACKGROUNDS_DARK_MODE, DEFAULT_BACKGROUNDS_LIGHT_MODE } from './settingsDefaults.ts'
 
 // The `version` of a user's "User Settings" is stored in `version` property in `localStorage`.
 // The latest version of "User Settings" is `VERSION` in `UserData.js`.

@@ -2,8 +2,8 @@
 
 :root {
 	--PageContent-paddingLeft--background: 0px;
-	--HeaderBanner-marginBottom--smallScreen: var(--unit);
-	--HeaderBanner-marginBottom: calc(var(--unit) * 2);
+	--HeaderMarkup-marginBottom--smallScreen: var(--unit);
+	--HeaderMarkup-marginBottom: calc(var(--unit) * 2);
 
 	--CommentText-maxWidth: var(--Text-maxWidth);
 	--CommentText-maxWidth--sidebar: 24em;
@@ -229,12 +229,14 @@
 	}
 }
 
-.Webpage-headerBanner {
-	margin-bottom: var(--HeaderBanner-marginBottom--smallScreen);
+/*
+#headerMarkup {
+	margin-bottom: var(--HeaderMarkup-marginBottom--smallScreen);
 	@mixin upto-s {
-		--HeaderBanner-marginBottom: var(--HeaderBanner-marginBottom--smallScreen);
+		--HeaderMarkup-marginBottom: var(--HeaderMarkup-marginBottom--smallScreen);
 	}
 }
+*/
 
 .Webpage-element--fullWidth {
 	margin-left: calc(-1 * var(--Webpage-paddingLeft-width));

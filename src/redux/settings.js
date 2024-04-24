@@ -51,6 +51,15 @@ export const saveTheme = redux.simpleAction(
 	}
 )
 
+export const saveCss = redux.simpleAction(
+	(state, { css, userSettings }) => {
+		return {
+			...state,
+			settings: saveSetting('css', css, { userSettings })
+		}
+	}
+)
+
 export const saveBackgroundLightMode = redux.simpleAction(
 	(state, { backgroundLightMode, userSettings }) => {
 		return {

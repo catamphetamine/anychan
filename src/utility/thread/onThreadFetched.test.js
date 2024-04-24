@@ -43,7 +43,7 @@ describe('onThreadFetched', function() {
 			}
 		}
 
-		addSubscribedThread(thread, { channel, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
 
 		userData.getSubscribedThread('a', 123).id.should.equal(123)
 
@@ -92,7 +92,7 @@ describe('onThreadFetched', function() {
 			id: 123,
 			channel: {
 				id: 'a',
-				title: 'Anime'
+				// title: 'Anime'
 			},
 			title: 'Anime 1',
 			locked: true,

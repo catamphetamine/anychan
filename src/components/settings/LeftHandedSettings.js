@@ -10,11 +10,14 @@ import {
 
 import applyLeftHanded from 'frontend-lib/utility/style/applyLeftHanded.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 export default function LeftHandedSettings({
-	messages,
 	value,
 	onChange: _onChange
 }) {
+	const messages = useMessages()
+
 	const onChange = useCallback((leftHanded) => {
 		applyLeftHanded(leftHanded)
 		_onChange(leftHanded)
@@ -41,7 +44,6 @@ export default function LeftHandedSettings({
 }
 
 LeftHandedSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	value: PropTypes.bool,
 	onChange: PropTypes.func.isRequired
 }

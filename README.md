@@ -185,25 +185,38 @@ The default configuration can be found in `./configuration/default.json` file. A
     "4chan is a simple image-based bulletin board where anyone can post comments and share images"
   ],
 
-  // Header banner HTML markup.
-  // Can be used to show ads.
-  "headerMarkup": "<iframe .../>",
+  // Any arbitrary javascript that will be inserted on every page.
+  // Can be used to modify the page in an arbitrary way:
+  // * Insert new `<script/>` elements
+  // * Insert new `<style/>` elements
+  // * Insert new `<link rel="stylesheet"/>` elements
+  // * ...
+  "javascript": "alert('test')",
 
-  // Set this flag to `true` to stretch header markup container
-  // to full page width on large screens.
-  // By default, header markup container won't stretch past the
-  // page content width on large screens.
-  "headerMarkupFullWidth": false,
+  // Any arbitrary HTML that will be inserted in the `<body/>` on every page.
+  "bodyHtml": "<iframe .../>",
+
+  // Header banner HTML markup.
+  // Can be used to show ads in the header.
+  "headerMarkupHtml": "<iframe .../>",
+
+  // Instead of specifying `headerMarkupHtml`,
+  // one may prefer specify `headerMarkupContent`.
+  // The difference would be that `headerMarkupHtml` should be an HTML string
+  // whereas `headerMarkupContent` should be a valid `Content` as defined in `social-components` package readme.
+  // If `headerMarkupHtml` is defined, `headerMarkupContent` is ignored.
+  "headerMarkupContent": Content,
 
   // Footer banner HTML markup.
-  // Can be used to show ads.
-  "footerMarkup": "<iframe .../>",
+  // Can be used to show ads in the footer.
+  "footerMarkupHtml": "<iframe .../>",
 
-  // Set this flag to `true` to stretch footer markup container
-  // to full page width on large screens.
-  // By default, footer markup container won't stretch past the
-  // page content width on large screens.
-  "footerMarkupFullWidth": false,
+  // Instead of specifying `footerMarkupHtml`,
+  // one may prefer specify `footerMarkupContent`.
+  // The difference would be that `footerMarkupHtml` should be an HTML string
+  // whereas `footerMarkupContent` should be a valid `Content` as defined in `social-components` package readme.
+  // If `footerMarkupHtml` is defined, `footerMarkupContent` is ignored.
+  "footerMarkupContent": Content,
 
   // Footer notes content.
   // Overwrites `dataSource.footnotes`.
@@ -295,6 +308,36 @@ The default configuration can be found in `./configuration/default.json` file. A
   // the load on the server.
   // By default, it caches the list of channels for one day.
   "channelsCacheTimeout": 86400000,
+
+  // Additional backgrounds (Dark mode).
+  "backgroundsDark": [{
+    id: 'purple',
+    name: 'Purple',
+    backgroundColor: 'hsl(259, 45%, 11%)',
+    gradientColor1: 'hsl(19deg 27% 17%)',
+    gradientColor2: 'hsl(284deg 46% 21%)',
+    patternOpacity: 0.15,
+    // If these two properties aren't defined, the default pattern picture is used.
+    patternUrl: '/domain.com/image.svg',
+    patternSize: '10em'
+  }],
+
+  // Default background `id` (Dark mode).
+  "defaultBackgroundDark": "purple",
+
+  // Additional backgrounds (Light mode).
+  "backgroundsLight": [{
+    id: 'orange-purple',
+    name: 'Orange Purple',
+    gradientColor1: 'hsl(34deg 53% 66%)',
+    gradientColor2: 'hsl(0deg 46% 70%)',
+    // If these two properties aren't defined, the default pattern picture is used.
+    patternUrl: '/domain.com/image.svg',
+    patternSize: '10em'
+  }],
+
+  // Default background `id` (Light mode).
+  "defaultBackgroundLight": "orange-purple",
 
   // Additional themes.
   "themes": [{

@@ -66,6 +66,16 @@
 			"xl": "Groß",
 			"xxl": "Größten"
 		},
+		"css": {
+			"title": "CSS",
+			"deleteWarning": "Durch die Deaktivierung von benutzerdefiniertem CSS wird alles gelöscht, was Sie in das Feld unten eingegeben haben. Bist du sicher?"
+		},
+		"background": {
+			"title": {
+				"light": "Heller Hintergrund",
+				"dark": "Dunkler Hintergrund"
+			}
+		},
 		"theme": {
 			"title": "Theme",
 			"add": {

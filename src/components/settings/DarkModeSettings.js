@@ -9,12 +9,15 @@ import {
 	ContentSectionHeader
 } from 'frontend-lib/components/ContentSection.js'
 
+import useMessages from '../../hooks/useMessages.js'
+
 export default function DarkModeSettings({
-	messages,
 	autoDarkModeValue,
 	onAutoDarkModeChange,
 	onSetDarkMode
 }) {
+	const messages = useMessages()
+
 	const _onAutoDarkModeChange = useCallback((value) => {
 		onAutoDarkModeChange(value)
 		autoDarkMode(value, {
@@ -39,7 +42,6 @@ export default function DarkModeSettings({
 }
 
 DarkModeSettings.propTypes = {
-	messages: PropTypes.object.isRequired,
 	autoDarkModeValue: PropTypes.bool,
 	onAutoDarkModeChange: PropTypes.func.isRequired,
 	onSetDarkMode: PropTypes.func.isRequired

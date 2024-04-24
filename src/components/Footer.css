@@ -1,7 +1,7 @@
 @import "../styles/common.css";
 
 :root {
-	--FooterBanner-marginBottom: calc(var(--unit) * 2);
+	--FooterMarkup-marginBottom: calc(var(--unit) * 2);
 
 	/*--FooterMenu-height: calc(var(--unit) * 3);*/
 	--FooterMenu-height: 0px;
@@ -80,14 +80,24 @@
 	margin-top: var(--Footer-marginTop--onBackground);
 	margin-bottom: var(--Footer-marginBottom--onBackground);
 
-	background-color: var(--OnBackground-backgroundColor);
-	opacity: var(--Footer-opacity--onBackground);
-
 	margin-left: calc(-1 * var(--Webpage-paddingLeft-width));
 	margin-right: calc(-1 * var(--Webpage-paddingRight-width));
 
 	padding-top: var(--Footer-paddingTop--onBackground);
 	padding-bottom: var(--Footer-paddingBottom--onBackground);
+
+	&:before {
+		display: block;
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: var(--OnBackground-backgroundColor);
+		opacity: var(--Footer-opacity--onBackground);
+		z-index: -1;
+	}
 
 	/* Overrides the `width` and `padding-left`/`padding-right` that is defined on `.Content` class. */
 	&.Content {
@@ -129,8 +139,10 @@
 	}
 }
 
-.Footer-banner {
-	margin-bottom: var(--FooterBanner-marginBottom);
+/*
+#footerMarkup {
+	margin-bottom: var(--FooterMarkup-marginBottom);
 	margin-left: calc(-1 * var(--PageContent-paddingLeft));
 	margin-right: calc(-1 * var(--PageContent-paddingLeft));
 }
+*/

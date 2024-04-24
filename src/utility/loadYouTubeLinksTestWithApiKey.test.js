@@ -1,5 +1,5 @@
 import { YouTubeResourceTestWithApiKey } from 'social-components/resource'
-import getConfiguration from '../configuration.js'
+import getConfiguration from '../getConfiguration.ts'
 
 describe('loadYouTubeLinks', () => {
 	it('should load YouTube links with API key', async () => {
