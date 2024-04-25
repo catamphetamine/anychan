@@ -59,6 +59,11 @@
 				"description": "Gradent color 2",
 				"required": false
 			},
+			"gradientAngle": {
+				"type": "nonNegativeInteger",
+				"description": "Gradent angle in degrees",
+				"required": false
+			},
 			"gradientBlendMode": {
 				"type": "string",
 				"description": "Gradient blend mode",
@@ -87,6 +92,16 @@
 			"patternFilter": {
 				"type": "string",
 				"description": "Pattern filter",
+				"required": false
+			},
+			"patternUrl": {
+				"type": "string",
+				"description": "Pattern URL",
+				"required": false
+			},
+			"patternSize": {
+				"type": "string",
+				"description": "Pattern size. Example: 22em",
 				"required": false
 			},
 			"backgroundColor": {
@@ -128,6 +143,11 @@
 				"description": "Gradent color 2",
 				"required": false
 			},
+			"gradientAngle": {
+				"type": "nonNegativeInteger",
+				"description": "Gradent angle in degrees",
+				"required": false
+			},
 			"gradientBlendMode": {
 				"type": "string",
 				"description": "Gradient blend mode",
@@ -156,6 +176,16 @@
 			"patternFilter": {
 				"type": "string",
 				"description": "Pattern filter",
+				"required": false
+			},
+			"patternUrl": {
+				"type": "string",
+				"description": "Pattern URL",
+				"required": false
+			},
+			"patternSize": {
+				"type": "string",
+				"description": "Pattern size. Example: 22em",
 				"required": false
 			},
 			"backgroundColor": {

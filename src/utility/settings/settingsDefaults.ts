@@ -57,9 +57,9 @@ export function getDefaultBackgrounds(type: 'dark' | 'light') {
 export function getDefaultBackgroundId(type: 'dark' | 'light') {
 	switch (type) {
 		case 'dark':
-			return getConfiguration().defaultBackgroundDark || DEFAULT_BACKGROUNDS_DARK_MODE[0].id
+			return getConfiguration().defaultBackgroundDarkMode || DEFAULT_BACKGROUNDS_DARK_MODE[0].id
 		case 'light':
-			return getConfiguration().defaultBackgroundLight || DEFAULT_BACKGROUNDS_LIGHT_MODE[0].id
+			return getConfiguration().defaultBackgroundLightMode || DEFAULT_BACKGROUNDS_LIGHT_MODE[0].id
 	}
 }
 

@@ -39,11 +39,13 @@ const Field = React.forwardRef(({
 })
 
 Field.propTypes = {
+	...Field_.propTypes,
 	type: PropTypes.oneOf([
 		'autocomplete',
 		'text',
 		'select'
 	]),
+	inputType: PropTypes.string,
 	component: PropTypes.elementType
 }
 

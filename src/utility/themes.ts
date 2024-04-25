@@ -30,7 +30,7 @@ export function isBuiltInTheme(id: Theme['id']) {
 	return getBuiltInThemes().findIndex((theme: Theme) => theme.id === id) >= 0
 }
 
-export function addTheme(theme: Theme, { userSettings }: { userSettings: UserSettings }) {
+export function addOrUpdateTheme(theme: Theme, { userSettings }: { userSettings: UserSettings }) {
 	const themes: Theme[] = userSettings.get('themes') || []
 	const index = themes.findIndex(_ => _.id === theme.id)
 	if (index >= 0) {
@@ -42,8 +42,8 @@ export function addTheme(theme: Theme, { userSettings }: { userSettings: UserSet
 }
 
 export function removeTheme(id: Theme['id'], { userSettings }: { userSettings: UserSettings }) {
-	const themes = userSettings.get('themes') || []
-	const index = themes.findIndex((theme: Theme) => theme.id === id)
+	const themes: Theme[] = userSettings.get('themes') || []
+	const index = themes.findIndex(_ => _.id === id)
 	if (index >= 0) {
 		themes.splice(index, 1)
 		if (themes.length === 0) {

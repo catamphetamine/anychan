@@ -11,18 +11,36 @@ import { setBackgroundLightMode, setBackgroundDarkMode } from '../redux/app.js'
 function getAdditionalBackgroundsFromConfiguration(type: 'dark' | 'light') {
 	switch (type) {
 		case 'dark':
-			return getConfiguration().backgroundsDark
+			return getConfiguration().backgroundsDarkMode
 		case 'light':
-			return getConfiguration().backgroundsLight
+			return getConfiguration().backgroundsLightMode
 	}
 }
 
 function getAdditionalBackgroundsFromSettings(type: 'dark' | 'light', { userSettings }: { userSettings: UserSettings }) {
 	switch (type) {
 		case 'dark':
-			return userSettings.get('backgroundsDark')
+			return userSettings.get('backgroundsDarkMode')
 		case 'light':
-			return userSettings.get('backgroundsLight')
+			return userSettings.get('backgroundsLightMode')
+	}
+}
+
+function setAdditionalBackgroundsInSettings(backgrounds: Background[], type: 'dark' | 'light', { userSettings }: { userSettings: UserSettings }) {
+	switch (type) {
+		case 'dark':
+			return userSettings.set('backgroundsDarkMode', backgrounds)
+		case 'light':
+			return userSettings.set('backgroundsLightMode', backgrounds)
+	}
+}
+
+function resetAdditionalBackgroundsInSettings(type: 'dark' | 'light', { userSettings }: { userSettings: UserSettings }) {
+	switch (type) {
+		case 'dark':
+			return userSettings.reset('backgroundsDarkMode')
+		case 'light':
+			return userSettings.reset('backgroundsLightMode')
 	}
 }
 
@@ -46,8 +64,32 @@ function _getBackground(id: Background['id'], type: 'dark' | 'light', { backgrou
 	return _getBackgrounds(type, { backgrounds }).find((background: Background) => background.id === id)
 }
 
-export function isBuiltInBackground(type: 'dark' | 'light', id: Background['id']) {
+export function isBuiltInBackground(id: Background['id'], type: 'dark' | 'light') {
 	return getBuiltInBackgrounds(type).findIndex((background: Background) => background.id === id) >= 0
+}
+
+export function addOrUpdateBackground(background: Background, type: 'dark' | 'light', { userSettings }: { userSettings: UserSettings }) {
+	const backgrounds: Background[] = getAdditionalBackgroundsFromSettings(type, { userSettings }) || []
+	const index = backgrounds.findIndex(_ => _.id === background.id)
+	if (index >= 0) {
+		backgrounds[index] = background
+	} else {
+		backgrounds.push(background)
+	}
+	setAdditionalBackgroundsInSettings(backgrounds, type, { userSettings })
+}
+
+export function removeBackground(id: Background['id'], type: 'dark' | 'light', { userSettings }: { userSettings: UserSettings }) {
+	const backgrounds: Background[] = getAdditionalBackgroundsFromSettings(type, { userSettings }) || []
+	const index = backgrounds.findIndex(_ => _.id === id)
+	if (index >= 0) {
+		backgrounds.splice(index, 1)
+		if (backgrounds.length === 0) {
+			resetAdditionalBackgroundsInSettings(type, { userSettings })
+		} else {
+			setAdditionalBackgroundsInSettings(backgrounds, type, { userSettings })
+		}
+	}
 }
 
 function applyBackground_(backgroundObjectOrBackgroundId: Background | Background['id'] | undefined, type: 'dark' | 'light', { userSettings, backgrounds, ...rest }: { userSettings?: UserSettings, backgrounds: Background[] }): Background | undefined | null {
@@ -98,6 +140,7 @@ export function applyBackground(backgroundObjectOrBackgroundId: Background | Bac
 const BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_NAME: Record<string, string> = {
 	gradientColor1: '--BackgroundGradient-color--1',
 	gradientColor2: '--BackgroundGradient-color--2',
+	gradientAngle: '--BackgroundGradient-angle',
 	gradientBlendMode: '--BackgroundGradient-blendMode',
 	gradientZIndex: '--BackgroundGradient-zIndex',
 	patternOpacity: '--BackgroundPattern-opacity',
@@ -111,15 +154,25 @@ const BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_NAME: Record<string, string> = {
 	backdropColor: '--BackgroundBackdrop-backgroundColor'
 }
 
+const BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_VALUE: Record<string, (value: any) => string> = {
+	gradientAngle: (value: number) => value + 'deg',
+	patternUrl: (value: string) => 'url("' + String(value).replace(/"/g, '\\"')  + '")'
+}
+
+// const BACKGROUND_PROPERTY_NAME_FROM_CSS_VARIABLE_VALUE: Record<string, (value: string) => any> = {
+// 	gradientAngle: (value: string) => Number(value.replace(/deg$/, '')),
+// 	patternUrl: (value: string) => value.replace(/^url\(/, '').replace(/\)$/, '')
+// }
+
 function getBackgroundCss(background: Background, type: 'dark' | 'light'): string {
 	const cssVariables: { var: string, value: string }[] = [];
 
 	for (const propertyName of Object.keys(BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_NAME)) {
 		const value: any = (background as Record<string, any>)[propertyName]
-		if (value !== '' && value !== undefined) {
+		if (value !== '' && value !== undefined && value !== null) {
 			cssVariables.push({
 				var: BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_NAME[propertyName],
-				value: value === null ? 'initial' : String(value)
+				value: (BACKGROUND_PROPERTY_NAME_TO_CSS_VARIABLE_VALUE[propertyName] || String)(value)
 			})
 		}
 	}

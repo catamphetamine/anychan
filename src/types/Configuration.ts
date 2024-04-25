@@ -35,10 +35,10 @@ export interface Configuration {
 	channelsCacheTimeout?: number;
 	themes?: Theme[];
 	defaultTheme?: string;
-	backgroundsDark?: Background[];
-	defaultBackgroundDark?: string;
-	backgroundsLight?: Background[];
-	defaultBackgroundLight?: string;
+	backgroundsDarkMode?: Background[];
+	defaultBackgroundDarkMode?: string;
+	backgroundsLightMode?: Background[];
+	defaultBackgroundLightMode?: string;
 	defaultSettings?: UserSettingsJson;
 	defaultCensoredWords: Record<string, string[]>
 }

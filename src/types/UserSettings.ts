@@ -13,6 +13,7 @@ export interface Background {
 	name: string;
 	gradientColor1?: string;
 	gradientColor2?: string;
+	gradientAngle?: number;
 	gradientBlendMode?: string;
 	gradientZIndex?: number;
 	patternOpacity?: number;
@@ -38,8 +39,8 @@ export interface UserSettingsJson {
 	darkMode?: boolean;
 	autoDarkMode?: boolean;
 	autoSuggestFavoriteChannels?: boolean;
-	backgroundLightMode?: string;
-	backgroundDarkMode?: string;
+	backgroundLightMode?: Background['id'];
+	backgroundDarkMode?: Background['id'];
 	backgroundsLightMode?: Background[];
 	backgroundsDarkMode?: Background[];
 	leftHanded?: boolean;
@@ -54,10 +55,6 @@ export interface UserSettingsJson {
 	channelSorting?: "default" | "popular";
 	theme?: Theme['id'];
 	themes?: Theme[];
-	backgroundDark?: Background['id'];
-	backgroundsDark?: Background[];
-	backgroundLight?: Background['id'];
-	backgroundsLight?: Background[];
 	css?: string;
 	locale?: string;
 	proxyUrl?: string;

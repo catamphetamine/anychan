@@ -1,15 +1,10 @@
-// There seem to be some weird TypeScript errors on the `<Form/>` element and its children.
-// The errors are because `Form` component props aren't not defined in TypeScript
-// and so it thinks that all of them are required while in reality some of those are optional.
-// @ts-nocheck
-
 import * as React from 'react'
 import { useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import * as PropTypes from 'prop-types'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
-import { Form, Field, Submit, FormComponent } from './Form.js'
+import { Form as FormNoTypeScript, Field as FieldNoTypeScript, Submit, FormComponent } from './Form.js'
 
 import LinearProgress from 'frontend-lib/components/LinearProgress.js'
 // @ts-expect-error
@@ -30,6 +25,9 @@ import useMessages from '../hooks/useMessages.js'
 import useDataSource from '../hooks/useDataSource.js'
 
 import './PostForm.css'
+
+const Form: React.FC<Record<string, any>> = FormNoTypeScript
+const Field: React.FC<Record<string, any>> = FieldNoTypeScript
 
 type Props = Record<string, any> & {
 	attachmentFiles: File[]

@@ -74,7 +74,34 @@
 			"title": {
 				"light": "Light Background",
 				"dark": "Dark Background"
-			}
+			},
+			"add": {
+				"title": "Add Background"
+			},
+			"edit": {
+				"title": "Edit Background"
+			},
+			"form": {
+				"id": "Codename",
+				"name": "Name",
+				"gradientColor1": "Gradient Color 1",
+				"gradientColor2": "Gradient Color 2",
+				"gradientAngle": "Gradient Angle",
+				"backgroundColor": "Background Color",
+				"customImage": "Custom Image",
+				"imageUrl": "Image URL",
+				"imageSize": "Image Size",
+				"imageOpacity": "Image Opacity",
+				"error": {
+					"invalidId": "Invalid codename",
+					"alreadyExists": "Already occupied"
+				}
+			},
+			"deleteCurrent": {
+				"title": "Delete current background",
+				"warning": "Are you sure you want to delete background \"{background}\"?"
+			},
+			"editCurrent": "Edit current background"
 		},
 		"theme": {
 			"title": "Theme",

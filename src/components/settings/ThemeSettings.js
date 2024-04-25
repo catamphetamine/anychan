@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useMemo, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-ui'
@@ -17,9 +17,10 @@ import isValidRelativeUrl from '../../utility/isValidRelativeUrl.js'
 import { saveTheme } from '../../redux/settings.js'
 
 import {
+	getTheme,
 	getThemes,
 	isBuiltInTheme,
-	addTheme,
+	addOrUpdateTheme,
 	removeTheme,
 	applyTheme
 } from '../../utility/themes.ts'
@@ -49,11 +50,19 @@ export default function ThemeSettings({
 
 	const dispatch = useDispatch()
 
-	const [theme, setTheme] = useState(settings.theme)
+	const currentThemeId = settings.theme
+
+	// Added a "dummy" state variable in order to re-trigger `useMemo()` below
+	// when a user saves some changes to current background.
+	const [currentThemeUpdateFlag, setCurrentThemeUpdateFlag] = useState()
+
+	const currentTheme = useMemo(() => {
+		return getTheme(currentThemeId, { userSettings })
+	}, [currentThemeId, currentThemeUpdateFlag, userSettings])
+
 	const [showAddThemeModal, setShowAddThemeModal] = useState()
 
 	async function onSelectTheme(id) {
-		setTheme(id)
 		try {
 			await applyTheme(id, { userSettings })
 		} catch (error) {
@@ -75,14 +84,13 @@ export default function ThemeSettings({
 			throw error
 		}
 		dispatch(saveTheme({ theme: id, userSettings }))
-		setTheme(id)
 	}
 
 	async function onRemoveSelectedTheme() {
 		if (await OkCancelModal.show({
-			text: messages.settings.theme.deleteCurrent.warning.replace('{theme}', theme)
+			text: messages.settings.theme.deleteCurrent.warning.replace('{theme}', currentThemeId)
 		})) {
-			removeTheme(theme, { userSettings })
+			removeTheme(currentThemeId, { userSettings })
 			await onSelectTheme(getDefaultThemeId())
 		}
 	}
@@ -101,7 +109,7 @@ export default function ThemeSettings({
 			<FormStyle>
 				<FormComponent>
 					<Select
-						value={theme}
+						value={currentThemeId}
 						options={options}
 						onChange={onSelectTheme}
 					/>
@@ -121,7 +129,7 @@ export default function ThemeSettings({
 						</a>
 					</FormComponent>
 				}
-				{!isBuiltInTheme(theme) &&
+				{!isBuiltInTheme(currentThemeId) &&
 					<FormComponent type="button">
 						<TextButton
 							onClick={onRemoveSelectedTheme}>
@@ -140,8 +148,7 @@ export default function ThemeSettings({
 				</Modal.Title>
 				<Modal.Content>
 					<AddTheme
-						messages={messages}
-						onSaveTheme={onAddTheme}
+						onSubmit={onAddTheme}
 						close={() => setShowAddThemeModal(false)}
 					/>
 				</Modal.Content>
@@ -158,11 +165,12 @@ ThemeSettings.propTypes = {
 const THEME_ID_REG_EXP = /^[a-zA-Z-_\d]+$/
 
 function AddTheme({
-	messages,
-	onSaveTheme,
+	onSubmit,
 	close
 }) {
-	const addThemeForm = useRef()
+	const messages = useMessages()
+
+	const form = useRef()
 	const [pasteCodeInstead, setPasteCodeInstead] = useState()
 
 	const userSettings = useSettings()
@@ -170,7 +178,9 @@ function AddTheme({
 	// Focus the "Code" input after "Paste CSS code instead" has been clicked.
 	useEffectSkipMount(() => {
 		if (pasteCodeInstead) {
-			addThemeForm.current.focus('css')
+			if (form.current) {
+				form.current.focus('css')
+			}
 		}
 	}, [pasteCodeInstead])
 
@@ -202,13 +212,13 @@ function AddTheme({
 		}
 	}
 
-	async function onAddTheme(theme) {
+	async function onSubmitForm(theme) {
 		try {
 			if (theme.css) {
 				delete theme.url
 			}
-			addTheme(theme, { userSettings })
-			await onSaveTheme(theme.id, getThemes({ userSettings }).concat(theme))
+			addOrUpdateTheme(theme, { userSettings })
+			await onSubmit(theme.id)
 			close()
 		} catch (error) {
 			console.error(error)
@@ -222,8 +232,8 @@ function AddTheme({
 	return (
 		<Form
 			autoFocus
-			ref={addThemeForm}
-			onSubmit={onAddTheme}>
+			ref={form}
+			onSubmit={onSubmitForm}>
 			<FormComponent>
 				<Field
 					required
@@ -289,7 +299,6 @@ function AddTheme({
 }
 
 AddTheme.propTypes = {
-	messages: PropTypes.object.isRequired,
-	onSaveTheme: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired
 }

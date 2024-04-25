@@ -55,11 +55,11 @@ export default async function applySettings({
 }
 
 export function applyBackgroundDark({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {
-	applyBackground(settings.backgroundDarkMode, 'dark', { dispatch, backgrounds: settings.backgroundsDark });
+	applyBackground(settings.backgroundDarkMode, 'dark', { dispatch, backgrounds: settings.backgroundsDarkMode });
 }
 
 export function applyBackgroundLight({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {
-	applyBackground(settings.backgroundLightMode, 'light', { dispatch, backgrounds: settings.backgroundsLight });
+	applyBackground(settings.backgroundLightMode, 'light', { dispatch, backgrounds: settings.backgroundsLightMode });
 }
 
 export function applyDarkModeSettings({ settings, dispatch }: { settings: UserSettingsJson, dispatch: Dispatch }) {

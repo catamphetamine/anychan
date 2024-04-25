@@ -310,12 +310,13 @@ The default configuration can be found in `./configuration/default.json` file. A
   "channelsCacheTimeout": 86400000,
 
   // Additional backgrounds (Dark mode).
-  "backgroundsDark": [{
+  "backgroundsDarkMode": [{
     id: 'purple',
     name: 'Purple',
     backgroundColor: 'hsl(259, 45%, 11%)',
     gradientColor1: 'hsl(19deg 27% 17%)',
     gradientColor2: 'hsl(284deg 46% 21%)',
+    gradientAngle: 90,
     patternOpacity: 0.15,
     // If these two properties aren't defined, the default pattern picture is used.
     patternUrl: '/domain.com/image.svg',
@@ -323,21 +324,21 @@ The default configuration can be found in `./configuration/default.json` file. A
   }],
 
   // Default background `id` (Dark mode).
-  "defaultBackgroundDark": "purple",
+  "defaultBackgroundDarkMode": "purple",
 
   // Additional backgrounds (Light mode).
-  "backgroundsLight": [{
-    id: 'orange-purple',
-    name: 'Orange Purple',
-    gradientColor1: 'hsl(34deg 53% 66%)',
-    gradientColor2: 'hsl(0deg 46% 70%)',
+  "backgroundsLightMode": [{
+    id: "orange-purple",
+    name: "Orange Purple",
+    gradientColor1: "hsl(34deg 53% 66%)",
+    gradientColor2: "hsl(0deg 46% 70%)",
     // If these two properties aren't defined, the default pattern picture is used.
-    patternUrl: '/domain.com/image.svg',
-    patternSize: '10em'
+    patternUrl: "url('/path/to/image.svg')",
+    patternSize: "10em"
   }],
 
   // Default background `id` (Light mode).
-  "defaultBackgroundLight": "orange-purple",
+  "defaultBackgroundLightMode": "orange-purple",
 
   // Additional themes.
   "themes": [{

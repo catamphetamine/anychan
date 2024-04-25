@@ -7,6 +7,7 @@ https://uigradients.com
 */
 
 :root {
+	--BackgroundGradient-angle: 90deg;
 	--BackgroundPattern-url: url('../../assets/images/background-pattern.svg');
 	--BackgroundPattern-size: 22rem;
 }
@@ -177,7 +178,7 @@ https://uigradients.com
 
 .Background-gradient {
 	z-index: var(--BackgroundGradient-zIndex);
-	background-image: linear-gradient(to right, var(--BackgroundGradient-color--1), var(--BackgroundGradient-color--2));
+	background-image: linear-gradient(var(--BackgroundGradient-angle), var(--BackgroundGradient-color--1), var(--BackgroundGradient-color--2));
 	mix-blend-mode: var(--BackgroundGradient-blendMode);
 }
 
