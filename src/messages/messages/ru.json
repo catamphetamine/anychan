@@ -74,7 +74,34 @@
 			"title": {
 				"light": "Светлый Фон",
 				"dark": "Тёмный Фон"
-			}
+			},
+			"add": {
+				"title": "Добавить фон"
+			},
+			"edit": {
+				"title": "Редактировать фон"
+			},
+			"form": {
+				"id": "Кодовое имя",
+				"name": "Название",
+				"gradientColor1": "Цвет градиента 1",
+				"gradientColor2": "Цвет градиента 2",
+				"gradientAngle": "Угол градиента",
+				"backgroundColor": "Цвет подложки",
+				"customImage": "Своя картинка",
+				"imageUrl": "Адрес картинки",
+				"imageSize": "Размер картинки",
+				"imageOpacity": "Непрозрачность картинки",
+				"error": {
+					"invalidId": "Неверный формат кодового имени",
+					"alreadyExists": "Это имя уже занято"
+				}
+			},
+			"deleteCurrent": {
+				"title": "Удалить текущий фон",
+				"warning": "Вы уверены, что хотите удалить фон «{background}»?"
+			},
+			"editCurrent": "Редактировать текущий фон"
 		},
 		"theme": {
 			"title": "Оформление",

@@ -72,9 +72,36 @@
 		},
 		"background": {
 			"title": {
-				"light": "Lichte achtergrond",
-				"dark": "Donkere achtergrond"
-			}
+				"light": "Heller Hintergrund",
+				"dark": "Dunkler Hintergrund"
+			},
+			"add": {
+				"title": "Hintergrund hinzufügen"
+			},
+			"edit": {
+				"title": "Hintergrund bearbeiten"
+			},
+			"form": {
+				"id": "Code Name",
+				"name": "Name",
+				"gradientColor1": "Farbverlauf 1",
+				"gradientColor2": "Farbverlauf 2",
+				"gradientAngle": "Steigungswinkel",
+				"backgroundColor": "Hintergrundfarbe",
+				"customImage": "Benutzerdefiniertes Bild",
+				"imageUrl": "Bild URL",
+				"imageSize": "Bildgröße",
+				"imageOpacity": "Bildopazität",
+				"error": {
+					"invalidId": "Ongeldige codenaam",
+					"alreadyExists": "Bestaat al"
+				}
+			},
+			"deleteCurrent": {
+				"title": "Aktuellen Hintergrund löschen",
+				"warning": "Sind Sie sicher, dass Sie den Hintergrund \"{background}\" löschen möchten?"
+			},
+			"editCurrent": "Bearbeiten Sie den aktuellen Hintergrund"
 		},
 		"theme": {
 			"title": "Thema",
