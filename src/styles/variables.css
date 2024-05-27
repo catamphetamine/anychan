@@ -157,13 +157,13 @@
 	--Heading-lineHeight--xl: 1.4em;
 	--Heading-fontSize--xl: 1.4rem;
 	@mixin xxs {
-		--Heading-marginTop: calc(var(--unit) / 4);
+		--Heading-marginTop: calc(var(--unit) / 1);
 	}
 	@mixin xs {
-		--Heading-marginTop: calc(var(--unit) / 3);
+		--Heading-marginTop: calc(var(--unit) / 1);
 	}
 	@mixin s {
-		--Heading-marginTop: calc(var(--unit) / 2);
+		--Heading-marginTop: calc(var(--unit) / 1);
 	}
 	@mixin m-plus {
 		--Heading-marginTop: var(--unit);
@@ -349,7 +349,7 @@
 	--Comment-previouslySeenThreadsBanner-color: var(--Content-color-600);
 	--Comment-previouslySeenThreadsBanner-fontSize: var(--UppercaseLabel-fontSize);
 	--Comment-previouslySeenThreadsBanner-letterSpacing: var(--UppercaseLabel-letterSpacing);
-	--Comment-previouslySeenThreadsBanner-borderColor: var(--Content-color-300);
+	--Comment-previouslySeenThreadsBanner-borderColor: transparent; /* var(--Content-color-300); */
 
 	/* CommentFooter. */
 	/* Comment footer top margin is adjusted in such a way that human eye
@@ -407,7 +407,7 @@
 	@mixin m-plus {
 		--Post-paddingTop: calc(var(--unit) * 1.25);
 		--Post-paddingLeft: calc(var(--unit) * 1.5);
-		--Post-paddingLeft--has-thumbnail: var(--Post-paddingLeft);
+		--Post-paddingLeft--hasThumbnail: var(--Post-paddingLeft);
 
 		/* `--Post-minWidth` variable should be declared at the `:root` level
 		   in order for `<InReplyToModal/>` to "see" it, because it's rendered

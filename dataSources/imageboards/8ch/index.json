@@ -4,38 +4,40 @@
 	"title": "8kun",
 	"subtitle": "Embrace infamy",
 	"description": "Welcome to 8kun, the Darkest Reaches of the Internet. On 8kun, you can create your own imageboard for free with no experience or programming knowledge needed. Warning: Some boards on 8kun might have content of an adult or offensive nature. Please cease use of this website if it is illegal for you to view such content. On 8kun, boards and posts are user-created and do not represent the opinions of the 8kun administration. In the interest of free speech, only content that violates the Digital Millennium Copyright Act or other United States laws is deleted.",
-	"footnotes": [[
-		"All posts on 8kun  are the responsibility of the individual poster and not the administration of 8kun, pursuant to 47\u00a0U.S.C. §\u00a0230.",
-		"\n",
-		"We have not been served any secret court orders and are not under any gag orders.",
-		"\n",
-		"To file a DMCA takedown notice, please email ",
-		{
-			"type": "link",
-			"url": "mailto:compliance@isitwetyet.net",
-			"content": "compliance@isitwetyet.net"
-		},
-		". In the interest of transparency, notices of claimed infringement will be posted on ",
-		{
-			"type": "link",
-			"url": "https://8kun.top/delete/",
-			"content": ">>>/delete/"
-		},
-		".",
-		"\n",
-		"\n",
-		{
-			"type": "link",
-			"url": "https://github.com/OpenIB/OpenIB",
-			"content": "OpenIB"
-		},
-		" imageboard engine by ",
-		{
-			"type": "link",
-			"url": "https://twitter.com/codemonkeyz",
-			"content": "Code Monkey"
-		}
-	]],
+	"footnotes": [
+		[
+			"All posts on 8kun  are the responsibility of the individual poster and not the administration of 8kun, pursuant to 47\u00a0U.S.C. §\u00a0230.",
+			"\n",
+			"We have not been served any secret court orders and are not under any gag orders.",
+			"\n",
+			"To file a DMCA takedown notice, please email ",
+			{
+				"type": "link",
+				"url": "mailto:compliance@isitwetyet.net",
+				"content": "compliance@isitwetyet.net"
+			},
+			". In the interest of transparency, notices of claimed infringement will be posted on ",
+			{
+				"type": "link",
+				"url": "https://8kun.top/delete/",
+				"content": ">>>/delete/"
+			},
+			".",
+			"\n",
+			"\n",
+			{
+				"type": "link",
+				"url": "https://github.com/OpenIB/OpenIB",
+				"content": "OpenIB"
+			},
+			" imageboard engine by ",
+			{
+				"type": "link",
+				"url": "https://twitter.com/codemonkeyz",
+				"content": "Code Monkey"
+			}
+		]
+	],
 	"links": [
 		{
 			"type": "faq",

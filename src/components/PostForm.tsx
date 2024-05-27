@@ -1,10 +1,12 @@
+import type { EasyReactForm, EasyReactFormState } from '@/types'
+
 import * as React from 'react'
-import { useState, useCallback, useMemo, useLayoutEffect } from 'react'
+import { useState, useCallback, useLayoutEffect } from 'react'
 import * as PropTypes from 'prop-types'
 import { isKeyCombination } from 'web-browser-input'
 import classNames from 'classnames'
 
-import { Form as FormNoTypeScript, Field as FieldNoTypeScript, Submit, FormComponent } from './Form.js'
+import { Form, Field, Submit, FormComponent } from './Form.js'
 
 import LinearProgress from 'frontend-lib/components/LinearProgress.js'
 // @ts-expect-error
@@ -19,23 +21,15 @@ import useForwardedRef from 'frontend-lib/hooks/useForwardedRef.js'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 
-import shouldUseProxy from '../utility/proxy/shouldUseProxy.js'
-
 import useMessages from '../hooks/useMessages.js'
 import useDataSource from '../hooks/useDataSource.js'
+import useProxyRequired from '../hooks/useProxyRequired.js'
+
+import { attachment as attachmentType, attachmentFile as attachmentFileType } from '../PropTypes.js'
 
 import './PostForm.css'
 
-const Form: React.FC<Record<string, any>> = FormNoTypeScript
-const Field: React.FC<Record<string, any>> = FieldNoTypeScript
-
-type Props = Record<string, any> & {
-	attachmentFiles: File[]
-};
-
-type EasyReactForm = any;
-
-const PostForm = React.forwardRef<EasyReactForm, Props>(({
+const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 	expanded: expandedPropertyValue,
 	onExpandedChange,
 	unexpandOnClose,
@@ -60,7 +54,7 @@ const PostForm = React.forwardRef<EasyReactForm, Props>(({
 	attachmentFiles,
 	className,
 	children
-}: Props, ref) => {
+}, ref) => {
 	const messages = useMessages()
 
 	const { setRef: setForm, internalRef: form } = useForwardedRef(ref) // useForwardedRef<EasyReactForm>(ref)
@@ -205,13 +199,10 @@ const PostForm = React.forwardRef<EasyReactForm, Props>(({
 	])
 
 	const dataSource = useDataSource()
+	const proxyRequired = useProxyRequired()
 
 	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
 	const isPostingSupportedButNotWorking = dataSource.id === '4chan'
-
-	const doesUseProxy = useMemo(() => {
-		return shouldUseProxy({ dataSource })
-	}, [dataSource])
 
 	const loadingIndicatorFadeOutDuration = 160 // ms
 
@@ -298,7 +289,7 @@ const PostForm = React.forwardRef<EasyReactForm, Props>(({
 					{messages.doesNotWorkForTheDataSource}
 				</p>
 			}
-			{isPostingSupported && doesUseProxy &&
+			{isPostingSupported && proxyRequired &&
 				<p className="PostForm-proxyCaution">
 					{messages.proxyPostingCaution}
 				</p>
@@ -318,13 +309,13 @@ PostForm.propTypes = {
 	onExpandedChange: PropTypes.func,
 	unexpandOnClose: PropTypes.bool,
 	expandOnInteraction: PropTypes.bool,
-	placement: PropTypes.oneOf(['page', 'comment']).isRequired,
+	placement: PropTypes.oneOf(['page', 'comment'] as const).isRequired,
 	autoFocus: PropTypes.bool,
 	onCancel: PropTypes.func,
 	onSubmit: PropTypes.func.isRequired,
 	onReset: PropTypes.func,
 	resetOnCancel: PropTypes.bool,
-	attachmentFiles: PropTypes.arrayOf(PropTypes.object),
+	attachmentFiles: PropTypes.arrayOf(attachmentFileType),
 	initialState: PropTypes.object,
 	onStateDidChange: PropTypes.func,
 	initialError: PropTypes.string,
@@ -338,6 +329,36 @@ PostForm.propTypes = {
 	onAfterSubmit: PropTypes.func,
 	className: PropTypes.string,
 	children: PropTypes.node
+}
+
+interface PostFormProps {
+	expanded?: boolean,
+	onExpandedChange?: (expanded: boolean) => void,
+	unexpandOnClose?: boolean,
+	expandOnInteraction?: boolean,
+	placement: 'page' | 'comment',
+	autoFocus?: boolean,
+	onCancel?: () => void,
+	onSubmit: (parameters: {
+		attachmentFiles: (File | Blob)[],
+		content?: string
+	}) => Promise<void>,
+	onReset?: () => void,
+	resetOnCancel?: boolean,
+	attachmentFiles: (File | Blob)[],
+	initialState?: EasyReactFormState,
+	onStateDidChange?: (newState: EasyReactFormState) => void,
+	initialError?: string,
+	onErrorDidChange?: (error?: string) => void,
+	initialInputValue?: string,
+	onInputValueChange?: (value?: string) => void,
+	initialInputHeight?: number,
+	onInputHeightDidChange?: (height: number) => void,
+	onHeightDidChange?: () => void,
+	resetAfterSubmit?: boolean
+	onAfterSubmit?: () => void,
+	className?: string,
+	children?: React.ReactNode
 }
 
 export default PostForm

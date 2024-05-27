@@ -1,4 +1,4 @@
-import type { Theme, Background, UserSettingsJson } from '../../types/UserSettings.js'
+import type { Theme, Background, UserSettingsJson, Locale } from '../../types/UserSettings.js'
 
 import getConfiguration from '../../getConfiguration.js'
 
@@ -104,7 +104,7 @@ export function getDefaultLanguage() {
 
 const SUPPORTED_LANGUAGES = Object.keys(getLanguageNames())
 
-function isSupportedLanguage(language: string) {
+function isSupportedLanguage(language: string): language is Locale {
 	return SUPPORTED_LANGUAGES.includes(language)
 }
 

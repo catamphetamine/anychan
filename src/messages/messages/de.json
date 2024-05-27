@@ -259,6 +259,7 @@
 		"trimming": "Trimmen Thread",
 		"ownComment": "Dies ist Ihr Kommentar",
 		"ownThread": "Das ist dein Thread",
+		"replyToOwnComment": "Als Antwort auf Ihren Kommentar",
 		"threadAuthor": "Autor des Thread",
 		"attachmentsCount": "Anhänge",
 		"commentAttachmentsCount": "Anhänge in Kommentaren",
@@ -283,15 +284,13 @@
 		}
 	},
 	"footnotes": {
-		"postAnychan": " Web-Client",
-		"preAuthor": " von "
+		"anychan": "<anychan></anychan> Web-Client <version></version> von <author></author>"
 	},
 	"country": {
 		"anonymous": "Anonym"
 	},
 	"autoUpdate": {
-		"scheduledBeforeTime": "Аktualisieren ",
-		"scheduledAfterTime": null,
+		"scheduled": "Аktualisieren <timeRelative></timeRelative>",
 		"inProgress": "Aktualisierung…",
 		"error": "Der Thread konnte nicht aktualisiert werden"
 	},
@@ -321,11 +320,30 @@
 		}
 	},
 	"report": {
-		"contentInputLabel": "Text des Berichts",
+		"misuseWarning": "Das Einreichen falscher oder falsch klassifizierter Meldungen kann zu einem Verbot führen.",
 		"submitted": "Ihr Bericht wurde übermittelt",
-		"alreadyReported": "Sie haben bereits einen Bericht eingereicht",
-		"contentRequired": "Berichtstext ist erforderlich",
-		"error": "Ihr Bericht konnte nicht übermittelt werden"
+		"form": {
+			"chooseViolationType": {
+				"text": "Verstößt es gegen <rulesLink>Regeln</rulesLink> oder {countryLaw}?",
+				"countryLaw": {
+					"US": "US-amerikanisches Recht"
+				}
+			},
+			"violationType": {
+				"rules": "Regeln",
+				"countryLaw": {
+					"US": "US-amerikanisches Recht"
+				}
+			},
+			"content": "Text des Berichts",
+			"reason": "Grund melden",
+			"error": {
+				"alreadyReported": "Sie haben bereits einen Bericht eingereicht",
+				"contentRequired": "Berichtstext ist erforderlich",
+				"violationTypeRequired": "Sie müssen entscheiden, ob Sie einen Verstoß gegen die Regeln oder das Gesetz melden",
+				"error": "Ihr Bericht konnte nicht übermittelt werden"
+			}
+		}
 	},
 	"proxyPostingCaution": "Achten Sie darauf, was Sie hier posten. Alle Benutzer dieser App nutzen denselben Proxyserver. Wenn der Proxyserver gesperrt wird, funktioniert die Anwendung möglicherweise nicht mehr für alle.",
 	"colorfulBackground": "Bunter Hintergrund",
@@ -364,6 +382,7 @@
 	"threadIsArchived": "Dieser Thread ist archiviert",
 	"threadIsLocked": "Dieser Thread ist gesperrt",
 	"threadExpired": "Dieser Thread ist abgelaufen",
+	"threadDeleted": "Dieser Thread wurde gelöscht",
 	"threadExpiresSoon": "Der Thread befindet sich an der {position} Stelle von {lastPosition}. Sobald es unter den letzten Platz fällt, verfällt es. Hinterlassen Sie einen Kommentar, um einen Thread an die erste Stelle zurückzusetzen.",
 	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> Kommentar} other {<commentsCountTag>#</commentsCountTag> Kommentare}} in den letzten <timeTag>15 Minuten</timeTag>",
 	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> Kommentar} other {<commentsCountTag>#</commentsCountTag> Kommentare}} in der letzten <timeTag>Stunde</timeTag>"

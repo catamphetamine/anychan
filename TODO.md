@@ -1,15 +1,75 @@
-https://anon.cafe/
-https://tvch.moe/
-https://smuglo.li/
-https://erischan.org/
-https://prolikewoah.com/
-https://alogs.space/
+// https://anon.cafe/ (lynxchan)
+// https://prolikewoah.com/animu (lynxchan)
+// https://trashchan.xyz/ (jschan)
 
-* `Imageboard.ts` — see if it would work when not using a proxy. For example, it seems to theoretically read cookies fine. What about other headers.
+lynxchan:
+https://alogs.space/
+https://bandada.club/
+
+jschan:
+https://junkuchan.org/
+https://jakparty.soy/
+https://zzzchan.xyz/ — CloudFlare doesn't allow the proxy
+// https://niuchan.org/ — CloudFlare doesn't allow the proxy
+// https://27chan.org/ — CloudFlare doesn't allow the proxy
+// https://heolkek.cafe — CloudFlare doesn't allow the proxy
+
+vichan:
+https://tvch.moe/
+// https://leftypol.org/ — CloudFlare doesn't allow the proxy
+// https://wizchan.org/ — The website's SSL certificate has expired
+// https://www.diochan.com/
+// https://tahta.ch/b/
+
+infiniti:
+https://smuglo.li/
+
+
+
+
+
+
+
+import { HexColorPicker } from 'react-colorful'
+
+const YourComponent = () => {
+  const [color, setColor] = useState("#aabbcc");
+  return <HexColorPicker color={color} onChange={setColor} />;
+}
+
+Color picker: handle cases when input value is beliberda — simply show a `Content-backgroundColor` rect with a `Content-color` border.
+
+
+
 
 * In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
 
-* `validateDatasource` schema. Validate shortId uniqueness across different dataSources.
+* Validate shortId uniqueness across different dataSources.
+
+* Fix slow image scale on mobile.
+
+* Add navigation animation: catalog → thread and "back" button.
+
+
+
+
+
+
+* `Imageboard.ts` — see if it would work when not using a proxy. For example, it seems to theoretically read cookies fine. What about other headers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 * Parse 4chan main page's “popular threads” or “latest posts” and output them on `anychan`'s main page at the bottom as a "Latest comments" section. Show ellipsis while loading that section. Show `null` if error. See if same thing is available on 2ch, lynxchan, jschan.
 
@@ -17,23 +77,7 @@ https://alogs.space/
 
 * See if "Add to home screen" button on iPhone is available.
 
-* `cors-proxy-node`: `x-cookie` header value should replace the `cookie` header value, not concatenate them.
-
 * See if `2ch/gg` works without the cookie being sent to the proxy.
-
-* On create thread:
-  * Fetch the thread
-  * If not found then show thread not found error. Same one as when clicking a thread card in catalog.
-  * Else subscribe to the thread snd set `reduxState.data.preloadedThread` to `{ thread, channel, date: new Date() }`, and then in `.load()` of thread page compare `thread.id` and `channel.id` and the `date` (no later than 5 sec maybe). After reading `reduxState.data.preloadedThread` — clear it from redux state.
-
-* On submit “go to channel” modal:
-  * Do the same thing as for "On create thread:" case above.
-
-* `react-pages`: add `params` parameter to `goto()` and `redirect()`. It should be available as `navigationParams` in `.load()` function.
-
-* `react-pages`: `.meta` on all pages should use `props` rather than `useSelector()`. Document that in the README.
-
-* `anychan`: `.meta` on all pages should use `props` rather than `useSelector()`.
 
 * Add `<CommentTreeAsideContent/>` component that will render `children` after a "branch" element at the left side. Check it in both cases: usual multi-reply tree and "dialogue" mode when there's only one reply.
 

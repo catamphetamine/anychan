@@ -1,0 +1,34 @@
+{
+	"id": "alogs.space",
+	"shortId": "🥳",
+	"domains": [
+		"alogs.space"
+	],
+	"title": "AlogsSpace",
+	"description": "AlogsSpace is an imageboard hosting several different communities about a wide variety of topics. Formerly known as \"julay.world\".",
+	"links": [{
+		"type": "help",
+		"text": "Help",
+		"url": "https://alogs.space/.static/pages/posting.html"
+	}, {
+		"type": "about",
+		"text": "About",
+		"url": "https://alogs.space/.static/pages/about.html"
+	}, {
+		"type": "contact",
+		"text": "Contact",
+		"url": "https://alogs.space/.static/pages/contact.html"
+	}, {
+		"type": "irc",
+		"text": "IRC",
+		"url": "irc://irc.rizon.net/julayworld"
+	}, {
+		"type": "contact",
+		"text": "Mail",
+		"url": "mailto:admin@alogs.space"
+	}, {
+		"type": "contact",
+		"text": "DMCA",
+		"url": "mailto:dmca@alogs.space"
+	}]
+}

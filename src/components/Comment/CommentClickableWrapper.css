@@ -1,0 +1,5 @@
+.CommentClickableWrapper {
+	/* This prevents the `.Clickable` <div/> from getting overblown
+	   when the comment contains an "expanded" image that is too wide. */
+	max-width: 100%;
+}

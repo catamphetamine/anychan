@@ -259,6 +259,7 @@
 		"trimming": "Бесконечный тред",
 		"ownComment": "Это ваш комментарий",
 		"ownThread": "Это ваш тред",
+		"replyToOwnComment": "Ответ на ваш комментарий",
 		"threadAuthor": "Автор треда",
 		"commentsCount": "Комментариев",
 		"attachmentsCount": "Вложений",
@@ -284,16 +285,13 @@
 		}
 	},
 	"footnotes": {
-		"preAnychan": "Веб-клиент «",
-		"postAnychan": "»",
-		"preAuthor": ", автор "
+		"anychan": "Веб-клиент «<anychan></anychan>» <version></version>, автор <author></author>"
 	},
 	"country": {
 		"anonymous": "Аноним"
 	},
 	"autoUpdate": {
-		"scheduledBeforeTime": "Обновление ",
-		"scheduledAfterTime": null,
+		"scheduled": "Обновление <timeRelative></timeRelative>",
 		"inProgress": "Обновление…",
 		"error": "Не удалось обновить тред"
 	},
@@ -323,11 +321,30 @@
 		}
 	},
 	"report": {
-		"contentInputLabel": "Текст жалобы",
+		"misuseWarning": "Отправка ложных или неверно классифицированных жалоб может привести к бану.",
 		"submitted": "Жалоба отправлена",
-		"alreadyReported": "Вы уже отправляли жалобу",
-		"contentRequired": "Вы не ввели текст жалобы",
-		"error": "Не удалось отправить вашу жалобу"
+		"form": {
+			"chooseViolationType": {
+				"text": "Вы собираетесь пожаловаться на нарушение <rulesLink>правил</rulesLink> или {countryLaw}?",
+				"countryLaw": {
+					"US": "законов США"
+				}
+			},
+			"violationType": {
+				"rules": "Правила",
+				"countryLaw": {
+					"US": "Законы США"
+				}
+			},
+			"content": "Текст жалобы",
+			"reason": "Причина жалобы",
+			"error": {
+				"alreadyReported": "Вы уже отправляли жалобу",
+				"contentRequired": "Вы не ввели текст жалобы",
+				"violationTypeRequired": "Вы должны выбрать тип жалобы: нарушение правил или нарушение закона",
+				"error": "Не удалось отправить вашу жалобу"
+			}
+		}
 	},
 	"proxyPostingCaution": "Осторожнее с постингом здесь, молодые люди. Все пользователи этого приложения сидят на одном и том же прокси. Если этот прокси забанят, то приложение может перестать работать у всех.",
 	"colorfulBackground": "Разноцветный фон",
@@ -366,6 +383,7 @@
 	"threadIsArchived": "Тред в архиве",
 	"threadIsLocked": "Тред закрыт",
 	"threadExpired": "Тред потонул",
+	"threadDeleted": "Тред удалён",
 	"threadExpiresSoon": "Тред на {position} месте из {lastPosition}. Как только тред опустится ниже последнего места, он будет затёрт. Для того, чтобы поднять тред, оставьте в нём комментарий.",
 	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> комментарий} few {<commentsCountTag>#</commentsCountTag> комментария} many {<commentsCountTag>#</commentsCountTag> комментариев} other {<commentsCountTag>#</commentsCountTag> комментария}} за последние <timeTag>15 минут</timeTag>",
 	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> комментарий} few {<commentsCountTag>#</commentsCountTag> комментария} many {<commentsCountTag>#</commentsCountTag> комментариев} other {<commentsCountTag>#</commentsCountTag> комментария}} за последний <timeTag>час</timeTag>"

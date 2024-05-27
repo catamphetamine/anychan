@@ -23,16 +23,39 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		const dataSource = DATA_SOURCES['4chan']
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = (action, tab) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+
+			dispatchedActions.push({
+				tab: tab === tab1 ? 1 : 2,
+				...action
+			})
+		}
+
+		const log = (tabId, ...args) => {
+			if (args.length > 0) {
+				console.log('[' + tabId + ']', '—', ...args)
+			}
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const tab1 = new TestTab({
-			id: '1 (active tab)',
+			id: '1',
 			storage: storage1,
 			timer
 		})
 
 		const tab2 = new TestTab({
-			id: '2 (active tab)',
+			id: '2',
 			storage: storage2,
 			timer
 		})
@@ -79,29 +102,37 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			}
 		}
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
 			userData: userData1,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread2, {
-			channel,
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
+			dispatch,
 			userData: userData1,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
 			userData: userData2,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread2, {
-			channel,
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
+			dispatch,
 			userData: userData2,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
@@ -127,21 +158,6 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 					tab: 2
 				})
 			}
-		}
-
-		let dispatchedActions = []
-
-		const dispatch = (action, tab) => {
-			switch (action.type) {
-				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-					action.value = undefined
-					break
-			}
-
-			dispatchedActions.push({
-				tab: tab === tab1 ? 1 : 2,
-				...action
-			})
 		}
 
 		const dispatch1 = (action) => dispatch(action, tab1)
@@ -175,14 +191,15 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage1,
 			dispatch: dispatch1,
 			timer,
+			log,
 			eventLog: eventLog1,
 			nextUpdateRandomizeInterval: 0,
 			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
-					return thread2
+					return { thread: thread2 }
 				} else {
 					throw new Error(`Thread not found: /${channelId}/${threadId}`)
 				}
@@ -197,14 +214,15 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage2,
 			dispatch: dispatch2,
 			timer,
+			log,
 			eventLog: eventLog2,
 			nextUpdateRandomizeInterval: 0,
 			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
-					return thread2
+					return { thread: thread2 }
 				} else {
 					throw new Error(`Thread not found: /${channelId}/${threadId}`)
 				}
@@ -255,6 +273,24 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 		// Tab 2 is still waiting for `STATUS_RECORD_CREATION_REPEATABLE_READ_CHECK_INTERVAL`
 		// at this point.
 
+		// If this test stops working then it would most likely mean that
+		// `src/utility/getThread.ts` function was rewritten from `callback`s to `Promise`s.
+		// The thing about `TestTimer` imported from `web-browser-timer` is that it doesn't really work with `Promise`s:
+		// when a `Promise` is `resolve`d or `reject`ed, it is scheduled to "return" at the end of an "event loop" iteration.
+		// But `TestTimer` itself doesn't really care or know about the "event loop" so it doesn't "see" any ready-to-return `Promises`
+		// when calling functions like `.skipForward(timeAmount)` on it. The result is `Promise`s not being `resolve`d or `reject`ed
+		// as if those were "stuck". There seems to be no solution for the issue.
+		//
+		// Possible workarounds for using `TestTimer`:
+		// * Use `callback`s instead of `Promise`s in the code that it covered by tests that use `TestTimer`.
+		// * Call `timer.skipForward()` repeatedly with smaller time increments. The `.skipForward()` function is an `async` one
+		//   meaning that an `await timer.skipForward()` call itself does trigger ending of a current "event loop" iteration
+		//   which will "unstuck" any ready-to-return `Promise`s when that call get executed.
+		//
+		// For the application code in general, the suggestions would be:
+		// * Don't change `src/utility/getThread.ts` function and this test won't stop working.
+		// * When changing `src/utility/getThread.ts` function, run `yarn test` and see if the tests still work.
+		//
 		eventLog.should.deep.equal([
 			// `subscribedThreadsUpdater1.start()` has been called.
 			// `tab1.setActive(true)` hasn't been called yet.

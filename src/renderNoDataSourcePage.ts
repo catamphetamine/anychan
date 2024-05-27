@@ -17,7 +17,6 @@ export default async function renderNoDataSourcePage() {
 	})
 
 	// Enables hot-reload via Webpack "Hot Module Replacement".
-	// @ts-expect-error
 	if (import.meta.webpackHot) {
 		enableHotReload()
 	}

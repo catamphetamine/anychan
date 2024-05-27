@@ -3,14 +3,22 @@
 		"sourceMap": true,
     "noImplicitAny": true,
     "module": "NodeNext",
+    "lib": ["es2016", "dom"],
     "target": "es6",
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "nodenext",
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "paths": {
+      "@/types": ["./src/types/index.js"],
+      "@/hooks": ["./src/hooks/index.js"],
       "@/*": ["./src/*"]
-    }
+    },
+    "types": [
+      "@types/gtag.js",
+      "webpack/module"
+    ]
   },
   "include": [
     "./src",

@@ -17,15 +17,20 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		let dispatchedActions = []
 
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+				case 'FAVORITE_CHANNELS: GET_FAVORITE_CHANNELS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
 		addUserDataExternalChangeListener({
-			dispatch: (action) => {
-				switch (action.type) {
-					case 'FAVORITE_CHANNELS: GET_FAVORITE_CHANNELS':
-						action.value = undefined
-						break
-				}
-				dispatchedActions.push(action)
-			},
+			dispatch,
 			userData: userData1
 		})
 
@@ -71,19 +76,26 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		let dispatchedActions = []
 
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+				case 'FAVORITE_CHANNELS: GET_FAVORITE_CHANNELS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
 		addUserDataExternalChangeListener({
-			dispatch: (action) => {
-				switch (action.type) {
-					case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-						action.value = undefined
-						break
-				}
-				dispatchedActions.push(action)
-			},
+			dispatch,
 			userData: userData1
 		})
 
-		const timer = new TestTimer()
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const date = new Date(timer.now())
 
@@ -127,27 +139,42 @@ describe('UserData/onUserDataExternalChange', function() {
 			}]
 		}
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
 			userData: userData1,
+			dispatch,
 			subscribedThreadsUpdater,
 			timer
 		})
 
-		dispatchedActions.should.deep.equal([])
+		// `addSubscribedThread()` caused a refresh of the list of subscribed threads.
+		dispatchedActions.should.deep.equal([{
+			type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
+			value: undefined
+		}])
+
+		dispatchedActions = []
 
 		userData1.getSubscribedThreadIdsForChannel(channel.id).should.deep.equal([
 			thread1.id
 		])
 
-		addSubscribedThread(thread2, {
-			channel,
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
 			userData: userData2,
+			dispatch,
 			subscribedThreadsUpdater,
 			timer
 		})
 
 		dispatchedActions.should.deep.equal([
+			// `addSubscribedThread()` caused a refresh of the list of subscribed threads.
+			{
+				type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
+				value: undefined
+			},
 			// `subscribedThreads` collection got updated in `userData2`:
 			// a new `subscribedThread` entry was added.
 			{
@@ -191,10 +218,20 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		let dispatchedActions = []
 
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+				case 'FAVORITE_CHANNELS: GET_FAVORITE_CHANNELS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
 		addUserDataExternalChangeListener({
-			dispatch: (action) => {
-				dispatchedActions.push(action)
-			},
+			dispatch,
 			userData: userData1
 		})
 
@@ -210,7 +247,7 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		dispatchedAction.should.deep.equal(
 			{
-				type: 'DATA: ON_COMMENT_READ',
+				type: 'THREAD: ON_COMMENT_READ',
 				value: {
 					channelId: 'a',
 					threadId: 123,
@@ -234,10 +271,20 @@ describe('UserData/onUserDataExternalChange', function() {
 
 		let dispatchedActions = []
 
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+				case 'FAVORITE_CHANNELS: GET_FAVORITE_CHANNELS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
 		addUserDataExternalChangeListener({
-			dispatch: (action) => {
-				dispatchedActions.push(action)
-			},
+			dispatch,
 			userData: userData1
 		})
 

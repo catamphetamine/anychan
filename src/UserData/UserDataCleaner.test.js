@@ -9,7 +9,10 @@ describe('UserDataCleaner', function() {
 	it('should clean User Data', async function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage, { userDataCleaner: true })
-		const timer = new TestTimer()
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		// `threadsAccessedAt` "granularity" is "days",
 		// so data lifetime should be at least several days.

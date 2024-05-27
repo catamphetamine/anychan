@@ -12,7 +12,16 @@ describe('onSubscribedThreadFetched', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -40,7 +49,13 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		thread.comments.push({
 			id: 101,
@@ -103,7 +118,16 @@ describe('onSubscribedThreadFetched', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -131,7 +155,13 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		thread.locked = true
 
@@ -163,7 +193,16 @@ describe('onSubscribedThreadFetched', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -190,7 +229,13 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		const stats = userData.getSubscribedThreadState('a', 100)
 
@@ -226,7 +271,16 @@ describe('onSubscribedThreadFetched', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -253,7 +307,13 @@ describe('onSubscribedThreadFetched', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		const stats = userData.getSubscribedThreadState('a', 100)
 

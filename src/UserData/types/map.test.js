@@ -20,7 +20,8 @@ describe('UserData/map', () => {
 				},
 				// `a` and `b` are encoded.
 				merge: (a, b) => Number(a.n) > Number(b.n) ? a : b,
-				// isEqual: (one, two) => one.value === two.value,
+				// // `a` and `b` are encoded.
+				// match: (encoded, _) => encoded.value === _.value,
 				schema: {
 					number: {
 						type: 'number',

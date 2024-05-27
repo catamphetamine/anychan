@@ -1,10 +1,10 @@
 import type { Content } from 'social-components'
 
-import type { Theme, Background, UserSettingsJson } from './UserSettings.ts'
+import type { Theme, Background, UserSettingsJson, DataSource } from './index.ts'
 
 export interface Configuration {
 	path?: string;
-	dataSource?: string;
+	dataSource?: string | DataSource;
 	icon?: string;
 	logo?: string;
 	title?: string;
@@ -31,7 +31,7 @@ export interface Configuration {
 	commentLengthLimit?: number;
 	commentLengthLimitForThreadPreview?: number;
 	commentLengthLimitForThreadPreviewForTileLayout?: number;
-	dataPollingRate?: 'slow' | 'normal';
+	dataPollingRate?: DataPollingRate;
 	channelsCacheTimeout?: number;
 	themes?: Theme[];
 	defaultTheme?: string;
@@ -42,3 +42,5 @@ export interface Configuration {
 	defaultSettings?: UserSettingsJson;
 	defaultCensoredWords: Record<string, string[]>
 }
+
+export type DataPollingRate = 'normal' | 'slow';

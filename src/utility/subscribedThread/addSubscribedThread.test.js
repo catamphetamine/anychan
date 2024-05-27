@@ -10,7 +10,15 @@ describe('addSubscribedThread', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		await timer.fastForward(Date.now())
 
@@ -39,6 +47,7 @@ describe('addSubscribedThread', function() {
 			id: 124,
 			content: 'Comment 2',
 			createdAt: now,
+			inReplyToIds: [thread.comments[0].id],
 			inReplyTo: [thread.comments[0]]
 		})
 
@@ -54,7 +63,13 @@ describe('addSubscribedThread', function() {
 		userData.addOwnThread('a', 123)
 		userData.addOwnComment('a', 123, 123)
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		userData.getSubscribedThreadIdsForChannel(channel.id).should.deep.equal([thread.id])
 
@@ -66,7 +81,8 @@ describe('addSubscribedThread', function() {
 			},
 			title: 'Thread 1',
 			addedAt: nowWithoutMilliseconds,
-			locked: true
+			locked: true,
+			own: true
 		})
 
 		userData.getSubscribedThreadState('a', 123).should.deep.equal({

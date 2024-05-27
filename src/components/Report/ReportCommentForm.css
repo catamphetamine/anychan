@@ -4,3 +4,11 @@
 	margin-top: var(--unit);
 	margin-bottom: 0;
 }
+
+.ReportCommentForm-chooseReportViolationTypeText {
+	margin-bottom: 1em;
+}
+
+.ReportCommentForm-chooseReportViolationTypeRequiredError {
+	color: var(--Critical-color);
+}

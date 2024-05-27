@@ -1,0 +1,42 @@
+{
+	"id": "jakparty.soy",
+	"shortId": "🦲",
+	"domains": [
+		"jakparty.soy"
+	],
+	"title": "jakparty.soy",
+	"description": "Jakking dies in darkness",
+	"links": [{
+		"type": "news",
+		"text": "News",
+		"url": "https://jakparty.soy/news.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://jakparty.soy/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://jakparty.soy/rules.html"
+	}, {
+		"type": "policy",
+		"text": "Privacy",
+		"url": "https://jakparty.soy/privacy.html"
+	}, {
+		"type": "wiki",
+		"text": "Wiki",
+		"url": "https://wiki.jakparty.soy/"
+	}, {
+		"type": "external",
+		"text": "Jakraft",
+		"url": "https://jakraft2.xyz/"
+	}, {
+		"type": "contact",
+		"text": "DMCA",
+		"url": "https://jakparty.soy/DMCA.html"
+	}, {
+		"type": "contact",
+		"text": "Email",
+		"url": "mailto:admin@jakparty.soy"
+	}]
+}

@@ -1,0 +1,5 @@
+.FrameCaptcha-frame {
+	width: 100%;
+	height: calc(var(--unit) * 12);
+	margin-bottom: var(--rrui-modal-padding--vertical);
+}

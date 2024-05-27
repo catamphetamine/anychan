@@ -1,3 +1,7 @@
+:root {
+	--SubscribedThreadThumbnail-marginRight: 0.5em;
+}
+
 .SubscribedThread {
 	position: relative;
 	height: var(--List-lineHeight);
@@ -61,15 +65,18 @@
 .SubscribedThread--expired {
 	--SubscribedThread-color: var(--Sidebar-color-600);
 	color: var(--SubscribedThread-color);
+
 	.SubscribedThread-channel,
 	.SubscribedThread-title {
 		opacity: 0.75;
 		/*cursor: default;*/
 		color: var(--SubscribedThread-color);
 	}
+
 	.SubscribedThread-thumbnail {
 		--Picture-borderColor: var(--Sidebar-color-200);
 		--Picture-backgroundColor: var(--Sidebar-backgroundColor);
+
 		.Picture-loadingError {
 			color: var(--Sidebar-color-500);
 		}
@@ -84,7 +91,7 @@
 }
 
 .SubscribedThread-thumbnail {
-	margin-right: 0.5em;
+	margin-right: var(--SubscribedThreadThumbnail-marginRight);
 
 	/* Prevents the `<Picture/>` from being clickable.
 	   (for example, when the image wasn't found). */
@@ -97,6 +104,7 @@
 }
 
 .SubscribedThread-thumbnailPlaceholder {
+	margin-right: var(--SubscribedThreadThumbnail-marginRight);
 	color: var(--Sidebar-color-500);
 	opacity: 0.5;
 }

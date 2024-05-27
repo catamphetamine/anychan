@@ -1,0 +1,24 @@
+{
+	"id": "wizardchan",
+	"shortId": "🧙‍♂️",
+	"title": "wizardchan",
+	"hidden": true,
+	"hiddenReason": "The website's SSL certificate has expired: https://wizchan.org/meta/res/64708.html",
+	"description": "Wizardchan is a Japanese-inspired imageboard for male virgins to share their thoughts and discuss their interests and lifestyle as a virgin. The name of our website is inspired by the wizard meme, which refers to someone who has maintained his virginity past the age of 30. In contrast to other imageboards, Wizardchan is dedicated exclusively to people who have no sexual experience. Feel free to share your thoughts with fellow virgins, but remember to read the rules and the FAQ before posting.",
+	"links": [{
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://wizchan.org/rules.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://wizchan.org/faq.html"
+	}],
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://wizchan.org/404.php"
+			]
+		}
+	}
+}

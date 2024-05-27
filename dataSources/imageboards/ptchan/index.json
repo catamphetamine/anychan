@@ -2,6 +2,8 @@
 	"id": "ptchan",
 	"shortId": "👧",
 	"title": "ptちゃん",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare-alike DDoS protection and returns 403 Forbidden for a CORS proxy. https://gitgud.io/fatchan/haproxy-protection/-/issues/24",
 	"description": "O ptchan.org é um site dedicado à comunidade de língua portuguesa onde se pode participar de forma anónima e criar tábuas.",
 	"footnotes": "Todas as marcas registadas, direitos de autor, comentários e ficheiros neste site são propriedade e responsabilidade dos seus respectivos autores e proprietários. Só um louco levaria o que aqui é escrito a sério.",
 	"links": [{

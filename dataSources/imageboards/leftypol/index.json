@@ -1,0 +1,58 @@
+{
+	"id": "leftypol",
+	"shortId": "★",
+	"title": "leftypol",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare-alike DDoS protection and returns 403 Forbidden for the \"demo\" CORS proxy, but it is functional when accessed through one's own CORS proxy running at localhost.",
+	"description": [
+		[
+			"Leftypol is an imageboard where users can post anonymously.",
+			"\n",
+			"We engage in both serious political discourse and informal discussion on various topics related to leftist thought."
+		],
+		[
+			"They are... an interesting group of people - ",
+			{
+				"type": "text",
+				"style": "italic",
+				"content": "Senpai Wolff"
+			}
+		]
+	],
+	"links": [{
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://leftypol.org/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://leftypol.org/rules.html"
+	}, {
+		"type": "news",
+		"text": "News",
+		"url": "https://leftypol.org/"
+	}, {
+		"type": "other",
+		"text": "cytube",
+		"url": "https://tv.leftypol.org/"
+	}, {
+		"type": "other",
+		"text": "Wiki",
+		"url": "https://wiki.leftypol.org/wiki/Main_Page"
+	}, {
+		"type": "other",
+		"text": "booru",
+		"url": "https://lefty.booru.org/"
+	}, {
+		"type": "policy",
+		"text": "Privacy Policy",
+		"url": "https://leftypol.org/privacypolicy.html"
+	}],
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://leftypol.org/static/404.webp"
+			]
+		}
+	}
+}

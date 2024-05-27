@@ -4,6 +4,8 @@ import DATA_SOURCES_LIST from '../../../dataSources/index.js'
 
 import DataSourceLogo from '../../components/DataSourceLogo.js'
 
+import getDataSourceLinkUrl from '@/utility/dataSource/getDataSourceBasePath.js'
+
 import './NoDataSource.css'
 
 export default function NoDataSourcePage() {
@@ -20,9 +22,9 @@ export default function NoDataSourcePage() {
 			<p>Available data sources:</p>
 
 			<ul className="NoDataSourcePage-dataSources">
-				{DATA_SOURCES_LIST.map((dataSource) => (
+				{DATA_SOURCES_LIST.filter(_ => !_.hidden).map((dataSource) => (
 					<li key={dataSource.id} className="NoDataSourcePage-dataSource">
-						<a href={'/' + dataSource.id}>
+						<a href={getDataSourceLinkUrl(dataSource)}>
 							<DataSourceLogo dataSource={dataSource} className="NoDataSourcePage-dataSourceLogo"/>
 							{dataSource.id}
 						</a>

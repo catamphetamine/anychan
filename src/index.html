@@ -11,7 +11,7 @@
 			var DEFAULT_CONFIG = <%= defaultConfiguration %>
 			CONFIG = Object.assign({}, DEFAULT_CONFIG, CONFIG)
 			var BASE_PATH = CONFIG.path || ''
-			var VERSION = '<%= version %>'
+			window.VERSION = '<%= version %>'
 		</script>
 		<!-- Set the correct `configuration.path` when running
 			   at `https://catamphetamine.github.io/anychan` URL.
@@ -140,7 +140,22 @@
 							// https://stackoverflow.com/questions/50471486/what-happens-if-i-call-serviceworker-register-multiple-times
 							// One could also manually unregister deprecated `ServiceWorker`s if required:
 							// https://stackoverflow.com/questions/33704791/how-do-i-uninstall-a-service-worker
-							navigator.serviceWorker.register(url)
+							//
+							// Registering a `ServiceWorker` may throw an error in some cases.
+							// For example, when using Google Translate an visiting the website from another domain
+							// such as https://anychans-github-io.translate.goog/
+							// In order for such errors to not crash the website — due to the non-criticalness of
+							// the `ServiceWorker` to the website operation in generatel — the start-up of the `ServiceWorker`
+							// is wrapped in a `try`/`catch` block.
+							//
+							try {
+								navigator.serviceWorker.register(url)
+							} catch (error) {
+								// Ignore and log the error.
+								setTimeout(() => {
+									throw error
+								}, 0)
+							}
 						}
 					}
 

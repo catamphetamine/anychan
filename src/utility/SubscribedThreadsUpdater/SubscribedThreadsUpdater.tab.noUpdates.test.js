@@ -16,7 +16,26 @@ describe('SubscribedThreadsUpdater/tab', function() {
 		const userSettings = new UserSettings(storage)
 		const dataSource = DATA_SOURCES['4chan']
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
+		const log = (tabId, ...args) => {
+			if (args.length > 0) {
+				console.log('[' + tabId + ']', '—', ...args)
+			}
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const tab = new TestTab({
 			id: '1',
@@ -60,8 +79,10 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			thread1.comments[thread1.comments.length - 1].id
 		)
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
 			userData,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
@@ -77,19 +98,9 @@ describe('SubscribedThreadsUpdater/tab', function() {
 
 		let eventLog = []
 
-		let dispatchedActions = []
-
-		const dispatch = (action) => {
-			switch (action.type) {
-				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-					action.value = undefined
-					break
-			}
-			dispatchedActions.push(action)
-		}
-
 		const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
 			tab,
+			log,
 			timer,
 			userData,
 			userSettings,
@@ -101,7 +112,7 @@ describe('SubscribedThreadsUpdater/tab', function() {
 			refreshThreadDelay: 10000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else {
 					throw new Error(`Thread not found: /${channelId}/${threadId}`)
 				}

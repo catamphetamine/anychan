@@ -75,7 +75,7 @@
 		/*left: 0;*/
 		/*top: 0;*/
 		/* The left arrow icon isn't aligned to the left side. The ~20% horizontal shift compensates that. */
-		/*margin-left: calc(var(--Post-paddingLeft--has-thumbnail) - var(--InReplyToModalBackIcon-width) * 0.2);*/
+		/*margin-left: calc(var(--Post-paddingLeft--hasThumbnail) - var(--InReplyToModalBackIcon-width) * 0.2);*/
 		margin-left: var(--Post-paddingTop);
 		margin-top: calc(var(--Post-paddingTop) + var(--CommentFooter-marginBottom));
 		/*margin-bottom: -0.3em;*/

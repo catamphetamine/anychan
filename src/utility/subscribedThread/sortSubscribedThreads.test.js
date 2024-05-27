@@ -10,7 +10,16 @@ describe('sortSubscribedThreads', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(1500)
 
 		const channel = {
@@ -129,7 +138,13 @@ describe('sortSubscribedThreads', () => {
 						this.wasReset = true
 					}
 				}
-				addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+				addSubscribedThread({
+					thread,
+					dispatch,
+					userData,
+					timer,
+					subscribedThreadsUpdater
+				})
 				return userData.getSubscribedThread(thread.channelId, thread.id)
 			}
 		)

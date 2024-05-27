@@ -1,3 +1,6 @@
+import type { Storage } from 'web-browser-storage'
+import type { ChannelsListView } from './index.js'
+
 // import type { CompiledWordPattern } from 'social-components/types/text/index.d.ts'
 
 // Copy-pasted from `social-components`:
@@ -56,21 +59,23 @@ export interface UserSettingsJson {
 	theme?: Theme['id'];
 	themes?: Theme[];
 	css?: string;
-	locale?: string;
+	locale?: Locale;
 	proxyUrl?: string;
-	channelsView?: "list" | "by-category";
+	channelsView?: ChannelsListView;
 	version?: number;
 }
 
-export interface UserSettings {
-	constructor(storage: any, options?: { prefix?: string }): UserSettings;
+export declare class UserSettings {
+	constructor(storage: Storage, options?: { prefix?: string });
 	migrate(): void;
 	requiresMigration(): boolean;
-	get(name?: string): any;
-	reset(name?: string): void;
-	set(name: string, value: any): void;
+	get(name?: keyof UserSettingsJson): any;
+	reset(name?: keyof UserSettingsJson): void;
+	set(name: keyof UserSettingsJson, value: any): void;
 	set(value: UserSettingsJson): void;
 	replace(settings: UserSettingsJson): void;
 	matchKey(key: string): boolean;
 	onExternalChange(handler: () => void): void;
 }
+
+export type Locale = 'en' | 'ru' | 'de' | 'nl';

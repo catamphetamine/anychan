@@ -23,7 +23,30 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		const dataSource = DATA_SOURCES['4chan']
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = (action, tab) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+
+			dispatchedActions.push({
+				tab: tab === tab1 ? 1 : 2,
+				...action
+			})
+		}
+
+		const log = (tabId, ...args) => {
+			if (args.length > 0) {
+				console.log('[' + tabId + ']', '—', ...args)
+			}
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const tab1 = new TestTab({
 			id: '1 (inactive tab)',
@@ -79,29 +102,37 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			}
 		}
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
 			userData: userData1,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread2, {
-			channel,
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
+			dispatch,
 			userData: userData1,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread1, {
-			channel,
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
 			userData: userData2,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
 		})
 
-		addSubscribedThread(thread2, {
-			channel,
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
+			dispatch,
 			userData: userData2,
 			timer,
 			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
@@ -127,21 +158,6 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 					tab: 2
 				})
 			}
-		}
-
-		let dispatchedActions = []
-
-		const dispatch = (action, tab) => {
-			switch (action.type) {
-				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-					action.value = undefined
-					break
-			}
-
-			dispatchedActions.push({
-				tab: tab === tab1 ? 1 : 2,
-				...action
-			})
 		}
 
 		const dispatch1 = (action) => dispatch(action, tab1)
@@ -175,14 +191,15 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage1,
 			dispatch: dispatch1,
 			timer,
+			log,
 			eventLog: eventLog1,
 			nextUpdateRandomizeInterval: 0,
 			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
-					return thread2
+					return { thread: thread2 }
 				} else {
 					throw new Error(`Thread not found: /${channelId}/${threadId}`)
 				}
@@ -197,14 +214,15 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 			storage: storage2,
 			dispatch: dispatch2,
 			timer,
+			log,
 			eventLog: eventLog2,
 			nextUpdateRandomizeInterval: 0,
 			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
-					return thread2
+					return { thread: thread2 }
 				} else {
 					throw new Error(`Thread not found: /${channelId}/${threadId}`)
 				}

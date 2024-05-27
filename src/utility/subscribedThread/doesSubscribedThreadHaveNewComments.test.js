@@ -57,7 +57,10 @@ describe('doesSubscribedThreadHaveNewComments', () => {
 			false
 		)
 
+		// comment1.replyIds = [comment2.id]
 		// comment1.replies = [comment2]
+
+		comment2.inReplyToIds = [comment1.id]
 		comment2.inReplyTo = [comment1]
 
 		userData.addOwnComment('a', 100, comment1.id)

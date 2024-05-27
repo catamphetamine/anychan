@@ -307,7 +307,7 @@
 
 	/* Both on channel page and thread page. */
 	.Comment {
-		padding-left: var(--Post-paddingLeft--has-thumbnail);
+		padding-left: var(--Post-paddingLeft--hasThumbnail);
 		/* Post thumbnail has some top spacing
 		   in order for its top border to be at similar height
 		   with the actual first line of text's top edge. */

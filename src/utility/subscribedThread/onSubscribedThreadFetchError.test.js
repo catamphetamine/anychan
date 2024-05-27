@@ -12,7 +12,16 @@ describe('onSubscribedThreadFetchError', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -39,7 +48,13 @@ describe('onSubscribedThreadFetchError', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		// Errored first time.
 		onSubscribedThreadFetchError({
@@ -100,7 +115,16 @@ describe('onSubscribedThreadFetchError', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -127,7 +151,13 @@ describe('onSubscribedThreadFetchError', () => {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		userData.removeSubscribedThreadState('a', 100)
 

@@ -26,3 +26,14 @@
 .rrui__modal__vertical-margin--bottom {
 	flex-basis: 1rem;
 }
+
+.rrui__select {
+  .rrui__shadow {
+    box-shadow: 0 0.1rem 0.5rem 0 rgba(0, 0, 0, 0.15), 0 0.15rem 1.5rem 0 rgba(0, 0, 0, 0.2), 0 0 0 1px var(--Content-color-200);
+	}
+	@mixin upto-s {
+		--rrui-list-item-side-padding: calc(var(--unit) * 1);
+		--rrui-options-list-negative-side-margin: calc(var(--unit) * 0.5);
+		--rrui-list-item-height: calc(var(--unit) * 3.5);
+	}
+}

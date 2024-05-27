@@ -11,7 +11,21 @@ describe('onThreadsFetched', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = new Date(timer.now())
@@ -41,7 +55,21 @@ describe('onThreadsFetched', function() {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
+
+		// `addSubscribedThread()` caused a refresh of the list of subscribed threads.
+		dispatchedActions.should.deep.equal([{
+			type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
+			value: undefined
+		}])
+
+		dispatchedActions = []
 
 		expect(userData.getThreadAccessedAt(thread.channelId, thread.id)).to.equal(undefined)
 
@@ -60,16 +88,6 @@ describe('onThreadsFetched', function() {
 
 		userData.setThreads('a', [123])
 		userData.getThreads('a').should.deep.equal([123])
-
-		const dispatchedActions = []
-		const dispatch = (action) => {
-			switch (action.type) {
-				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-					action.value = undefined
-					break
-			}
-			dispatchedActions.push(action)
-		}
 
 		thread.locked = true
 
@@ -131,7 +149,21 @@ describe('onThreadsFetched', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
+
 		await timer.fastForward(Date.now())
 
 		const now = getDateWithoutMilliseconds(new Date(timer.now()))
@@ -155,7 +187,21 @@ describe('onThreadsFetched', function() {
 			}
 		}
 
-		addSubscribedThread(thread, { userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
+
+		// `addSubscribedThread()` caused a refresh of the list of subscribed threads.
+		dispatchedActions.should.deep.equal([{
+			type: 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS',
+			value: undefined
+		}])
+
+		dispatchedActions = []
 
 		expect(userData.getThreadAccessedAt(thread.channelId, thread.id)).to.equal(undefined)
 
@@ -174,9 +220,6 @@ describe('onThreadsFetched', function() {
 
 		userData.setThreads('a', [123])
 		userData.getThreads('a').should.deep.equal([123])
-
-		const dispatchedActions = []
-		const dispatch = (action) => dispatchedActions.push(action)
 
 		const thread2 = {
 			id: 456,

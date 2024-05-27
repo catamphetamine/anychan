@@ -1,4 +1,4 @@
-import createSubscribedThreadRecord from './createSubscribedThreadRecord.js'
+import createSubscribedThreadRecord from './createSubscribedThreadRecord.ts'
 import UserData from '../../UserData/UserData.js'
 
 import { MemoryStorage } from 'web-browser-storage'
@@ -8,6 +8,8 @@ const userData = new UserData(storage)
 
 describe('createSubscribedThreadRecord', () => {
 	it('should create subscribed thread record', () => {
+		const addedAt = new Date()
+
 		const subscribedThread = createSubscribedThreadRecord({
 			id: 100,
 			title: 'Anime 1',
@@ -47,6 +49,7 @@ describe('createSubscribedThreadRecord', () => {
 			// 	id: 'a',
 			// 	title: 'Anime'
 			// },
+			addedAt,
 			userData
 		})
 
@@ -66,17 +69,20 @@ describe('createSubscribedThreadRecord', () => {
 					height: 32,
 					url: 'https://example.com/1.jpg',
 					spoiler: true
-				}
+				},
+				addedAt
 			}
 		)
 
-		// A subscribed thread record returned from `createSubscribedThreadRecord()`
-		// shouldn't have an `addedAt` date because `createSubscribedThreadRecord()`
-		// is also used in `onSubscribedThreadFetched()`.
-		expectToEqual(subscribedThread.addedAt, undefined)
+		// // A subscribed thread record returned from `createSubscribedThreadRecord()`
+		// // shouldn't have an `addedAt` date because `createSubscribedThreadRecord()`
+		// // is also used in `onSubscribedThreadFetched()`.
+		// expectToEqual(subscribedThread.addedAt, undefined)
 	})
 
 	it('should create subscribed thread record (locked thread)', () => {
+		const addedAt = new Date()
+
 		const subscribedThread = createSubscribedThreadRecord({
 			id: 100,
 			title: 'Anime 1',
@@ -101,6 +107,7 @@ describe('createSubscribedThreadRecord', () => {
 			// 	id: 'a',
 			// 	title: 'Anime'
 			// },
+			addedAt,
 			userData
 		})
 
@@ -115,12 +122,15 @@ describe('createSubscribedThreadRecord', () => {
 					// title: 'Anime'
 				},
 				locked: true,
-				// lockedAt: new Date(4000)
+				// lockedAt: new Date(4000),
+				addedAt
 			}
 		)
 	})
 
 	it('should create subscribed thread record ("trimming" thread)', () => {
+		const addedAt = new Date()
+
 		const subscribedThread = createSubscribedThreadRecord({
 			id: 100,
 			title: 'Anime 1',
@@ -145,6 +155,7 @@ describe('createSubscribedThreadRecord', () => {
 			// 	id: 'a',
 			// 	title: 'Anime'
 			// },
+			addedAt,
 			userData
 		})
 
@@ -158,12 +169,15 @@ describe('createSubscribedThreadRecord', () => {
 					title: undefined
 					// title: 'Anime'
 				},
-				trimming: true
+				trimming: true,
+				addedAt
 			}
 		)
 	})
 
 	it('should set latest comments', () => {
+		const addedAt = new Date()
+
 		const subscribedThread = createSubscribedThreadRecord({
 			id: 100,
 			title: 'Anime 1',
@@ -188,6 +202,7 @@ describe('createSubscribedThreadRecord', () => {
 			// 	id: 'a',
 			// 	title: 'Anime'
 			// },
+			addedAt,
 			userData
 		})
 
@@ -203,7 +218,8 @@ describe('createSubscribedThreadRecord', () => {
 					title: undefined
 					// title: 'Anime'
 				},
-				trimming: true
+				trimming: true,
+				addedAt
 			}
 		)
 	})
@@ -219,6 +235,7 @@ describe('createSubscribedThreadRecord', () => {
 			id: 101,
 			indexForLatestReadCommentDetection: 1,
 			createdAt: new Date(1000),
+			inReplyToIds: [COMMENT_1.id],
 			inReplyTo: [COMMENT_1]
 		}
 
@@ -226,8 +243,11 @@ describe('createSubscribedThreadRecord', () => {
 			id: 102,
 			indexForLatestReadCommentDetection: 2,
 			createdAt: new Date(2000),
+			inReplyToIds: [COMMENT_2.id],
 			inReplyTo: [COMMENT_2]
 		}
+
+		const addedAt = new Date()
 
 		const subscribedThread = createSubscribedThreadRecord({
 			id: 100,
@@ -240,6 +260,7 @@ describe('createSubscribedThreadRecord', () => {
 			// 	id: 'a',
 			// 	title: 'Anime'
 			// },
+			addedAt,
 			userData
 		})
 
@@ -255,7 +276,8 @@ describe('createSubscribedThreadRecord', () => {
 					id: 'a',
 					title: undefined
 					// title: 'Anime'
-				}
+				},
+				addedAt
 			}
 		)
 	})

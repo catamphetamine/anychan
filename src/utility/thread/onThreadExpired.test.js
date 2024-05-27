@@ -10,7 +10,14 @@ describe('onThreadExpired', () => {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const dispatchedActions = []
+		const dispatch = (action) => {
+			dispatchedActions.push(action)
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		await timer.fastForward(1000)
 
@@ -70,9 +77,32 @@ describe('onThreadExpired', () => {
 		userData.setLatestReadCommentId('a', 456, 457)
 		userData.setLatestReadCommentId('b', 789, 790)
 
-		addSubscribedThread(thread1, { channel: channel1, userData, timer, subscribedThreadsUpdater })
-		addSubscribedThread(thread2, { channel: channel2, userData, timer, subscribedThreadsUpdater })
-		addSubscribedThread(thread3, { channel: channel3, userData, timer, subscribedThreadsUpdater })
+		addSubscribedThread({
+			thread: thread1,
+			// channel: channel1,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
+
+		addSubscribedThread({
+			thread: thread2,
+			// channel: channel2,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
+
+		addSubscribedThread({
+			thread: thread3,
+			// channel: channel3,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater
+		})
 
 		userData.addHiddenComment('a', 123, 124)
 		userData.addHiddenComment('a', 123, 125)
@@ -208,11 +238,6 @@ describe('onThreadExpired', () => {
 				}
 			}
 		)
-
-		const dispatchedActions = []
-		const dispatch = (action) => {
-			dispatchedActions.push(action)
-		}
 
 		// Expire unrelated thread `/c/777`.
 		onThreadExpired('c', 777, { dispatch, userData })

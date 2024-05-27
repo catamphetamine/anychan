@@ -1,0 +1,1 @@
+export type ChannelsListView = 'list' | 'by-category';

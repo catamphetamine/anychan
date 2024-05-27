@@ -10,7 +10,9 @@ describe('clearUnusedThreadsData', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		// Discard milliseconds
 		const date = getDateWithoutMilliseconds(new Date(0))
@@ -175,7 +177,9 @@ describe('clearUnusedThreadsData', function() {
 		const storage = new MemoryStorage()
 		const userData = new UserData(storage)
 
-		const timer = new TestTimer()
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const DAY = 24 * 60 * 60 * 1000
 

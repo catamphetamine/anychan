@@ -79,7 +79,7 @@
 			position: absolute;
 			left: 0; /* calc(-1 * var(--PaddingLeft-minWidth)); */
 			top: 0;
-			width: calc(var(--Post-paddingLeft--has-thumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--Comment-boxShadowOutlineWidth));
+			width: calc(var(--Post-paddingLeft--hasThumbnail) + var(--Picture-borderWidth) + var(--PostThumbnail-maxWidth) + var(--Picture-borderWidth) - var(--Comment-boxShadowOutlineWidth));
 			height: 100%;
 
 			/* `BackButton` is rendered "below" the comment elements

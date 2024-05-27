@@ -1,0 +1,27 @@
+{
+	"id": "junkuchan",
+	"shortId": "💤",
+	"domains": [
+		"junkuchan.org",
+		"junkuchaouscdrmjvuat5ziio7et6sjm7nd5puzhdfq7all7qdiqppyd.onion"
+	],
+	"title": "Junkuchan",
+	"description": "Hello old friends from Desuchan and Bokuchan",
+	"links": [{
+		"type": "news",
+		"text": "News",
+		"url": "https://junkuchan.org/news.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://junkuchan.org/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://junkuchan.org/rules.html"
+	}, {
+		"type": "contact",
+		"text": "Email",
+		"url": "mailto:webmasterjunkuchan.org"
+	}]
+}

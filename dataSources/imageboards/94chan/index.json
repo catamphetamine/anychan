@@ -2,6 +2,8 @@
 	"id": "94chan",
 	"shortId": "🦎",
 	"title": "94chan",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare-alike DDoS protection and returns 403 Forbidden for the \"demo\" CORS proxy, but it is functional when accessed through one's own CORS proxy running at localhost.",
 	"description": "The 94th Channel of the Internetz.",
 	"footnotes": "Copyright © 94chan",
 	"links": [{

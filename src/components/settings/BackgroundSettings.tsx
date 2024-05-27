@@ -1,23 +1,23 @@
-import type { Background, UserSettingsJson } from '../../types/index.js'
+import type { Background } from '../../types/index.js'
 
 import React, { useRef, useMemo, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 
-import SelectNoTypeScript from '../Select.js'
-import TextButtonNoTypeScript from '../TextButton.js'
+import Select from '../Select.js'
+import TextButton from '../TextButton.js'
 import FillButton from '../FillButton.js'
 
 // @ts-expect-error
 import { Modal, Switch } from 'react-responsive-ui'
 
-import { Form as FormNoTypeScript, Field as FieldNoTypeScript, Submit, FormStyle, FormComponent, FormActions, FormAction } from '../Form.js'
+import { Form, Field, Submit, FormStyle, FormComponent, FormActions, FormAction } from '../Form.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 
 import {
-	ContentSection as ContentSectionNoTypeScript,
+	ContentSection,
 	ContentSectionHeader
 } from 'frontend-lib/components/ContentSection.js'
 
@@ -35,30 +35,17 @@ import {
 	removeBackground
 } from '../../utility/background.js'
 
-import {
-	saveBackgroundLightMode,
-	saveBackgroundDarkMode
-} from '../../redux/settings.js'
-
-const Form: React.FC<Record<string, any>> = FormNoTypeScript
-const Field: React.FC<Record<string, any>> = FieldNoTypeScript
-const TextButton: React.FC<Record<string, any>> = TextButtonNoTypeScript
-const Select: React.FC<Record<string, any>> = SelectNoTypeScript
-const ContentSection: React.FC<Record<string, any>> = ContentSectionNoTypeScript
-
 export default function BackgroundSettings({
 	type,
-	settings
-}: {
-	type: 'dark' | 'light',
-	settings: UserSettingsJson
-}) {
+	value,
+	onChange
+}: BackgroundSettingsProps) {
 	const userSettings = useSettings()
 	const messages = useMessages()
 
 	const dispatch = useDispatch()
 
-	const currentBackgroundId: Background['id'] = type === 'dark' ? settings.backgroundDarkMode : settings.backgroundLightMode
+	const currentBackgroundId: Background['id'] = value
 
 	// Added a "dummy" state variable in order to re-trigger `useMemo()` below
 	// when a user saves some changes to current background.
@@ -76,11 +63,7 @@ export default function BackgroundSettings({
 
 	async function onSelectBackground(id: Background['id']) {
 		applyBackground(id, type, { dispatch, userSettings })
-		if (type === 'light') {
-			dispatch(saveBackgroundLightMode({ backgroundLightMode: id, userSettings }))
-		} else {
-			dispatch(saveBackgroundDarkMode({ backgroundDarkMode: id, userSettings }))
-		}
+		onChange(id)
 	}
 
 	const onSetEnabled = useCallback(async (isEnabledValue?: boolean) => {
@@ -113,11 +96,7 @@ export default function BackgroundSettings({
 			removeBackground(id, type, { userSettings })
 			throw error
 		}
-		if (type === 'dark') {
-			dispatch(saveBackgroundDarkMode({ backgroundDarkMode: id, userSettings }))
-		} else {
-			dispatch(saveBackgroundLightMode({ backgroundLightMode: id, userSettings }))
-		}
+		onChange(id)
 	}
 
 	async function onUpdateBackground(id: Background['id']) {
@@ -153,43 +132,45 @@ export default function BackgroundSettings({
 				{isEnabled ? messages.status.enabled : messages.status.disabled}
 			</Switch>
 
-			<FormStyle>
-				<FormComponent>
-					<Select
-						value={currentBackgroundId}
-						options={options}
-						onChange={onSelectBackground}
-					/>
-				</FormComponent>
-				<FormComponent type="button">
-					<TextButton
-						onClick={() => {
-							setBackgroundModalMode('add')
-							setShowBackgroundModal(true)
-						}}>
-						{messages.settings.background.add.title}
-					</TextButton>
-				</FormComponent>
-				{!isBuiltInBackground(currentBackgroundId, type) &&
-					<>
-						<FormComponent type="button">
-							<TextButton
-								onClick={() => {
-									setBackgroundModalMode('edit')
-									setShowBackgroundModal(true)
-								}}>
-								{messages.settings.background.editCurrent}
-							</TextButton>
-						</FormComponent>
-						<FormComponent type="button">
-							<TextButton
-								onClick={onRemoveSelectedBackground}>
-								{messages.settings.background.deleteCurrent.title}
-							</TextButton>
-						</FormComponent>
-					</>
-				}
-			</FormStyle>
+			{isEnabled && (
+				<FormStyle>
+					<FormComponent>
+						<Select
+							value={currentBackgroundId}
+							options={options}
+							onChange={onSelectBackground}
+						/>
+					</FormComponent>
+					<FormComponent type="button">
+						<TextButton
+							onClick={() => {
+								setBackgroundModalMode('add')
+								setShowBackgroundModal(true)
+							}}>
+							{messages.settings.background.add.title}
+						</TextButton>
+					</FormComponent>
+					{!isBuiltInBackground(currentBackgroundId, type) &&
+						<>
+							<FormComponent type="button">
+								<TextButton
+									onClick={() => {
+										setBackgroundModalMode('edit')
+										setShowBackgroundModal(true)
+									}}>
+									{messages.settings.background.editCurrent}
+								</TextButton>
+							</FormComponent>
+							<FormComponent type="button">
+								<TextButton
+									onClick={onRemoveSelectedBackground}>
+									{messages.settings.background.deleteCurrent.title}
+								</TextButton>
+							</FormComponent>
+						</>
+					}
+				</FormStyle>
+			)}
 
 			{/* Add background modal */}
 			<Modal
@@ -216,7 +197,14 @@ export default function BackgroundSettings({
 
 BackgroundSettings.propTypes = {
 	type: PropTypes.oneOf(['dark', 'light']).isRequired,
-	settings: PropTypes.object.isRequired
+	value: PropTypes.string,
+	onChange: PropTypes.func.isRequired
+}
+
+interface BackgroundSettingsProps {
+	type: 'dark' | 'light',
+	value?: Background['id'],
+	onChange: (value?: Background['id']) => void
 }
 
 const BACKGROUND_ID_REG_EXP = /^[a-zA-Z-_\d]+$/

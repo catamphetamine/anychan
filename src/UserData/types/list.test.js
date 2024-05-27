@@ -13,7 +13,7 @@ function create() {
 			trim: (list, limit) => {
 				return list.filter(_ => !_.canBeRemoved)
 			},
-			isEqual: (one, two) => one === two,
+			match: (encoded, _) => encoded === _,
 			schema: {
 				title: {
 					type: 'string',
@@ -30,7 +30,7 @@ function create() {
 			name: 'objectsWithIds',
 			shortName: null,
 			type: 'list',
-			isEqual: (one, two) => one.id === two.id,
+			match: (encoded, _) => encoded.id === _.id,
 			schema: {
 				id: {
 					type: 'string',

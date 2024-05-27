@@ -1,5 +1,9 @@
 @import "../../styles/common.css";
 
+:root {
+	--CommentFooterBadge-height: 1em;
+}
+
 .CommentFooterBadge {
 	display: flex;
 	align-items: center;
@@ -44,8 +48,8 @@
 	   vertical spacing above the `<img/>`. */
 	display: flex;
 	align-items: center;
-	width: 1em;
-	height: 1em;
+	width: var(--CommentFooterBadge-height);
+	height: var(--CommentFooterBadge-height);
 	/* Fixes <svg/> icons being cut off in iOS Safari. */
 	/* https://stackoverflow.com/questions/24894921/svg-being-cut-off */
 	overflow: visible;
@@ -104,7 +108,8 @@
 	color: var(--CommentAuthorBannedIcon-color);
 }
 
-.CommentFooterBadge-icon--own {
+.CommentFooterBadge-icon--ownComment,
+.CommentFooterBadge-icon--replyToOwnComment {
 	color: var(--Clickable-color--text);
 
 	/*
@@ -116,4 +121,9 @@
 		stroke: var(--Post-backgroundColor);
 	}
 	*/
+}
+
+.CommentFooterBadge-icon--replyToOwnComment {
+	width: auto;
+	height: calc(var(--CommentFooterBadge-height) * 1.35);
 }

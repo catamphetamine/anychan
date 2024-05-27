@@ -2,7 +2,7 @@ import path from 'path'
 
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
-import HtmlPlugin from './html-plugin.js'
+import HtmlPlugin from './HtmlPlugin.js'
 
 export function createConfiguration({ development }) {
 	return {
@@ -48,7 +48,7 @@ export function createConfiguration({ development }) {
 					// * `web-browser-tab` — Is an `npm` package. Is not compiled when published.
 					// * `web-browser-timer` — Is an `npm` package. Is not compiled when published.
 					// * `web-browser-window` — Is an `npm` package. Is not compiled when published.
-					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-parser|social-components-react|social-components|imageboard|react-pages|flexible-json-schema|web-browser-input|web-browser-storage|web-browser-style|web-browser-tab|web-browser-timer|web-browser-window)[\/\\])/,
+					exclude: /node_modules[\/\\](?!(frontend-lib|social-components-parser|social-components-react|social-components|react-time-ago|imageboard|react-pages|flexible-json-schema|web-browser-input|web-browser-storage|web-browser-style|web-browser-tab|web-browser-timer|web-browser-window)[\/\\])/,
 					use: [{
 						// https://blog.logrocket.com/migrating-swc-webpack-babel-overview/
 						loader: 'swc-loader'
@@ -177,6 +177,11 @@ export function createConfiguration({ development }) {
 				// naturally, because it has a `*.ts` file extension in reality.
 				// This `extensionAlias` setting of Webpack works around that issue.
         '.js': ['.js', '.ts', '.tsx']
+			},
+
+			// https://www.bitovi.com/blog/how-to-create-a-path-alias-in-webpack
+			alias: {
+				'@': path.resolve('./src')
 			}
 		},
 

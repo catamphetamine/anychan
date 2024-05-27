@@ -259,6 +259,7 @@
 		"trimming": "Draad afsnijden",
 		"ownComment": "Dit is jouw opmerking",
 		"ownThread": "Dit is jouw draad",
+		"replyToOwnComment": "Als antwoord op uw opmerking",
 		"threadAuthor": "Draad auteur",
 		"attachmentsCount": "Bestanden",
 		"commentAttachmentsCount": "Bestanden in opmerkingen",
@@ -283,15 +284,13 @@
 		}
 	},
 	"footnotes": {
-		"postAnychan": " web client",
-		"preAuthor": " door "
+		"anychan": "<anychan></anychan> web client <version></version> door <author></author>"
 	},
 	"country": {
 		"anonymous": "Anoniem"
 	},
 	"autoUpdate": {
-		"scheduledBeforeTime": "Auto-update ",
-		"scheduledAfterTime": null,
+		"scheduled": "Auto-update <timeRelative></timeRelative>",
 		"inProgress": "Updaten…",
 		"error": "Kan de draad niet updaten"
 	},
@@ -321,11 +320,30 @@
 		}
 	},
 	"report": {
-		"contentInputLabel": "Rapporteer tekst",
+		"misuseWarning": "Het indienen van valse of verkeerd geclassificeerde rapporten kan resulteren in een verbod.",
 		"submitted": "Uw rapport is verzonden",
-		"alreadyReported": "U heeft al een rapport ingediend",
-		"contentRequired": "Rapporteertekst is vereist",
-		"error": "Kan uw rapport niet indienen"
+		"form": {
+			"chooseViolationType": {
+				"text": "Is het in strijd met <rulesLink>regels</rulesLink> of {countryLaw}?",
+				"countryLaw": {
+					"US": "de Amerikaanse wet"
+				}
+			},
+			"violationType": {
+				"rules": "Regels",
+				"countryLaw": {
+					"US": "Amerikaanse wet"
+				}
+			},
+			"content": "Rapporteer tekst",
+			"reason": "Reden melden",
+			"error": {
+				"alreadyReported": "U heeft al een rapport ingediend",
+				"contentRequired": "Rapporteertekst is vereist",
+				"violationTypeRequired": "U moet kiezen of u een overtreding van de regels of de wet meldt",
+				"error": "Kan uw rapport niet indienen"
+			}
+		}
 	},
 	"proxyPostingCaution": "Let op wat je hier post. Alle gebruikers van deze app delen dezelfde proxyserver. Als de proxyserver wordt verbannen, werkt de applicatie mogelijk niet meer voor iedereen.",
 	"colorfulBackground": "Kleurrijke achtergrond",
@@ -364,6 +382,7 @@
 	"threadIsArchived": "Deze draad is gearchiveerd",
 	"threadIsLocked": "Deze draad is gesloten",
 	"threadExpired": "Deze draad is verlopen",
+	"threadDeleted": "Deze draad is verwijderd",
 	"threadExpiresSoon": "Deze draad is op positie {position} van de {lastPosition}. Zodra deze onder de laatste plaats komt, vervalt deze. Om een draad terug te brengen naar de eerste plaats, kun je een reactie in achterlaten.",
 	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in de laatste <timeTag>15 minuten</timeTag>",
 	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in het laatste <timeTag>uur</timeTag>"

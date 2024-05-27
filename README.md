@@ -17,20 +17,30 @@ Supported imageboard engines:
 * [vichan](https://github.com/vichan-devel/vichan) — An open-source `4chan`-compatible engine running on PHP/MySQL whose development started in 2012. The codebase has seen various maintainers take over and then leave off over the years, but as of late 2023, it seems like it's still being maintained and receiving new features.
 
   1. [lainchan.org](https://lainchan.org/) — [demo](https://anychans.github.io/lainchan)
+  2. [soyjak.party](https://soyjak.party/)
+  3. [vichan.pl](https://vichan.pl/)
 
 * [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity)) — A 2013 fork of `vichan` engine with the goal of supporting an "infinite" amount of user-managed boards as opposed to a finite set of predefined boards. No longer maintained since 2018.
 
-  1. [8ch.net (8kun.top)](https://8kun.top/) — [demo](https://anychans.github.io/8ch)
+  1. [8kun.top](https://8kun.top/) (formerly `8ch.net`) — [demo](https://anychans.github.io/8ch)
+  2. [smuglo.li](https://smuglo.li/) — [demo](https://anychans.github.io/smugloli)
 
 * [lynxchan](https://gitgud.io/LynxChan/LynxChan) — An alternative engine Node.js/MongoDB whose development started in 2015. Rather than mimicking any existing engine, it set off on its own path and ended up becoming a popular choice (of its time) provided that there's really not much else to choose from. Some choices made by the author are questionable and the overall approach doesn't look professional to me. For example, the engine has a bunch of quite obvious but easily-fixable [issues](https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/lynxchan-issues.md) that the author refuses to recognize and has no interest in fixing. The author's demeanor, in general, is somewhat controversial and not to everyone's liking.
 
   1. [kohlchan.net](https://kohlchan.net) — [demo](https://anychans.github.io/kohlchan)
   2. [endchan.net](https://endchan.net) — [demo](https://anychans.github.io/endchan)
+  3. [alogs.space](https://alogs.space) — [demo](https://anychans.github.io/alogsspace)
+  4. [bandada](https://bandada.club) — [demo](https://anychans.github.io/bandada)
 
 * [jschan](https://gitgud.io/fatchan/jschan/) — An alternative engine written in Node.js/MongoDB whose development started in 2019. Isn't really adopted by anyone, perhaps because there haven't been any new imageboards since its development has started. Compared to `lynxchan`, purely from a technical perspective, it looks much more professional and mature, and the author is a [well-known developer](https://lowendtalk.com/discussion/186679/basedflare-new-cloudflare-like-service).
 
-  1. [94chan.org](https://94chan.org/) — [demo](https://anychans.github.io/94chan). The website is behind a CloudFlare-alike DDoS protection and returns `403 Forbidden` for the "demo" CORS proxy, but it is functional when accessed through one's [own CORS proxy](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md) running at `localhost`.
-  2. [ptchan.org](https://ptchan.org/) — [demo](https://anychans.github.io/ptchan). The website is behind a CloudFlare-alike DDoS protection and returns [`403 Forbidden`](https://gitgud.io/fatchan/haproxy-protection/-/issues/24) for a CORS proxy.
+  1. [junkuchan.org](https://junkuchan.org) — [demo](https://anychans.github.io/junkuchan)
+  2. [jakparty.soy](https://jakparty.soy) — [demo](https://anychans.github.io/jakpartysoy)
+
+  <!-- * P.S. The [demo](https://anychans.github.io/) website doesn't seem to work with any known `jschan` imageboard because all of them use CloudFlare anti-DDoS protection that doesn't allow through the [CORS proxy](https://gitlab.com/catamphetamine/anychan/-/tree/master/docs/proxy/README.md). -->
+
+  <!-- 1. [94chan.org](https://94chan.org/) — [demo](https://anychans.github.io/94chan). The website is behind a CloudFlare-alike DDoS protection and returns `403 Forbidden` for the "demo" CORS proxy, but it is functional when accessed through one's [own CORS proxy](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md) running at `localhost`. -->
+  <!-- 2. [ptchan.org](https://ptchan.org/) — [demo](https://anychans.github.io/ptchan). The website is behind a CloudFlare-alike DDoS protection and returns [`403 Forbidden`](https://gitgud.io/fatchan/haproxy-protection/-/issues/24) for a CORS proxy. -->
 
 * [makaba](https://2ch.hk/api/) — `2ch.hk`'s proprietary engine.
 
@@ -123,6 +133,7 @@ The default configuration can be found in `./configuration/default.json` file. A
   // * "2ch"
   // * "kohlchan"
   // * "lainchan"
+  // * etc
   //
   // Specifying the "dataSource" parameter in such cases can be omitted
   // if this application runs on the data source's main domain (e.g. "4chan.org")
@@ -135,14 +146,14 @@ The default configuration can be found in `./configuration/default.json` file. A
   //
   // When a data source is not a "supported-out-of-the-box" one,
   // the "dataSource" configuration parameter value should be an object
-  // describing the configuration parameters of the data source:
+  // describing various parameters of the data source:
   //
   // * `logo`
   // * `title`
   // * `api`
   // * etc
   //
-  // See "Adding a new imageboard" section of the docs for more info on
+  // See "Adding a new data source" section of the docs for more info on
   // the available configuration parameters for a custom data source.
   //
   "dataSource": "4chan",
@@ -990,6 +1001,19 @@ To add a new data source, create an `index.json` file with the data source's con
 
 The files should be placed in the data source's directory created inside the `dataSources` folder. Then, the data source's config should be `import`ed in `dataSources/index.js` and added to the list of `DATA_SOURCES`. After that, the data source's `icon` and `logo` should be assigned in `src/dataSourceLogos.js`.
 
+## Adding a new data source
+
+(advanced topic)
+
+For imageboard-type data sources, the process is a bit [easier](#adding-a-new-imageboard).
+
+For non-imageboard-type data sources:
+
+* First, describe the new data source in a `dataSource` object property in the configuration file. See [DataSource.ts](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/DataSource.ts) for the schema of a `dataSource` object.
+* Add the new data source to the list in `./dataSources/non-imageboards.ts` (analogous to the existing ones).
+* Add the icon of new data source in `./src/dataSourceIcons.ts` (analogous to the existing ones).
+* Add the logo of new data source in `./src/dataSourceLogos.ts` (analogous to the existing ones).
+
 ## Adding a new imageboard
 
 (advanced topic)
@@ -997,27 +1021,14 @@ The files should be placed in the data source's directory created inside the `da
 First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `anychan` application:
 
 * Create the imageboard's directory in `./dataSources/imageboards`.
-* In that directory, create `index.json` [configuration file](#data-source-configuration). Create an `icon.png` (`192px x 192px`), a `logo.svg` (or `logo.jpg`, or `logo.png`) and an `app-icon-512.png` (for PWA support). See other imageboards' directories as an example.
-* Add the new imageboard in `./dataSources/imageboards/index.js` (analogous to the existing imageboards).
-* Add the new imageboard in `./src/dataSources.js` (analogous to the existing imageboards).
-
-<!--
-## Browser support
-
-This application uses [CSS Variables](https://caniuse.com/#feat=css-variables).
--->
-
-<!-- [`position: sticky`](https://caniuse.com/#feat=css-sticky) -->
-<!-- | —  | 16+  | 32+     | 56+    | 42+   | 9.1+   | 9.3+       | 5+              | -->
-
-<!-- [`fetch`](https://caniuse.com/#feat=fetch) -->
-<!-- | —  | 16+  | 39+     | 49+    | 36+   | 10.1+  | 10.3+      | 5+              | -->
-
-<!--
-| IE | Edge | Firefox | Chrome | Opera | Safari | iOS Safari | Android Browser |
-|----|------|---------|--------|-------|--------|------------|-----------------|
-| —  | 16+  | 31+     | 49+    | 36+   | 9.1+   | 9.3+       | 5+              |
--->
+* In that directory, create files:
+  * `index.json` [configuration file](#data-source-configuration)
+  * `icon.png` (`192px x 192px`)
+  * `logo.svg` (or `logo.jpg`, or `logo.png`)
+  * `app-icon-512.png` (`512px x 512px`) for [PWA](https://en.wikipedia.org/wiki/Progressive_web_app) support
+* Add the new imageboard to the list in `./dataSources/imageboards/imageboards.ts` (analogous to the existing imageboards).
+* Add the icon of new imageboard in `./src/dataSourceIcons.ts` (analogous to the existing imageboards).
+* Add the logo of new imageboard in `./src/dataSourceLogos.ts` (analogous to the existing imageboards).
 
 ## Miscellaneous
 

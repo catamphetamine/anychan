@@ -5,8 +5,6 @@
 .ErrorPage-title {
 	margin-top: calc(var(--unit) * 8);
 	margin-bottom: calc(var(--unit) * 4);
-	font-weight: 300;
-	font-size: 1.8rem;
 }
 
 .ErrorPage-description {
@@ -37,4 +35,20 @@
 .ErrorPage-requestedUrl {
 	display: inline-block;
 	margin-top: calc(var(--unit) * 2);
+}
+
+.ErrorPage-requestedUrl--onBackground {
+	padding-left: calc(var(--unit) * 0.75);
+	padding-right: calc(var(--unit) * 0.75);
+	padding-top: calc(var(--unit) / 2.5);
+	padding-bottom: calc(var(--unit) / 2.5);
+
+	opacity: var(--OnBackground-opacity--clickable);
+	color: var(--Clickable-color--text);
+	background-color: var(--OnBackground-backgroundColor);
+
+	&:active {
+		color: var(--Content-backgroundColor);
+		background-color: var(--Clickable-color--active);
+	}
 }

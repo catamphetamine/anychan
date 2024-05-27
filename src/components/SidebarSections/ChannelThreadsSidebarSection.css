@@ -1,1 +1,11 @@
-.ChannelThreadsSidebarSection {}
+.ChannelThreadsSidebarSection-nothingFound {
+	margin-top: calc(var(--unit) * 6);
+	margin-bottom: calc(var(--unit) * 6);
+	padding-left: var(--unit);
+	padding-right: var(--unit);
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	align-content: center;
+	text-align: center;
+}

@@ -5,18 +5,24 @@
 	--AutoUpdate-marginLeft: var(--Post-paddingLeft);
 	--AutoUpdate-bottomBorderWidth: 1px;
 
-	display: block;
 	margin-left: var(--AutoUpdate-marginLeft);
 	margin-right: var(--AutoUpdate-marginLeft);
+}
+
+.AutoUpdate--onBackground {
+	--AutoUpdate-marginLeft: 0px;
+	--AutoUpdate-bottomBorderWidth: 0px;
+}
+
+
+.AutoUpdate-button {
+	display: block;
 
 	--Button-borderBottomWidth: var(--AutoUpdate-bottomBorderWidth);
 	--Button-borderBottomColor: var(--AutoUpdate-borderBottomColor);
 
 	&.Button--fill {
 		height: var(--Button-height--singleLine);
-
-		--AutoUpdate-marginLeft: 0px;
-		--AutoUpdate-bottomBorderWidth: 0px;
 
 		--Button-opacity: var(--OnBackground-opacity--clickable);
 		--Button-color: var(--Clickable-color--text);
@@ -32,4 +38,26 @@
 		color: var(--Clickable-color--textActive);
 		--AutoUpdate-borderBottomColor: var(--Clickable-color--textActive);
 	}
+}
+
+.AutoUpdate-error {
+	display: inline-flex;
+	margin-bottom: calc(var(--unit) * 1);
+}
+
+.AutoUpdate-error--onBackground {
+	padding-left: calc(var(--unit));
+	padding-right: calc(var(--unit));
+	padding-top: calc(var(--unit) * 0.75);
+	padding-bottom: calc(var(--unit) * 0.75);
+	background-color: var(--OnBackground-backgroundColor);
+	opacity: var(--OnBackground-opacity--title);
+}
+
+.AutoUpdate--empty {
+	opacity: 0;
+	max-height: 1px;
+	max-width: 1px;
+	margin: 0;
+	padding: 0;
 }

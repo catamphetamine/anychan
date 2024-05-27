@@ -19,7 +19,26 @@ describe('SubscribedThreadsUpdater', function() {
 
 		const dataSource = DATA_SOURCES['4chan']
 
-		const timer = new TestTimer()
+		let dispatchedActions = []
+
+		const dispatch = async (action) => {
+			switch (action.type) {
+				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
+					action.value = undefined
+					break
+			}
+			dispatchedActions.push(action)
+		}
+
+		const log = (tabId, ...args) => {
+			if (args.length > 0) {
+				console.log('[' + tabId + ']', '—', ...args)
+			}
+		}
+
+		const timer = new TestTimer({
+			log: (...args) => console.log('timer:', ...args)
+		})
 
 		const tab = new TestTab({
 			id: '1',
@@ -89,9 +108,32 @@ describe('SubscribedThreadsUpdater', function() {
 		userData.setLatestReadCommentId(thread2.channelId, thread2.id, thread2.id)
 		userData.setLatestReadCommentId(thread3.channelId, thread3.id, thread3.id)
 
-		addSubscribedThread(thread1, { channel, userData, timer, subscribedThreadsUpdater: subscribedThreadsUpdaterStub })
-		addSubscribedThread(thread2, { channel, userData, timer, subscribedThreadsUpdater: subscribedThreadsUpdaterStub })
-		addSubscribedThread(thread3, { channel, userData, timer, subscribedThreadsUpdater: subscribedThreadsUpdaterStub })
+		addSubscribedThread({
+			thread: thread1,
+			// channel,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
+		})
+
+		addSubscribedThread({
+			thread: thread2,
+			// channel,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
+		})
+
+		addSubscribedThread({
+			thread: thread3,
+			// channel,
+			dispatch,
+			userData,
+			timer,
+			subscribedThreadsUpdater: subscribedThreadsUpdaterStub
+		})
 
 		// Skip some time so that after such a long time period
 		// it will run the update procedure for all threads.
@@ -125,19 +167,9 @@ describe('SubscribedThreadsUpdater', function() {
 			}
 		}
 
-		let dispatchedActions = []
-
-		const dispatch = async (action) => {
-			switch (action.type) {
-				case 'SUBSCRIBED_THREADS: GET_SUBSCRIBED_THREADS':
-					action.value = undefined
-					break
-			}
-			dispatchedActions.push(action)
-		}
-
 		const subscribedThreadsUpdater = new SubscribedThreadsUpdater({
 			tab,
+			log,
 			timer,
 			userData,
 			userSettings,
@@ -149,11 +181,11 @@ describe('SubscribedThreadsUpdater', function() {
 			refreshThreadDelay: 1000,
 			getThreadStub: async ({ channelId, threadId }) => {
 				if (channelId === thread1.channelId && threadId === thread1.id) {
-					return thread1
+					return { thread: thread1 }
 				} else if (channelId === thread2.channelId && threadId === thread2.id) {
-					return thread2
+					return { thread: thread2 }
 				} else if (channelId === thread3.channelId && threadId === thread3.id) {
-					return thread2
+					return { thread: thread2 }
 				} else {
 					// Throw a "Not Found" error.
 					const error = new Error('Not Found')

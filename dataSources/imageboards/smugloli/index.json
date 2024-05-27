@@ -1,0 +1,25 @@
+{
+	"id": "smugloli",
+	"shortId": "💮",
+	"title": "smugloli",
+	"description": "Remember to take it easy! (￣▽￣)",
+	"domains": [
+		"smuglo.li",
+		"smugloli.ne",
+		"smug.nepu.moe",
+		"bhm5koavobq353j54qichcvzr6uhtri6x4bjjy4xkybgvxkzuslzcqid.onion"
+	],
+	"links": [{
+		"type": "external",
+		"text": "Fallback",
+		"url": "https://smuglo.li/fallback.txt"
+	}, {
+		"type": "twitter",
+		"text": "Contact",
+		"url": "https://varishangout.net/users/nepfag"
+	}, {
+		"type": "irc",
+		"text": "IRC",
+		"url": "https://www.rizon.net/chat#8/a/"
+	}]
+}

@@ -259,6 +259,7 @@
 		"trimming": "Trimming thread",
 		"ownComment": "This is your comment",
 		"ownThread": "This is your thread",
+		"replyToOwnComment": "In reply to your comment",
 		"threadAuthor": "Thread author",
 		"attachmentsCount": "Attachments",
 		"commentAttachmentsCount": "Attachments in comments",
@@ -283,15 +284,13 @@
 		}
 	},
 	"footnotes": {
-		"postAnychan": " web client",
-		"preAuthor": " by "
+		"anychan": "<anychan></anychan> web client <version></version> by <author></author>"
 	},
 	"country": {
 		"anonymous": "Anonymous"
 	},
 	"autoUpdate": {
-		"scheduledBeforeTime": "Auto-update ",
-		"scheduledAfterTime": null,
+		"scheduled": "Auto-update <timeRelative></timeRelative>",
 		"inProgress": "Updating…",
 		"error": "Couldn't update the thread"
 	},
@@ -321,11 +320,30 @@
 		}
 	},
 	"report": {
-		"contentInputLabel": "Report text",
+		"misuseWarning": "Submitting false or misclassified reports may result in a ban.",
 		"submitted": "Your report has been submitted",
-		"alreadyReported": "You've already submitted a report",
-		"contentRequired": "Report text is required",
-		"error": "Couldn't submit your report"
+		"form": {
+			"chooseViolationType": {
+				"text": "Does it violate <rulesLink>rules</rulesLink> or {countryLaw}?",
+				"countryLaw": {
+					"US": "United States Law"
+				}
+			},
+			"violationType": {
+				"rules": "Rules",
+				"countryLaw": {
+					"US": "United States Law"
+				}
+			},
+			"content": "Report text",
+			"reason": "Report reason",
+			"error": {
+				"alreadyReported": "You've already submitted a report",
+				"contentRequired": "Report text is required",
+				"violationTypeRequired": "You must choose whether you're reporting a violation of the rules or the law",
+				"error": "Couldn't submit your report"
+			}
+		}
 	},
 	"proxyPostingCaution": "Be mindful of what you post here. All users of this app share the same proxy server. If the proxy server gets banned, the application might stop working for everyone.",
 	"colorfulBackground": "Colorful background",
@@ -364,6 +382,7 @@
 	"threadIsArchived": "This thread is archived",
 	"threadIsLocked": "This thread is locked",
 	"threadExpired": "This thread has expired",
+	"threadDeleted": "Thread was deleted",
 	"threadExpiresSoon": "The thread is at {position} place of {lastPosition}. As soon as it falls below the last place, it expires. To bump a thread back to the first place, leave a comment in it.",
 	"threadActivityStatsFor15MinInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in the last <timeTag>15 minutes</timeTag>",
 	"threadActivityStatsFor1HourInterval": "{commentsCount, plural, one {<commentsCountTag>#</commentsCountTag> comment} other {<commentsCountTag>#</commentsCountTag> comments}} in the last <timeTag>hour</timeTag>"

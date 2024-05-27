@@ -1,0 +1,28 @@
+{
+	"id": "zzzchan",
+	"shortId": "💤",
+	"domains": [
+		"zzzchan.xyz",
+		"crghlabr45r5pqkgnbgehywk5nxutdks5iss7tabyux5psikqqjirryd.onion"
+	],
+	"title": "ZZZchan",
+	"hidden": true,
+	"hiddenReason": "The origin \"https://anychan-proxy.vercel.app\" was not whitelisted by the operator of this proxy.",
+	"links": [{
+		"type": "news",
+		"text": "News",
+		"url": "https://zzzchan.xyz/news.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://zzzchan.xyz/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://zzzchan.xyz/rules.html"
+	}, {
+		"type": "external",
+		"text": "External Comms",
+		"url": "https://freespeechextremist.com/Sturgeonfish"
+	}]
+}
