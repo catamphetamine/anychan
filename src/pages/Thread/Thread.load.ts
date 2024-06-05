@@ -59,6 +59,7 @@ export default async function loadThreadPage({
 	const grammarCorrection = useSetting_(settings => settings.grammarCorrection)
 	const locale = useSetting_(settings => settings.locale)
 
+	// `channels` is a just list of "top" channels and is not a complete list of channels.
 	const channels = useSelector(state => state.channels.channels)
 
 	// Fetches the thread.
@@ -69,12 +70,12 @@ export default async function loadThreadPage({
 		threadId,
 		{
 			channels,
-			// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
+			// `afterCommentId`/`afterCommentNumber` feature isn't currently used,
 			// though it could potentially be used in some hypothetical future.
 			// It would enable fetching only the "incremental" update
 			// for the thread instead of fetching all of its comments.
 			// afterCommentId,
-			// afterCommentsCount,
+			// afterCommentNumber,
 			userData,
 			userSettings,
 			dataSource,

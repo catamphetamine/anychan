@@ -1,4 +1,4 @@
-export default class CaptchaNotRequiredError extends Error {
+export class CaptchaNotRequiredError extends Error {
 	constructor() {
 		super('CAPTCHA not required')
 	}

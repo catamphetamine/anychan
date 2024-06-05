@@ -10,9 +10,9 @@ import FillButton from '../FillButton.js'
 import TextCaptchaChallengeImage from './TextCaptchaChallengeImage.js'
 import TextCaptchaChallengeImageSlider from './TextCaptchaChallengeImageSlider.js'
 
-import CaptchaSolutionIncorrectError from '../../api/errors/CaptchaSolutionIncorrectError.js'
+import { CaptchaSolutionIncorrectError } from "@/api/errors"
 
-import useMessages from '../../hooks/useMessages.js'
+import { useMessages } from '@/hooks'
 
 import { textCaptchaType } from './PropTypes.js'
 
@@ -104,14 +104,14 @@ export default function TextCaptcha({
 						type={captcha.characterSet === 'numeric' ? 'number' : 'text'}
 						name="solution"
 						disabled={captchaExpired}
-						placeholder={messages.captchaSolution}
-						error={captchaSolutionIncorrectError ? messages.captchaSolutionIncorrect : undefined}
+						placeholder={messages.captcha.form.solution}
+						error={captchaSolutionIncorrectError ? messages.captcha.form.error.incorrectSolution : undefined}
 						onChange={onInputValueChange}
 					/>
 				</FormComponent>
 				{captchaExpired &&
 					<FormComponent className="TextCaptcha-error">
-						{messages.captchaExpired}
+						{messages.captcha.form.error.expired}
 					</FormComponent>
 				}
 				<FormActions>

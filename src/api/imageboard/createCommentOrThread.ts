@@ -1,24 +1,26 @@
 import type { Imageboard } from 'imageboard'
 import type { CreateCommentParameters, CreateCommentResult, CreateThreadParameters, CreateThreadResult } from '../../types/index.js'
 
-import UnauthorizedError from '../errors/UnauthorizedError.js'
-import AttachmentNotSupportedError from '../errors/AttachmentNotSupportedError.js'
-import AttachmentRequiredError from '../errors/AttachmentRequiredError.js'
-import AttachmentSizeLimitExceededError from '../errors/AttachmentSizeLimitExceededError.js'
-import AttachmentsCountExceededError from '../errors/AttachmentsCountExceededError.js'
-import BannedError from '../errors/BannedError.js'
-import CaptchaNotRequiredError from '../errors/CaptchaNotRequiredError.js'
-import CaptchaSolutionIncorrectError from '../errors/CaptchaSolutionIncorrectError.js'
-import ChannelNotFoundError from '../errors/ChannelNotFoundError.js'
-import ChannelIsLockedError from '../errors/ChannelIsLockedError.js'
-import ContentBlockedError from '../errors/ContentBlockedError.js'
-import ContentRequiredError from '../errors/ContentRequiredError.js'
-import ContentLengthLimitExceededError from '../errors/ContentLengthLimitExceededError.js'
-import CommentNotFoundError from '../errors/CommentNotFoundError.js'
-import DuplicateAttachmentError from '../errors/DuplicateAttachmentError.js'
-import RateLimitError from '../errors/RateLimitError.js'
-import ThreadNotFoundError from '../errors/ThreadNotFoundError.js'
-import ThreadIsLockedError from '../errors/ThreadIsLockedError.js'
+import {
+	UnauthorizedError,
+	AttachmentNotSupportedError,
+	AttachmentRequiredError,
+	AttachmentSizeLimitExceededError,
+	AttachmentsCountExceededError,
+	BannedError,
+	CaptchaNotRequiredError,
+	CaptchaSolutionIncorrectError,
+	ChannelNotFoundError,
+	ChannelIsLockedError,
+	ContentBlockedError,
+	ContentRequiredError,
+	ContentLengthLimitExceededError,
+	CommentNotFoundError,
+	DuplicateAttachmentError,
+	RateLimitError,
+	ThreadNotFoundError,
+	ThreadIsLockedError
+} from '../errors/index.js'
 
 export default async function createCommentOrThread(imageboard: Imageboard, {
 	channelId,
@@ -50,7 +52,7 @@ export default async function createCommentOrThread(imageboard: Imageboard, {
 					banEndsAt: error.banEndsAt
 				})
 			case 'BOARD_NOT_FOUND':
-				throw new ChannelNotFoundError(channelId)
+				throw new ChannelNotFoundError({ channelId })
 			case 'BOARD_IS_LOCKED':
 				throw new ChannelIsLockedError()
 			case 'THREAD_NOT_FOUND':

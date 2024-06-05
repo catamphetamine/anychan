@@ -26,6 +26,7 @@ export default function createSubscribedThreadStateRecord(thread: Thread, {
 	let newRepliesCount = 0
 
 	const firstNewCommentIndex = getFirstNewCommentIndex(thread, { userData })
+
 	if (firstNewCommentIndex !== undefined) {
 		newCommentsCount = getNewCommentsCount(thread, {
 			fromCommentIndex: firstNewCommentIndex,

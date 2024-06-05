@@ -13,13 +13,20 @@
 }
 
 .rrui__modal__title {
-	line-height: var(--Heading-lineHeight);
-	font-size: var(--Heading-fontSize);
-	font-weight: var(--Heading-fontWeight);
+	line-height: var(--ModalTitle-lineHeight);
+	font-size: var(--ModalTitle-fontSize);
+	font-weight: var(--ModalTitle-fontWeight);
+	text-align: center;
+	/*
 	@mixin l-plus {
 		line-height: var(--Heading-lineHeight--xl);
 		font-size: var(--Heading-fontSize--xl);
 	}
+	*/
+}
+
+.rrui__modal__title + .rrui__modal__content {
+	margin-top: var(--rrui-modal-padding--vertical);
 }
 
 .rrui__modal__vertical-margin--top,

@@ -126,6 +126,7 @@ export default function useAutoUpdate({
 	// "request thread update" function.
 	const [refreshThreadOnDemandRequest, setRefreshThreadOnDemandRequest] = useState<{ refreshParameters: RefreshParameters }>()
 
+	// `channels` is a just list of "top" channels and is not a complete list of channels.
 	const channels = useSelector(state => state.channels.channels)
 
 	const censoredWords = useSetting(settings => settings.censoredWords)
@@ -186,32 +187,30 @@ export default function useAutoUpdate({
 		log('refresh - schedule')
 
 		const nextUpdateAt = getNextUpdateAt(prevUpdateAt)
-		const nextUpdateIn = Math.max(nextUpdateAt - Date.now(), 0)
-
-		// Just a precaution against `setTimeout()` entering an infinite cycle.
-		// In case someone tampers with the code in some future.
-		// Normally, `nextUpdateAt` number is always returned.
-		if (isNaN(nextUpdateAt)) {
-			throw new Error('Auto-Update next update time unknown')
-		}
-
-		log('refresh - scheduled in', Math.round(nextUpdateIn / 1000), 'sec')
 
 		clearTimeout(autoUpdateSecondsLeftTimer.current)
 		clearTimeout(autoUpdateTimer.current)
 
-		autoUpdateTimer.current = setTimeout(() => {
-			log('auto-update timer triggered')
-			if (!isMounted()) {
-				log('not mounted — exit')
-				return
-			}
-			// Using a "set state" function here instead of calling `refreshThread()` directly
-			// works around a "circular dependency" between `refreshThread()` and `scheduleNextUpdate()`.
-			// Otherwise, it wouldn't be clear how to declare these two functions using `useCallback()` hooks
-			// because one would require another.
-			setRefreshThreadOnTimeRequest({})
-		}, nextUpdateIn)
+		if (isNaN(nextUpdateAt)) {
+			log('refresh - not scheduled')
+		} else {
+			const nextUpdateIn = Math.max(nextUpdateAt - Date.now(), 0)
+
+			log('refresh - scheduled in', Math.round(nextUpdateIn / 1000), 'sec')
+
+			autoUpdateTimer.current = setTimeout(() => {
+				log('auto-update timer triggered')
+				if (!isMounted()) {
+					log('not mounted — exit')
+					return
+				}
+				// Using a "set state" function here instead of calling `refreshThread()` directly
+				// works around a "circular dependency" between `refreshThread()` and `scheduleNextUpdate()`.
+				// Otherwise, it wouldn't be clear how to declare these two functions using `useCallback()` hooks
+				// because one would require another.
+				setRefreshThreadOnTimeRequest({})
+			}, nextUpdateIn)
+		}
 
 		setNextUpdateAt(nextUpdateAt)
 		updateSecondsLeft(nextUpdateAt)

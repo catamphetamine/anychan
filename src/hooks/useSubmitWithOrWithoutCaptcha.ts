@@ -7,12 +7,11 @@ import { useSelector } from '@/hooks'
 
 import isDeployedOnDataSourceDomain from '../utility/dataSource/isDeployedOnDataSourceDomain.js'
 
-import CaptchaNotRequiredError from '../api/errors/CaptchaNotRequiredError.js'
-import CaptchaSolutionIncorrectError from '../api/errors/CaptchaSolutionIncorrectError.js'
+import { CaptchaNotRequiredError, CaptchaSolutionIncorrectError } from "@/api/errors"
 
-import { notify } from '../redux/notifications.js'
+import { notify, showError } from '../redux/notifications.js'
 
-import { useShowCaptcha, useDataSource } from '@/hooks'
+import { useShowCaptcha, useDataSource, useMessages } from '@/hooks'
 
 export default function useSubmitWithOrWithoutCaptcha({
 	channelId,
@@ -23,6 +22,7 @@ export default function useSubmitWithOrWithoutCaptcha({
 	threadId?: ThreadId,
 	action?: 'create-comment' | 'create-thread' | 'report-comment'
 }) {
+	const messages = useMessages()
 	const dataSource = useDataSource()
 	const dispatch = useDispatch()
 
@@ -66,10 +66,13 @@ export default function useSubmitWithOrWithoutCaptcha({
 				})
 			} catch (error) {
 				if (dataSource.id === '4chan' && !isDeployedOnDataSourceDomain(dataSource)) {
-					dispatch(notify('On 4chan, you must log in using your "pass" in order to be able to post a comment or a thread or to report a comment. To log in, click the user icon at the top of the sidebar.'))
+					dispatch(notify('4chan.org CAPTCHA doesn\'t work on non-4chan.org websites.' + ' ' + 'Log in to bypass CAPTCHA: click the user icon at the top right of the sidebar.'))
 					return
 				}
-				if (error instanceof CaptchaNotRequiredError) {
+				if (error instanceof CaptchaSolutionIncorrectError) {
+					dispatch(showError(messages.captcha.form.error.incorrectSolution))
+					await solveCaptchaAndSubmit()
+				} else if (error instanceof CaptchaNotRequiredError) {
 					await submitWithoutCaptchaSolution()
 				} else {
 					throw error
@@ -103,6 +106,7 @@ export default function useSubmitWithOrWithoutCaptcha({
 		showCaptcha,
 		dataSource,
 		dispatch,
+		messages,
 		accessToken
 	])
 }

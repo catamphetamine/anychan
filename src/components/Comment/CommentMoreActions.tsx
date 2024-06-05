@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 
 import PostMoreActions from 'social-components-react/components/PostMoreActions.js'
 
-import { notify } from '../../redux/notifications.js'
 import { copyTextToClipboard, openLinkInNewTab } from 'web-browser-input'
 
 import {
@@ -20,6 +19,18 @@ import useUserData from '../../hooks/useUserData.js'
 
 import getThreadUrl from '../../utility/dataSource/getThreadUrl.js'
 import getCommentUrl from '../../utility/dataSource/getCommentUrl.js'
+
+import DownloadIcon from 'frontend-lib/icons/download-arrow.svg'
+import ReportIcon from 'frontend-lib/icons/report.svg'
+import CopyLinkIcon from 'frontend-lib/icons/copy-link.svg'
+import CopyCommentIdIcon from '../../../assets/images/icons/copy-comment-id.svg'
+import ReplyIcon from 'frontend-lib/icons/reply.svg'
+import ExternalIcon from 'social-components-react/icons/external.svg'
+import EyeStrikethroughIcon from 'frontend-lib/icons/eye-strikethrough.svg'
+import PersonIcon from 'frontend-lib/icons/person-outline-thinner-no-bottom-border.svg'
+import PersonStrikethroughIcon from 'frontend-lib/icons/person-outline-thinner-no-bottom-border-strikethrough.svg'
+import PersonWithMessageBubbleIcon from 'frontend-lib/icons/person-outline-thinner-no-bottom-border-with-message-bubble.svg'
+import PersonWithMessageBubbleStrikethroughIcon from 'frontend-lib/icons/person-outline-thinner-no-bottom-border-with-message-bubble-strikethrough.svg'
 
 import './CommentMoreActions.css'
 
@@ -51,141 +62,166 @@ export default function CommentMoreActions({
 	const moreActions = useMemo(() => {
 		let actions = []
 
+		const goToOriginalComment = {
+			icon: ExternalIcon,
+			label: messages.post.moreActions.goToOriginalComment,
+			onClick: () => {
+				let url
+				if (commentId === threadId) {
+					url = getThreadUrl(dataSource, {
+						channelId,
+						threadId,
+						notSafeForWork: channelIsNotSafeForWork
+					})
+				} else {
+					url = getCommentUrl(dataSource, {
+						channelId,
+						threadId,
+						commentId,
+						notSafeForWork: channelIsNotSafeForWork
+					})
+				}
+				openLinkInNewTab(url)
+			}
+		}
+
+		const replyToComment = {
+			icon: ReplyIcon,
+			label: messages.post.reply,
+			onClick: () => {
+				onReply()
+			}
+		}
+
+		const copyCommentId = {
+			icon: CopyCommentIdIcon,
+			label: messages.post.moreActions.copyId,
+			onClick: () => {
+				copyTextToClipboard('>>' + commentId)
+			}
+		}
+
+		const copyUrl = {
+			icon: CopyLinkIcon,
+			label: messages.post.moreActions.copyUrl,
+			onClick: () => {
+				copyTextToClipboard(window.location.origin + urlBasePath + url)
+			}
+		}
+
+		const reportComment = {
+			icon: ReportIcon,
+			label: messages.post.moreActions.report,
+			onClick: () => {
+				onReport()
+			}
+		}
+
+		const hideComment = {
+			icon: EyeStrikethroughIcon,
+			label: messages.post.moreActions.hide,
+			onClick: () => {
+				onHide()
+			}
+		}
+
+		const ignoreCommentAuthor = {
+			icon: isIgnoredAuthor
+				? PersonIcon
+				: PersonStrikethroughIcon,
+			label: isIgnoredAuthor
+				? messages.post.moreActions.unignoreAuthor
+				: messages.post.moreActions.ignoreAuthor,
+			onClick: () => {
+				if (userData.isIgnoredAuthor(comment.authorId)) {
+					userData.removeIgnoredAuthor(comment.authorId)
+					setIgnoredAuthor(false)
+				} else {
+					userData.addIgnoredAuthor(comment.authorId)
+					setIgnoredAuthor(true)
+					if (onHide) {
+						onHide()
+						// A convenient feature would be it also automatically hiding
+						// all the other comments from the now-ignored author in the current thread.
+						// But that would mess up `virtual-scroller`'s layout calculations
+						// because some of those comments are gonna be off-screen
+						// and, as a result, `virtual-scroller`'s would experience a "jump of content"
+						// when scrolling up to such comments after ignoring the author.
+						// Because of that, the app doesn't automatically hide all the other comments
+						// from this author in the current thread.
+					}
+				}
+			}
+		}
+
+		// "This is my comment" / "This is not my comment".
+		const setCommentOwnershipStatus = {
+			icon: isOwn
+				? PersonWithMessageBubbleStrikethroughIcon
+				: PersonWithMessageBubbleIcon,
+			label: isOwn
+				? (threadId === commentId ? messages.unmarkAsOwnThread : messages.unmarkAsOwnComment)
+				: (threadId === commentId ? messages.markAsOwnThread : messages.markAsOwnComment),
+			onClick: () => {
+				setOwn(!isOwn)
+			}
+		}
+
+		// "This is my thread" / "This is not my thread".
+		const setThreadOwnershipStatus = {
+			icon: isOwn
+				? PersonWithMessageBubbleStrikethroughIcon
+				: PersonWithMessageBubbleIcon,
+			label: isOwn ? messages.unmarkAsOwnThread : messages.markAsOwnThread,
+			onClick: () => {
+				setOwn(!isOwn)
+			}
+		}
+
+		const downloadThread = {
+			icon: DownloadIcon,
+			label: messages.downloadThread,
+			onClick: onDownloadThread
+		}
+
+
 		if (mode === 'thread') {
 			if (onReply) {
-				actions.push({
-					label: messages.post.reply,
-					onClick: () => {
-						onReply()
-					}
-				})
+				actions.push(replyToComment)
 			}
-			actions.push({
-				label: messages.post.moreActions.copyId,
-				onClick: () => {
-					copyTextToClipboard('>>' + commentId)
-				}
-			})
+
+			// "Go to original comment".
+			// (redirects to the original data source website)
+			actions.push(goToOriginalComment)
+			// Copies ">>" and comment ID into clipboard.
+			actions.push(copyCommentId)
 		}
 
 		if (url && urlBasePath) {
-			actions.push(
-				// "Copy URL".
-				{
-					label: messages.post.moreActions.copyUrl,
-					onClick: () => {
-						copyTextToClipboard(window.location.origin + urlBasePath + url)
-					}
-				}
-			)
+			actions.push(copyUrl)
 		}
 
 		if (onReport) {
-			actions.push(
-				// "Report".
-				{
-					label: messages.post.moreActions.report,
-					onClick: () => {
-						onReport()
-					}
-				}
-			)
+			actions.push(reportComment)
 		}
 
-		actions = actions.concat([
-			// "Hide".
-			{
-				label: messages.post.moreActions.hide,
-				onClick: () => {
-					onHide()
-				}
-			}
-		])
+		actions.push(hideComment)
 
 		if (comment.authorId) {
-			// "Ignore Author".
-			actions.push({
-				label: isIgnoredAuthor
-					? messages.post.moreActions.unignoreAuthor
-					: messages.post.moreActions.ignoreAuthor,
-				onClick: () => {
-					if (userData.isIgnoredAuthor(comment.authorId)) {
-						userData.removeIgnoredAuthor(comment.authorId)
-						setIgnoredAuthor(false)
-					} else {
-						userData.addIgnoredAuthor(comment.authorId)
-						setIgnoredAuthor(true)
-						if (onHide) {
-							onHide()
-							// A convenient feature would be it also automatically hiding
-							// all the other comments from the now-ignored author in the current thread.
-							// But that would mess up `virtual-scroller`'s layout calculations
-							// because some of those comments are gonna be off-screen
-							// and, as a result, `virtual-scroller`'s would experience a "jump of content"
-							// when scrolling up to such comments after ignoring the author.
-							// Because of that, the app doesn't automatically hide all the other comments
-							// from this author in the current thread.
-						}
-					}
-				}
-			})
-		}
-
-		if (mode === 'thread') {
-			// "Go to original comment".
-			// (redirects to the original data source website)
-			actions.push({
-				label: messages.post.moreActions.goToOriginalComment,
-				onClick: () => {
-					let url
-					if (commentId === threadId) {
-						url = getThreadUrl(dataSource, {
-							channelId,
-							threadId,
-							notSafeForWork: channelIsNotSafeForWork
-						})
-					} else {
-						url = getCommentUrl(dataSource, {
-							channelId,
-							threadId,
-							commentId,
-							notSafeForWork: channelIsNotSafeForWork
-						})
-					}
-					openLinkInNewTab(url)
-				}
-			})
+			actions.push(ignoreCommentAuthor)
 		}
 
 		if (setOwn) {
 			if (mode === 'thread') {
-				// "This is my comment" / "This is not my comment".
-				actions.push({
-					label: isOwn
-						? (threadId === commentId ? messages.unmarkAsOwnThread : messages.unmarkAsOwnComment)
-						: (threadId === commentId ? messages.markAsOwnThread : messages.markAsOwnComment),
-					onClick: () => {
-						setOwn(!isOwn)
-					}
-				})
+				actions.push(setCommentOwnershipStatus)
 			} else {
-				// "This is my thread" / "This is not my thread".
-				actions.push({
-					label: isOwn ? messages.unmarkAsOwnThread : messages.markAsOwnThread,
-					onClick: () => {
-						setOwn(!isOwn)
-					}
-				})
+				actions.push(setThreadOwnershipStatus)
 			}
 		}
 
 		// if (mode === 'thread') {
 		// 	if (commentId === threadId) {
-		// 		// "Download thread".
-		// 		actions.push({
-		// 			label: messages.downloadThread,
-		// 			onClick: onDownloadThread
-		// 		})
+		// 		actions.push(downloadThread)
 		// 	}
 		// }
 

@@ -1,0 +1,37 @@
+{
+	"id": "diochan",
+	"shortId": "🦆",
+	"title": "diochan",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare DDoS protection and returns 403 Forbidden for a CORS proxy",
+	"description": [
+		[
+			"Aha! Sono attonito. Un'anarchica armata di antisociali, un'associazione agguerrita con un arsenale di ambiguamente adulta anonimità.",
+			"\n",
+			"Questa arcaica alleanza, non solo animalesca aggressività, è un'assemblea di aristocratici artificiosi. Assumendo che l'affezione collettiva non sia atrofizzata, arriveranno altri giorni di ardite argomentazioni su internet. Sotto l'ambigua audacia dell'anonimità di internet, l'antipatia di tutte le asserzioni andrà annunciata con allegro abbandono. Scuse? Non assolvere."
+		],
+		[
+			"Ahimè, avverto un'agitazione analoga all'arrapamento. A seguito dell'anticipazione..."
+		],
+		[
+			"Potete chiamarmi Anonimo"
+		]
+	],
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://www.diochan.com/static/404/1.jpg",
+				"https://www.diochan.com/static/404/2.jpg",
+				"https://www.diochan.com/static/404/3.jpg",
+				"https://www.diochan.com/static/404/4.jpg",
+				"https://www.diochan.com/static/404/5.jpg",
+				"https://www.diochan.com/static/404/6.jpg",
+				"https://www.diochan.com/static/404/7.jpg",
+				"https://www.diochan.com/static/404/8.jpg",
+				"https://www.diochan.com/static/404/9.jpg",
+				"https://www.diochan.com/static/404/10.jpg",
+				"https://www.diochan.com/static/404/11.jpg"
+			]
+		}
+	}
+}

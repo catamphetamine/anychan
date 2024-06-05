@@ -19,7 +19,7 @@ import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shoul
 // import { loadResourceLinksSync } from '../../utility/loadResourceLinks.js'
 
 import transformDataSourceLink from '../../utility/transformDataSourceLink.js'
-import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
+import getUrlAtDataSourceDomain from '../../utility/dataSource/getUrlAtDataSourceDomain.js'
 
 // Content preview:
 // * Content preview is used on channel page when showing a thread.
@@ -120,7 +120,7 @@ export default function addParseContent(comment: Partial<Comment>, {
 			if (comment.content) {
 				visitContentParts('emoji', (emoji: InlineElementEmoji) => {
 					if (emoji.url) {
-						emoji.url = getFinalUrl(emoji.url, { dataSource })
+						emoji.url = getUrlAtDataSourceDomain(emoji.url, { dataSource })
 					}
 				}, comment.content)
 			}
@@ -275,18 +275,29 @@ export default function addParseContent(comment: Partial<Comment>, {
  */
 function setPostLinkProps(content: Comment['content']) {
 	let i = 1
-	visitContentParts('post-link', (postLink) => {
+	visitContentParts('post-link', (contentPart) => {
+		const postLink = contentPart as InlineElementPostLink
+
 		// Set `post-link` ids. This is to identify them later
 		// when restoring `VirtualScroller` state on scroll or
 		// "Back" navigation so that those that were expanded
 		// stay expanded.
 		(postLink as InlineElementPostLinkWithId)._id = i
 		i++
-		// Rename: `boardId` -> `channelId`.
-		// @ts-expect-error
-		postLink.channelId = postLink.boardId
-		// @ts-expect-error
-		delete postLink.boardId
+
+		// `imageboard` package sets `postLink.meta.boardId` property on `post-link`s.
+		// Rename `postLink.meta.boardId` to `postLink.meta.channelId`.
+		if (postLink.meta && postLink.meta.boardId) {
+			postLink.meta.channelId = postLink.meta.boardId
+			delete postLink.meta.boardId
+		}
+
+		// `imageboard` package sets `postLink.meta.postId` property on `post-link`s.
+		// Rename `postLink.meta.postId` to `postLink.meta.commentId`.
+		if (postLink.meta && postLink.meta.postId) {
+			postLink.meta.commentId = postLink.meta.postId
+			delete postLink.meta.postId
+		}
 	}, content)
 }
 
@@ -313,9 +324,12 @@ function removeLeadingOriginalPostQuote(content: Comment['content'], {
 			const firstInlineElement = firstBlock[0]
 			if (isInlineElementPostLink(firstInlineElement as Partial<InlineElementWithType>)) {
 				const postLink = firstInlineElement as PostLink
-				if (postLink.channelId === channelId &&
-						postLink.threadId === threadId &&
-						postLink.postId === threadId) {
+				if (
+					postLink.meta &&
+					postLink.meta.channelId === channelId &&
+					postLink.meta.threadId === threadId &&
+					postLink.meta.commentId === threadId
+				) {
 					if (Array.isArray(postLink.content)) {
 						if (isGeneratedQuote(postLink.content[0] as Partial<InlineElementWithType>)) {
 							// If the first paragraph only consists of an OP quote.
@@ -355,6 +369,6 @@ function isInlineElementPostLink(element: Partial<InlineElementWithType>): eleme
 	return element.type === 'post-link'
 }
 
-function isGeneratedQuote(contentBlock: Partial<InlineElementWithType> & { generated?: boolean }) {
-	return contentBlock.type === 'quote' && contentBlock.generated
+function isGeneratedQuote(contentBlock: Partial<InlineElementWithType> & { contentGenerated?: boolean }) {
+	return contentBlock.type === 'quote' && contentBlock.contentGenerated
 }

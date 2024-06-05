@@ -1,0 +1,15 @@
+{
+	"id": "tahtach",
+	"shortId": "🛋️",
+	"title": "tahtach",
+	"description": "Son Gonderiler",
+	"links": [{
+		"type": "rules",
+		"text": "Kurallar",
+		"url": "https://tahta.ch/kurallar.html"
+	}, {
+		"type": "stats",
+		"text": "Stats",
+		"url": "https://tahta.ch/stats/report.html"
+	}]
+}

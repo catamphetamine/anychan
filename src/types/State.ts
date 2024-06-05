@@ -82,16 +82,10 @@ export interface State {
 		}
 	};
 	channels: {
-		// `channels` will be `undefined` in "offline" mode.
+		// `channels.channels` will be `undefined` in "offline" mode.
 		channels?: Channel[],
 		channelsByCategory?: { category: string, channels: Channel[] }[],
-		channelsByPopularity?: Channel[],
-		allChannels?: {
-			channels?: Channel[],
-			channelsByCategory?: { category: string, channels: Channel[] }[],
-			channelsByPopularity?: Channel[]
-		},
-		hasMoreChannels?: boolean
+		channelsSortedByPopularity?: Channel[]
 	};
 	channel: {
 		channel?: Channel,

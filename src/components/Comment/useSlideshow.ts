@@ -22,12 +22,12 @@ export default function useSlideshow({ comment }: { comment: Post }) {
 		imageElement?: HTMLImageElement,
 		attachments?: Attachment[]
 	} = {}) => {
-		// Remove `spoiler: true` so that a once revealed spoiler isn't shown again
-		// when "Show previous" button is clicked and `<PostAttachment/>` is
-		// unmounted resulting in its `isRevealed: true` state property being reset.
-		if (attachment.spoiler) {
-			delete attachment.spoiler
-		}
+		// // Remove `spoiler: true` so that a once revealed spoiler isn't shown again
+		// // when "Show previous" button is clicked and `<PostAttachment/>` is
+		// // unmounted resulting in its `isRevealed: true` state property being reset.
+		// if (attachment.spoiler) {
+		// 	delete attachment.spoiler
+		// }
 
 		// Determine the "show from" attachment index.
 		// The attachment clicked might be a `link` attachment

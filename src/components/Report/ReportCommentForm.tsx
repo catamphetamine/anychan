@@ -84,26 +84,51 @@ export default function ReportCommentForm({
 		messages
 	])
 
+	const rulesUrl = useMemo(() => {
+		if (dataSource.getRulesUrl) {
+			return dataSource.getRulesUrl({ channelId })
+		}
+	}, [
+		dataSource,
+		channelId
+	])
+
+	const rulesLinkFunction = useCallback((children: string) => {
+		if (rulesUrl) {
+			return (
+				<a target="_blank" href={rulesUrl}>
+					{children}
+				</a>
+			)
+		} else {
+			return children
+		}
+	}, [
+		rulesUrl
+	])
+
 	const chooseReportViolationTypeMessageParameters = useMemo(() => ({
-		rulesLink: (children: string) => {
-			if (dataSource.getChannelRulesUrl) {
-				return (
-					<a target="_blank" href={dataSource.getChannelRulesUrl(channelId)}>
-						{children}
-					</a>
-				)
-			}
-		},
+		rulesLink: rulesLinkFunction,
 		countryLaw: messages.report.form.chooseViolationType.countryLaw.US
 	}), [
-		channelId,
-		dataSource,
+		rulesLinkFunction,
 		messages
+	])
+
+	const subtitleMessageParameters = useMemo(() => ({
+		rulesLink: rulesLinkFunction
+	}), [
+		rulesLinkFunction
 	])
 
 	const chooseReportViolationTypeMessage = useMessage(
 		messages.report.form.chooseViolationType.text,
 		chooseReportViolationTypeMessageParameters
+	)
+
+	const subtitleMessage = useMessage(
+		messages.report.subtitle,
+		subtitleMessageParameters
 	)
 
 	const reportReasonOptionsForRulesViolation = useMemo(() => {
@@ -131,7 +156,7 @@ export default function ReportCommentForm({
 				<>
 					{canReportLegalViolation && (
 						<>
-							<p className="ReportCommentForm-chooseReportViolationTypeText">
+							<p className="ReportCommentForm-subtitle">
 								{chooseReportViolationTypeMessage}
 							</p>
 							<Switcher
@@ -159,23 +184,28 @@ export default function ReportCommentForm({
 					)}
 				</>
 			) : (
-				<FormComponent>
-					<Field
-						required
-						name="content"
-						type="text"
-						multiline
-						rows={2}
-						placeholder={messages.report.form.content}
-					/>
-				</FormComponent>
+				<>
+					<p className="ReportCommentForm-subtitle">
+						{subtitleMessage}
+					</p>
+					<FormComponent>
+						<Field
+							required
+							name="content"
+							type="text"
+							multiline
+							rows={2}
+							placeholder={messages.report.form.content}
+						/>
+					</FormComponent>
+				</>
 			)}
-			{(dataSource.id === '2ch' || dataSource.id === '4chan') &&
+			{false && dataSource.id === '4chan' &&
 				<p className="PostForm-notWorkingNotice">
 					{messages.doesNotWorkForTheDataSource}
 				</p>
 			}
-			{dataSource.supportsReportComment() && proxyRequired &&
+			{dataSource.api.reportComment && proxyRequired &&
 				<p className="ReportCommentForm-proxyCaution">
 					{messages.proxyPostingCaution}
 				</p>

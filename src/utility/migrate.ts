@@ -2,10 +2,11 @@ import type { UserDataCollection, UserDataCollectionName, UserSettings } from '@
 import type { Dispatch } from 'redux'
 import type { Storage as StorageType } from 'web-browser-storage'
 
-import getDataSourceById from './dataSource/getDataSourceById.js'
 import { BASE_PREFIX } from './storage/getStoragePrefix.js'
 import compareVersions from './semver-compare.js'
 import Storage from './storage/Storage.js'
+
+import DATA_SOURCES_INFO_LIST from '../../dataSources/index.json.js'
 
 const debug = (...args: any[]) => console.log(['Migration'].concat(args))
 
@@ -74,7 +75,7 @@ function migrate_({ version }: { version: string }, {
 				// if there is a data source prefix.
 				if (newKey.includes('.')) {
 					const dataSourceId = newKey.slice(BASE_PREFIX.length, newKey.indexOf('.'))
-					const dataSource = getDataSourceById(dataSourceId)
+					const dataSource = DATA_SOURCES_INFO_LIST.find(_ => _.id === dataSourceId)
 					if (dataSource) {
 						const { shortId } = dataSource
 						if (shortId) {

@@ -1,6 +1,6 @@
 {
 	"id": "junkuchan",
-	"shortId": "💤",
+	"shortId": "👧🏼",
 	"domains": [
 		"junkuchan.org",
 		"junkuchaouscdrmjvuat5ziio7et6sjm7nd5puzhdfq7all7qdiqppyd.onion"
@@ -21,7 +21,7 @@
 		"url": "https://junkuchan.org/rules.html"
 	}, {
 		"type": "contact",
-		"text": "Email",
+		"text": "Contact",
 		"url": "mailto:webmasterjunkuchan.org"
 	}]
 }

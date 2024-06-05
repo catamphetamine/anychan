@@ -154,6 +154,8 @@ export default function ChannelCreateThreadButton({
 					ref={form}
 					expanded
 					placement="page"
+					channelId={channelId}
+					channelIsNotSafeForWork={channelIsNotSafeForWork}
 					initialState={formState}
 					onStateDidChange={onFormStateChange}
 					initialError={initialFormError}

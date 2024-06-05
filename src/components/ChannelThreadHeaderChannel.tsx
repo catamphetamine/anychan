@@ -9,7 +9,7 @@ import ChannelUrl from './ChannelUrl.js'
 
 import { channel } from '../PropTypes.js'
 
-import getUrl from '../utility/getUrl.js'
+import getChannelUrl from '../utility/getChannelUrl.js'
 
 import './ChannelThreadHeaderChannel.css'
 
@@ -23,7 +23,7 @@ export default function ChannelThreadHeaderChannel({
 
 	return (
 		<Link
-			to={getUrl(channel.id)}
+			to={getChannelUrl(channel.id)}
 			navigationContext={{ test: 'abc' }}
 			className="ChannelThreadHeader-channelLink">
 			<ChannelUrl

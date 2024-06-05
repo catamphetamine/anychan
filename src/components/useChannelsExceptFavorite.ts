@@ -3,10 +3,10 @@ import type { Channel } from '@/types'
 import { useMemo, useCallback } from 'react'
 import { useSelector } from '@/hooks'
 
-export default function useAvailableChannels() {
+export default function useChannelsExceptFavorite() {
 	// Channels won't be loaded in "offline" mode, in which case `channels` will be `undefined`.
 	const channels = useSelector(state => state.channels.channels)
-	const channelsByPopularity = useSelector(state => state.channels.channelsByPopularity)
+	const channelsSortedByPopularity = useSelector(state => state.channels.channelsSortedByPopularity)
 	const channelsByCategory = useSelector(state => state.channels.channelsByCategory)
 
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
@@ -20,9 +20,9 @@ export default function useAvailableChannels() {
 		return exceptFavoriteChannels(channels)
 	}, [channels, exceptFavoriteChannels])
 
-	const _channelsByPopularity = useMemo(() => {
-		return exceptFavoriteChannels(channelsByPopularity)
-	}, [channelsByPopularity, exceptFavoriteChannels])
+	const _channelsSortedByPopularity = useMemo(() => {
+		return exceptFavoriteChannels(channelsSortedByPopularity)
+	}, [channelsSortedByPopularity, exceptFavoriteChannels])
 
 	const _channelsByCategory = useMemo(() => {
 		if (channelsByCategory) {
@@ -38,11 +38,11 @@ export default function useAvailableChannels() {
 
 	return useMemo(() => ({
 		channels: _channels,
-		channelsByPopularity: _channelsByPopularity,
+		channelsSortedByPopularity: _channelsSortedByPopularity,
 		channelsByCategory: _channelsByCategory
 	}), [
 		_channels,
-		_channelsByPopularity,
+		_channelsSortedByPopularity,
 		_channelsByCategory
 	])
 }

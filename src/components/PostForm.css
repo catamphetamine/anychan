@@ -26,7 +26,11 @@
 	--PostFormAttachmentTitle-maxHeight: 2.5rem;
 	--PostFormAttachmentTitle-marginTop: 0.75rem;
 
-	--PostFormAttachFileIcon-width: 1.15rem;
+	--PostFormAttachFileIcon-width: calc(var(--unit) * 1.25); /* 1.15rem; */
+	--PostFormAttachFileIcon-marginRight: calc(var(--unit) * 0.5); /* 0.35rem; */
+
+	--PostFormGoToSourceIcon-width: var(--unit);
+	--PostFormGoToSourceIcon-marginRight: calc(var(--unit) * 0.75);
 }
 
 .PostForm {
@@ -144,6 +148,7 @@
 	.PostForm-proxyCaution,
 	.PostForm-notWorkingNotice,
 	.PostForm-notImplementedNotice,
+	.PostForm-goToSource,
 	.PostForm-attachFile,
 	.PostForm-action {
 		display: none;
@@ -164,12 +169,19 @@
 
 .PostForm-notImplementedNotice,
 .PostForm-notWorkingNotice,
-.PostForm-proxyCaution {
-	color: var(--Content-color-600);
-	font-size: 85%;
-	/* font-weight: lighter; */
+.PostForm-proxyCaution,
+.PostForm-goToSource {
+	color: var(--TextNote-color);
+	font-size: var(--TextNote-fontSize);
+	/* font-weight: var(--TextNote-fontWeight); */
 	margin-top: var(--unit);
 	margin-bottom: 0;
+}
+
+.PostForm-goToSourceIcon {
+	width: var(--PostFormGoToSourceIcon-width);
+	height: var(--PostFormGoToSourceIcon-width);
+	margin-right: var(--PostFormGoToSourceIcon-marginRight);
 }
 
 .PostForm-loading {
@@ -272,12 +284,15 @@
 
 .PostForm-attachFile {
 	margin-top: var(--PostForm-paddingBottom);
+	/* color: var(--TextNote-color); */
+	font-size: var(--TextNote-fontSize);
+	/* font-weight: var(--TextNote-fontWeight); */
 }
 
 .PostForm-attachFileIcon {
 	width: var(--PostFormAttachFileIcon-width);
 	height: var(--PostFormAttachFileIcon-width);
-	margin-right: 0.35rem;
+	margin-right: var(--PostFormAttachFileIcon-marginRight);
 
 	/*
 	--LoadingSpinnerRadialBars-width: 1.15rem;

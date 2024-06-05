@@ -9,15 +9,14 @@ export default async function getThreadsFromImageboard(imageboard: Imageboard, {
 	channelId,
 	channelLayout,
 	withLatestComments,
-	sortByRating,
+	sortBy,
 	dataSourceId
 }: GetThreadsParameters): Promise<GetThreadsResult> {
 	const {
 		threads: threads_,
 		board
 	 } = await imageboard.getThreads({
-		boardId: channelId
-	}, {
+		boardId: channelId,
 		// The parser parses `thread.comments` up to 4x faster when it skips parsing their `.content`.
 		// Example: when parsing comments content — 650 ms, when not parsing comments content — 200 ms.
 		parseContent: false,
@@ -27,7 +26,7 @@ export default async function getThreadsFromImageboard(imageboard: Imageboard, {
 		latestCommentLengthLimit: getCommentLengthLimit({ mode: 'thread' }),
 		maxLatestCommentsPages: withLatestComments ? MAX_LATEST_COMMENTS_PAGES_COUNT : undefined,
 		withLatestComments,
-		sortByRating
+		sortBy: sortBy === 'rating-desc' ? sortBy : undefined
 	})
 
 	// Added this assignment in order to work around TypeScript type errors.
@@ -80,7 +79,6 @@ const TWO_CHANNEL_D_BOARD_BUGS_AND_FEATURES_THREAD = {
 	"channelId": "d",
 	"commentsCount": 501,
 	"attachmentsCount": 0,
-	"commentAttachmentsCount": 0,
 	"createdAt": "2017-01-15T14:59:57.000Z",
 	"updatedAt": "2023-05-23T21:59:29.000Z",
 	"uniquePostersCount": 298,
@@ -161,7 +159,6 @@ const TWO_CHANNEL_D_BOARD_BUGS_AND_FEATURES_THREAD = {
 			"isRootComment": true,
 			"commentsCount": 501,
 			"attachmentsCount": 0,
-			"commentAttachmentsCount": 0,
 			"uniquePostersCount": 298,
 			"pinned": true,
 			"bumpLimitReached": false,
@@ -182,7 +179,6 @@ const TWO_CHANNEL_D_BOARD_OVERALL_THREAD = {
 	"channelId": "d",
 	"commentsCount": 486,
 	"attachmentsCount": 0,
-	"commentAttachmentsCount": 0,
 	"uniquePostersCount": 236,
 	"pinned": true,
 	"pinnedOrder": 933,
@@ -218,28 +214,30 @@ const TWO_CHANNEL_D_BOARD_OVERALL_THREAD = {
 					"С проблемами и багами в дизайне или работе имиджборды обращайтесь в Тред о багах и фичах на Дваче ",
 					{
 						"type": "post-link",
-						"threadId": 421281,
-						"postId": 421281,
+						"meta": {
+							"commentId": 421281,
+							"threadId": 421281,
+							"channelId": "d",
+							"isAnotherThread": true
+						},
 						"content": "Тред",
 						"url": "/d/421281",
-						"postIsExternal": true,
-						"postIsRoot": true,
-						"_id": 1,
-						"channelId": "d"
+						"_id": 1
 					}
 				],
 				[
 					"Тред для всех вопросов по разделу /fag/  ",
 					{
 						"type": "post-link",
-						"threadId": 857787,
-						"postId": 857787,
+						"meta": {
+							"commentId": 857787,
+							"threadId": 857787,
+							"channelId": "d",
+							"isAnotherThread": true
+						},
 						"content": "Тред",
 						"url": "/d/857787",
-						"postIsExternal": true,
-						"postIsRoot": true,
-						"_id": 2,
-						"channelId": "d"
+						"_id": 2
 					},
 					", ИТТ жалобы на этот раздел не рассматриваются."
 				]
@@ -252,7 +250,6 @@ const TWO_CHANNEL_D_BOARD_OVERALL_THREAD = {
 			"isRootComment": true,
 			"commentsCount": 486,
 			"attachmentsCount": 0,
-			"commentAttachmentsCount": 0,
 			"uniquePostersCount": 236,
 			"pinned": true,
 			"index": 0,
@@ -271,7 +268,6 @@ const TWO_CHANNEL_D_BOARD_FAG_BOARD_BUGS_AND_FEATURES_THREAD = {
 	"channelId": "d",
 	"commentsCount": 501,
 	"attachmentsCount": 0,
-	"commentAttachmentsCount": 0,
 	"createdAt": "2021-06-23T10:16:23.000Z",
 	"updatedAt": "2023-05-23T22:14:21.000Z",
 	"uniquePostersCount": 234,
@@ -302,7 +298,6 @@ const TWO_CHANNEL_D_BOARD_FAG_BOARD_BUGS_AND_FEATURES_THREAD = {
 			"isRootComment": true,
 			"commentsCount": 501,
 			"attachmentsCount": 0,
-			"commentAttachmentsCount": 0,
 			"uniquePostersCount": 234,
 			"pinned": true,
 			"bumpLimitReached": false,

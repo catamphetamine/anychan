@@ -1,6 +1,6 @@
 import type { ChannelId, ThreadId, CommentId } from "@/types"
 
-export default class CommentNotFoundError extends Error {
+export class CommentNotFoundError extends Error {
 	constructor({
 		channelId,
 		threadId,

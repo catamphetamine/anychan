@@ -44,7 +44,7 @@ export default async function loadChannelPage({
 		originalDomain,
 		messages: getMessages(locale),
 		withLatestComments: channelLayout === 'threadsListWithLatestComments',
-		sortByRating: channelSorting === 'popular',
+		sortBy: channelSorting === 'popular' ? 'rating-desc' : undefined,
 		userData,
 		userSettings,
 		dataSource
@@ -74,7 +74,7 @@ export default async function loadChannelPage({
 	// 	userData,
 	// 	userSettings,
 	// 	withLatestComments: channelLayout === 'threadsListWithLatestComments',
-	// 	sortByRating: channelSorting === 'popular'
+	// 	sortBy: channelSorting === 'popular' ? 'rating-desc' : undefined
 	// }))
 
 	if (wasCancelled()) {

@@ -8,7 +8,6 @@ import shouldIncludeDataSourceInPath from './utility/dataSource/shouldIncludeDat
 import getDataSourceIdFromPath from './utility/dataSource/getDataSourceIdFromPath.js'
 import addDataSourceIdToPath from './utility/dataSource/addDataSourceIdToPath.js'
 
-import addDataSourceLogosAndIcons from './dataSourcesAddLogosAndIcons.js'
 import addDataSourceManifestUrls from './dataSourcesAddManifestUrls.js'
 
 import {
@@ -17,12 +16,10 @@ import {
 } from './utility/getBasePath.js'
 import { getActualDomain, matchesDomain } from './utility/matchesDomain.js'
 
+import DATA_SOURCES_LIST from '../dataSources/index-with-resources.js'
+
 export default function() {
-	// Adding data source logos here instead of directly in `./dataSources.js`
-	// because `import`ing logo files is only supported in Webpack
-	// and it wouldn't work in console tests.
-	addDataSourceLogosAndIcons()
-	addDataSourceManifestUrls()
+	addDataSourceManifestUrls(DATA_SOURCES_LIST)
 
 	// Get the data source id.
 	let dataSourceKey: {

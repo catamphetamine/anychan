@@ -1,9 +1,7 @@
 {
 	"id": "jakparty.soy",
 	"shortId": "🦲",
-	"domains": [
-		"jakparty.soy"
-	],
+	"aliases": ["jakpartysoy"],
 	"title": "jakparty.soy",
 	"description": "Jakking dies in darkness",
 	"links": [{
@@ -36,7 +34,7 @@
 		"url": "https://jakparty.soy/DMCA.html"
 	}, {
 		"type": "contact",
-		"text": "Email",
+		"text": "Contact",
 		"url": "mailto:admin@jakparty.soy"
 	}]
 }

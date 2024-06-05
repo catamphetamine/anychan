@@ -13,6 +13,8 @@ export default class UnreadCommentWatcher {
 
 	private observer: IntersectionObserver
 
+	private pendingWatchedElements: Element[]
+
 	constructor(parameters: {
 		dispatch: Dispatch,
 		userData: UserData,
@@ -20,6 +22,7 @@ export default class UnreadCommentWatcher {
 		getThread: () => Thread
 	}) {
 		this.parameters = parameters
+		this.pendingWatchedElements = []
 	}
 
 	start() {
@@ -39,6 +42,13 @@ export default class UnreadCommentWatcher {
 			// Values order: top, right, bottom, left.
 			rootMargin: '0px 0px 0px 0px'
 		})
+
+		if (this.pendingWatchedElements.length > 0) {
+			for (const pendingWatchedElement of this.pendingWatchedElements) {
+				this.watch(pendingWatchedElement)
+			}
+			this.pendingWatchedElements = []
+		}
 	}
 
 	stop() {
@@ -168,11 +178,21 @@ export default class UnreadCommentWatcher {
 
 	watch(element: Element) {
 		if (!this.observer) {
+			this.pendingWatchedElements.push(element)
 			// The watcher has been stopped.
-			return () => {}
+			return () => {
+				const isStillPendingToBeWatched = this.pendingWatchedElements.includes(element)
+				if (isStillPendingToBeWatched) {
+					this.pendingWatchedElements = this.pendingWatchedElements.filter(_ => _ !== element)
+				} else {
+					this.unwatch(element)
+				}
+			}
 		}
 		this.observer.observe(element)
-		return () => this.unwatch(element)
+		return () => {
+			this.unwatch(element)
+		}
 	}
 
 	unwatch(element: Element) {

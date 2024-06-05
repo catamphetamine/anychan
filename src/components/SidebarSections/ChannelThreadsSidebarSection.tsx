@@ -113,9 +113,15 @@ function getItemId(thread: Thread) {
 }
 
 function onItemInitialRender(thread: Thread) {
+	const SIDEBAR_THREAD_LINE_WIDTH_IN_CHARACTERS = 35
+	// The width of the "comments count" element, plus some padding on the left.
+	const SIDEBAR_THREAD_COMMENTS_COUNT_ELEMENT_WIDTH_IN_CHARACTERS = 7
 	// Parse thread main comment content and create text preview.
 	thread.comments[0].createTextPreviewForSidebar({
-		charactersInLine: 35,
+		charactersInLine: SIDEBAR_THREAD_LINE_WIDTH_IN_CHARACTERS,
+		// The last line of text should be shorter
+		// in order to clear some space for the comments count element.
+		charactersInLastLine: SIDEBAR_THREAD_LINE_WIDTH_IN_CHARACTERS - SIDEBAR_THREAD_COMMENTS_COUNT_ELEMENT_WIDTH_IN_CHARACTERS,
 		maxLines: 5
 	})
 }

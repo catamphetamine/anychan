@@ -136,6 +136,9 @@ export default function ThreadCreateComment({
 
 	return (
 		<PostForm
+			threadId={threadId}
+			channelId={channelId}
+			channelIsNotSafeForWork={channelIsNotSafeForWork}
 			expanded={formExpanded}
 			onExpandedChange={onFormExpandedChange}
 			unexpandOnClose

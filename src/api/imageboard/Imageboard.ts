@@ -14,10 +14,10 @@ export default function Imageboard_(imageboardConfig: ImageboardConfig, {
 	proxyUrl,
 	originalDomain
 }: {
-	messages: Messages,
+	messages?: Messages,
 	proxyUrl?: string,
 	originalDomain?: string
-}) {
+} | undefined = {}) {
 	return Imageboard(imageboardConfig, {
 		messages: messages && getMessages(messages),
 		generatedQuoteMaxLength: getConfiguration().generatedQuoteMaxLength,
@@ -42,6 +42,6 @@ export default function Imageboard_(imageboardConfig: ImageboardConfig, {
 			return []
 		},
 		useRelativeUrls: Boolean(originalDomain),
-		request: createHttpRequestFunction({ proxyUrl })
+		sendHttpRequest: createHttpRequestFunction({ proxyUrl })
 	})
 }

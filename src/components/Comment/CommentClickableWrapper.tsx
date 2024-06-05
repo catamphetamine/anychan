@@ -8,7 +8,7 @@ import Clickable from 'frontend-lib/components/Clickable.js'
 
 import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
-import getUrl from '../../utility/getUrl.js'
+import getCommentUrl from '../../utility/getCommentUrl.js'
 
 import {
 	commentId,
@@ -46,7 +46,7 @@ export default function CommentClickableWrapper({
 	])
 
 	const getOnClickUrl = useCallback((channelId: ChannelId, threadId: ThreadId, commentId: CommentId) => {
-		return getUrl(channelId, threadId, commentId)
+		return getCommentUrl(channelId, threadId, commentId)
 	}, [])
 
 	// Not using a `<Link/>` here because "<a> cannot appear as a descendant of <a>".

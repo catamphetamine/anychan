@@ -21,7 +21,7 @@
 	/*padding-left: calc(var(--Post-paddingLeft) * 10);*/
 	/*padding-bottom: var(--Post-paddingBottom);*/
 	color: var(--CommentFooter-color);
-	font-weight: lighter;
+	font-weight: var(--CommentFooter-fontWeight);
 	font-size: var(--CommentFooter-fontSize);
 	justify-content: space-between;
 }

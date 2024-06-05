@@ -19,7 +19,7 @@ export default function TextCaptchaChallengeImage({
 
 	const picture = useMemo(() => {
 		return {
-			title: messages.captcha,
+			title: messages.captcha.title,
 			type: captcha.image.type,
 			url: captcha.image.url,
 			width: captcha.image.width,

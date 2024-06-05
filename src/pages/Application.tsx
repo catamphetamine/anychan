@@ -63,7 +63,7 @@ import getConfiguration from '../getConfiguration.js'
 
 import { MeasureContext } from '../hooks/useMeasure.js'
 import { MultiDataSourceContext } from '../hooks/useMultiDataSource.js'
-import { OriginalDomainContext } from '../hooks/useOriginalDomain.js'
+import useOriginalDomain, { OriginalDomainContext } from '../hooks/useOriginalDomain.js'
 import useDataSource, { DataSourceContext } from '../hooks/useDataSource.js'
 import { DataSourceAliasContext } from '../hooks/useDataSourceAlias.js'
 import useSettings, { SettingsContext } from '../hooks/useSettings.js'
@@ -179,6 +179,7 @@ function App({
 	const userDataForUserDataCleaner = useUserDataForUserDataCleaner()
 	const userSettings = useSettings()
 	const dataSource = useDataSource()
+	const originalDomain = useOriginalDomain()
 
 	const [initialized, setInitialized] = useState<boolean>()
 
@@ -217,6 +218,7 @@ function App({
 			userDataForUserDataCleaner,
 			userSettings,
 			dataSource,
+			originalDomain,
 			setInitialized
 		})
 

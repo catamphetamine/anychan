@@ -32,7 +32,7 @@ export default function useVote({
 	const [vote, setVote] = useState(comment.vote)
 
 	const onVote = useCallback(async (up: boolean) => {
-		if (!dataSource.supportsVote()) {
+		if (!dataSource.api.voteForComment) {
 			dispatch(notify(messages.notImplementedForTheDataSource))
 			return
 		}

@@ -18,8 +18,9 @@ vichan:
 https://tvch.moe/
 // https://leftypol.org/ — CloudFlare doesn't allow the proxy
 // https://wizchan.org/ — The website's SSL certificate has expired
-// https://www.diochan.com/
-// https://tahta.ch/b/
+// https://diochan.com/
+// https://vecchiochan.com/
+// https://tahta.ch/
 
 infiniti:
 https://smuglo.li/
@@ -30,25 +31,25 @@ https://smuglo.li/
 
 
 
-import { HexColorPicker } from 'react-colorful'
-
-const YourComponent = () => {
-  const [color, setColor] = useState("#aabbcc");
-  return <HexColorPicker color={color} onChange={setColor} />;
-}
-
-Color picker: handle cases when input value is beliberda — simply show a `Content-backgroundColor` rect with a `Content-color` border.
-
-
-
-
-* In CAPTCHA input form add text: "You must <link>log in</link> or solve a CAPTCHA challenge in order to be able to post a comment/thread".
-
-* Validate shortId uniqueness across different dataSources.
 
 * Fix slow image scale on mobile.
 
 * Add navigation animation: catalog → thread and "back" button.
+
+* Show "Reply to this comment" form (`<PostForm/>`) on "swipe to left" gesture on a comment. The bahavior would be similar to Telegram's.
+
+* Add "example" data source (`</>` icon)
+
+* Move "Adding a new data source" to separate file in `docs/add-new-data-source.md`. Mention there that "example" data source could be used as an example.
+
+* Add "search for comments in a thread" header button
+
+
+
+
+
+
+
 
 
 

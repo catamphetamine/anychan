@@ -1,6 +1,6 @@
-import type { ChannelId } from '@/types'
+import type { Channel, ChannelId } from '@/types'
 
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 import { useNavigate } from 'react-pages'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
@@ -14,12 +14,20 @@ import { Form, Field, Submit, FormComponent, FormAction, FormComponentAndButton 
 import FillButton from './FillButton.js'
 import ChannelUrl from './ChannelUrl.js'
 
-import useMessages from '../hooks/useMessages.js'
-import useLoadChannelPage from '../hooks/useLoadChannelPage.js'
+import {
+	useOriginalDomain,
+	useMessages,
+	useLoadChannelPage,
+	useSelector,
+	useSettings,
+	useDataSource,
+	useMultiDataSource,
+	useLocale
+} from '@/hooks'
 
 import { setShowPageLoadingIndicator } from '../redux/app.js'
 
-import useSelector from '../hooks/useSelector.js'
+import findChannelsCached from '@/api/cached/findChannels.js'
 
 import RightArrow from 'frontend-lib/icons/right-arrow-minimal.svg'
 import CloseIcon from 'frontend-lib/icons/close.svg'
@@ -32,16 +40,21 @@ export default function GoToChannelModal({
 	isOpen,
 	close
 }: GoToChannelModalProps) {
+	const locale = useLocale()
 	const messages = useMessages()
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const userSettings = useSettings()
+	const dataSource = useDataSource()
+	const originalDomain = useOriginalDomain()
+	const multiDataSource = useMultiDataSource()
 
 	const [isSubmitting, setSubmitting] = useState(false)
 	const [channelNotFoundError, setChannelNotFoundError] = useState(false)
 
-	const loadChannelPage = useLoadChannelPage()
+	const channelsCache = useRef<Record<ChannelId, Channel>>({})
 
-	const availableChannels = useSelector(state => state.channels.channels)
+	const loadChannelPage = useLoadChannelPage()
 
 	const onGoToChannel = useCallback(async ({ channelId }: { channelId: ChannelId }) => {
 		try {
@@ -50,7 +63,7 @@ export default function GoToChannelModal({
 			setSubmitting(true)
 			dispatch(setShowPageLoadingIndicator(true))
 			await loadChannelPage({
-				channel: availableChannels.find(_ => _.id === channelId),
+				channel: channelsCache.current[channelId],
 				channelId
 			})
 			close()
@@ -66,7 +79,7 @@ export default function GoToChannelModal({
 			dispatch(setShowPageLoadingIndicator(false))
 		}
 	}, [
-		availableChannels,
+		channelsCache,
 		loadChannelPage,
 		close,
 		setSubmitting,
@@ -75,15 +88,35 @@ export default function GoToChannelModal({
 		dispatch
 	])
 
-	const channelOptions = useMemo(() => {
-		if (availableChannels) {
-			return availableChannels.map((channel) => ({
-				value: channel.id,
-				label: channel.title
-			}))
+	const getChannelOptions = useCallback(async (query: string) => {
+		const { channels } = await findChannelsCached({
+			search: query,
+			userSettings,
+			dataSource,
+			multiDataSource,
+			originalDomain,
+			locale
+		})
+
+		// Cache the fetched channels so that later, in case the user submits the form,
+		// there'd be no need to re-fetch the selected channel.
+		for (const channel of channels) {
+			channelsCache.current[channel.id] = channel
 		}
-		return []
-	}, [availableChannels])
+
+		// Return a list of options.
+		return channels.map((channel) => ({
+			value: channel.id,
+			label: channel.title
+		}))
+	}, [
+		channelsCache,
+		userSettings,
+		dataSource,
+		multiDataSource,
+		originalDomain,
+		locale
+	])
 
 	const validateChannelId = useCallback((value: string) => {
 		if (!CHANNEL_ID_REG_EXP.test(value)) {
@@ -113,7 +146,8 @@ export default function GoToChannelModal({
 								inputType="search"
 								acceptsAnyValue
 								submitOnSelectOption
-								options={channelOptions}
+								getOption={getEmptyOption}
+								getOptions={getChannelOptions}
 								optionComponent={ChannelOption}
 								name="channelId"
 								autoComplete="off"
@@ -173,4 +207,8 @@ function ChannelOption({ value, label }: ChannelOptionProps) {
 interface ChannelOptionProps {
 	value: string,
 	label: string
+}
+
+async function getEmptyOption(): Promise<undefined> {
+	return undefined
 }

@@ -1,10 +1,12 @@
 import type { Imageboard } from 'imageboard'
 import type { LogInParameters, LogInResult } from '../../types/index.js'
 
-import NotFoundError from '../errors/NotFoundError.js'
-import RateLimitError from '../errors/RateLimitError.js'
-import AuthTokenNotFoundOrIncorrectSecret from '../errors/AuthTokenNotFoundOrIncorrectSecret.js'
-import InvalidAuthToken from '../errors/InvalidAuthToken.js'
+import {
+	NotFoundError,
+	RateLimitError,
+	AuthTokenNotFoundOrIncorrectSecret,
+	InvalidAuthToken
+} from '../errors/index.js'
 
 export default async function logIn(imageboard: Imageboard, parameters: LogInParameters): Promise<LogInResult> {
 	try {

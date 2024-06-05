@@ -9,7 +9,7 @@ import saveFile from 'frontend-lib/utility/saveFile.js'
 import readTextFile from 'frontend-lib/utility/readTextFile.js'
 import resourceCache from '../../utility/resourceCache.js'
 import sortSubscribedThreads from '../../utility/subscribedThread/sortSubscribedThreads.js'
-import { clearChannelsCache } from '../../api/cached/getChannels.js'
+import { clearChannelsCache } from '../../api/cached/cache.js'
 import OkCancelModal from 'frontend-lib/components/OkCancelModal.js'
 import { notify, showError } from '../../redux/notifications.js'
 

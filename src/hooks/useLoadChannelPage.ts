@@ -42,6 +42,7 @@ export default function useLoadChannelPage(parameters: UseLoadChannelPageParamet
 		wasCancelled = wasCancelledDefault
 	} = parameters
 
+	// `channels` is a just list of "top" channels and is not a complete list of channels.
 	const channels = useSelector(state => state.channels.channels)
 
 	const useSetting = (getter: (settings: UserSettingsJson) => unknown) => useSettingCustomizable(getter, { useSelector })

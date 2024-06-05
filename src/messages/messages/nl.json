@@ -2,7 +2,6 @@
 	"boards": {
 		"title": "Borden",
 		"moreBoards": "Meer Borden",
-		"showRestBoards": "Toon alle borden",
 		"showAll": "Toon alle borden",
 		"showBoardsList": "Toon bordenlijst",
 		"byPopularity": "Populair",
@@ -320,6 +319,7 @@
 		}
 	},
 	"report": {
+		"subtitle": "Je rapporteert een opmerking wegens overtreding van de <rulesLink>regels</rulesLink>.",
 		"misuseWarning": "Het indienen van valse of verkeerd geclassificeerde rapporten kan resulteren in een verbod.",
 		"submitted": "Uw rapport is verzonden",
 		"form": {
@@ -345,6 +345,17 @@
 			}
 		}
 	},
+	"captcha": {
+		"title": "CAPTCHA",
+		"logInOrSolveCaptcha": "<logIn>Inloggen</logIn> of een CAPTCHA oplossen",
+		"form": {
+			"solution": "CAPTCHA oplossing",
+			"error": {
+				"incorrectSolution": "Incorrecte CAPTCHA oplossing",
+				"expired": "CAPTCHA verlopen"
+			}
+		}
+	},
 	"proxyPostingCaution": "Let op wat je hier post. Alle gebruikers van deze app delen dezelfde proxyserver. Als de proxyserver wordt verbannen, werkt de applicatie mogelijk niet meer voor iedereen.",
 	"colorfulBackground": "Kleurrijke achtergrond",
 	"nMoreComments": "{count, meervoud, een {<countTag>#</countTag> comment meer} other {<countTag>#</countTag> meer opmerkingen}}",
@@ -360,6 +371,10 @@
 	"attachmentsCountExceeded": "Te veel bestanden",
 	"attachmentSizeLimitExceededError": "Bestand te groot",
 	"duplicateAttachmentsFound": "Dubbele bestanden gevonden",
+	"goToCommentAtSourceWebsite": "Ga naar deze opmerking op de bronwebsite",
+	"goToThreadAtSourceWebsite": "Ga naar deze thread op de bronwebsite",
+	"goToBoardAtSourceWebsite": "Ga naar dit bord op de bronwebsite",
+	"goToChannelAtSourceWebsite": "Ga naar dit kanaal op de bronwebsite",
 	"сommentContentTooLong": "Opmerking inhoud is te lang",
 	"commentContentBlocked": "Opmering heeft woorden uit de zwarte-lijst",
 	"commentContentRequired": "Opmerking is vereist",
@@ -370,10 +385,6 @@
 	"createThreadError": "Kon geen nieuwe draad maken",
 	"createThreadSuccess": "Draad aangemaakt",
 	"createThreadRateLimitExceeded": "Draad maken limiet overschreden",
-	"captchaSolutionIncorrect": "Incorrecte CAPTCHA oplossing",
-	"captchaExpired": "CAPTCHA verlopen",
-	"captcha": "CAPTCHA",
-	"captchaSolution": "CAPTCHA oplossing",
 	"boardNotFound": "Bord niet gevonden",
 	"threadNotFound": "Draad niet gevonden",
 	"commentNotFound": "Opmerking niet gevonden",

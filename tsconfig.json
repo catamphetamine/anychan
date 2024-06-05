@@ -13,6 +13,7 @@
     "paths": {
       "@/types": ["./src/types/index.js"],
       "@/hooks": ["./src/hooks/index.js"],
+      "@/api/errors": ["./src/api/errors/index.js"],
       "@/*": ["./src/*"]
     },
     "types": [
@@ -22,6 +23,7 @@
   },
   "include": [
     "./src",
+    "./dataSources",
     "../frontend-lib",
     "../social-components-react"
   ]

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import DATA_SOURCES_LIST from '../../../dataSources/index.js'
+import DATA_SOURCES_LIST from '../../../dataSources/index-with-resources.js'
 
 import DataSourceLogo from '../../components/DataSourceLogo.js'
 

@@ -91,7 +91,7 @@
 		"text": "Скачать мобильные приложения",
 		"url": "https://2ch.hk/static/m.html"
 	}],
-	"contentCategories": [
+	"channelCategoriesOrder": [
 		"Тематика",
 		"Творчество",
 		"Политика и новости",
@@ -101,7 +101,7 @@
 		"Разное",
 		"Взрослым"
 	],
-	"contentCategoryUnspecified": "Прочие",
+	"contentCategoryHidden": "Прочие",
 	"errorPages": {
 		"404": {
 			"images": [

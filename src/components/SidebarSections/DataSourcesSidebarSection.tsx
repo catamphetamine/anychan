@@ -9,7 +9,7 @@ import useDataSource from '../../hooks/useDataSource.js'
 
 import getDataSourceLinkUrl from '@/utility/dataSource/getDataSourceBasePath.js'
 
-import SOURCES_LIST from '../../../dataSources/index.js'
+import DATA_SOURCES_LIST from '../../../dataSources/index-with-resources.js'
 
 import './DataSourcesSidebarSection.css'
 
@@ -24,7 +24,7 @@ export default function DataSourcesSidebarSection() {
 		// Example:
 		// * https://legacy.arisuchan.jp/tech/res/2867.html
 		// * https://legacy.arisuchan.jp/tech/res/2867.json
-		return SOURCES_LIST.filter(_ => _.id !== 'arisuchan')
+		return DATA_SOURCES_LIST.filter(_ => _.id !== 'arisuchan')
 	}, [])
 
 	return (

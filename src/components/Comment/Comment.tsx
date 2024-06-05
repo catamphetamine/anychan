@@ -30,7 +30,7 @@ import useAttachmentThumbnailFlags from './useAttachmentThumbnailFlags.js'
 
 import { getResourceMessages, onCommentContentChange } from '../../utility/loadResourceLinks.js'
 import getCommentLengthLimit from '../../utility/comment/getCommentLengthLimit.js'
-import getUrl from '../../utility/getUrl.js'
+import getCommentUrl from '../../utility/getCommentUrl.js'
 import resourceCache from '../../utility/resourceCache.js'
 import setEmbeddedAttachmentsProps from '../../utility/post/setEmbeddedAttachmentsProps.js'
 import getConfiguration from '../../getConfiguration.js'
@@ -40,8 +40,8 @@ import useChannelLayout from '../../pages/Channel/useChannelLayout.js'
 import { areCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
 import ArhivachIcon from '../../../assets/images/icons/services/arhivach.svg'
-import TwoChannelIcon from '../../../dataSources/imageboards/2ch/logo.svg'
-import FourChannelIcon from '../../../dataSources/imageboards/4chan/logo.svg'
+import TwoChannelIcon from '../../../dataSources/imageboards/2ch/resources/logo.svg'
+import FourChannelIcon from '../../../dataSources/imageboards/4chan/resources/logo.svg'
 
 import './Comment.css'
 
@@ -128,7 +128,7 @@ export default function Comment({
 } & InferProps<typeof CommentTitleAndContentAndAttachments.propTypes>) {
 	// const isFirstCommentInThread = comment.id === threadId
 
-	const url = getUrl(channelId, threadId, comment.id)
+	const url = getCommentUrl(channelId, threadId, comment.id)
 
 	const {
 		vote,

@@ -1,10 +1,10 @@
 import type {
 	Channel,
 	Thread,
+	ThreadFromDataSource,
 	GetThreadParameters,
 	Comment,
 	CommentFromDataSource,
-	ThreadFromDataSource,
 	Messages,
 	UserData,
 	UserSettings,
@@ -14,6 +14,7 @@ import type {
 
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
+import setDerivedThreadProps from './utility/setDerivedThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 import getProxyUrl from './utility/getProxyUrl.js'
@@ -32,12 +33,12 @@ export default async function getThread({
 	// It would enable fetching only the "incremental" update
 	// for the thread instead of fetching all of its comments.
 	threadBeforeRefresh,
-	// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
+	// `afterCommentId`/`afterCommentNumber` feature isn't currently used,
 	// though it could potentially be used in some hypothetical future.
 	// It would enable fetching only the "incremental" update
 	// for the thread instead of fetching all of its comments.
 	afterCommentId,
-	afterCommentsCount,
+	afterCommentNumber,
 	grammarCorrection,
 	censoredWords,
 	locale,
@@ -57,15 +58,16 @@ export default async function getThread({
 	dataSource: DataSource;
 }): Promise<{
 	thread: Thread,
-	channel?: Channel
+	channel?: Channel,
+	hasMoreComments?: boolean
 }> {
-	// Automatically set `afterCommentId`/`afterCommentsCount` parameters
+	// Automatically set `afterCommentId`/`afterCommentNumber` parameters
 	// if `threadBeforeRefresh` parameter was passed.
 	if (!afterCommentId) {
 		if (threadBeforeRefresh) {
 			const lastCommentBeforeRefresh = threadBeforeRefresh.comments[threadBeforeRefresh.comments.length - 1]
 			afterCommentId = lastCommentBeforeRefresh.id
-			afterCommentsCount = threadBeforeRefresh.comments.length
+			afterCommentNumber = threadBeforeRefresh.comments.length
 		}
 	}
 
@@ -74,7 +76,7 @@ export default async function getThread({
 		threadId,
 		archived,
 		afterCommentId,
-		afterCommentsCount,
+		afterCommentNumber,
 		locale,
 		originalDomain,
 		proxyUrl: getProxyUrl({ dataSource, userSettings })
@@ -147,9 +149,13 @@ export default async function getThread({
 		// Return the thread.
 		return {
 			thread: thread_,
+			hasMoreComments,
 			channel
 		}
 	}
+
+	// Set properties such as `thread.commentAttachmentsCount`.
+	setDerivedThreadProps(thread)
 
 	// If it is an "incremental" fetch.
 
@@ -172,7 +178,8 @@ export default async function getThread({
 			...threadBeforeRefresh,
 			...getThreadPropertiesFromIncrementalUpdate(thread)
 		},
-		channel
+		channel,
+		hasMoreComments
 	}
 }
 
@@ -188,12 +195,9 @@ const INCREMENTAL_THREAD_UPDATE_PROPERTIES: (keyof ThreadFromDataSource)[] = [
 	// not including the "main" ("original") comment.
 	'commentsCount',
 
-	// Total attachments count in the thread.
+	// Total attachments count in the thread,
+	// including the attachments in the "main" ("original") comment.
 	'attachmentsCount',
-
-	// The attachments count in comments of the thread.
-	// Doesn't include the attachments in the Original Post of the thread.
-	'commentAttachmentsCount',
 
 	// Unique poster IPs count.
 	'uniquePostersCount',

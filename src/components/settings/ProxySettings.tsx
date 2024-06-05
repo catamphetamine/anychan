@@ -54,7 +54,11 @@ export default function ProxySettings({
 	const allMessages = useMessages()
 
 	const testProxyServer = useCallback(async (proxyUrl: string) => {
-		const { channels } = await dataSource.api.getChannels({
+		if (!(dataSource.api.getTopChannels || dataSource.api.getChannels)) {
+			throw new Error('The data source doesn\'t provide `getTopChannels()` or `getChannels()` API')
+		}
+
+		const { channels } = await (dataSource.api.getTopChannels || dataSource.api.getChannels)({
 			// `proxyUrl: null` would force no use of proxy.
 			proxyUrl: proxyUrl || null,
 			originalDomain: undefined,

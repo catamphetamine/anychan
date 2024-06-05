@@ -7,7 +7,7 @@ import Clickable from 'frontend-lib/components/Clickable.js'
 
 import useUrlBasePath from '../../hooks/useUrlBasePath.js'
 
-import getUrl from '../../utility/getUrl.js'
+import getThreadUrl from '../../utility/getThreadUrl.js'
 
 import { thread as threadType } from '../../PropTypes.js'
 
@@ -28,7 +28,7 @@ export default function ChannelPinnedThreadPreview({
 		<Clickable
 			cursor="pointer"
 			onClick={onClick}
-			url={urlBasePath + getUrl(thread.channelId, thread.id)}
+			url={urlBasePath + getThreadUrl(thread.channelId, thread.id)}
 			className="ChannelPinnedThreadPreview">
 			<PinIcon className="ChannelPinnedThreadPreview-pinIcon"/>
 			<article className="ChannelPinnedThreadPreview-titleAndText">

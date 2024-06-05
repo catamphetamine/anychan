@@ -6,7 +6,8 @@ import classNames from 'classnames'
 
 import Picture from 'social-components-react/components/Picture.js'
 
-import { picture } from 'social-components-react/components/PropTypes.js'
+// @ts-expect-error
+import { picture } from 'social-components/prop-types'
 
 import './ThreadThumbnail.css'
 

@@ -1,4 +1,4 @@
-export default class ContentRequiredError extends Error {
+export class ContentRequiredError extends Error {
 	constructor() {
 		super('Content is required')
 	}

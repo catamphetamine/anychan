@@ -1,0 +1,5 @@
+#bodyHtml {
+  /* Prevents any custom `bodyHtml` from being obscured by the "colorful background" layers. */
+  position: relative;
+  z-index: 1;
+}

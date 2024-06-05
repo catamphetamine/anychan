@@ -154,7 +154,7 @@ export default function ChannelHeaderToolbar({
 		}
 
 		if (canChangeChannelSorting) {
-			if (dataSource.supportsFeature && dataSource.supportsFeature('getThreads.sortByRating')) {
+			if (dataSource.supportsFeature('getThreads.sortByRatingDesc')) {
 				items.push(channelSortingPopularItem)
 			}
 		}

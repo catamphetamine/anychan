@@ -1,14 +1,8 @@
-import type { DataSource } from '@/types'
+import type { DataSourceWithoutResources } from '@/types'
 
-import DATA_SOURCES_LIST from '../dataSources/index.js'
-
-export default function addDataSourceManifestUrls() {
-	addDataSourceManifestUrls_(DATA_SOURCES_LIST)
-}
-
-function addDataSourceManifestUrls_(DATA_SOURCES_LIST: DataSource[]) {
+export default function addDataSourceManifestUrls(dataSources: DataSourceWithoutResources[]) {
 	// Add URLs to `manifest.json` files.
-	for (const dataSource of DATA_SOURCES_LIST) {
+	for (const dataSource of dataSources) {
 		dataSource.manifestUrl = `/progressive-web-apps/${dataSource.id}/manifest.json`
 	}
 }

@@ -2,7 +2,10 @@ import type { DataSource } from '@/types'
 import type { InlineContent } from 'social-components'
 
 import parseLocationUrl from './parseLocationUrl.js'
-import getUrl from './getUrl.js'
+
+import getChannelUrl from './getChannelUrl.js'
+import getThreadUrl from './getThreadUrl.js'
+import getCommentUrl from './getCommentUrl.js'
 
 // Replaces links to the dataSource's website with in-app links.
 // Example: "https://2ch.hk/a/" → "/a".
@@ -70,7 +73,7 @@ function getChannelLink({
 	if (match) {
 		const channelId = match[1]
 		return {
-			url: getUrl(channelId),
+			url: getChannelUrl(channelId),
 			content: `/${channelId}/`
 		}
 	}
@@ -95,7 +98,7 @@ function getThreadLink({
 		const channelId = match[1]
 		const threadId = match[2]
 		return {
-			url: getUrl(channelId, Number(threadId)),
+			url: getThreadUrl(channelId, Number(threadId)),
 			content: `/${channelId}/${threadId}`
 		}
 	}
@@ -122,7 +125,7 @@ function getCommentLink({
 		const threadId = match[2]
 		const commentId = match[3]
 		return {
-			url: getUrl(channelId, Number(threadId), Number(commentId)),
+			url: getCommentUrl(channelId, Number(threadId), Number(commentId)),
 			content: `/${channelId}/${threadId}#${commentId}`
 		}
 	}

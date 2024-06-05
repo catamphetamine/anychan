@@ -18,7 +18,6 @@ export default function getLatestReadCommentIndex(
 		thread.channelId,
 		thread.id
 	)
-
 	if (latestReadCommentId) {
 		return findIndexByIdOrClosestPreviousOne(thread.comments, latestReadCommentId)
 	}

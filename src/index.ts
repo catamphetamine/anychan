@@ -34,6 +34,9 @@ import initializeUserSettings from './initialize-userSettings.js'
 import renderApp from './render.js'
 import renderNoDataSourcePage from './renderNoDataSourcePage.js'
 
+// @ts-ignore
+import cleanUpDeprecatedData from './utility/cleanUpDeprecatedData.js'
+
 // Run the application.
 // First initialize error handlers and stuff.
 // Then initialize the currently used dataSource
@@ -57,6 +60,12 @@ async function run() {
 			multiDataSource,
 			originalDomain
 		} = initializeDataSource()
+
+		// Clear legacy `localStorage` keys.
+		cleanUpDeprecatedData({
+			dataSource,
+			multiDataSource
+		})
 
 		await initializeUserSettings({
 			dataSource,

@@ -6,45 +6,24 @@ A universal web client for online discussion services like "forums" or ["imagebo
 : [4chan.org](https://www.4chan.org/), [8ch.net (8kun.top)](https://8kun.top/), [2ch.hk](https://2ch.hk/), [kohlchan.net](https://kohlchan.net/), etc.
 -->
 
-Imageboard support is provided by [`imageboard`](https://gitlab.com/catamphetamine/imageboard) library.
+Supported data sources:
 
-Supported imageboard engines:
-
-* [4chan](https://github.com/4chan/4chan-API) — `4chan.org`'s proprietary engine.
-
-  1. [4chan.org](https://www.4chan.org/) — [demo](https://anychans.github.io/4chan)
-
-* [vichan](https://github.com/vichan-devel/vichan) — An open-source `4chan`-compatible engine running on PHP/MySQL whose development started in 2012. The codebase has seen various maintainers take over and then leave off over the years, but as of late 2023, it seems like it's still being maintained and receiving new features.
-
-  1. [lainchan.org](https://lainchan.org/) — [demo](https://anychans.github.io/lainchan)
-  2. [soyjak.party](https://soyjak.party/)
-  3. [vichan.pl](https://vichan.pl/)
-
-* [OpenIB](https://github.com/OpenIB/OpenIB/) (formerly [infinity](https://github.com/ctrlcctrlv/infinity)) — A 2013 fork of `vichan` engine with the goal of supporting an "infinite" amount of user-managed boards as opposed to a finite set of predefined boards. No longer maintained since 2018.
-
-  1. [8kun.top](https://8kun.top/) (formerly `8ch.net`) — [demo](https://anychans.github.io/8ch)
-  2. [smuglo.li](https://smuglo.li/) — [demo](https://anychans.github.io/smugloli)
-
-* [lynxchan](https://gitgud.io/LynxChan/LynxChan) — An alternative engine Node.js/MongoDB whose development started in 2015. Rather than mimicking any existing engine, it set off on its own path and ended up becoming a popular choice (of its time) provided that there's really not much else to choose from. Some choices made by the author are questionable and the overall approach doesn't look professional to me. For example, the engine has a bunch of quite obvious but easily-fixable [issues](https://gitlab.com/catamphetamine/imageboard/blob/master/docs/engines/lynxchan-issues.md) that the author refuses to recognize and has no interest in fixing. The author's demeanor, in general, is somewhat controversial and not to everyone's liking.
-
-  1. [kohlchan.net](https://kohlchan.net) — [demo](https://anychans.github.io/kohlchan)
-  2. [endchan.net](https://endchan.net) — [demo](https://anychans.github.io/endchan)
-  3. [alogs.space](https://alogs.space) — [demo](https://anychans.github.io/alogsspace)
-  4. [bandada](https://bandada.club) — [demo](https://anychans.github.io/bandada)
-
-* [jschan](https://gitgud.io/fatchan/jschan/) — An alternative engine written in Node.js/MongoDB whose development started in 2019. Isn't really adopted by anyone, perhaps because there haven't been any new imageboards since its development has started. Compared to `lynxchan`, purely from a technical perspective, it looks much more professional and mature, and the author is a [well-known developer](https://lowendtalk.com/discussion/186679/basedflare-new-cloudflare-like-service).
-
-  1. [junkuchan.org](https://junkuchan.org) — [demo](https://anychans.github.io/junkuchan)
-  2. [jakparty.soy](https://jakparty.soy) — [demo](https://anychans.github.io/jakpartysoy)
-
-  <!-- * P.S. The [demo](https://anychans.github.io/) website doesn't seem to work with any known `jschan` imageboard because all of them use CloudFlare anti-DDoS protection that doesn't allow through the [CORS proxy](https://gitlab.com/catamphetamine/anychan/-/tree/master/docs/proxy/README.md). -->
-
-  <!-- 1. [94chan.org](https://94chan.org/) — [demo](https://anychans.github.io/94chan). The website is behind a CloudFlare-alike DDoS protection and returns `403 Forbidden` for the "demo" CORS proxy, but it is functional when accessed through one's [own CORS proxy](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/proxy/README.md) running at `localhost`. -->
-  <!-- 2. [ptchan.org](https://ptchan.org/) — [demo](https://anychans.github.io/ptchan). The website is behind a CloudFlare-alike DDoS protection and returns [`403 Forbidden`](https://gitgud.io/fatchan/haproxy-protection/-/issues/24) for a CORS proxy. -->
-
-* [makaba](https://2ch.hk/api/) — `2ch.hk`'s proprietary engine.
-
-  1. [2ch.hk](https://2ch.hk/) — [demo](https://anychans.github.io/2ch)
+* Any imageboard that is supported by [`imageboard`](https://gitlab.com/catamphetamine/imageboard) package.
+  * [2ch](https://anychans.github.io/2ch)
+  * [4chan](https://anychans.github.io/4chan)
+  * [8kun](https://anychans.github.io/8ch) (formerly `8ch`)
+  * [kohlchan](https://anychans.github.io/kohlchan)
+  * [endchan](https://anychans.github.io/endchan)
+  * [lainchan](https://github.com/lainchan/lainchan)
+  * [tvchan](https://anychans.github.io/tvchan)
+  * [bandada](https://anychans.github.io/bandada)
+  * [tahtach](https://anychans.github.io/tahtach)
+  * [vecchiochan](https://anychans.github.io/vecchiochan)
+  * [smugloli](https://anychans.github.io/smugloli)
+  * [jakparty.soy](https://anychans.github.io/jakpartysoy)
+  * [alogsspace](https://anychans.github.io/alogsspace)
+  * [junkuchan](https://anychans.github.io/junkuchan)
+* (Planned) An "example" (non-imageboard) data source.
 
 <!-- (too much DDoS protection [won't let it in](https://github.com/OpenIB/OpenIB/issues/302)) -->
 <!-- , [`arisuchan.jp` demo](https://anychans.github.io/arisuchan). -->
@@ -110,6 +89,8 @@ The application provides several configuration options like YouTube API key, Goo
 
 The default configuration can be found in `./configuration/default.json` file. Any custom configuration is applied on top of it. Custom configuration can be specified at the top of the `index.html` file in the global `CONFIG` variable.
 
+See [`types/Configuration.ts`](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/DataSource.ts) for the most up-to-date description of a configuration object.
+
 <details>
 <summary>Configuration options</summary>
 
@@ -117,12 +98,6 @@ The default configuration can be found in `./configuration/default.json` file. A
 
 ```js
 {
-  // By default, the application assumes that it's hosted at the root of the domain.
-  // If it's not the case, i.e. if it's hosted at a "subpath", then specify that "subpath" here.
-  // For example, if the application is hosted at "https://domain.com/application"
-  // then the "path" configuration parameter should be set to "/application".
-  "path": "/anychan",
-
   // The `dataSource` parameter describes the data source being used.
   //
   // If the data source is a "supported-out-of-the-box" one,
@@ -322,16 +297,16 @@ The default configuration can be found in `./configuration/default.json` file. A
 
   // Additional backgrounds (Dark mode).
   "backgroundsDarkMode": [{
-    id: 'purple',
-    name: 'Purple',
-    backgroundColor: 'hsl(259, 45%, 11%)',
-    gradientColor1: 'hsl(19deg 27% 17%)',
-    gradientColor2: 'hsl(284deg 46% 21%)',
-    gradientAngle: 90,
-    patternOpacity: 0.15,
+    "id": "purple",
+    "name": "Purple",
+    "backgroundColor": "hsl(259, 45%, 11%)",
+    "gradientColor1": "hsl(19deg 27% 17%)",
+    "gradientColor2": "hsl(284deg 46% 21%)",
+    "gradientAngle": 90,
+    "patternOpacity": 0.15,
     // If these two properties aren't defined, the default pattern picture is used.
-    patternUrl: '/domain.com/image.svg',
-    patternSize: '10em'
+    "patternUrl": "/domain.com/image.svg",
+    "patternSize": "10em"
   }],
 
   // Default background `id` (Dark mode).
@@ -339,13 +314,13 @@ The default configuration can be found in `./configuration/default.json` file. A
 
   // Additional backgrounds (Light mode).
   "backgroundsLightMode": [{
-    id: "orange-purple",
-    name: "Orange Purple",
-    gradientColor1: "hsl(34deg 53% 66%)",
-    gradientColor2: "hsl(0deg 46% 70%)",
+    "id": "orange-purple",
+    "name": "Orange Purple",
+    "gradientColor1": "hsl(34deg 53% 66%)",
+    "gradientColor2": "hsl(0deg 46% 70%)",
     // If these two properties aren't defined, the default pattern picture is used.
-    patternUrl: "url('/path/to/image.svg')",
-    patternSize: "10em"
+    "patternUrl": "url('/path/to/image.svg')",
+    "patternSize": "10em"
   }],
 
   // Default background `id` (Light mode).
@@ -395,6 +370,8 @@ The default URL for the announcement file is `/announcement.json` (is configurab
 When there's an announcement, a user is presented with an announcement bar on top of the page. When the user clicks a close (x) button, the announcement is no longer shown for this user until there's a new announcement with a different `date`.
 
 #### announcement.json
+
+See [`types/Announcement.ts`](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/Announcement.ts) for the most up-to-date description of an announcement object.
 
 ```js
 {
@@ -649,386 +626,14 @@ To run the tests from console:
 -->
 
 ```
-npm test
+yarn test
 ```
 
-## Data Source Configuration
+## Data Sources
 
-(advanced topic)
+`anychan` supports any data source. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. For example, imageboards are supported "out of the box".
 
-`anychan` supports any data source. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. There're currently several imageboards that're supported "out of the box".
-
-To add a new data source, create an `index.json` file with the data source's configuration, along with some supplementary files like a 192x192 `icon.png` and a `logo.svg`.
-
-<details>
-<summary><code>index.json</code> format</summary>
-
-###
-
-```js
-{
-  // (required)
-  // Data source's unique ID.
-  "id": "4chan",
-
-  // (required)
-  // Data source's unique single-character ID.
-  //
-  // This is currently only used on the demo site
-  // as a prefix for storing data-source-specific data
-  // in a web browser's `localStorage`:
-  // longer prefixes occupy more space on the disk
-  // so a short single-character emoji is used instead.
-  //
-  // For example, storing "latest read comment" ID
-  // for each thread of `4chan` on the demo site
-  // is achieved by storing records with keys like
-  // `⌨️🍀/votes/a/12345` and values like `[{ 12367: -1 }]`.
-  // For every thread there would be a separate record
-  // so a shorter record key is preferred.
-  //
-  "shortId": "🍀",
-
-  // (required)
-  // Data source's domain name.
-  "domain": "4chan.org",
-
-  // (required)
-  // Data source title.
-  "title": "4chan",
-
-  // (optional)
-  // The text displayed under the data source's title on the home page.
-  "subtitle": "The imageboard",
-
-  // (required)
-  // Data source description.
-  // Can be a `String` or `InlineContent` (text with hyperlinks):
-  // https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Post/PostContent.md
-  "description": "4chan is the oldest English-speaking imageboard",
-
-  // (optional)
-  // Footer links.
-  // Each link must have `text` and `url`.
-  // Link `type` is optional and currently doesn't have any effect.
-  "links": [{
-    "type": "rules",
-    "text": "Rules",
-    "url": "http://www.4chan.org/rules"
-  }, {
-    "type": "faq",
-    "text": "FAQ",
-    "url": "http://www.4chan.org/faq"
-  }, {
-    "type": "twitter",
-    "text": "Twitter",
-    "url": "https://twitter.com/4chan"
-  }],
-
-  // (optional)
-  // Footer notes.
-  // Can be a `String` or `InlineContent` (text with hyperlinks):
-  // https://gitlab.com/catamphetamine/social-components/blob/master/docs/Post/PostContent.md
-  "footnotes": "Copyright © 2003-2019 4chan community support LLC. All rights reserved.",
-
-  // (optional)
-  // Defines the order of channel categories in the sidebar
-  // when "By Category" channel list view mode is selected.
-  "contentCategories": [
-    "Japanese Culture",
-    "Video Games",
-    "Interests",
-    "Creative",
-    "Other",
-    "Miscellaneous",
-    "Adult"
-  ],
-
-  // (optional)
-  // If channels are divided into categories,
-  // and if there's an alias for "all the rest",
-  // then such channels can be hidden in the sidebar
-  // (because the channels in the "all the rest" category
-  //  are most-likely user-created channels and there's a lot of them).
-  // In such case, "Show All Boards" link will appear under the
-  // channels list in the sidebar, that the user could click
-  // to view the list of all available channels.
-  "contentCategoryUnspecified": "Rest",
-
-  // (optional)
-  // Most data sources use "relative" URLs for attachments.
-  // And some of them also have "backup" domains in case
-  // their primary domain name is blocked by the authorities.
-  // Because `anychan` can run on any domain name,
-  // it requires a way to determine whether it is
-  // running on a "legitimate" data source domain name
-  // in order to decide whether it should leave those attachment
-  // URLs as they are (being relative URLs, like "/images/abc.jpg")
-  // or convert those  attachment URLs from relative URLs to
-  // absolute URLs (like "https://website.net/images/abc.jpg"),
-  // otherwise those URLs wouldn't work (for obvious reasons).
-  // So, when `anychan` is hosted not on the "main" domain
-  // but rather on one of the "backup" domains, it should have
-  // a way of knowing that it's still a "legitimate" domain
-  // so that it could leave relative attachment URLs as they are.
-  // For that, the `domains` data source configuration parameter exists:
-  // it should list all legitimate "backup" domains of the data source.
-  // The default domain name should also be included in the "domains" list.
-  "domains": [
-    "kohlchan.net",
-    "kohl.chan",
-    "kohlchankxguym67.onion",
-    "kohlchan7cwtdwfuicqhxgqx4k47bsvlt2wn5eduzovntrzvonv4cqyd.onion"
-  ],
-
-  // (optional)
-  // Error page pictures.
-  "errorPages": {
-    "404": {
-      "images": [
-        "https://s.4cdn.org/image/error/404/404-DanKim.gif",
-        "https://s.4cdn.org/image/error/404/404-Anonymous-3.png",
-        "https://s.4cdn.org/image/error/404/404-Anonymous-5.png",
-        "https://s.4cdn.org/image/error/404/404-Anonymous-6.png"
-      ]
-    }
-  },
-
-  // (optional)
-  // Whether the data source archives threads
-  // that're pushed off the list of a channel's threads.
-  // For example, `4chan.org` archives threads for about 3 days
-  // before they're deleted.
-  threadArchive: true,
-
-  // (optional)
-  // How long a thread is still accessible before being deleted
-  // after it has been archived.
-  // For example, on `4chan.org` it's "3 days" (max),
-  // which equals to `3 * 24 * 60 * 60 * 1000` milliseconds.
-  // If `threadArchive` is `true` but `threadArchiveLifetime` is not set
-  // then it means that the data source archives threads indefinitely.
-  threadArchiveLifetime: 259200000,
-
-  // (required)
-  // (required only for non-imageboards)
-  // Channel URL template.
-  channelUrl: '/r/{channelId}',
-
-  // (required)
-  // (required only for non-imageboards)
-  // Thread URL template.
-  threadUrl: '/r/{channelId}/comments/{threadId}',
-
-  // (required)
-  // (required only for non-imageboards)
-  // Comment URL template.
-  commentUrl: '/r/{channelId}/comments/{threadId}/thread-title-peek/{commentId}',
-
-  // (required)
-  // (only for non-imageboards)
-  // The API methods.
-  api: {
-    // (required)
-    //
-    // Returns the list of channels.
-    //
-    // If there're a lot of channels, can return just the most popular ones,
-    // in which case it should also return a `hasMoreChannels: true` flag.
-    //
-    // `Channel` type mimicks the `Board` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#board
-    //
-    async getChannels() {
-      return {
-        channels: Channel[],
-        hasMoreChannels: boolean?
-      }
-    },
-
-    // (optional)
-    // (currently not used)
-    //
-    // Finds channels by a query.
-    //
-    // Can be used when `getChannels()` doesn't return the full list of channels.
-    //
-    // `Channel` type mimicks the `Board` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#board
-    //
-    async findChannels(query) {
-      return {
-        channels: Channel[]
-      }
-    },
-
-    // (required)
-    //
-    // Returns a list of threads in a channel.
-    //
-    // Could support parameters like:
-    //
-    // * `sort: "new"/"hot"/...` for sorting threads.
-    //
-    // * `afterThreadId` for paging through `sort: "new"` threads.
-    //    In that case, `hasMoreThreads: boolean?` flag should also be returned.
-    //
-    // * `queryId: string` and `page: number` for paging through
-    //    the full list of thread IDs. In that case, `queryId` is
-    //    returned from the initial query. This variant supercedes
-    //    the `afterThreadId`/`hasMoreThreads` approach for `sort: "new"` threads.
-    //
-    // `Thread` type mimicks the `Thread` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#thread
-    // (with `boardId` renamed to `channelId`)
-    //
-    async getThreads({ channelId, channelLayout, sort, afterThreadId, queryId }) {
-      return {
-        threads: Thread[],
-        queryId: string?,
-        hasMoreThreads: boolean?
-      }
-    },
-
-    // (optional)
-    // (currently not used)
-    //
-    // Finds threads by a query.
-    //
-    // `channelId: string` parameter can be optional
-    // if `supportsGlobalThreadSearch` flag is `true` (see below).
-    //
-    // `Thread` type mimicks the `Thread` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#thread
-    // (with `boardId` renamed to `channelId`)
-    //
-    async findThreads(query, { channelId, sort, afterThreadId, queryId }) {
-      return {
-        threads: Thread[],
-        queryId: string?,
-        hasMoreThreads: boolean?
-      }
-    },
-
-    // (optional)
-    // (currently not used)
-    //
-    // Should be `true` if the data source supports "global" thread search
-    // by calling `.findThreads()` method without `channelId` parameter.
-    //
-    supportsGlobalThreadSearch: boolean?,
-
-    // (required)
-    //
-    // Returns full thread info, including some of the comments.
-    //
-    // If there're more comments, then `hasMoreComments: true` flag
-    // should be returned, and the rest of the comments can be fetched via
-    // `getThreadComments({ channelId, threadId, afterCommentId, afterCommentsCount, queryId })`.
-    //
-    // `Comment` type mimicks the `Comment` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#comment
-    //
-    async getThread({ channelId, threadId }) {
-      return {
-        id: threadId,
-        title: 'Thread Title',
-        comments: Comment[],
-        commentsCount: 12345,
-        hasMoreComments: boolean?,
-        ...
-      }
-    },
-
-    // (optional)
-    // (currently not used)
-    //
-    // Returns a list of comments in a thread.
-    //
-    // Can return just a portion of all available comments,
-    // in which case it should also return a `hasMoreComments: true` flag.
-    // `queryId` can be used in complex cases: for example,
-    // when fetching comments not sorted by date.
-    // (like tree-structured comments on `reddit.com`).
-    //
-    // The `Comment` type mimicks the `Comment` type of `imageboard`:
-    // https://gitlab.com/catamphetamine/imageboard#comment
-    //
-    async getThreadComments({
-      channelId,
-      threadId,
-      afterCommentId,
-      afterCommentsCount,
-      queryId
-    }) {
-      return {
-        comments: Comment[],
-        hasMoreComments: boolean?
-      }
-    },
-
-    // (optional)
-    //
-    // Votes for a comment in a thread.
-    // Can be either an upvote or a downvote.
-    //
-    async voteForComment({
-      channelId,
-      threadId,
-      commentId,
-      up: boolean
-    }) {
-      ...
-    }
-  }
-}
-```
-<!--
-  // (optional)
-  // CORS proxy settings.
-  // By default, all imageboards require a "CORS Proxy" in order to
-  // be able to send HTTP requests to imageboard API (and get a response).
-  // Theoretically, some imageboard admins could allow "Cross-Origin" HTTP requests
-  // and in that case no proxying would be required when making HTTP requests from other domains,
-  // in which case set the `"proxy"` setting to `false`.
-  // By default it's set to `true` meaning "proxying is required".
-  "proxy": false,
--->
-</details>
-
-#####
-
-
-The files should be placed in the data source's directory created inside the `dataSources` folder. Then, the data source's config should be `import`ed in `dataSources/index.js` and added to the list of `DATA_SOURCES`. After that, the data source's `icon` and `logo` should be assigned in `src/dataSourceLogos.js`.
-
-## Adding a new data source
-
-(advanced topic)
-
-For imageboard-type data sources, the process is a bit [easier](#adding-a-new-imageboard).
-
-For non-imageboard-type data sources:
-
-* First, describe the new data source in a `dataSource` object property in the configuration file. See [DataSource.ts](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/DataSource.ts) for the schema of a `dataSource` object.
-* Add the new data source to the list in `./dataSources/non-imageboards.ts` (analogous to the existing ones).
-* Add the icon of new data source in `./src/dataSourceIcons.ts` (analogous to the existing ones).
-* Add the logo of new data source in `./src/dataSourceLogos.ts` (analogous to the existing ones).
-
-## Adding a new imageboard
-
-(advanced topic)
-
-First, [add the new imageboard to `imageboard` library](https://gitlab.com/catamphetamine/imageboard#adding-a-new-imageboard). Then add the new imageboard to `anychan` application:
-
-* Create the imageboard's directory in `./dataSources/imageboards`.
-* In that directory, create files:
-  * `index.json` [configuration file](#data-source-configuration)
-  * `icon.png` (`192px x 192px`)
-  * `logo.svg` (or `logo.jpg`, or `logo.png`)
-  * `app-icon-512.png` (`512px x 512px`) for [PWA](https://en.wikipedia.org/wiki/Progressive_web_app) support
-* Add the new imageboard to the list in `./dataSources/imageboards/imageboards.ts` (analogous to the existing imageboards).
-* Add the icon of new imageboard in `./src/dataSourceIcons.ts` (analogous to the existing imageboards).
-* Add the logo of new imageboard in `./src/dataSourceLogos.ts` (analogous to the existing imageboards).
+To add a new data source, follow the instructions in [`docs/add-new-data-source.md`](https://gitlab.com/catamphetamine/imageboard/-/blob/master/docs/add-new-data-source.md).
 
 ## Miscellaneous
 

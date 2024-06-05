@@ -1,6 +1,6 @@
 import type { ChannelId } from "@/types"
 
-export default class BannedError extends Error {
+export class BannedError extends Error {
 	banReason?: string
 	banId?: string
 	banChannelId?: ChannelId

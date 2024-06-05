@@ -3,7 +3,7 @@ import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
 import UserSettings from '../../utility/settings/UserSettings.js'
-import DATA_SOURCES from '../../dataSources.js'
+import DATA_SOURCES_LIST from '../../../dataSources/index.js'
 
 import { MemoryStorage } from 'web-browser-storage'
 import { TestTab } from 'web-browser-tab'
@@ -21,7 +21,7 @@ describe('SubscribedThreadsUpdater/tabs', function() {
 
 		const userSettings = new UserSettings(storage1)
 
-		const dataSource = DATA_SOURCES['4chan']
+		const dataSource = DATA_SOURCES_LIST.find(_ => _.id === '4chan')
 
 		let dispatchedActions = []
 

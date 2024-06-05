@@ -347,7 +347,7 @@ function BackgroundForm({
 			<FormComponent>
 				<Field
 					required
-					type="text"
+					type="color"
 					name="gradientColor1"
 					label={messages.settings.background.form.gradientColor1}
 					defaultValue={background && background.gradientColor1}
@@ -357,7 +357,7 @@ function BackgroundForm({
 			<FormComponent>
 				<Field
 					required
-					type="text"
+					type="color"
 					name="gradientColor2"
 					label={messages.settings.background.form.gradientColor2}
 					defaultValue={background && background.gradientColor2}
@@ -376,7 +376,7 @@ function BackgroundForm({
 
 			<FormComponent>
 				<Field
-					type="text"
+					type="color"
 					name="backgroundColor"
 					label={messages.settings.background.form.backgroundColor}
 					defaultValue={background && background.backgroundColor}
@@ -397,6 +397,7 @@ function BackgroundForm({
 				<Field
 					type="text"
 					name="patternOpacity"
+					placeholder="0.3"
 					label={messages.settings.background.form.imageOpacity}
 					defaultValue={background && (typeof background.patternOpacity === 'number' ? String(background.patternOpacity) : undefined)}
 					validate={validateOpacity}

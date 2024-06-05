@@ -2,6 +2,7 @@ import type { GetThreadsParameters, DataSource, UserData, UserSettings, UserSett
 
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
+import setDerivedThreadProps from './utility/setDerivedThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
 import getProxyUrl from './utility/getProxyUrl.js'
@@ -10,7 +11,7 @@ export default async function getThreads({
 	channelId,
 	channelLayout,
 	withLatestComments,
-	sortByRating,
+	sortBy,
 	censoredWords,
 	grammarCorrection,
 	locale,
@@ -30,13 +31,14 @@ export default async function getThreads({
 	dataSource: DataSource
 }): Promise<{
 	threads: Thread[],
-	channel: ChannelFromDataSource
+	channel: ChannelFromDataSource,
+	hasMoreThreads: boolean
 }> {
 	const { threads, hasMoreThreads, channel } = await dataSource.api.getThreads({
 		channelId,
 		channelLayout,
 		withLatestComments,
-		sortByRating,
+		sortBy,
 		// `dataSourceId` parameter is used in `src/api/imageboard/getThreads.js`.
 		dataSourceId: dataSource.id,
 		locale,
@@ -56,6 +58,9 @@ export default async function getThreads({
 			grammarCorrection,
 			censoredWords
 		})
+
+		// Set properties such as `thread.commentAttachmentsCount`.
+		setDerivedThreadProps(thread)
 
 		// Ensure that `.latestComments` property is defined on each `thread`
 		// when `withLatestComments` mode is used.
@@ -101,9 +106,11 @@ export default async function getThreads({
 		// to render thread preview.
 		comment.createTextPreviewForSidebar = (function({
 			charactersInLine,
+			charactersInLastLine,
 			maxLines
 		}: {
 			charactersInLine?: number,
+			charactersInLastLine?: number,
 			maxLines?: number
 		}) {
 			// For some weird reason, using `comment` variable from outside this function
@@ -124,6 +131,7 @@ export default async function getThreads({
 					messages,
 					decreaseCharacterLimitBy,
 					charactersInLine,
+					charactersInLastLine,
 					maxLines
 				})
 				comment.textPreviewForSidebarCreated = true
@@ -140,6 +148,7 @@ export default async function getThreads({
 	// Return the threads.
 	return {
 		threads: threads_,
+		hasMoreThreads,
 		channel
 	}
 }

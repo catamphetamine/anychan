@@ -2,7 +2,6 @@
 	"boards": {
 		"title": "Boards",
 		"moreBoards": "More Boards",
-		"showRestBoards": "Show all boards",
 		"showAll": "Show all boards",
 		"showBoardsList": "Show boards list",
 		"byPopularity": "Popular",
@@ -320,6 +319,7 @@
 		}
 	},
 	"report": {
+		"subtitle": "You're reporting a comment for <rulesLink>rules</rulesLink> violation.",
 		"misuseWarning": "Submitting false or misclassified reports may result in a ban.",
 		"submitted": "Your report has been submitted",
 		"form": {
@@ -345,6 +345,17 @@
 			}
 		}
 	},
+	"captcha": {
+		"title": "CAPTCHA",
+		"logInOrSolveCaptcha": "<logIn>Log in</logIn> or solve a CAPTCHA",
+		"form": {
+			"solution": "CAPTCHA solution",
+			"error": {
+				"incorrectSolution": "Incorrect CAPTCHA solution",
+				"expired": "CAPTCHA expired"
+			}
+		}
+	},
 	"proxyPostingCaution": "Be mindful of what you post here. All users of this app share the same proxy server. If the proxy server gets banned, the application might stop working for everyone.",
 	"colorfulBackground": "Colorful background",
 	"nMoreComments": "{count, plural, one {<countTag>#</countTag> more comment} other {<countTag>#</countTag> more comments}}",
@@ -360,6 +371,10 @@
 	"attachmentsCountExceeded": "Too many attachments",
 	"attachmentSizeLimitExceededError": "Attachment too large",
 	"duplicateAttachmentsFound": "Duplicate attachments found",
+	"goToCommentAtSourceWebsite": "Go to this comment at the source website",
+	"goToThreadAtSourceWebsite": "Go to this thread at the source website",
+	"goToBoardAtSourceWebsite": "Go to this board at the source website",
+	"goToChannelAtSourceWebsite": "Go to this channel at the source website",
 	"сommentContentTooLong": "Comment content too long",
 	"commentContentBlocked": "Comment contains blacklisted content",
 	"commentContentRequired": "Comment is required",
@@ -370,10 +385,6 @@
 	"createThreadError": "Couldn't create a new thread",
 	"createThreadSuccess": "Thread created",
 	"createThreadRateLimitExceeded": "Create thread rate limit exceeded",
-	"captchaSolutionIncorrect": "Incorrect CAPTCHA solution",
-	"captchaExpired": "CAPTCHA expired",
-	"captcha": "CAPTCHA",
-	"captchaSolution": "CAPTCHA solution",
 	"boardNotFound": "Board not found",
 	"threadNotFound": "Thread not found",
 	"commentNotFound": "Comment not found",

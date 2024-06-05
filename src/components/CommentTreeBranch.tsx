@@ -9,6 +9,7 @@ import CommentBlock from './Comment/CommentBlock.js'
 import { POST_FORM_INPUT_FIELD_NAME } from './PostFormWithAttachments.js'
 
 import { commentTreeState } from '../PropTypes.js'
+import { InlineElementPostLink } from 'social-components'
 
 type State = CommentTreeItemStateWithReplyAbility
 
@@ -100,7 +101,7 @@ export default function CommentTreeBranch({
 			initialExpandPostLinkQuotes: initialState.expandPostLinkQuotes,
 			// `postLink._id`s are set in `enumeratePostLinks()`
 			// in `./src/api/utility/addCommentProps.js`.
-			// They're used instead of simply `postLink.postId`
+			// They're used instead of simply `postLink.meta.commentId`
 			// because, for example, a comment could have several
 			// `post-link`s to the same post, consequtive or
 			// in different parts of its content.
@@ -216,6 +217,7 @@ export default function CommentTreeBranch({
 			onShowReply={onShowReply}
 			component={CommentBlock}
 			getComponentProps={getCommentComponentProps}
+			isLinkedComment={isLinkedComment}
 		/>
 	)
 }
@@ -289,4 +291,8 @@ CommentTreeBranch.propTypes = {
 		'straight-through',
 		'sideways'
 	])
+}
+
+function isLinkedComment(comment: Comment, postLink: InlineElementPostLink) {
+	return comment.id === postLink.meta.commentId
 }

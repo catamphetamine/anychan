@@ -304,7 +304,6 @@ export default function ThreadPage({
 					const comment = getCommentById(commentId)
 					// Update the ownership status of the comment.
 					onCommentOwnershipStatusChange_(comment, threadId, channelId, isOwn, userData)
-					console.log('@@@@@@@@@@ comment', comment)
 					// If a comment's ownership status changes, other comments should be re-rendered too
 					// in order to mark or unmark certain comments as "this is a reply to your comment".
 					setRerenderTrigger({})

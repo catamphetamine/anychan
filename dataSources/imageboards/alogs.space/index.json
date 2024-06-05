@@ -1,9 +1,7 @@
 {
 	"id": "alogs.space",
 	"shortId": "🥳",
-	"domains": [
-		"alogs.space"
-	],
+	"aliases": ["alogsspace"],
 	"title": "AlogsSpace",
 	"description": "AlogsSpace is an imageboard hosting several different communities about a wide variety of topics. Formerly known as \"julay.world\".",
 	"links": [{

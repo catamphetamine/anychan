@@ -83,3 +83,23 @@
 		padding-bottom: 0;
 	}
 }
+
+.ChannelThreadsSidebarSectionThread-commentsCount {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	right:calc(var(--ChannelThreadsSidebarSectionThread-paddingLeft));
+	bottom: calc(var(--ChannelThreadsSidebarSectionThread-paddingTop));
+	line-height: var(--CommentFooter-lineHeight);
+	font-size: var(--CommentFooter-fontSize);
+	font-weight: var(--CommentFooter-fontWeight);
+	color: var(--CommentFooter-color--darker);
+}
+
+.ChannelThreadsSidebarSectionThread-commentIcon {
+	width: var(--CommentFooterBadge-height);
+	height: var(--CommentFooterBadge-height);
+	margin-top: var(--CommentFooterBadgeIcon-marginTop--commentsCount);
+	margin-right: var(--CommentFooterBadgeIcon-marginRight--commentsCount);
+	opacity: var(--CommentFooterBadgeIcon-opacity--left);
+}

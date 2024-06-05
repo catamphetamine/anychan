@@ -22,7 +22,7 @@ export default function DataSourceLogoAndToolbarSidebarSection() {
 			<DarkModeToggle/>
 			{/* <ColorfulBackgroundToggle/> */}
 			<SettingsLink/>
-			{dataSource && dataSource.supportsLogIn() &&
+			{dataSource && dataSource.api.logIn &&
 				<UserAccountLink/>
 			}
 		</>

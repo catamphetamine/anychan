@@ -9,6 +9,8 @@ export default function getCurrentDataSourceById(id: DataSource['id']): DataSour
 	const dataSource = getCurrentDataSourceById_(id)
 	for (const property of DATA_SOURCE_OVERRIDABLE_PARAMETERS) {
 		if (getConfiguration()[property] !== undefined) {
+			// Some weird TypeScript error related to `Content`. Just ignored it.
+			// @ts-ignore
 			dataSource[property] = getConfiguration()[property]
 		}
 	}
@@ -20,15 +22,15 @@ function getCurrentDataSourceById_(id: DataSource['id']): DataSource {
 	if (dataSource) {
 		return dataSource
 	}
-	const { dataSource: dataSourceFromConfiguration } = getConfiguration()
-	if (typeof dataSourceFromConfiguration === 'string') {
-		// Ignore.
-		// TypeScript will assume `dataSourceFromConfiguration` is an object in `else`.
-	} else if (isObject(dataSourceFromConfiguration)) {
-		if (dataSourceFromConfiguration.id === id) {
-			return dataSourceFromConfiguration
-		}
-	}
+	// const { dataSource: dataSourceFromConfiguration } = getConfiguration()
+	// if (typeof dataSourceFromConfiguration === 'string') {
+	// 	// Ignore.
+	// 	// TypeScript will assume `dataSourceFromConfiguration` is an object in `else`.
+	// } else if (isObject(dataSourceFromConfiguration)) {
+	// 	if (dataSourceFromConfiguration.id === id) {
+	// 		return dataSourceFromConfiguration
+	// 	}
+	// }
 	throw new Error(`Unknown dataSource: ${id}`)
 }
 

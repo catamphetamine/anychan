@@ -15,13 +15,19 @@ import classNames from 'classnames'
 import ListButton from './ListButton.js'
 import ChannelUrl from './ChannelUrl.js'
 
-import { channel } from '../PropTypes.js'
+import { channel, dataSource } from '../PropTypes.js'
 
-import useMessages from '../hooks/useMessages.js'
-import useUserData from '../hooks/useUserData.js'
-import useSettings from '../hooks/useSettings.js'
-import useSelector from '../hooks/useSelector.js'
-import useUpdateSetting from '../hooks/useUpdateSetting.js'
+import {
+	useDataSource,
+	useMessages,
+	useUserData,
+	useSettings,
+	useSelector,
+	useUpdateSetting,
+	useOriginalDomain,
+	useLocale,
+	useProxyUrl
+} from '@/hooks'
 
 import {
 	removeFavoriteChannel,
@@ -37,12 +43,15 @@ export default function EditFavoriteChannels({
 	onExitEditMode
 }: EditFavoriteChannelsProps) {
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
-	const allChannels = useSelector(state => state.channels.allChannels && state.channels.allChannels.channels)
 
+	const locale = useLocale()
 	const messages = useMessages()
+	const dataSource = useDataSource()
 	const userData = useUserData()
 	const userSettings = useSettings()
 	const dispatch = useDispatch()
+	const proxyUrl = useProxyUrl()
+	const originalDomain = useOriginalDomain()
 
 	const [selectedChannel, setSelectedChannel] = useState<ChannelType | {}>()
 
@@ -89,6 +98,39 @@ export default function EditFavoriteChannels({
 		}))
 	}, [dispatch, userData])
 
+	const findChannels = useCallback(async (query: string) => {
+		const findChannels_ = async (query: string) => {
+			if (query === '') {
+				if (dataSource.api.getTopChannels) {
+					return await dataSource.api.getTopChannels({
+						locale,
+						proxyUrl,
+						originalDomain
+					})
+				}
+			}
+
+			return await dataSource.api.findChannels({
+				search: query.toLowerCase(),
+				locale,
+				proxyUrl,
+				originalDomain
+			})
+		}
+
+		const { channels } = await findChannels_(query)
+
+		// Exclude already added "favorite" channels from the list of results
+		// because the point of the search is to find channels that haven't already been added.
+		return channels.filter(_ => !favoriteChannels.find(channel => channel.id === _.id))
+	}, [
+		favoriteChannels,
+		dataSource,
+		locale,
+		proxyUrl,
+		originalDomain
+	])
+
 	return (
 		<section className="EditFavoriteChannels">
 			<Autocomplete
@@ -102,13 +144,8 @@ export default function EditFavoriteChannels({
 				value={selectedChannel}
 				onChange={onSelectChannel}
 				onKeyDown={onInputKeyDown}
-				options={allChannels
-					.filter(_ => !favoriteChannels.find(channel => channel.id === _.id))
-					.map((channel) => ({
-						value: channel,
-						// `channel.title` can be `undefined` on some `8ch.net` userchannels.
-						label: `/${channel.id}/ ${channel.title || ''}`
-					}))}
+				getOption={getEmptyOption}
+				getOptions={findChannels}
 			/>
 			<SortableList
 				component="div"
@@ -217,4 +254,8 @@ interface ChannelOptionComponentProps {
 	label: string,
 	selected?: boolean,
 	focused?: boolean
+}
+
+async function getEmptyOption(): Promise<undefined> {
+	return undefined
 }

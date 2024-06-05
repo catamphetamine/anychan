@@ -1,4 +1,4 @@
-import type { Comment, ChannelId, ThreadId, CommentId } from "@/types"
+import type { Comment, ChannelId, ThreadId, CommentId, ContentPostLink } from "@/types"
 
 import { useCallback } from 'react'
 
@@ -13,25 +13,22 @@ export default function usePostLink({
 	comment: Comment,
 	onRequestShowCommentFromSameThread?: (parameters: { commentId: CommentId, fromCommentId: CommentId }) => void
 }) {
-	const onPostLinkClick = useCallback((event: Event, {
-		postWasDeleted,
-		postIsExternal,
-		channelId: channelIdClicked,
-		threadId: threadIdClicked,
-		postId
-	}: {
-		postWasDeleted?: boolean,
-		postIsExternal?: boolean,
-		channelId: ChannelId,
-		threadId: ThreadId,
-		postId: CommentId
-	}) => {
-		if (!postIsExternal) {
+	const onPostLinkClick = useCallback((event: Event, postLink: ContentPostLink) => {
+		const {
+			meta: {
+				isAnotherThread,
+				channelId: channelIdClicked,
+				threadId: threadIdClicked,
+				commentId
+			}
+		} = postLink
+
+		if (!isAnotherThread) {
 			if (channelIdClicked === channelId && threadIdClicked === threadId) {
 				if (onRequestShowCommentFromSameThread) {
 					event.preventDefault()
 					onRequestShowCommentFromSameThread({
-						commentId: postId,
+						commentId,
 						fromCommentId: comment.id
 					})
 				}
@@ -44,8 +41,8 @@ export default function usePostLink({
 		onRequestShowCommentFromSameThread
 	])
 
-	const isPostLinkClickable = useCallback(({ postWasDeleted }: { postWasDeleted: boolean }) => {
-		return !postWasDeleted
+	const isPostLinkClickable = useCallback(({ isDeleted }: ContentPostLink['meta']) => {
+		return !isDeleted
 	}, [])
 
 	return {

@@ -13,10 +13,14 @@ export default function getNextUpdateAtForThread(prevUpdateAt: number, {
 }: {
 	refreshErrorDate?: Date,
 	refreshErrorCount?: number,
-	latestCommentDate: Date,
+	latestCommentDate?: Date,
 	beforeLatestCommentDate?: Date,
 	backgroundMode?: boolean
-}): number {
+}): number | undefined {
+	if (!options.latestCommentDate) {
+		return
+	}
+
 	if (refreshErrorCount) {
 		const usualNextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, options)
 		const certainErrorsCount = Math.min(refreshErrorCount - 1, 10)

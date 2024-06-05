@@ -39,6 +39,6 @@ export default function useReport({
 	}, [])
 
 	return {
-		onReport: dataSource.supportsReportComment() ? onReport : onReportNotImplemented
+		onReport: dataSource.api.reportComment ? onReport : onReportNotImplemented
 	}
 }

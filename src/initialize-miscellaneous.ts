@@ -1,4 +1,6 @@
-import * as Sentry from '@sentry/browser'
+// import * as Sentry from '@sentry/browser'
+import * as Sentry from '@sentry/react'
+
 import { onCookiesAccepted } from 'frontend-lib/utility/cookiePolicy.js'
 
 import getConfiguration from './getConfiguration.js'
@@ -28,6 +30,10 @@ export default function() {
 		if (getConfiguration().sentryUrl) {
 			onCookiesAccepted(() => {
 				Sentry.init({
+					// integrations: [
+					// 	// No react router
+					// 	Sentry.browserTracingIntegration()
+					// ],
 					dsn: getConfiguration().sentryUrl
 				})
 			})

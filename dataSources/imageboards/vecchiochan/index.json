@@ -1,0 +1,29 @@
+{
+	"id": "vecchiochan",
+	"shortId": "🪿",
+	"title": "Vecchiochan",
+	"description": [
+		[
+			"Un'imageboard non schierata dove i vecchi dell'internet possono parlare liberamente senza temere alcuna ritorsione. Si può parlare di praticamente quasi tutto, rimanendo sempre nel legale e senza forzare e deragliare ripetutamente le discussioni al solo scopo di dare fastidio all'utenza intera. Però niente emoji >:-("
+		],
+		[
+			"Vecchiochan è e rimarrà sempre fermo sostenitore della libertà di parola e pensiero."
+		]
+	],
+	"links": [{
+		"type": "rules",
+		"text": "Regole",
+		"url": "https://www.vecchiochan.com/regole.html"
+	}, {
+		"type": "contact",
+		"text": "Contatto",
+		"url": "mailto:admin@vecchiochan.com"
+	}],
+	"errorPages": {
+		"404": {
+			"images": [
+				"https://www.vecchiochan.com/error_image.php?context=404"
+			]
+		}
+	}
+}

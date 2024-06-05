@@ -10,7 +10,7 @@ import useHide from '../Comment/useHide.js'
 import useReport from '../Comment/useReport.js'
 
 import isThreadPage from '../../utility/routes/isThreadPage.js'
-import getUrl from '../../utility/getUrl.js'
+import getThreadUrl from '../../utility/getThreadUrl.js'
 
 import useRoute from '../../hooks/useRoute.js'
 import useUrlBasePath from '../../hooks/useUrlBasePath.js'
@@ -27,8 +27,9 @@ import { thread, commentTreeState } from '../../PropTypes.js'
 
 // import getThreadThumbnail from '../../utility/thread/getThreadThumbnail.js'
 
-import useMessages from '../../hooks/useMessages.js'
-import usePageStateSelectorOutsideOfPage from '../../hooks/usePageStateSelectorOutsideOfPage.js'
+import { useMessages, usePageStateSelectorOutsideOfPage } from '@/hooks'
+
+import MessageIcon from 'frontend-lib/icons/message-rounded-rect-square-thicker.svg'
 
 import './ChannelThreadsSidebarSectionThread.css'
 
@@ -179,10 +180,16 @@ const ChannelThreadsSidebarSectionThread = ({
 						messages={messages}
 						onHide={onHide}
 						onReport={onReport}
-						url={getUrl(thread.channelId, thread.id)}
+						url={getThreadUrl(thread.channelId, thread.id)}
 						urlBasePath={urlBasePath}
 					/>
 				</div>
+				{thread.commentsCount > 1 && (
+					<div className="ChannelThreadsSidebarSectionThread-commentsCount">
+						<MessageIcon className="ChannelThreadsSidebarSectionThread-commentIcon"/>
+						{thread.commentsCount - 1}
+					</div>
+				)}
 			</section>
 		</CommentClickableWrapper>
 	)

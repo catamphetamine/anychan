@@ -7,7 +7,8 @@ import classNames from 'classnames'
 // @ts-ignore
 import { Content } from 'social-components-react/components/PostContent.js'
 
-import { postContent } from 'social-components-react/components/PropTypes.js'
+// @ts-expect-error
+import { postContent } from 'social-components/prop-types'
 
 import './Markup.css'
 

@@ -63,7 +63,7 @@ https://uigradients.com
 	--BackgroundBackdrop-backgroundColor: initial;
 }
 
-.dark {
+/* .dark { */
 	/* Monochrome */
 	/*
 	.Background--dark--monochrome {
@@ -109,9 +109,9 @@ https://uigradients.com
 		--BackgroundPattern-blendMode: screen;
 	}
 	*/
-}
+/* } */
 
-.light {
+/* .light { */
 	/* Orange Purple */
 	/*
 	.Background--light--orange-purple {
@@ -135,7 +135,7 @@ https://uigradients.com
     --BackgroundGradient-color--2: hsl(18deg 49% 71%);
 	}
 	*/
-}
+/* } */
 
 .Background {
 	display: none;

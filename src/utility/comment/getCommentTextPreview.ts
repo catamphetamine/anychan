@@ -9,6 +9,7 @@ interface Parameters {
 	characterLimit?: number;
 	decreaseCharacterLimitBy?: number;
 	charactersInLine?: number;
+	charactersInLastLine?: number;
 	maxLines?: number;
 }
 
@@ -21,7 +22,8 @@ interface Parameters {
  * @param {object} [options.messages] — An object containing localized labels. See the readme of `social-components` for more info.
  * @param {number} [options.characterLimit] — Max characters count.
  * @param {number} [options.decreaseCharacterLimitBy] — Max characters count (pre-defined or calculated) will be decreased by this value, if specified.
- * @param {number} [options.charactersInLine] — Line width in characters.
+ * @param {number} [options.charactersInLine] — Line width (in characters).
+ * @param {number} [options.charactersInLastLine] — Line width (in characters) of the last line.
  * @param {number} [options.maxLines] — Max lines of text.
  * @return {string} [preview]
  */
@@ -30,11 +32,15 @@ export default function getCommentTextPreview(comment: Comment, {
 	characterLimit,
 	decreaseCharacterLimitBy,
 	charactersInLine,
+	charactersInLastLine,
 	maxLines
 }: Parameters | undefined) {
 	if (!characterLimit) {
 		if (maxLines && charactersInLine) {
 			characterLimit = maxLines * charactersInLine
+			if (charactersInLastLine) {
+				characterLimit -= (charactersInLine - charactersInLastLine)
+			}
 		}
 	}
 

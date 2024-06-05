@@ -17,7 +17,7 @@ import onSubscribedThreadFetchError from '../subscribedThread/onSubscribedThread
 
 type GetThreadStubParameters = Pick<Parameters<typeof getThreadApi>[0], 'channelId' | 'threadId'>
 
-type GetThreadParameters = Omit<
+export type GetThreadParameters = Omit<
 	Parameters<typeof getThreadApi>[0],
 	'channelId' | 'threadId'
 > & {
@@ -41,8 +41,8 @@ type Callback = (error: Error | null, result?: { thread: Thread, channel?: Chann
 // whenever someone fetches a thread for any purpose.
 //
 export default async function getThread(
-	channelId: Channel['id'],
-	threadId: Thread['id'],
+	channelId: ChannelId,
+	threadId: ThreadId,
 	parameters: GetThreadParameters & { timer?: Timer }
 ): Promise<{ thread: Thread, channel?: Channel }> {
 	return await new Promise((resolve, reject) => {
@@ -79,8 +79,8 @@ export default async function getThread(
 // So `async`/`await` and `Promise`s have been rewritten in `callback`s,
 //
 export function getThreadUsingCallback(
-	channelId: Channel['id'],
-	threadId: Thread['id'],
+	channelId: ChannelId,
+	threadId: ThreadId,
 	{ timer, ...parameters }: GetThreadParameters & { timer?: Timer },
 	callback: Callback
 ) {
@@ -117,8 +117,8 @@ async function getThreadUsingCallback_(
 // * If the thread is found, it updates User Data from the up-to-date thread info.
 function addCustomCodeToGetThreadCallback(
 	callback: Callback,
-	channelId: Channel['id'],
-	threadId: Thread['id'],
+	channelId: ChannelId,
+	threadId: ThreadId,
 	{ timer, ...parameters }: GetThreadParameters & { timer?: Timer }
 ) {
 	return (error: Error, result?: Parameters<Callback>[1]) => {
@@ -146,8 +146,8 @@ function addCustomCodeToGetThreadCallback(
 
 // The "core" thread-fetching logic.
 async function getThread_(
-	channelId: Channel['id'],
-	threadId: Thread['id'],
+	channelId: ChannelId,
+	threadId: ThreadId,
 	{
 		purpose,
 		dispatch,

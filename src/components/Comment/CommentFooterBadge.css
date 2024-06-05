@@ -2,6 +2,9 @@
 
 :root {
 	--CommentFooterBadge-height: 1em;
+	--CommentFooterBadgeIcon-marginTop--commentsCount: 0.05em;
+	--CommentFooterBadgeIcon-marginRight--commentsCount: 0.32em;
+	--CommentFooterBadgeIcon-opacity--left: 0.75;
 }
 
 .CommentFooterBadge {
@@ -57,6 +60,7 @@
 
 .CommentFooterBadge--left {
 	.CommentFooterBadge-icon {
+		opacity: var(--CommentFooterBadgeIcon-opacity--left);
 		margin-right: 0.4em;
 	}
 }
@@ -73,8 +77,8 @@
 .CommentFooterBadge-icon--comments-count {
 	/*margin-top: -0.1em;*/
 	/*margin-right: 0.35em;*/
-	margin-top: 0.05em;
-	margin-right: 0.32em;
+	margin-top: var(--CommentFooterBadgeIcon-marginTop--commentsCount);
+	margin-right: var(--CommentFooterBadgeIcon-marginRight--commentsCount);
 }
 
 .CommentFooterBadge-icon--attachments-count-in-comments {

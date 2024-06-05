@@ -1,4 +1,4 @@
-export default class AttachmentsCountExceededError extends Error {
+export class AttachmentsCountExceededError extends Error {
 	constructor() {
 		super('Too many attachments')
 	}

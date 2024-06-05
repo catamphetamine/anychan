@@ -1,36 +1,13 @@
-import type { DataSource } from '@/types'
+import type { DataSourceWithoutResources, ImageboardDataSourceDefinition } from '@/types'
 
-import IMAGEBOARDS from './imageboards/index.js'
-import NON_IMAGEBOARDS from './non-imageboards.js'
+import IMAGEBOARDS from './imageboards/index-final.js'
+import NON_IMAGEBOARDS from './non-imageboards/index.js'
 
-// import SomeNonImageboardDATASourceLikeReddit from './some-none-imageboard-data-source-like-reddit'
+import addDataSourceProperties from '../src/utility/dataSource/addDataSourceProperties.js'
+import validateDataSourceShortIdUniqueness from '../src/utility/dataSource/validateDataSourceShortIdUniqueness.js'
 
-// For each non-imageboard data source, add utility functions.
-for (const dataSource of (NON_IMAGEBOARDS as NonImageboardDataSourceConfig[])) {
-	dataSource.supportsCreateThread = () => true
-	dataSource.supportsCreateComment = () => true
-	dataSource.supportsReportComment = () => true
-	dataSource.supportsLogIn = () => true
-	dataSource.supportsVote = () => true
-	dataSource.supportsGetCaptcha = () => true
+const ALL_DATA_SOURCES: DataSourceWithoutResources[] = NON_IMAGEBOARDS.concat(IMAGEBOARDS) as DataSourceWithoutResources[]
+export default ALL_DATA_SOURCES
 
-	dataSource.hasLogInTokenPassword = () => false
-}
-
-export default NON_IMAGEBOARDS.concat(IMAGEBOARDS) as DataSource[]
-
-type DataSourcePropertiesThatWillBeSetInThisCode =
-	'supportsCreateThread' |
-	'supportsCreateComment' |
-	'supportsReportComment' |
-	'supportsLogIn' |
-	'supportsVote' |
-	'supportsGetCaptcha' |
-	'hasLogInTokenPassword'
-
-export type NonImageboardDataSourceConfig = Omit<DataSource,
-	DataSourcePropertiesThatWillBeSetInThisCode |
-	'icon' |
-	'logo' |
-	'manifestUrl'
-> & Partial<Pick<DataSource, DataSourcePropertiesThatWillBeSetInThisCode>>
+addDataSourceProperties(ALL_DATA_SOURCES)
+validateDataSourceShortIdUniqueness(ALL_DATA_SOURCES)

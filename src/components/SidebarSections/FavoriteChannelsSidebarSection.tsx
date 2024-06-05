@@ -7,33 +7,18 @@ import EditFavoriteChannels from '../EditFavoriteChannels.js'
 import GoToChannelModal from '../GoToChannelModal.js'
 
 import useSelector from '../../hooks/useSelector.js'
-import useLocale from '../../hooks/useLocale.js'
 import useMessages from '../../hooks/useMessages.js'
 import useSetting from '../../hooks/useSetting.js'
-import useSettings from '../../hooks/useSettings.js'
-import useDataSource from '../../hooks/useDataSource.js'
-import useMultiDataSource from '../../hooks/useMultiDataSource.js'
-import useOriginalDomain from '@/hooks/useOriginalDomain.js'
-
-import { setChannelsResult } from '../../redux/channels.js'
-import getChannels from '../../api/cached/getChannels.js'
 
 import SearchIcon from 'frontend-lib/icons/search.svg'
 
 export default function FavoriteChannelsSidebarSection() {
-	const dispatch = useDispatch()
 	const messages = useMessages()
-	const locale = useLocale()
-	const originalDomain = useOriginalDomain()
-	const userSettings = useSettings()
-	const dataSource = useDataSource()
-	const multiDataSource = useMultiDataSource()
 
 	const moreButtonRef = useRef<HTMLButtonElement>()
 
 	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
 	const favoriteChannels = useSelector(state => state.favoriteChannels.favoriteChannels)
-	const allChannels = useSelector(state => state.channels.allChannels && state.channels.allChannels.channels)
 
 	const [editingFavoriteChannels, setEditingFavoriteChannels] = useState<boolean>()
 
@@ -56,30 +41,9 @@ export default function FavoriteChannelsSidebarSection() {
 	// Not using `async` here to prevent the focus
 	// from being lost on unpush.
 	const onMore = useCallback(async (isEditMode: boolean) => {
-		const finish = () => setEditingFavoriteChannels(isEditMode)
-		if (isEditMode && !allChannels) {
-			const channelsResult = await getChannels({
-				all: true,
-				userSettings,
-				dataSource,
-				multiDataSource,
-				originalDomain,
-				locale
-			})
-			dispatch(setChannelsResult(channelsResult))
-			finish()
-		} else {
-			finish()
-		}
+		setEditingFavoriteChannels(isEditMode)
 	}, [
-		dispatch,
-		userSettings,
-		allChannels,
-		dataSource,
-		multiDataSource,
-		messages,
-		locale,
-		originalDomain
+		setEditingFavoriteChannels
 	])
 
 	let children

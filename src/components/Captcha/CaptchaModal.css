@@ -1,0 +1,11 @@
+.CaptchaModal-subtitle {
+	margin-top: 0;
+	margin-bottom: var(--FormRow-marginTop);
+}
+
+.CaptchaModal-notes {
+	margin-top: var(--FormRow-marginTop);
+	margin-bottom: var(--FormRow-marginTop);
+	color: var(--TextNote-color);
+	font-size: var(--TextNote-fontSize);
+}

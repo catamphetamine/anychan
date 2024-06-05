@@ -1,4 +1,4 @@
-export default class ThreadIsLockedError extends Error {
+export class ThreadIsLockedError extends Error {
 	constructor() {
 		super('Thread is locked')
 	}

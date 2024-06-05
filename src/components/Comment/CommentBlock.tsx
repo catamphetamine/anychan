@@ -212,7 +212,8 @@ export default function CommentBlock({
 
 	return (
 		<div id={id} className="Comment-container">
-			{mode === 'channel' && latestSeenThreadId && comment.id === latestSeenThreadId &&
+			{/* Doesn't render "Previously seen threads:" element for now */}
+			{mode === 'channel' && latestSeenThreadId && comment.id === latestSeenThreadId && false &&
 				<div className="Comment-previouslySeenThreadsBanner">
 					{messages.previouslySeenThreads}
 				</div>
@@ -296,6 +297,10 @@ export default function CommentBlock({
 							ref={replyForm}
 							expanded
 							placement="comment"
+							commentId={comment.id}
+							threadId={threadId}
+							channelId={channelId}
+							channelIsNotSafeForWork={channelIsNotSafeForWork}
 							initialInputValue={replyFormInitialText}
 							initialState={initialReplyFormState}
 							onStateDidChange={onReplyFormStateDidChange}

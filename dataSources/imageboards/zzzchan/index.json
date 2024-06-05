@@ -7,7 +7,7 @@
 	],
 	"title": "ZZZchan",
 	"hidden": true,
-	"hiddenReason": "The origin \"https://anychan-proxy.vercel.app\" was not whitelisted by the operator of this proxy.",
+	"hiddenReason": "The website is behind a CloudFlare DDoS protection and returns 403 Forbidden for a CORS proxy",
 	"links": [{
 		"type": "news",
 		"text": "News",

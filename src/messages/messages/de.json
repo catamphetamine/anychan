@@ -2,7 +2,6 @@
 	"boards": {
 		"title": "Boards",
 		"moreBoards": "Mehr Boards",
-		"showRestBoards": "Zeige alle Boards",
 		"showAll": "Zeige alle Boards",
 		"showBoardsList": "Alle Boards anzeigen",
 		"byPopularity": "Beliebt",
@@ -320,6 +319,7 @@
 		}
 	},
 	"report": {
+		"subtitle": "Sie melden einen Kommentar wegen <rulesLink>Regelverstoß</rulesLink>.",
 		"misuseWarning": "Das Einreichen falscher oder falsch klassifizierter Meldungen kann zu einem Verbot führen.",
 		"submitted": "Ihr Bericht wurde übermittelt",
 		"form": {
@@ -345,6 +345,17 @@
 			}
 		}
 	},
+	"captcha": {
+		"title": "Captcha-Code",
+		"logInOrSolveCaptcha": "<logIn>Loggen Sie sich ein</logIn> oder lösen Sie ein CAPTCHA",
+		"form": {
+			"solution": "Captcha-Code-Lösung",
+			"error": {
+				"incorrectSolution": "Falsche Captcha-Code-Lösung",
+				"expired": "Der Captcha-Code ist abgelaufen"
+			}
+		}
+	},
 	"proxyPostingCaution": "Achten Sie darauf, was Sie hier posten. Alle Benutzer dieser App nutzen denselben Proxyserver. Wenn der Proxyserver gesperrt wird, funktioniert die Anwendung möglicherweise nicht mehr für alle.",
 	"colorfulBackground": "Bunter Hintergrund",
 	"nMoreComments": "{count, plural, one {<countTag>#</countTag> weiterer Kommentar} other {<countTag>#</countTag> weitere Kommentare}}",
@@ -360,6 +371,10 @@
 	"attachmentsCountExceeded": "Zu viele Anhänge",
 	"attachmentSizeLimitExceededError": "Anhang zu groß",
 	"duplicateAttachmentsFound": "Doppelte Anhänge gefunden",
+	"goToCommentAtSourceWebsite": "Gehen Sie zu diesem Kommentar auf der Quellwebsite",
+	"goToThreadAtSourceWebsite": "Gehen Sie zu diesem Thread auf der Quellwebsite",
+	"goToBoardAtSourceWebsite": "Gehen Sie zu diesem Board auf der Quellwebsite",
+	"goToChannelAtSourceWebsite": "Gehen Sie zu diesem Kanal auf der Quellwebsite",
 	"сommentContentTooLong": "Kommentarinhalt zu lang",
 	"commentContentBlocked": "Der Kommentar enthält Inhalte, die auf der schwarzen Liste stehen",
 	"commentContentRequired": "Kommentar ist erforderlich",
@@ -370,10 +385,6 @@
 	"createThreadError": "Es konnte kein neuer Thread erstellt werden",
 	"createThreadSuccess": "Thread erstellt",
 	"createThreadRateLimitExceeded": "Grenzwert für Thread-Erstellungsrate überschritten",
-	"captchaSolutionIncorrect": "Falsche Captcha-Code-Lösung",
-	"captchaExpired": "Der Captcha-Code ist abgelaufen",
-	"captcha": "Captcha-Code",
-	"captchaSolution": "Captcha-Code-Lösung",
 	"boardNotFound": "Board nicht gefunden",
 	"threadNotFound": "Thread nicht gefunden",
 	"commentNotFound": "Kommentar nicht gefunden",

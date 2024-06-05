@@ -7,7 +7,7 @@ import StarIcon from '../StarIcon.js'
 import CountryFlag from 'frontend-lib/components/CountryFlag.js'
 
 import getCountryName from '../../messages/getCountryName.js'
-import getFinalUrl from '../../utility/dataSource/getFinalUrl.js'
+import getUrlAtDataSourceDomain from '../../utility/dataSource/getUrlAtDataSourceDomain.js'
 
 import useDataSource from '../../hooks/useDataSource.js'
 
@@ -297,7 +297,7 @@ function DataSourceSuppliedCountryFlag({
 	// }
 
 	// Transform relative URL to an absolute one.
-	url = getFinalUrl(url, { dataSource })
+	url = getUrlAtDataSourceDomain(url, { dataSource })
 
 	// src={url.replace('{country}', country)}
 	return (

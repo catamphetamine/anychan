@@ -36,7 +36,7 @@ export default function useGetCaptcha({
 	])
 
 	return useCallback(async () => {
-		if (dataSource.getCaptchaFrameUrl) {
+		if (dataSource.getCaptchaFrameUrl && dataSource.id !== '4chan') {
 			const captchaFrameUrl = dataSource.getCaptchaFrameUrl({
 				channelId,
 				threadId
@@ -49,7 +49,7 @@ export default function useGetCaptcha({
 				}
 
 				if (dataSource.captchaFrameUrlHasContentSecurityPolicy) {
-					captchaFrame.frameUrl = getProxiedUrl(captchaFrame.frameUrl, { proxyUrl })
+					captchaFrame.frameUrl = proxyFrameUrl(captchaFrameUrl, { proxyUrl, toAbsoluteUrl })
 				}
 
 				return {
@@ -57,6 +57,29 @@ export default function useGetCaptcha({
 				}
 			}
 		}
+
+		// Test "slider" CAPTCHA that is used on `4chan.org`.
+		// return {
+		// 	captcha: {
+		// 		id: '123',
+		// 		type: 'text',
+		// 		challengeType: 'image-slider',
+		// 		expiresAt: new Date(Date.now() + 100000000),
+		// 		image: {
+		// 			width: 200,
+		// 			height: 100,
+		// 			type: 'image/png',
+		// 			url: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Snbmapa-200x100.png'
+		// 		},
+		// 		backgroundImage: {
+		// 			width: 200,
+		// 			height: 100,
+		// 			type: 'image/png',
+		// 			url: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Logo_NEU_cz_200x100.png'
+		// 		}
+		// 	},
+		// 	captchaParameters: {}
+		// } as const
 
 		const {
 			captcha,
@@ -88,4 +111,43 @@ export default function useGetCaptcha({
 		originalDomain,
 		toAbsoluteUrl
 	])
+}
+
+function proxyFrameUrl(url: string, {
+	proxyUrl,
+	toAbsoluteUrl
+}: {
+	proxyUrl?: string,
+	toAbsoluteUrl: (url: string) => string
+}) {
+	url = getProxiedUrl(url, { proxyUrl })
+
+	// // Will apply `transforms` to the `<iframe/>` content.
+	// // These transforms work specifically for `4chan.org` "embedded" CAPTCHA HTML page.
+	// const transforms = [
+	// 	{
+	// 		target: 'content',
+	// 		searchFor: 'cUPMDTk: "' + '\\' + '/',
+	// 		replaceWith: 'cUPMDTk: "' + toAbsoluteUrl('/')
+	// 	},
+	// 	{
+	// 		target: 'content',
+	// 		searchFor: 'cpo.src = \'' + '/',
+	// 		replaceWith: 'cpo.src = \'' + toAbsoluteUrl('/')
+	// 	}
+	// ]
+
+	// Add `transforms` parameter.
+	if (url.includes('?')) {
+		url += '&'
+	} else {
+		url += '?'
+	}
+	// url += `transforms=${encodeURIComponent(JSON.stringify(transforms))}`
+
+	// // Add `iframe` parameter.
+	// url += '&'
+	url += `iframe=✓`
+
+	return url
 }

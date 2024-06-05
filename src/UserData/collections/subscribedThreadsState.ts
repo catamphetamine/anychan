@@ -41,7 +41,8 @@ export const subscribedThreadsState: UserDataCollection = {
 				},
 				createdAt: {
 					type: 'date',
-					description: 'The date of the latest comment in the thread'
+					description: 'The date of the latest comment in the thread',
+					required: false
 				}
 			}
 		},
@@ -72,7 +73,9 @@ export const subscribedThreadsState: UserDataCollection = {
 		// Decode `refreshedAt` property.
 		data.refreshedAt = decodeDate(dataEncoded.refreshedAt)
 		// Decode `latestComment.createdAt` property.
-		data.latestComment.createdAt = decodeDate(dataEncoded.latestComment.createdAt)
+		if (typeof dataEncoded.latestComment.createdAt === 'number') {
+			data.latestComment.createdAt = decodeDate(dataEncoded.latestComment.createdAt)
+		}
 		// Result.
 		return data
 	},
@@ -88,7 +91,9 @@ export const subscribedThreadsState: UserDataCollection = {
 		// Encode `refreshedAt` property.
 		data.refreshedAt = encodeDate(dataDecoded.refreshedAt)
 		// Encode `latestComment.createdAt` property.
-		data.latestComment.createdAt = encodeDate(dataDecoded.latestComment.createdAt)
+		if (dataDecoded.latestComment.createdAt) {
+			data.latestComment.createdAt = encodeDate(dataDecoded.latestComment.createdAt)
+		}
 		// Result.
 		return data
 	},

@@ -8,12 +8,11 @@ export default async function getThreadFromImageboard(imageboard: Imageboard, {
 	threadId,
 	archived,
 	afterCommentId,
-	afterCommentsCount
+	afterCommentNumber
 }: GetThreadParameters): Promise<GetThreadResult> {
 	const { thread: thread_, board } = await imageboard.getThread({
 		boardId: channelId,
-		threadId
-	}, {
+		threadId,
 		// The parser parses thread comments up to 4x faster without parsing their content.
 		// Example: when parsing comments content — 650 ms, when not parsing comments content — 200 ms.
 		parseContent: false,
@@ -21,9 +20,9 @@ export default async function getThreadFromImageboard(imageboard: Imageboard, {
 		addParseContent: true,
 		commentLengthLimit: getCommentLengthLimit({ mode: 'thread' }),
 		archived,
-		// `afterCommentId`/`afterCommentsCount` feature is not currently used.
+		// `afterCommentId`/`afterCommentNumber` feature is not currently used.
 		afterCommentId,
-		afterCommentsCount
+		afterCommentNumber
 	})
 
 	// Added this assignment in order to work around TypeScript type errors.

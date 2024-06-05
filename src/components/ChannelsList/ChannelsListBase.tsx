@@ -9,19 +9,20 @@ import classNames from 'classnames'
 // @ts-expect-error
 import { Button } from 'react-responsive-ui'
 
-import { refreshSettings } from '../../redux/settings.js'
-import { setChannelsResult } from '../../redux/channels.js'
+import { setChannels } from '../../redux/channels.js'
 
-import getChannelsCached from '@/api/cached/getChannels.js'
+import getTopChannelsCached from '@/api/cached/getTopChannels.js'
 
-import useMessages from '../../hooks/useMessages.js'
-import useSettings from '../../hooks/useSettings.js'
-import useDataSource from '../../hooks/useDataSource.js'
-import useMultiDataSource from '../../hooks/useMultiDataSource.js'
-import useSetting from '../../hooks/useSetting.js'
-import useUpdateSetting from '../../hooks/useUpdateSetting.js'
+import {
+	useMessages,
+	useSettings,
+	useDataSource,
+	useMultiDataSource,
+	useSetting,
+	useUpdateSetting,
+	useOriginalDomain
+} from '@/hooks'
 
-import ChannelsListSearch from './ChannelsListSearch.js'
 import ChannelsListViewSwitcher from './ChannelsListViewSwitcher.js'
 
 import { channelShape } from './ChannelsList.propTypes.js'
@@ -32,7 +33,7 @@ import './ChannelsListBase.css'
 export default function ChannelsListBase({
 	views,
 	channels,
-	channelsByPopularity,
+	channelsSortedByPopularity,
 	channelsByCategory,
 	channelsView: channelsViewSetting,
 	shouldSaveChannelsView,
@@ -49,6 +50,7 @@ export default function ChannelsListBase({
 	const updateSetting = useUpdateSetting()
 	const dataSource = useDataSource()
 	const multiDataSource = useMultiDataSource()
+	const originalDomain = useOriginalDomain()
 
 	const locale = useSetting(settings => settings.locale)
 
@@ -57,7 +59,7 @@ export default function ChannelsListBase({
 
 	const defaultChannelsView = getChannelsView(channelsViewSetting, {
 		canViewByCategory: Boolean(channelsByCategory) && (views && views.includes('by-category')),
-		canViewByPopularity: Boolean(channelsByPopularity)
+		canViewSortedByPopularity: Boolean(channelsSortedByPopularity)
 	})
 
 	const channelsView = view || defaultChannelsView
@@ -94,7 +96,7 @@ export default function ChannelsListBase({
 					})))
 				}, [])
 			case 'list':
-				return (filteredChannels || channelsByPopularity || channels)
+				return (filteredChannels || channelsSortedByPopularity || channels)
 					.filter(channel => showAllChannels || !channel.hidden)
 					.map((channel) => ({
 						key: channel.id,
@@ -108,7 +110,7 @@ export default function ChannelsListBase({
 	}, [
 		channelsView,
 		channels,
-		channelsByPopularity,
+		channelsSortedByPopularity,
 		channelsByCategory,
 		filteredChannels,
 		isChannelSelected,
@@ -116,13 +118,17 @@ export default function ChannelsListBase({
 	])
 
 	const loadChannelsList = useCallback(async () => {
-		const channelsResult = await getChannelsCached({
+		const { channels } = await getTopChannelsCached({
 			userSettings,
 			dataSource,
 			multiDataSource,
+			originalDomain,
 			locale
 		})
-		setChannelsResult(channelsResult)
+		dispatch(setChannels({
+			channels,
+			dataSource
+		}))
 	}, [
 		dispatch,
 		userSettings,
@@ -147,17 +153,10 @@ export default function ChannelsListBase({
 
 	return (
 		<nav className="Channels">
-			{views && (views.includes('list') && channelsByPopularity) && (channelsByCategory && views.includes('by-category')) &&
+			{views && (views.includes('list') && channelsSortedByPopularity) && (channelsByCategory && views.includes('by-category')) &&
 				<ChannelsListViewSwitcher
 					view={channelsView}
 					onViewChange={onViewChange}
-				/>
-			}
-
-			{showAllChannels && channelsView === 'list' &&
-				<ChannelsListSearch
-					channels={channels || channelsByPopularity}
-					setSearchResults={setFilteredChannels}
 				/>
 			}
 
@@ -166,15 +165,8 @@ export default function ChannelsListBase({
 				className={classNames('Channels-list', {
 					// 'Channels-list--list': channelsView === 'list',
 					'Channels-list--by-category': channelsView === 'by-category'
-				})}/>
-
-			{!showAllChannels && showAllChannelsLink && (hasMoreChannels || dataSource.contentCategoryUnspecified) &&
-				<div className="Channels-showAllWrapper">
-					<Link to="/channels" className="Channels-showAll">
-						{messages.boards.showAll}
-					</Link>
-				</div>
-			}
+				})}
+			/>
 		</nav>
 	)
 }
@@ -182,7 +174,7 @@ export default function ChannelsListBase({
 ChannelsListBase.propTypes = {
 	views: PropTypes.arrayOf(PropTypes.oneOf(['list', 'by-category'])),
 	channels: PropTypes.arrayOf(PropTypes.shape(channelShape)),
-	channelsByPopularity: PropTypes.arrayOf(PropTypes.shape(channelShape)),
+	channelsSortedByPopularity: PropTypes.arrayOf(PropTypes.shape(channelShape)),
 	channelsByCategory: PropTypes.arrayOf(PropTypes.shape({
 		category: PropTypes.string.isRequired,
 		channels: PropTypes.arrayOf(PropTypes.shape(channelShape)).isRequired
@@ -203,7 +195,7 @@ ChannelsListBase.propTypes = {
 interface ChannelsListBaseProps {
 	views?: ChannelsListView[],
 	channels?: Channel[],
-	channelsByPopularity?: Channel[],
+	channelsSortedByPopularity?: Channel[],
 	channelsByCategory?: { category: string, channels: Channel[] }[],
 	channelsView?: ChannelsListView,
 	shouldSaveChannelsView?: boolean,
@@ -217,10 +209,10 @@ interface ChannelsListBaseProps {
 
 function getChannelsView(channelsView: ChannelsListView, {
 	canViewByCategory,
-	canViewByPopularity
+	canViewSortedByPopularity
 }: {
 	canViewByCategory: boolean
-	canViewByPopularity: boolean
+	canViewSortedByPopularity: boolean
 }) {
 	switch (channelsView) {
 		case 'by-category':
@@ -230,7 +222,7 @@ function getChannelsView(channelsView: ChannelsListView, {
 		case 'list':
 			return channelsView
 	}
-	if (canViewByPopularity) {
+	if (canViewSortedByPopularity) {
 		return 'list'
 	}
 	if (canViewByCategory) {

@@ -103,6 +103,13 @@ export default function addCommentProps(thread: ThreadFromDataSource, {
 		// while those properties are being added one-by-one.
 		const comment = commentFromDataSource as Partial<Comment>
 
+		// If a data source returns `comment.content[]` that is already parsed as `Content`
+		// then there's no requirement for `comment.parseContent()` to exist.
+		if (!comment.parseContent) {
+			comment.parseContent = () => {}
+			comment.hasContentBeenParsed = () => true
+		}
+
 		// Set `comment.index`.
 		comment.index = index
 
@@ -181,7 +188,7 @@ export default function addCommentProps(thread: ThreadFromDataSource, {
 		// Convert relative attachment URLs into absolute ones
 		// in case of not running on an imageboard's "official" domain.
 		// (for example, when running on the `anychan` demo website)
-		if (!isDeployedOnDataSourceDomain(dataSource)) {
+		if (!isDeployedOnDataSourceDomain(dataSource) && !dataSource.keepRelativeAttachmentUrls) {
 			if (comment.attachments) {
 				for (const attachment of comment.attachments) {
 					convertAttachmentUrlsToAbsolute(attachment, { dataSource })
@@ -217,6 +224,7 @@ function addRootCommentProps(thread: ThreadFromDataSource) {
 	// Also it used in `./CommentAuthor` to not show "original poster" badge
 	// on the opening post of a thread.
 	rootComment.isRootComment = true
+
 	// `bumpLimitReached`, `pinned` and others are used for post header badges.
 	for (const property of ROOT_COMMENT_PROPERTIES_OF_A_THREAD) {
 		// I dunno what the TypeScript says:
@@ -224,6 +232,9 @@ function addRootCommentProps(thread: ThreadFromDataSource) {
 		// @ts-expect-error
 		rootComment[property] = thread[property]
 	}
+
+	// Copy `thread.commentAttachmentsCount` property to the root comment.
+	rootComment.commentAttachmentsCount = (thread as Thread).commentAttachmentsCount
 }
 
 // 	const rootComment = {
@@ -255,7 +266,6 @@ export const ROOT_COMMENT_PROPERTIES_OF_A_THREAD: (keyof RootCommentPropertiesOf
 	// those are shown on the fist comment.
 	'commentsCount',
 	'attachmentsCount',
-	'commentAttachmentsCount',
 	'uniquePostersCount',
 	// Header badges.
 	'pinned',

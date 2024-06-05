@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 // @ts-expect-error
 import { Modal } from 'react-responsive-ui'
 
-import { useSelector } from '@/hooks'
+import { useMessages, useSelector } from '@/hooks'
 
 import { hideReportCommentModal } from '../../redux/report.js'
 
@@ -14,6 +14,7 @@ export default function ReportModal() {
 	const [isSubmitting, setSubmitting] = useState(false)
 
 	const dispatch = useDispatch()
+	const messages = useMessages()
 
 	const channelId = useSelector(state => state.report.channelId)
 	const threadId = useSelector(state => state.report.threadId)
@@ -32,6 +33,9 @@ export default function ReportModal() {
 			close={close}
 			className="GoToChannelModal"
 			wait={isSubmitting}>
+			<Modal.Title>
+				{messages.post.moreActions.report}
+			</Modal.Title>
 			<Modal.Content>
 				{commentId &&
 					<ReportCommentForm

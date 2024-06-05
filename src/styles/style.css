@@ -3,11 +3,13 @@
 
 @import "frontend-lib/styles/grid.css";
 
-@import "./constants";
-@import "./variables";
-@import "./variables.light";
-@import "./variables.dark";
-@import "./react-responsive-ui";
-@import "./components";
-@import "./base";
-@import "./font-size";
+@import "./constants.css";
+@import "./variables.css";
+@import "./variables.light.css";
+@import "./variables.dark.css";
+@import "./react-responsive-ui.css";
+@import "./base.css";
+@import "./font-size.css";
+
+@import "./global.css";
+@import "./Post.active.css";

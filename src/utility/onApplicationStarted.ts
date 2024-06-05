@@ -19,14 +19,16 @@ export default function onApplicationStarted({
 	userData,
 	userDataForUserDataCleaner,
 	userSettings,
-	dataSource
+	dataSource,
+	originalDomain
 }: {
 	dispatch: Dispatch,
 	setInitialized: (isInitialized: boolean) => void,
 	userData: UserData,
 	userDataForUserDataCleaner: UserData,
 	userSettings: UserSettings,
-	dataSource: DataSource
+	dataSource: DataSource,
+	originalDomain: string
 }) {
 	// Create User Data cleaner.
 	const userDataCleaner = new UserDataCleaner({
@@ -56,7 +58,8 @@ export default function onApplicationStarted({
 				censoredWords,
 				grammarCorrection,
 				locale,
-				messages: getMessages(locale)
+				messages: getMessages(locale),
+				originalDomain
 			}
 		}
 	})

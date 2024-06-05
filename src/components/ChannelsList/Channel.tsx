@@ -9,7 +9,7 @@ import ChannelUrl from '../ChannelUrl.js'
 
 import { channelShape } from './ChannelsList.propTypes.js'
 
-import getUrl from '../../utility/getUrl.js'
+import getChannelUrl from '../../utility/getChannelUrl.js'
 
 export default function Channel({
 	channel,
@@ -43,7 +43,7 @@ export default function Channel({
 	return (
 		<React.Fragment>
 			<Link
-				to={getUrl(channel.id)}
+				to={getChannelUrl(channel.id)}
 				tabIndex={-1}
 				onDragStart={onDragStart}
 				onMouseDown={onPointerDown}
@@ -62,7 +62,7 @@ export default function Channel({
 					active={isActive}/>
 			</Link>
 			<Link
-				to={getUrl(channel.id)}
+				to={getChannelUrl(channel.id)}
 				onDragStart={onDragStart}
 				onMouseDown={onPointerDown}
 				onMouseUp={onPointerUp}

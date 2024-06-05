@@ -10,13 +10,11 @@ import useSetting from '../hooks/useSetting.js'
 import useChannelsExceptFavorite from './useChannelsExceptFavorite.js'
 
 export default function AvailableChannels() {
-	const hasMoreChannels = useSelector(state => state.channels.hasMoreChannels)
-
 	const channelsView = useSetting(settings => settings.channelsView)
 
 	const {
 		channels,
-		channelsByPopularity,
+		channelsSortedByPopularity,
 		channelsByCategory
 	} = useChannelsExceptFavorite()
 
@@ -26,9 +24,8 @@ export default function AvailableChannels() {
 			showAllChannelsLink
 			shouldSaveChannelsView
 			channels={channels}
-			channelsByPopularity={channelsByPopularity}
+			channelsSortedByPopularity={channelsSortedByPopularity}
 			channelsByCategory={channelsByCategory}
-			hasMoreChannels={hasMoreChannels}
 			channelsView={channelsView}
 		/>
 	)

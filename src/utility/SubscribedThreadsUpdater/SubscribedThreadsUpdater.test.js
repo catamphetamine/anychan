@@ -3,7 +3,7 @@ import addSubscribedThread from '../subscribedThread/addSubscribedThread.js'
 
 import UserData from '../../UserData/UserData.js'
 import UserSettings from '../../utility/settings/UserSettings.js'
-import DATA_SOURCES from '../../dataSources.js'
+import DATA_SOURCES_LIST from '../../../dataSources/index.js'
 
 import { STATUS_RECORD_STORAGE_KEY } from './SubscribedThreadsUpdater.StatusRecord.js'
 
@@ -17,7 +17,7 @@ describe('SubscribedThreadsUpdater', function() {
 		const userData = new UserData(storage)
 		const userSettings = new UserSettings(storage)
 
-		const dataSource = DATA_SOURCES['4chan']
+		const dataSource = DATA_SOURCES_LIST.find(_ => _.id === '4chan')
 
 		let dispatchedActions = []
 

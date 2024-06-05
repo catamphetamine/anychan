@@ -3,7 +3,7 @@ import type { UserData, UserSettings, DataSource, Announcement, Locale } from '@
 import type { Location } from 'react-pages'
 
 import { setSettingsFromCustomSettingsData } from '../redux/settings.js'
-import { setChannelsResult } from '../redux/channels.js'
+import { setChannels } from '../redux/channels.js'
 import { getFavoriteChannels } from '../redux/favoriteChannels.js'
 import { getSubscribedThreads } from '../redux/subscribedThreads.js'
 
@@ -13,7 +13,7 @@ import setInitialAuthState from '../utility/auth/setInitialAuthState.js'
 import migrateStoredData from '../utility/migrateStoredData.js'
 import applySettings from '../utility/settings/applySettings.js'
 
-import getChannelsCached from '../api/cached/getChannels.js'
+import getTopChannelsCached from '../api/cached/getTopChannels.js'
 
 import { setOfflineMode, setDataSourceInfoForMeta } from '../redux/app.js'
 import { setAnnouncement } from '../redux/announcement.js'
@@ -99,8 +99,7 @@ export default async function loadApplication({
 		}
 
 		// Get the list of channels.
-		const channelsResult = await getChannelsCached({
-			all: false,
+		const { channels } = await getTopChannelsCached({
 			multiDataSource,
 			dataSource,
 			userSettings,
@@ -109,7 +108,7 @@ export default async function loadApplication({
 		})
 
 		// Set the list of channels in the state.
-		dispatch(setChannelsResult(channelsResult))
+		dispatch(setChannels({ channels, dataSource }))
 
 		// Show announcements.
 		if (process.env.NODE_ENV === 'production') {

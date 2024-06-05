@@ -1,8 +1,0 @@
-
-
-.Channels-nothingFound {
-	margin-top: calc(var(--unit) * 2);
-	margin-bottom: calc(var(--unit) * 2);
-	text-align: center;
-	color: var(--Sidebar-color-900);
-}

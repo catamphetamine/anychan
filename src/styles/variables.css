@@ -48,6 +48,18 @@
 		--CommentTreePathBranch-marginTop--content: 1.9em;
 	}
 
+	/* ContentSection. */
+	--ContentSectionHeader-fontWeight: 300;
+
+	/* ModalTitle. */
+	--ModalTitle-lineHeight: 1.35em;
+	--ModalTitle-fontSize: 1.25rem;
+	--ModalTitle-fontWeight: normal;
+
+	/* TextNote. */
+	--TextNote-color: var(--Content-color-600);
+	--TextNote-fontSize: 85%;
+
 	/* Post */
 	--Post-paddingLeft: var(--ContentSection-padding--horizontal);
 	--Post-transition: none;
@@ -369,6 +381,7 @@
 		--CommentFooter-marginBottom--compact: -0.1em;
 	}
 	--CommentFooter-fontSize: 80%;
+	--CommentFooter-fontWeight: lighter;
 	--CommentFooter-color: var(--Content-color-500);
 	--CommentFooter-color--darker: var(--Content-color-600);
 	--CommentFooter-color--previouslyRead: var(--Content-color-600);

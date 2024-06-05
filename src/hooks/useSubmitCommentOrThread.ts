@@ -5,23 +5,25 @@ import { useDispatch } from 'react-redux'
 
 import { openLinkInNewTab } from 'web-browser-input'
 
-import UnauthorizedError from '../api/errors/UnauthorizedError.js'
-import AttachmentNotSupportedError from '../api/errors/AttachmentNotSupportedError.js'
-import AttachmentRequiredError from '../api/errors/AttachmentRequiredError.js'
-import AttachmentSizeLimitExceededError from '../api/errors/AttachmentSizeLimitExceededError.js'
-import AttachmentsCountExceededError from '../api/errors/AttachmentsCountExceededError.js'
-import BannedError from '../api/errors/BannedError.js'
-import CaptchaSolutionIncorrectError from '../api/errors/CaptchaSolutionIncorrectError.js'
-import ChannelNotFoundError from '../api/errors/ChannelNotFoundError.js'
-import ChannelIsLockedError from '../api/errors/ChannelIsLockedError.js'
-import ContentBlockedError from '../api/errors/ContentBlockedError.js'
-import ContentLengthLimitExceededError from '../api/errors/ContentLengthLimitExceededError.js'
-import ContentRequiredError from '../api/errors/ContentRequiredError.js'
-import CommentNotFoundError from '../api/errors/CommentNotFoundError.js'
-import DuplicateAttachmentError from '../api/errors/DuplicateAttachmentError.js'
-import RateLimitError from '../api/errors/RateLimitError.js'
-import ThreadNotFoundError from '../api/errors/ThreadNotFoundError.js'
-import ThreadIsLockedError from '../api/errors/ThreadIsLockedError.js'
+import {
+	UnauthorizedError,
+	AttachmentNotSupportedError,
+	AttachmentRequiredError,
+	AttachmentSizeLimitExceededError,
+	AttachmentsCountExceededError,
+	BannedError,
+	CaptchaSolutionIncorrectError,
+	ChannelNotFoundError,
+	ChannelIsLockedError,
+	ContentBlockedError,
+	ContentLengthLimitExceededError,
+	ContentRequiredError,
+	CommentNotFoundError,
+	DuplicateAttachmentError,
+	RateLimitError,
+	ThreadNotFoundError,
+	ThreadIsLockedError
+ } from "@/api/errors"
 
 import createComment from '../api/createComment.js'
 import createThread from '../api/createThread.js'
@@ -110,6 +112,8 @@ export default function useSubmitCommentOrThread({
 					// even when there's no catpcha (for example,
 					// when the user is logged in via a "passcode").
 					captchaType: '2chcaptcha',
+					// These optional parameters could also be specified, or they could be omitted.
+					// They're just listed here in case anyone would add them in some future.
 					authorIsThreadAuthor: undefined,
 					authorBadgeId: undefined
 				}
@@ -177,12 +181,8 @@ export default function useSubmitCommentOrThread({
 			} else if (error instanceof ContentRequiredError) {
 				dispatch(showError(messages.commentContentRequired))
 			} else if (error instanceof CaptchaSolutionIncorrectError) {
-				if (captcha) {
-					// This error should be handled in the CAPTCHA input modal.
-					throw error
-				} else {
-					dispatch(showError(messages.captchaSolutionIncorrect))
-				}
+				// This error will be handled in `useSubmitWithOrWithoutCaptcha()` hook.
+				throw error
 			} else if (error instanceof RateLimitError) {
 				dispatch(showError(threadId ? messages.createCommentRateLimitExceeded : messages.createThreadRateLimitExceeded))
 			} else if (error instanceof DuplicateAttachmentError) {
@@ -352,7 +352,7 @@ export default function useSubmitCommentOrThread({
 			}
 		}
 
-		const isPostingSupported = threadId ? dataSource.supportsCreateComment() : dataSource.supportsCreateThread()
+		const isPostingSupported = threadId ? Boolean(dataSource.api.createComment) : Boolean(dataSource.api.createThread)
 
 		if (!isPostingSupported) {
 			await onPostingNotImplemented()

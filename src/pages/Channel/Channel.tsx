@@ -358,10 +358,12 @@ const load: PageLoadFunction<ChannelPageProps> = async ({
 		useOriginalDomain: () => context.originalDomain
 	})
 
-	const availableChannels = useSelector(state => state.channels.channels)
+	// `channels` is `undefined` in "offline" mode.
+	// `channels` is a just list of "top" channels and is not a complete list of channels.
+	const channels = useSelector(state => state.channels.channels)
 
 	await loadChannelPage({
-		channel: availableChannels.find(_ => _.id === channelId),
+		channel: channels && channels.find(_ => _.id === channelId),
 		channelId
 	})
 

@@ -2,7 +2,6 @@
 	"boards": {
 		"title": "Доски",
 		"moreBoards": "Ещё Доски",
-		"showRestBoards": "Показать все доски",
 		"showAll": "Показать все доски",
 		"showBoardsList": "Показать список досок",
 		"byPopularity": "Популярные",
@@ -321,6 +320,7 @@
 		}
 	},
 	"report": {
+		"subtitle": "Вы собираетесь пожаловаться на нарушение <rulesLink>правил</rulesLink>.",
 		"misuseWarning": "Отправка ложных или неверно классифицированных жалоб может привести к бану.",
 		"submitted": "Жалоба отправлена",
 		"form": {
@@ -346,6 +346,17 @@
 			}
 		}
 	},
+	"captcha": {
+		"title": "Капча",
+		"logInOrSolveCaptcha": "<logIn>Войдите</logIn> либо решите капчу",
+		"form": {
+			"solution": "Разгадка капчи",
+			"error": {
+				"incorrectSolution": "Неверная разгадка капчи",
+				"expired": "Капча истекла"
+			}
+		}
+	},
 	"proxyPostingCaution": "Осторожнее с постингом здесь, молодые люди. Все пользователи этого приложения сидят на одном и том же прокси. Если этот прокси забанят, то приложение может перестать работать у всех.",
 	"colorfulBackground": "Разноцветный фон",
 	"nMoreComments": "{count, plural, one {ещё <countTag>#</countTag> комментарий} few {ещё <countTag>#</countTag> комментария} many {ещё <countTag>#</countTag> комментариев} other {ещё <countTag>#</countTag> комментария}}",
@@ -361,6 +372,10 @@
 	"attachmentsCountExceeded": "Слишком много вложений",
 	"attachmentSizeLimitExceededError": "Размер вложения слишком велик",
 	"duplicateAttachmentsFound": "Найдены повторяющиеся вложения",
+	"goToCommentAtSourceWebsite": "Перейти на этот комментарий на исходном сайте",
+	"goToThreadAtSourceWebsite": "Перейти на этот тред на исходном сайте",
+	"goToBoardAtSourceWebsite": "Перейти на эту доску на исходном сайте",
+	"goToChannelAtSourceWebsite": "Перейти на этот канал на исходном сайте",
 	"сommentContentTooLong": "Слишком длинный текст комментария",
 	"commentContentBlocked": "Комментарий содержит запрещённое содержимое",
 	"commentContentRequired": "Комментарий пуст",
@@ -371,10 +386,6 @@
 	"createThreadError": "Не удалось создать тред",
 	"createThreadSuccess": "Тред создан",
 	"createThreadRateLimitExceeded": "Превышен предел количества новых тредов за временной промежуток",
-	"captchaSolutionIncorrect": "Неверная разгадка капчи",
-	"captchaExpired": "Капча истекла",
-	"captcha": "Капча",
-	"captchaSolution": "Разгадка капчи",
 	"boardNotFound": "Доска не найдена",
 	"threadNotFound": "Тред не найден",
 	"commentNotFound": "Комментарий не найден",

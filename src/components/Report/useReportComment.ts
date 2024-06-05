@@ -7,10 +7,9 @@ import reportComment from '../../api/reportComment.js'
 
 import { notify, showError } from '../../redux/notifications.js'
 
-import { useMessages, useDataSource, useSettings, useSubmitWithOrWithoutCaptcha } from '@/hooks'
+import { useMessages, useDataSource, useSettings, useSelector, useSubmitWithOrWithoutCaptcha } from '@/hooks'
 
-import AlreadyReportedError from '../../api/errors/AlreadyReportedError.js'
-import ContentRequiredError from '../../api/errors/ContentRequiredError.js'
+import { AlreadyReportedError, ContentRequiredError } from "@/api/errors"
 
 export default function useReportComment({
 	channelId,
@@ -27,6 +26,8 @@ export default function useReportComment({
 	const userSettings = useSettings()
 	const messages = useMessages()
 
+	const accessToken = useSelector(state => state.auth.accessToken)
+
 	const submitReport = useCallback(async ({ content, reasonId }: SubmitReportValues) => {
 		try {
 			// Submit the report.
@@ -34,6 +35,7 @@ export default function useReportComment({
 				channelId,
 				threadId,
 				commentId,
+				accessToken,
 				content,
 				reasonId,
 				dataSource,
@@ -56,6 +58,7 @@ export default function useReportComment({
 		channelId,
 		threadId,
 		commentId,
+		accessToken,
 		dataSource,
 		userSettings,
 		messages

@@ -1,10 +1,12 @@
 import type { Imageboard } from 'imageboard'
 import type { ReportCommentParameters, ReportCommentResult } from '../../types/index.js'
 
-import AlreadyReportedError from '../errors/AlreadyReportedError.js'
-import CaptchaNotRequiredError from '../errors/CaptchaNotRequiredError.js'
-import CaptchaSolutionIncorrectError from '../errors/CaptchaSolutionIncorrectError.js'
-import ContentRequiredError from '../errors/ContentRequiredError.js'
+import {
+	AlreadyReportedError,
+	CaptchaNotRequiredError,
+	CaptchaSolutionIncorrectError,
+	ContentRequiredError
+} from '../errors/index.js'
 
 export default async function reportComment(imageboard: Imageboard, {
 	channelId,

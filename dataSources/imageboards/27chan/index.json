@@ -1,0 +1,25 @@
+{
+	"id": "27chan",
+	"shortId": "👧🏻",
+	"title": "27chan",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare DDoS protection and returns 403 Forbidden for a CORS proxy",
+	"description": "A união faz a força",
+	"links": [{
+		"type": "news",
+		"text": "Notícias",
+		"url": "https://27chan.org/news.html"
+	}, {
+		"type": "rules",
+		"text": "Regras",
+		"url": "https://27chan.org/rules.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://27chan.org/faq.html"
+	}, {
+		"type": "github",
+		"text": "Code",
+		"url": "https://github.com/27chan"
+	}]
+}

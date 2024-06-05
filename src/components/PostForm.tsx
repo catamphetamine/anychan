@@ -1,4 +1,4 @@
-import type { EasyReactForm, EasyReactFormState } from '@/types'
+import type { EasyReactForm, EasyReactFormState, CommentId, ThreadId, ChannelId } from '@/types'
 
 import * as React from 'react'
 import { useState, useCallback, useLayoutEffect } from 'react'
@@ -21,15 +21,24 @@ import useForwardedRef from 'frontend-lib/hooks/useForwardedRef.js'
 import SendIcon from 'frontend-lib/icons/big-arrow-up-outline.svg'
 import CancelIcon from 'frontend-lib/icons/close-thicker.svg'
 
-import useMessages from '../hooks/useMessages.js'
-import useDataSource from '../hooks/useDataSource.js'
-import useProxyRequired from '../hooks/useProxyRequired.js'
+import { useMessages, useDataSource, useProxyRequired } from '@/hooks'
+
+import getCommentUrl from '@/utility/dataSource/getCommentUrl.js'
+import getThreadUrl from '@/utility/dataSource/getThreadUrl.js'
+import getChannelUrl from '@/utility/dataSource/getChannelUrl.js'
+import isDeployedOnDataSourceDomain from '@/utility/dataSource/isDeployedOnDataSourceDomain.js'
 
 import { attachment as attachmentType, attachmentFile as attachmentFileType } from '../PropTypes.js'
+
+import ExternalIcon from 'social-components-react/icons/external.svg'
 
 import './PostForm.css'
 
 const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
+	commentId,
+	threadId,
+	channelId,
+	channelIsNotSafeForWork,
 	expanded: expandedPropertyValue,
 	onExpandedChange,
 	unexpandOnClose,
@@ -201,8 +210,9 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 	const dataSource = useDataSource()
 	const proxyRequired = useProxyRequired()
 
-	const isPostingSupported = dataSource.supportsCreateComment() || dataSource.supportsCreateThread()
-	const isPostingSupportedButNotWorking = dataSource.id === '4chan'
+	const isPostingSupported = Boolean(dataSource.api.createComment || dataSource.api.createThread)
+	// const isPostingSupportedButNotWorking = dataSource.id === '4chan'
+	const isPostingSupportedButNotWorking = false
 
 	const loadingIndicatorFadeOutDuration = 160 // ms
 
@@ -284,6 +294,55 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 					{error}
 				</p>
 			}
+			{!isDeployedOnDataSourceDomain(dataSource) && (
+				<>
+					{commentId &&
+						<p className="PostForm-goToSource">
+							<a
+								target="_blank"
+								className="PostForm-goToSourceLink"
+								href={getCommentUrl(dataSource, {
+									commentId,
+									threadId,
+									channelId,
+									notSafeForWork: channelIsNotSafeForWork
+								})}>
+								<ExternalIcon className="PostForm-goToSourceIcon"/>
+								{messages.goToCommentAtSourceWebsite}
+							</a>
+						</p>
+					}
+					{!commentId && threadId &&
+						<p className="PostForm-goToSource">
+							<a
+								target="_blank"
+								className="PostForm-goToSourceLink"
+								href={getThreadUrl(dataSource, {
+									threadId,
+									channelId,
+									notSafeForWork: channelIsNotSafeForWork
+								})}>
+								<ExternalIcon className="PostForm-goToSourceIcon"/>
+								{messages.goToThreadAtSourceWebsite}
+							</a>
+						</p>
+					}
+					{!commentId && !threadId && channelId &&
+						<p className="PostForm-goToSource">
+							<a
+								target="_blank"
+								className="PostForm-goToSourceLink"
+								href={getChannelUrl(dataSource, {
+									channelId,
+									notSafeForWork: channelIsNotSafeForWork
+								})}>
+								<ExternalIcon className="PostForm-goToSourceIcon"/>
+								{dataSource.imageboard ? messages.goToBoardAtSourceWebsite : messages.goToChannelAtSourceWebsite}
+							</a>
+						</p>
+					}
+				</>
+			)}
 			{isPostingSupported && isPostingSupportedButNotWorking &&
 				<p className="PostForm-notWorkingNotice">
 					{messages.doesNotWorkForTheDataSource}
@@ -332,6 +391,10 @@ PostForm.propTypes = {
 }
 
 interface PostFormProps {
+	commentId?: CommentId,
+	threadId?: ThreadId,
+	channelId?: ChannelId,
+	channelIsNotSafeForWork?: boolean,
 	expanded?: boolean,
 	onExpandedChange?: (expanded: boolean) => void,
 	unexpandOnClose?: boolean,

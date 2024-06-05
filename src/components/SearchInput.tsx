@@ -11,16 +11,24 @@ import SearchIconOutline from 'frontend-lib/icons/fill-and-outline/search-outlin
 
 import './SearchInput.css'
 
+// A generic "search" input.
+//
+// The application is supposed to pass either `async findItems(searchQuery)` function
+// or a set of all possible `items` and a `getItemTextLowerCase()` function.
+//
 const SearchInput = React.forwardRef(<Item extends unknown>({
 	value,
 	onChange,
+	autoFocus,
 	icon,
 	placeholder,
 	'aria-label': ariaLabel,
 	items,
 	getItemTextLowerCase,
+	findItems,
 	onResults,
-	searchStartDelayAfterInputStop = 300,
+	onError,
+	searchStartDelayAfterInputStop,
 	searchIterationMaxDuration = 16, // 60 fps transaltes into ~16 ms per frame
 	// searchIterationMaxItems = 100,
 	onEscapeKeyDownWhenEmpty,
@@ -28,45 +36,102 @@ const SearchInput = React.forwardRef(<Item extends unknown>({
 	className,
 	inputClassName
 }: SearchInputProps<Item>, ref: React.ForwardedRef<HTMLInputElement>) => {
+	// Set default value for `searchStartDelayAfterInputStop`.
+	if (searchStartDelayAfterInputStop === undefined) {
+		if (findItems) {
+			// Asynchrnonous search has a small delay to prevent sending too much network requests in a second.
+			searchStartDelayAfterInputStop = 160
+		} else {
+			// Synchronous search starts immediately because there're no network requests.
+			searchStartDelayAfterInputStop = 0
+		}
+	}
+
 	const [isEmpty, setEmpty] = useState(!value)
 	const [isSearching, setSearching] = useState(false)
 
+	const latestSearchState = useRef<SearchState>()
 	const startSearchTimer = useRef<number>()
 	const nextSearchIterationTimer = useRef<number>()
 
 	const startSearch = useCallback((searchInputValue?: string) => {
 		const searchQuery = searchInputValue ? searchInputValue.trim().toLowerCase() : ''
-		if (!searchQuery) {
+
+		const searchState: SearchState = {
+			started: true
+		}
+
+		const onSearchEnded = () => {
+			searchState.ended = true
 			setSearching(false)
+		}
+
+		latestSearchState.current = searchState
+
+		if (!searchQuery) {
+			onSearchEnded()
 			onResults(items, {
 				query: undefined,
 				finished: true
 			})
 			return
 		}
-		search({
-			items,
-			searchQuery,
-			onResults: (results, parameters) => {
-				if (parameters.finished) {
-					setSearching(false)
+
+		if (findItems) {
+			const startedAt = Date.now()
+			findItems(searchQuery).then((results) => {
+				if (!searchState.cancelled) {
+					onSearchEnded()
+					onResults(results, {
+						query: searchQuery,
+						finished: true,
+						duration: Date.now() - startedAt
+					})
 				}
-				onResults(results, parameters)
-			},
-			getItemTextLowerCase,
-			searchIterationMaxDuration,
-			// searchIterationMaxItems,
-			getNextSearchIterationTimer: () => nextSearchIterationTimer.current,
-			setNextSearchIterationTimer: (timerId) => nextSearchIterationTimer.current = timerId
-		})
+			}, (error) => {
+				if (!searchState.cancelled) {
+					searchState.error = true
+					onSearchEnded()
+					if (onError) {
+						onError(error)
+					} else {
+						throw error
+					}
+				}
+			})
+		} else if (items && getItemTextLowerCase) {
+			findItemsSync({
+				searchQuery,
+				onResults: (results, parameters) => {
+					if (!searchState.cancelled) {
+						if (parameters.finished) {
+							searchState.ended = true
+							setSearching(false)
+						}
+						onResults(results, parameters)
+					}
+				},
+				items,
+				getItemTextLowerCase,
+				searchIterationMaxDuration,
+				// searchIterationMaxItems,
+				getNextSearchIterationTimer: () => nextSearchIterationTimer.current,
+				setNextSearchIterationTimer: (timerId) => nextSearchIterationTimer.current = timerId
+			})
+		} else {
+			throw new Error('The application must supply either `findItems(searchQuery)` or `items` and `getItemTextLowerCase()`')
+		}
 	}, [
-		search,
+		findItems,
+		findItemsSync,
 		items,
 		onResults,
 		getItemTextLowerCase,
 		searchIterationMaxDuration,
 		// searchIterationMaxItems,
-		nextSearchIterationTimer
+		nextSearchIterationTimer,
+		setSearching,
+		latestSearchState
 	])
 
 	const cancelSearch = useCallback(() => {
@@ -204,6 +269,7 @@ const SearchInput = React.forwardRef(<Item extends unknown>({
 
 			<TextInput
 				ref={ref}
+				autoFocus={autoFocus}
 				value={value}
 				onChange={onChange_}
 				type="search"
@@ -230,15 +296,22 @@ SearchInput.propTypes = {
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 
+	autoFocus: PropTypes.bool,
+
 	icon: PropTypes.bool,
 
 	placeholder: PropTypes.string,
 
+	// A function that searches for items by a search query.
+	// The application is supposed to pass either `async findItems(searchQuery)` function
+	// or a set of all possible `items` and a `getItemTextLowerCase()` function.
+	findItems: PropTypes.func,
+
 	// A list of items to search in.
-	items: PropTypes.arrayOf(PropTypes.any).isRequired,
+	items: PropTypes.arrayOf(PropTypes.any),
 
 	// A function that returns `item`'s text in lower case.
-	getItemTextLowerCase: PropTypes.func.isRequired,
+	getItemTextLowerCase: PropTypes.func,
 
 	// `onResults()` will get called multiple times during the search.
 	// The arguments are:
@@ -250,6 +323,8 @@ SearchInput.propTypes = {
 	//     * If the search hasn't `finished` yet, there'll be no `duration` property.
 	//     * If it wasn't really a search — if search query was cleared — there'll be no `duration` property.
 	onResults: PropTypes.func.isRequired,
+
+	onError: PropTypes.func,
 
 	// A delay to start the search after the user has stopped typing.
 	searchStartDelayAfterInputStop: PropTypes.number,
@@ -271,17 +346,22 @@ interface SearchInputProps<Item> {
 	value?: string,
 	onChange: (value: string) => void,
 
+	autoFocus?: boolean,
+
 	'aria-label'?: string,
 
 	icon?: boolean,
 
 	placeholder?: string
 
+	// A function that searches for items.
+	findItems?: (searchQuery?: string) => Promise<Item[]>,
+
 	// A list of items to search in.
 	items?: Item[],
 
 	// A function that returns `item`'s text in lower case.
-	getItemTextLowerCase: (item: Item) => string,
+	getItemTextLowerCase?: (item: Item) => string,
 
 	// `onResults()` will get called multiple times during the search.
 	// The arguments are:
@@ -297,6 +377,8 @@ interface SearchInputProps<Item> {
 		duration?: number,
 		query?: string
 	}) => void,
+
+	onError?: (error: Error) => void,
 
 	// A delay to start the search after the user has stopped typing.
 	searchStartDelayAfterInputStop?: number,
@@ -318,14 +400,14 @@ export default SearchInput
 
 // Searches in `items` for a given `searchQuery`.
 // Calls `onResults()` with the results and a `finished: boolean` flag.
-function search<Item>({
-	items,
+function findItemsSync<Item>({
 	searchQuery,
+	onResults,
+	items,
+	getItemTextLowerCase,
 	fromIndex = 0,
 	startedAt = Date.now(),
 	results = [],
-	onResults,
-	getItemTextLowerCase,
 	searchIterationMaxDuration,
 	// searchIterationMaxItems,
 	getNextSearchIterationTimer,
@@ -359,14 +441,14 @@ function search<Item>({
 			// but it's not supported in Safari:
 			// https://caniuse.com/?search=requestIdleCallback
 			setNextSearchIterationTimer(setTimeout(() => {
-				search({
-					items,
+				findItemsSync({
 					searchQuery,
+					onResults,
+					items,
+					getItemTextLowerCase,
 					fromIndex: i,
 					startedAt,
 					results,
-					onResults,
-					getItemTextLowerCase,
 					// searchIterationMaxItems,
 					searchIterationMaxDuration,
 					getNextSearchIterationTimer,
@@ -395,14 +477,21 @@ function search<Item>({
 }
 
 interface SearchParams<Item> {
-	items: Item[],
 	searchQuery?: string,
+	onResults: SearchInputProps<Item>['onResults'],
+	items: Item[],
 	fromIndex?: number,
 	startedAt?: number,
 	results?: Item[],
-	onResults: SearchInputProps<Item>['onResults'],
 	getItemTextLowerCase: SearchInputProps<Item>['getItemTextLowerCase'],
 	searchIterationMaxDuration?: number,
 	getNextSearchIterationTimer: () => number | undefined,
 	setNextSearchIterationTimer: (timerId: number) => void
+}
+
+interface SearchState {
+	started: boolean,
+	ended?: boolean,
+	error?: boolean,
+	cancelled?: boolean
 }

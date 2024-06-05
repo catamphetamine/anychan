@@ -1,0 +1,48 @@
+:root {
+	--TextInputColorButton-width: calc(var(--unit) * 2);
+	--TextInputColorButton-marginLeft: calc(var(--unit) * 1);
+	--TextInputColorButton-borderWidth: 1px;
+
+	--TextInputColorPicker-marginTop: calc(var(--unit) * 0.5)
+}
+
+.TextInputColor {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+}
+
+.TextInputColor-input {
+	flex: 1;
+}
+
+.TextInputColor-button {
+	width: var(--TextInputColorButton-width);
+	height: var(--TextInputColorButton-width);
+	margin-left: var(--TextInputColorButton-marginLeft);
+
+	background-color: var(--Content-backgroundColor);
+
+	/* Added `&.Button` selector here to override the default styles that're defined on `.Button` CSS class. */
+	&.Button {
+		--Button-borderTopWidth: var(--TextInputColorButton-borderWidth);
+		--Button-borderBottomWidth: var(--TextInputColorButton-borderWidth);
+		--Button-borderLeftWidth: var(--TextInputColorButton-borderWidth);
+		--Button-borderRightWidth: var(--TextInputColorButton-borderWidth);
+
+		--Button-borderTopColor: var(--rrui-input-field-border-color);
+		--Button-borderBottomColor: var(--rrui-input-field-border-color);
+		--Button-borderLeftColor: var(--rrui-input-field-border-color);
+		--Button-borderRightColor: var(--rrui-input-field-border-color);
+	}
+}
+
+.TextInputColor-colorPicker {
+	/* Added `&react-colorful` selector here to override the default styles that're defined on `react-colorful` CSS class. */
+	&.react-colorful {
+		position: absolute;
+		top: calc(var(--rrui-input-height) + var(--TextInputColorPicker-marginTop));
+		right: 0;
+		z-index: 1;
+	}
+}

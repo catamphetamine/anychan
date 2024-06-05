@@ -44,7 +44,15 @@ export default function AvailableChannelsSidebarSection() {
 		title = messages.boards.title
 	}
 
-	if (channels && channels.length === 0) {
+	// If there're some favorite channels and there're no more channels left
+	// then don't show the "Channels" sidebar section.
+	// Otherwise, if there're any other channels, or if the "Favorite Channels"
+	// sidebar section is hidden, the "Channels" sidebar section should be visible.
+	//
+	// The "Channels" sidebar section shouldn't be hidden when the "Favorite Channels" is hidden too
+	// because in that case the user won't be able to access "Search for channels" button.
+	//
+	if (channels && channels.length === 0 && favoriteChannels.length > 0) {
 		return null
 	}
 

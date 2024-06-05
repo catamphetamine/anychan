@@ -1,0 +1,21 @@
+{
+	"id": "niuchan",
+	"shortId": "⚽",
+	"title": "niuchan",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare DDoS protection and returns 403 Forbidden for a CORS proxy",
+	"description": "NiuChan è una imageboard italiana nella quale chiunque può aprire le proprie board, su qualsiasi argomento, a patto di rispettare le regole essenziali.",
+	"links": [{
+		"type": "news",
+		"text": "Notizie",
+		"url": "https://www.niuchan.org/news.html"
+	}, {
+		"type": "rules",
+		"text": "Regole",
+		"url": "https://www.niuchan.org/rules.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://www.niuchan.org/faq.html"
+	}]
+}

@@ -180,6 +180,7 @@ export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfT
 	// when displaying a list of threads in a channel.
 	createTextPreviewForSidebar: (parameters: {
 		charactersInLine?: number,
+		charactersInLastLine?: number,
 		maxLines?: number
 	}) => void;
 

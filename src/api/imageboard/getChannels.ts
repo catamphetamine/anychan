@@ -2,14 +2,12 @@ import type { Imageboard } from 'imageboard'
 import type { GetChannelsParameters, GetChannelsResult } from '@/types'
 
 export default async function getChannelsFromImageboard(imageboard: Imageboard, {
-	all
+	// any parameters.
 }: GetChannelsParameters): Promise<GetChannelsResult> {
-	const isCompleteListOfBoards = all || !imageboard.supportsFeature('getTopBoards')
-
-	let { boards: channels } = await (isCompleteListOfBoards ? imageboard.getBoards() : imageboard.getTopBoards())
+	const { boards: channels } = await imageboard.getBoards()
 
 	return {
 		channels,
-		hasMoreChannels: !isCompleteListOfBoards
+		hasMoreChannels: false
 	}
 }

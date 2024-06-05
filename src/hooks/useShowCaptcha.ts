@@ -58,14 +58,6 @@ export default function useShowCaptcha({
 			console.log('@@@ CAPTCHA parameters:', captchaParameters)
 		}
 
-		if (dataSource.id === '2ch' && !isDeployedOnDataSourceDomain(dataSource)) {
-			if (locale === 'ru') {
-				dispatch(notify('Справка: Капча `2ch.hk`, судя по всему, не работает на сайтах, отличных от `2ch.hk`: не грузит картинку, а даже если и грузит, то потом не принимает ответ. Поэтому на текущий момент постинг работает только из-под "пасскода". Войти по "пасскоду" можно нажав на значок пользователя вверху сайдбара.'))
-			} else {
-				dispatch(notify('Note: `2ch.hk` CAPTCHA image doesn\'t seem to work on a non-`2ch.hk` website: doesn\'t load image, and even if it does, it won\'t accept the solution. So currently, one could only post after logging in with a "passcode". To do that, click the user icon at the top of the sidebar.'))
-			}
-		}
-
 		// Show a CAPTCHA to the user.
 		// If they solve it, then submit the new comment.
 		showCaptcha(captcha, captchaParameters, {

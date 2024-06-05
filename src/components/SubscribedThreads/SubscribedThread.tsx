@@ -21,7 +21,7 @@ import { subscribedThread } from '../../PropTypes.js'
 import useUserData from '../../hooks/useUserData.js'
 import useMessages from '../../hooks/useMessages.js'
 
-import getUrl from '../../utility/getUrl.js'
+import getThreadUrl from '../../utility/getThreadUrl.js'
 import doesSubscribedThreadHaveNewComments from '../../utility/subscribedThread/doesSubscribedThreadHaveNewComments.js'
 import removeSubscribedThread from '@/utility/subscribedThread/removeSubscribedThread.js'
 import restoreSubscribedThread from '@/utility/subscribedThread/restoreSubscribedThread.js'
@@ -110,7 +110,7 @@ function SubscribedThread({
 				'SubscribedThread--selected': isSelected
 			})}>
 			<Component
-				to={isLink ? getUrl(thread.channel.id, thread.id) : undefined}
+				to={isLink ? getThreadUrl(thread.channel.id, thread.id) : undefined}
 				className={classNames('SubscribedThread-inner', {
 					'SubscribedThread-inner--link': isLink && !isDisabled
 				})}>

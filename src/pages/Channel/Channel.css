@@ -189,8 +189,8 @@
 }
 
 .ChannelPage-nothingFound {
-	margin-top: calc(var(--unit) * 3);
-	margin-bottom: calc(var(--unit) * 3);
+	margin-top: calc(var(--unit) * 6);
+	margin-bottom: calc(var(--unit) * 6);
 	text-align: center;
 }
 

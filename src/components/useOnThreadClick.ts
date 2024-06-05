@@ -1,7 +1,6 @@
 import type { CommentId, ThreadId, ChannelId } from '@/types'
-import type { Route } from 'react-pages'
 
-import { useRef, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useNavigate, useGoForward } from 'react-pages'
 
 import canGoBackToThreadFromChannel from './canGoBackToThreadFromChannel.js'
@@ -9,7 +8,8 @@ import canGoBackToThreadFromChannel from './canGoBackToThreadFromChannel.js'
 import useRoute from '../hooks/useRoute.js'
 
 import isChannelPage from '../utility/routes/isChannelPage.js'
-import getUrl from '../utility/getUrl.js'
+import getThreadUrl from '../utility/getThreadUrl.js'
+import getCommentUrl from '../utility/getCommentUrl.js'
 
 // Skips loading the thread page if the thread has been viewed before.
 export default function useOnThreadClick() {
@@ -68,7 +68,8 @@ export default function useOnThreadClick() {
 		// because it itself can contain links — the ones in the "original" comment
 		// of the thread. The error would be: "<a> cannot appear as a descendant of <a>".
 		//
-		navigate(getUrl(channelId, threadId, targetCommentId), { instantBack: true })
+		const url = targetCommentId ? getCommentUrl(channelId, threadId, targetCommentId) : getThreadUrl(channelId, threadId)
+		navigate(url, { instantBack: true })
 	}, [
 		navigate,
 		goForward

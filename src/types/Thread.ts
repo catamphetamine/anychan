@@ -13,7 +13,6 @@ export interface ThreadFromDataSource {
 	afterCommentId?: CommentFromDataSource['id'];
 	commentsCount: number;
 	attachmentsCount: number;
-	commentAttachmentsCount: number;
 	uniquePostersCount?: number;
 	comments: CommentFromDataSource[];
 	latestComments?: CommentFromDataSource[];
@@ -42,6 +41,10 @@ export interface Thread extends ThreadFromDataSource {
 
 	comments: Comment[];
 	latestComments?: Comment[];
+
+	// The attachments count in comments of the thread.
+	// Doesn't include the attachments in the Original Post of the thread.
+	commentAttachmentsCount: number;
 
 	// Thread page periodically refreshes itself for new comments.
 	// If during such refresh the "get thread" API starts returning a "Not found" response

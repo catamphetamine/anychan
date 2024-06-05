@@ -26,7 +26,7 @@ for (const dataSource of DATA_SOURCES) {
 		.replaceAll('{largeIconType}', 'image/png')
 		.replaceAll('{largeIconSize}', '512x512');
 
-	fs.copySync(`./dataSources/imageboards/${dataSource.id}/app-icon-512.png`, `./build/progressive-web-apps/${dataSource.id}/app-icon-512.png`);
+	fs.copySync(`./dataSources/imageboards/${dataSource.id}/resources/app-icon-512.png`, `./build/progressive-web-apps/${dataSource.id}/app-icon-512.png`);
 
 	fs.outputFileSync(`./build/progressive-web-apps/${dataSource.id}/manifest.json`, manifestContent);
 }

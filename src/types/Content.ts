@@ -1,5 +1,8 @@
 import type { InlineElementPostLink, PictureAttachment, VideoAttachment } from 'social-components'
 import type { Attachment as Attachment_ } from 'social-components'
+import type { ChannelId, ThreadId, CommentId } from './index.js'
+
+export type { Content } from 'social-components'
 
 export type InlineElementPostLinkWithId = InlineElementPostLink & {
 	_id: number
@@ -13,4 +16,19 @@ export type Attachment = Attachment_ & {
 
 export type AttachmentSlide = PictureAttachment | VideoAttachment
 
-export type onAttachmentClick = (postThumbnail: Attachment, { imageElement }: { imageElement: HTMLImageElement }) => void;
+export type onAttachmentClick = (
+	postThumbnail: Attachment,
+	{ imageElement }: { imageElement: HTMLImageElement }
+) => void;
+
+export interface ContentPostLink {
+	type: 'post-link',
+	meta: {
+		channelId: ChannelId,
+		threadId: ThreadId,
+		commentId: CommentId,
+		isDeleted?: boolean,
+		isAnotherThread?: boolean,
+		isRootComment?: boolean
+	}
+}

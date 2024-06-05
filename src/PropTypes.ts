@@ -9,7 +9,8 @@ import {
 	postContent,
 	censoredText,
 	picture
-} from 'social-components-react/components/PropTypes.js'
+	// @ts-expect-error
+} from 'social-components/prop-types'
 
 import {
 	shape,
@@ -134,8 +135,8 @@ export const dataSource = shape({
 		string,
 		PropTypes.elementType
 	]),
-	contentCategories: arrayOf(string),
-	contentCategoryUnspecified: string,
+	channelCategoriesOrder: arrayOf(string),
+	contentCategoryHidden: string,
 	domains: arrayOf(string),
 	domain: string.isRequired,
 	errorPages: objectOf(objectOf(arrayOf(string))),
@@ -148,14 +149,15 @@ export const dataSource = shape({
 	commentUrl: string.isRequired,
 	getAbsoluteUrl: PropTypes.func,
 	api: shape({
-		getChannels: PropTypes.func.isRequired,
+		getTopChannels: PropTypes.func,
+		getChannels: PropTypes.func,
 		findChannels: PropTypes.func,
 		getThreads: PropTypes.func.isRequired,
 		findThreads: PropTypes.func,
 		supportsGlobalThreadSearch: bool,
 		getThread: PropTypes.func.isRequired,
-		getThreadComments: PropTypes.func,
-		vote: PropTypes.func
+		findComments: PropTypes.func,
+		voteForComment: PropTypes.func
 	})
 })
 
@@ -181,7 +183,7 @@ export const user = shape({})
 
 const channelsResultAtomShape = {
 	channels: arrayOf(channel).isRequired,
-	channelsByPopularity: arrayOf(channel),
+	channelsSortedByPopularity: arrayOf(channel),
 	channelsByCategory: arrayOf(PropTypes.shape({
 		category: string.isRequired,
 		channels: arrayOf(channel).isRequired

@@ -10,14 +10,15 @@ import FillButton from '../components/FillButton.js'
 import { Form, Field, Submit, FormComponentsAndButton, FormComponent, FormAction } from '../components/Form.js'
 import Heading from '../components/Heading.js'
 
-import { user as userType } from '../PropTypes.js'
-
 import logIn from '../api/logIn.js'
 import logOut from '../api/logOut.js'
-import NotFoundError from '../api/errors/NotFoundError.js'
-import RateLimitError from '../api/errors/RateLimitError.js'
-import InvalidAuthToken from '../api/errors/InvalidAuthToken.js'
-import AuthTokenNotFoundOrIncorrectSecret from '../api/errors/AuthTokenNotFoundOrIncorrectSecret.js'
+
+import {
+	NotFoundError,
+	RateLimitError,
+	InvalidAuthToken,
+	AuthTokenNotFoundOrIncorrectSecret
+} from "@/api/errors"
 
 import { useSelector } from '@/hooks'
 
@@ -164,18 +165,18 @@ function NotAuthenticated() {
 					</p>
 				</ContentSection>
 			)}
-			{!dataSource.supportsLogIn() && (
+			{!dataSource.api.logIn && (
 				<ContentSection className="UserAccount-logInNotSupported">
 					{messages.userAccount.notSupported}
 				</ContentSection>
 			)}
-			{dataSource.supportsLogIn() && (
+			{dataSource.api.logIn && (
 				<ContentSection>
 					<Form onSubmit={onSubmit}>
 						<FormComponentsAndButton
-							smallScreen={dataSource.hasLogInTokenPassword() ? false : undefined}
-							ratio={dataSource.hasLogInTokenPassword() ? '2:1:x' : undefined}
-							count={dataSource.hasLogInTokenPassword() ? 2 : 1}>
+							smallScreen={dataSource.supportsFeature('logIn.tokenPassword') ? false : undefined}
+							ratio={dataSource.supportsFeature('logIn.tokenPassword') ? '2:1:x' : undefined}
+							count={dataSource.supportsFeature('logIn.tokenPassword') ? 2 : 1}>
 							<FormComponent>
 								<Field
 									required
@@ -187,7 +188,7 @@ function NotAuthenticated() {
 									onChange={onInputValueChange}
 								/>
 							</FormComponent>
-							{dataSource.hasLogInTokenPassword() &&
+							{dataSource.supportsFeature('logIn.tokenPassword') &&
 								<FormComponent>
 									<Field
 										required

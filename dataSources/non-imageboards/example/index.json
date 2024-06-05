@@ -1,0 +1,10 @@
+{
+	"id": "example",
+	"shortId": "🧑‍💻",
+	"title": "example",
+	"description": "This is just a \"fake\" example data source",
+	"domain": "example.com",
+	"channelUrl": "/{channelId}",
+	"threadUrl": "/{channelId}/{threadId}",
+	"commentUrl": "/{channelId}/{threadId}/#{commentId}"
+}

@@ -41,14 +41,16 @@ export default function ThreadActivityIndicator({
 	const now = tick ? Date.now() : mountedAt
 	while (i >= 0) {
 		const createdAt = thread.comments[i].createdAt
-		const timePassed = now - createdAt.getTime()
-		if (timePassed < HOUR) {
-			commentsInTheLatestHour++
-			if (timePassed < FIFTEEN_MINUTES) {
-				commentsInTheLatestFifteenMinutes++
+		if (createdAt) {
+			const timePassed = now - createdAt.getTime()
+			if (timePassed < HOUR) {
+				commentsInTheLatestHour++
+				if (timePassed < FIFTEEN_MINUTES) {
+					commentsInTheLatestFifteenMinutes++
+				}
+			} else {
+				break
 			}
-		} else {
-			break
 		}
 		i--
 	}
@@ -136,7 +138,7 @@ ThreadActivityIndicator.propTypes = {
 	// tooltipHour: PropTypes.string.isRequired,
 	thread: PropTypes.shape({
 		comments: PropTypes.arrayOf(PropTypes.shape({
-			createdAt: PropTypes.instanceOf(Date).isRequired
+			createdAt: PropTypes.instanceOf(Date)
 		}))
 	}),
 	tick: PropTypes.bool,

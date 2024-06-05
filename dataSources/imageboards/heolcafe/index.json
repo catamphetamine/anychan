@@ -1,0 +1,44 @@
+{
+	"id": "heolcafe",
+	"shortId": "☕",
+	"title": "HeolCafe",
+	"hidden": true,
+	"hiddenReason": "The website is behind a CloudFlare DDoS protection and returns 403 Forbidden for a CORS proxy",
+	"description": [
+		[
+			"heolkek.cafe is an anonymous women-only imageboard centered around K-Pop. No account is required in order to post."
+		],
+		[
+			"Please take the time to familiarize yourself with our rules before posting."
+		]
+	],
+	"links": [{
+		"type": "news",
+		"text": "News",
+		"url": "https://heolkek.cafe/news.html"
+	}, {
+		"type": "faq",
+		"text": "FAQ",
+		"url": "https://heolkek.cafe/faq.html"
+	}, {
+		"type": "rules",
+		"text": "Rules",
+		"url": "https://heolkek.cafe/rules.html"
+	}, {
+		"type": "github",
+		"text": "Code",
+		"url": "https://gitgud.io/heolkek/heolchan"
+	}, {
+		"type": "contact",
+		"text": "Contact Admin",
+		"url": "mailto:heolkek-webmaster@proton.me"
+	}, {
+		"type": "contact",
+		"text": "Contact Staff",
+		"url": "mailto:heolkek-staff@proton.me"
+	}, {
+		"type": "contact",
+		"text": "Report Abuse",
+		"url": "mailto:heolkek-abuse@proton.me"
+	}]
+}

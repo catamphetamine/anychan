@@ -1,6 +1,7 @@
-import type { UserData, UserSettings, DataSource, Channel, Thread, SubscribedThread, UserSettingsJson, Messages } from '@/types'
+import type { UserData, UserSettings, DataSource, Channel, Thread, SubscribedThread, UserSettingsJson, Messages, ThreadFromDataSource } from '@/types'
 import type { Dispatch } from 'redux'
 import type { Storage as StorageType } from 'web-browser-storage'
+import type { GetThreadParameters } from '../thread/getThread.js'
 
 import { Tab } from 'web-browser-tab'
 import { Timer } from 'web-browser-timer'
@@ -38,37 +39,6 @@ const CONCURRENT_UPDATE_WAIT_FOR_INTERVAL = 2000
 
 const debug = (...args: any[]) => console.log(['Subscribed Threads Updater'].concat(args))
 
-type Status = 'START' | 'STOP' | 'SCHEDULED' | 'UPDATE' | 'IDLE' | 'GET_ACTIVE_TAB';
-
-type WaitAndRetryReason = 'CONCURRENT_UPDATE_IN_PROGRESS' | 'CONCURRENT_TAB_IS_ACTIVE' | 'ERROR';
-
-type LogEventName =
-	'START' |
-	'STOP' |
-	'CHECK_IS_ACTIVE_TAB' |
-	'GET_ACTIVE_TAB' |
-	'NO_ACTIVE_TAB' |
-	'IS_ACTIVE_TAB' |
-	'IS_INACTIVE_TAB' |
-	'RESET' |
-	'SCHEDULE_UPDATE' |
-	'UPDATE_NOT_REQUIRED' |
-	'UPDATE_START' |
-	'UPDATE_END' |
-	'END' |
-	'WAIT_AND_RETRY' |
-	'ERROR' |
-	'ACTIVE_TAB_THIS' |
-	'ACTIVE_TAB_OTHER' |
-	'UPDATE_THREADS_START' |
-	'UPDATE_THREAD' |
-	'FETCH_THREAD_START' |
-	'FETCH_THREAD_END' |
-	'FETCH_THREAD_ERROR' |
-	'SCHEDULE_UPDATE_NEXT_THREAD' |
-	'UPDATE_THREADS_END' |
-	'WAS_CANCELLED';
-
 export default class SubscribedThreadsUpdater {
 	private tab: Tab
 	private timer: Timer
@@ -76,15 +46,9 @@ export default class SubscribedThreadsUpdater {
 	private userSettings: UserSettings
 	private dataSource: DataSource
 	private dispatch: Dispatch
-	private getThreadStub?: (parameters: { channelId: Channel['id'], threadId: Thread['id'] }) => Promise<{ thread: Thread, channel?: Channel }>
+	private getThreadStub?: GetThreadStub
 	private refreshThreadDelay?: number
-	private createGetThreadParameters: () => {
-		channels?: Channel[],
-		locale: UserSettingsJson['locale'],
-		grammarCorrection: UserSettingsJson['grammarCorrection'],
-		censoredWords: UserSettingsJson['censoredWords'],
-		messages: Messages
-	}
+	private createGetThreadParameters: CreateGetThreadParameters
 	private nextUpdateRandomizeInterval: number
 	private eventLog: object[]
 	private log: (...args: any[]) => void
@@ -121,15 +85,9 @@ export default class SubscribedThreadsUpdater {
 		dataSource: DataSource,
 		storage?: StorageType<StatusRecordValue>,
 		dispatch: Dispatch,
-		getThreadStub?: (parameters: { channelId: Channel['id'], threadId: Thread['id'] }) => Promise<{ thread: Thread, channel?: Channel }>,
+		getThreadStub?: GetThreadStub,
 		refreshThreadDelay?: number,
-		createGetThreadParameters?: () => {
-			channels?: Channel[],
-			locale: UserSettingsJson['locale'],
-			grammarCorrection: UserSettingsJson['grammarCorrection'],
-			censoredWords: UserSettingsJson['censoredWords'],
-			messages: Messages
-		},
+		createGetThreadParameters?: CreateGetThreadParameters,
 		nextUpdateRandomizeInterval?: number,
 		eventLog?: object[],
 		log?: (...args: any[]) => void
@@ -154,6 +112,7 @@ export default class SubscribedThreadsUpdater {
 			createGetThreadParameters = () => ({
 				censoredWords: [],
 				grammarCorrection: false,
+				originalDomain: null,
 				locale: 'en',
 				messages: getMessages('en')
 			})
@@ -740,12 +699,12 @@ export default class SubscribedThreadsUpdater {
 			subscribedThread.channel.id,
 			subscribedThread.id,
 			{
-				// `afterCommentId`/`afterCommentsCount` feature isn't currently used,
+				// `afterCommentId`/`afterCommentNumber` feature isn't currently used,
 				// though it could potentially be used in some hypothetical future.
 				// It would enable fetching only the "incremental" update
 				// for the thread instead of fetching all of its comments.
 				// afterCommentId: subscribedThreadState && subscribedThreadState.latestComment.id,
-				// afterCommentsCount: subscribedThreadState && subscribedThreadState.commentsCount,
+				// afterCommentNumber: subscribedThreadState && subscribedThreadState.commentsCount,
 				...this.createGetThreadParameters(),
 				dispatch: this.dispatch,
 				userData: this.userData,
@@ -759,3 +718,52 @@ export default class SubscribedThreadsUpdater {
 		)
 	}
 }
+
+type Status = 'START' | 'STOP' | 'SCHEDULED' | 'UPDATE' | 'IDLE' | 'GET_ACTIVE_TAB';
+
+type WaitAndRetryReason = 'CONCURRENT_UPDATE_IN_PROGRESS' | 'CONCURRENT_TAB_IS_ACTIVE' | 'ERROR';
+
+type LogEventName =
+	'START' |
+	'STOP' |
+	'CHECK_IS_ACTIVE_TAB' |
+	'GET_ACTIVE_TAB' |
+	'NO_ACTIVE_TAB' |
+	'IS_ACTIVE_TAB' |
+	'IS_INACTIVE_TAB' |
+	'RESET' |
+	'SCHEDULE_UPDATE' |
+	'UPDATE_NOT_REQUIRED' |
+	'UPDATE_START' |
+	'UPDATE_END' |
+	'END' |
+	'WAIT_AND_RETRY' |
+	'ERROR' |
+	'ACTIVE_TAB_THIS' |
+	'ACTIVE_TAB_OTHER' |
+	'UPDATE_THREADS_START' |
+	'UPDATE_THREAD' |
+	'FETCH_THREAD_START' |
+	'FETCH_THREAD_END' |
+	'FETCH_THREAD_ERROR' |
+	'SCHEDULE_UPDATE_NEXT_THREAD' |
+	'UPDATE_THREADS_END' |
+	'WAS_CANCELLED';
+
+type CreateGetThreadParameters = () => Pick<GetThreadParameters,
+	'channels' |
+	'locale' |
+	'originalDomain' |
+	'grammarCorrection' |
+	'censoredWords' |
+	'messages'
+>
+
+type GetThreadStub = (parameters: {
+	channelId: Channel['id'],
+	threadId: Thread['id']
+}) => Promise<{
+	thread: Thread,
+	channel?: Channel,
+	hasMoreComments?: boolean
+}>
