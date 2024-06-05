@@ -10,6 +10,8 @@ export default async function renderNoDataSourcePage() {
 			path: '/',
 			Component: OtherPage,
 			children: [{
+				Component: NoDataSourcePage
+			}, {
 				path: '*',
 				Component: NoDataSourcePage
 			}]

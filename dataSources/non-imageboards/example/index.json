@@ -2,7 +2,7 @@
 	"id": "example",
 	"shortId": "🧑‍💻",
 	"title": "example",
-	"description": "This is just a \"fake\" example data source",
+	"description": "This is just a simple example of a \"fake\" data source. It doesn't use any external APIs. The data here is \"hardcoded\".",
 	"domain": "example.com",
 	"channelUrl": "/{channelId}",
 	"threadUrl": "/{channelId}/{threadId}",

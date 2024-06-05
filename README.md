@@ -48,9 +48,9 @@ On March 9th, 2020, GitHub, Inc. silently [banned](https://medium.com/@catamphet
 
 ## Hosting
 
-The application is distributed in the form of "releases" ("builds"). The "builds" can be found on [GitLab Releases](https://gitlab.com/catamphetamine/anychan/-/releases) page, but those're most likely stale, so I'd recommend creating your own "build" from the sources as described at the bottom of this section.
+The application is distributed in the form of "releases" ("builds"). The "builds" can be found on [GitLab Releases](https://gitlab.com/catamphetamine/anychan/-/releases) page, but those're most likely stale, so I'd recommend creating your own "build" from the sources as described in the [Build](#build) section.
 
-A "build" contains an `index.html` file and a bunch of `.js`/`.css`/`.map`/image files with random generated names (and also about a 100 of code syntax highlighter language plugins that are only loaded on demand at runtime when highlighting a given language in` "code"` blocks).
+A "build" contains an `index.html` file and a bunch of `.js`/`.css`/`.map`/image files with random generated names (and also about a 100 of code syntax highlighter language plugins that are only loaded on demand at runtime when highlighting a given language in `"code"` blocks).
 
 Inside a "build", find and edit the `index.html` file in order to specify custom [configuration options](#configuration) such as:
 * URL path at which the contents of the "build" are hosted (the default is "hosted at the root of the domain").
@@ -89,7 +89,7 @@ The application provides several configuration options like YouTube API key, Goo
 
 The default configuration can be found in `./configuration/default.json` file. Any custom configuration is applied on top of it. Custom configuration can be specified at the top of the `index.html` file in the global `CONFIG` variable.
 
-See [`types/Configuration.ts`](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/DataSource.ts) for the most up-to-date description of a configuration object.
+See [`types/Configuration.ts`](https://gitlab.com/catamphetamine/anychan/-/blob/master/src/types/Configuration.ts) for the most up-to-date description of a configuration object.
 
 <details>
 <summary>Configuration options</summary>
@@ -592,15 +592,22 @@ After the initial setup has been completed, the application could be run via:
 yarn run dev
 ```
 
-Because this project uses TypeScript, the initial start-up time is long.
+Because this project uses TypeScript, the initial start-up time is quite long.
 
 Wait for it to load and go to [`http://localhost:1234/4chan`](http://localhost:1234/4chan)
 
-To specify custom [configuration options](#configuration) (like YouTube API key), one could create a file called `configuration/custom.json`. The contents of that file would be applied on top of the default configuration when running `yarn run dev` or `yarn run build`.
+To specify custom [configuration options](#configuration) (like YouTube API key), one could create a file called `configuration/custom.json`. The contents of that file would be applied on top of the default configuration when running via `yarn run dev` or `yarn run build`.
 
-Also, check if the [proxy](#proxy) server that is configured by default still works.
+Also, check if the [proxy](#proxy) server that is configured by default still works. If it doesn't, the application will show an error page. In that case:
+* Start a new "terminal".
+* Check out [`anychan-proxy`](https://gitlab.com/catamphetamine/anychan-proxy) repository.
+* Go into the folder it has checked out to.
+* Run `npm install`.
+* Run `npm start`. It will run a local CORS proxy at (assumingly) `"http://localhost:8080"`.
+* In `anychan` repository, open `configuration/custom.json` file and set `proxyUrl` there to be (assumingly) `"http://localhost:8080"`.
+* Restart `anychan` application.
 
-Also, when pulling any changes to `package.json` or `yarn.lock`, don't forget to re-run the `yarn` command to install new packages.
+In future, in case of "pulling" any changes, don't forget to re-run the `yarn` command to update the packages.
 
 ## Build
 

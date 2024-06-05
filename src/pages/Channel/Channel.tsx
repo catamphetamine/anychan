@@ -1,12 +1,12 @@
-import type { CommentId, ThreadId, ChannelId, Thread, GetCommentById, PageLoadFunction } from '@/types'
+import type { CommentId, ThreadId, ChannelId, Thread, PageLoadFunction } from '@/types'
 import type { VirtualScrollerItemComponentProps } from './types.js'
 
-import React, { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 import { getViewportWidthWithScrollbar } from 'web-browser-window'
-import { useAfterRenderedThisPage, useBeforeRenderAnotherPage } from 'react-pages'
+import { useAfterRenderedThisPage } from 'react-pages'
 import { sortThreadsWithPinnedOnTop } from 'imageboard'
 
 import {
@@ -63,7 +63,6 @@ export default function ChannelPage({
 	const background = useBackground()
 	const userData = useUserData()
 	const dispatch = useDispatch()
-
 
 	const autoSuggestFavoriteChannels = useSetting(settings => settings.autoSuggestFavoriteChannels)
 
@@ -142,6 +141,7 @@ export default function ChannelPage({
 		channelSorting,
 		commonProps: {
 			mode: 'channel',
+			showRepliesCount: false,
 			// Previously, before early 2023, the cached list of `channel` objects
 			// in `localStorage` didn't contain a `.features` sub-object in the list items.
 			// So because of legacy compatibility, here's a check that `channel.features` property exists.

@@ -70,10 +70,19 @@
 }
 
 .Footer-notes {
-	margin-top: var(--FooterNotes-marginTop);
 	text-align: center;
 	font-weight: 300;
 	font-size: 85%;
+}
+
+.Footer-block + .Footer-block {
+	margin-top: var(--FooterNotes-marginTop);
+}
+
+/* Added `p` selector here to override `.Footer p` styles. */
+p.Footer-anychanFootnotes {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .Footer--onBackground {

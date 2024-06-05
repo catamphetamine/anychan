@@ -118,6 +118,7 @@ describe('sortSubscribedThreads', () => {
 		}
 
 		ADDED_AT_1500__1_UNREAD_REPLY.comments[2].inReplyTo = [ADDED_AT_1500__1_UNREAD_REPLY.comments[0]]
+		ADDED_AT_1500__1_UNREAD_REPLY.comments[2].inReplyToIds = [ADDED_AT_1500__1_UNREAD_REPLY.comments[0].id]
 
 		userData.setLatestReadCommentId('a', 401, 402)
 

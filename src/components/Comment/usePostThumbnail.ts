@@ -12,6 +12,7 @@ import {
 	getPicturesAndVideos
 } from 'social-components/attachment'
 import { Attachment } from "social-components"
+import { isVectorImage } from "social-components/image"
 
 export default function usePostThumbnail({
 	comment,
@@ -74,7 +75,7 @@ export default function usePostThumbnail({
 	const postThumbnailSizeVarStyle = useMemo(() => {
 		if (postThumbnailSize) {
 			return {
-				'--PostThumbnail-width': postThumbnailSize.width + 'px'
+				'--PostThumbnail-width': isVectorImage(postThumbnailSize) ? 'var(--PostThumbnail-maxWidth)' : postThumbnailSize.width + 'px'
 			}
 		}
 	}, [

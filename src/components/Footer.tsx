@@ -66,13 +66,13 @@ export default function Footer({ className }: FooterProps) {
 			{dataSource && dataSource.links &&
 				<FooterLinks links={dataSource.links}/>
 			}
-			<div className="Footer-notes">
+			<div className="Footer-notes Footer-block">
 				{dataSource && dataSource.footnotes &&
 					<Content>
 						{dataSource.footnotes}
 					</Content>
 				}
-				<p>
+				<p className="Footer-anychanFootnotes">
 					{anychanFootnotesMessage}
 				</p>
 			</div>
@@ -96,7 +96,7 @@ interface FooterProps {
 
 function FooterLinks({ links }: FooterLinksProps) {
 	return (
-		<nav>
+		<nav className="Footer-block">
 			<ul className="Footer-links">
 				{links.map((link, i) => (
 					<li key={i} className="Footer-linkItem">

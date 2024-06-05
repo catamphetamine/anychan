@@ -24,8 +24,6 @@ export default function Imageboard_(imageboardConfig: ImageboardConfig, {
 		generatedQuoteMinFitFactor: getConfiguration().generatedQuoteMinFitFactor,
 		generatedQuoteMaxFitFactor: getConfiguration().generatedQuoteMaxFitFactor,
 		minimizeGeneratedPostLinkBlockQuotes: shouldMinimizeGeneratedPostLinkBlockQuotes(),
-		// `expandReplies: true` flag adds `comment.inReplyTo[]` and `comment.replies[]` optional properties.
-		expandReplies: true,
 		getSetCookieHeaders({ headers }): string[] {
 			// See if the `fetch()` response headers allow reading `set-cookie` header.
 			// https://developer.mozilla.org/en-US/docs/Web/API/Headers/getSetCookie

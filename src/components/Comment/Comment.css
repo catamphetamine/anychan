@@ -602,9 +602,12 @@
 	--CommentAuthor-color--administrator: var(--CommentAuthor-color);
 	--CommentAuthor-color--moderator: var(--CommentAuthor-color);
 	--CommentAuthorBannedIcon-color: currentColor;
+	/* --PostQuoteBlockBorderLeft-width: var(--PostQuoteBorderLeft-width); */
+
 	a {
 		color: inherit;
 	}
+
 	/*
 	.PostAttachments,
 	.PostVideo .Video,

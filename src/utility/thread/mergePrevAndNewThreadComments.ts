@@ -2,60 +2,62 @@ import type { Thread, Comment, GetCommentById } from '@/types'
 
 import { isEqual } from 'lodash-es'
 
-import createByIdIndex from '../createByIdIndex.js'
+import createGetCommentById from './createGetCommentById.js'
 import { ROOT_COMMENT_PROPERTIES_OF_A_THREAD } from '../../api/utility/addCommentProps.js'
+import setRepliesOnComments from './setRepliesOnComments.js'
 
 /**
  * Some comments might have been removed by moderators
  * in-between thread updates. This function preserves
  * such removed comments.
- * @param  {Thread} thread — Thread before being updated.
- * @param  {Thread} updatedThread — Thread after being updated. Its `comments` will be changed.
+ * @param  {Thread} thread — Thread before the update. It will no longer be used.
+ * @param  {Thread} updatedThread — Thread after being updated. It's gonna be the new thread to use.
  */
 export default function mergePrevAndNewThreadComments(thread: Thread, updatedThread: Thread) {
+	const prevReplyIds = thread.comments.map(_ => _.replyIds)
+
 	// Replace `updatedThread`'s `.comments` with the old ones from `thread`,
 	// but, at the same time, update those with the new comments data.
 	// The comments whose data changed will get their "references" changed.
-	refreshOldCommentsAndRestoreRemovedOnes(thread, updatedThread)
-
-	// Request a re-render of the first comment if some
-	// of the rendered thread properties did change.
-	updateFirstCommentWithNewThreadInfo(thread, updatedThread)
-
-	// Re-generate the `.replies[]` for each comment, because:
-	//
-	// a) If `updatedComment.replies` would have simply been copied over
-	//    to `comment.replies`, they'd  still point to other `updatedComment`s,
-	//    not other `comment`s. Aside from just being weird, that would result in
-	//    unnecessarily re-parsing "parent" comments when calling `.parseContent()`
-	//    on "new" comments.
-	//
-	// b) Comments that have been removed aren't present in `updatedComment.replies`.
-
-	const prevReplyIds = thread.comments.map(getReplyIds)
+	mergeCommentLists(thread, updatedThread)
 
 	// The scenario in which this function is used doesn't assume `thread.latestComments`
 	// be present, because it's assumed to be a thread page, not a channel page.
 	// Still, just for conceptual correctness, the "latest comments" case is handled here too,
 	// even though it shouldn't really happen.
-	const getCommentById = createByIdIndex(
-		updatedThread.latestComments
-			? updatedThread.comments.concat(updatedThread.latestComments)
-			: updatedThread.comments
-	)
+	const getCommentById = createGetCommentById(updatedThread)
 
-	// If some of the old comments have changed, their javascript object "reference" has also changed.
-	// But their old object "reference" is still present in some of the "parent" comments' `.inReplyTo[]`.
-	// Update those old object "references" with new ones.
-	fixInReplyToReferencesToOldCommentsWhoseObjectReferencesHaveChanged(updatedThread, getCommentById)
+	// Attempts to restore any removed comments from `inReplyToIdsRemoved` to `inReplyToIds`
+	// if those removed comments are preserved in the previously fetched thread data.
+	maybeRestoreSomeOfInReplyToIdsRemoved(thread, updatedThread, getCommentById)
 
-	// Re-create a `.replies[]` list for each `comment`.
-	setReplies(updatedThread)
+	// Add new comment IDs to `replyIds` lists of old comments.
+	// Uses `inReplyToIds` lists as a source for the data, so `inReplyToIds` have to
+	// already be corrected at this point.
+	updateReplyIdsOfOldComments(thread, updatedThread, getCommentById)
 
-	// If some of the old comments got removed, they won't be present in `.inReplyTo[]` list.
-	// This code fixes that by re-adding those removed comments to those lists.
-	// Also it updates the removed comments' `.replies[]` by adding new replies there.
-	fixInReplyToReferencesToRemovedComments(thread, updatedThread, getCommentById)
+	// Re-create `.replies[]` from `.replyIds[]` of each comment.
+	//
+	// P.S.: Modifying the list of `.replies[]` of an older comment here
+	// would result in a "jump of content" when such older comments'
+	// replies list is expanded and those comments have already been
+	// rendered by `virtual-scroller`, because the hight of the list of
+	// their replies would change after a subsequent re-render.
+	// `onItemHeightDidChange()` wouldn't solve the issue because
+	// such expanded older comments could even be not rendered
+	// at the time of the auto-update.
+	// There seems to be no workaround for the issue so far.
+	// Even though `onItemHeightDidChange()` wouldn't resolve the issue
+	// in 100% of the cases, it could still resolve it in the cases
+	// when such expanded older comments would currently be rendered,
+	// so it would make sense to call it here, if anyone wants to do that
+	// in some future.
+	//
+	setRepliesOnComments(updatedThread, getCommentById)
+
+	// Request a re-render of the first comment if some
+	// of the rendered thread properties did change.
+	updateFirstCommentWithNewThreadInfo(thread, updatedThread)
 
 	// If there have been any changes in `.replies[]` of a comment,
 	// then update the comment's "reference" so that it would get re-rendered.
@@ -74,13 +76,13 @@ const UPDATEABLE_COMMENT_PROPERTIES = [
 	'vote'
 ] as const
 
-// Replace `updatedThread`'s `.comments` with the old ones from `thread`,
-// but, at the same time, update those old comments with the refreshed data.
+// Replaces `updatedThread`'s `.comments` with the old ones from `thread`,
+// but, at the same time, updates those old comments with the refreshed data.
 //
 // The old comments whose data has changed will get their javascript object
-// "references" changed: that's required in order for React to re-render those comments.
+// "references" changed: that's required in order to tell React to re-render those comments.
 //
-function refreshOldCommentsAndRestoreRemovedOnes(thread: Thread, updatedThread: Thread) {
+function mergeCommentLists(thread: Thread, updatedThread: Thread) {
 	let i = 0
 	while (i < thread.comments.length) {
 		// Because the app uses `virtual-scroller`, it can optimize a bit
@@ -154,6 +156,27 @@ function refreshOldCommentsAndRestoreRemovedOnes(thread: Thread, updatedThread: 
 	}
 }
 
+// Adds new comment IDs to `replyIds` lists of old comments.
+function updateReplyIdsOfOldComments(thread: Thread, updatedThread: Thread, getCommentById: GetCommentById) {
+	// For each new comment.
+	let i = thread.comments.length
+	while (i < updatedThread.comments.length) {
+		const newComment = updatedThread.comments[i]
+		// If the new comment is a reply to some other comments.
+		if (newComment.inReplyToIds) {
+			// For each of those "other" comments.
+			for (const inReplyToId of newComment.inReplyToIds) {
+				const inReplyTo = getCommentById(inReplyToId)
+				// Add the new comment ID to `replyIds` list of that "other" comment.
+				if (!inReplyTo.replyIds) {
+					inReplyTo.replyIds = []
+				}
+				inReplyTo.replyIds.push(newComment.id)
+			}
+		}
+	}
+}
+
 function updateFirstCommentWithNewThreadInfo(thread: Thread, updatedThread: Thread) {
 	let firstCommentHasChanged
 	for (const property of ROOT_COMMENT_PROPERTIES_OF_A_THREAD) {
@@ -163,6 +186,9 @@ function updateFirstCommentWithNewThreadInfo(thread: Thread, updatedThread: Thre
 			firstCommentHasChanged = true
 		}
 	}
+	// Only replaces the first comment if it has actually changed.
+	// Keeping the old reference in case of no changes seems more "elegant".
+	// For example, it won't cause a React re-render for the first comment element.
 	if (firstCommentHasChanged) {
 		// Changing the `comment` object reference wouldn't break
 		// `virtual-scroller`'s "incremental" update detection
@@ -171,115 +197,43 @@ function updateFirstCommentWithNewThreadInfo(thread: Thread, updatedThread: Thre
 	}
 }
 
-function fixInReplyToReferencesToOldCommentsWhoseObjectReferencesHaveChanged(
-	updatedThread: Thread,
-	getCommentById: GetCommentById
-) {
-	for (const comment of updatedThread.comments) {
-		// Fix `comment.inReplyTo`.
-		if (comment.inReplyTo) {
-			// Convert `inReplyTo` objects to `inReplyTo` IDs,
-			// because comment object references did change:
-			// the re-fetched comment objects were discarded and replaced
-			// with the old comment objects (whose properties got updated).
-			// After that, `inReplyTo` IDs are re-converted back to comment objects.
-			comment.inReplyTo = comment.inReplyTo.map(_ => _.id).map(getCommentById)
-		}
-	}
-}
-
-function setReplies(updatedThread: Thread) {
-	// Reset `.replies[]` of each comment.
-	for (const comment of updatedThread.comments) {
-		comment.replies = undefined
-	}
-	// Set `.replies[]` of each `comment`.
-	for (const comment of updatedThread.comments) {
-		// Could reset `comment.replies = undefined` here,
-		// but who knows what weird cases could there be
-		// with users quoting comments from the future by
-		// guessing their IDs. Could happen, hypothetically.
-		// So, hypothetically, `comment.replies[]` could contain
-		// not only comments after it but also comments before it.
-		// That would be weird, but there're no restrictions on stuff like that.
-		if (comment.inReplyTo) {
-			for (const inReplyToComment of comment.inReplyTo) {
-				// Update `.replyIds` property.
-				inReplyToComment.replyIds = inReplyToComment.replyIds || []
-				inReplyToComment.replyIds.push(comment.id)
-
-				// Update `.replies` property.
-				inReplyToComment.replies = inReplyToComment.replies || []
-				// Modifying the list of `.replies[]` of an older comment here
-				// would result in a "jump of content" when such older comments'
-				// replies list is expanded and those comments have already been
-				// rendered by `virtual-scroller`, because the hight of the list of
-				// their replies would change after a subsequent re-render.
-				// `onItemHeightDidChange()` wouldn't solve the issue because
-				// such expanded older comments could even be not rendered
-				// at the time of the auto-update.
-				// There seems to be no workaround for the issue so far.
-				// Even though `onItemHeightDidChange()` wouldn't resolve the issue
-				// in 100% of the cases, it could still resolve it in the cases
-				// when such expanded older comments would currently be rendered,
-				// so it would make sense to call it here, if anyone wants to do that
-				// in some future.
-				inReplyToComment.replies.push(comment)
-			}
-		}
-	}
-}
-
-
-// If some of the old comments got removed, they won't be present
-// in `.inReplyTo[]` lists of the new comments that're replies to
-// those old removed comments.
-// This function fixes that by re-adding those removed comments in their
-// replies' `.inReplyTo[]` lists.
-// Also updates the removed comments' lists of `.replies[]` by adding
-// new replies there.
-function fixInReplyToReferencesToRemovedComments(
+// If some of the old comments got removed, their IDs will be in `inReplyToIdsRemoved` lists
+// rather than in `inReplyToIds` lists. But if those comments are preserved in the previously fetched thread data,
+// those comments could be artificially restored, which is what this function does.
+function maybeRestoreSomeOfInReplyToIdsRemoved(
 	thread: Thread,
 	updatedThread: Thread,
 	getCommentById: GetCommentById
 ) {
-	// If there're any new comments.
-	if (updatedThread.comments.length > thread.comments.length) {
-		// Restore potentially removed comments in `inReplyTo`,
-		// and update removed comments' `.replies[]`.
-		let i = thread.comments.length
-		while (i < updatedThread.comments.length) {
-			const comment = updatedThread.comments[i]
-			if (comment.inReplyToIdsRemoved) {
-				// `comment.inReplyToRemoved` will be mutated, hence the `.slice()`.
-				for (const removedCommentId of comment.inReplyToIdsRemoved.slice()) {
-					const removedComment = getCommentById(removedCommentId)
-					if (removedComment) {
-						// Restore `removedCommentId` in `.inReplyToIds`.
-						comment.inReplyToIds = comment.inReplyToIds || []
-						comment.inReplyToIds.push(removedCommentId)
-						// Restore the removed comment in `.inReplyTo`.
-						comment.inReplyTo = comment.inReplyTo || []
-						comment.inReplyTo.push(removedComment)
-						// Remove `removedCommentId` from `.inReplyToRemoved`.
-						comment.inReplyToIdsRemoved = comment.inReplyToIdsRemoved.filter(_ => _ !== removedCommentId)
-						if (comment.inReplyToIdsRemoved.length === 0) {
-							comment.inReplyToIdsRemoved = undefined
-						}
-						// Update the removed comment's `.replyIds`.
-						removedComment.replyIds = removedComment.replyIds || [];
-						removedComment.replyIds.push(comment.id)
-						// Update the removed comment's `.replies`.
-						removedComment.replies = removedComment.replies || [];
-						removedComment.replies.push(comment)
+	// Attempts to restore any removed comments from `inReplyToIdsRemoved` to `inReplyToIds`
+	// if those removed comments are preserved in the previously fetched thread data.
+	let i = thread.comments.length
+	while (i < updatedThread.comments.length) {
+		const comment = updatedThread.comments[i]
+		if (comment.inReplyToIdsRemoved) {
+			// `comment.inReplyToRemoved` will be mutated, hence the `.slice()`.
+			// Otherwise, the `for of` cycle wouldn't work correctly and would skip some array items.
+			for (const removedCommentId of comment.inReplyToIdsRemoved.slice()) {
+				const removedComment = getCommentById(removedCommentId)
+				// If the removed comment could be restored from the previously fetched data, then restore it.
+				if (removedComment) {
+					// Restore `removedCommentId` in `.inReplyToIds`.
+					comment.inReplyToIds = comment.inReplyToIds || []
+					comment.inReplyToIds.push(removedCommentId)
+					// Remove `removedCommentId` from `.inReplyToRemoved`.
+					comment.inReplyToIdsRemoved = comment.inReplyToIdsRemoved.filter(_ => _ !== removedCommentId)
+					if (comment.inReplyToIdsRemoved.length === 0) {
+						comment.inReplyToIdsRemoved = undefined
 					}
 				}
 			}
-			i++
 		}
+		i++
 	}
 }
 
+// Updates the "references" to `comment`s whose `replies[]` lists have changed after the update.
+// Updating the reference triggers a React re-render which updates the replies count on the screen.
 function updateObjectReferencesForCommentsWhoseRepliesHaveChanged(
 	updatedThread: Thread,
 	prevReplyIds: Array<Array<Comment['id']>>
@@ -287,16 +241,12 @@ function updateObjectReferencesForCommentsWhoseRepliesHaveChanged(
 	let i = 0
 	while (i < prevReplyIds.length) {
 		const comment = updatedThread.comments[i]
-		const replyIds = getReplyIds(comment)
-		if (!isEqual(replyIds, prevReplyIds[i])) {
+		// Uses `isEqual()` for code "brevity": otherwise, it would have to:
+		// * Check new and old `replyIds` for being undefined
+		// * Compare their lengths.
+		if (!isEqual(comment.replyIds, prevReplyIds[i])) {
 			updatedThread.comments[i] = { ...comment }
 		}
 		i++
-	}
-}
-
-function getReplyIds(comment: Comment) {
-	if (comment.replies) {
-		return comment.replies.map(_ => _.id)
 	}
 }

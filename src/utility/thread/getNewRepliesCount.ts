@@ -37,8 +37,8 @@ export default function getNewRepliesCount(thread: Thread, {
 		}
 
 		// Get the IDs of the comments this comment replies to.
-		const inReplyToIds = (comment.inReplyTo || []).map(comment => comment.id).
-			concat(comment.inReplyToIdsRemoved || [])
+		const inReplyToIds = (comment.inReplyToIds || [])
+			.concat(comment.inReplyToIdsRemoved || [])
 
 		if (inReplyToIds.length > 0) {
 			const isReplyToOwnComment = inReplyToIds.some(

@@ -2,6 +2,7 @@ import { PictureSize } from 'imageboard'
 import type { Post } from 'social-components'
 
 import { getPostThumbnailSize } from 'social-components/post'
+import { isVectorImage } from 'social-components/image'
 
 /**
  * Updates the current `attachmentThumbnailMaxWidth` from the new comments.
@@ -54,19 +55,12 @@ export default function updateAttachmentThumbnailMaxWidth(posts: Post[], {
 
 function getAttachmentThumbnailMaxWidth(post: Post, maxWidthSoFar: number | undefined) {
 	function update(size: PictureSize) {
+		// Vector images like `*.svg`s don't have a concept of an "actual size".
+		const sizeWidth = isVectorImage(size) ? 0 : size.width
 		if (maxWidthSoFar) {
-			// maxWidthSoFar = Math.max(
-			// 	maxWidthSoFar,
-			// 	size.width,
-			// 	size.height
-			// )
-			maxWidthSoFar = Math.max(maxWidthSoFar, size.width)
+			maxWidthSoFar = Math.max(maxWidthSoFar, sizeWidth)
 		} else {
-			maxWidthSoFar = size.width
-			// maxWidthSoFar = Math.max(
-			// 	size.width,
-			// 	size.height
-			// )
+			maxWidthSoFar = sizeWidth
 		}
 	}
 	if (post.attachments) {

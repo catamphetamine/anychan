@@ -2,7 +2,7 @@ import type { Thread, GetCommentById } from '@/types'
 
 import { useRef, useMemo, useCallback } from 'react'
 
-import createByIdIndex from '../../utility/createByIdIndex.js'
+import createGetCommentByIdIndex from '../../utility/thread/createGetCommentById.js'
 
 // This hook returns a `getCommentById()` function for a given `thread` object.
 //
@@ -35,16 +35,7 @@ export default function useGetCommentById({ thread }: { thread: Thread }) {
 	const getCommentByIdRef = useRef<GetCommentById>()
 
 	getCommentByIdRef.current = useMemo(() => {
-		return createByIdIndex(
-			thread.latestComments
-				// When a `thread` is fetched for the channel page for "with latest comments" layout,
-				// the `thread` object only contains the "original comment" and some of the "latest comments".
-				// Therefore, in such restrained conditions, it can only search in that limited set of comments
-				// and it can't really search in all of the comments.
-				// Still, some is better than none so it creates a limited list of comments it can search in.
-				? thread.latestComments.concat(thread.comments)
-				: thread.comments
-		)
+		return createGetCommentByIdIndex(thread)
 	}, [thread.comments])
 
 	// The returned `getCommentById()` "reference" shouldn't change

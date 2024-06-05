@@ -16,6 +16,7 @@ import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
 import setDerivedThreadProps from './utility/setDerivedThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
+import setRepliesOnComments from '../utility/thread/setRepliesOnComments.js'
 
 import getProxyUrl from './utility/getProxyUrl.js'
 
@@ -148,16 +149,20 @@ export default async function getThread({
 
 		// Return the thread.
 		return {
-			thread: thread_,
+			thread: setRepliesOnComments(thread_),
 			hasMoreComments,
 			channel
 		}
 	}
 
+	// If it is an "incremental" fetch.
+	// This code hasn't been tested because currently the application doesn't use this scenario.
+	// There is thread "Auto-Update" but it re-fetches the whole thread every time
+	// and doesn't use `threadBeforeRefresh` or `afterCommentId` parameter.
+	// So currently, this part of the function's code is "unreachable".
+
 	// Set properties such as `thread.commentAttachmentsCount`.
 	setDerivedThreadProps(thread)
-
-	// If it is an "incremental" fetch.
 
 	// If `threadHasAuthorIds` flag wasn't set on `threadBeforeRefresh.comments`
 	// but it is set on `thread.comments`, then set it on `threadBeforeRefresh.comments`.
@@ -173,11 +178,16 @@ export default async function getThread({
 		}
 	}
 
+	const thread_: Thread = {
+		...threadBeforeRefresh,
+		...getThreadPropertiesFromIncrementalUpdate(thread)
+	}
+
+	throw new Error('Here it should somehow merge `threadBeforeRefresh.comments` and `thread.comments`, and update `.replies[]`/`.inReplyTo[]` properties of each comment')
+	// thread_.comments = ...
+
 	return {
-		thread: {
-			...threadBeforeRefresh,
-			...getThreadPropertiesFromIncrementalUpdate(thread)
-		},
+		thread: setRepliesOnComments(thread_),
 		channel,
 		hasMoreComments
 	}

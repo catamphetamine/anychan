@@ -82,14 +82,6 @@ export default async function serializeThread(thread: Thread,
 			inReplyTo: undefined
 		} as CommentSerialized
 
-		// if (comment.replies) {
-		// 	commentSerialized.replyIds = comment.replies.map(_ => _.id)
-		// }
-
-		// if (comment.inReplyTo) {
-		// 	commentSerialized.inReplyToIds = comment.inReplyTo.map(_ => _.id)
-		// }
-
 		return commentSerialized
 	})
 

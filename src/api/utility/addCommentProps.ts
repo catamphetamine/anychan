@@ -139,9 +139,9 @@ export default function addCommentProps(thread: ThreadFromDataSource, {
 		}
 
 		// Set "reply to own comment" status.
-		if (comment.inReplyTo) {
-			comment.inReplyTo.some((inReplyToComment) => {
-				if (ownCommentIds.includes(inReplyToComment.id)) {
+		if (comment.inReplyToIds) {
+			comment.inReplyToIds.some((inReplyToCommentId) => {
+				if (ownCommentIds.includes(inReplyToCommentId)) {
 					comment.isReplyToOwnComment = true
 				}
 			})
@@ -213,7 +213,7 @@ export default function addCommentProps(thread: ThreadFromDataSource, {
 		}
 
 		// This is just a "hack" to make "latest comments" be rendered as "replies" in a comment tree.
-		thread.comments[0].replies = thread.latestComments as Comment[]
+		(thread as Thread).comments[0].replies = thread.latestComments as Comment[]
 	}
 }
 

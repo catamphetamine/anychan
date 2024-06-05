@@ -58,13 +58,11 @@ export interface CommentFromDataSource {
 	// Still, they do make sense for the legacy imageboard engines, so they aren't removed.
 	// But for new data sources I'd suggest skipping these entirely.
 	//
-	inReplyTo?: Comment[];
 	inReplyToIds?: CommentId[];
 	inReplyToIdsRemoved?: CommentId[];
 
 	// * `replies` is a list of comments that reply to this comment.
 	// * `replyIds` is a list of IDs of the comments that reply to this comment.
-	replies?: Comment[];
 	replyIds?: CommentId[];
 
 	// `parseContent()` function is used to parse data source comment syntax
@@ -86,6 +84,18 @@ export interface CommentFromDataSource {
 }
 
 export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfThread {
+	// // * `inReplyTo` is a list of comments it replies to.
+	// // * `inReplyToIds` is a list of IDs of the comments that it replies to.
+	// // * `inReplyToIdsRemoved` is a list of IDs of the comments that it replies to, that have been removed by moderators.
+	// inReplyTo?: Comment[];
+
+	// * `replies` is a list of comments that reply to this comment.
+	// * `replyIds` is a list of IDs of the comments that reply to this comment.
+	//
+	// * `comment.replies` property is used in `<CommentTree/>` component.
+	//
+	replies?: Comment[];
+
 	// This text preview is created for the "original" comment of a thread
 	// and then output in a <meta/> tag.
 	textPreviewForPageDescription?: string;
