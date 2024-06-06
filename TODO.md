@@ -28,13 +28,15 @@ https://smuglo.li/
 
 
 
+* Fix sticky threads not expanding multiple ones.
 
+* Add `title` input when creating a thread and test it in `example` data source. Don't show the input on 2ch.hk's `/b/` board.
 
-* Sending a comment in "example" data source doesn't show it on the thread page.
+* Add `logIn`/`logOut` api in `example` data soruce.
 
-* Sending a comment "freezes" the page on 2ch.hk: http://localhost:1234/2ch/test/197772
+* Create /meta/ board with admin-created sticky thread.
 
-* Fix slow image scale on mobile.
+* Fix slow image scale on mobile. See the stashed code in `social-components-react`.
 
 * Add navigation animation: catalog → thread and "back" button.
 

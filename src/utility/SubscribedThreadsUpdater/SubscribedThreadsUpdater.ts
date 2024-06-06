@@ -668,13 +668,15 @@ export default class SubscribedThreadsUpdater {
 				backgroundMode: true
 			})
 
-			if (nextUpdateAt <= this.timer.now()) {
-				subscribedThreadsToUpdate.push(subscribedThread)
-			} else {
-				if (closestNextUpdateAt === undefined) {
-					closestNextUpdateAt = nextUpdateAt
+			if (!isNaN(nextUpdateAt)) {
+				if (nextUpdateAt <= this.timer.now()) {
+					subscribedThreadsToUpdate.push(subscribedThread)
 				} else {
-					closestNextUpdateAt = Math.min(closestNextUpdateAt, nextUpdateAt)
+					if (closestNextUpdateAt === undefined) {
+						closestNextUpdateAt = nextUpdateAt
+					} else {
+						closestNextUpdateAt = Math.min(closestNextUpdateAt, nextUpdateAt)
+					}
 				}
 			}
 		}

@@ -244,6 +244,17 @@ export interface Configuration {
 	//
 	commentLengthLimitForThreadPreviewForTileLayout?: number;
 
+  // Maxumum allowed width for comment "thumbnail", in pixels.
+  //
+  // Comment "thumbnail" is one of the comment's attachments, if there're any,
+  // that is used as a "main" picture representing that comment.
+  //
+  // For example, if a comment has several pictures attached,
+  // one is chosen which is then displayed to the left of the comment's content.
+  // The rest of the pictures would just be displayed at the bottom of the comment's content
+  //
+  commentThumbnailMaxWidth: number;
+
   // How often should the application "poll" the data source for new data.
   // Contrary to "push" updates, "polling" is a technique for continuously
   // re-fetching the data from the data source to see if there're any updates.
@@ -361,7 +372,7 @@ export interface Configuration {
   //   ]
   // }
 	//
-	defaultCensoredWords: Record<string, string[]>
+	defaultCensoredWords?: Record<string, string[]>
 }
 
 export type DataPollingRate = 'normal' | 'slow';

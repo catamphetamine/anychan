@@ -441,12 +441,10 @@
 	--PostTitle-marginTop: var(--Post-paddingTop);
 
 	/* PostThumbnail. */
-	/* Default max thumnail size. */
-	--PostThumbnail-maxWidth--default: 220px;
 	/* Actually observed max thumnail size will be set in
 	   `src/utility/post/updateAttachmentThumbnailMaxWidth.js`
 	   as `--PostThumbnail-maxWidth--actual` CSS variable. */
-	--PostThumbnail-maxWidth: var(--PostThumbnail-maxWidth--actual, var(--PostThumbnail-maxWidth--default));
+	--PostThumbnail-maxWidth: var(--PostThumbnail-maxWidth--observed, var(--PostThumbnail-maxWidth--allowed));
 	--PostThumbnail-marginRight: var(--Post-paddingLeft);
 	--PostThumbnail-marginBottom: 0px;
 	/* Post thumbnail has some top spacing in order for
@@ -594,7 +592,11 @@
 	}
 
 	/* ChannelPageTop. */
+	--ChannelPageTop-zIndex: 1;
 	--ChannelPageTop-marginTop: var(--ThreadPageShowPrevious-marginTop);
+
+	/* ChannelHeader. */
+	--ChannelHeader-zIndex: calc(var(--ChannelPageTop-zIndex) + 1);
 
 	/* Toolbar. */
 	--Toolbar-marginTop: 0px;

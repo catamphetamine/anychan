@@ -89,7 +89,7 @@ export default function useAutoUpdate({
 	const autoUpdateSecondsLeftTimer = useRef<number>()
 	const concurrentThreadUpdateWaitTimer = useRef<number>()
 
-	const getNextUpdateAt = useCallback((prevUpdateAt: number) => {
+	const getNextUpdateAt = useCallback((prevUpdateAt: number): number | undefined => {
 		const latestComment = thread.comments[thread.comments.length - 1]
 		let beforeLatestComment
 		if (thread.comments.length > 1) {

@@ -34,6 +34,7 @@ const CHANNEL1_THREAD2_COMMENT5_ID = CHANNEL1_THREAD2_ID + 4
 export const CHANNEL1_THREAD2_COMMENT1: CommentFromDataSource = {
 	id: CHANNEL1_THREAD2_COMMENT1_ID,
 	title: 'Question',
+	createdAt: new Date('2020-04-15T15:00:00.000Z'),
 	content: [
 		[
 			'Is game theory a subfield of set theory or a branch of mathematics on its own?'
@@ -50,6 +51,7 @@ export const CHANNEL1_THREAD2_COMMENT2: CommentFromDataSource = {
 	inReplyToIds: [
 		CHANNEL1_THREAD2_COMMENT1_ID
 	],
+	createdAt: new Date('2020-04-15T15:05:00.000Z'),
 	content: [
 		[
 			{
@@ -77,6 +79,7 @@ export const CHANNEL1_THREAD2_COMMENT2: CommentFromDataSource = {
 
 export const CHANNEL1_THREAD2_COMMENT3: CommentFromDataSource = {
 	id: CHANNEL1_THREAD2_COMMENT3_ID,
+	createdAt: new Date('2020-04-16T15:10:00.000Z'),
 	content: [
 		[
 			'It\'s mathematics but it was popularized deforming it into a bastard breed.',
@@ -91,6 +94,7 @@ export const CHANNEL1_THREAD2_COMMENT4: CommentFromDataSource = {
 	replyIds: [
 		CHANNEL1_THREAD2_COMMENT5_ID
 	],
+	createdAt: new Date('2020-05-24T18:00:00.000Z'),
 	content: [
 		[
 			'Any game theory chads here? What\'s the best winning strategy in real life negotiations?'
@@ -107,6 +111,7 @@ export const CHANNEL1_THREAD2_COMMENT5: CommentFromDataSource = {
 	inReplyToIds: [
 		CHANNEL1_THREAD2_COMMENT4_ID
 	],
+	createdAt: new Date('2020-05-25T18:15:00.000Z'),
 	content: [
 		[
 			{
@@ -143,6 +148,7 @@ const CHANNEL1_THREAD2_COMMENTS = [
 export const CHANNEL1_THREAD2: ThreadFromDataSource = {
 	id: CHANNEL1_THREAD2_COMMENT1.id,
 	channelId: CHANNEL1_ID,
+	createdAt: CHANNEL1_THREAD2_COMMENT1.createdAt,
 	title: CHANNEL1_THREAD2_COMMENT1.title,
 	commentsCount: CHANNEL1_THREAD2_COMMENTS.length,
 	attachmentsCount: CHANNEL1_THREAD2_COMMENTS.reduce((attachmentsCount, comment) => {

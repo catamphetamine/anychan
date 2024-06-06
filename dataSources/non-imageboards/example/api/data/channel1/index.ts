@@ -21,5 +21,9 @@ export const CHANNEL1: ChannelFromDataSource & {
 	threads: [
 		CHANNEL1_THREAD1,
 		CHANNEL1_THREAD2
-	]
+	],
+	features: {
+		// Supports comment upvotes/downvotes.
+		votes: true
+	}
 }

@@ -594,7 +594,7 @@ yarn run dev
 
 Because this project uses TypeScript, the initial start-up time is quite long.
 
-Wait for it to load and go to [`http://localhost:1234/4chan`](http://localhost:1234/4chan)
+Wait for it to load and go to [`http://localhost:1234`](http://localhost:1234)
 
 To specify custom [configuration options](#configuration) (like YouTube API key), one could create a file called `configuration/custom.json`. The contents of that file would be applied on top of the default configuration when running via `yarn run dev` or `yarn run build`.
 

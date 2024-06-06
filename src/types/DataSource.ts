@@ -560,13 +560,13 @@ interface DataSourceReadApiCommonParameters extends DataSourceApiCommonParameter
 	// For example, if this application was running somewhere at `https://4chan.org/anychan`
 	// then the `originalDomain` would be `"4chan.org"`.
 	//
-	// A data source "implementation" could then use this `originalDomain` parameter
+	// A data source "adapter" could then use this `originalDomain` parameter
 	// when deciding whether it should convert any relative URLs to absolute ones.
 	//
 	// For example, if `originalDomain` was `"4chan.org"` and images were also hosted at `4chan.org`
 	// then those image URLs could be left relative like `"/images/image12345.jpg".
 	// In other cases, any relative URLs should be manually converted to absolute ones
-	// like `"https://4chan.org/images/image12345.jpg"` by the data source "implementation".
+	// like `"https://4chan.org/images/image12345.jpg"` by the data source "adapter".
 	//
 	originalDomain: string | null;
 }

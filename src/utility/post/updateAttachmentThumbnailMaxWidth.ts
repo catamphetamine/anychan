@@ -4,6 +4,8 @@ import type { Post } from 'social-components'
 import { getPostThumbnailSize } from 'social-components/post'
 import { isVectorImage } from 'social-components/image'
 
+import getConfiguration from '../../getConfiguration.js'
+
 /**
  * Updates the current `attachmentThumbnailMaxWidth` from the new comments.
  * @param  {Post[]} posts
@@ -20,7 +22,7 @@ export default function updateAttachmentThumbnailMaxWidth(posts: Post[], {
 } = {}) {
 	if (typeof window !== 'undefined') {
 		// Get attachment thumbnail size for setting
-		// `--PostThumbnail-maxWidth--actual` CSS variable.
+		// `--PostThumbnail-maxWidth--observed` CSS variable.
 		// There can be very small pictures attached
 		// so going through all attachments in all posts is required.
 		let i = firstNewCommentIndex
@@ -32,15 +34,22 @@ export default function updateAttachmentThumbnailMaxWidth(posts: Post[], {
 			)
 			i++
 		}
-		// Set `--PostThumbnail-maxWidth--actual` CSS variable.
+		// Set `--PostThumbnail-maxWidth--observed` CSS variable.
 		if (attachmentThumbnailMaxWidth) {
-			// Only update `--PostThumbnail-maxWidth--actual` CSS variable if it hasn't been set
+			// Validate `commentThumbnailMaxWidth` configuration parameter just in case.
+			if (isNaN(getConfiguration().commentThumbnailMaxWidth)) {
+				throw new Error('`commentThumbnailMaxWidth` configuration parameter not set')
+			} else {
+				attachmentThumbnailMaxWidth = Math.min(attachmentThumbnailMaxWidth, getConfiguration().commentThumbnailMaxWidth)
+			}
+			// Only update `--PostThumbnail-maxWidth--observed` CSS variable if it hasn't been set
 			// or if the new value is bigger than the current one.
-			// A default `--PostThumbnail-maxWidth--default` variable is always defined.
-			const prevAttachmentThumbnailMaxWidth = parseInt(document.documentElement.style.getPropertyValue('--PostThumbnail-maxWidth--actual'))
+			// `--PostThumbnail-maxWidth--allowed` CSS variable is always defined and is used as
+			// a backup value for `--PostThumbnail-maxWidth` CSS variable.
+			const prevAttachmentThumbnailMaxWidth = parseInt(document.documentElement.style.getPropertyValue('--PostThumbnail-maxWidth--observed'))
 			if (isNaN(prevAttachmentThumbnailMaxWidth) || prevAttachmentThumbnailMaxWidth < attachmentThumbnailMaxWidth) {
 				// Overwrites the default value set on `<html/>`.
-				document.documentElement.style.setProperty('--PostThumbnail-maxWidth--actual', attachmentThumbnailMaxWidth + 'px')
+				document.documentElement.style.setProperty('--PostThumbnail-maxWidth--observed', attachmentThumbnailMaxWidth + 'px')
 				/* Changing `--PostThumbnail-maxWidth` CSS variable will also change the main "flex" layout proportions. */
 				/* So `--SidebarLeft-width` CSS variable should also be updated here because the Sidebar has adjusted its width. */
 				const sidebarLeftElement = document.querySelector('.SidebarLeft')

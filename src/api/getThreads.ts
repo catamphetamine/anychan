@@ -2,6 +2,7 @@ import type { GetThreadsParameters, DataSource, UserData, UserSettings, UserSett
 
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
+import convertCommentContentToContentBlocks from './utility/convertCommentContentToContentBlocks.js'
 import setDerivedThreadProps from './utility/setDerivedThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 
@@ -34,7 +35,11 @@ export default async function getThreads({
 	channel: ChannelFromDataSource,
 	hasMoreThreads: boolean
 }> {
-	const { threads, hasMoreThreads, channel } = await dataSource.api.getThreads({
+	const {
+		threads,
+		hasMoreThreads,
+		channel
+	} = await dataSource.api.getThreads({
 		channelId,
 		channelLayout,
 		withLatestComments,
@@ -52,7 +57,16 @@ export default async function getThreads({
 
 	const ignoredAuthors = userData.getIgnoredAuthors()
 
+	// `threads` elements will be "deeply" modified by `addThreadProps()` and `addCommentProps()`
+	// and when converting comments' `content`.
+
 	for (const thread of threads) {
+		// The `content` of each `comment` should be forcefully converted to a list of `ContentBlock`s.
+		// The rationale is that it's easier to operate on (i.e. post-process) a single pre-defined type of structure
+		// rather than support different edge cases like `content` being just a `string`.
+		convertCommentContentToContentBlocks(thread)
+
+		// Add some thread-specific "info" properties on the `comments` of the `thread`.
 		addThreadProps(thread, {
 			locale,
 			grammarCorrection,

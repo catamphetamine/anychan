@@ -4,6 +4,8 @@ import { CHANNELS } from './data/index.js'
 
 import { ChannelNotFoundError } from '../../../../src/api/errors/index.js'
 
+import getChannelData from './utility/getChannelData.js'
+
 const LATEST_COMMENTS_COUNT = 2
 
 export async function getThreads({
@@ -17,10 +19,7 @@ export async function getThreads({
 	}
 
 	return {
-		channel: {
-			id: channel.id,
-			title: channel.title
-		},
+		channel: getChannelData(channel),
 		threads: getThreadsWithOrWithoutLatestComments(channel.threads, withLatestComments)
 	}
 }

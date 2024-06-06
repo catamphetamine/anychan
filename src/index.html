@@ -180,6 +180,14 @@
 				}
 			})()
 		</script>
+
+		<script>
+			/* Set default max post thumnail size. */
+			if (isNaN(CONFIG.commentThumbnailMaxWidth)) {
+				throw new Error('`commentThumbnailMaxWidth` configuration parameter not set')
+			}
+			document.documentElement.style.setProperty('--PostThumbnail-maxWidth--allowed', CONFIG.commentThumbnailMaxWidth + 'px')
+		</script>
 	</head>
 	<body>
 		<div id="bodyHtml"></div>

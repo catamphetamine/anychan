@@ -4,6 +4,8 @@ import api from './api/index.js'
 
 import ExampleDataSourceConfig from './index.json' assert { type: 'json' }
 
+import getApiWithClonedInputAndOutput from './api/utility/getApiWithClonedInputAndOutput.js'
+
 const ExampleDataSource: DataSourceDefinition = {
 	...ExampleDataSourceConfig,
 
@@ -27,7 +29,7 @@ const ExampleDataSource: DataSourceDefinition = {
 	keepRelativeAttachmentUrls: true,
 
 	// Data source API.
-	api
+	api: getApiWithClonedInputAndOutput(api)
 }
 
 export default ExampleDataSource

@@ -3,7 +3,7 @@
 		"sourceMap": true,
     "noImplicitAny": true,
     "module": "NodeNext",
-    "lib": ["es2016", "dom"],
+    "lib": ["es2020", "dom"],
     "target": "es6",
     "jsx": "react",
     "allowJs": true,

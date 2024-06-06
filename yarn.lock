@@ -8259,10 +8259,10 @@ react-responsive-ui@^0.15.58:
     request-animation-frame-timeout "^1.0.0"
     scroll-into-view-if-needed "^3.0.10"
 
-react-sortable-dnd-list@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-sortable-dnd-list/-/react-sortable-dnd-list-1.0.2.tgz#49546fedfa7c4efa039f50baf44e3bca6d25f445"
-  integrity sha512-w1/8pzLCVTFKNNy1djS0c2jucO3TbK3hW+yvHtHZjKNx62RWrg/WPCJdLXH5/rqTiNeEEfN7lrJ7LttOOiTn1g==
+react-sortable-dnd-list@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-sortable-dnd-list/-/react-sortable-dnd-list-1.0.3.tgz#2a41c09cc48f2aa2f5c7a029e37d2dc5bdc31ebb"
+  integrity sha512-knhNwIXXJHh233xj1Nx4CsJjbh/siCWUyP9JdgUWTocBnafiqNoLAgX+gV32ueijZl9iTsl4T5DH6kuJ8YKfpg==
   dependencies:
     prop-types "^15.7.2"
 
@@ -8925,15 +8925,7 @@ social-components-parser@^0.3.1:
     html-document-parser "^1.1.1"
     social-components "^0.4.1"
 
-social-components@^0.4.1, social-components@^0.4.13:
-  version "0.4.13"
-  resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.13.tgz#27db4daf7d9d0aea524be886e513b76fad5264b7"
-  integrity sha512-wM/RxltBI6/nzl8Nqu3/r4sp/vEcVYYcEK/BDuJB91aSe96pHVrk72UMoDqnIuTNOTU8AK2WbBgj/ifYo3rBPA==
-  dependencies:
-    fetch-jsonp "^1.2.1"
-    lodash "^4.17.15"
-
-social-components@^0.4.14:
+social-components@^0.4.1, social-components@^0.4.13, social-components@^0.4.14:
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/social-components/-/social-components-0.4.14.tgz#67945fe70c5547a355688367a1ff8ea7177f3790"
   integrity sha512-+1bZ6g3WRFEvlKQ1y+qBH+o0KcHGDZZLZPIg6F1sc6p2RL+VO0ursVuNxLGLjEU7Pd6twNcMRO1BAr1XpnhIYA==

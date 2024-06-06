@@ -10,7 +10,7 @@ interface Parameters {
 }
 
 /**
- * Adds some utility properties on thread comments.
+ * Adds some thread-specific "info" properties on the `comments` of a `thread`.
  *
  * It "mutates" the `thread` object because: (a) such approach doesn't cause any issues and
  * (b) it has been written like this originally so it's not very clear if changing that aspect

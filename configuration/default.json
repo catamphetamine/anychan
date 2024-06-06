@@ -6,6 +6,7 @@
 	"commentLengthLimit": 1000,
 	"commentLengthLimitForThreadPreview": 500,
 	"commentLengthLimitForThreadPreviewForTileLayout": 170,
+	"commentThumbnailMaxWidth": 220,
 	"generatedQuoteMaxLength": 120,
 	"generatedQuoteMinFitFactor": 0.5,
 	"generatedQuoteMaxFitFactor": 1.4,

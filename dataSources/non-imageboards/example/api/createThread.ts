@@ -16,17 +16,23 @@ export async function createThread({
 }: CreateThreadParameters): Promise<CreateThreadResult> {
 	if (channelId === CHANNEL1.id) {
 		const id = getNextId()
+		const createdAt = new Date()
+
+		// Transform text to `ContentBlock[]` array.
+		const contentBlocks = getContentForText(content)
 
 		const thread: ThreadFromDataSource = {
 			id,
 			channelId: CHANNEL1.id,
+			createdAt,
 			commentsCount: 1,
 			attachmentsCount: attachments ? attachments.length : 0,
 			title,
 			comments: [{
 				id,
+				createdAt,
 				title,
-				content: getContentForText(content),
+				content: contentBlocks,
 				attachments: attachments ? await Promise.all(attachments.map(getAttachmentForFile)) : undefined
 			}]
 		}

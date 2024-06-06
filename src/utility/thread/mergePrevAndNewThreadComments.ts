@@ -174,6 +174,7 @@ function updateReplyIdsOfOldComments(thread: Thread, updatedThread: Thread, getC
 				inReplyTo.replyIds.push(newComment.id)
 			}
 		}
+		i++
 	}
 }
 

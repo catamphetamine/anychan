@@ -27,6 +27,7 @@ export const CHANNEL1_THREAD1_COMMENT1: CommentFromDataSource = {
 	replyIds: [
 		CHANNEL1_THREAD1_COMMENT2_ID
 	],
+	createdAt: new Date('2020-01-01T14:59:00.000Z'),
 	title: 'Chill thread',
 	content: [
 		[
@@ -44,6 +45,7 @@ export const CHANNEL1_THREAD1_COMMENT2: CommentFromDataSource = {
 	inReplyToIds: [
 		CHANNEL1_THREAD1_COMMENT1_ID
 	],
+	createdAt: new Date('2020-01-01T15:10:00.000Z'),
 	replyIds: [
 		CHANNEL1_THREAD1_COMMENT3_ID
 	],
@@ -76,6 +78,7 @@ export const CHANNEL1_THREAD1_COMMENT3: CommentFromDataSource = {
 	inReplyToIds: [
 		CHANNEL1_THREAD1_COMMENT2_ID
 	],
+	createdAt: new Date('2020-01-01T20:00:00.000Z'),
 	content: [
 		[
 			{
@@ -102,6 +105,7 @@ export const CHANNEL1_THREAD1_COMMENT3: CommentFromDataSource = {
 
 export const CHANNEL1_THREAD1_COMMENT4: CommentFromDataSource = {
 	id: CHANNEL1_THREAD1_COMMENT4_ID,
+	createdAt: new Date('2020-01-02T15:00:00.000Z'),
 	content: [
 		[
 			'bump'
@@ -119,6 +123,7 @@ const CHANNEL1_THREAD1_COMMENTS = [
 export const CHANNEL1_THREAD1: ThreadFromDataSource = {
 	id: CHANNEL1_THREAD1_COMMENT1.id,
 	channelId: CHANNEL1_ID,
+	createdAt: CHANNEL1_THREAD1_COMMENT1.createdAt,
 	title: CHANNEL1_THREAD1_COMMENT1.title,
 	commentsCount: CHANNEL1_THREAD1_COMMENTS.length,
 	attachmentsCount: CHANNEL1_THREAD1_COMMENTS.reduce((attachmentsCount, comment) => {

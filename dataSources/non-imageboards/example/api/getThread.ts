@@ -4,6 +4,8 @@ import { CHANNELS } from './data/index.js'
 
 import { ChannelNotFoundError, ThreadNotFoundError } from '../../../../src/api/errors/index.js'
 
+import getChannelData from './utility/getChannelData.js'
+
 export async function getThread({
 	channelId,
 	threadId
@@ -21,10 +23,7 @@ export async function getThread({
 	}
 
 	return {
-		channel: {
-			id: channel.id,
-			title: channel.title
-		},
+		channel: getChannelData(channel),
 		thread
 	}
 }

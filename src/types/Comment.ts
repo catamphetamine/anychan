@@ -1,16 +1,16 @@
-import type { ContentBlock, InlineContent, Attachment } from 'social-components'
-import type { ChannelFromDataSource, Thread } from './index.js';
+import type { InlineContent, Attachment } from 'social-components'
+import type { ChannelFromDataSource, Thread, Content, ContentBlock } from './index.js';
 
 export type CommentId = number;
-
-export type GetCommentById = (id: CommentId) => Comment | undefined;
-
-type GetCommentFromDataSourceById = (id: CommentId) => CommentFromDataSource | undefined;
 
 export interface CommentFromDataSource {
 	id: CommentId;
 	title?: string;
-	content?: ContentBlock[];
+
+	// The comment's `content` should be of type `Content`:
+	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
+	content?: Content;
+
 	createdAt?: Date;
 	updatedAt?: Date;
 
@@ -84,6 +84,17 @@ export interface CommentFromDataSource {
 }
 
 export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfThread {
+	// The `content` of `CommentFromDataSource` will be forcefully converted to a list of `ContentBlock`s.
+	//
+	// The rationale is that it's easier to operate on (i.e. post-process) a single pre-defined type of structure
+	// rather than support different edge cases like `content` being just a `string`.
+	//
+	// As per the document, `Content` can be either a `string` or an array of `ContentBlock`s.
+	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
+	// Therefore, if the application receives a `string` from a data source, it converts it to a `[[string]]` structure.
+	//
+	content?: ContentBlock[],
+
 	// // * `inReplyTo` is a list of comments it replies to.
 	// // * `inReplyToIds` is a list of IDs of the comments that it replies to.
 	// // * `inReplyToIdsRemoved` is a list of IDs of the comments that it replies to, that have been removed by moderators.
@@ -214,3 +225,6 @@ export type RootCommentPropertiesOfThread = Pick<Thread,
 	'locked' |
 	// Bump limit indicator.
 	'bumpLimitReached'>;
+
+type GetCommentFromDataSourceById = (id: CommentId) => CommentFromDataSource | undefined;
+export type GetCommentById = (id: CommentId) => Comment | undefined;

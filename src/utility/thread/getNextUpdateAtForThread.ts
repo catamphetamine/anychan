@@ -22,12 +22,19 @@ export default function getNextUpdateAtForThread(prevUpdateAt: number, {
 	}
 
 	if (refreshErrorCount) {
-		const usualNextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, options)
 		const certainErrorsCount = Math.min(refreshErrorCount - 1, 10)
-		return Math.max(
-			usualNextUpdateAt,
-			refreshErrorDate.getTime() + certainErrorsCount * certainErrorsCount * certainErrorsCount * REFRESH_ERROR_UPDATE_DELAY
-		)
+		const nextUpdateAtBackoff = refreshErrorDate.getTime() + certainErrorsCount * certainErrorsCount * certainErrorsCount * REFRESH_ERROR_UPDATE_DELAY
+
+		const normalNextUpdateAt = getNextUpdateAtForThread(prevUpdateAt, options)
+
+		if (isNaN(normalNextUpdateAt)) {
+			return nextUpdateAtBackoff
+		} else {
+			return Math.max(
+				normalNextUpdateAt,
+				nextUpdateAtBackoff
+			)
+		}
 	}
 
 	const {

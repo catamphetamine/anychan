@@ -56,9 +56,11 @@ export default function useVote({
 
 			if (voteAccepted) {
 				if (up) {
-					comment.upvotes++
+					// `comment.upvotes` property could be `undefined` even when comment votes are enabled.
+					comment.upvotes = (comment.upvotes || 0) + 1
 				} else {
-					comment.downvotes++
+					// `comment.downvotes` property could be `undefined` even when comment votes are enabled.
+					comment.downvotes = (comment.downvotes || 0) + 1
 				}
 			} else {
 				dispatch(notify(messages.post.alreadyVoted))
