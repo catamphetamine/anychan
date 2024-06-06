@@ -1,4 +1,5 @@
-export * from './AlreadyReportedError.js'
+export * from './AlreadyReportedCommentError.js'
+export * from './AlreadyRatedCommentError.js'
 export * from './AttachmentNotSupportedError.js'
 export * from './AttachmentRequiredError.js'
 export * from './AttachmentsCountExceededError.js'

@@ -137,7 +137,7 @@ export interface DataSource {
 		findComments?: (parameters: FindCommentsParameters) => Promise<FindCommentsResult>,
 
 		// Submits an upvote or a downvote for a comment.
-		voteForComment?: (parameters: VoteForCommentParameters) => Promise<VoteForCommentResult>,
+		rateComment?: (parameters: RateCommentParameters) => Promise<RateCommentResult>,
 
 		// Logs in a user.
 		logIn?: (parameters: LogInParameters) => Promise<LogInResult>,
@@ -464,14 +464,14 @@ export interface LogOutParameters extends DataSourceApiCommonParameters {}
 
 export type LogOutResult = void;
 
-export interface VoteForCommentParameters extends DataSourceApiCommonParameters {
+export interface RateCommentParameters extends DataSourceApiCommonParameters {
 	channelId: ChannelFromDataSource['id'];
 	threadId: ThreadFromDataSource['id'];
 	commentId: CommentFromDataSource['id'];
 	up: boolean;
 }
 
-export type VoteForCommentResult = boolean;
+export type RateCommentResult = boolean;
 
 export interface CreateThreadOrCommentCommonParameters extends DataSourceApiCommonParameters {
 	channelId: ChannelFromDataSource['id'];
@@ -532,11 +532,42 @@ export interface ReportCommentParameters extends DataSourceApiCommonParameters {
 export type ReportCommentResult = void;
 
 interface DataSourceApiCommonParameters {
-	proxyUrl: string;
+	// CORS proxy URL.
+	//
+	// Pass it to `createHttpRequestFunction({ proxyUrl })` to create a "send HTTP request" function.
+	// If `proxyUrl` is passed to that function, it will proxy all HTTP requests through that proxy.
+	// Otherwise, it won't use any proxy when sending HTTP requests.
+	//
+	proxyUrl: string | null;
 }
 
 interface DataSourceReadApiCommonParameters extends DataSourceApiCommonParameters {
+	// The locale that is currently selected in the application.
+	// Although I'd call it more of a "language" rather than a "locale"
+	// because it doesn't contain the "region" part: it's just "en" rather than "en-US".
+	//
+	// The user's locale could be used to customize API response for a certain language.
+	// For example, if the API replaces YouTube links with YouTube video titles,
+	// it could use the locale to choose between the available titles in different languages.
+	//
+	// Examples: `"en"`, `"ru"`, etc.
+	//
 	locale: Locale;
+
+	// If the application runs on one of the "original" domains of the data source,
+	// the `originalDomain` is gonna be that "original" domain.
+	//
+	// For example, if this application was running somewhere at `https://4chan.org/anychan`
+	// then the `originalDomain` would be `"4chan.org"`.
+	//
+	// A data source "implementation" could then use this `originalDomain` parameter
+	// when deciding whether it should convert any relative URLs to absolute ones.
+	//
+	// For example, if `originalDomain` was `"4chan.org"` and images were also hosted at `4chan.org`
+	// then those image URLs could be left relative like `"/images/image12345.jpg".
+	// In other cases, any relative URLs should be manually converted to absolute ones
+	// like `"https://4chan.org/images/image12345.jpg"` by the data source "implementation".
+	//
 	originalDomain: string | null;
 }
 
@@ -547,5 +578,6 @@ type ReportReason = {
 }
 
 export type DataSourceFeature =
+	'getThread.withLatestComments' |
 	'getThreads.sortByRatingDesc' |
 	'logIn.tokenPassword'

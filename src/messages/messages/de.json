@@ -338,7 +338,7 @@
 			"content": "Text des Berichts",
 			"reason": "Grund melden",
 			"error": {
-				"alreadyReported": "Sie haben bereits einen Bericht eingereicht",
+				"alreadyReported": "Sie haben bereits einen Bericht zu diesem Kommentar eingereicht",
 				"contentRequired": "Berichtstext ist erforderlich",
 				"violationTypeRequired": "Sie müssen entscheiden, ob Sie einen Verstoß gegen die Regeln oder das Gesetz melden",
 				"error": "Ihr Bericht konnte nicht übermittelt werden"
@@ -365,6 +365,7 @@
 	"newComments": "Neue Kommentare",
 	"lastComment": "Letzter Kommentar",
 	"goToComment": "Zum Kommentar gehen",
+	"alreadyRatedComment": "Sie haben diesen Kommentar bereits bewertet",
 	"yourAccountIsBanned": "{untilDate, missing {Du bist verbannt}}{untilDate, exists {Du bist bis zum {untilDate, date, long} gesperrt}}{reason, exists {. Grund: {reason}}}{banId, exists {. Sperr-ID: {banId}}}{boardId, exists {. Board: {boardId}}}",
 	"attachmentRequired": "Eine Anlage ist erforderlich",
 	"attachmentNotSupported": "Einige der Anhänge werden nicht unterstützt",

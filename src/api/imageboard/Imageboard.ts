@@ -7,7 +7,7 @@ import getMessages from '../utility/getMessagesForImageboard.js'
 import shouldMinimizeGeneratedPostLinkBlockQuotes from '../../utility/post/shouldMinimizeGeneratedPostLinkBlockQuotes.js'
 import getConfiguration from '../../getConfiguration.js'
 
-import createHttpRequestFunction from './createHttpRequestFunction.js'
+import createHttpRequestFunction from '../utility/createHttpRequestFunction.js'
 
 export default function Imageboard_(imageboardConfig: ImageboardConfig, {
 	messages,

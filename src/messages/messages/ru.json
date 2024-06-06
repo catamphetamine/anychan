@@ -339,7 +339,7 @@
 			"content": "Текст жалобы",
 			"reason": "Причина жалобы",
 			"error": {
-				"alreadyReported": "Вы уже отправляли жалобу",
+				"alreadyReported": "Вы уже отправляли жалобу на этот комментарий",
 				"contentRequired": "Вы не ввели текст жалобы",
 				"violationTypeRequired": "Вы должны выбрать тип жалобы: нарушение правил или нарушение закона",
 				"error": "Не удалось отправить вашу жалобу"
@@ -366,6 +366,7 @@
 	"newComments": "Новые комментарии",
 	"lastComment": "Последний комментарий",
 	"goToComment": "Перейти к комментарию",
+	"alreadyRatedComment": "Вы уже голосовали за этот комментарий",
 	"yourAccountIsBanned": "Вы забанены{untilDate, exists { до {untilDate, date, long}}}{reason, exists {. Причина: {reason}}}{banId, exists {. ID бана: {banId}}}{boardId, exists {. Доска: {boardId}}}",
 	"attachmentRequired": "Требуется прикрепить вложение",
 	"attachmentNotSupported": "Какие-то из вложений не поддерживаются",

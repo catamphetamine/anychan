@@ -1,13 +1,13 @@
-import type { Channel, ChannelLayout, ChannelSorting } from '@/types'
+import type { Channel, ChannelLayout, ChannelSorting, DataSource } from '@/types'
 
 import React, { useMemo, useCallback, RefObject } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-// @ts-expect-error
-import { ExpandableMenu, List } from 'react-responsive-ui'
+// // @ts-expect-error
+// import { ExpandableMenu, List } from 'react-responsive-ui'
 
-import Button from 'frontend-lib/components/ButtonAsync.js'
+// import Button from 'frontend-lib/components/ButtonAsync.js'
 
 import Toolbar from '../Toolbar.js'
 
@@ -46,6 +46,9 @@ export default function ChannelHeaderToolbar({
 	onChannelViewWillChange,
 	onChannelViewDidChange
 }: ChannelHeaderToolbarProps) {
+	const messages = useMessages()
+	const dataSource = useDataSource()
+
 	const {
 		isSettingChannelView,
 		setChannelView
@@ -56,13 +59,14 @@ export default function ChannelHeaderToolbar({
 	})
 
 	const setChannelLayout = useCallback((layout: ChannelLayout) => {
-		if (layout !== channelLayout) {
+		if (layout !== channelLayout && isLayoutSupportedByDataSource(layout, dataSource)) {
 			setChannelView({ layout, sorting: channelSorting })
 		}
 	}, [
 		setChannelView,
 		channelLayout,
-		channelSorting
+		channelSorting,
+		dataSource
 	])
 
 	const setChannelSorting = useCallback(async (sorting: ChannelSorting) => {
@@ -75,39 +79,44 @@ export default function ChannelHeaderToolbar({
 		channelSorting
 	])
 
-	const messages = useMessages()
-	const dataSource = useDataSource()
+	const channelLayoutItems = useMemo(() => {
+		const items = [
+			{
+				title: messages.channelLayout.options.threadsTiles,
+				onClick: () => setChannelLayout('threadsTiles'),
+				isSelected: channelLayout === 'threadsTiles',
+				icon: ThreadTilesIconOutline,
+				wait: isSettingChannelView,
+				className: 'ChannelHeaderToolbar-channelLayoutButton'
+			},
+			{
+				title: messages.channelLayout.options.threadsList,
+				onClick: () => setChannelLayout('threadsList'),
+				isSelected: channelLayout === 'threadsList',
+				icon: ThreadsIconOutline,
+				wait: isSettingChannelView,
+				className: 'ChannelHeaderToolbar-channelLayoutButton'
+			}
+		]
 
-	const channelLayoutItems = useMemo(() => [
-		{
-			title: messages.channelLayout.options.threadsTiles,
-			onClick: () => setChannelLayout('threadsTiles'),
-			isSelected: channelLayout === 'threadsTiles',
-			icon: ThreadTilesIconOutline,
-			wait: isSettingChannelView,
-			className: 'ChannelHeaderToolbar-channelLayoutButton'
-		},
-		{
-			title: messages.channelLayout.options.threadsList,
-			onClick: () => setChannelLayout('threadsList'),
-			isSelected: channelLayout === 'threadsList',
-			icon: ThreadsIconOutline,
-			wait: isSettingChannelView,
-			className: 'ChannelHeaderToolbar-channelLayoutButton'
-		},
-		{
-			title: messages.channelLayout.options.threadsListWithLatestComments,
-			onClick: () => setChannelLayout('threadsListWithLatestComments'),
-			isSelected: channelLayout === 'threadsListWithLatestComments',
-			icon: ThreadWithCommentsIconOutline,
-			wait: isSettingChannelView,
-			className: 'ChannelHeaderToolbar-channelLayoutButton'
+		if (isLayoutSupportedByDataSource('threadsListWithLatestComments', dataSource)) {
+			items.push({
+				title: messages.channelLayout.options.threadsListWithLatestComments,
+				onClick: () => setChannelLayout('threadsListWithLatestComments'),
+				isSelected: channelLayout === 'threadsListWithLatestComments',
+				icon: ThreadWithCommentsIconOutline,
+				wait: isSettingChannelView,
+				className: 'ChannelHeaderToolbar-channelLayoutButton'
+			})
 		}
-	], [
+
+		return items
+	}, [
 		channelLayout,
 		setChannelLayout,
 		isSettingChannelView,
-		messages
+		messages,
+		dataSource
 	])
 
 	const channelSortingPopularItem = useMemo(() => {
@@ -233,158 +242,167 @@ interface ChannelHeaderToolbarProps {
 	onSearchClick?: () => void
 }
 
-const ChannelLayoutOrSortingButton = React.forwardRef((props, ref) => (
-	<Button {...props} ref={ref}/>
-))
+// const ChannelLayoutOrSortingButton = React.forwardRef((props, ref) => (
+// 	<Button {...props} ref={ref}/>
+// ))
 
-const CHANNEL_LAYOUT_OPTIONS = [{
-	icon: ThreadsIconOutline,
-	value: 'threadsList'
-}, {
-	icon: ThreadWithCommentsIconOutline,
-	value: 'threadsListWithLatestComments'
-}, {
-	icon: ThreadTilesIconOutline,
-	value: 'threadsTiles'
-}] as const
+// const CHANNEL_LAYOUT_OPTIONS = [{
+// 	icon: ThreadsIconOutline,
+// 	value: 'threadsList'
+// }, {
+// 	icon: ThreadWithCommentsIconOutline,
+// 	value: 'threadsListWithLatestComments'
+// }, {
+// 	icon: ThreadTilesIconOutline,
+// 	value: 'threadsTiles'
+// }] as const
 
-const CHANNEL_SORTING_OPTIONS = [{
-	value: 'default'
-}, {
-	value: 'popular'
-}] as const
+// const CHANNEL_SORTING_OPTIONS = [{
+// 	value: 'default'
+// }, {
+// 	value: 'popular'
+// }] as const
 
-function ChannelLayoutSelect({
-	channelLayout,
-	setChannelLayout,
-	isSettingChannelView
-}: ChannelLayoutSelectProps) {
-	const messages = useMessages()
+// function ChannelLayoutSelect({
+// 	channelLayout,
+// 	setChannelLayout,
+// 	isSettingChannelView
+// }: ChannelLayoutSelectProps) {
+// 	const messages = useMessages()
+// 	const dataSource = useDataSource()
 
-	const channelLayoutButtonToggleElement = useMemo(() => {
-		let Icon
-		switch (channelLayout) {
-			case 'threadsList':
-				Icon = ThreadsIconOutline
-				break
-			case 'threadsListWithLatestComments':
-				Icon = ThreadWithCommentsIconOutline
-				break
-			case 'threadsTiles':
-				Icon = ThreadTilesIconOutline
-				break
-		}
-		return (
-			<Icon className="ChannelHeaderToolbar-channelLayoutIcon"/>
-		)
-	}, [channelLayout])
+// 	const channelLayoutButtonToggleElement = useMemo(() => {
+// 		let Icon
+// 		switch (channelLayout) {
+// 			case 'threadsList':
+// 				Icon = ThreadsIconOutline
+// 				break
+// 			case 'threadsListWithLatestComments':
+// 				Icon = ThreadWithCommentsIconOutline
+// 				break
+// 			case 'threadsTiles':
+// 				Icon = ThreadTilesIconOutline
+// 				break
+// 		}
+// 		return (
+// 			<Icon className="ChannelHeaderToolbar-channelLayoutIcon"/>
+// 		)
+// 	}, [channelLayout])
 
-	const channelLayoutButtonProps = useMemo(() => {
-		return {
-			title: messages.channelLayout.title,
-			wait: isSettingChannelView,
-			className: 'ChannelHeaderToolbar-channelLayoutButton',
-			children: channelLayoutButtonToggleElement
-		}
-	}, [
-		channelLayout,
-		isSettingChannelView,
-		messages,
-		channelLayoutButtonToggleElement
-	])
+// 	const channelLayoutButtonProps = useMemo(() => {
+// 		return {
+// 			title: messages.channelLayout.title,
+// 			wait: isSettingChannelView,
+// 			className: 'ChannelHeaderToolbar-channelLayoutButton',
+// 			children: channelLayoutButtonToggleElement
+// 		}
+// 	}, [
+// 		channelLayout,
+// 		isSettingChannelView,
+// 		messages,
+// 		channelLayoutButtonToggleElement
+// 	])
 
-	return (
-		<ExpandableMenu
-			highlightSelectedItem
-			alignment="right"
-			value={channelLayout}
-			buttonComponent={ChannelLayoutOrSortingButton}
-			buttonProps={channelLayoutButtonProps}
-			className="ChannelHeaderToolbar-channelLayoutSelect">
-			{CHANNEL_LAYOUT_OPTIONS.map(({ icon: Icon, value }) => (
-				<List.Item
-					key={value}
-					value={value}
-					label={messages.channelLayout.options[value]}
-					onClick={() => setChannelLayout(value)}>
-					<Icon className="ChannelHeaderToolbar-channelLayoutIcon"/>
-				</List.Item>
-			))}
-		</ExpandableMenu>
-	)
-}
+// 	const channelLayoutOptions = useMemo(() => {
+// 		return CHANNEL_LAYOUT_OPTIONS.filter((option) => {
+// 			return isLayoutSupportedByDataSource(option.value, dataSource)
+// 		})
+// 	}, [
+// 		dataSource
+// 	])
 
-ChannelLayoutSelect.propTypes = {
-	channelLayout: PropTypes.string,
-	setChannelLayout: PropTypes.func.isRequired,
-	isSettingChannelView: PropTypes.bool
-}
+// 	return (
+// 		<ExpandableMenu
+// 			highlightSelectedItem
+// 			alignment="right"
+// 			value={channelLayout}
+// 			buttonComponent={ChannelLayoutOrSortingButton}
+// 			buttonProps={channelLayoutButtonProps}
+// 			className="ChannelHeaderToolbar-channelLayoutSelect">
+// 			{channelLayoutOptions.map(({ icon: Icon, value }) => (
+// 				<List.Item
+// 					key={value}
+// 					value={value}
+// 					label={messages.channelLayout.options[value]}
+// 					onClick={() => setChannelLayout(value)}>
+// 					<Icon className="ChannelHeaderToolbar-channelLayoutIcon"/>
+// 				</List.Item>
+// 			))}
+// 		</ExpandableMenu>
+// 	)
+// }
 
-interface ChannelLayoutSelectProps {
-	channelLayout?: ChannelLayout,
-	setChannelLayout: (channelLayout: ChannelLayout) => void,
-	isSettingChannelView?: boolean
-}
+// ChannelLayoutSelect.propTypes = {
+// 	channelLayout: PropTypes.string,
+// 	setChannelLayout: PropTypes.func.isRequired,
+// 	isSettingChannelView: PropTypes.bool
+// }
 
-function ChannelSortingSelect({
-	channelSorting,
-	setChannelSorting,
-	isSettingChannelView
-}: ChannelSortingSelectProps) {
-	const messages = useMessages()
+// interface ChannelLayoutSelectProps {
+// 	channelLayout?: ChannelLayout,
+// 	setChannelLayout: (channelLayout: ChannelLayout) => void,
+// 	isSettingChannelView?: boolean
+// }
 
-	const channelSortingButtonToggleElement = useMemo(() => {
-		return (
-			<SortIcon
-				className="ChannelHeaderToolbar-channelSortingIcon"
-			/>
-		)
-	}, [])
+// function ChannelSortingSelect({
+// 	channelSorting,
+// 	setChannelSorting,
+// 	isSettingChannelView
+// }: ChannelSortingSelectProps) {
+// 	const messages = useMessages()
 
-	const channelSortingButtonProps = useMemo(() => {
-		return {
-			title: messages.channelSorting.title,
-			wait: isSettingChannelView,
-			className: 'ChannelHeaderToolbar-channelSortingButton',
-			children: channelSortingButtonToggleElement
-		}
-	}, [
-		isSettingChannelView,
-		messages,
-		channelSortingButtonToggleElement
-	])
+// 	const channelSortingButtonToggleElement = useMemo(() => {
+// 		return (
+// 			<SortIcon
+// 				className="ChannelHeaderToolbar-channelSortingIcon"
+// 			/>
+// 		)
+// 	}, [])
 
-	return (
-		<ExpandableMenu
-			highlightSelectedItem
-			alignment="right"
-			value={channelSorting}
-			buttonComponent={ChannelLayoutOrSortingButton}
-			buttonProps={channelSortingButtonProps}
-			className="ChannelHeaderToolbar-channelSortingSelect">
-			{CHANNEL_SORTING_OPTIONS.map(({ value }) => (
-				<List.Item
-					key={value}
-					value={value}
-					onClick={() => setChannelSorting(value)}>
-					{messages.channelSorting.options[value]}
-				</List.Item>
-			))}
-		</ExpandableMenu>
-	)
-}
+// 	const channelSortingButtonProps = useMemo(() => {
+// 		return {
+// 			title: messages.channelSorting.title,
+// 			wait: isSettingChannelView,
+// 			className: 'ChannelHeaderToolbar-channelSortingButton',
+// 			children: channelSortingButtonToggleElement
+// 		}
+// 	}, [
+// 		isSettingChannelView,
+// 		messages,
+// 		channelSortingButtonToggleElement
+// 	])
 
-ChannelSortingSelect.propTypes = {
-	channelSorting: PropTypes.string,
-	setChannelSorting: PropTypes.func.isRequired,
-	isSettingChannelView: PropTypes.bool
-}
+// 	return (
+// 		<ExpandableMenu
+// 			highlightSelectedItem
+// 			alignment="right"
+// 			value={channelSorting}
+// 			buttonComponent={ChannelLayoutOrSortingButton}
+// 			buttonProps={channelSortingButtonProps}
+// 			className="ChannelHeaderToolbar-channelSortingSelect">
+// 			{CHANNEL_SORTING_OPTIONS.map(({ value }) => (
+// 				<List.Item
+// 					key={value}
+// 					value={value}
+// 					onClick={() => setChannelSorting(value)}>
+// 					{messages.channelSorting.options[value]}
+// 				</List.Item>
+// 			))}
+// 		</ExpandableMenu>
+// 	)
+// }
 
-interface ChannelSortingSelectProps {
-	channelSorting?: ChannelSorting,
-	setChannelSorting: (channelSorting: ChannelSorting) => void,
-	isSettingChannelView?: boolean
-}
+// ChannelSortingSelect.propTypes = {
+// 	channelSorting: PropTypes.string,
+// 	setChannelSorting: PropTypes.func.isRequired,
+// 	isSettingChannelView: PropTypes.bool
+// }
+
+// interface ChannelSortingSelectProps {
+// 	channelSorting?: ChannelSorting,
+// 	setChannelSorting: (channelSorting: ChannelSorting) => void,
+// 	isSettingChannelView?: boolean
+// }
 
 type ToolbarItem = ToolbarItemInteractive | ToolbarItemSeparator
 
@@ -399,4 +417,13 @@ interface ToolbarItemInteractive {
 	icon: React.ElementType,
 	wait?: boolean,
 	className?: string
+}
+
+function isLayoutSupportedByDataSource(layout: ChannelLayout, dataSource: DataSource) {
+	switch (layout) {
+		case 'threadsListWithLatestComments':
+			return dataSource.supportsFeature('getThread.withLatestComments')
+		default:
+			return true
+	}
 }

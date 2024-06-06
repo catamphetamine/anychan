@@ -7,9 +7,18 @@ import ExampleDataSourceConfig from './index.json' assert { type: 'json' }
 const ExampleDataSource: DataSourceDefinition = {
 	...ExampleDataSourceConfig,
 
-	supportsFeature: () => {
-		// Doesn't support any fancy features. Just the basic stuff.
-		return false
+	// TypeScript doesn't support `import`ing `*.json` files `as const`.
+	// Because of that, it incorrectly infers the type of the JSON structure.
+	// @ts-expect-error
+	description: ExampleDataSourceConfig.description,
+
+	supportsFeature: (feature) => {
+		switch (feature) {
+			case 'getThread.withLatestComments':
+				return true
+			default:
+				return false
+		}
 	},
 
 	// This flag is set to `true` to prevent the application from converting relative attachment URLs

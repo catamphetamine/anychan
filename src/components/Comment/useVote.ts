@@ -8,7 +8,9 @@ import useSettings from '../../hooks/useSettings.js'
 import useDataSource from '../../hooks/useDataSource.js'
 import useMessages from '../../hooks/useMessages.js'
 
-import voteForComment from '../../api/voteForComment.js'
+import rateComment from '../../api/rateComment.js'
+
+import { AlreadyRatedCommentError } from '@/api/errors'
 
 import { notify, showError } from '../../redux/notifications.js'
 
@@ -32,13 +34,13 @@ export default function useVote({
 	const [vote, setVote] = useState(comment.vote)
 
 	const onVote = useCallback(async (up: boolean) => {
-		if (!dataSource.api.voteForComment) {
+		if (!dataSource.api.rateComment) {
 			dispatch(notify(messages.notImplementedForTheDataSource))
 			return
 		}
 
 		try {
-			const voteAccepted = await voteForComment({
+			const voteAccepted = await rateComment({
 				up,
 				channelId,
 				threadId,
@@ -67,7 +69,11 @@ export default function useVote({
 			comment.vote = up
 			setVote(comment.vote)
 		} catch (error) {
-			dispatch(showError(error.message))
+			if (error instanceof AlreadyRatedCommentError) {
+				dispatch(showError(messages.alreadyRatedComment))
+			} else {
+				dispatch(showError(error.message))
+			}
 		}
 	}, [
 		channelId,

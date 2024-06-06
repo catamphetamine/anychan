@@ -25,7 +25,7 @@
     "test": "node --no-warnings=ExperimentalWarning --loader ts-node/esm node_modules/mocha/bin/_mocha --require ./test/setup.js --reporter spec --colors --bail --exit --recursive \"./{,!(node_modules)/**/}*.test.js\""
   },
   "dependencies": {
-    "@catamphetamine/id3js": "^1.0.1",
+    "@catamphetamine/id3js": "^1.0.2",
     "@floating-ui/react": "^0.26.16",
     "@formatjs/intl-pluralrules": "^5.2.14",
     "@popperjs/core": "^2.11.8",
@@ -38,7 +38,7 @@
     "file-saver": "^2.0.5",
     "filesize": "^10.1.2",
     "flexible-json-schema": "^0.12.12",
-    "imageboard": "^0.11.2",
+    "imageboard": "^0.11.3",
     "intl-messageformat": "^10.5.14",
     "javascript-time-ago": "^2.5.10",
     "lodash-es": "^4.17.21",

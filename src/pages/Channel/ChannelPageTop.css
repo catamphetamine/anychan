@@ -2,6 +2,12 @@
 	/*display: flex;*/
 	/*justify-content: space-between;*/
 
+	/* On channel page, in "with latest comments" mode, the "negative" margin on the `.CommentsList`
+	   overlaps with the channel page buttons such as "Create Thread" and would obstruct those buttons.
+		 A workaround is to set those buttons' `z-index` higher than the one of the `.CommentsList`. */
+	position: relative;
+	z-index: 1;
+
 	margin-top: var(--ChannelPageTop-marginTop);
 	margin-bottom: var(--ChannelPageTop-marginTop);
 

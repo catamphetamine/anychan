@@ -1937,10 +1937,10 @@
     tiny-set-immediate "^1.0.2"
     tiny-warning "^1.0.3"
 
-"@catamphetamine/id3js@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@catamphetamine/id3js/-/id3js-1.0.1.tgz#dc91d8581569f8062706b1f976f9910a2ccb794c"
-  integrity sha512-NwM+GYOyQpL4uBReASTVo/IO8npvD/P8FHp+2dEnJndTx0+WsROo95wYl1xd9Um16VmIwG+n/6886pEzuzwhEA==
+"@catamphetamine/id3js@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@catamphetamine/id3js/-/id3js-1.0.2.tgz#88c3b247811cc7441c0ed11082aa7b0c4f2908ee"
+  integrity sha512-ya/zpsIJhksU3RY262GVJEqxDomof3tUCTC2E93Pz92iQOV1H5pz/6+OOsLf5ofBDBCwwGi8PGFHEofVwhNWSw==
   dependencies:
     node-fetch "^3.3.1"
 
@@ -6207,10 +6207,10 @@ ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"
   integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
 
-imageboard@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.11.2.tgz#793f413ba209d8188fc1938093860bc49420b959"
-  integrity sha512-dEuJ0rdiYGcS0C5jP6Nmg0gGt0Dca2m66VjutoZAwr8p/OsgGYbYS2ICyOIsvV8dxUc5foZubD1Jjbm5FcpJwA==
+imageboard@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/imageboard/-/imageboard-0.11.3.tgz#ac8e71595bf77b405fd82300bccb3c3cc9596dff"
+  integrity sha512-IVFCY68M+sAvYmlmTbAiP8aVLWMT0HXfaeMoXjqQ8gdYT7LFnLolGQZI8lBJv3ecKMntjgy/ltvl0Nk/Akm21g==
   dependencies:
     "@xmldom/xmldom" "^0.8.2"
     entities "^4.4.0"

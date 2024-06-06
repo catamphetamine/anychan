@@ -212,12 +212,17 @@ export default function({ proxyUrl }: Parameters = {}): HttpRequestFunction {
 		// and has to be a specific "origin" equal to the "origin" making the HTTP request.
 		// https://fetch.spec.whatwg.org/#cors-protocol-and-credentials
 		//
+		// The default value for `credentials` is `"same-origin"`
+		// meaning that it will send cookies when the application runs on the same domain:
+		// https://developer.mozilla.org/en-US/docs/Web/API/fetch#credentials
+		//
 		credentials: isUsingCorsProxy ? 'include' : undefined
 	})
 
 	return async function({
 		method,
 		url,
+		query,
 		body,
 		headers,
 		cookies
@@ -225,6 +230,7 @@ export default function({ proxyUrl }: Parameters = {}): HttpRequestFunction {
 		return await sendHttpRequest({
 			method,
 			url,
+			query,
 			body,
 			headers,
 			cookies

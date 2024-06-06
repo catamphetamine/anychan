@@ -1,11 +1,12 @@
 import type { GetTopChannelsParameters, GetTopChannelsResult } from '@/types'
 
-import { CHANNEL1 } from './data.js'
+import { CHANNELS } from './data/index.js'
 
 export async function getTopChannels(): Promise<GetTopChannelsResult> {
 	return {
-		channels: [
-			CHANNEL1
-		]
+		channels: CHANNELS.map((channel) => ({
+			id: channel.id,
+			title: channel.title
+		}))
 	}
 }

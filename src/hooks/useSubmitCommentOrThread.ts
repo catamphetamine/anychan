@@ -96,7 +96,7 @@ export default function useSubmitCommentOrThread({
 				channelId,
 				accessToken,
 				content,
-				attachments: attachmentFiles,
+				attachments: attachmentFiles && attachmentFiles.length > 0 ? attachmentFiles : undefined,
 				authorIsThreadAuthor: undefined,
 				authorEmail: undefined,
 				authorName: undefined,

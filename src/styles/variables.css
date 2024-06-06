@@ -481,6 +481,7 @@
 	/* PostCode. */
 	--PostCode-borderLeftWidth: 0px;
 	--PostCode-borderRightWidth: 0px;
+	--PostCode-borderRadius--inline: 0.2em;
 
 	/* CommentAuthorBannedIcon. */
 	--CommentAuthorBannedIcon-color: var(--Critical-color);

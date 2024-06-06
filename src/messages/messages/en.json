@@ -338,7 +338,7 @@
 			"content": "Report text",
 			"reason": "Report reason",
 			"error": {
-				"alreadyReported": "You've already submitted a report",
+				"alreadyReported": "You've already submitted a report for this comment",
 				"contentRequired": "Report text is required",
 				"violationTypeRequired": "You must choose whether you're reporting a violation of the rules or the law",
 				"error": "Couldn't submit your report"
@@ -365,6 +365,7 @@
 	"newComments": "New comments",
 	"lastComment": "Last comment",
 	"goToComment": "Go to comment",
+	"alreadyRatedComment": "You've already rated this comment",
 	"yourAccountIsBanned": "You're banned{untilDate, exists { until {untilDate, date, long}}}{reason, exists {. Reason: {reason}}}{banId, exists {. Ban ID: {banId}}}{boardId, exists {. Board: {boardId}}}",
 	"attachmentRequired": "An attachment is required",
 	"attachmentNotSupported": "Some of the attachments aren't supported",

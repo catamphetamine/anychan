@@ -128,7 +128,7 @@ See [`types/Configuration.ts`](https://gitlab.com/catamphetamine/anychan/-/blob/
   // * `api`
   // * etc
   //
-  // See "Adding a new data source" section of the docs for more info on
+  // See "Data Sources" section of the docs for more info on
   // the available configuration parameters for a custom data source.
   //
   "dataSource": "4chan",
@@ -640,7 +640,7 @@ yarn test
 
 `anychan` supports any data source. It could be an online forum, an imageboard, something like [reddit.com](https://reddit.com), etc. For example, imageboards are supported "out of the box".
 
-To add a new data source, follow the instructions in [`docs/add-new-data-source.md`](https://gitlab.com/catamphetamine/imageboard/-/blob/master/docs/add-new-data-source.md).
+To add a new data source, follow the instructions in [`docs/add-new-data-source.md`](https://gitlab.com/catamphetamine/anychan/-/blob/master/docs/add-new-data-source.md).
 
 ## Miscellaneous
 

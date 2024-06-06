@@ -2,7 +2,7 @@ import type { Imageboard } from 'imageboard'
 import type { ReportCommentParameters, ReportCommentResult } from '../../types/index.js'
 
 import {
-	AlreadyReportedError,
+	AlreadyReportedCommentError,
 	CaptchaNotRequiredError,
 	CaptchaSolutionIncorrectError,
 	ContentRequiredError
@@ -20,7 +20,7 @@ export default async function reportComment(imageboard: Imageboard, {
 	} catch (error) {
 		switch (error.message) {
 			case 'ALREADY_REPORTED':
-				throw new AlreadyReportedError()
+				throw new AlreadyReportedCommentError()
 			case 'REPORT_CONTENT_REQUIRED':
 				throw new ContentRequiredError()
 			case 'INCORRECT_CAPTCHA_SOLUTION':

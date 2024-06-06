@@ -30,7 +30,9 @@ https://smuglo.li/
 
 
 
+* Sending a comment in "example" data source doesn't show it on the thread page.
 
+* Sending a comment "freezes" the page on 2ch.hk: http://localhost:1234/2ch/test/197772
 
 * Fix slow image scale on mobile.
 

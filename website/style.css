@@ -9,12 +9,12 @@
 
   --Container-maxWidth: 36rem;
 
-  --Document-color: #ffffff;
+  --Document-color: #dddddd;
   --Document-backgroundColor: #170f28;
   --Document-fontSize: 16px;
   --Document-fontFamily: Cairo, sans-serif;
   --Document-fontFamily--monospace: 'JetBrains Mono', monospace;
-  --Document-lineHeight: 1.35em;
+  --Document-lineHeight: 1.55em;
 
   --HeroLogo-width: 20vw;
   --HeroLogoText-width: 25vw;
@@ -41,6 +41,19 @@
   --HeroLogoTextBubble-paddingTop: 0.25rem;
   --HeroLogoTextBubble-paddingLeft: 0.5rem;
   --HeroLogoTextBubble-fontSize: 100%;
+
+  --SectionHeading-fontSize: 2.25rem;
+  --SectionHeading-color: rgb(224, 153, 102);
+
+  --DemoGridColumn-minWidth: 8em;
+
+  --DemoLink-paddingTop: 1em;
+  --DemoLink-fontSize: 1.35rem;
+  --DemoLink-borderRadius: 0.25em;
+
+  --DemoLinkIcon-width: 1.25em;
+  --DemoLinkIcon-marginBottom: 0.6em;
+  --DemoLinkIcon-opacity: 0.9;
 }
 
 @media only screen and (min-width: 640px) {
@@ -66,7 +79,7 @@
 @media only screen and (min-width: 1800px) {
   :root {
     --Document-fontSize: 20px;
-    --Container-maxWidth: 42rem;
+    --Container-maxWidth: 38rem;
     --HeroLogoTextBubble-paddingTop: 1.25rem;
     --HeroLogoTextBubble-paddingLeft: 2rem;
     --HeroLogoTextBubble-fontSize: 175%;
@@ -318,16 +331,16 @@ a:hover {
 .Section-heading {
   margin-top: 0;
   margin-bottom: 3rem;
-  font-size: 2.5rem;
+  font-size: var(--SectionHeading-fontSize);
   line-height: var(--Document-lineHeight);
   font-weight: normal;
   text-align: center;
+  color: var(--SectionHeading-color);
 }
 
 .Section-text {
   margin-top: 2em;
   margin-bottom: 2em;
-  text-align: center;
 }
 
 /* https://codepen.io/catamphetamine/pen/zYdWpeZ */
@@ -525,27 +538,65 @@ main {
 }
 
 .Demos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--DemoGridColumn-minWidth), 1fr));
+  /* grid-auto-flow: column; */
+  /* grid-auto-columns: 1fr; */
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
 }
 
 .Demo {
+  position: relative;
+
   display: flex;
   align-items: center;
-  margin-top: 2rem;
-  font-size: 1.5rem;
+  flex-direction: column;
+
+  padding-top: var(--DemoLink-paddingTop);
+  padding-bottom: var(--DemoLink-paddingTop);
+  padding-left: var(--DemoLink-paddingTop);
+  padding-right: var(--DemoLink-paddingTop);
+
+  font-size: var(--DemoLink-fontSize);
   color: var(--Document-color);
+
+  border: 1px solid rgba(155, 55, 72, 0.2);
+  border-radius: var(--DemoLink-borderRadius);
+
+  background-color: rgba(71, 38, 45, 0.6);
 }
 
-.Demo:first-child {
-  margin-top: 0;
+.Demo:hover {
+  text-decoration: none;
+  /* color: var(--Clickable-color); */
+  background-color: rgba(163, 74, 134, 0.35);
+  border-color: rgba(161, 54, 126, 0.2);
+  /* color: rgb(229, 158, 208); */
+
+  &:after {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: var(--DemoLink-borderRadius);
+    mix-blend-mode: darken;
+    background-color: rgba(211, 35, 152, 0.1);
+  }
 }
+
+/* .Demo:first-child {
+  margin-top: 0;
+} */
 
 .Demo-icon {
-  width: 0.9em;
-  height: 0.9em;
-  margin-right: 0.3em;
+  width: var(--DemoLinkIcon-width);
+  height: var(--DemoLinkIcon-width);
+  margin-bottom: var(--DemoLinkIcon-marginBottom);
+  opacity: var(--DemoLinkIcon-opacity);
 }
 
 @media only screen and (max-width: 768px) {

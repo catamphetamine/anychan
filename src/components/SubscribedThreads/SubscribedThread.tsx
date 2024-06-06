@@ -125,7 +125,7 @@ function SubscribedThread({
 				{!thread.expired &&
 					<ThreadThumbnail
 						picture={thread.thumbnail}
-						spoiler={thread.thumbnail.spoiler}
+						spoiler={thread.thumbnail && thread.thumbnail.spoiler}
 						width={THREAD_THUMBNAIL_WIDTH}
 						className="SubscribedThread-thumbnail"
 					/>

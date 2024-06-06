@@ -157,7 +157,12 @@ export const dataSource = shape({
 		supportsGlobalThreadSearch: bool,
 		getThread: PropTypes.func.isRequired,
 		findComments: PropTypes.func,
-		voteForComment: PropTypes.func
+		rateComment: PropTypes.func,
+		reportComment: PropTypes.func,
+		createThread: PropTypes.func,
+		createComment: PropTypes.func,
+		updateThread: PropTypes.func,
+		updateComment: PropTypes.func
 	})
 })
 

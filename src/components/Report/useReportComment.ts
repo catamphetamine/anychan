@@ -9,7 +9,7 @@ import { notify, showError } from '../../redux/notifications.js'
 
 import { useMessages, useDataSource, useSettings, useSelector, useSubmitWithOrWithoutCaptcha } from '@/hooks'
 
-import { AlreadyReportedError, ContentRequiredError } from "@/api/errors"
+import { AlreadyReportedCommentError, ContentRequiredError } from "@/api/errors"
 
 export default function useReportComment({
 	channelId,
@@ -45,7 +45,7 @@ export default function useReportComment({
 			// Show a notification.
 			dispatch(notify(messages.report.submitted))
 		} catch (error) {
-			if (error instanceof AlreadyReportedError) {
+			if (error instanceof AlreadyReportedCommentError) {
 				dispatch(showError(messages.report.error.alreadyReported))
 			} else if (error instanceof ContentRequiredError) {
 				dispatch(showError(messages.report.error.contentRequired))

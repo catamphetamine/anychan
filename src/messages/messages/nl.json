@@ -338,7 +338,7 @@
 			"content": "Rapporteer tekst",
 			"reason": "Reden melden",
 			"error": {
-				"alreadyReported": "U heeft al een rapport ingediend",
+				"alreadyReported": "U heeft al een rapport ingediend voor deze reactie",
 				"contentRequired": "Rapporteertekst is vereist",
 				"violationTypeRequired": "U moet kiezen of u een overtreding van de regels of de wet meldt",
 				"error": "Kan uw rapport niet indienen"
@@ -365,6 +365,7 @@
 	"newComments": "Nieuwe opmerkingen",
 	"lastComment": "Meest recente opmerkingen",
 	"goToComment": "Ga ga naar opmerking",
+	"alreadyRatedComment": "Je hebt deze reactie al beoordeeld",
 	"yourAccountIsBanned": "Je bent verbannen{untilDate, exists { until {untilDate, date, long}}}{reason, exists {. Reden: {reason}}}{banId, exists {. Ban ID: {banId}}}{boardId, exists {. Bord: {boardId}}}",
 	"attachmentRequired": "Een bestand is vereist",
 	"attachmentNotSupported": "Sommige bestanden worden niet ondersteund",

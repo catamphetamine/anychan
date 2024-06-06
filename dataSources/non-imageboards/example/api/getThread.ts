@@ -1,25 +1,30 @@
 import type { GetThreadParameters, GetThreadResult } from '@/types'
 
-import { CHANNEL1, CHANNEL1_THREAD1, CHANNEL1_THREAD2 } from './data.js'
+import { CHANNELS } from './data/index.js'
 
-import { ThreadNotFoundError } from "../../../../src/api/errors/index.js"
+import { ChannelNotFoundError, ThreadNotFoundError } from '../../../../src/api/errors/index.js'
 
 export async function getThread({
 	channelId,
 	threadId
 }: GetThreadParameters): Promise<GetThreadResult> {
-	if (channelId === CHANNEL1.id) {
-		if (threadId === CHANNEL1_THREAD1.id) {
-			return {
-				channel: CHANNEL1,
-				thread: CHANNEL1_THREAD1
-			}
-		} else  if (threadId === CHANNEL1_THREAD2.id) {
-			return {
-				channel: CHANNEL1,
-				thread: CHANNEL1_THREAD2
-			}
-		}
+	const channel = CHANNELS.find(_ => _.id === channelId)
+
+	if (!channel) {
+		throw new ChannelNotFoundError({ channelId })
 	}
-	throw new ThreadNotFoundError({ channelId, threadId })
+
+	const thread = channel.threads.find(_ => _.id === threadId)
+
+	if (!thread) {
+		throw new ThreadNotFoundError({ channelId, threadId })
+	}
+
+	return {
+		channel: {
+			id: channel.id,
+			title: channel.title
+		},
+		thread
+	}
 }

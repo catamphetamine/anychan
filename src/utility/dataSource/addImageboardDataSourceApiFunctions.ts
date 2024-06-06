@@ -10,7 +10,7 @@ import getTopChannelsApi from '../../api/imageboard/getTopChannels.js'
 import findChannelsApi from '../../api/imageboard/findChannels.js'
 import getThreadsApi from '../../api/imageboard/getThreads.js'
 import getThreadApi from '../../api/imageboard/getThread.js'
-import voteForCommentApi from '../../api/imageboard/voteForComment.js'
+import rateCommentApi from '../../api/imageboard/rateComment.js'
 import reportCommentApi from '../../api/imageboard/reportComment.js'
 import logInApi from '../../api/imageboard/logIn.js'
 import logOutApi from '../../api/imageboard/logOut.js'
@@ -64,8 +64,8 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 		}
 	}
 
-	if (supportsFeature(imageboardId, 'voteForComment')) {
-		apis.voteForComment = voteForCommentApi
+	if (supportsFeature(imageboardId, 'rateComment')) {
+		apis.rateComment = rateCommentApi
 	}
 
 	if (supportsFeature(imageboardId, 'logIn') && (
@@ -110,8 +110,8 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 
 	dataSource.supportsFeature = (feature: DataSourceFeature) => {
 		switch (feature) {
+			case 'getThread.withLatestComments':
 			case 'getThreads.sortByRatingDesc':
-				return supportsFeature(imageboardId, feature)
 			case 'logIn.tokenPassword':
 				return supportsFeature(imageboardId, feature)
 			default:
@@ -140,7 +140,9 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 			const IMAGEBOARD_FUNCTIONS_THAT_DONT_USE_MESSAGES = [
 				'createComment',
 				'createThread',
-				'voteForComment',
+				'updateComment',
+				'updateThread',
+				'rateComment',
 				'reportComment',
 				'logIn',
 				'logOut'

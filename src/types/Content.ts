@@ -2,7 +2,7 @@ import type { InlineElementPostLink, PictureAttachment, VideoAttachment } from '
 import type { Attachment as Attachment_ } from 'social-components'
 import type { ChannelId, ThreadId, CommentId } from './index.js'
 
-export type { Content } from 'social-components'
+export type { Content, ContentBlock } from 'social-components'
 
 export type InlineElementPostLinkWithId = InlineElementPostLink & {
 	_id: number
