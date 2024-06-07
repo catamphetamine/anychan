@@ -255,7 +255,7 @@ export default function ThreadPage({
 	renderComments.current = renderComments_
 
 	// `getThread()` is used when automatically subscribing to the thread when posting a comment in it.
-	// See `useSubmitCommentOrThread()` hook for more info.
+	// See `useCreateCommentOrThread()` hook for more info.
 	//
 	// `getThread` function reference shouldn't change between `thread` refreshes
 	// in order for `itemComponentProps` reference to not change between `thread` refreshes.

@@ -60,7 +60,7 @@ interface Parameters {
 }
 
 // Returns a function that submits a thread or a comment.
-export default function useSubmitCommentOrThread({
+export default function useCreateCommentOrThread({
 	getThread,
 	channelId,
 	threadId,

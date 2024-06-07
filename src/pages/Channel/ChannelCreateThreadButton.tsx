@@ -14,7 +14,7 @@ import TextButton from '../../components/TextButton.js'
 import FillButton from '../../components/FillButton.js'
 
 import useMessages from '../../hooks/useMessages.js'
-import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
+import useCreateCommentOrThread from '../../hooks/useCreateCommentOrThread.js'
 import useBackground from '../../hooks/useBackground.js'
 
 import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
@@ -107,7 +107,7 @@ export default function ChannelCreateThreadButton({
 		channelId
 	])
 
-	const onSubmitThread = useSubmitCommentOrThread({
+	const onSubmitThread = useCreateCommentOrThread({
 		channelId,
 		channelIsNotSafeForWork,
 		onAfterSubmit

@@ -14,6 +14,8 @@ import {
 	threadId
 } from '../../PropTypes.js'
 
+import './CommentThumbnail.css'
+
 export default function CommentThumbnail({
 	mode,
 	comment,
@@ -87,15 +89,12 @@ export default function CommentThumbnail({
 		)
 
 		if (postThumbnailMoreAttachmentsCount) {
-			// A container `<div/>` is used so that the `<PictureStack/>`
-			// isn't stretched to the full height of the comment,
-			// because `.Comment-thumbnail` is `display: flex`.
+			// A container `<div/>` is used to prevent `<PictureStack/>` from stretching to the full height
+			// of the comment because `.Comment-thumbnail` is `display: flex`.
 			postThumbnailElement = (
-				<div>
-					<PictureStack count={postThumbnailMoreAttachmentsCount + 1}>
-						{postThumbnailElement}
-					</PictureStack>
-				</div>
+				<PictureStack count={postThumbnailMoreAttachmentsCount + 1} className="CommentThumbnail-pictureStack">
+					{postThumbnailElement}
+				</PictureStack>
 			)
 		}
 	}

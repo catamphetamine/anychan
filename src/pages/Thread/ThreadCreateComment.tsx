@@ -7,7 +7,7 @@ import classNames from 'classnames'
 
 import PostForm from '../../components/PostFormWithAttachments.js'
 
-import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
+import useCreateCommentOrThread from '../../hooks/useCreateCommentOrThread.js'
 import useBackground from '../../hooks/useBackground.js'
 
 import { updateCreateCommentState, resetCreateCommentState } from '../../redux/threadPage.js'
@@ -113,7 +113,7 @@ export default function ThreadCreateComment({
 		refreshThread
 	])
 
-	const onSubmitComment = useSubmitCommentOrThread({
+	const onSubmitComment = useCreateCommentOrThread({
 		getThread,
 		addSubscribedThread: true,
 		channelId,

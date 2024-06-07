@@ -270,7 +270,7 @@ function AddTheme({
 						required
 						type="text"
 						name="url"
-						label={messages.settings.theme.add.url}
+						label={messages.settings.theme.add.cssFileUrl}
 						validate={validateCssUrl}
 					/>
 				</FormComponent>
@@ -278,7 +278,7 @@ function AddTheme({
 			{!pasteCodeInstead &&
 				<FormComponent>
 					<TextButton onClick={() => setPasteCodeInstead(true)}>
-						{messages.settings.theme.add.pasteCodeInstead}
+						{messages.settings.theme.add.enterCssCodeRatherThanCssFileUrl}
 					</TextButton>
 				</FormComponent>
 			}
@@ -289,7 +289,7 @@ function AddTheme({
 						type="text"
 						multiline
 						name="css"
-						label={messages.settings.theme.add.code}
+						label={messages.settings.theme.add.cssCode}
 						className="rrui__input--monospace"
 					/>
 				</FormComponent>

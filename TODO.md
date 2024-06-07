@@ -28,7 +28,53 @@ https://smuglo.li/
 
 
 
+
+
+* Don't remove pinned threads from the list of threads when in "with latest comments" mode or when sorting by popularity: in that case, don't show pinned threads at the topat all.
+
+* Maybe show post thumbnail (if present) in non-expanded pinned threads.
+
+* See if fixed after deploy: When navigating "Back" to the catalog page on iOS devices, it first renders vitual scroller as it scrollTop was 0 and only then it checks the actual scroll position. The result is blinking list of threads lower than 2 heights of screen.
+
+* 2ch: when thumbnail pictures are larger than config.maxThumbnailWidth parameter value — like on /a/ board — then it overflows the comment card.
+
+* In dark mode, expanded Select is not really eligible. Maybe make its background color lighter.
+
+* Тормозит закрытие слайдшоу на iPhone: мб айфон не поддерживает анимацию внутри анимации.
+
+* When opening a video attachment to play it on click, don't focus the <video/> element on mobile devides because it shows the play/pause controls and doesn't hide those.
+
+* Add a link to log in in PostForm. Add a text there that either a log in or solving a CAPTCHA is required to post. Maybe that text should be on some "gray" background with top and bottom border.
+
+* CommentMoreActions: maybe add a line separator between options, like in Telegram.
+
+* Show 4chan captcha not supported notice inlined in PostForm rather than in a dispatch(notify()) after attempting a submit of that form. Show "Log In" link in that notice too.
+
+* Auto update: mark deleted comments only if `threadAfterRefresh.comments[0].id === threadBeforeRefresh.comments[0].id`.
+
+* On submit comment and show captcha — check that it doesn’t erase input in the PostForm.
+
+* Check if the chans still work.
+
+* Check margin top/bottom on mobile devices on thread/channel pages with or without colored background.
+
+* Virtual Scroller: Ready to start — not (read it from navigationContext and return from `load`) but (read it from initial virtual scroller state)
+
+* `react-pages`: Finish `useSelectorForLocation` refactoring: compare by `matchedLocation` in `useSelectorForLocation()` hook. But what happens if `pushLocation` is called with new URL query parameters? It shouldn't freeze in that case.
+
+* `react-pages`: Use before/after render/navigate new/old page — нормально ли работают с pushLocation query/hash, то есть маунтится/анмаунтится ли компонент страницы и что там с эффектами и листенерами.
+
+* `react-pages`: fix TypeScript in `frontend` repo.
+
+* `react-pages`: Force remount by `key=location.pathname` won't work when changing location. But using `location.key` there wouldn't work either because it would remount on URL query parameters change which is not supposed to happen (?).
+
+* `react-pages`: Remove `unlistenOnUnmount = true` flag — it should always be `true` cause there're no other cases.
+
+Испоььзовать одну и ту же функцию определения той же и уде другой страницы: как в ремаунте компонента одного раута, так и в before/after listener-ах
+
 * Fix sticky threads not expanding multiple ones.
+
+* Можно добавить кнопку "refresh channel threads" слева от иконки звёздочки в Sidebar Left.
 
 * Add `title` input when creating a thread and test it in `example` data source. Don't show the input on 2ch.hk's `/b/` board.
 
@@ -36,9 +82,13 @@ https://smuglo.li/
 
 * Create /meta/ board with admin-created sticky thread.
 
-* Fix slow image scale on mobile. See the stashed code in `social-components-react`.
+* Fix Slideshow slow image scale on mobile. See the stashed code in `social-components-react`: При начале очередной итерации скейлинга там переносит точку ориджина в точку курсора, и во время этого считает поправку на x и y между центром и новым ориджином, а следует считать между новым и старым ориджином, т.к. заскейлено не в центре, а в старом ориджине.
 
-* Add navigation animation: catalog → thread and "back" button.
+* Fix Slideshow `box-shadow` after scale — apply same dynamic adjustments: not temporarily while scaling but rather permanently based on the current scale.
+
+* Fix Slideshow bug: если подвигать заскейленный слайд стрелками, и потом подвигать  егомышкой, то предыдущий стрелочный offset пропадает.
+
+* Add navigation animation: when click Thread card on channel page or when click "back" button on thread page. Navigation animation could be called: "push"/"pull".
 
 * Show "Reply to this comment" form (`<PostForm/>`) on "swipe to left" gesture on a comment. The bahavior would be similar to Telegram's.
 
@@ -46,8 +96,9 @@ https://smuglo.li/
 
 * Move "Adding a new data source" to separate file in `docs/add-new-data-source.md`. Mention there that "example" data source could be used as an example.
 
-* Add "search for comments in a thread" header button
+* Add "search for comments in a thread" header button.
 
+* Test posting at `smugloli` and `4kun`.
 
 
 

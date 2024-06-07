@@ -96,7 +96,7 @@ export default function CssSettings({
 									multiline
 									name="css"
 									defaultValue={value}
-									placeholder={messages.settings.theme.add.code}
+									placeholder={messages.settings.theme.add.cssCode}
 									className="rrui__input--monospace"
 								/>
 							</FormComponent>

@@ -23,8 +23,8 @@ export default async function getThreadsFromImageboard(imageboard: Imageboard, {
 		// Add `.parseContent()` function to each `comment`.
 		addParseContent: true,
 		commentLengthLimit: getCommentLengthLimit({ mode: 'channel', channelLayout }),
-		latestCommentLengthLimit: getCommentLengthLimit({ mode: 'thread' }),
-		maxLatestCommentsPages: withLatestComments ? MAX_LATEST_COMMENTS_PAGES_COUNT : undefined,
+		commentLengthLimitForWithLatestComments: getCommentLengthLimit({ mode: 'thread' }),
+		withLatestCommentsMaxPages: withLatestComments ? MAX_LATEST_COMMENTS_PAGES_COUNT : undefined,
 		withLatestComments,
 		sortBy: sortBy === 'rating-desc' ? sortBy : undefined
 	})

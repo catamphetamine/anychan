@@ -8,7 +8,7 @@ import useEffectSkipMount from 'frontend-lib/hooks/useEffectSkipMount.js'
 import { notify } from '../../redux/notifications.js'
 
 import useMessages from '../../hooks/useMessages.js'
-import useSubmitCommentOrThread from '../../hooks/useSubmitCommentOrThread.js'
+import useCreateCommentOrThread from '../../hooks/useCreateCommentOrThread.js'
 
 import refreshThreadOrTimeOut from '../../utility/thread/refreshThreadOrTimeOut.js'
 
@@ -150,7 +150,7 @@ export default function useReply({
 		setShowReplyForm(false)
 	}, [refreshThread])
 
-	const onSubmitReply = useSubmitCommentOrThread({
+	const onSubmitReply = useCreateCommentOrThread({
 		getThread,
 		addSubscribedThread: true,
 		channelId,
