@@ -9,7 +9,7 @@ export default function addDataSourceProperties(dataSources: DataSourceAlike[]) 
 	for (const dataSource of dataSources) {
 		// Could add any properties to `dataSource` objects here.
 
-		dataSource.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
+		dataSource.getAbsoluteUrl = (relativeUrl, { channelContainsExplicitContent }) => {
 			return `https://${dataSource.domain}${relativeUrl}`
 		}
 	}

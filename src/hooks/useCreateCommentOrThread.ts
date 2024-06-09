@@ -1,4 +1,4 @@
-import type { Captcha, ChannelId, ThreadId, CommentId, Thread, Comment, CreateThreadOrCommentCommonParameters } from '../types/index.js'
+import type { Captcha, Channel, ChannelId, ThreadId, CommentId, Thread, Comment, CreateThreadOrCommentCommonParameters } from '@/types'
 
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -49,11 +49,12 @@ import addSubscribedThread_ from '../utility/subscribedThread/addSubscribedThrea
 import { getSubscribedThreads } from '../redux/subscribedThreads.js'
 
 interface Parameters {
+	channel?: Channel;
 	getThread?: () => Thread;
 	channelId: ChannelId;
 	threadId?: ThreadId;
 	inReplyToCommentId?: CommentId;
-	channelIsNotSafeForWork?: boolean;
+	channelContainsExplicitContent?: boolean;
 	isAble?: () => boolean;
 	addSubscribedThread?: boolean;
 	onAfterSubmit?: (result: { commentId: CommentId, threadId: ThreadId }) => void | Promise<void>;
@@ -61,11 +62,12 @@ interface Parameters {
 
 // Returns a function that submits a thread or a comment.
 export default function useCreateCommentOrThread({
+	channel,
 	getThread,
 	channelId,
 	threadId,
 	inReplyToCommentId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	isAble,
 	addSubscribedThread,
 	onAfterSubmit
@@ -100,7 +102,7 @@ export default function useCreateCommentOrThread({
 				authorIsThreadAuthor: undefined,
 				authorEmail: undefined,
 				authorName: undefined,
-				authorBadgeId: undefined,
+				authorIconId: undefined,
 				title: undefined,
 				tags: undefined
 			}
@@ -115,7 +117,7 @@ export default function useCreateCommentOrThread({
 					// These optional parameters could also be specified, or they could be omitted.
 					// They're just listed here in case anyone would add them in some future.
 					authorIsThreadAuthor: undefined,
-					authorBadgeId: undefined
+					authorIconId: undefined
 				}
 				if (captcha) {
 					parameters = {
@@ -226,19 +228,19 @@ export default function useCreateCommentOrThread({
 						channelId,
 						threadId,
 						commentId,
-						notSafeForWork: channelIsNotSafeForWork
+						channelContainsExplicitContent
 					})
 				} else {
 					return getThreadUrl(dataSource, {
 						channelId,
 						threadId,
-						notSafeForWork: channelIsNotSafeForWork
+						channelContainsExplicitContent
 					})
 				}
 			} else {
 				return getChannelUrl(dataSource, {
 					channelId,
-					notSafeForWork: channelIsNotSafeForWork
+					channelContainsExplicitContent
 				})
 			}
 		}
@@ -252,7 +254,7 @@ export default function useCreateCommentOrThread({
 		threadId,
 		inReplyToCommentId,
 		messages,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		dataSource
 	])
 
@@ -326,9 +328,9 @@ export default function useCreateCommentOrThread({
 	])
 
 	const onSubmit = useSubmitWithOrWithoutCaptcha({
+		channel,
 		channelId,
-		threadId,
-		action: threadId ? 'create-comment' : 'create-thread'
+		threadId
 	})
 
 	const onSubmitCommentOrThread = useCallback(async ({

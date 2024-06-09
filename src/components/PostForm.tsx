@@ -38,7 +38,7 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 	commentId,
 	threadId,
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	expanded: expandedPropertyValue,
 	onExpandedChange,
 	unexpandOnClose,
@@ -305,7 +305,7 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 									commentId,
 									threadId,
 									channelId,
-									notSafeForWork: channelIsNotSafeForWork
+									channelContainsExplicitContent
 								})}>
 								<ExternalIcon className="PostForm-goToSourceIcon"/>
 								{messages.goToCommentAtSourceWebsite}
@@ -320,7 +320,7 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 								href={getThreadUrl(dataSource, {
 									threadId,
 									channelId,
-									notSafeForWork: channelIsNotSafeForWork
+									channelContainsExplicitContent
 								})}>
 								<ExternalIcon className="PostForm-goToSourceIcon"/>
 								{messages.goToThreadAtSourceWebsite}
@@ -334,7 +334,7 @@ const PostForm = React.forwardRef<EasyReactForm, PostFormProps>(({
 								className="PostForm-goToSourceLink"
 								href={getChannelUrl(dataSource, {
 									channelId,
-									notSafeForWork: channelIsNotSafeForWork
+									channelContainsExplicitContent
 								})}>
 								<ExternalIcon className="PostForm-goToSourceIcon"/>
 								{dataSource.imageboard ? messages.goToBoardAtSourceWebsite : messages.goToChannelAtSourceWebsite}
@@ -394,7 +394,7 @@ interface PostFormProps {
 	commentId?: CommentId,
 	threadId?: ThreadId,
 	channelId?: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	expanded?: boolean,
 	onExpandedChange?: (expanded: boolean) => void,
 	unexpandOnClose?: boolean,

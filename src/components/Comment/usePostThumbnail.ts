@@ -11,8 +11,10 @@ import {
 import {
 	getPicturesAndVideos
 } from 'social-components/attachment'
-import { Attachment } from "social-components"
+
 import { isVectorImage } from "social-components/image"
+
+import getConfiguration from "../../getConfiguration.js"
 
 export default function usePostThumbnail({
 	comment,
@@ -74,8 +76,23 @@ export default function usePostThumbnail({
 
 	const postThumbnailSizeVarStyle = useMemo(() => {
 		if (postThumbnailSize) {
+			if (isVectorImage(postThumbnailSize)) {
+				return {
+					'--PostThumbnail-width': 'var(--PostThumbnail-maxWidth)'
+				}
+			}
+
+			let postThumbnailRenderedWidth = postThumbnailSize.width
+
+			// Validate `commentThumbnailMaxWidth` configuration parameter just in case.
+			if (isNaN(getConfiguration().commentThumbnailMaxWidth)) {
+				throw new Error('`commentThumbnailMaxWidth` configuration parameter not set')
+			} else {
+				postThumbnailRenderedWidth = Math.min(postThumbnailRenderedWidth, getConfiguration().commentThumbnailMaxWidth)
+			}
+
 			return {
-				'--PostThumbnail-width': isVectorImage(postThumbnailSize) ? 'var(--PostThumbnail-maxWidth)' : postThumbnailSize.width + 'px'
+				'--PostThumbnail-width': postThumbnailRenderedWidth + 'px'
 			}
 		}
 	}, [

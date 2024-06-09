@@ -12,11 +12,11 @@ import getCaptcha from '../api/getCaptcha.js'
 export default function useGetCaptcha({
 	channelId,
 	threadId,
-	channelIsNotSafeForWork
+	channelContainsExplicitContent
 }: {
 	channelId?: ChannelId,
 	threadId?: ThreadId,
-	channelIsNotSafeForWork?: boolean
+	channelContainsExplicitContent?: boolean
 }) {
 	const dataSource = useDataSource()
 	const userSettings = useSettings()
@@ -27,7 +27,7 @@ export default function useGetCaptcha({
 	const toAbsoluteUrl = useCallback((url: string) => {
 		// Convert a relative URL to an absolute one.
 		if (url[0] === '/' && url[1] !== '/') {
-			return getDataSourceAbsoluteUrl(dataSource, url, { notSafeForWork: channelIsNotSafeForWork })
+			return getDataSourceAbsoluteUrl(dataSource, url, { channelContainsExplicitContent })
 		}
 		// If it's already an absolute URL, return it as is.
 		return url

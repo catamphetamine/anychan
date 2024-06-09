@@ -4,96 +4,183 @@ import type { ChannelFromDataSource, Thread, Content, ContentBlock } from './ind
 export type CommentId = number;
 
 export interface CommentFromDataSource {
+  // Comment ID.
 	id: CommentId;
+
+  // Comment title ("subject").
 	title?: string;
 
-	// The comment's `content` should be of type `Content`:
-	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
-	content?: Content;
+  // The date on which the comment was created.
+	createdAt: Date;
 
-	createdAt?: Date;
+  // "Last Modified Date" of the comment.
+  //
+  // I guess it includes all possible comment "modification"
+  // actions like editing comment text, deleting attachments, etc.
+  // Is present on "modified" comments in "get thread comments"
+  // API response of `lynxchan` engine.
+  //
 	updatedAt?: Date;
 
+	// Tells if the comment author is the thread author.
+	//
+  // This feature is used on `2ch.hk` imageboard:
+  // 2ch.hk` provides means for "original posters" to identify themselves
+  // when replying in their own threads with a previously set "OP" cookie.
+  //
 	authorIsThreadAuthor?: boolean;
+
+  // Some imageboards identify their users by a hash of their IP address subnet
+  // on some of their boards (for example, all imageboards do that on `/pol/` boards).
+  // On `8ch` and `lynxchan` it's a three-byte hex string (like "d1e8f1"),
+  // on `4chan` it's a 8-character case-sensitive alphanumeric string (like "Bg9BS7Xl").
+  //
+  // Even when a thread uses `authorIds` for its comments, not all of them
+  // might have it. For example, on `4chan`, users with "capcodes" (moderators, etc)
+  // don't have an `authorId`.
+  //
 	authorId?: string;
+
+  // If `authorId` is present then it's converted into a HEX color.
+  // Example: "#c05a7f".
 	authorIdColor?: string;
-	authorNameIsId?: boolean;
+
+  // Comment author name.
 	authorName?: string;
+
+  // If this flag is `true` then it means that `authorName` is an equivalent of an `authorId`.
+  // For example, `2ch.hk` autogenerates `authorName` based on IP address subnet hash on `/po` board.
+	authorNameIsId?: boolean;
+
+  // Comment author's email address.
 	authorEmail?: string;
+
+  // Comment author's "tripcode".
+  // https://encyclopediadramatica.rs/Tripcode
 	authorTripCode?: string;
+
+  // A two-letter ISO country code (or "ZZ" for "Anonymized").
+  // Imageboards usually show poster flags on `/int/` boards.
 	authorCountry?: string;
-	authorBadgeUrl?: string;
-	authorBadgeName?: string;
+
+	//
+  // Some imageboards allow comment author icons on some boards.
+  //
+  // For example, `kohlchan.net` shows user icons on `/int/` board.
+  // Author icon examples in this case: "UA", "RU-MOW", "TEXAS", "PROXYFAG", etc.
+  // `authorIconUrl` is `/.static/flags/${authorIconId}.png`.
+  // `authorIconName` examples in this case: "Ukraine", "Moscow", "Texas", "Proxy", etc.
+  //
+  // Also, `2ch.hk` allows icons for posts on various boards like `/po/`.
+  // Author icon examples in this case: "nya", "liber", "comm", "libertar", etc.
+  // `authorIconUrl` is `/icons/logos/${authorIconId}.png`.
+  // `authorIconName` examples in this case: "Nya", "Либерализм", "Коммунизм", "Либертарианство", etc.
+  //
+	authorIconUrl?: string;
+	authorIconName?: string;
+
+  // If the comment was posted by a "priviliged" user
+  // then it's gonna be the role of the comment author.
+  // Examples: "administrator", "moderator".
 	authorRole?: string;
+
+  // `8ch.net (8kun.top)` and `lynxchan` have "global adiministrators"
+  // and "board administrators", and "global moderators"
+  // and "board moderators", so `authorRoleScope` is gonna be
+  // "board" for a "board administrator" or "board moderator".
 	authorRoleScope?: string;
-	authorBan?: boolean;
-	authorBanReason?: string;
+
+  // If `true` then it means that the author was banned for the message.
+	authorBan?: {
+	  // An optional `String` with the ban reason.
+		reason?: string
+	};
+
+  // If `true` then it means that the author has been verified
+  // to be the one who they're claiming to be.
+  // For example, `{ authorName: "Gabe Newell", authorVerified: true }`
+  // would mean that that's real Gabe Newell posting in an "Ask Me Anything" thread.
+  // It's the same as the "verified" checkmark on celebrities pages on social media like Twitter.
 	authorVerified?: boolean;
 
-	upvotes?: number;
-	downvotes?: number;
-
-	attachments?: Attachment[];
-
-	// "Sage" is a legacy property that is used in legacy imageboard engines.
+  // If this comment was posted with a "sage".
+  // https://knowyourmeme.com/memes/sage
+	//
+	// "Sage" is a legacy feature that is used in legacy imageboard engines.
+	//
 	sage?: boolean;
 
-	// * `inReplyTo` is a list of comments it replies to.
-	// * `inReplyToIds` is a list of IDs of the comments that it replies to.
-	// * `inReplyToIdsRemoved` is a list of IDs of the comments that it replies to, that have been removed by moderators.
+  // Upvotes count for this comment.
+  // If comment rating is enabled, `upvotes` could or could not be present.
+	upvotes?: number;
+
+  // Downvotes count for this comment.
+  // If comment rating is enabled, `upvotes` could or could not be present.
+	downvotes?: number;
+
+  // Comment content.
+  //
+  // If `parseContent: false` option was passed then `content` will be
+  // whatever was returned from the server (usually an HTML string or `undefined`).
+  // Otherwise, the `content` is gonna be a `Content` structure (or `undefined`).
+	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
 	//
-	// This property was introduced when dealing with imageboards:
-	// in imageboards, all comments in a thread are loaded in bulk at once,
-	// i.e. not paginated, and, therefore, all data is available at once.
-	// That makes it possible to populate the complete tree of replies:
-	// the relationships between each an every comment.
-	//
-	// In a non-imageboard scenario though, it doesn't seem practical.
-	// Since the imageboard have emerged in the 2000s, social communication apps
-	// have moved forward and nowadays no one returns a complete list of comments
-	// in a thread or a complete list of threads in a channel: everything's paginated
-	// and inherently "asynchronous".
-	//
-	// So I personally would consider `inReplyTo` property kinda deprecated.
-	// Still, they do make sense for the legacy imageboard engines, so they aren't removed.
-	// But for new data sources I'd suggest skipping these entirely.
-	//
+  // Example: `[['Comment text']]`.
+  //
+	content?: Content;
+
+  // If the `content` is too long then a preview is generated.
+	contentPreview?: Content;
+
+	// Attachments.
+	attachments?: Attachment[];
+
+  // The IDs of the comments to which this `comment` replies.
+  // If some of the replies have been deleted, their IDs will not be present in this list.
 	inReplyToIds?: CommentId[];
+
+  // If this `comment` replies to some other comments that have been deleted,
+  // then this is gonna be the list of IDs of such deleted comments.
 	inReplyToIdsRemoved?: CommentId[];
 
-	// * `replies` is a list of comments that reply to this comment.
-	// * `replyIds` is a list of IDs of the comments that reply to this comment.
+  // The IDs of the comments that are replies to this `comment`.
 	replyIds?: CommentId[];
 
-	// `parseContent()` function is used to parse data source comment syntax
-	// into a `social-components` `Content` structure.
-	// Creates a `content` property on this `Comment`.
+	// `parseContent()` function is used to parse `comment.content` string
+	// from data-source-specific comment syntax into a `Content` structure.
+	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
 	parseContent?: (options?: { getCommentById?: GetCommentFromDataSourceById }) => void;
 
 	// Creates a `contentPreview` property on this `Comment`.
 	// `contentPreview` is a shorter version of a `content` property.
 	createContentPreview?: (options?: { maxLength?: number }) => void;
 
-	// Tells if `.parseContent()` function has already been called on this `Comment`.
+	// Returns `true` if `comment.content` has been parsed.
 	hasContentBeenParsed?: () => boolean;
 
-	// The application calls this function whenever the `content` of this `Comment` changes.
+	// An application should call this function whenever the `content` of the `Comment` changes.
+	//
 	// When could the `content` of a comment change? For example, when some resources
-	// like YouTube video links get loaded in its `content`.
+	// like YouTube video links from the `content` get "loaded" and auto-"embedded".
+	//
+	// This function will update any related stuff such as the autogenerated quotes in replies to this comment.
+	//
+	// This function returns an array of `id`s of the comments whose content got affected (and was updated).
+	//
 	onContentChange?: (options?: { getCommentById: GetCommentFromDataSourceById }) => Array<CommentFromDataSource['id']>;
 }
 
 export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfThread {
-	// The `content` of `CommentFromDataSource` will be forcefully converted to a list of `ContentBlock`s.
-	//
-	// The rationale is that it's easier to operate on (i.e. post-process) a single pre-defined type of structure
-	// rather than support different edge cases like `content` being just a `string`.
-	//
-	// As per the document, `Content` can be either a `string` or an array of `ContentBlock`s.
-	// https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
-	// Therefore, if the application receives a `string` from a data source, it converts it to a `[[string]]` structure.
-	//
-	content?: ContentBlock[],
+	// // The `content` of `CommentFromDataSource` will be forcefully converted to a list of `ContentBlock`s.
+	// //
+	// // The rationale is that it's easier to operate on (i.e. post-process) a single pre-defined type of structure
+	// // rather than support different edge cases like `content` being just a `string`.
+	// //
+	// // As per the document, `Content` can be either a `string` or an array of `ContentBlock`s.
+	// // https://gitlab.com/catamphetamine/social-components/-/blob/master/docs/Content.md
+	// // Therefore, if the application receives a `string` from a data source, it converts it to a `[[string]]` structure.
+	// //
+	// content?: ContentBlock[],
 
 	// // * `inReplyTo` is a list of comments it replies to.
 	// // * `inReplyToIds` is a list of IDs of the comments that it replies to.
@@ -138,8 +225,8 @@ export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfT
 	// Comment index.
 	index: number;
 
-	// The "original" comment is marked as `isRootComment: true`.
-	isRootComment?: boolean;
+	// The "original" comment is marked as `isMainComment: true`.
+	isMainComment?: boolean;
 
 	// If this comment was left after the "bump limit" was reached in this thread,
 	// it will be marked with `isOverBumpLimit: true`.
@@ -168,7 +255,8 @@ export interface Comment extends CommentFromDataSource, RootCommentPropertiesOfT
 	_removedLeadingOriginalPostQuote?: boolean;
 
 	// A result of calling `createContentPreview()` function on this `Comment`.
-	contentPreview?: ContentBlock[];
+	// contentPreview?: ContentBlock[];
+	contentPreview?: Content;
 
 	// * In `api/getThreads.ts` it sets `comment.channelId` for "is subscribed thread" comment header badge.
 	// * It doesn't set this property in `api/getThread.ts`.

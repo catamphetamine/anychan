@@ -14,7 +14,6 @@ import type {
 
 import addCommentProps from './utility/addCommentProps.js'
 import addThreadProps from './utility/addThreadProps.js'
-import convertCommentContentToContentBlocks from './utility/convertCommentContentToContentBlocks.js'
 import setDerivedThreadProps from './utility/setDerivedThreadProps.js'
 import getCommentTextPreview from '../utility/comment/getCommentTextPreview.js'
 import setRepliesOnComments from '../utility/thread/setRepliesOnComments.js'
@@ -91,11 +90,6 @@ export default async function getThread({
 	// The `thread` object will be "deeply" modified by `addThreadProps()`
 	// and when converting comments' `content`.
 
-	// The `content` of each `comment` should be forcefully converted to a list of `ContentBlock`s.
-	// The rationale is that it's easier to operate on (i.e. post-process) a single pre-defined type of structure
-	// rather than support different edge cases like `content` being just a `string`.
-	convertCommentContentToContentBlocks(thread)
-
 	// (this feature is not currently used)
 	// `4chan.org` provides a "-tail" API for getting thread comments
 	// that reduces the traffic for a little bit by only returning
@@ -112,6 +106,7 @@ export default async function getThread({
 		fetchedCommentsFromIndex = fetchedCommentsAfterIndex + 1
 	}
 
+	// Add additional properties to `thread.comments[]`.
 	addCommentProps(thread, {
 		mode: 'thread',
 		fromIndex: fetchedCommentsFromIndex,
@@ -212,7 +207,7 @@ const INCREMENTAL_THREAD_UPDATE_PROPERTIES: (keyof ThreadFromDataSource)[] = [
 	'bumpLimitReached',
 
 	// Is "image limit" reached?
-	'attachmentLimitReached',
+	'attachmentsMaxCountLimitReached',
 
 	// Total comments count in the thread,
 	// not including the "main" ("original") comment.

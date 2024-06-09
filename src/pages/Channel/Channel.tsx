@@ -145,7 +145,8 @@ export default function ChannelPage({
 			// Previously, before early 2023, the cached list of `channel` objects
 			// in `localStorage` didn't contain a `.features` sub-object in the list items.
 			// So because of legacy compatibility, here's a check that `channel.features` property exists.
-			hasVoting: channel.features && channel.features.votes,
+			hasVoting: Boolean(channel.features) && (channel.features.commentRating === '↕'),
+			channel,
 			channelId: channel.id,
 			locale,
 			messages,

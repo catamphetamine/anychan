@@ -8,7 +8,8 @@ import type {
 	Mode,
 	Messages,
 	Attachment,
-	Props
+	Props,
+	Channel
 } from '@/types'
 
 import React, { useRef } from 'react'
@@ -42,6 +43,7 @@ export default function CommentBlock({
 	comment,
 	getThread,
 	threadId,
+	channel,
 	channelId,
 	mode,
 	messages,
@@ -55,7 +57,7 @@ export default function CommentBlock({
 	onRenderedContentDidChange,
 	unreadCommentWatcher,
 	latestSeenThreadId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	canReply,
 	onClick,
 	onCommentOwnershipStatusChange,
@@ -82,6 +84,7 @@ export default function CommentBlock({
 	comment: Comment,
 	getThread: () => Thread,
 	threadId: ThreadId,
+	channel: Channel,
 	channelId: ChannelId,
 	mode: Mode,
 	messages: Messages,
@@ -97,7 +100,7 @@ export default function CommentBlock({
 		watch: (element: Element) => () => void
 	},
 	latestSeenThreadId?: ThreadId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	canReply?: boolean,
 	onClick: (commentId: CommentId, threadId: ThreadId, channelId: ChannelId) => void,
 	onCommentOwnershipStatusChange?: (commentId: CommentId, threadId: ThreadId, channelId: ChannelId, isOwn: boolean) => void,
@@ -130,7 +133,7 @@ export default function CommentBlock({
 	'setOwn' |
 	'urlBasePath' |
 	'onRenderedContentDidChange' |
-	'channelIsNotSafeForWork' |
+	'channelContainsExplicitContent' |
 	'moreActionsButtonRef' |
 	'clickableElementProps'
 >) {
@@ -164,8 +167,9 @@ export default function CommentBlock({
 		comment,
 		getThread,
 		threadId,
+		channel,
 		channelId,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		threadIsArchived,
 		threadIsLocked,
 		threadExpired,
@@ -265,7 +269,7 @@ export default function CommentBlock({
 						setOwn={setOwn}
 						urlBasePath={urlBasePath}
 						onRenderedContentDidChange={onRenderedContentDidChange}
-						channelIsNotSafeForWork={channelIsNotSafeForWork}
+						channelContainsExplicitContent={channelContainsExplicitContent}
 						moreActionsButtonRef={moreActionsButtonRef}
 						clickableElementProps={clickableElementProps}
 					/>
@@ -300,7 +304,7 @@ export default function CommentBlock({
 							commentId={comment.id}
 							threadId={threadId}
 							channelId={channelId}
-							channelIsNotSafeForWork={channelIsNotSafeForWork}
+							channelContainsExplicitContent={channelContainsExplicitContent}
 							initialInputValue={replyFormInitialText}
 							initialState={initialReplyFormState}
 							onStateDidChange={onReplyFormStateDidChange}
@@ -345,7 +349,7 @@ CommentBlock.propTypes = {
 	// // This property type definition produced a mismatch warning on hot reload.
 	// unreadCommentWatcher: PropTypes.instanceOf(UnreadCommentWatcher),
 	latestSeenThreadId: threadId,
-	channelIsNotSafeForWork: PropTypes.bool,
+	channelContainsExplicitContent: PropTypes.bool,
 	canReply: PropTypes.bool,
 	onClick: PropTypes.func,
 	onCommentOwnershipStatusChange: PropTypes.func,

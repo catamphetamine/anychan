@@ -22,8 +22,9 @@ export const CHANNEL1: ChannelFromDataSource & {
 		CHANNEL1_THREAD1,
 		CHANNEL1_THREAD2
 	],
+	post: {},
 	features: {
 		// Supports comment upvotes/downvotes.
-		votes: true
+		commentRating: '↕'
 	}
 }

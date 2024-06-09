@@ -12,10 +12,12 @@ import { useMessages, useDataSource, useSettings, useSelector, useSubmitWithOrWi
 import { AlreadyReportedCommentError, ContentRequiredError } from "@/api/errors"
 
 export default function useReportComment({
+	channel,
 	channelId,
 	threadId,
 	commentId
 }: {
+	channel?: Channel;
 	channelId: Channel['id'],
 	threadId: Thread['id'],
 	commentId: Comment['id']
@@ -65,9 +67,9 @@ export default function useReportComment({
 	])
 
 	const onSubmit = useSubmitWithOrWithoutCaptcha({
+		channel,
 		channelId,
-		threadId,
-		action: 'report-comment'
+		threadId
 	})
 
 	const onSubmitReport = useCallback(async (submitParameters?: Record<string, any>) => {

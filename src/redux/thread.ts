@@ -311,7 +311,9 @@ export function getChannelObjectForChannelId(channelId: Channel['id'], {
 	// and the `title` also set to `channelId` because `title` is a required property.
 	return {
 		id: channelId,
-		title: channelId
+		title: channelId,
+		post: {},
+		features: {}
 	}
 }
 
@@ -322,9 +324,9 @@ export function getChannelObjectForChannelId(channelId: Channel['id'], {
 export function setThreadPropertiesFromChannelProperties(thread: ThreadFromDataSource, channel: Channel) {
 	// `2ch.hk` and `4chan.org` provide `bumpLimit` info.
 	// Mark all comments that have reached that "bump limit".
-	if (channel.bumpLimit && !(thread.trimming || thread.pinned)) {
-		if (thread.comments.length >= channel.bumpLimit) {
-			let i = channel.bumpLimit
+	if (channel.features?.bumpLimit && !(thread.trimming || thread.pinned)) {
+		if (thread.comments.length >= channel.features.bumpLimit) {
+			let i = channel.features.bumpLimit
 			while (i < thread.comments.length) {
 				// `bumpLimitReached` is used in `<CommentAuthor/>`
 				// to show a "sinking ship" badge.

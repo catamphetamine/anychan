@@ -68,7 +68,6 @@ const UPDATEABLE_COMMENT_PROPERTIES = [
 	// Update banned status, in case the author has been banned
 	// for this comment in-between the refreshes.
 	'authorBan',
-	'authorBanReason',
 	// Update upvotes/downvotes count.
 	'upvotes',
 	'downvotes',

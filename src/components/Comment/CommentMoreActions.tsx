@@ -36,7 +36,7 @@ import './CommentMoreActions.css'
 
 export default function CommentMoreActions({
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	threadId,
 	comment,
 	messages,
@@ -71,14 +71,14 @@ export default function CommentMoreActions({
 					url = getThreadUrl(dataSource, {
 						channelId,
 						threadId,
-						notSafeForWork: channelIsNotSafeForWork
+						channelContainsExplicitContent
 					})
 				} else {
 					url = getCommentUrl(dataSource, {
 						channelId,
 						threadId,
 						commentId,
-						notSafeForWork: channelIsNotSafeForWork
+						channelContainsExplicitContent
 					})
 				}
 				openLinkInNewTab(url)
@@ -230,7 +230,7 @@ export default function CommentMoreActions({
 		dispatch,
 		messages,
 		channelId,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		threadId,
 		commentId,
 		mode,
@@ -260,7 +260,7 @@ export default function CommentMoreActions({
 
 CommentMoreActions.propTypes = {
 	channelId: channelId.isRequired,
-	channelIsNotSafeForWork: PropTypes.bool,
+	channelContainsExplicitContent: PropTypes.bool,
 	threadId: threadId.isRequired,
 	comment: commentType.isRequired,
 	messages: PropTypes.object.isRequired,
@@ -279,7 +279,7 @@ CommentMoreActions.propTypes = {
 
 interface CommentMoreActionsProps {
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	threadId: ThreadId,
 	comment: Comment,
 	messages: Messages,

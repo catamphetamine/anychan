@@ -29,6 +29,6 @@ export interface ContentPostLink {
 		commentId: CommentId,
 		isDeleted?: boolean,
 		isAnotherThread?: boolean,
-		isRootComment?: boolean
+		isMainComment?: boolean
 	}
 }

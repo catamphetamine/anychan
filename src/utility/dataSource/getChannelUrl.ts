@@ -2,12 +2,12 @@ import type { DataSource, Channel } from '@/types'
 
 import getChannelUrlPattern from './getChannelUrlPattern.js'
 
-interface Parameters {
-	channelId: Channel['id'];
-	notSafeForWork: boolean;
+export default function getChannelUrl(dataSource: DataSource, { channelId, channelContainsExplicitContent }: Parameters) {
+	return getChannelUrlPattern(dataSource, { channelContainsExplicitContent })
+		.replace('{channelId}', channelId)
 }
 
-export default function getChannelUrl(dataSource: DataSource, { channelId, notSafeForWork }: Parameters) {
-	return getChannelUrlPattern(dataSource, { notSafeForWork })
-		.replace('{channelId}', channelId)
+interface Parameters {
+	channelId: Channel['id'];
+	channelContainsExplicitContent: boolean;
 }

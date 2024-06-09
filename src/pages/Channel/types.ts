@@ -1,10 +1,11 @@
-import type { GetCommentById, Messages, Locale, Thread, ChannelId, ThreadId, CommentId, ChannelPageVirtualScrollerItemState, ChannelSorting, ChannelLayout } from '@/types'
+import type { GetCommentById, Messages, Locale, Thread, ChannelId, ThreadId, CommentId, ChannelPageVirtualScrollerItemState, ChannelSorting, ChannelLayout, Channel } from '@/types'
 
 export type ItemState = ChannelPageVirtualScrollerItemState
 
 interface CommonProps {
 	mode: 'channel';
 	hasVoting: boolean;
+	channel: Channel;
 	channelId: ChannelId;
 	locale: Locale;
 	messages: Messages;

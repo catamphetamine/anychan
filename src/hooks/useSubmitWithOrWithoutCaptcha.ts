@@ -1,4 +1,4 @@
-import type { ChannelId, ThreadId, Captcha, TextCaptchaSolution } from '@/types'
+import type { ChannelId, ThreadId, Captcha, TextCaptchaSolution, Channel } from '@/types'
 
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -14,13 +14,13 @@ import { notify, showError } from '../redux/notifications.js'
 import { useShowCaptcha, useDataSource, useMessages } from '@/hooks'
 
 export default function useSubmitWithOrWithoutCaptcha({
+	channel,
 	channelId,
-	threadId,
-	action
+	threadId
 }: {
+	channel?: Channel,
 	channelId?: ChannelId,
-	threadId?: ThreadId,
-	action?: 'create-comment' | 'create-thread' | 'report-comment'
+	threadId?: ThreadId
 }) {
 	const messages = useMessages()
 	const dataSource = useDataSource()
@@ -83,7 +83,7 @@ export default function useSubmitWithOrWithoutCaptcha({
 		// If CAPTCHA is required then call `submit()` after solving a CAPTCHA.
 		if (dataSource.isCaptchaRequired) {
 			if (dataSource.isCaptchaRequired({
-				action,
+				channel,
 				isAuthenticated: Boolean(accessToken)
 			})) {
 				await solveCaptchaAndSubmit()

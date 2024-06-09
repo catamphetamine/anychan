@@ -1,4 +1,4 @@
-import type { InlineElementPostLinkWithId, Comment, GetCommentById, CommentTreeItemStateWithReplyAbility } from '@/types'
+import type { InlineElementPostLinkWithId, Comment, GetCommentById, CommentTreeItemStateWithReplyAbility, CommentTreeItemState } from '@/types'
 
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
@@ -99,13 +99,27 @@ export default function CommentTreeBranch({
 				}))
 			},
 			initialExpandPostLinkQuotes: initialState.expandPostLinkQuotes,
+			isPostLinkQuoteExpanded: (
+				postLink: InlineElementPostLinkWithId,
+				expandPostLinkQuotes: Required<CommentTreeItemState['expandPostLinkQuotes']>
+			) => {
+				// `postLink._id`s are set in `enumeratePostLinks()`
+				// in `./src/api/utility/addCommentProps.js`.
+				// They're used instead of simply `postLink.meta.postId`
+				// because, for example, a comment could have several
+				// `post-link`s to the same post, consequtive or
+				// in different parts of its content.
+				if (expandPostLinkQuotes) {
+					return expandPostLinkQuotes[postLink._id]
+				}
+			},
 			// `postLink._id`s are set in `enumeratePostLinks()`
 			// in `./src/api/utility/addCommentProps.js`.
 			// They're used instead of simply `postLink.meta.commentId`
 			// because, for example, a comment could have several
 			// `post-link`s to the same post, consequtive or
 			// in different parts of its content.
-			onPostLinkQuoteExpanded: ({ postLink }: { postLink: InlineElementPostLinkWithId }) => {
+			onPostLinkQuoteExpanded: (postLink: InlineElementPostLinkWithId) => {
 				updateState((state: State) => ({
 					...state,
 					expandPostLinkQuotes: {

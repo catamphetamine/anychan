@@ -57,8 +57,12 @@ export default async function getTopChannels({
 	// If each `channel` has `commentsPerHour` property then sort channels by "popularity":
 	// from most popular to least popular.
 	if (topChannels.length > 0) {
-		if (topChannels[0].commentsPerHour) {
-			topChannels = topChannels.slice().sort((a, b) => b.commentsPerHour - a.commentsPerHour)
+		if (typeof topChannels[0].stats?.commentsPerHour === 'number') {
+			topChannels = topChannels.slice().sort((a, b) => {
+				const commentsPerHourA = a.stats?.commentsPerHour || 0
+				const commentsPerHourB = b.stats?.commentsPerHour || 0
+				return commentsPerHourB - commentsPerHourA
+			})
 		}
 	}
 

@@ -6,17 +6,19 @@ const redux = new ReduxModule<State['report']>()
 
 export const showReportCommentModal = redux.simpleAction(
 	(state, {
+		channel,
 		channelId,
 		threadId,
 		commentId,
-		channelIsNotSafeForWork
+		channelContainsExplicitContent
 	}) => ({
 		...state,
 		showReportCommentModal: true,
+		channel,
 		channelId,
 		threadId,
 		commentId,
-		channelIsNotSafeForWork
+		channelContainsExplicitContent
 	})
 )
 

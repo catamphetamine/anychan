@@ -16,6 +16,7 @@ export default function ReportModal() {
 	const dispatch = useDispatch()
 	const messages = useMessages()
 
+	const channel = useSelector(state => state.report.channel)
 	const channelId = useSelector(state => state.report.channelId)
 	const threadId = useSelector(state => state.report.threadId)
 	const commentId = useSelector(state => state.report.commentId)
@@ -43,6 +44,7 @@ export default function ReportModal() {
 						setSubmitting={setSubmitting}
 						onAfterSubmit={close}
 						onCancel={close}
+						channel={channel}
 						channelId={channelId}
 						threadId={threadId}
 						commentId={commentId}

@@ -178,6 +178,19 @@
 	margin-bottom: 0;
 }
 
+.PostForm-notImplementedNotice,
+.PostForm-notWorkingNotice,
+.PostForm-proxyCaution {
+	/* These elements have textual content.
+	   Because of that, they have some additional perceived spacing at the top of the "text line",
+		 so the `margin-top` is sligtly smaller than `var(--PostForm-paddingBottom)` for those elements. */
+	margin-top: var(--unit);
+}
+
+.PostForm-goToSource {
+	margin-top: var(--PostForm-paddingBottom);
+}
+
 .PostForm-goToSourceIcon {
 	width: var(--PostFormGoToSourceIcon-width);
 	height: var(--PostFormGoToSourceIcon-width);

@@ -1,4 +1,4 @@
-import type { ChannelId, ThreadId, CommentId } from '@/types'
+import type { ChannelId, ThreadId, CommentId, Channel } from '@/types'
 
 import React, { useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -17,6 +17,7 @@ import { useMessages, useDataSource, useProxyRequired, useMessage } from '@/hook
 import './ReportCommentForm.css'
 
 export default function ReportCommentForm({
+	channel,
 	channelId,
 	threadId,
 	commentId,
@@ -38,6 +39,7 @@ export default function ReportCommentForm({
 	const {
 		onSubmitReport
 	} = useReportComment({
+		channel,
 		channelId,
 		threadId,
 		commentId
@@ -242,6 +244,7 @@ ReportCommentForm.propTypes = {
 }
 
 interface ReportCommentFormProps {
+	channel?: Channel;
 	channelId: ChannelId,
 	threadId: ThreadId,
 	commentId: CommentId,

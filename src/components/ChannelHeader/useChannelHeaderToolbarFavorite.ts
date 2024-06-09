@@ -18,7 +18,9 @@ export default function useChannelHeaderToolbarFavorite({
 
 	const channel = useMemo(() => ({
 		id: channelData.id,
-		title: channelData.title
+		title: channelData.title,
+		post: {},
+		features: {}
 	}), [channelData])
 
 	const { isFavoriteChannel, setFavoriteChannel } = useFavoriteChannel({ channel })

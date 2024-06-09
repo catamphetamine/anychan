@@ -11,3 +11,5 @@ export {
 export const CHANNELS = [
 	CHANNEL1
 ]
+
+export const IS_UNTOUCHED = true

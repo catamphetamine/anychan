@@ -23,7 +23,7 @@ export default function CommentAuthor({
 	// is a moderator at `4chan.org`.
 	// Also, at `2ch.hk`, a thread author doesn't have an `authorId`
 	// on any comment they leave in their own thread.
-	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.authorIsThreadAuthor && !post.isRootComment
+	const showThreadAuthorLabelAsAuthorId = post.threadHasAuthorIds && post.authorIsThreadAuthor && !post.isMainComment
 	let authorName = post.authorName
 	if (showThreadAuthorLabelAsAuthorId && !authorName) {
 		authorName = messages.post.threadAuthor

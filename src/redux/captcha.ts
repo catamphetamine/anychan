@@ -30,4 +30,4 @@ export const setCaptcha = redux.simpleAction(
 	})
 )
 
-export default redux.reducer({})
+export default redux.reducer()

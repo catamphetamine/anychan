@@ -130,67 +130,82 @@ export default function addParseContent(comment: Partial<Comment>, {
 		// * Censor "offensive" words.
 		// * Correct grammar (commas and spaces, long dashes, quotes, etc).
 		if (comment.content) {
-			const _transformContent = (content: Comment['content']) => {
+			const _transformContent = (content: Comment['content'], comment: Partial<Comment>) => {
 				let unpairedQuoteEncountered: boolean
-				transformContent(content, (part) => {
-					if (typeof part === 'string') {
-						part = transformText(part, {
-							grammarCorrection,
-							locale,
-							// If an "unpaired" quote is encountered anywhere in a comment
-							// then don't replace the rest of the quote characters.
-							// The rationale is that once an "unparied" quote is encountered
-							// the correctness of the result is no longer guaranteed.
-							// So, this won't work in cases like `"<bold>text</bold>"`,
-							// but it's considered to be better to leave it as it is
-							// rather than produce a percievably incorrect result.
-							replaceQuotes: !unpairedQuoteEncountered,
-							onUnpairedQuote() {
-								unpairedQuoteEncountered = true
+
+				const transformString = (text: string) => {
+					text = transformText(text, {
+						grammarCorrection,
+						locale,
+						// If an "unpaired" quote is encountered anywhere in a comment
+						// then don't replace the rest of the quote characters.
+						// The rationale is that once an "unparied" quote is encountered
+						// the correctness of the result is no longer guaranteed.
+						// So, this won't work in cases like `"<bold>text</bold>"`,
+						// but it's considered to be better to leave it as it is
+						// rather than produce a percievably incorrect result.
+						replaceQuotes: !unpairedQuoteEncountered,
+						onUnpairedQuote() {
+							unpairedQuoteEncountered = true
+						}
+					})
+					if (censoredWords) {
+						return censorWords(text, censoredWords)
+					} else {
+						return text
+					}
+				}
+
+				if (typeof content === 'string') {
+					const result = transformString(content)
+					if (typeof result === 'string') {
+						comment.content = result
+					} else {
+						comment.content = [result]
+					}
+				} else {
+					transformContent(content, (part) => {
+						if (typeof part === 'string') {
+							return transformString(part)
+						}
+						// Don't change "code" parts:
+						// don't autocorrect "grammar errors" in code.
+						// Example: don't change "parent.child = value"
+						// into "parent. Child = value".
+						if (part.type === 'code') {
+							return false
+						}
+						// Transform `link`s having the same `service` as the current data source
+						// from external hyperlinks to internal application links.
+						// For example, if the application uses `4chan` as a data source
+						// and then encounters a link to `4chan.org` then it would transform that link
+						// from an external "absolute URL" hyperlink to an in-app link.
+						if (part.type === 'link') {
+							if (part.service === dataSource.id) {
+								const { url, content } = transformDataSourceLink({
+									url: part.url,
+									content: part.content
+								}, {
+									dataSource
+								})
+								part.url = url
+								part.content = content
 							}
-						})
-						if (censoredWords) {
-							return censorWords(part, censoredWords)
 						}
-						return part
-					}
-					// Don't change "code" parts:
-					// don't autocorrect "grammar errors" in code.
-					// Example: don't change "parent.child = value"
-					// into "parent. Child = value".
-					if (part.type === 'code') {
-						return false
-					}
-					// Transform `link`s having the same `service` as the current data source
-					// from external hyperlinks to internal application links.
-					// For example, if the application uses `4chan` as a data source
-					// and then encounters a link to `4chan.org` then it would transform that link
-					// from an external "absolute URL" hyperlink to an in-app link.
-					if (part.type === 'link') {
-						if (part.service === dataSource.id) {
-							const { url, content } = transformDataSourceLink({
-								url: part.url,
-								content: part.content
-							}, {
-								dataSource
-							})
-							part.url = url
-							part.content = content
+						// Don't change "link" parts:
+						// don't autocorrect website URLs "grammar errors".
+						// Example: don't change "дом.рф" into "дом. Рф"
+						// because it's not two sentences.
+						if (part.type === 'link') {
+							return false
 						}
-					}
-					// Don't change "link" parts:
-					// don't autocorrect website URLs "grammar errors".
-					// Example: don't change "дом.рф" into "дом. Рф"
-					// because it's not two sentences.
-					if (part.type === 'link') {
-						return false
-					}
-				})
+					})
+				}
 			}
 
-			_transformContent(comment.content)
+			_transformContent(comment.content, comment)
 			if (comment.contentPreview) {
-				_transformContent(comment.contentPreview)
+				_transformContent(comment.contentPreview, comment)
 			}
 		}
 

@@ -26,8 +26,9 @@ export default function ChannelPageTop({
 			'ChannelPageTop--withPinnedThreads': pinnedThreads && pinnedThreads.length > 0
 		})}>
 			<ChannelCreateThreadButton
+				channel={channel}
 				channelId={channel.id}
-				channelIsNotSafeForWork={channel.notSafeForWork}
+				channelContainsExplicitContent={channel.explicitContent}
 			/>
 			{pinnedThreads && pinnedThreads.length > 0 &&
 				<ChannelPinnedThreads

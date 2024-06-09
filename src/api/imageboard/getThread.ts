@@ -40,6 +40,16 @@ export default async function getThreadFromImageboard(imageboard: Imageboard, {
 	// Added this assignment in order to work around TypeScript type errors.
 	let channel: ChannelFromDataSource | undefined = board
 
+	// Clear author name if it's a default one for the board.
+	// Example: "Anonymous".
+	if (channel && channel.features?.defaultAuthorName) {
+		for (const comment of thread.comments) {
+			if (comment.authorName === channel.features.defaultAuthorName) {
+				comment.authorName = undefined
+			}
+		}
+	}
+
 	return {
 		thread,
 		hasMoreComments: false,

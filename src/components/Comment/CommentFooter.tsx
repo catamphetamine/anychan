@@ -34,7 +34,7 @@ export default function CommentFooter({
 	comment,
 	threadId,
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	parentComment,
 	postDateLinkUpdatePageUrlToPostUrlOnClick,
 	postDateLinkNavigateToPostUrlOnClick,
@@ -186,7 +186,7 @@ export default function CommentFooter({
 					comment={comment}
 					threadId={threadId}
 					channelId={channelId}
-					channelIsNotSafeForWork={channelIsNotSafeForWork}
+					channelContainsExplicitContent={channelContainsExplicitContent}
 					messages={messages}
 					mode={mode}
 					url={url}
@@ -205,7 +205,7 @@ export default function CommentFooter({
 
 CommentFooter.propTypes = {
 	channelId: channelId.isRequired,
-	channelIsNotSafeForWork: PropTypes.bool,
+	channelContainsExplicitContent: PropTypes.bool,
 	threadId: threadId.isRequired,
 	comment: commentType.isRequired,
 	parentComment: commentType,
@@ -236,7 +236,7 @@ interface CommentFooterProps {
 	comment: Comment,
 	threadId: ThreadId,
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	parentComment?: Comment,
 	postDateLinkUpdatePageUrlToPostUrlOnClick?: boolean,
 	postDateLinkNavigateToPostUrlOnClick?: boolean,

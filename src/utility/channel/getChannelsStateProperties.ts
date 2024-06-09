@@ -20,8 +20,12 @@ export default function getChannelsStateProperties(
 	if (channels.length > 0) {
 		// If each `channel` has `commentsPerHour` property then sort channels by "popularity":
 		// from most popular to least popular.
-		if (channels[0].commentsPerHour) {
-			result.channelsSortedByPopularity = channels.slice().sort((a, b) => b.commentsPerHour - a.commentsPerHour)
+		if (typeof channels[0].stats?.commentsPerHour === 'number') {
+			result.channelsSortedByPopularity = channels.slice().sort((a, b) => {
+				const commentsPerHourA = a.stats?.commentsPerHour || 0
+				const commentsPerHourB = b.stats?.commentsPerHour || 0
+				return commentsPerHourB - commentsPerHourA
+			})
 		}
 
 		// If each `channel` has `category` property then group channels by category.

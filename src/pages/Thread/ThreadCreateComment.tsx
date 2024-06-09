@@ -1,4 +1,4 @@
-import type { Thread, ChannelId, ThreadId, CommentId, EasyReactFormState, Attachment, RefreshThread } from '@/types'
+import type { Thread, ChannelId, ThreadId, CommentId, EasyReactFormState, Attachment, RefreshThread, Channel } from '@/types'
 
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
@@ -24,15 +24,17 @@ import {
 import './ThreadCreateComment.css'
 
 export default function ThreadCreateComment({
+	channel,
 	getThread,
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	threadId,
 	refreshThread
 }: {
+	channel: Channel,
 	getThread: () => Thread,
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	threadId: ThreadId,
 	refreshThread: RefreshThread
 }) {
@@ -114,10 +116,11 @@ export default function ThreadCreateComment({
 	])
 
 	const onSubmitComment = useCreateCommentOrThread({
+		channel,
 		getThread,
 		addSubscribedThread: true,
 		channelId,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		threadId,
 		onAfterSubmit
 	})
@@ -138,7 +141,7 @@ export default function ThreadCreateComment({
 		<PostForm
 			threadId={threadId}
 			channelId={channelId}
-			channelIsNotSafeForWork={channelIsNotSafeForWork}
+			channelContainsExplicitContent={channelContainsExplicitContent}
 			expanded={formExpanded}
 			onExpandedChange={onFormExpandedChange}
 			unexpandOnClose
@@ -168,7 +171,7 @@ export default function ThreadCreateComment({
 ThreadCreateComment.propTypes = {
 	getThread: PropTypes.func.isRequired,
 	channelId: channelIdType.isRequired,
-	channelIsNotSafeForWork: PropTypes.bool,
+	channelContainsExplicitContent: PropTypes.bool,
 	threadId: threadIdType.isRequired,
 	refreshThread: PropTypes.func
 }

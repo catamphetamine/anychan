@@ -13,7 +13,8 @@ import type {
 	CommentFromDataSource,
 	Thread,
 	ChannelLayout,
-	ChannelId
+	ChannelId,
+	Channel
 } from './index.js';
 
 export interface DataSource {
@@ -187,7 +188,7 @@ export interface DataSource {
 	// when attempting such actions instead of first attempting to perform the action
 	// and then re-trying with a CAPTCHA after it receives a "CAPTCHA required" error.
 	isCaptchaRequired?: (params: {
-		action: 'create-comment' | 'create-thread' | 'report-comment',
+		channel?: Channel
 		isAuthenticated: boolean
 	}) => boolean | undefined;
 
@@ -200,7 +201,7 @@ export interface DataSource {
 	// Converts a possibly-relative URL to an absolute one.
 	// The URL belongs to the data source's original website.
 	// Example: "/a/res/12345.html" → "https://boards.4chan.org/a/res/12345.html".
-	getAbsoluteUrl: (relativeUrl: string, parameters?: { notSafeForWork?: boolean }) => string;
+	getAbsoluteUrl: (relativeUrl: string, parameters?: { channelContainsExplicitContent?: boolean }) => string;
 
 	// Returns a URL that points to the document describing the rules for posting content at the data source.
 	getRulesUrl?: (params?: { channelId?: ChannelId }) => string;
@@ -478,7 +479,7 @@ export interface CreateThreadOrCommentCommonParameters extends DataSourceApiComm
 	authorIsThreadAuthor?: boolean;
 	authorEmail?: string;
 	authorName?: string;
-	authorBadgeId?: number;
+	authorIconId?: number | string;
 	attachments?: (File | Blob)[];
 	title?: string;
 	content?: string;

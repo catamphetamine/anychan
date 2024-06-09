@@ -4,7 +4,7 @@ import type { ThreadFromDataSource, CommentFromDataSource } from '@/types'
 // from thread `index.ts` files to the channel `index.ts` file.
 import CHANNEL1_INFO from '../index.json' assert { type: 'json' }
 
-import IMAGE1_URL from '../../../../resources/images/image-1.svg.js'
+import IMAGE1_URL from '../../../../resources/images/image-1.svg.dataUri.js'
 
 const CHANNEL1_ID = CHANNEL1_INFO.id
 

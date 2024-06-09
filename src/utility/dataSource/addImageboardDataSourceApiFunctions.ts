@@ -1,4 +1,4 @@
-import type { DataSource, DataSourceFeature, Locale } from '@/types'
+import type { Channel, DataSource, DataSourceFeature, Locale } from '@/types'
 import type { ImageboardConfig, ImageboardId } from 'imageboard'
 
 import { getConfig, supportsFeature } from 'imageboard'
@@ -36,8 +36,8 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 	dataSource.threadUrl = imageboardConfig.threadUrl.replace('{boardId}', '{channelId}')
 	dataSource.commentUrl = imageboardConfig.commentUrl.replace('{boardId}', '{channelId}')
 
-	dataSource.getAbsoluteUrl = (relativeUrl, { notSafeForWork }) => {
-		return `https://${getDomainForBoard({ notSafeForWork }, imageboardConfig)}${relativeUrl}`
+	dataSource.getAbsoluteUrl = (relativeUrl, { channelContainsExplicitContent }) => {
+		return `https://${getDomainForBoard({ channelContainsExplicitContent }, imageboardConfig)}${relativeUrl}`
 	}
 
 	const apis: Partial<Record<keyof DataSource['api'], Function>> = {
@@ -97,11 +97,14 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 
 	if (imageboardConfig.captchaRules) {
 		dataSource.isCaptchaRequired = ({
-			action,
+			channel,
 			isAuthenticated
+		}: {
+			channel: Channel,
+			isAuthenticated: boolean
 		}) => {
 			if (!isAuthenticated) {
-				if (imageboardConfig.captchaRules.includes(`anonymous:${action}:required`)) {
+				if (channel && channel.post.captchaRequired) {
 					return true
 				}
 			}
@@ -182,15 +185,15 @@ export default function addImageboardDataSourceApiFunctions(dataSource: Partial<
 	}
 }
 
-interface BoardProperties {
-	notSafeForWork?: boolean;
-}
-
-function getDomainForBoard(boardProperties: BoardProperties, config: ImageboardConfig) {
+function getDomainForBoard({
+	channelContainsExplicitContent
+}: {
+	channelContainsExplicitContent?: boolean
+}, config: ImageboardConfig) {
 	if (config.domainByBoard) {
-		for (const property of Object.keys(boardProperties) as Array<keyof typeof boardProperties>) {
-			if (config.domainByBoard[property] && boardProperties[property]) {
-				return config.domainByBoard[property]
+		if (config.domainByBoard['<nsfw>']) {
+			if (channelContainsExplicitContent) {
+				return config.domainByBoard['<nsfw>']
 			}
 		}
 		if (config.domainByBoard['*']) {

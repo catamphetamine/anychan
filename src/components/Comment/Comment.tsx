@@ -51,7 +51,7 @@ export default function Comment({
 	comment,
 	threadId,
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	hasVoting,
 	showingReplies,
 	showRepliesCount,
@@ -87,7 +87,7 @@ export default function Comment({
 	comment: Comment,
 	threadId: ThreadId,
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	hasVoting?: boolean,
 	showingReplies?: boolean,
 	showRepliesCount?: boolean,
@@ -214,7 +214,7 @@ export default function Comment({
 				comment={comment}
 				threadId={threadId}
 				channelId={channelId}
-				channelIsNotSafeForWork={channelIsNotSafeForWork}
+				channelContainsExplicitContent={channelContainsExplicitContent}
 				parentComment={parentComment}
 				showingReplies={showingReplies}
 				showRepliesCount={showRepliesCount && shouldShowRepliesButton(comment, parentComment)}
@@ -248,7 +248,7 @@ Comment.propTypes = {
 	comment: commentType.isRequired,
 	threadId: threadId.isRequired,
 	channelId: channelId.isRequired,
-	channelIsNotSafeForWork: PropTypes.bool,
+	channelContainsExplicitContent: PropTypes.bool,
 	hasVoting: PropTypes.bool,
 	expandAttachments: PropTypes.bool,
 	onAttachmentClick: PropTypes.func.isRequired,
@@ -303,6 +303,7 @@ function CommentTitleAndContentAndAttachments({
 	initialExpandContent,
 	onExpandContentChange,
 	initialExpandPostLinkQuotes,
+	isPostLinkQuoteExpanded,
 	onRenderedContentDidChange,
 	youTubeApiKey,
 	renderComments,
@@ -423,6 +424,7 @@ function CommentTitleAndContentAndAttachments({
 				initialExpandContent={initialExpandContent}
 				onExpandContentChange={onExpandContentChange}
 				initialExpandPostLinkQuotes={initialExpandPostLinkQuotes}
+				isPostLinkQuoteExpanded={isPostLinkQuoteExpanded}
 				onRenderedContentDidChange={onRenderedContentDidChange}
 				onPostContentChange={onPostContentChange}
 				youTubeApiKey={youTubeApiKey}

@@ -4,12 +4,7 @@ import getDataSourceAbsoluteUrl from './getDataSourceAbsoluteUrl.js'
 
 export default function getThreadUrlPattern(
 	dataSource: DataSource,
-	{ notSafeForWork }: {
-		notSafeForWork: boolean
-	}
+	{ channelContainsExplicitContent }: { channelContainsExplicitContent: boolean }
 ) {
-	// if (dataSource.getThreadUrlPattern) {
-	// 	return dataSource.getThreadUrlPattern({ notSafeForWork })
-	// }
-	return getDataSourceAbsoluteUrl(dataSource, dataSource.threadUrl, { notSafeForWork })
+	return getDataSourceAbsoluteUrl(dataSource, dataSource.threadUrl, { channelContainsExplicitContent })
 }

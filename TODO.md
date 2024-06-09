@@ -30,6 +30,19 @@ https://smuglo.li/
 
 
 
+
+
+* `react-pages`: test anchor links click + back/forward — shouldn't call `load()`.
+
+* `react-pages`: test clicking same channel link in anychan — shouldn't call `load()`.
+
+* `react-pages`: test `useRoute()` and `useLocation()`.
+
+
+
+
+* See if `2ch.hk` passcode login supports the new API: `POST` `https://2ch.hk/user/passlogin`. If it does, replace the old one with the new one in `imageboard` library code and docs: "Хз, как этот метод используется и зачем он."
+
 * Don't remove pinned threads from the list of threads when in "with latest comments" mode or when sorting by popularity: in that case, don't show pinned threads at the topat all.
 
 * Maybe show post thumbnail (if present) in non-expanded pinned threads.
@@ -59,18 +72,6 @@ https://smuglo.li/
 * Check margin top/bottom on mobile devices on thread/channel pages with or without colored background.
 
 * Virtual Scroller: Ready to start — not (read it from navigationContext and return from `load`) but (read it from initial virtual scroller state)
-
-* `react-pages`: Finish `useSelectorForLocation` refactoring: compare by `matchedLocation` in `useSelectorForLocation()` hook. But what happens if `pushLocation` is called with new URL query parameters? It shouldn't freeze in that case.
-
-* `react-pages`: Use before/after render/navigate new/old page — нормально ли работают с pushLocation query/hash, то есть маунтится/анмаунтится ли компонент страницы и что там с эффектами и листенерами.
-
-* `react-pages`: fix TypeScript in `frontend` repo.
-
-* `react-pages`: Force remount by `key=location.pathname` won't work when changing location. But using `location.key` there wouldn't work either because it would remount on URL query parameters change which is not supposed to happen (?).
-
-* `react-pages`: Remove `unlistenOnUnmount = true` flag — it should always be `true` cause there're no other cases.
-
-Испоььзовать одну и ту же функцию определения той же и уде другой страницы: как в ремаунте компонента одного раута, так и в before/after listener-ах
 
 * Fix sticky threads not expanding multiple ones.
 

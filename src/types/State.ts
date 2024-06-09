@@ -156,6 +156,7 @@ export interface State {
 	};
 	report: {
 		showReportCommentModal?: boolean,
+		channel?: Channel,
 		channelId?: Channel['id'],
 		threadId?: Thread['id'],
 		commentId?: Comment['id']

@@ -44,18 +44,18 @@ export default function getCommentInfoIcons({
 				channelId: post.channelId,
 				threadId: post.id
 			}),
-			condition: (post, { isSubscribedThreadInCatalog }) => post.isRootComment && isSubscribedThreadInCatalog
+			condition: (post, { isSubscribedThreadInCatalog }) => post.isMainComment && isSubscribedThreadInCatalog
 		},
 		{
 			name: 'banned',
 			icon: DeceasedFaceIcon,
 			title: ({ post, messages }) => {
-				if (post.authorBanReason) {
-					return messages.post.banned + messages.post.bannedReason.replace('{reason}', post.authorBanReason)
+				if (post.authorBan && post.authorBan.reason) {
+					return messages.post.banned + messages.post.bannedReason.replace('{reason}', post.authorBan.reason)
 				}
 				return messages.post.banned
 			},
-			condition: post => post.authorBan
+			condition: post => Boolean(post.authorBan)
 		},
 		{
 			name: 'removed',
@@ -75,7 +75,7 @@ export default function getCommentInfoIcons({
 			title: ({ post, messages }) => messages.post.threadAuthor,
 			// If there are author IDs in the thread then "Original poster" is
 			// gonna be the post author name instead of being a badge.
-			condition: post => !isOwnComment && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isRootComment
+			condition: post => !isOwnComment && (post.viewingMode === 'thread' || post.viewingMode === 'channel-latest-comments') && post.authorIsThreadAuthor && !post.threadHasAuthorIds && !post.isMainComment
 			// Instead of using `isOwnComment`, it could have used `post.own` flag.
 			// The reason why specifically `isOwnComment` is used is because
 			// when the user clicks "This is my comment" / "This is not my comment"
@@ -84,7 +84,7 @@ export default function getCommentInfoIcons({
 		{
 			name: 'ownComment',
 			icon: AnonymousIconOutline,
-			title: ({ post, messages }) => post.isRootComment ? messages.post.ownThread : messages.post.ownComment,
+			title: ({ post, messages }) => post.isMainComment ? messages.post.ownThread : messages.post.ownComment,
 			// If there are author IDs in the thread then "Original poster" is
 			// gonna be the post author name instead of being a badge.
 			condition: post => isOwnComment
@@ -125,9 +125,9 @@ export default function getCommentInfoIcons({
 					}
 				}
 				return {
-					// country: post.authorBadgeId,
-					url: post.authorBadgeUrl,
-					name: post.authorBadgeName
+					// country: post.authorIconId,
+					url: post.authorIconUrl,
+					name: post.authorIconName
 				}
 			},
 			title: ({ post, messages, locale }) => {
@@ -136,9 +136,9 @@ export default function getCommentInfoIcons({
 						messages.country.anonymous :
 						getCountryName(post.authorCountry, locale)
 				}
-				return post.authorBadgeName
+				return post.authorIconName
 			},
-			condition: post => Boolean(post.authorCountry || post.authorBadgeName)
+			condition: post => Boolean(post.authorCountry || post.authorIconName)
 		},
 		{
 			name: 'bump-limit',

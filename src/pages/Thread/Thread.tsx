@@ -275,10 +275,11 @@ export default function ThreadPage({
 				getCommentById,
 				mode: 'thread',
 				channelId: channel.id,
-				// Old cached board objects don't have a `.features` sub-object.
-				// (Before early 2023).
-				hasVoting: channel.features && channel.features.votes,
-				channelIsNotSafeForWork: channel.notSafeForWork,
+				// Previously, before early 2023, the cached list of `channel` objects
+				// in `localStorage` didn't contain a `.features` sub-object in the list items.
+				// So because of legacy compatibility, here's a check that `channel.features` property exists.
+				hasVoting: channel.features && channel.features.commentRating === '↕',
+				channelContainsExplicitContent: channel.explicitContent,
 				canReply: true,
 				// `thread.expired: true` flag is set on thread page by `<AutoUpdate/>`
 				// when a thread expires during auto-update.
@@ -399,9 +400,10 @@ export default function ThreadPage({
 				<div className="ThreadPage-createCommentSpacer"/>
 
 				<ThreadCreateComment
+					channel={channel}
 					getThread={getThread}
 					channelId={channel.id}
-					channelIsNotSafeForWork={channel.notSafeForWork}
+					channelContainsExplicitContent={channel.explicitContent}
 					threadId={thread.id}
 					refreshThread={refreshThread}
 				/>

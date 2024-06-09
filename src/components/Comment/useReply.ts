@@ -1,4 +1,4 @@
-import type { Comment, CommentId, ChannelId, Thread, ThreadId, EasyReactForm, RefreshThread } from "@/types"
+import type { Comment, CommentId, ChannelId, Thread, ThreadId, EasyReactForm, RefreshThread, Channel } from "@/types"
 
 import { useState, useCallback, useRef, RefObject } from 'react'
 import { useDispatch } from 'react-redux'
@@ -16,8 +16,9 @@ export default function useReply({
 	comment,
 	getThread,
 	threadId,
+	channel,
 	channelId,
-	channelIsNotSafeForWork,
+	channelContainsExplicitContent,
 	threadIsArchived,
 	threadIsLocked,
 	threadExpired,
@@ -35,8 +36,9 @@ export default function useReply({
 	comment: Comment,
 	getThread: () => Thread,
 	threadId: ThreadId,
+	channel: Channel,
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean,
+	channelContainsExplicitContent?: boolean,
 	threadIsArchived?: boolean,
 	threadIsLocked?: boolean,
 	threadExpired?: boolean,
@@ -151,12 +153,13 @@ export default function useReply({
 	}, [refreshThread])
 
 	const onSubmitReply = useCreateCommentOrThread({
+		channel,
 		getThread,
 		addSubscribedThread: true,
 		channelId,
 		threadId,
 		inReplyToCommentId: comment.id,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		isAble: checkCanReply,
 		onAfterSubmit
 	})

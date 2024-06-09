@@ -1,4 +1,4 @@
-import { type Attachment, type ChannelId, type ThreadId, type EasyReactFormState, EasyReactForm } from '@/types'
+import { type Attachment, type ChannelId, type ThreadId, type EasyReactFormState, EasyReactForm, Channel } from '@/types'
 
 import React, { useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
@@ -25,11 +25,13 @@ import { showError } from '../../redux/notifications.js'
 import './ChannelCreateThreadButton.css'
 
 export default function ChannelCreateThreadButton({
+	channel,
 	channelId,
-	channelIsNotSafeForWork
+	channelContainsExplicitContent
 }: {
+	channel: Channel,
 	channelId: ChannelId,
-	channelIsNotSafeForWork?: boolean
+	channelContainsExplicitContent?: boolean
 }) {
 	const messages = useMessages()
 	const dispatch = useDispatch()
@@ -108,8 +110,9 @@ export default function ChannelCreateThreadButton({
 	])
 
 	const onSubmitThread = useCreateCommentOrThread({
+		channel,
 		channelId,
-		channelIsNotSafeForWork,
+		channelContainsExplicitContent,
 		onAfterSubmit
 	})
 
@@ -155,7 +158,7 @@ export default function ChannelCreateThreadButton({
 					expanded
 					placement="page"
 					channelId={channelId}
-					channelIsNotSafeForWork={channelIsNotSafeForWork}
+					channelContainsExplicitContent={channelContainsExplicitContent}
 					initialState={formState}
 					onStateDidChange={onFormStateChange}
 					initialError={initialFormError}
@@ -176,5 +179,5 @@ export default function ChannelCreateThreadButton({
 
 ChannelCreateThreadButton.propTypes = {
 	channelId: channelIdType.isRequired,
-	channelIsNotSafeForWork: PropTypes.bool
+	channelContainsExplicitContent: PropTypes.bool
 }

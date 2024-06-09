@@ -219,11 +219,11 @@ export default function addCommentProps(thread: ThreadFromDataSource, {
 
 function addRootCommentProps(thread: ThreadFromDataSource) {
 	const rootComment = thread.comments[0] as Partial<Comment>
-	// `isRootComment` is used for showing full-size attachment thumbnail
+	// `isMainComment` is used for showing full-size attachment thumbnail
 	// on main thread posts on `4chan.org`.
 	// Also it used in `./CommentAuthor` to not show "original poster" badge
 	// on the opening post of a thread.
-	rootComment.isRootComment = true
+	rootComment.isMainComment = true
 
 	// `bumpLimitReached`, `pinned` and others are used for post header badges.
 	for (const property of ROOT_COMMENT_PROPERTIES_OF_A_THREAD) {
@@ -240,11 +240,11 @@ function addRootCommentProps(thread: ThreadFromDataSource) {
 // 	const rootComment = {
 // 		...thread.comments[0],
 
-// 		// `isRootComment` is used for showing full-size attachment thumbnail
+// 		// `isMainComment` is used for showing full-size attachment thumbnail
 // 		// on main thread posts on `4chan.org`.
 // 		// Also it used in `./CommentAuthor` to not show "original poster" badge
 // 		// on the opening post of a thread.
-// 		isRootComment: true
+// 		isMainComment: true
 // 	}
 
 // 	// `bumpLimitReached`, `pinned` and others are used for post header badges.
